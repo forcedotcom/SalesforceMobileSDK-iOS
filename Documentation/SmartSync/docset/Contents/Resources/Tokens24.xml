@@ -1,16 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/ViewController.html">
+	<File path="Classes/TestSyncUpTarget.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/ViewController</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/TestSyncUpTarget</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>ViewController.h</DeclaredIn>
+			<DeclaredIn>TestSyncUpTarget.h</DeclaredIn>
             
 			
 			<NodeRef refid="24"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/TestSyncUpTarget/initWithRemoteModDateCompare:sendRemoteModError:sendSyncUpError:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>TestSyncUpTarget.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithRemoteModDateCompare:(TestSyncUpTargetModDateCompare)dateCompare sendRemoteModError:(BOOL)sendRemoteModError sendSyncUpError:(BOOL)sendSyncUpError</Declaration>
+			
+			
+			<Anchor>//api/name/initWithRemoteModDateCompare:sendRemoteModError:sendSyncUpError:</Anchor>
+            <NodeRef refid="24"/>
+		</Token>
 		
         
         

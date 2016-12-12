@@ -1,67 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFOAuthLogLevel.html">
+	<File path="Categories/NSUserDefaults+SFAdditions.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthLogLevel</TokenIdentifier>
-			<Abstract type="html">@enum Logging levels to control the verbosity of log output based on the severity of the event being logged.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSUserDefaults(SFAdditions)</TokenIdentifier>
+			<Abstract type="html">Salesforce Mobile SDK additions to the NSUserDefaults class</Abstract>
+			<DeclaredIn>NSUserDefaults+SFAdditions.h</DeclaredIn>
             
 			
 			<NodeRef refid="137"/>
 		</Token>
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthLogLevelDebug</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>kSFOAuthLogLevelDebug</Declaration>
-            
-            <DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
-            
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSUserDefaults/msdkUserDefaults</TokenIdentifier>
+			<Abstract type="html">Convenience method that returns either private or shared NSUserDefaults</Abstract>
+			<DeclaredIn>NSUserDefaults+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>+ (NSUserDefaults *)msdkUserDefaults</Declaration>
+			
+			<ReturnValue><Abstract type="html">NSUserdefaults standardUserDefaults or app group specific userDefaults</Abstract></ReturnValue>
+			<Anchor>//api/name/msdkUserDefaults</Anchor>
             <NodeRef refid="137"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthLogLevelInfo</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>kSFOAuthLogLevelInfo</Declaration>
-            
-            <DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
-            
-            <NodeRef refid="137"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthLogLevelWarning</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>kSFOAuthLogLevelWarning</Declaration>
-            
-            <DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
-            
-            <NodeRef refid="137"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthLogLevelError</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>kSFOAuthLogLevelError</Declaration>
-            
-            <DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
-            
-            <NodeRef refid="137"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthLogLevelVerbose</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>kSFOAuthLogLevelVerbose</Declaration>
-            
-            <DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
-            
-            <NodeRef refid="137"/>
-        </Token>
+		</Token>
+		
         
         
 	</File>

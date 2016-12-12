@@ -58,6 +58,8 @@
 		
 		<option value="//api/name/additionalOAuthParameterKeys">additionalOAuthParameterKeys</option>
 		
+		<option value="//api/name/additionalTokenRefreshParams">additionalTokenRefreshParams</option>
+		
 		<option value="//api/name/advancedAuthConfiguration">advancedAuthConfiguration</option>
 		
 		<option value="//api/name/authErrorHandlerList">authErrorHandlerList</option>
@@ -114,6 +116,8 @@
 		
 		<option value="//api/name/addDelegate:">- addDelegate:</option>
 		
+		<option value="//api/name/addDelegate:withPriority:">- addDelegate:withPriority:</option>
+		
 		<option value="//api/name/cancelAuthentication">- cancelAuthentication</option>
 		
 		<option value="//api/name/clearAccountState:">- clearAccountState:</option>
@@ -127,6 +131,8 @@
 		<option value="//api/name/loginWithCompletion:failure:">- loginWithCompletion:failure:</option>
 		
 		<option value="//api/name/loginWithCompletion:failure:account:">- loginWithCompletion:failure:account:</option>
+		
+		<option value="//api/name/loginWithJwtToken:completion:failure:">- loginWithJwtToken:completion:failure:</option>
 		
 		<option value="//api/name/loginWithUser:">- loginWithUser:</option>
 		
@@ -909,6 +915,47 @@ service to retrieve org authentication configuration.</p>
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/additionalTokenRefreshParams" title="additionalTokenRefreshParams"></a>
+	<h3 class="method-title"><code><a href="#//api/name/additionalTokenRefreshParams">&nbsp;&nbsp;additionalTokenRefreshParams</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>A dictionary of additional parameters (key value pairs) to send during token refresh</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSDictionary *additionalTokenRefreshParams</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFAuthenticationManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/addDelegate:" title="addDelegate:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/addDelegate:">&ndash;&nbsp;addDelegate:</a></code>
 </h3>
@@ -936,6 +983,64 @@ service to retrieve org authentication configuration.</p>
 					<tr>
 						<th scope="row" class="argument-name"><code>delegate</code></th>
 						<td><p>The delegate to add to the list.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFAuthenticationManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/addDelegate:withPriority:" title="addDelegate:withPriority:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/addDelegate:withPriority:">&ndash;&nbsp;addDelegate:withPriority:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Adds a delegate to the list of authentication manager delegates.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)addDelegate:(id&lt;SFAuthenticationManagerDelegate&gt;)<em>delegate</em> withPriority:(SFAuthenticationManagerDelegatePriority)<em>priority</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>delegate</code></th>
+						<td><p>The delegate to add to the list.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>priority</code></th>
+						<td><p>The priority for this delegate. Delegates get called in order of priority.</p></td>
 					</tr>
 				
 				</table>
@@ -1032,7 +1137,7 @@ configured.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (BOOL)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)<em>completionBlock</em> failure:(SFOAuthFlowFailureCallbackBlock)<em>failureBlock</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (BOOL)loginWithCompletion:(nullable SFOAuthFlowSuccessCallbackBlock)<em>completionBlock</em> failure:(nullable SFOAuthFlowFailureCallbackBlock)<em>failureBlock</em></code></div>
 
 		    
 			
@@ -1097,7 +1202,7 @@ in succession.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (BOOL)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)<em>completionBlock</em> failure:(SFOAuthFlowFailureCallbackBlock)<em>failureBlock</em> account:(nullable SFUserAccount *)<em>account</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (BOOL)loginWithCompletion:(nullable SFOAuthFlowSuccessCallbackBlock)<em>completionBlock</em> failure:(nullable SFOAuthFlowFailureCallbackBlock)<em>failureBlock</em> account:(nullable SFUserAccount *)<em>account</em></code></div>
 
 		    
 			
@@ -1118,6 +1223,76 @@ in succession.</p>
 					<tr>
 						<th scope="row" class="argument-name"><code>account</code></th>
 						<td><p>User account to be logged in.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if this call kicks off the authentication process.  NO if an authentication process has already
+started, in which case subsequent requests are queued up to have their completion or failure blocks executed
+in succession.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFAuthenticationManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/loginWithJwtToken:completion:failure:" title="loginWithJwtToken:completion:failure:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/loginWithJwtToken:completion:failure:">&ndash;&nbsp;loginWithJwtToken:completion:failure:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Login using the given JWT token to exchange with the service for credentials.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)loginWithJwtToken:(NSString *)<em>jwtToken</em> completion:(nullable SFOAuthFlowSuccessCallbackBlock)<em>completionBlock</em> failure:(nullable SFOAuthFlowFailureCallbackBlock)<em>failureBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>jwtToken</code></th>
+						<td><p>The JWT token (received out of band) to exchange for credentials.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completionBlock</code></th>
+						<td><p>The block of code to execute when the authentication process successfully completes.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failureBlock</code></th>
+						<td><p>The block of code to execute when the authentication process has a fatal failure.</p></td>
 					</tr>
 				
 				</table>
@@ -1807,7 +1982,7 @@ OAuth credentials.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-08-18</p>
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-12-12</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

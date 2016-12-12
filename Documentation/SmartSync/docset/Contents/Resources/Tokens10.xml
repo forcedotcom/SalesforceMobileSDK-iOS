@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSmartSyncPersistableObject.html">
+	<File path="Classes/SFSmartSyncObjectUtils.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSmartSyncPersistableObject</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSmartSyncObjectUtils</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSyncPersistableObject.h</DeclaredIn>
+			<DeclaredIn>SFSmartSyncObjectUtils.h</DeclaredIn>
             
 			
 			<NodeRef refid="10"/>
@@ -13,98 +13,86 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPersistableObject/setRawData:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncObjectUtils/formatValue:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSyncPersistableObject.h</DeclaredIn>
+			<DeclaredIn>SFSmartSyncObjectUtils.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSDictionary *rawData</Declaration>
+			<Declaration>+ (NSString *)formatValue:(id)value</Declaration>
 			
 			
-			<Anchor>//api/name/rawData</Anchor>
+			<Anchor>//api/name/formatValue:</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPersistableObject/rawData</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncObjectUtils/formatLocalDateToGMTString:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSyncPersistableObject.h</DeclaredIn>
+			<DeclaredIn>SFSmartSyncObjectUtils.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSDictionary *rawData</Declaration>
+			<Declaration>+ (NSString *)formatLocalDateToGMTString:(NSDate *)localDate</Declaration>
 			
 			
-			<Anchor>//api/name/rawData</Anchor>
+			<Anchor>//api/name/formatLocalDateToGMTString:</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSmartSyncPersistableObject/rawData</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncObjectUtils/getMillisFromIsoString:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSyncPersistableObject.h</DeclaredIn>
+			<DeclaredIn>SFSmartSyncObjectUtils.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSDictionary *rawData</Declaration>
+			<Declaration>+ (long long)getMillisFromIsoString:(NSString *)dateStr</Declaration>
 			
 			
-			<Anchor>//api/name/rawData</Anchor>
+			<Anchor>//api/name/getMillisFromIsoString:</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPersistableObject/setObjectType:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncObjectUtils/getIsoStringFromMillis:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSyncPersistableObject+Internal.h</DeclaredIn>
+			<DeclaredIn>SFSmartSyncObjectUtils.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, copy) NSString *objectType</Declaration>
+			<Declaration>+ (NSString *)getIsoStringFromMillis:(long long)millis</Declaration>
 			
 			
-			<Anchor>//api/name/objectType</Anchor>
+			<Anchor>//api/name/getIsoStringFromMillis:</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPersistableObject/objectType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncObjectUtils/getDateFromIsoDateString:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSyncPersistableObject+Internal.h</DeclaredIn>
+			<DeclaredIn>SFSmartSyncObjectUtils.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, copy) NSString *objectType</Declaration>
+			<Declaration>+ (NSDate *)getDateFromIsoDateString:(NSString *)isoDateString</Declaration>
 			
 			
-			<Anchor>//api/name/objectType</Anchor>
+			<Anchor>//api/name/getDateFromIsoDateString:</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSmartSyncPersistableObject/objectType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncObjectUtils/getIsoStringFromDate:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSyncPersistableObject+Internal.h</DeclaredIn>
+			<DeclaredIn>SFSmartSyncObjectUtils.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, copy) NSString *objectType</Declaration>
+			<Declaration>+ (NSString *)getIsoStringFromDate:(NSDate *)date</Declaration>
 			
 			
-			<Anchor>//api/name/objectType</Anchor>
+			<Anchor>//api/name/getIsoStringFromDate:</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPersistableObject/initWithDictionary:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncObjectUtils/isEmpty:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSyncPersistableObject.h</DeclaredIn>
+			<DeclaredIn>SFSmartSyncObjectUtils.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithDictionary:(NSDictionary *)data</Declaration>
-			
-			
-			<Anchor>//api/name/initWithDictionary:</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPersistableObject/initWithDictionary:forObjectType:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSyncPersistableObject.h</DeclaredIn>
-			
-			<Declaration>- (id)initWithDictionary:(NSDictionary *)data forObjectType:(NSString *)objectType</Declaration>
+			<Declaration>+ (BOOL)isEmpty:(NSString *)value</Declaration>
 			
 			
-			<Anchor>//api/name/initWithDictionary:forObjectType:</Anchor>
+			<Anchor>//api/name/isEmpty:</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		

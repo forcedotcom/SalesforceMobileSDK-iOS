@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFLogIdentifier.html">
+	<File path="Classes/SFCryptoStreamTestUtils.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFLogIdentifier</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFCryptoStreamTestUtils</TokenIdentifier>
+			<Abstract type="html">Utilities for crypto stream testing.</Abstract>
+			<DeclaredIn>SFCryptoStreamTestUtils.h</DeclaredIn>
             
 			
 			<NodeRef refid="34"/>
@@ -13,194 +13,93 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/setLogger:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFCryptoStreamTestUtils/defaultKeyWithSize:</TokenIdentifier>
+			<Abstract type="html">The default test key bounded by a size.</Abstract>
+			<DeclaredIn>SFCryptoStreamTestUtils.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) SFLogger *logger</Declaration>
-			
-			
-			<Anchor>//api/name/logger</Anchor>
+			<Declaration>+ (NSData *)defaultKeyWithSize:(size_t)keySize</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>keySize</Name>
+					<Abstract type="html">the key size.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the default test key data.</Abstract></ReturnValue>
+			<Anchor>//api/name/defaultKeyWithSize:</Anchor>
             <NodeRef refid="34"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/logger</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFCryptoStreamTestUtils/defaultInitializationVectorWithBlockSize:</TokenIdentifier>
+			<Abstract type="html">The default initialization vector bounded by a size.</Abstract>
+			<DeclaredIn>SFCryptoStreamTestUtils.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) SFLogger *logger</Declaration>
-			
-			
-			<Anchor>//api/name/logger</Anchor>
+			<Declaration>+ (NSData *)defaultInitializationVectorWithBlockSize:(size_t)blockSize</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>blockSize</Name>
+					<Abstract type="html">the iv size.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the default test iv data.</Abstract></ReturnValue>
+			<Anchor>//api/name/defaultInitializationVectorWithBlockSize:</Anchor>
             <NodeRef refid="34"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLogIdentifier/logger</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFCryptoStreamTestUtils/defaultTestDataWithSize:</TokenIdentifier>
+			<Abstract type="html">The default test data bounded by a size.</Abstract>
+			<DeclaredIn>SFCryptoStreamTestUtils.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) SFLogger *logger</Declaration>
-			
-			
-			<Anchor>//api/name/logger</Anchor>
+			<Declaration>+ (NSData *)defaultTestDataWithSize:(size_t)testDataSize</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>testDataSize</Name>
+					<Abstract type="html">the test data size.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the default test data.</Abstract></ReturnValue>
+			<Anchor>//api/name/defaultTestDataWithSize:</Anchor>
             <NodeRef refid="34"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/setIdentifier:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFCryptoStreamTestUtils/encryptDecryptData:usingCrypto:withInitializationVector:</TokenIdentifier>
+			<Abstract type="html">Encrypt or decrypted in one-shot, based on the operation type of crypto.</Abstract>
+			<DeclaredIn>SFCryptoStreamTestUtils.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, readonly) NSString *identifier</Declaration>
-			
-			
-			<Anchor>//api/name/identifier</Anchor>
+			<Declaration>+ (NSData *)encryptDecryptData:(NSData *)data usingCrypto:(CCCryptorRef)crypto withInitializationVector:(NSData *)iv</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>data</Name>
+					<Abstract type="html">the data to be encrypted/decrypted.</Abstract>
+				</Parameter><Parameter>
+					<Name>crypto</Name>
+					<Abstract type="html">a crypto reference to be used in the operation.</Abstract>
+				</Parameter><Parameter>
+					<Name>iv</Name>
+					<Abstract type="html">the initialization vector desired to be used.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the encrypted/decrypted result.</Abstract></ReturnValue>
+			<Anchor>//api/name/encryptDecryptData:usingCrypto:withInitializationVector:</Anchor>
             <NodeRef refid="34"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/identifier</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFCryptoStreamTestUtils/filePathForFileName:</TokenIdentifier>
+			<Abstract type="html">A file path where test files are stored.</Abstract>
+			<DeclaredIn>SFCryptoStreamTestUtils.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, readonly) NSString *identifier</Declaration>
-			
-			
-			<Anchor>//api/name/identifier</Anchor>
-            <NodeRef refid="34"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLogIdentifier/identifier</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, readonly) NSString *identifier</Declaration>
-			
-			
-			<Anchor>//api/name/identifier</Anchor>
-            <NodeRef refid="34"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/setLogLevel:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) SFLogLevel logLevel</Declaration>
-			
-			
-			<Anchor>//api/name/logLevel</Anchor>
-            <NodeRef refid="34"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/logLevel</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) SFLogLevel logLevel</Declaration>
-			
-			
-			<Anchor>//api/name/logLevel</Anchor>
-            <NodeRef refid="34"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLogIdentifier/logLevel</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) SFLogLevel logLevel</Declaration>
-			
-			
-			<Anchor>//api/name/logLevel</Anchor>
-            <NodeRef refid="34"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/setLogFlag:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readonly) SFLogFlag logFlag</Declaration>
-			
-			
-			<Anchor>//api/name/logFlag</Anchor>
-            <NodeRef refid="34"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/logFlag</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readonly) SFLogFlag logFlag</Declaration>
-			
-			
-			<Anchor>//api/name/logFlag</Anchor>
-            <NodeRef refid="34"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLogIdentifier/logFlag</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readonly) SFLogFlag logFlag</Declaration>
-			
-			
-			<Anchor>//api/name/logFlag</Anchor>
-            <NodeRef refid="34"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/setContext:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) NSInteger context</Declaration>
-			
-			
-			<Anchor>//api/name/context</Anchor>
-            <NodeRef refid="34"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/context</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) NSInteger context</Declaration>
-			
-			
-			<Anchor>//api/name/context</Anchor>
-            <NodeRef refid="34"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLogIdentifier/context</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) NSInteger context</Declaration>
-			
-			
-			<Anchor>//api/name/context</Anchor>
-            <NodeRef refid="34"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/initWithIdentifier:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithIdentifier:(NSString *)identifier</Declaration>
-			
-			
-			<Anchor>//api/name/initWithIdentifier:</Anchor>
+			<Declaration>+ (NSString *)filePathForFileName:(NSString *)fileName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>fileName</Name>
+					<Abstract type="html">the file name.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the complete path to reach the test file name passed.</Abstract></ReturnValue>
+			<Anchor>//api/name/filePathForFileName:</Anchor>
             <NodeRef refid="34"/>
 		</Token>
 		

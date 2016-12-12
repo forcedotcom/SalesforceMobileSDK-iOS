@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKDatasharingHelper.html">
+	<File path="Classes/SFOAuthCrypto.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKDatasharingHelper</TokenIdentifier>
-			<Abstract type="html">@class SFSDKDatasharingHelper
-Class used to app data sharing settings</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCrypto</TokenIdentifier>
+			<Abstract type="html">Provides a wrapper for cryptographic services.</Abstract>
+			<DeclaredIn>SFOAuthCrypto.h</DeclaredIn>
             
 			
 			<NodeRef refid="62"/>
@@ -14,158 +13,69 @@ Class used to app data sharing settings</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/setAppGroupEnabled:</TokenIdentifier>
-			<Abstract type="html">Set to YES to enable app group.</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCrypto/initWithOperation:key:</TokenIdentifier>
+			<Abstract type="html">Initializes a new SFOAuthCrypto object to perform the specified cryptographic operation.</Abstract>
+			<DeclaredIn>SFOAuthCrypto.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) BOOL appGroupEnabled</Declaration>
+			<Declaration>- (id)initWithOperation:(SFOAuthCryptoOperation)operation key:(NSData *)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>operation</Name>
+					<Abstract type="html">Operation to be performed: SFOAuthCryptoEncrypt or SFOAuthCryptoDecrypt</Abstract>
+				</Parameter><Parameter>
+					<Name>key</Name>
+					<Abstract type="html">Key used for encyption/decryption. nil may be specified to use the default key.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/appGroupEnabled</Anchor>
+			<Anchor>//api/name/initWithOperation:key:</Anchor>
             <NodeRef refid="62"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/appGroupEnabled</TokenIdentifier>
-			<Abstract type="html">Set to YES to enable app group.</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCrypto/encryptData:</TokenIdentifier>
+			<Abstract type="html">Encrypts the supplied data. To complete the encryption process and retrieve the encrypted data, call finalizeCipher.</Abstract>
+			<DeclaredIn>SFOAuthCrypto.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) BOOL appGroupEnabled</Declaration>
+			<Declaration>- (void)encryptData:(NSData *)data</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>data</Name>
+					<Abstract type="html">Unencrypted data to encrypt.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/appGroupEnabled</Anchor>
+			<Anchor>//api/name/encryptData:</Anchor>
             <NodeRef refid="62"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDatasharingHelper/appGroupEnabled</TokenIdentifier>
-			<Abstract type="html">Set to YES to enable app group.</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCrypto/decryptData:</TokenIdentifier>
+			<Abstract type="html">Returns a decrypted representation of the supplied data if the data can be decrypted using the current key. Returns nil
+if decryption fails. Decryption is performed on the current thread.</Abstract>
+			<DeclaredIn>SFOAuthCrypto.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) BOOL appGroupEnabled</Declaration>
+			<Declaration>- (NSData *)decryptData:(NSData *)data</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>data</Name>
+					<Abstract type="html">Encrypted data to decrypt.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/appGroupEnabled</Anchor>
+			<Anchor>//api/name/decryptData:</Anchor>
             <NodeRef refid="62"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/setKeychainSharingEnabled:</TokenIdentifier>
-			<Abstract type="html">Set to YES to enable keychain sharing.</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCrypto/finalizeCipher</TokenIdentifier>
+			<Abstract type="html">Finalizes the the data encryption process and returns the encrypted data.</Abstract>
+			<DeclaredIn>SFOAuthCrypto.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) BOOL keychainSharingEnabled</Declaration>
-			
-			
-			<Anchor>//api/name/keychainSharingEnabled</Anchor>
-            <NodeRef refid="62"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/keychainSharingEnabled</TokenIdentifier>
-			<Abstract type="html">Set to YES to enable keychain sharing.</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL keychainSharingEnabled</Declaration>
+			<Declaration>- (NSData *)finalizeCipher</Declaration>
 			
 			
-			<Anchor>//api/name/keychainSharingEnabled</Anchor>
-            <NodeRef refid="62"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDatasharingHelper/keychainSharingEnabled</TokenIdentifier>
-			<Abstract type="html">Set to YES to enable keychain sharing.</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL keychainSharingEnabled</Declaration>
-			
-			
-			<Anchor>//api/name/keychainSharingEnabled</Anchor>
-            <NodeRef refid="62"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/setAppGroupName:</TokenIdentifier>
-			<Abstract type="html">Name of the app group to use to share data.</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *appGroupName</Declaration>
-			
-			
-			<Anchor>//api/name/appGroupName</Anchor>
-            <NodeRef refid="62"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/appGroupName</TokenIdentifier>
-			<Abstract type="html">Name of the app group to use to share data.</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *appGroupName</Declaration>
-			
-			
-			<Anchor>//api/name/appGroupName</Anchor>
-            <NodeRef refid="62"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDatasharingHelper/appGroupName</TokenIdentifier>
-			<Abstract type="html">Name of the app group to use to share data.</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *appGroupName</Declaration>
-			
-			
-			<Anchor>//api/name/appGroupName</Anchor>
-            <NodeRef refid="62"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/setKeychainGroupName:</TokenIdentifier>
-			<Abstract type="html">Name of the keychain group to use</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *keychainGroupName</Declaration>
-			
-			
-			<Anchor>//api/name/keychainGroupName</Anchor>
-            <NodeRef refid="62"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/keychainGroupName</TokenIdentifier>
-			<Abstract type="html">Name of the keychain group to use</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *keychainGroupName</Declaration>
-			
-			
-			<Anchor>//api/name/keychainGroupName</Anchor>
-            <NodeRef refid="62"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDatasharingHelper/keychainGroupName</TokenIdentifier>
-			<Abstract type="html">Name of the keychain group to use</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *keychainGroupName</Declaration>
-			
-			
-			<Anchor>//api/name/keychainGroupName</Anchor>
-            <NodeRef refid="62"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKDatasharingHelper/sharedInstance</TokenIdentifier>
-			<Abstract type="html">Shared singleton</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
-			
-			<Declaration>+ (instancetype)sharedInstance</Declaration>
-			
-			
-			<Anchor>//api/name/sharedInstance</Anchor>
+			<Anchor>//api/name/finalizeCipher</Anchor>
             <NodeRef refid="62"/>
 		</Token>
 		

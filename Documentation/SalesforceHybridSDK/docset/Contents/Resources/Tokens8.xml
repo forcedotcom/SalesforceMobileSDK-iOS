@@ -13,38 +13,38 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewController/setUseWKWebView:</TokenIdentifier>
-			<Abstract type="html">Indicates if WKWebView is being used instead of UIWebView.</Abstract>
+			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewController/setUseUIWebView:</TokenIdentifier>
+			<Abstract type="html">Indicates if UIWebView is being used instead of WKWebView.</Abstract>
 			<DeclaredIn>SFHybridViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, assign) BOOL useWKWebView</Declaration>
+			<Declaration>@property (nonatomic, readonly, assign) BOOL useUIWebView</Declaration>
 			
 			
-			<Anchor>//api/name/useWKWebView</Anchor>
+			<Anchor>//api/name/useUIWebView</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewController/useWKWebView</TokenIdentifier>
-			<Abstract type="html">Indicates if WKWebView is being used instead of UIWebView.</Abstract>
+			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewController/useUIWebView</TokenIdentifier>
+			<Abstract type="html">Indicates if UIWebView is being used instead of WKWebView.</Abstract>
 			<DeclaredIn>SFHybridViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, assign) BOOL useWKWebView</Declaration>
+			<Declaration>@property (nonatomic, readonly, assign) BOOL useUIWebView</Declaration>
 			
 			
-			<Anchor>//api/name/useWKWebView</Anchor>
+			<Anchor>//api/name/useUIWebView</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFHybridViewController/useWKWebView</TokenIdentifier>
-			<Abstract type="html">Indicates if WKWebView is being used instead of UIWebView.</Abstract>
+			<TokenIdentifier>//apple_ref/occ/instp/SFHybridViewController/useUIWebView</TokenIdentifier>
+			<Abstract type="html">Indicates if UIWebView is being used instead of WKWebView.</Abstract>
 			<DeclaredIn>SFHybridViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, assign) BOOL useWKWebView</Declaration>
+			<Declaration>@property (nonatomic, readonly, assign) BOOL useUIWebView</Declaration>
 			
 			
-			<Anchor>//api/name/useWKWebView</Anchor>
+			<Anchor>//api/name/useUIWebView</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
@@ -233,7 +233,7 @@ found.</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewController/initWithConfig:</TokenIdentifier>
-			<Abstract type="html">Designated initializer. Initializes the view controller with its hybrid view configuration.</Abstract>
+			<Abstract type="html">Designated initializer. Initializes the view controller with its hybrid view configuration. Uses WKWebView by default.</Abstract>
 			<DeclaredIn>SFHybridViewController.h</DeclaredIn>
 			
 			<Declaration>- (id)initWithConfig:(SFHybridViewConfig *)viewConfig</Declaration>
@@ -249,22 +249,22 @@ found.</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewController/initWithConfig:useWKWebView:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewController/initWithConfig:useUIWebView:</TokenIdentifier>
 			<Abstract type="html">Designated initializer. Initializes the view controller with its hybrid view configuration and which view to use.</Abstract>
 			<DeclaredIn>SFHybridViewController.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithConfig:(SFHybridViewConfig *)viewConfig useWKWebView:(BOOL)useWKWebView</Declaration>
+			<Declaration>- (id)initWithConfig:(SFHybridViewConfig *)viewConfig useUIWebView:(BOOL)useUIWebView</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>viewConfig</Name>
 					<Abstract type="html">The hybrid view configuration associated with this component.</Abstract>
 				</Parameter><Parameter>
-					<Name>useWKWebView</Name>
-					<Abstract type="html">YES - to use WKWebView, NO - to use UIWebView.</Abstract>
+					<Name>useUIWebView</Name>
+					<Abstract type="html">YES - to use UIWebView, NO - to use WKWebView.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/initWithConfig:useWKWebView:</Anchor>
+			<Anchor>//api/name/initWithConfig:useUIWebView:</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
@@ -386,6 +386,18 @@ otherwise halt the progress of the app.</Abstract>
 			</Parameters>
 			<ReturnValue><Abstract type="html">YES if the error is fatal, NO otherwise.</Abstract></ReturnValue>
 			<Anchor>//api/name/isFatalWebViewError:</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewController/configureRemoteStartPage</TokenIdentifier>
+			<Abstract type="html">Configures the startPage property to be embedded in the context of its remote bootstrapping absolute URL. The default method configures the startPage property into a frontdoor.jsp absolute URL.</Abstract>
+			<DeclaredIn>SFHybridViewController.h</DeclaredIn>
+			
+			<Declaration>- (void)configureRemoteStartPage</Declaration>
+			
+			
+			<Anchor>//api/name/configureRemoteStartPage</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		

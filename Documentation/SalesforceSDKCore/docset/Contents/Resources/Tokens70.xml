@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKTestRequestListener.html">
+	<File path="Classes/SFPBKDFData.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKTestRequestListener</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFPBKDFData</TokenIdentifier>
+			<Abstract type="html">Data class for PBKDF-generated keys.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
             
 			
 			<NodeRef refid="70"/>
@@ -13,183 +13,172 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/setDataResponse:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/setDerivedKey:</TokenIdentifier>
+			<Abstract type="html">The PBKDF-derived key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) id dataResponse</Declaration>
+			<Declaration>@property (nonatomic, strong) NSData *derivedKey</Declaration>
 			
 			
-			<Anchor>//api/name/dataResponse</Anchor>
+			<Anchor>//api/name/derivedKey</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/dataResponse</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/derivedKey</TokenIdentifier>
+			<Abstract type="html">The PBKDF-derived key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) id dataResponse</Declaration>
+			<Declaration>@property (nonatomic, strong) NSData *derivedKey</Declaration>
 			
 			
-			<Anchor>//api/name/dataResponse</Anchor>
+			<Anchor>//api/name/derivedKey</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestRequestListener/dataResponse</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDFData/derivedKey</TokenIdentifier>
+			<Abstract type="html">The PBKDF-derived key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) id dataResponse</Declaration>
+			<Declaration>@property (nonatomic, strong) NSData *derivedKey</Declaration>
 			
 			
-			<Anchor>//api/name/dataResponse</Anchor>
+			<Anchor>//api/name/derivedKey</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/setLastError:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/setSalt:</TokenIdentifier>
+			<Abstract type="html">The salt used in conjunction with the plaintext input for creating the key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) NSError *lastError</Declaration>
+			<Declaration>@property (nonatomic, strong) NSData *salt</Declaration>
 			
 			
-			<Anchor>//api/name/lastError</Anchor>
+			<Anchor>//api/name/salt</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/lastError</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/salt</TokenIdentifier>
+			<Abstract type="html">The salt used in conjunction with the plaintext input for creating the key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) NSError *lastError</Declaration>
+			<Declaration>@property (nonatomic, strong) NSData *salt</Declaration>
 			
 			
-			<Anchor>//api/name/lastError</Anchor>
+			<Anchor>//api/name/salt</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestRequestListener/lastError</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDFData/salt</TokenIdentifier>
+			<Abstract type="html">The salt used in conjunction with the plaintext input for creating the key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) NSError *lastError</Declaration>
+			<Declaration>@property (nonatomic, strong) NSData *salt</Declaration>
 			
 			
-			<Anchor>//api/name/lastError</Anchor>
+			<Anchor>//api/name/salt</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/setReturnStatus:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/setNumDerivationRounds:</TokenIdentifier>
+			<Abstract type="html">The number of derivation rounds used when generating the key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) NSString *returnStatus</Declaration>
+			<Declaration>@property (nonatomic, assign) NSUInteger numDerivationRounds</Declaration>
 			
 			
-			<Anchor>//api/name/returnStatus</Anchor>
+			<Anchor>//api/name/numDerivationRounds</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/returnStatus</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/numDerivationRounds</TokenIdentifier>
+			<Abstract type="html">The number of derivation rounds used when generating the key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) NSString *returnStatus</Declaration>
+			<Declaration>@property (nonatomic, assign) NSUInteger numDerivationRounds</Declaration>
 			
 			
-			<Anchor>//api/name/returnStatus</Anchor>
+			<Anchor>//api/name/numDerivationRounds</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestRequestListener/returnStatus</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDFData/numDerivationRounds</TokenIdentifier>
+			<Abstract type="html">The number of derivation rounds used when generating the key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) NSString *returnStatus</Declaration>
+			<Declaration>@property (nonatomic, assign) NSUInteger numDerivationRounds</Declaration>
 			
 			
-			<Anchor>//api/name/returnStatus</Anchor>
+			<Anchor>//api/name/numDerivationRounds</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/setMaxWaitTime:</TokenIdentifier>
-			<Abstract type="html">Max time to wait for request completion</Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/setDerivedKeyLength:</TokenIdentifier>
+			<Abstract type="html">The length, in bytes, of the derived key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSTimeInterval maxWaitTime</Declaration>
+			<Declaration>@property (nonatomic, assign) NSUInteger derivedKeyLength</Declaration>
 			
 			
-			<Anchor>//api/name/maxWaitTime</Anchor>
+			<Anchor>//api/name/derivedKeyLength</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/maxWaitTime</TokenIdentifier>
-			<Abstract type="html">Max time to wait for request completion</Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/derivedKeyLength</TokenIdentifier>
+			<Abstract type="html">The length, in bytes, of the derived key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSTimeInterval maxWaitTime</Declaration>
+			<Declaration>@property (nonatomic, assign) NSUInteger derivedKeyLength</Declaration>
 			
 			
-			<Anchor>//api/name/maxWaitTime</Anchor>
+			<Anchor>//api/name/derivedKeyLength</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestRequestListener/maxWaitTime</TokenIdentifier>
-			<Abstract type="html">Max time to wait for request completion</Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDFData/derivedKeyLength</TokenIdentifier>
+			<Abstract type="html">The length, in bytes, of the derived key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSTimeInterval maxWaitTime</Declaration>
+			<Declaration>@property (nonatomic, assign) NSUInteger derivedKeyLength</Declaration>
 			
 			
-			<Anchor>//api/name/maxWaitTime</Anchor>
+			<Anchor>//api/name/derivedKeyLength</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/initWithServiceType:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/initWithKey:salt:derivationRounds:derivedKeyLength:</TokenIdentifier>
+			<Abstract type="html">Initializes the data object with its core components.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithServiceType:(SFAccountManagerServiceType)serviceType</Declaration>
+			<Declaration>- (id)initWithKey:(NSData *)key salt:(NSData *)salt derivationRounds:(NSUInteger)derivationRounds derivedKeyLength:(NSUInteger)derivedKeyLength</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The derived key.</Abstract>
+				</Parameter><Parameter>
+					<Name>salt</Name>
+					<Abstract type="html">The salt used with the input value to create the key.</Abstract>
+				</Parameter><Parameter>
+					<Name>derivationRounds</Name>
+					<Abstract type="html">The number of derivation rounds used to generate the key.</Abstract>
+				</Parameter><Parameter>
+					<Name>derivedKeyLength</Name>
+					<Abstract type="html">The length of the derived key, in bytes.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/initWithServiceType:</Anchor>
-            <NodeRef refid="70"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/waitForCompletion</TokenIdentifier>
-			<Abstract type="html">Wait for the request to complete (success or fail)
-Waits for up to maxWaitTime.</Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)waitForCompletion</Declaration>
-			
-			<ReturnValue><Abstract type="html">returnStatus:  kTestRequestStatusDidTimeout if maxWaitTime was exceeded</Abstract></ReturnValue>
-			<Anchor>//api/name/waitForCompletion</Anchor>
-            <NodeRef refid="70"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/serviceTypeDescription</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)serviceTypeDescription</Declaration>
-			
-			
-			<Anchor>//api/name/serviceTypeDescription</Anchor>
+			<Anchor>//api/name/initWithKey:salt:derivationRounds:derivedKeyLength:</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		

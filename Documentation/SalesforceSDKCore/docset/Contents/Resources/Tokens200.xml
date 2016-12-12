@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Constants/SFOAuthLogLevel.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthLogLevel</TokenIdentifier>
+			<Abstract type="html">@enum Logging levels to control the verbosity of log output based on the severity of the event being logged.</Abstract>
+			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+            
+			
+			<NodeRef refid="200"/>
+		</Token>
+		
+		
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthLogLevelDebug</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>kSFOAuthLogLevelDebug</Declaration>
+            
+            <DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+            
+            <NodeRef refid="200"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthLogLevelInfo</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>kSFOAuthLogLevelInfo</Declaration>
+            
+            <DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+            
+            <NodeRef refid="200"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthLogLevelWarning</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>kSFOAuthLogLevelWarning</Declaration>
+            
+            <DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+            
+            <NodeRef refid="200"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthLogLevelError</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>kSFOAuthLogLevelError</Declaration>
+            
+            <DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+            
+            <NodeRef refid="200"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthLogLevelVerbose</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>kSFOAuthLogLevelVerbose</Declaration>
+            
+            <DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+            
+            <NodeRef refid="200"/>
+        </Token>
+        
+        
+	</File>
+</Tokens>

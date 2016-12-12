@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFPasscodeManager.html">
+	<File path="Classes/SFKeychainItemWrapper.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFPasscodeManager</TokenIdentifier>
-			<Abstract type="html">Class for managing storage, retrieval, and verification of passcodes.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFKeychainItemWrapper</TokenIdentifier>
+			<Abstract type="html">This is a wrapper class used to interact with the keychain.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
             
 			
 			<NodeRef refid="52"/>
@@ -13,200 +13,169 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFPasscodeManager/sharedManager</TokenIdentifier>
-			<Abstract type="html">The shared instance of the passcode manager.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/setEncrypted:</TokenIdentifier>
+			<Abstract type="html">Determines if the keychain wrapper should encrypt/decrypt keychain sensitive data like refreshtoken</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>+ (SFPasscodeManager *)sharedManager</Declaration>
+			<Declaration>@property (nonatomic) BOOL encrypted</Declaration>
 			
-			<ReturnValue><Abstract type="html">The shared instance of the passcode manager.</Abstract></ReturnValue>
-			<Anchor>//api/name/sharedManager</Anchor>
+			
+			<Anchor>//api/name/encrypted</Anchor>
             <NodeRef refid="52"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/setEncryptionKey:</TokenIdentifier>
-			<Abstract type="html">The encryption key associated with the app.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/encrypted</TokenIdentifier>
+			<Abstract type="html">Determines if the keychain wrapper should encrypt/decrypt keychain sensitive data like refreshtoken</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *encryptionKey</Declaration>
+			<Declaration>@property (nonatomic) BOOL encrypted</Declaration>
 			
 			
-			<Anchor>//api/name/encryptionKey</Anchor>
+			<Anchor>//api/name/encrypted</Anchor>
             <NodeRef refid="52"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/encryptionKey</TokenIdentifier>
-			<Abstract type="html">The encryption key associated with the app.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFKeychainItemWrapper/encrypted</TokenIdentifier>
+			<Abstract type="html">Determines if the keychain wrapper should encrypt/decrypt keychain sensitive data like refreshtoken</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *encryptionKey</Declaration>
+			<Declaration>@property (nonatomic) BOOL encrypted</Declaration>
 			
 			
-			<Anchor>//api/name/encryptionKey</Anchor>
+			<Anchor>//api/name/encrypted</Anchor>
             <NodeRef refid="52"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPasscodeManager/encryptionKey</TokenIdentifier>
-			<Abstract type="html">The encryption key associated with the app.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/setAccessibleAttribute:</TokenIdentifier>
+			<Abstract type="html">Returns the accessible attribute used to store this keychain item</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *encryptionKey</Declaration>
+			<Declaration>@property (nonatomic, readonly) CFTypeRef accessibleAttribute</Declaration>
 			
 			
-			<Anchor>//api/name/encryptionKey</Anchor>
+			<Anchor>//api/name/accessibleAttribute</Anchor>
             <NodeRef refid="52"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/setPreferredPasscodeProvider:</TokenIdentifier>
-			<Abstract type="html">The preferred passcode provider for the app.  If another provider was previously configured,
-the passcode manager will automatically update to the preferred provider at the next passcode
-update or verification.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/accessibleAttribute</TokenIdentifier>
+			<Abstract type="html">Returns the accessible attribute used to store this keychain item</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *preferredPasscodeProvider</Declaration>
+			<Declaration>@property (nonatomic, readonly) CFTypeRef accessibleAttribute</Declaration>
 			
 			
-			<Anchor>//api/name/preferredPasscodeProvider</Anchor>
+			<Anchor>//api/name/accessibleAttribute</Anchor>
             <NodeRef refid="52"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/preferredPasscodeProvider</TokenIdentifier>
-			<Abstract type="html">The preferred passcode provider for the app.  If another provider was previously configured,
-the passcode manager will automatically update to the preferred provider at the next passcode
-update or verification.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFKeychainItemWrapper/accessibleAttribute</TokenIdentifier>
+			<Abstract type="html">Returns the accessible attribute used to store this keychain item</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *preferredPasscodeProvider</Declaration>
+			<Declaration>@property (nonatomic, readonly) CFTypeRef accessibleAttribute</Declaration>
 			
 			
-			<Anchor>//api/name/preferredPasscodeProvider</Anchor>
+			<Anchor>//api/name/accessibleAttribute</Anchor>
             <NodeRef refid="52"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPasscodeManager/preferredPasscodeProvider</TokenIdentifier>
-			<Abstract type="html">The preferred passcode provider for the app.  If another provider was previously configured,
-the passcode manager will automatically update to the preferred provider at the next passcode
-update or verification.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFKeychainItemWrapper/keychainAccessErrorsAreFatal</TokenIdentifier>
+			<Abstract type="html">Whether or not keychain access errors cause a fatal exception.  Default is YES.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *preferredPasscodeProvider</Declaration>
+			<Declaration>+ (BOOL)keychainAccessErrorsAreFatal</Declaration>
 			
-			
-			<Anchor>//api/name/preferredPasscodeProvider</Anchor>
+			<ReturnValue><Abstract type="html">Whether or not keychain access errors cause a fatal exception.  Default is YES.</Abstract></ReturnValue>
+			<Anchor>//api/name/keychainAccessErrorsAreFatal</Anchor>
             <NodeRef refid="52"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/addDelegate:</TokenIdentifier>
-			<Abstract type="html">Adds a delegate to the list of passcode manager delegates.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFKeychainItemWrapper/setKeychainAccessErrorsAreFatal:</TokenIdentifier>
+			<Abstract type="html">Sets whether or not keychain access errors cause a fatal exception.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>- (void)addDelegate:(id&lt;SFPasscodeManagerDelegate&gt;)delegate</Declaration>
+			<Declaration>+ (void)setKeychainAccessErrorsAreFatal:(BOOL)errorsAreFatal</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>delegate</Name>
-					<Abstract type="html">Delegate to add to the list.</Abstract>
+					<Name>errorsAreFatal</Name>
+					<Abstract type="html">Whether keychain access errors should be fatal.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/addDelegate:</Anchor>
+			<Anchor>//api/name/setKeychainAccessErrorsAreFatal:</Anchor>
             <NodeRef refid="52"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/removeDelegate:</TokenIdentifier>
-			<Abstract type="html">Removes a delegate from the delegate list.  No action is taken if the delegate does not exist.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFKeychainItemWrapper/setAccessibleAttribute:</TokenIdentifier>
+			<Abstract type="html">Sets the accessible attribute used by this keychain item wrapper class.
+If the previous attribute value is different, this method will trigger
+an update of all the items in the keychain.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>- (void)removeDelegate:(id&lt;SFPasscodeManagerDelegate&gt;)delegate</Declaration>
+			<Declaration>+ (void)setAccessibleAttribute:(CFTypeRef)accessibleAttribute</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>delegate</Name>
-					<Abstract type="html">Delegate to be removed.</Abstract>
+					<Name>accessibleAttribute</Name>
+					<Abstract type="html">The accessible attribute for this keychain item wrapper class.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/removeDelegate:</Anchor>
+			<Anchor>//api/name/setAccessibleAttribute:</Anchor>
             <NodeRef refid="52"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/passcodeIsSet</TokenIdentifier>
-			<Abstract type="html">Whether or not a passcode has been set.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFKeychainItemWrapper/itemWithIdentifier:account:</TokenIdentifier>
+			<Abstract type="html">Factory method to hand out an SFKeychainItemWrapper object with the given identifier and account.
+Note that, for any given combination of identifier and account, only one object will be created
+at runtime.  Subsequent requests will return the same object.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)passcodeIsSet</Declaration>
+			<Declaration>+ (SFKeychainItemWrapper *)itemWithIdentifier:(NSString *)identifier account:(NSString *)account</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>identifier</Name>
+					<Abstract type="html">Identifier to use for the SFKeychainItemWrapper object.</Abstract>
+				</Parameter><Parameter>
+					<Name>account</Name>
+					<Abstract type="html">Account to use for the SFKeychainItemWrapper object.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			<ReturnValue><Abstract type="html">Whether or not a passcode has been set.</Abstract></ReturnValue>
-			<Anchor>//api/name/passcodeIsSet</Anchor>
+			<Anchor>//api/name/itemWithIdentifier:account:</Anchor>
             <NodeRef refid="52"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/resetPasscode</TokenIdentifier>
-			<Abstract type="html">Reset the passcode in the keychain.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/resetKeychainItem</TokenIdentifier>
+			<Abstract type="html">Reset the keychain item.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>- (void)resetPasscode</Declaration>
+			<Declaration>- (BOOL)resetKeychainItem</Declaration>
 			
 			
-			<Anchor>//api/name/resetPasscode</Anchor>
+			<Anchor>//api/name/resetKeychainItem</Anchor>
             <NodeRef refid="52"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/verifyPasscode:</TokenIdentifier>
-			<Abstract type="html">Verify the passcode.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/setPasscode:</TokenIdentifier>
+			<Abstract type="html">Sets the passcode in the keychain.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)verifyPasscode:(NSString *)passcode</Declaration>
+			<Declaration>- (void)setPasscode:(NSString *)passcode</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>passcode</Name>
-					<Abstract type="html">The passcode to verify.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the passcode verifies, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/verifyPasscode:</Anchor>
-            <NodeRef refid="52"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/changePasscode:</TokenIdentifier>
-			<Abstract type="html">Change the current passcode.  This method serves as an entry point for managing the change
-or removal of a passcode, notifications of the change, etc.  The setPasscode method, by
-comparison, handles the internals of actually setting a new passcode value.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
-			
-			<Declaration>- (void)changePasscode:(NSString *)newPasscode</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>newPasscode</Name>
-					<Abstract type="html">The new passcode to change to.  If nil or empty, this method will unset the
-existing passcode.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/changePasscode:</Anchor>
-            <NodeRef refid="52"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/setPasscode:</TokenIdentifier>
-			<Abstract type="html">Set the passcode.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
-			
-			<Declaration>- (void)setPasscode:(NSString *)newPasscode</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>newPasscode</Name>
-					<Abstract type="html">The passcode to set.</Abstract>
+					<Abstract type="html">Plain text passcode</Abstract>
 				</Parameter>
 			</Parameters>
 			
@@ -215,94 +184,125 @@ existing passcode.</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/setDelegates:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPasscodeManager+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/passcode</TokenIdentifier>
+			<Abstract type="html">The passcode.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nonnull) NSHashTable&lt;id&lt;SFPasscodeManagerDelegate&gt; &gt; *delegates</Declaration>
+			<Declaration>- (NSString *)passcode</Declaration>
 			
 			
-			<Anchor>//api/name/delegates</Anchor>
+			<Anchor>//api/name/passcode</Anchor>
             <NodeRef refid="52"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/delegates</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPasscodeManager+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/verifyPasscode:</TokenIdentifier>
+			<Abstract type="html">Performs passcode verification.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nonnull) NSHashTable&lt;id&lt;SFPasscodeManagerDelegate&gt; &gt; *delegates</Declaration>
-			
-			
-			<Anchor>//api/name/delegates</Anchor>
-            <NodeRef refid="52"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPasscodeManager/delegates</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPasscodeManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nonnull) NSHashTable&lt;id&lt;SFPasscodeManagerDelegate&gt; &gt; *delegates</Declaration>
-			
-			
-			<Anchor>//api/name/delegates</Anchor>
-            <NodeRef refid="52"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/enumerateDelegates:</TokenIdentifier>
-			<Abstract type="html">Executes the given block against the set of delegates.</Abstract>
-			<DeclaredIn>SFPasscodeManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)enumerateDelegates:(nullable void ( ^ ) ( id&lt;SFPasscodeManagerDelegate&gt; _Nonnull ))block</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>block</Name>
-					<Abstract type="html">The block to execute against each delegate.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/enumerateDelegates:</Anchor>
-            <NodeRef refid="52"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/setEncryptionKey:</TokenIdentifier>
-			<Abstract type="html">Set a value for the encryption key.  Note: this is just the internal setter for
-the encryptionKey property.  I.e. the value you set should be the end-result
-encryption key value.  Call setEncryptionKeyForPasscode if you want validation
-and encryption based on a plain-text passcode value.</Abstract>
-			<DeclaredIn>SFPasscodeManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)setEncryptionKey:(nullable NSString *)newEncryptionKey</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>newEncryptionKey</Name>
-					<Abstract type="html">The new value for the encryption key.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/setEncryptionKey:</Anchor>
-            <NodeRef refid="52"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/setEncryptionKeyForPasscode:</TokenIdentifier>
-			<Abstract type="html">Set the value of the encryption key, based on the input passcode.  Note: this method
-will not set the encryption key if a verification passcode is not set and valid, in
-the interests of maintaining a consistent passcode state.</Abstract>
-			<DeclaredIn>SFPasscodeManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)setEncryptionKeyForPasscode:(nonnull NSString *)passcode</Declaration>
+			<Declaration>- (BOOL)verifyPasscode:(NSString *)passcode</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>passcode</Name>
-					<Abstract type="html">The passcode to convert into an encryption key.</Abstract>
+					<Abstract type="html">The passcode to verify.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/setEncryptionKeyForPasscode:</Anchor>
+			<Anchor>//api/name/verifyPasscode:</Anchor>
+            <NodeRef refid="52"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/setValueData:</TokenIdentifier>
+			<Abstract type="html">Store arbitrary data to the keychain for the service (identifier) and account specified in the initializer.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+			
+			<Declaration>- (OSStatus)setValueData:(NSData *)data</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>data</Name>
+					<Abstract type="html">Arbitrary data to store to in the keychain. May be nil.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The status of the keychain update request.</Abstract></ReturnValue>
+			<Anchor>//api/name/setValueData:</Anchor>
+            <NodeRef refid="52"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/valueData</TokenIdentifier>
+			<Abstract type="html">Read arbitrary data from the keychain for the service (identifier) and account specified in the initializer.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+			
+			<Declaration>- (NSData *)valueData</Declaration>
+			
+			<ReturnValue><Abstract type="html">Arbitrary data read from the keychain. May be nil.</Abstract></ReturnValue>
+			<Anchor>//api/name/valueData</Anchor>
+            <NodeRef refid="52"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFKeychainItemWrapper/keychainErrorCodeString:</TokenIdentifier>
+			<Abstract type="html">Return a string value for an OSStatus error code.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)keychainErrorCodeString:(OSStatus)errorCode</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>errorCode</Name>
+					<Abstract type="html">The code to stringify</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The string version of the error code.</Abstract></ReturnValue>
+			<Anchor>//api/name/keychainErrorCodeString:</Anchor>
+            <NodeRef refid="52"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/setKeychainData:</TokenIdentifier>
+			<Abstract type="html">The in-memory state of the keychain data.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSMutableDictionary *keychainData</Declaration>
+			
+			
+			<Anchor>//api/name/keychainData</Anchor>
+            <NodeRef refid="52"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/keychainData</TokenIdentifier>
+			<Abstract type="html">The in-memory state of the keychain data.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSMutableDictionary *keychainData</Declaration>
+			
+			
+			<Anchor>//api/name/keychainData</Anchor>
+            <NodeRef refid="52"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFKeychainItemWrapper/keychainData</TokenIdentifier>
+			<Abstract type="html">The in-memory state of the keychain data.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSMutableDictionary *keychainData</Declaration>
+			
+			
+			<Anchor>//api/name/keychainData</Anchor>
+            <NodeRef refid="52"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFKeychainItemWrapper/resetInMemoryKeychainItems</TokenIdentifier>
+			<Abstract type="html">Clears the memory cache of keychain items.  NOTE: Used for unit tests only!</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (void)resetInMemoryKeychainItems</Declaration>
+			
+			
+			<Anchor>//api/name/resetInMemoryKeychainItems</Anchor>
             <NodeRef refid="52"/>
 		</Token>
 		

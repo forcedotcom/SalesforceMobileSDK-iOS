@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSyncStateSyncType.html">
+	<File path="Constants/SFSyncStateStatus.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSyncStateSyncType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSyncStateStatus</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSyncState.h</DeclaredIn>
             
@@ -14,9 +14,9 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncStateSyncTypeDown</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSyncStateStatusNew</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSyncStateSyncTypeDown</Declaration>
+            <Declaration>SFSyncStateStatusNew</Declaration>
             
             <DeclaredIn>SFSyncState.h</DeclaredIn>
             
@@ -24,9 +24,29 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncStateSyncTypeUp</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSyncStateStatusRunning</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSyncStateSyncTypeUp</Declaration>
+            <Declaration>SFSyncStateStatusRunning</Declaration>
+            
+            <DeclaredIn>SFSyncState.h</DeclaredIn>
+            
+            <NodeRef refid="28"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSyncStateStatusDone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSyncStateStatusDone</Declaration>
+            
+            <DeclaredIn>SFSyncState.h</DeclaredIn>
+            
+            <NodeRef refid="28"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSyncStateStatusFailed</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSyncStateStatusFailed</Declaration>
             
             <DeclaredIn>SFSyncState.h</DeclaredIn>
             

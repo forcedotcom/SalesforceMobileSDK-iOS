@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKTestCredentialsData.html">
+	<File path="Classes/SFPBKDF2PasscodeProvider.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKTestCredentialsData</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFPBKDF2PasscodeProvider</TokenIdentifier>
+			<Abstract type="html">Contains configuration values for generating an encryption key.</Abstract>
+			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
             
 			
 			<NodeRef refid="69"/>
@@ -13,302 +13,137 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/initWithDict:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDF2PasscodeProvider/setSaltLengthInBytes:</TokenIdentifier>
+			<Abstract type="html">The length in bytes to use for the random-generated salt.  This value defaults to
+kSFPBKDFDefaultSaltByteLength in SFSDKCryptoUtils.h.
+NOTE: Differences in this value affect the generated key.  You must keep track of
+this value if you wish to generate the same key at a future date.</Abstract>
+			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithDict:(NSDictionary *)credentialsDict</Declaration>
+			<Declaration>@property (nonatomic, assign) NSUInteger saltLengthInBytes</Declaration>
 			
 			
-			<Anchor>//api/name/initWithDict:</Anchor>
+			<Anchor>//api/name/saltLengthInBytes</Anchor>
             <NodeRef refid="69"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setAccessToken:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDF2PasscodeProvider/saltLengthInBytes</TokenIdentifier>
+			<Abstract type="html">The length in bytes to use for the random-generated salt.  This value defaults to
+kSFPBKDFDefaultSaltByteLength in SFSDKCryptoUtils.h.
+NOTE: Differences in this value affect the generated key.  You must keep track of
+this value if you wish to generate the same key at a future date.</Abstract>
+			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *accessToken</Declaration>
+			<Declaration>@property (nonatomic, assign) NSUInteger saltLengthInBytes</Declaration>
 			
 			
-			<Anchor>//api/name/accessToken</Anchor>
+			<Anchor>//api/name/saltLengthInBytes</Anchor>
             <NodeRef refid="69"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/accessToken</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDF2PasscodeProvider/saltLengthInBytes</TokenIdentifier>
+			<Abstract type="html">The length in bytes to use for the random-generated salt.  This value defaults to
+kSFPBKDFDefaultSaltByteLength in SFSDKCryptoUtils.h.
+NOTE: Differences in this value affect the generated key.  You must keep track of
+this value if you wish to generate the same key at a future date.</Abstract>
+			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *accessToken</Declaration>
+			<Declaration>@property (nonatomic, assign) NSUInteger saltLengthInBytes</Declaration>
 			
 			
-			<Anchor>//api/name/accessToken</Anchor>
+			<Anchor>//api/name/saltLengthInBytes</Anchor>
             <NodeRef refid="69"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/accessToken</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDF2PasscodeProvider/setNumDerivationRounds:</TokenIdentifier>
+			<Abstract type="html">The number of derivation rounds to use when generating a key.  This value defaults
+to kSFPBKDFDefaultNumberOfDerivationRounds in SFSDKCryptoUtils.h.
+NOTE: Differences in this value affect the generated key.  You must keep track of
+this value if you wish to generate the same key at a future date.</Abstract>
+			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *accessToken</Declaration>
+			<Declaration>@property (nonatomic, assign) NSUInteger numDerivationRounds</Declaration>
 			
 			
-			<Anchor>//api/name/accessToken</Anchor>
+			<Anchor>//api/name/numDerivationRounds</Anchor>
             <NodeRef refid="69"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setRefreshToken:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDF2PasscodeProvider/numDerivationRounds</TokenIdentifier>
+			<Abstract type="html">The number of derivation rounds to use when generating a key.  This value defaults
+to kSFPBKDFDefaultNumberOfDerivationRounds in SFSDKCryptoUtils.h.
+NOTE: Differences in this value affect the generated key.  You must keep track of
+this value if you wish to generate the same key at a future date.</Abstract>
+			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *refreshToken</Declaration>
+			<Declaration>@property (nonatomic, assign) NSUInteger numDerivationRounds</Declaration>
 			
 			
-			<Anchor>//api/name/refreshToken</Anchor>
+			<Anchor>//api/name/numDerivationRounds</Anchor>
             <NodeRef refid="69"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/refreshToken</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDF2PasscodeProvider/numDerivationRounds</TokenIdentifier>
+			<Abstract type="html">The number of derivation rounds to use when generating a key.  This value defaults
+to kSFPBKDFDefaultNumberOfDerivationRounds in SFSDKCryptoUtils.h.
+NOTE: Differences in this value affect the generated key.  You must keep track of
+this value if you wish to generate the same key at a future date.</Abstract>
+			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *refreshToken</Declaration>
+			<Declaration>@property (nonatomic, assign) NSUInteger numDerivationRounds</Declaration>
 			
 			
-			<Anchor>//api/name/refreshToken</Anchor>
+			<Anchor>//api/name/numDerivationRounds</Anchor>
             <NodeRef refid="69"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/refreshToken</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDF2PasscodeProvider/setDerivedKeyLengthInBytes:</TokenIdentifier>
+			<Abstract type="html">The desired length in bytes of the derived key to use when generating a key.  This
+value defaults to kSFPBKDFDefaultDerivedKeyByteLength in SFSDKCryptoUtils.h.
+NOTE: Differences in this value affect the generated key.  You must keep track of
+this value if you wish to generate the same key at a future date.</Abstract>
+			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *refreshToken</Declaration>
+			<Declaration>@property (nonatomic, assign) NSUInteger derivedKeyLengthInBytes</Declaration>
 			
 			
-			<Anchor>//api/name/refreshToken</Anchor>
+			<Anchor>//api/name/derivedKeyLengthInBytes</Anchor>
             <NodeRef refid="69"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setIdentityUrl:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDF2PasscodeProvider/derivedKeyLengthInBytes</TokenIdentifier>
+			<Abstract type="html">The desired length in bytes of the derived key to use when generating a key.  This
+value defaults to kSFPBKDFDefaultDerivedKeyByteLength in SFSDKCryptoUtils.h.
+NOTE: Differences in this value affect the generated key.  You must keep track of
+this value if you wish to generate the same key at a future date.</Abstract>
+			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *identityUrl</Declaration>
+			<Declaration>@property (nonatomic, assign) NSUInteger derivedKeyLengthInBytes</Declaration>
 			
 			
-			<Anchor>//api/name/identityUrl</Anchor>
+			<Anchor>//api/name/derivedKeyLengthInBytes</Anchor>
             <NodeRef refid="69"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/identityUrl</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDF2PasscodeProvider/derivedKeyLengthInBytes</TokenIdentifier>
+			<Abstract type="html">The desired length in bytes of the derived key to use when generating a key.  This
+value defaults to kSFPBKDFDefaultDerivedKeyByteLength in SFSDKCryptoUtils.h.
+NOTE: Differences in this value affect the generated key.  You must keep track of
+this value if you wish to generate the same key at a future date.</Abstract>
+			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *identityUrl</Declaration>
-			
-			
-			<Anchor>//api/name/identityUrl</Anchor>
-            <NodeRef refid="69"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/identityUrl</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *identityUrl</Declaration>
+			<Declaration>@property (nonatomic, assign) NSUInteger derivedKeyLengthInBytes</Declaration>
 			
 			
-			<Anchor>//api/name/identityUrl</Anchor>
-            <NodeRef refid="69"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setInstanceUrl:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *instanceUrl</Declaration>
-			
-			
-			<Anchor>//api/name/instanceUrl</Anchor>
-            <NodeRef refid="69"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/instanceUrl</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *instanceUrl</Declaration>
-			
-			
-			<Anchor>//api/name/instanceUrl</Anchor>
-            <NodeRef refid="69"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/instanceUrl</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *instanceUrl</Declaration>
-			
-			
-			<Anchor>//api/name/instanceUrl</Anchor>
-            <NodeRef refid="69"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setClientId:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *clientId</Declaration>
-			
-			
-			<Anchor>//api/name/clientId</Anchor>
-            <NodeRef refid="69"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/clientId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *clientId</Declaration>
-			
-			
-			<Anchor>//api/name/clientId</Anchor>
-            <NodeRef refid="69"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/clientId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *clientId</Declaration>
-			
-			
-			<Anchor>//api/name/clientId</Anchor>
-            <NodeRef refid="69"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setRedirectUri:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *redirectUri</Declaration>
-			
-			
-			<Anchor>//api/name/redirectUri</Anchor>
-            <NodeRef refid="69"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/redirectUri</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *redirectUri</Declaration>
-			
-			
-			<Anchor>//api/name/redirectUri</Anchor>
-            <NodeRef refid="69"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/redirectUri</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *redirectUri</Declaration>
-			
-			
-			<Anchor>//api/name/redirectUri</Anchor>
-            <NodeRef refid="69"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setLoginHost:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *loginHost</Declaration>
-			
-			
-			<Anchor>//api/name/loginHost</Anchor>
-            <NodeRef refid="69"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/loginHost</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *loginHost</Declaration>
-			
-			
-			<Anchor>//api/name/loginHost</Anchor>
-            <NodeRef refid="69"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/loginHost</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *loginHost</Declaration>
-			
-			
-			<Anchor>//api/name/loginHost</Anchor>
-            <NodeRef refid="69"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setCommunityUrl:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *communityUrl</Declaration>
-			
-			
-			<Anchor>//api/name/communityUrl</Anchor>
-            <NodeRef refid="69"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/communityUrl</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *communityUrl</Declaration>
-			
-			
-			<Anchor>//api/name/communityUrl</Anchor>
-            <NodeRef refid="69"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/communityUrl</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *communityUrl</Declaration>
-			
-			
-			<Anchor>//api/name/communityUrl</Anchor>
+			<Anchor>//api/name/derivedKeyLengthInBytes</Anchor>
             <NodeRef refid="69"/>
 		</Token>
 		

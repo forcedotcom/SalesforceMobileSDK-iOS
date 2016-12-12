@@ -1,8 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="">
+	<File path="Constants/CSFForceNotificationFrequency.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/c/tdef/CSFForceNotificationFrequency</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+			
+			<NodeRef refid="169"/>
+		</Token>
 		
 		
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceNotificationFrequencyUnknown</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceNotificationFrequencyUnknown</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="169"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceNotificationFrequencyEachPost</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceNotificationFrequencyEachPost</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="169"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceNotificationFrequencyDailyDigest</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceNotificationFrequencyDailyDigest</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="169"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceNotificationFrequencyWeeklyDigest</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceNotificationFrequencyWeeklyDigest</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="169"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceNotificationFrequencyNever</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceNotificationFrequencyNever</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="169"/>
+        </Token>
         
         
 	</File>

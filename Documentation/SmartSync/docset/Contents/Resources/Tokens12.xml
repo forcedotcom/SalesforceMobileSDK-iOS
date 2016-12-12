@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSmartSyncSoslBuilder.html">
+	<File path="Classes/SFSmartSyncSoqlBuilder.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSmartSyncSoslBuilder</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSmartSyncSoqlBuilder</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSyncSoslBuilder.h</DeclaredIn>
+			<DeclaredIn>SFSmartSyncSoqlBuilder.h</DeclaredIn>
             
 			
 			<NodeRef refid="12"/>
@@ -13,100 +13,151 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncSoslBuilder/withSearchTerm:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOSL statement.</Abstract>
-			<DeclaredIn>SFSmartSyncSoslBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncSoqlBuilder/withFields:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSmartSyncSoqlBuilder.h</DeclaredIn>
 			
-			<Declaration>+ (SFSmartSyncSoslBuilder *)withSearchTerm:(NSString *)searchTerm</Declaration>
+			<Declaration>+ (SFSmartSyncSoqlBuilder *)withFields:(NSString *)fields</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>searchTerm</Name>
-					<Abstract type="html">text or word phrases to search for</Abstract>
+					<Name>fields</Name>
+					<Abstract type="html">a list of one or more fields, separated by commas, that are to be retrieved from the specified object</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/withSearchTerm:</Anchor>
+			<Anchor>//api/name/withFields:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoslBuilder/searchGroup:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOSL statement.</Abstract>
-			<DeclaredIn>SFSmartSyncSoslBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncSoqlBuilder/withFieldsArray:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSmartSyncSoqlBuilder.h</DeclaredIn>
 			
-			<Declaration>- (SFSmartSyncSoslBuilder *)searchGroup:(NSString *)searchGroup</Declaration>
+			<Declaration>+ (SFSmartSyncSoqlBuilder *)withFieldsArray:(NSArray *)fields</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>searchGroup</Name>
-					<Abstract type="html">scope of fields to search. Values may be: ALL FIELDS, NAME FIELDS, EMAIL FIELDS, PHONE FIELDS, SIDEBAR FIELDS</Abstract>
+					<Name>fields</Name>
+					<Abstract type="html">an array of one or more fields, that are to be retrieved from the specified object</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/searchGroup:</Anchor>
+			<Anchor>//api/name/withFieldsArray:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoslBuilder/returning:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOSL statement.</Abstract>
-			<DeclaredIn>SFSmartSyncSoslBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoqlBuilder/from:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSmartSyncSoqlBuilder.h</DeclaredIn>
 			
-			<Declaration>- (SFSmartSyncSoslBuilder *)returning:(SFSmartSyncSoslReturningBuilder *)returningSpec</Declaration>
+			<Declaration>- (SFSmartSyncSoqlBuilder *)from:(NSString *)from</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>returningSpec</Name>
-					<Abstract type="html">information to return in the search result. List of one or more objects and, within each object, list of one or more fields, with optional values to filter against. If unspecified, then the search results contain the IDs of all objects found</Abstract>
+					<Name>from</Name>
+					<Abstract type="html">the object to be queried</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/returning:</Anchor>
+			<Anchor>//api/name/from:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoslBuilder/divisionFilter:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOSL statement.</Abstract>
-			<DeclaredIn>SFSmartSyncSoslBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoqlBuilder/whereClause:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSmartSyncSoqlBuilder.h</DeclaredIn>
 			
-			<Declaration>- (SFSmartSyncSoslBuilder *)divisionFilter:(NSString *)divisionFilter</Declaration>
+			<Declaration>- (SFSmartSyncSoqlBuilder *)whereClause:(NSString *)whereClause</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>divisionFilter</Name>
-					<Abstract type="html">if an organization uses divisions, filters all search results based on values for the Division field</Abstract>
+					<Name>whereClause</Name>
+					<Abstract type="html">a conditional statement</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/divisionFilter:</Anchor>
+			<Anchor>//api/name/whereClause:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoslBuilder/dataCategory:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOSL statement.</Abstract>
-			<DeclaredIn>SFSmartSyncSoslBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoqlBuilder/with:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSmartSyncSoqlBuilder.h</DeclaredIn>
 			
-			<Declaration>- (SFSmartSyncSoslBuilder *)dataCategory:(NSString *)dataCategory</Declaration>
+			<Declaration>- (SFSmartSyncSoqlBuilder *)with:(NSString *)with</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>dataCategory</Name>
-					<Abstract type="html">if an organization uses Salesforce Knowledge articles or answers, filters all search results based on one or more data categories</Abstract>
+					<Name>with</Name>
+					<Abstract type="html">used to filter records based on field values.</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/dataCategory:</Anchor>
+			<Anchor>//api/name/with:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoslBuilder/limit:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOSL statement.</Abstract>
-			<DeclaredIn>SFSmartSyncSoslBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoqlBuilder/groupBy:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSmartSyncSoqlBuilder.h</DeclaredIn>
 			
-			<Declaration>- (SFSmartSyncSoslBuilder *)limit:(NSInteger)limit</Declaration>
+			<Declaration>- (SFSmartSyncSoqlBuilder *)groupBy:(NSString *)groupBy</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>groupBy</Name>
+					<Abstract type="html">a list of one or more fields, separated by commas, the resutls are to be grouped by</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/groupBy:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoqlBuilder/having:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSmartSyncSoqlBuilder.h</DeclaredIn>
+			
+			<Declaration>- (SFSmartSyncSoqlBuilder *)having:(NSString *)having</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>having</Name>
+					<Abstract type="html">specifies one or more conditional expressions using aggregate functions to filter the query results</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/having:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoqlBuilder/orderBy:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSmartSyncSoqlBuilder.h</DeclaredIn>
+			
+			<Declaration>- (SFSmartSyncSoqlBuilder *)orderBy:(NSString *)orderBy</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>orderBy</Name>
+					<Abstract type="html">controls the order of the query results</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/orderBy:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoqlBuilder/limit:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSmartSyncSoqlBuilder.h</DeclaredIn>
+			
+			<Declaration>- (SFSmartSyncSoqlBuilder *)limit:(NSInteger)limit</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>limit</Name>
-					<Abstract type="html">the maximum number of rows returned in the text query, up to 200. If unspecified, the default is 200, the largest number of rows that can be returned</Abstract>
+					<Abstract type="html">specifies the maximum number of rows to return</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
@@ -115,9 +166,26 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoslBuilder/encodeAndBuild</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoqlBuilder/offset:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSmartSyncSoqlBuilder.h</DeclaredIn>
+			
+			<Declaration>- (SFSmartSyncSoqlBuilder *)offset:(NSInteger)offset</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>offset</Name>
+					<Abstract type="html">specifies the starting row offset into the result set returned by the query</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/offset:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoqlBuilder/encodeAndBuild</TokenIdentifier>
 			<Abstract type="html">Builds an encoded query from the builder.</Abstract>
-			<DeclaredIn>SFSmartSyncSoslBuilder.h</DeclaredIn>
+			<DeclaredIn>SFSmartSyncSoqlBuilder.h</DeclaredIn>
 			
 			<Declaration>- (NSString *)encodeAndBuild</Declaration>
 			
@@ -127,9 +195,9 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoslBuilder/encodeAndBuildWithPath:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoqlBuilder/encodeAndBuildWithPath:</TokenIdentifier>
 			<Abstract type="html">Builds an enoded query from the builder.</Abstract>
-			<DeclaredIn>SFSmartSyncSoslBuilder.h</DeclaredIn>
+			<DeclaredIn>SFSmartSyncSoqlBuilder.h</DeclaredIn>
 			
 			<Declaration>- (NSString *)encodeAndBuildWithPath:(NSString *)path</Declaration>
 			<Parameters>
@@ -144,9 +212,9 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoslBuilder/buildWithPath:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoqlBuilder/buildWithPath:</TokenIdentifier>
 			<Abstract type="html">Builds a raw (unencoded) query from the builder.</Abstract>
-			<DeclaredIn>SFSmartSyncSoslBuilder.h</DeclaredIn>
+			<DeclaredIn>SFSmartSyncSoqlBuilder.h</DeclaredIn>
 			
 			<Declaration>- (NSString *)buildWithPath:(NSString *)path</Declaration>
 			<Parameters>
@@ -161,9 +229,9 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoslBuilder/build</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoqlBuilder/build</TokenIdentifier>
 			<Abstract type="html">Builds a raw (unencoded) query from the builder.</Abstract>
-			<DeclaredIn>SFSmartSyncSoslBuilder.h</DeclaredIn>
+			<DeclaredIn>SFSmartSyncSoqlBuilder.h</DeclaredIn>
 			
 			<Declaration>- (NSString *)build</Declaration>
 			

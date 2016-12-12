@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFDecryptStream.html">
+	<File path="Classes/CSFSalesforceAction.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFDecryptStream</TokenIdentifier>
-			<Abstract type="html">SFDecryptStream is an input stream that decrypts data right after it is read.
-SFCryptChunks is used to perform the decryption.</Abstract>
-			<DeclaredIn>SFDecryptStream.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/CSFSalesforceAction</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFSalesforceAction.h</DeclaredIn>
             
 			
 			<NodeRef refid="16"/>
@@ -14,22 +13,170 @@ SFCryptChunks is used to perform the decryption.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFDecryptStream/setupWithKey:andInitializationVector:</TokenIdentifier>
-			<Abstract type="html">Setup for decryption. You must call this method before using the stream.</Abstract>
-			<DeclaredIn>SFDecryptStream.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFSalesforceAction/setRequiresSecurityToken:</TokenIdentifier>
+			<Abstract type="html">Indicates if the action requires a security token. In this case, this action
+must be executed only after all the previous actions are completed to ensure
+it gets the latest security token.</Abstract>
+			<DeclaredIn>CSFSalesforceAction.h</DeclaredIn>
 			
-			<Declaration>- (void)setupWithKey:(NSData *)key andInitializationVector:(nullable NSData *)iv</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">the cipher key.</Abstract>
-				</Parameter><Parameter>
-					<Name>iv</Name>
-					<Abstract type="html">the initialization vector, must be size of SFCryptChunksCipherBlockSize.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, readonly) BOOL requiresSecurityToken</Declaration>
 			
-			<Anchor>//api/name/setupWithKey:andInitializationVector:</Anchor>
+			
+			<Anchor>//api/name/requiresSecurityToken</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFSalesforceAction/requiresSecurityToken</TokenIdentifier>
+			<Abstract type="html">Indicates if the action requires a security token. In this case, this action
+must be executed only after all the previous actions are completed to ensure
+it gets the latest security token.</Abstract>
+			<DeclaredIn>CSFSalesforceAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL requiresSecurityToken</Declaration>
+			
+			
+			<Anchor>//api/name/requiresSecurityToken</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFSalesforceAction/requiresSecurityToken</TokenIdentifier>
+			<Abstract type="html">Indicates if the action requires a security token. In this case, this action
+must be executed only after all the previous actions are completed to ensure
+it gets the latest security token.</Abstract>
+			<DeclaredIn>CSFSalesforceAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL requiresSecurityToken</Declaration>
+			
+			
+			<Anchor>//api/name/requiresSecurityToken</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFSalesforceAction/setReturnsSecurityToken:</TokenIdentifier>
+			<Abstract type="html">Indicates if the action returns a new security token as part of its response.
+A security token is returned for all GET requests, except the ones that
+will return a binary data, such as for images and thumbnails.</Abstract>
+			<DeclaredIn>CSFSalesforceAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL returnsSecurityToken</Declaration>
+			
+			
+			<Anchor>//api/name/returnsSecurityToken</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFSalesforceAction/returnsSecurityToken</TokenIdentifier>
+			<Abstract type="html">Indicates if the action returns a new security token as part of its response.
+A security token is returned for all GET requests, except the ones that
+will return a binary data, such as for images and thumbnails.</Abstract>
+			<DeclaredIn>CSFSalesforceAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL returnsSecurityToken</Declaration>
+			
+			
+			<Anchor>//api/name/returnsSecurityToken</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFSalesforceAction/returnsSecurityToken</TokenIdentifier>
+			<Abstract type="html">Indicates if the action returns a new security token as part of its response.
+A security token is returned for all GET requests, except the ones that
+will return a binary data, such as for images and thumbnails.</Abstract>
+			<DeclaredIn>CSFSalesforceAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL returnsSecurityToken</Declaration>
+			
+			
+			<Anchor>//api/name/returnsSecurityToken</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFSalesforceAction/setPathPrefix:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFSalesforceAction.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, copy) NSString *pathPrefix</Declaration>
+			
+			
+			<Anchor>//api/name/pathPrefix</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFSalesforceAction/pathPrefix</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFSalesforceAction.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, copy) NSString *pathPrefix</Declaration>
+			
+			
+			<Anchor>//api/name/pathPrefix</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFSalesforceAction/pathPrefix</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFSalesforceAction.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, copy) NSString *pathPrefix</Declaration>
+			
+			
+			<Anchor>//api/name/pathPrefix</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFSalesforceAction/setApiVersion:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFSalesforceAction.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, copy) NSString *apiVersion</Declaration>
+			
+			
+			<Anchor>//api/name/apiVersion</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFSalesforceAction/apiVersion</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFSalesforceAction.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, copy) NSString *apiVersion</Declaration>
+			
+			
+			<Anchor>//api/name/apiVersion</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFSalesforceAction/apiVersion</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFSalesforceAction.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, copy) NSString *apiVersion</Declaration>
+			
+			
+			<Anchor>//api/name/apiVersion</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/CSFSalesforceAction/isNetworkError:</TokenIdentifier>
+			<Abstract type="html">Returns YES if error is a network error</Abstract>
+			<DeclaredIn>CSFSalesforceAction.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)isNetworkError:(nullable NSError *)error</Declaration>
+			
+			
+			<Anchor>//api/name/isNetworkError:</Anchor>
             <NodeRef refid="16"/>
 		</Token>
 		

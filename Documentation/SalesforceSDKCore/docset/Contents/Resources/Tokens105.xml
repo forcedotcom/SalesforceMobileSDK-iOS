@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/UIDevice+SFHardware.html">
+	<File path="Classes/SFUserAccount.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/UIDevice(SFHardware)</TokenIdentifier>
-			<Abstract type="html">Extension to UIDevice class to provide more hardware related information, including hardware model, capability and also most importantly current device&apos;s orientation</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFUserAccount</TokenIdentifier>
+			<Abstract type="html">Class that represents an account. An account represents
+a user together with the current community it is logged in.</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
             
 			
 			<NodeRef refid="105"/>
@@ -13,268 +14,860 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/platform</TokenIdentifier>
-			<Abstract type="html">Platform for the Device</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setAccessScopes:</TokenIdentifier>
+			<Abstract type="html">The access scopes for this user</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)platform</Declaration>
+			<Declaration>@property (nonatomic, copy, nullable) NSSet&lt;NSString*&gt; *accessScopes</Declaration>
 			
 			
-			<Anchor>//api/name/platform</Anchor>
+			<Anchor>//api/name/accessScopes</Anchor>
             <NodeRef refid="105"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/hwmodel</TokenIdentifier>
-			<Abstract type="html">Hardware model</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/accessScopes</TokenIdentifier>
+			<Abstract type="html">The access scopes for this user</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)hwmodel</Declaration>
+			<Declaration>@property (nonatomic, copy, nullable) NSSet&lt;NSString*&gt; *accessScopes</Declaration>
 			
 			
-			<Anchor>//api/name/hwmodel</Anchor>
+			<Anchor>//api/name/accessScopes</Anchor>
             <NodeRef refid="105"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/platformType</TokenIdentifier>
-			<Abstract type="html">Platform type
-See UIDevicePlatform</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/accessScopes</TokenIdentifier>
+			<Abstract type="html">The access scopes for this user</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>- (UIDevicePlatform)platformType</Declaration>
+			<Declaration>@property (nonatomic, copy, nullable) NSSet&lt;NSString*&gt; *accessScopes</Declaration>
 			
 			
-			<Anchor>//api/name/platformType</Anchor>
+			<Anchor>//api/name/accessScopes</Anchor>
             <NodeRef refid="105"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/systemVersionNumber</TokenIdentifier>
-			<Abstract type="html">Returns the system-dependent version number.</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setAccountIdentity:</TokenIdentifier>
+			<Abstract type="html">The unique identifier for this account.</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>- (double)systemVersionNumber</Declaration>
+			<Declaration>@property (nonatomic, readonly) SFUserAccountIdentity *accountIdentity</Declaration>
 			
-			<ReturnValue><Abstract type="html">The system version number.</Abstract></ReturnValue>
-			<Anchor>//api/name/systemVersionNumber</Anchor>
+			
+			<Anchor>//api/name/accountIdentity</Anchor>
             <NodeRef refid="105"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/platformString</TokenIdentifier>
-			<Abstract type="html">Platform string</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/accountIdentity</TokenIdentifier>
+			<Abstract type="html">The unique identifier for this account.</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)platformString</Declaration>
+			<Declaration>@property (nonatomic, readonly) SFUserAccountIdentity *accountIdentity</Declaration>
 			
 			
-			<Anchor>//api/name/platformString</Anchor>
+			<Anchor>//api/name/accountIdentity</Anchor>
             <NodeRef refid="105"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/cpuFrequency</TokenIdentifier>
-			<Abstract type="html">CPU Frequency</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/accountIdentity</TokenIdentifier>
+			<Abstract type="html">The unique identifier for this account.</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>- (NSUInteger)cpuFrequency</Declaration>
+			<Declaration>@property (nonatomic, readonly) SFUserAccountIdentity *accountIdentity</Declaration>
 			
 			
-			<Anchor>//api/name/cpuFrequency</Anchor>
+			<Anchor>//api/name/accountIdentity</Anchor>
             <NodeRef refid="105"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/busFrequency</TokenIdentifier>
-			<Abstract type="html">Bus frequency</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setCredentials:</TokenIdentifier>
+			<Abstract type="html">The credentials associated with this user</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>- (NSUInteger)busFrequency</Declaration>
+			<Declaration>@property (nonatomic, strong) SFOAuthCredentials *credentials</Declaration>
 			
 			
-			<Anchor>//api/name/busFrequency</Anchor>
+			<Anchor>//api/name/credentials</Anchor>
             <NodeRef refid="105"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/cpuCount</TokenIdentifier>
-			<Abstract type="html">CPU Count</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/credentials</TokenIdentifier>
+			<Abstract type="html">The credentials associated with this user</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>- (NSUInteger)cpuCount</Declaration>
+			<Declaration>@property (nonatomic, strong) SFOAuthCredentials *credentials</Declaration>
 			
 			
-			<Anchor>//api/name/cpuCount</Anchor>
+			<Anchor>//api/name/credentials</Anchor>
             <NodeRef refid="105"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/totalMemory</TokenIdentifier>
-			<Abstract type="html">Total memory</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/credentials</TokenIdentifier>
+			<Abstract type="html">The credentials associated with this user</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>- (NSUInteger)totalMemory</Declaration>
+			<Declaration>@property (nonatomic, strong) SFOAuthCredentials *credentials</Declaration>
 			
 			
-			<Anchor>//api/name/totalMemory</Anchor>
+			<Anchor>//api/name/credentials</Anchor>
             <NodeRef refid="105"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/userMemory</TokenIdentifier>
-			<Abstract type="html">User Memory</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setIdData:</TokenIdentifier>
+			<Abstract type="html">The identity data associated with this user</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>- (NSUInteger)userMemory</Declaration>
+			<Declaration>@property (nonatomic, strong) SFIdentityData *idData</Declaration>
 			
 			
-			<Anchor>//api/name/userMemory</Anchor>
+			<Anchor>//api/name/idData</Anchor>
             <NodeRef refid="105"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/applicationMemory</TokenIdentifier>
-			<Abstract type="html">Memory used by application (in bytes)</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/idData</TokenIdentifier>
+			<Abstract type="html">The identity data associated with this user</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>- (NSUInteger)applicationMemory</Declaration>
+			<Declaration>@property (nonatomic, strong) SFIdentityData *idData</Declaration>
 			
 			
-			<Anchor>//api/name/applicationMemory</Anchor>
+			<Anchor>//api/name/idData</Anchor>
             <NodeRef refid="105"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/freeMemory</TokenIdentifier>
-			<Abstract type="html">Free VM page space available to application (in bytes)</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/idData</TokenIdentifier>
+			<Abstract type="html">The identity data associated with this user</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>- (NSUInteger)freeMemory</Declaration>
+			<Declaration>@property (nonatomic, strong) SFIdentityData *idData</Declaration>
 			
 			
-			<Anchor>//api/name/freeMemory</Anchor>
+			<Anchor>//api/name/idData</Anchor>
             <NodeRef refid="105"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/totalDiskSpace</TokenIdentifier>
-			<Abstract type="html">Total disk space</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setApiUrl:</TokenIdentifier>
+			<Abstract type="html">The URL that can be used to invoke any API
+on the server-side. This URL takes into account the
+current community if available (see communityId.</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>- (NSNumber *)totalDiskSpace</Declaration>
+			<Declaration>@property (nonatomic, copy, readonly) NSURL *apiUrl</Declaration>
 			
 			
-			<Anchor>//api/name/totalDiskSpace</Anchor>
+			<Anchor>//api/name/apiUrl</Anchor>
             <NodeRef refid="105"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/freeDiskSpace</TokenIdentifier>
-			<Abstract type="html">Total free space</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/apiUrl</TokenIdentifier>
+			<Abstract type="html">The URL that can be used to invoke any API
+on the server-side. This URL takes into account the
+current community if available (see communityId.</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>- (NSNumber *)freeDiskSpace</Declaration>
+			<Declaration>@property (nonatomic, copy, readonly) NSURL *apiUrl</Declaration>
 			
 			
-			<Anchor>//api/name/freeDiskSpace</Anchor>
+			<Anchor>//api/name/apiUrl</Anchor>
             <NodeRef refid="105"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/macaddress</TokenIdentifier>
-			<Abstract type="html">Mac address</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/apiUrl</TokenIdentifier>
+			<Abstract type="html">The URL that can be used to invoke any API
+on the server-side. This URL takes into account the
+current community if available (see communityId.</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)macaddress</Declaration>
+			<Declaration>@property (nonatomic, copy, readonly) NSURL *apiUrl</Declaration>
 			
 			
-			<Anchor>//api/name/macaddress</Anchor>
+			<Anchor>//api/name/apiUrl</Anchor>
             <NodeRef refid="105"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/hasRetinaDisplay</TokenIdentifier>
-			<Abstract type="html">Returns whether the device has a retina display</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setEmail:</TokenIdentifier>
+			<Abstract type="html">The user&apos;s email</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)hasRetinaDisplay</Declaration>
+			<Declaration>@property (nonatomic, copy, nullable) NSString *email</Declaration>
 			
 			
-			<Anchor>//api/name/hasRetinaDisplay</Anchor>
+			<Anchor>//api/name/email</Anchor>
             <NodeRef refid="105"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/deviceFamily</TokenIdentifier>
-			<Abstract type="html">Device Family</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/email</TokenIdentifier>
+			<Abstract type="html">The user&apos;s email</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>- (UIDeviceFamily)deviceFamily</Declaration>
+			<Declaration>@property (nonatomic, copy, nullable) NSString *email</Declaration>
 			
 			
-			<Anchor>//api/name/deviceFamily</Anchor>
+			<Anchor>//api/name/email</Anchor>
             <NodeRef refid="105"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/interfaceOrientation</TokenIdentifier>
-			<Abstract type="html">Device&apos;s current orientation
-This method will first try to retrieve orientation using UIDevice currentOrientation, if return value is an invalid orientation, it will try to use status bar orientation as fallback</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/email</TokenIdentifier>
+			<Abstract type="html">The user&apos;s email</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>- (UIInterfaceOrientation)interfaceOrientation</Declaration>
+			<Declaration>@property (nonatomic, copy, nullable) NSString *email</Declaration>
 			
 			
-			<Anchor>//api/name/interfaceOrientation</Anchor>
+			<Anchor>//api/name/email</Anchor>
             <NodeRef refid="105"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/isSimulator</TokenIdentifier>
-			<Abstract type="html">Determine if current device is simulator or not</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setOrganizationName:</TokenIdentifier>
+			<Abstract type="html">The user&apos;s organization name</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)isSimulator</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *organizationName</Declaration>
 			
-			<ReturnValue><Abstract type="html">Return YES if current device is simulator, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/isSimulator</Anchor>
+			
+			<Anchor>//api/name/organizationName</Anchor>
             <NodeRef refid="105"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/canDevicePlaceAPhoneCall</TokenIdentifier>
-			<Abstract type="html">Determines whether the current device can place phone calls.</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/organizationName</TokenIdentifier>
+			<Abstract type="html">The user&apos;s organization name</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)canDevicePlaceAPhoneCall</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *organizationName</Declaration>
 			
-			<ReturnValue><Abstract type="html">Returns YES if the current device can make a phone call, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/canDevicePlaceAPhoneCall</Anchor>
+			
+			<Anchor>//api/name/organizationName</Anchor>
             <NodeRef refid="105"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/hasIphone6ScreenSize</TokenIdentifier>
-			<Abstract type="html">Determine if the current device has the screen size of an iPhone 6.</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/organizationName</TokenIdentifier>
+			<Abstract type="html">The user&apos;s organization name</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)hasIphone6ScreenSize</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *organizationName</Declaration>
 			
-			<ReturnValue><Abstract type="html">Returns YES if so, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/hasIphone6ScreenSize</Anchor>
+			
+			<Anchor>//api/name/organizationName</Anchor>
             <NodeRef refid="105"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/hasIphone6PlusScreenSize</TokenIdentifier>
-			<Abstract type="html">Determine if the current device has the screen size of an iPhone 6 plus.</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setFullName:</TokenIdentifier>
+			<Abstract type="html">The user&apos;s full name</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)hasIphone6PlusScreenSize</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *fullName</Declaration>
 			
-			<ReturnValue><Abstract type="html">Returns YES if so, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/hasIphone6PlusScreenSize</Anchor>
+			
+			<Anchor>//api/name/fullName</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/fullName</TokenIdentifier>
+			<Abstract type="html">The user&apos;s full name</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *fullName</Declaration>
+			
+			
+			<Anchor>//api/name/fullName</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/fullName</TokenIdentifier>
+			<Abstract type="html">The user&apos;s full name</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *fullName</Declaration>
+			
+			
+			<Anchor>//api/name/fullName</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setUserName:</TokenIdentifier>
+			<Abstract type="html">The user&apos;s name</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *userName</Declaration>
+			
+			
+			<Anchor>//api/name/userName</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/userName</TokenIdentifier>
+			<Abstract type="html">The user&apos;s name</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *userName</Declaration>
+			
+			
+			<Anchor>//api/name/userName</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/userName</TokenIdentifier>
+			<Abstract type="html">The user&apos;s name</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *userName</Declaration>
+			
+			
+			<Anchor>//api/name/userName</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setPhoto:</TokenIdentifier>
+			<Abstract type="html">The user&apos;s photo. Usually store a thumbnail of the user.
+Note: the consumer of this class must set the photo at least once,
+because this class doesn&apos;t fetch it from the server but
+only stores it locally on the disk.</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) UIImage *photo</Declaration>
+			
+			
+			<Anchor>//api/name/photo</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/photo</TokenIdentifier>
+			<Abstract type="html">The user&apos;s photo. Usually store a thumbnail of the user.
+Note: the consumer of this class must set the photo at least once,
+because this class doesn&apos;t fetch it from the server but
+only stores it locally on the disk.</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) UIImage *photo</Declaration>
+			
+			
+			<Anchor>//api/name/photo</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/photo</TokenIdentifier>
+			<Abstract type="html">The user&apos;s photo. Usually store a thumbnail of the user.
+Note: the consumer of this class must set the photo at least once,
+because this class doesn&apos;t fetch it from the server but
+only stores it locally on the disk.</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) UIImage *photo</Declaration>
+			
+			
+			<Anchor>//api/name/photo</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setAccessRestrictions:</TokenIdentifier>
+			<Abstract type="html">The access restriction associated with this user</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) SFUserAccountAccessRestriction accessRestrictions</Declaration>
+			
+			
+			<Anchor>//api/name/accessRestrictions</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/accessRestrictions</TokenIdentifier>
+			<Abstract type="html">The access restriction associated with this user</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) SFUserAccountAccessRestriction accessRestrictions</Declaration>
+			
+			
+			<Anchor>//api/name/accessRestrictions</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/accessRestrictions</TokenIdentifier>
+			<Abstract type="html">The access restriction associated with this user</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) SFUserAccountAccessRestriction accessRestrictions</Declaration>
+			
+			
+			<Anchor>//api/name/accessRestrictions</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setCommunityId:</TokenIdentifier>
+			<Abstract type="html">The current community id the user is logged in</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSString *communityId</Declaration>
+			
+			
+			<Anchor>//api/name/communityId</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/communityId</TokenIdentifier>
+			<Abstract type="html">The current community id the user is logged in</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSString *communityId</Declaration>
+			
+			
+			<Anchor>//api/name/communityId</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/communityId</TokenIdentifier>
+			<Abstract type="html">The current community id the user is logged in</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSString *communityId</Declaration>
+			
+			
+			<Anchor>//api/name/communityId</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setCommunities:</TokenIdentifier>
+			<Abstract type="html">The list of communities (as SFCommunityData item)</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSArray&lt;SFCommunityData*&gt; *communities</Declaration>
+			
+			
+			<Anchor>//api/name/communities</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/communities</TokenIdentifier>
+			<Abstract type="html">The list of communities (as SFCommunityData item)</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSArray&lt;SFCommunityData*&gt; *communities</Declaration>
+			
+			
+			<Anchor>//api/name/communities</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/communities</TokenIdentifier>
+			<Abstract type="html">The list of communities (as SFCommunityData item)</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSArray&lt;SFCommunityData*&gt; *communities</Declaration>
+			
+			
+			<Anchor>//api/name/communities</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setGuestUser:</TokenIdentifier>
+			<Abstract type="html">Indicates whether or not the receiver represents a guest user account.</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, getter=isGuestUser) BOOL guestUser</Declaration>
+			
+			
+			<Anchor>//api/name/guestUser</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/isGuestUser</TokenIdentifier>
+			<Abstract type="html">Indicates whether or not the receiver represents a guest user account.</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, getter=isGuestUser) BOOL guestUser</Declaration>
+			
+			
+			<Anchor>//api/name/guestUser</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/guestUser</TokenIdentifier>
+			<Abstract type="html">Indicates whether or not the receiver represents a guest user account.</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, getter=isGuestUser) BOOL guestUser</Declaration>
+			
+			
+			<Anchor>//api/name/guestUser</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setSessionValid:</TokenIdentifier>
+			<Abstract type="html">Returns YES if the user has an access token and, presumably,
+a valid session.</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, getter=isSessionValid) BOOL sessionValid</Declaration>
+			
+			
+			<Anchor>//api/name/sessionValid</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/isSessionValid</TokenIdentifier>
+			<Abstract type="html">Returns YES if the user has an access token and, presumably,
+a valid session.</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, getter=isSessionValid) BOOL sessionValid</Declaration>
+			
+			
+			<Anchor>//api/name/sessionValid</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/sessionValid</TokenIdentifier>
+			<Abstract type="html">Returns YES if the user has an access token and, presumably,
+a valid session.</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, getter=isSessionValid) BOOL sessionValid</Declaration>
+			
+			
+			<Anchor>//api/name/sessionValid</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setUserDeleted:</TokenIdentifier>
+			<Abstract type="html">Indicates if this account was deleted.  Returns YES if this account was deleted since being created.</Abstract>
+			<DeclaredIn>SFUserAccount+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, getter=isUserDeleted) BOOL userDeleted</Declaration>
+			
+			
+			<Anchor>//api/name/userDeleted</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/isUserDeleted</TokenIdentifier>
+			<Abstract type="html">Indicates if this account was deleted.  Returns YES if this account was deleted since being created.</Abstract>
+			<DeclaredIn>SFUserAccount+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, getter=isUserDeleted) BOOL userDeleted</Declaration>
+			
+			
+			<Anchor>//api/name/userDeleted</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/userDeleted</TokenIdentifier>
+			<Abstract type="html">Indicates if this account was deleted.  Returns YES if this account was deleted since being created.</Abstract>
+			<DeclaredIn>SFUserAccount+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, getter=isUserDeleted) BOOL userDeleted</Declaration>
+			
+			
+			<Anchor>//api/name/userDeleted</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setTemporaryUser:</TokenIdentifier>
+			<Abstract type="html">Returns YES if the user is a temporary user.
+Note: a temporary user is created when a new user
+is requested, for example during the login into
+a new org, and is replaced by the real user once
+the login is finished.</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, getter=isTemporaryUser) BOOL temporaryUser</Declaration>
+			
+			
+			<Anchor>//api/name/temporaryUser</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/isTemporaryUser</TokenIdentifier>
+			<Abstract type="html">Returns YES if the user is a temporary user.
+Note: a temporary user is created when a new user
+is requested, for example during the login into
+a new org, and is replaced by the real user once
+the login is finished.</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, getter=isTemporaryUser) BOOL temporaryUser</Declaration>
+			
+			
+			<Anchor>//api/name/temporaryUser</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/temporaryUser</TokenIdentifier>
+			<Abstract type="html">Returns YES if the user is a temporary user.
+Note: a temporary user is created when a new user
+is requested, for example during the login into
+a new org, and is replaced by the real user once
+the login is finished.</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, getter=isTemporaryUser) BOOL temporaryUser</Declaration>
+			
+			
+			<Anchor>//api/name/temporaryUser</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setAnonymousUser:</TokenIdentifier>
+			<Abstract type="html">Returns YES if the user is an anonymous user.
+Note: an anonymous user is a user that doesn&apos;t require
+credentials towards a server.</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, getter=isAnonymousUser) BOOL anonymousUser</Declaration>
+			
+			
+			<Anchor>//api/name/anonymousUser</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/isAnonymousUser</TokenIdentifier>
+			<Abstract type="html">Returns YES if the user is an anonymous user.
+Note: an anonymous user is a user that doesn&apos;t require
+credentials towards a server.</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, getter=isAnonymousUser) BOOL anonymousUser</Declaration>
+			
+			
+			<Anchor>//api/name/anonymousUser</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/anonymousUser</TokenIdentifier>
+			<Abstract type="html">Returns YES if the user is an anonymous user.
+Note: an anonymous user is a user that doesn&apos;t require
+credentials towards a server.</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, getter=isAnonymousUser) BOOL anonymousUser</Declaration>
+			
+			
+			<Anchor>//api/name/anonymousUser</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/initWithIdentifier:</TokenIdentifier>
+			<Abstract type="html">Designated initializer</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithIdentifier:(NSString *)identifier</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>identifier</Name>
+					<Abstract type="html">The user identifier</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the account instance</Abstract></ReturnValue>
+			<Anchor>//api/name/initWithIdentifier:</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/initWithGuestUser</TokenIdentifier>
+			<Abstract type="html">Designated initializer to construct a user account with a guest user account.</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithGuestUser</Declaration>
+			
+			<ReturnValue><Abstract type="html">The guest user account instance.</Abstract></ReturnValue>
+			<Anchor>//api/name/initWithGuestUser</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/initWithIdentifier:clientId:</TokenIdentifier>
+			<Abstract type="html">Initialize with identifier and client id</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithIdentifier:(NSString *)identifier clientId:(NSString *)clientId</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>identifier</Name>
+					<Abstract type="html">The user identifier</Abstract>
+				</Parameter><Parameter>
+					<Name>clientId</Name>
+					<Abstract type="html">The client id</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the account instance</Abstract></ReturnValue>
+			<Anchor>//api/name/initWithIdentifier:clientId:</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/communityUrlWithId:</TokenIdentifier>
+			<Abstract type="html">Returns the community API url for a particular
+community ID if it exists in the communities array</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>- (nullable NSURL *)communityUrlWithId:(NSString *)communityId</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>communityId</Name>
+					<Abstract type="html">The ID of the community</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The URL of the API endpoint for that community</Abstract></ReturnValue>
+			<Anchor>//api/name/communityUrlWithId:</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/communityWithId:</TokenIdentifier>
+			<Abstract type="html">Returns the community dictionary for the specified ID</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>- (nullable SFCommunityData *)communityWithId:(NSString *)communityId</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>communityId</Name>
+					<Abstract type="html">The ID of the community</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The dictionary for the given community</Abstract></ReturnValue>
+			<Anchor>//api/name/communityWithId:</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setCustomDataObject:forKey:</TokenIdentifier>
+			<Abstract type="html">Set object in customData dictionary</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>- (void)setCustomDataObject:(id&lt;NSCoding&gt;)object forKey:(id&lt;NSCopying&gt;)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>object</Name>
+					<Abstract type="html">The object to store, must be NSCoding enabled</Abstract>
+				</Parameter><Parameter>
+					<Name>key</Name>
+					<Abstract type="html">An NSCopying key to store the object at</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setCustomDataObject:forKey:</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/removeCustomDataObjectForKey:</TokenIdentifier>
+			<Abstract type="html">Remove a custom data object for a key</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>- (void)removeCustomDataObjectForKey:(id)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The key for the object to remove</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/removeCustomDataObjectForKey:</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/customDataObjectForKey:</TokenIdentifier>
+			<Abstract type="html">Retrieve the object stored in the custom data dictionary</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>- (nullable id)customDataObjectForKey:(id)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The key for the object to retrieve</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The object for a particular key</Abstract></ReturnValue>
+			<Anchor>//api/name/customDataObjectForKey:</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setNetwork:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccount+SalesforceNetwork.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) CSFNetwork *network</Declaration>
+			
+			
+			<Anchor>//api/name/network</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/network</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccount+SalesforceNetwork.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) CSFNetwork *network</Declaration>
+			
+			
+			<Anchor>//api/name/network</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/network</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccount+SalesforceNetwork.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) CSFNetwork *network</Declaration>
+			
+			
+			<Anchor>//api/name/network</Anchor>
             <NodeRef refid="105"/>
 		</Token>
 		

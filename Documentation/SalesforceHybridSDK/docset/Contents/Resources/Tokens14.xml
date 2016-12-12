@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFTestResult.html">
+	<File path="Classes/SFSmartSyncPlugin.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFTestResult</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestRunnerPlugin.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSmartSyncPlugin</TokenIdentifier>
+			<Abstract type="html">String used with Cordova to uniquely identify this plugin.</Abstract>
+			<DeclaredIn>SFSmartSyncPlugin.h</DeclaredIn>
             
 			
 			<NodeRef refid="14"/>
@@ -13,158 +13,99 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestResult/setTestName:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestRunnerPlugin.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPlugin/resetSyncManager</TokenIdentifier>
+			<Abstract type="html">Used for unit testing purposes only: allows the shared sync manager instance to be reset.</Abstract>
+			<DeclaredIn>SFSmartSyncPlugin.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, strong) NSString *testName</Declaration>
+			<Declaration>- (void)resetSyncManager</Declaration>
 			
 			
-			<Anchor>//api/name/testName</Anchor>
+			<Anchor>//api/name/resetSyncManager</Anchor>
             <NodeRef refid="14"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestResult/testName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestRunnerPlugin.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPlugin/getSyncStatus:</TokenIdentifier>
+			<Abstract type="html">Return details about a sync operation previously created. See [SFSmartSyncSyncManager:getSyncStatus].</Abstract>
+			<DeclaredIn>SFSmartSyncPlugin.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, strong) NSString *testName</Declaration>
+			<Declaration>- (void)getSyncStatus:(CDVInvokedUrlCommand *)command</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>command</Name>
+					<Abstract type="html">Cordova arguments object containing &quot;syncId&quot;.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/testName</Anchor>
+			<Anchor>//api/name/getSyncStatus:</Anchor>
             <NodeRef refid="14"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFTestResult/testName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestRunnerPlugin.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPlugin/syncUp:</TokenIdentifier>
+			<Abstract type="html">Starts a sync up operation. See [SFSmartSyncSyncManager syncUp].</Abstract>
+			<DeclaredIn>SFSmartSyncPlugin.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, strong) NSString *testName</Declaration>
+			<Declaration>- (void)syncUp:(CDVInvokedUrlCommand *)command</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>command</Name>
+					<Abstract type="html">Cordova arguments object containing &quot;soupName&quot; and &quot;options&quot;.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/testName</Anchor>
+			<Anchor>//api/name/syncUp:</Anchor>
             <NodeRef refid="14"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestResult/setSuccess:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestRunnerPlugin.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPlugin/syncDown:</TokenIdentifier>
+			<Abstract type="html">Starts a sync down operation. See [SFSmartSyncSyncManager syncDown].</Abstract>
+			<DeclaredIn>SFSmartSyncPlugin.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, assign) BOOL success</Declaration>
+			<Declaration>- (void)syncDown:(CDVInvokedUrlCommand *)command</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>command</Name>
+					<Abstract type="html">Cordova arguments object containing &quot;soupName&quot;, &quot;target&quot; and &quot;options&quot;.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/success</Anchor>
+			<Anchor>//api/name/syncDown:</Anchor>
             <NodeRef refid="14"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestResult/success</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestRunnerPlugin.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPlugin/reSync:</TokenIdentifier>
+			<Abstract type="html">Starts a re-sync operation. See [SFSmartSyncSyncManager reSync].</Abstract>
+			<DeclaredIn>SFSmartSyncPlugin.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, assign) BOOL success</Declaration>
+			<Declaration>- (void)reSync:(CDVInvokedUrlCommand *)command</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>command</Name>
+					<Abstract type="html">Cordova arguments object containing &quot;syncId&quot;.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/success</Anchor>
+			<Anchor>//api/name/reSync:</Anchor>
             <NodeRef refid="14"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFTestResult/success</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestRunnerPlugin.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPlugin/cleanResyncGhosts:</TokenIdentifier>
+			<Abstract type="html">Starts a ghost record clean operation. See [SFSmartSyncSyncManager cleanResyncGhosts].</Abstract>
+			<DeclaredIn>SFSmartSyncPlugin.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, assign) BOOL success</Declaration>
+			<Declaration>- (void)cleanResyncGhosts:(CDVInvokedUrlCommand *)command</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>command</Name>
+					<Abstract type="html">Cordova arguments object containing &quot;syncId&quot;.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/success</Anchor>
-            <NodeRef refid="14"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestResult/setMessage:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestRunnerPlugin.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong) NSString *message</Declaration>
-			
-			
-			<Anchor>//api/name/message</Anchor>
-            <NodeRef refid="14"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestResult/message</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestRunnerPlugin.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong) NSString *message</Declaration>
-			
-			
-			<Anchor>//api/name/message</Anchor>
-            <NodeRef refid="14"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFTestResult/message</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestRunnerPlugin.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong) NSString *message</Declaration>
-			
-			
-			<Anchor>//api/name/message</Anchor>
-            <NodeRef refid="14"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestResult/setDuration:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestRunnerPlugin.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, assign) NSTimeInterval duration</Declaration>
-			
-			
-			<Anchor>//api/name/duration</Anchor>
-            <NodeRef refid="14"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestResult/duration</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestRunnerPlugin.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, assign) NSTimeInterval duration</Declaration>
-			
-			
-			<Anchor>//api/name/duration</Anchor>
-            <NodeRef refid="14"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFTestResult/duration</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestRunnerPlugin.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, assign) NSTimeInterval duration</Declaration>
-			
-			
-			<Anchor>//api/name/duration</Anchor>
-            <NodeRef refid="14"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestResult/initWithName:success:message:status:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestRunnerPlugin.h</DeclaredIn>
-			
-			<Declaration>- (id)initWithName:(NSString *)testName success:(BOOL)success message:(NSString *)message status:(NSDictionary *)testStatus</Declaration>
-			
-			
-			<Anchor>//api/name/initWithName:success:message:status:</Anchor>
+			<Anchor>//api/name/cleanResyncGhosts:</Anchor>
             <NodeRef refid="14"/>
 		</Token>
 		

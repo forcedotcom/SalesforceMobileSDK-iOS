@@ -1,1443 +1,623 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFUserAccountManager.html">
+	<File path="Classes/SFRestRequest.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFUserAccountManager</TokenIdentifier>
-			<Abstract type="html">Class used to manage the accounts functions used across the app.
-It supports multiple accounts and their associated credentials.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFRestRequest</TokenIdentifier>
+			<Abstract type="html">Request object used to send a REST request to Salesforce.com</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
             
 			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/SFRestAPI</TokenIdentifier>
+		
+	</RelatedTokens>
+	
 			<NodeRef refid="80"/>
 		</Token>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setCurrentUser:</TokenIdentifier>
-			<Abstract type="html">The current user account.  This property may be nil if the user
-has never logged in.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setMethod:</TokenIdentifier>
+			<Abstract type="html">The HTTP method of the request.  See SFRestMethod.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) SFUserAccount *currentUser</Declaration>
+			<Declaration>@property (nonatomic, assign) SFRestMethod method</Declaration>
 			
 			
-			<Anchor>//api/name/currentUser</Anchor>
+			<Anchor>//api/name/method</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/currentUser</TokenIdentifier>
-			<Abstract type="html">The current user account.  This property may be nil if the user
-has never logged in.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/method</TokenIdentifier>
+			<Abstract type="html">The HTTP method of the request.  See SFRestMethod.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) SFUserAccount *currentUser</Declaration>
+			<Declaration>@property (nonatomic, assign) SFRestMethod method</Declaration>
 			
 			
-			<Anchor>//api/name/currentUser</Anchor>
+			<Anchor>//api/name/method</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/currentUser</TokenIdentifier>
-			<Abstract type="html">The current user account.  This property may be nil if the user
-has never logged in.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/method</TokenIdentifier>
+			<Abstract type="html">The HTTP method of the request.  See SFRestMethod.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) SFUserAccount *currentUser</Declaration>
+			<Declaration>@property (nonatomic, assign) SFRestMethod method</Declaration>
 			
 			
-			<Anchor>//api/name/currentUser</Anchor>
+			<Anchor>//api/name/method</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setTemporaryUserIdentity:</TokenIdentifier>
-			<Abstract type="html">The user identity for the temporary user account.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setPath:</TokenIdentifier>
+			<Abstract type="html">The path of the request.
+For instance, &quot;&quot; (empty string), &quot;v22.0/recent&quot;, &quot;v22.0/query&quot;.
+Note that the path doesn&apos;t have to start with a &apos;/&apos;. For instance, passing &quot;v22.0/recent&quot; is the same as passing &quot;/v22.0/recent&quot;.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, nullable) SFUserAccountIdentity *temporaryUserIdentity</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *path</Declaration>
 			
 			
-			<Anchor>//api/name/temporaryUserIdentity</Anchor>
+			<Anchor>//api/name/path</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/temporaryUserIdentity</TokenIdentifier>
-			<Abstract type="html">The user identity for the temporary user account.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/path</TokenIdentifier>
+			<Abstract type="html">The path of the request.
+For instance, &quot;&quot; (empty string), &quot;v22.0/recent&quot;, &quot;v22.0/query&quot;.
+Note that the path doesn&apos;t have to start with a &apos;/&apos;. For instance, passing &quot;v22.0/recent&quot; is the same as passing &quot;/v22.0/recent&quot;.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, nullable) SFUserAccountIdentity *temporaryUserIdentity</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *path</Declaration>
 			
 			
-			<Anchor>//api/name/temporaryUserIdentity</Anchor>
+			<Anchor>//api/name/path</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/temporaryUserIdentity</TokenIdentifier>
-			<Abstract type="html">The user identity for the temporary user account.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/path</TokenIdentifier>
+			<Abstract type="html">The path of the request.
+For instance, &quot;&quot; (empty string), &quot;v22.0/recent&quot;, &quot;v22.0/query&quot;.
+Note that the path doesn&apos;t have to start with a &apos;/&apos;. For instance, passing &quot;v22.0/recent&quot; is the same as passing &quot;/v22.0/recent&quot;.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, nullable) SFUserAccountIdentity *temporaryUserIdentity</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *path</Declaration>
 			
 			
-			<Anchor>//api/name/temporaryUserIdentity</Anchor>
+			<Anchor>//api/name/path</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setTemporaryUser:</TokenIdentifier>
-			<Abstract type="html">The &quot;temporary&quot; account user.  Useful for determining whether there&apos;s a valid user context.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setQueryParams:</TokenIdentifier>
+			<Abstract type="html">The query parameters of the request (could be nil).
+Note that URL encoding of the parameters will automatically happen when the request is sent.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, nullable) SFUserAccount *temporaryUser</Declaration>
+			<Declaration>@property (nullable, nonatomic, strong) NSDictionary&lt;NSString*NSObject*&gt; *queryParams</Declaration>
 			
 			
-			<Anchor>//api/name/temporaryUser</Anchor>
+			<Anchor>//api/name/queryParams</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/temporaryUser</TokenIdentifier>
-			<Abstract type="html">The &quot;temporary&quot; account user.  Useful for determining whether there&apos;s a valid user context.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/queryParams</TokenIdentifier>
+			<Abstract type="html">The query parameters of the request (could be nil).
+Note that URL encoding of the parameters will automatically happen when the request is sent.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, nullable) SFUserAccount *temporaryUser</Declaration>
+			<Declaration>@property (nullable, nonatomic, strong) NSDictionary&lt;NSString*NSObject*&gt; *queryParams</Declaration>
 			
 			
-			<Anchor>//api/name/temporaryUser</Anchor>
+			<Anchor>//api/name/queryParams</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/temporaryUser</TokenIdentifier>
-			<Abstract type="html">The &quot;temporary&quot; account user.  Useful for determining whether there&apos;s a valid user context.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/queryParams</TokenIdentifier>
+			<Abstract type="html">The query parameters of the request (could be nil).
+Note that URL encoding of the parameters will automatically happen when the request is sent.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, nullable) SFUserAccount *temporaryUser</Declaration>
+			<Declaration>@property (nullable, nonatomic, strong) NSDictionary&lt;NSString*NSObject*&gt; *queryParams</Declaration>
 			
 			
-			<Anchor>//api/name/temporaryUser</Anchor>
+			<Anchor>//api/name/queryParams</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setSupportsAnonymousUser:</TokenIdentifier>
-			<Abstract type="html">Returns YES if the application supports anonymous user, no otherwise.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setCustomHeaders:</TokenIdentifier>
+			<Abstract type="html">Dictionary of any custom HTTP headers you wish to add to your request.  You can also use
+setHeaderValue:forHeaderName: to add headers to this property.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL supportsAnonymousUser</Declaration>
+			<Declaration>@property (nonatomic, strong) NSDictionary&lt;NSString*NSString*&gt; *customHeaders</Declaration>
 			
 			
-			<Anchor>//api/name/supportsAnonymousUser</Anchor>
+			<Anchor>//api/name/customHeaders</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/supportsAnonymousUser</TokenIdentifier>
-			<Abstract type="html">Returns YES if the application supports anonymous user, no otherwise.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/customHeaders</TokenIdentifier>
+			<Abstract type="html">Dictionary of any custom HTTP headers you wish to add to your request.  You can also use
+setHeaderValue:forHeaderName: to add headers to this property.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL supportsAnonymousUser</Declaration>
+			<Declaration>@property (nonatomic, strong) NSDictionary&lt;NSString*NSString*&gt; *customHeaders</Declaration>
 			
 			
-			<Anchor>//api/name/supportsAnonymousUser</Anchor>
+			<Anchor>//api/name/customHeaders</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/supportsAnonymousUser</TokenIdentifier>
-			<Abstract type="html">Returns YES if the application supports anonymous user, no otherwise.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/customHeaders</TokenIdentifier>
+			<Abstract type="html">Dictionary of any custom HTTP headers you wish to add to your request.  You can also use
+setHeaderValue:forHeaderName: to add headers to this property.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL supportsAnonymousUser</Declaration>
+			<Declaration>@property (nonatomic, strong) NSDictionary&lt;NSString*NSString*&gt; *customHeaders</Declaration>
 			
 			
-			<Anchor>//api/name/supportsAnonymousUser</Anchor>
+			<Anchor>//api/name/customHeaders</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setAutocreateAnonymousUser:</TokenIdentifier>
-			<Abstract type="html">Returns YES if the application wants the anonymous user to be
-  created automatically at startup, no otherwise.
-  
-  Note: the application must add the kSFUserAccountSupportAnonymousUsage value
-  to its Info.plist file in order to enable this flag.
-  </Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setAction:</TokenIdentifier>
+			<Abstract type="html">Underlying SFRestAPISalesforceAction through which the network call is carried out</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL autocreateAnonymousUser</Declaration>
+			<Declaration>@property (nonatomic, strong) SFRestAPISalesforceAction *action</Declaration>
 			
 			
-			<Anchor>//api/name/autocreateAnonymousUser</Anchor>
+			<Anchor>//api/name/action</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/autocreateAnonymousUser</TokenIdentifier>
-			<Abstract type="html">Returns YES if the application wants the anonymous user to be
-  created automatically at startup, no otherwise.
-  
-  Note: the application must add the kSFUserAccountSupportAnonymousUsage value
-  to its Info.plist file in order to enable this flag.
-  </Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/action</TokenIdentifier>
+			<Abstract type="html">Underlying SFRestAPISalesforceAction through which the network call is carried out</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL autocreateAnonymousUser</Declaration>
+			<Declaration>@property (nonatomic, strong) SFRestAPISalesforceAction *action</Declaration>
 			
 			
-			<Anchor>//api/name/autocreateAnonymousUser</Anchor>
+			<Anchor>//api/name/action</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/autocreateAnonymousUser</TokenIdentifier>
-			<Abstract type="html">Returns YES if the application wants the anonymous user to be
-  created automatically at startup, no otherwise.
-  
-  Note: the application must add the kSFUserAccountSupportAnonymousUsage value
-  to its Info.plist file in order to enable this flag.
-  </Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/action</TokenIdentifier>
+			<Abstract type="html">Underlying SFRestAPISalesforceAction through which the network call is carried out</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL autocreateAnonymousUser</Declaration>
+			<Declaration>@property (nonatomic, strong) SFRestAPISalesforceAction *action</Declaration>
 			
 			
-			<Anchor>//api/name/autocreateAnonymousUser</Anchor>
+			<Anchor>//api/name/action</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setAnonymousUser:</TokenIdentifier>
-			<Abstract type="html">Returns the anonymous user or nil if none exists
-  </Abstract>
-			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setDelegate:</TokenIdentifier>
+			<Abstract type="html">The delegate for this request. Notified of request status.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) SFUserAccount *anonymousUser</Declaration>
+			<Declaration>@property (nullable, nonatomic, weak) id&lt;SFRestDelegate&gt; delegate</Declaration>
 			
 			
-			<Anchor>//api/name/anonymousUser</Anchor>
+			<Anchor>//api/name/delegate</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/anonymousUser</TokenIdentifier>
-			<Abstract type="html">Returns the anonymous user or nil if none exists
-  </Abstract>
-			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/delegate</TokenIdentifier>
+			<Abstract type="html">The delegate for this request. Notified of request status.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) SFUserAccount *anonymousUser</Declaration>
+			<Declaration>@property (nullable, nonatomic, weak) id&lt;SFRestDelegate&gt; delegate</Declaration>
 			
 			
-			<Anchor>//api/name/anonymousUser</Anchor>
+			<Anchor>//api/name/delegate</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/anonymousUser</TokenIdentifier>
-			<Abstract type="html">Returns the anonymous user or nil if none exists
-  </Abstract>
-			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/delegate</TokenIdentifier>
+			<Abstract type="html">The delegate for this request. Notified of request status.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) SFUserAccount *anonymousUser</Declaration>
+			<Declaration>@property (nullable, nonatomic, weak) id&lt;SFRestDelegate&gt; delegate</Declaration>
 			
 			
-			<Anchor>//api/name/anonymousUser</Anchor>
+			<Anchor>//api/name/delegate</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setCurrentUserAnonymous:</TokenIdentifier>
-			<Abstract type="html">Returns YES if the current user is anonymous, no otherwise
-  </Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setEndpoint:</TokenIdentifier>
+			<Abstract type="html">Typically kSFDefaultRestEndpoint but you may use eg custom Apex endpoints</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, getter=isCurrentUserAnonymous) BOOL currentUserAnonymous</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *endpoint</Declaration>
 			
 			
-			<Anchor>//api/name/currentUserAnonymous</Anchor>
+			<Anchor>//api/name/endpoint</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/isCurrentUserAnonymous</TokenIdentifier>
-			<Abstract type="html">Returns YES if the current user is anonymous, no otherwise
-  </Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/endpoint</TokenIdentifier>
+			<Abstract type="html">Typically kSFDefaultRestEndpoint but you may use eg custom Apex endpoints</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, getter=isCurrentUserAnonymous) BOOL currentUserAnonymous</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *endpoint</Declaration>
 			
 			
-			<Anchor>//api/name/currentUserAnonymous</Anchor>
+			<Anchor>//api/name/endpoint</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/currentUserAnonymous</TokenIdentifier>
-			<Abstract type="html">Returns YES if the current user is anonymous, no otherwise
-  </Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/endpoint</TokenIdentifier>
+			<Abstract type="html">Typically kSFDefaultRestEndpoint but you may use eg custom Apex endpoints</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, getter=isCurrentUserAnonymous) BOOL currentUserAnonymous</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *endpoint</Declaration>
 			
 			
-			<Anchor>//api/name/currentUserAnonymous</Anchor>
+			<Anchor>//api/name/endpoint</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setCurrentUserIdentity:</TokenIdentifier>
-			<Abstract type="html">  Convenience property to retrieve the current user&apos;s identity.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setRequiresAuthentication:</TokenIdentifier>
+			<Abstract type="html">Whether or not this request requires authentication.  If YES, the credentials will be added to
+the request headers before sending the request.  If NO, they will not.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, nullable) SFUserAccountIdentity *currentUserIdentity</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL requiresAuthentication</Declaration>
 			
 			
-			<Anchor>//api/name/currentUserIdentity</Anchor>
+			<Anchor>//api/name/requiresAuthentication</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/currentUserIdentity</TokenIdentifier>
-			<Abstract type="html">  Convenience property to retrieve the current user&apos;s identity.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/requiresAuthentication</TokenIdentifier>
+			<Abstract type="html">Whether or not this request requires authentication.  If YES, the credentials will be added to
+the request headers before sending the request.  If NO, they will not.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, nullable) SFUserAccountIdentity *currentUserIdentity</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL requiresAuthentication</Declaration>
 			
 			
-			<Anchor>//api/name/currentUserIdentity</Anchor>
+			<Anchor>//api/name/requiresAuthentication</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/currentUserIdentity</TokenIdentifier>
-			<Abstract type="html">  Convenience property to retrieve the current user&apos;s identity.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/requiresAuthentication</TokenIdentifier>
+			<Abstract type="html">Whether or not this request requires authentication.  If YES, the credentials will be added to
+the request headers before sending the request.  If NO, they will not.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, nullable) SFUserAccountIdentity *currentUserIdentity</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL requiresAuthentication</Declaration>
 			
 			
-			<Anchor>//api/name/currentUserIdentity</Anchor>
+			<Anchor>//api/name/requiresAuthentication</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setCurrentCommunityId:</TokenIdentifier>
-			<Abstract type="html">  Convenience property to retrieve the current user&apos;s communityId.
-This property is an alias for currentUser.communityId</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setParseResponse:</TokenIdentifier>
+			<Abstract type="html">Whether or not to parse the response data as structured JSON data.  Defaults to YES. If
+set to NO, response data will be returned as binary data in an NSData object.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, nullable) NSString *currentCommunityId</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL parseResponse</Declaration>
 			
 			
-			<Anchor>//api/name/currentCommunityId</Anchor>
+			<Anchor>//api/name/parseResponse</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/currentCommunityId</TokenIdentifier>
-			<Abstract type="html">  Convenience property to retrieve the current user&apos;s communityId.
-This property is an alias for currentUser.communityId</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/parseResponse</TokenIdentifier>
+			<Abstract type="html">Whether or not to parse the response data as structured JSON data.  Defaults to YES. If
+set to NO, response data will be returned as binary data in an NSData object.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, nullable) NSString *currentCommunityId</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL parseResponse</Declaration>
 			
 			
-			<Anchor>//api/name/currentCommunityId</Anchor>
+			<Anchor>//api/name/parseResponse</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/currentCommunityId</TokenIdentifier>
-			<Abstract type="html">  Convenience property to retrieve the current user&apos;s communityId.
-This property is an alias for currentUser.communityId</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/parseResponse</TokenIdentifier>
+			<Abstract type="html">Whether or not to parse the response data as structured JSON data.  Defaults to YES. If
+set to NO, response data will be returned as binary data in an NSData object.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, nullable) NSString *currentCommunityId</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL parseResponse</Declaration>
 			
 			
-			<Anchor>//api/name/currentCommunityId</Anchor>
+			<Anchor>//api/name/parseResponse</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setAllUserAccounts:</TokenIdentifier>
-			<Abstract type="html">An NSArray of all the SFUserAccount instances for the app.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/prepareRequestForSend</TokenIdentifier>
+			<Abstract type="html">Override this method to implement any request preparations immediately prior to the request
+being sent.  Note: You should not call this method directly.  And make sure to call the
+super implementation within your own implementation.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFUserAccount*&gt; *allUserAccounts</Declaration>
+			<Declaration>- (void)prepareRequestForSend</Declaration>
 			
 			
-			<Anchor>//api/name/allUserAccounts</Anchor>
+			<Anchor>//api/name/prepareRequestForSend</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/allUserAccounts</TokenIdentifier>
-			<Abstract type="html">An NSArray of all the SFUserAccount instances for the app.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFUserAccount*&gt; *allUserAccounts</Declaration>
-			
-			
-			<Anchor>//api/name/allUserAccounts</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/allUserAccounts</TokenIdentifier>
-			<Abstract type="html">An NSArray of all the SFUserAccount instances for the app.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFUserAccount*&gt; *allUserAccounts</Declaration>
-			
-			
-			<Anchor>//api/name/allUserAccounts</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setAllUserIdentities:</TokenIdentifier>
-			<Abstract type="html">Returns all the user identities sorted by Org ID and User ID.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFUserAccountIdentity*&gt; *allUserIdentities</Declaration>
-			
-			
-			<Anchor>//api/name/allUserIdentities</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/allUserIdentities</TokenIdentifier>
-			<Abstract type="html">Returns all the user identities sorted by Org ID and User ID.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFUserAccountIdentity*&gt; *allUserIdentities</Declaration>
-			
-			
-			<Anchor>//api/name/allUserIdentities</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/allUserIdentities</TokenIdentifier>
-			<Abstract type="html">Returns all the user identities sorted by Org ID and User ID.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFUserAccountIdentity*&gt; *allUserIdentities</Declaration>
-			
-			
-			<Anchor>//api/name/allUserIdentities</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setActiveUserIdentity:</TokenIdentifier>
-			<Abstract type="html">The most recently active user identity. Note that this may be temporarily
-different from currentUser if the user associated with the activeUserIdentity
-is removed from the accounts list.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, nullable) SFUserAccountIdentity *activeUserIdentity</Declaration>
-			
-			
-			<Anchor>//api/name/activeUserIdentity</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/activeUserIdentity</TokenIdentifier>
-			<Abstract type="html">The most recently active user identity. Note that this may be temporarily
-different from currentUser if the user associated with the activeUserIdentity
-is removed from the accounts list.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, nullable) SFUserAccountIdentity *activeUserIdentity</Declaration>
-			
-			
-			<Anchor>//api/name/activeUserIdentity</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/activeUserIdentity</TokenIdentifier>
-			<Abstract type="html">The most recently active user identity. Note that this may be temporarily
-different from currentUser if the user associated with the activeUserIdentity
-is removed from the accounts list.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, nullable) SFUserAccountIdentity *activeUserIdentity</Declaration>
-			
-			
-			<Anchor>//api/name/activeUserIdentity</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setActiveCommunityId:</TokenIdentifier>
-			<Abstract type="html">The most recently active community ID. Set when a user
-is changed and stored to disk for retrieval after bootup</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *activeCommunityId</Declaration>
-			
-			
-			<Anchor>//api/name/activeCommunityId</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/activeCommunityId</TokenIdentifier>
-			<Abstract type="html">The most recently active community ID. Set when a user
-is changed and stored to disk for retrieval after bootup</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *activeCommunityId</Declaration>
-			
-			
-			<Anchor>//api/name/activeCommunityId</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/activeCommunityId</TokenIdentifier>
-			<Abstract type="html">The most recently active community ID. Set when a user
-is changed and stored to disk for retrieval after bootup</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *activeCommunityId</Declaration>
-			
-			
-			<Anchor>//api/name/activeCommunityId</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setPreviousCommunityId:</TokenIdentifier>
-			<Abstract type="html">A convenience property to store the previous community
-id as it may change during early OAuth flow and we want to retain it</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) NSString *previousCommunityId</Declaration>
-			
-			
-			<Anchor>//api/name/previousCommunityId</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/previousCommunityId</TokenIdentifier>
-			<Abstract type="html">A convenience property to store the previous community
-id as it may change during early OAuth flow and we want to retain it</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) NSString *previousCommunityId</Declaration>
-			
-			
-			<Anchor>//api/name/previousCommunityId</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/previousCommunityId</TokenIdentifier>
-			<Abstract type="html">A convenience property to store the previous community
-id as it may change during early OAuth flow and we want to retain it</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) NSString *previousCommunityId</Declaration>
-			
-			
-			<Anchor>//api/name/previousCommunityId</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setLoginHost:</TokenIdentifier>
-			<Abstract type="html">The host that will be used for login.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) NSString *loginHost</Declaration>
-			
-			
-			<Anchor>//api/name/loginHost</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/loginHost</TokenIdentifier>
-			<Abstract type="html">The host that will be used for login.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) NSString *loginHost</Declaration>
-			
-			
-			<Anchor>//api/name/loginHost</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/loginHost</TokenIdentifier>
-			<Abstract type="html">The host that will be used for login.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) NSString *loginHost</Declaration>
-			
-			
-			<Anchor>//api/name/loginHost</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setRetryLoginAfterFailure:</TokenIdentifier>
-			<Abstract type="html">Should the login process start again if it fails (default: YES)</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL retryLoginAfterFailure</Declaration>
-			
-			
-			<Anchor>//api/name/retryLoginAfterFailure</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/retryLoginAfterFailure</TokenIdentifier>
-			<Abstract type="html">Should the login process start again if it fails (default: YES)</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL retryLoginAfterFailure</Declaration>
-			
-			
-			<Anchor>//api/name/retryLoginAfterFailure</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/retryLoginAfterFailure</TokenIdentifier>
-			<Abstract type="html">Should the login process start again if it fails (default: YES)</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL retryLoginAfterFailure</Declaration>
-			
-			
-			<Anchor>//api/name/retryLoginAfterFailure</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setOauthClientId:</TokenIdentifier>
-			<Abstract type="html">OAuth client ID to use for login.  Apps may customize
-by setting this property before login; otherwise, this
-value is determined by the SFDCOAuthClientIdPreference
-configured via the settings bundle.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *oauthClientId</Declaration>
-			
-			
-			<Anchor>//api/name/oauthClientId</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/oauthClientId</TokenIdentifier>
-			<Abstract type="html">OAuth client ID to use for login.  Apps may customize
-by setting this property before login; otherwise, this
-value is determined by the SFDCOAuthClientIdPreference
-configured via the settings bundle.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *oauthClientId</Declaration>
-			
-			
-			<Anchor>//api/name/oauthClientId</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/oauthClientId</TokenIdentifier>
-			<Abstract type="html">OAuth client ID to use for login.  Apps may customize
-by setting this property before login; otherwise, this
-value is determined by the SFDCOAuthClientIdPreference
-configured via the settings bundle.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *oauthClientId</Declaration>
-			
-			
-			<Anchor>//api/name/oauthClientId</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setOauthCompletionUrl:</TokenIdentifier>
-			<Abstract type="html">axm/detect/oauth/done&quot;)</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *oauthCompletionUrl</Declaration>
-			
-			
-			<Anchor>//api/name/oauthCompletionUrl</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/oauthCompletionUrl</TokenIdentifier>
-			<Abstract type="html">axm/detect/oauth/done&quot;)</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *oauthCompletionUrl</Declaration>
-			
-			
-			<Anchor>//api/name/oauthCompletionUrl</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/oauthCompletionUrl</TokenIdentifier>
-			<Abstract type="html">axm/detect/oauth/done&quot;)</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *oauthCompletionUrl</Declaration>
-			
-			
-			<Anchor>//api/name/oauthCompletionUrl</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setScopes:</TokenIdentifier>
-			<Abstract type="html">The OAuth scopes associated with the app.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSSet&lt;NSString*&gt; *scopes</Declaration>
-			
-			
-			<Anchor>//api/name/scopes</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/scopes</TokenIdentifier>
-			<Abstract type="html">The OAuth scopes associated with the app.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSSet&lt;NSString*&gt; *scopes</Declaration>
-			
-			
-			<Anchor>//api/name/scopes</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/scopes</TokenIdentifier>
-			<Abstract type="html">The OAuth scopes associated with the app.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSSet&lt;NSString*&gt; *scopes</Declaration>
-			
-			
-			<Anchor>//api/name/scopes</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFUserAccountManager/sharedInstance</TokenIdentifier>
-			<Abstract type="html">Shared singleton</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>+ (instancetype)sharedInstance</Declaration>
-			
-			
-			<Anchor>//api/name/sharedInstance</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFUserAccountManager/applyCurrentLogLevel:</TokenIdentifier>
-			<Abstract type="html">Applies the current log level to the OAuth credentials that
-control the OAuth library log level.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>+ (void)applyCurrentLogLevel:(SFOAuthCredentials *)credentials</Declaration>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setHeaderValue:forHeaderName:</TokenIdentifier>
+			<Abstract type="html">Sets the value for the specified HTTP header.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>- (void)setHeaderValue:(nullable NSString *)value forHeaderName:(NSString *)name</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>credentials</Name>
-					<Abstract type="html">OAuth credentials whose log level will be updated</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/applyCurrentLogLevel:</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFUserAccountManager/userAccountPlistFileForUser:</TokenIdentifier>
-			<Abstract type="html">Returns the path of the user account plist file for the specified user</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>+ (NSString *)userAccountPlistFileForUser:(SFUserAccount *)user</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>user</Name>
-					<Abstract type="html">The user</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the path to the user account plist of the specified user</Abstract></ReturnValue>
-			<Anchor>//api/name/userAccountPlistFileForUser:</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFUserAccountManager/setActiveUserIdentity:</TokenIdentifier>
-			<Abstract type="html">Sets the active user identity without instantiating the class</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>+ (void)setActiveUserIdentity:(SFUserAccountIdentity *)activeUserIdentity</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>activeUserIdentity</Name>
-					<Abstract type="html">The desired active user</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/setActiveUserIdentity:</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/addDelegate:</TokenIdentifier>
-			<Abstract type="html">Adds a delegate to this user account manager.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>- (void)addDelegate:(id&lt;SFUserAccountManagerDelegate&gt;)delegate</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>delegate</Name>
-					<Abstract type="html">The delegate to add.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/addDelegate:</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/removeDelegate:</TokenIdentifier>
-			<Abstract type="html">Removes a delegate from this user account manager.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>- (void)removeDelegate:(id&lt;SFUserAccountManagerDelegate&gt;)delegate</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>delegate</Name>
-					<Abstract type="html">The delegate to remove.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/removeDelegate:</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/loadAccounts:</TokenIdentifier>
-			<Abstract type="html">Loads all the accounts.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)loadAccounts:(NSError **)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>error</Name>
-					<Abstract type="html">On output, the error if the return value is NO</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the accounts were loaded properly, NO in case of error</Abstract></ReturnValue>
-			<Anchor>//api/name/loadAccounts:</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/saveAccounts:</TokenIdentifier>
-			<Abstract type="html">Save all the accounts.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)saveAccounts:(NSError **)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>error</Name>
-					<Abstract type="html">On output, the error if the return value is NO</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the accounts were saved properly, NO in case of error</Abstract></ReturnValue>
-			<Anchor>//api/name/saveAccounts:</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/createUserAccount</TokenIdentifier>
-			<Abstract type="html">Can be used to create an empty user account if you wish to configure all of the account info yourself.
-Otherwise, use login to allow SFUserAccountManager to automatically create an account when necessary.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>- (SFUserAccount *)createUserAccount</Declaration>
-			
-			
-			<Anchor>//api/name/createUserAccount</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/enableAnonymousAccount</TokenIdentifier>
-			<Abstract type="html">This method ensures the anonymous user exists and if not, creates the anonymous
-user and saves it with the other users. This method doesn&apos;t change the current user.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>- (void)enableAnonymousAccount</Declaration>
-			
-			
-			<Anchor>//api/name/enableAnonymousAccount</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/userAccountForUserIdentity:</TokenIdentifier>
-			<Abstract type="html">Allows you to look up the user account associated with a given user identity.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>- (nullable SFUserAccount *)userAccountForUserIdentity:(SFUserAccountIdentity *)userIdentity</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>userIdentity</Name>
-					<Abstract type="html">The user identity of the user account to be looked up</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/userAccountForUserIdentity:</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/accountsForOrgId:</TokenIdentifier>
-			<Abstract type="html">Returns all accounts that have access to a particular org</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>- (NSArray&lt;SFUserAccount*&gt; *)accountsForOrgId:(NSString *)orgId</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>orgId</Name>
-					<Abstract type="html">The org to match accounts against</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">An array of accounts that can access that org</Abstract></ReturnValue>
-			<Anchor>//api/name/accountsForOrgId:</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/accountsForInstanceURL:</TokenIdentifier>
-			<Abstract type="html">Returns all accounts that match a particular instance URL</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>- (NSArray&lt;SFUserAccount*&gt; *)accountsForInstanceURL:(NSURL *)instanceURL</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>instanceURL</Name>
-					<Abstract type="html">The host parameter of a given instance URL</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">An array of accounts that match that instance URL</Abstract></ReturnValue>
-			<Anchor>//api/name/accountsForInstanceURL:</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/addAccount:</TokenIdentifier>
-			<Abstract type="html">Adds a user account</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>- (void)addAccount:(SFUserAccount *)acct</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>acct</Name>
-					<Abstract type="html">The account to be added</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/addAccount:</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/deleteAccountForUser:error:</TokenIdentifier>
-			<Abstract type="html">Allows you to remove the given user account.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)deleteAccountForUser:(SFUserAccount *)user error:(NSError **)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>user</Name>
-					<Abstract type="html">The user account to remove.</Abstract>
+					<Name>value</Name>
+					<Abstract type="html">The header value. If value is nil, this method will remove the HTTP header
+from the collection of headers.</Abstract>
 				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">Output error parameter, populated if there was an error deleting
-the account (likely from the filesystem operations).</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the deletion was successful, NO otherwise.  Note: If no persisted account matching
-the user parameter is found, no action will be taken, and deletion will be reported as successful.</Abstract></ReturnValue>
-			<Anchor>//api/name/deleteAccountForUser:error:</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/clearAllAccountState</TokenIdentifier>
-			<Abstract type="html">Clear all the accounts state (but do not change anything on the disk).</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>- (void)clearAllAccountState</Declaration>
-			
-			
-			<Anchor>//api/name/clearAllAccountState</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/applyCredentials:</TokenIdentifier>
-			<Abstract type="html">Invoke this method to apply the specified credentials to the
-current user. If no user exists, a new one is created.
-This will post user update notification.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>- (void)applyCredentials:(SFOAuthCredentials *)credentials</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>credentials</Name>
-					<Abstract type="html">The credentials to apply</Abstract>
+					<Name>name</Name>
+					<Abstract type="html">The name of the HTTP header to set.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/applyCredentials:</Anchor>
+			<Anchor>//api/name/setHeaderValue:forHeaderName:</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/applyIdData:</TokenIdentifier>
-			<Abstract type="html">Invoke this method to apply the specified id data to the
-current user. This will post user update notification.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/cancel</TokenIdentifier>
+			<Abstract type="html">Cancels this request if it is running</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>- (void)applyIdData:(SFIdentityData *)idData</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>idData</Name>
-					<Abstract type="html">The ID data to apply</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (void)cancel</Declaration>
 			
-			<Anchor>//api/name/applyIdData:</Anchor>
+			
+			<Anchor>//api/name/cancel</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/applyIdDataCustomAttributes:</TokenIdentifier>
-			<Abstract type="html">This method will selectively update the custom attributes identity data for the current user.
-Other identity data will not be impacted.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/addPostFileData:paramName:fileName:mimeType:</TokenIdentifier>
+			<Abstract type="html">Add file to upload.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>- (void)applyIdDataCustomAttributes:(NSDictionary *)customAttributes</Declaration>
+			<Declaration>- (void)addPostFileData:(NSData *)fileData paramName:(NSString *)paramName fileName:(NSString *)fileName mimeType:(NSString *)mimeType</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>customAttributes</Name>
-					<Abstract type="html">The new custom attributes data to update in the identity data.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/applyIdDataCustomAttributes:</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/applyIdDataCustomPermissions:</TokenIdentifier>
-			<Abstract type="html">This method will selectively update the custom permissions identity data for the current user.
-Other identity data will not be impacted.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>- (void)applyIdDataCustomPermissions:(NSDictionary *)customPermissions</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>customPermissions</Name>
-					<Abstract type="html">The new custom permissions data to update in the identity data.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/applyIdDataCustomPermissions:</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setObjectForCurrentUserCustomData:forKey:</TokenIdentifier>
-			<Abstract type="html">Apply custom data to the SFUserAccount that can be
-accessed outside that user&apos;s sandbox. This data will be persisted
-between launches and should only be used for non-sensitive information.
-The NSDictionary should be NSCoder encodeable.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>- (void)setObjectForCurrentUserCustomData:(NSObject&lt;NSCoding&gt; *)object forKey:(NSString *)key</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>object</Name>
-					<Abstract type="html">The NScoding enabled object to set</Abstract>
+					<Name>fileData</Name>
+					<Abstract type="html">Value of this POST parameter</Abstract>
 				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The key to retrieve this data for</Abstract>
+					<Name>paramName</Name>
+					<Abstract type="html">Name of the POST parameter</Abstract>
+				</Parameter><Parameter>
+					<Name>fileName</Name>
+					<Abstract type="html">Name of the file</Abstract>
+				</Parameter><Parameter>
+					<Name>mimeType</Name>
+					<Abstract type="html">MIME type of the file</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/setObjectForCurrentUserCustomData:forKey:</Anchor>
+			<Anchor>//api/name/addPostFileData:paramName:fileName:mimeType:</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/switchToNewUser</TokenIdentifier>
-			<Abstract type="html">Switches away from the current user, to a new user context.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setCustomRequestBodyString:contentType:</TokenIdentifier>
+			<Abstract type="html">Sets a custom request body based on an NSString representation.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>- (void)switchToNewUser</Declaration>
-			
-			
-			<Anchor>//api/name/switchToNewUser</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/switchToUser:</TokenIdentifier>
-			<Abstract type="html">Switches away from the current user, to the given user account.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-			
-			<Declaration>- (void)switchToUser:(nullable SFUserAccount *)newCurrentUser</Declaration>
+			<Declaration>- (void)setCustomRequestBodyString:(NSString *)bodyString contentType:(NSString *)contentType</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>newCurrentUser</Name>
-					<Abstract type="html">The user to switch to.</Abstract>
+					<Name>bodyString</Name>
+					<Abstract type="html">The NSString object representing the request body.</Abstract>
+				</Parameter><Parameter>
+					<Name>contentType</Name>
+					<Abstract type="html">The content type associated with this request.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/switchToUser:</Anchor>
+			<Anchor>//api/name/setCustomRequestBodyString:contentType:</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/userChanged:</TokenIdentifier>
-			<Abstract type="html">Invoke this method to inform this manager
-that something has changed for the current user.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setCustomRequestBodyData:contentType:</TokenIdentifier>
+			<Abstract type="html">Sets a custom request body based on an NSData representation.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>- (void)userChanged:(SFUserAccountChange)change</Declaration>
+			<Declaration>- (void)setCustomRequestBodyData:(NSData *)bodyData contentType:(NSString *)contentType</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>change</Name>
-					<Abstract type="html">The type of change (enum type). Use SFUserAccountChangeUnknown
-if you don&apos;t know what kind of change was made to this object and this method
-will try to determine that.</Abstract>
+					<Name>bodyData</Name>
+					<Abstract type="html">The NSData object representing the request body.</Abstract>
+				</Parameter><Parameter>
+					<Name>contentType</Name>
+					<Abstract type="html">The content type associated with this request.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/userChanged:</Anchor>
+			<Anchor>//api/name/setCustomRequestBodyData:contentType:</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setDelegates:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setCustomRequestBodyStream:contentType:</TokenIdentifier>
+			<Abstract type="html">Sets a custom request body based on an NSInputStream representation.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nonnull) NSHashTable&lt;id&lt;SFUserAccountManagerDelegate&gt; &gt; *delegates</Declaration>
-			
-			
-			<Anchor>//api/name/delegates</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/delegates</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nonnull) NSHashTable&lt;id&lt;SFUserAccountManagerDelegate&gt; &gt; *delegates</Declaration>
-			
-			
-			<Anchor>//api/name/delegates</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/delegates</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nonnull) NSHashTable&lt;id&lt;SFUserAccountManagerDelegate&gt; &gt; *delegates</Declaration>
-			
-			
-			<Anchor>//api/name/delegates</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setAnonymousUserIdentity:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nonnull) SFUserAccountIdentity *anonymousUserIdentity</Declaration>
-			
-			
-			<Anchor>//api/name/anonymousUserIdentity</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/anonymousUserIdentity</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nonnull) SFUserAccountIdentity *anonymousUserIdentity</Declaration>
-			
-			
-			<Anchor>//api/name/anonymousUserIdentity</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/anonymousUserIdentity</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nonnull) SFUserAccountIdentity *anonymousUserIdentity</Declaration>
-			
-			
-			<Anchor>//api/name/anonymousUserIdentity</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setUserAccountMap:</TokenIdentifier>
-			<Abstract type="html">A map of user accounts by user ID</Abstract>
-			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nonnull) NSMutableDictionary *userAccountMap</Declaration>
-			
-			
-			<Anchor>//api/name/userAccountMap</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/userAccountMap</TokenIdentifier>
-			<Abstract type="html">A map of user accounts by user ID</Abstract>
-			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nonnull) NSMutableDictionary *userAccountMap</Declaration>
-			
-			
-			<Anchor>//api/name/userAccountMap</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/userAccountMap</TokenIdentifier>
-			<Abstract type="html">A map of user accounts by user ID</Abstract>
-			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nonnull) NSMutableDictionary *userAccountMap</Declaration>
-			
-			
-			<Anchor>//api/name/userAccountMap</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setLastChangedOrgId:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) NSString *lastChangedOrgId</Declaration>
-			
-			
-			<Anchor>//api/name/lastChangedOrgId</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/lastChangedOrgId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) NSString *lastChangedOrgId</Declaration>
-			
-			
-			<Anchor>//api/name/lastChangedOrgId</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/lastChangedOrgId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) NSString *lastChangedOrgId</Declaration>
-			
-			
-			<Anchor>//api/name/lastChangedOrgId</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setLastChangedUserId:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) NSString *lastChangedUserId</Declaration>
-			
-			
-			<Anchor>//api/name/lastChangedUserId</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/lastChangedUserId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) NSString *lastChangedUserId</Declaration>
-			
-			
-			<Anchor>//api/name/lastChangedUserId</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/lastChangedUserId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) NSString *lastChangedUserId</Declaration>
-			
-			
-			<Anchor>//api/name/lastChangedUserId</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setLastChangedCommunityId:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) NSString *lastChangedCommunityId</Declaration>
-			
-			
-			<Anchor>//api/name/lastChangedCommunityId</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/lastChangedCommunityId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) NSString *lastChangedCommunityId</Declaration>
-			
-			
-			<Anchor>//api/name/lastChangedCommunityId</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/lastChangedCommunityId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) NSString *lastChangedCommunityId</Declaration>
-			
-			
-			<Anchor>//api/name/lastChangedCommunityId</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFUserAccountManager/isUserAnonymous:</TokenIdentifier>
-			<Abstract type="html">Returns YES if the specified user is anonymous.
-Note: an anonymous user is a user that doesn&apos;t require
-credentials towards a server.</Abstract>
-			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
-			
-			<Declaration>+ (BOOL)isUserAnonymous:(nullable SFUserAccount *)user</Declaration>
-			
-			
-			<Anchor>//api/name/isUserAnonymous:</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/enumerateDelegates:</TokenIdentifier>
-			<Abstract type="html">Executes the given block for each configured delegate.</Abstract>
-			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)enumerateDelegates:(nullable void ( ^ ) ( id&lt;SFUserAccountManagerDelegate&gt; _Nonnull ))block</Declaration>
+			<Declaration>- (void)setCustomRequestBodyStream:(NSInputStream *( ^ ) ( void ))bodyStreamBlock contentType:(NSString *)contentType</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>block</Name>
-					<Abstract type="html">The block to execute for each delegate.</Abstract>
+					<Name>bodyStreamBlock</Name>
+					<Abstract type="html">The block that will return an NSInputStream object representing the request body.</Abstract>
+				</Parameter><Parameter>
+					<Name>contentType</Name>
+					<Abstract type="html">The content type associated with this request.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/enumerateDelegates:</Anchor>
+			<Anchor>//api/name/setCustomRequestBodyStream:contentType:</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/createUserAccountWithCredentials:</TokenIdentifier>
-			<Abstract type="html">Creates a user account staged with the given auth credentials.</Abstract>
-			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestRequest/isNetworkError:</TokenIdentifier>
+			<Abstract type="html">Indicates whether the error code of the given error specifies a network error.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>- (nonnull SFUserAccount *)createUserAccountWithCredentials:(nonnull SFOAuthCredentials *)credentials</Declaration>
+			<Declaration>+ (BOOL)isNetworkError:(NSError *)error</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>credentials</Name>
-					<Abstract type="html">The OAuth credentials to apply to the user account.</Abstract>
+					<Name>error</Name>
+					<Abstract type="html">The error object to check</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The new user account with the given credentials.</Abstract></ReturnValue>
-			<Anchor>//api/name/createUserAccountWithCredentials:</Anchor>
+			<ReturnValue><Abstract type="html">YES if the error code of the given error specifies a network error</Abstract></ReturnValue>
+			<Anchor>//api/name/isNetworkError:</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setupAnonymousUser:autocreateAnonymousUser:</TokenIdentifier>
-			<Abstract type="html">Setup the anonymous user according
-to the existing settings.
-Note: method exposed only to unit tests</Abstract>
-			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestRequest/sfRestMethodFromHTTPMethod:</TokenIdentifier>
+			<Abstract type="html">* Return SFRestMethod from string</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>- (void)setupAnonymousUser:(BOOL)supportsAnonymousUser autocreateAnonymousUser:(BOOL)autocreateAnonymousUser</Declaration>
-			
-			
-			<Anchor>//api/name/setupAnonymousUser:autocreateAnonymousUser:</Anchor>
+			<Declaration>+ (SFRestMethod)sfRestMethodFromHTTPMethod:(NSString *)httpMethod</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>httpMethod</Name>
+					<Abstract type="html">An HTTP method; for example, &quot;get&quot; or &quot;post&quot;</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The SFRestMethod enumerator for the given HTTP method</Abstract></ReturnValue>
+			<Anchor>//api/name/sfRestMethodFromHTTPMethod:</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/disableAnonymousAccount</TokenIdentifier>
-			<Abstract type="html">Delete and disable the anonymous user
-Note: method exposed only to unit tests</Abstract>
-			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestRequest/requestWithMethod:path:queryParams:</TokenIdentifier>
+			<Abstract type="html">Creates an SFRestRequest object. See SFRestMethod.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>- (void)disableAnonymousAccount</Declaration>
+			<Declaration>+ (instancetype)requestWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(nullable NSDictionary&lt;NSString*,NSString*&gt; *)queryParams</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>method</Name>
+					<Abstract type="html">the HTTP method</Abstract>
+				</Parameter><Parameter>
+					<Name>path</Name>
+					<Abstract type="html">the request path</Abstract>
+				</Parameter><Parameter>
+					<Name>queryParams</Name>
+					<Abstract type="html">the parameters of the request (could be nil)</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/requestWithMethod:path:queryParams:</Anchor>
+            <NodeRef refid="80"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setRequestBodyStreamBlock:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSInputStream *^ ) ( void ) requestBodyStreamBlock</Declaration>
 			
 			
-			<Anchor>//api/name/disableAnonymousAccount</Anchor>
+			<Anchor>//api/name/requestBodyStreamBlock</Anchor>
+            <NodeRef refid="80"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/requestBodyStreamBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSInputStream *^ ) ( void ) requestBodyStreamBlock</Declaration>
+			
+			
+			<Anchor>//api/name/requestBodyStreamBlock</Anchor>
+            <NodeRef refid="80"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/requestBodyStreamBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSInputStream *^ ) ( void ) requestBodyStreamBlock</Declaration>
+			
+			
+			<Anchor>//api/name/requestBodyStreamBlock</Anchor>
+            <NodeRef refid="80"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setRequestContentType:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *requestContentType</Declaration>
+			
+			
+			<Anchor>//api/name/requestContentType</Anchor>
+            <NodeRef refid="80"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/requestContentType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *requestContentType</Declaration>
+			
+			
+			<Anchor>//api/name/requestContentType</Anchor>
+            <NodeRef refid="80"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/requestContentType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *requestContentType</Declaration>
+			
+			
+			<Anchor>//api/name/requestContentType</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		

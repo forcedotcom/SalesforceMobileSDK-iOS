@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>CSFNetworkDelegate Protocol Reference</title>
+
+	<link rel="stylesheet" href="../css/style.css">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
+	<meta name="generator" content="appledoc 2.2.1 (build 1334)">
+</head>
+<body class="appledoc">
+	<header>
+		<div class="container" class="hide-in-xcode">
+			
+			<h1 id="library-title">
+				<a href="../index.html">SalesforceSDKCore </a>
+			</h1>
+
+			<p id="developer-home">
+				<a href="../index.html">Salesforce.com</a>
+			</p>
+			
+		</div>
+	</header>
+
+	<aside>
+		<div class="container">
+			<nav>
+				<ul id="header-buttons" role="toolbar">
+					<li><a href="../index.html">Index</a></li>
+<li><a href="../hierarchy.html">Hierarchy</a></li>
+
+					<li id="on-this-page" role="navigation">
+						<label>
+							On This Page
+
+							<div class="chevron">
+								<div class="chevy chevron-left"></div>
+								<div class="chevy chevron-right"></div>
+							</div>
+
+							<select id="jump-to">
+	<option value="top">Jump To&#133;</option>
+	
+
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+
+	
+	
+
+	
+
+	
+	<optgroup label="Instance Methods">
+		
+		<option value="//api/name/network:didCancelAction:">- network:didCancelAction:</option>
+		
+		<option value="//api/name/network:didCompleteAction:withError:">- network:didCompleteAction:withError:</option>
+		
+		<option value="//api/name/network:didStartAction:">- network:didStartAction:</option>
+		
+		<option value="//api/name/network:sessionTask:changedState:toState:forAction:">- network:sessionTask:changedState:toState:forAction:</option>
+		
+		<option value="//api/name/network:willEnqueueAction:">- network:willEnqueueAction:</option>
+		
+	</optgroup>
+	
+	
+</select>
+						</label>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</aside>
+
+	<article>
+		<div id="overview_contents" class="container">
+			<div id="content">
+				<main role="main">
+					<h1 class="title">CSFNetworkDelegate Protocol Reference</h1>
+
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<th>Conforms to</th>
+	<td>NSObject</td>
+</tr><tr>
+	<th>Declared in</th>
+	<td>CSFNetwork.h</td>
+</tr>
+						</tbody></table></div>
+					
+
+                    
+
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						
+
+						
+						
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/network:willEnqueueAction:" title="network:willEnqueueAction:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/network:willEnqueueAction:">&ndash;&nbsp;network:willEnqueueAction:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Called when an action is about to get enqueued.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)network:(CSFNetwork *)<em>network</em> willEnqueueAction:(CSFAction *)<em>action</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>@discussion
+This method is called synchronously, giving the delegates a chance to inspect the action before <a href="../Classes/CSFNetwork.html">CSFNetwork</a> acts on it.
+Perform as little work as possible on this callback to avoid performance degradation.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">CSFNetwork.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/network:didStartAction:" title="network:didStartAction:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/network:didStartAction:">&ndash;&nbsp;network:didStartAction:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>These methods inform delegates asynchronously about state of actions.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)network:(CSFNetwork *)<em>network</em> didStartAction:(CSFAction *)<em>action</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">CSFNetwork.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/network:didCancelAction:" title="network:didCancelAction:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/network:didCancelAction:">&ndash;&nbsp;network:didCancelAction:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)network:(CSFNetwork *)<em>network</em> didCancelAction:(CSFAction *)<em>action</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/network:didCompleteAction:withError:" title="network:didCompleteAction:withError:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/network:didCompleteAction:withError:">&ndash;&nbsp;network:didCompleteAction:withError:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)network:(CSFNetwork *)<em>network</em> didCompleteAction:(CSFAction *)<em>action</em> withError:(NSError *)<em>error</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/network:sessionTask:changedState:toState:forAction:" title="network:sessionTask:changedState:toState:forAction:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/network:sessionTask:changedState:toState:forAction:">&ndash;&nbsp;network:sessionTask:changedState:toState:forAction:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Inform delegates asynchronously about states of tasks for an action</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)network:(CSFNetwork *)<em>network</em> sessionTask:(NSURLSessionTask *)<em>task</em> changedState:(NSURLSessionTaskState)<em>oldState</em> toState:(NSURLSessionTaskState)<em>newState</em> forAction:(CSFAction *)<em>action</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>@discussion
+This method enables monitoring states of particular tasks that an action might trigger.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">CSFNetwork.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+					</div>
+					
+					
+
+                    
+                    
+          
+				</main>
+
+				<footer>
+					<div class="footer-copyright">
+						
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-12-12</p>
+						
+						
+						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>
+						
+					</div>
+				</footer>
+			</div>
+		</div>
+	</article>
+
+	<script src="../js/script.js"></script>
+</body>
+</html>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/ForcetkTestSuite.html">
+	<File path="Classes/ForceJSTestSuite.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/ForcetkTestSuite</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/ForceJSTestSuite</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>ForcetkTestSuite.h</DeclaredIn>
+			<DeclaredIn>ForceJSTestSuite.h</DeclaredIn>
             
 			
 			<NodeRef refid="2"/>

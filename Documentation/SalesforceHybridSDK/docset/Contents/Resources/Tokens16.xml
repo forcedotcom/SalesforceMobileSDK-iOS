@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFWKWebViewDelegate.html">
+	<File path="Classes/SFTestRunnerPlugin.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFWKWebViewDelegate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFTestRunnerPlugin</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFWKWebViewDelegate.h</DeclaredIn>
+			<DeclaredIn>SFTestRunnerPlugin.h</DeclaredIn>
             
 			
 			<NodeRef refid="16"/>
@@ -13,26 +13,110 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFWKWebViewDelegate/initWithDelegate:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFTestRunnerPlugin/setTestResults:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFWKWebViewDelegate.h</DeclaredIn>
+			<DeclaredIn>SFTestRunnerPlugin.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithDelegate:(NSObject&lt;WKNavigationDelegate&gt; *)delegate</Declaration>
+			<Declaration>@property (atomic, readonly, strong) NSMutableDictionary *testResults</Declaration>
 			
 			
-			<Anchor>//api/name/initWithDelegate:</Anchor>
+			<Anchor>//api/name/testResults</Anchor>
             <NodeRef refid="16"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFWKWebViewDelegate/request:isEqualToRequestAfterStrippingFragments:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFTestRunnerPlugin/testResults</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFWKWebViewDelegate.h</DeclaredIn>
+			<DeclaredIn>SFTestRunnerPlugin.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)request:(NSURLRequest *)newRequest isEqualToRequestAfterStrippingFragments:(NSURLRequest *)originalRequest</Declaration>
+			<Declaration>@property (atomic, readonly, strong) NSMutableDictionary *testResults</Declaration>
 			
 			
-			<Anchor>//api/name/request:isEqualToRequestAfterStrippingFragments:</Anchor>
+			<Anchor>//api/name/testResults</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFTestRunnerPlugin/testResults</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFTestRunnerPlugin.h</DeclaredIn>
+			
+			<Declaration>@property (atomic, readonly, strong) NSMutableDictionary *testResults</Declaration>
+			
+			
+			<Anchor>//api/name/testResults</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFTestRunnerPlugin/setReadyToStartTests:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFTestRunnerPlugin.h</DeclaredIn>
+			
+			<Declaration>@property (atomic, assign) BOOL readyToStartTests</Declaration>
+			
+			
+			<Anchor>//api/name/readyToStartTests</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFTestRunnerPlugin/readyToStartTests</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFTestRunnerPlugin.h</DeclaredIn>
+			
+			<Declaration>@property (atomic, assign) BOOL readyToStartTests</Declaration>
+			
+			
+			<Anchor>//api/name/readyToStartTests</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFTestRunnerPlugin/readyToStartTests</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFTestRunnerPlugin.h</DeclaredIn>
+			
+			<Declaration>@property (atomic, assign) BOOL readyToStartTests</Declaration>
+			
+			
+			<Anchor>//api/name/readyToStartTests</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFTestRunnerPlugin/onReadyForTests:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFTestRunnerPlugin.h</DeclaredIn>
+			
+			<Declaration>- (void)onReadyForTests:(CDVInvokedUrlCommand *)command</Declaration>
+			
+			
+			<Anchor>//api/name/onReadyForTests:</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFTestRunnerPlugin/onTestComplete:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFTestRunnerPlugin.h</DeclaredIn>
+			
+			<Declaration>- (void)onTestComplete:(CDVInvokedUrlCommand *)command</Declaration>
+			
+			
+			<Anchor>//api/name/onTestComplete:</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFTestRunnerPlugin/testResultAvailable:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFTestRunnerPlugin.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)testResultAvailable:(NSString *)testName</Declaration>
+			
+			
+			<Anchor>//api/name/testResultAvailable:</Anchor>
             <NodeRef refid="16"/>
 		</Token>
 		

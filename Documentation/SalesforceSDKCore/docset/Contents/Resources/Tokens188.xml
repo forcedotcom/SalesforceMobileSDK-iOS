@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Constants/SFCryptoOperation.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/c/tdef/SFCryptoOperation</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
+            
+			
+			<NodeRef refid="188"/>
+		</Token>
+		
+		
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFCryptoOperationEncrypt</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFCryptoOperationEncrypt</Declaration>
+            
+            <DeclaredIn>SFCrypto.h</DeclaredIn>
+            
+            <NodeRef refid="188"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFCryptoOperationDecrypt</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFCryptoOperationDecrypt</Declaration>
+            
+            <DeclaredIn>SFCrypto.h</DeclaredIn>
+            
+            <NodeRef refid="188"/>
+        </Token>
+        
+        
+	</File>
+</Tokens>

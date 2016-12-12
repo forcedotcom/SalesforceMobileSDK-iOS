@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFLogTag.html">
+	<File path="Classes/SFDecryptStream.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFLogTag</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFDecryptStream</TokenIdentifier>
+			<Abstract type="html">SFDecryptStream is an input stream that decrypts data right after it is read.
+SFCryptChunks is used to perform the decryption.</Abstract>
+			<DeclaredIn>SFDecryptStream.h</DeclaredIn>
             
 			
 			<NodeRef refid="35"/>
@@ -13,86 +14,22 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogTag/setSelector:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFDecryptStream/setupWithKey:andInitializationVector:</TokenIdentifier>
+			<Abstract type="html">Setup for decryption. You must call this method before using the stream.</Abstract>
+			<DeclaredIn>SFDecryptStream.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) SEL selector</Declaration>
+			<Declaration>- (void)setupWithKey:(NSData *)key andInitializationVector:(nullable NSData *)iv</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>key</Name>
+					<Abstract type="html">the cipher key.</Abstract>
+				</Parameter><Parameter>
+					<Name>iv</Name>
+					<Abstract type="html">the initialization vector, must be size of SFCryptChunksCipherBlockSize.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/selector</Anchor>
-            <NodeRef refid="35"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogTag/selector</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) SEL selector</Declaration>
-			
-			
-			<Anchor>//api/name/selector</Anchor>
-            <NodeRef refid="35"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLogTag/selector</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) SEL selector</Declaration>
-			
-			
-			<Anchor>//api/name/selector</Anchor>
-            <NodeRef refid="35"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogTag/setOriginClass:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) Class originClass</Declaration>
-			
-			
-			<Anchor>//api/name/originClass</Anchor>
-            <NodeRef refid="35"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogTag/originClass</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) Class originClass</Declaration>
-			
-			
-			<Anchor>//api/name/originClass</Anchor>
-            <NodeRef refid="35"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLogTag/originClass</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) Class originClass</Declaration>
-			
-			
-			<Anchor>//api/name/originClass</Anchor>
-            <NodeRef refid="35"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogTag/initWithClass:selector:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithClass:(Class)originClass selector:(SEL)selector</Declaration>
-			
-			
-			<Anchor>//api/name/initWithClass:selector:</Anchor>
+			<Anchor>//api/name/setupWithKey:andInitializationVector:</Anchor>
             <NodeRef refid="35"/>
 		</Token>
 		

@@ -1,16 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSmartStoreLoadTests.html">
+	<File path="Classes/SFSmartStoreInspectorViewController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSmartStoreLoadTests</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreLoadTests.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSmartStoreInspectorViewController</TokenIdentifier>
+			<Abstract type="html">The view controller for managing the SmartStore inspector screen.</Abstract>
+			<DeclaredIn>SFSmartStoreInspectorViewController.h</DeclaredIn>
             
 			
 			<NodeRef refid="15"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreInspectorViewController/initWithStore:</TokenIdentifier>
+			<Abstract type="html">Constructor.</Abstract>
+			<DeclaredIn>SFSmartStoreInspectorViewController.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithStore:(SFSmartStore *)store</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>store</Name>
+					<Abstract type="html">The SmartStore database to be inspected</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/initWithStore:</Anchor>
+            <NodeRef refid="15"/>
+		</Token>
 		
         
         

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFCryptChunksDelegate.html">
+	<File path="Classes/SFUserAccountManagerUpgrade.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFCryptChunksDelegate</TokenIdentifier>
-			<Abstract type="html">SFCryptChunksDelegate</Abstract>
-			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFUserAccountManagerUpgrade</TokenIdentifier>
+			<Abstract type="html">Class for updating legacy accounts and active users to current standards.</Abstract>
+			<DeclaredIn>SFUserAccountManagerUpgrade.h</DeclaredIn>
             
 			
 			<NodeRef refid="108"/>
@@ -13,26 +13,33 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFCryptChunksDelegate/cryptChunk:chunkResult:bufferLen:</TokenIdentifier>
-			<Abstract type="html">Encrypted / Decrypted chunk results.
-This method may be invoked none to multiple times - until all result is informed to delegate.</Abstract>
-			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFUserAccountManagerUpgrade/createUserFromLegacyAccountData</TokenIdentifier>
+			<Abstract type="html">If legacy account data exists, create a user account from that data, and then remove
+the legacy data.</Abstract>
+			<DeclaredIn>SFUserAccountManagerUpgrade.h</DeclaredIn>
 			
-			<Declaration>- (void)cryptChunk:(SFCryptChunks *)cryptChunks chunkResult:(uint8_t *)buffer bufferLen:(size_t)len</Declaration>
+			<Declaration>+ (SFUserAccount *)createUserFromLegacyAccountData</Declaration>
+			
+			<ReturnValue><Abstract type="html">An SFUserAccount object based on the legacy data, or nil if there is no legacy
+account data.</Abstract></ReturnValue>
+			<Anchor>//api/name/createUserFromLegacyAccountData</Anchor>
+            <NodeRef refid="108"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFUserAccountManagerUpgrade/updateToActiveUserIdentity:</TokenIdentifier>
+			<Abstract type="html">If legacy active user data exists, update it to the user identity data model.</Abstract>
+			<DeclaredIn>SFUserAccountManagerUpgrade.h</DeclaredIn>
+			
+			<Declaration>+ (void)updateToActiveUserIdentity:(SFUserAccountManager *)accountManager</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>cryptChunks</Name>
-					<Abstract type="html">the instance sending this message.</Abstract>
-				</Parameter><Parameter>
-					<Name>buffer</Name>
-					<Abstract type="html">the chunk results buffer.</Abstract>
-				</Parameter><Parameter>
-					<Name>len</Name>
-					<Abstract type="html">the chunk results buffer length.</Abstract>
+					<Name>accountManager</Name>
+					<Abstract type="html">The user account manager to query user data.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/cryptChunk:chunkResult:bufferLen:</Anchor>
+			<Anchor>//api/name/updateToActiveUserIdentity:</Anchor>
             <NodeRef refid="108"/>
 		</Token>
 		

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSmartSyncMetadataManager.html">
+	<File path="Classes/SFSmartSyncCacheManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSmartSyncMetadataManager</TokenIdentifier>
-			<Abstract type="html">This class defines APIs required to interact with metadata.</Abstract>
-			<DeclaredIn>SFSmartSyncMetadataManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSmartSyncCacheManager</TokenIdentifier>
+			<Abstract type="html">This class acts as a simple cache to store and retrieve data.</Abstract>
+			<DeclaredIn>SFSmartSyncCacheManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="7"/>
@@ -13,129 +13,9 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncMetadataManager/setCommunityId:</TokenIdentifier>
-			<Abstract type="html">Community ID to use.
-Specify nil for the internal community (aka org)
-or when no communities are configured for the current org.
-This property is used internally to scope all the search
-queries toward the server.</Abstract>
-			<DeclaredIn>SFSmartSyncMetadataManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *communityId</Declaration>
-			
-			
-			<Anchor>//api/name/communityId</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncMetadataManager/communityId</TokenIdentifier>
-			<Abstract type="html">Community ID to use.
-Specify nil for the internal community (aka org)
-or when no communities are configured for the current org.
-This property is used internally to scope all the search
-queries toward the server.</Abstract>
-			<DeclaredIn>SFSmartSyncMetadataManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *communityId</Declaration>
-			
-			
-			<Anchor>//api/name/communityId</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSmartSyncMetadataManager/communityId</TokenIdentifier>
-			<Abstract type="html">Community ID to use.
-Specify nil for the internal community (aka org)
-or when no communities are configured for the current org.
-This property is used internally to scope all the search
-queries toward the server.</Abstract>
-			<DeclaredIn>SFSmartSyncMetadataManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *communityId</Declaration>
-			
-			
-			<Anchor>//api/name/communityId</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncMetadataManager/setApiVersion:</TokenIdentifier>
-			<Abstract type="html">API version being used.</Abstract>
-			<DeclaredIn>SFSmartSyncMetadataManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *apiVersion</Declaration>
-			
-			
-			<Anchor>//api/name/apiVersion</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncMetadataManager/apiVersion</TokenIdentifier>
-			<Abstract type="html">API version being used.</Abstract>
-			<DeclaredIn>SFSmartSyncMetadataManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *apiVersion</Declaration>
-			
-			
-			<Anchor>//api/name/apiVersion</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSmartSyncMetadataManager/apiVersion</TokenIdentifier>
-			<Abstract type="html">API version being used.</Abstract>
-			<DeclaredIn>SFSmartSyncMetadataManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *apiVersion</Declaration>
-			
-			
-			<Anchor>//api/name/apiVersion</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncMetadataManager/setCacheManager:</TokenIdentifier>
-			<Abstract type="html">Cache manager being used.</Abstract>
-			<DeclaredIn>SFSmartSyncMetadataManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) SFSmartSyncCacheManager *cacheManager</Declaration>
-			
-			
-			<Anchor>//api/name/cacheManager</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncMetadataManager/cacheManager</TokenIdentifier>
-			<Abstract type="html">Cache manager being used.</Abstract>
-			<DeclaredIn>SFSmartSyncMetadataManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) SFSmartSyncCacheManager *cacheManager</Declaration>
-			
-			
-			<Anchor>//api/name/cacheManager</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSmartSyncMetadataManager/cacheManager</TokenIdentifier>
-			<Abstract type="html">Cache manager being used.</Abstract>
-			<DeclaredIn>SFSmartSyncMetadataManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) SFSmartSyncCacheManager *cacheManager</Declaration>
-			
-			
-			<Anchor>//api/name/cacheManager</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncMetadataManager/sharedInstance:</TokenIdentifier>
-			<Abstract type="html">Singleton method for accessing metadata manager instance.</Abstract>
-			<DeclaredIn>SFSmartSyncMetadataManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncCacheManager/sharedInstance:</TokenIdentifier>
+			<Abstract type="html">Singleton method for accessing cache manager instance.</Abstract>
+			<DeclaredIn>SFSmartSyncCacheManager.h</DeclaredIn>
 			
 			<Declaration>+ (id)sharedInstance:(SFUserAccount *)user</Declaration>
 			<Parameters>
@@ -150,9 +30,9 @@ queries toward the server.</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncMetadataManager/removeSharedInstance:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncCacheManager/removeSharedInstance:</TokenIdentifier>
 			<Abstract type="html">Removes the shared instance associated with the specified user</Abstract>
-			<DeclaredIn>SFSmartSyncMetadataManager.h</DeclaredIn>
+			<DeclaredIn>SFSmartSyncCacheManager.h</DeclaredIn>
 			
 			<Declaration>+ (void)removeSharedInstance:(SFUserAccount *)user</Declaration>
 			<Parameters>
@@ -167,225 +47,126 @@ queries toward the server.</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncMetadataManager/globalMruCacheKey</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSyncMetadataManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncCacheManager/setEnableInMemoryCache:</TokenIdentifier>
+			<Abstract type="html">Enable in memory cache. Default value is YES
+@enableInMemoryCache YES to enable in memory cache</Abstract>
+			<DeclaredIn>SFSmartSyncCacheManager.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)globalMruCacheKey</Declaration>
+			<Declaration>- (void)setEnableInMemoryCache:(BOOL)enableInMemoryCache</Declaration>
 			
 			
-			<Anchor>//api/name/globalMruCacheKey</Anchor>
+			<Anchor>//api/name/setEnableInMemoryCache:</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncMetadataManager/loadSmartScopeObjectTypes:refreshCacheIfOlderThan:completionBlock:error:</TokenIdentifier>
-			<Abstract type="html">Get a list of smart scope object types</Abstract>
-			<DeclaredIn>SFSmartSyncMetadataManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncCacheManager/cleanCache</TokenIdentifier>
+			<Abstract type="html">Clean cache</Abstract>
+			<DeclaredIn>SFSmartSyncCacheManager.h</DeclaredIn>
 			
-			<Declaration>- (void)loadSmartScopeObjectTypes:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan completionBlock:(void ( ^ ) ( NSArray *results , BOOL isDataFromCache ))completionBlock error:(void ( ^ ) ( NSError *error ))errorBlock</Declaration>
+			<Declaration>- (void)cleanCache</Declaration>
+			
+			
+			<Anchor>//api/name/cleanCache</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncCacheManager/removeCache:cacheKey:</TokenIdentifier>
+			<Abstract type="html">Remove data from cache</Abstract>
+			<DeclaredIn>SFSmartSyncCacheManager.h</DeclaredIn>
+			
+			<Declaration>- (void)removeCache:(NSString *)cacheType cacheKey:(NSString *)cacheKey</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>cachePolicy</Name>
-					<Abstract type="html">SFDataCachePolicy used to decide whether to read data from cache first and if data reload from server is needed when data is found in cache</Abstract>
+					<Name>cacheType</Name>
+					<Abstract type="html">Cache type</Abstract>
 				</Parameter><Parameter>
-					<Name>refreshCacheIfOlderThan</Name>
-					<Abstract type="html">Number of secconds that has to pass in order to refresh cache. Pass any value that is &lt;=0 if you don&apos;t want cache to be refrefreshed. This value is used together with cachePolicy</Abstract>
-				</Parameter><Parameter>
-					<Name>completionBlock</Name>
-					<Abstract type="html">Block to invoke after list of object types is returned</Abstract>
-				</Parameter><Parameter>
-					<Name>errorBlock</Name>
-					<Abstract type="html">Block to invoke if failed to load object types</Abstract>
+					<Name>cacheKey</Name>
+					<Abstract type="html">Key to use to retrieve cached data</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/loadSmartScopeObjectTypes:refreshCacheIfOlderThan:completionBlock:error:</Anchor>
+			<Anchor>//api/name/removeCache:cacheKey:</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncMetadataManager/loadMRUObjects:limit:cachePolicy:refreshCacheIfOlderThan:networkFieldName:inRetry:completion:error:</TokenIdentifier>
-			<Abstract type="html">Get a list of recently accessed objects by object type</Abstract>
-			<DeclaredIn>SFSmartSyncMetadataManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncCacheManager/needToReloadCache:cachePolicy:lastCachedTime:refreshIfOlderThan:</TokenIdentifier>
+			<Abstract type="html">Reurn YES if need to reload cache.
+Before calling this method, user should use [SFSmartSyncCacheManager readDataWithCacheType:cacheKey:cachePolicy:encrypted:cachedTime] to find out whether cache exists or not and what is the last time cache is updated</Abstract>
+			<DeclaredIn>SFSmartSyncCacheManager.h</DeclaredIn>
 			
-			<Declaration>- (void)loadMRUObjects:(NSString *)objectTypeName limit:(NSInteger)limit cachePolicy:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan networkFieldName:(NSString *)networkFieldName inRetry:(BOOL)inRetry completion:(void ( ^ ) ( NSArray *results , BOOL isDataFromCache , BOOL needToReloadCache ))completionBlock error:(void ( ^ ) ( NSError *error ))errorBlock</Declaration>
+			<Declaration>- (BOOL)needToReloadCache:(BOOL)cacheExists cachePolicy:(SFDataCachePolicy)cachePolicy lastCachedTime:(NSDate *)cacheTime refreshIfOlderThan:(NSTimeInterval)refreshIfOlderThan</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>objectTypeName</Name>
-					<Abstract type="html">Object type name to get recently accessed objects. If nil, this method will return a list of recently accessed objecs across all object types</Abstract>
-				</Parameter><Parameter>
-					<Name>limit</Name>
-					<Abstract type="html">Fetch limit of objects. Set to &lt;=0 to specify no limit</Abstract>
-				</Parameter><Parameter>
-					<Name>cachePolicy</Name>
-					<Abstract type="html">SFDataCachePolicy used to decide whether to read data from cache first and if data reload from server is needed when data is found in cache</Abstract>
-				</Parameter><Parameter>
-					<Name>refreshCacheIfOlderThan</Name>
-					<Abstract type="html">Number of secconds that has to pass in order to refresh cache. Pass -1 if you don&apos;t want cache to be refrefreshed. This value is used together with cachePolicy</Abstract>
-				</Parameter><Parameter>
-					<Name>networkFieldName</Name>
-					<Abstract type="html">Network field name</Abstract>
-				</Parameter><Parameter>
-					<Name>inRetry</Name>
-					<Abstract type="html">Is retrying</Abstract>
-				</Parameter><Parameter>
-					<Name>completionBlock</Name>
-					<Abstract type="html">Block to invoke after recently access objects are loaded</Abstract>
-				</Parameter><Parameter>
-					<Name>errorBlock</Name>
-					<Abstract type="html">Block to invoke if failed to load objects</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/loadMRUObjects:limit:cachePolicy:refreshCacheIfOlderThan:networkFieldName:inRetry:completion:error:</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncMetadataManager/loadAllObjectTypes:refreshCacheIfOlderThan:completion:error:</TokenIdentifier>
-			<Abstract type="html">Load all object types</Abstract>
-			<DeclaredIn>SFSmartSyncMetadataManager.h</DeclaredIn>
-			
-			<Declaration>- (void)loadAllObjectTypes:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan completion:(void ( ^ ) ( NSArray *results , BOOL isDataFromCache ))completionBlock error:(void ( ^ ) ( NSError *error ))errorBlock</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>cachePolicy</Name>
-					<Abstract type="html">SFDataCachePolicy used to decide whether to read data from cache first and if data reload from server is needed when data is found in cache</Abstract>
-				</Parameter><Parameter>
-					<Name>refreshCacheIfOlderThan</Name>
-					<Abstract type="html">Number of secconds that has to pass in order to refresh cache. Pass -1 if you don&apos;t want cache to be refrefreshed. This value is used together with cachePolicy</Abstract>
-				</Parameter><Parameter>
-					<Name>completionBlock</Name>
-					<Abstract type="html">Block to invoke after all objects are returned. Input parameter for this completionBlock will include a list of SFMetadataModel objects</Abstract>
-				</Parameter><Parameter>
-					<Name>errorBlock</Name>
-					<Abstract type="html">Block to invoke if failed to load objects list</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/loadAllObjectTypes:refreshCacheIfOlderThan:completion:error:</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncMetadataManager/loadObjectType:cachePolicy:refreshCacheIfOlderThan:completion:error:</TokenIdentifier>
-			<Abstract type="html">Load a specific object type information</Abstract>
-			<DeclaredIn>SFSmartSyncMetadataManager.h</DeclaredIn>
-			
-			<Declaration>- (void)loadObjectType:(NSString *)objectTypeName cachePolicy:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan completion:(void ( ^ ) ( SFObjectType *result , BOOL isDataFromCache ))completionBlock error:(void ( ^ ) ( NSError *error ))errorBlock</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>objectTypeName</Name>
-					<Abstract type="html">Object type name</Abstract>
+					<Name>cacheExists</Name>
+					<Abstract type="html">YES if cache already exists.</Abstract>
 				</Parameter><Parameter>
 					<Name>cachePolicy</Name>
-					<Abstract type="html">SFDataCachePolicy used to decide whether to read data from cache first and if data reload from server is needed when data is found in cache</Abstract>
+					<Abstract type="html">SFDataCachePolicy used to decide</Abstract>
 				</Parameter><Parameter>
-					<Name>refreshCacheIfOlderThan</Name>
-					<Abstract type="html">Number of secconds that has to pass in order to refresh cache. Pass -1 if you don&apos;t want cache to be refrefreshed. This value is used together with cachePolicy</Abstract>
+					<Name>cacheTime</Name>
+					<Abstract type="html">Last time cache is updated</Abstract>
 				</Parameter><Parameter>
-					<Name>completionBlock</Name>
-					<Abstract type="html">Block to invoke after object type info is loaded</Abstract>
-				</Parameter><Parameter>
-					<Name>errorBlock</Name>
-					<Abstract type="html">Block to invoke if loading metadata failed</Abstract>
+					<Name>refreshIfOlderThan</Name>
+					<Abstract type="html">Number of secconds that has to pass in order to refresh cache. Pass any value that is &lt;=0 if you don&apos;t want cache to be refrefreshed. This value is used together with cachePolicy to determine if cache needs reload or not</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/loadObjectType:cachePolicy:refreshCacheIfOlderThan:completion:error:</Anchor>
+			<Anchor>//api/name/needToReloadCache:cachePolicy:lastCachedTime:refreshIfOlderThan:</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncMetadataManager/loadObjectTypesLayout:cachePolicy:refreshCacheIfOlderThan:completion:error:</TokenIdentifier>
-			<Abstract type="html">Load object layout information</Abstract>
-			<DeclaredIn>SFSmartSyncMetadataManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncCacheManager/readDataWithCacheType:cacheKey:cachePolicy:objectClass:cachedTime:</TokenIdentifier>
+			<Abstract type="html">Read data from cache.</Abstract>
+			<DeclaredIn>SFSmartSyncCacheManager.h</DeclaredIn>
 			
-			<Declaration>- (void)loadObjectTypesLayout:(NSArray *)objectTypesToLoad cachePolicy:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan completion:(void ( ^ ) ( NSArray *result , BOOL isDataFromCache ))completionBlock error:(void ( ^ ) ( NSError *error ))errorBlock</Declaration>
+			<Declaration>- (NSArray *)readDataWithCacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey cachePolicy:(SFDataCachePolicy)cachePolicy objectClass:(Class)objectClass cachedTime:(out NSDate **)lastCachedTime</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>objectTypesToLoad</Name>
-					<Abstract type="html">Array of SFObjectTypeModel objects to load layout for</Abstract>
+					<Name>cacheType</Name>
+					<Abstract type="html">Cache type</Abstract>
+				</Parameter><Parameter>
+					<Name>cacheKey</Name>
+					<Abstract type="html">Key to use to retrieve cached data</Abstract>
 				</Parameter><Parameter>
 					<Name>cachePolicy</Name>
-					<Abstract type="html">SFDataCachePolicy used to decide whether to read data from cache first and if data reload from server is needed when data is found in cache</Abstract>
+					<Abstract type="html">See SFDataCachePolicy</Abstract>
 				</Parameter><Parameter>
-					<Name>refreshCacheIfOlderThan</Name>
-					<Abstract type="html">Number of secconds that has to pass in order to refresh cache. Pass -1 if you don&apos;t want cache to be refrefreshed. This value is used together with cachePolicy</Abstract>
+					<Name>objectClass</Name>
+					<Abstract type="html">Object class to expect</Abstract>
 				</Parameter><Parameter>
-					<Name>completionBlock</Name>
-					<Abstract type="html">Block to invoke after object type info is loaded</Abstract>
-				</Parameter><Parameter>
-					<Name>errorBlock</Name>
-					<Abstract type="html">Block to invoke if loading metadata failed</Abstract>
+					<Name>lastCachedTime</Name>
+					<Abstract type="html">Return time the data was last updated in cache</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/loadObjectTypesLayout:cachePolicy:refreshCacheIfOlderThan:completion:error:</Anchor>
+			<Anchor>//api/name/readDataWithCacheType:cacheKey:cachePolicy:objectClass:cachedTime:</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncMetadataManager/colorForObjectType:</TokenIdentifier>
-			<Abstract type="html">Color for the specific object type</Abstract>
-			<DeclaredIn>SFSmartSyncMetadataManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncCacheManager/writeDataToCache:cacheType:cacheKey:</TokenIdentifier>
+			<Abstract type="html">Write data to cache.</Abstract>
+			<DeclaredIn>SFSmartSyncCacheManager.h</DeclaredIn>
 			
-			<Declaration>- (UIColor *)colorForObjectType:(NSString *)objectTypeName</Declaration>
+			<Declaration>- (void)writeDataToCache:(id)data cacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>objectTypeName</Name>
-					<Abstract type="html">Object type name</Abstract>
+					<Name>data</Name>
+					<Abstract type="html">Data to cache</Abstract>
+				</Parameter><Parameter>
+					<Name>cacheType</Name>
+					<Abstract type="html">Cache type</Abstract>
+				</Parameter><Parameter>
+					<Name>cacheKey</Name>
+					<Abstract type="html">Key to save cached data</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/colorForObjectType:</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncMetadataManager/isObjectTypeSearchable:</TokenIdentifier>
-			<Abstract type="html">Return YES if object type is searchable</Abstract>
-			<DeclaredIn>SFSmartSyncMetadataManager.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isObjectTypeSearchable:(SFObjectType *)objectType</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>objectType</Name>
-					<Abstract type="html">Object type</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/isObjectTypeSearchable:</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncMetadataManager/markObjectAsViewed:objectType:networkFieldName:completionBlock:error:</TokenIdentifier>
-			<Abstract type="html">Mark an object as viewed</Abstract>
-			<DeclaredIn>SFSmartSyncMetadataManager.h</DeclaredIn>
-			
-			<Declaration>- (void)markObjectAsViewed:(NSString *)objectId objectType:(NSString *)objectType networkFieldName:(NSString *)networkFieldName completionBlock:(void ( ^ ) ( ))completionBlock error:(void ( ^ ) ( NSError *error ))errorBlock</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>objectId</Name>
-					<Abstract type="html">Object ID</Abstract>
-				</Parameter><Parameter>
-					<Name>objectType</Name>
-					<Abstract type="html">Object type</Abstract>
-				</Parameter><Parameter>
-					<Name>networkFieldName</Name>
-					<Abstract type="html">Network field name</Abstract>
-				</Parameter><Parameter>
-					<Name>completionBlock</Name>
-					<Abstract type="html">Block to invoke after object is marked viewed</Abstract>
-				</Parameter><Parameter>
-					<Name>errorBlock</Name>
-					<Abstract type="html">Block to invoke if marking viewed failed</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/markObjectAsViewed:objectType:networkFieldName:completionBlock:error:</Anchor>
+			<Anchor>//api/name/writeDataToCache:cacheType:cacheKey:</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		

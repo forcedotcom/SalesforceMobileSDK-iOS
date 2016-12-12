@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFApplicationHelper.html">
+	<File path="Classes/CSFInput.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFApplicationHelper</TokenIdentifier>
-			<Abstract type="html">This class is abstracting the UIApplication class
-and making it possible to use it when compiling for
-application extension such as with watchOS which
-doesn&apos;t have such a class.</Abstract>
-			<DeclaredIn>SFApplicationHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/CSFInput</TokenIdentifier>
+			<Abstract type="html">Instances of this class can be used as the input model for complex POST or PATCH network requests.</Abstract>
+			<DeclaredIn>CSFInput.h</DeclaredIn>
             
 			
 			<NodeRef refid="6"/>
@@ -16,32 +13,132 @@ doesn&apos;t have such a class.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFApplicationHelper/sharedApplication</TokenIdentifier>
-			<Abstract type="html">Returns the shared application or nil
-on platform that doesn&apos;t have one (such as extension).</Abstract>
-			<DeclaredIn>SFApplicationHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFInput/isEqualToInput:</TokenIdentifier>
+			<Abstract type="html">Returns a boolean value that indicates whether a given model object is equal to the receiver.</Abstract>
+			<DeclaredIn>CSFInput.h</DeclaredIn>
 			
-			<Declaration>+ (UIApplication *)sharedApplication</Declaration>
-			
-			<ReturnValue><Abstract type="html">The shared application object.</Abstract></ReturnValue>
-			<Anchor>//api/name/sharedApplication</Anchor>
+			<Declaration>- (BOOL)isEqualToInput:(CSFInput *)model</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>model</Name>
+					<Abstract type="html">The model object to compare to the receiver.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if model is equal to the receiver (if the properties of this and its child objects match), otherwise NO.</Abstract></ReturnValue>
+			<Anchor>//api/name/isEqualToInput:</Anchor>
             <NodeRef refid="6"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFApplicationHelper/openURL:</TokenIdentifier>
-			<Abstract type="html">Opens the specified URL.</Abstract>
-			<DeclaredIn>SFApplicationHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFInput/objectForKeyedSubscript:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFInput.h</DeclaredIn>
 			
-			<Declaration>+ (BOOL)openURL:(NSURL *)url</Declaration>
+			<Declaration>- (id)objectForKeyedSubscript:(id)key</Declaration>
+			
+			
+			<Anchor>//api/name/objectForKeyedSubscript:</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFInput/setObject:forKeyedSubscript:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFInput.h</DeclaredIn>
+			
+			<Declaration>- (void)setObject:(id)obj forKeyedSubscript:(id&lt;NSCopying&gt;)key</Declaration>
+			
+			
+			<Anchor>//api/name/setObject:forKeyedSubscript:</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/CSFInput/allowsCustomAttributes</TokenIdentifier>
+			<Abstract type="html">Method indicating whether or not to accept arbitrary key/value properties to be set on input models.</Abstract>
+			<DeclaredIn>CSFInput.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)allowsCustomAttributes</Declaration>
+			
+			
+			<Anchor>//api/name/allowsCustomAttributes</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/CSFInput/storageKeyForPropertyName:</TokenIdentifier>
+			<Abstract type="html">Returns the storage key used for JSON serialization for the given property name.</Abstract>
+			<DeclaredIn>CSFInput.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)storageKeyForPropertyName:(NSString *)propertyName</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>url</Name>
-					<Abstract type="html">The URL to be opened.</Abstract>
+					<Name>propertyName</Name>
+					<Abstract type="html">The name of the Objective-C property.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the URL is successfully opened.</Abstract></ReturnValue>
-			<Anchor>//api/name/openURL:</Anchor>
+			<ReturnValue><Abstract type="html">The storage key to use when serializing JSON.</Abstract></ReturnValue>
+			<Anchor>//api/name/storageKeyForPropertyName:</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFInput/setStorage:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFInput_Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSMutableDictionary *storage</Declaration>
+			
+			
+			<Anchor>//api/name/storage</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFInput/storage</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFInput_Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSMutableDictionary *storage</Declaration>
+			
+			
+			<Anchor>//api/name/storage</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFInput/storage</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFInput_Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSMutableDictionary *storage</Declaration>
+			
+			
+			<Anchor>//api/name/storage</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/CSFInput/dynamicImplementationForProperty:storageKey:attributes:getterImplementation:setterImplementation:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFInput_Internal.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)dynamicImplementationForProperty:(NSString *)propertyName storageKey:(NSString *)storageKey attributes:(NSDictionary *)attributes getterImplementation:(IMP *)getter setterImplementation:(IMP *)setter</Declaration>
+			
+			
+			<Anchor>//api/name/dynamicImplementationForProperty:storageKey:attributes:getterImplementation:setterImplementation:</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFInput/JSONDictionary</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFInput_Internal.h</DeclaredIn>
+			
+			<Declaration>- (NSDictionary *)JSONDictionary</Declaration>
+			
+			
+			<Anchor>//api/name/JSONDictionary</Anchor>
             <NodeRef refid="6"/>
 		</Token>
 		

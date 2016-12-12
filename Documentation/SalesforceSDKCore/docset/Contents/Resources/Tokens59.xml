@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKAppConfig.html">
+	<File path="Classes/SFNativeRestRequestListener.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAppConfig</TokenIdentifier>
-			<Abstract type="html">Contains this app&apos;s OAuth configuration as defined in the developer&apos;s Salesforce connected app.</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFNativeRestRequestListener</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNativeRestRequestListener.h</DeclaredIn>
             
 			
 			<NodeRef refid="59"/>
@@ -13,199 +13,50 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/setRemoteAccessConsumerKey:</TokenIdentifier>
-			<Abstract type="html">The Connected App key associated with this application.</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNativeRestRequestListener/setRequest:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNativeRestRequestListener.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *remoteAccessConsumerKey</Declaration>
+			<Declaration>@property (nonatomic, strong) SFRestRequest *request</Declaration>
 			
 			
-			<Anchor>//api/name/remoteAccessConsumerKey</Anchor>
+			<Anchor>//api/name/request</Anchor>
             <NodeRef refid="59"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/remoteAccessConsumerKey</TokenIdentifier>
-			<Abstract type="html">The Connected App key associated with this application.</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNativeRestRequestListener/request</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNativeRestRequestListener.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *remoteAccessConsumerKey</Declaration>
+			<Declaration>@property (nonatomic, strong) SFRestRequest *request</Declaration>
 			
 			
-			<Anchor>//api/name/remoteAccessConsumerKey</Anchor>
+			<Anchor>//api/name/request</Anchor>
             <NodeRef refid="59"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppConfig/remoteAccessConsumerKey</TokenIdentifier>
-			<Abstract type="html">The Connected App key associated with this application.</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFNativeRestRequestListener/request</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNativeRestRequestListener.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *remoteAccessConsumerKey</Declaration>
+			<Declaration>@property (nonatomic, strong) SFRestRequest *request</Declaration>
 			
 			
-			<Anchor>//api/name/remoteAccessConsumerKey</Anchor>
+			<Anchor>//api/name/request</Anchor>
             <NodeRef refid="59"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/setOauthRedirectURI:</TokenIdentifier>
-			<Abstract type="html">The OAuth Redirect URI associated with the configured Connected Application.</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNativeRestRequestListener/initWithRequest:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNativeRestRequestListener.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *oauthRedirectURI</Declaration>
-			
-			
-			<Anchor>//api/name/oauthRedirectURI</Anchor>
-            <NodeRef refid="59"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/oauthRedirectURI</TokenIdentifier>
-			<Abstract type="html">The OAuth Redirect URI associated with the configured Connected Application.</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *oauthRedirectURI</Declaration>
+			<Declaration>- (id)initWithRequest:(SFRestRequest *)request</Declaration>
 			
 			
-			<Anchor>//api/name/oauthRedirectURI</Anchor>
-            <NodeRef refid="59"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppConfig/oauthRedirectURI</TokenIdentifier>
-			<Abstract type="html">The OAuth Redirect URI associated with the configured Connected Application.</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *oauthRedirectURI</Declaration>
-			
-			
-			<Anchor>//api/name/oauthRedirectURI</Anchor>
-            <NodeRef refid="59"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/setOauthScopes:</TokenIdentifier>
-			<Abstract type="html">The OAuth Scopes being requested for this app.</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSSet *oauthScopes</Declaration>
-			
-			
-			<Anchor>//api/name/oauthScopes</Anchor>
-            <NodeRef refid="59"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/oauthScopes</TokenIdentifier>
-			<Abstract type="html">The OAuth Scopes being requested for this app.</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSSet *oauthScopes</Declaration>
-			
-			
-			<Anchor>//api/name/oauthScopes</Anchor>
-            <NodeRef refid="59"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppConfig/oauthScopes</TokenIdentifier>
-			<Abstract type="html">The OAuth Scopes being requested for this app.</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSSet *oauthScopes</Declaration>
-			
-			
-			<Anchor>//api/name/oauthScopes</Anchor>
-            <NodeRef refid="59"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/setShouldAuthenticate:</TokenIdentifier>
-			<Abstract type="html">Whether or not this app should authenticate when it first starts.</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL shouldAuthenticate</Declaration>
-			
-			
-			<Anchor>//api/name/shouldAuthenticate</Anchor>
-            <NodeRef refid="59"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/shouldAuthenticate</TokenIdentifier>
-			<Abstract type="html">Whether or not this app should authenticate when it first starts.</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL shouldAuthenticate</Declaration>
-			
-			
-			<Anchor>//api/name/shouldAuthenticate</Anchor>
-            <NodeRef refid="59"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppConfig/shouldAuthenticate</TokenIdentifier>
-			<Abstract type="html">Whether or not this app should authenticate when it first starts.</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL shouldAuthenticate</Declaration>
-			
-			
-			<Anchor>//api/name/shouldAuthenticate</Anchor>
-            <NodeRef refid="59"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/setConfigDict:</TokenIdentifier>
-			<Abstract type="html">The config as a dictionary</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSMutableDictionary *configDict</Declaration>
-			
-			
-			<Anchor>//api/name/configDict</Anchor>
-            <NodeRef refid="59"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/configDict</TokenIdentifier>
-			<Abstract type="html">The config as a dictionary</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSMutableDictionary *configDict</Declaration>
-			
-			
-			<Anchor>//api/name/configDict</Anchor>
-            <NodeRef refid="59"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppConfig/configDict</TokenIdentifier>
-			<Abstract type="html">The config as a dictionary</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSMutableDictionary *configDict</Declaration>
-			
-			
-			<Anchor>//api/name/configDict</Anchor>
-            <NodeRef refid="59"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/initWithDict:</TokenIdentifier>
-			<Abstract type="html">Initializer with a given JSON-based configuration dictionary.</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithDict:(NSDictionary *)configDict</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>configDict</Name>
-					<Abstract type="html">The dictionary containing the configuration.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/initWithDict:</Anchor>
+			<Anchor>//api/name/initWithRequest:</Anchor>
             <NodeRef refid="59"/>
 		</Token>
 		

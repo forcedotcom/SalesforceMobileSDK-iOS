@@ -1,52 +1,146 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFOAuthAdvancedAuthConfiguration.html">
+	<File path="Categories/NSObject+SFLogging.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthAdvancedAuthConfiguration</TokenIdentifier>
-			<Abstract type="html">Enumeration of advanced auth configuration.</Abstract>
-			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSObject(SFLogging)</TokenIdentifier>
+			<Abstract type="html">Allows your class to log messages specific to that class.
+You should be able to use this 99% of the time.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
             
 			
 			<NodeRef refid="132"/>
 		</Token>
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthConfigurationNone</TokenIdentifier>
-            <Abstract type="html">     Advanced authentication is not configured (default)
-     </Abstract>
-            <Declaration>SFOAuthAdvancedAuthConfigurationNone</Declaration>
-            
-            <DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
-            
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSObject/loggingIdentifier</TokenIdentifier>
+			<Abstract type="html">Default logging identifier to use when none is supplied</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)loggingIdentifier</Declaration>
+			
+			<ReturnValue><Abstract type="html">Logging identifier string, or nil for default.</Abstract></ReturnValue>
+			<Anchor>//api/name/loggingIdentifier</Anchor>
             <NodeRef refid="132"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthConfigurationAllow</TokenIdentifier>
-            <Abstract type="html">     Advanced authentication is allowed.  Coordinator will attempt to retrieve advanced auth
-     configuration from the org, to determine whether to initiate advanced authentication.
-     </Abstract>
-            <Declaration>SFOAuthAdvancedAuthConfigurationAllow</Declaration>
-            
-            <DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSObject/log:msg:</TokenIdentifier>
+			<Abstract type="html">Logs a message with the given level.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>- (void)log:(SFLogLevel)level msg:(NSString *)msg</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>level</Name>
+					<Abstract type="html">The minimum log level to observe.</Abstract>
+				</Parameter><Parameter>
+					<Name>msg</Name>
+					<Abstract type="html">The message to log.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/log:msg:</Anchor>
             <NodeRef refid="132"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthConfigurationRequire</TokenIdentifier>
-            <Abstract type="html">     Advanced authentication is required.  Coordinator will initiate advanced authentication
-     regardless of org settings.
-     </Abstract>
-            <Declaration>SFOAuthAdvancedAuthConfigurationRequire</Declaration>
-            
-            <DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSObject/log:format:</TokenIdentifier>
+			<Abstract type="html">Logs a formatted message with the given log level and format parameters.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>- (void)log:(SFLogLevel)level format:(NSString *)format, ...</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>level</Name>
+					<Abstract type="html">The minimum log level to log at.</Abstract>
+				</Parameter><Parameter>
+					<Name>format</Name>
+					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
+				</Parameter><Parameter>
+					<Name>...</Name>
+					<Abstract type="html">The arguments to the message format string.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/log:format:</Anchor>
             <NodeRef refid="132"/>
-        </Token>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSObject/log:identifier:msg:</TokenIdentifier>
+			<Abstract type="html">Log method with the addition of context.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>- (void)log:(SFLogLevel)level identifier:(NSString *)logIdentifier msg:(NSString *)msg</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>level</Name>
+					<Abstract type="html">The minimum log level to observe.</Abstract>
+				</Parameter><Parameter>
+					<Name>logIdentifier</Name>
+					<Abstract type="html">Identifier to use when scoping the context of this log message.</Abstract>
+				</Parameter><Parameter>
+					<Name>msg</Name>
+					<Abstract type="html">The format message.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/log:identifier:msg:</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSObject/log:identifier:format:</TokenIdentifier>
+			<Abstract type="html">Log method with the addition of context</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>- (void)log:(SFLogLevel)level identifier:(NSString *)logIdentifier format:(NSString *)format, ...</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>level</Name>
+					<Abstract type="html">The minimum log level to observe.</Abstract>
+				</Parameter><Parameter>
+					<Name>logIdentifier</Name>
+					<Abstract type="html">Identifier to use when scoping the context of this log message.</Abstract>
+				</Parameter><Parameter>
+					<Name>format</Name>
+					<Abstract type="html">The format message.</Abstract>
+				</Parameter><Parameter>
+					<Name>...</Name>
+					<Abstract type="html">Optional arguments for the message format string.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/log:identifier:format:</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSObject/log:context:msg:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>- (void)log:(SFLogLevel)level context:(SFLogContext)logContext msg:(NSString *)msg</Declaration>
+			
+			
+			<Anchor>//api/name/log:context:msg:</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSObject/log:context:format:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>- (void)log:(SFLogLevel)level context:(SFLogContext)logContext format:(NSString *)format, ...</Declaration>
+			
+			
+			<Anchor>//api/name/log:context:format:</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
         
         
 	</File>

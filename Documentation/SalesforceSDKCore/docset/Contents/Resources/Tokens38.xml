@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFManagedPreferences.html">
+	<File path="Classes/SFDefaultUserManagementViewController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFManagedPreferences</TokenIdentifier>
-			<Abstract type="html">Class to handle preferences set by an MDM provider.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFDefaultUserManagementViewController</TokenIdentifier>
+			<Abstract type="html">View controller for managing the different users of the app.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementViewController.h</DeclaredIn>
             
 			
 			<NodeRef refid="38"/>
@@ -13,338 +13,188 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFManagedPreferences/sharedPreferences</TokenIdentifier>
-			<Abstract type="html">The shared instance of this class.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFDefaultUserManagementViewController/initWithCompletionBlock:</TokenIdentifier>
+			<Abstract type="html">Creates an instance with the given completion block.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementViewController.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)sharedPreferences</Declaration>
+			<Declaration>- (id)initWithCompletionBlock:(SFUserManagementCompletionBlock)completionBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">The (optional) completion block to execute once action has been taken.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			<ReturnValue><Abstract type="html">The shared instance of this class.</Abstract></ReturnValue>
-			<Anchor>//api/name/sharedPreferences</Anchor>
+			<Anchor>//api/name/initWithCompletionBlock:</Anchor>
             <NodeRef refid="38"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setHasManagedPreferences:</TokenIdentifier>
-			<Abstract type="html">Whether or not any managed preferences have been configured for this app.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFDefaultUserManagementViewController/setAction:</TokenIdentifier>
+			<Abstract type="html">The action to take, once the user interface has been cleared by the consumer.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementViewController+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL hasManagedPreferences</Declaration>
+			<Declaration>@property (nonatomic, assign) SFUserManagementAction action</Declaration>
 			
 			
-			<Anchor>//api/name/hasManagedPreferences</Anchor>
+			<Anchor>//api/name/action</Anchor>
             <NodeRef refid="38"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/hasManagedPreferences</TokenIdentifier>
-			<Abstract type="html">Whether or not any managed preferences have been configured for this app.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFDefaultUserManagementViewController/action</TokenIdentifier>
+			<Abstract type="html">The action to take, once the user interface has been cleared by the consumer.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementViewController+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL hasManagedPreferences</Declaration>
+			<Declaration>@property (nonatomic, assign) SFUserManagementAction action</Declaration>
 			
 			
-			<Anchor>//api/name/hasManagedPreferences</Anchor>
+			<Anchor>//api/name/action</Anchor>
             <NodeRef refid="38"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/hasManagedPreferences</TokenIdentifier>
-			<Abstract type="html">Whether or not any managed preferences have been configured for this app.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFDefaultUserManagementViewController/action</TokenIdentifier>
+			<Abstract type="html">The action to take, once the user interface has been cleared by the consumer.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementViewController+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL hasManagedPreferences</Declaration>
+			<Declaration>@property (nonatomic, assign) SFUserManagementAction action</Declaration>
 			
 			
-			<Anchor>//api/name/hasManagedPreferences</Anchor>
+			<Anchor>//api/name/action</Anchor>
             <NodeRef refid="38"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setRequireCertificateAuthentication:</TokenIdentifier>
-			<Abstract type="html">Whether the app is configured to require certificate-based authentication. (RequireCertAuth)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFDefaultUserManagementViewController/setActionAccount:</TokenIdentifier>
+			<Abstract type="html">The optional account associated with the action to take.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementViewController+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL requireCertificateAuthentication</Declaration>
+			<Declaration>@property (nonatomic, strong) SFUserAccount *actionAccount</Declaration>
 			
 			
-			<Anchor>//api/name/requireCertificateAuthentication</Anchor>
+			<Anchor>//api/name/actionAccount</Anchor>
             <NodeRef refid="38"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/requireCertificateAuthentication</TokenIdentifier>
-			<Abstract type="html">Whether the app is configured to require certificate-based authentication. (RequireCertAuth)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFDefaultUserManagementViewController/actionAccount</TokenIdentifier>
+			<Abstract type="html">The optional account associated with the action to take.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementViewController+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL requireCertificateAuthentication</Declaration>
+			<Declaration>@property (nonatomic, strong) SFUserAccount *actionAccount</Declaration>
 			
 			
-			<Anchor>//api/name/requireCertificateAuthentication</Anchor>
+			<Anchor>//api/name/actionAccount</Anchor>
             <NodeRef refid="38"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/requireCertificateAuthentication</TokenIdentifier>
-			<Abstract type="html">Whether the app is configured to require certificate-based authentication. (RequireCertAuth)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFDefaultUserManagementViewController/actionAccount</TokenIdentifier>
+			<Abstract type="html">The optional account associated with the action to take.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementViewController+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL requireCertificateAuthentication</Declaration>
+			<Declaration>@property (nonatomic, strong) SFUserAccount *actionAccount</Declaration>
 			
 			
-			<Anchor>//api/name/requireCertificateAuthentication</Anchor>
+			<Anchor>//api/name/actionAccount</Anchor>
             <NodeRef refid="38"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setLoginHosts:</TokenIdentifier>
-			<Abstract type="html">An array of prescribed login hosts from the MDM provider. (AppServiceHosts)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFDefaultUserManagementViewController/setCompletionBlock:</TokenIdentifier>
+			<Abstract type="html">Completion block to execute, once a user management action has been selected.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementViewController+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray *loginHosts</Declaration>
+			<Declaration>@property (nonatomic, copy) SFUserManagementCompletionBlock completionBlock</Declaration>
 			
 			
-			<Anchor>//api/name/loginHosts</Anchor>
+			<Anchor>//api/name/completionBlock</Anchor>
             <NodeRef refid="38"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/loginHosts</TokenIdentifier>
-			<Abstract type="html">An array of prescribed login hosts from the MDM provider. (AppServiceHosts)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFDefaultUserManagementViewController/completionBlock</TokenIdentifier>
+			<Abstract type="html">Completion block to execute, once a user management action has been selected.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementViewController+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray *loginHosts</Declaration>
+			<Declaration>@property (nonatomic, copy) SFUserManagementCompletionBlock completionBlock</Declaration>
 			
 			
-			<Anchor>//api/name/loginHosts</Anchor>
+			<Anchor>//api/name/completionBlock</Anchor>
             <NodeRef refid="38"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/loginHosts</TokenIdentifier>
-			<Abstract type="html">An array of prescribed login hosts from the MDM provider. (AppServiceHosts)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFDefaultUserManagementViewController/completionBlock</TokenIdentifier>
+			<Abstract type="html">Completion block to execute, once a user management action has been selected.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementViewController+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray *loginHosts</Declaration>
+			<Declaration>@property (nonatomic, copy) SFUserManagementCompletionBlock completionBlock</Declaration>
 			
 			
-			<Anchor>//api/name/loginHosts</Anchor>
+			<Anchor>//api/name/completionBlock</Anchor>
             <NodeRef refid="38"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setLoginHostLabels:</TokenIdentifier>
-			<Abstract type="html">The associated labels for the provided login hosts. (AppServiceHostLabels)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFDefaultUserManagementViewController/actionLogout</TokenIdentifier>
+			<Abstract type="html">Logs out the current user, once the user interface is cleared.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementViewController+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray *loginHostLabels</Declaration>
+			<Declaration>- (void)actionLogout</Declaration>
 			
 			
-			<Anchor>//api/name/loginHostLabels</Anchor>
+			<Anchor>//api/name/actionLogout</Anchor>
             <NodeRef refid="38"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/loginHostLabels</TokenIdentifier>
-			<Abstract type="html">The associated labels for the provided login hosts. (AppServiceHostLabels)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFDefaultUserManagementViewController/actionSwitchUser:</TokenIdentifier>
+			<Abstract type="html">Switches to the given user, once the user interface is cleared.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementViewController+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray *loginHostLabels</Declaration>
+			<Declaration>- (void)actionSwitchUser:(SFUserAccount *)user</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>user</Name>
+					<Abstract type="html">The user to switch to.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/loginHostLabels</Anchor>
+			<Anchor>//api/name/actionSwitchUser:</Anchor>
             <NodeRef refid="38"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/loginHostLabels</TokenIdentifier>
-			<Abstract type="html">The associated labels for the provided login hosts. (AppServiceHostLabels)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFDefaultUserManagementViewController/actionCreateNewUser</TokenIdentifier>
+			<Abstract type="html">Creates a new user and switches to that user, once the user interface is cleared.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementViewController+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray *loginHostLabels</Declaration>
+			<Declaration>- (void)actionCreateNewUser</Declaration>
 			
 			
-			<Anchor>//api/name/loginHostLabels</Anchor>
+			<Anchor>//api/name/actionCreateNewUser</Anchor>
             <NodeRef refid="38"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setConnectedAppId:</TokenIdentifier>
-			<Abstract type="html">The managed Connected App ID. (ManagedAppOAuthID)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFDefaultUserManagementViewController/execCompletionBlock:account:</TokenIdentifier>
+			<Abstract type="html">Executes the completion block.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementViewController+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *connectedAppId</Declaration>
+			<Declaration>- (void)execCompletionBlock:(SFUserManagementAction)action account:(SFUserAccount *)actionAccount</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>action</Name>
+					<Abstract type="html">The user management action to pass to the completion block.</Abstract>
+				</Parameter><Parameter>
+					<Name>actionAccount</Name>
+					<Abstract type="html">The optional account on which the action will be taken.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/connectedAppId</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/connectedAppId</TokenIdentifier>
-			<Abstract type="html">The managed Connected App ID. (ManagedAppOAuthID)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *connectedAppId</Declaration>
-			
-			
-			<Anchor>//api/name/connectedAppId</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/connectedAppId</TokenIdentifier>
-			<Abstract type="html">The managed Connected App ID. (ManagedAppOAuthID)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *connectedAppId</Declaration>
-			
-			
-			<Anchor>//api/name/connectedAppId</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setConnectedAppCallbackUri:</TokenIdentifier>
-			<Abstract type="html">The managed Conneced App Callback URI. (ManagedAppCallbackURL)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *connectedAppCallbackUri</Declaration>
-			
-			
-			<Anchor>//api/name/connectedAppCallbackUri</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/connectedAppCallbackUri</TokenIdentifier>
-			<Abstract type="html">The managed Conneced App Callback URI. (ManagedAppCallbackURL)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *connectedAppCallbackUri</Declaration>
-			
-			
-			<Anchor>//api/name/connectedAppCallbackUri</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/connectedAppCallbackUri</TokenIdentifier>
-			<Abstract type="html">The managed Conneced App Callback URI. (ManagedAppCallbackURL)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *connectedAppCallbackUri</Declaration>
-			
-			
-			<Anchor>//api/name/connectedAppCallbackUri</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setClearClipboardOnBackground:</TokenIdentifier>
-			<Abstract type="html">Whether or not to clear the clipboard when the app is backgrounded. (ClearClipboardOnBackground)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) BOOL clearClipboardOnBackground</Declaration>
-			
-			
-			<Anchor>//api/name/clearClipboardOnBackground</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/clearClipboardOnBackground</TokenIdentifier>
-			<Abstract type="html">Whether or not to clear the clipboard when the app is backgrounded. (ClearClipboardOnBackground)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) BOOL clearClipboardOnBackground</Declaration>
-			
-			
-			<Anchor>//api/name/clearClipboardOnBackground</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/clearClipboardOnBackground</TokenIdentifier>
-			<Abstract type="html">Whether or not to clear the clipboard when the app is backgrounded. (ClearClipboardOnBackground)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) BOOL clearClipboardOnBackground</Declaration>
-			
-			
-			<Anchor>//api/name/clearClipboardOnBackground</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setOnlyShowAuthorizedHosts:</TokenIdentifier>
-			<Abstract type="html">Whether or not to display only the authorized hosts. (OnlyShowAuthorizedHosts)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) BOOL onlyShowAuthorizedHosts</Declaration>
-			
-			
-			<Anchor>//api/name/onlyShowAuthorizedHosts</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/onlyShowAuthorizedHosts</TokenIdentifier>
-			<Abstract type="html">Whether or not to display only the authorized hosts. (OnlyShowAuthorizedHosts)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) BOOL onlyShowAuthorizedHosts</Declaration>
-			
-			
-			<Anchor>//api/name/onlyShowAuthorizedHosts</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/onlyShowAuthorizedHosts</TokenIdentifier>
-			<Abstract type="html">Whether or not to display only the authorized hosts. (OnlyShowAuthorizedHosts)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) BOOL onlyShowAuthorizedHosts</Declaration>
-			
-			
-			<Anchor>//api/name/onlyShowAuthorizedHosts</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setRawPreferences:</TokenIdentifier>
-			<Abstract type="html">The raw NSDictionary of managed preferences.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSDictionary *rawPreferences</Declaration>
-			
-			
-			<Anchor>//api/name/rawPreferences</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/rawPreferences</TokenIdentifier>
-			<Abstract type="html">The raw NSDictionary of managed preferences.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSDictionary *rawPreferences</Declaration>
-			
-			
-			<Anchor>//api/name/rawPreferences</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/rawPreferences</TokenIdentifier>
-			<Abstract type="html">The raw NSDictionary of managed preferences.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSDictionary *rawPreferences</Declaration>
-			
-			
-			<Anchor>//api/name/rawPreferences</Anchor>
+			<Anchor>//api/name/execCompletionBlock:account:</Anchor>
             <NodeRef refid="38"/>
 		</Token>
 		

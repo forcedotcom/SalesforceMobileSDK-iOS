@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/TestSetupUtils.html">
+	<File path="Classes/SFSDKInstrumentationPostExecutionData.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/TestSetupUtils</TokenIdentifier>
-			<Abstract type="html">This class provides utilities useful to all unit tests based on the Salesforce SDK</Abstract>
-			<DeclaredIn>TestSetupUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKInstrumentationPostExecutionData</TokenIdentifier>
+			<Abstract type="html">Class containing the perf data associated with a selector execution.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
             
 			
 			<NodeRef refid="88"/>
@@ -13,55 +13,182 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/TestSetupUtils/populateUILoginInfoFromConfigFileForClass:</TokenIdentifier>
-			<Abstract type="html">Loads a set of auth credentials from the &apos;uitestcredentials.json&apos; file located in the bundle associated
-with the given class, and return a dictionary of login info</Abstract>
-			<DeclaredIn>TestSetupUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationPostExecutionData/setSelectorName:</TokenIdentifier>
+			<Abstract type="html">The name of the original selector executed.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>+ (NSArray *)populateUILoginInfoFromConfigFileForClass:(Class)testClass</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>testClass</Name>
-					<Abstract type="html">The class associated with the bundle where the test credentials file lives.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">a dictionary of login username, password, url</Abstract></ReturnValue>
-			<Anchor>//api/name/populateUILoginInfoFromConfigFileForClass:</Anchor>
+			<Declaration>@property (nonatomic, copy) NSString *selectorName</Declaration>
+			
+			
+			<Anchor>//api/name/selectorName</Anchor>
             <NodeRef refid="88"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/TestSetupUtils/populateAuthCredentialsFromConfigFileForClass:</TokenIdentifier>
-			<Abstract type="html">Loads a set of auth credentials from the &apos;test_credentials.json&apos; file located in the bundle associated
-with the given class, and configures SFUserAccountManager and the current account with the data from
-that file.</Abstract>
-			<DeclaredIn>TestSetupUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationPostExecutionData/selectorName</TokenIdentifier>
+			<Abstract type="html">The name of the original selector executed.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>+ (SFSDKTestCredentialsData *)populateAuthCredentialsFromConfigFileForClass:(Class)testClass</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>testClass</Name>
-					<Abstract type="html">The class associated with the bundle where the test credentials file lives.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The configuration data used to configure SFUserAccountManager (useful e.g. for hybrid
-apps which need the data to bootstrap SFHybridViewController.</Abstract></ReturnValue>
-			<Anchor>//api/name/populateAuthCredentialsFromConfigFileForClass:</Anchor>
+			<Declaration>@property (nonatomic, copy) NSString *selectorName</Declaration>
+			
+			
+			<Anchor>//api/name/selectorName</Anchor>
             <NodeRef refid="88"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/TestSetupUtils/synchronousAuthRefresh</TokenIdentifier>
-			<Abstract type="html">Performs a synchronous refresh of the OAuth credentials, which will stage the remaining auth
-data (access token, User ID, Org ID, etc.) in SFUserAccountManager.
-populateAuthCredentialsFromConfigFile is required to run once before this method will attempt
-to refresh authentication.</Abstract>
-			<DeclaredIn>TestSetupUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationPostExecutionData/selectorName</TokenIdentifier>
+			<Abstract type="html">The name of the original selector executed.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>+ (void)synchronousAuthRefresh</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *selectorName</Declaration>
 			
 			
-			<Anchor>//api/name/synchronousAuthRefresh</Anchor>
+			<Anchor>//api/name/selectorName</Anchor>
+            <NodeRef refid="88"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationPostExecutionData/setIsInstanceMethod:</TokenIdentifier>
+			<Abstract type="html">Whether or not the selector is an instance method.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isInstanceMethod</Declaration>
+			
+			
+			<Anchor>//api/name/isInstanceMethod</Anchor>
+            <NodeRef refid="88"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationPostExecutionData/isInstanceMethod</TokenIdentifier>
+			<Abstract type="html">Whether or not the selector is an instance method.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isInstanceMethod</Declaration>
+			
+			
+			<Anchor>//api/name/isInstanceMethod</Anchor>
+            <NodeRef refid="88"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationPostExecutionData/isInstanceMethod</TokenIdentifier>
+			<Abstract type="html">Whether or not the selector is an instance method.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isInstanceMethod</Declaration>
+			
+			
+			<Anchor>//api/name/isInstanceMethod</Anchor>
+            <NodeRef refid="88"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationPostExecutionData/setExecutionStartDate:</TokenIdentifier>
+			<Abstract type="html">The start date of the selector&apos;s execution.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDate *executionStartDate</Declaration>
+			
+			
+			<Anchor>//api/name/executionStartDate</Anchor>
+            <NodeRef refid="88"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationPostExecutionData/executionStartDate</TokenIdentifier>
+			<Abstract type="html">The start date of the selector&apos;s execution.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDate *executionStartDate</Declaration>
+			
+			
+			<Anchor>//api/name/executionStartDate</Anchor>
+            <NodeRef refid="88"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationPostExecutionData/executionStartDate</TokenIdentifier>
+			<Abstract type="html">The start date of the selector&apos;s execution.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDate *executionStartDate</Declaration>
+			
+			
+			<Anchor>//api/name/executionStartDate</Anchor>
+            <NodeRef refid="88"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationPostExecutionData/setExecutionEndDate:</TokenIdentifier>
+			<Abstract type="html">The end date of the selector&apos;s execution.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDate *executionEndDate</Declaration>
+			
+			
+			<Anchor>//api/name/executionEndDate</Anchor>
+            <NodeRef refid="88"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationPostExecutionData/executionEndDate</TokenIdentifier>
+			<Abstract type="html">The end date of the selector&apos;s execution.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDate *executionEndDate</Declaration>
+			
+			
+			<Anchor>//api/name/executionEndDate</Anchor>
+            <NodeRef refid="88"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationPostExecutionData/executionEndDate</TokenIdentifier>
+			<Abstract type="html">The end date of the selector&apos;s execution.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDate *executionEndDate</Declaration>
+			
+			
+			<Anchor>//api/name/executionEndDate</Anchor>
+            <NodeRef refid="88"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationPostExecutionData/setExecutionTime:</TokenIdentifier>
+			<Abstract type="html">The amount of execution time for the selector, in seconds.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSTimeInterval executionTime</Declaration>
+			
+			
+			<Anchor>//api/name/executionTime</Anchor>
+            <NodeRef refid="88"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationPostExecutionData/executionTime</TokenIdentifier>
+			<Abstract type="html">The amount of execution time for the selector, in seconds.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSTimeInterval executionTime</Declaration>
+			
+			
+			<Anchor>//api/name/executionTime</Anchor>
+            <NodeRef refid="88"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationPostExecutionData/executionTime</TokenIdentifier>
+			<Abstract type="html">The amount of execution time for the selector, in seconds.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSTimeInterval executionTime</Declaration>
+			
+			
+			<Anchor>//api/name/executionTime</Anchor>
             <NodeRef refid="88"/>
 		</Token>
 		

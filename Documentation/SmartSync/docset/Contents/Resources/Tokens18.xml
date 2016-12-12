@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSyncOptions.html">
+	<File path="Classes/SFSyncDownTarget.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSyncOptions</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSyncDownTarget</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
+			<DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
             
 			
 			<NodeRef refid="18"/>
@@ -13,119 +13,83 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncOptions/setFieldlist:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncDownTarget/setQueryType:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
+			<DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSArray *fieldlist</Declaration>
+			<Declaration>@property (nonatomic) SFSyncDownTargetQueryType queryType</Declaration>
 			
 			
-			<Anchor>//api/name/fieldlist</Anchor>
+			<Anchor>//api/name/queryType</Anchor>
             <NodeRef refid="18"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncOptions/fieldlist</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncDownTarget/queryType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
+			<DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSArray *fieldlist</Declaration>
+			<Declaration>@property (nonatomic) SFSyncDownTargetQueryType queryType</Declaration>
 			
 			
-			<Anchor>//api/name/fieldlist</Anchor>
+			<Anchor>//api/name/queryType</Anchor>
             <NodeRef refid="18"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSyncOptions/fieldlist</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSyncDownTarget/queryType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
+			<DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSArray *fieldlist</Declaration>
+			<Declaration>@property (nonatomic) SFSyncDownTargetQueryType queryType</Declaration>
 			
 			
-			<Anchor>//api/name/fieldlist</Anchor>
+			<Anchor>//api/name/queryType</Anchor>
             <NodeRef refid="18"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncOptions/setMergeMode:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncDownTarget/setTotalSize:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
+			<DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) SFSyncStateMergeMode mergeMode</Declaration>
+			<Declaration>@property (nonatomic) NSUInteger totalSize</Declaration>
 			
 			
-			<Anchor>//api/name/mergeMode</Anchor>
+			<Anchor>//api/name/totalSize</Anchor>
             <NodeRef refid="18"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncOptions/mergeMode</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncDownTarget/totalSize</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
+			<DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) SFSyncStateMergeMode mergeMode</Declaration>
+			<Declaration>@property (nonatomic) NSUInteger totalSize</Declaration>
 			
 			
-			<Anchor>//api/name/mergeMode</Anchor>
+			<Anchor>//api/name/totalSize</Anchor>
             <NodeRef refid="18"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSyncOptions/mergeMode</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSyncDownTarget/totalSize</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
+			<DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) SFSyncStateMergeMode mergeMode</Declaration>
+			<Declaration>@property (nonatomic) NSUInteger totalSize</Declaration>
 			
 			
-			<Anchor>//api/name/mergeMode</Anchor>
+			<Anchor>//api/name/totalSize</Anchor>
             <NodeRef refid="18"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncOptions/newSyncOptionsForSyncDown:</TokenIdentifier>
-			<Abstract type="html">Factory methods</Abstract>
-			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
-			
-			<Declaration>+ (SFSyncOptions *)newSyncOptionsForSyncDown:(SFSyncStateMergeMode)mergeMode</Declaration>
-			
-			
-			<Anchor>//api/name/newSyncOptionsForSyncDown:</Anchor>
-            <NodeRef refid="18"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncOptions/newSyncOptionsForSyncUp:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
-			
-			<Declaration>+ (SFSyncOptions *)newSyncOptionsForSyncUp:(NSArray *)fieldlist</Declaration>
-			
-			
-			<Anchor>//api/name/newSyncOptionsForSyncUp:</Anchor>
-            <NodeRef refid="18"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncOptions/newSyncOptionsForSyncUp:mergeMode:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
-			
-			<Declaration>+ (SFSyncOptions *)newSyncOptionsForSyncUp:(NSArray *)fieldlist mergeMode:(SFSyncStateMergeMode)mergeMode</Declaration>
-			
-			
-			<Anchor>//api/name/newSyncOptionsForSyncUp:mergeMode:</Anchor>
-            <NodeRef refid="18"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncOptions/newFromDict:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSyncDownTarget/newFromDict:</TokenIdentifier>
 			<Abstract type="html">Methods to translate to/from dictionary</Abstract>
-			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
+			<DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>+ (SFSyncOptions *)newFromDict:(NSDictionary *)dict</Declaration>
+			<Declaration>+ (SFSyncDownTarget *)newFromDict:(NSDictionary *)dict</Declaration>
 			
 			
 			<Anchor>//api/name/newFromDict:</Anchor>
@@ -133,14 +97,81 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncOptions/asDict</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncDownTarget/startFetch:maxTimeStamp:errorBlock:completeBlock:</TokenIdentifier>
+			<Abstract type="html">Start fetching records conforming to target</Abstract>
+			<DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>- (void)startFetch:(SFSmartSyncSyncManager *)syncManager maxTimeStamp:(long long)maxTimeStamp errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock</Declaration>
+			
+			
+			<Anchor>//api/name/startFetch:maxTimeStamp:errorBlock:completeBlock:</Anchor>
+            <NodeRef refid="18"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncDownTarget/continueFetch:errorBlock:completeBlock:</TokenIdentifier>
+			<Abstract type="html">Continue fetching records conforming to target if any</Abstract>
+			<DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>- (void)continueFetch:(SFSmartSyncSyncManager *)syncManager errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock</Declaration>
+			
+			
+			<Anchor>//api/name/continueFetch:errorBlock:completeBlock:</Anchor>
+            <NodeRef refid="18"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncDownTarget/getListOfRemoteIds:localIds:errorBlock:completeBlock:</TokenIdentifier>
+			<Abstract type="html">Fetch list of IDs still present on the server from the list of local IDs</Abstract>
+			<DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>- (void)getListOfRemoteIds:(SFSmartSyncSyncManager *)syncManager localIds:(NSArray *)localIds errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock</Declaration>
+			
+			
+			<Anchor>//api/name/getListOfRemoteIds:localIds:errorBlock:completeBlock:</Anchor>
+            <NodeRef refid="18"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncDownTarget/getLatestModificationTimeStamp:</TokenIdentifier>
+			<Abstract type="html">Gets the latest modification timestamp from the array of records. Note: inheriting classes can
+override this method to determine the timestamp in a customized way. The default implementation
+looks at the LastModifiedDate field of each record.</Abstract>
+			<DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>- (long long)getLatestModificationTimeStamp:(NSArray *)records</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>records</Name>
+					<Abstract type="html">The array of records to query.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The timestamp of the record with the most recent modification date.</Abstract></ReturnValue>
+			<Anchor>//api/name/getLatestModificationTimeStamp:</Anchor>
+            <NodeRef refid="18"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSyncDownTarget/queryTypeFromString:</TokenIdentifier>
+			<Abstract type="html">Enum to/from string helper methods</Abstract>
+			<DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>+ (SFSyncDownTargetQueryType)queryTypeFromString:(NSString *)queryType</Declaration>
+			
+			
+			<Anchor>//api/name/queryTypeFromString:</Anchor>
+            <NodeRef refid="18"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSyncDownTarget/queryTypeToString:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
+			<DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>- (NSDictionary *)asDict</Declaration>
+			<Declaration>+ (NSString *)queryTypeToString:(SFSyncDownTargetQueryType)queryType</Declaration>
 			
 			
-			<Anchor>//api/name/asDict</Anchor>
+			<Anchor>//api/name/queryTypeToString:</Anchor>
             <NodeRef refid="18"/>
 		</Token>
 		
