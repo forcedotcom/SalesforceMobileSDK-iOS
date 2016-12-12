@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+# Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
 # 
 # Redistribution and use of this software in source and binary forms, with or without modification,
 # are permitted provided that the following conditions are met:
@@ -83,6 +83,15 @@ for headerFile in `ls -1 "${publicHeaderDirectory}"`; do
 		fi
 	fi
 done
+
+# Make sure none of the public header files are in the exclude files list
+if grep -q "${SUBSPEC_NAME}.exclude_files" ${podSpecFile}
+then
+    echo "${publicHeaderFileList}" | sed 's/ *//g' | tr , '\n' | sort > "${podSpecFile}.public_header_files_list"
+    cat "${podSpecFile}" | grep "${SUBSPEC_NAME}.exclude_files"  | sed 's/.*=//' | sed 's/ *//g' | tr , '\n' | sort > "${podSpecFile}.exclude_files_list"
+    publicHeaderFileList=`comm -23 ${podSpecFile}.public_header_files_list ${podSpecFile}.exclude_files_list | tr '\n' , | sed 's/,$//'`
+    rm "${podSpecFile}.public_header_files_list" "${podSpecFile}.exclude_files_list"
+fi
 
 # Replace the old headers with the new ones.
 searchPattern='^( *'"${SUBSPEC_NAME}"'\.public_header_files = ).*$'

@@ -2,7 +2,7 @@
 LoginPage.swift
 
 Created by Eric Engelking on 10/16/15.
-Copyright (c) 2016, salesforce.com, inc. All rights reserved.
+Copyright (c) 2016-present, salesforce.com, inc. All rights reserved.
 
 Redistribution and use of this software in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
@@ -30,35 +30,41 @@ import XCTest
 
 class LoginPage: PageObject, PageThatWaits {
     
-    private var navigationBar: XCUIElement {
+    fileprivate var navigationBar: XCUIElement {
         get {
             return app.navigationBars["Log In"]
         }
     }
     
-    private var chooseConnectionButton: XCUIElement {
+    fileprivate var chooseConnectionButton: XCUIElement {
         get {
             return navigationBar.buttons["Choose Connection"]
         }
     }
     
-    private var userNameField: XCUIElement {
+    fileprivate var webView: XCUIElement {
         get {
-            return app.otherElements["Login | Salesforce"].childrenMatchingType(.TextField).element
+            return app.otherElements.element(matching: NSPredicate(format: "label BEGINSWITH[cd] 'Login |'"))
         }
     }
     
-    private var passwordField: XCUIElement {
+    fileprivate var userNameField: XCUIElement {
         get {
-            return app.otherElements["Login | Salesforce"].childrenMatchingType(.SecureTextField).element
+            return webView.children(matching: .textField).element
         }
     }
     
-    private var loginButton: XCUIElement {
+    fileprivate var passwordField: XCUIElement {
+        get {
+            return webView.children(matching: .secureTextField).element
+        }
+    }
+    
+    fileprivate var loginButton: XCUIElement {
         get {
             //TODO: Fix for Production, Mobile1, & Mobile2.  There is a bug that prevents us from using BEGINSWITH 'Log In'
             let buttonPredicate = NSPredicate(format: "label BEGINSWITH[cd] 'Log In'")
-            return app.buttons.elementMatchingPredicate(buttonPredicate)
+            return app.buttons.element(matching: buttonPredicate)
 
         }
     }
@@ -69,17 +75,19 @@ class LoginPage: PageObject, PageThatWaits {
     }
     
     func waitForPageLoaded() {
-        waitForElementExists(userNameField)    }
+        waitForElementExists(userNameField)
+    }
 
     // MARK: Act on screen
     
-    func setUserName(userName: String) -> LoginPage {
-        userNameField.pressForDuration(2)
+    @discardableResult func setUserName(_ userName: String) -> LoginPage {
+        userNameField.tap()
+        sleep(1)
         userNameField.typeText(userName)
         return self
     }
     
-    func setPassword(password: String) -> LoginPage {
+    @discardableResult func setPassword(_ password: String) -> LoginPage {
         passwordField.tap()
         sleep(1)
         passwordField.typeText(password)
@@ -94,7 +102,7 @@ class LoginPage: PageObject, PageThatWaits {
         
     }
     
-    func chooseConnection(host: Host?=nil) -> LoginPage {
+    @discardableResult func chooseConnection(_ host: Host?=nil) -> LoginPage {
         waitForElementEnabled(chooseConnectionButton)
         chooseConnectionButton.tap()
         if let wrappedHost = host {

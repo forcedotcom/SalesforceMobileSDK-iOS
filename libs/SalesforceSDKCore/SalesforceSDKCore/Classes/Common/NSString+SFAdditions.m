@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -141,10 +141,8 @@ static inline BOOL IsValidEntityId(NSString *string) {
 }
 
 - (NSString *)stringByURLEncoding {
-    CFStringRef cfStr = CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (__bridge CFStringRef)self, NULL, CFSTR("&:/=+"), kCFStringEncodingUTF8);
-    NSString *result = [NSString stringWithFormat:@"%@", (__bridge NSString *) cfStr];
-    CFRelease(cfStr);
-    return result;
+    NSCharacterSet *urlAllowedCharacterSet = [[NSCharacterSet characterSetWithCharactersInString:@" \"#%/:<>?@[\\]^`{|}&:/=+"] invertedSet];
+    return [self stringByAddingPercentEncodingWithAllowedCharacters:urlAllowedCharacterSet];
 }
 
 - (NSString *)stringByStrippingHTML {

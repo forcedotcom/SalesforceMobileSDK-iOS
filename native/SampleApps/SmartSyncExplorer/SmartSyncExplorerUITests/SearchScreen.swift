@@ -1,7 +1,7 @@
 /*
 SearchScreen.swift
 
-Copyright (c) 2016, salesforce.com, inc. All rights reserved.
+Copyright (c) 2016-present, salesforce.com, inc. All rights reserved.
 
 Redistribution and use of this software in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
@@ -29,13 +29,13 @@ import XCTest
 
 class SearchScreen: PageObject {
     
-    private var searchField: XCUIElement {
+    fileprivate var searchField: XCUIElement {
         get {
             return app.tables.searchFields["Search"]
         }
     }
     
-    private var clearSearchButton: XCUIElement {
+    fileprivate var clearSearchButton: XCUIElement {
         get {
             // Only available after search field is tapped
             return searchField.buttons["Clear text"];
@@ -43,42 +43,48 @@ class SearchScreen: PageObject {
     }
     
     
-    private var navigationBar : XCUIElement {
+    fileprivate var navigationBar : XCUIElement {
         get {
             return app.navigationBars["Contacts"]
         }
     }
     
-    private var shareButton : XCUIElement {
+    fileprivate var syncButton: XCUIElement {
+        get {
+            return app.navigationBars["Contacts"].buttons["sync"]
+        }
+    }
+    
+    fileprivate var shareButton : XCUIElement {
         get {
             return navigationBar.buttons["Share"]
         }
     }
 
-    private var addButton : XCUIElement {
+    fileprivate var addButton : XCUIElement {
         get {
             return navigationBar.buttons["add"]
         }
     }
     
-    private var logoutButton : XCUIElement {
+    fileprivate var logoutButton : XCUIElement {
         get {
             // Only available after share button is tapped
             return app.tables.staticTexts["Logout current user"]
         }
     }
     
-    private var switchUserButton : XCUIElement {
+    fileprivate var switchUserButton : XCUIElement {
         get {
             // Only available after share button is tapped
             return app.tables.staticTexts["Switch user"]
         }
     }
     
-    private var confirmLogoutButton : XCUIElement {
+    fileprivate var confirmLogoutButton : XCUIElement {
         get {
             // Only available after logout button is tapped
-            return app.sheets["Are you sure you want to log out?"].collectionViews.buttons["Confirm Logout"]
+            return app.sheets["Are you sure you want to log out?"].buttons["Confirm Logout"]
         }
     }
     
@@ -101,19 +107,22 @@ class SearchScreen: PageObject {
         return app.tables.cells.count
     }
     
-    func hasRecord(text : String) -> Bool {
+    func hasRecord(_ text : String) -> Bool {
         return app.tables.staticTexts[text].exists
     }
     
-    
     // MARK - Act on screen
+    
+    func sync() {
+        syncButton.tap()
+    }
     
     func addRecord() -> DetailScreen {
         addButton.tap()
         return DetailScreen()
     }
     
-    func clearSearch() -> SearchScreen {
+    @discardableResult func clearSearch() -> SearchScreen {
         searchField.tap()
         if (clearSearchButton.exists) {
             clearSearchButton.tap()
@@ -121,24 +130,23 @@ class SearchScreen: PageObject {
         return self
     }
     
-    func typeSearch(query: String) -> SearchScreen {
+    @discardableResult func typeSearch(_ query: String) -> SearchScreen {
         searchField.tap()
         searchField.typeText(query)
         return self
     }
     
-    func logout() -> LoginPage? {
+    @discardableResult  func logout() -> LoginPage? {
         if (navigationBar.exists) {
             shareButton.tap()
             logoutButton.tap()
-            confirmLogoutButton.tap()
             return LoginPage()
         }
         return nil;
     }
     
     
-    func switchUser() -> UserListScreen? {
+    @discardableResult  func switchUser() -> UserListScreen? {
         if (navigationBar.exists) {
             shareButton.tap()
             switchUserButton.tap()
@@ -147,8 +155,13 @@ class SearchScreen: PageObject {
         return nil;
     }
     
-    func openRecord(text :  String) -> DetailScreen {
+    func openRecord(_ text :  String) -> DetailScreen {
         app.tables.staticTexts[text].tap()
         return DetailScreen()
+    }
+    
+    
+    func openRecord(_ cell :  UInt) {
+        app.tables.cells.element(boundBy: cell).tap()
     }
 }

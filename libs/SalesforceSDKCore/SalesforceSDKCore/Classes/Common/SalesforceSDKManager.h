@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -43,6 +43,11 @@ typedef NS_ENUM(NSUInteger, SFAppType) {
 
 NS_ASSUME_NONNULL_BEGIN
 
+// User agent constants
+static NSString * const kSFMobileSDKNativeDesignator = @"Native";
+static NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
+static NSString * const kSFMobileSDKReactNativeDesignator = @"ReactNative";
+
 /**
  Block typedef for presenting the snapshot view controller.
  */
@@ -56,7 +61,6 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
 
 /** Delegate protocol for handling foregrounding and backgrounding in Mobile SDK apps.
  */
-
 @protocol SalesforceSDKManagerDelegate <NSObject>
 
 @optional
@@ -101,6 +105,13 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
  */
 + (nonnull instancetype)sharedManager;
 
+/**
+ * Returns a unique device ID.
+ *
+ * @return Device ID.
+ */
+- (NSString *) deviceId;
+
 /** The OAuth configuration parameters defined in the developer's Salesforce connected app.
  */
 @property (nonatomic, strong, nullable) SFSDKAppConfig *appConfig;
@@ -110,6 +121,7 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
  */
 @property (nonatomic, readonly) BOOL isLaunching;
 
+@property (nonatomic, strong) NSMutableSet *features;
 
 /**
  App type (native, hybrid or react native)
@@ -174,7 +186,7 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
  This action is called when `useSnapshotView` is YES. If this action is not set or if nil is returned,
  a default opaque white view will be used.
  */
-@property (nonatomic, copy) SFSnapshotViewControllerCreationBlock snapshotViewControllerCreationAction;
+@property (nonatomic, copy, nullable) SFSnapshotViewControllerCreationBlock snapshotViewControllerCreationAction;
 
 /**
  The block to execute to present the snapshot viewcontroller.
@@ -182,14 +194,14 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
  @discussion
  This block is only invoked if the dismissal action is also set.
  */
-@property (nonatomic, copy) SFSnapshotViewControllerPresentationBlock snapshotPresentationAction;
+@property (nonatomic, copy, nullable) SFSnapshotViewControllerPresentationBlock snapshotPresentationAction;
 
 /**
  The block to execute to dismiss the snapshot viewcontroller.
  @discussion
  This block is only invoked if the presentation action is also set.
  */
-@property (nonatomic, copy) SFSnapshotViewControllerDismissalBlock snapshotDismissalAction;
+@property (nonatomic, copy, nullable) SFSnapshotViewControllerDismissalBlock snapshotDismissalAction;
 
 /**
  The preferred passcode provider for the app.  Defaults to kSFPasscodeProviderPBKDF2.
@@ -215,6 +227,16 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
  @return YES if the launch successfully kicks off, NO if launch is already running.
  */
 - (BOOL)launch;
+
+/**
+ @param appFeature AppFeature to register.
+ */
+- (void) registerAppFeature:(NSString *) appFeature;
+
+/**
+ @param appFeature AppFeature to unregister.
+ */
+- (void) unregisterAppFeature:(NSString *) appFeature;
 
 /**
  Adds an SDK Manager delegate to the list of delegates.

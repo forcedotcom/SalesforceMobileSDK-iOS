@@ -2,7 +2,7 @@
 SalesforceNoSessionTestCase.swift
 
 Created by Eric Engelking on 10/16/15.
-Copyright (c) 2016, salesforce.com, inc. All rights reserved.
+Copyright (c) 2016-present, salesforce.com, inc. All rights reserved.
 
 Redistribution and use of this software in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
@@ -30,21 +30,43 @@ import XCTest
 import SalesforceSDKCore
 
 class SalesforceNoSessionTestCase: XCTestCase {
-    
-    var loginAccounts : [NSDictionary] = []
+    var loginAccounts : [NSDictionary?] = []
+    var accountWithPasscode : NSDictionary!
+    var passcodeTimeout: UInt32?
+    var passcodeLength: UInt32?
+    var passcode: String = ""
+    var app = XCUIApplication()
+    var searchScreen = SearchScreen()
     
     override func setUp() {
         super.setUp()
         
         continueAfterFailure = true
-        XCUIApplication().launch()
-        let loginInfo: NSArray = TestSetupUtils.populateUILoginInfoFromConfigFileForClass(self.dynamicType)
-        loginAccounts = loginInfo as! [NSDictionary]
+        app.launch()
+        let loginInfo: [NSDictionary?] = TestSetupUtils.populateUILoginInfoFromConfigFile(for: type(of: self)) as! [NSDictionary]
+        loginAccounts = loginInfo
+        accountWithPasscode = loginAccounts[loginAccounts.count-1] as NSDictionary! //assuming last account has passcode enabled
+        if (accountWithPasscode.value(forKey: "passcodeTimeout") != nil && accountWithPasscode.value(forKey: "passcodeLength") != nil) {
+            passcodeTimeout = (accountWithPasscode.value(forKey: "passcodeTimeout")! as AnyObject).uint32Value!
+            passcodeLength = (accountWithPasscode.value(forKey: "passcodeLength")! as AnyObject).uint32Value!
         
+            for _ in 0..<passcodeLength! {
+                passcode = randomPasscode()
+            }
+        }
     }
     
     override func tearDown() {
         super.tearDown()
+        searchScreen.logout()
     }
     
+    func randomPasscode() -> String {
+        srandom(UInt32(time(nil)))
+        var randomPass = ""
+        for _ in 0..<passcodeLength! {
+            randomPass = randomPass.appendingFormat(String (format: "%d", arc4random()%10))
+        }
+        return randomPass
+    }
 }

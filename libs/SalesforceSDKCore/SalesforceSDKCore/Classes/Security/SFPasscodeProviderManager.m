@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2013-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -26,6 +26,7 @@
 #import "SFPasscodeProviderManager+Internal.h"
 #import "SFSHA256PasscodeProvider.h"
 #import "SFPBKDF2PasscodeProvider.h"
+#import "NSUserDefaults+SFAdditions.h"
 
 // Public constants
 SFPasscodeProviderId const kSFPasscodeProviderSHA256 = @"sha256";
@@ -51,7 +52,7 @@ static NSMutableDictionary *PasscodeProviderMap;
 
 + (SFPasscodeProviderId)currentPasscodeProviderName
 {
-    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
     NSString *currentProviderName = [defs objectForKey:kSFCurrentPasscodeProviderUserDefaultsKey];
     
     // If never set, presume the version is SHA256.
@@ -72,7 +73,7 @@ static NSMutableDictionary *PasscodeProviderMap;
                 level:SFLogLevelError
                   msg:[NSString stringWithFormat:@"No passcode provider exists for provider '%@'.  Use [SFPasscodeProviderManager addPasscodeProvider:] to configure a new provider.", providerName]];
     } else {
-        NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+        NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
         [defs setObject:providerName forKey:kSFCurrentPasscodeProviderUserDefaultsKey];
         [defs synchronize];
     }
@@ -80,7 +81,7 @@ static NSMutableDictionary *PasscodeProviderMap;
 
 + (void)resetCurrentPasscodeProviderName
 {
-    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
     [defs removeObjectForKey:kSFCurrentPasscodeProviderUserDefaultsKey];
     [defs synchronize];
 }

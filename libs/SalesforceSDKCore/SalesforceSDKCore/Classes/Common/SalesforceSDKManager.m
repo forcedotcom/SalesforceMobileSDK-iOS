@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -33,18 +33,21 @@
 #import "SFPasscodeProviderManager.h"
 #import "SFInactivityTimerCenter.h"
 #import "SFApplicationHelper.h"
+#import "SFSwiftDetectUtil.h"
+#import "SFUserAccountManager.h"
+
+static NSString * const kSFAppFeatureSwiftApp   = @"SW";
+static NSString * const kSFAppFeatureMultiUser   = @"MU";
 
 // Error constants
 NSString * const kSalesforceSDKManagerErrorDomain     = @"com.salesforce.sdkmanager.error";
 NSString * const kSalesforceSDKManagerErrorDetailsKey = @"SalesforceSDKManagerErrorDetails";
 
-// User agent constants
-static NSString * const kSFMobileSDKNativeDesignator = @"Native";
-static NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
-static NSString * const kSFMobileSDKReactNativeDesignator = @"ReactNative";
-
 // Device id
 static NSString* uid = nil;
+
+
+
 
 // Instance class
 static Class InstanceClass = nil;
@@ -89,6 +92,15 @@ static Class InstanceClass = nil;
         } else {
             sdkManager = [[self alloc] init];
         }
+        if([SFSwiftDetectUtil isSwiftApp]){
+            [sdkManager registerAppFeature:kSFAppFeatureSwiftApp];
+        }
+        if([[[SFUserAccountManager sharedInstance] allUserIdentities] count]>1){
+            [sdkManager registerAppFeature:kSFAppFeatureMultiUser];
+        }
+        else{
+            [sdkManager unregisterAppFeature:kSFAppFeatureMultiUser];
+        }
     });
     return sdkManager;
 }
@@ -122,10 +134,15 @@ static Class InstanceClass = nil;
         }
         self.useSnapshotView = YES;
         self.authenticateAtLaunch = YES;
+        self.features = [NSMutableSet set];
         self.userAgentString = [self defaultUserAgentString];
     }
     
     return self;
+}
+
+- (NSString *) deviceId {
+    return uid;
 }
 
 #pragma mark - Public methods / properties
@@ -370,14 +387,7 @@ static Class InstanceClass = nil;
             [delegate sdkManagerWillEnterForeground];
         }
     }];
-    
-    @try {
-        [self dismissSnapshot];
-    }
-    @catch (NSException *exception) {
-        [self log:SFLogLevelWarning format:@"Exception thrown while removing security snapshot view: '%@'. Will continue to resume app.", [exception reason]];
-    }
-    
+        
     if (_isLaunching) {
         [self log:SFLogLevelDebug format:@"SDK is still launching.  No foreground action taken."];
     } else {
@@ -530,6 +540,16 @@ static Class InstanceClass = nil;
     }
 }
 
+- (void) registerAppFeature:(NSString *) appFeature
+{
+    [self.features addObject:appFeature];
+}
+
+- (void) unregisterAppFeature:(NSString *) appFeature
+{
+    [self.features removeObject:appFeature];
+}
+
 - (void)dismissSnapshot
 {
     if (![self isSnapshotPresented]) {
@@ -655,7 +675,7 @@ static Class InstanceClass = nil;
         NSString *appName = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleNameKey];
         NSString *prodAppVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
         NSString *buildNumber = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
-        NSString *appVersion = [NSString stringWithFormat:@"%@ (%@)", prodAppVersion, buildNumber];
+        NSString *appVersion = [NSString stringWithFormat:@"%@(%@)", prodAppVersion, buildNumber];
 
         // App type.
         NSString* appTypeStr;
@@ -665,7 +685,7 @@ static Class InstanceClass = nil;
             case kSFAppTypeReactNative: appTypeStr = kSFMobileSDKReactNativeDesignator; break;
         }
         NSString *myUserAgent = [NSString stringWithFormat:
-                                 @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@%@ uid_%@",
+                                 @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@%@ uid_%@ ftr_%@",
                                  SALESFORCE_SDK_VERSION,
                                  [curDevice systemName],
                                  [curDevice systemVersion],
@@ -674,7 +694,8 @@ static Class InstanceClass = nil;
                                  appVersion,
                                  appTypeStr,
                                  (qualifier != nil ? qualifier : @""),
-                                 uid
+                                 uid,
+                                 [[[self.features allObjects] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] componentsJoinedByString:@"."]
                                  ];
         return myUserAgent;
     };

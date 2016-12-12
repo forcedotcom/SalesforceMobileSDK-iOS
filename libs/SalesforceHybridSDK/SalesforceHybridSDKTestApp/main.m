@@ -3,7 +3,7 @@
 //  HybridPluginTestApp
 //
 //  Created by Kevin Hawkins on 3/6/13.
-//  Copyright (c) 2013 salesforce.com. All rights reserved.
+//  Copyright (c) 2013-present, salesforce.com. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

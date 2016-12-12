@@ -3,7 +3,7 @@
 //  SmartSyncTestApp
 //
 //  Created by Wolfgang Mathurin on 1/15/16.
-//  Copyright © 2016 Salesforce Inc. All rights reserved.
+//  Copyright © 2016-present Salesforce Inc. All rights reserved.
 //
 
 #import "AppDelegate.h"

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -102,7 +102,7 @@
     XCTAssertTrue([self hasTable:@"TABLE_1_fts" store:self.store], @"FTS Table for soup employees does exit");
     XCTAssertTrue([self.store soupExists:kEmployeesSoup], @"Register soup failed");
     
-    NSString* expectedCreateSql = [NSString stringWithFormat:@"CREATE VIRTUAL TABLE TABLE_1_fts USING fts%u", ftsExtension];
+    NSString* expectedCreateSql = [NSString stringWithFormat:@"CREATE VIRTUAL TABLE TABLE_1_fts USING fts%lu", (unsigned long)ftsExtension];
     [self checkCreateTableStatment:@"TABLE_1_fts" expectedSqlStatementPrefix:expectedCreateSql store:self.store];
 
     // Drop

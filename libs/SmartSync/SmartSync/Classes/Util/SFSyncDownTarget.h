@@ -34,6 +34,7 @@ typedef NS_ENUM(NSInteger, SFSyncDownTargetQueryType) {
   SFSyncDownTargetQueryTypeMru,
   SFSyncDownTargetQueryTypeSosl,
   SFSyncDownTargetQueryTypeSoql,
+  SFSyncDownTargetQueryTypeRefresh,
   SFSyncDownTargetQueryTypeCustom
 };
 
@@ -54,15 +55,6 @@ typedef NS_ENUM(NSInteger, SFSyncDownTargetQueryType) {
  */
 - (void) startFetch:(SFSmartSyncSyncManager*)syncManager
        maxTimeStamp:(long long)maxTimeStamp
-         errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
-      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock;
-
-/**
- * Start fetching records conforming to target with query
- */
-- (void) startFetch:(SFSmartSyncSyncManager*)syncManager
-       maxTimeStamp:(long long)maxTimeStamp
-           queryRun:(NSString*)queryRun
          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock;
 

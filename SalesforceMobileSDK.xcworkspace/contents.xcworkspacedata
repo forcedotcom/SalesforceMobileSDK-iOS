@@ -30,13 +30,10 @@
       location = "container:"
       name = "Libs">
       <FileRef
+         location = "group:libs/SalesforceAnalytics/SalesforceAnalytics.xcodeproj">
+      </FileRef>
+      <FileRef
          location = "group:libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:libs/SalesforceNetwork/SalesforceNetwork.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:libs/SalesforceRestAPI/SalesforceRestAPI.xcodeproj">
       </FileRef>
       <FileRef
          location = "group:libs/SmartStore/SmartStore.xcodeproj">

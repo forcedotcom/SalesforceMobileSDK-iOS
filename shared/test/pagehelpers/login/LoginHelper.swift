@@ -2,7 +2,7 @@
 LoginHelper.swift
 
 Created by Eric Engelking on 10/16/15.
-Copyright (c) 2016, salesforce.com, inc. All rights reserved.
+Copyright (c) 2016-present, salesforce.com, inc. All rights reserved.
 
 Redistribution and use of this software in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
@@ -36,7 +36,13 @@ enum Host {
 
 class LoginHelper {
     
-    func loginToSalesforce(userName: String, password: String, host: Host?=nil) {
+    func loginToSalesforce(_ userName: String, password: String, url: String!, withPasscode: String?=nil) {
+        LoginPage().chooseConnection()
+        HostPage().selectHost(url)
+        loginToSalesforce(userName, password: password, withPasscode: withPasscode)
+    }
+    
+    func loginToSalesforce(_ userName: String, password: String, host: Host?=nil, withPasscode: String?=nil) {
         
         let loginPage = LoginPage()
         
@@ -57,5 +63,11 @@ class LoginHelper {
         // Tap allow
         allowDenyPage.tapAllowButton()
         
+        loginPage.waitForPageInvalid()
+        
+        if let wrappedPasscode = withPasscode {
+            PasscodePage().waitForPageLoaded()
+            PasscodePage().createPasscode(wrappedPasscode)
+        }
     }
 }

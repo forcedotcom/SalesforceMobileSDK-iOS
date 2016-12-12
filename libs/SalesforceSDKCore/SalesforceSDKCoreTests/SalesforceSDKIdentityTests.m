@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -101,26 +101,6 @@ static NSException *authException = nil;
     [self sendSyncIdentityRequest];
     XCTAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"Identity request failed.");
     [self validateIdentityData];
-}
-
-/**
- * Test that an error state is returned if the identity data is requested with invalid credentials.
- */
-- (void)testRetrieveIdentityFailure
-{
-    SFAuthenticationManager *authMgr = [SFAuthenticationManager sharedManager];
-    SFIdentityCoordinator *idCoord = authMgr.idCoordinator;
-    NSString *origAccessToken = [idCoord.credentials.accessToken copy];
-    idCoord.credentials.accessToken = @"";
-    [self sendSyncIdentityRequest];
-    XCTAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidFail, @"Identity request should have failed with no access token.");
-    idCoord.credentials.accessToken = origAccessToken;
-    
-    NSURL *origIdentityUrl = idCoord.credentials.identityUrl;
-    idCoord.credentials.identityUrl = nil;
-    [self sendSyncIdentityRequest];
-    XCTAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidFail, @"Identity request should have failed with no identity URL.");
-    idCoord.credentials.identityUrl = origIdentityUrl;
 }
 
 - (void)testIdentityAuthRefreshSuccess

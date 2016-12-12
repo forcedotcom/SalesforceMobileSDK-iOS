@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -35,9 +35,20 @@ static NSMutableDictionary *InterceptorsForClassAndSelector = nil;
 
 /** This method returns a key given a class and a selector
  */
-static NSString * interceptorKey(Class clazz, SEL selector) {
-    return [NSString stringWithFormat:@"%@:%@", NSStringFromClass(clazz), NSStringFromSelector(selector)];
+static NSString * interceptorKey(Class clazz, SEL selector, BOOL isInstanceMethod) {
+    return [NSString stringWithFormat:@"%@:%@:%d", NSStringFromClass(clazz), NSStringFromSelector(selector), isInstanceMethod];
 }
+
+static NSString * const kSFSDKInstrumentationForwardMethodPrefix = @"__method_forwarded_";
+static NSString * const kSFSDKInstrumentationForwardBlockPrefix = @"__method_forwarded_block_";
+
+@implementation SFSDKInstrumentationPostExecutionData
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@:%p selectorName: %@, isInstanceMethod: %d, executionStartDate: %@, executionEndDate: %@, executionTime: %f>", [self class], self, self.selectorName, self.isInstanceMethod, self.executionStartDate, self.executionEndDate, self.executionTime];
+}
+
+@end
 
 @interface SFMethodInterceptor ()
 
@@ -74,15 +85,29 @@ static NSString * interceptorKey(Class clazz, SEL selector) {
 }
 
 - (void)dealloc {
-    @synchronized (InterceptorsForClassAndSelector) {
-        [InterceptorsForClassAndSelector removeObjectForKey:interceptorKey(self.classToIntercept, self.selectorToIntercept)];
+    self.enabled = NO;
+}
+
+- (BOOL)isEqual:(id)object {
+    if (![object isKindOfClass:[self class]]) {
+        return NO;
     }
+    
+    SFMethodInterceptor *otherObj = (SFMethodInterceptor *)object;
+    return ((otherObj.classToIntercept == self.classToIntercept)
+            && (otherObj.selectorToIntercept == self.selectorToIntercept)
+            && (otherObj.instanceMethod == self.instanceMethod));
+}
+
+- (NSUInteger)hash {
+    NSString *hashString = [NSString stringWithFormat:@"%@_%@_%d", NSStringFromClass(self.classToIntercept), NSStringFromSelector(self.selectorToIntercept), self.instanceMethod];
+    return [hashString hash];
 }
 
 - (SEL)originalMethodRenamedSelector {
     // Rename the original selector by inserting a string that ensure it's unique
     NSMutableString *name = [[NSMutableString alloc] initWithCString:sel_getName(self.selectorToIntercept) encoding:NSASCIIStringEncoding];
-    [name insertString:@"__method_forwarded_" atIndex:0];
+    [name insertString:kSFSDKInstrumentationForwardMethodPrefix atIndex:0];
     
     // use sel_registerName() and not @selector to avoid warning
     SEL sel = sel_registerName([name cStringUsingEncoding:NSASCIIStringEncoding]);
@@ -92,7 +117,7 @@ static NSString * interceptorKey(Class clazz, SEL selector) {
 - (SEL)originalMethodRenamedSelectorForBlock {
     // Rename the original selector by inserting a string that ensure it's unique
     NSMutableString *name = [[NSMutableString alloc] initWithCString:sel_getName(self.selectorToIntercept) encoding:NSASCIIStringEncoding];
-    [name insertString:@"__method_forwarded_block_" atIndex:0];
+    [name insertString:kSFSDKInstrumentationForwardBlockPrefix atIndex:0];
     
     // use sel_registerName() and not @selector to avoid warning
     SEL sel = sel_registerName([name cStringUsingEncoding:NSASCIIStringEncoding]);
@@ -110,7 +135,8 @@ static NSString * interceptorKey(Class clazz, SEL selector) {
     } else {
         // Let's find out which interceptor instance is managing
         // this selector and class
-        SFMethodInterceptor *interceptor = InterceptorsForClassAndSelector[interceptorKey([self class], aSelector)];
+        BOOL isInstanceSelector = !(class_isMetaClass(object_getClass(self)));
+        SFMethodInterceptor *interceptor = InterceptorsForClassAndSelector[interceptorKey([self class], aSelector, isInstanceSelector)];
         if (interceptor) {
             interceptor.interceptedObject = self;
             return interceptor;
@@ -152,15 +178,21 @@ static NSString * interceptorKey(Class clazz, SEL selector) {
     if (self.targetBeforeBlock) {
         self.targetBeforeBlock(anInvocation);
     }
-    NSTimeInterval startTime = [NSDate timeIntervalSinceReferenceDate];
+    NSDate *startTime = [NSDate date];
     if (self.targetReplaceBlock) {
         self.targetReplaceBlock(anInvocation);
     } else {
         [self invokeOriginal:anInvocation];
     }
-    NSTimeInterval endTime = [NSDate timeIntervalSinceReferenceDate];
+    NSDate *endTime = [NSDate date];
     if (self.targetAfterBlock) {
-        self.targetAfterBlock(anInvocation, endTime - startTime);
+        SFSDKInstrumentationPostExecutionData *data = [[SFSDKInstrumentationPostExecutionData alloc] init];
+        data.selectorName = [NSStringFromSelector(anInvocation.selector) substringFromIndex:kSFSDKInstrumentationForwardMethodPrefix.length];
+        data.isInstanceMethod = !(class_isMetaClass(object_getClass(anInvocation.target)));
+        data.executionStartDate = startTime;
+        data.executionEndDate = endTime;
+        data.executionTime = [endTime timeIntervalSinceDate:startTime];
+        self.targetAfterBlock(anInvocation, data);
     }
 }
 
@@ -177,7 +209,9 @@ static NSString * interceptorKey(Class clazz, SEL selector) {
         Method originalMethod = class_getInstanceMethod(self.classToIntercept, self.selectorToIntercept);
         const char *methodTypes = method_getTypeEncoding(originalMethod);
         
-        InterceptorsForClassAndSelector[interceptorKey(self.classToIntercept, self.selectorToIntercept)] = self;
+        @synchronized (InterceptorsForClassAndSelector) {
+            InterceptorsForClassAndSelector[interceptorKey(self.classToIntercept, self.selectorToIntercept, self.instanceMethod)] = self;
+        }
         
         // forward method
         IMP originalMethodIMP = method_setImplementation(originalMethod, (IMP)_objc_msgForward);
@@ -199,8 +233,10 @@ static NSString * interceptorKey(Class clazz, SEL selector) {
         Method originalMethod = class_getClassMethod(originalMetaClass, self.selectorToIntercept);
         const char *methodTypes = method_getTypeEncoding(originalMethod);
         
-        InterceptorsForClassAndSelector[interceptorKey(self.classToIntercept, self.selectorToIntercept)] = self;
-                
+        @synchronized (InterceptorsForClassAndSelector) {
+            InterceptorsForClassAndSelector[interceptorKey(self.classToIntercept, self.selectorToIntercept, self.instanceMethod)] = self;
+        }
+        
         // forward method
         IMP originalMethodIMP = method_setImplementation(originalMethod, (IMP)_objc_msgForward);
         NSAssert(originalMethodIMP, @"Original method implementation must be found");
@@ -215,7 +251,6 @@ static NSString * interceptorKey(Class clazz, SEL selector) {
         
         class_replaceMethod(originalMetaClass, self.originalMethodRenamedSelector, originalMethodIMP, methodTypes);
     }
-    _enabled = YES;
     NSLog(@"%@ is ENABLED", self);
 }
 
@@ -232,7 +267,9 @@ static NSString * interceptorKey(Class clazz, SEL selector) {
         Method originalMethod = class_getClassMethod(self.classToIntercept, self.originalMethodRenamedSelector);
         method_exchangeImplementations(originalMethod, targetMethod);
     }
-    _enabled = NO;
+    @synchronized (InterceptorsForClassAndSelector) {
+        [InterceptorsForClassAndSelector removeObjectForKey:interceptorKey(self.classToIntercept, self.selectorToIntercept, self.instanceMethod)];
+    }
     NSLog(@"%@ is DISABLED", self);
 }
 
