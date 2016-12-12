@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios, "9.0"
 
   s.source       = { :git => "https://github.com/forcedotcom/SalesforceMobileSDK-iOS.git",
-                     :tag => "pod_v#{s.version}",
+                     :tag => "v#{s.version}",
                      :submodules => true }
   
   s.requires_arc = true
