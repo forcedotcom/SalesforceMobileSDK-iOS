@@ -1,4 +1,4 @@
-[![Build Status](https://forcedotcom.github.io/SalesforceMobileSDK-TestResults/iOS-test-results/latest/buildstatus.svg)](https://forcedotcom.github.io/SalesforceMobileSDK-TestResults/iOS-test-results/latest/index.html)
+[![Build Status](https://forcedotcom.github.io/SalesforceMobileSDK-TestResults/iOS-test-results/master/latest/buildstatus.svg)](https://forcedotcom.github.io/SalesforceMobileSDK-TestResults/iOS-test-results/master/latest/index.html)
 
 # Salesforce.com Mobile SDK for iOS
 
