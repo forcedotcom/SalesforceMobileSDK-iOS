@@ -25,7 +25,7 @@ NSString * kSFSDKReachabilityChangedNotification = @"kSFSDKNetworkReachabilityCh
 
 #pragma mark - Supporting functions
 
-#define kSFSDKShouldPrintReachabilityFlags 1
+#define kSFSDKShouldPrintReachabilityFlags 0
 
 static void SFSDKPrintReachabilityFlags(SCNetworkReachabilityFlags flags, const char* comment)
 {
