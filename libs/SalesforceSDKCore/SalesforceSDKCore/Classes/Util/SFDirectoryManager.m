@@ -31,6 +31,7 @@
 
 static NSString * const kDefaultOrgName = @"org";
 static NSString * const kDefaultCommunityName = @"internal";
+static NSString * const kSharedLibraryLocation = @"Library";
 
 @implementation SFDirectoryManager
 
@@ -76,7 +77,7 @@ static NSString * const kDefaultCommunityName = @"internal";
         directory = [sharedURL path];
         directory = [directory stringByAppendingPathComponent:[SFSDKDatasharingHelper sharedInstance].appGroupName];
         if(type == NSLibraryDirectory)
-            directory = [directory stringByAppendingPathComponent:@"Library"];
+            directory = [directory stringByAppendingPathComponent:kSharedLibraryLocation];
     } else {
         NSArray *directories = NSSearchPathForDirectoriesInDomains(type, NSUserDomainMask, YES);
         if (directories.count > 0) {
@@ -218,7 +219,7 @@ static NSString * const kDefaultCommunityName = @"internal";
         NSString *sharedDirectory = [sharedURL path];
         NSString *sharedLibDirectory = nil;
         sharedDirectory = [sharedDirectory stringByAppendingPathComponent:[SFSDKDatasharingHelper sharedInstance].appGroupName];
-        sharedLibDirectory = [sharedDirectory stringByAppendingPathComponent:@"Library"];
+        sharedLibDirectory = [sharedDirectory stringByAppendingPathComponent:kSharedLibraryLocation];
         
         if (isGroupAccessEnabled && !filesShared) {
             //move files from Docs to the Shared & App Libs to Shared,Shared Library location
