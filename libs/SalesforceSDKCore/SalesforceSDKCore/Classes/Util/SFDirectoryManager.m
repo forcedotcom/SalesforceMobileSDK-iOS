@@ -75,6 +75,8 @@ static NSString * const kDefaultCommunityName = @"internal";
         NSURL *sharedURL = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:[SFSDKDatasharingHelper sharedInstance].appGroupName];
         directory = [sharedURL path];
         directory = [directory stringByAppendingPathComponent:[SFSDKDatasharingHelper sharedInstance].appGroupName];
+        if(type == NSLibraryDirectory)
+            directory = [directory stringByAppendingPathComponent:@"Library"];
     } else {
         NSArray *directories = NSSearchPathForDirectoriesInDomains(type, NSUserDomainMask, YES);
         if (directories.count > 0) {
@@ -160,7 +162,7 @@ static NSString * const kDefaultCommunityName = @"internal";
 #pragma mark - File Migration Methods
 
 - (void)moveContentsOfDirectory:(NSString *)sourceDirectory toDirectory:(NSString *)destinationDirectory {
-    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSFileManager *fileManager = [[NSFileManager alloc]init];
     NSError *error = nil;
     if (sourceDirectory && [fileManager fileExistsAtPath:sourceDirectory]) {
         [SFDirectoryManager ensureDirectoryExists:destinationDirectory error:nil];
@@ -195,8 +197,11 @@ static NSString * const kDefaultCommunityName = @"internal";
     BOOL filesShared = [sharedDefaults boolForKey:@"filesShared"];
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *docDirectory;
+    NSString *docDirectory,*libDirectory;
+
     NSArray *directories = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSArray *libDirectories = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+
     if (directories.count > 0) {
         docDirectory = [directories[0] stringByAppendingPathComponent:[NSBundle mainBundle].bundleIdentifier];
     }
@@ -204,14 +209,30 @@ static NSString * const kDefaultCommunityName = @"internal";
     NSURL *sharedURL = [fileManager containerURLForSecurityApplicationGroupIdentifier:[SFSDKDatasharingHelper sharedInstance].appGroupName];
     NSString *sharedDirectory = [sharedURL path];
     sharedDirectory = [sharedDirectory stringByAppendingPathComponent:[SFSDKDatasharingHelper sharedInstance].appGroupName];
-    
-    if (isGroupAccessEnabled && !filesShared) {
-        [self moveContentsOfDirectory:docDirectory toDirectory:sharedDirectory];
-        [sharedDefaults setBool:YES forKey:@"filesShared"];
-    } else if (!isGroupAccessEnabled && filesShared) {
-        [self moveContentsOfDirectory:sharedDirectory toDirectory:docDirectory];
-        [sharedDefaults setBool:NO forKey:@"filesShared"];
+    if (libDirectories.count > 0) {
+        libDirectory = [libDirectories[0] stringByAppendingPathComponent:[NSBundle mainBundle].bundleIdentifier];
     }
+    
+    if( isGroupAccessEnabled || filesShared ) {
+        NSURL *sharedURL = [fileManager containerURLForSecurityApplicationGroupIdentifier:[SFSDKDatasharingHelper sharedInstance].appGroupName];
+        NSString *sharedDirectory = [sharedURL path];
+        NSString *sharedLibDirectory = nil;
+        sharedDirectory = [sharedDirectory stringByAppendingPathComponent:[SFSDKDatasharingHelper sharedInstance].appGroupName];
+        sharedLibDirectory = [sharedDirectory stringByAppendingPathComponent:@"Library"];
+        
+        if (isGroupAccessEnabled && !filesShared) {
+            //move files from Docs to the Shared & App Libs to Shared,Shared Library location
+            [self moveContentsOfDirectory:libDirectory toDirectory:sharedLibDirectory];
+            [self moveContentsOfDirectory:docDirectory toDirectory:sharedDirectory];
+            [sharedDefaults setBool:YES forKey:@"filesShared"];
+        } else if (!isGroupAccessEnabled && filesShared) {
+            //move files back from Sahred Location to  Library and the Docs
+            [self moveContentsOfDirectory:sharedLibDirectory toDirectory:libDirectory];
+            [self moveContentsOfDirectory:sharedDirectory toDirectory:docDirectory];
+            [sharedDefaults setBool:NO forKey:@"filesShared"];
+        }
+    }
+    
     [sharedDefaults synchronize];
 }
 
