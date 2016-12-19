@@ -32,6 +32,7 @@
 static NSString * const kDefaultOrgName = @"org";
 static NSString * const kDefaultCommunityName = @"internal";
 static NSString * const kSharedLibraryLocation = @"Library";
+static NSString * const kFilesSharedKey = @"filesShared";
 
 @implementation SFDirectoryManager
 
@@ -195,7 +196,7 @@ static NSString * const kSharedLibraryLocation = @"Library";
     //Migrate Files
     NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[SFSDKDatasharingHelper sharedInstance].appGroupName];
     BOOL isGroupAccessEnabled = [SFSDKDatasharingHelper sharedInstance].appGroupEnabled;
-    BOOL filesShared = [sharedDefaults boolForKey:@"filesShared"];
+    BOOL filesShared = [sharedDefaults boolForKey:kFilesSharedKey];
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *docDirectory,*libDirectory;
@@ -225,12 +226,12 @@ static NSString * const kSharedLibraryLocation = @"Library";
             //move files from Docs to the Shared & App Libs to Shared,Shared Library location
             [self moveContentsOfDirectory:libDirectory toDirectory:sharedLibDirectory];
             [self moveContentsOfDirectory:docDirectory toDirectory:sharedDirectory];
-            [sharedDefaults setBool:YES forKey:@"filesShared"];
+            [sharedDefaults setBool:YES forKey:kFilesSharedKey];
         } else if (!isGroupAccessEnabled && filesShared) {
             //move files back from Sahred Location to  Library and the Docs
             [self moveContentsOfDirectory:sharedLibDirectory toDirectory:libDirectory];
             [self moveContentsOfDirectory:sharedDirectory toDirectory:docDirectory];
-            [sharedDefaults setBool:NO forKey:@"filesShared"];
+            [sharedDefaults setBool:NO forKey:kFilesSharedKey];
         }
     }
     
