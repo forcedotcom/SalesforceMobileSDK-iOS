@@ -25,7 +25,7 @@
 #import "SFSyncUpTarget.h"
 #import "SFSmartSyncConstants.h"
 #import "SFSmartSyncObjectUtils.h"
-#import "SFSmartSyncSoqlBuilder.h"
+#import <SalesforceSDKCore/SFSDKSoqlBuilder.h>
 #import "SFSmartSyncNetworkUtils.h"
 #import "SFSmartSyncSyncManager.h"
 #import <SalesforceSDKCore/SFRestAPI+Blocks.h>
@@ -115,7 +115,7 @@ static NSString * const kSFSyncUpTargetTypeCustom = @"custom";
     NSDate *localLastModifiedDate = [SFSmartSyncObjectUtils getDateFromIsoDateString:record[self.modificationDateFieldName]];
     __block NSDate *serverLastModifiedDate = nil;
     
-    SFSmartSyncSoqlBuilder *soqlBuilder = [SFSmartSyncSoqlBuilder withFields:self.modificationDateFieldName];
+    SFSDKSoqlBuilder *soqlBuilder = [SFSDKSoqlBuilder withFields:self.modificationDateFieldName];
     [soqlBuilder from:objectType];
     [soqlBuilder whereClause:[NSString stringWithFormat:@"%@ = '%@'", self.idFieldName, objectId]];
     NSString *query = [soqlBuilder build];

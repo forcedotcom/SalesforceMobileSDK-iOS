@@ -24,7 +24,7 @@
 
 #import "SFRefreshSyncDownTarget.h"
 #import "SFSmartSyncSyncManager.h"
-#import "SFSmartSyncSoqlBuilder.h"
+#import <SalesforceSDKCore/SFSDKSoqlBuilder.h>
 #import "SFSmartSyncConstants.h"
 #import "SFSmartSyncNetworkUtils.h"
 #import "SFSmartSyncObjectUtils.h"
@@ -255,7 +255,7 @@ static NSUInteger const kSFSyncTargetRefreshDefaultCountIdsPerSoql = 500;
                            ? [NSString stringWithFormat:@" AND %@ > %@", self.modificationDateFieldName, maxTimeStampStr]
                            : @"");
     NSString* whereClause = [NSString stringWithFormat:@"%@ IN ('%@')%@", self.idFieldName, [ids componentsJoinedByString:@"','"], andClause];
-    NSString* soql = [[[[SFSmartSyncSoqlBuilder withFieldsArray:fieldlist] from:self.objectType] whereClause:whereClause] build];
+    NSString* soql = [[[[SFSDKSoqlBuilder withFieldsArray:fieldlist] from:self.objectType] whereClause:whereClause] build];
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:soql];
     [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSDictionary *d) {
         completeBlock(d[kResponseRecords]);

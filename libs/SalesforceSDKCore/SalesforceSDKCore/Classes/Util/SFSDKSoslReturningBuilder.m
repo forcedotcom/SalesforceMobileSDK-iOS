@@ -22,23 +22,23 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSmartSyncSoslReturningBuilder.h"
+#import "SFSDKSoslReturningBuilder.h"
 
-@interface SFSmartSyncSoslReturningBuilder() {
+@interface SFSDKSoslReturningBuilder() {
     NSMutableDictionary *properties;
 }
 
-- (SFSmartSyncSoslReturningBuilder *) objectName:(NSString *) name;
+- (SFSDKSoslReturningBuilder *) objectName:(NSString *) name;
 
 @end
 
-@implementation SFSmartSyncSoslReturningBuilder
+@implementation SFSDKSoslReturningBuilder
 
 #pragma mark -
 #pragma mark SOSL Returning Builder
 
-+ (SFSmartSyncSoslReturningBuilder *) withObjectName:(NSString *) name {
-    SFSmartSyncSoslReturningBuilder *builder = [[SFSmartSyncSoslReturningBuilder alloc] init];
++ (SFSDKSoslReturningBuilder *) withObjectName:(NSString *) name {
+    SFSDKSoslReturningBuilder *builder = [[SFSDKSoslReturningBuilder alloc] init];
     [builder objectName: name];
     [builder limit:0];
     return builder;
@@ -55,32 +55,32 @@
     return properties[@"objectName"];
 }
 
-- (SFSmartSyncSoslReturningBuilder *) objectName:(NSString *) name {
+- (SFSDKSoslReturningBuilder *) objectName:(NSString *) name {
     [properties setObject:name forKey:@"objectName"];
     return self;
 }
 
-- (SFSmartSyncSoslReturningBuilder *) fields:(NSString *) fields {
+- (SFSDKSoslReturningBuilder *) fields:(NSString *) fields {
     [properties setObject:fields forKey:@"fields"];
     return self;
 }
 
-- (SFSmartSyncSoslReturningBuilder *) whereClause:(NSString *) whereClause {
+- (SFSDKSoslReturningBuilder *) whereClause:(NSString *) whereClause {
     [properties setObject:whereClause forKey:@"whereClause"];
     return self;
 }
 
-- (SFSmartSyncSoslReturningBuilder *) withNetwork:(NSString *) networkId {
+- (SFSDKSoslReturningBuilder *) withNetwork:(NSString *) networkId {
     [properties setObject:networkId forKey:@"withNetwork"];
     return self;
 }
 
-- (SFSmartSyncSoslReturningBuilder *) orderBy:(NSString *) orderBy {
+- (SFSDKSoslReturningBuilder *) orderBy:(NSString *) orderBy {
     [properties setObject:orderBy forKey:@"orderBy"];
     return self;
 }
 
-- (SFSmartSyncSoslReturningBuilder *) limit:(NSInteger) limit {
+- (SFSDKSoslReturningBuilder *) limit:(NSInteger) limit {
     [properties setObject:[NSNumber numberWithInteger:limit] forKey:@"limit"];
     return self;
 }

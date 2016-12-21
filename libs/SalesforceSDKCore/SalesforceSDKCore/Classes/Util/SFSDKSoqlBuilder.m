@@ -22,29 +22,29 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSmartSyncSoqlBuilder.h"
-#import <SalesforceSDKCore/NSString+SFAdditions.h>
+#import "SFSDKSoqlBuilder.h"
+#import "NSString+SFAdditions.h"
 
-@interface SFSmartSyncSoqlBuilder() {
+@interface SFSDKSoqlBuilder() {
     NSMutableDictionary *properties;
 }
 @end
 
-@implementation SFSmartSyncSoqlBuilder
+@implementation SFSDKSoqlBuilder
 
 #pragma mark -
 #pragma mark SOQL Builder
 
-+ (SFSmartSyncSoqlBuilder *) withFields:(NSString *) fields {
-    SFSmartSyncSoqlBuilder *builder = [[SFSmartSyncSoqlBuilder alloc] init];
++ (SFSDKSoqlBuilder *) withFields:(NSString *) fields {
+    SFSDKSoqlBuilder *builder = [[SFSDKSoqlBuilder alloc] init];
     [builder fields: fields];
     [builder limit:0];
     [builder offset:0];
     return builder;
 }
 
-+ (SFSmartSyncSoqlBuilder *) withFieldsArray:(NSArray *) fields {
-    return [SFSmartSyncSoqlBuilder withFields:[fields componentsJoinedByString:@", "]];
++ (SFSDKSoqlBuilder *) withFieldsArray:(NSArray *) fields {
+    return [SFSDKSoqlBuilder withFields:[fields componentsJoinedByString:@", "]];
 }
 
 - (id) init {
@@ -54,47 +54,47 @@
     return self;
 }
 
-- (SFSmartSyncSoqlBuilder *) fields:(NSString *) fields {
+- (SFSDKSoqlBuilder *) fields:(NSString *) fields {
     [properties setObject:fields forKey:@"fields"];
     return self;
 }
 
-- (SFSmartSyncSoqlBuilder *) from:(NSString *) from {
+- (SFSDKSoqlBuilder *) from:(NSString *) from {
     [properties setObject:from forKey:@"from"];
      return self;
 }
      
-- (SFSmartSyncSoqlBuilder *) whereClause:(NSString *) whereClause {
+- (SFSDKSoqlBuilder *) whereClause:(NSString *) whereClause {
     [properties setObject:whereClause forKey:@"whereClause"];
      return self;
 }
      
-- (SFSmartSyncSoqlBuilder *) with:(NSString *) with {
+- (SFSDKSoqlBuilder *) with:(NSString *) with {
     [properties setObject:with forKey:@"with"];
      return self;
 }         
      
-- (SFSmartSyncSoqlBuilder *) groupBy:(NSString *) groupBy {
+- (SFSDKSoqlBuilder *) groupBy:(NSString *) groupBy {
     [properties setObject:groupBy forKey:@"groupBy"];
      return self;
 }
          
-- (SFSmartSyncSoqlBuilder *) having:(NSString *) having {
+- (SFSDKSoqlBuilder *) having:(NSString *) having {
     [properties setObject:having forKey:@"having"];
     return self;        
 }
      
-- (SFSmartSyncSoqlBuilder *) orderBy:(NSString *) orderBy {
+- (SFSDKSoqlBuilder *) orderBy:(NSString *) orderBy {
     [properties setObject:orderBy forKey:@"orderBy"];
     return self;   
 }
 
-- (SFSmartSyncSoqlBuilder *) limit:(NSInteger) limit {
+- (SFSDKSoqlBuilder *) limit:(NSInteger) limit {
     [properties setObject:[NSNumber numberWithInteger:limit] forKey:@"limit"];
     return self;
 }
      
-- (SFSmartSyncSoqlBuilder *) offset:(NSInteger) offset {
+- (SFSDKSoqlBuilder *) offset:(NSInteger) offset {
     [properties setObject:[NSNumber numberWithInteger:offset] forKey:@"offset"];
     return self;
 }

@@ -23,9 +23,9 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFSmartSyncSoslReturningBuilder.h"
+#import "SFSDKSoslReturningBuilder.h"
 
-@interface SFSmartSyncSoslBuilder : NSObject
+@interface SFSDKSoslBuilder : NSObject
 
 /** @name Query Builder */
 /** A builder to help create a SOSL statement.
@@ -33,42 +33,42 @@
  * @param searchTerm text or word phrases to search for
  * @return the builder
  */
-+ (SFSmartSyncSoslBuilder *) withSearchTerm:(NSString *) searchTerm;
++ (SFSDKSoslBuilder *) withSearchTerm:(NSString *) searchTerm;
 
 /** A builder to help create a SOSL statement.
  *
  * @param searchGroup scope of fields to search. Values may be: ALL FIELDS, NAME FIELDS, EMAIL FIELDS, PHONE FIELDS, SIDEBAR FIELDS
  * @return the builder
  */
-- (SFSmartSyncSoslBuilder *) searchGroup:(NSString *) searchGroup;
+- (SFSDKSoslBuilder *) searchGroup:(NSString *) searchGroup;
 
 /** A builder to help create a SOSL statement.
  *
  * @param returningSpec information to return in the search result. List of one or more objects and, within each object, list of one or more fields, with optional values to filter against. If unspecified, then the search results contain the IDs of all objects found
  * @return the builder
  */
-- (SFSmartSyncSoslBuilder *) returning:(SFSmartSyncSoslReturningBuilder *) returningSpec;
+- (SFSDKSoslBuilder *) returning:(SFSDKSoslReturningBuilder *) returningSpec;
 
 /** A builder to help create a SOSL statement.
  *
  * @param divisionFilter if an organization uses divisions, filters all search results based on values for the Division field
  * @return the builder
  */
-- (SFSmartSyncSoslBuilder *) divisionFilter:(NSString *) divisionFilter;
+- (SFSDKSoslBuilder *) divisionFilter:(NSString *) divisionFilter;
 
 /** A builder to help create a SOSL statement.
  *
  * @param dataCategory if an organization uses Salesforce Knowledge articles or answers, filters all search results based on one or more data categories
  * @return the builder
  */
-- (SFSmartSyncSoslBuilder *) dataCategory:(NSString *) dataCategory;
+- (SFSDKSoslBuilder *) dataCategory:(NSString *) dataCategory;
 
 /** A builder to help create a SOSL statement.
  *
  * @param limit the maximum number of rows returned in the text query, up to 200. If unspecified, the default is 200, the largest number of rows that can be returned
  * @return the builder
  */
-- (SFSmartSyncSoslBuilder *) limit:(NSInteger) limit;
+- (SFSDKSoslBuilder *) limit:(NSInteger) limit;
 
 /** @name Query String Generation */
 /** Builds an encoded query from the builder.

@@ -24,7 +24,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface SFSmartSyncSoqlBuilder : NSObject
+@interface SFSDKSoqlBuilder : NSObject
 
 /** @name Query Builder */
 /** A builder to help create a SOQL statement.
@@ -32,7 +32,7 @@
  * @param fields a list of one or more fields, separated by commas, that are to be retrieved from the specified object
  * @return the builder
  */
-+ (SFSmartSyncSoqlBuilder *) withFields:(NSString *) fields;
++ (SFSDKSoqlBuilder *) withFields:(NSString *) fields;
 
 /** @name Query Builder */
 /** A builder to help create a SOQL statement.
@@ -40,63 +40,63 @@
  * @param fields an array of one or more fields, that are to be retrieved from the specified object
  * @return the builder
  */
-+ (SFSmartSyncSoqlBuilder *) withFieldsArray:(NSArray *) fields;
++ (SFSDKSoqlBuilder *) withFieldsArray:(NSArray *) fields;
 
 /** A builder to help create a SOQL statement.
  *
  * @param from the object to be queried
  * @return the builder
  */
-- (SFSmartSyncSoqlBuilder *) from:(NSString *) from;
+- (SFSDKSoqlBuilder *) from:(NSString *) from;
 
 /** A builder to help create a SOQL statement.
  *
  * @param whereClause a conditional statement
  * @return the builder
  */
-- (SFSmartSyncSoqlBuilder *) whereClause:(NSString *) whereClause;
+- (SFSDKSoqlBuilder *) whereClause:(NSString *) whereClause;
 
 /** A builder to help create a SOQL statement.
  *
  * @param with used to filter records based on field values. 
  * @return the builder
  */
-- (SFSmartSyncSoqlBuilder *) with:(NSString *) with;
+- (SFSDKSoqlBuilder *) with:(NSString *) with;
 
 /** A builder to help create a SOQL statement.
  *
  * @param groupBy a list of one or more fields, separated by commas, the resutls are to be grouped by 
  * @return the builder
  */
-- (SFSmartSyncSoqlBuilder *) groupBy:(NSString *) groupBy;
+- (SFSDKSoqlBuilder *) groupBy:(NSString *) groupBy;
 
 /** A builder to help create a SOQL statement.
  *
  * @param having specifies one or more conditional expressions using aggregate functions to filter the query results
  * @return the builder
  */
-- (SFSmartSyncSoqlBuilder *) having:(NSString *) having;
+- (SFSDKSoqlBuilder *) having:(NSString *) having;
 
 /** A builder to help create a SOQL statement.
  *
  * @param orderBy controls the order of the query results
  * @return the builder
  */
-- (SFSmartSyncSoqlBuilder *) orderBy:(NSString *) orderBy;
+- (SFSDKSoqlBuilder *) orderBy:(NSString *) orderBy;
 
 /** A builder to help create a SOQL statement.
  *
  * @param limit specifies the maximum number of rows to return
  * @return the builder
  */
-- (SFSmartSyncSoqlBuilder *) limit:(NSInteger) limit;
+- (SFSDKSoqlBuilder *) limit:(NSInteger) limit;
 
 /** A builder to help create a SOQL statement.
  *
  * @param offset  specifies the starting row offset into the result set returned by the query
  * @return the builder
  */
-- (SFSmartSyncSoqlBuilder *) offset:(NSInteger) offset;
+- (SFSDKSoqlBuilder *) offset:(NSInteger) offset;
 
 /** @name Query String Generation */
 /** Builds an encoded query from the builder.

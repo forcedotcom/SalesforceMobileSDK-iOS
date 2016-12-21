@@ -22,25 +22,25 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSmartSyncSoslBuilder.h"
-#import <SalesforceSDKCore/NSString+SFAdditions.h>
+#import "SFSDKSoslBuilder.h"
+#import "NSString+SFAdditions.h"
 
-@interface SFSmartSyncSoslBuilder() {
+@interface SFSDKSoslBuilder() {
     NSMutableDictionary *properties;
     NSMutableArray *returning;
 }
 
-- (SFSmartSyncSoslBuilder *) searchTerm:(NSString *) searchTerm;
+- (SFSDKSoslBuilder *) searchTerm:(NSString *) searchTerm;
 
 @end
 
-@implementation SFSmartSyncSoslBuilder
+@implementation SFSDKSoslBuilder
 
 #pragma mark -
 #pragma mark SOSL Builder
 
-+ (SFSmartSyncSoslBuilder *) withSearchTerm:(NSString *) searchTerm {
-    SFSmartSyncSoslBuilder *builder = [[SFSmartSyncSoslBuilder alloc] init];
++ (SFSDKSoslBuilder *) withSearchTerm:(NSString *) searchTerm {
+    SFSDKSoslBuilder *builder = [[SFSDKSoslBuilder alloc] init];
     [builder searchTerm: searchTerm];
     [builder limit:0];
     return builder;
@@ -54,7 +54,7 @@
     return self;
 }
 
-- (SFSmartSyncSoslBuilder *) searchTerm:(NSString *) searchTerm {
+- (SFSDKSoslBuilder *) searchTerm:(NSString *) searchTerm {
 
     // Escapes special characters.
     NSString *searchValue = searchTerm;
@@ -81,27 +81,27 @@
     return self;
 }
 
-- (SFSmartSyncSoslBuilder *) searchGroup:(NSString *) searchGroup {
+- (SFSDKSoslBuilder *) searchGroup:(NSString *) searchGroup {
     [properties setObject:searchGroup forKey:@"searchGroup"];
     return self;
 }
 
-- (SFSmartSyncSoslBuilder *) returning:(SFSmartSyncSoslReturningBuilder *) returningSpec {
+- (SFSDKSoslBuilder *) returning:(SFSDKSoslReturningBuilder *) returningSpec {
     [returning addObject:returningSpec];
     return self;
 }
 
-- (SFSmartSyncSoslBuilder *) divisionFilter:(NSString *) divisionFilter {
+- (SFSDKSoslBuilder *) divisionFilter:(NSString *) divisionFilter {
     [properties setObject:divisionFilter forKey:@"divisionFilter"];
     return self;
 }
 
-- (SFSmartSyncSoslBuilder *) dataCategory:(NSString *) dataCategory {
+- (SFSDKSoslBuilder *) dataCategory:(NSString *) dataCategory {
     [properties setObject:dataCategory forKey:@"dataCategory"];
     return self;
 }
 
-- (SFSmartSyncSoslBuilder *) limit:(NSInteger) limit {
+- (SFSDKSoslBuilder *) limit:(NSInteger) limit {
     [properties setObject:[NSNumber numberWithInteger:limit] forKey:@"limit"];
     return self;
 }

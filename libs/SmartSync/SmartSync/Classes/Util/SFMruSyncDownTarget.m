@@ -24,7 +24,7 @@
 
 #import "SFMruSyncDownTarget.h"
 #import "SFSmartSyncSyncManager.h"
-#import "SFSmartSyncSoqlBuilder.h"
+#import <SalesforceSDKCore/SFSDKSoqlBuilder.h>
 #import "SFSmartSyncConstants.h"
 #import "SFSmartSyncNetworkUtils.h"
 
@@ -91,7 +91,7 @@ static NSString * const kSFSyncTargetFieldlist = @"fieldlist";
         NSArray* recentItems = [strongSelf pluck:d[kRecentItems] key:strongSelf.idFieldName];
         NSString* inPredicate = [@[ strongSelf.idFieldName, @" IN ('", [recentItems componentsJoinedByString:@"', '"], @"')"]
                                  componentsJoinedByString:@""];
-        NSString* soql = [[[[SFSmartSyncSoqlBuilder withFieldsArray:strongSelf.fieldlist]
+        NSString* soql = [[[[SFSDKSoqlBuilder withFieldsArray:strongSelf.fieldlist]
                             from:strongSelf.objectType]
                            whereClause:inPredicate]
                           build];
@@ -122,7 +122,7 @@ static NSString * const kSFSyncTargetFieldlist = @"fieldlist";
     }
     NSString* inPredicate = [@[ self.idFieldName, @" IN ('", [localIds componentsJoinedByString:@"', '"], @"')"]
                              componentsJoinedByString:@""];
-    NSString* soql = [[[[SFSmartSyncSoqlBuilder withFields:self.idFieldName]
+    NSString* soql = [[[[SFSDKSoqlBuilder withFields:self.idFieldName]
                         from:self.objectType]
                        whereClause:inPredicate]
                       build];
