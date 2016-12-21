@@ -38,9 +38,9 @@
 #import <SmartSync/SFSoslSyncDownTarget.h>
 #import <SmartSync/SFMruSyncDownTarget.h>
 #import <SmartSync/SFSyncUpTarget.h>
-#import <SmartSync/SFSmartSyncSoqlBuilder.h>
-#import <SmartSync/SFSmartSyncSoslBuilder.h>
-#import <SmartSync/SFSmartSyncSoslReturningBuilder.h>
+#import <SalesforceSDKCore/SFSDKSoqlBuilder.h>
+#import <SalesforceSDKCore/SFSDKSoslBuilder.h>
+#import <SalesforceSDKCore/SFSDKSoslReturningBuilder.h>
 
 #define ACCOUNTS_SOUP       @"accounts"
 #define ACCOUNT_ID          @"Id"
@@ -177,7 +177,7 @@ static NSException *authException = nil;
  */
 - (void)testQueryWithFromFieldtoSOQLTarget
 {
-    NSString *soqlQueryWithFromField = [[[[SFSmartSyncSoqlBuilder withFields:@"From_customer__c, Id"] from:ACCOUNT_TYPE] limit:10] build];
+    NSString *soqlQueryWithFromField = [[[[SFSDKSoqlBuilder withFields:@"From_customer__c, Id"] from:ACCOUNT_TYPE] limit:10] build];
     SFSoqlSyncDownTarget* target = [SFSoqlSyncDownTarget newSyncTarget:soqlQueryWithFromField];
     [target getListOfRemoteIds:syncManager localIds:@[] errorBlock:^(NSError *e) {
         NSLog(@"%@", [e localizedDescription]);
@@ -190,8 +190,8 @@ static NSException *authException = nil;
  */
 - (void)testAddMissingFieldstoSOQLTarget
 {
-    NSString *soqlQueryWithSpecialFields = [[[[SFSmartSyncSoqlBuilder withFields:@"Id, LastModifiedDate, FirstName, LastName"] from:@"Contact"] limit:10] build];
-    NSString *soqlQueryWithoutSpecialFields = [[[[SFSmartSyncSoqlBuilder withFields:@"FirstName, LastName"] from:@"Contact"] limit:10] build];
+    NSString *soqlQueryWithSpecialFields = [[[[SFSDKSoqlBuilder withFields:@"Id, LastModifiedDate, FirstName, LastName"] from:@"Contact"] limit:10] build];
+    NSString *soqlQueryWithoutSpecialFields = [[[[SFSDKSoqlBuilder withFields:@"FirstName, LastName"] from:@"Contact"] limit:10] build];
     SFSoqlSyncDownTarget* target = [SFSoqlSyncDownTarget newSyncTarget:soqlQueryWithoutSpecialFields];
     NSString *targetSoqlQuery = [target query];
     XCTAssertTrue([soqlQueryWithSpecialFields isEqualToString:targetSoqlQuery], @"SOQL query should contain Id and LastModifiedDate fields.");
@@ -305,8 +305,8 @@ static NSException *authException = nil;
     [self createAccountsSoup:soupName];
 
     // Builds SOSL sync down target and performs initial sync.
-    SFSmartSyncSoslBuilder* soslBuilder = [SFSmartSyncSoslBuilder withSearchTerm:accountIdToNames[accountIds[0]]];
-    SFSmartSyncSoslReturningBuilder* returningBuilder = [SFSmartSyncSoslReturningBuilder withObjectName:@"Account"];
+    SFSDKSoslBuilder* soslBuilder = [SFSDKSoslBuilder withSearchTerm:accountIdToNames[accountIds[0]]];
+    SFSDKSoslReturningBuilder* returningBuilder = [SFSDKSoslReturningBuilder withObjectName:@"Account"];
     [returningBuilder fields:@"Id, Name"];
     NSString* sosl = [[[soslBuilder returning:returningBuilder] searchGroup:@"NAME FIELDS"] build];
     NSNumber* syncId = [NSNumber numberWithInteger:[self trySyncDown:SFSyncStateMergeModeLeaveIfChanged target:[SFSoslSyncDownTarget newSyncTarget:sosl] soupName:soupName totalSize:accountIdToNames.count numberFetches:1]];

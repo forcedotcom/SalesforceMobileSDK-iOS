@@ -289,6 +289,18 @@
 		CE50CE921DD3DD1F00F1297B /* SFSDKEventBuilderHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CE50CE901DD3DD1F00F1297B /* SFSDKEventBuilderHelper.m */; };
 		CE50CEA71DD3DD2500F1297B /* SFSDKEventBuilderHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = CE50CE8F1DD3DD1F00F1297B /* SFSDKEventBuilderHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE50CEA81DD3DD2C00F1297B /* SFSDKEventBuilderHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CE50CE901DD3DD1F00F1297B /* SFSDKEventBuilderHelper.m */; };
+		CE675A331E0B2CC6002DBF5A /* SFSDKSoqlBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = CE675A2D1E0B2CC6002DBF5A /* SFSDKSoqlBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE675A341E0B2CC6002DBF5A /* SFSDKSoqlBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = CE675A2E1E0B2CC6002DBF5A /* SFSDKSoqlBuilder.m */; };
+		CE675A351E0B2CC6002DBF5A /* SFSDKSoslBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = CE675A2F1E0B2CC6002DBF5A /* SFSDKSoslBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE675A361E0B2CC6002DBF5A /* SFSDKSoslBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = CE675A301E0B2CC6002DBF5A /* SFSDKSoslBuilder.m */; };
+		CE675A371E0B2CC6002DBF5A /* SFSDKSoslReturningBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = CE675A311E0B2CC6002DBF5A /* SFSDKSoslReturningBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE675A381E0B2CC6002DBF5A /* SFSDKSoslReturningBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = CE675A321E0B2CC6002DBF5A /* SFSDKSoslReturningBuilder.m */; };
+		CE675A391E0B2CCC002DBF5A /* SFSDKSoqlBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = CE675A2D1E0B2CC6002DBF5A /* SFSDKSoqlBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE675A3A1E0B2CD1002DBF5A /* SFSDKSoqlBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = CE675A2E1E0B2CC6002DBF5A /* SFSDKSoqlBuilder.m */; };
+		CE675A3B1E0B2CD6002DBF5A /* SFSDKSoslBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = CE675A2F1E0B2CC6002DBF5A /* SFSDKSoslBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE675A3C1E0B2CDB002DBF5A /* SFSDKSoslBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = CE675A301E0B2CC6002DBF5A /* SFSDKSoslBuilder.m */; };
+		CE675A3D1E0B2CDE002DBF5A /* SFSDKSoslReturningBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = CE675A311E0B2CC6002DBF5A /* SFSDKSoslReturningBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE675A3E1E0B2CE2002DBF5A /* SFSDKSoslReturningBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = CE675A321E0B2CC6002DBF5A /* SFSDKSoslReturningBuilder.m */; };
 		CE88BD521D17065C00AE3BF7 /* SFSDKAILTNPublisher.h in Headers */ = {isa = PBXBuildFile; fileRef = CE88BD4F1D17065B00AE3BF7 /* SFSDKAILTNPublisher.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE88BD531D17065C00AE3BF7 /* SFSDKAILTNPublisher.m in Sources */ = {isa = PBXBuildFile; fileRef = CE88BD501D17065C00AE3BF7 /* SFSDKAILTNPublisher.m */; };
 		CE88BD541D17065C00AE3BF7 /* SFSDKAnalyticsPublisher.h in Headers */ = {isa = PBXBuildFile; fileRef = CE88BD511D17065C00AE3BF7 /* SFSDKAnalyticsPublisher.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1193,6 +1205,12 @@
 		CE4CE26B1C0E449C009F6029 /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SalesforceSDKCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE50CE8F1DD3DD1F00F1297B /* SFSDKEventBuilderHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSDKEventBuilderHelper.h; path = Analytics/SFSDKEventBuilderHelper.h; sourceTree = "<group>"; };
 		CE50CE901DD3DD1F00F1297B /* SFSDKEventBuilderHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKEventBuilderHelper.m; path = Analytics/SFSDKEventBuilderHelper.m; sourceTree = "<group>"; };
+		CE675A2D1E0B2CC6002DBF5A /* SFSDKSoqlBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKSoqlBuilder.h; sourceTree = "<group>"; };
+		CE675A2E1E0B2CC6002DBF5A /* SFSDKSoqlBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKSoqlBuilder.m; sourceTree = "<group>"; };
+		CE675A2F1E0B2CC6002DBF5A /* SFSDKSoslBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKSoslBuilder.h; sourceTree = "<group>"; };
+		CE675A301E0B2CC6002DBF5A /* SFSDKSoslBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKSoslBuilder.m; sourceTree = "<group>"; };
+		CE675A311E0B2CC6002DBF5A /* SFSDKSoslReturningBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKSoslReturningBuilder.h; sourceTree = "<group>"; };
+		CE675A321E0B2CC6002DBF5A /* SFSDKSoslReturningBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKSoslReturningBuilder.m; sourceTree = "<group>"; };
 		CE88BD4F1D17065B00AE3BF7 /* SFSDKAILTNPublisher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSDKAILTNPublisher.h; path = Analytics/SFSDKAILTNPublisher.h; sourceTree = "<group>"; };
 		CE88BD501D17065C00AE3BF7 /* SFSDKAILTNPublisher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKAILTNPublisher.m; path = Analytics/SFSDKAILTNPublisher.m; sourceTree = "<group>"; };
 		CE88BD511D17065C00AE3BF7 /* SFSDKAnalyticsPublisher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSDKAnalyticsPublisher.h; path = Analytics/SFSDKAnalyticsPublisher.h; sourceTree = "<group>"; };
@@ -1663,6 +1681,12 @@
 		4F96FD371BFD32140022F021 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				CE675A2D1E0B2CC6002DBF5A /* SFSDKSoqlBuilder.h */,
+				CE675A2E1E0B2CC6002DBF5A /* SFSDKSoqlBuilder.m */,
+				CE675A2F1E0B2CC6002DBF5A /* SFSDKSoslBuilder.h */,
+				CE675A301E0B2CC6002DBF5A /* SFSDKSoslBuilder.m */,
+				CE675A311E0B2CC6002DBF5A /* SFSDKSoslReturningBuilder.h */,
+				CE675A321E0B2CC6002DBF5A /* SFSDKSoslReturningBuilder.m */,
 				4F96FD381BFD32140022F021 /* NSURL+SFStringUtils.h */,
 				4F96FD391BFD32140022F021 /* NSURL+SFStringUtils.m */,
 				4F96FD3A1BFD32140022F021 /* SalesforceSDKCoreDefines.h */,
@@ -2278,6 +2302,7 @@
 				CE8EA29B1D7F67FA00AAC74C /* CSFAuthRefresh.h in Headers */,
 				CE4CE3211C0E523B009F6029 /* SFTestContext.h in Headers */,
 				CE8EA2AB1D7F67FA00AAC74C /* CSFParameterStorage.h in Headers */,
+				CE675A331E0B2CC6002DBF5A /* SFSDKSoqlBuilder.h in Headers */,
 				CE4CE33A1C0E5245009F6029 /* SFIdentityCoordinator.h in Headers */,
 				CE4CE3A91C0E5279009F6029 /* SFManagedPreferences.h in Headers */,
 				CE4CE31C1C0E523B009F6029 /* SFKeychainItemWrapper.h in Headers */,
@@ -2326,9 +2351,11 @@
 				E1C80CEE1C5AEE31001B3A21 /* SFSDKLoginHostDelegate.h in Headers */,
 				CE4CE3301C0E523B009F6029 /* SFSDKAppConfig.h in Headers */,
 				CE4CE31E1C0E523B009F6029 /* SFKeychainItemWrapper+Internal.h in Headers */,
+				CE675A371E0B2CC6002DBF5A /* SFSDKSoslReturningBuilder.h in Headers */,
 				4F06AF861C49A16A00F70798 /* SFTestSDKManagerFlow.h in Headers */,
 				CE8EA2921D7F67FA00AAC74C /* CSFInput_Internal.h in Headers */,
 				CE4CE3691C0E526A009F6029 /* SFDefaultUserManagementViewController+Internal.h in Headers */,
+				CE675A351E0B2CC6002DBF5A /* SFSDKSoslBuilder.h in Headers */,
 				CE4CE37E1C0E526A009F6029 /* SFPasscodeProviderManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2380,6 +2407,7 @@
 				CEA883041C18FB8E008D871B /* SFSHA256PasscodeProvider.h in Headers */,
 				CE8EA33E1D7F6AA600AAC74C /* CSFForceDefines.h in Headers */,
 				CE8EA3371D7F6A8E00AAC74C /* CSFActionInput.h in Headers */,
+				CE675A391E0B2CCC002DBF5A /* SFSDKSoqlBuilder.h in Headers */,
 				CE8EA3311D7F6A6B00AAC74C /* CSFNetwork+Salesforce.h in Headers */,
 				CE8EA3351D7F6A8000AAC74C /* CSFParameterStorage.h in Headers */,
 				CEA883271C18FC40008D871B /* SFSDKResourceUtils.h in Headers */,
@@ -2433,6 +2461,7 @@
 				CEA882851C18FAAB008D871B /* NSData+SFAdditions.h in Headers */,
 				CED452E51D808D4D009266EB /* SFRestRequest.h in Headers */,
 				CE8EA33F1D7F6AAA00AAC74C /* CSFInternalDefines.h in Headers */,
+				CE675A3B1E0B2CD6002DBF5A /* SFSDKSoslBuilder.h in Headers */,
 				CE8EA3391D7F6A9500AAC74C /* CSFActionValue.h in Headers */,
 				CE8EA32E1D7F6A5C00AAC74C /* CSFSalesforceOAuthRefresh.h in Headers */,
 				E1C80D301C5C3689001B3A21 /* SFSDKTextFieldTableViewCell.h in Headers */,
@@ -2477,6 +2506,7 @@
 				CED452D91D808D29009266EB /* SFRestAPI+Blocks.h in Headers */,
 				CEA882CC1C18FB80008D871B /* SFPushNotificationManager.h in Headers */,
 				CEA882801C18FAA2008D871B /* SFCocoaLumberJackCustomFormatter.h in Headers */,
+				CE675A3D1E0B2CDE002DBF5A /* SFSDKSoslReturningBuilder.h in Headers */,
 				CEA882AA1C18FAAB008D871B /* SFSDKDatasharingHelper.h in Headers */,
 				CEA882D71C18FB8E008D871B /* SFAuthErrorHandlerList.h in Headers */,
 				CEA882D51C18FB8E008D871B /* SFAuthErrorHandler.h in Headers */,
@@ -2973,6 +3003,7 @@
 				05460B721DD409B8004E3320 /* SFSwiftDetectUtil.m in Sources */,
 				CE4CE33F1C0E524B009F6029 /* SFInstrumentation.m in Sources */,
 				CE8EA2B51D7F67FA00AAC74C /* CSFDefines.m in Sources */,
+				CE675A341E0B2CC6002DBF5A /* SFSDKSoqlBuilder.m in Sources */,
 				CE4CE3311C0E523B009F6029 /* SFSDKAppConfig.m in Sources */,
 				CED452C41D808D0C009266EB /* SFRestRequest.m in Sources */,
 				CE8EA2811D7F67FA00AAC74C /* NSDate+ActionValue.m in Sources */,
@@ -3011,6 +3042,7 @@
 				CE4CE34D1C0E5252009F6029 /* SFOAuthKeychainCredentials.m in Sources */,
 				CE4CE3371C0E523B009F6029 /* SFUserActivityMonitor.m in Sources */,
 				CE4CE33B1C0E5245009F6029 /* SFIdentityCoordinator.m in Sources */,
+				CE675A361E0B2CC6002DBF5A /* SFSDKSoslBuilder.m in Sources */,
 				CE8EA2A01D7F67FA00AAC74C /* CSFTokenRefresh.m in Sources */,
 				CE4CE3721C0E526A009F6029 /* SFKeyStore.m in Sources */,
 				CE8EA2A61D7F67FA00AAC74C /* CSFNetwork.m in Sources */,
@@ -3052,6 +3084,7 @@
 				CE4CE3241C0E523B009F6029 /* UIDevice+SFHardware.m in Sources */,
 				CE8EA2C71D7F67FA00AAC74C /* CSFUTF8StringValueTransformer.m in Sources */,
 				CE4CE35C1C0E526A009F6029 /* SFAuthenticationViewHandler.m in Sources */,
+				CE675A381E0B2CC6002DBF5A /* SFSDKSoslReturningBuilder.m in Sources */,
 				E1C80CF41C5AEE31001B3A21 /* SFSDKNewLoginHostViewController.m in Sources */,
 				CE4CE3281C0E523B009F6029 /* NSData+SFSDKUtils.m in Sources */,
 				CE8EA2971D7F67FA00AAC74C /* CSFOAuthTokenRefreshInput.m in Sources */,
@@ -3107,6 +3140,7 @@
 				CE2788B21DD52D1B00DD3C39 /* SFSwiftDetectUtil.m in Sources */,
 				CEA882B71C18FB3D008D871B /* SFInstrumentation.m in Sources */,
 				E1C80D2B1C5C3679001B3A21 /* SFSDKLoginHostListViewController.m in Sources */,
+				CE675A3A1E0B2CD1002DBF5A /* SFSDKSoqlBuilder.m in Sources */,
 				CEA882A91C18FAAB008D871B /* SFSDKAppConfig.m in Sources */,
 				CED452E61D808D50009266EB /* SFRestRequest.m in Sources */,
 				CE8EA3041D7F690100AAC74C /* NSDate+ActionValue.m in Sources */,
@@ -3145,6 +3179,7 @@
 				CEA882C51C18FB4D008D871B /* SFOAuthKeychainCredentials.m in Sources */,
 				CEA882AF1C18FAAB008D871B /* SFUserActivityMonitor.m in Sources */,
 				CEA882B31C18FB28008D871B /* SFIdentityCoordinator.m in Sources */,
+				CE675A3C1E0B2CDB002DBF5A /* SFSDKSoslBuilder.m in Sources */,
 				CEA882EA1C18FB8E008D871B /* SFKeyStore.m in Sources */,
 				CEA883261C18FC40008D871B /* SFRootViewManager.m in Sources */,
 				CE8EA30F1D7F693800AAC74C /* CSFJPEGImageValueTransformer.m in Sources */,
@@ -3186,6 +3221,7 @@
 				CEA882A71C18FAAB008D871B /* SFApplication.m in Sources */,
 				1098078C1CB8713A002AF771 /* UIColor+SFColors.m in Sources */,
 				CEA8829C1C18FAAB008D871B /* UIDevice+SFHardware.m in Sources */,
+				CE675A3E1E0B2CE2002DBF5A /* SFSDKSoslReturningBuilder.m in Sources */,
 				CEA882D41C18FB8E008D871B /* SFAuthenticationViewHandler.m in Sources */,
 				CE8EA3131D7F695900AAC74C /* CSFAction.m in Sources */,
 				CEA882A01C18FAAB008D871B /* NSData+SFSDKUtils.m in Sources */,

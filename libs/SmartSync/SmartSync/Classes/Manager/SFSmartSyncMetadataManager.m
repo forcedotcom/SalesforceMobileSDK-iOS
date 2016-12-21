@@ -26,7 +26,7 @@
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import <SalesforceSDKCore/SFRestAPI+Blocks.h>
-#import "SFSmartSyncSoqlBuilder.h"
+#import <SalesforceSDKCore/SFSDKSoqlBuilder.h>
 #import "SFSmartSyncConstants.h"
 #import "SFObjectType+Internal.h"
 #import "SFObject+Internal.h"
@@ -361,9 +361,9 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
     
     // Loads the MRU objects.
     void (^loadRecentsBlock)(SFObjectType *objectType) = ^(SFObjectType *objectType){
-        SFSmartSyncSoqlBuilder *queryBuilder = nil;
+        SFSDKSoqlBuilder *queryBuilder = nil;
         if (globalMRU) {
-            queryBuilder = [SFSmartSyncSoqlBuilder withFields:@"Id, Name, Type"];
+            queryBuilder = [SFSDKSoqlBuilder withFields:@"Id, Name, Type"];
             [queryBuilder from:kRecentlyViewed];
             NSString *whereClause = @"LastViewedDate != NULL";
             if (![SFSmartSyncObjectUtils isEmpty:self.communityId]) {
@@ -381,9 +381,9 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
             NSString *queryFields = nil;
             queryFields = [self returnFieldsForObjectType:objectType];
             if (![SFSmartSyncObjectUtils isEmpty:queryFields]) {
-                queryBuilder = [SFSmartSyncSoqlBuilder withFields:queryFields];
+                queryBuilder = [SFSDKSoqlBuilder withFields:queryFields];
             } else {
-                queryBuilder = [SFSmartSyncSoqlBuilder withFields:@"Id, Name, Type"];
+                queryBuilder = [SFSDKSoqlBuilder withFields:@"Id, Name, Type"];
             }
             NSString *whereClause = nil;
             if (objectContainedLastViewedDate) {
@@ -812,7 +812,7 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
         }
     };
     [self loadObjectType:objectType cachePolicy:SFDataCachePolicyReturnCacheDataAndReloadIfExpired refreshCacheIfOlderThan:kSFMetadataRefreshInterval completion:^(SFObjectType *result, BOOL isDataFromCache) {
-        SFSmartSyncSoqlBuilder *queryBuilder = [[SFSmartSyncSoqlBuilder withFields:@"Id"] from:objectType];
+        SFSDKSoqlBuilder *queryBuilder = [[SFSDKSoqlBuilder withFields:@"Id"] from:objectType];
         NSString *whereClause = nil;
         if (result && [self isObjectTypeSearchable:result]) {
             whereClause = [NSString stringWithFormat:@"Id = '%@' FOR VIEW", objectId];

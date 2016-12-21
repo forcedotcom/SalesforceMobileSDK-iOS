@@ -2,7 +2,7 @@
  SalesforceSDKCore.h
  SalesforceSDKCore
 
- Created by Bharath Hariharan on Wed Nov  9 14:53:10 PST 2016.
+ Created by Bharath Hariharan on Wed Dec 21 13:45:27 PST 2016.
 
  Copyright (c) 2016-present, salesforce.com, inc. All rights reserved.
  
@@ -127,6 +127,9 @@
 #import <SalesforceSDKCore/SFSDKLoginHostStorage.h>
 #import <SalesforceSDKCore/SFSDKResourceUtils.h>
 #import <SalesforceSDKCore/SFSDKSalesforceAnalyticsManager.h>
+#import <SalesforceSDKCore/SFSDKSoqlBuilder.h>
+#import <SalesforceSDKCore/SFSDKSoslBuilder.h>
+#import <SalesforceSDKCore/SFSDKSoslReturningBuilder.h>
 #import <SalesforceSDKCore/SFSDKTestCredentialsData.h>
 #import <SalesforceSDKCore/SFSDKTestRequestListener.h>
 #import <SalesforceSDKCore/SFSDKWebUtils.h>
