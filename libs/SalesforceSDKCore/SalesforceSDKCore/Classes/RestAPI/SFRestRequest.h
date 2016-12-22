@@ -112,7 +112,7 @@ extern NSString * const kSFDefaultRestEndpoint;
  * The query parameters of the request (could be nil).
  * Note that URL encoding of the parameters will automatically happen when the request is sent.
  */
-@property (nullable, nonatomic, strong) NSDictionary<NSString*, NSObject*> *queryParams;
+@property (nullable, nonatomic, strong) NSDictionary<NSString*, id> *queryParams;
 
 /**
  * Dictionary of any custom HTTP headers you wish to add to your request.  You can also use
@@ -222,7 +222,7 @@ extern NSString * const kSFDefaultRestEndpoint;
  * @param path the request path
  * @param queryParams the parameters of the request (could be nil)
  */
-+ (instancetype)requestWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, NSString*> *)queryParams;
++ (instancetype)requestWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, id> *)queryParams;
 
 @end
 
