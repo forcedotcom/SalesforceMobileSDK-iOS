@@ -51,11 +51,17 @@
 }
 
 - (BOOL)isOfflineCacheEnabled {
-    [self configureOfflineCache];
+    BOOL result = NO;
+    BOOL shouldConfigure = YES;
 
-    BOOL result = (_outputCachePointers.count > 0) ? YES : NO;
-    if (_offlineCacheEnabled) {
+    if (_offlineCacheEnabled != nil) {
         result = [_offlineCacheEnabled boolValue];
+        shouldConfigure = result;
+    }
+    
+    if (shouldConfigure) {
+        [self configureOfflineCache];
+        result = (_outputCachePointers.count > 0) ? YES : NO;
     }
 
     return result;
