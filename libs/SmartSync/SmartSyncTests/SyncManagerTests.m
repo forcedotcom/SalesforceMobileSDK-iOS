@@ -1549,6 +1549,7 @@ static NSException *authException = nil;
         XCTAssertNotNil(sync.options);
         XCTAssertEqual(expectedOptions.mergeMode, sync.options.mergeMode);
         XCTAssertEqualObjects(expectedOptions.fieldlist, sync.options.fieldlist);
+        XCTAssertEqualObjects(expectedOptions.createFieldlist, sync.options.createFieldlist);
         XCTAssertEqualObjects(expectedOptions.updateFieldlist, sync.options.updateFieldlist);
     } else {
         XCTAssertNil(sync.options);

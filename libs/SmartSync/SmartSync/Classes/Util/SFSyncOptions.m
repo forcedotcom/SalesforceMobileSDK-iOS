@@ -25,12 +25,14 @@
 #import "SFSyncOptions.h"
 
 NSString * const kSFSyncOptionsFieldlist = @"fieldlist";
+NSString * const kSFSyncOptionsCreateFieldlist = @"createFieldlist";
 NSString * const kSFSyncOptionsUpdateFieldlist = @"updateFieldlist";
 NSString * const kSFSyncOptionsMergeMode = @"mergeMode";
 
 @interface SFSyncOptions ()
 
 @property (nonatomic, strong, readwrite) NSArray*  fieldlist;
+@property (nonatomic, strong, readwrite) NSArray*  createFieldlist;
 @property (nonatomic, strong, readwrite) NSArray*  updateFieldlist;
 @property (nonatomic, readwrite)         SFSyncStateMergeMode mergeMode;
 
@@ -46,15 +48,19 @@ NSString * const kSFSyncOptionsMergeMode = @"mergeMode";
 
 + (SFSyncOptions*) newSyncOptionsForSyncUp:(NSArray*)fieldlist mergeMode:(SFSyncStateMergeMode)mergeMode {
     return [SFSyncOptions newSyncOptionsForSyncUp:fieldlist
+                                  createFieldlist:nil
                                   updateFieldlist:nil
                                         mergeMode:mergeMode];
 }
 
 + (SFSyncOptions*) newSyncOptionsForSyncUp:(NSArray*)fieldlist
+                           createFieldlist:(NSArray*)createFieldlist
                            updateFieldlist:(NSArray*)updateFieldlist
                                  mergeMode:(SFSyncStateMergeMode)mergeMode {
+    
     SFSyncOptions* syncOptions = [[SFSyncOptions alloc] init];
     syncOptions.fieldlist = fieldlist;
+    syncOptions.createFieldlist = createFieldlist;
     syncOptions.updateFieldlist = updateFieldlist;
     syncOptions.mergeMode = mergeMode;
     return syncOptions;
@@ -74,6 +80,7 @@ NSString * const kSFSyncOptionsMergeMode = @"mergeMode";
     SFSyncOptions* syncOptions = nil;
     if (dict != nil && [dict count] != 0) {
         syncOptions = [SFSyncOptions newSyncOptionsForSyncUp:dict[kSFSyncOptionsFieldlist]
+                                             createFieldlist:dict[kSFSyncOptionsCreateFieldlist]
                                              updateFieldlist:dict[kSFSyncOptionsUpdateFieldlist]
                                                    mergeMode:[SFSyncState mergeModeFromString:dict[kSFSyncOptionsMergeMode]]];
     }
@@ -83,6 +90,7 @@ NSString * const kSFSyncOptionsMergeMode = @"mergeMode";
 - (NSDictionary*) asDict {
     NSMutableDictionary* dict = [NSMutableDictionary dictionary];
     if (self.fieldlist) dict[kSFSyncOptionsFieldlist] = self.fieldlist;
+    if (self.createFieldlist) dict[kSFSyncOptionsCreateFieldlist] = self.createFieldlist;
     if (self.updateFieldlist) dict[kSFSyncOptionsUpdateFieldlist] = self.updateFieldlist;
     dict[kSFSyncOptionsMergeMode] = [SFSyncState mergeModeToString:self.mergeMode];
     return dict;

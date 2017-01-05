@@ -627,8 +627,12 @@ static NSMutableDictionary *syncMgrList = nil;
     NSMutableDictionary* fields = [NSMutableDictionary dictionary];
     if (action == SFSyncUpTargetActionCreate || action == SFSyncUpTargetActionUpdate) {
         NSArray *fieldList;
-        // During update use options.updateFieldlist if available
-        if (action == SFSyncUpTargetActionUpdate && sync.options.updateFieldlist) {
+        // During create use options.createFieldlist if specified
+        if (action == SFSyncUpTargetActionCreate && sync.options.createFieldlist) {
+            fieldList = sync.options.createFieldlist;
+        }
+        // During update use options.updateFieldlist if specified
+        else if (action == SFSyncUpTargetActionUpdate && sync.options.updateFieldlist) {
             fieldList = sync.options.updateFieldlist;
         }
         // Otherwise use options.fieldlist
