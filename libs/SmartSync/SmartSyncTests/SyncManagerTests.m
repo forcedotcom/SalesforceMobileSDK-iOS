@@ -775,7 +775,7 @@ static NSException *authException = nil;
     // Sync up
     [self trySyncUp:3 mergeMode:SFSyncStateMergeModeLeaveIfChanged];
     
-    // Check that db doesn't show entries as locally modified anymore
+    // Check that db does still shows entries as locally modified
     NSString* idsClause = [self buildInClause:ids];
     NSString* smartSql = [NSString stringWithFormat:@"SELECT {accounts:_soup} FROM {accounts} WHERE {accounts:Id} IN %@", idsClause];
     SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:ids.count];
@@ -1549,6 +1549,7 @@ static NSException *authException = nil;
         XCTAssertNotNil(sync.options);
         XCTAssertEqual(expectedOptions.mergeMode, sync.options.mergeMode);
         XCTAssertEqualObjects(expectedOptions.fieldlist, sync.options.fieldlist);
+        XCTAssertEqualObjects(expectedOptions.updateFieldlist, sync.options.updateFieldlist);
     } else {
         XCTAssertNil(sync.options);
     }
