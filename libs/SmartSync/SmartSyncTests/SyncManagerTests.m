@@ -241,8 +241,6 @@ static NSException *authException = nil;
     // Deletes the remaining accounts on the server.
     [self deleteAccountsOnServer:@[accountIds[1]]];
     [self deleteAccountsOnServer:@[accountIds[2]]];
-    [self dropAccountsSoup:soupName];
-    [self deleteSyncs];
 }
 
 /**
@@ -285,8 +283,6 @@ static NSException *authException = nil;
     // Deletes the remaining accounts on the server.
     [self deleteAccountsOnServer:@[accountIds[1]]];
     [self deleteAccountsOnServer:@[accountIds[2]]];
-    [self dropAccountsSoup:soupName];
-    [self deleteSyncs];
 }
 
 /**
@@ -326,8 +322,6 @@ static NSException *authException = nil;
 
     // Deletes the remaining accounts on the server.
     [self deleteAccountsOnServer:@[accountIds[0]]];
-    [self dropAccountsSoup:soupName];
-    [self deleteSyncs];
 }
 
 /**
@@ -705,8 +699,6 @@ static NSException *authException = nil;
     SFSyncOptions* options = [SFSyncOptions newSyncOptionsForSyncUp:@[NAME, DESCRIPTION] createFieldlist:nil updateFieldlist:@[NAME] mergeMode:SFSyncStateMergeModeOverwrite];
     [self trySyncUp:idToFieldsLocallyUpdated.count options:options];
     
-    
-    
     // Check that db doesn't show entries as locally modified anymore
     NSArray* ids = [idToFieldsLocallyUpdated allKeys];
     NSString* idsClause = [self buildInClause:ids];
@@ -735,7 +727,46 @@ static NSException *authException = nil;
  */
 -(void)testSyncUpWithCreateFieldList
 {
-    // TBD
+    // Create test data
+    [self createTestData];
+    
+    // Create a few entries locally
+    NSArray* names = @[ [self createAccountName], [self createAccountName], [self createAccountName]];
+    [self createAccountsLocally:names];
+    
+    // Sync up with create field list including only name
+    SFSyncOptions* options = [SFSyncOptions newSyncOptionsForSyncUp:@[NAME, DESCRIPTION] createFieldlist:@[NAME] updateFieldlist:nil mergeMode:SFSyncStateMergeModeOverwrite];
+    [self trySyncUp:names.count options:options];
+    
+    // Check that db doesn't show entries as locally created anymore and that they use sfdc id
+    NSString* namesClause = [self buildInClause:names];
+    NSString* smartSql = [NSString stringWithFormat:@"SELECT {accounts:_soup} FROM {accounts} WHERE {accounts:Name} IN %@", namesClause];
+    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:names.count];
+    NSArray* rows = [store queryWithQuerySpec:query pageIndex:0 error:nil];
+    NSMutableDictionary* idToFieldsCreated = [NSMutableDictionary new];
+    for (NSArray* row in rows) {
+        NSDictionary* account = row[0];
+        NSString* accountId = account[ID];
+        idToFieldsCreated[accountId] = @{NAME:account[NAME], DESCRIPTION:account[DESCRIPTION]};
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocal]);
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyCreated]);
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyUpdated]);
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyDeleted]);
+        XCTAssertFalse([accountId hasPrefix:@"local_"]);
+    }
+    
+    // Check server - make sure only name was set
+    NSMutableDictionary* idToFieldsExpectedOnServer = [NSMutableDictionary new];
+    for (NSString* id in idToFieldsCreated) {
+        idToFieldsExpectedOnServer[id] = @{NAME: idToFieldsCreated[id][NAME], DESCRIPTION:[NSNull null]};
+    }
+    [self checkServer:idToFieldsExpectedOnServer byNames:names];
+    
+    // Adding to idToFields so that they get deleted in tearDown
+    [idToFields addEntriesFromDictionary:idToFieldsCreated];
+    
+    // Deletes the remaining accounts on the server.
+    [self deleteAccountsOnServer:[idToFields allKeys]];
 }
 
 /**
@@ -916,7 +947,6 @@ static NSException *authException = nil;
     
     // Deletes the remaining accounts on the server.
     [self deleteAccountsOnServer:[idToFields allKeys]];
-    [self deleteSyncs];
 }
 
 /**
@@ -1082,7 +1112,6 @@ static NSException *authException = nil;
     
     // Deletes the remaining accounts on the server.
     [self deleteAccountsOnServer:[idToFields allKeys]];
-    [self deleteSyncs];
 }
 
 /**
