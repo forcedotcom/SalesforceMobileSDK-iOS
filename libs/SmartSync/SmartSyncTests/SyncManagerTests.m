@@ -716,7 +716,7 @@ static NSException *authException = nil;
     // Check server - make sure only name was updated
     NSMutableDictionary* idToFieldsExpectedOnServer = [NSMutableDictionary new];
     for (NSString* id in idToFieldsLocallyUpdated) {
-        idToFieldsExpectedOnServer[id] = @{NAME: idToFieldsLocallyUpdated[id][NAME], DESCRIPTION:idToFields[id][DESCRIPTION]};
+        idToFieldsExpectedOnServer[id] = @{NAME: idToFieldsLocallyUpdated[id][NAME], DESCRIPTION:idToFields[id][DESCRIPTION]}; // should have modified name but original description
     }
     [self checkServer:idToFieldsExpectedOnServer];
     
@@ -758,24 +758,80 @@ static NSException *authException = nil;
     // Check server - make sure only name was set
     NSMutableDictionary* idToFieldsExpectedOnServer = [NSMutableDictionary new];
     for (NSString* id in idToFieldsCreated) {
-        idToFieldsExpectedOnServer[id] = @{NAME: idToFieldsCreated[id][NAME], DESCRIPTION:[NSNull null]};
+        idToFieldsExpectedOnServer[id] = @{NAME: idToFieldsCreated[id][NAME], DESCRIPTION:[NSNull null]}; // should have name but no description
     }
     [self checkServer:idToFieldsExpectedOnServer byNames:names];
     
     // Adding to idToFields so that they get deleted in tearDown
     [idToFields addEntriesFromDictionary:idToFieldsCreated];
-    
-    // Deletes the remaining accounts on the server.
-    [self deleteAccountsOnServer:[idToFields allKeys]];
 }
 
 /**
- * Sync down the test accounts, modify a few, create accounts locally, sync up specifying create and update field list, 
+ * Sync down the test accounts, modify a few, create accounts locally, sync up specifying different create and update field list,
  * check smartstore and server afterwards
  */
 -(void)testSyncUpWithCreateAndUpdateFieldList
 {
-    // TBD
+    // Create test data
+    [self createTestData];
+    
+    // first sync down
+    [self trySyncDown:SFSyncStateMergeModeOverwrite];
+    
+    // Make some local change
+    NSDictionary* idToFieldsLocallyUpdated = [self makeSomeLocalChanges];
+    NSMutableArray* namesOfUpdated = [NSMutableArray new];
+    for (NSString* id in idToFieldsLocallyUpdated) {
+        [namesOfUpdated addObject:idToFieldsLocallyUpdated[id][NAME]];
+    }
+    
+    // Create a few entries locally
+    NSArray* namesOfCreated = @[ [self createAccountName], [self createAccountName], [self createAccountName]];
+    [self createAccountsLocally:namesOfCreated];
+    
+    // Sync up with different create and update field lists
+    SFSyncOptions* options = [SFSyncOptions newSyncOptionsForSyncUp:@[NAME, DESCRIPTION] createFieldlist:@[NAME] updateFieldlist:@[DESCRIPTION] mergeMode:SFSyncStateMergeModeOverwrite];
+    [self trySyncUp:(namesOfUpdated.count + namesOfCreated.count) options:options];
+    
+    // Check that db doesn't show entries as locally created anymore and that they use sfdc id
+    NSArray* allNames = [namesOfCreated arrayByAddingObjectsFromArray:namesOfUpdated];
+    NSString* namesClause = [self buildInClause:allNames];
+    NSString* smartSql = [NSString stringWithFormat:@"SELECT {accounts:_soup} FROM {accounts} WHERE {accounts:Name} IN %@", namesClause];
+    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:allNames.count];
+    NSArray* rows = [store queryWithQuerySpec:query pageIndex:0 error:nil];
+    NSMutableDictionary* idToFieldsCreated = [NSMutableDictionary new];
+    for (NSArray* row in rows) {
+        NSDictionary* account = row[0];
+        NSString* accountId = account[ID];
+        NSString* accountName = account[NAME];
+        NSString* accountDescription = account[DESCRIPTION];
+        if ([namesOfCreated containsObject:accountName]) {
+            idToFieldsCreated[accountId] = @{NAME:accountName, DESCRIPTION:accountDescription};
+        }
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocal]);
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyCreated]);
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyUpdated]);
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyDeleted]);
+        XCTAssertFalse([accountId hasPrefix:@"local_"]);
+    }
+    // Make sure all the locally created records have synched up
+    XCTAssertEqual(namesOfCreated.count, idToFieldsCreated.count);
+    
+    // Check server - make updated records only have updated description - make sure created records only have name
+    NSMutableDictionary* idToFieldsExpectedOnServer = [NSMutableDictionary new];
+    for (NSString* id in idToFieldsLocallyUpdated) {
+        idToFieldsExpectedOnServer[id] = @{NAME: idToFields[id][NAME], DESCRIPTION:idToFieldsLocallyUpdated[id][DESCRIPTION]}; // updated records should have original name and updated description
+    }
+    for (NSString* id in idToFieldsCreated) {
+        idToFieldsExpectedOnServer[id] = @{NAME: idToFieldsCreated[id][NAME], DESCRIPTION:[NSNull null]}; // created recrods should have name but no description
+    }
+
+    // Make sure we found all the records on the server
+    XCTAssertEqual(allNames.count, idToFieldsExpectedOnServer.count);
+    [self checkServer:idToFieldsExpectedOnServer];
+    
+    // Adding to idToFields so that they get deleted in tearDown
+    [idToFields addEntriesFromDictionary:idToFieldsCreated];
 }
 
 
@@ -822,7 +878,7 @@ static NSException *authException = nil;
     // Create test data
     [self createTestData];
     
-    // first sync down
+    // First sync down
     [self trySyncDown:SFSyncStateMergeModeLeaveIfChanged];
     
     // Make some local change
@@ -866,7 +922,7 @@ static NSException *authException = nil;
     // Create test data
     [self createTestData];
     
-    // first sync down
+    // First sync down
     [self trySyncDown:SFSyncStateMergeModeLeaveIfChanged];
     
     // Make some local change
@@ -944,9 +1000,6 @@ static NSException *authException = nil;
     
     // Adding to idToFields so that they get deleted in tearDown
     [idToFields addEntriesFromDictionary:idToFieldsCreated];
-    
-    // Deletes the remaining accounts on the server.
-    [self deleteAccountsOnServer:[idToFields allKeys]];
 }
 
 /**
@@ -1025,7 +1078,7 @@ static NSException *authException = nil;
     // Create test data
     [self createTestData];
     
-    // first sync down
+    // First sync down
     [self trySyncDown:SFSyncStateMergeModeOverwrite];
     
     // Delete a few entries locally
@@ -1109,9 +1162,6 @@ static NSException *authException = nil;
     
     // Adding to idToFields so that they get deleted in tearDown
     [idToFields addEntriesFromDictionary:idToFieldsUpdated];
-    
-    // Deletes the remaining accounts on the server.
-    [self deleteAccountsOnServer:[idToFields allKeys]];
 }
 
 /**
