@@ -6,6 +6,25 @@ if !ENV["scheme"] or ENV["scheme"]==""
 	ENV["scheme"] = "UnitTests"
 end
 
+system("/usr/libexec/PlistBuddy -c \"add :ConnectHardwareKeyboard bool 0\" ~/Library/Preferences/com.apple.iphonesimulator.plist || /usr/libexec/PlistBuddy -c \"set :ConnectHardwareKeyboard 0\" ~/Library/Preferences/com.apple.iphonesimulator.plist")
+system("rm -r $HOME/Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-*")
+
+def doDanger
+	if ENV["JENKINS_URL"]
+		begin
+			 danger(
+				 danger_id: "CI-result",
+				 dangerfile: "DangerFile",
+				 github_api_token: ENV["DANGER_GITHUB_API_TOKEN"],
+				 verbose: true
+			 )
+		 rescue => ex
+			 UI.error(ex)
+		 end
+	end
+end
+
+
 def testScheme(scheme)
 	scan(
 		workspace: "SalesforceMobileSDK.xcworkspace",
@@ -26,13 +45,22 @@ def testScheme(scheme)
 		)
 	rescue => ex
 		UI.error(ex)
+	ensure
+		#move clangReports to one folder
+		system("mkdir -p ../clangReport/StaticAnalyzer")
+		system("mv ../libs/SalesforceAnalytics/clangReport/StaticAnalyzer/SalesforceAnalytics ../clangReport/StaticAnalyzer/")
+		system("mv ../libs/SalesforceHybridSDK/clangReport/StaticAnalyzer/SalesforceHybridSDK ../clangReport/StaticAnalyzer/")
+		system("mv ../libs/SalesforceReact/clangReport/StaticAnalyzer/SalesforceReact ../clangReport/StaticAnalyzer/")
+		system("mv ../libs/SalesforceSDKCore/clangReport/StaticAnalyzer/SalesforceSDKCore ../clangReport/StaticAnalyzer/")
+		system("mv ../libs/SmartStore/clangReport/StaticAnalyzer/SmartStore ../clangReport/StaticAnalyzer/")
+		system("mv ../libs/SmartSync/clangReport/StaticAnalyzer/SmartSync ../clangReport/StaticAnalyzer/")
 	end
 
 	xcov(
 		workspace: "SalesforceMobileSDK.xcworkspace",
 		scheme: scheme,
 		output_directory: "xcov_output",
-		exclude_targets:"CocoaLumberjack.framework,SalesforceSDKCoreTestApp.app,SmartStoreTestApp.app,SmartSyncTestApp.app,SalesforceHybridSDKTestApp.app,SalesforceAnalyticsTestApp.app,RestAPIExplorer.app,AccountEditor.app,NoteSync.app,SmartSyncExplorerHybrid.app,SmartSyncExplorer.app"
+		exclude_targets: "CocoaLumberjack.framework,SalesforceSDKCoreTestApp.app,SmartStoreTestApp.app,SmartSyncTestApp.app,SalesforceHybridSDKTestApp.app,SalesforceAnalyticsTestApp.app,RestAPIExplorer.app,AccountEditor.app,NoteSync.app,SmartSyncExplorerHybrid.app,SmartSyncExplorer.app,SmartSyncExplorerCommon.framework,RecentContactsTodayExtension.appexs"
 	)
 end
 
@@ -40,19 +68,11 @@ lane :PR do
 	schemes = ENV["scheme"].split(',')
 	if schemes.size >= 3
 		testScheme("UnitTests")
+		doDanger
 	else
 		for scheme in schemes
 			testScheme(scheme)
-			begin
-				 danger(
-					 danger_id: "CI-result",
-					 dangerfile: "DangerFile",
-					 github_api_token: ENV["DANGER_GITHUB_API_TOKEN"],
-					 verbose: true
-				 )
-			 rescue => ex
-				 UI.error(ex)
-			end
+			doDanger
 		end
 	end
 end
