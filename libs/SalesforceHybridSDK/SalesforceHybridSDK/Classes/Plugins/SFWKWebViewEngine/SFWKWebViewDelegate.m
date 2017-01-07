@@ -184,6 +184,14 @@ static NSString* stripFragment(NSString *url) {
     }
 }
 
+- (void) webView:(WKWebView *) webView decidePolicyForNavigationResponse:(WKNavigationResponse *) navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy)) decisionHandler {
+    if ([_delegate respondsToSelector:@selector(webView:decidePolicyForNavigationResponse:decisionHandler:)]) {
+        [_delegate webView:webView decidePolicyForNavigationResponse:navigationResponse decisionHandler:decisionHandler];
+    } else {
+        decisionHandler(WKNavigationResponsePolicyAllow);
+    }
+}
+
 - (void) webView:(WKWebView *) webView didCommitNavigation:(WKNavigation *) navigation {
     [self webView:webView didStartProvisionalNavigation:navigation];
 }
