@@ -618,7 +618,6 @@ static NSMutableDictionary *syncMgrList = nil;
     SFSyncUpTarget *target = (SFSyncUpTarget *)sync.target;
     NSString* soupName = sync.soupName;
     NSNumber* soupEntryId = record[SOUP_ENTRY_ID];
-    NSArray *fieldList = sync.options.fieldlist;
     
     // Getting type and id
     NSString* objectType = [SFJsonUtils projectIntoJson:record path:kObjectTypeField];
@@ -627,6 +626,20 @@ static NSMutableDictionary *syncMgrList = nil;
     // Fields to save (in the case of create or update)
     NSMutableDictionary* fields = [NSMutableDictionary dictionary];
     if (action == SFSyncUpTargetActionCreate || action == SFSyncUpTargetActionUpdate) {
+        NSArray *fieldList;
+        // During create use options.createFieldlist if specified
+        if (action == SFSyncUpTargetActionCreate && sync.options.createFieldlist) {
+            fieldList = sync.options.createFieldlist;
+        }
+        // During update use options.updateFieldlist if specified
+        else if (action == SFSyncUpTargetActionUpdate && sync.options.updateFieldlist) {
+            fieldList = sync.options.updateFieldlist;
+        }
+        // Otherwise use options.fieldlist
+        else {
+            fieldList = sync.options.fieldlist;
+        }
+
         for (NSString *fieldName in fieldList) {
             if (![fieldName isEqualToString:target.idFieldName] && ![fieldName isEqualToString:target.modificationDateFieldName]) {
                 NSObject* fieldValue = [SFJsonUtils projectIntoJson:record path:fieldName];

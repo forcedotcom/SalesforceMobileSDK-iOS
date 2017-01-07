@@ -27,11 +27,15 @@
 #import "SFSyncState.h"
 
 extern NSString * const kSFSyncOptionsFieldlist;
+extern NSString * const kSFSyncOptionsCreateFieldlist;
+extern NSString * const kSFSyncOptionsUpdateFieldlist;
 extern NSString * const kSFSyncOptionsMergeMode;
 
 @interface SFSyncOptions : NSObject
 
 @property (nonatomic, strong, readonly) NSArray*  fieldlist;
+@property (nonatomic, strong, readonly) NSArray*  createFieldlist;
+@property (nonatomic, strong, readonly) NSArray*  updateFieldlist;
 @property (nonatomic, readonly) SFSyncStateMergeMode mergeMode;
 
 /** Factory methods
@@ -39,6 +43,11 @@ extern NSString * const kSFSyncOptionsMergeMode;
 + (SFSyncOptions*) newSyncOptionsForSyncDown:(SFSyncStateMergeMode)mergeMode;
 + (SFSyncOptions*) newSyncOptionsForSyncUp:(NSArray*)fieldlist;
 + (SFSyncOptions*) newSyncOptionsForSyncUp:(NSArray*)fieldlist mergeMode:(SFSyncStateMergeMode)mergeMode;
+
++ (SFSyncOptions*) newSyncOptionsForSyncUp:(NSArray*)fieldlist
+                           createFieldlist:(NSArray*)createFieldlist
+                           updateFieldlist:(NSArray*)updateFieldlist
+                                 mergeMode:(SFSyncStateMergeMode)mergeMode;
 
 /** Methods to translate to/from dictionary
  */
