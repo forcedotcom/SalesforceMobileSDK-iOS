@@ -2,58 +2,78 @@ if !ENV["device"] or ENV["device"]==""
 	ENV["device"] = "iPhone 6"
 end
 
-lane :CI do
-	system("/usr/libexec/PlistBuddy -c \"add :ConnectHardwareKeyboard bool 0\" ~/Library/Preferences/com.apple.iphonesimulator.plist || /usr/libexec/PlistBuddy -c \"set :ConnectHardwareKeyboard 0\" ~/Library/Preferences/com.apple.iphonesimulator.plist")
-	system("rm -r $HOME/Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-*")
+if !ENV["scheme"] or ENV["scheme"]==""
+	ENV["scheme"] = "UnitTests"
+end
 
+def testScheme(scheme)
 	scan(
- 		 workspace: "SalesforceMobileSDK.xcworkspace",
- 		 scheme: "UnitTests",
- 		 device: ENV["device"],
- 		 output_directory: "test_output”,
- 		 clean: true,
- 		 fail_build: false
-  	)
+		workspace: "SalesforceMobileSDK.xcworkspace",
+		scheme: scheme,
+		device: ENV["device"],
+		output_directory: "test_output”,
+		code_coverage: true,
+		clean: true,
+		fail_build: false
+	)
 
 	begin
- 	xcodebuild(
- 		 xcargs: "CLANG_ANALYZER_OUTPUT=plist-html CLANG_ANALYZER_OUTPUT_DIR=./clangReport RUN_CLANG_STATIC_ANALYZER=YES",
- 		 workspace: "SalesforceMobileSDK.xcworkspace",
- 		 scheme: "UnitTests",
- 		 fail_build: false
- 	)
-
+		xcodebuild(
+		 	xcargs: "CLANG_ANALYZER_OUTPUT=plist-html CLANG_ANALYZER_OUTPUT_DIR=./clangReport RUN_CLANG_STATIC_ANALYZER=YES",
+		 	workspace: "SalesforceMobileSDK.xcworkspace",
+		 	scheme: scheme,
+		 	fail_build: false
+		)
 	rescue => ex
 		UI.error(ex)
-	ensure
-			#move clangReports to one folder
-			system("mkdir -p ../clangReport/StaticAnalyzer")
-			system("mv ../libs/SalesforceAnalytics/clangReport/StaticAnalyzer/SalesforceAnalytics ../clangReport/StaticAnalyzer/")
-			system("mv ../libs/SalesforceHybridSDK/clangReport/StaticAnalyzer/SalesforceHybridSDK ../clangReport/StaticAnalyzer/")
-			system("mv ../libs/SalesforceReact/clangReport/StaticAnalyzer/SalesforceReact ../clangReport/StaticAnalyzer/")
-			system("mv ../libs/SalesforceSDKCore/clangReport/StaticAnalyzer/SalesforceSDKCore ../clangReport/StaticAnalyzer/")
-			system("mv ../libs/SmartStore/clangReport/StaticAnalyzer/SmartStore ../clangReport/StaticAnalyzer/")
-			system("mv ../libs/SmartSync/clangReport/StaticAnalyzer/SmartSync ../clangReport/StaticAnalyzer/")
 	end
 
 	xcov(
- 		 workspace: "SalesforceMobileSDK.xcworkspace",
- 		 scheme: "UnitTests",
- 		 output_directory: "xcov_output",
- 		 exclude_targets:"CocoaLumberjack.framework,SalesforceSDKCoreTestApp.app,SmartStoreTestApp.app,SmartSyncTestApp.app,SalesforceHybridSDKTestApp.app,SalesforceAnalyticsTestApp.app,RestAPIExplorer.app,AccountEditor.app,NoteSync.app,SmartSyncExplorerHybrid.app,SmartSyncExplorer.app,SmartSyncExplorerCommon.framework,RecentContactsTodayExtension.appex"
-  	)
+		workspace: "SalesforceMobileSDK.xcworkspace",
+		scheme: scheme,
+		output_directory: "xcov_output",
+		exclude_targets:"CocoaLumberjack.framework,SalesforceSDKCoreTestApp.app,SmartStoreTestApp.app,SmartSyncTestApp.app,SalesforceHybridSDKTestApp.app,SalesforceAnalyticsTestApp.app,RestAPIExplorer.app,AccountEditor.app,NoteSync.app,SmartSyncExplorerHybrid.app,SmartSyncExplorer.app"
+	)
+end
 
- if ENV["JENKINS_URL"]
-		begin
-   		danger(
-				danger_id: "CI-result",
-				dangerfile: "DangerFile",
-  			github_api_token: ENV["DANGER_GITHUB_API_TOKEN"],
-  			verbose: true
-  		)
-		rescue => ex
-			UI.error(ex)
+lane :PR do
+	schemes = ENV["scheme"].split(',')
+	if schemes.size >= 3
+		testScheme("UnitTests")
+	else
+		for scheme in schemes
+			testScheme(scheme)
+			begin
+				 danger(
+					 danger_id: "CI-result",
+					 dangerfile: "DangerFile",
+					 github_api_token: ENV["DANGER_GITHUB_API_TOKEN"],
+					 verbose: true
+				 )
+			 rescue => ex
+				 UI.error(ex)
+			end
 		end
- end
+	end
+end
 
+lane :LCL do
+	schemes = ["SalesforceAnalytics", "SalesforceHybridSDK", "SalesforceReact", "SalesforceSDKCore", "SmartStore", "SmartSync", "UnitTests"]
+	index = 1
+	puts "Select scheme:"
+	for scheme in schemes
+			puts index.to_s + ": " + scheme
+			index = index + 1
+	end
+
+	print "Just enter a number:"
+	selection = STDIN.gets.strip
+	schemes[selection.to_i-1]
+
+	testScheme(schemes[selection.to_i-1])
+
+end
+
+lane :CI do
+	testScheme("UnitTests")
 end
