@@ -6,6 +6,8 @@ if !ENV["scheme"] or ENV["scheme"]==""
 	ENV["scheme"] = "UnitTests"
 end
 
+$GITPRAPI = "https://api.github.com/repos/forcedotcom/SalesforceMobileSDK-iOS/pulls/%s/files"
+
 system("/usr/libexec/PlistBuddy -c \"add :ConnectHardwareKeyboard bool 0\" ~/Library/Preferences/com.apple.iphonesimulator.plist || /usr/libexec/PlistBuddy -c \"set :ConnectHardwareKeyboard 0\" ~/Library/Preferences/com.apple.iphonesimulator.plist")
 system("rm -r $HOME/Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-*")
 
@@ -65,7 +67,45 @@ def testScheme(scheme)
 end
 
 lane :PR do
-	schemes = ENV["scheme"].split(',')
+	schemes = Set.new
+	if ENV["ghprbPullId"] && ENV["gitToken"]
+		prFilesAPI = $GITPRAPI % ENV["ghprbPullId"]
+		curlCommand = "curl %s -H 'Authorization: token %s'" % [prFilesAPI, ENV["gitToken"]]
+		pullfiles = `#{curlCommand}`
+		prfiles = JSON.parse(pullfiles)
+		for prfile in prfiles
+			path = prfile["filename"]
+			if path.include? "SalesforceAnalytics"
+				schemes = schemes.add("SalesforceAnalytics")
+			end
+
+			if path.include? "SalesforceHybridSDK"
+				schemes = schemes.add("SalesforceHybridSDK")
+			end
+
+			if path.include? "SalesforceReact"
+				schemes = schemes.add("SalesforceReact")
+			end
+
+			if path.include? "SalesforceSDKCore"
+				schemes = schemes.add("SalesforceSDKCore")
+			end
+
+			if path.include? "SmartStore"
+				schemes = schemes.add("SmartStore")
+			end
+
+			if path.include? "SmartSync"
+				schemes = schemes.add("SmartSync")
+			end
+		end
+		puts "schemes:" + schemes.to_a().join(",")
+	end
+
+	if schemes.size == 0
+			schemes = ENV["scheme"].split(',')
+	end
+
 	if schemes.size >= 3
 		testScheme("UnitTests")
 		doDanger
