@@ -716,7 +716,13 @@ static NSMutableDictionary *syncMgrList = nil;
             [target updateOnServer:objectType objectId:objectId fields:fields completionBlock:completeBlockUpdate failBlock:failBlockUpdate];
             break;
         case SFSyncUpTargetActionDelete:
-            [target deleteOnServer:objectType objectId:objectId completionBlock:completeBlockDelete failBlock:failBlockDelete];
+            // if locally created it can't exist on the server - we don't need to actually do the deleteOnServer call
+            if ([record[kSyncManagerLocallyCreated] boolValue]) {
+                completeBlockDelete(record);
+            }
+            else {
+                [target deleteOnServer:objectType objectId:objectId completionBlock:completeBlockDelete failBlock:failBlockDelete];
+            }
             break;
         default:
             // Action is unsupported here.  Move on.
