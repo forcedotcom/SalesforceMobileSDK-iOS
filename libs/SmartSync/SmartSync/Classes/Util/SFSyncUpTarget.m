@@ -58,29 +58,28 @@ static NSString * const kSFSyncUpTargetTypeCustom = @"custom";
 #pragma mark - Serialization and factory methods
 
 + (instancetype)newFromDict:(NSDictionary*)dict {
-    NSString *implClassName;
-    NSString *targetTypeString = (dict[kSFSyncTargetTypeKey] == nil ? kSFSyncUpTargetTypeRestStandard : dict[kSFSyncTargetTypeKey]);
-    switch ([self targetTypeFromString:targetTypeString]) {
-        case SFSyncUpTargetTypeCustom:
-            implClassName = dict[kSFSyncTargetiOSImplKey];
-            if (implClassName.length == 0) {
+    // We should have an implementation class unless sync up was created with SDK before 5.1 and is not custom
+    NSString* implClassName = dict[kSFSyncTargetiOSImplKey];
+    if (implClassName.length > 0) {
+        Class customSyncUpClass = NSClassFromString(implClassName);
+        if (![customSyncUpClass isSubclassOfClass:[SFSyncUpTarget class]]) {
+            [SFLogger log:self level:SFLogLevelError format:@"%@ Class '%@' is not a subclass of %@.", NSStringFromSelector(_cmd), implClassName, NSStringFromClass([SFSyncUpTarget class])];
+            return nil;
+        } else {
+            return [[customSyncUpClass alloc] initWithDict:dict];
+        }        
+    }
+    // No implementation class - using target type
+    else {
+        switch ([self targetTypeFromString:dict[kSFSyncTargetTypeKey]]) {
+            case SFSyncUpTargetTypeRestStandard:
+                return [[SFSyncUpTarget alloc] initWithDict:dict];
+                
+            case SFSyncUpTargetTypeCustom:
                 [SFLogger log:self level:SFLogLevelError format:@"%@ Custom class name not specified.", NSStringFromSelector(_cmd)];
                 return nil;
-            }
-            Class customSyncUpClass = NSClassFromString(implClassName);
-            if (![customSyncUpClass isSubclassOfClass:[SFSyncUpTarget class]]) {
-                [SFLogger log:self level:SFLogLevelError format:@"%@ Class '%@' is not a subclass of %@.", NSStringFromSelector(_cmd), implClassName, NSStringFromClass([SFSyncUpTarget class])];
-                return nil;
-            } else {
-                return [[customSyncUpClass alloc] initWithDict:dict];
-            }
-        case SFSyncUpTargetTypeRestStandard:
-        default:  // SFSyncUpTarget is the default, if not specified.
-            return [[SFSyncUpTarget alloc] initWithDict:dict];
+        }
     }
-    
-    // Fell through
-    return nil;
 }
 
 - (NSMutableDictionary *)asDict {
@@ -92,7 +91,9 @@ static NSString * const kSFSyncUpTargetTypeCustom = @"custom";
 + (SFSyncUpTargetType)targetTypeFromString:(NSString *)targetType {
     if ([targetType isEqualToString:kSFSyncUpTargetTypeRestStandard]) {
         return SFSyncUpTargetTypeRestStandard;
-    } else {
+    }
+    // Must be custom
+    else {
         return SFSyncUpTargetTypeCustom;
     }
 }
@@ -101,7 +102,6 @@ static NSString * const kSFSyncUpTargetTypeCustom = @"custom";
     switch (targetType) {
         case SFSyncUpTargetTypeRestStandard:  return kSFSyncUpTargetTypeRestStandard;
         case SFSyncUpTargetTypeCustom: return kSFSyncUpTargetTypeCustom;
-        default: return nil;
     }
 }
 

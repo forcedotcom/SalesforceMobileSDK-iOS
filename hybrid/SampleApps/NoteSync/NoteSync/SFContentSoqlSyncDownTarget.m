@@ -225,39 +225,15 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
 
 @implementation SFContentSoqlSyncDownTarget
 
-- (instancetype)initWithDict:(NSDictionary *)dict {
-    self = [super initWithDict:dict];
-    if (self) {
-        self.queryType = SFSyncDownTargetQueryTypeCustom;
-    }
-    return self;
-}
-
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        self.queryType = SFSyncDownTargetQueryTypeCustom;
-    }
-    return self;
-}
 
 #pragma mark - Factory methods
 
 + (SFContentSoqlSyncDownTarget*) newSyncTarget:(NSString*)query {
     SFContentSoqlSyncDownTarget* syncTarget = [[SFContentSoqlSyncDownTarget alloc] init];
-    syncTarget.queryType = SFSyncDownTargetQueryTypeCustom;
     syncTarget.query = query;
     return syncTarget;
 }
 
-
-#pragma mark - To dictionary
-
-- (NSMutableDictionary*) asDict {
-    NSMutableDictionary *dict = [super asDict];
-    dict[kSFSyncTargetiOSImplKey] = NSStringFromClass([self class]);
-    return dict;
-}
 
 # pragma mark - Data fetching
 
