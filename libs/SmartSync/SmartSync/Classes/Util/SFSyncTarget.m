@@ -52,6 +52,7 @@
 
 - (NSMutableDictionary *)asDict {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    dict[kSFSyncTargetiOSImplKey] = NSStringFromClass([self class]);
     dict[kSFSyncTargetIdFieldNameKey] = self.idFieldName;
     dict[kSFSyncTargetModificationDateFieldNameKey] = self.modificationDateFieldName;
     return dict;

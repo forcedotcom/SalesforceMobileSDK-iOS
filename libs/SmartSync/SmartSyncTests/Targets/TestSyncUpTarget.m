@@ -74,7 +74,6 @@ static NSString * const kTestSyncUpSendSyncUpErrorKey = @"sendSyncUpErrorKey";
 - (void)commonInitWithRemoteModDateCompare:(TestSyncUpTargetModDateCompare)dateCompare
                         sendRemoteModError:(BOOL)sendRemoteModError
                            sendSyncUpError:(BOOL)sendSyncUpError {
-    self.targetType = SFSyncUpTargetTypeCustom;
     self.dateCompare = dateCompare;
     self.sendRemoteModError = sendRemoteModError;
     self.sendSyncUpError = sendSyncUpError;
@@ -82,7 +81,6 @@ static NSString * const kTestSyncUpSendSyncUpErrorKey = @"sendSyncUpErrorKey";
 
 - (NSMutableDictionary *)asDict {
     NSMutableDictionary *dict = [super asDict];
-    dict[kSFSyncTargetiOSImplKey] = NSStringFromClass([self class]);
     dict[kTestSyncUpDateCompareKey] = @(self.dateCompare);
     dict[kTestSyncUpSendRemoteModErrorKey] = @(self.sendRemoteModError);
     dict[kTestSyncUpSendSyncUpErrorKey] = @(self.sendSyncUpError);

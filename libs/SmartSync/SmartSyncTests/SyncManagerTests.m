@@ -75,28 +75,6 @@
     return syncTarget;
 }
 
-- (instancetype)initWithDict:(NSDictionary *)dict {
-    self = [super initWithDict:dict];
-    if (self) {
-        self.queryType = SFSyncDownTargetQueryTypeCustom;
-    }
-    return self;
-}
-
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        self.queryType = SFSyncDownTargetQueryTypeCustom;
-    }
-    return self;
-}
-
-- (NSMutableDictionary*) asDict {
-    NSMutableDictionary *dict = [super asDict];
-    dict[kSFSyncTargetiOSImplKey] = NSStringFromClass([self class]);
-    return dict;
-}
-
 - (void) startFetch:(SFSmartSyncSyncManager*)syncManager
        maxTimeStamp:(long long)maxTimeStamp
          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
@@ -355,8 +333,7 @@ static NSException *authException = nil;
 - (void)testSyncUpTargetSerialization {
     
     // Default sync up target should be the base class.
-    NSDictionary *defaultDict = @{ };
-    SFSyncUpTarget *defaulttarget = [SFSyncUpTarget newFromDict:defaultDict];
+    SFSyncUpTarget *defaulttarget = [[SFSyncUpTarget alloc] init];
     XCTAssertEqual([defaulttarget class], [SFSyncUpTarget class], @"Default class should be SFSyncUpTarget");
     XCTAssertEqual(defaulttarget.targetType, SFSyncUpTargetTypeRestStandard, @"Sync sync up target type is incorrect.");
     
@@ -367,13 +344,11 @@ static NSException *authException = nil;
     XCTAssertEqual(resttarget.targetType, SFSyncUpTargetTypeRestStandard, @"Sync sync up target type is incorrect.");
     
     // Custom sync up target
-    TestSyncUpTarget *customTarget = [[TestSyncUpTarget alloc] initWithDict:@{ }];
+    TestSyncUpTarget *customTarget = [[TestSyncUpTarget alloc] init];
     NSDictionary *customDict = [customTarget asDict];
-    XCTAssertEqualObjects(customDict[kSFSyncTargetTypeKey], @"custom", @"Should be a custom sync up target.");
     XCTAssertEqualObjects(customDict[kSFSyncTargetiOSImplKey], NSStringFromClass([TestSyncUpTarget class]), @"Custom class is incorrect.");
     SFSyncUpTarget *customTargetFromDict = [SFSyncUpTarget newFromDict:customDict];
     XCTAssertEqual([customTargetFromDict class], [TestSyncUpTarget class], @"Custom class is incorrect.");
-    XCTAssertEqual(customTargetFromDict.targetType, SFSyncUpTargetTypeCustom, @"Target type should be custom.");
 }
 
 /**
@@ -1619,7 +1594,7 @@ static NSException *authException = nil;
 
 - (void)trySyncUp:(NSInteger)numberChanges
           options:(SFSyncOptions *) options {
-    SFSyncUpTarget *defaultTarget = [SFSyncUpTarget newFromDict:@{ }];
+    SFSyncUpTarget *defaultTarget = [[SFSyncUpTarget alloc] init];
     [self trySyncUp:numberChanges
       actualChanges:numberChanges
              target:defaultTarget

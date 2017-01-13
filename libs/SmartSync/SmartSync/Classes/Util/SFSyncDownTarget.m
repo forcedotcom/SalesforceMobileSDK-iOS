@@ -43,33 +43,33 @@ NSString * const kSFSyncTargetQueryTypeCustom = @"custom";
 #pragma mark - From/to dictionary
 
 + (SFSyncDownTarget*) newFromDict:(NSDictionary*)dict {
-    NSString* implClassName;
-    switch ([SFSyncDownTarget queryTypeFromString:dict[kSFSyncTargetTypeKey]]) {
-        case SFSyncDownTargetQueryTypeMru:
-            return [[SFMruSyncDownTarget alloc] initWithDict:dict];
-        case SFSyncDownTargetQueryTypeSosl:
-            return [[SFSoslSyncDownTarget alloc] initWithDict:dict];
-        case SFSyncDownTargetQueryTypeSoql:
-            return [[SFSoqlSyncDownTarget alloc] initWithDict:dict];
-        case SFSyncDownTargetQueryTypeRefresh:
-            return [[SFRefreshSyncDownTarget alloc] initWithDict:dict];
-        case SFSyncDownTargetQueryTypeCustom:
-            implClassName = dict[kSFSyncTargetiOSImplKey];
-            if (implClassName.length == 0) {
+    // We should have an implementation class unless sync down was created with SDK before 5.1 and is not custom
+    NSString* implClassName = dict[kSFSyncTargetiOSImplKey];
+    if (implClassName.length > 0) {
+        Class customSyncDownClass = NSClassFromString(implClassName);
+        if (![customSyncDownClass isSubclassOfClass:[SFSyncDownTarget class]]) {
+            [SFLogger log:self level:SFLogLevelError format:@"%@ Class '%@' is not a subclass of %@.", NSStringFromSelector(_cmd), implClassName, NSStringFromClass([SFSyncDownTarget class])];
+            return nil;
+        } else {
+            return [[customSyncDownClass alloc] initWithDict:dict];
+        }
+    }
+    // No implementation class - using query type
+    else {
+        switch ([SFSyncDownTarget queryTypeFromString:dict[kSFSyncTargetTypeKey]]) {
+            case SFSyncDownTargetQueryTypeMru:
+                return [[SFMruSyncDownTarget alloc] initWithDict:dict];
+            case SFSyncDownTargetQueryTypeSosl:
+                return [[SFSoslSyncDownTarget alloc] initWithDict:dict];
+            case SFSyncDownTargetQueryTypeSoql:
+                return [[SFSoqlSyncDownTarget alloc] initWithDict:dict];
+            case SFSyncDownTargetQueryTypeRefresh:
+                return [[SFRefreshSyncDownTarget alloc] initWithDict:dict];
+            case SFSyncDownTargetQueryTypeCustom:
                 [SFLogger log:self level:SFLogLevelError format:@"%@ Custom class name not specified.", NSStringFromSelector(_cmd)];
                 return nil;
-            }
-            Class customSyncDownClass = NSClassFromString(implClassName);
-            if (![customSyncDownClass isSubclassOfClass:[SFSyncDownTarget class]]) {
-                [SFLogger log:self level:SFLogLevelError format:@"%@ Class '%@' is not a subclass of %@.", NSStringFromSelector(_cmd), implClassName, NSStringFromClass([SFSyncDownTarget class])];
-                return nil;
-            } else {
-                return [[customSyncDownClass alloc] initWithDict:dict];
-            }
+        }
     }
-    
-    // Fell through
-    return nil;
 }
 
 - (NSMutableDictionary *)asDict {
