@@ -367,7 +367,7 @@
 		CE8EA2B91D7F67FA00AAC74C /* CSFInternalDefines.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8EA2701D7F67FA00AAC74C /* CSFInternalDefines.m */; };
 		CE8EA2BA1D7F67FA00AAC74C /* CSFISO8601DateFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = CE8EA2711D7F67FA00AAC74C /* CSFISO8601DateFormatter.h */; };
 		CE8EA2BB1D7F67FA00AAC74C /* CSFISO8601DateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8EA2721D7F67FA00AAC74C /* CSFISO8601DateFormatter.m */; };
-		CE8EA2BC1D7F67FA00AAC74C /* CSFPrivateDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = CE8EA2731D7F67FA00AAC74C /* CSFPrivateDefines.h */; };
+		CE8EA2BC1D7F67FA00AAC74C /* CSFPrivateDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = CE8EA2731D7F67FA00AAC74C /* CSFPrivateDefines.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		CE8EA2BD1D7F67FA00AAC74C /* CSFPrivateDefines.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8EA2741D7F67FA00AAC74C /* CSFPrivateDefines.m */; };
 		CE8EA2BE1D7F67FA00AAC74C /* CSFDateValueTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = CE8EA2761D7F67FA00AAC74C /* CSFDateValueTransformer.h */; };
 		CE8EA2BF1D7F67FA00AAC74C /* CSFDateValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8EA2771D7F67FA00AAC74C /* CSFDateValueTransformer.m */; };
@@ -454,7 +454,7 @@
 		CE8EA33E1D7F6AA600AAC74C /* CSFForceDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = CE8EA26D1D7F67FA00AAC74C /* CSFForceDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE8EA33F1D7F6AAA00AAC74C /* CSFInternalDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = CE8EA26F1D7F67FA00AAC74C /* CSFInternalDefines.h */; };
 		CE8EA3401D7F6AAE00AAC74C /* CSFISO8601DateFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = CE8EA2711D7F67FA00AAC74C /* CSFISO8601DateFormatter.h */; };
-		CE8EA3411D7F6AB300AAC74C /* CSFPrivateDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = CE8EA2731D7F67FA00AAC74C /* CSFPrivateDefines.h */; };
+		CE8EA3411D7F6AB300AAC74C /* CSFPrivateDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = CE8EA2731D7F67FA00AAC74C /* CSFPrivateDefines.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		CE8EA3421D7F6AB900AAC74C /* CSFDateValueTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = CE8EA2761D7F67FA00AAC74C /* CSFDateValueTransformer.h */; };
 		CE8EA3431D7F6ABD00AAC74C /* CSFJPEGImageValueTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = CE8EA2781D7F67FA00AAC74C /* CSFJPEGImageValueTransformer.h */; };
 		CE8EA3441D7F6AC100AAC74C /* CSFPNGImageValueTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = CE8EA27A1D7F67FA00AAC74C /* CSFPNGImageValueTransformer.h */; };
@@ -1174,6 +1174,8 @@
 		6FB714931CEA613D007D858C /* SFLoggerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFLoggerTests.m; path = ../SalesforceSDKCoreTests/SFLoggerTests.m; sourceTree = "<group>"; };
 		6FB714A31CEA61BF007D858C /* SFLogStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFLogStorage.h; sourceTree = "<group>"; };
 		6FB714A61CEA6630007D858C /* SFLogger_Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFLogger_Internal.h; sourceTree = "<group>"; };
+		6FDFF9931E2EA4E400B7D0B5 /* SalesforceSDKCore.private.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; name = SalesforceSDKCore.private.modulemap; path = SalesforceSDKCore/SalesforceSDKCore.private.modulemap; sourceTree = "<group>"; };
+		6FDFF9BC1E2EA72400B7D0B5 /* SalesforceSDKCore.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; name = SalesforceSDKCore.modulemap; path = SalesforceSDKCore/SalesforceSDKCore.modulemap; sourceTree = "<group>"; };
 		8220B74F16D804CA00EC3921 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8220B75316D804CA00EC3921 /* SalesforceSDKCore-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SalesforceSDKCore-Prefix.pch"; sourceTree = "<group>"; };
 		8280EBB316E14E9F00768DE8 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -1832,6 +1834,8 @@
 		82C5E3EF1C1B62C400376C00 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6FDFF9BC1E2EA72400B7D0B5 /* SalesforceSDKCore.modulemap */,
+				6FDFF9931E2EA4E400B7D0B5 /* SalesforceSDKCore.private.modulemap */,
 				E1C80D071C5AF029001B3A21 /* SalesforceSDKAssets.xcassets */,
 				82C5E3ED1C1B62AF00376C00 /* SalesforceSDKResources.bundle */,
 			);
