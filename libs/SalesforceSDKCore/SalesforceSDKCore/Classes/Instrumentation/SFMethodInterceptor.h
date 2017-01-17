@@ -28,6 +28,10 @@
  */
 @interface SFSDKInstrumentationPostExecutionData : NSObject
 
+/** The name of the class associated with the selector.
+ */
+@property (nonatomic, copy) NSString *className;
+
 /** The name of the original selector executed.
  */
 @property (nonatomic, copy) NSString *selectorName;
