@@ -15,6 +15,3 @@ LIBRARY_SEARCH_PATHS = $(inherited)
 
 // Make sure to use only API that are safe for application extensions
 APPLICATION_EXTENSION_API_ONLY = YES
-
-MODULEMAP_FILE = $(SRCROOT)/SalesforceSDKCore/SalesforceSDKCore.modulemap
-MODULEMAP_PRIVATE_FILE = $(SRCROOT)/SalesforceSDKCore/SalesforceSDKCore.private.modulemap
