@@ -9,6 +9,9 @@ options:
     -c <configuration>  Configuration (defaults to \$CONFIGURATION, or 'Release')
     -B <build_num>      Build number (defaults to \$BUILD_NUMBER)
     -o <output>         Output artifacts path (defaults to 'artifacts')
+    -s <identity>       Code signing identity
+    -f <name>           Framework name
+    -g <scheme>         Framework scheme (defaults to the framework name)
     -h                  Help
 
 EOF
@@ -88,11 +91,16 @@ SIMULATOR_LIBRARY_PATH="$BUILD_DIR/$CONFIGURATION-iphonesimulator/$FRAMEWORK_NAM
 DEVICE_LIBRARY_PATH="$BUILD_DIR/$CONFIGURATION-iphoneos/$FRAMEWORK_NAME.framework"
 UNIVERSAL_LIBRARY_DIR="$BUILD_DIR/$CONFIGURATION-iphoneuniversal"
 
+if [[ -n $OPT_BUILD_NUMBER ]]; then
+    BUILD_VERSION_SUFFIX=".$OPT_BUILD_NUMBER"
+fi
+
 xcodebuild -workspace "$ROOT/$PROJECT_NAME.xcworkspace" \
     -sdk iphonesimulator \
     -scheme "$FRAMEWORK_SCHEME" \
     -configuration "$CONFIGURATION" \
     BUILD_NUMBER=$OPT_BUILD_NUMBER \
+    BUILD_VERISON_SUFFIX="$BUILD_VERISON_SUFFIX" \
     ONLY_ACTIVE_ARCH=NO \
     ARCHS="i386 x86_64" \
     VALID_ARCHS="i386 x86_64" \
@@ -106,6 +114,7 @@ if [[ ! -z OPT_CODE_SIGN_IDENTITY ]]; then
         -scheme "$FRAMEWORK_SCHEME" \
         -configuration "$CONFIGURATION" \
         BUILD_NUMBER=$OPT_BUILD_NUMBER \
+        BUILD_VERISON_SUFFIX="$BUILD_VERISON_SUFFIX" \
         BITCODE_GENERATION_MODE=bitcode \
         ONLY_ACTIVE_ARCH=NO \
         ARCHS="armv7 armv7s arm64"  \
@@ -119,6 +128,7 @@ else
         -scheme "$FRAMEWORK_SCHEME" \
         -configuration "$CONFIGURATION" \
         BUILD_NUMBER=$OPT_BUILD_NUMBER \
+        BUILD_VERISON_SUFFIX="$BUILD_VERISON_SUFFIX" \
         BITCODE_GENERATION_MODE=bitcode \
         ONLY_ACTIVE_ARCH=NO \
         ARCHS="armv7 armv7s arm64"  \
