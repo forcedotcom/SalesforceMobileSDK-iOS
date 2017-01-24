@@ -1,0 +1,3 @@
+explicit framework module SalesforceSDKCore.Private {
+    header "CSFPrivateDefines.h"
+}
