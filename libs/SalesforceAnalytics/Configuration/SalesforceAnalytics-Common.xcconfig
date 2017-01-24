@@ -6,6 +6,8 @@
 //  Copyright © 2016 salesforce.com. All rights reserved.
 //
 
+#include "../../../configuration/Version.xcconfig"
+
 GCC_PRECOMPILE_PREFIX_HEADER = YES
 GCC_PREFIX_HEADER = $(PROJECT_NAME)/$(PROJECT_NAME)-Prefix.pch
 
