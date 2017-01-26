@@ -923,6 +923,7 @@ static Class InstanceClass = nil;
     if (self.statusAlert) {
         self.statusAlert = nil;
     }
+    [[SalesforceSDKManager sharedManager] dismissSnapshot];
     [self log:SFLogLevelError format:@"Error during authentication: %@", error];
     [self showAlertWithTitle:[SFSDKResourceUtils localizedString:kAlertErrorTitleKey]
                      message:[NSString stringWithFormat:[SFSDKResourceUtils localizedString:kAlertConnectionErrorFormatStringKey], [error localizedDescription]]
@@ -1061,7 +1062,6 @@ static Class InstanceClass = nil;
     self.genericAuthErrorHandler = [[SFAuthErrorHandler alloc]
                                                  initWithName:kSFGenericFailureAuthErrorHandler
                                                  evalBlock:^BOOL(NSError *error, SFOAuthInfo *authInfo) {
-                                                     [[SalesforceSDKManager sharedManager] dismissSnapshot];
                                                      [weakSelf clearAccountState:NO];
                                                      [weakSelf showRetryAlertForAuthError:error alertTag:kOAuthGenericAlertViewTag];
                                                      return YES;
