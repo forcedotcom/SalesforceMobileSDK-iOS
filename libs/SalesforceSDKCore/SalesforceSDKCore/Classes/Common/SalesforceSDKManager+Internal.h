@@ -39,5 +39,8 @@
 
 - (void)passcodeValidatedToAuthValidation;
 - (void)authValidatedToPostAuth:(SFSDKLaunchAction)launchAction;
+- (void)presentSnapshot;
+- (BOOL)isSnapshotPresented;
+- (void)dismissSnapshot;
 
 @end

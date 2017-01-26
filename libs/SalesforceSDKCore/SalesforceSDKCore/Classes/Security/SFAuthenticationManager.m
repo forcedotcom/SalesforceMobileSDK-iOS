@@ -25,7 +25,7 @@
 
 #import "SFApplication.h"
 #import "SFAuthenticationManager+Internal.h"
-#import "SalesforceSDKManager.h"
+#import "SalesforceSDKManager+Internal.h"
 #import "SFUserAccount.h"
 #import "SFUserAccountManager.h"
 #import "SFUserAccountIdentity.h"
@@ -846,6 +846,13 @@ static Class InstanceClass = nil;
  *        with the account.
  */
 - (void)clearAccountState:(BOOL)clearAccountData {
+    if (![NSThread isMainThread]) {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [self clearAccountState:clearAccountData];
+        });
+        return;
+    }
+    
     if (clearAccountData) {
         [SFSecurityLockout clearPasscodeState];
     }
@@ -982,7 +989,10 @@ static Class InstanceClass = nil;
                                         }];
         
         [self.statusAlert addAction:cancelAction];
-        [[SFRootViewManager sharedManager] pushViewController:self.statusAlert];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[SFRootViewManager sharedManager] pushViewController:weakSelf.statusAlert];
+        });
+
     }
 }
 
@@ -1051,6 +1061,7 @@ static Class InstanceClass = nil;
     self.genericAuthErrorHandler = [[SFAuthErrorHandler alloc]
                                                  initWithName:kSFGenericFailureAuthErrorHandler
                                                  evalBlock:^BOOL(NSError *error, SFOAuthInfo *authInfo) {
+                                                     [[SalesforceSDKManager sharedManager] dismissSnapshot];
                                                      [weakSelf clearAccountState:NO];
                                                      [weakSelf showRetryAlertForAuthError:error alertTag:kOAuthGenericAlertViewTag];
                                                      return YES;
