@@ -58,7 +58,7 @@ static NSString * const kSFSyncUpTargetTypeCustom = @"custom";
 #pragma mark - Serialization and factory methods
 
 + (instancetype)newFromDict:(NSDictionary*)dict {
-    // We should have an implementation class unless sync up was created with SDK before 5.1 and is not custom
+    // We should have an implementation class or a target type
     NSString* implClassName = dict[kSFSyncTargetiOSImplKey];
     if (implClassName.length > 0) {
         Class customSyncUpClass = NSClassFromString(implClassName);
@@ -71,7 +71,9 @@ static NSString * const kSFSyncUpTargetTypeCustom = @"custom";
     }
     // No implementation class - using target type
     else {
-        switch ([self targetTypeFromString:dict[kSFSyncTargetTypeKey]]) {
+        // No target type - assume kSFSyncUpTargetTypeRestStandard (hybrid apps don't specify it a sync up target type by default)
+        NSString *targetTypeString = (dict[kSFSyncTargetTypeKey] == nil ? kSFSyncUpTargetTypeRestStandard : dict[kSFSyncTargetTypeKey]);
+        switch ([self targetTypeFromString:targetTypeString]) {
             case SFSyncUpTargetTypeRestStandard:
                 return [[SFSyncUpTarget alloc] initWithDict:dict];
                 

@@ -43,7 +43,7 @@ NSString * const kSFSyncTargetQueryTypeCustom = @"custom";
 #pragma mark - From/to dictionary
 
 + (SFSyncDownTarget*) newFromDict:(NSDictionary*)dict {
-    // We should have an implementation class unless sync down was created with SDK before 5.1 and is not custom
+    // We should have an implementation class or a target type
     NSString* implClassName = dict[kSFSyncTargetiOSImplKey];
     if (implClassName.length > 0) {
         Class customSyncDownClass = NSClassFromString(implClassName);
