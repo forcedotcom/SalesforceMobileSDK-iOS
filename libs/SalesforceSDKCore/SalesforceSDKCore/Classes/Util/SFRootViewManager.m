@@ -115,7 +115,8 @@
         
         if (currentViewController != nil) {
             if (currentViewController != viewController
-                && viewController.presentedViewController != currentViewController) {
+                && viewController.presentedViewController != currentViewController
+                && !(viewController.isViewLoaded && viewController.view.window && [viewController.view.window isKeyWindow])) {
                 [strongSelf log:SFLogLevelDebug format:@"pushViewController: Presenting view controller (%@).", viewController];
                 
                 [strongSelf enumerateDelegates:^(id<SFRootViewManagerDelegate> delegate) {

@@ -25,7 +25,7 @@
 
 #import "SFApplication.h"
 #import "SFAuthenticationManager+Internal.h"
-#import "SalesforceSDKManager.h"
+#import "SalesforceSDKManager+Internal.h"
 #import "SFUserAccount.h"
 #import "SFUserAccountManager.h"
 #import "SFUserAccountIdentity.h"
@@ -846,6 +846,13 @@ static Class InstanceClass = nil;
  *        with the account.
  */
 - (void)clearAccountState:(BOOL)clearAccountData {
+    if (![NSThread isMainThread]) {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [self clearAccountState:clearAccountData];
+        });
+        return;
+    }
+    
     if (clearAccountData) {
         [SFSecurityLockout clearPasscodeState];
     }
@@ -916,6 +923,7 @@ static Class InstanceClass = nil;
     if (self.statusAlert) {
         self.statusAlert = nil;
     }
+    [[SalesforceSDKManager sharedManager] dismissSnapshot];
     [self log:SFLogLevelError format:@"Error during authentication: %@", error];
     [self showAlertWithTitle:[SFSDKResourceUtils localizedString:kAlertErrorTitleKey]
                      message:[NSString stringWithFormat:[SFSDKResourceUtils localizedString:kAlertConnectionErrorFormatStringKey], [error localizedDescription]]
@@ -982,7 +990,10 @@ static Class InstanceClass = nil;
                                         }];
         
         [self.statusAlert addAction:cancelAction];
-        [[SFRootViewManager sharedManager] pushViewController:self.statusAlert];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[SFRootViewManager sharedManager] pushViewController:weakSelf.statusAlert];
+        });
+
     }
 }
 
