@@ -1,3 +1,5 @@
+fastlane_require 'nokogiri'
+
 if !ENV["device"] or ENV["device"]==""
 	ENV["device"] = "iPhone 6"
 end
@@ -18,6 +20,20 @@ $schemesWithUnitTests.push("UnitTests")
 
 system("/usr/libexec/PlistBuddy -c \"add :ConnectHardwareKeyboard bool 0\" ~/Library/Preferences/com.apple.iphonesimulator.plist || /usr/libexec/PlistBuddy -c \"set :ConnectHardwareKeyboard 0\" ~/Library/Preferences/com.apple.iphonesimulator.plist")
 system("rm -r $HOME/Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-*")
+
+def combinePackagesOfXML(toFile, files)
+	toDoc = Nokogiri::XML(File.open(toFile))
+	packageNode = toDoc.xpath('//packages/package')
+	packageNode = packageNode[packageNode.size-1] #get last package node
+	for fromfile in files
+		fromDoc = Nokogiri::XML(File.open(fromfile))
+		packages = fromDoc.xpath('//packages/package')
+		for package in packages
+			packageNode.add_next_sibling(package)
+		end
+	end
+	File.write(toFile, toDoc.to_xml)
+end
 
 def doDanger
 	if $Jenkins
@@ -88,6 +104,20 @@ def testScheme(scheme)
       proj: "./libs/%s/%s.xcodeproj" %[oneScheme, oneScheme]
   	)
   end
+
+	desFile = "../slather_output/cobertura.xml"
+	system("rm #{desFile}")  #remove existing file first
+	coberturaXmls = Dir["../slather_output/**/cobertura*.xml"]
+	mergeFiles = Array.new
+	for i in 0..coberturaXmls.size-1
+		coberturaXml = coberturaXmls[i]
+		if i == 0
+			system("cp #{coberturaXml} #{desFile}")
+		else
+			mergeFiles.push(coberturaXml)
+		end
+	end
+	combinePackagesOfXML(desFile, mergeFiles)
 end
 
 lane :PR do
