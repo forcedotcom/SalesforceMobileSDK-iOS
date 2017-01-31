@@ -174,16 +174,18 @@
             } else {
                 [strongSelf log:SFLogLevelDebug format:@"popViewController: View controller (%@) is now being dismissed from presentation.", viewController];
                 [[currentViewController presentingViewController] dismissViewControllerAnimated:NO completion:^{
-                    [strongSelf enumerateDelegates:^(id<SFRootViewManagerDelegate> delegate) {
-                        if ([delegate respondsToSelector:@selector(rootViewManager:didPopViewControler:)]) {
-                            [delegate rootViewManager:strongSelf didPopViewControler:viewController];
-                        }
-                    }];
-                    if(strongSelf->_modalViewController) {
-                        [prevController presentViewController:strongSelf->_modalViewController animated:NO completion:^{
+                      if(strongSelf->_modalViewController) {
+                          [prevController presentViewController:strongSelf->_modalViewController animated:NO completion:^{
                             strongSelf->_modalViewController = nil;
-                        }];
-                    }
+                           }];
+                          return;
+                      }
+                      [strongSelf enumerateDelegates:^(id<SFRootViewManagerDelegate> delegate) {
+                          if ([delegate respondsToSelector:@selector(rootViewManager:didPopViewControler:)]) {
+                              [delegate rootViewManager:strongSelf didPopViewControler:viewController];
+                          }
+                      }];
+
                 }];
                 
             }
