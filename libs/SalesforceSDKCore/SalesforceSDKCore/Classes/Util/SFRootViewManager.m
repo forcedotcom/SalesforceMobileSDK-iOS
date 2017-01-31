@@ -113,8 +113,8 @@
         UIViewController *currentViewController = strongSelf.mainWindow.rootViewController;
         while (currentViewController.presentedViewController != nil && !currentViewController.presentedViewController.isBeingDismissed) {
             if([currentViewController.presentedViewController isKindOfClass:[UIAlertController class]]) {
-                [currentViewController.presentedViewController dismissViewControllerAnimated:NO completion:nil];
                 strongSelf->_modalViewController = (UIAlertController *)currentViewController.presentedViewController;
+                [currentViewController.presentedViewController dismissViewControllerAnimated:NO completion:nil];
                 break;
             }
             currentViewController = currentViewController.presentedViewController;
@@ -178,7 +178,6 @@
                           [prevController presentViewController:strongSelf->_modalViewController animated:NO completion:^{
                             strongSelf->_modalViewController = nil;
                            }];
-                          return;
                       }
                       [strongSelf enumerateDelegates:^(id<SFRootViewManagerDelegate> delegate) {
                           if ([delegate respondsToSelector:@selector(rootViewManager:didPopViewControler:)]) {
