@@ -27,7 +27,6 @@
 @interface SalesforceSDKManager () <SalesforceSDKManagerFlow, SFUserAccountManagerDelegate>
 {
     BOOL _isLaunching;
-    UIViewController* _defaultSnapshotViewController;
     UIViewController* _snapshotViewController;
 }
 
