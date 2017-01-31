@@ -32,7 +32,9 @@
 
 @end
 
-@implementation SFRootViewManager
+@implementation SFRootViewManager {
+    UIAlertController *_modalViewController;
+}
 
 @synthesize mainWindow = _mainWindow;
 
@@ -110,13 +112,18 @@
         __strong typeof(weakSelf) strongSelf = weakSelf;
         UIViewController *currentViewController = strongSelf.mainWindow.rootViewController;
         while (currentViewController.presentedViewController != nil && !currentViewController.presentedViewController.isBeingDismissed) {
+            if([currentViewController.presentedViewController isKindOfClass:[UIAlertController class]]) {
+                [currentViewController.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                strongSelf->_modalViewController = (UIAlertController *)currentViewController.presentedViewController;
+                break;
+            }
             currentViewController = currentViewController.presentedViewController;
         }
         
         if (currentViewController != nil) {
             if (currentViewController != viewController
                 && viewController.presentedViewController != currentViewController
-                && !(viewController.isViewLoaded && viewController.view.window && [viewController.view.window isKeyWindow])) {
+                ) {
                 [strongSelf log:SFLogLevelDebug format:@"pushViewController: Presenting view controller (%@).", viewController];
                 
                 [strongSelf enumerateDelegates:^(id<SFRootViewManagerDelegate> delegate) {
@@ -124,6 +131,10 @@
                         [delegate rootViewManager:strongSelf willPushViewControler:viewController];
                     }
                 }];
+                
+                if([currentViewController isKindOfClass:[UINavigationController class]]) {
+                    currentViewController =[((UINavigationController *) currentViewController) visibleViewController];
+                }
                 
                 [currentViewController presentViewController:viewController animated:NO completion:NULL];
             } else {
@@ -151,7 +162,10 @@
             strongSelf.mainWindow.rootViewController = nil;
             [self restorePreviousKeyWindow];
         } else {
+            UIViewController *prevController = currentViewController;
             while ((currentViewController != nil) && (currentViewController != viewController)) {
+                if([currentViewController presentedViewController]!=nil)
+                    prevController = currentViewController;
                 currentViewController = [currentViewController presentedViewController];
             }
             
@@ -165,9 +179,16 @@
                             [delegate rootViewManager:strongSelf didPopViewControler:viewController];
                         }
                     }];
+                    if(strongSelf->_modalViewController) {
+                        [prevController presentViewController:strongSelf->_modalViewController animated:NO completion:^{
+                            strongSelf->_modalViewController = nil;
+                        }];
+                    }
                 }];
+                
             }
         }
+        
     };
     
     dispatch_async(dispatch_get_main_queue(), popControllerBlock);
