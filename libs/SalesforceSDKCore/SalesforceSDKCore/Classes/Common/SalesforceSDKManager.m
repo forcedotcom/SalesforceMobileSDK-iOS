@@ -522,14 +522,10 @@ static Class InstanceClass = nil;
     // Custom snapshot view controller provided
     if (customSnapshotViewController) {
         _snapshotViewController = customSnapshotViewController;
-        _defaultSnapshotViewController = nil; //no need to keep the default in memory
     }
     // No custom snapshot view controller provided
     else {
-        if (!_defaultSnapshotViewController) {
-            _defaultSnapshotViewController = [[SnapshotViewController alloc] initWithNibName:nil bundle:nil];
-        }
-        _snapshotViewController = _defaultSnapshotViewController;
+        _snapshotViewController =  [[SnapshotViewController alloc] initWithNibName:nil bundle:nil];
     }
     
     // Presentation
