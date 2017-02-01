@@ -113,8 +113,8 @@
         UIViewController *currentViewController = strongSelf.mainWindow.rootViewController;
         while (currentViewController.presentedViewController != nil && !currentViewController.presentedViewController.isBeingDismissed) {
             if([currentViewController.presentedViewController isKindOfClass:[UIAlertController class]]) {
-                [currentViewController.presentedViewController dismissViewControllerAnimated:NO completion:nil];
                 strongSelf->_modalViewController = (UIAlertController *)currentViewController.presentedViewController;
+                [currentViewController.presentedViewController dismissViewControllerAnimated:NO completion:nil];
                 break;
             }
             currentViewController = currentViewController.presentedViewController;
@@ -174,16 +174,17 @@
             } else {
                 [strongSelf log:SFLogLevelDebug format:@"popViewController: View controller (%@) is now being dismissed from presentation.", viewController];
                 [[currentViewController presentingViewController] dismissViewControllerAnimated:NO completion:^{
-                    [strongSelf enumerateDelegates:^(id<SFRootViewManagerDelegate> delegate) {
-                        if ([delegate respondsToSelector:@selector(rootViewManager:didPopViewControler:)]) {
-                            [delegate rootViewManager:strongSelf didPopViewControler:viewController];
-                        }
-                    }];
-                    if(strongSelf->_modalViewController) {
-                        [prevController presentViewController:strongSelf->_modalViewController animated:NO completion:^{
+                      if(strongSelf->_modalViewController) {
+                          [prevController presentViewController:strongSelf->_modalViewController animated:NO completion:^{
                             strongSelf->_modalViewController = nil;
-                        }];
-                    }
+                           }];
+                      }
+                      [strongSelf enumerateDelegates:^(id<SFRootViewManagerDelegate> delegate) {
+                          if ([delegate respondsToSelector:@selector(rootViewManager:didPopViewControler:)]) {
+                              [delegate rootViewManager:strongSelf didPopViewControler:viewController];
+                          }
+                      }];
+
                 }];
                 
             }
