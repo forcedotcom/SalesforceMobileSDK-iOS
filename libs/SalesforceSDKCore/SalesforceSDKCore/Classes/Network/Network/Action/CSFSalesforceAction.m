@@ -201,7 +201,7 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
     
     NSString *errorDescription = errorMessage ?: [NSString stringWithFormat:@"HTTP %ld for %@ %@", (long)response.statusCode, self.method, self.verb];
     NSDictionary *baseErrorDict = @{ NSLocalizedDescriptionKey:errorDescription,
-                                     CSFNetworkErrorActionKey: self,
+                                     CSFNetworkErrorActionDescriptionKey: [self description],
                                      CSFNetworkErrorAuthenticationFailureKey: @(requestSessionRefresh) };
     NSMutableDictionary *userInfoDict = [NSMutableDictionary dictionaryWithDictionary:baseErrorDict];
     if (errorCode.length > 0) {

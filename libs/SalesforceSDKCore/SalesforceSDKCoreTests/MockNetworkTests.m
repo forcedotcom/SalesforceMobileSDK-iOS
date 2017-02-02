@@ -62,7 +62,7 @@
         error = [NSError errorWithDomain:CSFNetworkErrorDomain
                                     code:CSFNetworkInternalError
                                 userInfo:@{ NSLocalizedDescriptionKey: @"Semaphore wait timed out",
-                                            CSFNetworkErrorActionKey: self }];
+                                            CSFNetworkErrorActionDescriptionKey: [self description] }];
     }
     [super completeOperationWithError:error];
 }
