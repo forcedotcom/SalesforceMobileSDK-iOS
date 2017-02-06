@@ -117,23 +117,6 @@
     return self;
 }
 
-- (instancetype)initWithAsync:(BOOL)asynchronous
-                        level:(DDLogLevel)level
-                         flag:(DDLogFlag)flag
-                      context:(NSInteger)context
-                         file:(const char *)file
-                     function:(const char *)function
-                         line:(NSUInteger)line
-                          tag:(id)tag
-                      message:(NSString *)message
-{
-    self = [self initWithAsync:asynchronous level:level flag:flag context:context file:file function:function line:line tag:tag format:message args:nil];
-    if (self) {
-        _message = message;
-    }
-    return self;
-}
-
 - (NSString*)description {
     NSString *flagName = nil;
     switch (_flag) {
@@ -556,6 +539,7 @@
                                                  function:nil
                                                      line:0
                                                       tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
+                                                   format:@"%@"
                                                   message:@"This is a error message"];
     [self log:SFLogLevelError msg:@"This is a error message"];
     XCTAssertEqual(recorder.results.count, 1U);
@@ -571,6 +555,7 @@
                                                  function:nil
                                                      line:0
                                                       tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
+                                                   format:@"%@"
                                                   message:@"This is a error message"];
     [self log:SFLogLevelError identifier:kSFLogLevelInfoString msg:@"This is a error message"];
     XCTAssertEqual(recorder.results.count, 1U);
@@ -585,6 +570,7 @@
                                         function:nil
                                             line:0
                                              tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
+                                          format:@"%@"
                                          message:@"This is a error message"];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -595,14 +581,15 @@
     [recorder.results removeAllObjects];
 
     LogItem *expectedFormat = [[LogItem alloc] initWithAsync:YES
-                                                 level:DDLogLevelVerbose
-                                                  flag:DDLogFlagError
-                                               context:1
-                                                  file:nil
-                                              function:nil
-                                                  line:0
-                                                   tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
-                                               message:@"This is a error message"];
+                                                       level:DDLogLevelVerbose
+                                                        flag:DDLogFlagError
+                                                     context:1
+                                                        file:nil
+                                                    function:nil
+                                                        line:0
+                                                         tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
+                                                      format:@"This is a error message"
+                                                     message:@"This is a error message"];
     
     [self log:SFLogLevelError format:@"This is a error message"];
     XCTAssertEqual(recorder.results.count, 1U);
@@ -708,7 +695,7 @@ static NSInteger kMyLogContext;
     XCTAssertEqual(testLogger.messages.count, 3U);
     XCTAssertEqualObjects([self trimmedLogWithString:testLogger.messages[0]], @"ERROR com.salesforce <LogStorageRecorder>: Log message");
     XCTAssertEqualObjects([self trimmedLogWithString:testLogger.messages[1]], @"ERROR com.salesforce.test <LogStorageRecorder>: Log message");
-    XCTAssertEqualObjects([self trimmedLogWithString:testLogger.messages[2]], @"ERROR com.salesforce <SFLoggerTests.m:703 -[SFLoggerTests testLogFormatter]>: Log message");
+    XCTAssertEqualObjects([self trimmedLogWithString:testLogger.messages[2]], @"ERROR com.salesforce <SFLoggerTests.m:690 -[SFLoggerTests testLogFormatter]>: Log message");
 
 }
 
@@ -741,8 +728,8 @@ static NSInteger kMyLogContext;
     
     NSArray<NSString*> *messages = [logContents componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
     XCTAssertEqual(messages.count, 3U);
-    XCTAssertEqualObjects([self trimmedLogWithString:messages[0]], @"WARNING com.salesforce <SFLoggerTests.m:732 -[SFLoggerTests testExtraLoggers]>: Log warning");
-    XCTAssertEqualObjects([self trimmedLogWithString:messages[1]], @"VERBOSE com.salesforce <SFLoggerTests.m:733 -[SFLoggerTests testExtraLoggers]>: Log verbose");
+    XCTAssertEqualObjects([self trimmedLogWithString:messages[0]], @"WARNING com.salesforce <SFLoggerTests.m:719 -[SFLoggerTests testExtraLoggers]>: Log warning");
+    XCTAssertEqualObjects([self trimmedLogWithString:messages[1]], @"VERBOSE com.salesforce <SFLoggerTests.m:720 -[SFLoggerTests testExtraLoggers]>: Log verbose");
 
 }
 
