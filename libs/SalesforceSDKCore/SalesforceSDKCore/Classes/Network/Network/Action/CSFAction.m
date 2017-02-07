@@ -36,7 +36,7 @@
 NSString * const CSFActionSecurityTokenKey = @"securityToken"; // CSRF security token key
 
 NSString * const CSFDefaultLocale = @"en-us";
-NSString * const CSFNetworkErrorActionKey = @"action";
+NSString * const CSFNetworkErrorActionDescriptionKey = @"action";
 NSString * const CSFNetworkErrorAuthenticationFailureKey = @"isAuthenticationFailure";
 
 NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
@@ -78,7 +78,7 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
             *error = [NSError errorWithDomain:CSFNetworkErrorDomain
                                          code:CSFNetworkURLCredentialsError
                                      userInfo:@{ NSLocalizedDescriptionKey: @"Network action must have a base URL defined",
-                                             CSFNetworkErrorActionKey: self }];
+                                             CSFNetworkErrorActionDescriptionKey: [self description] }];
         }
         return nil;
     }
@@ -92,7 +92,7 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
             *error = [NSError errorWithDomain:CSFNetworkErrorDomain
                                          code:CSFNetworkURLCredentialsError
                                      userInfo:@{ NSLocalizedDescriptionKey: @"Network action must have a valid path",
-                                             CSFNetworkErrorActionKey: self }];
+                                             CSFNetworkErrorActionDescriptionKey: [self description] }];
         }
         return nil;
     }
@@ -137,7 +137,7 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
                 if (potentialErrorCode && potentialErrorMessage) {
                     NSDictionary *errorDictionary = @{ NSLocalizedDescriptionKey: potentialErrorMessage,
                                                        NSLocalizedFailureReasonErrorKey: potentialErrorCode,
-                                                       CSFNetworkErrorActionKey: action };
+                                                       CSFNetworkErrorActionDescriptionKey: [action description] };
                     error = [NSError errorWithDomain:CSFNetworkErrorDomain
                                                 code:CSFNetworkAPIError
                                             userInfo:errorDictionary];
@@ -460,7 +460,7 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
             [self completeOperationWithError:[NSError errorWithDomain:CSFNetworkErrorDomain
                                                                  code:CSFNetworkHTTPResponseError
                                                              userInfo:@{ NSLocalizedDescriptionKey: @"HTTP request returned an error",
-                                                                         CSFNetworkErrorActionKey: self,
+                                                                         CSFNetworkErrorActionDescriptionKey: [self description],
                                                                          NSUnderlyingErrorKey: error }]];
         }
     } else if (![task.response isKindOfClass:[NSHTTPURLResponse class]]) {
@@ -468,7 +468,7 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
         [self completeOperationWithError:[NSError errorWithDomain:CSFNetworkErrorDomain
                                                              code:CSFNetworkURLResponseInvalidError
                                                          userInfo:@{ NSLocalizedDescriptionKey: @"Unexpected URL response type returned.",
-                                                                     CSFNetworkErrorActionKey: self }]];
+                                                                     CSFNetworkErrorActionDescriptionKey: [self description] }]];
     } else {
         NetworkVerbose(@"Successfully completed request");
         [self completeOperationWithResponse:(NSHTTPURLResponse *)task.response];
@@ -518,7 +518,7 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
         [self completeOperationWithError:[NSError errorWithDomain:CSFNetworkErrorDomain
                                                              code:CSFNetworkCancelledError
                                                          userInfo:@{ NSLocalizedDescriptionKey: @"Operation was cancelled",
-                                                                     CSFNetworkErrorActionKey: self }]];
+                                                                     CSFNetworkErrorActionDescriptionKey: [self description] }]];
         return;
     }
     [self willChangeValueForKey:@"isExecuting"];
@@ -581,7 +581,7 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
     [self completeOperationWithError:[NSError errorWithDomain:CSFNetworkErrorDomain
                                                          code:CSFNetworkCancelledError
                                                      userInfo:@{ NSLocalizedDescriptionKey: @"Operation was cancelled",
-                                                                 CSFNetworkErrorActionKey: self }]];
+                                                                 CSFNetworkErrorActionDescriptionKey: [self description] }]];
 }
 
 - (BOOL)isAsynchronous {
@@ -760,7 +760,7 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
                                          code:CSFNetworkJSONInvalidError
                                      userInfo:@{ NSLocalizedDescriptionKey: @"Processing response content failed",
                                                  NSUnderlyingErrorKey: jsonParseError,
-                                                 CSFNetworkErrorActionKey: self }];
+                                                 CSFNetworkErrorActionDescriptionKey: [self description] }];
         }
     }
     return content;
@@ -771,7 +771,7 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
     if (response.statusCode >= 400) {
         NSString *errorDescription = [NSString stringWithFormat:@"HTTP %ld for %@ %@", (long)response.statusCode, self.method, self.verb];
         NSDictionary *userInfoDict = @{ NSLocalizedDescriptionKey:errorDescription,
-                                        CSFNetworkErrorActionKey: self };
+                                        CSFNetworkErrorActionDescriptionKey: [self description] };
         error = [NSError errorWithDomain:CSFNetworkErrorDomain
                                     code:response.statusCode
                                 userInfo:userInfoDict];

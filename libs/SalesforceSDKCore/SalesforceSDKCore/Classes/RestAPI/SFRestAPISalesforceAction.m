@@ -48,7 +48,7 @@
             *error = [NSError errorWithDomain:CSFNetworkErrorDomain
                                                 code:response.statusCode
                                             userInfo:@{ NSLocalizedDescriptionKey:[NSString stringWithFormat:@"HTTP %ld for %@ %@", (long)response.statusCode, self.method, self.verb],
-                                                        CSFNetworkErrorActionKey: self }];
+                                                        CSFNetworkErrorActionDescriptionKey: [self description] }];
         }
     }
     
