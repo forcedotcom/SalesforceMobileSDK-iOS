@@ -365,7 +365,7 @@
                                          file:nil
                                      function:nil
                                          line:0
-                                          tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
+                                          tag:self.class
                                        format:@"Warning message"
                                       message:@"Warning message"];
     [SFLogger log:self.class level:SFLogLevelWarning msg:@"Warning message"];
@@ -379,7 +379,7 @@
                                          file:nil
                                      function:nil
                                          line:0
-                                          tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
+                                          tag:self.class
                                        format:@"Warning message with an argument"
                                       message:@"Warning message with an argument"];
     [SFLogger log:self.class level:SFLogLevelError format:@"Warning message with %@", @"an argument"];
@@ -406,7 +406,7 @@
                                          file:nil
                                      function:nil
                                          line:0
-                                          tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
+                                          tag:self.class
                                        format:@"Message to Woof"
                                       message:@"Message to Woof"];
     XCTAssertEqualObjects([recorder.results lastObject], expected);
@@ -439,7 +439,7 @@
                                                     file:__FILE__
                                                 function:"-[SFLoggerTests testMacroLogging]"
                                                     line:baseLine + 2
-                                                     tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
+                                                     tag:nil
                                                   format:@"This is a verbose message"
                                                  message:@"This is a verbose message"]);
     XCTAssertEqualObjects(recorder.results[1],
@@ -450,7 +450,7 @@
                                                     file:__FILE__
                                                 function:"-[SFLoggerTests testMacroLogging]"
                                                     line:baseLine + 4
-                                                     tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
+                                                     tag:nil
                                                   format:@"This is a debug message: %d"
                                                  message:@"This is a debug message: 1"]);
     XCTAssertEqualObjects(recorder.results[2],
@@ -461,7 +461,7 @@
                                                     file:__FILE__
                                                 function:"-[SFLoggerTests testMacroLogging]"
                                                     line:baseLine + 6
-                                                     tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
+                                                     tag:nil
                                                   format:@"This is a info message"
                                                  message:@"This is a info message"]);
     XCTAssertEqualObjects(recorder.results[3],
@@ -472,7 +472,7 @@
                                                     file:__FILE__
                                                 function:"-[SFLoggerTests testMacroLogging]"
                                                     line:baseLine + 8
-                                                     tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
+                                                     tag:nil
                                                   format:@"This is a warning %@"
                                                  message:@"This is a warning message"]);
     XCTAssertEqualObjects(recorder.results[4],
@@ -483,7 +483,7 @@
                                                     file:__FILE__
                                                 function:"-[SFLoggerTests testMacroLogging]"
                                                     line:baseLine + 10
-                                                     tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
+                                                     tag:nil
                                                   format:@"This is a error message"
                                                  message:@"This is a error message"]);
 }
@@ -501,7 +501,7 @@
                                                   file:nil
                                               function:nil
                                                   line:0
-                                                   tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
+                                                   tag:self.class
                                                 format:@"This is a error message"
                                                message:@"This is a error message"];
     
@@ -555,7 +555,7 @@
                                                      file:nil
                                                  function:nil
                                                      line:0
-                                                      tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
+                                                      tag:self.class
                                                   message:@"This is a error message"];
     [self log:SFLogLevelError msg:@"This is a error message"];
     XCTAssertEqual(recorder.results.count, 1U);
@@ -570,7 +570,7 @@
                                                      file:nil
                                                  function:nil
                                                      line:0
-                                                      tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
+                                                      tag:self.class
                                                   message:@"This is a error message"];
     [self log:SFLogLevelError identifier:kSFLogLevelInfoString msg:@"This is a error message"];
     XCTAssertEqual(recorder.results.count, 1U);
@@ -584,7 +584,7 @@
                                             file:nil
                                         function:nil
                                             line:0
-                                             tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
+                                             tag:self.class
                                          message:@"This is a error message"];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -601,7 +601,7 @@
                                                   file:nil
                                               function:nil
                                                   line:0
-                                                   tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
+                                                   tag:self.class
                                                message:@"This is a error message"];
     
     [self log:SFLogLevelError format:@"This is a error message"];
@@ -625,11 +625,11 @@
 
 static NSString *identifier = @"com.salesforce.test";
 static NSInteger kMyLogContext;
-#define MyLogError(frmt, ...)      SFLogErrorToContext(kMyLogContext, self, frmt, ##__VA_ARGS__)
-#define MyLogWarn(frmt, ...)        SFLogWarnToContext(kMyLogContext, self, frmt, ##__VA_ARGS__)
-#define MyLogInfo(frmt, ...)        SFLogInfoToContext(kMyLogContext, self, frmt, ##__VA_ARGS__)
-#define MyLogDebug(frmt, ...)      SFLogDebugToContext(kMyLogContext, self, frmt, ##__VA_ARGS__)
-#define MyLogVerbose(frmt, ...)  SFLogVerboseToContext(kMyLogContext, self, frmt, ##__VA_ARGS__)
+#define MyLogError(frmt, ...)      SFLogErrorToContext(kMyLogContext, nil, frmt, ##__VA_ARGS__)
+#define MyLogWarn(frmt, ...)        SFLogWarnToContext(kMyLogContext, nil, frmt, ##__VA_ARGS__)
+#define MyLogInfo(frmt, ...)        SFLogInfoToContext(kMyLogContext, nil, frmt, ##__VA_ARGS__)
+#define MyLogDebug(frmt, ...)      SFLogDebugToContext(kMyLogContext, nil, frmt, ##__VA_ARGS__)
+#define MyLogVerbose(frmt, ...)  SFLogVerboseToContext(kMyLogContext, nil, frmt, ##__VA_ARGS__)
 
 - (void)testCustomLogMacros {
     SFLogger *logger = [SFLogger sharedLogger];

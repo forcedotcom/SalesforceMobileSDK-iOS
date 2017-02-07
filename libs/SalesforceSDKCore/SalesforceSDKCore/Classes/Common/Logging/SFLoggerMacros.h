@@ -106,23 +106,23 @@ static BOOL const kSFASLLoggerEnabledDefault = NO;
 #define SFLogDebugToContext(context, tag, frmt, ...)   SF_LOG_MAYBE(YES, SFLogFlagDebug,   context, tag, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
 #define SFLogVerboseToContext(context, tag, frmt, ...) SF_LOG_MAYBE(YES, SFLogFlagVerbose, context, tag, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
 
-#define SFLogErrorToIdentifier(identifier, frmt, ...)     SFLogErrorToContext([SFLogger contextForIdentifier:identifier], self, frmt, ##__VA_ARGS__)
-#define SFLogWarnToIdentifier(identifier, frmt, ...)       SFLogWarnToContext([SFLogger contextForIdentifier:identifier], self, frmt, ##__VA_ARGS__)
-#define SFLogInfoToIdentifier(identifier, frmt, ...)       SFLogInfoToContext([SFLogger contextForIdentifier:identifier], self, frmt, ##__VA_ARGS__)
-#define SFLogDebugToIdentifier(identifier, frmt, ...)     SFLogDebugToContext([SFLogger contextForIdentifier:identifier], self, frmt, ##__VA_ARGS__)
-#define SFLogVerboseToIdentifier(identifier, frmt, ...) SFLogVerboseToContext([SFLogger contextForIdentifier:identifier], self, frmt, ##__VA_ARGS__)
+#define SFLogErrorToIdentifier(identifier, frmt, ...)     SFLogErrorToContext([SFLogger contextForIdentifier:identifier], nil, frmt, ##__VA_ARGS__)
+#define SFLogWarnToIdentifier(identifier, frmt, ...)       SFLogWarnToContext([SFLogger contextForIdentifier:identifier], nil, frmt, ##__VA_ARGS__)
+#define SFLogInfoToIdentifier(identifier, frmt, ...)       SFLogInfoToContext([SFLogger contextForIdentifier:identifier], nil, frmt, ##__VA_ARGS__)
+#define SFLogDebugToIdentifier(identifier, frmt, ...)     SFLogDebugToContext([SFLogger contextForIdentifier:identifier], nil, frmt, ##__VA_ARGS__)
+#define SFLogVerboseToIdentifier(identifier, frmt, ...) SFLogVerboseToContext([SFLogger contextForIdentifier:identifier], nil, frmt, ##__VA_ARGS__)
 
-#define SFLogError(frmt, ...)      SFLogErrorToContext(SFLoggerDefaultContext, self, frmt, ##__VA_ARGS__)
-#define SFLogWarn(frmt, ...)        SFLogWarnToContext(SFLoggerDefaultContext, self, frmt, ##__VA_ARGS__)
-#define SFLogInfo(frmt, ...)        SFLogInfoToContext(SFLoggerDefaultContext, self, frmt, ##__VA_ARGS__)
-#define SFLogDebug(frmt, ...)      SFLogDebugToContext(SFLoggerDefaultContext, self, frmt, ##__VA_ARGS__)
-#define SFLogVerbose(frmt, ...)  SFLogVerboseToContext(SFLoggerDefaultContext, self, frmt, ##__VA_ARGS__)
+#define SFLogError(frmt, ...)      SFLogErrorToContext(SFLoggerDefaultContext, nil, frmt, ##__VA_ARGS__)
+#define SFLogWarn(frmt, ...)        SFLogWarnToContext(SFLoggerDefaultContext, nil, frmt, ##__VA_ARGS__)
+#define SFLogInfo(frmt, ...)        SFLogInfoToContext(SFLoggerDefaultContext, nil, frmt, ##__VA_ARGS__)
+#define SFLogDebug(frmt, ...)      SFLogDebugToContext(SFLoggerDefaultContext, nil, frmt, ##__VA_ARGS__)
+#define SFLogVerbose(frmt, ...)  SFLogVerboseToContext(SFLoggerDefaultContext, nil, frmt, ##__VA_ARGS__)
 
-#define SFLogCError(frmt, ...)      SFLogErrorToContext(SFLoggerDefaultContext, nil, frmt, ##__VA_ARGS__)
-#define SFLogCWarn(frmt, ...)        SFLogWarnToContext(SFLoggerDefaultContext, nil, frmt, ##__VA_ARGS__)
-#define SFLogCInfo(frmt, ...)        SFLogInfoToContext(SFLoggerDefaultContext, nil, frmt, ##__VA_ARGS__)
-#define SFLogCDebug(frmt, ...)      SFLogDebugToContext(SFLoggerDefaultContext, nil, frmt, ##__VA_ARGS__)
-#define SFLogCVerbose(frmt, ...)  SFLogVerboseToContext(SFLoggerDefaultContext, nil, frmt, ##__VA_ARGS__)
+#define SFLogCError(frmt, ...)      SFLogError(frmt, ##__VA_ARGS__)
+#define SFLogCWarn(frmt, ...)        SFLogWarn(frmt, ##__VA_ARGS__)
+#define SFLogCInfo(frmt, ...)        SFLogInfo(frmt, ##__VA_ARGS__)
+#define SFLogCDebug(frmt, ...)      SFLogDebug(frmt, ##__VA_ARGS__)
+#define SFLogCVerbose(frmt, ...)  SFLogVerbose(frmt, ##__VA_ARGS__)
 
 
 #endif /* SFLoggerMacros_h */
