@@ -230,11 +230,11 @@ SFLogLevel SFLoggerContextLogLevels[SF_LOG_MAX_IDENTIFIER_COUNT];
 }
 
 - (void)log:(SFLogLevel)level msg:(NSString *)msg {
-    [self log:level identifier:[self.class loggingIdentifier] format:msg, nil];
+    [self log:level identifier:[self.class loggingIdentifier] format:@"%@", msg];
 }
 
 - (void)log:(SFLogLevel)level identifier:(NSString*)logIdentifier msg:(NSString *)msg {
-    [self log:level identifier:logIdentifier format:msg, nil];
+    [self log:level identifier:logIdentifier format:@"%@", msg];
 }
 
 - (void)log:(SFLogLevel)level format:(NSString *)format, ... {
