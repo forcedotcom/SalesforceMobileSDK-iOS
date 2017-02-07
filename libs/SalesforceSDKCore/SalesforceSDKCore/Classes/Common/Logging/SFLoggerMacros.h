@@ -118,11 +118,11 @@ static BOOL const kSFASLLoggerEnabledDefault = NO;
 #define SFLogDebug(frmt, ...)      SFLogDebugToContext(SFLoggerDefaultContext, nil, frmt, ##__VA_ARGS__)
 #define SFLogVerbose(frmt, ...)  SFLogVerboseToContext(SFLoggerDefaultContext, nil, frmt, ##__VA_ARGS__)
 
-#define SFLogCError(frmt, ...)      SFLogError(frmt, ##__VA_ARGS__)
-#define SFLogCWarn(frmt, ...)        SFLogWarn(frmt, ##__VA_ARGS__)
-#define SFLogCInfo(frmt, ...)        SFLogInfo(frmt, ##__VA_ARGS__)
-#define SFLogCDebug(frmt, ...)      SFLogDebug(frmt, ##__VA_ARGS__)
-#define SFLogCVerbose(frmt, ...)  SFLogVerbose(frmt, ##__VA_ARGS__)
+#define SFLogCError(frmt, ...)    _Pragma ("GCC warning \"'SFLogCError' macro is deprecated, use SFLogError\"")     SFLogError(frmt, ##__VA_ARGS__)
+#define SFLogCWarn(frmt, ...)     _Pragma ("GCC warning \"'SFLogCWarn' macro is deprecated, use SFLogWarn\"")       SFLogWarn(frmt, ##__VA_ARGS__)
+#define SFLogCInfo(frmt, ...)     _Pragma ("GCC warning \"'SFLogCInfo' macro is deprecated, use SFLogInfo\"")       SFLogInfo(frmt, ##__VA_ARGS__)
+#define SFLogCDebug(frmt, ...)    _Pragma ("GCC warning \"'SFLogCDebug' macro is deprecated, use SFLogDebug\"")     SFLogDebug(frmt, ##__VA_ARGS__)
+#define SFLogCVerbose(frmt, ...)  _Pragma ("GCC warning \"'SFLogCVerbose' macro is deprecated, use SFLogVerbose\"") SFLogVerbose(frmt, ##__VA_ARGS__)
 
 
 #endif /* SFLoggerMacros_h */
