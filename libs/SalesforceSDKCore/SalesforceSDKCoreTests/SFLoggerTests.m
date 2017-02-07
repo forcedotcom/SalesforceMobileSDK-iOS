@@ -327,7 +327,9 @@
     
     SFLogger *logger = [SFLogger sharedLogger];
     XCTAssertNotNil(logger);
-    
+    XCTAssertNotNil(logger.ddLog);
+    XCTAssertEqualObjects(NSStringFromClass(logger.ddLog.class), @"DDLog");
+
     LogStorageRecorder *recorder = [LogStorageRecorder new];
     logger->_ddLog = recorder;
     

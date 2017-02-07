@@ -441,6 +441,11 @@ static BOOL assertionRecorded = NO;
     return identifierObject.context;
 }
 
+// Expose the ivar manually as a DDLog instance.  Internally we represent this as an SFLogStorage protocol so we can unit test it easily.
+- (DDLog *)ddLog {
+    return (DDLog*)_ddLog;
+}
+
 - (BOOL)shouldLogToASL {
     return [_ddLog.allLoggers containsObject:[DDASLLogger sharedInstance]];
 }
