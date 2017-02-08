@@ -326,6 +326,8 @@
     LogItem *expected = nil;
     
     SFLogger *logger = [SFLogger sharedLogger];
+    [logger resetLoggers];
+
     XCTAssertNotNil(logger);
     XCTAssertNotNil(logger.ddLog);
     XCTAssertEqualObjects(NSStringFromClass(logger.ddLog.class), @"DDLog");
@@ -697,7 +699,7 @@ static NSInteger kMyLogContext;
     XCTAssertEqual(testLogger.messages.count, 3U);
     XCTAssertEqualObjects([self trimmedLogWithString:testLogger.messages[0]], @"ERROR com.salesforce <LogStorageRecorder>: Log message");
     XCTAssertEqualObjects([self trimmedLogWithString:testLogger.messages[1]], @"ERROR com.salesforce.test <LogStorageRecorder>: Log message");
-    XCTAssertEqualObjects([self trimmedLogWithString:testLogger.messages[2]], @"ERROR com.salesforce <SFLoggerTests.m:690 -[SFLoggerTests testLogFormatter]>: Log message");
+    XCTAssertEqualObjects([self trimmedLogWithString:testLogger.messages[2]], @"ERROR com.salesforce <SFLoggerTests.m:694 -[SFLoggerTests testLogFormatter]>: Log message");
 
 }
 
@@ -730,8 +732,8 @@ static NSInteger kMyLogContext;
     
     NSArray<NSString*> *messages = [logContents componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
     XCTAssertEqual(messages.count, 3U);
-    XCTAssertEqualObjects([self trimmedLogWithString:messages[0]], @"WARNING com.salesforce <SFLoggerTests.m:719 -[SFLoggerTests testExtraLoggers]>: Log warning");
-    XCTAssertEqualObjects([self trimmedLogWithString:messages[1]], @"VERBOSE com.salesforce <SFLoggerTests.m:720 -[SFLoggerTests testExtraLoggers]>: Log verbose");
+    XCTAssertEqualObjects([self trimmedLogWithString:messages[0]], @"WARNING com.salesforce <SFLoggerTests.m:723 -[SFLoggerTests testExtraLoggers]>: Log warning");
+    XCTAssertEqualObjects([self trimmedLogWithString:messages[1]], @"VERBOSE com.salesforce <SFLoggerTests.m:724 -[SFLoggerTests testExtraLoggers]>: Log verbose");
 
 }
 
