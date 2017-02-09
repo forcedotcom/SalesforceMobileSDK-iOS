@@ -1398,6 +1398,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(BUILT_PRODUCTS_DIR)/Headers",
 					"$(OBJROOT)/UninstalledProducts/Headers",
+          "$(OBJROOT)/UninstalledProducts/$(PLATFORM_NAME)/include",
 					"$(PROJECT_DIR)/../../../external/cordova-ios/cordova-ios/CordovaLib/Classes/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1439,6 +1440,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(BUILT_PRODUCTS_DIR)/Headers",
 					"$(OBJROOT)/UninstalledProducts/Headers",
+					"$(OBJROOT)/UninstalledProducts/$(PLATFORM_NAME)/include",
 					"$(PROJECT_DIR)/../../../external/cordova-ios/cordova-ios/CordovaLib/Classes/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
