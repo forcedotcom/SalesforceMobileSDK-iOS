@@ -542,12 +542,14 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
     if ([webView isEqual:self.vfPingPageHiddenWKWebView]) {
         [self log:SFLogLevelDebug msg:@"Setting up VF web state after plugin-based refresh."];
         decisionHandler(WKNavigationActionPolicyAllow);
+        return;
     }
 
     // Local error page load.
     if ([webView isEqual:self.errorPageWKWebView]) {
         [self log:SFLogLevelDebug format:@"Local error page ('%@') is loading.", navigationAction.request.URL.absoluteString];
         decisionHandler(WKNavigationActionPolicyAllow);
+        return;
     }
 
     // Cordova web view load.
@@ -586,6 +588,7 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
                  }
              }];
             decisionHandler(WKNavigationActionPolicyCancel);
+            return;
         }
         if (self.navWebViewDelegate) {
             [self.navWebViewDelegate webView:webView decidePolicyForNavigationAction:navigationAction decisionHandler:decisionHandler];
