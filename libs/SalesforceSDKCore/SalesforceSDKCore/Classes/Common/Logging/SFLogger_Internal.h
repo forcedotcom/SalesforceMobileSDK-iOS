@@ -38,8 +38,10 @@ extern NSString * SFLogNameForLogLevel(SFLogLevel level);
 @property (nonatomic, assign) SFLogLevel logLevel;
 @property (nonatomic, assign, readonly) SFLogFlag logFlag;
 @property (nonatomic, assign) NSInteger context;
+@property (nonatomic, strong, readonly) os_log_t defaultLog;
 
 - (instancetype)initWithIdentifier:(NSString*)identifier NS_DESIGNATED_INITIALIZER;
+- (os_log_t)logForCategory:(const char *)cateogry;
 
 @end
 

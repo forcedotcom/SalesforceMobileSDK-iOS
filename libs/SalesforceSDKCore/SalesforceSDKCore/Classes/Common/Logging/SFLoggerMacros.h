@@ -25,6 +25,8 @@
 #ifndef SFLoggerMacros_h
 #define SFLoggerMacros_h
 
+#import <os/log.h>
+
 typedef NS_ENUM(NSUInteger, SFLogFlag) {
     SFLogFlagError      = (1 << 0),
     SFLogFlagWarning    = (1 << 1),
@@ -73,6 +75,7 @@ typedef NS_ENUM(NSUInteger, SFLogLevel) {
 
 #define SF_LOG_MAX_IDENTIFIER_COUNT 100
 extern SFLogLevel SFLoggerContextLogLevels[SF_LOG_MAX_IDENTIFIER_COUNT];
+extern os_log_t SFLoggerOSLog(NSInteger context, const char * category);
 static NSUInteger SFLoggerDefaultContext = 1;
 
 #ifdef DEBUG
@@ -92,13 +95,24 @@ static BOOL const kSFASLLoggerEnabledDefault = NO;
                tag:atag                                           \
             format:(frmt), ## __VA_ARGS__]
 
+#define SF_LOG_TO_OS_LOG(flg) \
+    _OS_LOG_##flg
+
+#define _OS_LOG_SFLogFlagError      OS_LOG_TYPE_ERROR
+#define _OS_LOG_SFLogFlagWarning    OS_LOG_TYPE_DEFAULT
+#define _OS_LOG_SFLogFlagInfo       OS_LOG_TYPE_INFO
+#define _OS_LOG_SFLogFlagDebug      OS_LOG_TYPE_DEBUG
+#define _OS_LOG_SFLogFlagVerbose    OS_LOG_TYPE_DEBUG
+#define _OS_LOG_SFLogFlagNSLog      OS_LOG_TYPE_DEFAULT
+
 #define SF_LOG_MAYBE(async, flg, ctx, tag, fnct, frmt, ...)                        \
-    do {                                                                           \
+    ({                                                                             \
         SFLogLevel level = SFLoggerContextLogLevels[MAX(1, ctx) - 1];              \
+        os_log_with_type(SFLoggerOSLog(MAX(1, ctx) - 1, tag), SF_LOG_TO_OS_LOG(flg), [frmt UTF8String], ##__VA_ARGS__); \
         if (flg & level) {                                                         \
-            SF_LOG_MACRO(async, level, flg, ctx, tag, fnct, frmt, ## __VA_ARGS__); \
+            SF_LOG_MACRO(async, level, flg, ctx, tag, fnct, frmt, ##__VA_ARGS__); \
         }                                                                          \
-    } while(0)
+    })
 
 #define SFLogErrorToContext(context, tag, frmt, ...)   SF_LOG_MAYBE(NO,  SFLogFlagError,   context, tag, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
 #define SFLogWarnToContext(context, tag, frmt, ...)    SF_LOG_MAYBE(YES, SFLogFlagWarning, context, tag, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
@@ -117,6 +131,12 @@ static BOOL const kSFASLLoggerEnabledDefault = NO;
 #define SFLogInfo(frmt, ...)        SFLogInfoToContext(SFLoggerDefaultContext, self, frmt, ##__VA_ARGS__)
 #define SFLogDebug(frmt, ...)      SFLogDebugToContext(SFLoggerDefaultContext, self, frmt, ##__VA_ARGS__)
 #define SFLogVerbose(frmt, ...)  SFLogVerboseToContext(SFLoggerDefaultContext, self, frmt, ##__VA_ARGS__)
+
+#define SFLogErrorTag(frmt, tag, ...)      SFLogErrorToContext(SFLoggerDefaultContext, tag, frmt, ##__VA_ARGS__)
+#define SFLogWarnTag(frmt, tag, ...)        SFLogWarnToContext(SFLoggerDefaultContext, tag, frmt, ##__VA_ARGS__)
+#define SFLogInfoTag(frmt, tag, ...)        SFLogInfoToContext(SFLoggerDefaultContext, tag, frmt, ##__VA_ARGS__)
+#define SFLogDebugTag(frmt, tag, ...)      SFLogDebugToContext(SFLoggerDefaultContext, tag, frmt, ##__VA_ARGS__)
+#define SFLogVerboseTag(frmt, tag, ...)  SFLogVerboseToContext(SFLoggerDefaultContext, tag, frmt, ##__VA_ARGS__)
 
 #define SFLogCError(frmt, ...)      SFLogErrorToContext(SFLoggerDefaultContext, nil, frmt, ##__VA_ARGS__)
 #define SFLogCWarn(frmt, ...)        SFLogWarnToContext(SFLoggerDefaultContext, nil, frmt, ##__VA_ARGS__)

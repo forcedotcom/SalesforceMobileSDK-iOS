@@ -24,6 +24,7 @@
 
 #import <CocoaLumberjack/CocoaLumberjack.h>
 #import <CocoaLumberjack/DDContextFilterLogFormatter.h>
+#import <os/log.h>
 
 #import "NSData+SFAdditions.h"
 #import "SFLogger_Internal.h"
@@ -100,6 +101,11 @@ NSString * SFLogNameForFlag(SFLogFlag flag) {
     }
 }
 
+os_log_t SFLoggerOSLog(NSInteger context, const char * category) {
+    SFLogIdentifier *identifier = [[SFLogger sharedLogger] logIdentifierForContext:context];
+    return [identifier logForCategory:category];
+}
+
 @interface SFLogger (PrivateLoggingMethods)
 
 + (void)logAsync:(BOOL)asynchronous
@@ -146,6 +152,14 @@ NSString * const kSFLogIdentifierDefault = @"com.salesforce";
 static void * kObservingKey = &kObservingKey;
 static NSString * const kSFLogLevelKey = @"logLevel";
 SFLogLevel SFLoggerContextLogLevels[SF_LOG_MAX_IDENTIFIER_COUNT];
+os_log_t SFLoggerContextLogHandles[SF_LOG_MAX_IDENTIFIER_COUNT];
+
+__attribute__((constructor))
+static void initialize_logging() {
+    SFLoggerContextLogLevels[SFLoggerDefaultContext] = SFLogLevelError;
+    SFLoggerContextLogHandles[0] = OS_LOG_DEFAULT;
+    SFLoggerContextLogHandles[SFLoggerDefaultContext] = OS_LOG_DEFAULT;
+}
 
 /////////////////
 
@@ -178,7 +192,9 @@ SFLogLevel SFLoggerContextLogLevels[SF_LOG_MAX_IDENTIFIER_COUNT];
 
 /////////////////
 
-@implementation SFLogIdentifier
+@implementation SFLogIdentifier {
+    CFMutableDictionaryRef _categoryDictionary;
+}
 
 + (NSSet*)keyPathsForValuesAffectingLogFlag {
     return [NSSet setWithObject:@"logLevel"];
@@ -194,13 +210,38 @@ SFLogLevel SFLoggerContextLogLevels[SF_LOG_MAX_IDENTIFIER_COUNT];
         _identifier = [identifier copy];
         _logLevel = SFLogLevelError;
         _logFlag = SFLogFlagError;
-        
+        if ([identifier isEqualToString:kSFLogIdentifierDefault]) {
+            _defaultLog = OS_LOG_DEFAULT;
+        } else {
+            _defaultLog = os_log_create([identifier UTF8String], "default");
+        }
+
+        _categoryDictionary = CFDictionaryCreateMutable(CFAllocatorGetDefault(),
+                                                        0,
+                                                        &kCFTypeDictionaryKeyCallBacks,
+                                                        &kCFTypeDictionaryValueCallBacks);
+
         // Default identifier receives a context of `1`, for backwards compatibility with MobileSDKLogContext
         if (!_identifier) {
             _context = 1;
         }
     }
     return self;
+}
+
+- (os_log_t)logForCategory:(const char *)category {
+    os_log_t result = _defaultLog;
+    if (category != NULL) {
+        @synchronized (self) {
+            if (CFDictionaryContainsValue(_categoryDictionary, category)) {
+                result = CFDictionaryGetValue(_categoryDictionary, category);
+            } else {
+                result = os_log_create([_identifier UTF8String], category);
+                CFDictionarySetValue(_categoryDictionary, category, CFBridgingRetain(result));
+            }
+        }
+    }
+    return result;
 }
 
 - (void)setLogLevel:(SFLogLevel)logLevel {
