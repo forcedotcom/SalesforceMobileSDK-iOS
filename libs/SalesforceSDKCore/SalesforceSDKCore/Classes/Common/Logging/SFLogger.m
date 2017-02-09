@@ -163,35 +163,6 @@ static void initialize_logging() {
 
 /////////////////
 
-@implementation SFLogTag
-
-- (instancetype)initWithClass:(Class)originClass selector:(SEL)selector {
-    self = [self init];
-    if (self) {
-        _originClass = originClass;
-        _selector = selector;
-    }
-    return self;
-}
-
-- (BOOL)isEqual:(SFLogTag*)object {
-    BOOL result = YES;
-    if (self == object) {
-        result = YES;
-    } else if (![object isMemberOfClass:self.class]) {
-        result = NO;
-    } else if (_originClass != object->_originClass) {
-        result = NO;
-    } else if (_selector != object->_selector) {
-        result = NO;
-    }
-    return result;
-}
-
-@end
-
-/////////////////
-
 @implementation SFLogIdentifier {
     CFMutableDictionaryRef _categoryDictionary;
 }
@@ -292,7 +263,7 @@ static void initialize_logging() {
                 file:nil
             function:nil
                 line:0
-                 tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
+                 tag:self.class
               format:format
                 args:args];
     va_end(args);
@@ -315,7 +286,7 @@ static void initialize_logging() {
                 file:nil
             function:nil
                 line:0
-                 tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
+                 tag:self.class
               format:format
                 args:args];
     va_end(args);
@@ -334,7 +305,7 @@ static void initialize_logging() {
                 file:nil
             function:nil
                 line:0
-                 tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
+                 tag:self.class
               format:format
                 args:args];
     va_end(args);
@@ -571,7 +542,7 @@ static BOOL assertionRecorded = NO;
               file:nil
           function:nil
               line:0
-               tag:[[SFLogTag alloc] initWithClass:cls selector:nil]
+               tag:cls
             format:msg];
 }
 
@@ -585,7 +556,7 @@ static BOOL assertionRecorded = NO;
               file:nil
           function:nil
               line:0
-               tag:[[SFLogTag alloc] initWithClass:cls selector:nil]
+               tag:cls
             format:msg];
 }
 
@@ -714,7 +685,7 @@ static BOOL assertionRecorded = NO;
                            file:[file cStringUsingEncoding:NSUTF8StringEncoding]
                        function:[NSStringFromSelector(method) cStringUsingEncoding:NSUTF8StringEncoding]
                            line:line
-                            tag:[[SFLogTag alloc] initWithClass:[obj class] selector:method]
+                            tag:[obj class]
                          format:message
                            args:args];
     va_end(args);
@@ -741,7 +712,7 @@ static BOOL assertionRecorded = NO;
                            file:[file cStringUsingEncoding:NSUTF8StringEncoding]
                        function:[NSStringFromSelector(method) cStringUsingEncoding:NSUTF8StringEncoding]
                            line:line
-                            tag:[[SFLogTag alloc] initWithClass:[obj class] selector:method]
+                            tag:[obj class]
                          format:stackTraces
                            args:nil];
     
@@ -793,15 +764,7 @@ static BOOL assertionRecorded = NO;
     va_list args;
     
     if (format) {
-        va_start(args, format);
-        if (tag && ![tag isKindOfClass:[SFLogTag class]]) {
-            if ([tag conformsToProtocol:@protocol(NSObject)]) {
-                tag = [[SFLogTag alloc] initWithClass:[(NSObject*)tag class] selector:nil];
-            } else {
-                tag = [[SFLogTag alloc] initWithClass:tag selector:nil];
-            }
-        }
-        
+        va_start(args, format);        
         [self.sharedLogger logAsync:asynchronous
                               level:level
                                flag:flag

@@ -47,17 +47,6 @@ extern NSString * SFLogNameForLogLevel(SFLogLevel level);
 
 /////////////////
 
-@interface SFLogTag : NSObject
-
-@property (nonatomic, readonly) SEL selector;
-@property (nonatomic, strong, readonly) Class originClass;
-
-- (instancetype)initWithClass:(Class)originClass selector:(SEL)selector;
-
-@end
-
-/////////////////
-
 @interface SFLogger () {
 @public
     atomic_int_least32_t _contextCounter;
