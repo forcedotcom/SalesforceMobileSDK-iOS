@@ -117,11 +117,11 @@
      * Handle all other types of urls (tel:, sms:), and requests to load a URL in the main WebView.
      */
     BOOL shouldAllowNavigation = [self defaultResourcePolicyForURL:url];
-    if (!shouldAllowNavigation) {
+    if (shouldAllowNavigation) {
+        decisionHandler(WKNavigationActionPolicyAllow);
+    } else {
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginHandleOpenURLNotification object:url]];
         decisionHandler(WKNavigationActionPolicyCancel);
-    } else {
-        decisionHandler(WKNavigationActionPolicyAllow);
     }
 }
 
