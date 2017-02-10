@@ -41,7 +41,7 @@ extern NSString * SFLogNameForLogLevel(SFLogLevel level);
 @property (nonatomic, strong, readonly) os_log_t defaultLog;
 
 - (instancetype)initWithIdentifier:(NSString*)identifier NS_DESIGNATED_INITIALIZER;
-- (os_log_t)logForCategory:(const char *)cateogry;
+- (os_log_t)logForCategory:(NSString *)category;
 
 @end
 
