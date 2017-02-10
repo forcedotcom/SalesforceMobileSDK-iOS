@@ -537,22 +537,13 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
 {
     [self log:SFLogLevelDebug format:@"webView:decidePolicyForNavigationAction:decisionHandler: Loading URL '%@'",
      [navigationAction.request.URL redactedAbsoluteString:@[@"sid"]]];
-
-    // Hidden ping page load.
-    if ([webView isEqual:self.vfPingPageHiddenWKWebView]) {
+    
+    BOOL shouldAllowRequest = YES;
+    if ([webView isEqual:self.vfPingPageHiddenWKWebView]) { // Hidden ping page load.
         [self log:SFLogLevelDebug msg:@"Setting up VF web state after plugin-based refresh."];
-        decisionHandler(WKNavigationActionPolicyAllow);
-    }
-
-    // Local error page load.
-    if ([webView isEqual:self.errorPageWKWebView]) {
+    }else if ([webView isEqual:self.errorPageWKWebView]) { // Local error page load.
         [self log:SFLogLevelDebug format:@"Local error page ('%@') is loading.", navigationAction.request.URL.absoluteString];
-        decisionHandler(WKNavigationActionPolicyAllow);
-    }
-
-    // Cordova web view load.
-    if ([webView isEqual:self.webView]) {
-
+    } else if ([webView isEqual:self.webView]) { // Cordova web view load.
         /*
          * If the request is attempting to refresh an invalid session, take over
          * the refresh process via the OAuth refresh flow in the container.
@@ -585,13 +576,18 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
                      [self loadErrorPageWithCode:error.code description:error.localizedDescription context:kErrorContextAuthExpiredSessionRefresh];
                  }
              }];
-            decisionHandler(WKNavigationActionPolicyCancel);
-        }
-        if (self.navWebViewDelegate) {
+            shouldAllowRequest = NO;
+        } else if (self.navWebViewDelegate) {
             [self.navWebViewDelegate webView:webView decidePolicyForNavigationAction:navigationAction decisionHandler:decisionHandler];
+            return;
         }
     }
-    decisionHandler(WKNavigationActionPolicyAllow);
+    
+    if(shouldAllowRequest)
+        decisionHandler(WKNavigationActionPolicyAllow);
+    else
+        decisionHandler(WKNavigationActionPolicyCancel);
+    
 }
 
 - (BOOL) webView:(UIWebView *) webView shouldStartLoadWithRequest:(NSURLRequest *) request navigationType:(UIWebViewNavigationType) navigationType
