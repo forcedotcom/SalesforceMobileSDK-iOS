@@ -647,6 +647,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
     
     if (account) {
         curUserIdentity = account.accountIdentity;
+        self.previousCommunityId = nil;
     }
     
     if (curUserIdentity){
