@@ -474,7 +474,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
     SFUserAccount *newAcct = [[SFUserAccount alloc] initWithIdentifier:[self uniqueUserAccountIdentifier]];
     SFOAuthCredentials *creds = newAcct.credentials;
     creds.accessToken = nil;
-    creds.domain = self.loginHost;
+    creds.domain = [self.loginHost containsString:@"?display="]?self.loginHost:[self.loginHost stringByAppendingString:@"?display=page"];
     creds.redirectUri = self.oauthCompletionUrl;
     creds.clientId = self.oauthClientId;
 
