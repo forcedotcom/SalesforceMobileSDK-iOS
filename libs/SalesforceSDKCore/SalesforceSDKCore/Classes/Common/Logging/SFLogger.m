@@ -228,6 +228,15 @@ static void initialize_logging() {
     }
 }
 
+- (NSString *)debugDescription {
+    return [NSString stringWithFormat:@"<%@: %p; identifier = %@; logLevel = %@; categories = %@",
+            NSStringFromClass(self.class),
+            self,
+            _identifier,
+            SFLogNameForLogLevel(_logLevel),
+            [_categoryDictionary.allKeys componentsJoinedByString:@", "]];
+}
+
 @end
 
 /////////////////
@@ -315,10 +324,7 @@ static BOOL assertionRecorded = NO;
 
 //////////////////
 
-@interface DDLog (SFLogger) <SFLogStorage>
-@end
-
-@implementation DDLog (SFLogger)
+@interface DDLog () <SFLogStorage>
 @end
 
 //////////////////
@@ -738,26 +744,20 @@ static BOOL assertionRecorded = NO;
         function:(const char *)function
             line:(NSUInteger)line
              tag:(id)tag
-          format:(NSString *)format, ...
+         message:(NSString *)message
 {
-    if (format) {
-        va_list args;
-
-        va_start(args, format);
-        if (level & flag) {
-            NSObject<SFLogStorage> *log = [SFLogger sharedLogger]->_ddLog;
-            [log log:asynchronous
-               level:(DDLogLevel)level
-                flag:(DDLogFlag)flag
-             context:context
-                file:file
-            function:function
-                line:line
-                 tag:tag
-              format:format
-                args:args];
-        }
-        va_end(args);
+    if (message && (level & flag)) {
+        NSObject<SFLogStorage> *log = [SFLogger sharedLogger]->_ddLog;
+        [log log:asynchronous
+         message:message
+           level:(DDLogLevel)level
+            flag:(DDLogFlag)flag
+         context:context
+            file:file
+        function:function
+            line:line
+             tag:tag
+         ];
     }
 }
 
@@ -819,9 +819,8 @@ static BOOL assertionRecorded = NO;
             args:(va_list)args
 {
     if (level & flag) {
+        NSString *message = [[NSString alloc] initWithFormat:format arguments:args];
         if ([self shouldLogToASL]) {
-            NSString *message = [[NSString alloc] initWithFormat:format arguments:args];
-
             os_log_type_t osLogType;
             switch (flag) {
                 case SFLogFlagError:
@@ -846,17 +845,16 @@ static BOOL assertionRecorded = NO;
             
             os_log_with_type(SFLoggerOSLog(context, tag), osLogType, [message UTF8String]);
         }
-        
+
         [_ddLog log:asynchronous
+            message:message
               level:(DDLogLevel)level
                flag:(DDLogFlag)flag
             context:context
                file:file
            function:function
                line:line
-                tag:tag
-             format:format
-               args:args];
+                tag:tag];
     }
 }
 

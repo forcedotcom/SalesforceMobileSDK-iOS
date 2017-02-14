@@ -234,11 +234,11 @@ if (!(_cond)) { \
            level:(SFLogLevel)level
             flag:(SFLogFlag)flag
          context:(NSInteger)context
-            file:(nullable const char *)file
-        function:(nullable const char *)function
+            file:(const char *)file
+        function:(const char *)function
             line:(NSUInteger)line
              tag:(nullable id)tag
-          format:(nullable NSString *)format, ...;
+         message:(NSString *)message;
 
 @end
 
