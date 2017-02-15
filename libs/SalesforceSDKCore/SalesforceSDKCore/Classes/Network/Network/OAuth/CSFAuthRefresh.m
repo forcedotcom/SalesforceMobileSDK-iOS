@@ -49,7 +49,7 @@ static NSObject *AuthRefreshLock = nil;
 
 - (void)finishWithOutput:(CSFOutput *)refreshOutput error:(NSError *)error {
     if (error) {
-        NetworkDebug(@"Refresh failed: %@", error);
+        NetworkOAuthDebug(@"Refresh failed: %@", error);
     }
 
     @synchronized (AuthRefreshLock) {
@@ -79,7 +79,7 @@ static NSObject *AuthRefreshLock = nil;
         if (classCompletionBlocks.count == 1) {
             // First refresh request will fire off the actual refresh.  All subsequent
             // requests have their completion blocks queued for the refresh completion.
-            NetworkInfo(@"Initiating auth refresh.");
+            NetworkOAuthInfo(@"Initiating auth refresh.");
             RefreshingClasses[(id<NSCopying>)[self class]] = @YES;
             [self refreshAuth];
         }

@@ -59,8 +59,7 @@
                      function:(const char *)function
                          line:(NSUInteger)line
                           tag:(id)tag
-                       format:(NSString *)format
-                         args:(va_list)args;
+                      message:(NSString *)message;
 
 @end
 
@@ -74,8 +73,7 @@
                      function:(const char *)function
                          line:(NSUInteger)line
                           tag:(id)tag
-                       format:(NSString *)format
-                         args:(va_list)args
+                      message:(NSString *)message
 {
     self = [self init];
     if (self) {
@@ -91,27 +89,6 @@
         }
         _line = line;
         _tag = tag;
-        _format = format;
-        if (format && args) {
-            _message = [[NSString alloc] initWithFormat:format arguments:args];
-        }
-    }
-    return self;
-}
-
-- (instancetype)initWithAsync:(BOOL)asynchronous
-                        level:(DDLogLevel)level
-                         flag:(DDLogFlag)flag
-                      context:(NSInteger)context
-                         file:(const char *)file
-                     function:(const char *)function
-                         line:(NSUInteger)line
-                          tag:(id)tag
-                       format:(NSString *)format
-                      message:(NSString *)message
-{
-    self = [self initWithAsync:asynchronous level:level flag:flag context:context file:file function:function line:line tag:tag format:format args:nil];
-    if (self) {
         _message = message;
     }
     return self;
@@ -227,7 +204,10 @@
     self.allLoggers = [NSArray new];
 }
 
+- (void)flushLog {}
+
 - (void)log:(BOOL)asynchronous
+    message:(NSString *)message
       level:(DDLogLevel)level
        flag:(DDLogFlag)flag
     context:(NSInteger)context
@@ -235,8 +215,6 @@
    function:(const char *)function
        line:(NSUInteger)line
         tag:(id)tag
-     format:(NSString *)format
-       args:(va_list)args
 {
     [self.results addObject:[[LogItem alloc] initWithAsync:asynchronous
                                                      level:level
@@ -246,8 +224,7 @@
                                                   function:function
                                                       line:line
                                                        tag:tag
-                                                    format:format
-                                                      args:args]];
+                                                   message:message]];
 }
 
 @end
@@ -283,6 +260,12 @@
 @end
 
 @implementation SFLoggerTests
+
+
+- (void)tearDown {
+    [[SFLogger sharedLogger] resetLoggers];
+    [super tearDown];
+}
 
 - (void)testFlagsAndLevels {
     XCTAssertTrue(SFLogLevelVerbose & SFLogFlagVerbose);
@@ -353,7 +336,6 @@
                                      function:nil
                                          line:0
                                           tag:self.class
-                                       format:@"Warning message"
                                       message:@"Warning message"];
     [SFLogger log:self.class level:SFLogLevelWarning msg:@"Warning message"];
     XCTAssertEqual(recorder.results.count, 1U);
@@ -367,7 +349,6 @@
                                      function:nil
                                          line:0
                                           tag:self.class
-                                       format:@"Warning message with an argument"
                                       message:@"Warning message with an argument"];
     [SFLogger log:self.class level:SFLogLevelError format:@"Warning message with %@", @"an argument"];
     XCTAssertEqual(recorder.results.count, 2U);
@@ -394,7 +375,6 @@
                                      function:nil
                                          line:0
                                           tag:self.class
-                                       format:@"Message to Woof"
                                       message:@"Message to Woof"];
     XCTAssertEqualObjects([recorder.results lastObject], expected);
 }
@@ -427,7 +407,6 @@
                                                 function:"-[SFLoggerTests testMacroLogging]"
                                                     line:baseLine + 2
                                                      tag:nil
-                                                  format:@"This is a verbose message"
                                                  message:@"This is a verbose message"]);
     XCTAssertEqualObjects(recorder.results[1],
                           [[LogItem alloc] initWithAsync:YES
@@ -438,7 +417,6 @@
                                                 function:"-[SFLoggerTests testMacroLogging]"
                                                     line:baseLine + 4
                                                      tag:nil
-                                                  format:@"This is a debug message: %d"
                                                  message:@"This is a debug message: 1"]);
     XCTAssertEqualObjects(recorder.results[2],
                           [[LogItem alloc] initWithAsync:YES
@@ -449,7 +427,6 @@
                                                 function:"-[SFLoggerTests testMacroLogging]"
                                                     line:baseLine + 6
                                                      tag:nil
-                                                  format:@"This is a info message"
                                                  message:@"This is a info message"]);
     XCTAssertEqualObjects(recorder.results[3],
                           [[LogItem alloc] initWithAsync:YES
@@ -460,7 +437,6 @@
                                                 function:"-[SFLoggerTests testMacroLogging]"
                                                     line:baseLine + 8
                                                      tag:nil
-                                                  format:@"This is a warning %@"
                                                  message:@"This is a warning message"]);
     XCTAssertEqualObjects(recorder.results[4],
                           [[LogItem alloc] initWithAsync:NO
@@ -471,7 +447,6 @@
                                                 function:"-[SFLoggerTests testMacroLogging]"
                                                     line:baseLine + 10
                                                      tag:nil
-                                                  format:@"This is a error message"
                                                  message:@"This is a error message"]);
 }
 
@@ -489,7 +464,6 @@
                                               function:nil
                                                   line:0
                                                    tag:self.class
-                                                format:@"This is a error message"
                                                message:@"This is a error message"];
     
     [SFLogger log:self.class level:SFLogLevelError msg:@"This is a error message"];
@@ -543,7 +517,6 @@
                                                  function:nil
                                                      line:0
                                                       tag:self.class
-                                                   format:@"%@"
                                                   message:@"This is a error message"];
     [self log:SFLogLevelError msg:@"This is a error message"];
     XCTAssertEqual(recorder.results.count, 1U);
@@ -559,7 +532,6 @@
                                                  function:nil
                                                      line:0
                                                       tag:self.class
-                                                   format:@"%@"
                                                   message:@"This is a error message"];
     [self log:SFLogLevelError identifier:kSFLogLevelInfoString msg:@"This is a error message"];
     XCTAssertEqual(recorder.results.count, 1U);
@@ -574,7 +546,6 @@
                                         function:nil
                                             line:0
                                              tag:self.class
-                                          format:@"%@"
                                          message:@"This is a error message"];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -592,7 +563,6 @@
                                                     function:nil
                                                         line:0
                                                          tag:self.class
-                                                      format:@"This is a error message"
                                                      message:@"This is a error message"];
     
     [self log:SFLogLevelError format:@"This is a error message"];
@@ -699,7 +669,7 @@ static NSInteger kMyLogContext;
     XCTAssertEqual(testLogger.messages.count, 3U);
     XCTAssertEqualObjects([self trimmedLogWithString:testLogger.messages[0]], @"ERROR com.salesforce <LogStorageRecorder>: Log message");
     XCTAssertEqualObjects([self trimmedLogWithString:testLogger.messages[1]], @"ERROR com.salesforce.test <LogStorageRecorder>: Log message");
-    XCTAssertEqualObjects([self trimmedLogWithString:testLogger.messages[2]], @"ERROR com.salesforce <SFLoggerTests.m:694 -[SFLoggerTests testLogFormatter]>: Log message");
+    XCTAssertEqualObjects([self trimmedLogWithString:testLogger.messages[2]], @"ERROR com.salesforce <SFLoggerTests.m:664 -[SFLoggerTests testLogFormatter]>: Log message");
 
 }
 
@@ -732,8 +702,8 @@ static NSInteger kMyLogContext;
     
     NSArray<NSString*> *messages = [logContents componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
     XCTAssertEqual(messages.count, 3U);
-    XCTAssertEqualObjects([self trimmedLogWithString:messages[0]], @"WARNING com.salesforce <SFLoggerTests.m:723 -[SFLoggerTests testExtraLoggers]>: Log warning");
-    XCTAssertEqualObjects([self trimmedLogWithString:messages[1]], @"VERBOSE com.salesforce <SFLoggerTests.m:724 -[SFLoggerTests testExtraLoggers]>: Log verbose");
+    XCTAssertEqualObjects([self trimmedLogWithString:messages[0]], @"WARNING com.salesforce <SFLoggerTests.m:693 -[SFLoggerTests testExtraLoggers]>: Log warning");
+    XCTAssertEqualObjects([self trimmedLogWithString:messages[1]], @"VERBOSE com.salesforce <SFLoggerTests.m:694 -[SFLoggerTests testExtraLoggers]>: Log verbose");
 
 }
 

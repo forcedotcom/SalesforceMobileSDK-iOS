@@ -77,7 +77,7 @@
 
 - (void)finishWithOutput:(CSFOutput *)refreshOutput error:(NSError *)error {
     if ([error.domain isEqualToString:kSFOAuthErrorDomain] && error.code == kSFOAuthErrorInvalidGrant) {
-        NetworkInfo(@"invalid grant error received, triggering logout.");
+        NetworkOAuthInfo(@"invalid grant error received, triggering logout.");
         // make sure we call logoutUser on main thread
         dispatch_async(dispatch_get_main_queue(), ^{
             NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
