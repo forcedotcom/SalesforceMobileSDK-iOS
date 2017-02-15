@@ -86,7 +86,7 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
         if (_enqueuedNetwork) {
             if ([self shouldUpdateBaseUrl]) {
                 self.baseURL = self.enqueuedNetwork.account.credentials.apiUrl;
-                self.cachedAPIURL = self.enqueuedNetwork.account.credentials.apiUrl;
+                self.cachedAPIURL = self.baseURL;
             }
             [_enqueuedNetwork addObserver:self forKeyPath:kNetworkAccessTokenPath
                                  options:(NSKeyValueObservingOptionInitial |
@@ -274,7 +274,7 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
                     // If an action is API based action, make sure the base URL it matches current credential's api URL
                     // For actions that uses absolute URL like https://c.gus.visual.force.com/resource/1460146879000/HatImage, we should avoid the logic of changing base URL, otherwise raw content served server by absolute URL will not work
                     self.baseURL = self.enqueuedNetwork.account.credentials.apiUrl;
-                    self.cachedAPIURL = self.enqueuedNetwork.account.credentials.apiUrl;
+                    self.cachedAPIURL = self.baseURL;
                 }
             } else {
                 self.credentialsReady = NO;
@@ -289,7 +289,7 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
 - (BOOL)shouldUpdateBaseUrl {
     // only set base URL to apiURL if baseURL is not already specified as absolute URL with it's own host
     // this check is necessary as there are salesforce URL that is content server based and not API based
-    return (!self.baseURL.scheme && !self.baseURL.host) || (self.baseURL == self.cachedAPIURL);
+    return (!self.baseURL.scheme && !self.baseURL.host) || [self.baseURL isEqual:self.cachedAPIURL];
 }
 
 - (BOOL)isEqualToAction:(CSFAction *)action {
