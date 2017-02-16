@@ -2,9 +2,9 @@
  SalesforceSDKCore.h
  SalesforceSDKCore
 
- Created by Bharath Hariharan on Wed Dec 21 13:45:27 PST 2016.
+ Created by Bharath Hariharan on Wed Feb 15 21:22:59 PST 2017.
 
- Copyright (c) 2016-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -88,6 +88,7 @@
 #import <SalesforceSDKCore/SFLoginViewController.h>
 #import <SalesforceSDKCore/SFManagedPreferences.h>
 #import <SalesforceSDKCore/SFMethodInterceptor.h>
+#import <SalesforceSDKCore/SFNetwork.h>
 #import <SalesforceSDKCore/SFOAuthCoordinator.h>
 #import <SalesforceSDKCore/SFOAuthCredentials.h>
 #import <SalesforceSDKCore/SFOAuthCrypto.h>
