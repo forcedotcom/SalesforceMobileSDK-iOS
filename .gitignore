@@ -4,6 +4,7 @@ xcuserdata
 project.xcworkspace
 artifacts
 node_modules
+shared/test/test_credentials.json
 /SalesforceMobileSDK.xcworkspace/xcshareddata/SalesforceMobileSDK.xccheckout
 /SalesforceMobileSDK.xcworkspace/xcshareddata/SalesforceMobileSDK.xcscmblueprint
 /hybrid/SampleApps/ContactExplorer/build/
