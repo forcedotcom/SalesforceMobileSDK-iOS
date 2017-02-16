@@ -33,8 +33,4 @@ CSF_EXTERN NSString * const CSFAuthorizationHeaderName;
 @property (nonatomic, readwrite) BOOL requiresSecurityToken;
 @property (nonatomic, readwrite) BOOL returnsSecurityToken;
 
-@property (nonatomic, copy) NSURL *cachedAPIURL;
-
-- (BOOL)shouldUpdateBaseUrl;
-
 @end

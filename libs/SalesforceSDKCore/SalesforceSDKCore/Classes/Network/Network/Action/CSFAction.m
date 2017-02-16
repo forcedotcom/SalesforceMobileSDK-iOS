@@ -65,6 +65,8 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
 
 @implementation CSFAction
 
+@synthesize baseURL = _baseURL;
+
 + (NSSet*)keyPathsForValuesAffectingIsDuplicateAction {
     return [NSSet setWithObject:@"duplicateParentAction"];
 }
@@ -265,6 +267,10 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
 
 - (void)setURL:(NSURL*)url {
     [self setUrl:url];
+}
+
+- (NSURL *)baseURL {
+    return _baseURL ?: self.enqueuedNetwork.account.credentials.apiUrl;
 }
 
 - (void)setBaseURL:(NSURL *)baseURL {
