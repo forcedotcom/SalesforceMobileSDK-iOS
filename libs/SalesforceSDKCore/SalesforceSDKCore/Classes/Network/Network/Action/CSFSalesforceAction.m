@@ -43,13 +43,6 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
     return errorDict[@"message"] ?: (errorDict[@"msg"] ?: errorDict[@"errorMsg"]);
 }
 
-@interface CSFSalesforceAction()
-
-@property (nonatomic, copy) NSURL *cachedAPIURL;
-
-@end
-
-
 @implementation CSFSalesforceAction
 
 - (instancetype)initWithResponseBlock:(CSFActionResponseBlock)responseBlock {
