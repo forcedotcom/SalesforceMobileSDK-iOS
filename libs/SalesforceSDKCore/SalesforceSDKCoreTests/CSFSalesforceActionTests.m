@@ -55,6 +55,11 @@
     XCTAssertEqualObjects(self.action.baseURL, [NSURL URLWithString:@"https://www.salesforce.com/"]);
 }
 
+- (void)testAppendTrailingSlashForAlreadySlashedBaseURL {
+    self.action.baseURL = [NSURL URLWithString:@"https://www.salesforce.com/"];
+    XCTAssertEqualObjects(self.action.baseURL, [NSURL URLWithString:@"https://www.salesforce.com/"]);
+}
+
 - (void)testSetBaseURLThenEnqueueOntoNetwork {
     NSURL *networkURL = [NSURL URLWithString:@"https://www.salesforce.com/"];
     NSURL *baseURL = [NSURL URLWithString:@"http://www.example.com/"];
@@ -81,6 +86,14 @@
     self.action.enqueuedNetwork = [self networkWithApiURL:networkURL];
     
     XCTAssertEqualObjects(self.action.baseURL, networkURL);
+}
+
+- (void)testEnqueueOntoNetworkWithoutSlash {
+    NSURL *networkURL = [NSURL URLWithString:@"https://www.salesforce.com"];
+    
+    self.action.enqueuedNetwork = [self networkWithApiURL:networkURL];
+    
+    XCTAssertEqualObjects(self.action.baseURL, [NSURL URLWithString:@"https://www.salesforce.com/"]);
 }
 
 - (id)networkWithApiURL:(NSURL *)url {

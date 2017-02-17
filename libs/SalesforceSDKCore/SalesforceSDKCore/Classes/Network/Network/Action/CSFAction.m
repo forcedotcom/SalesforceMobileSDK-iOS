@@ -32,6 +32,7 @@
 #import "NSMutableURLRequest+SalesforceNetwork.h"
 #import "SFOAuthCredentials.h"
 #import "SFUserAccount.h"
+#import "NSURL+SFStringUtils.h"
 
 NSString * const CSFActionSecurityTokenKey = @"securityToken"; // CSRF security token key
 
@@ -64,8 +65,6 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
 @end
 
 @implementation CSFAction
-
-@synthesize baseURL = _baseURL;
 
 + (NSSet*)keyPathsForValuesAffectingIsDuplicateAction {
     return [NSSet setWithObject:@"duplicateParentAction"];
@@ -267,10 +266,6 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
 
 - (void)setURL:(NSURL*)url {
     [self setUrl:url];
-}
-
-- (NSURL *)baseURL {
-    return _baseURL ?: self.enqueuedNetwork.account.credentials.apiUrl;
 }
 
 - (void)setBaseURL:(NSURL *)baseURL {

@@ -29,6 +29,7 @@
 #import "SFUserAccount.h"
 #import "SFOAuthCredentials.h"
 #import "SFUserAccountManager.h"
+#import "NSURL+SFStringUtils.h"
 
 NSString * const CSFAuthorizationHeaderValueFormat = @"OAuth %@";
 NSString * const CSFAuthorizationHeaderName = @"Authorization";
@@ -64,6 +65,11 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     self.enqueuedNetwork = nil;
+}
+
+- (NSURL *)baseURL {
+    NSURL *manuallySetURL = [super baseURL];
+    return manuallySetURL ?: [[self.enqueuedNetwork.account.credentials.apiUrl slashTerminatedUrl] copy];
 }
 
 - (void)setEnqueuedNetwork:(CSFNetwork *) network {
