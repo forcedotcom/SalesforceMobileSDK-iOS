@@ -29,6 +29,6 @@
 
 #import <Foundation/Foundation.h>
 
-@interface SFNetwork : NSObject
+@interface SFNetwork : NSObject <NSURLSessionDataDelegate, NSURLSessionDownloadDelegate, NSURLSessionStreamDelegate>
 
 @end

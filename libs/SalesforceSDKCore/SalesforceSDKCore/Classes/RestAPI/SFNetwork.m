@@ -31,4 +31,8 @@
 
 @implementation SFNetwork
 
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location {
+    
+}
+
 @end
