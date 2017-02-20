@@ -29,7 +29,29 @@
 
 #import "SFNetwork.h"
 
+@interface SFNetwork()
+
+@property (nonatomic, readwrite, strong, nonnull) NSURLSession *ephemeralSession;
+@property (nonatomic, readwrite, strong, nonnull) NSURLSession *backgroundSession;
+
+@end
+
 @implementation SFNetwork
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        self.ephemeralSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration ephemeralSessionConfiguration] delegate:self delegateQueue:nil];
+        self.backgroundSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:@"com.salesforce.network"]
+            delegate:self delegateQueue:nil];
+        self.useBackground = NO;
+    }
+    return self;
+}
+
+- (NSURLSession*)activeSession {
+    return (self.useBackground ? self.backgroundSession : self.ephemeralSession);
+}
 
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location {
     

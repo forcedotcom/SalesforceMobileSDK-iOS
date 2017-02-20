@@ -31,4 +31,15 @@
 
 @interface SFNetwork : NSObject <NSURLSessionDataDelegate, NSURLSessionDownloadDelegate, NSURLSessionStreamDelegate>
 
+@property (nonatomic, readonly, strong, nonnull) NSURLSession *ephemeralSession;
+@property (nonatomic, readonly, strong, nonnull) NSURLSession *backgroundSession;
+@property (nonatomic, readwrite, assign) BOOL useBackground;
+
+/**
+ * Default initializer.
+ *
+ * @return Instance of this class.
+ */
+- (nonnull instancetype)init;
+
 @end
