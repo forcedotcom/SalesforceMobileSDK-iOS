@@ -34,6 +34,7 @@
 @interface CSFSalesforceActionTests : XCTestCase
 
 @property (strong, nonatomic) CSFSalesforceAction *action;
+@property (strong, nonatomic) NSURL *testApiUrl;
 
 @end
 
@@ -96,9 +97,39 @@
     XCTAssertEqualObjects(self.action.baseURL, [NSURL URLWithString:@"https://www.salesforce.com/"]);
 }
 
+- (void)testOrgMigration {
+    self.testApiUrl = [NSURL URLWithString:@"https://na44.salesforce.com/"];
+    self.action.enqueuedNetwork = [self networkWithApiURLTiedToTestURL];
+    self.testApiUrl = [NSURL URLWithString:@"https://na45.salesforce.com/"];
+    
+    XCTAssertEqualObjects(self.action.baseURL, [NSURL URLWithString:@"https://na45.salesforce.com/"]);
+}
+
+- (void)testStaticContentRequestThroughOrgMigration {
+    self.action.baseURL = [NSURL URLWithString:@"https://c.gus.visual.force.com/resource/1460146879000/HatImage"];
+    self.testApiUrl = [NSURL URLWithString:@"https://na44.salesforce.com/"];
+    self.action.enqueuedNetwork = [self networkWithApiURLTiedToTestURL];
+    self.testApiUrl = [NSURL URLWithString:@"https://na45.salesforce.com/"];
+    
+    XCTAssertEqualObjects(self.action.baseURL, [NSURL URLWithString:@"https://c.gus.visual.force.com/resource/1460146879000/HatImage/"]);
+}
+
 - (id)networkWithApiURL:(NSURL *)url {
     id credentials = OCMClassMock([SFOAuthCredentials class]);
     OCMStub([credentials apiUrl]).andReturn(url);
+    
+    id account = OCMClassMock([SFUserAccount class]);
+    OCMStub([account credentials]).andReturn(credentials);
+    
+    id network = OCMClassMock([CSFNetwork class]);
+    OCMStub([network account]).andReturn(account);
+    
+    return network;
+}
+
+- (id)networkWithApiURLTiedToTestURL {
+    id credentials = OCMClassMock([SFOAuthCredentials class]);
+    OCMStub([credentials apiUrl]).andCall(self, @selector(testApiUrl));
     
     id account = OCMClassMock([SFUserAccount class]);
     OCMStub([account credentials]).andReturn(credentials);
