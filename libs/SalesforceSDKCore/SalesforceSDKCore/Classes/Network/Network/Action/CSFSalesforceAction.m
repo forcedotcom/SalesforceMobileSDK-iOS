@@ -29,6 +29,7 @@
 #import "SFUserAccount.h"
 #import "SFOAuthCredentials.h"
 #import "SFUserAccountManager.h"
+#import "NSURL+SFStringUtils.h"
 
 NSString * const CSFAuthorizationHeaderValueFormat = @"OAuth %@";
 NSString * const CSFAuthorizationHeaderName = @"Authorization";
@@ -42,13 +43,6 @@ static void * kObservingKey = &kObservingKey;
 static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
     return errorDict[@"message"] ?: (errorDict[@"msg"] ?: errorDict[@"errorMsg"]);
 }
-
-@interface CSFSalesforceAction()
-
-@property (nonatomic, copy) NSURL *cachedAPIURL;
-
-@end
-
 
 @implementation CSFSalesforceAction
 
@@ -73,6 +67,11 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
     self.enqueuedNetwork = nil;
 }
 
+- (NSURL *)baseURL {
+    NSURL *manuallySetURL = [super baseURL];
+    return manuallySetURL ?: [[self.enqueuedNetwork.account.credentials.apiUrl slashTerminatedUrl] copy];
+}
+
 - (void)setEnqueuedNetwork:(CSFNetwork *) network {
     if (_enqueuedNetwork != network) {
         // remove observer from old network.
@@ -84,10 +83,6 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
 		_enqueuedNetwork = network;
         // add observers to the new network
         if (_enqueuedNetwork) {
-            if ([self shouldUpdateBaseUrl]) {
-                self.baseURL = self.enqueuedNetwork.account.credentials.apiUrl;
-                self.cachedAPIURL = self.baseURL;
-            }
             [_enqueuedNetwork addObserver:self forKeyPath:kNetworkAccessTokenPath
                                  options:(NSKeyValueObservingOptionInitial |
                                           NSKeyValueObservingOptionNew)
@@ -270,12 +265,6 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
                 self.enqueuedNetwork.defaultConnectCommunityId = account.communityId;
             } else if (account.credentials.accessToken && account.credentials.instanceUrl) {
                 self.credentialsReady = YES;
-                if ([keyPath isEqualToString:kNetworkInstanceURLPath] && [self shouldUpdateBaseUrl]) {
-                    // If an action is API based action, make sure the base URL it matches current credential's api URL
-                    // For actions that uses absolute URL like https://c.gus.visual.force.com/resource/1460146879000/HatImage, we should avoid the logic of changing base URL, otherwise raw content served server by absolute URL will not work
-                    self.baseURL = self.enqueuedNetwork.account.credentials.apiUrl;
-                    self.cachedAPIURL = self.baseURL;
-                }
             } else {
                 self.credentialsReady = NO;
             }
@@ -284,12 +273,6 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
-}
-
-- (BOOL)shouldUpdateBaseUrl {
-    // only set base URL to apiURL if baseURL is not already specified as absolute URL with it's own host
-    // this check is necessary as there are salesforce URL that is content server based and not API based
-    return (!self.baseURL.scheme && !self.baseURL.host) || [self.baseURL isEqual:self.cachedAPIURL];
 }
 
 - (BOOL)isEqualToAction:(CSFAction *)action {
