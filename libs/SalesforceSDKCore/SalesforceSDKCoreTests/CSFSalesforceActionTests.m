@@ -118,19 +118,17 @@
     id credentials = OCMClassMock([SFOAuthCredentials class]);
     OCMStub([credentials apiUrl]).andReturn(url);
     
-    id account = OCMClassMock([SFUserAccount class]);
-    OCMStub([account credentials]).andReturn(credentials);
-    
-    id network = OCMClassMock([CSFNetwork class]);
-    OCMStub([network account]).andReturn(account);
-    
-    return network;
+    return [self networkWithCredentials:credentials];
 }
 
 - (id)networkWithApiURLTiedToTestURL {
     id credentials = OCMClassMock([SFOAuthCredentials class]);
     OCMStub([credentials apiUrl]).andCall(self, @selector(testApiUrl));
-    
+
+    return [self networkWithCredentials:credentials];
+}
+
+- (id)networkWithCredentials:(id)credentials {
     id account = OCMClassMock([SFUserAccount class]);
     OCMStub([account credentials]).andReturn(credentials);
     
