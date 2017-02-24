@@ -678,6 +678,13 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
     }
 }
 
+- (void)dequeueNetwork:(CSFNetwork *)network {
+    if (_enqueuedNetwork && _enqueuedNetwork == network) {
+        _enqueuedNetwork = nil;
+        self.timingValues[@"dequeuedTime"] = [NSDate date];
+    }
+}
+
 #pragma mark Response handling
 
 - (BOOL)overrideRequest:(NSURLRequest*)request withResponseData:(NSData**)data andHTTPResponse:(NSHTTPURLResponse**)response {
@@ -738,6 +745,7 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
         self.responseBlock(self, self.error);
     }
     [self.enqueuedNetwork delegate_networkCompletedAction:self withError:error];
+    [self dequeueNetwork:self.enqueuedNetwork];
 }
 
 - (id)contentFromData:(NSData*)data fromResponse:(NSHTTPURLResponse*)response error:(NSError**)error {
