@@ -948,8 +948,9 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
 - (void)stopRefreshFlowConnectionTimer
 {
     if (![NSThread isMainThread]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self stopRefreshFlowConnectionTimer];
+        __weak typeof(self) weakSelf = self;
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [weakSelf stopRefreshFlowConnectionTimer];
         });
         return;
     }
