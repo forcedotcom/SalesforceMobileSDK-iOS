@@ -287,6 +287,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)sessionTask:(NSURLSessionTask*)task willPerformHTTPRedirection:(NSHTTPURLResponse*)response newRequest:(NSURLRequest*)request completionHandler:(void (^)(NSURLRequest*))completionHandler;
 
+/**
+ @brief Dequeues Network if network is currently enqueued
+ @discussion Removes any observers added for the current enqueued network.
+ @param network Network to dequeue
+ */
+- (void)dequeueNetwork:(CSFNetwork *)network;
+
 @end
 
 typedef NSString*const CSFActionTiming NS_STRING_ENUM;

@@ -74,12 +74,6 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
 
 - (void)setEnqueuedNetwork:(CSFNetwork *) network {
     if (_enqueuedNetwork != network) {
-        // remove observer from old network.
-        if (_enqueuedNetwork) {
-            [_enqueuedNetwork removeObserver:self forKeyPath:kNetworkAccessTokenPath context:kObservingKey];
-            [_enqueuedNetwork removeObserver:self forKeyPath:kNetworkInstanceURLPath context:kObservingKey];
-            [_enqueuedNetwork removeObserver:self forKeyPath:kNetworkCommunityIDPath context:kObservingKey];
-        }
 		_enqueuedNetwork = network;
         // add observers to the new network
         if (_enqueuedNetwork) {
@@ -96,6 +90,16 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
                                           NSKeyValueObservingOptionNew)
                                  context:kObservingKey];
         }
+    }
+}
+
+- (void)dequeueNetwork:(CSFNetwork *)network {
+    if (_enqueuedNetwork && _enqueuedNetwork == network) {
+        // remove observer from old network.
+        [_enqueuedNetwork removeObserver:self forKeyPath:kNetworkAccessTokenPath context:kObservingKey];
+        [_enqueuedNetwork removeObserver:self forKeyPath:kNetworkInstanceURLPath context:kObservingKey];
+        [_enqueuedNetwork removeObserver:self forKeyPath:kNetworkCommunityIDPath context:kObservingKey];
+        _enqueuedNetwork = nil;
     }
 }
 
