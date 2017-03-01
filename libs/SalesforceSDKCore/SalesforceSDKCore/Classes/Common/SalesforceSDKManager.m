@@ -250,11 +250,6 @@ static Class InstanceClass = nil;
     return launchActionString;
 }
 
-+ (void)setDesiredAccount:(SFUserAccount*)account
-{
-    [SFUserAccountManager setActiveUserIdentity:account.accountIdentity];
-}
-
 #pragma mark - Private methods
 
 - (BOOL)validateLaunchState:(NSError **)launchStateError
@@ -602,7 +597,7 @@ static Class InstanceClass = nil;
 
 - (void)authValidationAtLaunch
 {
-    if (![SFUserAccountManager sharedInstance].isCurrentUserAnonymous && ![SFUserAccountManager sharedInstance].currentUser.credentials.accessToken && self.authenticateAtLaunch) {
+    if (self.authenticateAtLaunch && ([SFUserAccountManager sharedInstance].currentUser==nil || ![SFUserAccountManager sharedInstance].currentUser.credentials.accessToken) ) {
         // Access token check works equally well for any of the members being nil, which are all conditions to
         // (re-)authenticate.
         [self.sdkManagerFlow authAtLaunch];

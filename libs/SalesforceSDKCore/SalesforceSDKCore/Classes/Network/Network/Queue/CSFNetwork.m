@@ -93,7 +93,7 @@ static NSMutableDictionary *SharedInstances = nil;
 
 + (instancetype)networkForUserAccount:(SFUserAccount*)account {
     CSFNetwork *instance = nil;
-    if (!account.isTemporaryUser) {
+    if (account!=nil) {
         @synchronized (SharedInstances) {
             instance = [CSFNetwork cachedNetworkForUserAccount:account];
             if (!instance) {
@@ -102,7 +102,6 @@ static NSMutableDictionary *SharedInstances = nil;
             }
         }
     }
-    
     return instance;
 }
 

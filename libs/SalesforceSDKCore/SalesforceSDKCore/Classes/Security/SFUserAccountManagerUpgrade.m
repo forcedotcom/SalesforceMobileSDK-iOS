@@ -56,22 +56,15 @@ static NSString * const kLegacyUserDefaultsLastUserIdKey = @"LastUserId";
     NSString *legacyActiveUserId = [[NSUserDefaults msdkUserDefaults] stringForKey:kLegacyUserDefaultsLastUserIdKey];
     if (legacyActiveUserId == nil)
         return;
-    
-    // Special case the temporary user, since no account manager "all accounts" methods return it.
-    if ([legacyActiveUserId isEqualToString:accountManager.temporaryUserIdentity.userId]) {
-        [SFLogger log:[SFUserAccountManagerUpgrade class] level:SFLogLevelDebug msg:@"Updating legacy active user (temporary user)."];
-        accountManager.activeUserIdentity = accountManager.temporaryUserIdentity;
-    } else {
-        // Find the first user account that could match the user ID, and set it as the user identity.
-        for (SFUserAccountIdentity *identity in [accountManager allUserIdentities]) {
-            if ([identity.userId isEqualToString:legacyActiveUserId]) {
-                [SFLogger log:[SFUserAccountManagerUpgrade class] level:SFLogLevelDebug msg:@"Updating legacy active user."];
-                accountManager.activeUserIdentity = identity;
-                break;
-            }
+
+    for (SFUserAccountIdentity *identity in [accountManager allUserIdentities]) {
+        if ([identity.userId isEqualToString:legacyActiveUserId]) {
+            [SFLogger log:[SFUserAccountManagerUpgrade class] level:SFLogLevelDebug msg:@"Updating legacy active user."];
+            accountManager.currentUser = identity;
+            break;
         }
     }
-    
+
     [[NSUserDefaults msdkUserDefaults] removeObjectForKey:kLegacyUserDefaultsLastUserIdKey];
     [[NSUserDefaults msdkUserDefaults] synchronize];
 }

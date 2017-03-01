@@ -112,7 +112,7 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
 {
     self = [super init];
     if (self) {
-        self.user = ([user.accountIdentity isEqual:[SFUserAccountManager sharedInstance].temporaryUserIdentity] ? nil : user);
+        self.user = user;
         self.isGlobalManager = NO;
     }
     return self;

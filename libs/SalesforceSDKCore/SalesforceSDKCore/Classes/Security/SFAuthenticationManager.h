@@ -338,14 +338,14 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
  Kick off the login process for the given user.
  @param completionBlock The block of code to execute when the authentication process successfully completes.
  @param failureBlock The block of code to execute when the authentication process has a fatal failure.
- @param account User account to be logged in.
+ @param credentials SFOAuthCredentials to be logged in.
  @return YES if this call kicks off the authentication process.  NO if an authentication process has already
  started, in which case subsequent requests are queued up to have their completion or failure blocks executed
  in succession.
  */
 - (BOOL)loginWithCompletion:(nullable SFOAuthFlowSuccessCallbackBlock)completionBlock
                     failure:(nullable SFOAuthFlowFailureCallbackBlock)failureBlock
-                    account:(nullable SFUserAccount *)account;
+                    credentials:(nullable SFOAuthCredentials *)credentials;
 
 /**
  Login using the given JWT token to exchange with the service for credentials.
