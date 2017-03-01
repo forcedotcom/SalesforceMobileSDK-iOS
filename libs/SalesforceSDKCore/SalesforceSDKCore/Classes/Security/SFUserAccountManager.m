@@ -719,32 +719,8 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
                     *error = folderRemovalError;
                 }
             }
-        } else {
-            NSString *reason = [NSString stringWithFormat:@"User folder for user '%@' does not exist on the filesystem", user.userName];
-            NSError *ferror = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
-                                                  code:SFUserAccountManagerCannotReadDecryptedArchive
-                                              userInfo:@{NSLocalizedDescriptionKey: reason}];
-            [self log:SFLogLevelDebug format:@"User folder for user '%@' does not exist on the filesystem.", user.userName];
-            if(error)
-                *error = ferror;
-            success = NO;
         }
-        if (success) {
-            user.userDeleted = YES;
-            [self.userAccountMap removeObjectForKey:user.accountIdentity];
-            success = YES;
-            if ([self.userAccountMap count] < 2) {
-                [[SalesforceSDKManager sharedManager] unregisterAppFeature:kSFAppFeatureMultiUser];
-            }
-            if([user.accountIdentity isEqual:self->_currentUser.accountIdentity]) {
-                _currentUser = nil;
-                [self setCurrentUserIdentity:nil];
-            }
-        }
-    }
-    [accountsLock unlock];
-    return success;
-}
+    });
 
 - (NSString *)currentCommunityId {
     NSUserDefaults *userDefaults = [NSUserDefaults msdkUserDefaults];
