@@ -26,7 +26,7 @@
 #import "SFApplication.h"
 #import "SFAuthenticationManager+Internal.h"
 #import "SalesforceSDKManager+Internal.h"
-#import "SFUserAccount+Internal.h"
+#import "SFUserAccount.h"
 #import "SFUserAccountManager+Internal.h"
 #import "SFUserAccountIdentity.h"
 #import "SFAuthenticationViewHandler.h"
@@ -494,7 +494,7 @@ static Class InstanceClass = nil;
 }
 
 - (BOOL)haveValidSession {
-    return [SFUserAccountManager sharedInstance].currentUser != nil && [SFUserAccountManager sharedInstance].currentUser.isSessionValid;
+    return [[SFUserAccountManager sharedInstance] currentUser] != nil && [[SFUserAccountManager sharedInstance].currentUser isSessionValid] ;
 }
 
 - (void)setAdvancedAuthConfiguration:(SFOAuthAdvancedAuthConfiguration)advancedAuthConfiguration
@@ -733,7 +733,7 @@ static Class InstanceClass = nil;
 
 - (void)login
 {
-    [self loginWithCredentials:[SFUserAccountManager sharedInstance].oauthCredentials];
+    [self loginWithCredentials:[[SFUserAccountManager sharedInstance] currentCredentials]];
 }
 
 

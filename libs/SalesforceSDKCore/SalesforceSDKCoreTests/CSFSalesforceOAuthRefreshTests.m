@@ -103,7 +103,7 @@
     action.authRefreshClass = [RevokedTokenAuthRefresh class];
     [network executeAction:action];
     
-    [self waitForExpectationsWithTimeout:1 handler:^(NSError *error) {
+    [self waitForExpectationsWithTimeout:10 handler:^(NSError *error) {
         XCTAssertNil(error);
         
         XCTAssertTrue(userLogoutNotificationReceived);

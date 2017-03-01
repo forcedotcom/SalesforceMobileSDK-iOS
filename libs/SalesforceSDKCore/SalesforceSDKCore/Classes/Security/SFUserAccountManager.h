@@ -185,6 +185,13 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
 + (void)applyCurrentLogLevel:(SFOAuthCredentials*)credentials;
 
 /**
+ Returns the path of the user account plist file for the specified user
+ @param user The user
+ @return the path to the user account plist of the specified user
+ */
++ (NSString*)userAccountPlistFileForUser:(SFUserAccount*)user;
+
+/**
  Adds a delegate to this user account manager.
  @param delegate The delegate to add.
  */
@@ -204,11 +211,11 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
 
 /** An NSArray of all the SFUserAccount instances for the app.
  */
-- (nullable NSArray <SFUserAccount *> *) allUserAccounts;
+-(nullable NSArray <SFUserAccount *> *) allUserAccounts;
 
 /** Returns all the user identities sorted by Org ID and User ID.
  */
-- (nullable NSArray<SFUserAccountIdentity*> *) allUserIdentities;
+-(nullable NSArray<SFUserAccountIdentity*> *) allUserIdentities;
 
 /** Can be used to create an empty user account if you wish to configure all of the account info yourself.
  Otherwise, use `login` to allow SFUserAccountManager to automatically create an account when necessary.
