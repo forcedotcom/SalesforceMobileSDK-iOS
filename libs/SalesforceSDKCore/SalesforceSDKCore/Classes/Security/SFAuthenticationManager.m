@@ -26,8 +26,8 @@
 #import "SFApplication.h"
 #import "SFAuthenticationManager+Internal.h"
 #import "SalesforceSDKManager+Internal.h"
-#import "SFUserAccount+Internal.h"
-#import "SFUserAccountManager.h"
+#import "SFUserAccount.h"
+#import "SFUserAccountManager+Internal.h"
 #import "SFUserAccountIdentity.h"
 #import "SFUserAccountManagerUpgrade.h"
 #import "SFAuthenticationViewHandler.h"
@@ -348,26 +348,15 @@ static Class InstanceClass = nil;
 - (BOOL)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
                     failure:(SFOAuthFlowFailureCallbackBlock)failureBlock
 {
-    return [self loginWithCompletion:completionBlock failure:failureBlock account:nil];
+    return [self loginWithCompletion:completionBlock failure:failureBlock credentials:[[SFUserAccountManager sharedInstance] currentCredentials]];
 }
+
 
 - (BOOL)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
                     failure:(SFOAuthFlowFailureCallbackBlock)failureBlock
-                    account:(SFUserAccount *)account
+                    credentials:(SFOAuthCredentials *)credentials
 {
-    if (account == nil) {
-        account = [SFUserAccountManager sharedInstance].currentUser;
-        if (account == nil) {
-            // Create the current user out of legacy account data, if it exists.
-            account = [SFUserAccountManagerUpgrade createUserFromLegacyAccountData];
-            if (account == nil) {
-                [self log:SFLogLevelInfo format:@"No current user account, so creating a new one."];
-                account = [[SFUserAccountManager sharedInstance] createUserAccount];
-            }
-            [[SFUserAccountManager sharedInstance] saveAccounts:nil];
-        }
-    }
-    
+
     SFAuthBlockPair *blockPair = [[SFAuthBlockPair alloc] initWithSuccessBlock:completionBlock
                                                                   failureBlock:failureBlock];
     @synchronized (self.authBlockList) {
@@ -375,8 +364,7 @@ static Class InstanceClass = nil;
             // Kick off (async) authentication.
             [self log:SFLogLevelDebug msg:@"No authentication in progress.  Initiating new authentication request."];
             [self.authBlockList addObject:blockPair];
-            [self loginWithUser:account];
-            
+            [self loginWithCredentials:credentials];
             return YES;
         } else {
             // Already authenticating.  Add completion blocks to the list, if they're not there already.
@@ -397,12 +385,11 @@ static Class InstanceClass = nil;
 {
     
     NSAssert(jwtToken.length > 0, @"JWT token value required.");
-    
-    SFUserAccount *jwtUserAccount = [[SFUserAccountManager sharedInstance] createUserAccount];
-    jwtUserAccount.credentials.jwt = jwtToken;
+    SFOAuthCredentials *credentials = [[SFUserAccountManager sharedInstance] currentCredentials];
+    credentials.jwt = jwtToken;
     return [self loginWithCompletion:completionBlock
                              failure:failureBlock
-                             account:jwtUserAccount];
+                             credentials:credentials];
 }
 
 
@@ -445,7 +432,7 @@ static Class InstanceClass = nil;
     }
 
     // No-op if the user is anonymous.
-    if (user == [SFUserAccountManager sharedInstance].anonymousUser) {
+    if (nil == [SFUserAccountManager sharedInstance].currentUser) {
         [self log:SFLogLevelDebug msg:@"logoutUser: user is anonymous.  No action taken."];
         return;
     }
@@ -520,15 +507,7 @@ static Class InstanceClass = nil;
 }
 
 - (BOOL)haveValidSession {
-    // Check that we have a valid current user
-    SFUserAccountIdentity *userIdentity = [SFUserAccountManager sharedInstance].currentUserIdentity;
-    if (nil == userIdentity || [userIdentity isEqual:[SFUserAccountManager sharedInstance].temporaryUserIdentity]) {
-        return NO;
-    }
-    
-    // Check that the current user itself has a valid session
-    SFUserAccount *userAcct = [[SFUserAccountManager sharedInstance] currentUser];
-    return [userAcct isSessionValid];
+    return [[SFUserAccountManager sharedInstance] currentUser] != nil && [[SFUserAccountManager sharedInstance].currentUser isSessionValid] ;
 }
 
 - (void)setAdvancedAuthConfiguration:(SFOAuthAdvancedAuthConfiguration)advancedAuthConfiguration
@@ -669,8 +648,8 @@ static Class InstanceClass = nil;
     NSAssert([SFUserAccountManager sharedInstance].currentUser != nil, @"Current user should not be nil at this point.");
     [[SFUserAccountManager sharedInstance] applyIdData:self.idCoordinator.idData];
 
-    // Save the accounts
-    [[SFUserAccountManager sharedInstance] saveAccounts:nil];
+    SFUserAccount *currentUser = [[SFUserAccountManager sharedInstance] currentUser];
+    [[SFUserAccountManager sharedInstance] updateAccount:currentUser];
 
     // Notify the session is ready
     [self willChangeValueForKey:@"haveValidSession"];
@@ -774,26 +753,21 @@ static Class InstanceClass = nil;
 
 - (void)login
 {
-    SFUserAccount *account = [SFUserAccountManager sharedInstance].currentUser;
-	if (nil == account) {
-        [self log:SFLogLevelInfo format:@"no current user account so creating a new one"];
-        account = [[SFUserAccountManager sharedInstance] createUserAccount];
-        [[SFUserAccountManager sharedInstance] saveAccounts:nil];
-	}
-    
-    [self loginWithUser:account];
+    [self loginWithCredentials:[[SFUserAccountManager sharedInstance] currentCredentials]];
 }
 
-- (void)loginWithUser:(SFUserAccount*)account {
-    NSAssert(account != nil, @"Account should be set at this point.");
-    [SFUserAccountManager sharedInstance].currentUser = account;
+
+- (void)loginWithCredentials:(SFOAuthCredentials *) credentials
+{
+    NSAssert(credentials != nil, @"Credentials should be set.");
+    //[SFUserAccountManager sharedInstance].currentUser = account;
 
     // Setup the internal logic for the specified user.
-    [self setupWithUser:account];
+    [self setupWithCredentials:credentials];
 
     // Trigger the login flow.
     if (self.coordinator.isAuthenticating) {
-        [self.coordinator stopAuthentication];        
+        [self.coordinator stopAuthentication];
     }
 
     self.coordinator.additionalOAuthParameterKeys = self.additionalOAuthParameterKeys;
@@ -816,6 +790,23 @@ static Class InstanceClass = nil;
     [self.coordinator authenticate];
 }
 
+- (void)setupWithCredentials:(SFOAuthCredentials*) credentials {
+
+    // re-create the oauth coordinator for the current user
+    self.coordinator.delegate = nil;
+    self.coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:credentials];
+    //self.coordinator.scopes = account.accessScopes;
+    self.coordinator.advancedAuthConfiguration = self.advancedAuthConfiguration;
+    self.coordinator.delegate = self;
+    self.coordinator.additionalOAuthParameterKeys = self.additionalOAuthParameterKeys;
+    self.coordinator.additionalTokenRefreshParams = self.additionalTokenRefreshParams;
+    self.coordinator.scopes =  [SFUserAccountManager sharedInstance].scopes;
+    // re-create the identity coordinator for the current user
+    self.idCoordinator.delegate = nil;
+    self.idCoordinator = [[SFIdentityCoordinator alloc] initWithCredentials:credentials];
+    //self.idCoordinator.idData = account.idData;
+    self.idCoordinator.delegate = self;
+}
 - (void)setupWithUser:(SFUserAccount*)account {
     // sets the domain if it not set already
     if (nil == account.credentials.domain) {
@@ -868,6 +859,7 @@ static Class InstanceClass = nil;
     
     [SFAuthenticationManager removeAllCookies];
     [self.coordinator stopAuthentication];
+
     self.idCoordinator.idData = nil;
     self.coordinator.credentials = nil;
 }

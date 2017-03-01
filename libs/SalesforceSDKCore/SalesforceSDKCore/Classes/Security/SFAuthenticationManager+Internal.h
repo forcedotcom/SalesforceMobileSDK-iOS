@@ -31,7 +31,7 @@
 
 - (void)login;
 
-- (void)loginWithUser:(SFUserAccount*)account;
+- (void)loginWithCredentials:(SFOAuthCredentials *) credentials;
 
 - (void)setupWithUser:(SFUserAccount*)account;
 

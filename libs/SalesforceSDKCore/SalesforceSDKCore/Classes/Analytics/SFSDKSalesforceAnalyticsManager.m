@@ -86,7 +86,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
             return nil;
         }
         id analyticsMgr = analyticsManagerList[key];
-        if (!analyticsMgr) {
+        if (!analyticsMgr && key) {
             analyticsMgr = [[SFSDKSalesforceAnalyticsManager alloc] initWithUser:userAccount];
             analyticsManagerList[key] = analyticsMgr;
         }

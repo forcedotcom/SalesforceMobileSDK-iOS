@@ -199,6 +199,7 @@ static NSString* const kTestAppName = @"OverridenAppName";
     XCTAssertFalse(userAuthenticatedAtLaunch, @"User with credentials should not have been authenticated at launch.");
     XCTAssertTrue(userAlreadyAuthenticated, @"User with credentials should have generated an already-authenticated status.");
     XCTAssertFalse(authBypassed, @"User with credentials should not have generated an auth-bypassed status.");
+    [self deleteUserAccount:[SFUserAccountManager sharedInstance].currentUser error:nil];
 }
 
 - (void)testAuthBypass
@@ -417,8 +418,15 @@ static NSString* const kTestAppName = @"OverridenAppName";
     NSString *userId = [NSString stringWithFormat:@"user_%u", userIdentifier];
     NSString *orgId = [NSString stringWithFormat:@"org_%u", userIdentifier];
     user.credentials.identityUrl = [NSURL URLWithString:[NSString stringWithFormat:@"https://login.salesforce.com/id/%@/%@", orgId, userId]];
+    [[SFUserAccountManager sharedInstance] updateAccount:user];
     return user;
 }
+
+- (void)deleteUserAccount:(SFUserAccount *) userAccount error:(NSError **) error
+{
+    [[SFUserAccountManager sharedInstance] deleteAccountForUser:userAccount error:error];
+}
+
 
 - (void)setupSdkManagerState
 {
