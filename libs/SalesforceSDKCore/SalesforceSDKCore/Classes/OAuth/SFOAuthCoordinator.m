@@ -135,6 +135,7 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
 @synthesize approvalCode                = _approvalCode;
 @synthesize scopes                      = _scopes;
 @synthesize refreshFlowConnectionTimer  = _refreshFlowConnectionTimer;
+@synthesize refreshTimerThread          = _refreshTimerThread;
 @synthesize advancedAuthConfiguration   = _advancedAuthConfiguration;
 @synthesize advancedAuthState           = _advancedAuthState;
 @synthesize codeVerifier                = _codeVerifier;
@@ -931,34 +932,31 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
 
 - (void)startRefreshFlowConnectionTimer
 {
-    if (![NSThread isMainThread]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self startRefreshFlowConnectionTimer];
-        });
-        return;
-    }
-
+    self.refreshTimerThread = [NSThread currentThread];
     self.refreshFlowConnectionTimer = [NSTimer scheduledTimerWithTimeInterval:self.timeout
-                                                                           target:self
-                                                                         selector:@selector(refreshFlowConnectionTimerFired:)
-                                                                         userInfo:nil
-                                                                          repeats:NO];
+                                                                       target:self
+                                                                     selector:@selector(refreshFlowConnectionTimerFired:)
+                                                                     userInfo:nil
+                                                                      repeats:NO];
 }
 
 - (void)stopRefreshFlowConnectionTimer
 {
-    if (![NSThread isMainThread]) {
-        __weak typeof(self) weakSelf = self;
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            [weakSelf stopRefreshFlowConnectionTimer];
-        });
-        return;
+    if (self.refreshFlowConnectionTimer != nil && self.refreshTimerThread != nil) {
+        [self performSelector:@selector(invalidateRefreshTimer) onThread:self.refreshTimerThread withObject:nil waitUntilDone:YES];
+        [self cleanupRefreshTimer];
     }
+}
 
-    if (self.refreshFlowConnectionTimer != nil) {
-        [self.refreshFlowConnectionTimer invalidate];
-        self.refreshFlowConnectionTimer = nil;
-    }
+- (void)invalidateRefreshTimer
+{
+    [self.refreshFlowConnectionTimer invalidate];
+}
+
+- (void)cleanupRefreshTimer
+{
+    self.refreshFlowConnectionTimer = nil;
+    self.refreshTimerThread = nil;
 }
 
 - (void)refreshFlowConnectionTimerFired:(NSTimer *)rfcTimer
@@ -966,7 +964,7 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
     // If this timer fired, the timeout period for the refresh flow has expired, without the
     // refresh flow completing.
     
-    self.refreshFlowConnectionTimer = nil;
+    [self cleanupRefreshTimer];
     [self log:SFLogLevelDebug format:@"Refresh attempt timed out after %f seconds.", self.timeout];
     [self stopAuthentication];
     NSError *error = [[self class] errorWithType:kSFOAuthErrorTypeTimeout
