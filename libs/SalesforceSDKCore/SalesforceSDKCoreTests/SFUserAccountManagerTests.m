@@ -94,7 +94,6 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 
     // Ensure the user account manager doesn't contain any account
     [self.uam clearAllAccountState];
-    [self.uam disableAnonymousAccount];
     self.uam.currentUser = nil;
     [super setUp];
 }
@@ -150,12 +149,6 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     }
 }
 
-- (void)testTempUserMatchesTempIdentity {
-    SFUserAccount *tempUserAccount = self.uam.temporaryUser;
-    SFUserAccountIdentity *tempUserIdentity = self.uam.temporaryUserIdentity;
-    XCTAssertEqualObjects(tempUserAccount.accountIdentity, tempUserIdentity, @"Temporary user identities not equal.");
-}
-
 - (void)testAccountIdentityUpdateFromCredentialsUpdate {
     NSArray *accounts = [self createAndVerifyUserAccounts:1];
     SFUserAccount *user = accounts[0];
@@ -187,7 +180,6 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     SFUserAccount *user = accounts[0];
     // Check if the UserAccount.plist is stored at the right location
     NSError *error = nil;
-    XCTAssertTrue([self.uam saveAccounts:&error], @"Unable to save user accounts: %@", error);
     
     NSString *expectedLocation = [[SFDirectoryManager sharedManager] directoryForOrg:user.credentials.organizationId user:user.credentials.userId community:nil type:NSLibraryDirectory components:nil];
     expectedLocation = [expectedLocation stringByAppendingPathComponent:@"UserAccount.plist"];
@@ -199,7 +191,8 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     [self.uam clearAllAccountState];
     XCTAssertEqual([self.uam.allUserIdentities count], (NSUInteger)0, @"There should be no accounts");
 
-    XCTAssertTrue([self.uam loadAccounts:&error], @"Unable to load user accounts: %@", error);
+    [self.uam loadAccounts:nil];
+    XCTAssertTrue([self.uam allUserAccounts], @"Unable to load user accounts: %@", error);
     NSString *userId = [NSString stringWithFormat:kUserIdFormatString, (unsigned long)0];
     XCTAssertEqualObjects(((SFUserAccountIdentity *)self.uam.allUserIdentities[0]).userId, userId, @"User ID doesn't match after reload");
 }
@@ -211,8 +204,6 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     // Create 10 users
     [self createAndVerifyUserAccounts:10];
     NSFileManager *fm = [[NSFileManager alloc] init];
-    NSError *error = nil;
-    XCTAssertTrue([self.uam saveAccounts:&error], @"Unable to save user accounts: %@", error);
 
     // Ensure all directories have been correctly created
     {
@@ -229,27 +220,29 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     {
         [self.uam clearAllAccountState];
         XCTAssertEqual([self.uam.allUserIdentities count], (NSUInteger)0, @"There should be no accounts");
-
-        XCTAssertTrue([self.uam loadAccounts:&error], @"Unable to load user accounts: %@", error);
-        
-        for (NSUInteger index=0; index<10; index++) {
-            XCTAssertEqualObjects(((SFUserAccountIdentity *)self.uam.allUserIdentities[index]).userId, ([NSString stringWithFormat:kUserIdFormatString, (unsigned long)index]), @"User ID doesn't match");
-            XCTAssertEqualObjects(((SFUserAccountIdentity *)self.uam.allUserIdentities[index]).orgId, ([NSString stringWithFormat:kOrgIdFormatString, (unsigned long)index]), @"Org ID doesn't match");
-        }
+        NSError *error =nil;
+        [self.uam loadAccounts:&error];
+        NSArray * accounts = [self.uam allUserAccounts];
+        XCTAssertNil(error, @"Accounts should have been loaded");
+        XCTAssertEqual(accounts.count,10,@"Must have 10 accounts");
     }
     
     // Remove and verify that allUserAccounts property implicitly loads the accounts from disk.
     [self.uam clearAllAccountState];
-    XCTAssertEqual([self.uam.allUserIdentities count], (NSUInteger)0, @"There should be no accounts.");
-    XCTAssertEqual([self.uam.allUserAccounts count], (NSUInteger)10, @"Should still be 10 accounts on disk.");
-    XCTAssertEqual([self.uam.allUserIdentities count], (NSUInteger)10, @"There should now be 10 accounts in memory.");
-    
+    NSError *error =nil;
+    [self.uam loadAccounts:&error];
+    XCTAssertNil(error, @"Accounts should have been loaded");
     // Now make sure each account has a different access token to ensure
     // they are not overlapping in the keychain.
+    NSMutableSet *allTokens = [NSMutableSet new];
+    NSArray *allIdentities = self.uam.allUserIdentities;
     for (NSUInteger index=0; index<10; index++) {
-        SFUserAccount *user = [self.uam userAccountForUserIdentity:self.uam.allUserIdentities[index]];
-        XCTAssertEqualObjects(user.credentials.accessToken, ([NSString stringWithFormat:@"accesstoken-%lu", (unsigned long)index]), @"Access token mismatch");
+        SFUserAccount *user = [self.uam userAccountForUserIdentity:allIdentities[index]];
+        if (![allTokens containsObject:user.credentials.accessToken]) {
+            [allTokens addObject:user.credentials.accessToken];
+        }
     }
+    XCTAssertEqual(allTokens.count,10, @"Should not contain overlapping tokens");
     
     // Remove each account and verify that its user folder is gone.
     for (NSUInteger index = 0; index < 10; index++) {
@@ -266,58 +259,6 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     }
 }
 
-- (void)testTemporaryAccount {
-    SFUserAccount *tempAccount1 = [self.uam userAccountForUserIdentity:self.uam.temporaryUserIdentity];
-    XCTAssertNil(tempAccount1, @"Temp account should not be defined here.");
-    SFUserAccount *tempAccount2 = self.uam.temporaryUser;
-    XCTAssertNotNil(tempAccount2, @"Temp account should be created through the temporaryUser property.");
-    tempAccount1 = [self.uam userAccountForUserIdentity:self.uam.temporaryUserIdentity];
-    XCTAssertEqual(tempAccount1, tempAccount2, @"Temp account references should be equal.");
-}
-
-- (void)testAnonymousUser {
-    NSArray *accounts = [self createAndVerifyUserAccounts:1];
-    SFUserAccount *origUser = accounts[0];
-    XCTAssertNil(self.uam.anonymousUser, @"Anonymous user shouldn't exist yet");
-    XCTAssertNil(self.uam.currentUser, @"Current user shouldn't be set yet");
-    [self.uam setupAnonymousUser:YES autocreateAnonymousUser:NO];
-    XCTAssertNil(self.uam.anonymousUser, @"Anonymous user shouldn't exist yet");
-    [self.uam setupAnonymousUser:YES autocreateAnonymousUser:YES];
-    XCTAssertNotNil(self.uam.anonymousUser, @"Anonymous user should exist now");
-    XCTAssertTrue(self.uam.currentUser == self.uam.anonymousUser, @"Current user should be the anonymous user");
-    self.uam.currentUser = origUser;
-    XCTAssertTrue(self.uam.anonymousUser.isAnonymousUser, @"Anonymous user should be who he is");
-    XCTAssertFalse(self.uam.anonymousUser.isTemporaryUser, @"Anonymous user shouldn't be temporary");
-    XCTAssertFalse(self.uam.currentUser.isAnonymousUser, @"Current user shouldn't be anonymous");
-    XCTAssertFalse(self.uam.currentUser.isTemporaryUser, @"Current user shouldn't be temporary");
-}
-
-- (void)testAnonymousUserFromPreviousVersion {
-    XCTAssertNil(self.uam.anonymousUser, @"Anonymous user shouldn't exist yet");
-    XCTAssertNil(self.uam.currentUser, @"Current user shouldn't be set yet");
-    NSArray *accounts = [self createAndVerifyUserAccounts:1];
-    SFUserAccount *origUser = accounts[0];
-    self.uam.currentUser = origUser;
-    [self.uam setupAnonymousUser:YES autocreateAnonymousUser:NO];
-    XCTAssertNil(self.uam.anonymousUser, @"Anonymous user shouldn't exist yet");
-    [self.uam setupAnonymousUser:YES autocreateAnonymousUser:YES];
-    XCTAssertNotNil(self.uam.anonymousUser, @"Anonymous user should exist now");
-    XCTAssertTrue(self.uam.currentUser == origUser, @"Current user should be the anonymous user");
-}
-
-- (void)testSwitchToNewUser {
-    NSArray *accounts = [self createAndVerifyUserAccounts:1];
-    SFUserAccount *origUser = accounts[0];
-    self.uam.currentUser = origUser;
-    TestUserAccountManagerDelegate *acctDelegate = [[TestUserAccountManagerDelegate alloc] init];
-    [self.uam switchToNewUser];
-    XCTAssertEqual(acctDelegate.willSwitchOrigUserAccount, origUser, @"origUser is not equal.");
-    XCTAssertNil(acctDelegate.willSwitchNewUserAccount, @"New user should be nil.");
-    XCTAssertEqual(acctDelegate.didSwitchOrigUserAccount, origUser, @"origUser is not equal.");
-    XCTAssertNil(acctDelegate.didSwitchNewUserAccount, @"New user should be nil.");
-    XCTAssertEqual(self.uam.currentUser, self.uam.temporaryUser, @"The current user should be set to the temporary user.");
-}
-
 - (void)testSwitchToUser {
     NSArray *accounts = [self createAndVerifyUserAccounts:2];
     SFUserAccount *origUser = accounts[0];
@@ -332,39 +273,6 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     XCTAssertEqual(self.uam.currentUser, newUser, @"The current user should be set to newUser.");
 }
 
-- (void)testPlaintextToEncryptedAccountUpgrade {
-    // Create and store plaintext user account (old format).
-    SFUserAccount *user = [self createAndVerifyUserAccounts:1][0];
-    NSString *userFilePath = [SFUserAccountManager userAccountPlistFileForUser:user];
-    XCTAssertTrue([NSKeyedArchiver archiveRootObject:user toFile:userFilePath], @"Could not write plaintext user data to '%@'", userFilePath);
-    
-    NSError *loadAccountsError = nil;
-    XCTAssertTrue([self.uam loadAccounts:&loadAccountsError], @"Error loading accounts: %@", [loadAccountsError localizedDescription]);
-    
-    // Verify user information is still available after a new load.
-    NSString *userId = [NSString stringWithFormat:kUserIdFormatString, (unsigned long)0];
-    NSString *orgId = [NSString stringWithFormat:kOrgIdFormatString, (unsigned long)0];
-    SFUserAccountIdentity *accountIdentity = [[SFUserAccountIdentity alloc] initWithUserId:userId orgId:orgId];
-    SFUserAccount *account = [self.uam userAccountForUserIdentity:accountIdentity];
-    XCTAssertNotNil(account, @"User acccount with User ID '%@' and Org ID '%@' should exist.", userId, orgId);
-    NSFileManager *fm = [[NSFileManager alloc] init];
-    XCTAssertTrue([fm fileExistsAtPath:userFilePath], @"User directory for User ID '%@' and Org ID '%@' should exist.", userId, orgId);
-    
-    // Verify that the user data is now encrypted on the filesystem.
-    @try {
-        // On iOS9, unarchiveObjectWithFile should return nil
-        id res = [NSKeyedUnarchiver unarchiveObjectWithFile:userFilePath];
-        XCTAssertNil(res, @"User account data for User ID '%@' and Org ID '%@' should now be encrypted.", userId, orgId);
-    }
-    @catch(NSException *e) {
-        // Before iOS9, unarchiveObjectWithFile should throw an exception
-        XCTAssertNotNil(e, @"User account data for User ID '%@' and Org ID '%@' should now be encrypted.", userId, orgId);
-    }
-    
-    // Remove account.
-    [self deleteUserAndVerify:account userDir:userFilePath];
-}
-
 - (void)testActiveIdentityUpgrade {
 
     // Ensure we start with a clean state
@@ -375,25 +283,9 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     SFUserAccount *newAccount = ((SFUserAccount *)accounts[0]);
     [self.uam switchToUser:newAccount];
     SFUserAccountIdentity *accountIdentity = newAccount.accountIdentity;
-    SFUserAccountIdentity *activeIdentity = self.uam.activeUserIdentity;
-    XCTAssertEqualObjects(accountIdentity, activeIdentity, @"Active identity should be account identity.");
-    NSError *error = nil;
-    XCTAssertTrue([self.uam saveAccounts:&error], @"Unable to save user accounts: %@", error);
+    SFUserAccountIdentity *activeIdentity = self.uam.currentUserIdentity;
+    XCTAssertEqualObjects(accountIdentity, activeIdentity, @"Current identity should be the switched account identity.");
 
-    // Setup legacy active user id
-    NSString *userId = accountIdentity.userId;
-    [self.uam clearAllAccountState];
-    self.uam.activeUserIdentity = nil;
-    [[NSUserDefaults standardUserDefaults] setObject:userId forKey:@"LastUserId"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-
-    // Reload accounts, verify updates.
-    XCTAssertTrue([self.uam loadAccounts:&error], @"Load accounts failed: %@", [error localizedDescription]);
-    SFUserAccount *verifyAccount = [self.uam userAccountForUserIdentity:accountIdentity];
-    XCTAssertNotNil(verifyAccount, @"Original account should have been reloaded.");
-    SFUserAccountIdentity *verifyActiveUserIdentity = self.uam.activeUserIdentity;
-    XCTAssertEqualObjects(verifyAccount.accountIdentity, verifyActiveUserIdentity, @"Active user identity should have been upgraded from legacy data.");
-    XCTAssertNil([[NSUserDefaults standardUserDefaults] objectForKey:@"LastUserId"], @"Legacy active user ID should have been removed.");
 }
 
 - (void)testIdentityDataModification {
@@ -429,28 +321,6 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     XCTAssertFalse([self.uam.currentUser.idData.customAttributes isEqualToDictionary:mutableCustomPermissions], @"Permissions dictionaries should not be equal.");
 }
 
-- (void)testGuestUserCreation {
-    NSString *guestUserId = @"005000000000000";
-    NSString *guestOrgId  = @"00D000000000000";
-    NSURL *communityURL = [NSURL URLWithString:@"https://somecommunity.salesforce.com"];
-    SFUserAccount *account = [[SFUserAccount alloc] initWithGuestUser];
-    account.credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"the-identifier"
-                                                                clientId:@"the-client"
-                                                               encrypted:YES
-                                                             storageType:SFOAuthCredentialsStorageTypeNone];
-    account.credentials.identityUrl = [NSURL URLWithString:[NSString stringWithFormat:@"https://does.not.matter.not-real/id/%@/%@", guestOrgId, guestUserId]];
-    account.credentials.instanceUrl = communityURL;
-    account.credentials.communityUrl = communityURL;
-    
-    // Set access token to make network happy
-    account.credentials.accessToken = [NSUUID UUID].UUIDString;
-    [self.uam addAccount:account];
-    
-    NSError *localError = nil;
-    if (![self.uam saveAccounts:&localError]) {
-        XCTAssertNil(localError);
-    }
-}
 
 #pragma mark - Helper methods
 
@@ -461,12 +331,11 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
         SFUserAccount *user = [self createNewUserWithIndex:index];
         user.credentials.accessToken = [NSString stringWithFormat:@"accesstoken-%lu", (unsigned long)index];
         XCTAssertNotNil(user.credentials, @"User credentials shouldn't be nil");
-        
-        [self.uam addAccount:user];
+        [self.uam updateAccount:user];
         // Note: we always use index 0 because of the way the allUserIds are sorted out
-        XCTAssertEqualObjects(((SFUserAccountIdentity *)self.uam.allUserIdentities[[self.uam.allUserIdentities count] - 1]).userId, ([NSString stringWithFormat:kUserIdFormatString, (unsigned long)index]), @"User ID doesn't match");
-        XCTAssertEqualObjects(((SFUserAccountIdentity *)self.uam.allUserIdentities[[self.uam.allUserIdentities count] - 1]).orgId, ([NSString stringWithFormat:kOrgIdFormatString, (unsigned long)index]), @"Org ID doesn't match");
-        
+        SFUserAccount *userAccount = [self.uam userAccountForUserIdentity:user.accountIdentity];
+        XCTAssertEqualObjects(userAccount.accountIdentity.userId, ([NSString stringWithFormat:kUserIdFormatString, (unsigned long)index]), @"User ID doesn't match");
+        XCTAssertEqualObjects(userAccount.accountIdentity.orgId, ([NSString stringWithFormat:kOrgIdFormatString, (unsigned long)index]), @"Org ID doesn't match");
         // Add to the output array.
         [accounts addObject:user];
     }

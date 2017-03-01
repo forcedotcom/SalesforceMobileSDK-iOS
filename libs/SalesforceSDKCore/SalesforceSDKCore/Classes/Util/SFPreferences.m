@@ -102,12 +102,7 @@ static NSMutableDictionary *instances = nil;
  is not the temporary user.
  */
 + (SFUserAccount*)currentValidUserAccount {
-    SFUserAccountIdentity *userIdentity = [SFUserAccountManager sharedInstance].currentUserIdentity;
-    if (userIdentity && ![userIdentity isEqual:[SFUserAccountManager sharedInstance].temporaryUserIdentity]) {
-        return [SFUserAccountManager sharedInstance].currentUser;
-    } else {
-        return nil;
-    }
+    return [SFUserAccountManager sharedInstance].currentUser;
 }
 
 - (id)initWithPath:(NSString*)path {

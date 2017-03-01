@@ -31,8 +31,9 @@
 #import "SFUserAccount.h"
 #import "SFSDKTestRequestListener.h"
 #import "SFSDKTestCredentialsData.h"
+#import "SFAuthenticationManager+Internal.h"
 
-static BOOL sPopulatedAuthCredentials = NO;
+static SFOAuthCredentials *credentials = nil;
 
 @implementation TestSetupUtils
 
@@ -74,11 +75,10 @@ static BOOL sPopulatedAuthCredentials = NO;
     [SFUserAccountManager sharedInstance].oauthCompletionUrl = credsData.redirectUri;
     [SFUserAccountManager sharedInstance].scopes = [NSSet setWithObjects:@"web", @"api", nil];
     [SFUserAccountManager sharedInstance].loginHost = credsData.loginHost;
-    
     SFUserAccountManager *accountMgr = [SFUserAccountManager sharedInstance];
     SFUserAccount *account = [accountMgr createUserAccount];
-    accountMgr.currentUser = account;
-    SFOAuthCredentials *credentials = accountMgr.currentUser.credentials;
+    [accountMgr setCurrentUser:account];
+    credentials = [accountMgr currentCredentials];
     credentials.instanceUrl = [NSURL URLWithString:credsData.instanceUrl];
     credentials.identityUrl = [NSURL URLWithString:credsData.identityUrl];
     NSString *communityUrlString = credsData.communityUrl;
@@ -87,8 +87,6 @@ static BOOL sPopulatedAuthCredentials = NO;
     }
     credentials.accessToken = credsData.accessToken;
     credentials.refreshToken = credsData.refreshToken;
-    
-    sPopulatedAuthCredentials = YES;
     return credsData;
 }
 
@@ -96,19 +94,22 @@ static BOOL sPopulatedAuthCredentials = NO;
 {
     // All of the setup and validation of prerequisite auth state is done in populateAuthCredentialsFromConfigFile.
     // Make sure that method has run before this one.
-    NSAssert(sPopulatedAuthCredentials, @"You must call populateAuthCredentialsFromConfigFileForClass before synchronousAuthRefresh");
-    
+    NSAssert(credentials!=nil, @"You must call populateAuthCredentialsFromConfigFileForClass before synchronousAuthRefresh");
     __block SFSDKTestRequestListener *authListener = [[SFSDKTestRequestListener alloc] init];
     [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
         authListener.returnStatus = kTestRequestStatusDidLoad;
     } failure:^(SFOAuthInfo *authInfo, NSError *error) {
         authListener.lastError = error;
         authListener.returnStatus = kTestRequestStatusDidFail;
-    }];
+    } credentials:credentials
+    ];
     [authListener waitForCompletion];
     NSAssert([authListener.returnStatus isEqualToString:kTestRequestStatusDidLoad], @"After auth attempt, expected status '%@', got '%@'",
               kTestRequestStatusDidLoad,
               authListener.returnStatus);
 }
+
+
+
 
 @end

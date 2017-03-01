@@ -30,8 +30,6 @@
 }
 
 @property (nonatomic, strong, nonnull) NSHashTable<id<SFUserAccountManagerDelegate>> *delegates;
-@property (nonatomic, strong, nonnull) SFUserAccountIdentity *anonymousUserIdentity;
-@property (nonatomic, strong, readwrite, nullable) SFUserAccount *anonymousUser;
 
 /** A map of user accounts by user ID
  */
@@ -40,12 +38,6 @@
 @property (nonatomic, strong, nullable) NSString *lastChangedOrgId;
 @property (nonatomic, strong, nullable) NSString *lastChangedUserId;
 @property (nonatomic, strong, nullable) NSString *lastChangedCommunityId;
-
-/** Returns YES if the specified user is anonymous.
- Note: an anonymous user is a user that doesn't require
- credentials towards a server.
- */
-+ (BOOL)isUserAnonymous:(nullable SFUserAccount*)user;
 
 /**
  Executes the given block for each configured delegate.
@@ -59,16 +51,5 @@
  @return The new user account with the given credentials.
  */
 - (nonnull SFUserAccount *)createUserAccountWithCredentials:(nonnull SFOAuthCredentials *)credentials;
-
-/** Setup the anonymous user according
- to the existing settings.
- Note: method exposed only to unit tests
- */
-- (void)setupAnonymousUser:(BOOL)supportsAnonymousUser autocreateAnonymousUser:(BOOL)autocreateAnonymousUser;
-
-/** Delete and disable the anonymous user
- Note: method exposed only to unit tests
- */
-- (void)disableAnonymousAccount;
 
 @end

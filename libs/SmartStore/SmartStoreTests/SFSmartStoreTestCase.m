@@ -345,8 +345,8 @@
     NSString *userId = [NSString stringWithFormat:@"user_%u", userIdentifier];
     NSString *orgId = [NSString stringWithFormat:@"org_%u", userIdentifier];
     user.credentials.identityUrl = [NSURL URLWithString:[NSString stringWithFormat:@"https://login.salesforce.com/id/%@/%@", orgId, userId]];
-    
-    [[SFUserAccountManager sharedInstance] addAccount:user];
+
+    [[SFUserAccountManager sharedInstance] updateAccount:user];
     [SFUserAccountManager sharedInstance].currentUser = user;
     
     return user;
