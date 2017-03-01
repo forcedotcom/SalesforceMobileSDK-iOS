@@ -97,6 +97,12 @@
     self.network.account.credentials = coordinator.credentials;
     CSFOAuthTokenRefreshOutput *output = [[CSFOAuthTokenRefreshOutput alloc] initWithCoordinator:coordinator];
     [self finishWithOutput:output error:nil];
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:kSFAuthenticationManagerFinishedNotification
+                                                            object:nil
+                                                          userInfo:nil];
+    });
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info {
