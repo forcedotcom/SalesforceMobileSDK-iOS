@@ -708,7 +708,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
         if (success) {
             [strongSelf.userAccountMap setObject:acct forKey:acct.accountIdentity];
             if (strongSelf.userAccountMap.count>1 && oldCount<strongSelf.userAccountMap.count ) {
-                [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureMultiUser];
+                [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureMultiUser];
             }
 
         }
@@ -751,7 +751,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
                 [strongSelf.userAccountMap removeObjectForKey:user.accountIdentity];
                 success = YES;
                 if ([strongSelf.userAccountMap count] < 2) {
-                    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureMultiUser];
+                    [[SalesforceSDKManager sharedManager] unregisterAppFeature:kSFAppFeatureMultiUser];
                 }
                 if([user.accountIdentity isEqual:strongSelf->_currentUser.accountIdentity]) {
                     strongSelf->_currentUser = nil;
