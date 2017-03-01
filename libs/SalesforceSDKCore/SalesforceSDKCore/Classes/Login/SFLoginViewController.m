@@ -142,15 +142,7 @@
 
 - (BOOL)shouldShowBackButton {
     NSInteger totalAccounts = [SFUserAccountManager sharedInstance].allUserAccounts.count;
-    if (totalAccounts > 0) {
-        if (totalAccounts == 1) {
-            SFUserAccount *userAccount = [SFUserAccountManager sharedInstance].allUserAccounts.firstObject;
-            return !(userAccount.isTemporaryUser);
-        } else {
-            return YES;
-        }
-    }
-    return NO;
+    return  (totalAccounts > 0);
 }
 
 #pragma mark - Action Methods
@@ -261,9 +253,7 @@
 - (void)userAccountManager:(SFUserAccountManager *)userAccountManager
         willSwitchFromUser:(SFUserAccount *)fromUser
                     toUser:(SFUserAccount *)toUser {
-    if (!fromUser.isTemporaryUser) {
         self.previousUserAccount = fromUser;
-    }
 }
 
 - ( UIImage * _Nonnull )headerBackgroundImage {
