@@ -82,7 +82,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
         }
         NSString *key = SFKeyForUserAndScope(userAccount, SFUserAccountScopeCommunity);
         id analyticsMgr = analyticsManagerList[key];
-        if (!analyticsMgr) {
+        if (!analyticsMgr && key) {
             analyticsMgr = [[SFSDKSalesforceAnalyticsManager alloc] initWithUser:userAccount];
             analyticsManagerList[key] = analyticsMgr;
         }

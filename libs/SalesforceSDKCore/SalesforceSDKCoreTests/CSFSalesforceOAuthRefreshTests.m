@@ -73,7 +73,7 @@
 @implementation CSFSalesforceOAuthRefreshTests
 
 - (void)testRevokedToken {
-    SFUserAccount *user = [SFUserAccount new];
+    SFUserAccount *user = [[SFUserAccountManager sharedInstance]  createUserAccount];
     user.credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"the-identifier"
                                                              clientId:@"the-client"
                                                             encrypted:NO
@@ -82,7 +82,7 @@
     user.credentials.refreshToken = @"RefreshToken";
     user.credentials.instanceUrl = [NSURL URLWithString:@"http://example.org"];
     user.credentials.identityUrl = [NSURL URLWithString:@"https://example.org/id/orgID/userID"];
-
+    [[SFUserAccountManager sharedInstance] updateAccount:user];
     __block BOOL userLogoutNotificationReceived = NO;
     id handler = [[NSNotificationCenter defaultCenter] addObserverForName:kSFUserWillLogoutNotification
                                                                    object:nil
@@ -99,7 +99,7 @@
     action.authRefreshClass = [RevokedTokenAuthRefresh class];
     [network executeAction:action];
     
-    [self waitForExpectationsWithTimeout:1 handler:^(NSError *error) {
+    [self waitForExpectationsWithTimeout:10 handler:^(NSError *error) {
         XCTAssertNil(error);
         
         XCTAssertTrue(userLogoutNotificationReceived);

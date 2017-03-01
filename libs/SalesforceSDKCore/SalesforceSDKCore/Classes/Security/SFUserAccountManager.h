@@ -99,64 +99,18 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
  */
 @property (nonatomic, strong, nullable) SFUserAccount *currentUser;
 
-/** The user identity for the temporary user account.
- */
-@property (nonatomic, readonly, nullable) SFUserAccountIdentity *temporaryUserIdentity;
-
-/** The "temporary" account user.  Useful for determining whether there's a valid user context.
- */
-@property (nonatomic, readonly, nullable) SFUserAccount *temporaryUser;
-
-/** Returns YES if the application supports anonymous user, no otherwise.
- 
- Note: the application must add the kSFUserAccountSupportAnonymousUsage value
- to its Info.plist file in order to enable this flag.
- */
-@property (nonatomic, readonly) BOOL supportsAnonymousUser;
-
-/** Returns YES if the application wants the anonymous user to be
-  created automatically at startup, no otherwise.
-  
-  Note: the application must add the kSFUserAccountSupportAnonymousUsage value
-  to its Info.plist file in order to enable this flag.
-  */
-@property (nonatomic, readonly) BOOL autocreateAnonymousUser;
-
-/** Returns the anonymous user or nil if none exists
-  */
-@property (nonatomic, strong, readonly, nullable) SFUserAccount *anonymousUser;
-
 /** Returns YES if the current user is anonymous, no otherwise
   */
 @property (nonatomic, readonly, getter=isCurrentUserAnonymous) BOOL currentUserAnonymous;
 
 /**  Convenience property to retrieve the current user's identity.
  */
-@property (nonatomic, readonly, nullable) SFUserAccountIdentity *currentUserIdentity;
+@property (readonly, nonatomic, nullable) SFUserAccountIdentity *currentUserIdentity;
 
 /**  Convenience property to retrieve the current user's communityId.
  This property is an alias for `currentUser.communityId`
  */
-@property (nonatomic, readonly, nullable) NSString *currentCommunityId;
-
-/** An NSArray of all the SFUserAccount instances for the app.
- */
-@property (nonatomic, readonly) NSArray<SFUserAccount*> *allUserAccounts;
-
-/** Returns all the user identities sorted by Org ID and User ID.
- */
-@property (nonatomic, readonly) NSArray<SFUserAccountIdentity*> *allUserIdentities;
-
-/** The most recently active user identity. Note that this may be temporarily
- different from currentUser if the user associated with the activeUserIdentity
- is removed from the accounts list.
- */
-@property (nonatomic, copy, nullable) SFUserAccountIdentity *activeUserIdentity;
-
-/** The most recently active community ID. Set when a user
- is changed and stored to disk for retrieval after bootup
- */
-@property (nonatomic, copy, nullable) NSString *activeCommunityId;
+@property (nonatomic, nullable) NSString *currentCommunityId;
 
 /** A convenience property to store the previous community
  id as it may change during early OAuth flow and we want to retain it
@@ -209,12 +163,6 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
 + (NSString*)userAccountPlistFileForUser:(SFUserAccount*)user;
 
 /**
- Sets the active user identity without instantiating the class
- @param activeUserIdentity The desired active user
- */
-+ (void)setActiveUserIdentity:(SFUserAccountIdentity *)activeUserIdentity;
-
-/**
  Adds a delegate to this user account manager.
  @param delegate The delegate to add.
  */
@@ -232,23 +180,19 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
  */
 - (BOOL)loadAccounts:(NSError**)error;
 
-/** Save all the accounts.
- @param error On output, the error if the return value is NO
- @return YES if the accounts were saved properly, NO in case of error
+/** An NSArray of all the SFUserAccount instances for the app.
  */
-- (BOOL)saveAccounts:(NSError**)error;
+-(nullable NSArray <SFUserAccount *> *) allUserAccounts;
+
+/** Returns all the user identities sorted by Org ID and User ID.
+ */
+-(nullable NSArray<SFUserAccountIdentity*> *) allUserIdentities;
 
 /** Can be used to create an empty user account if you wish to configure all of the account info yourself.
  Otherwise, use `login` to allow SFUserAccountManager to automatically create an account when necessary.
  */
 - (SFUserAccount*)createUserAccount;
 
-/** This method ensures the anonymous user exists and if not, creates the anonymous
- user and saves it with the other users. This method doesn't change the current user.
- 
- Note: this method is invoked automatically if `autocreateAnonymousUser` returns YES.
- */
-- (void)enableAnonymousAccount;
 
 /** Allows you to look up the user account associated with a given user identity.
  @param userIdentity The user identity of the user account to be looked up
@@ -270,7 +214,7 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
 /** Adds a user account
  @param acct The account to be added
  */
-- (void)addAccount:(SFUserAccount *)acct;
+- (void)updateAccount:(SFUserAccount *)acct;
 
 /**
  Allows you to remove the given user account.
@@ -337,6 +281,11 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
  will try to determine that.
  */
 - (void)userChanged:(SFUserAccountChange)change;
+/**
+ *
+ * @return the current Credentials
+ */
+-(SFOAuthCredentials *)currentCredentials;
 
 @end
 

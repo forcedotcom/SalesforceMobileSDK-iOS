@@ -305,14 +305,7 @@ static NSString * const kGlobalScopingKey = @"-global-";
     return self.credentials.accessToken != nil && self.idData != nil;
 }
 
-- (BOOL)isTemporaryUser {
-    return ([self.accountIdentity.userId isEqualToString:SFUserAccountManagerTemporaryUserAccountUserId] &&
-           [self.accountIdentity.orgId isEqualToString:SFUserAccountManagerTemporaryUserAccountOrgId]);
-}
 
-- (BOOL)isAnonymousUser {
-    return [SFUserAccountManager isUserAnonymous:self];
-}
 
 - (NSString*)description {
     NSString *theUserName = @"*****";

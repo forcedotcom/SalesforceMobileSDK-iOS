@@ -24,9 +24,6 @@
 
 #import "SFUserAccount.h"
 
-// The temporary user identity
-static NSString * const SFUserAccountManagerTemporaryUserAccountUserId = @"TEMP_USER_ID";
-static NSString * const SFUserAccountManagerTemporaryUserAccountOrgId = @"TEMP_ORG_ID";
 
 @interface SFUserAccount ()
 
