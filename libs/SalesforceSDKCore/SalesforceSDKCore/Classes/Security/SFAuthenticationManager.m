@@ -507,7 +507,7 @@ static Class InstanceClass = nil;
 }
 
 - (BOOL)haveValidSession {
-    return [[SFUserAccountManager sharedInstance] currentUser] != nil && [[SFUserAccountManager sharedInstance].currentUser isSessionValid] ;
+    return SFUserAccountManager.sharedInstance.currentUser != nil && SFUserAccountManager.sharedInstance.currentUser.isSessionValid;
 }
 
 - (void)setAdvancedAuthConfiguration:(SFOAuthAdvancedAuthConfiguration)advancedAuthConfiguration

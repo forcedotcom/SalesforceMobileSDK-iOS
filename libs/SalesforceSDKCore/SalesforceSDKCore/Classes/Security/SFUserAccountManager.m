@@ -1,6 +1,6 @@
 /*
  Copyright (c) 2012-present, salesforce.com, inc. All rights reserved.
- 
+
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
  * Redistributions of source code must retain the above copyright notice, this list of conditions
@@ -11,7 +11,7 @@
  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
  endorse or promote products derived from this software without specific prior written
  permission of salesforce.com, inc.
- 
+
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -111,15 +111,15 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
         case SFLogLevelDebug:
             credentials.logLevel = kSFOAuthLogLevelDebug;
             break;
-            
+
         case SFLogLevelInfo:
             credentials.logLevel = kSFOAuthLogLevelInfo;
             break;
-            
+
         case SFLogLevelWarning:
             credentials.logLevel = kSFOAuthLogLevelWarning;
             break;
-            
+
         case SFLogLevelError:
             credentials.logLevel = kSFOAuthLogLevelError;
             break;
@@ -127,7 +127,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
         case SFLogLevelVerbose:
             credentials.logLevel = kSFOAuthLogLevelVerbose;
             break;
-            
+
         default:
             break;
     }
@@ -718,9 +718,34 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
                 if (folderRemovalError && error) {
                     *error = folderRemovalError;
                 }
+
+            }
+        } else {
+            NSString *reason = [NSString stringWithFormat:@"User folder for user '%@' does not exist on the filesystem", user.userName];
+            NSError *ferror = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
+                                                  code:SFUserAccountManagerCannotReadDecryptedArchive
+                                              userInfo:@{NSLocalizedDescriptionKey: reason}];
+            [self log:SFLogLevelDebug format:@"User folder for user '%@' does not exist on the filesystem.", user.userName];
+            if(error)
+                *error = ferror;
+            success = NO;
+        }
+        if (success) {
+            user.userDeleted = YES;
+            [self.userAccountMap removeObjectForKey:user.accountIdentity];
+            success = YES;
+            if ([self.userAccountMap count] < 2) {
+                [[SalesforceSDKManager sharedManager] unregisterAppFeature:kSFAppFeatureMultiUser];
+            }
+            if([user.accountIdentity isEqual:self->_currentUser.accountIdentity]) {
+                _currentUser = nil;
+                [self setCurrentUserIdentity:nil];
             }
         }
-    });
+    }
+    [accountsLock unlock];
+    return success;
+}
 
 - (NSString *)currentCommunityId {
     NSUserDefaults *userDefaults = [NSUserDefaults msdkUserDefaults];
