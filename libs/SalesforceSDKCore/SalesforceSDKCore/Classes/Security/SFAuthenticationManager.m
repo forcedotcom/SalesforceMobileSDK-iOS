@@ -501,7 +501,7 @@ static Class InstanceClass = nil;
 }
 
 - (BOOL)haveValidSession {
-    return [[SFUserAccountManager sharedInstance] currentUser] != nil && [[SFUserAccountManager sharedInstance].currentUser isSessionValid] ;
+    return SFUserAccountManager.sharedInstance.currentUser != nil && SFUserAccountManager.sharedInstance.currentUser.isSessionValid;
 }
 
 - (void)setAdvancedAuthConfiguration:(SFOAuthAdvancedAuthConfiguration)advancedAuthConfiguration
@@ -641,9 +641,7 @@ static Class InstanceClass = nil;
     // Assign the identity data to the current user
     NSAssert([SFUserAccountManager sharedInstance].currentUser != nil, @"Current user should not be nil at this point.");
     [[SFUserAccountManager sharedInstance] applyIdData:self.idCoordinator.idData];
-
-    SFUserAccount *currentUser = [[SFUserAccountManager sharedInstance] currentUser];
-    [[SFUserAccountManager sharedInstance] updateAccount:currentUser];
+    [[SFUserAccountManager sharedInstance] updateAccount:SFUserAccountManager.sharedInstance.currentUser];
 
     // Notify the session is ready
     [self willChangeValueForKey:@"haveValidSession"];
@@ -747,14 +745,13 @@ static Class InstanceClass = nil;
 
 - (void)login
 {
-    [self loginWithCredentials:[[SFUserAccountManager sharedInstance] currentCredentials]];
+    [self loginWithCredentials:SFUserAccountManager.sharedInstance.currentCredentials];
 }
 
 
 - (void)loginWithCredentials:(SFOAuthCredentials *) credentials
 {
     NSAssert(credentials != nil, @"Credentials should be set.");
-    //[SFUserAccountManager sharedInstance].currentUser = account;
 
     // Setup the internal logic for the specified user.
     [self setupWithCredentials:credentials];
@@ -789,7 +786,6 @@ static Class InstanceClass = nil;
     // re-create the oauth coordinator for the current user
     self.coordinator.delegate = nil;
     self.coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:credentials];
-    //self.coordinator.scopes = account.accessScopes;
     self.coordinator.advancedAuthConfiguration = self.advancedAuthConfiguration;
     self.coordinator.delegate = self;
     self.coordinator.additionalOAuthParameterKeys = self.additionalOAuthParameterKeys;
@@ -798,7 +794,6 @@ static Class InstanceClass = nil;
     // re-create the identity coordinator for the current user
     self.idCoordinator.delegate = nil;
     self.idCoordinator = [[SFIdentityCoordinator alloc] initWithCredentials:credentials];
-    //self.idCoordinator.idData = account.idData;
     self.idCoordinator.delegate = self;
 }
 - (void)setupWithUser:(SFUserAccount*)account {

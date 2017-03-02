@@ -26,7 +26,7 @@
 
 @interface SFUserAccountManager ()
 {
-    dispatch_queue_t _syncQueue;
+    NSRecursiveLock *accountsLock;
 }
 
 @property (nonatomic, strong, nonnull) NSHashTable<id<SFUserAccountManagerDelegate>> *delegates;
