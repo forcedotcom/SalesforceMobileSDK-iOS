@@ -83,7 +83,10 @@
     user.credentials.instanceUrl = [NSURL URLWithString:@"http://example.org"];
     user.credentials.identityUrl = [NSURL URLWithString:@"https://example.org/id/orgID/userID"];
     [[SFUserAccountManager sharedInstance] updateAccount:user];
+<<<<<<< HEAD
     [SFUserAccountManager sharedInstance].currentUser = user;
+=======
+>>>>>>> bd8880a002975cebba976ecdac0d3ed112134ae7
     __block BOOL userLogoutNotificationReceived = NO;
     id handler = [[NSNotificationCenter defaultCenter] addObserverForName:kSFUserWillLogoutNotification
                                                                    object:nil
@@ -100,7 +103,7 @@
     action.authRefreshClass = [RevokedTokenAuthRefresh class];
     [network executeAction:action];
     
-    [self waitForExpectationsWithTimeout:1 handler:^(NSError *error) {
+    [self waitForExpectationsWithTimeout:10 handler:^(NSError *error) {
         XCTAssertNil(error);
         
         XCTAssertTrue(userLogoutNotificationReceived);
