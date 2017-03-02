@@ -37,6 +37,8 @@
     
     SFUserAccount *account = [[SFUserAccount alloc] init];
     account.credentials = credentials;
+    [[SFUserAccountManager sharedInstance] updateAccount:account];
+    [SFUserAccountManager sharedInstance].currentUser = account;
     return account;
 }
 
