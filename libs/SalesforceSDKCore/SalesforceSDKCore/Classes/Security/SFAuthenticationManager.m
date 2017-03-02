@@ -733,7 +733,7 @@ static Class InstanceClass = nil;
 
 - (void)login
 {
-    [self loginWithCredentials:SFUserAccountManager.sharedInstance.currentCredentials];
+    [self loginWithCredentials:[SFUserAccountManager sharedInstance].currentCredentials];
 }
 
 
