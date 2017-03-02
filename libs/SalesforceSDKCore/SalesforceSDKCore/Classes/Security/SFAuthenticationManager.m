@@ -501,7 +501,7 @@ static Class InstanceClass = nil;
 }
 
 - (BOOL)haveValidSession {
-    return SFUserAccountManager.sharedInstance.currentUser != nil && SFUserAccountManager.sharedInstance.currentUser.isSessionValid;
+    return [SFUserAccountManager sharedInstance].currentUser != nil && [SFUserAccountManager sharedInstance].currentUser.isSessionValid;
 }
 
 - (void)setAdvancedAuthConfiguration:(SFOAuthAdvancedAuthConfiguration)advancedAuthConfiguration
@@ -641,7 +641,7 @@ static Class InstanceClass = nil;
     // Assign the identity data to the current user
     NSAssert([SFUserAccountManager sharedInstance].currentUser != nil, @"Current user should not be nil at this point.");
     [[SFUserAccountManager sharedInstance] applyIdData:self.idCoordinator.idData];
-    [[SFUserAccountManager sharedInstance] updateAccount:SFUserAccountManager.sharedInstance.currentUser];
+    [[SFUserAccountManager sharedInstance] updateAccount:[SFUserAccountManager sharedInstance].currentUser];
 
     // Notify the session is ready
     [self willChangeValueForKey:@"haveValidSession"];
@@ -745,7 +745,7 @@ static Class InstanceClass = nil;
 
 - (void)login
 {
-    [self loginWithCredentials:SFUserAccountManager.sharedInstance.currentCredentials];
+    [self loginWithCredentials:[SFUserAccountManager sharedInstance].currentCredentials];
 }
 
 
