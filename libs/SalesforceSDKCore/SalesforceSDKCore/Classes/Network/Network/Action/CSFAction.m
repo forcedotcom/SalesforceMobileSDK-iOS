@@ -99,12 +99,12 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
     }
 
     // 'baseUrl' needs to account for URLs with extra trailing slashes, like custom community URLs.
-    NSMutableString *baseUrlString = [NSMutableString stringWithFormat:@"%@", baseURL.absoluteString];
-    if ([baseUrlString hasSuffix:@"/"]) {
-        [baseUrlString deleteCharactersInRange:NSMakeRange(0, 1)];
+    NSMutableString *baseUrlString = [NSMutableString stringWithString:baseURL.absoluteString];
+    if (![baseUrlString hasSuffix:@"/"]) {
+        [baseUrlString appendString:@"/"];
     }
-    if (![path hasPrefix:@"/"]) {
-        baseUrlString = [NSMutableString stringWithFormat:@"%@/", baseUrlString];
+    if ([path hasPrefix:@"/"]) {
+        [path deleteCharactersInRange:NSMakeRange(1, path.length)];
     }
     NSString *urlString = [NSString stringWithFormat:@"%@%@", baseUrlString, path];
     NSURL *url = [NSURL URLWithString:urlString];
