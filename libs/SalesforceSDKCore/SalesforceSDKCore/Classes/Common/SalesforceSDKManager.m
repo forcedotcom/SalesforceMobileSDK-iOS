@@ -597,7 +597,7 @@ static Class InstanceClass = nil;
 
 - (void)authValidationAtLaunch
 {
-    if (self.authenticateAtLaunch && ([SFUserAccountManager sharedInstance].currentUser==nil || ![SFUserAccountManager sharedInstance].currentUser.credentials.accessToken) ) {
+    if (self.authenticateAtLaunch &&  ![SFUserAccountManager sharedInstance].currentUser.credentials.accessToken) {
         // Access token check works equally well for any of the members being nil, which are all conditions to
         // (re-)authenticate.
         [self.sdkManagerFlow authAtLaunch];

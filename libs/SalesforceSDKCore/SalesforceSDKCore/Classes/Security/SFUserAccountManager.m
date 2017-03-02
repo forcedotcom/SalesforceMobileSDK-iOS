@@ -142,7 +142,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
             self.oauthCompletionUrl = bundleOAuthCompletionUrl;
         }
         [self migrateUserDefaults];
-        _syncQueue = dispatch_queue_create(kSyncQueue, DISPATCH_QUEUE_CONCURRENT);
+        accountsLock = [NSRecursiveLock new];
         _userAccountMap = [NSMutableDictionary new];
         [self loadAccounts:nil];
      }
@@ -295,37 +295,32 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
     return self.currentUser == nil;
 }
 
-
-
 #pragma mark Account management
 - (NSArray *)allUserAccounts
 {
-    __block NSMutableArray *accounts = nil;
-     // Remove the temporary user id from the array
-    dispatch_sync(_syncQueue,^{
-        if ([self.userAccountMap count] > 0) {
-            accounts = [NSMutableArray array];
-            for (SFUserAccountIdentity *key in [self.userAccountMap allKeys]) {
-                [accounts addObject:(self.userAccountMap)[key]];
-            }
+    NSMutableArray *accounts = nil;
+    [accountsLock lock];
+    // Remove the temporary user id from the array
+    if ([self.userAccountMap count] > 0) {
+        accounts = [NSMutableArray array];
+        for (SFUserAccountIdentity *key in [self.userAccountMap allKeys]) {
+            [accounts addObject:(self.userAccountMap)[key]];
         }
-    });
-
+    }
+    [accountsLock unlock];
     return accounts;
 }
 
 - (NSArray *)allUserIdentities {
     // Sort the identities
-     __block NSMutableArray *filteredKeys = nil;
-
-    // Remove the temporary user id from the array
-    dispatch_sync(_syncQueue,^{
-        NSArray *keys = [[self.userAccountMap allKeys] sortedArrayUsingSelector:@selector(compare:)];
-        filteredKeys = [NSMutableArray array];
-        for (SFUserAccountIdentity *identity in keys) {
-            [filteredKeys addObject:identity];
-        }
-    });
+    NSMutableArray *filteredKeys = nil;
+    [accountsLock lock];
+    NSArray *keys = [[self.userAccountMap allKeys] sortedArrayUsingSelector:@selector(compare:)];
+    filteredKeys = [NSMutableArray array];
+    for (SFUserAccountIdentity *identity in keys) {
+        [filteredKeys addObject:identity];
+    }
+    [accountsLock unlock];
 
     return filteredKeys;
 }
@@ -479,67 +474,63 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 }
 
 - (BOOL)loadAccounts:(NSError **) error {
-   __weak typeof(self) weakSelf = self;
-    __block BOOL success = NO;
+    BOOL success = NO;
+    [accountsLock lock];
+    // Get the root directory, usually ~/Library/<appBundleId>/
+    NSString *rootDirectory = [[SFDirectoryManager sharedManager] directoryForUser:nil type:NSLibraryDirectory components:nil];
+    NSFileManager *fm = [[NSFileManager alloc] init];
+    if (![fm fileExistsAtPath:rootDirectory]) {
+        // There is no root directory, that's fine, probably a fresh app install,
+        // new user will be created later on.
+        success = YES;
+    } else {
 
-    dispatch_barrier_sync(_syncQueue, ^{
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-
-        // Get the root directory, usually ~/Library/<appBundleId>/
-        NSString *rootDirectory = [[SFDirectoryManager sharedManager] directoryForUser:nil type:NSLibraryDirectory components:nil];
-        NSFileManager *fm = [[NSFileManager alloc] init];
-        if (![fm fileExistsAtPath:rootDirectory]) {
-            // There is no root directory, that's fine, probably a fresh app install,
-            // new user will be created later on.
-            success = YES;
+        // Now iterate over the org and then user directories to load
+        // each individual user account file.
+        // ~/Library/<appBundleId>/<orgId>/<userId>/UserAccount.plist
+        NSArray *rootContents = [fm contentsOfDirectoryAtPath:rootDirectory error:error];
+        if (nil == rootContents) {
+            if (error) {
+                [self log:SFLogLevelDebug format:@"Unable to enumerate the content at %@: %@", rootDirectory, *error];
+            }
+            success = NO;
         } else {
-            
-            // Now iterate over the org and then user directories to load
-            // each individual user account file.
-            // ~/Library/<appBundleId>/<orgId>/<userId>/UserAccount.plist
-            NSArray *rootContents = [fm contentsOfDirectoryAtPath:rootDirectory error:error];
-            if (nil == rootContents) {
-                if (error) {
-                    [strongSelf log:SFLogLevelDebug format:@"Unable to enumerate the content at %@: %@", rootDirectory, *error];
-                }
-                success = NO;
-            } else {
-                for (NSString *rootContent in rootContents) {
-                    
-                    NSString *rootPath = [rootDirectory stringByAppendingPathComponent:rootContent];
-                    
-                    // Fetch the content of the org directory
-                    NSArray *orgContents = [fm contentsOfDirectoryAtPath:rootPath error:error];
-                    if (nil == orgContents) {
-                        if (error) {
-                            [self log:SFLogLevelDebug format:@"Unable to enumerate the content at %@: %@", rootPath, *error];
-                        }
-                        continue;
+            for (NSString *rootContent in rootContents) {
+
+                NSString *rootPath = [rootDirectory stringByAppendingPathComponent:rootContent];
+
+                // Fetch the content of the org directory
+                NSArray *orgContents = [fm contentsOfDirectoryAtPath:rootPath error:error];
+                if (nil == orgContents) {
+                    if (error) {
+                        [self log:SFLogLevelDebug format:@"Unable to enumerate the content at %@: %@", rootPath, *error];
                     }
+                    continue;
+                }
 
-                    for (NSString *orgContent in orgContents) {
-                        NSString *orgPath = [rootPath stringByAppendingPathComponent:orgContent];
+                for (NSString *orgContent in orgContents) {
+                    NSString *orgPath = [rootPath stringByAppendingPathComponent:orgContent];
 
-                        // Now let's try to load the user account file in there
-                        NSString *userAccountPath = [orgPath stringByAppendingPathComponent:kUserAccountPlistFileName];
-                        if ([fm fileExistsAtPath:userAccountPath]) {
-                            SFUserAccount *userAccount =  nil;
-                            [self loadUserAccountFromFile:userAccountPath account:&userAccount error:nil];
-                            if (userAccount) {
-                                strongSelf.userAccountMap[userAccount.accountIdentity] = userAccount;
-                            } else {
-                                // Error logging will already have occurred.  Make sure account file data is removed.
-                                [fm removeItemAtPath:userAccountPath error:nil];
-                            }
+                    // Now let's try to load the user account file in there
+                    NSString *userAccountPath = [orgPath stringByAppendingPathComponent:kUserAccountPlistFileName];
+                    if ([fm fileExistsAtPath:userAccountPath]) {
+                        SFUserAccount *userAccount =  nil;
+                        [self loadUserAccountFromFile:userAccountPath account:&userAccount error:nil];
+                        if (userAccount) {
+                            self.userAccountMap[userAccount.accountIdentity] = userAccount;
                         } else {
-                            [self log:SFLogLevelDebug format:@"There is no user account file in this user directory: %@", orgPath];
+                            // Error logging will already have occurred.  Make sure account file data is removed.
+                            [fm removeItemAtPath:userAccountPath error:nil];
                         }
+                    } else {
+                        [self log:SFLogLevelDebug format:@"There is no user account file in this user directory: %@", orgPath];
                     }
-                    success = YES;
                 }
+                success = YES;
             }
         }
-    });
+    }
+    [accountsLock unlock];
     return success;
 }
 /** Loads a user account from a specified file
@@ -650,116 +641,108 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 }
 
 - (SFUserAccount *)userAccountForUserIdentity:(SFUserAccountIdentity *)userIdentity {
-    __weak typeof(self) weakSelf = self;
-    __block SFUserAccount *result = nil;
-    dispatch_sync(_syncQueue, ^{
-        result = (weakSelf.userAccountMap)[userIdentity];
-    });
+
+    SFUserAccount *result = nil;
+    [accountsLock lock];
+    result = (self.userAccountMap)[userIdentity];
+    [accountsLock unlock];
     return result;
 }
 
 - (NSArray *)accountsForOrgId:(NSString *)orgId {
-    __weak typeof(self) weakSelf = self;
-    __block NSMutableArray *responseArray = [NSMutableArray array];
-    dispatch_sync(_syncQueue, ^{
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        for (SFUserAccountIdentity *key in strongSelf.userAccountMap) {
-            SFUserAccount *account = (strongSelf.userAccountMap)[key];
-            NSString *accountOrg = account.credentials.organizationId;
-            if ([accountOrg isEqualToEntityId:orgId]) {
-                [responseArray addObject:account];
-            }
+     NSMutableArray *responseArray = [NSMutableArray array];
+    [accountsLock lock];
+    for (SFUserAccountIdentity *key in self.userAccountMap) {
+        SFUserAccount *account = (self.userAccountMap)[key];
+        NSString *accountOrg = account.credentials.organizationId;
+        if ([accountOrg isEqualToEntityId:orgId]) {
+            [responseArray addObject:account];
         }
-    });
+    }
+    [accountsLock unlock];
     return responseArray;
 }
 
 - (NSArray *)accountsForInstanceURL:(NSURL *)instanceURL {
-    __weak typeof(self) weakSelf = self;
-    __block NSMutableArray *responseArray = [NSMutableArray array];
-    dispatch_sync(_syncQueue, ^{
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        for (SFUserAccountIdentity *key in strongSelf.userAccountMap) {
-            SFUserAccount *account = (strongSelf.userAccountMap)[key];
-            if ([account.credentials.instanceUrl.host isEqualToString:instanceURL.host]) {
-                [responseArray addObject:account];
-            }
-        }
-    });
 
+    NSMutableArray *responseArray = [NSMutableArray array];
+    [accountsLock lock];
+    for (SFUserAccountIdentity *key in self.userAccountMap) {
+        SFUserAccount *account = (self.userAccountMap)[key];
+        if ([account.credentials.instanceUrl.host isEqualToString:instanceURL.host]) {
+            [responseArray addObject:account];
+        }
+    }
+    [accountsLock unlock];
     return responseArray;
 }
 - (void)clearAllAccountState {
-    __weak typeof(self) weakSelf = self;
-    dispatch_sync(_syncQueue, ^{
-        [weakSelf.userAccountMap removeAllObjects];
-    });
+    [accountsLock lock];
+    [self.userAccountMap removeAllObjects];
+    [accountsLock unlock];
 }
 
 - (void)updateAccount:(SFUserAccount*)acct {
-    __weak typeof(self) weakSelf = self;
-    dispatch_barrier_sync(_syncQueue, ^{
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        NSUInteger oldCount = strongSelf.userAccountMap.count;
-        NSString *userAccountPlist = [SFUserAccountManager userAccountPlistFileForUser:acct];
-        if ([strongSelf.userAccountMap objectForKey:acct.accountIdentity]!=nil)
-            [strongSelf.userAccountMap removeObjectForKey:acct.accountIdentity];
-        BOOL success = [self saveUserAccount:acct toFile:userAccountPlist];
-        if (success) {
-            [strongSelf.userAccountMap setObject:acct forKey:acct.accountIdentity];
-            if (strongSelf.userAccountMap.count>1 && oldCount<strongSelf.userAccountMap.count ) {
-                [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureMultiUser];
-            }
+    [accountsLock lock];
+    NSUInteger oldCount = self.userAccountMap.count;
+    NSString *userAccountPlist = [SFUserAccountManager userAccountPlistFileForUser:acct];
+    if ([self.userAccountMap objectForKey:acct.accountIdentity]!=nil)
+        [self.userAccountMap removeObjectForKey:acct.accountIdentity];
 
+    BOOL success = [self saveUserAccount:acct toFile:userAccountPlist];
+    if (success) {
+        [self.userAccountMap setObject:acct forKey:acct.accountIdentity];
+        if (self.userAccountMap.count>1 && oldCount<self.userAccountMap.count ) {
+            [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureMultiUser];
         }
-    });
+
+    }
+    [accountsLock unlock];
 }
 
 - (BOOL)deleteAccountForUser:(SFUserAccount *)user error:(NSError **)error {
-    __block BOOL success = NO;
+    BOOL success = NO;
+    [accountsLock lock];
     if (nil != user) {
-        __weak typeof(self) weakSelf = self;
-        dispatch_barrier_sync(_syncQueue, ^{
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            NSFileManager *manager = [[NSFileManager alloc] init];
-            NSString *userDirectory = [[SFDirectoryManager sharedManager] directoryForUser:user
-                                                                                     scope:SFUserAccountScopeUser
-                                                                                      type:NSLibraryDirectory
-                                                                                components:nil];
-            if ([manager fileExistsAtPath:userDirectory]) {
-                NSError *folderRemovalError = nil;
-                success= [manager removeItemAtPath:userDirectory error:&folderRemovalError];
-                if (!success) {
-                    [strongSelf log:SFLogLevelDebug
-                             format:@"Error removing the user folder for '%@': %@", user.userName, [folderRemovalError localizedDescription]];
-                    if (folderRemovalError && error) {
-                        *error = folderRemovalError;
-                    }
-                }
-            } else {
-                NSString *reason = [NSString stringWithFormat:@"User folder for user '%@' does not exist on the filesystem", user.userName];
-                NSError *ferror = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
-                                                      code:SFUserAccountManagerCannotReadDecryptedArchive
-                                                  userInfo:@{NSLocalizedDescriptionKey: reason}];
-                [strongSelf log:SFLogLevelDebug format:@"User folder for user '%@' does not exist on the filesystem.", user.userName];
-                if(error)
-                    *error = ferror;
-                success = NO;
-            }
-            if (success) {
-                user.userDeleted = YES;
-                [strongSelf.userAccountMap removeObjectForKey:user.accountIdentity];
-                success = YES;
-                if ([strongSelf.userAccountMap count] < 2) {
-                    [[SalesforceSDKManager sharedManager] unregisterAppFeature:kSFAppFeatureMultiUser];
-                }
-                if([user.accountIdentity isEqual:strongSelf->_currentUser.accountIdentity]) {
-                    strongSelf->_currentUser = nil;
-                    [strongSelf setCurrentUserIdentity:nil];
+        NSFileManager *manager = [[NSFileManager alloc] init];
+        NSString *userDirectory = [[SFDirectoryManager sharedManager] directoryForUser:user
+                                                                                 scope:SFUserAccountScopeUser
+                                                                                  type:NSLibraryDirectory
+                                                                            components:nil];
+        if ([manager fileExistsAtPath:userDirectory]) {
+            NSError *folderRemovalError = nil;
+            success= [manager removeItemAtPath:userDirectory error:&folderRemovalError];
+            if (!success) {
+                [self log:SFLogLevelDebug
+                         format:@"Error removing the user folder for '%@': %@", user.userName, [folderRemovalError localizedDescription]];
+                if (folderRemovalError && error) {
+                    *error = folderRemovalError;
                 }
             }
-        });
+        } else {
+            NSString *reason = [NSString stringWithFormat:@"User folder for user '%@' does not exist on the filesystem", user.userName];
+            NSError *ferror = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
+                                                  code:SFUserAccountManagerCannotReadDecryptedArchive
+                                              userInfo:@{NSLocalizedDescriptionKey: reason}];
+            [self log:SFLogLevelDebug format:@"User folder for user '%@' does not exist on the filesystem.", user.userName];
+            if(error)
+                *error = ferror;
+            success = NO;
+        }
+        if (success) {
+            user.userDeleted = YES;
+            [self.userAccountMap removeObjectForKey:user.accountIdentity];
+            success = YES;
+            if ([self.userAccountMap count] < 2) {
+                [[SalesforceSDKManager sharedManager] unregisterAppFeature:kSFAppFeatureMultiUser];
+            }
+            if([user.accountIdentity isEqual:self->_currentUser.accountIdentity]) {
+                _currentUser = nil;
+                [self setCurrentUserIdentity:nil];
+            }
+        }
     }
+    [accountsLock unlock];
     return success;
 }
 
@@ -811,68 +794,61 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
         }
         [self setCurrentCommunityId:currentAccount.communityId];
     }
+
     [self userChanged:change];
 }
 
 - (SFUserAccount*) currentUser {
-    __weak __typeof(self) weakSelf = self;
-    dispatch_barrier_sync(_syncQueue, ^{
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        if (strongSelf->_currentUser == nil) {
-            NSData *resultData = nil;
-            NSUserDefaults *userDefaults = [NSUserDefaults msdkUserDefaults];
-            resultData = [userDefaults objectForKey:kUserDefaultsLastUserIdentityKey];
-            if (resultData != nil) {
-                 SFUserAccountIdentity *result = nil;
-                @try {
-                    NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:resultData];
-                    result = [unarchiver decodeObjectForKey:kUserDefaultsLastUserIdentityKey];
-                    [unarchiver finishDecoding];
-                    if(!result)
-                        strongSelf->_currentUser = [self userAccountForUserIdentity:result];
-                }
-                @catch (NSException *exception) {
-                    [strongSelf log:SFLogLevelWarning msg:@"Could not parse current user identity from user defaults.  Setting to nil."];
-                }
-            }else {
-                [strongSelf log:SFLogLevelWarning msg:@"Located current user identity from user defaults but was not found in the list of managed accounts"];
+
+    if (_currentUser == nil) {
+        [accountsLock lock];
+        NSData *resultData = nil;
+        NSUserDefaults *userDefaults = [NSUserDefaults msdkUserDefaults];
+        resultData = [userDefaults objectForKey:kUserDefaultsLastUserIdentityKey];
+        if (resultData != nil) {
+             SFUserAccountIdentity *result = nil;
+            @try {
+                NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:resultData];
+                result = [unarchiver decodeObjectForKey:kUserDefaultsLastUserIdentityKey];
+                [unarchiver finishDecoding];
+                if(!result)
+                   _currentUser = [self userAccountForUserIdentity:result];
             }
-            
+            @catch (NSException *exception) {
+                [self log:SFLogLevelWarning msg:@"Could not parse current user identity from user defaults.  Setting to nil."];
+            }
+        }else {
+            [self log:SFLogLevelWarning msg:@"Located current user identity from user defaults but was not found in the list of managed accounts"];
         }
-    });
+        [accountsLock unlock];
+
+    }
     return _currentUser;
 }
 
 - (void)setCurrentUser:(SFUserAccount*)user {
 
-      BOOL userChanged = NO;
-      if (nil==user) { //clear current user if  nil
-          __weak __typeof(self) weakSelf = self;
-          dispatch_barrier_sync(_syncQueue, ^{
-              __strong typeof(weakSelf) strongSelf = weakSelf;
-              strongSelf->_currentUser = nil;
-              [strongSelf setCurrentUserIdentity:nil];
-          });
+    BOOL userChanged = NO;
+    [accountsLock lock];
+    if (nil==user) { //clear current user if  nil
+        _currentUser = nil;
+        [self setCurrentUserIdentity:nil];
+        userChanged = YES;
+    } else {
+        //check if this is valid managed user
+        SFUserAccount *userAccount = [self userAccountForUserIdentity:user.accountIdentity];
+        if (nil!=userAccount) {
+          [self willChangeValueForKey:@"currentUser"];
+               _currentUser = user;
+              [self setCurrentUserIdentity:user.accountIdentity];
           userChanged = YES;
-      } else {
-          //check if this is valid managed user
-          SFUserAccount *userAccount = [self userAccountForUserIdentity:user.accountIdentity];
-          if (nil!=userAccount) {
-              [self willChangeValueForKey:@"currentUser"];
-              __weak __typeof(self) weakSelf = self;
-              dispatch_barrier_sync(_syncQueue, ^{
-                  __strong typeof(weakSelf) strongSelf = weakSelf;
-                  strongSelf->_currentUser = user;
-                  [strongSelf setCurrentUserIdentity:user.accountIdentity];
-              });
-              userChanged = YES;
-              [self didChangeValueForKey:@"currentUser"];
-          } else {
-              [self log:SFLogLevelError format:@"Cannot set currentUser for a user %@, that does not exist. An account should be added to Account manager prior to making this call.",[user userName]];
-              userChanged = NO;
-          }
+          [self didChangeValueForKey:@"currentUser"];
+        } else {
+          [self log:SFLogLevelError format:@"Cannot set currentUser for a user %@, that does not exist. An account should be added to Account manager prior to making this call.",[user userName]];
+          userChanged = NO;
+        }
       }
-
+    [accountsLock unlock];
      if ( userChanged )
         [self userChanged:SFUserAccountChangeUnknown];
 }
