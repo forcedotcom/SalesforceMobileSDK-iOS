@@ -104,7 +104,7 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
         [baseUrlString appendString:@"/"];
     }
     if ([path hasPrefix:@"/"]) {
-        [path deleteCharactersInRange:NSMakeRange(1, path.length)];
+        [path deleteCharactersInRange:NSMakeRange(0, 1)];
     }
     NSString *urlString = [NSString stringWithFormat:@"%@%@", baseUrlString, path];
     NSURL *url = [NSURL URLWithString:urlString];
