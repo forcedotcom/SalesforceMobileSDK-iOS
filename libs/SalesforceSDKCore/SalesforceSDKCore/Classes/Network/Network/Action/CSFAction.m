@@ -97,12 +97,17 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
         }
         return nil;
     }
-    
-    if ([baseURL.absoluteString hasSuffix:@"/"] && [path hasPrefix:@"/"]) {
+
+    // 'baseUrl' needs to account for URLs with extra trailing slashes, like custom community URLs.
+    NSMutableString *baseUrlString = [NSMutableString stringWithString:baseURL.absoluteString];
+    if (![baseUrlString hasSuffix:@"/"]) {
+        [baseUrlString appendString:@"/"];
+    }
+    if ([path hasPrefix:@"/"]) {
         [path deleteCharactersInRange:NSMakeRange(0, 1)];
     }
-    
-    NSURL *url = [NSURL URLWithString:path relativeToURL:baseURL];
+    NSString *urlString = [NSString stringWithFormat:@"%@%@", baseUrlString, path];
+    NSURL *url = [NSURL URLWithString:urlString];
     return url;
 }
 
