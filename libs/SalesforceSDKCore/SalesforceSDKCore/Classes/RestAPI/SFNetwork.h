@@ -28,6 +28,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SFRestAPI+Blocks.h"
 
 @interface SFNetwork : NSObject <NSURLSessionDataDelegate, NSURLSessionDownloadDelegate, NSURLSessionStreamDelegate>
 
@@ -41,5 +42,23 @@
  * @return Instance of this class.
  */
 - (nonnull instancetype)init;
+
+/**
+ * Sends a REST request and calls the appropriate completion block.
+ *
+ * @param urlRequest NSURLRequest instance.
+ * @param failBlock Error completion block.
+ * @param completeBlock Success completion block.
+ */
+- (void)sendRequest:(nonnull NSURLRequest *)urlRequest failBlock:(nullable SFRestFailBlock)failBlock completeBlock:(nullable SFRestResponseBlock)completeBlock;
+
+/**
+ * Sends a download request and calls the appropriate completion block.
+ *
+ * @param urlRequest NSURLRequest instance.
+ * @param failBlock Error completion block.
+ * @param completeBlock Success completion block.
+ */
+- (void)sendDownloadRequest:(nonnull NSURLRequest *)urlRequest failBlock:(nullable SFRestFailBlock)failBlock completeBlock:(nullable SFRestResponseBlock)completeBlock;
 
 @end

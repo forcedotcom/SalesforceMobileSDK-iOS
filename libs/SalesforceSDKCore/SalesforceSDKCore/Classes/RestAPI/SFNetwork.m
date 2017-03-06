@@ -49,12 +49,36 @@
     return self;
 }
 
-- (NSURLSession*)activeSession {
+- (void)sendRequest:(NSURLRequest *)urlRequest failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestResponseBlock)completeBlock {
+    [[[self activeSession] dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (error) {
+            [self errorHandler:error urlRequest:urlRequest failBlock:failBlock];
+            return;
+        }
+    }] resume];
+}
+
+- (void)sendDownloadRequest:(NSURLRequest *)urlRequest failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestResponseBlock)completeBlock {
+    [[[self activeSession] downloadTaskWithRequest:urlRequest completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
+        if (error) {
+            [self errorHandler:error urlRequest:urlRequest failBlock:failBlock];
+            return;
+        }
+    }] resume];
+}
+
+- (NSURLSession *)activeSession {
     return (self.useBackground ? self.backgroundSession : self.ephemeralSession);
 }
 
+- (void)errorHandler:(NSError *)error urlRequest:(NSURLRequest *)urlRequest failBlock:(SFRestFailBlock)failBlock  {
+    [self log:SFLogLevelDebug format:@"REST request failed with error: Error Code: %ld, Description: %@, URL: %@", (long) error.code, error.localizedDescription, urlRequest.URL];
+    if (failBlock) {
+        failBlock(error);
+    }
+}
+
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location {
-    
 }
 
 @end
