@@ -181,7 +181,18 @@ static BOOL kIsTestRun;
                         [delegate request:request didFailLoadWithError:error];
                         return;
                     }
+                    if (!response) {
+                        [delegate requestDidTimeout:request];
+                    }
                     [strongSelf replayRequestIfRequired:response request:request delegate:delegate];
+                    NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+
+                    // 2xx indicates success.
+                    if (statusCode > 200 && statusCode < 299) {
+                        [delegate request:request didLoadResponse:data];
+                    } else {
+                        [delegate request:request didFailLoadWithError:error];
+                    }
                 }];
             }
         } failure:^(SFOAuthInfo *authInfo, NSError *error) {
@@ -205,7 +216,18 @@ static BOOL kIsTestRun;
                     [delegate request:request didFailLoadWithError:error];
                     return;
                 }
+                if (!response) {
+                    [delegate requestDidTimeout:request];
+                }
                 [strongSelf replayRequestIfRequired:response request:request delegate:delegate];
+                NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+
+                // 2xx indicates success.
+                if (statusCode > 200 && statusCode < 299) {
+                    [delegate request:request didLoadResponse:data];
+                } else {
+                    [delegate request:request didFailLoadWithError:error];
+                }
             }];
         }
     }
@@ -215,8 +237,8 @@ static BOOL kIsTestRun;
 
     // Checks if the access token has expired.
     NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
-    SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
     if (statusCode == 401 || statusCode == 403) {
+        SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
         [self log:SFLogLevelInfo format:@"%@: REST request failed due to expired credentials. Attempting to refresh credentials.", NSStringFromSelector(_cmd)];
         SFOAuthSessionRefresher *oauthSessionRefresher = [[SFOAuthSessionRefresher alloc] initWithCredentials:user.credentials];
         [oauthSessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
