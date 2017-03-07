@@ -123,19 +123,20 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
             [path deleteCharactersInRange:NSMakeRange(0, 1)];
         }
         [fullUrl appendString:path];
+        NSURLComponents *components = [NSURLComponents componentsWithString:fullUrl];
 
         // Adds query parameters to the request if any are set.
         if (self.queryParams) {
+            NSMutableArray<NSURLQueryItem *> *queryItems = [[NSMutableArray alloc] init];
             for (NSString *key in self.queryParams.allKeys) {
                 if (key != nil) {
-                    [fullUrl appendString:@"?"];
-                    [fullUrl appendString:key];
-                    [fullUrl appendString:@"="];
-                    [fullUrl appendString:self.queryParams[key]];
+                    NSURLQueryItem *query = [NSURLQueryItem queryItemWithName:key value:self.queryParams[key]];
+                    [queryItems addObject:query];
                 }
             }
+            components.queryItems = queryItems;
         }
-        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:fullUrl]];
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:components.URL];
 
         // Sets HTTP method on the request.
         [request setHTTPMethod:[SFRestRequest httpMethodFromSFRestMethod:self.method]];
