@@ -73,14 +73,7 @@ extern NSString* const kSFRestDefaultAPIVersion;
  send:delegate: expects that if the request.path does not begin with the
  request.endpoint prefix, it will add the request.endpoint prefix 
  (kSFDefaultRestEndpoint by default) to the request path.
- 
- You can also specify whether or not you want the request's response to be parsed.  By default,
- the response associated with the request will be parsed as JSON, and the structured JSON
- object will be returned.  By setting `request.parseResponse = NO`, the response data will be returned
- as a binary `NSData` object.  This can be useful for requests that return non-JSON data, such as
- binary data.
- 
- 
+  
  For example, this sample code calls the `requestForDescribeWithObjectType:` method to return
  information about the Account object.
 

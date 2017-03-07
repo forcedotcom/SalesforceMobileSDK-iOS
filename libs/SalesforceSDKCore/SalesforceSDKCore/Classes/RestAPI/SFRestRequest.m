@@ -185,9 +185,6 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     // [self.action.parameters setObject:fileData forKey:paramName filename:fileName mimeType:mimeType];
 }
 
-// TODO: Figure out the correct place to put this code (on callback after request completes).
-// [[SFRestAPI sharedInstance] removeActiveRequestObject:self];
-
 + (BOOL)isNetworkError:(NSError *)error {
     switch (error.code) {
         case kCFURLErrorNotConnectedToInternet:

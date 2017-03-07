@@ -248,6 +248,7 @@ static BOOL kIsTestRun;
         } else {
             [delegate request:request didFailLoadWithError:error];
         }
+        [[SFRestAPI sharedInstance] removeActiveRequestObject:request];
     }
 }
 
