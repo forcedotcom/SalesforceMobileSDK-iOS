@@ -24,28 +24,21 @@
 
 #import "SFRestRequest+Internal.h"
 #import "SFRestAPI+Internal.h"
-#import "SFRestAPISalesforceAction.h"
 #import "SalesforceSDKConstants.h"
 #import "SFJsonUtils.h"
-#import "CSFSalesforceAction.h"
-#import "CSFDefines.h"
-#import "CSFParameterStorage.h"
-#import "SFRestAPISalesforceAction.h"
 
 NSString * const kSFDefaultRestEndpoint = @"/services/data";
 
 @implementation SFRestRequest
 
 - (id)initWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(NSDictionary *)queryParams {
-    SFRestAPISalesforceAction *action = [self actionFromMethod:method path:path];
-    return [self initWithSalesforceAction:action queryParams:queryParams];
-}
-
-- (instancetype)initWithSalesforceAction:(SFRestAPISalesforceAction *)action queryParams:(NSDictionary *)queryParams {
     self = [super init];
     if (self) {
-        self.action = action;
+        self.method = method;
+        self.path = path;
         self.queryParams = queryParams;
+        self.endpoint = kSFDefaultRestEndpoint;
+        self.requiresAuthentication = YES;
     }
     return self;
 }
@@ -76,74 +69,6 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
             ">",self, self.endpoint, methodName, self.path, paramStr];
 }
 
-- (SFRestAPISalesforceAction *)actionFromMethod:(SFRestMethod)method path:(NSString *)path {
-    __weak typeof(self) weakSelf = self;
-    SFRestAPISalesforceAction *action = [[SFRestAPISalesforceAction alloc] initWithResponseBlock:^(CSFAction *action, NSError *error) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        [strongSelf handleCSFActionResponse:action error:error];
-    }];
-    
-    action.method = [[self class] httpMethodFromSFRestMethod:method];
-    
-    NSString *apiVersion = nil;
-    NSString *actionVerb = nil;
-    [[self class] makeAPIVersionAndActionVerbFromPath:path apiVersion:&apiVersion actionVerb:&actionVerb];
-    action.apiVersion = apiVersion;
-    action.verb = actionVerb;
-    
-    return action;
-}
-
-#pragma mark - Properties
-
-- (SFRestMethod)method {
-    return [[self class] sfRestMethodFromHTTPMethod:self.action.method];
-}
-
-- (void)setMethod:(SFRestMethod)method {
-    self.action.method = [[self class] httpMethodFromSFRestMethod:method];
-}
-
-- (NSString *)path {
-    NSString *apiVersion = (self.action.apiVersion == nil ? @"" : self.action.apiVersion);
-    NSString *actionVerb = (self.action.verb == nil ? @"" : self.action.verb);
-    NSString *returnPath = [NSString stringWithFormat:@"%@%@", apiVersion, actionVerb];
-    if (![returnPath hasPrefix:@"/"]) returnPath = [NSString stringWithFormat:@"/%@", returnPath];
-    return returnPath;
-}
-
-- (void)setPath:(NSString *)path {
-    NSString *apiVersion = nil;
-    NSString *actionVerb = nil;
-    [[self class] makeAPIVersionAndActionVerbFromPath:path apiVersion:&apiVersion actionVerb:&actionVerb];
-    self.action.apiVersion = apiVersion;
-    self.action.verb = actionVerb;
-}
-
-- (NSString *)endpoint {
-    return self.action.pathPrefix;
-}
-
-- (void)setEndpoint:(NSString *)endpoint {
-    self.action.pathPrefix = endpoint;
-}
-
-- (BOOL)parseResponse {
-    return self.action.parseResponse;
-}
-
-- (void)setParseResponse:(BOOL)parseResponse {
-    self.action.parseResponse = parseResponse;
-}
-
-- (BOOL)requiresAuthentication {
-    return self.action.requiresAuthentication;
-}
-
-- (void)setRequiresAuthentication:(BOOL)requiresAuthentication {
-    self.action.requiresAuthentication = requiresAuthentication;
-}
-
 #pragma mark - Custom request body
 
 - (void)setCustomRequestBodyString:(NSString *)bodyString contentType:(NSString *)contentType {
@@ -168,133 +93,114 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     }
 }
 
-#pragma mark - Custom headers
-
-- (NSDictionary *)customHeaders
-{
-    return self.action.allHTTPHeaderFields;
-}
-
-- (void)setCustomHeaders:(NSDictionary *)customHeaders
-{
-    for (NSString *key in [customHeaders allKeys]) {
-        [self setHeaderValue:customHeaders[key] forHeaderName:key];
-    }
-}
-
-- (void)setHeaderValue:(NSString *)value forHeaderName:(NSString *)name
-{
-    if (name == nil)
-        return;
-    
-    if ([value length] > 0) {
-        [self.action setValue:value forHTTPHeaderField:name];
-    } else {
-        // TODO: Network SDK doesn't have a header removal mechanism at this point.
-    }
-}
-
 # pragma mark - send and cancel
 
-- (void)prepareRequestForSend
-{
-    // We need to do some jujitsu to figure out how best to form up the request, based on the way the
-    // request is configured.
-    
-    // Sanity check the path against the endpoint value.
-    if (self.endpoint.length > 0 && [self.path hasPrefix:self.endpoint]) {
-        self.path = [self.path substringFromIndex:self.endpoint.length];
-    }
-    
-    // Custom request body overrides default behavior.
-    if (self.requestBodyStreamBlock != nil) {
-        self.action.parameters.bodyStreamBlock = self.requestBodyStreamBlock;
-        if ([self.requestContentType length] > 0) {
-            [self setHeaderValue:self.requestContentType forHeaderName:@"Content-Type"];
+- (NSURLRequest *)prepareRequestForSend {
+    SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
+    if (user) {
+        NSString *baseUrl = user.credentials.apiUrl.absoluteString;
+
+        // Performs sanity checks on the path against the endpoint value.
+        if (self.endpoint.length > 0 && [self.path hasPrefix:self.endpoint]) {
+            self.path = [self.path substringFromIndex:self.endpoint.length];
         }
-        return;
-    }
 
-    // If there are no query params, there's nothing left to do here.
-    if (self.queryParams.allKeys.count == 0) {
-        return;
-    }
+        // Puts the pieces together and constructs a full URL.
+        NSMutableString *fullUrl = [[NSMutableString alloc] initWithString:baseUrl];
+        if (![fullUrl hasSuffix:@"/"]) {
+            [fullUrl appendString:@"/"];
+        }
+        NSMutableString *endpoint = [[NSMutableString alloc] initWithString:self.endpoint];
+        if ([endpoint hasPrefix:@"/"]) {
+            [endpoint deleteCharactersInRange:NSMakeRange(0, 1)];
+        }
+        if (![endpoint hasSuffix:@"/"]) {
+            [endpoint appendString:@"/"];
+        }
+        [fullUrl appendString:endpoint];
+        NSMutableString *path = [[NSMutableString alloc] initWithString:self.path];
+        if ([path hasPrefix:@"/"]) {
+            [path deleteCharactersInRange:NSMakeRange(0, 1)];
+        }
+        [fullUrl appendString:path];
 
-    // Otherwise, determine request data delivery model.
-    if (self.method != SFRestMethodGET && self.method != SFRestMethodDELETE) {
-        // It's POSTish.  The Network SDK handles content-based requests more or less automatically,
-        // but if you want to post a JSON object or other data, you have to manage the contents yourself.
-        if (self.action.parameters.parameterStyle != CSFParameterStyleMultipart) {
-            // Standard POST data.  We'll assume we can just send it as JSON.
-            NSData *bodyData = [SFJsonUtils JSONDataRepresentation:self.queryParams];
-            if (bodyData == nil) {
-                [self log:SFLogLevelError format:@"%@: Error serializing request data to NSData object: %@",
-                 NSStringFromSelector(_cmd),
-                 [[SFJsonUtils lastError] localizedDescription]];
-                return;
+        // Adds query parameters to the request if any are set.
+        if (self.queryParams) {
+            for (NSString *key in self.queryParams.allKeys) {
+                if (key != nil) {
+                    [fullUrl appendString:@"?"];
+                    [fullUrl appendString:key];
+                    [fullUrl appendString:@"="];
+                    [fullUrl appendString:self.queryParams[key]];
+                }
             }
-            NSInputStream *(^bodyStreamBlock)(void) = ^{
-                return [NSInputStream inputStreamWithData:bodyData];
-            };
-            self.action.parameters.bodyStreamBlock = bodyStreamBlock;
-            [self setHeaderValue:@"application/json" forHeaderName:@"Content-Type"];
-            [self setHeaderValue:[NSString stringWithFormat:@"%lu", (unsigned long)bodyData.length] forHeaderName:@"Content-Length"];
-        } else {
-            [self convertQueryParamsToActionParams];
         }
-    } else {
-        [self convertQueryParamsToActionParams];
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:fullUrl]];
+
+        // Sets HTTP method on the request.
+        [request setHTTPMethod:[SFRestRequest httpMethodFromSFRestMethod:self.method]];
+
+        // Sets OAuth Bearer token header on the request.
+        NSString *bearer = [NSString stringWithFormat:@"Bearer %@", user.credentials.accessToken];
+        [request setValue:bearer forHTTPHeaderField:@"Authorization"];
+
+        // Adds custom headers to the request if any are set.
+        if (self.customHeaders) {
+            for (NSString *key in self.customHeaders.allKeys) {
+                if (key != nil) {
+                    NSString *value = self.customHeaders[key];
+                    [request setValue:value forHTTPHeaderField:key];
+                }
+            }
+        }
+
+        // Sets HTTP body if body exists.
+        if (self.requestBodyStreamBlock != nil) {
+            if (self.requestContentType != nil) {
+                [request setValue:self.requestContentType forHTTPHeaderField:@"Content-Type"];
+            }
+        }
+        return request;
     }
+    return nil;
 }
 
-- (void)cancel
-{
-    [self.action cancel];
+- (void)cancel {
+    // TODO: Fix this.
+    // [self.action cancel];
+}
+
+- (void)setHeaderValue:(NSString *)value forHeaderName:(NSString *)name {
+    if (!self.customHeaders) {
+        self.customHeaders = [[NSMutableDictionary alloc] init];
+    }
+    [self.customHeaders setValue:value forKey:name];
 }
 
 #pragma mark - Upload
 
 - (void)addPostFileData:(NSData *)fileData paramName:(NSString *)paramName fileName:(NSString *)fileName mimeType:(NSString *)mimeType {
-    [self.action.parameters setObject:fileData forKey:paramName filename:fileName mimeType:mimeType];
+    // TODO: Fix this.
+    // [self.action.parameters setObject:fileData forKey:paramName filename:fileName mimeType:mimeType];
 }
 
-#pragma mark - SalesforceNetwork helpers
-
-- (void)handleCSFActionResponse:(CSFAction *)action error:(NSError *)error {
-    if (error != nil) {
-        if (error.code == CSFNetworkCancelledError) {
-            if ([self.delegate respondsToSelector:@selector(requestDidCancelLoad:)]) {
-                [self.delegate requestDidCancelLoad:self];
-            }
-        } else if (error.code == NSURLErrorTimedOut) {
-            if ([self.delegate respondsToSelector:@selector(requestDidTimeout:)]) {
-                [self.delegate requestDidTimeout:self];
-            }
-        } else {
-            if ([self.delegate respondsToSelector:@selector(request:didFailLoadWithError:)]) {
-                [self.delegate request:self didFailLoadWithError:error];
-            }
-        }
-    } else {
-        if ([self.delegate respondsToSelector:@selector(request:didLoadResponse:)]) {
-            [self.delegate request:self didLoadResponse:action.outputContent];
-        }
-    }
-    
-    [[SFRestAPI sharedInstance] removeActiveRequestObject:self];
-}
-
-#pragma mark - Util method
-
-- (void)convertQueryParamsToActionParams {
-    NSDictionary *paramsCopy = [self.queryParams copy];
-    for (NSString *param in [paramsCopy allKeys]) {
-        [self.action.parameters setObject:paramsCopy[param] forKey:param];
-    }
-}
+// TODO: Figure out the correct place to put this code (on callback after request completes).
+// [[SFRestAPI sharedInstance] removeActiveRequestObject:self];
 
 + (BOOL)isNetworkError:(NSError *)error {
-    return [CSFSalesforceAction isNetworkError:error];
+    switch (error.code) {
+        case kCFURLErrorNotConnectedToInternet:
+        case kCFURLErrorCannotFindHost:
+        case kCFURLErrorCannotConnectToHost:
+        case kCFURLErrorNetworkConnectionLost:
+        case kCFURLErrorDNSLookupFailed:
+        case kCFURLErrorResourceUnavailable:
+        case kCFURLErrorTimedOut:
+            return YES;
+            break;
+        default:
+            return NO;
+    }
 }
 
 + (NSString *)httpMethodFromSFRestMethod:(SFRestMethod)restMethod {
@@ -320,46 +226,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     else if ([httpMethod isEqualToString:@"delete"]) restMethodName = SFRestMethodDELETE;
     else if ([httpMethod isEqualToString:@"head"]) restMethodName = SFRestMethodHEAD;
     else if ([httpMethod isEqualToString:@"patch"]) restMethodName = SFRestMethodPATCH;
-    
     return restMethodName;
-}
-
-+ (void)makeAPIVersionAndActionVerbFromPath:(NSString *)path
-                                 apiVersion:(NSString **)apiVersion
-                                 actionVerb:(NSString **)actionVerb  {
-    if ([path length] == 0) {
-        *apiVersion = @"";
-        *actionVerb = @"";
-        return;
-    }
-    
-    if (![path hasPrefix:@"/"]) path = [NSString stringWithFormat:@"/%@", path];
-    
-    NSError *error = nil;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"^/(v\\d+\\.0)/(.*)$"
-                                                                           options:NSRegularExpressionCaseInsensitive
-                                                                             error:&error];
-    if (error != nil) {
-        [SFLogger log:self level:SFLogLevelError format:@"%@ Regular expression error evaluating REST API path '%@': %@",
-         NSStringFromSelector(_cmd), path, [error localizedDescription]];
-        *apiVersion = @"";
-        *actionVerb = @"";
-        return;
-    }
-    
-    // Number of ranges should be 0 or 3, since it's an all-or-nothing regular expression.  3 because
-    // capture range "0" is the whole string.
-    NSTextCheckingResult *matchResult = [regex firstMatchInString:path options:0 range:NSMakeRange(0, [path length])];
-    if (matchResult.numberOfRanges == 0) {
-        // No match.  Assume no API version, take the whole string as the action verb.
-        *apiVersion = @"";
-        *actionVerb = path;
-    } else {
-        // Match.  We can split out the API version and the action verb.
-        *apiVersion = [path substringWithRange:[matchResult rangeAtIndex:1]];
-        NSString *actionVerbMatch = [path substringWithRange:[matchResult rangeAtIndex:2]];
-        *actionVerb = [NSString stringWithFormat:@"/%@", actionVerbMatch];
-    }
 }
 
 @end

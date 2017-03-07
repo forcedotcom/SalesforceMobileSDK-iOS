@@ -197,22 +197,19 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
     return self;
 }
 
-- (void)prepareRequestForSend
+- (NSURLRequest *)prepareRequestForSend
 {
     NSString *sessionId = [SFAuthenticationManager sharedManager].coordinator.credentials.accessToken;
     NSString *body;
     if (self.queryLocator) {
         body = [NSString stringWithFormat:QUERY_MORE_TEMPLATE, self.queryLocator];
-    }
-    else {
+    } else {
         body = [NSString stringWithFormat:QUERY_TEMPLATE, self.query];
     }
     NSString *soapBody = [NSString stringWithFormat:REQUEST_TEMPLATE, sessionId, body];
     [self setCustomRequestBodyString:soapBody contentType:XML_MIME_TYPE];
-    
     [self setHeaderValue:SOAP_ACTION_VALUE forHeaderName:SOAP_ACTION];
-    
-    [super prepareRequestForSend];
+    return [super prepareRequestForSend];
 }
 
 @end

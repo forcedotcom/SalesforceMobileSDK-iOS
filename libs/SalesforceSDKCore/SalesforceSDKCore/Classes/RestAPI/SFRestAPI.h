@@ -24,6 +24,7 @@
 
 #import <Foundation/Foundation.h>
 #import "SFRestRequest.h"
+#import "SFNetwork.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -184,9 +185,8 @@ extern NSString* const kSFRestDefaultAPIVersion;
  * @param request the SFRestRequest to be sent
  * @param delegate the delegate object used when the response from the server is returned. 
  * This overwrites the delegate property of the request.
- * Returns the SFNetworkOperation through which the network call is actually carried out
  */
-- (SFRestAPISalesforceAction *)send:(SFRestRequest *)request delegate:(nullable id<SFRestDelegate>)delegate;
+- (void)send:(SFRestRequest *)request delegate:(nullable id<SFRestDelegate>)delegate;
 
 ///---------------------------------------------------------------------------------------
 /// @name SFRestRequest factory methods

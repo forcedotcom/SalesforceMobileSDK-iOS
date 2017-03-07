@@ -24,8 +24,6 @@
 
 #import "SFRestAPI+Internal.h"
 #import "SFRestRequest+Internal.h"
-#import "SFRestAPISalesforceAction.h"
-#import "CSFSalesforceAction.h"
 #import "SFOAuthCoordinator.h"
 #import "SFUserAccount.h"
 #import "SFAuthenticationManager.h"
@@ -47,7 +45,6 @@ static BOOL kIsTestRun;
 
 @synthesize apiVersion=_apiVersion;
 @synthesize activeRequests=_activeRequests;
-@synthesize currentNetwork=_currentNetwork;
 
 #pragma mark - init/setup
 
@@ -156,10 +153,6 @@ static BOOL kIsTestRun;
     return returnString;
 }
 
-- (CSFNetwork *)currentNetwork {
-    return [CSFNetwork currentNetwork];
-}
-
 #pragma mark - SFUserAccountManagerDelegate
 
 - (void)userAccountManager:(SFUserAccountManager *)userAccountManager
@@ -170,25 +163,26 @@ static BOOL kIsTestRun;
 
 #pragma mark - send method
 
-
-- (SFRestAPISalesforceAction *)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate {
-    
+- (void)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate {
     if (nil != delegate) {
         request.delegate = delegate;
     }
-    
     [self.activeRequests addObject:request];
 
     // If there are no demonstrable auth credentials, login before sending.
-    CSFNetwork *currentNetwork = self.currentNetwork;
-    SFUserAccount *user = currentNetwork.account;
+    SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
     if (user.credentials.accessToken == nil && user.credentials.refreshToken == nil && request.requiresAuthentication) {
-        [self log:SFLogLevelInfo msg:@"No auth credentials found.  Authenticating before sending request."];
+        [self log:SFLogLevelInfo msg:@"No auth credentials found. Authenticating before sending request."];
         [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
-            [request prepareRequestForSend];
-            [currentNetwork executeAction:request.action];
+            NSURLRequest *finalRequest = [request prepareRequestForSend];
+            if (finalRequest) {
+                SFNetwork *network = [[SFNetwork alloc] init];
+                
+                // TODO: Fill in completion blocks.
+                [network sendRequest:finalRequest failBlock:nil completeBlock:nil];
+            }
         } failure:^(SFOAuthInfo *authInfo, NSError *error) {
-            [self log:SFLogLevelError format:@"Authentication failed in SFRestAPI: %@.  Logging out.", error];
+            [self log:SFLogLevelError format:@"Authentication failed in SFRestAPI: %@. Logging out.", error];
             NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
             attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
             attributes[@"errorDescription"] = error.localizedDescription;
@@ -196,11 +190,16 @@ static BOOL kIsTestRun;
             [[SFAuthenticationManager sharedManager] logout];
         }];
     } else {
-        // Auth credentials exist.  Just send the request.
-        [request prepareRequestForSend];
-        [currentNetwork executeAction:request.action];
+
+        // Auth credentials exist. Just send the request.
+        NSURLRequest *finalRequest = [request prepareRequestForSend];
+        if (finalRequest) {
+            SFNetwork *network = [[SFNetwork alloc] init];
+            
+            // TODO: Fill in completion blocks.
+            [network sendRequest:finalRequest failBlock:nil completeBlock:nil];
+        }
     }
-    return request.action;
 }
 
 #pragma mark - SFRestRequest factory methods

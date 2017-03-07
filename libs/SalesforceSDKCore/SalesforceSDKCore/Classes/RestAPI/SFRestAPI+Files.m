@@ -80,7 +80,6 @@
     if (page) params[PAGE] = @(page);
     if (version) params[VERSION] = version;
     SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:params];
-    request.parseResponse = NO;
     return request;
 }
 
@@ -89,7 +88,6 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     if (version) params[VERSION] = version;
     SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:params];
-    request.parseResponse = NO;
     return request;
 }
 
