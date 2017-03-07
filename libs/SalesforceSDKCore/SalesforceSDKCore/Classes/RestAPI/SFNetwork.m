@@ -49,39 +49,24 @@
     return self;
 }
 
-- (void)sendRequest:(NSURLRequest *)urlRequest failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestResponseBlock)completeBlock {
+- (void)sendRequest:(nonnull NSURLRequest *)urlRequest dataResponseBlock:(nullable SFDataResponseBlock)dataResponseBlock {
     [[[self activeSession] dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        if (error) {
-            [self errorHandler:error urlRequest:urlRequest failBlock:failBlock];
-            return;
-        }
-        if (completeBlock) {
-            completeBlock(data);
+        if (dataResponseBlock) {
+            dataResponseBlock(data, response, error);
         }
     }] resume];
 }
 
-- (void)sendDownloadRequest:(NSURLRequest *)urlRequest failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestResponseBlock)completeBlock {
+- (void)sendDownloadRequest:(nonnull NSURLRequest *)urlRequest downloadResponseBlock:(nullable SFDownloadResponseBlock)downloadResponseBlock {
     [[[self activeSession] downloadTaskWithRequest:urlRequest completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
-        if (error) {
-            [self errorHandler:error urlRequest:urlRequest failBlock:failBlock];
-            return;
-        }
-        if (completeBlock) {
-            completeBlock(response);
+        if (downloadResponseBlock) {
+            downloadResponseBlock(location, response, error);
         }
     }] resume];
 }
 
 - (NSURLSession *)activeSession {
     return (self.useBackground ? self.backgroundSession : self.ephemeralSession);
-}
-
-- (void)errorHandler:(NSError *)error urlRequest:(NSURLRequest *)urlRequest failBlock:(SFRestFailBlock)failBlock  {
-    [self log:SFLogLevelDebug format:@"REST request failed with error: Error Code: %ld, Description: %@, URL: %@", (long) error.code, error.localizedDescription, urlRequest.URL];
-    if (failBlock) {
-        failBlock(error);
-    }
 }
 
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location {

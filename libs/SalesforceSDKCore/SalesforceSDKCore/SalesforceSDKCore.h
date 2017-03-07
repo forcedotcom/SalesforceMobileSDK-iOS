@@ -111,7 +111,6 @@
 #import <SalesforceSDKCore/SFRestAPI+Files.h>
 #import <SalesforceSDKCore/SFRestAPI+QueryBuilder.h>
 #import <SalesforceSDKCore/SFRestAPI.h>
-#import <SalesforceSDKCore/SFRestAPISalesforceAction.h>
 #import <SalesforceSDKCore/SFRestRequest.h>
 #import <SalesforceSDKCore/SFRootViewManager.h>
 #import <SalesforceSDKCore/SFSDKAILTNPublisher.h>

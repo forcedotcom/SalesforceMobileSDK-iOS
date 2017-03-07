@@ -28,9 +28,11 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFRestAPI+Blocks.h"
 
 @interface SFNetwork : NSObject <NSURLSessionDataDelegate, NSURLSessionDownloadDelegate, NSURLSessionStreamDelegate>
+
+typedef void (^SFDataResponseBlock) (NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error);
+typedef void (^SFDownloadResponseBlock) (NSURL * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error);
 
 @property (nonatomic, readonly, strong, nonnull) NSURLSession *ephemeralSession;
 @property (nonatomic, readonly, strong, nonnull) NSURLSession *backgroundSession;
@@ -47,19 +49,17 @@
  * Sends a REST request and calls the appropriate completion block.
  *
  * @param urlRequest NSURLRequest instance.
- * @param failBlock Error completion block.
- * @param completeBlock Success completion block.
+ * @param dataResponseBlock Network response block.
  */
-- (void)sendRequest:(nonnull NSURLRequest *)urlRequest failBlock:(nullable SFRestFailBlock)failBlock completeBlock:(nullable SFRestResponseBlock)completeBlock;
+- (void)sendRequest:(nonnull NSURLRequest *)urlRequest dataResponseBlock:(nullable SFDataResponseBlock)dataResponseBlock;
 
 /**
  * Sends a download request and calls the appropriate completion block.
  *
  * @param urlRequest NSURLRequest instance.
- * @param failBlock Error completion block.
- * @param completeBlock Success completion block.
+ * @param downloadResponseBlock Network response block.
  */
-- (void)sendDownloadRequest:(nonnull NSURLRequest *)urlRequest failBlock:(nullable SFRestFailBlock)failBlock completeBlock:(nullable SFRestResponseBlock)completeBlock;
+- (void)sendDownloadRequest:(nonnull NSURLRequest *)urlRequest downloadResponseBlock:(nullable SFDownloadResponseBlock)downloadResponseBlock;
 
 /**
  * Returns the current NSURLSession instance being used.

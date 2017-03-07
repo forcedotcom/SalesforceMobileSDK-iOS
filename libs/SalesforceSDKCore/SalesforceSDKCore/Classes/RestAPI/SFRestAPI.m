@@ -31,11 +31,11 @@
 #import "SalesforceSDKManager.h"
 #import "SFSDKEventBuilderHelper.h"
 #import "SFNetwork.h"
+#import "SFOAuthSessionRefresher.h"
 
 NSString* const kSFRestDefaultAPIVersion = @"v36.0";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
 NSInteger const kSFRestErrorCode = 999;
-
 
 // singleton instance
 static SFRestAPI *_instance;
@@ -112,7 +112,6 @@ static BOOL kIsTestRun;
 - (BOOL)forceTimeoutRequest:(SFRestRequest*)req {
     BOOL found = NO;
     SFRestRequest *toCancel = (nil != req ? req : [self.activeRequests anyObject]);
-    
     if (nil != toCancel) {
         found = YES;
         if ([toCancel.delegate respondsToSelector:@selector(requestDidTimeout:)]) {
@@ -120,19 +119,16 @@ static BOOL kIsTestRun;
             [self removeActiveRequestObject:toCancel];
         }
     }
-    
     return found;
 }
 
 #pragma mark - Properties
 
-- (SFOAuthCoordinator *)coordinator
-{
+- (SFOAuthCoordinator *)coordinator {
     return _authMgr.coordinator;
 }
 
-- (void)setCoordinator:(SFOAuthCoordinator *)coordinator
-{
+- (void)setCoordinator:(SFOAuthCoordinator *)coordinator {
     _authMgr.coordinator = coordinator;
 }
 
@@ -146,7 +142,6 @@ static BOOL kIsTestRun;
 }
 
 + (NSString *)userAgentString:(NSString*)qualifier {
-    
     NSString *returnString = @"";
     if ([SalesforceSDKManager sharedManager].userAgentString != NULL) {
         returnString = [SalesforceSDKManager sharedManager].userAgentString(qualifier);
@@ -172,15 +167,22 @@ static BOOL kIsTestRun;
 
     // If there are no demonstrable auth credentials, login before sending.
     SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
+    __weak __typeof(self) weakSelf = self;
     if (user.credentials.accessToken == nil && user.credentials.refreshToken == nil && request.requiresAuthentication) {
         [self log:SFLogLevelInfo msg:@"No auth credentials found. Authenticating before sending request."];
         [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
             NSURLRequest *finalRequest = [request prepareRequestForSend];
             if (finalRequest) {
                 SFNetwork *network = [[SFNetwork alloc] init];
-                
-                // TODO: Fill in completion blocks.
-                [network sendRequest:finalRequest failBlock:nil completeBlock:nil];
+                [network sendRequest:finalRequest dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
+                    __strong typeof(weakSelf) strongSelf = weakSelf;
+                    if (error) {
+                        [strongSelf log:SFLogLevelDebug format:@"REST request failed with error: Error Code: %ld, Description: %@, URL: %@", (long) error.code, error.localizedDescription, finalRequest.URL];
+                        [delegate request:request didFailLoadWithError:error];
+                        return;
+                    }
+                    [strongSelf replayRequestIfRequired:response request:request delegate:delegate];
+                }];
             }
         } failure:^(SFOAuthInfo *authInfo, NSError *error) {
             [self log:SFLogLevelError format:@"Authentication failed in SFRestAPI: %@. Logging out.", error];
@@ -196,10 +198,35 @@ static BOOL kIsTestRun;
         NSURLRequest *finalRequest = [request prepareRequestForSend];
         if (finalRequest) {
             SFNetwork *network = [[SFNetwork alloc] init];
-            
-            // TODO: Fill in completion blocks.
-            [network sendRequest:finalRequest failBlock:nil completeBlock:nil];
+            [network sendRequest:finalRequest dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
+                __strong typeof(weakSelf) strongSelf = weakSelf;
+                if (error) {
+                    [strongSelf log:SFLogLevelDebug format:@"REST request failed with error: Error Code: %ld, Description: %@, URL: %@", (long) error.code, error.localizedDescription, finalRequest.URL];
+                    [delegate request:request didFailLoadWithError:error];
+                    return;
+                }
+                [strongSelf replayRequestIfRequired:response request:request delegate:delegate];
+            }];
         }
+    }
+}
+
+- (void)replayRequestIfRequired:(NSURLResponse *)response request:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate {
+
+    // Checks if the access token has expired.
+    NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+    SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
+    if (statusCode == 401 || statusCode == 403) {
+        [self log:SFLogLevelInfo format:@"%@: REST request failed due to expired credentials. Attempting to refresh credentials.", NSStringFromSelector(_cmd)];
+        SFOAuthSessionRefresher *oauthSessionRefresher = [[SFOAuthSessionRefresher alloc] initWithCredentials:user.credentials];
+        [oauthSessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
+            [self log:SFLogLevelInfo format:@"%@: Credentials refresh successful. Replaying original REST request.", NSStringFromSelector(_cmd)];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self send:request delegate:delegate];
+            });
+        } error:^(NSError *refreshError) {
+            [self log:SFLogLevelError format:@"Failed to refresh expired session. Error: %@", refreshError];
+        }];
     }
 }
 
