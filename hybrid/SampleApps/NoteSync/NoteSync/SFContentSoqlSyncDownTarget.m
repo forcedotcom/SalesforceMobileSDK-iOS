@@ -178,7 +178,6 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
     self = [[self class] requestWithMethod:SFRestMethodPOST path:SOAP_PATH queryParams:nil];
     if (self) {
         self.endpoint = SOAP_ENDPOINT;
-        self.parseResponse = NO;
         self.query = query;
         self.queryLocator = nil;
     }
@@ -190,7 +189,6 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
     self = [[self class] requestWithMethod:SFRestMethodPOST path:@"" queryParams:nil];
     if (self) {
         self.endpoint = SOAP_ENDPOINT;
-        self.parseResponse = NO;
         self.query = nil;
         self.queryLocator = queryLocator;
     }

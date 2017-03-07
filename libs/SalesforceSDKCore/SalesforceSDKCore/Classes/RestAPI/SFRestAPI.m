@@ -30,6 +30,7 @@
 #import "SFSDKWebUtils.h"
 #import "SalesforceSDKManager.h"
 #import "SFSDKEventBuilderHelper.h"
+#import "SFNetwork.h"
 
 NSString* const kSFRestDefaultAPIVersion = @"v36.0";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";

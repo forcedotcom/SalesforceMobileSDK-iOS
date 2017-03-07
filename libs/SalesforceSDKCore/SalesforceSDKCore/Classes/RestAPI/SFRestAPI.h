@@ -24,7 +24,6 @@
 
 #import <Foundation/Foundation.h>
 #import "SFRestRequest.h"
-#import "SFNetwork.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
