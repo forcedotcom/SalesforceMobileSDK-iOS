@@ -223,7 +223,7 @@ static BOOL kIsTestRun;
                 NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
 
                 // 2xx indicates success.
-                if (statusCode > 200 && statusCode < 299) {
+                if (statusCode >= 200 && statusCode <= 299) {
                     [delegate request:request didLoadResponse:data];
                 } else {
                     [delegate request:request didFailLoadWithError:error];
