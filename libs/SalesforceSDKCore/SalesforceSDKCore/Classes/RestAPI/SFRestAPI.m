@@ -184,15 +184,7 @@ static BOOL kIsTestRun;
                     if (!response) {
                         [delegate requestDidTimeout:request];
                     }
-                    [strongSelf replayRequestIfRequired:response request:request delegate:delegate];
-                    NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
-
-                    // 2xx indicates success.
-                    if (statusCode > 200 && statusCode < 299) {
-                        [delegate request:request didLoadResponse:data];
-                    } else {
-                        [delegate request:request didFailLoadWithError:error];
-                    }
+                    [strongSelf replayRequestIfRequired:data response:response error:error request:request delegate:delegate];
                 }];
             }
         } failure:^(SFOAuthInfo *authInfo, NSError *error) {
@@ -219,21 +211,13 @@ static BOOL kIsTestRun;
                 if (!response) {
                     [delegate requestDidTimeout:request];
                 }
-                [strongSelf replayRequestIfRequired:response request:request delegate:delegate];
-                NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
-
-                // 2xx indicates success.
-                if (statusCode >= 200 && statusCode <= 299) {
-                    [delegate request:request didLoadResponse:data];
-                } else {
-                    [delegate request:request didFailLoadWithError:error];
-                }
+                [strongSelf replayRequestIfRequired:data response:response error:error request:request delegate:delegate];
             }];
         }
     }
 }
 
-- (void)replayRequestIfRequired:(NSURLResponse *)response request:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate {
+- (void)replayRequestIfRequired:(NSData *)data response:(NSURLResponse *)response error:(NSError *)error request:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate {
 
     // Checks if the access token has expired.
     NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
@@ -241,14 +225,29 @@ static BOOL kIsTestRun;
         SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
         [self log:SFLogLevelInfo format:@"%@: REST request failed due to expired credentials. Attempting to refresh credentials.", NSStringFromSelector(_cmd)];
         SFOAuthSessionRefresher *oauthSessionRefresher = [[SFOAuthSessionRefresher alloc] initWithCredentials:user.credentials];
+        __weak __typeof(self) weakSelf = self;
         [oauthSessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
-            [self log:SFLogLevelInfo format:@"%@: Credentials refresh successful. Replaying original REST request.", NSStringFromSelector(_cmd)];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self send:request delegate:delegate];
-            });
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            [strongSelf log:SFLogLevelInfo format:@"%@: Credentials refresh successful. Replaying original REST request.", NSStringFromSelector(_cmd)];
+            [strongSelf send:request delegate:delegate];
         } error:^(NSError *refreshError) {
-            [self log:SFLogLevelError format:@"Failed to refresh expired session. Error: %@", refreshError];
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            [strongSelf log:SFLogLevelError format:@"Failed to refresh expired session. Error: %@", refreshError];
         }];
+    } else {
+
+        // 2xx indicates success.
+        if (statusCode >= 200 && statusCode <= 299) {
+            NSError *parsingError;
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parsingError];
+            if (parsingError) {
+                [delegate request:request didLoadResponse:data];
+            } else {
+                [delegate request:request didLoadResponse:jsonDict];
+            }
+        } else {
+            [delegate request:request didFailLoadWithError:error];
+        }
     }
 }
 
