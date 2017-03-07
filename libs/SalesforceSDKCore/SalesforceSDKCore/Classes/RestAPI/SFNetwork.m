@@ -55,6 +55,9 @@
             [self errorHandler:error urlRequest:urlRequest failBlock:failBlock];
             return;
         }
+        if (completeBlock) {
+            completeBlock(data);
+        }
     }] resume];
 }
 
@@ -63,6 +66,9 @@
         if (error) {
             [self errorHandler:error urlRequest:urlRequest failBlock:failBlock];
             return;
+        }
+        if (completeBlock) {
+            completeBlock(response);
         }
     }] resume];
 }
