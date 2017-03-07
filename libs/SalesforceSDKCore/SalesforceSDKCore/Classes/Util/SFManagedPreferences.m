@@ -63,6 +63,10 @@ static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
     dispatch_once(&pred, ^{
         preferences = [[self alloc] init];
     });
+    
+    dispatch_once(&pred, ^{
+        [preferences initializeManagedPreferences];
+    });
     return preferences;
 }
 
@@ -81,10 +85,7 @@ static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
                                                               [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureManagedByMDM];
                                                           }
                                                       }];
-        self.rawPreferences = [[NSUserDefaults msdkUserDefaults] dictionaryForKey:kManagedConfigurationKey];
-        if (self.rawPreferences) {
-            [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureManagedByMDM];
-        }
+        
         NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
         [notificationCenter addObserver:self
                                selector:@selector(storeAnalyticsEvent)
@@ -92,6 +93,13 @@ static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
                                  object:nil];
     }
     return self;
+}
+
+- (void)initializeManagedPreferences {
+    self.rawPreferences = [[NSUserDefaults msdkUserDefaults] dictionaryForKey:kManagedConfigurationKey];
+    if (self.rawPreferences) {
+        [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureManagedByMDM];
+    }
 }
 
 - (void)dealloc {
