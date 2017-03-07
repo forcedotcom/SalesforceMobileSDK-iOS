@@ -61,4 +61,11 @@
  */
 - (void)sendDownloadRequest:(nonnull NSURLRequest *)urlRequest failBlock:(nullable SFRestFailBlock)failBlock completeBlock:(nullable SFRestResponseBlock)completeBlock;
 
+/**
+ * Returns the current NSURLSession instance being used.
+ *
+ * @return NSURLSession instance.
+ */
+- (nonnull NSURLSession *)activeSession;
+
 @end
