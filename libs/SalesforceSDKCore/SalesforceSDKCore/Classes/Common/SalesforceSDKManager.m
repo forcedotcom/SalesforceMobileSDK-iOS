@@ -38,6 +38,7 @@
 
 static NSString * const kSFAppFeatureSwiftApp   = @"SW";
 static NSString * const kSFAppFeatureMultiUser   = @"MU";
+static NSString * const kSFAppFeatureManagedByMDM   = @"MM";
 
 // Error constants
 NSString * const kSalesforceSDKManagerErrorDomain     = @"com.salesforce.sdkmanager.error";
@@ -336,6 +337,10 @@ static Class InstanceClass = nil;
     
     if ([[SFManagedPreferences sharedPreferences].connectedAppCallbackUri length] > 0) {
         self.connectedAppCallbackUri = [SFManagedPreferences sharedPreferences].connectedAppCallbackUri;
+    }
+    
+    if ([SFManagedPreferences sharedPreferences].hasManagedPreferences) {
+        [self registerAppFeature:kSFAppFeatureManagedByMDM];
     }
 }
 
