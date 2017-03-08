@@ -42,6 +42,12 @@ static SFRestAPI *_instance;
 static dispatch_once_t _sharedInstanceGuard;
 static BOOL kIsTestRun;
 
+@interface SFRestAPI ()
+
+@property (nonatomic, strong) SFOAuthSessionRefresher *oauthSessionRefresher;
+
+@end
+
 @implementation SFRestAPI
 
 @synthesize apiVersion=_apiVersion;
@@ -224,9 +230,9 @@ static BOOL kIsTestRun;
     if (statusCode == 401 || statusCode == 403) {
         SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
         [self log:SFLogLevelInfo format:@"%@: REST request failed due to expired credentials. Attempting to refresh credentials.", NSStringFromSelector(_cmd)];
-        SFOAuthSessionRefresher *oauthSessionRefresher = [[SFOAuthSessionRefresher alloc] initWithCredentials:user.credentials];
+        self.oauthSessionRefresher = [[SFOAuthSessionRefresher alloc] initWithCredentials:user.credentials];
         __weak __typeof(self) weakSelf = self;
-        [oauthSessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
+        [self.oauthSessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [strongSelf log:SFLogLevelInfo format:@"%@: Credentials refresh successful. Replaying original REST request.", NSStringFromSelector(_cmd)];
             [strongSelf send:request delegate:delegate];
