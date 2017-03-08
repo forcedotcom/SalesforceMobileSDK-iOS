@@ -82,9 +82,6 @@ static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
                                                           }
                                                       }];
         self.rawPreferences = [[NSUserDefaults msdkUserDefaults] dictionaryForKey:kManagedConfigurationKey];
-        if (self.rawPreferences) {
-            [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureManagedByMDM];
-        }
         NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
         [notificationCenter addObserver:self
                                selector:@selector(storeAnalyticsEvent)
