@@ -86,6 +86,7 @@
 		6FB714A51CEA61BF007D858C /* SFLogStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FB714A31CEA61BF007D858C /* SFLogStorage.h */; };
 		6FB714A71CEA6630007D858C /* SFLogger_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FB714A61CEA6630007D858C /* SFLogger_Internal.h */; };
 		6FB714A81CEA6630007D858C /* SFLogger_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FB714A61CEA6630007D858C /* SFLogger_Internal.h */; };
+		8263FED31E7336BF0038F694 /* SFSDKAppFeatureMarkersTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8263FED21E7336BF0038F694 /* SFSDKAppFeatureMarkersTests.m */; };
 		829DA2951C1266340040F5F1 /* SalesforceSDKCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2941C1266340040F5F1 /* SalesforceSDKCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82A195A51E73247F008F5AA8 /* SFSDKAppFeatureMarkers.h in Headers */ = {isa = PBXBuildFile; fileRef = 82A195A31E73247F008F5AA8 /* SFSDKAppFeatureMarkers.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82A195A61E73247F008F5AA8 /* SFSDKAppFeatureMarkers.h in Headers */ = {isa = PBXBuildFile; fileRef = 82A195A31E73247F008F5AA8 /* SFSDKAppFeatureMarkers.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1183,6 +1184,7 @@
 		6FDFF9BC1E2EA72400B7D0B5 /* SalesforceSDKCore.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; name = SalesforceSDKCore.modulemap; path = SalesforceSDKCore/SalesforceSDKCore.modulemap; sourceTree = "<group>"; };
 		8220B74F16D804CA00EC3921 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8220B75316D804CA00EC3921 /* SalesforceSDKCore-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SalesforceSDKCore-Prefix.pch"; sourceTree = "<group>"; };
+		8263FED21E7336BF0038F694 /* SFSDKAppFeatureMarkersTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKAppFeatureMarkersTests.m; path = SalesforceSDKCoreTests/SFSDKAppFeatureMarkersTests.m; sourceTree = SOURCE_ROOT; };
 		8280EBB316E14E9F00768DE8 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		8280EBB516E14E9F00768DE8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		8280EBCC16E14F7000768DE8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -1458,6 +1460,7 @@
 				010A9B541CC1A131002AF4D3 /* SFEncryptDecryptStreamTests.m */,
 				4F7EB4571BFFC9D900768720 /* Supporting Files */,
 				009D77511CA4A92200D5183A /* SFPushNotificationManagerTests.m */,
+				8263FED21E7336BF0038F694 /* SFSDKAppFeatureMarkersTests.m */,
 			);
 			name = SalesforceSDKCoreTests;
 			path = SalesforceSDKCore;
@@ -2971,6 +2974,7 @@
 				009D77521CA4A92200D5183A /* SFPushNotificationManagerTests.m in Sources */,
 				CE8EA3001D7F686600AAC74C /* SalesforceNetworkTests.m in Sources */,
 				4F7EB4181BFFC8D700768720 /* SFKeyStoreManagerTests.m in Sources */,
+				8263FED31E7336BF0038F694 /* SFSDKAppFeatureMarkersTests.m in Sources */,
 				4F7EB4191BFFC8D700768720 /* SFKeyStoreTests.m in Sources */,
 				CE8EA2FF1D7F686100AAC74C /* MockNetworkTests.m in Sources */,
 				4F7EB41A1BFFC8D700768720 /* SFPasscodeTests.m in Sources */,
