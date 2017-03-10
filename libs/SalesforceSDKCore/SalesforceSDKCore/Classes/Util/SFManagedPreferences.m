@@ -49,7 +49,7 @@ static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
 @interface SFManagedPreferences ()
 
 @property (nonatomic, strong, readwrite) NSDictionary *rawPreferences;
-@property (nonatomic, strong) NSOperationQueue *syncQueue;
+@property (nonatomic, strong) dispatch_queue_t syncQueue;
 
 @end
 
@@ -69,18 +69,9 @@ static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
 - (id)init {
     self = [super init];
     if (self) {
-        self.syncQueue = [[NSOperationQueue alloc] init];
-        self.syncQueue.name = @"NSUserDefaults Sync Queue";
-        __weak typeof(self) weakSelf = self;
-        [[NSNotificationCenter defaultCenter] addObserverForName:NSUserDefaultsDidChangeNotification
-                                                          object:nil
-                                                           queue:self.syncQueue
-                                                      usingBlock:^(NSNotification *note) {
-                                                          weakSelf.rawPreferences = [[NSUserDefaults standardUserDefaults] dictionaryForKey:kManagedConfigurationKey];
-                                                          if(weakSelf.rawPreferences){
-                                                              [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureManagedByMDM];
-                                                          }
-                                                      }];
+        self.syncQueue = dispatch_queue_create("com.salesforce.util.managedPreferences", DISPATCH_QUEUE_SERIAL);
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDefaultsChanged:) name:NSUserDefaultsDidChangeNotification object:nil];
+        
         self.rawPreferences = [[NSUserDefaults msdkUserDefaults] dictionaryForKey:kManagedConfigurationKey];
         NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
         [notificationCenter addObserver:self
@@ -97,6 +88,16 @@ static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
 
 - (BOOL)hasManagedPreferences {
     return ([self.rawPreferences allKeys].count > 0);
+}
+
+- (void)userDefaultsChanged:(NSNotification *)note {
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(self.syncQueue, ^{
+        weakSelf.rawPreferences = [[NSUserDefaults standardUserDefaults] dictionaryForKey:kManagedConfigurationKey];
+        if(weakSelf.rawPreferences || true){
+            [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureManagedByMDM];
+        }
+    });
 }
 
 - (BOOL)requireCertificateAuthentication {
