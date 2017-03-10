@@ -25,25 +25,39 @@
 #import "SFSDKAppFeatureMarkers.h"
 
 static NSMutableSet<NSString *> *SFSDKAppFeatureMarkersSet = nil;
+static dispatch_queue_t SFSDKAppFeatureDispatchQueue = nil;
 
 @implementation SFSDKAppFeatureMarkers
 
 + (void)initialize {
-    if (self == [SFSDKAppFeatureMarkers class] && SFSDKAppFeatureMarkersSet == nil) {
-        SFSDKAppFeatureMarkersSet = [NSMutableSet set];
+    if (self == [SFSDKAppFeatureMarkers class]) {
+        if (SFSDKAppFeatureMarkersSet == nil) {
+            SFSDKAppFeatureMarkersSet = [NSMutableSet set];
+        }
+        if (SFSDKAppFeatureDispatchQueue == nil) {
+            SFSDKAppFeatureDispatchQueue = dispatch_queue_create("com.salesforce.mobilesdk.appFeaturesQueue", DISPATCH_QUEUE_SERIAL);
+        }
     }
 }
 
 + (void)registerAppFeature:(NSString *)appFeature {
-    [SFSDKAppFeatureMarkersSet addObject:appFeature];
+    dispatch_sync(SFSDKAppFeatureDispatchQueue, ^{
+        [SFSDKAppFeatureMarkersSet addObject:appFeature];
+    });
 }
 
 + (void)unregisterAppFeature:(NSString *)appFeature {
-    [SFSDKAppFeatureMarkersSet removeObject:appFeature];
+    dispatch_sync(SFSDKAppFeatureDispatchQueue, ^{
+        [SFSDKAppFeatureMarkersSet removeObject:appFeature];
+    });
 }
 
 + (NSSet *)appFeatures {
-    return [SFSDKAppFeatureMarkersSet copy];
+    __block NSSet *markersSet;
+    dispatch_sync(SFSDKAppFeatureDispatchQueue, ^{
+        markersSet = [SFSDKAppFeatureMarkersSet copy];
+    });
+    return markersSet;
 }
 
 @end
