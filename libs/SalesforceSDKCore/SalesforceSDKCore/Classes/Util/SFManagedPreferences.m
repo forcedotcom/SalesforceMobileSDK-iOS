@@ -94,7 +94,7 @@ static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
     __weak typeof(self) weakSelf = self;
     dispatch_async(self.syncQueue, ^{
         weakSelf.rawPreferences = [[NSUserDefaults standardUserDefaults] dictionaryForKey:kManagedConfigurationKey];
-        if(weakSelf.rawPreferences || true){
+        if(weakSelf.rawPreferences){
             [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureManagedByMDM];
         }
     });
