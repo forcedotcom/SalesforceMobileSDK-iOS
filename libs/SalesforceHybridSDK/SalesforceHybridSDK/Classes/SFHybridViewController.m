@@ -26,6 +26,7 @@
 #import "SFHybridViewController.h"
 #import "SFHybridConnectionMonitor.h"
 #import "SFWKWebViewNavigationDelegate.h"
+#import <SalesforceSDKCore/SFSDKAppFeatureMarkers.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
 #import <SalesforceSDKCore/NSURL+SFStringUtils.h>
 #import <SalesforceSDKCore/NSURL+SFAdditions.h>
@@ -183,7 +184,7 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
     if (self) {
         self.useUIWebView = useUIWebView;
         if (useUIWebView) {
-            [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureUsesUIWebView];
+            [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureUsesUIWebView];
         }
         _hybridViewConfig = (viewConfig == nil ? [SFHybridViewConfig fromDefaultConfigFile] : viewConfig);
         NSAssert(_hybridViewConfig != nil, @"_hybridViewConfig was not properly initialized. See output log for errors.");

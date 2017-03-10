@@ -26,8 +26,8 @@
 #import "NSUserDefaults+SFAdditions.h"
 #import "SFUserAccountManager.h"
 #import "SFIdentityData.h"
-#import "SalesforceSDKManager.h"
 #import "SFSDKEventBuilderHelper.h"
+#import "SFSDKAppFeatureMarkers.h"
 
 // See "Extending Your Apps for Enterprise and Education Use" in the WWDC 2013 videos
 // See https://developer.apple.com/library/ios/samplecode/sc2279/ManagedAppConfig.zip
@@ -76,12 +76,9 @@ static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
                                                           object:nil
                                                            queue:self.syncQueue
                                                       usingBlock:^(NSNotification *note) {
-                                                          weakSelf.rawPreferences = [[NSUserDefaults standardUserDefaults] dictionaryForKey:kManagedConfigurationKey];
-                                                          if(weakSelf.rawPreferences){
-                                                              [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureManagedByMDM];
-                                                          }
+                                                          [weakSelf configurePreferences];
                                                       }];
-        self.rawPreferences = [[NSUserDefaults msdkUserDefaults] dictionaryForKey:kManagedConfigurationKey];
+        [self configurePreferences];
         NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
         [notificationCenter addObserver:self
                                selector:@selector(storeAnalyticsEvent)
@@ -93,6 +90,13 @@ static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)configurePreferences {
+    self.rawPreferences = [[NSUserDefaults msdkUserDefaults] dictionaryForKey:kManagedConfigurationKey];
+    if ([self hasManagedPreferences]) {
+        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureManagedByMDM];
+    }
 }
 
 - (BOOL)hasManagedPreferences {

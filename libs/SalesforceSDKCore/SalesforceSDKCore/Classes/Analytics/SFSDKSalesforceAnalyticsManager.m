@@ -40,6 +40,7 @@
 #import "SFApplicationHelper.h"
 #import <SalesforceAnalytics/SFSDKAILTNTransform.h>
 #import <SalesforceAnalytics/SFSDKDeviceAppAttributes.h>
+#import "SFSDKAppFeatureMarkers.h"
 
 static NSString * const kEventStoresDirectory = @"event_stores";
 static NSString * const kEventStoreEncryptionKeyLabel = @"com.salesforce.eventStore.encryptionKey";
@@ -132,9 +133,9 @@ static NSMutableDictionary *analyticsManagerList = nil;
 
 - (void) setLoggingEnabled:(BOOL) loggingEnabled {
     if (loggingEnabled) {
-        [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureAiltnEnabled];
+        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureAiltnEnabled];
     } else {
-        [[SalesforceSDKManager sharedManager] unregisterAppFeature:kSFAppFeatureAiltnEnabled];
+        [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureAiltnEnabled];
     }
     [self storeAnalyticsPolicy:loggingEnabled];
     self.eventStoreManager.loggingEnabled = loggingEnabled;
