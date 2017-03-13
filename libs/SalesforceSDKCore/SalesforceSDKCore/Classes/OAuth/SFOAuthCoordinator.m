@@ -38,7 +38,7 @@
 #import "SFSDKLoginHostStorage.h"
 #import "SFSDKLoginHost.h"
 #import "SFSDKEventBuilderHelper.h"
-#import "SalesforceSDKManager.h"
+#import "SFSDKAppFeatureMarkers.h"
 
 // Public constants
 
@@ -306,7 +306,7 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
         // Re-trigger the native browser flow if the app becomes active on `SFOAuthAdvancedAuthStateBrowserRequestInitiated` state.
         if (_advancedAuthState == SFOAuthAdvancedAuthStateBrowserRequestInitiated) {
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAppDidBecomeActiveDuringAdvancedAuth:) name:UIApplicationDidBecomeActiveNotification object:nil];
-            [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
+            [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
         }
         else {
             [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];

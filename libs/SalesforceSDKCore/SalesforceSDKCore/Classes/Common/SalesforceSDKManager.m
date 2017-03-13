@@ -35,10 +35,10 @@
 #import "SFApplicationHelper.h"
 #import "SFSwiftDetectUtil.h"
 #import "SFUserAccountManager.h"
+#import "SFSDKAppFeatureMarkers.h"
 
 static NSString * const kSFAppFeatureSwiftApp   = @"SW";
 static NSString * const kSFAppFeatureMultiUser   = @"MU";
-static NSString * const kSFAppFeatureManagedByMDM   = @"MM";
 
 // Error constants
 NSString * const kSalesforceSDKManagerErrorDomain     = @"com.salesforce.sdkmanager.error";
@@ -93,14 +93,14 @@ static Class InstanceClass = nil;
         } else {
             sdkManager = [[self alloc] init];
         }
-        if([SFSwiftDetectUtil isSwiftApp]){
-            [sdkManager registerAppFeature:kSFAppFeatureSwiftApp];
+        if([SFSwiftDetectUtil isSwiftApp]) {
+            [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSwiftApp];
         }
         if([[[SFUserAccountManager sharedInstance] allUserIdentities] count]>1){
-            [sdkManager registerAppFeature:kSFAppFeatureMultiUser];
+            [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureMultiUser];
         }
         else{
-            [sdkManager unregisterAppFeature:kSFAppFeatureMultiUser];
+            [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureMultiUser];
         }
     });
     return sdkManager;
@@ -135,7 +135,6 @@ static Class InstanceClass = nil;
         }
         self.useSnapshotView = YES;
         self.authenticateAtLaunch = YES;
-        self.features = [NSMutableSet set];
         self.userAgentString = [self defaultUserAgentString];
     }
     
@@ -338,10 +337,6 @@ static Class InstanceClass = nil;
     if ([[SFManagedPreferences sharedPreferences].connectedAppCallbackUri length] > 0) {
         self.connectedAppCallbackUri = [SFManagedPreferences sharedPreferences].connectedAppCallbackUri;
     }
-    
-    if ([SFManagedPreferences sharedPreferences].hasManagedPreferences) {
-        [self registerAppFeature:kSFAppFeatureManagedByMDM];
-    }
 }
 
 - (void)sendLaunchError:(NSError *)theLaunchError
@@ -541,16 +536,6 @@ static Class InstanceClass = nil;
     }
 }
 
-- (void) registerAppFeature:(NSString *) appFeature
-{
-    [self.features addObject:appFeature];
-}
-
-- (void) unregisterAppFeature:(NSString *) appFeature
-{
-    [self.features removeObject:appFeature];
-}
-
 - (void)dismissSnapshot
 {
     if (![self isSnapshotPresented]) {
@@ -696,7 +681,7 @@ static Class InstanceClass = nil;
                                  appTypeStr,
                                  (qualifier != nil ? qualifier : @""),
                                  uid,
-                                 [[[self.features allObjects] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] componentsJoinedByString:@"."]
+                                 [[[SFSDKAppFeatureMarkers appFeatures].allObjects sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] componentsJoinedByString:@"."]
                                  ];
         return myUserAgent;
     };
