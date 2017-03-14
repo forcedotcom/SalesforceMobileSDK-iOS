@@ -267,8 +267,6 @@
 		CE4CE3941C0E526A009F6029 /* SFUserAccountManager+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD291BFD32140022F021 /* SFUserAccountManager+Internal.h */; };
 		CE4CE3951C0E526A009F6029 /* SFUserAccountManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD2A1BFD32140022F021 /* SFUserAccountManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE3961C0E526A009F6029 /* SFUserAccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FD2B1BFD32140022F021 /* SFUserAccountManager.m */; };
-		CE4CE3971C0E526A009F6029 /* SFUserAccountManagerUpgrade.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD2C1BFD32140022F021 /* SFUserAccountManagerUpgrade.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CE4CE3981C0E526A009F6029 /* SFUserAccountManagerUpgrade.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FD2D1BFD32140022F021 /* SFUserAccountManagerUpgrade.m */; };
 		CE4CE3991C0E5272009F6029 /* SFSDKAsyncProcessListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD2F1BFD32140022F021 /* SFSDKAsyncProcessListener.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE39A1C0E5272009F6029 /* SFSDKAsyncProcessListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FD301BFD32140022F021 /* SFSDKAsyncProcessListener.m */; };
 		CE4CE39B1C0E5272009F6029 /* SFSDKTestCredentialsData.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD311BFD32140022F021 /* SFSDKTestCredentialsData.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -620,8 +618,6 @@
 		CEA8830C1C18FB8E008D871B /* SFUserAccountManager+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD291BFD32140022F021 /* SFUserAccountManager+Internal.h */; };
 		CEA8830D1C18FB8E008D871B /* SFUserAccountManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD2A1BFD32140022F021 /* SFUserAccountManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CEA8830E1C18FB8E008D871B /* SFUserAccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FD2B1BFD32140022F021 /* SFUserAccountManager.m */; };
-		CEA8830F1C18FB8E008D871B /* SFUserAccountManagerUpgrade.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD2C1BFD32140022F021 /* SFUserAccountManagerUpgrade.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CEA883101C18FB8E008D871B /* SFUserAccountManagerUpgrade.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FD2D1BFD32140022F021 /* SFUserAccountManagerUpgrade.m */; };
 		CEA883111C18FC2C008D871B /* SFSDKAsyncProcessListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD2F1BFD32140022F021 /* SFSDKAsyncProcessListener.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CEA883121C18FC2C008D871B /* SFSDKAsyncProcessListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FD301BFD32140022F021 /* SFSDKAsyncProcessListener.m */; };
 		CEA883131C18FC2C008D871B /* SFSDKTestCredentialsData.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD311BFD32140022F021 /* SFSDKTestCredentialsData.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1112,8 +1108,6 @@
 		4F96FD291BFD32140022F021 /* SFUserAccountManager+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFUserAccountManager+Internal.h"; sourceTree = "<group>"; };
 		4F96FD2A1BFD32140022F021 /* SFUserAccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFUserAccountManager.h; sourceTree = "<group>"; };
 		4F96FD2B1BFD32140022F021 /* SFUserAccountManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFUserAccountManager.m; sourceTree = "<group>"; };
-		4F96FD2C1BFD32140022F021 /* SFUserAccountManagerUpgrade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFUserAccountManagerUpgrade.h; sourceTree = "<group>"; };
-		4F96FD2D1BFD32140022F021 /* SFUserAccountManagerUpgrade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFUserAccountManagerUpgrade.m; sourceTree = "<group>"; };
 		4F96FD2F1BFD32140022F021 /* SFSDKAsyncProcessListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKAsyncProcessListener.h; sourceTree = "<group>"; };
 		4F96FD301BFD32140022F021 /* SFSDKAsyncProcessListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKAsyncProcessListener.m; sourceTree = "<group>"; };
 		4F96FD311BFD32140022F021 /* SFSDKTestCredentialsData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKTestCredentialsData.h; sourceTree = "<group>"; };
@@ -1681,8 +1675,6 @@
 				4F96FD291BFD32140022F021 /* SFUserAccountManager+Internal.h */,
 				4F96FD2A1BFD32140022F021 /* SFUserAccountManager.h */,
 				4F96FD2B1BFD32140022F021 /* SFUserAccountManager.m */,
-				4F96FD2C1BFD32140022F021 /* SFUserAccountManagerUpgrade.h */,
-				4F96FD2D1BFD32140022F021 /* SFUserAccountManagerUpgrade.m */,
 				010A9ADE1CC176DD002AF4D3 /* SFCryptChunks.h */,
 				010A9ADF1CC176DD002AF4D3 /* SFCryptChunks.m */,
 				010A9AE01CC176DD002AF4D3 /* SFDecryptStream.h */,
@@ -2294,7 +2286,6 @@
 				CE4CE3901C0E526A009F6029 /* SFUserAccount+Internal.h in Headers */,
 				CE4CE3891C0E526A009F6029 /* SFSecurityLockout+Internal.h in Headers */,
 				CE4CE38A1C0E526A009F6029 /* SFSecurityLockout.h in Headers */,
-				CE4CE3971C0E526A009F6029 /* SFUserAccountManagerUpgrade.h in Headers */,
 				4F06AF771C49A16A00F70798 /* SalesforceOAuthUnitTestsCoordinatorDelegate.h in Headers */,
 				CE8EA2A51D7F67FA00AAC74C /* CSFNetwork.h in Headers */,
 				010A9AE61CC176DD002AF4D3 /* SFDecryptStream.h in Headers */,
@@ -2563,7 +2554,6 @@
 				BE2B464A1DB03B52004DA618 /* UIColor+SFColors.h in Headers */,
 				CE8EA3271D7F6A2B00AAC74C /* CSFOutput_Internal.h in Headers */,
 				CE8EA32C1D7F6A5300AAC74C /* CSFAuthRefresh+Internal.h in Headers */,
-				CEA8830F1C18FB8E008D871B /* SFUserAccountManagerUpgrade.h in Headers */,
 				CEA883111C18FC2C008D871B /* SFSDKAsyncProcessListener.h in Headers */,
 				CEA883251C18FC40008D871B /* SFRootViewManager.h in Headers */,
 				CEA882EE1C18FB8E008D871B /* SFKeyStoreManager.h in Headers */,
@@ -3122,7 +3112,6 @@
 				CE4CE3791C0E526A009F6029 /* SFPasscodeKeyStore.m in Sources */,
 				CE4CE30C1C0E523B009F6029 /* NSArray+SFAdditions.m in Sources */,
 				CE4CE33D1C0E5245009F6029 /* SFIdentityData.m in Sources */,
-				CE4CE3981C0E526A009F6029 /* SFUserAccountManagerUpgrade.m in Sources */,
 				CE4CE3A01C0E5272009F6029 /* TestSetupUtils.m in Sources */,
 				CE4CE32F1C0E523B009F6029 /* SFApplication.m in Sources */,
 				CE4CE3241C0E523B009F6029 /* UIDevice+SFHardware.m in Sources */,
@@ -3259,7 +3248,6 @@
 				CEA882841C18FAAB008D871B /* NSArray+SFAdditions.m in Sources */,
 				CE8EA30E1D7F693500AAC74C /* CSFDateValueTransformer.m in Sources */,
 				CEA882B51C18FB28008D871B /* SFIdentityData.m in Sources */,
-				CEA883101C18FB8E008D871B /* SFUserAccountManagerUpgrade.m in Sources */,
 				CE8EA3091D7F692000AAC74C /* CSFDefines.m in Sources */,
 				CEA883181C18FC2C008D871B /* TestSetupUtils.m in Sources */,
 				E1C80D2D1C5C3680001B3A21 /* SFSDKLoginHostStorage.m in Sources */,
