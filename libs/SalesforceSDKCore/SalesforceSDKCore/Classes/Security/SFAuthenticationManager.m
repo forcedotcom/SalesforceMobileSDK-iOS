@@ -26,7 +26,7 @@
 #import "SFApplication.h"
 #import "SFAuthenticationManager+Internal.h"
 #import "SalesforceSDKManager+Internal.h"
-#import "SFUserAccount.h"
+#import "SFUserAccount+Internal.h"
 #import "SFUserAccountManager+Internal.h"
 #import "SFUserAccountIdentity.h"
 #import "SFAuthenticationViewHandler.h"
@@ -733,7 +733,7 @@ static Class InstanceClass = nil;
 
 - (void)login
 {
-    [self loginWithCredentials:[SFUserAccountManager sharedInstance].currentCredentials];
+    [self loginWithCredentials:[SFUserAccountManager sharedInstance].oauthCredentials];
 }
 
 

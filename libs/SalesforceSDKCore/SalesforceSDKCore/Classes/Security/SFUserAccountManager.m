@@ -128,7 +128,7 @@ static id<SFUserAccountPersister> accountPersister;
         }
         [self migrateUserDefaults];
         accountsLock = [NSRecursiveLock new];
-        
+
         [self reload];
      }
 	return self;
@@ -472,7 +472,7 @@ static id<SFUserAccountPersister> accountPersister;
 
     if (error && internalError)
         *error = internalError;
-    
+
     [accountsLock unlock];
     return success;
 }
@@ -568,7 +568,7 @@ static id<SFUserAccountPersister> accountPersister;
 }
 
 - (SFUserAccount *)applyCredentials:(SFOAuthCredentials*)credentials {
-    
+
     SFUserAccountChange change = SFUserAccountChangeCredentials;
     SFUserAccount *currentAccount = [self accountForCredentials:credentials];
 
@@ -633,7 +633,7 @@ static id<SFUserAccountPersister> accountPersister;
 
     BOOL userChanged = NO;
     [accountsLock lock];
-    
+
     if (nil==user) { //clear current user if  nil
         _currentUser = nil;
         [self setCurrentUserIdentity:nil];
@@ -651,7 +651,7 @@ static id<SFUserAccountPersister> accountPersister;
           [self log:SFLogLevelError format:@"Cannot set the currentUser as %@. Add the account to the SFAccountManager before making this call.",[user userName]];
         }
     }
-    
+
     [accountsLock unlock];
 
     if (userChanged)
@@ -779,17 +779,17 @@ static id<SFUserAccountPersister> accountPersister;
 
 - (void)reload {
     [accountsLock lock];
-    
+
     if (AccountPersisterClass)
         accountPersister = [AccountPersisterClass new];
     else
         accountPersister = [SFDefaultUserAccountPersister new];
-    
+
     if (_userAccountMap==nil)
         _userAccountMap= [NSMutableDictionary new];
     else
         [_userAccountMap removeAllObjects];
-    
+
     NSString *bundleOAuthCompletionUrl = [[NSBundle mainBundle] objectForInfoDictionaryKey:kSFUserAccountOAuthRedirectUri];
     if (bundleOAuthCompletionUrl != nil) {
         self.oauthCompletionUrl = bundleOAuthCompletionUrl;
