@@ -1,36 +1,25 @@
-/*
- Copyright (c) 2012-present, salesforce.com, inc. All rights reserved.
- 
- Redistribution and use of this software in source and binary forms, with or without modification,
- are permitted provided that the following conditions are met:
- * Redistributions of source code must retain the above copyright notice, this list of conditions
- and the following disclaimer.
- * Redistributions in binary form must reproduce the above copyright notice, this list of
- conditions and the following disclaimer in the documentation and/or other materials provided
- with the distribution.
- * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
- endorse or promote products derived from this software without specific prior written
- permission of salesforce.com, inc.
- 
- THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
- IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
- CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
- WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
- WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+//
+//  SFUserAccountManagerPersisterTests.m
+//  SalesforceSDKCore
+//
+//  Created by Raj Rao on 3/13/17.
+//  Copyright © 2017 salesforce.com. All rights reserved.
+//
 
 #import <XCTest/XCTest.h>
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
-#import "SFUserAccountManager+Internal.h"
 #import "SFDefaultUserAccountPersister.h"
+#import "SFUserAccountPersisterEphemeral.h"
+#import "SFUserAccountManager.h"
 
 static NSString * const kUserIdFormatString = @"005R0000000Dsl%lu";
 static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 
-@interface TestUserAccountManagerDelegate : NSObject <SFUserAccountManagerDelegate>
+@interface SFUserAccountManagerPersisterTests : XCTestCase
+@property (nonatomic, strong) SFUserAccountManager *uam;
+@end
+
+@interface TestUserAccountManagerPersisterDelegate : NSObject <SFUserAccountManagerDelegate>
 
 @property (nonatomic, strong) SFUserAccount *willSwitchOrigUserAccount;
 @property (nonatomic, strong) SFUserAccount *willSwitchNewUserAccount;
@@ -39,7 +28,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 
 @end
 
-@implementation TestUserAccountManagerDelegate
+@implementation TestUserAccountManagerPersisterDelegate
 
 - (id)init {
     self = [super init];
@@ -69,63 +58,49 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 
 @end
 
-/** Unit tests for the SFUserAccountManager
- */
-@interface SFUserAccountManagerTests : XCTestCase
-
-@property (nonatomic, strong) SFUserAccountManager *uam;
-
-- (SFUserAccount *)createNewUserWithIndex:(NSUInteger)index;
-- (NSArray *)createAndVerifyUserAccounts:(NSUInteger)numAccounts;
-
-@end
-
-@implementation SFUserAccountManagerTests
+@implementation SFUserAccountManagerPersisterTests
 
 - (void)setUp {
+    [super setUp];
+    [SFUserAccountManager setAccountPersisterClass:[SFUserAccountPersisterEphemeral class]];
+    [[SFUserAccountManager sharedInstance] reload];
+    self.uam = [SFUserAccountManager sharedInstance];
+}
 
-    // Delete the content of the global library directory
-    NSString *globalLibraryDirectory = [[SFDirectoryManager sharedManager] directoryForUser:nil type:NSLibraryDirectory components:nil];
-    [[[NSFileManager alloc] init] removeItemAtPath:globalLibraryDirectory error:nil];
+- (void)tearDown {
+    // Put teardown code here. This method is called after the invocation of each test method in the class.
     [SFUserAccountManager setAccountPersisterClass:nil];
     [[SFUserAccountManager sharedInstance] reload];
-    // Set the oauth client ID after deleting the content of the global library directory
-    // to ensure the SFUserAccountManager sharedInstance loads from an empty directory
-    self.uam = [SFUserAccountManager sharedInstance];
-    self.uam.oauthClientId = @"fakeClientIdForTesting";
-
-    // Ensure the user account manager doesn't contain any account
-    [self.uam clearAllAccountState];
-    self.uam.currentUser = nil;
-    [super setUp];
+    [super tearDown];
+    
 }
 
 - (void)testAccountIdentityEquality {
     NSDictionary *accountIdentityMatrix = @{
-                                            @"MatchGroup1": @[
-                                                    [[SFUserAccountIdentity alloc] initWithUserId:nil orgId:nil],
-                                                    [[SFUserAccountIdentity alloc] initWithUserId:nil orgId:nil]
-                                                    ],
-                                            @"MatchGroup2": @[
-                                                    [[SFUserAccountIdentity alloc] initWithUserId:nil orgId:@"OrgID1"],
-                                                    [[SFUserAccountIdentity alloc] initWithUserId:nil orgId:@"OrgID1"]
-                                                    ],
-                                            @"MatchGroup3": @[
-                                                    [[SFUserAccountIdentity alloc] initWithUserId:@"UserID1" orgId:nil],
-                                                    [[SFUserAccountIdentity alloc] initWithUserId:@"UserID1" orgId:nil]
-                                                    ],
-                                            @"MatchGroup4": @[
-                                                    [[SFUserAccountIdentity alloc] initWithUserId:@"UserID1" orgId:@"OrgID1"],
-                                                    [[SFUserAccountIdentity alloc] initWithUserId:@"UserID1" orgId:@"OrgID1"]
-                                                    ],
-                                            @"MatchGroup5": @[
-                                                    [[SFUserAccountIdentity alloc] initWithUserId:@"UserID2" orgId:@"OrgID2"],
-                                                    [[SFUserAccountIdentity alloc] initWithUserId:@"UserID2" orgId:@"OrgID2"]
-                                                    ]
-                                            };
+            @"MatchGroup1": @[
+                    [[SFUserAccountIdentity alloc] initWithUserId:nil orgId:nil],
+                    [[SFUserAccountIdentity alloc] initWithUserId:nil orgId:nil]
+            ],
+            @"MatchGroup2": @[
+                    [[SFUserAccountIdentity alloc] initWithUserId:nil orgId:@"OrgID1"],
+                    [[SFUserAccountIdentity alloc] initWithUserId:nil orgId:@"OrgID1"]
+            ],
+            @"MatchGroup3": @[
+                    [[SFUserAccountIdentity alloc] initWithUserId:@"UserID1" orgId:nil],
+                    [[SFUserAccountIdentity alloc] initWithUserId:@"UserID1" orgId:nil]
+            ],
+            @"MatchGroup4": @[
+                    [[SFUserAccountIdentity alloc] initWithUserId:@"UserID1" orgId:@"OrgID1"],
+                    [[SFUserAccountIdentity alloc] initWithUserId:@"UserID1" orgId:@"OrgID1"]
+            ],
+            @"MatchGroup5": @[
+                    [[SFUserAccountIdentity alloc] initWithUserId:@"UserID2" orgId:@"OrgID2"],
+                    [[SFUserAccountIdentity alloc] initWithUserId:@"UserID2" orgId:@"OrgID2"]
+            ]
+    };
     NSArray *keys = [accountIdentityMatrix allKeys];
     for (NSUInteger i = 0; i < [keys count]; i++) {
-        
+
         // Equality
         NSArray *equalIdentitiesArray = accountIdentityMatrix[keys[i]];
         for (NSUInteger j = 0; j < [equalIdentitiesArray count]; j++) {
@@ -135,7 +110,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
                 XCTAssertEqualObjects(obj1, obj2, @"Account identity '%@' and '%@' should be equal", obj1, obj2);
             }
         }
-        
+
         // Inequality
         for (NSUInteger j = 0; j < [equalIdentitiesArray count]; j++) {
             SFUserAccountIdentity *obj1 = equalIdentitiesArray[j];
@@ -156,14 +131,13 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     SFUserAccount *user = accounts[0];
     XCTAssertEqual(user.accountIdentity.userId, user.credentials.userId, @"Account identity UserID and credentials User ID should be equal.");
     XCTAssertEqual(user.accountIdentity.orgId, user.credentials.organizationId, @"Account identity UserID and credentials User ID should be equal.");
-    
+
     // Changed credentials IDs.
     user.credentials.userId = @"NewUserId";
     user.credentials.organizationId = @"NewOrgId";
-    NSString *plistForUserAccount = [SFDefaultUserAccountPersister userAccountPlistFileForUser:user];
     XCTAssertEqual(user.accountIdentity.userId, @"NewUserId", @"Updated User ID in credentials not reflected in account identity.");
     XCTAssertEqual(user.accountIdentity.orgId, @"NewOrgId", @"Updated Org ID in credentials not reflected in account identity.");
-    
+
     // Swap out credentials entirely.
     NSString *newCredentialsIdentifier = [NSString stringWithFormat:@"%@_1", user.credentials.identifier];
     SFOAuthCredentials *newCreds = [[SFOAuthCredentials alloc] initWithIdentifier:newCredentialsIdentifier clientId:user.credentials.clientId encrypted:YES];
@@ -175,52 +149,41 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 }
 
 - (void)testSingleAccount {
+   
+    [self.uam clearAllAccountState];
     // Ensure we start with a clean state
-    XCTAssertEqual([self.uam.allUserIdentities count], (NSUInteger)0, @"There should be no accounts");
-    
+    XCTAssertTrue(self.uam.allUserIdentities.count==0, @"There should be no accounts");
+
     // Create a single user
     NSArray *accounts = [self createAndVerifyUserAccounts:1];
     SFUserAccount *user = accounts[0];
-    // Check if the UserAccount.plist is stored at the right location
-    NSError *error = nil;
     
-    NSString *expectedLocation = [[SFDirectoryManager sharedManager] directoryForOrg:user.credentials.organizationId user:user.credentials.userId community:nil type:NSLibraryDirectory components:nil];
-    expectedLocation = [expectedLocation stringByAppendingPathComponent:@"UserAccount.plist"];
-    XCTAssertEqualObjects(expectedLocation, [SFDefaultUserAccountPersister userAccountPlistFileForUser:user], @"Mismatching user account paths");
-    NSFileManager *fm = [[NSFileManager alloc] init];
-    XCTAssertTrue([fm fileExistsAtPath:expectedLocation], @"Unable to find new UserAccount.plist");
+    if ([self.uam allUserAccounts].count==1)
     
+    XCTAssertEqual([self.uam allUserAccounts].count, (NSUInteger)1, @"There should be one account");
+
     // Now remove all the users and re-load
     [self.uam clearAllAccountState];
-    XCTAssertEqual([self.uam.allUserIdentities count], (NSUInteger)0, @"There should be no accounts");
+    XCTAssertEqual([self.uam.allUserAccounts count], (NSUInteger)0, @"There should be no accounts");
 
     [self.uam loadAccounts:nil];
-    XCTAssertTrue([self.uam allUserAccounts], @"Unable to load user accounts: %@", error);
+    
+    XCTAssertTrue([self.uam allUserAccounts].count>0, @"Unable to load user accounts: %@");
     NSString *userId = [NSString stringWithFormat:kUserIdFormatString, (unsigned long)0];
     XCTAssertEqualObjects(((SFUserAccountIdentity *)self.uam.allUserIdentities[0]).userId, userId, @"User ID doesn't match after reload");
-     [self deleteUserAndVerify:user userDir:expectedLocation];
+    [self deleteUserAndVerify:user];
 }
 
 - (void)testMultipleAccounts {
     // Ensure we start with a clean state
+    [self.uam clearAllAccountState];
     XCTAssertEqual([self.uam.allUserIdentities count], (NSUInteger)0, @"There should be no accounts");
 
     // Create 10 users
     [self createAndVerifyUserAccounts:10];
-    NSFileManager *fm = [[NSFileManager alloc] init];
-
-    // Ensure all directories have been correctly created
-    {
-        for (NSUInteger index=0; index<10; index++) {
-            NSString *orgId = [NSString stringWithFormat:kOrgIdFormatString, (unsigned long)index];
-            NSString *userId = [NSString stringWithFormat:kUserIdFormatString, (unsigned long)index];
-            NSString *location = [[SFDirectoryManager sharedManager] directoryForOrg:orgId user:userId community:nil type:NSLibraryDirectory components:nil];
-            location = [location stringByAppendingPathComponent:@"UserAccount.plist"];
-            XCTAssertTrue([fm fileExistsAtPath:location], @"Unable to find new UserAccount.plist at %@", location);
-        }
-    }
+    XCTAssertEqual([self.uam allUserAccounts].count, (NSUInteger)10, @"There should be 10 accounts");
     
-    // Remove and re-load all accounts
+    // Reload all accounts
     {
         [self.uam clearAllAccountState];
         XCTAssertEqual([self.uam.allUserIdentities count], (NSUInteger)0, @"There should be no accounts");
@@ -230,7 +193,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
         XCTAssertNil(error, @"Accounts should have been loaded");
         XCTAssertEqual(accounts.count,10,@"Must have 10 accounts");
     }
-    
+
     // Remove and verify that allUserAccounts property implicitly loads the accounts from disk.
     [self.uam clearAllAccountState];
     NSError *error =nil;
@@ -247,19 +210,17 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
         }
     }
     XCTAssertEqual(allTokens.count,10, @"Should not contain overlapping tokens");
-    
+
     // Remove each account and verify that its user folder is gone.
     for (NSUInteger index = 0; index < 10; index++) {
         NSString *orgId = [NSString stringWithFormat:kOrgIdFormatString, (unsigned long)index];
         NSString *userId = [NSString stringWithFormat:kUserIdFormatString, (unsigned long)index];
-        NSString *location = [[SFDirectoryManager sharedManager] directoryForOrg:orgId user:userId community:nil type:NSLibraryDirectory components:nil];
+       
         SFUserAccountIdentity *accountIdentity = [[SFUserAccountIdentity alloc] initWithUserId:userId orgId:orgId];
-        
+
         SFUserAccount *userAccount = [self.uam userAccountForUserIdentity:accountIdentity];
         XCTAssertNotNil(userAccount, @"User acccount with User ID '%@' and Org ID '%@' should exist.", userId, orgId);
-        XCTAssertTrue([fm fileExistsAtPath:location], @"User directory for User ID '%@' and Org ID '%@' should exist.", userId, orgId);
-        
-        [self deleteUserAndVerify:userAccount userDir:location];
+        [self deleteUserAndVerify:userAccount];
     }
 }
 
@@ -268,29 +229,18 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     SFUserAccount *origUser = accounts[0];
     SFUserAccount *newUser = accounts[1];
     self.uam.currentUser = origUser;
-    TestUserAccountManagerDelegate *acctDelegate = [[TestUserAccountManagerDelegate alloc] init];
+    TestUserAccountManagerPersisterDelegate *acctDelegate = [[TestUserAccountManagerPersisterDelegate alloc] init];
     [self.uam switchToUser:newUser];
     XCTAssertEqual(acctDelegate.willSwitchOrigUserAccount, origUser, @"origUser is not equal.");
     XCTAssertEqual(acctDelegate.willSwitchNewUserAccount, newUser, @"New user should be the same as the argument to switchToUser.");
     XCTAssertEqual(acctDelegate.didSwitchOrigUserAccount, origUser, @"origUser is not equal.");
     XCTAssertEqual(acctDelegate.didSwitchNewUserAccount, newUser, @"New user should be the same as the argument to switchToUser.");
     XCTAssertEqual(self.uam.currentUser, newUser, @"The current user should be set to newUser.");
+    [self deleteUserAndVerify:origUser];
+    [self deleteUserAndVerify:newUser];
 }
 
-- (void)testActiveIdentityUpgrade {
 
-    // Ensure we start with a clean state
-    NSUInteger allUserIdenties = [self.uam.allUserIdentities count];
-    XCTAssertEqual(allUserIdenties, 0, @"There should be no accounts");
-
-    NSArray *accounts = [self createAndVerifyUserAccounts:1];
-    SFUserAccount *newAccount = ((SFUserAccount *)accounts[0]);
-    [self.uam switchToUser:newAccount];
-    SFUserAccountIdentity *accountIdentity = newAccount.accountIdentity;
-    SFUserAccountIdentity *activeIdentity = self.uam.currentUserIdentity;
-    XCTAssertEqualObjects(accountIdentity, activeIdentity, @"Current identity should be the switched account identity.");
-
-}
 
 - (void)testIdentityDataModification {
     NSArray *accounts = [self createAndVerifyUserAccounts:1];
@@ -299,7 +249,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     [self.uam applyIdData:idData];
     int origMobileAppPinLength = self.uam.currentUser.idData.mobileAppPinLength;
     int origMobileAppScreenLockTimeout = self.uam.currentUser.idData.mobileAppScreenLockTimeout;
-    
+
     // Verify selective custom settings updates do not interfere with other previous identity data.
     NSDictionary *origCustomAttributes = self.uam.currentUser.idData.customAttributes;
     NSDictionary *origCustomPermissions = self.uam.currentUser.idData.customPermissions;
@@ -315,7 +265,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     XCTAssertFalse([self.uam.currentUser.idData.customPermissions isEqualToDictionary:origCustomPermissions], @"Permissions dictionaries should not be equal.");
     XCTAssertEqual(origMobileAppPinLength, self.uam.currentUser.idData.mobileAppPinLength, @"Mobile app pin length should not have changed.");
     XCTAssertEqual(origMobileAppScreenLockTimeout, self.uam.currentUser.idData.mobileAppScreenLockTimeout, @"Mobile app screen lock timeout should not have changed.");
-    
+
     // Verify that re-applying the whole of the identity data, overwrites changes.
     idData = [self sampleIdentityData];
     [self.uam applyIdData:idData];
@@ -323,6 +273,8 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     XCTAssertFalse([self.uam.currentUser.idData.customAttributes isEqualToDictionary:mutableCustomAttributes], @"Attributes dictionaries should not be equal.");
     XCTAssertTrue([self.uam.currentUser.idData.customPermissions isEqualToDictionary:origCustomPermissions], @"Custom permission changes should have been overwritten with whole identity write.");
     XCTAssertFalse([self.uam.currentUser.idData.customAttributes isEqualToDictionary:mutableCustomPermissions], @"Permissions dictionaries should not be equal.");
+    [self deleteUserAndVerify:self.uam.currentUser];
+
 }
 
 
@@ -345,7 +297,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
         // Add to the output array.
         [accounts addObject:user];
     }
-    
+
     return accounts;
 }
 
@@ -358,81 +310,79 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     return user;
 }
 
-- (void)deleteUserAndVerify:(SFUserAccount *)user userDir:(NSString *)userDir {
+- (void)deleteUserAndVerify:(SFUserAccount *)user {
     SFUserAccountIdentity *identity = user.accountIdentity;
     NSError *deleteAccountError = nil;
     [self.uam deleteAccountForUser:user error:&deleteAccountError];
     XCTAssertNil(deleteAccountError, @"Error deleting account with User ID '%@' and Org ID '%@': %@", identity.userId, identity.orgId, [deleteAccountError localizedDescription]);
-    NSFileManager *fm = [[NSFileManager alloc] init];
-    XCTAssertFalse([fm fileExistsAtPath:userDir], @"User directory for User ID '%@' and Org ID '%@' should be removed.", identity.userId, identity.orgId);
     SFUserAccount *inMemoryAccount = [self.uam userAccountForUserIdentity:identity];
     XCTAssertNil(inMemoryAccount, @"deleteUser should have removed user account with User ID '%@' and OrgID '%@' from the list of users.", identity.userId, identity.orgId);
 }
 
 - (SFIdentityData *)sampleIdentityData {
     NSDictionary *sampleIdDataDict = @{
-                                       @"mobile_phone" : @"+1 4155551234",
-                                       @"first_name" : @"Test",
-                                       @"mobile_phone_verified" : @YES,
-                                       @"active" : @YES,
-                                       @"utcOffset" : @(-28800000),
-                                       @"username" : @"testuser@fake.salesforce.org",
-                                       @"last_modified_date" : @"2013-04-19T22:12:04.000+0000",
-                                       @"id" : @"https://test.salesforce.com/id/00DS0000000IDdtWAH/005S0000004y9JkCAF",
-                                       @"locale" : @"en_US",
-                                       @"urls" : @{
-                                               @"users" : @"https://cs1.salesforce.com/services/data/v{version}/chatter/users",
-                                               @"search" : @"https://cs1.salesforce.com/services/data/v{version}/search/",
-                                               @"metadata" : @"https://cs1.salesforce.com/services/Soap/m/{version}/00DS0000000IDdt",
-                                               @"query" : @"https://cs1.salesforce.com/services/data/v{version}/query/",
-                                               @"enterprise" : @"https://cs1.salesforce.com/services/Soap/c/{version}/00DS0000000IDdt",
-                                               @"profile" : @"https://cs1.salesforce.com/005S0000004y9JkCAF",
-                                               @"sobjects" : @"https://cs1.salesforce.com/services/data/v{version}/sobjects/",
-                                               @"groups" : @"https://cs1.salesforce.com/services/data/v{version}/chatter/groups",
-                                               @"rest" : @"https://cs1.salesforce.com/services/data/v{version}/",
-                                               @"feed_items" : @"https://cs1.salesforce.com/services/data/v{version}/chatter/feed-items",
-                                               @"recent" : @"https://cs1.salesforce.com/services/data/v{version}/recent/",
-                                               @"feeds" : @"https://cs1.salesforce.com/services/data/v{version}/chatter/feeds",
-                                               @"partner" : @"https://cs1.salesforce.com/services/Soap/u/{version}/00DS0000000IDdt"
-                                               },
-                                       @"addr_zip" : @"94105",
-                                       @"addr_country" : @"US",
-                                       @"asserted_user" : @YES,
-                                       @"email_verified" : @YES,
-                                       @"nick_name" : @"testuser1.3664094337872896E12",
-                                       @"user_id" : @"005S0000004y9JkCAF",
-                                       @"is_app_installed" : @YES,
-                                       @"user_type" : @"STANDARD",
-                                       @"addr_street" : @"123 Test User Ln",
-                                       @"timezone" : @"America/Los_Angeles",
-                                       @"mobile_policy" : @{
-                                               @"pin_length" : @"4",
-                                               @"screen_lock" : @"10"
-                                               },
-                                       @"organization_id" : @"00DS0000000IDdtWAH",
-                                       @"addr_city" : @"Testville",
-                                       @"addr_state" : @"CA",
-                                       @"language" : @"en_US",
-                                       @"last_name" : @"User",
-                                       @"display_name" : @"Test User",
-                                       @"photos" : @{
-                                               @"thumbnail" : @"https://c.cs1.content.force.com/profilephoto/729S00000009ZdF/T",
-                                               @"picture" : @"https://c.cs1.content.force.com/profilephoto/729S00000009ZdF/F"
-                                               },
-                                       @"email" : @"testuser@salesforce.nonexistentemail",
-                                       @"custom_attributes" : @{
-                                               @"TestAttribute1" : @"TestVal1",
-                                               @"TestAttribute2" : @"TestVal2"
-                                               },
-                                       @"custom_permissions": @{
-                                               @"CustomPerm1" : @"CustomVal1",
-                                               @"CustomPerm2" : @"CustomVal2"
-                                               },
-                                       @"status" : @{
-                                               @"body" : [NSNull null],
-                                               @"created_date" : [NSNull null]
-                                               }
-                                       };
+            @"mobile_phone" : @"+1 4155551234",
+            @"first_name" : @"Test",
+            @"mobile_phone_verified" : @YES,
+            @"active" : @YES,
+            @"utcOffset" : @(-28800000),
+            @"username" : @"testuser@fake.salesforce.org",
+            @"last_modified_date" : @"2013-04-19T22:12:04.000+0000",
+            @"id" : @"https://test.salesforce.com/id/00DS0000000IDdtWAH/005S0000004y9JkCAF",
+            @"locale" : @"en_US",
+            @"urls" : @{
+                    @"users" : @"https://cs1.salesforce.com/services/data/v{version}/chatter/users",
+                    @"search" : @"https://cs1.salesforce.com/services/data/v{version}/search/",
+                    @"metadata" : @"https://cs1.salesforce.com/services/Soap/m/{version}/00DS0000000IDdt",
+                    @"query" : @"https://cs1.salesforce.com/services/data/v{version}/query/",
+                    @"enterprise" : @"https://cs1.salesforce.com/services/Soap/c/{version}/00DS0000000IDdt",
+                    @"profile" : @"https://cs1.salesforce.com/005S0000004y9JkCAF",
+                    @"sobjects" : @"https://cs1.salesforce.com/services/data/v{version}/sobjects/",
+                    @"groups" : @"https://cs1.salesforce.com/services/data/v{version}/chatter/groups",
+                    @"rest" : @"https://cs1.salesforce.com/services/data/v{version}/",
+                    @"feed_items" : @"https://cs1.salesforce.com/services/data/v{version}/chatter/feed-items",
+                    @"recent" : @"https://cs1.salesforce.com/services/data/v{version}/recent/",
+                    @"feeds" : @"https://cs1.salesforce.com/services/data/v{version}/chatter/feeds",
+                    @"partner" : @"https://cs1.salesforce.com/services/Soap/u/{version}/00DS0000000IDdt"
+            },
+            @"addr_zip" : @"94105",
+            @"addr_country" : @"US",
+            @"asserted_user" : @YES,
+            @"email_verified" : @YES,
+            @"nick_name" : @"testuser1.3664094337872896E12",
+            @"user_id" : @"005S0000004y9JkCAF",
+            @"is_app_installed" : @YES,
+            @"user_type" : @"STANDARD",
+            @"addr_street" : @"123 Test User Ln",
+            @"timezone" : @"America/Los_Angeles",
+            @"mobile_policy" : @{
+                    @"pin_length" : @"4",
+                    @"screen_lock" : @"10"
+            },
+            @"organization_id" : @"00DS0000000IDdtWAH",
+            @"addr_city" : @"Testville",
+            @"addr_state" : @"CA",
+            @"language" : @"en_US",
+            @"last_name" : @"User",
+            @"display_name" : @"Test User",
+            @"photos" : @{
+                    @"thumbnail" : @"https://c.cs1.content.force.com/profilephoto/729S00000009ZdF/T",
+                    @"picture" : @"https://c.cs1.content.force.com/profilephoto/729S00000009ZdF/F"
+            },
+            @"email" : @"testuser@salesforce.nonexistentemail",
+            @"custom_attributes" : @{
+                    @"TestAttribute1" : @"TestVal1",
+                    @"TestAttribute2" : @"TestVal2"
+            },
+            @"custom_permissions": @{
+                    @"CustomPerm1" : @"CustomVal1",
+                    @"CustomPerm2" : @"CustomVal2"
+            },
+            @"status" : @{
+                    @"body" : [NSNull null],
+                    @"created_date" : [NSNull null]
+            }
+    };
     SFIdentityData *idData = [[SFIdentityData alloc] initWithJsonDict:sampleIdDataDict];
     return idData;
 }

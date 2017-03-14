@@ -30,11 +30,27 @@
 #import "SFPluginTestSuite.h"
 #import "AppDelegate.h"
 #import "SFTestRunnerPlugin.h"
+#import <SalesforceSDKCore/TestSetupUtils.h>
 
 @implementation SFPluginTestSuite
 
+static NSException *authException = nil;
+
 @synthesize jsTestName = _jsTestName;
 @synthesize jsSuiteName = _jsSuiteName;
+
++ (void)setUp
+{
+    @try {
+        [SFLogger sharedLogger].logLevel = SFLogLevelDebug;
+        [TestSetupUtils synchronousAuthRefresh];
+    }
+    @catch (NSException *exception) {
+        [self log:SFLogLevelDebug format:@"Populating auth from config failed: %@", exception];
+        authException = exception;
+    }
+    [super setUp];
+}
 
 - (void)setUp
 {

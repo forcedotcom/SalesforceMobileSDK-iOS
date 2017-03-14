@@ -313,7 +313,6 @@
     }];
 }
 
-
 -(void) checkFileSystem:(NSArray*)expectedEntries shouldExist:(BOOL)shouldExist store:(SFSmartStore*)store soupName:(NSString*)soupName
 {
     __block NSString *soupTableName;
@@ -337,7 +336,6 @@
     }
 }
 
-
 - (SFUserAccount*)setUpSmartStoreUser
 {
     u_int32_t userIdentifier = arc4random();
@@ -346,7 +344,9 @@
     NSString *orgId = [NSString stringWithFormat:@"org_%u", userIdentifier];
     user.credentials.identityUrl = [NSURL URLWithString:[NSString stringWithFormat:@"https://login.salesforce.com/id/%@/%@", orgId, userId]];
 
-    [[SFUserAccountManager sharedInstance] updateAccount:user];
+    NSError *error = nil;
+    [[SFUserAccountManager sharedInstance] saveAccountForUser:user error:&error];
+    XCTAssertNil(error);
     [SFUserAccountManager sharedInstance].currentUser = user;
     
     return user;

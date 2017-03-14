@@ -306,7 +306,8 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
      * WKWebView that hosts the login screen (important for SSO outside of Salesforce domains).
      */
     [SFSDKWebUtils configureUserAgent:[self sfHybridViewUserAgentString]];
-    [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
+    [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
+        [SFUserAccountManager sharedInstance].currentUser = userAccount;
         [self authenticationCompletion:nil authInfo:authInfo];
         if (authInfo.authType == SFOAuthTypeRefresh) {
             [self loadVFPingPage];
@@ -559,8 +560,8 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
              */
             [SFSDKWebUtils configureUserAgent:[self sfHybridViewUserAgentString]];
             [[SFAuthenticationManager sharedManager]
-             loginWithCompletion:^(SFOAuthInfo *authInfo) {
-                 
+             loginWithCompletion:^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
+                 [SFUserAccountManager sharedInstance].currentUser = userAccount;
                  // Reset the user agent back to Cordova.
                  [self authenticationCompletion:refreshUrl authInfo:authInfo];
              } failure:^(SFOAuthInfo *authInfo, NSError *error) {
@@ -623,8 +624,8 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
              * UIWebView that hosts the login screen (important for SSO outside of Salesforce domains).
              */
             [SFSDKWebUtils configureUserAgent:[self sfHybridViewUserAgentString]];
-            [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
-
+            [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
+                [SFUserAccountManager sharedInstance].currentUser = userAccount;
                 // Reset the user agent back to Cordova.
                 [self authenticationCompletion:refreshUrl authInfo:authInfo];
             } failure:^(SFOAuthInfo *authInfo, NSError *error) {

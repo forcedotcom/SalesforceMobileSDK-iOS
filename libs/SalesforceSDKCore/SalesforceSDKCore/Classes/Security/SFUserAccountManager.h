@@ -89,6 +89,35 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
 
 @end
 
+@protocol SFUserAccountPersister <NSObject>
+
+/**
+ Called when the Account manager requires to save the state of an account.
+ @param userAccount The instance of SFUserAccount making the call.
+ @param  error On output, the error if the return value is NO
+ @return YES if the account was saved properly, NO in case of error
+ */
+- (BOOL)saveAccountForUser:(SFUserAccount *)userAccount error:(NSError **) error;
+
+/** Fetches all the accounts.
+  @param error On output, the error if the return value is NO
+  @return NSDictionary with SFUserAccountIdentity as keys and SFUserAccount as values
+  */
+- (NSDictionary<SFUserAccountIdentity *,SFUserAccount *> *)fetchAllAccounts:(NSError **)error;
+
+/**
+ Allows you to remove the given user account.
+ @param user The user account to remove.
+ @param error Output error parameter, populated if there was an error deleting
+ the account (likely from the filesystem operations).
+ @return YES if the deletion was successful, NO otherwise.  Note: If no persisted account matching
+ the user parameter is found, no action will be taken, and deletion will be reported as successful.
+ */
+- (BOOL)deleteAccountForUser:(SFUserAccount *)user error:(NSError **)error;
+
+@end
+
+
 /** Class used to manage the accounts functions used across the app.
  It supports multiple accounts and their associated credentials.
  */
@@ -156,13 +185,6 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
 + (void)applyCurrentLogLevel:(SFOAuthCredentials*)credentials;
 
 /**
- Returns the path of the user account plist file for the specified user
- @param user The user
- @return the path to the user account plist of the specified user
- */
-+ (NSString*)userAccountPlistFileForUser:(SFUserAccount*)user;
-
-/**
  Adds a delegate to this user account manager.
  @param delegate The delegate to add.
  */
@@ -182,11 +204,11 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
 
 /** An NSArray of all the SFUserAccount instances for the app.
  */
--(nullable NSArray <SFUserAccount *> *) allUserAccounts;
+- (nullable NSArray <SFUserAccount *> *) allUserAccounts;
 
 /** Returns all the user identities sorted by Org ID and User ID.
  */
--(nullable NSArray<SFUserAccountIdentity*> *) allUserIdentities;
+- (nullable NSArray<SFUserAccountIdentity*> *) allUserIdentities;
 
 /** Can be used to create an empty user account if you wish to configure all of the account info yourself.
  Otherwise, use `login` to allow SFUserAccountManager to automatically create an account when necessary.
@@ -211,10 +233,15 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
  */
 - (NSArray<SFUserAccount*> *)accountsForInstanceURL:(NSURL *)instanceURL;
 
-/** Adds a user account
+/** Adds/Updates a user account
  @param acct The account to be added
  */
-- (void)updateAccount:(SFUserAccount *)acct;
+- (BOOL)saveAccountForUser:(SFUserAccount *)userAccount error:(NSError **) error;
+
+/** Lookup  a user account
+ @param credentials used to  up Account matching the credentials
+ */
+- (SFUserAccount *)accountForCredentials:(SFOAuthCredentials *) credentials;
 
 /**
  Allows you to remove the given user account.
@@ -231,11 +258,11 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
 - (void)clearAllAccountState;
 
 /** Invoke this method to apply the specified credentials to the
- current user. If no user exists, a new one is created.
+ a user whose credentials match. If no user exists, a new one is created.
  This will post user update notification.
  @param credentials The credentials to apply
  */
-- (void)applyCredentials:(SFOAuthCredentials*)credentials;
+- (SFUserAccount *) applyCredentials:(SFOAuthCredentials*)credentials;
 
 /** Invoke this method to apply the specified id data to the
  current user. This will post user update notification.
@@ -283,9 +310,22 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
 - (void)userChanged:(SFUserAccountChange)change;
 /**
  *
- * @return the current Credentials
+ * @return the default Credentials
  */
--(SFOAuthCredentials *)currentCredentials;
+- (SFOAuthCredentials *)oauthCredentials;
+
+/** Invoke this method to replace the SFDefaultUserAccountPersister with a custom implementation.
+ *
+ * @param persister An object that implements SFUserAccountPersister
+ */
++ (void)setAccountPersisterClass:(nullable Class) persister;
+
+/** Get the AccountPersister being used but
+ * @return AccountPersister that is used by SFUserAccountPersister.
+ */
+- (nullable id<SFUserAccountPersister>)accountPersister;
+
+- (void)reload;
 
 @end
 

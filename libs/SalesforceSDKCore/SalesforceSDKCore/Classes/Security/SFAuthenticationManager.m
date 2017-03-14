@@ -26,7 +26,7 @@
 #import "SFApplication.h"
 #import "SFAuthenticationManager+Internal.h"
 #import "SalesforceSDKManager+Internal.h"
-#import "SFUserAccount.h"
+#import "SFUserAccount+Internal.h"
 #import "SFUserAccountManager+Internal.h"
 #import "SFUserAccountIdentity.h"
 #import "SFUserAccountManagerUpgrade.h"
@@ -327,12 +327,6 @@ static Class InstanceClass = nil;
         
         // Set up default auth error handlers.
         self.authErrorHandlerList = [self populateDefaultAuthErrorHandlerList];
-        
-        // Set up the current user, if available
-        SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
-        if (user) {
-            [self setupWithUser:user];
-        }
     }
     
     return self;
@@ -348,7 +342,7 @@ static Class InstanceClass = nil;
 - (BOOL)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
                     failure:(SFOAuthFlowFailureCallbackBlock)failureBlock
 {
-    return [self loginWithCompletion:completionBlock failure:failureBlock credentials:[[SFUserAccountManager sharedInstance] currentCredentials]];
+    return [self loginWithCompletion:completionBlock failure:failureBlock credentials:[[SFUserAccountManager sharedInstance] oauthCredentials]];
 }
 
 
@@ -385,7 +379,7 @@ static Class InstanceClass = nil;
 {
     
     NSAssert(jwtToken.length > 0, @"JWT token value required.");
-    SFOAuthCredentials *credentials = [[SFUserAccountManager sharedInstance] currentCredentials];
+    SFOAuthCredentials *credentials = [[SFUserAccountManager sharedInstance] oauthCredentials];
     credentials.jwt = jwtToken;
     return [self loginWithCompletion:completionBlock
                              failure:failureBlock
@@ -431,17 +425,11 @@ static Class InstanceClass = nil;
         return;
     }
 
-    // No-op if the user is anonymous.
-    if (nil == [SFUserAccountManager sharedInstance].currentUser) {
-        [self log:SFLogLevelDebug msg:@"logoutUser: user is anonymous.  No action taken."];
-        return;
-    }
-    
     if (user.isUserLoggingOut) {
         [self log:SFLogLevelInfo msg:@"logoutUser: user is already in the process of logout."];
         return;
     }
-    user.userLoggingOut = YES;
+
     [self log:SFLogLevelInfo format:@"Logging out user '%@'.", user.userName];
     NSDictionary *userInfo = @{ @"account": user };
     [[NSNotificationCenter defaultCenter] postNotificationName:kSFUserWillLogoutNotification
@@ -640,20 +628,15 @@ static Class InstanceClass = nil;
 
 - (void)finalizeAuthCompletion
 {
-    // Apply the credentials that will ensure there is a current user and that this
+    // Apply the credentials that will ensure there is a user and that this
     // current user as the proper credentials.
-    [[SFUserAccountManager sharedInstance] applyCredentials:self.coordinator.credentials];
-    
-    // Assign the identity data to the current user
-    NSAssert([SFUserAccountManager sharedInstance].currentUser != nil, @"Current user should not be nil at this point.");
+    SFUserAccount *user = [[SFUserAccountManager sharedInstance] applyCredentials:self.coordinator.credentials];
     [[SFUserAccountManager sharedInstance] applyIdData:self.idCoordinator.idData];
-    [[SFUserAccountManager sharedInstance] updateAccount:[SFUserAccountManager sharedInstance].currentUser];
 
     // Notify the session is ready
     [self willChangeValueForKey:@"haveValidSession"];
     [self didChangeValueForKey:@"haveValidSession"];
     NSDictionary *userInfo = nil;
-    SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
     if (user) {
         userInfo = @{ @"account" : user };
     }
@@ -661,7 +644,7 @@ static Class InstanceClass = nil;
     [[NSNotificationCenter defaultCenter] postNotificationName:kSFAuthenticationManagerFinishedNotification
                                                         object:self
                                                       userInfo:userInfo];
-    [self execCompletionBlocks];
+    [self execCompletionBlocksWithUser:user];
 }
 
 - (void)initAnalyticsManager
@@ -671,7 +654,7 @@ static Class InstanceClass = nil;
     [analyticsManager updateLoggingPrefs];
 }
 
-- (void)execCompletionBlocks
+- (void)execCompletionBlocksWithUser:(SFUserAccount *) user
 {
     NSMutableArray *authBlockListCopy = [NSMutableArray array];
     SFOAuthInfo *localInfo;
@@ -689,7 +672,7 @@ static Class InstanceClass = nil;
     for (SFAuthBlockPair *pair in authBlockListCopy) {
         if (pair.successBlock) {
             SFOAuthFlowSuccessCallbackBlock copiedBlock = [pair.successBlock copy];
-            copiedBlock(localInfo);
+            copiedBlock(localInfo,user);
         }
     }
     
@@ -751,7 +734,7 @@ static Class InstanceClass = nil;
 
 - (void)login
 {
-    [self loginWithCredentials:[SFUserAccountManager sharedInstance].currentCredentials];
+    [self loginWithCredentials:[SFUserAccountManager sharedInstance].oauthCredentials];
 }
 
 
@@ -789,7 +772,7 @@ static Class InstanceClass = nil;
 
 - (void)setupWithCredentials:(SFOAuthCredentials*) credentials {
 
-    // re-create the oauth coordinator for the current user
+    // re-create the oauth coordinator using credentials
     self.coordinator.delegate = nil;
     self.coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:credentials];
     self.coordinator.advancedAuthConfiguration = self.advancedAuthConfiguration;
@@ -797,38 +780,38 @@ static Class InstanceClass = nil;
     self.coordinator.additionalOAuthParameterKeys = self.additionalOAuthParameterKeys;
     self.coordinator.additionalTokenRefreshParams = self.additionalTokenRefreshParams;
     self.coordinator.scopes =  [SFUserAccountManager sharedInstance].scopes;
-    // re-create the identity coordinator for the current user
+    // re-create the identity coordinator using credentials
     self.idCoordinator.delegate = nil;
     self.idCoordinator = [[SFIdentityCoordinator alloc] initWithCredentials:credentials];
     self.idCoordinator.delegate = self;
 }
-- (void)setupWithUser:(SFUserAccount*)account {
-    // sets the domain if it not set already
-    if (nil == account.credentials.domain) {
-        account.credentials.domain = [[SFUserAccountManager sharedInstance] loginHost];
-    }
-    
-    // if the user doesn't specify any scopes, let's use the ones
-    // defined in this account manager
-    if (nil == account.accessScopes) {
-        account.accessScopes = [SFUserAccountManager sharedInstance].scopes;
-    }
-    
-    // re-create the oauth coordinator for the current user
-    self.coordinator.delegate = nil;
-    self.coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:account.credentials];
-    self.coordinator.scopes = account.accessScopes;
-    self.coordinator.advancedAuthConfiguration = self.advancedAuthConfiguration;
-    self.coordinator.delegate = self;
-    self.coordinator.additionalOAuthParameterKeys = self.additionalOAuthParameterKeys;
-    self.coordinator.additionalTokenRefreshParams = self.additionalTokenRefreshParams;
-    
-    // re-create the identity coordinator for the current user
-    self.idCoordinator.delegate = nil;
-    self.idCoordinator = [[SFIdentityCoordinator alloc] initWithCredentials:account.credentials];
-    self.idCoordinator.idData = account.idData;
-    self.idCoordinator.delegate = self;
-}
+//- (void)setupWithUser:(SFUserAccount*)account {
+//    // sets the domain if it not set already
+//    if (nil == account.credentials.domain) {
+//        account.credentials.domain = [[SFUserAccountManager sharedInstance] loginHost];
+//    }
+//
+//    // if the user doesn't specify any scopes, let's use the ones
+//    // defined in this account manager
+//    if (nil == account.accessScopes) {
+//        account.accessScopes = [SFUserAccountManager sharedInstance].scopes;
+//    }
+//
+//    // re-create the oauth coordinator for the current user
+//    self.coordinator.delegate = nil;
+//    self.coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:account.credentials];
+//    self.coordinator.scopes = account.accessScopes;
+//    self.coordinator.advancedAuthConfiguration = self.advancedAuthConfiguration;
+//    self.coordinator.delegate = self;
+//    self.coordinator.additionalOAuthParameterKeys = self.additionalOAuthParameterKeys;
+//    self.coordinator.additionalTokenRefreshParams = self.additionalTokenRefreshParams;
+//
+//    // re-create the identity coordinator for the current user
+//    self.idCoordinator.delegate = nil;
+//    self.idCoordinator = [[SFIdentityCoordinator alloc] initWithCredentials:account.credentials];
+//    self.idCoordinator.idData = account.idData;
+//    self.idCoordinator.delegate = self;
+//}
 
 /**
  * Clears the account state of the given account (i.e. clears credentials, coordinator
@@ -1364,7 +1347,8 @@ static Class InstanceClass = nil;
 
         // No retry, as missing parameters are fatal
         [self log:SFLogLevelError format:@"Missing parameters attempting to retrieve identity data.  Error domain: %@, code: %ld, description: %@", [error domain], [error code], [error localizedDescription]];
-        [self revokeRefreshToken:[SFUserAccountManager sharedInstance].currentUser];
+        SFUserAccount *userAccount = [[SFUserAccountManager sharedInstance] accountForCredentials:coordinator.credentials];
+        [self revokeRefreshToken:userAccount];
         self.authError = error;
         [self execFailureBlocks];
     } else {

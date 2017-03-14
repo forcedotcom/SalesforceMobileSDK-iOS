@@ -34,9 +34,14 @@
 
 - (void)testOrgLevelPreferences {
     SFUserAccount *user =[[SFUserAccount alloc] initWithIdentifier:@"happy-user"];
-    [[SFUserAccountManager sharedInstance] updateAccount:user];
+    NSError *error = nil;
+    BOOL success = [[SFUserAccountManager sharedInstance] saveAccountForUser:user error:&error];
+    XCTAssertNil(error, @"Should be able to create user account");
+        
     user.credentials.identityUrl = [NSURL URLWithString:@"https://login.salesforce.com/id/00D000000000062EA0/005R0000000Dsl0"];
-    [[SFUserAccountManager sharedInstance] updateAccount:user];
+    success = [[SFUserAccountManager sharedInstance] saveAccountForUser:user error:&error];
+    XCTAssertNil(error, @"Should be able to update user account");
+    
     [SFUserAccountManager sharedInstance].currentUser = user;
 
     SFPreferences *prefs = [SFPreferences currentOrgLevelPreferences];
@@ -57,7 +62,11 @@
 - (void)testUserLevelPreferences {
     SFUserAccount *user = [[SFUserAccount alloc] initWithIdentifier:@"happy-user"];
     user.credentials.identityUrl = [NSURL URLWithString:@"https://login.salesforce.com/id/00D000000000062EA0/005R0000000Dsl0"];
-    [[SFUserAccountManager sharedInstance] updateAccount:user];
+ 
+    NSError *error = nil;
+    [[SFUserAccountManager sharedInstance] saveAccountForUser:user error:&error];
+    XCTAssertNil(error, @"Should be able to create user account");
+ 
     [SFUserAccountManager sharedInstance].currentUser = user;
     
     SFPreferences *prefs = [SFPreferences currentUserLevelPreferences];
@@ -79,7 +88,9 @@
 - (void)testCommunityLevelPreferences {
     SFUserAccount *user = [[SFUserAccount alloc] initWithIdentifier:@"happy-user"];
     user.credentials.identityUrl = [NSURL URLWithString:@"https://login.salesforce.com/id/00D000000000062EA0/005R0000000Dsl0"];
-    [[SFUserAccountManager sharedInstance] updateAccount:user];
+    NSError *error = nil;
+    [[SFUserAccountManager sharedInstance] saveAccountForUser:user error:&error];
+    XCTAssertNil(error, @"Should be able to create user account");
     [SFUserAccountManager sharedInstance].currentUser = user;
     
     SFPreferences *prefs = [SFPreferences currentCommunityLevelPreferences];

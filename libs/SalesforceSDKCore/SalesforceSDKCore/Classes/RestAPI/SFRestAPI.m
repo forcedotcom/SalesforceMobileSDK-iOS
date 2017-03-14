@@ -191,7 +191,8 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     SFUserAccount *user = currentNetwork.account;
     if (user.credentials.accessToken == nil && user.credentials.refreshToken == nil && request.requiresAuthentication) {
         [self log:SFLogLevelInfo msg:@"No auth credentials found.  Authenticating before sending request."];
-        [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
+        [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
+            [[SFUserAccountManager sharedInstance] setCurrentUser:userAccount];
             [request prepareRequestForSend];
             [currentNetwork executeAction:request.action];
         } failure:^(SFOAuthInfo *authInfo, NSError *error) {
