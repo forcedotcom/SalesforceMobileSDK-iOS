@@ -1,6 +1,6 @@
 /*
- Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
- 
+ Copyright (c) 2011-present, salesforce.com, inc. All rights reserved.
+
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
  * Redistributions of source code must retain the above copyright notice, this list of conditions
@@ -11,7 +11,7 @@
  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
  endorse or promote products derived from this software without specific prior written
  permission of salesforce.com, inc.
- 
+
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -21,29 +21,44 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#import "SFUserAccountPersisterEphemeral.h"
 
-#import <Foundation/Foundation.h>
-#import "SFUserAccount.h"
+@interface SFUserAccountPersisterEphemeral() {
+    NSMutableDictionary<SFUserAccountIdentity *,SFUserAccount *> *_userAccountMap;
+}
+@end
 
-@class SFUserAccountManager;
-/**
- * Class for updating legacy accounts and active users to current standards.
- */
+@implementation SFUserAccountPersisterEphemeral
 
-@interface SFUserAccountManagerUpgrade : NSObject
+- (instancetype) init {
 
-/**
- If legacy account data exists, create a user account from that data, and then remove
- the legacy data.
- @return An `SFUserAccount` object based on the legacy data, or `nil` if there is no legacy
- account data.
- */
-+ (SFUserAccount *)createUserFromLegacyAccountData;
+    if (self = [super init]) {
+        _userAccountMap = [NSMutableDictionary new];
+    }
+    return self;
+}
 
-/**
- If legacy active user data exists, update it to the user identity data model.
- @param accountManager The user account manager to query user data.
- */
-+ (void)updateToActiveUserIdentity:(SFUserAccountManager *)accountManager;
+- (BOOL)saveAccountForUser:(SFUserAccount *)userAccount error:(NSError **)error {
+    SFUserAccountIdentity *identity = userAccount.accountIdentity;
+    [_userAccountMap setObject:userAccount forKey:identity];
+    return YES;
+}
+
+- (NSDictionary<SFUserAccountIdentity *, SFUserAccount *> *)fetchAllAccounts:(NSError **)error {
+    return [NSDictionary dictionaryWithDictionary:_userAccountMap];
+}
+
+- (BOOL)deleteAccountForUser:(SFUserAccount *)user error:(NSError **)error {
+
+    if (user.accountIdentity == nil)
+        return NO;
+
+    if (![_userAccountMap objectForKey:user.accountIdentity])
+        return NO;
+
+    [_userAccountMap removeObjectForKey:user.accountIdentity];
+    return YES;
+}
+
 
 @end

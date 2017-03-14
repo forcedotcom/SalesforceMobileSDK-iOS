@@ -861,15 +861,16 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
 - (void) updateCredentials:(NSDictionary *) params {
 
     // Logging event for token refresh flow.
+    SFUserAccount *userAccount = [[SFUserAccountManager sharedInstance] accountForCredentials:self.credentials];
     if (self.authInfo.authType == SFOAuthTypeRefresh) {
-        [SFSDKEventBuilderHelper createAndStoreEvent:@"tokenRefresh" userAccount:nil className:NSStringFromClass([self class]) attributes:nil];
+        [SFSDKEventBuilderHelper createAndStoreEvent:@"tokenRefresh" userAccount:userAccount className:NSStringFromClass([self class]) attributes:nil];
     } else {
 
         // Logging events for add user and number of servers.
         NSArray *accounts = [SFUserAccountManager sharedInstance].allUserAccounts;
         NSMutableDictionary *userAttributes = [[NSMutableDictionary alloc] init];
         userAttributes[@"numUsers"] = [NSNumber numberWithInteger:(accounts ? accounts.count : 0)];
-        [SFSDKEventBuilderHelper createAndStoreEvent:@"addUser" userAccount:nil className:NSStringFromClass([self class]) attributes:userAttributes];
+        [SFSDKEventBuilderHelper createAndStoreEvent:@"addUser" userAccount:userAccount  className:NSStringFromClass([self class]) attributes:userAttributes];
         NSInteger numHosts = [SFSDKLoginHostStorage sharedInstance].numberOfLoginHosts;
         NSMutableArray<NSString *> *hosts = [[NSMutableArray alloc] init];
         for (int i = 0; i < numHosts; i++) {

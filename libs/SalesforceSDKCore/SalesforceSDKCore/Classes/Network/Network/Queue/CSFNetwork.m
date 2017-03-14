@@ -93,15 +93,15 @@ static NSMutableDictionary *SharedInstances = nil;
 
 + (instancetype)networkForUserAccount:(SFUserAccount*)account {
     CSFNetwork *instance = nil;
-    if (account!=nil) {
-        @synchronized (SharedInstances) {
-            instance = [CSFNetwork cachedNetworkForUserAccount:account];
-            if (!instance) {
-                NSString *key = CSFNetworkInstanceKey(account);
-                instance = SharedInstances[key] = [[self alloc] initWithUserAccount:account];
-            }
+   // if (account!=nil) {
+    @synchronized (SharedInstances) {
+        instance = [CSFNetwork cachedNetworkForUserAccount:account];
+        if (!instance) {
+            NSString *key = CSFNetworkInstanceKey(account);
+            instance = SharedInstances[key] = [[self alloc] initWithUserAccount:account];
         }
     }
+    //}
     return instance;
 }
 

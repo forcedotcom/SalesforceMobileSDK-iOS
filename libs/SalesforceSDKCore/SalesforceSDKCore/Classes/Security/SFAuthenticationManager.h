@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Callback block definition for OAuth completion callback.
  */
-typedef void (^SFOAuthFlowSuccessCallbackBlock)(SFOAuthInfo *);
+typedef void (^SFOAuthFlowSuccessCallbackBlock)(SFOAuthInfo *, SFUserAccount *);
 
 /**
  Callback block definition for OAuth failure callback.

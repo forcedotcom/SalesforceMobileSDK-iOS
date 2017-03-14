@@ -597,7 +597,7 @@ static Class InstanceClass = nil;
 
 - (void)authValidationAtLaunch
 {
-    if (self.authenticateAtLaunch &&  ![SFUserAccountManager sharedInstance].currentUser.credentials.accessToken) {
+    if (self.authenticateAtLaunch &&  [SFUserAccountManager sharedInstance].currentUser.credentials.accessToken==nil) {
         // Access token check works equally well for any of the members being nil, which are all conditions to
         // (re-)authenticate.
         [self.sdkManagerFlow authAtLaunch];
@@ -611,8 +611,9 @@ static Class InstanceClass = nil;
 - (void)authAtLaunch
 {
     [self log:SFLogLevelInfo msg:@"No valid credentials found.  Proceeding with authentication."];
-    [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
+    [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
         [self log:SFLogLevelInfo format:@"Authentication (%@) succeeded.  Launch completed.", authInfo.authTypeDescription];
+        [[SFUserAccountManager sharedInstance] setCurrentUser:userAccount];
         [SFSecurityLockout setupTimer];
         [SFSecurityLockout startActivityMonitoring];
         [self authValidatedToPostAuth:SFSDKLaunchActionAuthenticated];
@@ -627,7 +628,7 @@ static Class InstanceClass = nil;
     // If there is a current user (from a previous authentication), we still need to set up the
     // in-memory auth state of that user.
     if ([SFUserAccountManager sharedInstance].currentUser != nil) {
-        [[SFAuthenticationManager sharedManager] setupWithUser:[SFUserAccountManager sharedInstance].currentUser];
+        [[SFAuthenticationManager sharedManager] setupWithCredentials:[SFUserAccountManager sharedInstance].currentUser.credentials];
     }
     
     SFSDKLaunchAction noAuthLaunchAction;

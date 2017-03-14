@@ -22,6 +22,9 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <SalesforceSDKCore/SFUserAccountManager.h>
+#import <SalesforceSDKCore/SFJsonUtils.h>
+#import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import "TestSetupUtils.h"
 
 #import "SFJsonUtils.h"
@@ -70,15 +73,13 @@ static SFOAuthCredentials *credentials = nil;
     //check whether the test config file has never been edited
     NSAssert(![credsData.refreshToken isEqualToString:@"__INSERT_TOKEN_HERE__"],
              @"You need to obtain credentials for your test org and replace test_credentials.json");
-    
+    [SFUserAccountManager sharedInstance].currentUser = nil;
     [SFUserAccountManager sharedInstance].oauthClientId = credsData.clientId;
     [SFUserAccountManager sharedInstance].oauthCompletionUrl = credsData.redirectUri;
     [SFUserAccountManager sharedInstance].scopes = [NSSet setWithObjects:@"web", @"api", nil];
     [SFUserAccountManager sharedInstance].loginHost = credsData.loginHost;
-    SFUserAccountManager *accountMgr = [SFUserAccountManager sharedInstance];
-    SFUserAccount *account = [accountMgr createUserAccount];
-    [accountMgr setCurrentUser:account];
-    credentials = accountMgr.currentCredentials;
+     SFUserAccountManager *accountMgr = [SFUserAccountManager sharedInstance];
+    credentials = accountMgr.oauthCredentials;
     credentials.instanceUrl = [NSURL URLWithString:credsData.instanceUrl];
     credentials.identityUrl = [NSURL URLWithString:credsData.identityUrl];
     NSString *communityUrlString = credsData.communityUrl;
@@ -96,14 +97,18 @@ static SFOAuthCredentials *credentials = nil;
     // Make sure that method has run before this one.
     NSAssert(credentials!=nil, @"You must call populateAuthCredentialsFromConfigFileForClass before synchronousAuthRefresh");
     __block SFSDKTestRequestListener *authListener = [[SFSDKTestRequestListener alloc] init];
-    [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
+    __block SFUserAccount *user = nil;
+    [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
         authListener.returnStatus = kTestRequestStatusDidLoad;
+        user = userAccount;
     } failure:^(SFOAuthInfo *authInfo, NSError *error) {
         authListener.lastError = error;
         authListener.returnStatus = kTestRequestStatusDidFail;
     } credentials:credentials
     ];
     [authListener waitForCompletion];
+    [[SFUserAccountManager sharedInstance] setCurrentUser:user];
+
     NSAssert([authListener.returnStatus isEqualToString:kTestRequestStatusDidLoad], @"After auth attempt, expected status '%@', got '%@'",
               kTestRequestStatusDidLoad,
               authListener.returnStatus);

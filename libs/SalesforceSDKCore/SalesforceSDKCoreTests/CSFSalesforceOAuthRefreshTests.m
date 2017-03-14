@@ -82,7 +82,9 @@
     user.credentials.refreshToken = @"RefreshToken";
     user.credentials.instanceUrl = [NSURL URLWithString:@"http://example.org"];
     user.credentials.identityUrl = [NSURL URLWithString:@"https://example.org/id/orgID/userID"];
-    [[SFUserAccountManager sharedInstance] updateAccount:user];
+    NSError *error = nil;
+    [[SFUserAccountManager sharedInstance] saveAccountForUser:user error:&error];
+     XCTAssertNil(error);
 
     [SFUserAccountManager sharedInstance].currentUser = user;
 
