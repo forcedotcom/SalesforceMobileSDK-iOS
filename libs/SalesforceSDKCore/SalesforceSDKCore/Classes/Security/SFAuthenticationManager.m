@@ -576,7 +576,7 @@ static Class InstanceClass = nil;
 
 + (void)addSidCookieForInstance
 {
-    [self addSidCookieForDomain:[[SFUserAccountManager sharedInstance].currentUser.credentials.instanceUrl host]];
+    [self addSidCookieForDomain:[[SFUserAccountManager sharedInstance].currentUser.credentials.apiUrl host]];
 }
 
 + (void)addSidCookieForDomain:(NSString*)domain
