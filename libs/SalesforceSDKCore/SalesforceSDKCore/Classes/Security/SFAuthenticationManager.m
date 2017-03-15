@@ -784,33 +784,6 @@ static Class InstanceClass = nil;
     self.idCoordinator = [[SFIdentityCoordinator alloc] initWithCredentials:credentials];
     self.idCoordinator.delegate = self;
 }
-//- (void)setupWithUser:(SFUserAccount*)account {
-//    // sets the domain if it not set already
-//    if (nil == account.credentials.domain) {
-//        account.credentials.domain = [[SFUserAccountManager sharedInstance] loginHost];
-//    }
-//
-//    // if the user doesn't specify any scopes, let's use the ones
-//    // defined in this account manager
-//    if (nil == account.accessScopes) {
-//        account.accessScopes = [SFUserAccountManager sharedInstance].scopes;
-//    }
-//
-//    // re-create the oauth coordinator for the current user
-//    self.coordinator.delegate = nil;
-//    self.coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:account.credentials];
-//    self.coordinator.scopes = account.accessScopes;
-//    self.coordinator.advancedAuthConfiguration = self.advancedAuthConfiguration;
-//    self.coordinator.delegate = self;
-//    self.coordinator.additionalOAuthParameterKeys = self.additionalOAuthParameterKeys;
-//    self.coordinator.additionalTokenRefreshParams = self.additionalTokenRefreshParams;
-//
-//    // re-create the identity coordinator for the current user
-//    self.idCoordinator.delegate = nil;
-//    self.idCoordinator = [[SFIdentityCoordinator alloc] initWithCredentials:account.credentials];
-//    self.idCoordinator.idData = account.idData;
-//    self.idCoordinator.delegate = self;
-//}
 
 /**
  * Clears the account state of the given account (i.e. clears credentials, coordinator
