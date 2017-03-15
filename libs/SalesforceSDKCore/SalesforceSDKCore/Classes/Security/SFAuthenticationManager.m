@@ -29,7 +29,6 @@
 #import "SFUserAccount+Internal.h"
 #import "SFUserAccountManager+Internal.h"
 #import "SFUserAccountIdentity.h"
-#import "SFUserAccountManagerUpgrade.h"
 #import "SFAuthenticationViewHandler.h"
 #import "SFAuthErrorHandler.h"
 #import "SFAuthErrorHandlerList.h"

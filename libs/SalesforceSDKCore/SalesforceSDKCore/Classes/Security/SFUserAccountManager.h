@@ -234,7 +234,7 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
 - (NSArray<SFUserAccount*> *)accountsForInstanceURL:(NSURL *)instanceURL;
 
 /** Adds/Updates a user account
- @param acct The account to be added
+ @param userAccount The account to be added
  */
 - (BOOL)saveAccountForUser:(SFUserAccount *)userAccount error:(NSError **) error;
 
