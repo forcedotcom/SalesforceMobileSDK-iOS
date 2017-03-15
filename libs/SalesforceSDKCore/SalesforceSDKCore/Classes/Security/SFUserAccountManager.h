@@ -320,12 +320,6 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
  */
 + (void)setAccountPersisterClass:(nullable Class) persister;
 
-/** Get the AccountPersister being used but
- * @return AccountPersister that is used by SFUserAccountPersister.
- */
-- (nullable id<SFUserAccountPersister>)accountPersister;
-
-- (void)reload;
 
 @end
 

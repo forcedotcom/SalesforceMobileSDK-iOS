@@ -51,5 +51,15 @@
  @return The new user account with the given credentials.
  */
 - (nonnull SFUserAccount *)createUserAccountWithCredentials:(nonnull SFOAuthCredentials *)credentials;
+/**
+ * Reload the accounts and reset the state of SFUserAccountManager. Use for tests only
+ */
+- (void)reload;
+
+/** Get the AccountPersister being used but
+ * @return AccountPersister that is used by SFUserAccountPersister.
+ */
+- (nullable id<SFUserAccountPersister>)accountPersister;
+
 
 @end
