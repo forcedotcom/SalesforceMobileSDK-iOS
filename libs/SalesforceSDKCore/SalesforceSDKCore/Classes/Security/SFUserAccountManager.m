@@ -533,7 +533,7 @@ static id<SFUserAccountPersister> accountPersister;
     if (success) {
         [self.userAccountMap setObject:userAccount forKey:userAccount.accountIdentity];
         if (self.userAccountMap.count>1 && oldCount<self.userAccountMap.count ) {
-            [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureMultiUser];
+            [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureMultiUser];
         }
 
     }
@@ -550,7 +550,7 @@ static id<SFUserAccountPersister> accountPersister;
         user.userDeleted = YES;
         [self.userAccountMap removeObjectForKey:user.accountIdentity];
         if ([self.userAccountMap count] < 2) {
-            [[SalesforceSDKManager sharedManager] unregisterAppFeature:kSFAppFeatureMultiUser];
+            [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureMultiUser];
         }
         if ([user.accountIdentity isEqual:self->_currentUser.accountIdentity]) {
             _currentUser = nil;
