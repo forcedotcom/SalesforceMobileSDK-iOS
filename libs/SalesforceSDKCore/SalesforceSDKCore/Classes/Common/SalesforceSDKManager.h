@@ -101,6 +101,20 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
 + (void)setInstanceClass:(Class)className;
 
 /**
+ * Sets the app name to be used by the analytics framework.
+ *
+ * @param appName App name.
+ */
++ (void)setAiltnAppName:(nonnull NSString *)appName;
+
+/**
+ * Returns the app name being used by the analytics framework.
+ *
+ * @return App name.
+ */
++ (nonnull NSString *)ailtnAppName;
+
+/**
  @return The singleton instance of the SDK Manager.
  */
 + (nonnull instancetype)sharedManager;

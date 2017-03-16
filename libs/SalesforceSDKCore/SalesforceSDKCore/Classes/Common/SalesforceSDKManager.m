@@ -47,11 +47,11 @@ NSString * const kSalesforceSDKManagerErrorDetailsKey = @"SalesforceSDKManagerEr
 // Device id
 static NSString* uid = nil;
 
-
-
-
 // Instance class
 static Class InstanceClass = nil;
+
+// AILTN app name
+static NSString* ailtnAppName = nil;
 
 @implementation SnapshotViewController
 
@@ -82,8 +82,36 @@ static Class InstanceClass = nil;
     InstanceClass = className;
 }
 
-+ (instancetype)sharedManager
-{
++ (void)setAiltnAppName:(NSString *)appName {
+    @synchronized (ailtnAppName) {
+        if (appName) {
+            ailtnAppName = appName;
+        }
+    }
+}
+
++ (NSString *)ailtnAppName {
+    return ailtnAppName;
+}
+
++ (void)initialize {
+    if (self == [SalesforceSDKManager class]) {
+
+        /*
+         * Checks if an analytics app name has already been set by the app.
+         * If not, fetches the default app name to be used and sets it.
+         */
+        NSString *currentAiltnAppName = [SalesforceSDKManager ailtnAppName];
+        if (!currentAiltnAppName) {
+            NSString *ailtnAppName = [[NSBundle mainBundle] infoDictionary][(NSString *) kCFBundleNameKey];
+            if (ailtnAppName) {
+                [SalesforceSDKManager setAiltnAppName:ailtnAppName];
+            }
+        }
+    }
+}
+
++ (instancetype)sharedManager {
     static dispatch_once_t pred;
     static SalesforceSDKManager *sdkManager = nil;
     dispatch_once(&pred , ^{
@@ -106,8 +134,7 @@ static Class InstanceClass = nil;
     return sdkManager;
 }
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
         self.sdkManagerFlow = self;
@@ -120,16 +147,13 @@ static Class InstanceClass = nil;
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAuthCompleted:) name:kSFAuthenticationManagerFinishedNotification object:nil];
-        
         [SFPasscodeManager sharedManager].preferredPasscodeProvider = kSFPasscodeProviderPBKDF2;
         if (NSClassFromString(@"SFHybridViewController") != nil) {
             self.appType = kSFAppTypeHybrid;
-        }
-        else {
+        } else {
             if (NSClassFromString(@"SFNetReactBridge") != nil) {
                 self.appType = kSFAppTypeReactNative;
-            }
-            else {
+            } else {
                 self.appType = kSFAppTypeNative;
             }            
         }
@@ -137,7 +161,6 @@ static Class InstanceClass = nil;
         self.authenticateAtLaunch = YES;
         self.userAgentString = [self defaultUserAgentString];
     }
-    
     return self;
 }
 
