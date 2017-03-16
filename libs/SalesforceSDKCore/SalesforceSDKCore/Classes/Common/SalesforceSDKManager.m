@@ -94,16 +94,8 @@ static NSString* ailtnAppName = nil;
     return ailtnAppName;
 }
 
-+ (instancetype)sharedManager {
-    static dispatch_once_t pred;
-    static SalesforceSDKManager *sdkManager = nil;
-    dispatch_once(&pred , ^{
-        uid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
-        if (InstanceClass) {
-            sdkManager = [[InstanceClass alloc] init];
-        } else {
-            sdkManager = [[self alloc] init];
-        }
++ (void)initialize {
+    if (self == [SalesforceSDKManager class]) {
 
         /*
          * Checks if an analytics app name has already been set by the app.
@@ -115,6 +107,19 @@ static NSString* ailtnAppName = nil;
             if (ailtnAppName) {
                 [SalesforceSDKManager setAiltnAppName:ailtnAppName];
             }
+        }
+    }
+}
+
++ (instancetype)sharedManager {
+    static dispatch_once_t pred;
+    static SalesforceSDKManager *sdkManager = nil;
+    dispatch_once(&pred , ^{
+        uid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+        if (InstanceClass) {
+            sdkManager = [[InstanceClass alloc] init];
+        } else {
+            sdkManager = [[self alloc] init];
         }
         if([SFSwiftDetectUtil isSwiftApp]) {
             [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSwiftApp];
