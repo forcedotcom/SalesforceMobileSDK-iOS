@@ -689,23 +689,52 @@ static id<SFUserAccountPersister> accountPersister;
 
 
 - (void)applyIdData:(SFIdentityData *)idData {
-    self.currentUser.idData = idData;
-    [self userChanged:SFUserAccountChangeIdData];
+   [self applyIdData:idData forUser:self.currentUser];
 }
 
 - (void)applyIdDataCustomAttributes:(NSDictionary *)customAttributes {
-    self.currentUser.idData.customAttributes = customAttributes;
-    [self userChanged:SFUserAccountChangeIdData];
+   [self applyIdDataCustomAttributes:customAttributes forUser:self.currentUser];
 }
 
 - (void)applyIdDataCustomPermissions:(NSDictionary *)customPermissions {
-    self.currentUser.idData.customPermissions = customPermissions;
-    [self userChanged:SFUserAccountChangeIdData];
+   [self applyIdDataCustomPermissions:customPermissions forUser:self.currentUser];
 }
 
 - (void)setObjectForCurrentUserCustomData:(NSObject<NSCoding> *)object forKey:(NSString *)key {
-    [self.currentUser setCustomDataObject:object forKey:key];
+   [self setObjectForUserCustomData:object forKey:key andUser:self.currentUser];
 }
+
+- (void)applyIdData:(SFIdentityData *)idData forUser:(SFUserAccount *)user {
+    [accountsLock lock];
+    user.idData = idData;
+    [self saveAccountForUser:user error:nil];
+    [accountsLock unlock];
+    [self userChanged:SFUserAccountChangeIdData];
+}
+
+- (void)applyIdDataCustomAttributes:(NSDictionary *)customAttributes forUser:(SFUserAccount *)user {
+    [accountsLock lock];
+    user.idData.customAttributes = customAttributes;
+    [self saveAccountForUser:user error:nil];
+    [accountsLock unlock];
+    [self userChanged:SFUserAccountChangeIdData];
+}
+
+- (void)applyIdDataCustomPermissions:(NSDictionary *)customPermissions forUser:(SFUserAccount *)user {
+    [accountsLock lock];
+    user.idData.customPermissions = customPermissions;
+    [self saveAccountForUser:user error:nil];
+    [accountsLock unlock];
+    [self userChanged:SFUserAccountChangeIdData];
+}
+
+- (void)setObjectForUserCustomData:(NSObject <NSCoding> *)object forKey:(NSString *)key andUser:(SFUserAccount *)user {
+    [accountsLock lock];
+    [user setCustomDataObject:object forKey:key];
+    [self saveAccountForUser:user error:nil];
+    [accountsLock unlock];
+}
+
 
 #pragma mark -
 #pragma mark Switching Users

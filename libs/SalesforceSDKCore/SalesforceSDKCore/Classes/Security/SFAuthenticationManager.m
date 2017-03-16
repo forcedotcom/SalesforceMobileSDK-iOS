@@ -631,9 +631,8 @@ static Class InstanceClass = nil;
     // Apply the credentials that will ensure there is a user and that this
     // current user as the proper credentials.
     SFUserAccount *user = [[SFUserAccountManager sharedInstance] applyCredentials:self.coordinator.credentials];
-    [[SFUserAccountManager sharedInstance] applyIdData:self.idCoordinator.idData];
-
-    // Notify the session is ready
+    [[SFUserAccountManager sharedInstance] applyIdData:self.idCoordinator.idData forUser:user];
+        // Notify the session is ready
     [self willChangeValueForKey:@"haveValidSession"];
     [self didChangeValueForKey:@"haveValidSession"];
     NSDictionary *userInfo = nil;
