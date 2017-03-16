@@ -270,17 +270,39 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
  */
 - (void)applyIdData:(SFIdentityData *)idData;
 
+/** Invoke this method to apply the specified id data to the
+  user. This will post user update notification.
+  @param idData The ID data to apply
+  @param user The SFUserAccount to apply this change to.
+ */
+- (void)applyIdData:(SFIdentityData *)idData forUser:(SFUserAccount *)user;
+
 /** This method will selectively update the custom attributes identity data for the current user.
  Other identity data will not be impacted.
  @param customAttributes The new custom attributes data to update in the identity data.
  */
 - (void)applyIdDataCustomAttributes:(NSDictionary *)customAttributes;
 
+/** This method will selectively update the custom attributes identity data for the  user.
+ Other identity data will not be impacted.
+ @param customAttributes The new custom attributes data to update in the identity data.
+ @param user The SFUserAccount to apply this change to.
+ */
+- (void)applyIdDataCustomAttributes:(NSDictionary *)customAttributes forUser:(SFUserAccount *)user;
+
 /** This method will selectively update the custom permissions identity data for the current user.
  Other identity data will not be impacted.
  @param customPermissions The new custom permissions data to update in the identity data.
  */
 - (void)applyIdDataCustomPermissions:(NSDictionary *)customPermissions;
+
+
+/** This method will selectively update the custom permissions identity data for the  user.
+ Other identity data will not be impacted.
+ @param customPermissions The new custom permissions data to update in the identity data.
+ @param user The SFUserAccount to apply this change to.
+ */
+- (void)applyIdDataCustomPermissions:(NSDictionary *)customPermissions forUser:(SFUserAccount *)user;
 
 /** Apply custom data to the SFUserAccount that can be
  accessed outside that user's sandbox. This data will be persisted
@@ -290,6 +312,16 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
  @param key     The key to retrieve this data for
  */
 - (void)setObjectForCurrentUserCustomData:(NSObject<NSCoding> *)object forKey:(NSString *)key;
+
+/** Apply custom data to the SFUserAccount that can be
+ accessed outside that user's sandbox. This data will be persisted
+ between launches and should only be used for non-sensitive information.
+ The NSDictionary should be NSCoder encodeable.
+ @param object  The NScoding enabled object to set
+ @param key     The key to retrieve this data for
+ @param user The SFUserAccount to apply this change to.
+ */
+- (void)setObjectForUserCustomData:(NSObject<NSCoding> *)object forKey:(NSString *)key andUser:(SFUserAccount *)user;
 /**
  Switches away from the current user, to a new user context.
  */
