@@ -323,7 +323,6 @@ static Class InstanceClass = nil;
                                 }];
         
         [[SFUserAccountManager sharedInstance] addDelegate:self];
-        
         // Set up default auth error handlers.
         self.authErrorHandlerList = [self populateDefaultAuthErrorHandlerList];
     }

@@ -34,32 +34,17 @@
 
 @implementation SFPluginTestSuite
 
-static NSException *authException = nil;
 
 @synthesize jsTestName = _jsTestName;
 @synthesize jsSuiteName = _jsSuiteName;
 
-+ (void)setUp
-{
-    @try {
-        [SFLogger sharedLogger].logLevel = SFLogLevelDebug;
-        [TestSetupUtils synchronousAuthRefresh];
-    }
-    @catch (NSException *exception) {
-        [self log:SFLogLevelDebug format:@"Populating auth from config failed: %@", exception];
-        authException = exception;
-    }
-    [super setUp];
-}
-
 - (void)setUp
 {
-    [super setUp];
+   [super setUp];
     
-    AppDelegate *appDelegate = (AppDelegate *)[[SFApplicationHelper sharedApplication] delegate];
-    _testRunnerPlugin = [appDelegate.viewController.commandDelegate getCommandInstance:kSFTestRunnerPluginName];
+   AppDelegate *appDelegate = (AppDelegate *)[[SFApplicationHelper sharedApplication] delegate];
+   _testRunnerPlugin = [appDelegate.viewController.commandDelegate getCommandInstance:kSFTestRunnerPluginName];
 
-    
     // Block until the javascript has notified the container that it's ready
     BOOL timedOut = [self waitForTestRunnerReady];
     if (timedOut) {
@@ -83,7 +68,6 @@ static NSException *authException = nil;
     return [_testRunnerPlugin readyToStartTests];
 }
 
-
 - (BOOL)waitForTestRunnerReady {
     NSDate *startTime = [NSDate date] ;
     BOOL completionTimedOut = NO;
@@ -103,7 +87,6 @@ static NSException *authException = nil;
     return completionTimedOut;
 }
 
-
 - (BOOL)waitForOneCompletion:(NSString *)testName {
     NSDate *startTime = [NSDate date] ;
     BOOL completionTimedOut = NO;
@@ -122,7 +105,6 @@ static NSException *authException = nil;
     
     return completionTimedOut;
 }
-
 
 - (void)runTest:(NSString*)testName 
 {
