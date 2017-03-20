@@ -79,9 +79,8 @@ static NSException *authException = nil;
 
 - (SFNativeRestRequestListener *)sendSyncRequest:(SFRestRequest *)request {
     SFNativeRestRequestListener *listener = [[SFNativeRestRequestListener alloc] initWithRequest:request];
-    [[SFRestAPI sharedInstance] send:request delegate:nil];
+    [[SFRestAPI sharedInstance] send:request delegate:listener];
     [listener waitForCompletion];
-    
     return listener;
 }
 
