@@ -252,6 +252,9 @@ static BOOL kIsTestRun;
                 [delegate request:request didLoadResponse:jsonDict];
             }
         } else {
+            if (!error) {
+                error = [[NSError alloc] initWithDomain:response.URL.absoluteString code:statusCode userInfo:nil];
+            }
             [delegate request:request didFailLoadWithError:error];
         }
         [[SFRestAPI sharedInstance] removeActiveRequestObject:request];

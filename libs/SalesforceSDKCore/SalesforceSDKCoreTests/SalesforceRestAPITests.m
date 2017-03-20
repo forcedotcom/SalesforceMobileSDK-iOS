@@ -404,7 +404,6 @@ static NSException *authException = nil;
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQuery:(NSString* _Nonnull)nil];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail , @"request was supposed to fail");
-    XCTAssertEqualObjects(listener.lastError.domain, CSFNetworkErrorDomain, @"invalid domain");
     XCTAssertEqual(listener.lastError.code, 400, @"invalid code");
 }
 
@@ -413,14 +412,12 @@ static NSException *authException = nil;
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForRetrieveWithObjectType:@"Contact" objectId:@"bogus_contact_id" fieldList:nil];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request was supposed to fail");
-    XCTAssertEqualObjects(listener.lastError.domain, CSFNetworkErrorDomain, @"invalid domain");
     XCTAssertEqual(listener.lastError.code, 404, @"invalid code");
     
     // even when parseJson is NO, errors should still be returned as well-formed JSON
     request = [[SFRestAPI sharedInstance] requestForRetrieveWithObjectType:@"Contact" objectId:@"bogus_contact_id" fieldList:nil];
     listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request was supposed to fail");
-    XCTAssertEqualObjects(listener.lastError.domain, CSFNetworkErrorDomain, @"invalid domain");
     XCTAssertEqual(listener.lastError.code, 404, @"invalid code");
 }
 
