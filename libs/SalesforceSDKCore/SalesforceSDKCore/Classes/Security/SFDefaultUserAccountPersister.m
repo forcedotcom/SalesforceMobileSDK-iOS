@@ -145,7 +145,6 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
             [self log:SFLogLevelDebug format:@"User folder for user '%@' does not exist on the filesystem.", user.userName];
             if(error)
                 *error = ferror;
-            success = NO;
         }
     }
     return success;

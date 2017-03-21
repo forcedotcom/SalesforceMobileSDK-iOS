@@ -124,6 +124,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithIdentifier:(NSString*)identifier clientId:(NSString*)clientId NS_DESIGNATED_INITIALIZER;
 
+/** Initialize with identifier and client id
+ @param credentials The client id
+ @return the account instance
+ */
+- (instancetype)initWithCredentials:(SFOAuthCredentials *) credentials;
+
 /** Returns the community API url for a particular
  community ID if it exists in the communities array
  
