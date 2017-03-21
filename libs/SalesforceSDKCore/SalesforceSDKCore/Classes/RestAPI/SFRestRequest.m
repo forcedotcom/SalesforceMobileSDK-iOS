@@ -29,6 +29,12 @@
 
 NSString * const kSFDefaultRestEndpoint = @"/services/data";
 
+@interface SFRestRequest ()
+
+@property (nonatomic, strong, readwrite) NSMutableURLRequest *request;
+
+@end
+
 @implementation SFRestRequest
 
 - (id)initWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(NSDictionary *)queryParams {
@@ -39,6 +45,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
         self.queryParams = queryParams;
         self.endpoint = kSFDefaultRestEndpoint;
         self.requiresAuthentication = YES;
+        self.request = [[NSMutableURLRequest alloc] init];
     }
     return self;
 }
@@ -136,21 +143,21 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
             }
             components.queryItems = queryItems;
         }
-        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:components.URL];
+        self.request = [[NSMutableURLRequest alloc] initWithURL:components.URL];
 
         // Sets HTTP method on the request.
-        [request setHTTPMethod:[SFRestRequest httpMethodFromSFRestMethod:self.method]];
+        [self.request setHTTPMethod:[SFRestRequest httpMethodFromSFRestMethod:self.method]];
 
         // Sets OAuth Bearer token header on the request.
         NSString *bearer = [NSString stringWithFormat:@"Bearer %@", user.credentials.accessToken];
-        [request setValue:bearer forHTTPHeaderField:@"Authorization"];
+        [self.request setValue:bearer forHTTPHeaderField:@"Authorization"];
 
         // Adds custom headers to the request if any are set.
         if (self.customHeaders) {
             for (NSString *key in self.customHeaders.allKeys) {
                 if (key != nil) {
                     NSString *value = self.customHeaders[key];
-                    [request setValue:value forHTTPHeaderField:key];
+                    [self.request setValue:value forHTTPHeaderField:key];
                 }
             }
         }
@@ -158,10 +165,11 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
         // Sets HTTP body if body exists.
         if (self.requestBodyStreamBlock != nil) {
             if (self.requestContentType != nil) {
-                [request setValue:self.requestContentType forHTTPHeaderField:@"Content-Type"];
+                [self.request setValue:self.requestContentType forHTTPHeaderField:@"Content-Type"];
+                self.request.HTTPBodyStream = self.requestBodyStreamBlock();
             }
         }
-        return request;
+        return self.request;
     }
     return nil;
 }
