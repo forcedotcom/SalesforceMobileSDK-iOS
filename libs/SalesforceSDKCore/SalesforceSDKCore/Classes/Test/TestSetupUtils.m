@@ -74,12 +74,11 @@ static SFOAuthCredentials *credentials = nil;
     NSAssert(![credsData.refreshToken isEqualToString:@"__INSERT_TOKEN_HERE__"],
              @"You need to obtain credentials for your test org and replace test_credentials.json");
     [SFUserAccountManager sharedInstance].currentUser = nil;
-    [SFUserAccountManager sharedInstance].oauthClientId = credsData.clientId;
-    [SFUserAccountManager sharedInstance].oauthCompletionUrl = credsData.redirectUri;
-    [SFUserAccountManager sharedInstance].scopes = [NSSet setWithObjects:@"web", @"api", nil];
-    [SFUserAccountManager sharedInstance].loginHost = credsData.loginHost;
-     SFUserAccountManager *accountMgr = [SFUserAccountManager sharedInstance];
-    credentials = accountMgr.oauthCredentials;
+    [SFAuthenticationManager sharedManager].oauthClientId = credsData.clientId;
+    [SFAuthenticationManager sharedManager].oauthCompletionUrl = credsData.redirectUri;
+    [SFAuthenticationManager sharedManager].scopes = [NSSet setWithObjects:@"web", @"api", nil];
+    [SFAuthenticationManager sharedManager].loginHost = credsData.loginHost;
+    credentials = [SFAuthenticationManager sharedManager].oauthCredentials;
     credentials.instanceUrl = [NSURL URLWithString:credsData.instanceUrl];
     credentials.identityUrl = [NSURL URLWithString:credsData.identityUrl];
     NSString *communityUrlString = credsData.communityUrl;

@@ -87,12 +87,10 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     // Delete the content of the global library directory
     NSString *globalLibraryDirectory = [[SFDirectoryManager sharedManager] directoryForUser:nil type:NSLibraryDirectory components:nil];
     [[[NSFileManager alloc] init] removeItemAtPath:globalLibraryDirectory error:nil];
-    [SFUserAccountManager setAccountPersisterClass:nil];
-    [[SFUserAccountManager sharedInstance] reload];
     // Set the oauth client ID after deleting the content of the global library directory
     // to ensure the SFUserAccountManager sharedInstance loads from an empty directory
     self.uam = [SFUserAccountManager sharedInstance];
-    self.uam.oauthClientId = @"fakeClientIdForTesting";
+    [SFAuthenticationManager sharedManager].oauthClientId = @"fakeClientIdForTesting";
 
     // Ensure the user account manager doesn't contain any account
     [self.uam clearAllAccountState];
@@ -160,7 +158,6 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     // Changed credentials IDs.
     user.credentials.userId = @"NewUserId";
     user.credentials.organizationId = @"NewOrgId";
-    NSString *plistForUserAccount = [SFDefaultUserAccountPersister userAccountPlistFileForUser:user];
     XCTAssertEqual(user.accountIdentity.userId, @"NewUserId", @"Updated User ID in credentials not reflected in account identity.");
     XCTAssertEqual(user.accountIdentity.orgId, @"NewOrgId", @"Updated Org ID in credentials not reflected in account identity.");
     
@@ -182,20 +179,12 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     NSArray *accounts = [self createAndVerifyUserAccounts:1];
     SFUserAccount *user = accounts[0];
     // Check if the UserAccount.plist is stored at the right location
-    NSError *error = nil;
-    
     NSString *expectedLocation = [[SFDirectoryManager sharedManager] directoryForOrg:user.credentials.organizationId user:user.credentials.userId community:nil type:NSLibraryDirectory components:nil];
     expectedLocation = [expectedLocation stringByAppendingPathComponent:@"UserAccount.plist"];
     XCTAssertEqualObjects(expectedLocation, [SFDefaultUserAccountPersister userAccountPlistFileForUser:user], @"Mismatching user account paths");
     NSFileManager *fm = [[NSFileManager alloc] init];
     XCTAssertTrue([fm fileExistsAtPath:expectedLocation], @"Unable to find new UserAccount.plist");
-    
-    // Now remove all the users and re-load
-    [self.uam clearAllAccountState];
-    XCTAssertEqual([self.uam.allUserIdentities count], (NSUInteger)0, @"There should be no accounts");
 
-    [self.uam loadAccounts:nil];
-    XCTAssertTrue([self.uam allUserAccounts], @"Unable to load user accounts: %@", error);
     NSString *userId = [NSString stringWithFormat:kUserIdFormatString, (unsigned long)0];
     XCTAssertEqualObjects(((SFUserAccountIdentity *)self.uam.allUserIdentities[0]).userId, userId, @"User ID doesn't match after reload");
      [self deleteUserAndVerify:user userDir:expectedLocation];
@@ -220,18 +209,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
         }
     }
     
-    // Remove and re-load all accounts
-    {
-        [self.uam clearAllAccountState];
-        XCTAssertEqual([self.uam.allUserIdentities count], (NSUInteger)0, @"There should be no accounts");
-        NSError *error =nil;
-        [self.uam loadAccounts:&error];
-        NSArray * accounts = [self.uam allUserAccounts];
-        XCTAssertNil(error, @"Accounts should have been loaded");
-        XCTAssertEqual(accounts.count,10,@"Must have 10 accounts");
-    }
-    
-    // Remove and verify that allUserAccounts property implicitly loads the accounts from disk.
+       // Remove and verify that allUserAccounts property implicitly loads the accounts from disk.
     [self.uam clearAllAccountState];
     NSError *error =nil;
     [self.uam loadAccounts:&error];
@@ -261,6 +239,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
         
         [self deleteUserAndVerify:userAccount userDir:location];
     }
+     XCTAssertEqual([self.uam allUserAccounts].count, (NSUInteger)0, @"There should be 0 accounts after delete");
 }
 
 - (void)testSwitchToUser {
@@ -296,7 +275,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     NSArray *accounts = [self createAndVerifyUserAccounts:1];
     self.uam.currentUser = accounts[0];
     SFIdentityData *idData = [self sampleIdentityData];
-    [self.uam applyIdData:idData];
+    [self.uam applyIdData:idData forUser:self.uam.currentUser];
     int origMobileAppPinLength = self.uam.currentUser.idData.mobileAppPinLength;
     int origMobileAppScreenLockTimeout = self.uam.currentUser.idData.mobileAppScreenLockTimeout;
     
@@ -307,8 +286,8 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     NSMutableDictionary *mutableCustomPermissions = [origCustomPermissions mutableCopy];
     mutableCustomAttributes[@"ANewCustomAttribute"] = @"ANewCustomAttributeValue";
     mutableCustomPermissions[@"ANewCustomPermission"] = @"ANewCustomPermissionValue";
-    [self.uam applyIdDataCustomAttributes:mutableCustomAttributes];
-    [self.uam applyIdDataCustomPermissions:mutableCustomPermissions];
+    [self.uam applyIdDataCustomAttributes:mutableCustomAttributes forUser:self.uam.currentUser];
+    [self.uam applyIdDataCustomPermissions:mutableCustomPermissions forUser:self.uam.currentUser];
     XCTAssertTrue([self.uam.currentUser.idData.customAttributes isEqualToDictionary:mutableCustomAttributes], @"Attributes dictionaries are not equal.");
     XCTAssertFalse([self.uam.currentUser.idData.customAttributes isEqualToDictionary:origCustomAttributes], @"Attributes dictionaries should not be equal.");
     XCTAssertTrue([self.uam.currentUser.idData.customPermissions isEqualToDictionary:mutableCustomPermissions], @"Permissions dictionaries are not equal.");
@@ -318,7 +297,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     
     // Verify that re-applying the whole of the identity data, overwrites changes.
     idData = [self sampleIdentityData];
-    [self.uam applyIdData:idData];
+    [self.uam applyIdData:idData forUser:self.uam.currentUser];
     XCTAssertTrue([self.uam.currentUser.idData.customAttributes isEqualToDictionary:origCustomAttributes], @"Custom atttribute changes should have been overwritten with whole identity write.");
     XCTAssertFalse([self.uam.currentUser.idData.customAttributes isEqualToDictionary:mutableCustomAttributes], @"Attributes dictionaries should not be equal.");
     XCTAssertTrue([self.uam.currentUser.idData.customPermissions isEqualToDictionary:origCustomPermissions], @"Custom permission changes should have been overwritten with whole identity write.");
@@ -351,7 +330,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 
 - (SFUserAccount*)createNewUserWithIndex:(NSUInteger)index {
     XCTAssertTrue(index < 10, @"Supports only index up to 9");
-    SFUserAccount *user = [[SFUserAccount alloc] initWithIdentifier:[NSString stringWithFormat:@"identifier-%lu", (unsigned long)index]];
+    SFUserAccount *user = [[SFUserAccount alloc] initWithIdentifier:[NSString stringWithFormat:@"identifier-%lu", (unsigned long)index] clientId:[SFAuthenticationManager sharedManager].oauthClientId];
     NSString *userId = [NSString stringWithFormat:kUserIdFormatString, (unsigned long)index];
     NSString *orgId = [NSString stringWithFormat:kOrgIdFormatString, (unsigned long)index];
     user.credentials.identityUrl = [NSURL URLWithString:[NSString stringWithFormat:@"https://login.salesforce.com/id/%@/%@", orgId, userId]];

@@ -307,7 +307,6 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
      */
     [SFSDKWebUtils configureUserAgent:[self sfHybridViewUserAgentString]];
     [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
-        [SFUserAccountManager sharedInstance].currentUser = userAccount;
         [self authenticationCompletion:nil authInfo:authInfo];
         if (authInfo.authType == SFOAuthTypeRefresh) {
             [self loadVFPingPage];

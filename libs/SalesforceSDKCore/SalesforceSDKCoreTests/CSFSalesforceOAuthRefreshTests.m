@@ -23,9 +23,10 @@
  */
 
 #import <XCTest/XCTest.h>
-
-#import <SalesforceSDKCore/SalesforceSDKCore.h>
-
+#import "CSFSalesforceAction.h"
+#import "SFUserAccountManager+Internal.h"
+#import "SFOAuthCoordinator.h"
+#import "SFAuthenticationManager.h"
 #import "CSFSalesforceOAuthRefresh.h"
 #import "CSFAuthRefresh+Internal.h"
 #import "CSFNetwork+Internal.h"
@@ -73,7 +74,8 @@
 @implementation CSFSalesforceOAuthRefreshTests
 
 - (void)testRevokedToken {
-    SFUserAccount *user = [[SFUserAccountManager sharedInstance]  createUserAccount];
+    SFUserAccount *user = [[SFUserAccountManager sharedInstance]  createUserAccount:[SFAuthenticationManager sharedManager].oauthCredentials];
+    
     user.credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"the-identifier"
                                                              clientId:@"the-client"
                                                             encrypted:NO

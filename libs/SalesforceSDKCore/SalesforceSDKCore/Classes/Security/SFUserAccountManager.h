@@ -146,34 +146,6 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
  */
 @property (nonatomic, strong, nullable) NSString *previousCommunityId;
 
-/** The host that will be used for login.
- */
-@property (nonatomic, strong, nullable) NSString *loginHost;
-
-/** Should the login process start again if it fails (default: YES)
- */
-@property (nonatomic, assign) BOOL retryLoginAfterFailure;
-
-/** OAuth client ID to use for login.  Apps may customize
- by setting this property before login; otherwise, this
- value is determined by the SFDCOAuthClientIdPreference 
- configured via the settings bundle.
- */
-@property (nonatomic, copy, nullable) NSString *oauthClientId;
-
-/** OAuth callback url to use for the OAuth login process.
- Apps may customize this by setting this property before login.
- By default this value is picked up from the main 
- bundle property SFDCOAuthRedirectUri
- default: @"sfdc:///axm/detect/oauth/done")
- */
-@property (nonatomic, copy, nullable) NSString *oauthCompletionUrl;
-
-/**
- The OAuth scopes associated with the app.
- */
-@property (nonatomic, copy) NSSet<NSString*> *scopes;
-
 /** Shared singleton
  */
 + (instancetype)sharedInstance;
@@ -210,10 +182,10 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
  */
 - (nullable NSArray<SFUserAccountIdentity*> *) allUserIdentities;
 
-/** Can be used to create an empty user account if you wish to configure all of the account info yourself.
- Otherwise, use `login` to allow SFUserAccountManager to automatically create an account when necessary.
+/** Create an account when necessary using the credentials provided.
+  @param credentials The credentials to use.
  */
-- (SFUserAccount*)createUserAccount;
+- (SFUserAccount*)createUserAccount:(SFOAuthCredentials *)credentials;
 
 
 /** Allows you to look up the user account associated with a given user identity.
@@ -265,23 +237,11 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
 - (SFUserAccount *) applyCredentials:(SFOAuthCredentials*)credentials;
 
 /** Invoke this method to apply the specified id data to the
- current user. This will post user update notification.
- @param idData The ID data to apply
- */
-- (void)applyIdData:(SFIdentityData *)idData;
-
-/** Invoke this method to apply the specified id data to the
   user. This will post user update notification.
   @param idData The ID data to apply
   @param user The SFUserAccount to apply this change to.
  */
 - (void)applyIdData:(SFIdentityData *)idData forUser:(SFUserAccount *)user;
-
-/** This method will selectively update the custom attributes identity data for the current user.
- Other identity data will not be impacted.
- @param customAttributes The new custom attributes data to update in the identity data.
- */
-- (void)applyIdDataCustomAttributes:(NSDictionary *)customAttributes;
 
 /** This method will selectively update the custom attributes identity data for the  user.
  Other identity data will not be impacted.
@@ -290,28 +250,12 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
  */
 - (void)applyIdDataCustomAttributes:(NSDictionary *)customAttributes forUser:(SFUserAccount *)user;
 
-/** This method will selectively update the custom permissions identity data for the current user.
- Other identity data will not be impacted.
- @param customPermissions The new custom permissions data to update in the identity data.
- */
-- (void)applyIdDataCustomPermissions:(NSDictionary *)customPermissions;
-
-
 /** This method will selectively update the custom permissions identity data for the  user.
  Other identity data will not be impacted.
  @param customPermissions The new custom permissions data to update in the identity data.
  @param user The SFUserAccount to apply this change to.
  */
 - (void)applyIdDataCustomPermissions:(NSDictionary *)customPermissions forUser:(SFUserAccount *)user;
-
-/** Apply custom data to the SFUserAccount that can be
- accessed outside that user's sandbox. This data will be persisted
- between launches and should only be used for non-sensitive information.
- The NSDictionary should be NSCoder encodeable.
- @param object  The NScoding enabled object to set
- @param key     The key to retrieve this data for
- */
-- (void)setObjectForCurrentUserCustomData:(NSObject<NSCoding> *)object forKey:(NSString *)key;
 
 /** Apply custom data to the SFUserAccount that can be
  accessed outside that user's sandbox. This data will be persisted
@@ -340,17 +284,7 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
  will try to determine that.
  */
 - (void)userChanged:(SFUserAccountChange)change;
-/**
- *
- * @return the default Credentials
- */
-- (SFOAuthCredentials *)oauthCredentials;
 
-/** Invoke this method to replace the SFDefaultUserAccountPersister with a custom implementation.
- *
- * @param persister An object that implements SFUserAccountPersister
- */
-+ (void)setAccountPersisterClass:(nullable Class) persister;
 
 
 @end

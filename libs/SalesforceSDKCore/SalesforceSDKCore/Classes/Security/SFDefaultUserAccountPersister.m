@@ -262,33 +262,22 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
             return NO;
         }
 
-        @try {
-            SFUserAccount *decryptedAccount = [NSKeyedUnarchiver unarchiveObjectWithData:decryptedArchiveData];
+        SFUserAccount *decryptedAccount = [NSKeyedUnarchiver unarchiveObjectWithData:decryptedArchiveData];
 
             // On iOS9, it won't throw an exception, but will return nil instead.
-            if (decryptedAccount) {
-                if (account) {
-                    *account = decryptedAccount;
-                }
-                return YES;
-            } else {
-                if (error) {
-                    *error = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
-                                                 code:SFUserAccountManagerCannotReadDecryptedArchive
-                                             userInfo:@{NSLocalizedDescriptionKey: reason}];
-                }
-                return NO;
+        if (decryptedAccount) {
+            if (account) {
+                *account = decryptedAccount;
             }
-        }
-        @catch (NSException *exception) {
+            return YES;
+        } else {
             if (error) {
                 *error = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
                                              code:SFUserAccountManagerCannotReadDecryptedArchive
-                                         userInfo:@{NSLocalizedDescriptionKey: [exception reason]}];
+                                         userInfo:@{NSLocalizedDescriptionKey: reason}];
             }
             return NO;
         }
-    
 }
 
 + (NSString*)userAccountPlistFileForUser:(SFUserAccount*)user {

@@ -25,7 +25,7 @@
 #import <Foundation/Foundation.h>
 @protocol SFUserAccountPersister;
 
-@interface SFDefaultUserAccountPersister : NSObject<SFUserAccountPersister>
+@interface SFDefaultUserAccountPersister:NSObject<SFUserAccountPersister>
 
 /** Loads a user account from a specified file
  @param filePath The file to load the user account from

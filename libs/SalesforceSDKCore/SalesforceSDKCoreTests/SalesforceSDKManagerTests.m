@@ -25,7 +25,7 @@
 #import <XCTest/XCTest.h>
 #import "SFTestSDKManagerFlow.h"
 #import "SalesforceSDKManager+Internal.h"
-#import "SFUserAccountManager.h"
+#import "SFUserAccountManager+Internal.h"
 #import "SFSDKSalesforceAnalyticsManager.h"
 
 static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
@@ -414,7 +414,7 @@ static NSString* const kTestAppName = @"OverridenAppName";
 - (SFUserAccount *)createUserAccount
 {
     u_int32_t userIdentifier = arc4random();
-    SFUserAccount *user = [[SFUserAccount alloc] initWithIdentifier:[NSString stringWithFormat:@"identifier-%u", userIdentifier]];
+    SFUserAccount *user = [[SFUserAccount alloc] initWithIdentifier:[NSString stringWithFormat:@"identifier-%u", userIdentifier] clientId:[SFAuthenticationManager sharedManager].oauthClientId];
     NSString *userId = [NSString stringWithFormat:@"user_%u", userIdentifier];
     NSString *orgId = [NSString stringWithFormat:@"org_%u", userIdentifier];
     user.credentials.identityUrl = [NSURL URLWithString:[NSString stringWithFormat:@"https://login.salesforce.com/id/%@/%@", orgId, userId]];

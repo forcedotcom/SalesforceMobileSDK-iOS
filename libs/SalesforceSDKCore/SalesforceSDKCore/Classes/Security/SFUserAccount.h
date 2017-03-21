@@ -114,17 +114,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, readonly, getter = isUserLoggingOut) BOOL userLoggingOut;
 
-/** Designated initializer
- @param identifier The user identifier
- @return the account instance
- */
-- (instancetype)initWithIdentifier:(NSString*)identifier;
-
-/** Designated initializer to construct a user account with a guest user account.
- @return The guest user account instance.
- */
-- (instancetype)initWithGuestUser NS_DESIGNATED_INITIALIZER;
-
 /** Initialize with identifier and client id
  @param identifier The user identifier
  @param clientId The client id
