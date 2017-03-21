@@ -346,7 +346,7 @@ static Class InstanceClass = nil;
 - (BOOL)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
                     failure:(SFOAuthFlowFailureCallbackBlock)failureBlock
 {
-    return [self loginWithCompletion:completionBlock failure:failureBlock credentials:self.oauthCredentials];
+    return [self loginWithCompletion:completionBlock failure:failureBlock credentials:[self createOAuthCredentials]];
 }
 
 
@@ -383,7 +383,7 @@ static Class InstanceClass = nil;
 {
     
     NSAssert(jwtToken.length > 0, @"JWT token value required.");
-    SFOAuthCredentials *credentials = self.oauthCredentials;
+    SFOAuthCredentials *credentials = [self createOAuthCredentials];
     credentials.jwt = jwtToken;
     return [self loginWithCompletion:completionBlock
                              failure:failureBlock
@@ -841,7 +841,7 @@ static Class InstanceClass = nil;
 
 - (void)login
 {
-    [self loginWithCredentials:self.oauthCredentials];
+    [self loginWithCredentials:[self createOAuthCredentials]];
 }
 
 
@@ -1461,8 +1461,7 @@ static Class InstanceClass = nil;
     }
 }
 
-- (SFOAuthCredentials *)oauthCredentials {
-
+- (SFOAuthCredentials *)createOAuthCredentials {
     NSString *oauthClientId = [self oauthClientId];
     NSString *identifier = [[SFUserAccountManager sharedInstance] uniqueUserAccountIdentifier:self.oauthClientId];
     SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:identifier clientId:oauthClientId encrypted:YES];

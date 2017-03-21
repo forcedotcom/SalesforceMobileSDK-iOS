@@ -78,6 +78,20 @@ static NSString * const kGlobalScopingKey = @"-global-";
     return YES;
 }
 
+- (instancetype)init {
+    return [super init];
+}
+
+- (instancetype)initWithCredentials:(SFOAuthCredentials*) credentials {
+    self = [super init];
+    if (self) {
+        _observingCredentials = NO;
+        self.credentials = credentials;
+        _syncQueue = dispatch_queue_create(kSyncQueue, NULL);
+    }
+    return self;
+}
+
 - (instancetype)initWithIdentifier:(NSString*)identifier clientId:(NSString*)clientId {
     self = [super init];
     if (self) {

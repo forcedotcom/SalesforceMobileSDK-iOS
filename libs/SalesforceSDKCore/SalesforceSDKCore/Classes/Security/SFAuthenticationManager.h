@@ -429,7 +429,7 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
 /** Return SFOAuthCredentials using know oauthClientId,
     @return Connect App auth credentials
  */
--(SFOAuthCredentials *)oauthCredentials;
+-(SFOAuthCredentials *)createOAuthCredentials;
 
 /**
  Clears session cookie data from the cookie store, and sets a new session cookie based on the

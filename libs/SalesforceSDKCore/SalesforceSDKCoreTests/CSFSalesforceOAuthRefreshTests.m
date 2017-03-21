@@ -74,7 +74,7 @@
 @implementation CSFSalesforceOAuthRefreshTests
 
 - (void)testRevokedToken {
-    SFUserAccount *user = [[SFUserAccountManager sharedInstance]  createUserAccount:[SFAuthenticationManager sharedManager].oauthCredentials];
+    SFUserAccount *user = [[SFUserAccountManager sharedInstance]  createUserAccount:[[SFAuthenticationManager sharedManager] createOAuthCredentials]];
     
     user.credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"the-identifier"
                                                              clientId:@"the-client"
