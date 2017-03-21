@@ -158,9 +158,8 @@
 
 #pragma mark - Private methods
 - (SFUserAccount *) createInterimTestUser:(SFSDKTestCredentialsData *) credsData  {
-    SFUserAccount *newAcct = [[SFUserAccountManager sharedInstance]createUserAccount];
+    SFUserAccount *newAcct = [[SFUserAccountManager sharedInstance]createUserAccount:[SFAuthenticationManager sharedManager].oauthCredentials];
     newAcct.accountIdentity.orgId = @"__TESTORGID__";
-    newAcct.accessScopes = [NSSet setWithObjects:@"web", @"api", nil];
     newAcct.credentials.redirectUri = credsData.redirectUri;
     newAcct.credentials.accessToken = credsData.accessToken;
     newAcct.credentials.refreshToken = credsData.refreshToken;

@@ -78,14 +78,6 @@ static NSString * const kGlobalScopingKey = @"-global-";
     return YES;
 }
 
-- (instancetype)init {
-    return [self initWithIdentifier:[SFUserAccountManager sharedInstance].oauthClientId];
-}
-
-- (instancetype)initWithIdentifier:(NSString*)identifier {
-    return [self initWithIdentifier:identifier clientId:[SFUserAccountManager sharedInstance].oauthClientId];
-}
-
 - (instancetype)initWithIdentifier:(NSString*)identifier clientId:(NSString*)clientId {
     self = [super init];
     if (self) {
@@ -93,15 +85,6 @@ static NSString * const kGlobalScopingKey = @"-global-";
         SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:identifier clientId:clientId encrypted:YES];
         [SFUserAccountManager applyCurrentLogLevel:creds];
         self.credentials = creds;
-        _syncQueue = dispatch_queue_create(kSyncQueue, NULL);
-    }
-    return self;
-}
-
-- (instancetype)initWithGuestUser {
-    self = [super init];
-    if (self) {
-        self.guestUser = YES;
         _syncQueue = dispatch_queue_create(kSyncQueue, NULL);
     }
     return self;

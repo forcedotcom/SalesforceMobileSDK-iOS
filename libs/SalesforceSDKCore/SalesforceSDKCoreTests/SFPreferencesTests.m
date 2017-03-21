@@ -9,7 +9,8 @@
 #import <XCTest/XCTest.h>
 #import "SFPreferences.h"
 #import "SFUserAccount.h"
-#import "SFUserAccountManager.h"
+#import "SFUserAccountManager+Internal.h"
+#import "SFAuthenticationManager.h"
 #import "SFDirectoryManager.h"
 
 /** Class that tests the various scoped preferences
@@ -33,7 +34,7 @@
 }
 
 - (void)testOrgLevelPreferences {
-    SFUserAccount *user =[[SFUserAccount alloc] initWithIdentifier:@"happy-user"];
+    SFUserAccount *user =[[SFUserAccount alloc] initWithIdentifier:@"happy-user" clientId:[SFAuthenticationManager sharedManager].oauthClientId];
     NSError *error = nil;
     BOOL success = [[SFUserAccountManager sharedInstance] saveAccountForUser:user error:&error];
     XCTAssertNil(error, @"Should be able to create user account");
@@ -60,7 +61,7 @@
 }
 
 - (void)testUserLevelPreferences {
-    SFUserAccount *user = [[SFUserAccount alloc] initWithIdentifier:@"happy-user"];
+    SFUserAccount *user = [[SFUserAccount alloc] initWithIdentifier:@"happy-user" clientId:[SFAuthenticationManager sharedManager].oauthClientId];
     user.credentials.identityUrl = [NSURL URLWithString:@"https://login.salesforce.com/id/00D000000000062EA0/005R0000000Dsl0"];
  
     NSError *error = nil;
@@ -86,7 +87,7 @@
 }
 
 - (void)testCommunityLevelPreferences {
-    SFUserAccount *user = [[SFUserAccount alloc] initWithIdentifier:@"happy-user"];
+    SFUserAccount *user = [[SFUserAccount alloc] initWithIdentifier:@"happy-user" clientId:[SFAuthenticationManager sharedManager].oauthClientId];
     user.credentials.identityUrl = [NSURL URLWithString:@"https://login.salesforce.com/id/00D000000000062EA0/005R0000000Dsl0"];
     NSError *error = nil;
     [[SFUserAccountManager sharedInstance] saveAccountForUser:user error:&error];

@@ -26,7 +26,7 @@
 
 @interface SFUserAccountManager ()
 {
-    NSRecursiveLock *accountsLock;
+    NSRecursiveLock *_accountsLock;
 }
 
 @property (nonatomic, strong, nonnull) NSHashTable<id<SFUserAccountManagerDelegate>> *delegates;
@@ -38,7 +38,7 @@
 @property (nonatomic, strong, nullable) NSString *lastChangedOrgId;
 @property (nonatomic, strong, nullable) NSString *lastChangedUserId;
 @property (nonatomic, strong, nullable) NSString *lastChangedCommunityId;
-
+@property (nonatomic, strong, nullable) id<SFUserAccountPersister> accountPersister;
 /**
  Executes the given block for each configured delegate.
  @param block The block to execute for each delegate.
@@ -46,20 +46,26 @@
 - (void)enumerateDelegates:(nullable void (^)(id<SFUserAccountManagerDelegate> _Nonnull))block;
 
 /**
- Creates a user account staged with the given auth credentials.
- @param credentials The OAuth credentials to apply to the user account.
- @return The new user account with the given credentials.
+ *
+ * @return NSSet enumeration of all account Names
  */
-- (nonnull SFUserAccount *)createUserAccountWithCredentials:(nonnull SFOAuthCredentials *)credentials;
-/**
- * Reload the accounts and reset the state of SFUserAccountManager. Use for tests only
+- (nullable NSSet *)allExistingAccountNames;
+
+/** Returns a unique identifier that can be used to create a new Account
+ *
+ * @param clientId OAuth Client Id
+ * @return A unique identifier
+ */
+- (nonnull NSString *)uniqueUserAccountIdentifier:(nonnull NSString *)clientId;
+
+/** Reload the accounts and reset the state of SFUserAccountManager. Use for tests only
+ *
  */
 - (void)reload;
 
-/** Get the AccountPersister being used but
- * @return AccountPersister that is used by SFUserAccountPersister.
+/** Get the Account Persister being used.
+ * @return SFUserAccountPersister that is used.
  */
 - (nullable id<SFUserAccountPersister>)accountPersister;
-
 
 @end

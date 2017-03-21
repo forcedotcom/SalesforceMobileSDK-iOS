@@ -78,15 +78,12 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 
 - (void)setUp {
     [super setUp];
-    [SFUserAccountManager setAccountPersisterClass:[SFUserAccountPersisterEphemeral class]];
-    [[SFUserAccountManager sharedInstance] reload];
     self.uam = [SFUserAccountManager sharedInstance];
+    self.uam.accountPersister = [SFUserAccountPersisterEphemeral new];
 }
 
 - (void)tearDown {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
-    [SFUserAccountManager setAccountPersisterClass:nil];
-    [[SFUserAccountManager sharedInstance] reload];
     [super tearDown];
     
 }
@@ -173,21 +170,12 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     // Create a single user
     NSArray *accounts = [self createAndVerifyUserAccounts:1];
     SFUserAccount *user = accounts[0];
+    XCTAssertTrue(self.uam.allUserIdentities.count==1, @"There should be 1 account");
     
-    if ([self.uam allUserAccounts].count==1)
-    
-    XCTAssertEqual([self.uam allUserAccounts].count, (NSUInteger)1, @"There should be one account");
-
-    // Now remove all the users and re-load
-    [self.uam clearAllAccountState];
-    XCTAssertEqual([self.uam.allUserAccounts count], (NSUInteger)0, @"There should be no accounts");
-
-    [self.uam loadAccounts:nil];
-    
-    XCTAssertTrue([self.uam allUserAccounts].count>0, @"Unable to load user accounts: %@");
     NSString *userId = [NSString stringWithFormat:kUserIdFormatString, (unsigned long)0];
     XCTAssertEqualObjects(((SFUserAccountIdentity *)self.uam.allUserIdentities[0]).userId, userId, @"User ID doesn't match after reload");
     [self deleteUserAndVerify:user];
+    XCTAssertTrue(self.uam.allUserIdentities.count==0, @"There should be 0 accounts after delete");
 }
 
 - (void)testMultipleAccounts {
@@ -199,22 +187,6 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     [self createAndVerifyUserAccounts:10];
     XCTAssertEqual([self.uam allUserAccounts].count, (NSUInteger)10, @"There should be 10 accounts");
     
-    // Reload all accounts
-    {
-        [self.uam clearAllAccountState];
-        XCTAssertEqual([self.uam.allUserIdentities count], (NSUInteger)0, @"There should be no accounts");
-        NSError *error =nil;
-        [self.uam loadAccounts:&error];
-        NSArray * accounts = [self.uam allUserAccounts];
-        XCTAssertNil(error, @"Accounts should have been loaded");
-        XCTAssertEqual(accounts.count,10,@"Must have 10 accounts");
-    }
-
-    // Remove and verify that allUserAccounts property implicitly loads the accounts from disk.
-    [self.uam clearAllAccountState];
-    NSError *error =nil;
-    [self.uam loadAccounts:&error];
-    XCTAssertNil(error, @"Accounts should have been loaded");
     // Now make sure each account has a different access token to ensure
     // they are not overlapping in the keychain.
     NSMutableSet *allTokens = [NSMutableSet new];
@@ -238,6 +210,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
         XCTAssertNotNil(userAccount, @"User acccount with User ID '%@' and Org ID '%@' should exist.", userId, orgId);
         [self deleteUserAndVerify:userAccount];
     }
+     XCTAssertEqual([self.uam allUserAccounts].count, (NSUInteger)0, @"There should be 0 accounts after delete");
 }
 
 - (void)testSwitchToUser {
@@ -254,6 +227,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     XCTAssertEqual(self.uam.currentUser, newUser, @"The current user should be set to newUser.");
     [self deleteUserAndVerify:origUser];
     [self deleteUserAndVerify:newUser];
+    XCTAssertEqual([self.uam allUserAccounts].count, (NSUInteger)0, @"There should be 0 accounts after delete");
 }
 
 
@@ -262,7 +236,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     NSArray *accounts = [self createAndVerifyUserAccounts:1];
     self.uam.currentUser = accounts[0];
     SFIdentityData *idData = [self sampleIdentityData];
-    [self.uam applyIdData:idData];
+    [self.uam applyIdData:idData forUser:self.uam.currentUser];
     int origMobileAppPinLength = self.uam.currentUser.idData.mobileAppPinLength;
     int origMobileAppScreenLockTimeout = self.uam.currentUser.idData.mobileAppScreenLockTimeout;
 
@@ -273,8 +247,8 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     NSMutableDictionary *mutableCustomPermissions = [origCustomPermissions mutableCopy];
     mutableCustomAttributes[@"ANewCustomAttribute"] = @"ANewCustomAttributeValue";
     mutableCustomPermissions[@"ANewCustomPermission"] = @"ANewCustomPermissionValue";
-    [self.uam applyIdDataCustomAttributes:mutableCustomAttributes];
-    [self.uam applyIdDataCustomPermissions:mutableCustomPermissions];
+    [self.uam applyIdDataCustomAttributes:mutableCustomAttributes forUser:self.uam.currentUser];
+    [self.uam applyIdDataCustomPermissions:mutableCustomPermissions forUser:self.uam.currentUser];
     XCTAssertTrue([self.uam.currentUser.idData.customAttributes isEqualToDictionary:mutableCustomAttributes], @"Attributes dictionaries are not equal.");
     XCTAssertFalse([self.uam.currentUser.idData.customAttributes isEqualToDictionary:origCustomAttributes], @"Attributes dictionaries should not be equal.");
     XCTAssertTrue([self.uam.currentUser.idData.customPermissions isEqualToDictionary:mutableCustomPermissions], @"Permissions dictionaries are not equal.");
@@ -284,13 +258,13 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 
     // Verify that re-applying the whole of the identity data, overwrites changes.
     idData = [self sampleIdentityData];
-    [self.uam applyIdData:idData];
+    [self.uam applyIdData:idData forUser:self.uam.currentUser];
     XCTAssertTrue([self.uam.currentUser.idData.customAttributes isEqualToDictionary:origCustomAttributes], @"Custom atttribute changes should have been overwritten with whole identity write.");
     XCTAssertFalse([self.uam.currentUser.idData.customAttributes isEqualToDictionary:mutableCustomAttributes], @"Attributes dictionaries should not be equal.");
     XCTAssertTrue([self.uam.currentUser.idData.customPermissions isEqualToDictionary:origCustomPermissions], @"Custom permission changes should have been overwritten with whole identity write.");
     XCTAssertFalse([self.uam.currentUser.idData.customAttributes isEqualToDictionary:mutableCustomPermissions], @"Permissions dictionaries should not be equal.");
     [self deleteUserAndVerify:self.uam.currentUser];
-
+    XCTAssertEqual([self.uam allUserAccounts].count, (NSUInteger)0, @"There should be 0 accounts after delete");
 }
 
 
@@ -319,7 +293,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 
 - (SFUserAccount*)createNewUserWithIndex:(NSUInteger)index {
     XCTAssertTrue(index < 10, @"Supports only index up to 9");
-    SFUserAccount *user = [[SFUserAccount alloc] initWithIdentifier:[NSString stringWithFormat:@"identifier-%lu", (unsigned long)index]];
+    SFUserAccount *user = [[SFUserAccount alloc] initWithIdentifier:[NSString stringWithFormat:@"identifier-%lu", (unsigned long)index] clientId:[SFAuthenticationManager sharedManager].oauthClientId];
     NSString *userId = [NSString stringWithFormat:kUserIdFormatString, (unsigned long)index];
     NSString *orgId = [NSString stringWithFormat:kOrgIdFormatString, (unsigned long)index];
     user.credentials.identityUrl = [NSURL URLWithString:[NSString stringWithFormat:@"https://login.salesforce.com/id/%@/%@", orgId, userId]];

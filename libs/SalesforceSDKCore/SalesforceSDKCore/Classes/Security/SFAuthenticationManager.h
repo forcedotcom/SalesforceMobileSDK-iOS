@@ -303,6 +303,34 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
  */
 @property (nonatomic, strong) NSDictionary * additionalTokenRefreshParams;
 
+/** The host that will be used for login.
+ */
+@property (nonatomic, strong, nullable) NSString *loginHost;
+
+/** Should the login process start again if it fails (default: YES)
+ */
+@property (nonatomic, assign) BOOL retryLoginAfterFailure;
+
+/** OAuth client ID to use for login.  Apps may customize
+ by setting this property before login; otherwise, this
+ value is determined by the SFDCOAuthClientIdPreference
+ configured via the settings bundle.
+ */
+@property (nonatomic, copy, nullable) NSString *oauthClientId;
+
+/** OAuth callback url to use for the OAuth login process.
+ Apps may customize this by setting this property before login.
+ By default this value is picked up from the main
+ bundle property SFDCOAuthRedirectUri
+ default: @"sfdc:///axm/detect/oauth/done")
+ */
+@property (nonatomic, copy, nullable) NSString *oauthCompletionUrl;
+
+/**
+ The OAuth scopes associated with the app.
+ */
+@property (nonatomic, copy) NSSet<NSString*> *scopes;
+
 /**
  Adds a delegate to the list of authentication manager delegates.
  @param delegate The delegate to add to the list.
@@ -323,8 +351,7 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
 - (void)removeDelegate:(id<SFAuthenticationManagerDelegate>)delegate;
 
 /**
- Kick off the login process for either the current user, or a new user if the current user is not
- configured.
+ Kick off the login process for credentials that's previously configured.
  @param completionBlock The block of code to execute when the authentication process successfully completes.
  @param failureBlock The block of code to execute when the authentication process has a fatal failure.
  @return YES if this call kicks off the authentication process.  NO if an authentication process has already
@@ -335,7 +362,7 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
                     failure:(nullable SFOAuthFlowFailureCallbackBlock)failureBlock;
 
 /**
- Kick off the login process for the given user.
+ Kick off the login process for the specified credentials.
  @param completionBlock The block of code to execute when the authentication process successfully completes.
  @param failureBlock The block of code to execute when the authentication process has a fatal failure.
  @param credentials SFOAuthCredentials to be logged in.
@@ -398,6 +425,11 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
  presentation.
  */
 - (void)dismissAuthViewControllerIfPresent;
+
+/** Return SFOAuthCredentials using know oauthClientId,
+    @return Connect App auth credentials
+ */
+-(SFOAuthCredentials *)oauthCredentials;
 
 /**
  Clears session cookie data from the cookie store, and sets a new session cookie based on the

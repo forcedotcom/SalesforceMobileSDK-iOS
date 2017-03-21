@@ -177,32 +177,32 @@ static NSString* ailtnAppName = nil;
 
 - (NSString *)connectedAppId
 {
-    return [SFUserAccountManager sharedInstance].oauthClientId;
+    return [SFAuthenticationManager sharedManager].oauthClientId;
 }
 
 - (void)setConnectedAppId:(NSString *)connectedAppId
 {
-    [SFUserAccountManager sharedInstance].oauthClientId = connectedAppId;
+    [SFAuthenticationManager sharedManager].oauthClientId = connectedAppId;
 }
 
 - (NSString *)connectedAppCallbackUri
 {
-    return [SFUserAccountManager sharedInstance].oauthCompletionUrl;
+    return [SFAuthenticationManager sharedManager].oauthCompletionUrl;
 }
 
 - (void)setConnectedAppCallbackUri:(NSString *)connectedAppCallbackUri
 {
-    [SFUserAccountManager sharedInstance].oauthCompletionUrl = connectedAppCallbackUri;
+    [SFAuthenticationManager sharedManager].oauthCompletionUrl = connectedAppCallbackUri;
 }
 
 - (NSArray *)authScopes
 {
-    return [[SFUserAccountManager sharedInstance].scopes allObjects];
+    return [[SFAuthenticationManager sharedManager].scopes allObjects];
 }
 
 - (void)setAuthScopes:(NSArray *)authScopes
 {
-    [SFUserAccountManager sharedInstance].scopes = [NSSet setWithArray:authScopes];
+    [SFAuthenticationManager sharedManager].scopes = [NSSet setWithArray:authScopes];
 }
 
 - (NSString *)preferredPasscodeProvider
@@ -626,7 +626,7 @@ static NSString* ailtnAppName = nil;
     [self log:SFLogLevelInfo msg:@"No valid credentials found.  Proceeding with authentication."];
     [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
         [self log:SFLogLevelInfo format:@"Authentication (%@) succeeded.  Launch completed.", authInfo.authTypeDescription];
-        [[SFUserAccountManager sharedInstance] setCurrentUser:userAccount];
+        [SFUserAccountManager sharedInstance].currentUser = userAccount;
         [SFSecurityLockout setupTimer];
         [SFSecurityLockout startActivityMonitoring];
         [self authValidatedToPostAuth:SFSDKLaunchActionAuthenticated];

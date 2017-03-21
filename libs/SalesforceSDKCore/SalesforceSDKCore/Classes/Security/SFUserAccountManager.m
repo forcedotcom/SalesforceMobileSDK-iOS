@@ -48,36 +48,17 @@ NSString * const kSFLoginHostChangedNotification = @"kSFLoginHostChanged";
 NSString * const kSFLoginHostChangedNotificationOriginalHostKey = @"originalLoginHost";
 NSString * const kSFLoginHostChangedNotificationUpdatedHostKey = @"updatedLoginHost";
 
-// The key for storing the persisted OAuth scopes.
-NSString * const kOAuthScopesKey = @"oauth_scopes";
-
-// The key for storing the persisted OAuth client ID.
-NSString * const kOAuthClientIdKey = @"oauth_client_id";
-
-// The key for storing the persisted OAuth redirect URI.
-NSString * const kOAuthRedirectUriKey = @"oauth_redirect_uri";
-
 // Persistence Keys
 static NSString * const kUserDefaultsLastUserIdentityKey = @"LastUserIdentity";
 static NSString * const kUserDefaultsLastUserCommunityIdKey = @"LastUserCommunityId";
-
-// Oauth
-static NSString * const kSFUserAccountOAuthLoginHostDefault = @"login.salesforce.com"; // last resort default OAuth host
-static NSString * const kSFUserAccountOAuthLoginHost = @"SFDCOAuthLoginHost";
-static NSString * const kSFUserAccountOAuthRedirectUri = @"SFDCOAuthRedirectUri";
-
-// Key for storing the user's configured login host (deprecated, use kSFUserAccountOAuthLoginHost)
-static NSString * const kDeprecatedLoginHostPrefKey = @"login_host_pref";
 static NSString * const kSFAppFeatureMultiUser   = @"MU";
 
-// Instance class
-static Class AccountPersisterClass = nil;
-
-static id<SFUserAccountPersister> accountPersister;
 
 @implementation SFUserAccountManager
 
 @synthesize currentUser = _currentUser;
+@synthesize userAccountMap = _userAccountMap;
+@synthesize accountPersister = _accountPersister;
 
 + (instancetype)sharedInstance {
     static dispatch_once_t pred;
@@ -122,128 +103,15 @@ static id<SFUserAccountPersister> accountPersister;
 	self = [super init];
 	if (self) {
         self.delegates = [NSHashTable weakObjectsHashTable];
-        NSString *bundleOAuthCompletionUrl = [[NSBundle mainBundle] objectForInfoDictionaryKey:kSFUserAccountOAuthRedirectUri];
-        if (bundleOAuthCompletionUrl != nil) {
-            self.oauthCompletionUrl = bundleOAuthCompletionUrl;
-        }
+        _accountPersister = [SFDefaultUserAccountPersister new];
         [self migrateUserDefaults];
-        accountsLock = [NSRecursiveLock new];
-
-        [self reload];
+        _accountsLock = [NSRecursiveLock new];
      }
 	return self;
 }
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-#pragma mark - Login Host
-
-- (void)setLoginHost:(NSString*)host {
-    NSString *oldLoginHost = [self loginHost];
-
-    if (nil == host) {
-        [[NSUserDefaults msdkUserDefaults] removeObjectForKey:kSFUserAccountOAuthLoginHost];
-    } else {
-        [[NSUserDefaults msdkUserDefaults] setObject:host forKey:kSFUserAccountOAuthLoginHost];
-    }
-
-    [[NSUserDefaults msdkUserDefaults] synchronize];
-
-    // Only post the login host change notification if the host actually changed.
-    if ((oldLoginHost || host) && ![host isEqualToString:oldLoginHost]) {
-        NSDictionary *userInfoDict = @{ kSFLoginHostChangedNotificationOriginalHostKey: (oldLoginHost ?: [NSNull null]),
-                                        kSFLoginHostChangedNotificationUpdatedHostKey: (host ?: [NSNull null]) };
-        NSNotification *loginHostUpdateNotification = [NSNotification notificationWithName:kSFLoginHostChangedNotification object:self userInfo:userInfoDict];
-        [[NSNotificationCenter defaultCenter] postNotification:loginHostUpdateNotification];
-    }
-}
-
-- (NSString *)loginHost {
-    NSUserDefaults *defaults = [NSUserDefaults msdkUserDefaults];
-
-    // First let's import any previously stored settings, if available.
-    NSString *host = [defaults stringForKey:kDeprecatedLoginHostPrefKey];
-    if (host) {
-        [defaults setObject:host forKey:kSFUserAccountOAuthLoginHost];
-        [defaults removeObjectForKey:kDeprecatedLoginHostPrefKey];
-        [defaults synchronize];
-        return host;
-    }
-
-    // Fetch from the standard defaults or bundle.
-    NSString *loginHost = [defaults stringForKey:kSFUserAccountOAuthLoginHost];
-    if ([loginHost length] > 0) {
-        return loginHost;
-    }
-
-    // Login host not initialized. Set it up.
-    NSString *managedLoginHost = ([SFManagedPreferences sharedPreferences].loginHosts)[0];
-    if (managedLoginHost.length > 0) {
-        loginHost = managedLoginHost;
-    } else {
-
-        /*
-         * Do not fall back to default login host if MDM only permits authorized hosts, even if there are no other hosts.
-         */
-        if (![SFManagedPreferences sharedPreferences].onlyShowAuthorizedHosts) {
-            NSString *bundleLoginHost = [[NSBundle mainBundle] objectForInfoDictionaryKey:kSFUserAccountOAuthLoginHost];
-            if (bundleLoginHost.length > 0) {
-                loginHost = bundleLoginHost;
-            } else {
-                loginHost = kSFUserAccountOAuthLoginHostDefault;
-            }
-        }
-    }
-    [defaults setObject:loginHost forKey:kSFUserAccountOAuthLoginHost];
-    [defaults synchronize];
-    return loginHost;
-}
-
-#pragma mark - Default Values
-
-- (NSSet *)scopes
-{
-    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
-    NSArray *scopesArray = [defs objectForKey:kOAuthScopesKey] ?: [NSArray array];
-    return [NSSet setWithArray:scopesArray];
-}
-
-- (void)setScopes:(NSSet *)newScopes
-{
-    NSArray *scopesArray = [newScopes allObjects];
-    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
-    [defs setObject:scopesArray forKey:kOAuthScopesKey];
-    [defs synchronize];
-}
-
-- (NSString *)oauthCompletionUrl
-{
-    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
-    NSString *redirectUri = [defs objectForKey:kOAuthRedirectUriKey];
-    return redirectUri;
-}
-
-- (void)setOauthCompletionUrl:(NSString *)newRedirectUri
-{
-    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
-    [defs setObject:newRedirectUri forKey:kOAuthRedirectUriKey];
-    [defs synchronize];
-}
-
-- (NSString *)oauthClientId
-{
-    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
-    NSString *clientId = [defs objectForKey:kOAuthClientIdKey];
-    return clientId;
-}
-
-- (void)setOauthClientId:(NSString *)newClientId
-{
-    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
-    [defs setObject:newClientId forKey:kOAuthClientIdKey];
-    [defs synchronize];
 }
 
 #pragma mark - SFUserAccountDelegate management
@@ -280,40 +148,47 @@ static id<SFUserAccountPersister> accountPersister;
     return self.currentUser == nil;
 }
 
+-(NSMutableDictionary *)userAccountMap {
+    if(!_userAccountMap || _userAccountMap.count < 1) {
+        [self reload];
+    }
+    return _userAccountMap;
+}
+
+- (void)setUserAccountMap:(NSMutableDictionary *) userAccountMap {
+    _userAccountMap = userAccountMap;
+}
+
+-(id<SFUserAccountPersister>)accountPersister {
+    return _accountPersister;
+}
+
+- (void)setAccountPersister:(id<SFUserAccountPersister>) persister {
+    [_accountsLock lock];
+    _accountPersister = persister;
+    [self reload];
+    [_accountsLock unlock];
+}
+
 #pragma mark Account management
 - (NSArray *)allUserAccounts
 {
-    NSMutableArray *accounts = nil;
-    [accountsLock lock];
-    // Remove the temporary user id from the array
-    if ([self.userAccountMap count] > 0) {
-        accounts = [NSMutableArray array];
-        for (SFUserAccountIdentity *key in [self.userAccountMap allKeys]) {
-            [accounts addObject:(self.userAccountMap)[key]];
-        }
-    }
-    [accountsLock unlock];
-    return accounts;
+    return [self.userAccountMap allValues];
 }
 
 - (NSArray *)allUserIdentities {
     // Sort the identities
-    NSMutableArray *filteredKeys = nil;
-    [accountsLock lock];
-    NSArray *keys = [[self.userAccountMap allKeys] sortedArrayUsingSelector:@selector(compare:)];
-    filteredKeys = [NSMutableArray array];
-    for (SFUserAccountIdentity *identity in keys) {
-        [filteredKeys addObject:identity];
-    }
-    [accountsLock unlock];
-
-    return filteredKeys;
+    NSArray *keys = nil;
+    [_accountsLock lock];
+     keys = [[self.userAccountMap allKeys] sortedArrayUsingSelector:@selector(compare:)];
+    [_accountsLock unlock];
+    return keys;
 }
 
 - (SFUserAccount *)accountForCredentials:(SFOAuthCredentials *) credentials {
     // Sort the identities
     SFUserAccount *account = nil;
-    [accountsLock lock];
+    [_accountsLock lock];
     NSArray *keys = [self.userAccountMap allKeys];
     for (SFUserAccountIdentity *identity in keys) {
         if ([identity matchesCredentials:credentials]) {
@@ -321,7 +196,7 @@ static id<SFUserAccountPersister> accountPersister;
             break;
         }
     }
-    [accountsLock unlock];
+    [_accountsLock unlock];
     return account;
 }
 
@@ -353,41 +228,28 @@ static id<SFUserAccountPersister> accountPersister;
 
 /** Returns a unique user account identifier
  */
-- (NSString*)uniqueUserAccountIdentifier {
+- (NSString*)uniqueUserAccountIdentifier:(NSString *)clientId {
     NSSet *existingAccountNames = [self allExistingAccountNames];
 
     // Make sure to build a unique identifier
     NSString *identifier = nil;
     while (nil == identifier || [existingAccountNames containsObject:identifier]) {
         u_int32_t randomNumber = arc4random();
-        identifier = [NSString stringWithFormat:@"%@-%u", self.oauthClientId, randomNumber];
+        identifier = [NSString stringWithFormat:@"%@-%u", clientId, randomNumber];
     }
 
     return identifier;
 }
 
--(SFOAuthCredentials *)oauthCredentials {
 
-    NSString *oauthClientId = [self oauthClientId];
-    NSString *identifier = [self uniqueUserAccountIdentifier];
+- (SFUserAccount*)createUserAccount:(SFOAuthCredentials *)credentials {
 
-    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:identifier clientId:oauthClientId encrypted:YES];
-    creds.redirectUri = self.oauthCompletionUrl;
-    creds.domain = self.loginHost;
-    creds.accessToken = nil;
-    creds.redirectUri = self.oauthCompletionUrl;
-    creds.clientId = self.oauthClientId;
-    return creds;
-}
-
-- (SFUserAccount*)createUserAccount {
-
-    SFUserAccount *newAcct = [[SFUserAccount alloc] initWithIdentifier:[self uniqueUserAccountIdentifier] clientId:self.oauthClientId];
+    SFUserAccount *newAcct = [[SFUserAccount alloc] initWithIdentifier:[self uniqueUserAccountIdentifier:credentials.clientId] clientId:credentials.clientId];
     SFOAuthCredentials *creds = newAcct.credentials;
     creds.accessToken = nil;
-    creds.domain = self.loginHost;
-    creds.redirectUri = self.oauthCompletionUrl;
-    creds.clientId = self.oauthClientId;
+    creds.domain = credentials.domain;
+    creds.redirectUri = credentials.redirectUri;
+    creds.clientId = credentials.clientId;
 
     //add the account to our list of possible accounts, but
     //don't set this as the current user account until somebody
@@ -396,21 +258,6 @@ static id<SFUserAccountPersister> accountPersister;
 
     return newAcct;
 }
-
-- (SFUserAccount*)createUserAccountWithCredentials:(SFOAuthCredentials*)credentials {
-
-    SFUserAccount *newAcct = [[SFUserAccount alloc] initWithIdentifier:[self uniqueUserAccountIdentifier]];
-    newAcct.credentials = credentials;
-
-    //add the account to our list of possible accounts, but
-    //don't set this as the current user account until somebody
-    //asks us to login with this account.
-    [self saveAccountForUser:newAcct error:nil];
-
-    return newAcct;
-}
-
-
 
 - (void)migrateUserDefaults {
     //Migrate the defaults to the correct location
@@ -460,35 +307,35 @@ static id<SFUserAccountPersister> accountPersister;
 
 - (BOOL)loadAccounts:(NSError **) error {
     BOOL success = YES;
-    [accountsLock lock];
+    [_accountsLock lock];
 
     NSError *internalError = nil;
-    NSDictionary<SFUserAccountIdentity *,SFUserAccount *> *accounts = [accountPersister fetchAllAccounts:&internalError];
+    NSDictionary<SFUserAccountIdentity *,SFUserAccount *> *accounts = [self.accountPersister fetchAllAccounts:&internalError];
     [_userAccountMap removeAllObjects];
     _userAccountMap = [NSMutableDictionary  dictionaryWithDictionary:accounts];
 
     if (internalError)
-        success = false;
+        success = NO;
 
     if (error && internalError)
         *error = internalError;
 
-    [accountsLock unlock];
+    [_accountsLock unlock];
     return success;
 }
 
 - (SFUserAccount *)userAccountForUserIdentity:(SFUserAccountIdentity *)userIdentity {
 
     SFUserAccount *result = nil;
-    [accountsLock lock];
+    [_accountsLock lock];
     result = (self.userAccountMap)[userIdentity];
-    [accountsLock unlock];
+    [_accountsLock unlock];
     return result;
 }
 
 - (NSArray *)accountsForOrgId:(NSString *)orgId {
      NSMutableArray *responseArray = [NSMutableArray array];
-    [accountsLock lock];
+    [_accountsLock lock];
     for (SFUserAccountIdentity *key in self.userAccountMap) {
         SFUserAccount *account = (self.userAccountMap)[key];
         NSString *accountOrg = account.credentials.organizationId;
@@ -496,40 +343,40 @@ static id<SFUserAccountPersister> accountPersister;
             [responseArray addObject:account];
         }
     }
-    [accountsLock unlock];
+    [_accountsLock unlock];
     return responseArray;
 }
 
 - (NSArray *)accountsForInstanceURL:(NSURL *)instanceURL {
 
     NSMutableArray *responseArray = [NSMutableArray array];
-    [accountsLock lock];
+    [_accountsLock lock];
     for (SFUserAccountIdentity *key in self.userAccountMap) {
         SFUserAccount *account = (self.userAccountMap)[key];
         if ([account.credentials.instanceUrl.host isEqualToString:instanceURL.host]) {
             [responseArray addObject:account];
         }
     }
-    [accountsLock unlock];
+    [_accountsLock unlock];
     return responseArray;
 }
 - (void)clearAllAccountState {
-    [accountsLock lock];
+    [_accountsLock lock];
     _currentUser = nil;
     [self.userAccountMap removeAllObjects];
-    [accountsLock unlock];
+    [_accountsLock unlock];
 }
 
 - (BOOL)saveAccountForUser:(SFUserAccount*)userAccount error:(NSError **) error{
     BOOL success = NO;
-    [accountsLock lock];
+    [_accountsLock lock];
     NSUInteger oldCount = self.userAccountMap.count;
 
     //remove from cache
     if ([self.userAccountMap objectForKey:userAccount.accountIdentity]!=nil)
         [self.userAccountMap removeObjectForKey:userAccount.accountIdentity];
 
-    success = [accountPersister saveAccountForUser:userAccount error:error];
+    success = [self.accountPersister saveAccountForUser:userAccount error:error];
     if (success) {
         [self.userAccountMap setObject:userAccount forKey:userAccount.accountIdentity];
         if (self.userAccountMap.count>1 && oldCount<self.userAccountMap.count ) {
@@ -537,14 +384,14 @@ static id<SFUserAccountPersister> accountPersister;
         }
 
     }
-    [accountsLock unlock];
+    [_accountsLock unlock];
     return success;
 }
 
 - (BOOL)deleteAccountForUser:(SFUserAccount *)user error:(NSError **)error {
     BOOL success = NO;
-    [accountsLock lock];
-    success = [accountPersister deleteAccountForUser:user error:error];
+    [_accountsLock lock];
+    success = [self.accountPersister deleteAccountForUser:user error:error];
 
     if (success) {
         user.userDeleted = YES;
@@ -558,13 +405,8 @@ static id<SFUserAccountPersister> accountPersister;
         }
     }
 
-    [accountsLock unlock];
+    [_accountsLock unlock];
     return success;
-}
-
-- (NSString *)currentCommunityId {
-    NSUserDefaults *userDefaults = [NSUserDefaults msdkUserDefaults];
-    return [userDefaults stringForKey:kUserDefaultsLastUserCommunityIdKey];
 }
 
 - (SFUserAccount *)applyCredentials:(SFOAuthCredentials*)credentials {
@@ -575,10 +417,15 @@ static id<SFUserAccountPersister> accountPersister;
     if (currentAccount) {
         currentAccount.credentials = credentials;
     }else {
-        currentAccount = [self createUserAccountWithCredentials:credentials];
+        currentAccount = [[SFUserAccount alloc] initWithIdentifier:[self uniqueUserAccountIdentifier:credentials.clientId] clientId:credentials.clientId];
+        currentAccount.credentials = credentials;
+
+        //add the account to our list of possible accounts, but
+        //don't set this as the current user account until somebody
+        //asks us to login with this account.
         change |= SFUserAccountChangeNewUser;
     }
-
+    
     // If the user has logged using a community-base URL, then let's create the community data
     // related to this community using the information we have from oauth.
     currentAccount.communityId = credentials.communityId;
@@ -602,12 +449,12 @@ static id<SFUserAccountPersister> accountPersister;
 }
 
 - (SFUserAccount*) currentUser {
-    if (_currentUser == nil) {
-        [accountsLock lock];
+    if (!_currentUser) {
+        [_accountsLock lock];
         NSData *resultData = nil;
         NSUserDefaults *userDefaults = [NSUserDefaults msdkUserDefaults];
         resultData = [userDefaults objectForKey:kUserDefaultsLastUserIdentityKey];
-        if (resultData != nil) {
+        if (resultData) {
              SFUserAccountIdentity *result = nil;
             @try {
                 NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:resultData];
@@ -624,7 +471,7 @@ static id<SFUserAccountPersister> accountPersister;
         }else {
             [self log:SFLogLevelWarning msg:@"Could not parse locate user identity object from user defaults.  Setting to nil."];
         }
-        [accountsLock unlock];
+        [_accountsLock unlock];
     }
     return _currentUser;
 }
@@ -632,19 +479,20 @@ static id<SFUserAccountPersister> accountPersister;
 - (void)setCurrentUser:(SFUserAccount*)user {
 
     BOOL userChanged = NO;
-    [accountsLock lock];
+    [_accountsLock lock];
 
-    if (nil==user) { //clear current user if  nil
+    if (!user) {
+        //clear current user if  nil
         _currentUser = nil;
         [self setCurrentUserIdentity:nil];
         userChanged = YES;
     } else {
         //check if this is valid managed user
         SFUserAccount *userAccount = [self userAccountForUserIdentity:user.accountIdentity];
-        if (nil!=userAccount) {
+        if (userAccount) {
           [self willChangeValueForKey:@"currentUser"];
-               _currentUser = user;
-            [self setCurrentUserIdentity:user.accountIdentity];
+           _currentUser = user;
+          [self setCurrentUserIdentity:user.accountIdentity];
           userChanged = YES;
           [self didChangeValueForKey:@"currentUser"];
         } else {
@@ -652,7 +500,7 @@ static id<SFUserAccountPersister> accountPersister;
         }
     }
 
-    [accountsLock unlock];
+    [_accountsLock unlock];
 
     if (userChanged)
         [self userChanged:SFUserAccountChangeUnknown];
@@ -660,81 +508,68 @@ static id<SFUserAccountPersister> accountPersister;
 
 -(SFUserAccountIdentity *) currentUserIdentity {
     SFUserAccountIdentity *accountIdentity = nil;
-    [accountsLock lock];
-    if (_currentUser == nil) {
+    [_accountsLock lock];
+    if (!_currentUser) {
         NSUserDefaults *userDefaults = [NSUserDefaults msdkUserDefaults];
         accountIdentity = [userDefaults objectForKey:kUserDefaultsLastUserIdentityKey];
     } else {
         accountIdentity = _currentUser.accountIdentity;
     }
-    [accountsLock unlock];
+    [_accountsLock unlock];
     return accountIdentity;
 }
 
 - (void)setCurrentUserIdentity:(SFUserAccountIdentity*)userAccountIdentity {
     NSUserDefaults *standardDefaults = [NSUserDefaults msdkUserDefaults];
-    [accountsLock lock];
-    if (userAccountIdentity!=nil) {  //clear current user if userAccountIdentity is nil
+    [_accountsLock lock];
+    if (userAccountIdentity) {
         NSMutableData *auiData = [NSMutableData data];
         NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:auiData];
         [archiver encodeObject:userAccountIdentity forKey:kUserDefaultsLastUserIdentityKey];
         [archiver finishEncoding];
         [standardDefaults setObject:auiData forKey:kUserDefaultsLastUserIdentityKey];
-    } else {
+    } else {  //clear current user if userAccountIdentity is nil
         [standardDefaults removeObjectForKey:kUserDefaultsLastUserIdentityKey];
     }
-    [accountsLock unlock];
+    [_accountsLock unlock];
     [standardDefaults synchronize];
 }
 
-
-- (void)applyIdData:(SFIdentityData *)idData {
-   [self applyIdData:idData forUser:self.currentUser];
-}
-
-- (void)applyIdDataCustomAttributes:(NSDictionary *)customAttributes {
-   [self applyIdDataCustomAttributes:customAttributes forUser:self.currentUser];
-}
-
-- (void)applyIdDataCustomPermissions:(NSDictionary *)customPermissions {
-   [self applyIdDataCustomPermissions:customPermissions forUser:self.currentUser];
-}
-
-- (void)setObjectForCurrentUserCustomData:(NSObject<NSCoding> *)object forKey:(NSString *)key {
-   [self setObjectForUserCustomData:object forKey:key andUser:self.currentUser];
-}
-
 - (void)applyIdData:(SFIdentityData *)idData forUser:(SFUserAccount *)user {
-    [accountsLock lock];
+    [_accountsLock lock];
     user.idData = idData;
     [self saveAccountForUser:user error:nil];
-    [accountsLock unlock];
+    [_accountsLock unlock];
     [self userChanged:SFUserAccountChangeIdData];
 }
 
 - (void)applyIdDataCustomAttributes:(NSDictionary *)customAttributes forUser:(SFUserAccount *)user {
-    [accountsLock lock];
+    [_accountsLock lock];
     user.idData.customAttributes = customAttributes;
     [self saveAccountForUser:user error:nil];
-    [accountsLock unlock];
+    [_accountsLock unlock];
     [self userChanged:SFUserAccountChangeIdData];
 }
 
 - (void)applyIdDataCustomPermissions:(NSDictionary *)customPermissions forUser:(SFUserAccount *)user {
-    [accountsLock lock];
+    [_accountsLock lock];
     user.idData.customPermissions = customPermissions;
     [self saveAccountForUser:user error:nil];
-    [accountsLock unlock];
+    [_accountsLock unlock];
     [self userChanged:SFUserAccountChangeIdData];
 }
 
 - (void)setObjectForUserCustomData:(NSObject <NSCoding> *)object forKey:(NSString *)key andUser:(SFUserAccount *)user {
-    [accountsLock lock];
+    [_accountsLock lock];
     [user setCustomDataObject:object forKey:key];
     [self saveAccountForUser:user error:nil];
-    [accountsLock unlock];
+    [_accountsLock unlock];
 }
 
+- (NSString *)currentCommunityId {
+    NSUserDefaults *userDefaults = [NSUserDefaults msdkUserDefaults];
+    return [userDefaults stringForKey:kUserDefaultsLastUserCommunityIdKey];
+}
 
 #pragma mark -
 #pragma mark Switching Users
@@ -798,33 +633,19 @@ static id<SFUserAccountPersister> accountPersister;
                                                       userInfo:@{ SFUserAccountManagerUserChangeKey : @(change) }];
 }
 
-+ (void)setAccountPersisterClass:(nullable Class) persisterClass {
-    AccountPersisterClass  = persisterClass;
-}
-
-- (id <SFUserAccountPersister>)accountPersister {
-    return accountPersister;
-}
-
 - (void)reload {
-    [accountsLock lock];
+    [_accountsLock lock];
 
-    if (AccountPersisterClass)
-        accountPersister = [AccountPersisterClass new];
-    else
-        accountPersister = [SFDefaultUserAccountPersister new];
+    if(!_accountPersister)
+        _accountPersister = [SFDefaultUserAccountPersister new];
 
-    if (_userAccountMap==nil)
-        _userAccountMap= [NSMutableDictionary new];
+    if (!_userAccountMap)
+        _userAccountMap = [NSMutableDictionary new];
     else
         [_userAccountMap removeAllObjects];
 
-    NSString *bundleOAuthCompletionUrl = [[NSBundle mainBundle] objectForInfoDictionaryKey:kSFUserAccountOAuthRedirectUri];
-    if (bundleOAuthCompletionUrl != nil) {
-        self.oauthCompletionUrl = bundleOAuthCompletionUrl;
-    }
     [self loadAccounts:nil];
-    [accountsLock unlock];
+    [_accountsLock unlock];
 }
 
 
