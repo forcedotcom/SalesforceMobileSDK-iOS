@@ -238,7 +238,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 
 - (SFUserAccount*)createUserAccount:(SFOAuthCredentials *)credentials {
 
-    SFUserAccount *newAcct = [[SFUserAccount alloc] initWithIdentifier:[self uniqueUserAccountIdentifier:credentials.clientId] clientId:credentials.clientId];
+    SFUserAccount *newAcct = [[SFUserAccount alloc] initWithCredentials:credentials];
     SFOAuthCredentials *creds = newAcct.credentials;
     creds.accessToken = nil;
     creds.domain = credentials.domain;
@@ -411,9 +411,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
     if (currentAccount) {
         currentAccount.credentials = credentials;
     }else {
-        currentAccount = [[SFUserAccount alloc] initWithIdentifier:[self uniqueUserAccountIdentifier:credentials.clientId] clientId:credentials.clientId];
-        currentAccount.credentials = credentials;
-
+        currentAccount = [[SFUserAccount alloc] initWithCredentials:credentials];
         //add the account to our list of possible accounts, but
         //don't set this as the current user account until somebody
         //asks us to login with this account.
