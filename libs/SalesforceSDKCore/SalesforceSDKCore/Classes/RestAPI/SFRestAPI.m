@@ -23,15 +23,11 @@
  */
 
 #import "SFRestAPI+Internal.h"
-#import "SFRestRequest+Internal.h"
 #import "SFRestAPISalesforceAction.h"
-#import "CSFSalesforceAction.h"
-#import "SFOAuthCoordinator.h"
-#import "SFUserAccount.h"
-#import "SFAuthenticationManager.h"
 #import "SFSDKWebUtils.h"
 #import "SalesforceSDKManager.h"
 #import "SFSDKEventBuilderHelper.h"
+#import "SalesforceSDKCore.h"
 
 NSString* const kSFRestDefaultAPIVersion = @"v39.0";
 NSString* const kSFRestIfUnmodifiedSince = @"If-Unmodified-Since";
@@ -214,6 +210,15 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     return request.action;
 }
 
+# pragma mark - helper method for conditional requests
+
++ (NSString *)getHttpStringFomFromDate:(NSDate *)date {
+    if (date == nil) return nil;
+
+    return [httpDateFormatter stringFromDate:date];
+}
+
+
 #pragma mark - SFRestRequest factory methods
 
 - (SFRestRequest *)requestForVersions {
@@ -333,9 +338,39 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
 }
 
-+ (NSString *)getHttpStringFomFromDate:(NSDate *)date {
-    if (date == nil) return nil;
+- (SFRestRequest *) batchRequest:(NSArray<SFRestRequest*>*) requests haltOnError:(BOOL) haltOnError {
+    NSMutableArray *requestsArrayJson = [NSMutableArray new];
+    for (SFRestRequest *request in requests) {
+        NSMutableDictionary<NSString *, id> *requestJson = [NSMutableDictionary new];
+        requestJson[@"method"] = [SFRestRequest httpMethodFromSFRestMethod:request.method];
+        // queryParams belong in url
+        if (request.method == SFRestMethodGET || request.method == SFRestMethodDELETE) {
+            // Note: It would be better to build the correct path in the first place (like we do on android)
+            NSMutableString* params = [NSMutableString new];
+            if (request.queryParams) {
+                [params appendString:@"?"];
+                for (NSString *paramName in [request.queryParams allKeys]) {
+                    [params appendString:paramName];
+                    [params appendString:@"="];
+                    [params appendString:[request.queryParams[paramName] stringByURLEncoding]];
+                }
+            }
+            requestJson[@"url"] = [request.path stringByAppendingString:params];
+        }
+        // queryParams belongs in body
+        else {
+            requestJson[@"url"] = request.path;
+            requestJson[@"richInput"] = request.queryParams;
+        }
+        [requestsArrayJson addObject:requestJson];
+    }
+    NSMutableDictionary<NSString *, id> *batchRequestJson = [NSMutableDictionary new];
+    batchRequestJson[@"batchRequests"] = requestsArrayJson;
+    batchRequestJson[@"haltOnError"] = [NSNumber numberWithBool:haltOnError];
 
-    return [httpDateFormatter stringFromDate:date];
+    NSString *path = [NSString stringWithFormat:@"/%@/composite/batch", self.apiVersion];
+
+    return [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:batchRequestJson];
 }
+
 @end

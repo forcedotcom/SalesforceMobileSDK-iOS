@@ -355,6 +355,14 @@ extern NSString* const kSFRestIfUnmodifiedSince;
  */
 - (SFRestRequest *)requestForSearchResultLayout:(NSString*)objectList;
 
+/**
+ * Retursn an `SFRestRequest` which executes a batch of requests.
+ * @param requests Collection of subrequests to execute.
+ * @param haltOnError Controls whether Salesforce should stop processing subrequests if a subrequest fails.
+ * @return
+ * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_batch.htm
+ */
+- (SFRestRequest *) batchRequest:(NSArray<SFRestRequest*>*) requests haltOnError:(BOOL) haltOnError;
 
 ///---------------------------------------------------------------------------------------
 /// @name Other utility methods
