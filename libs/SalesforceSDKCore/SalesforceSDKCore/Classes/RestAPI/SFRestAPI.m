@@ -53,8 +53,10 @@ static BOOL kIsTestRun;
 __strong static NSDateFormatter *httpDateFormatter;
 
 + (void) initialize {
-    httpDateFormatter = [NSDateFormatter new];
-    httpDateFormatter.dateFormat = @"EEE',' dd MMM yyyy HH':'mm':'ss 'GMT'";
+    if (self == [SFRestAPI class]) { 
+        httpDateFormatter = [NSDateFormatter new];
+        httpDateFormatter.dateFormat = @"EEE',' dd MMM yyyy HH':'mm':'ss 'GMT'";
+    }
 }
 
 
