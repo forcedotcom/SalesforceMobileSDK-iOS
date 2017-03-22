@@ -93,6 +93,13 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     [SFAuthenticationManager sharedManager].oauthClientId = @"fakeClientIdForTesting";
 
     // Ensure the user account manager doesn't contain any account
+    NSArray *userAccounts = [[SFUserAccountManager sharedInstance] allUserAccounts];
+    for (SFUserAccount *account in userAccounts) {
+        if (account != [SFUserAccountManager sharedInstance].currentUser) {
+            NSError *error = nil;
+            [self.uam deleteAccountForUser:account error:&error];
+        }
+    }
     [self.uam clearAllAccountState];
     self.uam.currentUser = nil;
     [super setUp];
@@ -330,7 +337,9 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 
 - (SFUserAccount*)createNewUserWithIndex:(NSUInteger)index {
     XCTAssertTrue(index < 10, @"Supports only index up to 9");
-    SFUserAccount *user = [[SFUserAccount alloc] initWithIdentifier:[NSString stringWithFormat:@"identifier-%lu", (unsigned long)index] clientId:[SFAuthenticationManager sharedManager].oauthClientId];
+    
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc]initWithIdentifier:[NSString stringWithFormat:@"identifier-%lu", (unsigned long)index] clientId:[SFAuthenticationManager sharedManager].oauthClientId encrypted:YES];
+    SFUserAccount *user =[[SFUserAccount alloc] initWithCredentials:credentials];
     NSString *userId = [NSString stringWithFormat:kUserIdFormatString, (unsigned long)index];
     NSString *orgId = [NSString stringWithFormat:kOrgIdFormatString, (unsigned long)index];
     user.credentials.identityUrl = [NSURL URLWithString:[NSString stringWithFormat:@"https://login.salesforce.com/id/%@/%@", orgId, userId]];

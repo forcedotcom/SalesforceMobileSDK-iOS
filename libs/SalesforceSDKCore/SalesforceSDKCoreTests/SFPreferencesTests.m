@@ -34,7 +34,8 @@
 }
 
 - (void)testOrgLevelPreferences {
-    SFUserAccount *user =[[SFUserAccount alloc] initWithIdentifier:@"happy-user" clientId:[SFAuthenticationManager sharedManager].oauthClientId];
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"happy-user" clientId:[SFAuthenticationManager sharedManager].oauthClientId encrypted:YES];
+    SFUserAccount *user =[[SFUserAccount alloc] initWithCredentials:credentials];
     NSError *error = nil;
     BOOL success = [[SFUserAccountManager sharedInstance] saveAccountForUser:user error:&error];
     XCTAssertNil(error, @"Should be able to create user account");
@@ -61,7 +62,8 @@
 }
 
 - (void)testUserLevelPreferences {
-    SFUserAccount *user = [[SFUserAccount alloc] initWithIdentifier:@"happy-user" clientId:[SFAuthenticationManager sharedManager].oauthClientId];
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"happy-user" clientId:[SFAuthenticationManager sharedManager].oauthClientId encrypted:YES];
+    SFUserAccount *user =[[SFUserAccount alloc] initWithCredentials:credentials];
     user.credentials.identityUrl = [NSURL URLWithString:@"https://login.salesforce.com/id/00D000000000062EA0/005R0000000Dsl0"];
  
     NSError *error = nil;
@@ -87,7 +89,8 @@
 }
 
 - (void)testCommunityLevelPreferences {
-    SFUserAccount *user = [[SFUserAccount alloc] initWithIdentifier:@"happy-user" clientId:[SFAuthenticationManager sharedManager].oauthClientId];
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"happy-user" clientId:[SFAuthenticationManager sharedManager].oauthClientId encrypted:YES];
+    SFUserAccount *user = [[SFUserAccount alloc] initWithCredentials:credentials];
     user.credentials.identityUrl = [NSURL URLWithString:@"https://login.salesforce.com/id/00D000000000062EA0/005R0000000Dsl0"];
     NSError *error = nil;
     [[SFUserAccountManager sharedInstance] saveAccountForUser:user error:&error];
