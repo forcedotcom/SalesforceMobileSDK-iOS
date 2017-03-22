@@ -33,7 +33,8 @@
 #import "SalesforceSDKManager.h"
 #import "SFSDKEventBuilderHelper.h"
 
-NSString* const kSFRestDefaultAPIVersion = @"v36.0";
+NSString* const kSFRestDefaultAPIVersion = @"v39.0";
+NSString* const kSFRestIfUnmodifiedSince = @"If-Unmodified-Since";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
 NSInteger const kSFRestErrorCode = 999;
 
@@ -48,6 +49,16 @@ static BOOL kIsTestRun;
 @synthesize apiVersion=_apiVersion;
 @synthesize activeRequests=_activeRequests;
 @synthesize currentNetwork=_currentNetwork;
+
+__strong static NSDateFormatter *httpDateFormatter = nil;
+
++ (void) initialize {
+    if (self == [SFRestAPI class]) {
+        httpDateFormatter = [NSDateFormatter new];
+        httpDateFormatter.dateFormat = @"EEE',' dd MMM yyyy HH':'mm':'ss 'GMT'";
+    }
+}
+
 
 #pragma mark - init/setup
 
@@ -249,16 +260,33 @@ static BOOL kIsTestRun;
 - (SFRestRequest *)requestForUpdateWithObjectType:(NSString *)objectType
                                          objectId:(NSString *)objectId
                                            fields:(NSDictionary *)fields {
+    return [self requestForUpdateWithObjectType:objectType objectId:objectId fields:fields ifUnmodifiedSinceDate:nil];
+}
+
+- (SFRestRequest *)requestForUpdateWithObjectType:(NSString *)objectType
+                                         objectId:(NSString *)objectId
+                                           fields:(NSDictionary *)fields
+                            ifUnmodifiedSinceDate:(NSDate *) ifUnmodifiedSinceDate {
+
     NSString *path = [NSString stringWithFormat:@"/%@/sobjects/%@/%@", self.apiVersion, objectType, objectId];
-    return [SFRestRequest requestWithMethod:SFRestMethodPATCH path:path queryParams:fields];
+    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPATCH path:path queryParams:fields];
+    if (ifUnmodifiedSinceDate) [request setHeaderValue:[SFRestAPI getHttpStringFomFromDate:ifUnmodifiedSinceDate] forHeaderName:kSFRestIfUnmodifiedSince];
+    return request;
 }
 
 - (SFRestRequest *)requestForUpsertWithObjectType:(NSString *)objectType
                                   externalIdField:(NSString *)externalIdField
                                        externalId:(NSString *)externalId
                                            fields:(NSDictionary *)fields {
-    NSString *path = [NSString stringWithFormat:@"/%@/sobjects/%@/%@/%@", self.apiVersion, objectType, externalIdField, externalId];
-    return [SFRestRequest requestWithMethod:SFRestMethodPATCH path:path queryParams:fields];
+    NSString *path = [NSString stringWithFormat:@"/%@/sobjects/%@/%@/%@",
+                                                self.apiVersion,
+                                                objectType,
+                                                externalIdField,
+                                                externalId == nil ? @"" : externalId];
+    SFRestMethod method = externalId == nil ? SFRestMethodPOST : SFRestMethodPATCH;
+    return [SFRestRequest requestWithMethod:method
+                                       path:path
+                                queryParams:fields];
 }
 
 - (SFRestRequest *)requestForDeleteWithObjectType:(NSString *)objectType
@@ -305,4 +333,9 @@ static BOOL kIsTestRun;
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
 }
 
++ (NSString *)getHttpStringFomFromDate:(NSDate *)date {
+    if (date == nil) return nil;
+
+    return [httpDateFormatter stringFromDate:date];
+}
 @end

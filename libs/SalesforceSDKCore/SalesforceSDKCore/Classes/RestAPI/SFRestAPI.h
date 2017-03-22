@@ -39,10 +39,15 @@ extern NSString* const kSFRestErrorDomain;
 extern NSInteger const kSFRestErrorCode;
 
 /*
- * Default API version (currently "v36.0")
+ * Default API version (currently "v39.0")
  * You can override this by using setApiVersion:
  */
 extern NSString* const kSFRestDefaultAPIVersion;
+
+/*
+ * Misc keys appearing in requests
+ */
+extern NSString* const kSFRestIfUnmodifiedSince;
 
 @class SFOAuthCoordinator;
 
@@ -147,7 +152,7 @@ extern NSString* const kSFRestDefaultAPIVersion;
 
 /**
  * The REST API version used for all the calls. This could be "v21.0", "v22.0"...
- * The default value is `kSFRestDefaultAPIVersion` (currently "v36.0")
+ * The default value is `kSFRestDefaultAPIVersion` (currently "v39.0")
  */
 @property (nonatomic, strong) NSString *apiVersion;
 
@@ -283,6 +288,24 @@ extern NSString* const kSFRestDefaultAPIVersion;
 - (SFRestRequest *)requestForUpdateWithObjectType:(NSString *)objectType 
                                          objectId:(NSString *)objectId
                                            fields:(nullable NSDictionary<NSString*, id> *)fields;
+
+/**
+ * Same as requestForUpdateWithObjectType:objectId:fields but only executing update
+ * if the server record was not modified since ifModifiedSinceDate.
+ *
+ * @param objectType object type; for example, "Account"
+ * @param objectId the record's object ID
+ * @param fields an object containing initial field names and values for record
+ * @param ifUnmodifiedSinceDate update will only happens if current last modified date of record is
+ *                              older than ifUnmodifiedSinceDate
+ *                              otherwise a 412 (precondition failed) will be returned
+ * @see http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_sobject_retrieve.htm
+ */
+- (SFRestRequest *)requestForUpdateWithObjectType:(NSString *)objectType
+                                         objectId:(NSString *)objectId
+                                            fields:(nullable NSDictionary<NSString*, id> *)fields
+                            ifUnmodifiedSinceDate:(nullable NSDate *) ifUnmodifiedSinceDate;
+
 
 /**
  * Returns an `SFRestRequest` which deletes a record of the given type.
