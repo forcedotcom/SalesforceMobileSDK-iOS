@@ -1462,9 +1462,8 @@ static Class InstanceClass = nil;
 }
 
 - (SFOAuthCredentials *)createOAuthCredentials {
-    NSString *oauthClientId = [self oauthClientId];
     NSString *identifier = [[SFUserAccountManager sharedInstance] uniqueUserAccountIdentifier:self.oauthClientId];
-    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:identifier clientId:oauthClientId encrypted:YES];
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:identifier clientId:self.oauthClientId encrypted:YES];
     creds.redirectUri = self.oauthCompletionUrl;
     creds.domain = self.loginHost;
     creds.accessToken = nil;

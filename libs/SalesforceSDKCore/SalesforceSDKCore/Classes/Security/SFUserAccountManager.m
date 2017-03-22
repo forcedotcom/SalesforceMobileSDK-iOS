@@ -155,19 +155,13 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
     return _userAccountMap;
 }
 
-- (void)setUserAccountMap:(NSMutableDictionary *) userAccountMap {
-    _userAccountMap = userAccountMap;
-}
-
--(id<SFUserAccountPersister>)accountPersister {
-    return _accountPersister;
-}
-
 - (void)setAccountPersister:(id<SFUserAccountPersister>) persister {
-    [_accountsLock lock];
-    _accountPersister = persister;
-    [self reload];
-    [_accountsLock unlock];
+    if(persister != _accountPersister) {
+        [_accountsLock lock];
+        _accountPersister = persister;
+        [self reload];
+        [_accountsLock unlock];
+    }
 }
 
 #pragma mark Account management
@@ -479,29 +473,28 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 - (void)setCurrentUser:(SFUserAccount*)user {
 
     BOOL userChanged = NO;
-    [_accountsLock lock];
-
-    if (!user) {
-        //clear current user if  nil
-        _currentUser = nil;
-        [self setCurrentUserIdentity:nil];
-        userChanged = YES;
-    } else {
-        //check if this is valid managed user
-        SFUserAccount *userAccount = [self userAccountForUserIdentity:user.accountIdentity];
-        if (userAccount) {
-          [self willChangeValueForKey:@"currentUser"];
-           _currentUser = user;
-          [self setCurrentUserIdentity:user.accountIdentity];
-          userChanged = YES;
-          [self didChangeValueForKey:@"currentUser"];
+    if(user!=_currentUser) {
+        [_accountsLock lock];
+        if (!user) {
+            //clear current user if  nil
+            _currentUser = nil;
+            [self setCurrentUserIdentity:nil];
+            userChanged = YES;
         } else {
-          [self log:SFLogLevelError format:@"Cannot set the currentUser as %@. Add the account to the SFAccountManager before making this call.",[user userName]];
+            //check if this is valid managed user
+            SFUserAccount *userAccount = [self userAccountForUserIdentity:user.accountIdentity];
+            if (userAccount) {
+                [self willChangeValueForKey:@"currentUser"];
+                _currentUser = user;
+                [self setCurrentUserIdentity:user.accountIdentity];
+                userChanged = YES;
+                [self didChangeValueForKey:@"currentUser"];
+            } else {
+                [self log:SFLogLevelError format:@"Cannot set the currentUser as %@. Add the account to the SFAccountManager before making this call.", [user userName]];
+            }
         }
+        [_accountsLock unlock];
     }
-
-    [_accountsLock unlock];
-
     if (userChanged)
         [self userChanged:SFUserAccountChangeUnknown];
 }
