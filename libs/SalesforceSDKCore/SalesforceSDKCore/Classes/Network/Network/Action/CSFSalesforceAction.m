@@ -33,7 +33,7 @@
 NSString * const CSFAuthorizationHeaderValueFormat = @"OAuth %@";
 NSString * const CSFAuthorizationHeaderName = @"Authorization";
 NSString * const CSFSalesforceActionDefaultPathPrefix = @"/services/data";
-NSString * const CSFSalesforceDefaultAPIVersion = @"v36.0";
+NSString * const CSFSalesforceDefaultAPIVersion = @"v39.0";
 
 static NSString * const kNetworkAccessTokenPath   = @"account.credentials.accessToken";
 static NSString * const kNetworkInstanceURLPath   = @"account.credentials.instanceUrl";

@@ -17,3 +17,5 @@ node_modules
 /native/SampleApps/RestAPIExplorer/build/
 node_modules/
 .github/
+.idea/
+
