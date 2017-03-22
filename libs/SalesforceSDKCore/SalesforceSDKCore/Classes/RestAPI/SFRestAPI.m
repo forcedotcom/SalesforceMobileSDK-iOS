@@ -50,10 +50,10 @@ static BOOL kIsTestRun;
 @synthesize activeRequests=_activeRequests;
 @synthesize currentNetwork=_currentNetwork;
 
-__strong static NSDateFormatter *httpDateFormatter;
+__strong static NSDateFormatter *httpDateFormatter = nil;
 
 + (void) initialize {
-    if (self == [SFRestAPI class]) { 
+    if (self == [SFRestAPI class]) {
         httpDateFormatter = [NSDateFormatter new];
         httpDateFormatter.dateFormat = @"EEE',' dd MMM yyyy HH':'mm':'ss 'GMT'";
     }
