@@ -235,21 +235,9 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
     return identifier;
 }
 
-
 - (SFUserAccount*)createUserAccount:(SFOAuthCredentials *)credentials {
-
     SFUserAccount *newAcct = [[SFUserAccount alloc] initWithCredentials:credentials];
-    SFOAuthCredentials *creds = newAcct.credentials;
-    creds.accessToken = nil;
-    creds.domain = credentials.domain;
-    creds.redirectUri = credentials.redirectUri;
-    creds.clientId = credentials.clientId;
-
-    //add the account to our list of possible accounts, but
-    //don't set this as the current user account until somebody
-    //asks us to login with this account.
     [self saveAccountForUser:newAcct error:nil];
-
     return newAcct;
 }
 
