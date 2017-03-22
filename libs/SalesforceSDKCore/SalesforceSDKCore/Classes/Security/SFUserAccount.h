@@ -114,18 +114,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, readonly, getter = isUserLoggingOut) BOOL userLoggingOut;
 
-/** Initialize with identifier and client id
- @param identifier The user identifier
- @param clientId The client id
+/** Initialize with SFOAuthCredentials credentials
+ @param credentials The credentials to link with the SFUserAccount.
  @return the account instance
  */
-- (instancetype)initWithIdentifier:(NSString*)identifier clientId:(NSString*)clientId NS_DESIGNATED_INITIALIZER;
-
-/** Initialize with identifier and client id
- @param credentials The client id
- @return the account instance
- */
-- (instancetype)initWithCredentials:(SFOAuthCredentials *) credentials;
+- (instancetype)initWithCredentials:(SFOAuthCredentials *) credentials NS_DESIGNATED_INITIALIZER;
 
 /** Returns the community API url for a particular
  community ID if it exists in the communities array

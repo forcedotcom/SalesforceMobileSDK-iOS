@@ -123,36 +123,45 @@ static NSString* const kTestAppName = @"OverridenAppName";
 
 - (void)testOverrideAiltnAppNameBeforeSDKManagerLaunch
 {
+    NSString *prevName = SalesforceSDKManager.ailtnAppName;
     [SalesforceSDKManager setAiltnAppName:kTestAppName];
     [self createStandardPostLaunchBlock];
     [self createTestAppIdentity];
     [self launchAndVerify:YES failMessage:@"Launch attempt should have been successful."];
     [self verifyPostLaunchState];
     [self compareAiltnAppNames:kTestAppName];
+    [SalesforceSDKManager setAiltnAppName:prevName];
 }
 
 - (void)testOverrideAiltnAppNameAfterSDKManagerInit
 {
+    NSString *prevName = SalesforceSDKManager.ailtnAppName;
     [self createStandardPostLaunchBlock];
     [self createTestAppIdentity];
     [self launchAndVerify:YES failMessage:@"Launch attempt should have been successful."];
     [self verifyPostLaunchState];
     [SalesforceSDKManager setAiltnAppName:kTestAppName];
     [self compareAiltnAppNames:kTestAppName];
+    [SalesforceSDKManager setAiltnAppName:prevName];
 }
 
 - (void)testDefaultAiltnAppName
 {
+    NSString *prevName = SalesforceSDKManager.ailtnAppName;
     [self createStandardPostLaunchBlock];
     [self createTestAppIdentity];
     [self launchAndVerify:YES failMessage:@"Launch attempt should have been successful."];
     [self verifyPostLaunchState];
     NSString *appName = [[NSBundle mainBundle] infoDictionary][(NSString *) kCFBundleNameKey];
     [self compareAiltnAppNames:appName];
+    [SalesforceSDKManager setAiltnAppName:prevName];
+    
 }
 
 - (void)testOverrideInvalidAiltnAppName
 {
+    NSString *prevName = SalesforceSDKManager.ailtnAppName;
+    [SFUserAccountManager sharedInstance].currentUser = [self createUserAccount];
     [self createStandardPostLaunchBlock];
     [self createTestAppIdentity];
     [self launchAndVerify:YES failMessage:@"Launch attempt should have been successful."];
@@ -160,6 +169,7 @@ static NSString* const kTestAppName = @"OverridenAppName";
     [SalesforceSDKManager setAiltnAppName:nil];
     NSString *appName = [[NSBundle mainBundle] infoDictionary][(NSString *) kCFBundleNameKey];
     [self compareAiltnAppNames:appName];
+    [SalesforceSDKManager setAiltnAppName:prevName];
 }
 
 - (void)testPasscodeVerificationAtLaunch
@@ -414,7 +424,8 @@ static NSString* const kTestAppName = @"OverridenAppName";
 - (SFUserAccount *)createUserAccount
 {
     u_int32_t userIdentifier = arc4random();
-    SFUserAccount *user = [[SFUserAccount alloc] initWithIdentifier:[NSString stringWithFormat:@"identifier-%u", userIdentifier] clientId:[SFAuthenticationManager sharedManager].oauthClientId];
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:[NSString stringWithFormat:@"identifier-%u", userIdentifier] clientId:[SFAuthenticationManager sharedManager].oauthClientId encrypted:YES];
+    SFUserAccount *user =[[SFUserAccount alloc] initWithCredentials:credentials];
     NSString *userId = [NSString stringWithFormat:@"user_%u", userIdentifier];
     NSString *orgId = [NSString stringWithFormat:@"org_%u", userIdentifier];
     user.credentials.identityUrl = [NSURL URLWithString:[NSString stringWithFormat:@"https://login.salesforce.com/id/%@/%@", orgId, userId]];
