@@ -109,6 +109,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, readonly, getter = isUserDeleted) BOOL userDeleted;
 
+/** Indicates if this user is being logged out.  Returns `YES` if this user is being logged out.
+ */
+@property (nonatomic, readonly, getter = isUserLoggingOut) BOOL userLoggingOut;
+
 /** Returns YES if the user is a temporary user.
  Note: a temporary user is created when a new user
  is requested, for example during the login into

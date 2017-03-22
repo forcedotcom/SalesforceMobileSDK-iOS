@@ -31,5 +31,6 @@ static NSString * const SFUserAccountManagerTemporaryUserAccountOrgId = @"TEMP_O
 @interface SFUserAccount ()
 
 @property (nonatomic, readwrite, getter = isUserDeleted) BOOL userDeleted;
+@property (nonatomic, readwrite, getter = isUserLoggingOut) BOOL userLoggingOut;
 
 @end
