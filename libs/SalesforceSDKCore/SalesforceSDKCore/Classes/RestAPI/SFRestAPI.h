@@ -357,12 +357,21 @@ extern NSString* const kSFRestIfUnmodifiedSince;
 
 /**
  * Retursn an `SFRestRequest` which executes a batch of requests.
- * @param requests Collection of subrequests to execute.
+ * @param requests Array of subrequests to execute.
  * @param haltOnError Controls whether Salesforce should stop processing subrequests if a subrequest fails.
- * @return
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_batch.htm
  */
 - (SFRestRequest *) batchRequest:(NSArray<SFRestRequest*>*) requests haltOnError:(BOOL) haltOnError;
+
+/**
+ * Retursn an `SFRestRequest` which executes a composite request.
+ * @param requests Array of subrequests to execute.
+ * @param refIds Array of reference id for the requests (should have the same number of element than requests)
+ * @param allOrNone Specifies what to do when an error occurs while processing a subrequest.
+ * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_composite.htm
+ */
+- (SFRestRequest *) compositeRequest:(NSArray<SFRestRequest*>*) requests refIds:(NSArray<NSString*>*)refIds allOrNone:(BOOL) allOrNone;
+
 
 ///---------------------------------------------------------------------------------------
 /// @name Other utility methods

@@ -345,17 +345,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
         requestJson[@"method"] = [SFRestRequest httpMethodFromSFRestMethod:request.method];
         // queryParams belong in url
         if (request.method == SFRestMethodGET || request.method == SFRestMethodDELETE) {
-            // Note: It would be better to build the correct path in the first place (like we do on android)
-            NSMutableString* params = [NSMutableString new];
-            if (request.queryParams) {
-                [params appendString:@"?"];
-                for (NSString *paramName in [request.queryParams allKeys]) {
-                    [params appendString:paramName];
-                    [params appendString:@"="];
-                    [params appendString:[request.queryParams[paramName] stringByURLEncoding]];
-                }
-            }
-            requestJson[@"url"] = [request.path stringByAppendingString:params];
+            requestJson[@"url"] = [NSString stringWithFormat:@"%@%@", request.path, [self toQueryString:request.queryParams]];
         }
         // queryParams belongs in body
         else {
@@ -372,5 +362,47 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 
     return [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:batchRequestJson];
 }
+
+- (SFRestRequest *) compositeRequest:(NSArray<SFRestRequest*>*) requests refIds:(NSArray<NSString*>*)refIds allOrNone:(BOOL) allOrNone {
+    NSMutableArray *requestsArrayJson = [NSMutableArray new];
+    for (int i=0; i<requests.count; i++) {
+        SFRestRequest *request = requests[i];
+        NSString *refId = refIds[i];
+        NSMutableDictionary<NSString *, id> *requestJson = [NSMutableDictionary new];
+        requestJson[@"referenceId"] = refId;
+        requestJson[@"method"] = [SFRestRequest httpMethodFromSFRestMethod:request.method];
+        // queryParams belong in url
+        if (request.method == SFRestMethodGET || request.method == SFRestMethodDELETE) {
+            requestJson[@"url"] = [NSString stringWithFormat:@"%@%@%@", request.endpoint, request.path, [self toQueryString:request.queryParams]];
+        }
+        // queryParams belongs in body
+        else {
+            requestJson[@"url"] = [NSString stringWithFormat:@"%@%@", request.endpoint, request.path];
+            requestJson[@"body"] = request.queryParams;
+        }
+        [requestsArrayJson addObject:requestJson];
+    }
+    NSMutableDictionary<NSString *, id> *compositeRequestJson = [NSMutableDictionary new];
+    compositeRequestJson[@"compositeRequest"] = requestsArrayJson;
+    compositeRequestJson[@"allOrNone"] = [NSNumber numberWithBool:allOrNone];
+
+    NSString *path = [NSString stringWithFormat:@"/%@/composite", self.apiVersion];
+
+    return [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:compositeRequestJson];
+}
+
+- (NSString *)toQueryString:(NSDictionary *)components {
+    NSMutableString *params = [NSMutableString new];
+    if (components) {
+        [params appendString:@"?"];
+        for (NSString *paramName in [components allKeys]) {
+            [params appendString:paramName];
+            [params appendString:@"="];
+            [params appendString:[components[paramName] stringByURLEncoding]];
+        }
+    }
+    return params;
+}
+
 
 @end
