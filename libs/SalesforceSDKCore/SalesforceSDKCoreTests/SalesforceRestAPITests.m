@@ -726,7 +726,7 @@ static NSException *authException = nil;
      NSString* contactId = ((NSDictionary *) results[1][BODY])[LID];
      NSArray<NSDictionary *>* queryRecords = results[2][BODY][RECORDS];
      XCTAssertEqual(1, queryRecords.count, "Wrong number of results for query request");
-     XCTAssertEqualObjects(accountId, queryRecords[0][ACCOUNsT_ID], "Account id not returned by query");
+     XCTAssertEqualObjects(accountId, queryRecords[0][ACCOUNT_ID], "Account id not returned by query");
      XCTAssertEqualObjects(contactId, queryRecords[0][ID], "Contact id not returned by query");
  }
 
