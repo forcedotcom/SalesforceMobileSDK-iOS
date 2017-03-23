@@ -32,6 +32,7 @@
 #import "SFSDKEventBuilderHelper.h"
 #import "SFNetwork.h"
 #import "SFOAuthSessionRefresher.h"
+#import "NSString+SFAdditions.h"
 
 NSString* const kSFRestDefaultAPIVersion = @"v39.0";
 NSString* const kSFRestIfUnmodifiedSince = @"If-Unmodified-Since";
@@ -272,6 +273,15 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     }
 }
 
+# pragma mark - helper method for conditional requests
+
++ (NSString *)getHttpStringFomFromDate:(NSDate *)date {
+    if (date == nil) return nil;
+
+    return [httpDateFormatter stringFromDate:date];
+}
+
+
 #pragma mark - SFRestRequest factory methods
 
 - (SFRestRequest *)requestForVersions {
@@ -391,9 +401,70 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
 }
 
-+ (NSString *)getHttpStringFomFromDate:(NSDate *)date {
-    if (date == nil) return nil;
+- (SFRestRequest *) batchRequest:(NSArray<SFRestRequest*>*) requests haltOnError:(BOOL) haltOnError {
+    NSMutableArray *requestsArrayJson = [NSMutableArray new];
+    for (SFRestRequest *request in requests) {
+        NSMutableDictionary<NSString *, id> *requestJson = [NSMutableDictionary new];
+        requestJson[@"method"] = [SFRestRequest httpMethodFromSFRestMethod:request.method];
 
-    return [httpDateFormatter stringFromDate:date];
+        // queryParams belong in url
+        if (request.method == SFRestMethodGET || request.method == SFRestMethodDELETE) {
+            requestJson[@"url"] = [NSString stringWithFormat:@"%@%@", request.path, [self toQueryString:request.queryParams]];
+        }
+
+        // queryParams belongs in body
+        else {
+            requestJson[@"url"] = request.path;
+            requestJson[@"richInput"] = request.queryParams;
+        }
+        [requestsArrayJson addObject:requestJson];
+    }
+    NSMutableDictionary<NSString *, id> *batchRequestJson = [NSMutableDictionary new];
+    batchRequestJson[@"batchRequests"] = requestsArrayJson;
+    batchRequestJson[@"haltOnError"] = [NSNumber numberWithBool:haltOnError];
+    NSString *path = [NSString stringWithFormat:@"/%@/composite/batch", self.apiVersion];
+    return [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:batchRequestJson];
 }
+
+- (SFRestRequest *) compositeRequest:(NSArray<SFRestRequest*>*) requests refIds:(NSArray<NSString*>*)refIds allOrNone:(BOOL) allOrNone {
+    NSMutableArray *requestsArrayJson = [NSMutableArray new];
+    for (int i=0; i<requests.count; i++) {
+        SFRestRequest *request = requests[i];
+        NSString *refId = refIds[i];
+        NSMutableDictionary<NSString *, id> *requestJson = [NSMutableDictionary new];
+        requestJson[@"referenceId"] = refId;
+        requestJson[@"method"] = [SFRestRequest httpMethodFromSFRestMethod:request.method];
+
+        // queryParams belong in url
+        if (request.method == SFRestMethodGET || request.method == SFRestMethodDELETE) {
+            requestJson[@"url"] = [NSString stringWithFormat:@"%@%@%@", request.endpoint, request.path, [self toQueryString:request.queryParams]];
+        }
+
+        // queryParams belongs in body
+        else {
+            requestJson[@"url"] = [NSString stringWithFormat:@"%@%@", request.endpoint, request.path];
+            requestJson[@"body"] = request.queryParams;
+        }
+        [requestsArrayJson addObject:requestJson];
+    }
+    NSMutableDictionary<NSString *, id> *compositeRequestJson = [NSMutableDictionary new];
+    compositeRequestJson[@"compositeRequest"] = requestsArrayJson;
+    compositeRequestJson[@"allOrNone"] = [NSNumber numberWithBool:allOrNone];
+    NSString *path = [NSString stringWithFormat:@"/%@/composite", self.apiVersion];
+    return [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:compositeRequestJson];
+}
+
+- (NSString *)toQueryString:(NSDictionary *)components {
+    NSMutableString *params = [NSMutableString new];
+    if (components) {
+        [params appendString:@"?"];
+        for (NSString *paramName in [components allKeys]) {
+            [params appendString:paramName];
+            [params appendString:@"="];
+            [params appendString:[components[paramName] stringByURLEncoding]];
+        }
+    }
+    return params;
+}
+
 @end

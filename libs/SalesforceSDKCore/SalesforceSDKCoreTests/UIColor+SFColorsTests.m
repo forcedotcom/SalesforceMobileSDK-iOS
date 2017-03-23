@@ -76,5 +76,17 @@
     XCTAssertNil(color, @"Color must be nil for invalid hex representation!");
 }
 
+- (void)testEmptyHexString {
+    NSString *shortHandHexColor = @"";
+    UIColor *color = [UIColor colorFromHexValue:shortHandHexColor];
+    XCTAssertNil(color, @"Color must be nil for empty hex representation!");
+}
+
+- (void)testNilHexString {
+    NSString *shortHandHexColor = nil;
+    UIColor *color = [UIColor colorFromHexValue:shortHandHexColor];
+    XCTAssertNil(color, @"Color must be nil for nil hex representation!");
+}
+
 
 @end

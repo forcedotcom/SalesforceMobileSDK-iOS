@@ -190,6 +190,13 @@ extern NSString * const kSFDefaultRestEndpoint;
 + (BOOL)isNetworkError:(NSError *)error;
 
 /**
+ * Return HTTP method as string for SFRestMethod
+ * @param restMethod
+ * @return
+ */
++ (NSString *)httpMethodFromSFRestMethod:(SFRestMethod)restMethod;
+
+/**
  * Return SFRestMethod from string
  @param httpMethod An HTTP method; for example, "get" or "post"
  @return The SFRestMethod enumerator for the given HTTP method
