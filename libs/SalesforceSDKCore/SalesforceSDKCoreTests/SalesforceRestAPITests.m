@@ -40,6 +40,15 @@
 #define SEARCH_RECORDS @"searchRecords"
 #define TYPE @"type"
 #define RECORDS @"records"
+#define ACCOUNT_ID @"AccountId"
+#define RESULT @"result"
+#define RESULTS @"results"
+#define STATUS_CODE @"statusCode"
+#define BODY @"body"
+#define COMPOSITE_RESPONSE @"compositeResponse"
+#define HAS_ERRORS @"hasErrors"
+#define ATTRIBUTES @"attributes"
+#define HTTP_STATUS_CODE @"httpStatusCode"
 
  @interface SalesforceRestAPITests ()
 {
@@ -99,12 +108,19 @@ static NSException *authException = nil;
     SFRestRequest* searchRequest = [[SFRestAPI sharedInstance] requestForSearch:[NSString stringWithFormat:@"find {%@}", ENTITY_PREFIX_NAME]];
     SFNativeRestRequestListener* listener = [self sendSyncRequest:searchRequest];
     NSArray* results = ((NSDictionary*) listener.dataResponse)[SEARCH_RECORDS];
+    NSMutableArray* requests = [NSMutableArray new];
     for (NSDictionary* result in results) {
-        NSString* objectType = result[TYPE];
-        NSString* objectId = result[ID];
-        SFRestRequest* deleteRequest = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:objectType objectId:objectId];
-        SFNativeRestRequestListener *listener = [self sendSyncRequest:deleteRequest];
-        NSLog(@"delete of %@ returned with status %ld", objectId, listener.lastError.code);
+        NSString *objectType = result[ATTRIBUTES][TYPE];
+        NSString *objectId = result[ID];
+        SFRestRequest *deleteRequest = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:objectType objectId:objectId];
+        [requests addObject:deleteRequest];
+        if (requests.count == 25) {
+            [self sendSyncRequest:[[SFRestAPI sharedInstance] batchRequest:requests haltOnError:NO]];
+            [requests removeAllObjects];
+        }
+    }
+    if (requests.count > 0) {
+        [self sendSyncRequest:[[SFRestAPI sharedInstance] batchRequest:requests haltOnError:NO]];
     }
 }
 
@@ -638,22 +654,82 @@ static NSException *authException = nil;
 
      // Checking response
      NSDictionary * response = listener.dataResponse;
-     XCTAssertEqual(response[@"hasErrors"], @NO, @"No errors expected");
-     NSArray<NSDictionary *>* results = response[@"results"];
+     XCTAssertEqual(response[HAS_ERRORS], @NO, @"No errors expected");
+     NSArray<NSDictionary *>* results = response[RESULTS];
      XCTAssertEqual(results.count, 4, @"Wrong number of results");
-     XCTAssertEqual([results[0][@"statusCode"] intValue], 201, @"Wrong status for first request");
-     XCTAssertEqual([results[1][@"statusCode"] intValue], 201, @"Wrong status for second request");
-     XCTAssertEqual([results[2][@"statusCode"] intValue], 200, @"Wrong status for third request");
-     XCTAssertEqual([results[3][@"statusCode"] intValue], 200, @"Wrong status for fourth request");
+     XCTAssertEqual([results[0][STATUS_CODE] intValue], 201, @"Wrong status for first request");
+     XCTAssertEqual([results[1][STATUS_CODE] intValue], 201, @"Wrong status for second request");
+     XCTAssertEqual([results[2][STATUS_CODE] intValue], 200, @"Wrong status for third request");
+     XCTAssertEqual([results[3][STATUS_CODE] intValue], 200, @"Wrong status for fourth request");
 
      // Queries should have returned ids of newly created account and contact
-     NSString* accountId = ((NSDictionary *) results[0][@"result"])[LID];
-     NSString* contactId = ((NSDictionary *) results[1][@"result"])[LID];
-     NSString* idFromFirstQuery = ((NSDictionary *) results[2][@"result"])[RECORDS][0][ID];
-     NSString* idFromSecondQuery = ((NSDictionary *) results[3][@"result"])[RECORDS][0][ID];
+     NSString* accountId = ((NSDictionary *) results[0][RESULT])[LID];
+     NSString* contactId = ((NSDictionary *) results[1][RESULT])[LID];
+     NSString* idFromFirstQuery = ((NSDictionary *) results[2][RESULT])[RECORDS][0][ID];
+     NSString* idFromSecondQuery = ((NSDictionary *) results[3][RESULT])[RECORDS][0][ID];
      XCTAssertEqualObjects(accountId, idFromFirstQuery, @"Account id not returned by query");
      XCTAssertEqualObjects(contactId, idFromSecondQuery, @"Contact id not returned by query");
  }
+
+ // Test for composite request
+ // Run a composite request that:
+ // - creates an account,
+ // - creates a contact (with newly created account as parent),
+ // - run a query that should return newly created account and contact
+ - (void) testCompositeRequest {
+
+     NSDictionary *fields;
+
+     // Create account
+     NSString *accountName = [self generateRecordName];
+     fields = @{NAME: accountName};
+
+     SFRestRequest *createAccountRequest = [[SFRestAPI sharedInstance]
+             requestForCreateWithObjectType:ACCOUNT
+                                     fields:fields
+     ];
+
+     // Create contact
+     NSString *contactName = [self generateRecordName];
+     fields = @{LAST_NAME: contactName, ACCOUNT_ID: @"@{refAccount.id}"};
+
+     SFRestRequest *createContactRequest = [[SFRestAPI sharedInstance]
+             requestForCreateWithObjectType:CONTACT
+                                     fields:fields
+     ];
+
+     // Query for account and contact
+     SFRestRequest *queryForContact = [[SFRestAPI sharedInstance]
+             requestForQuery:[NSString stringWithFormat:@"select Id, AccountId from Contact where LastName = '%@'", contactName]
+     ];
+
+     // Build composite request
+     SFRestRequest *batchRequest = [[SFRestAPI sharedInstance]
+             compositeRequest:@[createAccountRequest, createContactRequest, queryForContact]
+                       refIds:@[@"refAccount", @"refContact", @"refQuery"]
+                    allOrNone:YES
+     ];
+
+     // Send request
+     SFNativeRestRequestListener *listener = [self sendSyncRequest:batchRequest];
+
+     // Checking response
+     NSDictionary * response = listener.dataResponse;
+     NSArray<NSDictionary *>* results = response[COMPOSITE_RESPONSE];
+     XCTAssertEqual(3, results.count, "Wrong number of results");
+     XCTAssertEqual([results[0][HTTP_STATUS_CODE] intValue], 201, @"Wrong status for first request");
+     XCTAssertEqual([results[1][HTTP_STATUS_CODE] intValue], 201, @"Wrong status for second request");
+     XCTAssertEqual([results[2][HTTP_STATUS_CODE] intValue], 200, @"Wrong status for third request");
+     
+     // Query should have returned ids of newly created account and contact
+     NSString* accountId = ((NSDictionary *) results[0][BODY])[LID];
+     NSString* contactId = ((NSDictionary *) results[1][BODY])[LID];
+     NSArray<NSDictionary *>* queryRecords = results[2][BODY][RECORDS];
+     XCTAssertEqual(1, queryRecords.count, "Wrong number of results for query request");
+     XCTAssertEqualObjects(accountId, queryRecords[0][ACCOUNsT_ID], "Account id not returned by query");
+     XCTAssertEqualObjects(contactId, queryRecords[0][ID], "Contact id not returned by query");
+ }
+
 
 #pragma mark - testing files calls
 
@@ -756,10 +832,10 @@ static NSException *authException = nil;
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForBatchFileDetails:@[fileAttrs[LID], fileAttrs2[LID]]];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-    XCTAssertEqual([listener.dataResponse[@"results"][0][@"statusCode"] intValue], 200, @"expected 200");
-    [self compareFileAttributes:listener.dataResponse[@"results"][0][@"result"] expectedAttrs:fileAttrs];
-    XCTAssertEqual([listener.dataResponse[@"results"][1][@"statusCode"] intValue], 200, @"expected 200");
-    [self compareFileAttributes:listener.dataResponse[@"results"][1][@"result"] expectedAttrs:fileAttrs2];
+    XCTAssertEqual([listener.dataResponse[RESULTS][0][STATUS_CODE] intValue], 200, @"expected 200");
+    [self compareFileAttributes:listener.dataResponse[RESULTS][0][RESULT] expectedAttrs:fileAttrs];
+    XCTAssertEqual([listener.dataResponse[RESULTS][1][STATUS_CODE] intValue], 200, @"expected 200");
+    [self compareFileAttributes:listener.dataResponse[RESULTS][1][RESULT] expectedAttrs:fileAttrs2];
     
     // delete first file
     request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:@"ContentDocument" objectId:fileAttrs[LID]];
@@ -770,9 +846,9 @@ static NSException *authException = nil;
     request = [[SFRestAPI sharedInstance] requestForBatchFileDetails:@[fileAttrs[LID], fileAttrs2[LID]]];
     listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-    XCTAssertEqual([listener.dataResponse[@"results"][0][@"statusCode"] intValue], 404, @"expected 404");
-    XCTAssertEqual([listener.dataResponse[@"results"][1][@"statusCode"] intValue], 200, @"expected 200");
-    [self compareFileAttributes:listener.dataResponse[@"results"][1][@"result"] expectedAttrs:fileAttrs2];
+    XCTAssertEqual([listener.dataResponse[RESULTS][0][STATUS_CODE] intValue], 404, @"expected 404");
+    XCTAssertEqual([listener.dataResponse[RESULTS][1][STATUS_CODE] intValue], 200, @"expected 200");
+    [self compareFileAttributes:listener.dataResponse[RESULTS][1][RESULT] expectedAttrs:fileAttrs2];
     
     // delete second file
     request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:@"ContentDocument" objectId:fileAttrs2[LID]];
@@ -783,8 +859,8 @@ static NSException *authException = nil;
     request = [[SFRestAPI sharedInstance] requestForBatchFileDetails:@[fileAttrs[LID], fileAttrs2[LID]]];
     listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-    XCTAssertEqual([listener.dataResponse[@"results"][0][@"statusCode"] intValue], 404, @"expected 404");
-    XCTAssertEqual([listener.dataResponse[@"results"][1][@"statusCode"] intValue], 404, @"expected 404");
+    XCTAssertEqual([listener.dataResponse[RESULTS][0][STATUS_CODE] intValue], 404, @"expected 404");
+    XCTAssertEqual([listener.dataResponse[RESULTS][1][STATUS_CODE] intValue], 404, @"expected 404");
 }
 
 // Upload files / get owned files / delete files / get owned files again
