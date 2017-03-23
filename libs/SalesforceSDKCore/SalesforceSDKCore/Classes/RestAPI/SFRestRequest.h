@@ -130,7 +130,6 @@ extern NSString * const kSFDefaultRestEndpoint;
  */
 @property (nullable, nonatomic, weak) id<SFRestDelegate> delegate;
 
-
 /**
  * Typically kSFDefaultRestEndpoint but you may use eg custom Apex endpoints
  */
@@ -203,6 +202,13 @@ extern NSString * const kSFDefaultRestEndpoint;
  * @return YES if the error code of the given error specifies a network error
  */
 + (BOOL)isNetworkError:(NSError *)error;
+
+/**
+ * Return HTTP method as string for SFRestMethod
+ * @param restMethod
+ * @return
+ */
++ (NSString *)httpMethodFromSFRestMethod:(SFRestMethod)restMethod;
 
 /**
  * Return SFRestMethod from string
