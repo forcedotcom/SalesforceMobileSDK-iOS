@@ -189,29 +189,8 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     if (user.credentials.accessToken == nil && user.credentials.refreshToken == nil && request.requiresAuthentication) {
         [self log:SFLogLevelInfo msg:@"No auth credentials found. Authenticating before sending request."];
         [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
-            NSURLRequest *finalRequest = [request prepareRequestForSend];
-            if (finalRequest) {
-                SFNetwork *network = [[SFNetwork alloc] init];
-                NSURLSessionDataTask *dataTask = [network sendRequest:finalRequest dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
-                    __strong typeof(weakSelf) strongSelf = weakSelf;
-                    if (error) {
-                        [strongSelf log:SFLogLevelDebug format:@"REST request failed with error: Error Code: %ld, Description: %@, URL: %@", (long) error.code, error.localizedDescription, finalRequest.URL];
-
-                        // Checks if the request was canceled.
-                        if (error.code == -999) {
-                            [delegate requestDidCancelLoad:request];
-                        } else {
-                            [delegate request:request didFailLoadWithError:error];
-                        }
-                        return;
-                    }
-                    if (!response) {
-                        [delegate requestDidTimeout:request];
-                    }
-                    [strongSelf replayRequestIfRequired:data response:response error:error request:request delegate:delegate];
-                }];
-                request.sessionDataTask = dataTask;
-            }
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            [strongSelf enqueueRequest:request delegate:delegate];
         } failure:^(SFOAuthInfo *authInfo, NSError *error) {
             [self log:SFLogLevelError format:@"Authentication failed in SFRestAPI: %@. Logging out.", error];
             NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
@@ -223,29 +202,34 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     } else {
 
         // Auth credentials exist. Just send the request.
-        NSURLRequest *finalRequest = [request prepareRequestForSend];
-        if (finalRequest) {
-            SFNetwork *network = [[SFNetwork alloc] init];
-            NSURLSessionDataTask *dataTask = [network sendRequest:finalRequest dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
-                __strong typeof(weakSelf) strongSelf = weakSelf;
-                if (error) {
-                    [strongSelf log:SFLogLevelDebug format:@"REST request failed with error: Error Code: %ld, Description: %@, URL: %@", (long) error.code, error.localizedDescription, finalRequest.URL];
+        [self enqueueRequest:request delegate:delegate];
+    }
+}
 
-                    // Checks if the request was canceled.
-                    if (error.code == -999) {
-                        [delegate requestDidCancelLoad:request];
-                    } else {
-                        [delegate request:request didFailLoadWithError:error];
-                    }
-                    return;
+- (void)enqueueRequest:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate {
+    __weak __typeof(self) weakSelf = self;
+    NSURLRequest *finalRequest = [request prepareRequestForSend];
+    if (finalRequest) {
+        SFNetwork *network = [[SFNetwork alloc] init];
+        NSURLSessionDataTask *dataTask = [network sendRequest:finalRequest dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            if (error) {
+                [strongSelf log:SFLogLevelDebug format:@"REST request failed with error: Error Code: %ld, Description: %@, URL: %@", (long) error.code, error.localizedDescription, finalRequest.URL];
+
+                // Checks if the request was canceled.
+                if (error.code == -999) {
+                    [delegate requestDidCancelLoad:request];
+                } else {
+                    [delegate request:request didFailLoadWithError:error];
                 }
-                if (!response) {
-                    [delegate requestDidTimeout:request];
-                }
-                [strongSelf replayRequestIfRequired:data response:response error:error request:request delegate:delegate];
-            }];
-            request.sessionDataTask = dataTask;
-        }
+                return;
+            }
+            if (!response) {
+                [delegate requestDidTimeout:request];
+            }
+            [strongSelf replayRequestIfRequired:data response:response error:error request:request delegate:delegate];
+        }];
+        request.sessionDataTask = dataTask;
     }
 }
 
