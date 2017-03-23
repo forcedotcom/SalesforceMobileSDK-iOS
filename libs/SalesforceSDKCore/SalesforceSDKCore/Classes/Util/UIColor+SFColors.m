@@ -48,6 +48,9 @@
 }
 
 + (NSString *)msdk_sixDigitHexFromString:(NSString *)hexString {
+    if (hexString.length == 0) {
+        return nil;
+    }
     if ([hexString characterAtIndex:0] == '#') {
         hexString = [hexString substringFromIndex:1];
     }
