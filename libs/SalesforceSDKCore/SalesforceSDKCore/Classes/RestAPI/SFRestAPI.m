@@ -196,7 +196,13 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
                     __strong typeof(weakSelf) strongSelf = weakSelf;
                     if (error) {
                         [strongSelf log:SFLogLevelDebug format:@"REST request failed with error: Error Code: %ld, Description: %@, URL: %@", (long) error.code, error.localizedDescription, finalRequest.URL];
-                        [delegate request:request didFailLoadWithError:error];
+
+                        // Checks if the request was canceled.
+                        if (error.code == -999) {
+                            [delegate requestDidCancelLoad:request];
+                        } else {
+                            [delegate request:request didFailLoadWithError:error];
+                        }
                         return;
                     }
                     if (!response) {
@@ -224,7 +230,13 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
                 __strong typeof(weakSelf) strongSelf = weakSelf;
                 if (error) {
                     [strongSelf log:SFLogLevelDebug format:@"REST request failed with error: Error Code: %ld, Description: %@, URL: %@", (long) error.code, error.localizedDescription, finalRequest.URL];
-                    [delegate request:request didFailLoadWithError:error];
+
+                    // Checks if the request was canceled.
+                    if (error.code == -999) {
+                        [delegate requestDidCancelLoad:request];
+                    } else {
+                        [delegate request:request didFailLoadWithError:error];
+                    }
                     return;
                 }
                 if (!response) {

@@ -196,8 +196,7 @@ static NSException *authException = nil;
 - (void)testGetDescribeGlobal_Cancel {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
     SFNativeRestRequestListener *listener = [[SFNativeRestRequestListener alloc] initWithRequest:request];
-    [[SFRestAPI sharedInstance] send:request delegate:nil];
-
+    [[SFRestAPI sharedInstance] send:request delegate:listener];
     [[SFRestAPI sharedInstance] cancelAllRequests];
     [listener waitForCompletion];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidCancel, @"request should have been cancelled");
@@ -208,7 +207,7 @@ static NSException *authException = nil;
 - (void)testGetDescribeGlobal_Timeout {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
     SFNativeRestRequestListener *listener = [[SFNativeRestRequestListener alloc] initWithRequest:request];
-    [[SFRestAPI sharedInstance] send:request delegate:nil];
+    [[SFRestAPI sharedInstance] send:request delegate:listener];
     
     BOOL found = [[SFRestAPI sharedInstance] forceTimeoutRequest:request];
     XCTAssertTrue(found , @"Could not find request to force a timeout");
@@ -1185,11 +1184,11 @@ static NSException *authException = nil;
     
     //send multiple requests, all of which should fail with "unauthorized" initially,
     //but then be replayed after an access token refresh
-    [[SFRestAPI sharedInstance] send:request0 delegate:nil];
-    [[SFRestAPI sharedInstance] send:request1 delegate:nil];
-    [[SFRestAPI sharedInstance] send:request2 delegate:nil];
-    [[SFRestAPI sharedInstance] send:request3 delegate:nil];
-    [[SFRestAPI sharedInstance] send:request4 delegate:nil];
+    [[SFRestAPI sharedInstance] send:request0 delegate:listener0];
+    [[SFRestAPI sharedInstance] send:request1 delegate:listener1];
+    [[SFRestAPI sharedInstance] send:request2 delegate:listener2];
+    [[SFRestAPI sharedInstance] send:request3 delegate:listener3];
+    [[SFRestAPI sharedInstance] send:request4 delegate:listener4];
     
     //wait for requests to complete in some arbitrary order
     [listener4 waitForCompletion];
@@ -1242,11 +1241,11 @@ static NSException *authException = nil;
         SFNativeRestRequestListener *listener4 = [[SFNativeRestRequestListener alloc] initWithRequest:request4];
         
         //send multiple requests, all of which should fail with "unauthorized"
-        [[SFRestAPI sharedInstance] send:request0 delegate:nil];
-        [[SFRestAPI sharedInstance] send:request1 delegate:nil];
-        [[SFRestAPI sharedInstance] send:request2 delegate:nil];
-        [[SFRestAPI sharedInstance] send:request3 delegate:nil];
-        [[SFRestAPI sharedInstance] send:request4 delegate:nil];
+        [[SFRestAPI sharedInstance] send:request0 delegate:listener0];
+        [[SFRestAPI sharedInstance] send:request1 delegate:listener1];
+        [[SFRestAPI sharedInstance] send:request2 delegate:listener2];
+        [[SFRestAPI sharedInstance] send:request3 delegate:listener3];
+        [[SFRestAPI sharedInstance] send:request4 delegate:listener4];
         
         //wait for requests to complete in some arbitrary order
         [listener4 waitForCompletion];
