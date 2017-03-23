@@ -27,10 +27,6 @@
 #import <SalesforceHybridSDK/SalesforceHybridSDK.h>
 #import "SFTestRunnerPlugin.h"
 
-@interface SFAuthenticationManager (Override)
-- (void)setupWithCredentials:(SFOAuthCredentials*) credentials;
-@end
-
 @interface AppDelegate () <SFAuthenticationManagerDelegate, SFUserAccountManagerDelegate>
 
 @property (nonatomic, strong) SFHybridViewConfig *testAppHybridViewConfig;
@@ -157,29 +153,9 @@
 }
 
 #pragma mark - Private methods
-- (SFUserAccount *) createInterimTestUser:(SFSDKTestCredentialsData *) credsData  {
-    SFOAuthCredentials *credentials = [[SFAuthenticationManager sharedManager] createOAuthCredentials];
-    SFUserAccount *newAcct = [[SFUserAccountManager sharedInstance]createUserAccount:credentials];
-    newAcct.accountIdentity.orgId = @"__TESTORGID__";
-    newAcct.credentials.redirectUri = credsData.redirectUri;
-    newAcct.credentials.accessToken = credsData.accessToken;
-    newAcct.credentials.refreshToken = credsData.refreshToken;
-    newAcct.credentials.userId = newAcct.accountIdentity.userId;
-    newAcct.credentials.organizationId = newAcct.accountIdentity.orgId ;
-    newAcct.credentials.instanceUrl = [NSURL URLWithString:credsData.instanceUrl];
-    newAcct.credentials.identityUrl = [NSURL URLWithString:credsData.identityUrl];
-    
-    [[SFUserAccountManager sharedInstance] saveAccountForUser:newAcct error:nil];
-    [SFUserAccountManager sharedInstance].currentUser = newAcct;
-    return newAcct;
-}
 
 - (SFHybridViewConfig *)stageTestCredentials {
     SFSDKTestCredentialsData *credsData = [TestSetupUtils populateAuthCredentialsFromConfigFileForClass:[self class]];
-    [self createInterimTestUser:credsData];
-    [SFUserAccountManager sharedInstance].currentUser.credentials.refreshToken = credsData.refreshToken;
-    [SFUserAccountManager sharedInstance].currentUser.credentials.accessToken = credsData.accessToken;
-    [[SFAuthenticationManager sharedManager] setupWithCredentials:[SFUserAccountManager sharedInstance].currentUser.credentials];
     SFHybridViewConfig *hybridConfig = [[SFHybridViewConfig alloc] init];
     hybridConfig.remoteAccessConsumerKey = credsData.clientId;
     hybridConfig.oauthRedirectURI = credsData.redirectUri;
@@ -216,6 +192,7 @@
         });
         return;
     }
+    [TestSetupUtils synchronousAuthRefresh];
     self.viewController = [[SFHybridViewController alloc] initWithConfig:self.testAppHybridViewConfig];
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
