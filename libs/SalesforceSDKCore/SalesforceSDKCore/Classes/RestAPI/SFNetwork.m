@@ -49,12 +49,14 @@
     return self;
 }
 
-- (void)sendRequest:(nonnull NSURLRequest *)urlRequest dataResponseBlock:(nullable SFDataResponseBlock)dataResponseBlock {
-    [[[self activeSession] dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+- (NSURLSessionDataTask *)sendRequest:(nonnull NSURLRequest *)urlRequest dataResponseBlock:(nullable SFDataResponseBlock)dataResponseBlock {
+    NSURLSessionDataTask *dataTask = [[self activeSession] dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (dataResponseBlock) {
             dataResponseBlock(data, response, error);
         }
-    }] resume];
+    }];
+    [dataTask resume];
+    return dataTask;
 }
 
 - (void)sendDownloadRequest:(nonnull NSURLRequest *)urlRequest downloadResponseBlock:(nullable SFDownloadResponseBlock)downloadResponseBlock {

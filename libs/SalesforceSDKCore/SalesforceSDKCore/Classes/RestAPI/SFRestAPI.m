@@ -192,7 +192,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
             NSURLRequest *finalRequest = [request prepareRequestForSend];
             if (finalRequest) {
                 SFNetwork *network = [[SFNetwork alloc] init];
-                [network sendRequest:finalRequest dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
+                NSURLSessionDataTask *dataTask = [network sendRequest:finalRequest dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
                     __strong typeof(weakSelf) strongSelf = weakSelf;
                     if (error) {
                         [strongSelf log:SFLogLevelDebug format:@"REST request failed with error: Error Code: %ld, Description: %@, URL: %@", (long) error.code, error.localizedDescription, finalRequest.URL];
@@ -204,6 +204,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
                     }
                     [strongSelf replayRequestIfRequired:data response:response error:error request:request delegate:delegate];
                 }];
+                request.sessionDataTask = dataTask;
             }
         } failure:^(SFOAuthInfo *authInfo, NSError *error) {
             [self log:SFLogLevelError format:@"Authentication failed in SFRestAPI: %@. Logging out.", error];
@@ -219,7 +220,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
         NSURLRequest *finalRequest = [request prepareRequestForSend];
         if (finalRequest) {
             SFNetwork *network = [[SFNetwork alloc] init];
-            [network sendRequest:finalRequest dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
+            NSURLSessionDataTask *dataTask = [network sendRequest:finalRequest dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
                 __strong typeof(weakSelf) strongSelf = weakSelf;
                 if (error) {
                     [strongSelf log:SFLogLevelDebug format:@"REST request failed with error: Error Code: %ld, Description: %@, URL: %@", (long) error.code, error.localizedDescription, finalRequest.URL];
@@ -231,6 +232,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
                 }
                 [strongSelf replayRequestIfRequired:data response:response error:error request:request delegate:delegate];
             }];
+            request.sessionDataTask = dataTask;
         }
     }
 }

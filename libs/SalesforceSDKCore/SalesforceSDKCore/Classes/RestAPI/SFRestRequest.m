@@ -175,8 +175,9 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 }
 
 - (void)cancel {
-    // TODO: Fix this.
-    // [self.action cancel];
+    if (self.sessionDataTask) {
+        [self.sessionDataTask cancel];
+    }
 }
 
 - (void)setHeaderValue:(NSString *)value forHeaderName:(NSString *)name {

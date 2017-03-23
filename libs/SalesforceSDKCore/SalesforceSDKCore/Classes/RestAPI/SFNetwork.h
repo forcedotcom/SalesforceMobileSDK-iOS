@@ -50,8 +50,9 @@ typedef void (^SFDownloadResponseBlock) (NSURL * _Nullable data, NSURLResponse *
  *
  * @param urlRequest NSURLRequest instance.
  * @param dataResponseBlock Network response block.
+ * @return NSURLSessionDataTask instance.
  */
-- (void)sendRequest:(nonnull NSURLRequest *)urlRequest dataResponseBlock:(nullable SFDataResponseBlock)dataResponseBlock;
+- (nonnull NSURLSessionDataTask *)sendRequest:(nonnull NSURLRequest *)urlRequest dataResponseBlock:(nullable SFDataResponseBlock)dataResponseBlock;
 
 /**
  * Sends a download request and calls the appropriate completion block.

@@ -93,9 +93,15 @@ extern NSString * const kSFDefaultRestEndpoint;
 @interface SFRestRequest : NSObject
 
 /**
- * The HTTP method of the request.  See SFRestMethod.
+ * The HTTP method of the request. See SFRestMethod.
  */
 @property (nonatomic, assign, readwrite) SFRestMethod method;
+
+/**
+ * The NSURLSesssionDataTask instance associated with the request. This is set only
+ * once the request is queued and could be 'nil' before that happens.
+ */
+@property (nullable, nonatomic, strong, readwrite) NSURLSessionDataTask *sessionDataTask;
 
 /**
  * The path of the request.
