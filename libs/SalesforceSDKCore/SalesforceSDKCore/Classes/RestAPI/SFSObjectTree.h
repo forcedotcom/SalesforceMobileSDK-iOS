@@ -32,18 +32,17 @@
 
 /**
  * Constructor
- * @param objectType
- * @param objectTypePlural
- * @param referenceId
- * @param fields
- * @param children
- * @return
+ * @param objectType         Object type (e.g. "Contact")
+ * @param objectTypePlural   Plural object type (e.g. "Contacts") - can be null for the root sobject
+ * @param referenceId        Reference id for the root record
+ * @param fields             Fields for the root sobject
+ * @param childrenTrees      Array of SFSObjectTree for the children sobject's
  */
-- (id)initWithObjectType:(NSString*)objectType
-        objectTypePlural:(NSString*)objectTypePlural
-        referenceId:(NSString *)referenceId
-             fields:(NSDictionary<NSString *, id> *)fields
-      childrenTrees:(NSArray<SFSObjectTree *> *)childrenTrees;
+- (id)initWithObjectType:(nonnull NSString*)objectType
+        objectTypePlural:(nullable NSString*)objectTypePlural
+        referenceId:(nonnull NSString *)referenceId
+             fields:(nonnull NSDictionary<NSString *, id> *)fields
+      childrenTrees:(nullable NSArray<SFSObjectTree *> *)childrenTrees;
 
 /**
  * @return NSDictionary representing SObject tree
