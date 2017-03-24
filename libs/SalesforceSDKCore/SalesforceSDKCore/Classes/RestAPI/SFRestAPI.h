@@ -24,6 +24,7 @@
 
 #import <Foundation/Foundation.h>
 #import "SFRestRequest.h"
+#import "SFSObjectTree.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -265,7 +266,7 @@ extern NSString* const kSFRestIfUnmodifiedSince;
  */
 - (SFRestRequest *)requestForUpsertWithObjectType:(NSString *)objectType
                                   externalIdField:(NSString *)externalIdField
-                                       externalId:(NSString *)externalId
+                                       externalId:(nullable NSString *)externalId
                                            fields:(NSDictionary<NSString*, id> *)fields;
 
 /**
@@ -364,6 +365,13 @@ extern NSString* const kSFRestIfUnmodifiedSince;
  */
 - (SFRestRequest *) compositeRequest:(NSArray<SFRestRequest*>*) requests refIds:(NSArray<NSString*>*)refIds allOrNone:(BOOL) allOrNone;
 
+/**
+ * Retursn an `SFRestRequest` which executes a sobject tree request.
+ * @param objectType object type; for example, "Account"
+ * @param objectTrees Array of sobject trees
+ * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobject_tree.htm
+ */
+- (SFRestRequest*) requestForSObjectTree:(NSString*)objectType objectTrees:(NSArray<SFSObjectTree*>*)objectTrees;
 
 ///---------------------------------------------------------------------------------------
 /// @name Other utility methods

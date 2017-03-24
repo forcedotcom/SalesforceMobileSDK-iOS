@@ -452,6 +452,18 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     return [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:compositeRequestJson];
 }
 
+- (SFRestRequest*) requestForSObjectTree:(NSString*)objectType objectTrees:(NSArray<SFSObjectTree*>*)objectTrees
+{
+    NSMutableArray<NSDictionary<NSString *, id> *>* jsonTrees = [NSMutableArray new];
+    for (SFSObjectTree * objectTree in objectTrees) {
+        [jsonTrees addObject:[objectTree asJSON]];
+    }
+    NSDictionary<NSString *, id> * requestJson = @{@"records": jsonTrees};
+    NSString *path = [NSString stringWithFormat:@"/%@/composite/tree/%@", self.apiVersion, objectType];
+
+    return [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:requestJson];
+}
+
 - (NSString *)toQueryString:(NSDictionary *)components {
     NSMutableString *params = [NSMutableString new];
     if (components) {

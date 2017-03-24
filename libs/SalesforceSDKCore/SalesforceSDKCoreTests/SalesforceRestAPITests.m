@@ -717,6 +717,73 @@ static NSException *authException = nil;
      XCTAssertEqualObjects(contactId, queryRecords[0][ID], "Contact id not returned by query");
  }
 
+ // Test for sobject tree request
+ // Run a sobject tree request that:
+ // - creates an account,
+ // - creates two children contacts
+ // Then run queries that should return newly created account and contacts
+ - (void) testSObjectTreeRequest {
+     // Prepare sobject tree
+     NSString *const accountName = [self generateRecordName];
+     NSDictionary * accountFields = @{NAME: accountName};
+     NSString *const contactName = [self generateRecordName];
+     NSDictionary * contactFields = @{LAST_NAME: contactName};
+     NSString *const otherContactName = [self generateRecordName];
+     NSDictionary * otherContactFields = @{LAST_NAME: otherContactName};
+
+     SFSObjectTree *contactTree = [[SFSObjectTree alloc] initWithObjectType:CONTACT
+                                                           objectTypePlural:@"Contacts"
+                                                                referenceId:@"refContact"
+                                                                     fields:contactFields
+                                                              childrenTrees:nil];
+
+     SFSObjectTree *otherContactTree = [[SFSObjectTree alloc] initWithObjectType:CONTACT
+                                                                objectTypePlural:@"Contacts"
+                                                                     referenceId:@"refOtherContact"
+                                                                          fields:otherContactFields
+                                                                   childrenTrees:nil];
+
+
+     SFSObjectTree *accountTree = [[SFSObjectTree alloc] initWithObjectType:ACCOUNT
+                                                           objectTypePlural:nil
+                                                                referenceId:@"refAccount"
+                                                                     fields:accountFields
+                                                              childrenTrees:@[contactTree, otherContactTree]];
+     // Build request
+     SFRestRequest *treeRequest = [[SFRestAPI sharedInstance] requestForSObjectTree:ACCOUNT objectTrees:@[accountTree]];
+
+     // Send request
+     SFNativeRestRequestListener *listener = [self sendSyncRequest:treeRequest];
+
+     // Checking response
+     NSDictionary * response = listener.dataResponse;
+     XCTAssertEqual(response[HAS_ERRORS], @NO, @"No errors expected");
+     NSArray<NSDictionary *>* results = response[RESULTS];
+     XCTAssertEqual(3, results.count, "Wrong number of results");
+     NSString* accountId = results[0][LID];
+     NSString* contactId = results[1][LID];
+     NSString* otherContactId = results[2][LID];
+
+     // Running query that should match first contact and its parent
+     SFRestRequest *queryRequest = [[SFRestAPI sharedInstance] requestForQuery:[NSString stringWithFormat:@"select Id, AccountId from Contact where LastName = '%@'", contactName]];
+     listener = [self sendSyncRequest:queryRequest];
+     NSDictionary * queryResponse = listener.dataResponse;
+     NSArray<NSDictionary *>* queryRecords = queryResponse[RECORDS];
+     XCTAssertEqual(1, queryRecords.count, "Wrong number of results");
+     XCTAssertEqualObjects(accountId, queryRecords[0][ACCOUNT_ID], "Account id not returned by query");
+     XCTAssertEqualObjects(contactId, queryRecords[0][ID], "Contact id not returned by query");
+
+     // Running other query that should match other contact and its parent
+     SFRestRequest *otherQueryRequest = [[SFRestAPI sharedInstance] requestForQuery:[NSString stringWithFormat:@"select Id, AccountId from Contact where LastName = '%@'", otherContactName]];
+     listener = [self sendSyncRequest:otherQueryRequest];
+     NSDictionary * otherQueryResponse = listener.dataResponse;
+     NSArray<NSDictionary *>* otherQueryRecords = otherQueryResponse[RECORDS];
+     XCTAssertEqual(1, otherQueryRecords.count, "Wrong number of results");
+     XCTAssertEqualObjects(accountId, otherQueryRecords[0][ACCOUNT_ID], "Account id not returned by query");
+     XCTAssertEqualObjects(otherContactId, otherQueryRecords[0][ID], "Contact id not returned by query");
+}
+
+
 
 #pragma mark - testing files calls
 

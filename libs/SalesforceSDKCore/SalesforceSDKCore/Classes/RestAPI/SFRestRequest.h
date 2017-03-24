@@ -197,8 +197,8 @@ extern NSString * const kSFDefaultRestEndpoint;
 
 /**
  * Return HTTP method as string for SFRestMethod
- * @param restMethod
- * @return
+ * @param restMethod The SFRestMethod
+ * @return the HTTP string for the given SFRestMethod
  */
 + (NSString *)httpMethodFromSFRestMethod:(SFRestMethod)restMethod;
 
