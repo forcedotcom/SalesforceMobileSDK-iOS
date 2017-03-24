@@ -121,4 +121,14 @@
     XCTAssertNil([NSURL stringUrlWithScheme:nil host:nil port:nil pathComponents:nil], @"Should return nil");
 }
 
+- (void)testSlashTerminatedUrl {
+    NSURL *url = [NSURL URLWithString:@"https://www.salesforce.com"];
+    XCTAssertEqualObjects([url slashTerminatedUrl], [NSURL URLWithString:@"https://www.salesforce.com/"]);
+}
+
+- (void)testSlashTerminatedUrlWithAlreadySlashTerminatedUrl {
+    NSURL *url = [NSURL URLWithString:@"https://www.salesforce.com/"];
+    XCTAssertEqualObjects([url slashTerminatedUrl], [NSURL URLWithString:@"https://www.salesforce.com/"]);
+}
+
 @end

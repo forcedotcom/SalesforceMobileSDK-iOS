@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2016-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,43 +22,29 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <CocoaLumberjack/CocoaLumberjack.h>
-#import <stdatomic.h>
-#import "SFLogStorage.h"
+#import <Foundation/Foundation.h>
 
-extern NSString * SFLogNameForFlag(SFLogFlag flag);
-extern NSString * SFLogNameForLogLevel(SFLogLevel level);
+/**
+ Class to register and unregister feature markers associated with SDK facilities being used in
+ an app.
+ */
+@interface SFSDKAppFeatureMarkers : NSObject
 
-@interface DDLog () <SFLogStorage> @end
+/**
+ Register a particular app feature.
+ @param appFeature The string representation of the feature to register.
+ */
++ (void)registerAppFeature:(nonnull NSString *)appFeature;
 
-@interface SFLogIdentifier : NSObject
+/**
+ Unregister a particular app feature.
+ @param appFeature The string representation of the feature to unregister.
+ */
++ (void)unregisterAppFeature:(nonnull NSString *)appFeature;
 
-@property (nonatomic, weak) SFLogger *logger;
-@property (nonatomic, copy, readonly) NSString *identifier;
-@property (nonatomic, assign) SFLogLevel logLevel;
-@property (nonatomic, assign, readonly) SFLogFlag logFlag;
-@property (nonatomic, assign) NSInteger context;
-@property (nonatomic, strong, readonly) os_log_t defaultLog;
-
-- (instancetype)initWithIdentifier:(NSString*)identifier NS_DESIGNATED_INITIALIZER;
-- (os_log_t)logForCategory:(NSString *)category;
-
-@end
-
-/////////////////
-
-@interface SFLogger () {
-@public
-    atomic_int_least32_t _contextCounter;
-    NSMutableDictionary<NSString*,SFLogIdentifier*> *_logIdentifiers;
-    NSMutableArray<SFLogIdentifier*> *_logIdentifiersByContext;
-    NSObject<SFLogStorage> *_ddLog;
-    DDFileLogger *_fileLogger;
-    DDTTYLogger *_ttyLogger;
-}
-
-- (SFLogIdentifier*)logIdentifierForIdentifier:(NSString*)identifier;
-- (SFLogIdentifier*)logIdentifierForContext:(NSInteger)context;
-- (void)resetLoggers;
+/**
+ @return The current set of registered features.
+ */
++ (nonnull NSSet<NSString *> *)appFeatures;
 
 @end

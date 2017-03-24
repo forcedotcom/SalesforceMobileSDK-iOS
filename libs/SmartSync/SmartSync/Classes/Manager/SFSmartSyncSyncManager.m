@@ -30,7 +30,7 @@
 #import <SmartStore/SFSmartStore.h>
 #import <SmartStore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
-#import <SalesforceSDKCore/SalesforceSDKManager.h>
+#import <SalesforceSDKCore/SFSDKAppFeatureMarkers.h>
 #import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
 
 // Page size
@@ -101,7 +101,7 @@ static NSMutableDictionary *syncMgrList = nil;
             syncMgr = [[self alloc] initWithStore:store];
             syncMgrList[key] = syncMgr;
         }
-        [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureSmartSync];
+        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSmartSync];
         return syncMgr;
     }
 }

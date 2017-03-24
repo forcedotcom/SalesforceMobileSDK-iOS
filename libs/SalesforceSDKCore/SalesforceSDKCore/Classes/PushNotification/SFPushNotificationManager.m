@@ -29,7 +29,7 @@
 #import "SFUserAccountManager.h"
 #import "SFJsonUtils.h"
 #import "SFApplicationHelper.h"
-#import "SalesforceSDKManager.h"
+#import "SFSDKAppFeatureMarkers.h"
 
 static NSString* const kSFDeviceToken = @"deviceToken";
 static NSString* const kSFDeviceSalesforceId = @"deviceSalesforceId";
@@ -106,7 +106,7 @@ static NSString * const kSFAppFeaturePushNotifications   = @"PN";
     static SFPushNotificationManager *mgr = nil;
     dispatch_once(&pred, ^{
         mgr = [[super allocWithZone:nil] init];
-        [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeaturePushNotifications];
+        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeaturePushNotifications];
     });
     return mgr;
 }

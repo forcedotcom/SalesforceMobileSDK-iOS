@@ -110,18 +110,18 @@
          */
         [vc.commandQueue executePending];
         decisionHandler(WKNavigationActionPolicyCancel);
-    }
-
-    /*
-     * Handle all other types of urls (tel:, sms:), and requests to load a URL in the main WebView.
-     */
-    BOOL shouldAllowNavigation = [self defaultResourcePolicyForURL:url];
-    if (shouldAllowNavigation) {
-        decisionHandler(WKNavigationActionPolicyAllow);
     } else {
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginHandleOpenURLNotification object:url]];
+        /*
+         * Handle all other types of urls (tel:, sms:), and requests to load a URL in the main WebView.
+         */
+        BOOL shouldAllowNavigation = [self defaultResourcePolicyForURL:url];
+        if (shouldAllowNavigation) {
+            decisionHandler(WKNavigationActionPolicyAllow);
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginHandleOpenURLNotification object:url]];
+            decisionHandler(WKNavigationActionPolicyCancel);
+        }
     }
-    decisionHandler(WKNavigationActionPolicyCancel);
 }
 
 @end

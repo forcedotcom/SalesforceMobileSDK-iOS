@@ -26,7 +26,7 @@
 #import "SFApplication.h"
 #import "SFAuthenticationManager+Internal.h"
 #import "SalesforceSDKManager+Internal.h"
-#import "SFUserAccount.h"
+#import "SFUserAccount+Internal.h"
 #import "SFUserAccountManager.h"
 #import "SFUserAccountIdentity.h"
 #import "SFUserAccountManagerUpgrade.h"
@@ -449,6 +449,12 @@ static Class InstanceClass = nil;
         [self log:SFLogLevelDebug msg:@"logoutUser: user is anonymous.  No action taken."];
         return;
     }
+    
+    if (user.isUserLoggingOut) {
+        [self log:SFLogLevelInfo msg:@"logoutUser: user is already in the process of logout."];
+        return;
+    }
+    user.userLoggingOut = YES;
     [self log:SFLogLevelInfo format:@"Logging out user '%@'.", user.userName];
     NSDictionary *userInfo = @{ @"account": user };
     [[NSNotificationCenter defaultCenter] postNotificationName:kSFUserWillLogoutNotification
@@ -469,33 +475,32 @@ static Class InstanceClass = nil;
         [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotifications:user];
         [userAccountManager deleteAccountForUser:user error:nil];
         [self revokeRefreshToken:user];
-        return;
-    }
-    
-    // Otherwise, the current user is being logged out.  Supply the user account to the
-    // "Will Logout" notification before the credentials are revoked.  This will ensure
-    // that databases and other resources keyed off of the userID can be destroyed/cleaned up.
-    if ([SFPushNotificationManager sharedInstance].deviceSalesforceId) {
-        [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotifications];
-    }
-    
-    [self cancelAuthentication];
-    [self clearAccountState:YES];
-    
-    [self willChangeValueForKey:@"haveValidSession"];
-    [userAccountManager deleteAccountForUser:user error:nil];
-    [userAccountManager saveAccounts:nil];
-    [self revokeRefreshToken:user];
-    userAccountManager.currentUser = nil;
-    [self didChangeValueForKey:@"haveValidSession"];
-    
-    NSNotification *logoutNotification = [NSNotification notificationWithName:kSFUserLogoutNotification object:self];
-    [[NSNotificationCenter defaultCenter] postNotification:logoutNotification];
-    [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(authManagerDidLogout:)]) {
-            [delegate authManagerDidLogout:weakSelf];
+    } else{
+        // Otherwise, the current user is being logged out.  Supply the user account to the
+        // "Will Logout" notification before the credentials are revoked.  This will ensure
+        // that databases and other resources keyed off of the userID can be destroyed/cleaned up.
+        if ([SFPushNotificationManager sharedInstance].deviceSalesforceId) {
+            [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotifications];
         }
-    }];
+        [self cancelAuthentication];
+        [self clearAccountState:YES];
+        
+        [self willChangeValueForKey:@"haveValidSession"];
+        [userAccountManager deleteAccountForUser:user error:nil];
+        [userAccountManager saveAccounts:nil];
+        [self revokeRefreshToken:user];
+        userAccountManager.currentUser = nil;
+        [self didChangeValueForKey:@"haveValidSession"];
+        
+        NSNotification *logoutNotification = [NSNotification notificationWithName:kSFUserLogoutNotification object:self];
+        [[NSNotificationCenter defaultCenter] postNotification:logoutNotification];
+        [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
+            if ([delegate respondsToSelector:@selector(authManagerDidLogout:)]) {
+                [delegate authManagerDidLogout:weakSelf];
+            }
+        }];
+    }
+    user.userLoggingOut = NO;
 }
 
 - (void)cancelAuthentication
@@ -576,7 +581,7 @@ static Class InstanceClass = nil;
 
 + (void)addSidCookieForInstance
 {
-    [self addSidCookieForDomain:[[SFUserAccountManager sharedInstance].currentUser.credentials.instanceUrl host]];
+    [self addSidCookieForDomain:[[SFUserAccountManager sharedInstance].currentUser.credentials.apiUrl host]];
 }
 
 + (void)addSidCookieForDomain:(NSString*)domain

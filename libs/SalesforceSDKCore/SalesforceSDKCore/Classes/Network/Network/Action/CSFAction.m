@@ -32,11 +32,12 @@
 #import "NSMutableURLRequest+SalesforceNetwork.h"
 #import "SFOAuthCredentials.h"
 #import "SFUserAccount.h"
+#import "NSURL+SFStringUtils.h"
 
 NSString * const CSFActionSecurityTokenKey = @"securityToken"; // CSRF security token key
 
 NSString * const CSFDefaultLocale = @"en-us";
-NSString * const CSFNetworkErrorActionKey = @"action";
+NSString * const CSFNetworkErrorActionDescriptionKey = @"action";
 NSString * const CSFNetworkErrorAuthenticationFailureKey = @"isAuthenticationFailure";
 
 NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
@@ -72,13 +73,13 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
 - (NSURL*)urlForActionWithError:(NSError**)error {
     NSURL *baseURL = self.baseURL;
     if (!baseURL) {
-        NetworkWarn(@"Network action must have a base URL defined.");
+        NetworkActionWarn(@"Network action must have a base URL defined.");
 
         if (error) {
             *error = [NSError errorWithDomain:CSFNetworkErrorDomain
                                          code:CSFNetworkURLCredentialsError
                                      userInfo:@{ NSLocalizedDescriptionKey: @"Network action must have a base URL defined",
-                                             CSFNetworkErrorActionKey: self }];
+                                             CSFNetworkErrorActionDescriptionKey: [self description] }];
         }
         return nil;
     }
@@ -87,21 +88,26 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
     
     // Make sure path is not empty
     if (!path || path.length == 0) {
-        NetworkWarn(@"Network action must have a valid path.");
+        NetworkActionWarn(@"Network action must have a valid path.");
         if (error) {
             *error = [NSError errorWithDomain:CSFNetworkErrorDomain
                                          code:CSFNetworkURLCredentialsError
                                      userInfo:@{ NSLocalizedDescriptionKey: @"Network action must have a valid path",
-                                             CSFNetworkErrorActionKey: self }];
+                                             CSFNetworkErrorActionDescriptionKey: [self description] }];
         }
         return nil;
     }
-    
-    if ([baseURL.absoluteString hasSuffix:@"/"] && [path hasPrefix:@"/"]) {
+
+    // 'baseUrl' needs to account for URLs with extra trailing slashes, like custom community URLs.
+    NSMutableString *baseUrlString = [NSMutableString stringWithString:baseURL.absoluteString];
+    if (![baseUrlString hasSuffix:@"/"]) {
+        [baseUrlString appendString:@"/"];
+    }
+    if ([path hasPrefix:@"/"]) {
         [path deleteCharactersInRange:NSMakeRange(0, 1)];
     }
-    
-    NSURL *url = [NSURL URLWithString:path relativeToURL:baseURL];
+    NSString *urlString = [NSString stringWithFormat:@"%@%@", baseUrlString, path];
+    NSURL *url = [NSURL URLWithString:urlString];
     return url;
 }
 
@@ -137,7 +143,7 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
                 if (potentialErrorCode && potentialErrorMessage) {
                     NSDictionary *errorDictionary = @{ NSLocalizedDescriptionKey: potentialErrorMessage,
                                                        NSLocalizedFailureReasonErrorKey: potentialErrorCode,
-                                                       CSFNetworkErrorActionKey: action };
+                                                       CSFNetworkErrorActionDescriptionKey: [action description] };
                     error = [NSError errorWithDomain:CSFNetworkErrorDomain
                                                 code:CSFNetworkAPIError
                                             userInfo:errorDictionary];
@@ -202,7 +208,7 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
         if ([fm fileExistsAtPath:self.downloadLocation.path]) {
             NSError *error = nil;
             if (![fm removeItemAtURL:self.downloadLocation error:&error]) {
-                NetworkError(@"Error removing temporary download file: %@", error);
+                NetworkActionError(@"Error removing temporary download file: %@", error);
             }
         }
     }
@@ -231,7 +237,7 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
     NSError *error = nil;
     NSURL *url = [self urlForActionWithError:&error];
     if (error) {
-        NetworkWarn(@"Error composing URL: %@", error);
+        NetworkActionWarn(@"Error composing URL: %@", error);
     }
     return url;
 }
@@ -421,7 +427,7 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
     
     NSError *error = nil;
     if (![[NSFileManager defaultManager] moveItemAtURL:location toURL:temporaryUrl error:&error]) {
-        NetworkError(@"Error moving temporary file: %@", error);
+        NetworkActionError(@"Error moving temporary file: %@", error);
         temporaryUrl = location;
     }
     
@@ -438,7 +444,7 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
     [self updateProgress];
 
     if (error) {
-        NetworkDebug(@"Received an error while processing %@: %@", self, error);
+        NetworkActionDebug(@"Received an error while processing %@: %@", self, error);
 
         if ([error.domain isEqualToString:NSURLErrorDomain] &&
             error.code == kCFURLErrorSecureConnectionFailed)
@@ -449,7 +455,7 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
             //       or else we might get flagged as using a private API.  So we'll just use the
             //       `kCFURLErrorSecureConnectionFailed` error code by itself, which may falsely print the
             //       following error for non-ATS SSL errors.
-            NetworkError(@"An SSL error occurred while communicating with the server, you may need to review your application's App Transport Security settings");
+            NetworkActionError(@"An SSL error occurred while communicating with the server, you may need to review your application's App Transport Security settings");
         }
 
         // Error from URLSession:task:didCompleteWithError: is generally an error with the request itself
@@ -460,17 +466,17 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
             [self completeOperationWithError:[NSError errorWithDomain:CSFNetworkErrorDomain
                                                                  code:CSFNetworkHTTPResponseError
                                                              userInfo:@{ NSLocalizedDescriptionKey: @"HTTP request returned an error",
-                                                                         CSFNetworkErrorActionKey: self,
+                                                                         CSFNetworkErrorActionDescriptionKey: [self description],
                                                                          NSUnderlyingErrorKey: error }]];
         }
     } else if (![task.response isKindOfClass:[NSHTTPURLResponse class]]) {
-        NetworkWarn(@"Received a non-HTTP response");
+        NetworkActionWarn(@"Received a non-HTTP response");
         [self completeOperationWithError:[NSError errorWithDomain:CSFNetworkErrorDomain
                                                              code:CSFNetworkURLResponseInvalidError
                                                          userInfo:@{ NSLocalizedDescriptionKey: @"Unexpected URL response type returned.",
-                                                                     CSFNetworkErrorActionKey: self }]];
+                                                                     CSFNetworkErrorActionDescriptionKey: [self description] }]];
     } else {
-        NetworkVerbose(@"Successfully completed request");
+        NetworkActionVerbose(@"Successfully completed request");
         [self completeOperationWithResponse:(NSHTTPURLResponse *)task.response];
     }
 }
@@ -518,7 +524,7 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
         [self completeOperationWithError:[NSError errorWithDomain:CSFNetworkErrorDomain
                                                              code:CSFNetworkCancelledError
                                                          userInfo:@{ NSLocalizedDescriptionKey: @"Operation was cancelled",
-                                                                     CSFNetworkErrorActionKey: self }]];
+                                                                     CSFNetworkErrorActionDescriptionKey: [self description] }]];
         return;
     }
     [self willChangeValueForKey:@"isExecuting"];
@@ -572,7 +578,7 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
 
 - (void) cancel {
     [super cancel];
-    NetworkVerbose(@"In-flight action cancelled");
+    NetworkActionVerbose(@"In-flight action cancelled");
     [self.sessionTask cancel];
     [self.progress cancel];
 
@@ -581,7 +587,7 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
     [self completeOperationWithError:[NSError errorWithDomain:CSFNetworkErrorDomain
                                                          code:CSFNetworkCancelledError
                                                      userInfo:@{ NSLocalizedDescriptionKey: @"Operation was cancelled",
-                                                                 CSFNetworkErrorActionKey: self }]];
+                                                                 CSFNetworkErrorActionDescriptionKey: [self description] }]];
 }
 
 - (BOOL)isAsynchronous {
@@ -677,6 +683,13 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
     }
 }
 
+- (void)dequeueNetwork:(CSFNetwork *)network {
+    if (_enqueuedNetwork && _enqueuedNetwork == network) {
+        _enqueuedNetwork = nil;
+        self.timingValues[@"dequeuedTime"] = [NSDate date];
+    }
+}
+
 #pragma mark Response handling
 
 - (BOOL)overrideRequest:(NSURLRequest*)request withResponseData:(NSData**)data andHTTPResponse:(NSHTTPURLResponse**)response {
@@ -737,6 +750,7 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
         self.responseBlock(self, self.error);
     }
     [self.enqueuedNetwork delegate_networkCompletedAction:self withError:error];
+    [self dequeueNetwork:self.enqueuedNetwork];
 }
 
 - (id)contentFromData:(NSData*)data fromResponse:(NSHTTPURLResponse*)response error:(NSError**)error {
@@ -753,14 +767,14 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
     
     // Surface error back if we run into JSON parsing error on a successful HTTP response
     if (jsonParseError && requestSucceeded) {
-        NetworkWarn(@"Error while parsing response; it doesn't appear to be JSON");
+        NetworkActionWarn(@"Error while parsing response; it doesn't appear to be JSON");
         
         if (error) {
             *error = [NSError errorWithDomain:CSFNetworkErrorDomain
                                          code:CSFNetworkJSONInvalidError
                                      userInfo:@{ NSLocalizedDescriptionKey: @"Processing response content failed",
                                                  NSUnderlyingErrorKey: jsonParseError,
-                                                 CSFNetworkErrorActionKey: self }];
+                                                 CSFNetworkErrorActionDescriptionKey: [self description] }];
         }
     }
     return content;
@@ -771,7 +785,7 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
     if (response.statusCode >= 400) {
         NSString *errorDescription = [NSString stringWithFormat:@"HTTP %ld for %@ %@", (long)response.statusCode, self.method, self.verb];
         NSDictionary *userInfoDict = @{ NSLocalizedDescriptionKey:errorDescription,
-                                        CSFNetworkErrorActionKey: self };
+                                        CSFNetworkErrorActionDescriptionKey: [self description] };
         error = [NSError errorWithDomain:CSFNetworkErrorDomain
                                     code:response.statusCode
                                 userInfo:userInfoDict];
@@ -844,7 +858,7 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
                     dispatch_async(dispatchQueue, ^{
                         [outputCache cacheOutputFromAction:self completionBlock:^(NSError *error) {
                             if (error) {
-                                NetworkInfo(@"Error caching response in %@: %@", NSStringFromClass(outputCache.class), error);
+                                NetworkActionInfo(@"Error caching response in %@: %@", NSStringFromClass(outputCache.class), error);
                                 [errors addObject:error];
                             }
                             dispatch_group_leave(dispatchGroup);
@@ -882,13 +896,13 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
     BOOL refreshLaunched = YES;
     if (self.requiresAuthentication) {
         if (self.authRefreshClass == nil) {
-            NetworkWarn(@"authRefreshClass property not set.  Cannot refresh credentials");
+            NetworkActionWarn(@"authRefreshClass property not set.  Cannot refresh credentials");
             refreshLaunched = NO;
         } else {
             [self triggerActionAfterTokenRefresh];
         }
     } else {
-        NetworkWarn(@"Unauthorized response, but requiresAuthentication not set.  Cannot replay original request.");
+        NetworkActionWarn(@"Unauthorized response, but requiresAuthentication not set.  Cannot replay original request.");
         refreshLaunched = NO;
     }
     

@@ -40,6 +40,7 @@
 #import "SFApplicationHelper.h"
 #import <SalesforceAnalytics/SFSDKAILTNTransform.h>
 #import <SalesforceAnalytics/SFSDKDeviceAppAttributes.h>
+#import "SFSDKAppFeatureMarkers.h"
 
 static NSString * const kEventStoresDirectory = @"event_stores";
 static NSString * const kEventStoreEncryptionKeyLabel = @"com.salesforce.eventStore.encryptionKey";
@@ -81,6 +82,9 @@ static NSMutableDictionary *analyticsManagerList = nil;
             return nil;
         }
         NSString *key = SFKeyForUserAndScope(userAccount, SFUserAccountScopeCommunity);
+        if (!key) {
+            return nil;
+        }
         id analyticsMgr = analyticsManagerList[key];
         if (!analyticsMgr) {
             analyticsMgr = [[SFSDKSalesforceAnalyticsManager alloc] initWithUser:userAccount];
@@ -132,9 +136,9 @@ static NSMutableDictionary *analyticsManagerList = nil;
 
 - (void) setLoggingEnabled:(BOOL) loggingEnabled {
     if (loggingEnabled) {
-        [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureAiltnEnabled];
+        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureAiltnEnabled];
     } else {
-        [[SalesforceSDKManager sharedManager] unregisterAppFeature:kSFAppFeatureAiltnEnabled];
+        [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureAiltnEnabled];
     }
     [self storeAnalyticsPolicy:loggingEnabled];
     self.eventStoreManager.loggingEnabled = loggingEnabled;
@@ -238,7 +242,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
     NSString *prodAppVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     NSString *buildNumber = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
     NSString *appVersion = [NSString stringWithFormat:@"%@(%@)", prodAppVersion, buildNumber];
-    NSString *appName = [[NSBundle mainBundle] infoDictionary][(NSString *) kCFBundleNameKey];
+    NSString *appName = [SalesforceSDKManager ailtnAppName];
     UIDevice *curDevice = [UIDevice currentDevice];
     NSString *osVersion = [curDevice systemVersion];
     NSString *osName = [curDevice systemName];

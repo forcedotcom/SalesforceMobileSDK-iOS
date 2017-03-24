@@ -35,14 +35,13 @@
 - (void)removeAllLoggers;
 
 - (void)log:(BOOL)asynchronous
+    message:(NSString *)message
       level:(DDLogLevel)level
        flag:(DDLogFlag)flag
     context:(NSInteger)context
        file:(const char *)file
    function:(const char *)function
        line:(NSUInteger)line
-        tag:(id)tag
-     format:(NSString *)format
-       args:(va_list)args;
+        tag:(id)tag;
 
 @end

@@ -101,6 +101,20 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
 + (void)setInstanceClass:(Class)className;
 
 /**
+ * Sets the app name to be used by the analytics framework.
+ *
+ * @param appName App name.
+ */
++ (void)setAiltnAppName:(nonnull NSString *)appName;
+
+/**
+ * Returns the app name being used by the analytics framework.
+ *
+ * @return App name.
+ */
++ (nonnull NSString *)ailtnAppName;
+
+/**
  @return The singleton instance of the SDK Manager.
  */
 + (nonnull instancetype)sharedManager;
@@ -120,8 +134,6 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
  Whether or not the SDK is currently in the middle of a launch process.
  */
 @property (nonatomic, readonly) BOOL isLaunching;
-
-@property (nonatomic, strong) NSMutableSet *features;
 
 /**
  App type (native, hybrid or react native)
@@ -227,16 +239,6 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
  @return YES if the launch successfully kicks off, NO if launch is already running.
  */
 - (BOOL)launch;
-
-/**
- @param appFeature AppFeature to register.
- */
-- (void) registerAppFeature:(NSString *) appFeature;
-
-/**
- @param appFeature AppFeature to unregister.
- */
-- (void) unregisterAppFeature:(NSString *) appFeature;
 
 /**
  Adds an SDK Manager delegate to the list of delegates.

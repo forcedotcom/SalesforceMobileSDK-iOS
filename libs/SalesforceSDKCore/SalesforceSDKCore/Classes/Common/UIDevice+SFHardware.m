@@ -309,6 +309,8 @@
     if ([platform isEqualToString:@"iPhone8,1"])    return UIDevice6siPhone;
     if ([platform isEqualToString:@"iPhone8,2"])    return UIDevice6sPlusiPhone;
     if ([platform isEqualToString:@"iPhone8,4"])    return UIDeviceSEiPhone;
+    if ([platform isEqualToString:@"iPhone9,1"])    return UIDevice7iPhone;
+    if ([platform isEqualToString:@"iPhone9,2"])    return UIDevice7PlusiPhone;
     if ([platform isEqualToString:@"iPhone9,3"])    return UIDevice7iPhone;
     if ([platform isEqualToString:@"iPhone9,4"])    return UIDevice7PlusiPhone;
     
