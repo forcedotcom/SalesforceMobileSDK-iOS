@@ -24,6 +24,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  Helper class for sobject tree requests
  */
@@ -38,15 +40,17 @@
  * @param fields             Fields for the root sobject
  * @param childrenTrees      Array of SFSObjectTree for the children sobject's
  */
-- (nullable id)initWithObjectType:(nonnull NSString*)objectType
+- (nullable id)initWithObjectType:(NSString*)objectType
         objectTypePlural:(nullable NSString*)objectTypePlural
-        referenceId:(nonnull NSString *)referenceId
-             fields:(nonnull NSDictionary<NSString *, id> *)fields
+        referenceId:(NSString *)referenceId
+             fields:(NSDictionary<NSString *, id> *)fields
       childrenTrees:(nullable NSArray<SFSObjectTree *> *)childrenTrees;
 
 /**
  * @return NSDictionary representing SObject tree
  */
-- (nonnull NSDictionary<NSString*, id>*) asJSON;
+- (NSDictionary<NSString*, id>*) asJSON;
 
 @end
+
+NS_ASSUME_NONNULL_END

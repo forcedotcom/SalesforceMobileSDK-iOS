@@ -362,7 +362,7 @@ extern NSString* const kSFRestIfUnmodifiedSince;
  * @param haltOnError Controls whether Salesforce should stop processing subrequests if a subrequest fails.
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_batch.htm
  */
-- (nonnull SFRestRequest *) batchRequest:(nonnull NSArray<SFRestRequest*>*) requests haltOnError:(BOOL) haltOnError;
+- (SFRestRequest *) batchRequest:(NSArray<SFRestRequest*>*) requests haltOnError:(BOOL) haltOnError;
 
 /**
  * Retursn an `SFRestRequest` which executes a composite request.
@@ -371,7 +371,7 @@ extern NSString* const kSFRestIfUnmodifiedSince;
  * @param allOrNone Specifies what to do when an error occurs while processing a subrequest.
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_composite.htm
  */
-- (nonnull SFRestRequest *) compositeRequest:(nonnull NSArray<SFRestRequest*>*) requests refIds:(nonnull NSArray<NSString*>*)refIds allOrNone:(BOOL) allOrNone;
+- (SFRestRequest *) compositeRequest:(NSArray<SFRestRequest*>*) requests refIds:(NSArray<NSString*>*)refIds allOrNone:(BOOL) allOrNone;
 
 /**
  * Retursn an `SFRestRequest` which executes a sobject tree request.
@@ -379,7 +379,7 @@ extern NSString* const kSFRestIfUnmodifiedSince;
  * @param objectTrees Array of sobject trees
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobject_tree.htm
  */
-- (nonnull SFRestRequest*) requestForSObjectTree:(nonnull NSString*)objectType objectTrees:(nonnull NSArray<SFSObjectTree*>*)objectTrees;
+- (SFRestRequest*) requestForSObjectTree:(NSString*)objectType objectTrees:(NSArray<SFSObjectTree*>*)objectTrees;
 
 ///---------------------------------------------------------------------------------------
 /// @name Other utility methods
