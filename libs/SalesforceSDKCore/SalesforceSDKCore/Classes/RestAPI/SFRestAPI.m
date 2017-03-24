@@ -320,7 +320,15 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 - (SFRestRequest *)requestForCreateWithObjectType:(NSString *)objectType
                                            fields:(NSDictionary *)fields {
     NSString *path = [NSString stringWithFormat:@"/%@/sobjects/%@", self.apiVersion, objectType];
-    return [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:fields];
+    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
+    NSError *error = nil;
+    NSData *body = [NSJSONSerialization dataWithJSONObject:fields
+                                               options:NSJSONWritingPrettyPrinted
+                                                 error:&error];
+    if (!error) {
+        [request setCustomRequestBodyData:body contentType:@"application/json"];
+    }
+    return request;
 }
 
 - (SFRestRequest *)requestForUpdateWithObjectType:(NSString *)objectType
@@ -350,9 +358,15 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
                                                 externalIdField,
                                                 externalId == nil ? @"" : externalId];
     SFRestMethod method = externalId == nil ? SFRestMethodPOST : SFRestMethodPATCH;
-    return [SFRestRequest requestWithMethod:method
-                                       path:path
-                                queryParams:fields];
+    SFRestRequest *request = [SFRestRequest requestWithMethod:method path:path queryParams:nil];
+    NSError *error = nil;
+    NSData *body = [NSJSONSerialization dataWithJSONObject:fields
+                                                   options:NSJSONWritingPrettyPrinted
+                                                     error:&error];
+    if (!error) {
+        [request setCustomRequestBodyData:body contentType:@"application/json"];
+    }
+    return request;
 }
 
 - (SFRestRequest *)requestForDeleteWithObjectType:(NSString *)objectType
@@ -421,7 +435,15 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     batchRequestJson[@"batchRequests"] = requestsArrayJson;
     batchRequestJson[@"haltOnError"] = [NSNumber numberWithBool:haltOnError];
     NSString *path = [NSString stringWithFormat:@"/%@/composite/batch", self.apiVersion];
-    return [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:batchRequestJson];
+    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
+    NSError *error = nil;
+    NSData *body = [NSJSONSerialization dataWithJSONObject:batchRequestJson
+                                                   options:NSJSONWritingPrettyPrinted
+                                                     error:&error];
+    if (!error) {
+        [request setCustomRequestBodyData:body contentType:@"application/json"];
+    }
+    return request;
 }
 
 - (SFRestRequest *) compositeRequest:(NSArray<SFRestRequest*>*) requests refIds:(NSArray<NSString*>*)refIds allOrNone:(BOOL) allOrNone {
@@ -449,7 +471,15 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     compositeRequestJson[@"compositeRequest"] = requestsArrayJson;
     compositeRequestJson[@"allOrNone"] = [NSNumber numberWithBool:allOrNone];
     NSString *path = [NSString stringWithFormat:@"/%@/composite", self.apiVersion];
-    return [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:compositeRequestJson];
+    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
+    NSError *error = nil;
+    NSData *body = [NSJSONSerialization dataWithJSONObject:compositeRequestJson
+                                                   options:NSJSONWritingPrettyPrinted
+                                                     error:&error];
+    if (!error) {
+        [request setCustomRequestBodyData:body contentType:@"application/json"];
+    }
+    return request;
 }
 
 - (SFRestRequest*) requestForSObjectTree:(NSString*)objectType objectTrees:(NSArray<SFSObjectTree*>*)objectTrees
@@ -460,8 +490,15 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     }
     NSDictionary<NSString *, id> * requestJson = @{@"records": jsonTrees};
     NSString *path = [NSString stringWithFormat:@"/%@/composite/tree/%@", self.apiVersion, objectType];
-
-    return [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:requestJson];
+    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
+    NSError *error = nil;
+    NSData *body = [NSJSONSerialization dataWithJSONObject:requestJson
+                                                   options:NSJSONWritingPrettyPrinted
+                                                     error:&error];
+    if (!error) {
+        [request setCustomRequestBodyData:body contentType:@"application/json"];
+    }
+    return request;
 }
 
 - (NSString *)toQueryString:(NSDictionary *)components {
