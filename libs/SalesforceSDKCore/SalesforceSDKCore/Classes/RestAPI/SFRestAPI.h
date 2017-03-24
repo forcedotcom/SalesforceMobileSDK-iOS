@@ -274,7 +274,7 @@ extern NSString* const kSFRestIfUnmodifiedSince;
  */
 - (SFRestRequest *)requestForUpsertWithObjectType:(NSString *)objectType
                                   externalIdField:(NSString *)externalIdField
-                                       externalId:(NSString *)externalId
+                                       externalId:(nullable NSString *)externalId
                                            fields:(NSDictionary<NSString*, id> *)fields;
 
 /**
@@ -362,7 +362,7 @@ extern NSString* const kSFRestIfUnmodifiedSince;
  * @param haltOnError Controls whether Salesforce should stop processing subrequests if a subrequest fails.
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_batch.htm
  */
-- (SFRestRequest *) batchRequest:(nonnull NSArray<SFRestRequest*>*) requests haltOnError:(BOOL) haltOnError;
+- (nonnull SFRestRequest *) batchRequest:(nonnull NSArray<SFRestRequest*>*) requests haltOnError:(BOOL) haltOnError;
 
 /**
  * Retursn an `SFRestRequest` which executes a composite request.
@@ -371,7 +371,7 @@ extern NSString* const kSFRestIfUnmodifiedSince;
  * @param allOrNone Specifies what to do when an error occurs while processing a subrequest.
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_composite.htm
  */
-- (SFRestRequest *) compositeRequest:(nonnull NSArray<SFRestRequest*>*) requests refIds:(nonnull NSArray<NSString*>*)refIds allOrNone:(BOOL) allOrNone;
+- (nonnull SFRestRequest *) compositeRequest:(nonnull NSArray<SFRestRequest*>*) requests refIds:(nonnull NSArray<NSString*>*)refIds allOrNone:(BOOL) allOrNone;
 
 /**
  * Retursn an `SFRestRequest` which executes a sobject tree request.
@@ -379,7 +379,7 @@ extern NSString* const kSFRestIfUnmodifiedSince;
  * @param objectTrees Array of sobject trees
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobject_tree.htm
  */
-- (SFRestRequest*) requestForSObjectTree:(nonnull NSString*)objectType objectTrees:(nonnull NSArray<SFSObjectTree*>*)objectTrees;
+- (nonnull SFRestRequest*) requestForSObjectTree:(nonnull NSString*)objectType objectTrees:(nonnull NSArray<SFSObjectTree*>*)objectTrees;
 
 ///---------------------------------------------------------------------------------------
 /// @name Other utility methods

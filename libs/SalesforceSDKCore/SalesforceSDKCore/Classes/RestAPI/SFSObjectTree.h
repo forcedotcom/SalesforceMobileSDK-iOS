@@ -38,7 +38,7 @@
  * @param fields             Fields for the root sobject
  * @param childrenTrees      Array of SFSObjectTree for the children sobject's
  */
-- (id)initWithObjectType:(nonnull NSString*)objectType
+- (nullable id)initWithObjectType:(nonnull NSString*)objectType
         objectTypePlural:(nullable NSString*)objectTypePlural
         referenceId:(nonnull NSString *)referenceId
              fields:(nonnull NSDictionary<NSString *, id> *)fields
@@ -47,6 +47,6 @@
 /**
  * @return NSDictionary representing SObject tree
  */
-- (NSDictionary<NSString*, id>*) asJSON;
+- (nonnull NSDictionary<NSString*, id>*) asJSON;
 
 @end
