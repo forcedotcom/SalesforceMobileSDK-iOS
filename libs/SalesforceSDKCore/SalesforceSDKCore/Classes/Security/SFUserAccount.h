@@ -96,10 +96,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, copy, nullable) NSArray<SFCommunityData *> *communities;
 
-/** Indicates whether or not the receiver represents a guest user account.
- */
-@property (nonatomic, readonly, getter = isGuestUser) BOOL guestUser;
-
 /** Returns YES if the user has an access token and, presumably,
  a valid session.
  */

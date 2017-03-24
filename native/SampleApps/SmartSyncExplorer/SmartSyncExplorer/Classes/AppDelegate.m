@@ -188,6 +188,10 @@
             }];
             [self.window.rootViewController presentViewController:userSwitchVc animated:YES completion:NULL];
         } else {
+            if ([allAccounts count] == 1) {
+                [SFUserAccountManager sharedInstance].currentUser = ([SFUserAccountManager sharedInstance].allUserAccounts)[0];
+            }
+            
             [[SalesforceSDKManager sharedManager] launch];
         }
     }];

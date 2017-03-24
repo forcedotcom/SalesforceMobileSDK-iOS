@@ -50,6 +50,7 @@ static NSString* const kTestAppName = @"OverridenAppName";
     SFSDKLaunchAction _postLaunchActions;
     BOOL _launchErrorBlockCalled;
     NSError *_launchError;
+    NSString *_origAppName;
 }
 
 @end
@@ -123,44 +124,36 @@ static NSString* const kTestAppName = @"OverridenAppName";
 
 - (void)testOverrideAiltnAppNameBeforeSDKManagerLaunch
 {
-    NSString *prevName = SalesforceSDKManager.ailtnAppName;
     [SalesforceSDKManager setAiltnAppName:kTestAppName];
     [self createStandardPostLaunchBlock];
     [self createTestAppIdentity];
     [self launchAndVerify:YES failMessage:@"Launch attempt should have been successful."];
     [self verifyPostLaunchState];
     [self compareAiltnAppNames:kTestAppName];
-    [SalesforceSDKManager setAiltnAppName:prevName];
 }
 
 - (void)testOverrideAiltnAppNameAfterSDKManagerInit
 {
-    NSString *prevName = SalesforceSDKManager.ailtnAppName;
     [self createStandardPostLaunchBlock];
     [self createTestAppIdentity];
     [self launchAndVerify:YES failMessage:@"Launch attempt should have been successful."];
     [self verifyPostLaunchState];
     [SalesforceSDKManager setAiltnAppName:kTestAppName];
     [self compareAiltnAppNames:kTestAppName];
-    [SalesforceSDKManager setAiltnAppName:prevName];
 }
 
 - (void)testDefaultAiltnAppName
 {
-    NSString *prevName = SalesforceSDKManager.ailtnAppName;
     [self createStandardPostLaunchBlock];
     [self createTestAppIdentity];
     [self launchAndVerify:YES failMessage:@"Launch attempt should have been successful."];
     [self verifyPostLaunchState];
     NSString *appName = [[NSBundle mainBundle] infoDictionary][(NSString *) kCFBundleNameKey];
     [self compareAiltnAppNames:appName];
-    [SalesforceSDKManager setAiltnAppName:prevName];
-    
 }
 
 - (void)testOverrideInvalidAiltnAppName
 {
-    NSString *prevName = SalesforceSDKManager.ailtnAppName;
     [SFUserAccountManager sharedInstance].currentUser = [self createUserAccount];
     [self createStandardPostLaunchBlock];
     [self createTestAppIdentity];
@@ -169,7 +162,6 @@ static NSString* const kTestAppName = @"OverridenAppName";
     [SalesforceSDKManager setAiltnAppName:nil];
     NSString *appName = [[NSBundle mainBundle] infoDictionary][(NSString *) kCFBundleNameKey];
     [self compareAiltnAppNames:appName];
-    [SalesforceSDKManager setAiltnAppName:prevName];
 }
 
 - (void)testPasscodeVerificationAtLaunch
@@ -209,7 +201,9 @@ static NSString* const kTestAppName = @"OverridenAppName";
     XCTAssertFalse(userAuthenticatedAtLaunch, @"User with credentials should not have been authenticated at launch.");
     XCTAssertTrue(userAlreadyAuthenticated, @"User with credentials should have generated an already-authenticated status.");
     XCTAssertFalse(authBypassed, @"User with credentials should not have generated an auth-bypassed status.");
-    [self deleteUserAccount:[SFUserAccountManager sharedInstance].currentUser error:nil];
+    NSError *error = nil;
+    [[SFUserAccountManager sharedInstance] deleteAccountForUser:[SFUserAccountManager sharedInstance].currentUser error:&error];
+    XCTAssertNotNil(error, @"SalesforceSDKManagerTests for testAuthAtLaunch could not delete created user");
 }
 
 - (void)testAuthBypass
@@ -432,15 +426,8 @@ static NSString* const kTestAppName = @"OverridenAppName";
     NSError *error = nil;
     [[SFUserAccountManager sharedInstance] saveAccountForUser:user error:&error];
     XCTAssertNil(error, @"Should be able to create user account");
-   
     return user;
 }
-
-- (void)deleteUserAccount:(SFUserAccount *) userAccount error:(NSError **) error
-{
-    [[SFUserAccountManager sharedInstance] deleteAccountForUser:userAccount error:error];
-}
-
 
 - (void)setupSdkManagerState
 {
@@ -461,6 +448,7 @@ static NSString* const kTestAppName = @"OverridenAppName";
     _postLaunchActions = SFSDKLaunchActionNone;
     _launchErrorBlockCalled = NO;
     _launchError = nil;
+    _origAppName = SalesforceSDKManager.ailtnAppName;
 }
 
 - (void)restoreOrigSdkManagerState
@@ -477,10 +465,12 @@ static NSString* const kTestAppName = @"OverridenAppName";
     [SalesforceSDKManager sharedManager].switchUserAction = _origSwitchUserAction;
     [SalesforceSDKManager sharedManager].postAppForegroundAction = _origPostAppForegroundAction;
     [SFUserAccountManager sharedInstance].currentUser = _origCurrentUser;
+    SalesforceSDKManager.ailtnAppName = _origAppName;
 }
 
 - (void)compareAiltnAppNames:(NSString *)expectedAppName
 {
+    SFUserAccount *prevCurrentUser = [SFUserAccountManager sharedInstance].currentUser;
     [SFUserAccountManager sharedInstance].currentUser = [self createUserAccount];
     SFSDKSalesforceAnalyticsManager *analyticsManager = [SFSDKSalesforceAnalyticsManager sharedInstanceWithUser:[SFUserAccountManager sharedInstance].currentUser];
     XCTAssertNotNil(analyticsManager, @"SFSDKSalesforceAnalyticsManager instance should not be nil");
@@ -488,6 +478,10 @@ static NSString* const kTestAppName = @"OverridenAppName";
     XCTAssertNotNil(deviceAttributes, @"SFSDKDeviceAppAttributes instance should not be nil");
     XCTAssertEqualObjects(deviceAttributes.appName, expectedAppName, @"App names should match");
     [SFSDKSalesforceAnalyticsManager removeSharedInstanceWithUser:[SFUserAccountManager sharedInstance].currentUser];
+     NSError *error = nil;
+    [[SFUserAccountManager sharedInstance] deleteAccountForUser:[SFUserAccountManager sharedInstance].currentUser error:&error];
+    XCTAssertNotNil(error, @"SalesforceSDKManagerTests for ailtn could not delete created user");
+    [SFUserAccountManager sharedInstance].currentUser = prevCurrentUser;
 }
 
 @end

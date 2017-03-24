@@ -463,8 +463,10 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
         [_accountsLock lock];
         if (!user) {
             //clear current user if  nil
+            [self willChangeValueForKey:@"currentUser"];
             _currentUser = nil;
             [self setCurrentUserIdentity:nil];
+            [self didChangeValueForKey:@"currentUser"];
             userChanged = YES;
         } else {
             //check if this is valid managed user
@@ -473,8 +475,8 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
                 [self willChangeValueForKey:@"currentUser"];
                 _currentUser = user;
                 [self setCurrentUserIdentity:user.accountIdentity];
-                userChanged = YES;
                 [self didChangeValueForKey:@"currentUser"];
+                userChanged = YES;
             } else {
                 [self log:SFLogLevelError format:@"Cannot set the currentUser as %@. Add the account to the SFAccountManager before making this call.", [user userName]];
             }
@@ -626,6 +628,5 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
     [self loadAccounts:nil];
     [_accountsLock unlock];
 }
-
 
 @end

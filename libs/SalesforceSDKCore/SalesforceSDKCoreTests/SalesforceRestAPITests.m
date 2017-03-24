@@ -87,7 +87,6 @@ static NSException *authException = nil;
     
     // Set-up code here.
     _currentUser = [SFUserAccountManager sharedInstance].currentUser;
-    
     [super setUp];
 }
 
