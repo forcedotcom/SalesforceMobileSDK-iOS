@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
 
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -102,59 +102,5 @@
     jsonForRecord[@"attributes"] = @{@"referenceId":referenceId, @"type":objectType};
     return jsonForRecord;
 }
-/*
-
-        public JSONObject asJSON() throws JSONException {
-            JSONObject parentJson = buildJsonForRecord(objectType, referenceId, fields);
-
-            if (childrenTrees != null) {
-                // Grouping children trees by type and figuring out object type to object type plural mapping
-                Map<String, String> objectTypeToObjectTypePlural = new HashMap<>();
-                Map<String, List<SObjectTree>> objectTypeToChildrenTrees = new HashMap<>();
-                for (SObjectTree childTree : childrenTrees) {
-                    String childObjectType = childTree.objectType;
-
-                    if (!objectTypeToObjectTypePlural.containsKey(childObjectType)) {
-                        objectTypeToObjectTypePlural.put(childObjectType, childTree.objectTypePlural);
-                    }
-
-                    if (!objectTypeToChildrenTrees.containsKey(childObjectType)) {
-                        objectTypeToChildrenTrees.put(childObjectType, new ArrayList<SObjectTree>());
-                    }
-
-                    objectTypeToChildrenTrees.get(childObjectType).add(childTree);
-                }
-
-                // Iterating through children
-                for (Map.Entry<String, List<SObjectTree>> entry : objectTypeToChildrenTrees.entrySet()) {
-                    String childrenObjectType = entry.getKey();
-                    List<SObjectTree> childrenTreesForType = entry.getValue();
-                    JSONArray childrenJsonArray = new JSONArray();
-                    for (SObjectTree childTree : childrenTreesForType) {
-                        JSONObject childJson = buildJsonForRecord(childrenObjectType, childTree.referenceId, childTree.fields);
-                        childrenJsonArray.put(childJson);
-                    }
-
-                    parentJson.put(objectTypeToObjectTypePlural.get(childrenObjectType), JSONObjectHelper.makeJSONObject(RECORDS, childrenJsonArray));
-                }
-            }
-
-            // Done
-            return parentJson;
-        }
-
-        private JSONObject buildJsonForRecord(String objectType, String referenceId, Map<String, Object> fields) throws JSONException {
-            JSONObject jsonForAttributes = new JSONObject();
-            jsonForAttributes.put(REFERENCE_ID, referenceId);
-            jsonForAttributes.put(TYPE, objectType);
-
-            JSONObject jsonForRecord = new JSONObject(fields);
-            jsonForRecord.put(ATTRIBUTES, jsonForAttributes);
-
-            return jsonForRecord;
-        }
-    }
-
- */
 
 @end
