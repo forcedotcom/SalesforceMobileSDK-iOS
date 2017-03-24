@@ -275,21 +275,6 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     XCTAssertEqual(self.uam.currentUser, newUser, @"The current user should be set to newUser.");
 }
 
-- (void)testActiveIdentityUpgrade {
-
-    // Ensure we start with a clean state
-    NSUInteger allUserIdenties = [self.uam.allUserIdentities count];
-    XCTAssertEqual(allUserIdenties, 0, @"There should be no accounts");
-
-    NSArray *accounts = [self createAndVerifyUserAccounts:1];
-    SFUserAccount *newAccount = ((SFUserAccount *)accounts[0]);
-    [self.uam switchToUser:newAccount];
-    SFUserAccountIdentity *accountIdentity = newAccount.accountIdentity;
-    SFUserAccountIdentity *activeIdentity = self.uam.currentUserIdentity;
-    XCTAssertEqualObjects(accountIdentity, activeIdentity, @"Current identity should be the switched account identity.");
-
-}
-
 - (void)testIdentityDataModification {
     NSArray *accounts = [self createAndVerifyUserAccounts:1];
     self.uam.currentUser = accounts[0];

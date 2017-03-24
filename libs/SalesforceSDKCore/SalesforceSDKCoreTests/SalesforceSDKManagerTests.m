@@ -203,7 +203,7 @@ static NSString* const kTestAppName = @"OverridenAppName";
     XCTAssertFalse(authBypassed, @"User with credentials should not have generated an auth-bypassed status.");
     NSError *error = nil;
     [[SFUserAccountManager sharedInstance] deleteAccountForUser:[SFUserAccountManager sharedInstance].currentUser error:&error];
-    XCTAssertNotNil(error, @"SalesforceSDKManagerTests for testAuthAtLaunch could not delete created user");
+    XCTAssertNil(error, @"SalesforceSDKManagerTests for testAuthAtLaunch could not delete created user");
 }
 
 - (void)testAuthBypass
