@@ -480,7 +480,7 @@ static NSString* const kTestAppName = @"OverridenAppName";
     [SFSDKSalesforceAnalyticsManager removeSharedInstanceWithUser:[SFUserAccountManager sharedInstance].currentUser];
      NSError *error = nil;
     [[SFUserAccountManager sharedInstance] deleteAccountForUser:[SFUserAccountManager sharedInstance].currentUser error:&error];
-    XCTAssertNotNil(error, @"SalesforceSDKManagerTests for ailtn could not delete created user");
+    XCTAssertNil(error, @"SalesforceSDKManagerTests for ailtn could not delete created user");
     [SFUserAccountManager sharedInstance].currentUser = prevCurrentUser;
 }
 
