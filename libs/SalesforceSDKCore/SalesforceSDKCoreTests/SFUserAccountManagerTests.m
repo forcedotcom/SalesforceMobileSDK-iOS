@@ -90,8 +90,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     // Set the oauth client ID after deleting the content of the global library directory
     // to ensure the SFUserAccountManager sharedInstance loads from an empty directory
     self.uam = [SFUserAccountManager sharedInstance];
-    [SFAuthenticationManager sharedManager].oauthClientId = @"fakeClientIdForTesting";
-
+    
     // Ensure the user account manager doesn't contain any account
     NSArray *userAccounts = [[SFUserAccountManager sharedInstance] allUserAccounts];
     for (SFUserAccount *account in userAccounts) {
@@ -249,6 +248,19 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
      XCTAssertEqual([self.uam allUserAccounts].count, (NSUInteger)0, @"There should be 0 accounts after delete");
 }
 
+- (void)testSwitchToNewUser {
+    NSArray *accounts = [self createAndVerifyUserAccounts:1];
+    SFUserAccount *origUser = accounts[0];
+    self.uam.currentUser = origUser;
+    TestUserAccountManagerDelegate *acctDelegate = [[TestUserAccountManagerDelegate alloc] init];
+    [self.uam switchToNewUser];
+    XCTAssertEqual(acctDelegate.willSwitchOrigUserAccount, origUser, @"origUser is not equal.");
+    XCTAssertNil(acctDelegate.willSwitchNewUserAccount, @"New user should be nil.");
+    XCTAssertEqual(acctDelegate.didSwitchOrigUserAccount, origUser, @"origUser is not equal.");
+    XCTAssertNil(acctDelegate.didSwitchNewUserAccount, @"New user should be nil.");
+    XCTAssertNotEqual(self.uam.currentUser, origUser, @"The current user should not be the original user.");
+}
+
 - (void)testSwitchToUser {
     NSArray *accounts = [self createAndVerifyUserAccounts:2];
     SFUserAccount *origUser = accounts[0];
@@ -337,8 +349,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 
 - (SFUserAccount*)createNewUserWithIndex:(NSUInteger)index {
     XCTAssertTrue(index < 10, @"Supports only index up to 9");
-    
-    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc]initWithIdentifier:[NSString stringWithFormat:@"identifier-%lu", (unsigned long)index] clientId:[SFAuthenticationManager sharedManager].oauthClientId encrypted:YES];
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc]initWithIdentifier:[NSString stringWithFormat:@"identifier-%lu", (unsigned long)index] clientId:@"fakeClientIdForTesting" encrypted:YES];
     SFUserAccount *user =[[SFUserAccount alloc] initWithCredentials:credentials];
     NSString *userId = [NSString stringWithFormat:kUserIdFormatString, (unsigned long)index];
     NSString *orgId = [NSString stringWithFormat:kOrgIdFormatString, (unsigned long)index];

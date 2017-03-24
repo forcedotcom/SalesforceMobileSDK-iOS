@@ -74,12 +74,12 @@
 @implementation CSFSalesforceOAuthRefreshTests
 
 - (void)testRevokedToken {
-    SFUserAccount *user = [[SFUserAccountManager sharedInstance]  createUserAccount:[[SFAuthenticationManager sharedManager] createOAuthCredentials]];
     
-    user.credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"the-identifier"
-                                                             clientId:@"the-client"
-                                                            encrypted:NO
-                                                          storageType:SFOAuthCredentialsStorageTypeNone];
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"the-identifier"
+                                                                            clientId:@"the-client"
+                                                                           encrypted:NO
+                                                                         storageType:SFOAuthCredentialsStorageTypeNone];
+    SFUserAccount *user = [[SFUserAccountManager sharedInstance]  createUserAccount:credentials];
     user.credentials.accessToken = @"AccessToken";
     user.credentials.refreshToken = @"RefreshToken";
     user.credentials.instanceUrl = [NSURL URLWithString:@"http://example.org"];
@@ -87,8 +87,6 @@
     NSError *error = nil;
     [[SFUserAccountManager sharedInstance] saveAccountForUser:user error:&error];
      XCTAssertNil(error);
-
-    [SFUserAccountManager sharedInstance].currentUser = user;
     __block BOOL userLogoutNotificationReceived = NO;
     id handler = [[NSNotificationCenter defaultCenter] addObserverForName:kSFUserWillLogoutNotification
                                                                    object:nil

@@ -39,7 +39,6 @@ static NSString * const kUser_COMMUNITY_ID        = @"communityId";
 static NSString * const kUser_COMMUNITIES         = @"communities";
 static NSString * const kUser_ID_DATA             = @"idData";
 static NSString * const kUser_CUSTOM_DATA         = @"customData";
-static NSString * const kUser_IS_GUEST_USER       = @"guestUser";
 static NSString * const kUser_ACCESS_RESTRICTIONS = @"accessRestrictions";
 
 static NSString * const kCredentialsUserIdPropName = @"userId";
@@ -58,7 +57,6 @@ static NSString * const kGlobalScopingKey = @"-global-";
 }
 
 @property (nonatomic, strong) NSMutableDictionary *customData;
-@property (nonatomic, readwrite, getter = isGuestUser) BOOL guestUser;
 
 - (id)initWithCoder:(NSCoder*)decoder NS_DESIGNATED_INITIALIZER;
 
@@ -116,7 +114,6 @@ static NSString * const kGlobalScopingKey = @"-global-";
         [encoder encodeObject:weakSelf.customData forKey:kUser_CUSTOM_DATA];
     });
     
-    [encoder encodeBool:_guestUser forKey:kUser_IS_GUEST_USER];
     [encoder encodeInteger:_accessRestrictions forKey:kUser_ACCESS_RESTRICTIONS];
 }
 
@@ -133,7 +130,6 @@ static NSString * const kGlobalScopingKey = @"-global-";
         _communityId      = [decoder decodeObjectOfClass:[NSString class] forKey:kUser_COMMUNITY_ID];
         _communities      = [decoder decodeObjectOfClass:[NSArray class] forKey:kUser_COMMUNITIES];
         _customData       = [[decoder decodeObjectOfClass:[NSDictionary class] forKey:kUser_CUSTOM_DATA] mutableCopy];
-        _guestUser        = [decoder decodeBoolForKey:kUser_IS_GUEST_USER];
         _accessRestrictions = [decoder decodeIntegerForKey:kUser_ACCESS_RESTRICTIONS];
         _syncQueue = dispatch_queue_create(kSyncQueue, NULL);
 	}
