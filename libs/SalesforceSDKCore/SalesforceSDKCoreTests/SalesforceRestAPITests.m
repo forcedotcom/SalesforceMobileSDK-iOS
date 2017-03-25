@@ -23,7 +23,6 @@
  */
 
 #import "SalesforceRestAPITests.h"
-
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import "SFRestAPI+Internal.h"
 #import "SFNativeRestRequestListener.h"
@@ -296,7 +295,7 @@ static NSException *authException = nil;
         request = [[SFRestAPI sharedInstance] requestForRetrieveWithObjectType:CONTACT objectId:contactId fieldList:nil];
         listener = [self sendSyncRequest:request];
         XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-        XCTAssertTrue([listener.dataResponse isKindOfClass:[NSData class]], @"Should be NSData when JSON parsing fails.");
+        XCTAssertTrue([listener.dataResponse isKindOfClass:[NSDictionary class]], @"Should be parsed JSON for JSON response.");
 
         // Raw data will be converted to JSON if that's what's returned, when JSON parsing is successful.
         request = [[SFRestAPI sharedInstance] requestForRetrieveWithObjectType:CONTACT objectId:contactId fieldList:nil];
@@ -426,18 +425,15 @@ static NSException *authException = nil;
  // - then update it with created date for unmodified since date (should update)
  // - then update it again with created date for unmodified since date (should not update)
  - (void)testUpdateWithIfUnmodifiedSince {
-
      NSDate *pastDate = [NSDate dateWithTimeIntervalSinceNow:-3600];
 
      // Create
      NSString *accountName = [self generateRecordName];
      NSDictionary *fields = @{NAME: accountName};
-
      SFRestRequest *createRequest = [[SFRestAPI sharedInstance]
              requestForCreateWithObjectType:ACCOUNT
                                      fields:fields
      ];
-
      SFNativeRestRequestListener *listener = [self sendSyncRequest:createRequest];
      XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request should have succeeded");
      NSString *accountId = ((NSDictionary *) listener.dataResponse)[LID];
@@ -459,7 +455,6 @@ static NSException *authException = nil;
      // Update with if-unmodified-since with createdDate - should update
      NSString *accountNameUpdated = [accountName stringByAppendingString:@"_updated"];
      NSDictionary *fieldsUpdated = @{NAME: accountNameUpdated};
-
      SFRestRequest *updateRequest = [[SFRestAPI sharedInstance]
              requestForUpdateWithObjectType:ACCOUNT
                                    objectId:accountId
@@ -478,7 +473,6 @@ static NSException *authException = nil;
      // Second update with if-unmodified-since with created date - should not update
      NSString *blockedUpdatedName = [accountNameUpdated stringByAppendingString:@"_updated_again"];
      NSDictionary *blockedFieldsUpdated = @{NAME: blockedUpdatedName};
-
      SFRestRequest *blockedUpdateRequest = [[SFRestAPI sharedInstance]
              requestForUpdateWithObjectType:ACCOUNT
                                    objectId:accountId
@@ -494,12 +488,11 @@ static NSException *authException = nil;
      listener = [self sendSyncRequest:thirdRetrieveRequest];
      NSString *thirdRetrievedName = ((NSDictionary *) listener.dataResponse)[NAME];
      XCTAssertEqualObjects(thirdRetrievedName, accountNameUpdated, "wrong name retrieved");
- }
-
+}
 
  //exercise upsert on an externalIdField that does not exist
 - (void)testUpsertWithBogusExternalIdField {
-        
+
     //create an account name
     NSString *acctName = [self generateRecordName];
     NSDictionary *fields = @{NAME: acctName};
@@ -507,21 +500,15 @@ static NSException *authException = nil;
     //create a unique account number
     CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
     CFStringRef uuidStr = CFUUIDCreateString(kCFAllocatorDefault, uuid);
-
-    
     SFRestRequest *request = [[SFRestAPI sharedInstance]
                               requestForUpsertWithObjectType:ACCOUNT
                               externalIdField:@"bogusField__c" //this field shouldn't be defined in the test org
                               externalId: (__bridge NSString*)uuidStr
                               fields:fields
                               ];
-    
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request should have failed");
-    NSDictionary *errDict = listener.lastError.userInfo;
-    NSString *restErrCode = errDict[NSLocalizedFailureReasonErrorKey];
-    XCTAssertTrue([restErrCode isEqualToString:@"NOT_FOUND"],@"got unexpected restErrCode: %@",restErrCode);
-
+    XCTAssertEqual(404, listener.lastError.code, @"error code should have been 404");
 }
 
 // Testing upsert calls to the server.
@@ -598,14 +585,12 @@ static NSException *authException = nil;
  // - creates a contact,
  // - run a query that should return newly created account
  // - run a query that should return newly created contact
-
  -(void) testBatchRequest {
      NSDictionary *fields;
 
      // Create account
      NSString *accountName = [self generateRecordName];
      fields = @{NAME: accountName};
-
      SFRestRequest *createAccountRequest = [[SFRestAPI sharedInstance]
              requestForCreateWithObjectType:ACCOUNT
                                      fields:fields
@@ -614,7 +599,6 @@ static NSException *authException = nil;
      // Create contact
      NSString *contactName = [self generateRecordName];
      fields = @{LAST_NAME: contactName};
-
      SFRestRequest *createContactRequest = [[SFRestAPI sharedInstance]
              requestForCreateWithObjectType:CONTACT
                                      fields:fields
@@ -664,13 +648,11 @@ static NSException *authException = nil;
  // - creates a contact (with newly created account as parent),
  // - run a query that should return newly created account and contact
  - (void) testCompositeRequest {
-
      NSDictionary *fields;
 
      // Create account
      NSString *accountName = [self generateRecordName];
      fields = @{NAME: accountName};
-
      SFRestRequest *createAccountRequest = [[SFRestAPI sharedInstance]
              requestForCreateWithObjectType:ACCOUNT
                                      fields:fields
@@ -679,7 +661,6 @@ static NSException *authException = nil;
      // Create contact
      NSString *contactName = [self generateRecordName];
      fields = @{LAST_NAME: contactName, ACCOUNT_ID: @"@{refAccount.id}"};
-
      SFRestRequest *createContactRequest = [[SFRestAPI sharedInstance]
              requestForCreateWithObjectType:CONTACT
                                      fields:fields
@@ -1126,7 +1107,6 @@ static NSException *authException = nil;
 
 #pragma mark - testing refresh
 
-
 // - sets an invalid accessToken
 // - issue a valid REST request
 // - make sure the SDK will:
@@ -1351,7 +1331,6 @@ static NSException *authException = nil;
     }
 }
 
-
 #pragma mark - testing block functions
 
 - (BOOL) waitForExpectation {
@@ -1371,24 +1350,17 @@ static NSException *authException = nil;
     return timedout;
 }
 
-
 // These block functions are just a category on SFRestAPI, so we verify here
 // only that the proper blocks were called for each
-
 - (void)testBlockUpdate {
     SFRestFailBlock failWithUnexpectedFail = ^(NSError *e) {
         XCTFail(@"Unexpected error %@", e);
         [self.currentExpectation fulfill];
     };
-    
-    SFRestDictionaryResponseBlock nilResponseSuccessBlock = ^(NSDictionary *d) {
-        XCTAssertNil(d);
+    SFRestDictionaryResponseBlock responseSuccessBlock = ^(NSDictionary *d) {
         [self.currentExpectation fulfill];
     };
-    
-    
     SFRestAPI *api = [SFRestAPI sharedInstance];
-    
     NSString *lastName = [self generateRecordName];
     NSString *updatedLastName = [lastName stringByAppendingString:@"_updated"];
     NSMutableDictionary *fields = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -1396,7 +1368,6 @@ static NSException *authException = nil;
                                    lastName, LAST_NAME,
                                    nil];
     __block NSString *recordId;
-    
     self.currentExpectation = [self expectationWithDescription:@"performCreateWithObjectType-creating contact"];
     [api performCreateWithObjectType:CONTACT
                               fields:fields
@@ -1406,8 +1377,6 @@ static NSException *authException = nil;
                            [self.currentExpectation fulfill];
                        }];
     [self waitForExpectation];
-    
-    
     self.currentExpectation = [self expectationWithDescription:@"performRetrieveWithObjectType-retrieving contact"];
     [api performRetrieveWithObjectType:CONTACT
                               objectId:recordId
@@ -1418,17 +1387,14 @@ static NSException *authException = nil;
                              [self.currentExpectation fulfill];
                          }];
     [self waitForExpectation];
-    
     self.currentExpectation = [self expectationWithDescription:@"performUpdateWithObjectType-updating contact"];
     fields[LAST_NAME] = updatedLastName;
     [api performUpdateWithObjectType:CONTACT
                             objectId:recordId
                               fields:fields
                            failBlock:failWithUnexpectedFail
-                       completeBlock:nilResponseSuccessBlock
-     ];
+                       completeBlock:responseSuccessBlock];
     [self waitForExpectation];
-    
     self.currentExpectation = [self expectationWithDescription:@"performRetrieveWithObjectType-retrieving contact"];
     [api performRetrieveWithObjectType:CONTACT
                               objectId:recordId
@@ -1439,7 +1405,6 @@ static NSException *authException = nil;
                              [self.currentExpectation fulfill];
                          }];
     [self waitForExpectation];
-    
     self.currentExpectation = [self expectationWithDescription:@"performUpsertWithObjectType-upserting contact"];
     fields[LAST_NAME] = lastName;
     [api performUpsertWithObjectType:CONTACT
@@ -1447,10 +1412,8 @@ static NSException *authException = nil;
                           externalId:recordId
                               fields:fields
                            failBlock:failWithUnexpectedFail
-                       completeBlock:nilResponseSuccessBlock
-     ];
+                       completeBlock:responseSuccessBlock];
     [self waitForExpectation];
-    
     self.currentExpectation = [self expectationWithDescription:@"performRetrieveWithObjectType-retrieving contact"];
     [api performRetrieveWithObjectType:CONTACT
                               objectId:recordId
@@ -1461,13 +1424,11 @@ static NSException *authException = nil;
                              [self.currentExpectation fulfill];
                          }];
     [self waitForExpectation];
-    
     self.currentExpectation = [self expectationWithDescription:@"performDeleteWithObjectType-deleting contact"];
     [api performDeleteWithObjectType:CONTACT
                             objectId:recordId
                            failBlock:failWithUnexpectedFail
-                       completeBlock:nilResponseSuccessBlock
-     ];
+                       completeBlock:responseSuccessBlock];
     [self waitForExpectation];
 }
 
@@ -1723,28 +1684,21 @@ static NSException *authException = nil;
 }
 
 - (void) testSOSL {
-    
     XCTAssertNil( [SFRestAPI SOSLSearchWithSearchTerm:(NSString* _Nonnull)nil objectScope:nil],
                  @"Invalid search did not result in nil output.");
-    
     BOOL searchLimitEnforced = [[SFRestAPI SOSLSearchWithSearchTerm:@"Test Term" fieldScope:nil objectScope:nil limit:kMaxSOSLSearchLimit + 1] 
                                 hasSuffix:[NSString stringWithFormat:@"%li", (long) kMaxSOSLSearchLimit]];
-    
     XCTAssertTrue( searchLimitEnforced,
                  @"SOSL search limit was not properly enforced.");
-    
     NSString *simpleSearch = @"FIND {blah} IN NAME FIELDS RETURNING User";
     NSString *complexSearch = @"FIND {blah} IN NAME FIELDS RETURNING User (id, name order by lastname asc limit 5) LIMIT 200";
-    
     XCTAssertTrue( [simpleSearch isEqualToString:[SFRestAPI SOSLSearchWithSearchTerm:@"blah"
                                                                         objectScope:[NSDictionary dictionaryWithObject:[NSNull null]
-                                                                                                                forKey:@"User"]]],
-                 @"Simple SOSL search does not match.");    
-    
+                                                                        forKey:@"User"]]],
+                 @"Simple SOSL search does not match.");
     XCTAssertTrue( [complexSearch isEqualToString:[SFRestAPI SOSLSearchWithSearchTerm:@"blah"
                                                                           fieldScope:nil
-                                                                         objectScope:[NSDictionary dictionaryWithObject:@"id, name order by lastname asc limit 5"
-                                                                                                                 forKey:@"User"]
+                                                                         objectScope:[NSDictionary dictionaryWithObject:@"id, name order by lastname asc limit 5"                                      forKey:@"User"]
                                                                                limit:200]],
                  @"Complex SOSL search does not match.");
 }
