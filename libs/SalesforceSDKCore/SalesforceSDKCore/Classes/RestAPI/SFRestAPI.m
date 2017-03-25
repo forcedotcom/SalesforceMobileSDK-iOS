@@ -322,11 +322,13 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     NSString *path = [NSString stringWithFormat:@"/%@/sobjects/%@", self.apiVersion, objectType];
     SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
     NSError *error = nil;
-    NSData *body = [NSJSONSerialization dataWithJSONObject:fields
-                                               options:NSJSONWritingPrettyPrinted
-                                                 error:&error];
-    if (!error) {
-        [request setCustomRequestBodyData:body contentType:@"application/json"];
+    if (fields) {
+        NSData *body = [NSJSONSerialization dataWithJSONObject:fields
+                                                       options:NSJSONWritingPrettyPrinted
+                                                         error:&error];
+        if (!error) {
+            [request setCustomRequestBodyData:body contentType:@"application/json"];
+        }    
     }
     return request;
 }
@@ -360,11 +362,13 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     SFRestMethod method = externalId == nil ? SFRestMethodPOST : SFRestMethodPATCH;
     SFRestRequest *request = [SFRestRequest requestWithMethod:method path:path queryParams:nil];
     NSError *error = nil;
-    NSData *body = [NSJSONSerialization dataWithJSONObject:fields
-                                                   options:NSJSONWritingPrettyPrinted
-                                                     error:&error];
-    if (!error) {
-        [request setCustomRequestBodyData:body contentType:@"application/json"];
+    if (fields) {
+        NSData *body = [NSJSONSerialization dataWithJSONObject:fields
+                                                       options:NSJSONWritingPrettyPrinted
+                                                         error:&error];
+        if (!error) {
+            [request setCustomRequestBodyData:body contentType:@"application/json"];
+        }
     }
     return request;
 }
@@ -437,11 +441,13 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     NSString *path = [NSString stringWithFormat:@"/%@/composite/batch", self.apiVersion];
     SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
     NSError *error = nil;
-    NSData *body = [NSJSONSerialization dataWithJSONObject:batchRequestJson
-                                                   options:NSJSONWritingPrettyPrinted
-                                                     error:&error];
-    if (!error) {
-        [request setCustomRequestBodyData:body contentType:@"application/json"];
+    if (batchRequestJson) {
+        NSData *body = [NSJSONSerialization dataWithJSONObject:batchRequestJson
+                                                       options:NSJSONWritingPrettyPrinted
+                                                         error:&error];
+        if (!error) {
+            [request setCustomRequestBodyData:body contentType:@"application/json"];
+        }
     }
     return request;
 }
@@ -473,11 +479,13 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     NSString *path = [NSString stringWithFormat:@"/%@/composite", self.apiVersion];
     SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
     NSError *error = nil;
-    NSData *body = [NSJSONSerialization dataWithJSONObject:compositeRequestJson
-                                                   options:NSJSONWritingPrettyPrinted
-                                                     error:&error];
-    if (!error) {
-        [request setCustomRequestBodyData:body contentType:@"application/json"];
+    if (compositeRequestJson) {
+        NSData *body = [NSJSONSerialization dataWithJSONObject:compositeRequestJson
+                                                       options:NSJSONWritingPrettyPrinted
+                                                         error:&error];
+        if (!error) {
+            [request setCustomRequestBodyData:body contentType:@"application/json"];
+        }
     }
     return request;
 }
@@ -492,11 +500,13 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     NSString *path = [NSString stringWithFormat:@"/%@/composite/tree/%@", self.apiVersion, objectType];
     SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
     NSError *error = nil;
-    NSData *body = [NSJSONSerialization dataWithJSONObject:requestJson
-                                                   options:NSJSONWritingPrettyPrinted
-                                                     error:&error];
-    if (!error) {
-        [request setCustomRequestBodyData:body contentType:@"application/json"];
+    if (requestJson) {
+        NSData *body = [NSJSONSerialization dataWithJSONObject:requestJson
+                                                       options:NSJSONWritingPrettyPrinted
+                                                         error:&error];
+        if (!error) {
+            [request setCustomRequestBodyData:body contentType:@"application/json"];
+        }
     }
     return request;
 }
