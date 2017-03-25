@@ -345,8 +345,19 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
                             ifUnmodifiedSinceDate:(NSDate *) ifUnmodifiedSinceDate {
 
     NSString *path = [NSString stringWithFormat:@"/%@/sobjects/%@/%@", self.apiVersion, objectType, objectId];
-    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPATCH path:path queryParams:fields];
-    if (ifUnmodifiedSinceDate) [request setHeaderValue:[SFRestAPI getHttpStringFomFromDate:ifUnmodifiedSinceDate] forHeaderName:kSFRestIfUnmodifiedSince];
+    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPATCH path:path queryParams:nil];
+    NSError *error = nil;
+    if (fields) {
+        NSData *body = [NSJSONSerialization dataWithJSONObject:fields
+                                                       options:NSJSONWritingPrettyPrinted
+                                                         error:&error];
+        if (!error) {
+            [request setCustomRequestBodyData:body contentType:@"application/json"];
+        }
+    }
+    if (ifUnmodifiedSinceDate) {
+        [request setHeaderValue:[SFRestAPI getHttpStringFomFromDate:ifUnmodifiedSinceDate] forHeaderName:kSFRestIfUnmodifiedSince];
+    }
     return request;
 }
 
