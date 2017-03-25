@@ -59,19 +59,8 @@
     return dataTask;
 }
 
-- (void)sendDownloadRequest:(nonnull NSURLRequest *)urlRequest downloadResponseBlock:(nullable SFDownloadResponseBlock)downloadResponseBlock {
-    [[[self activeSession] downloadTaskWithRequest:urlRequest completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
-        if (downloadResponseBlock) {
-            downloadResponseBlock(location, response, error);
-        }
-    }] resume];
-}
-
 - (NSURLSession *)activeSession {
     return (self.useBackground ? self.backgroundSession : self.ephemeralSession);
-}
-
-- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location {
 }
 
 @end

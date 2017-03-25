@@ -276,10 +276,8 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 
 + (NSString *)getHttpStringFomFromDate:(NSDate *)date {
     if (date == nil) return nil;
-
     return [httpDateFormatter stringFromDate:date];
 }
-
 
 #pragma mark - SFRestRequest factory methods
 

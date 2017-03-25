@@ -55,14 +55,6 @@ typedef void (^SFDownloadResponseBlock) (NSURL * _Nullable data, NSURLResponse *
 - (nonnull NSURLSessionDataTask *)sendRequest:(nonnull NSURLRequest *)urlRequest dataResponseBlock:(nullable SFDataResponseBlock)dataResponseBlock;
 
 /**
- * Sends a download request and calls the appropriate completion block.
- *
- * @param urlRequest NSURLRequest instance.
- * @param downloadResponseBlock Network response block.
- */
-- (void)sendDownloadRequest:(nonnull NSURLRequest *)urlRequest downloadResponseBlock:(nullable SFDownloadResponseBlock)downloadResponseBlock;
-
-/**
  * Returns the current NSURLSession instance being used.
  *
  * @return NSURLSession instance.
