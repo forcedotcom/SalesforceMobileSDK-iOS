@@ -55,7 +55,6 @@ static NSString * const kFileName        = @"fileName";
     SFRestMethod method = [SFRestRequest sfRestMethodFromHTTPMethod:[argsDict nonNullObjectForKey:kMethodArg]];
     NSString* endPoint = [argsDict nonNullObjectForKey:kEndPointArg];
     NSString* path = [argsDict nonNullObjectForKey:kPathArg];
-
     NSDictionary* queryParams = [[NSDictionary alloc] init];
     id queryParamsObj = [argsDict nonNullObjectForKey:kQueryParams];
 
@@ -92,7 +91,7 @@ static NSString * const kFileName        = @"fileName";
             NSString* fileUrl = [fileParam nonNullObjectForKey:kFileUrl];
             NSString* fileName = [fileParam nonNullObjectForKey:kFileName];
             NSData* fileData = [NSData dataWithContentsOfURL:[NSURL URLWithString:fileUrl]];
-            [request addPostFileData:fileData paramName:fileParamName fileName:fileName mimeType:fileMimeType];
+            [request addPostFileData:fileData description:nil fileName:fileName mimeType:fileMimeType];
         }
     }
     __weak typeof(self) weakSelf = self;

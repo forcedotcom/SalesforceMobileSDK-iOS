@@ -25,6 +25,7 @@
  */
 
 #import "SFRestAPI+Files.h"
+#import "SFRestRequest+Internal.h"
 
 #define ME @"me"
 #define PAGE @"page"
@@ -33,9 +34,6 @@
 #define LINKED_ENTITY_ID @"LinkedEntityId"
 #define SHARE_TYPE @"ShareType"
 #define RENDITION_TYPE @"type"
-#define FILE_DATA @"fileData"
-#define TITLE @"title"
-#define DESCRIPTION @"desc"
 
 @implementation SFRestAPI (Files)
 
@@ -111,13 +109,9 @@
 
 - (SFRestRequest *) requestForUploadFile:(NSData *)data name:(NSString *)name description:(NSString *)description mimeType:(NSString *)mimeType {
     NSString *path = [NSString stringWithFormat:@"/%@/connect/files/users/me", self.apiVersion];
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    if (name) params[TITLE] = name;
-    if (description) params[DESCRIPTION] = description;
-    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:params];
-    [request addPostFileData:data paramName:FILE_DATA fileName:name mimeType:mimeType];
+    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
+    [request addPostFileData:data description:description fileName:name mimeType:mimeType];
     return request;
 }
-
 
 @end

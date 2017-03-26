@@ -55,7 +55,6 @@ RCT_EXPORT_METHOD(sendRequest:(NSDictionary *)argsDict callback:(RCTResponseSend
     NSDictionary* queryParams = [argsDict nonNullObjectForKey:kQueryParams];
     NSDictionary* headerParams = [argsDict nonNullObjectForKey:kHeaderParams];
     NSDictionary* fileParams = [argsDict nonNullObjectForKey:kfileParams];
-    
     SFRestRequest* request = [SFRestRequest requestWithMethod:method path:path queryParams:queryParams];
     
     // Custom headers
@@ -66,6 +65,7 @@ RCT_EXPORT_METHOD(sendRequest:(NSDictionary *)argsDict callback:(RCTResponseSend
     
     // Files post
     if (fileParams) {
+
         // File params expected to be of the form:
         // {<fileParamNameInPost>: {fileMimeType:<someMimeType>, fileUrl:<fileUrl>, fileName:<fileNameForPost>}}
         for (NSString* fileParamName in fileParams) {
@@ -74,10 +74,9 @@ RCT_EXPORT_METHOD(sendRequest:(NSDictionary *)argsDict callback:(RCTResponseSend
             NSString* fileUrl = [fileParam nonNullObjectForKey:kFileUrl];
             NSString* fileName = [fileParam nonNullObjectForKey:kFileName];
             NSData* fileData = [NSData dataWithContentsOfURL:[NSURL URLWithString:fileUrl]];
-            [request addPostFileData:fileData paramName:fileParamName fileName:fileName mimeType:fileMimeType];
+            [request addPostFileData:fileData description:nil fileName:fileName mimeType:fileMimeType];
         }
     }
-    
     [[SFRestAPI sharedInstance] sendRESTRequest:request
                                       failBlock:^(NSError *e) {
                                           callback(@[RCTMakeError(@"sendRequest failed", e, nil)]);

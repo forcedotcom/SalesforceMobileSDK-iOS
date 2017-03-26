@@ -29,12 +29,6 @@
 
 NSString * const kSFDefaultRestEndpoint = @"/services/data";
 
-@interface SFRestRequest ()
-
-@property (nonatomic, strong, readwrite) NSMutableURLRequest *request;
-
-@end
-
 @implementation SFRestRequest
 
 - (id)initWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(NSDictionary *)queryParams {
@@ -189,9 +183,41 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 
 #pragma mark - Upload
 
-- (void)addPostFileData:(NSData *)fileData paramName:(NSString *)paramName fileName:(NSString *)fileName mimeType:(NSString *)mimeType {
-    // TODO: Fix this.
-    // [self.action.parameters setObject:fileData forKey:paramName filename:fileName mimeType:mimeType];
+- (void)addPostFileData:(NSData *)fileData description:(NSString *)description fileName:(NSString *)fileName mimeType:(NSString *)mimeType {
+    NSString *mpeBoundary = @"************************";
+    NSString *mpeSeparator = @"--";
+    NSString *newline = @"\r\n";
+    NSString *bodyContentDisposition = [NSString stringWithFormat:@"Content-Disposition: form-data; name=fileData; filename=\"%@\"", fileName];
+    NSMutableData *body = [NSMutableData data];
+    [body appendData:[[NSString stringWithFormat:@"%@%@%@", mpeSeparator, mpeBoundary, newline] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"Content-Type: application/json; charset=UTF-8%@", newline] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"json\"%@", newline] dataUsingEncoding:NSUTF8StringEncoding]];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    if (fileName) {
+        params[@"title"] = fileName;
+    }
+    if (description) {
+        params[@"desc"] = description;
+    }
+    NSError *parsingError;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:params
+                                                       options:NSJSONWritingPrettyPrinted
+                                                         error:&parsingError];
+    if (jsonData && !parsingError) {
+        [body appendData:jsonData];
+    }
+    [body appendData:[[NSString stringWithFormat:@"%@%@%@", mpeSeparator, mpeBoundary, newline] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[bodyContentDisposition dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[newline dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[newline dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:fileData];
+    [body appendData:[newline dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"%@%@%@%@", mpeSeparator, mpeBoundary, mpeSeparator, newline] dataUsingEncoding:NSUTF8StringEncoding]];
+    [self setCustomRequestBodyData:body contentType:mimeType];
+    [self.request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
+    [self.request setHTTPShouldHandleCookies:NO];
+    [self setHeaderValue:[NSString stringWithFormat:@"multipart/form-data; boundary=%@", mpeBoundary] forHeaderName:@"Content-Type"];
+    [self setHeaderValue:@"Keep-Alive" forHeaderName:@"Connection"];
 }
 
 + (BOOL)isNetworkError:(NSError *)error {
