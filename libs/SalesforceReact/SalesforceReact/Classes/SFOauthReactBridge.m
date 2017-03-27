@@ -62,7 +62,8 @@ RCT_EXPORT_METHOD(authenticate:(NSDictionary *)args callback:(RCTResponseSenderB
 {
     [self log:SFLogLevelDebug format:@"authenticate: arguments: %@", args];
     dispatch_async(dispatch_get_main_queue(), ^{
-        [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
+        [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
+            [SFUserAccountManager sharedInstance].currentUser  =  userAccount;
             [self sendAuthCredentials:callback];
         } failure:^(SFOAuthInfo *authInfo, NSError *error) {
             [self sendNotAuthenticatedError:callback];

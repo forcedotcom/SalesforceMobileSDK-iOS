@@ -39,7 +39,6 @@ static NSString * const kUser_COMMUNITY_ID        = @"communityId";
 static NSString * const kUser_COMMUNITIES         = @"communities";
 static NSString * const kUser_ID_DATA             = @"idData";
 static NSString * const kUser_CUSTOM_DATA         = @"customData";
-static NSString * const kUser_IS_GUEST_USER       = @"guestUser";
 static NSString * const kUser_ACCESS_RESTRICTIONS = @"accessRestrictions";
 
 static NSString * const kCredentialsUserIdPropName = @"userId";
@@ -58,7 +57,6 @@ static NSString * const kGlobalScopingKey = @"-global-";
 }
 
 @property (nonatomic, strong) NSMutableDictionary *customData;
-@property (nonatomic, readwrite, getter = isGuestUser) BOOL guestUser;
 
 - (id)initWithCoder:(NSCoder*)decoder NS_DESIGNATED_INITIALIZER;
 
@@ -79,29 +77,14 @@ static NSString * const kGlobalScopingKey = @"-global-";
 }
 
 - (instancetype)init {
-    return [self initWithIdentifier:[SFUserAccountManager sharedInstance].oauthClientId];
+    return [self initWithCredentials:[SFOAuthCredentials new]];
 }
 
-- (instancetype)initWithIdentifier:(NSString*)identifier {
-    return [self initWithIdentifier:identifier clientId:[SFUserAccountManager sharedInstance].oauthClientId];
-}
-
-- (instancetype)initWithIdentifier:(NSString*)identifier clientId:(NSString*)clientId {
+- (instancetype)initWithCredentials:(SFOAuthCredentials*) credentials {
     self = [super init];
     if (self) {
         _observingCredentials = NO;
-        SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:identifier clientId:clientId encrypted:YES];
-        [SFUserAccountManager applyCurrentLogLevel:creds];
-        self.credentials = creds;
-        _syncQueue = dispatch_queue_create(kSyncQueue, NULL);
-    }
-    return self;
-}
-
-- (instancetype)initWithGuestUser {
-    self = [super init];
-    if (self) {
-        self.guestUser = YES;
+        self.credentials = credentials;
         _syncQueue = dispatch_queue_create(kSyncQueue, NULL);
     }
     return self;
@@ -131,7 +114,6 @@ static NSString * const kGlobalScopingKey = @"-global-";
         [encoder encodeObject:weakSelf.customData forKey:kUser_CUSTOM_DATA];
     });
     
-    [encoder encodeBool:_guestUser forKey:kUser_IS_GUEST_USER];
     [encoder encodeInteger:_accessRestrictions forKey:kUser_ACCESS_RESTRICTIONS];
 }
 
@@ -148,7 +130,6 @@ static NSString * const kGlobalScopingKey = @"-global-";
         _communityId      = [decoder decodeObjectOfClass:[NSString class] forKey:kUser_COMMUNITY_ID];
         _communities      = [decoder decodeObjectOfClass:[NSArray class] forKey:kUser_COMMUNITIES];
         _customData       = [[decoder decodeObjectOfClass:[NSDictionary class] forKey:kUser_CUSTOM_DATA] mutableCopy];
-        _guestUser        = [decoder decodeBoolForKey:kUser_IS_GUEST_USER];
         _accessRestrictions = [decoder decodeIntegerForKey:kUser_ACCESS_RESTRICTIONS];
         _syncQueue = dispatch_queue_create(kSyncQueue, NULL);
 	}
@@ -305,14 +286,7 @@ static NSString * const kGlobalScopingKey = @"-global-";
     return self.credentials.accessToken != nil && self.idData != nil;
 }
 
-- (BOOL)isTemporaryUser {
-    return ([self.accountIdentity.userId isEqualToString:SFUserAccountManagerTemporaryUserAccountUserId] &&
-           [self.accountIdentity.orgId isEqualToString:SFUserAccountManagerTemporaryUserAccountOrgId]);
-}
 
-- (BOOL)isAnonymousUser {
-    return [SFUserAccountManager isUserAnonymous:self];
-}
 
 - (NSString*)description {
     NSString *theUserName = @"*****";

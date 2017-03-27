@@ -55,7 +55,7 @@
         #endif
         [self log:SFLogLevelDebug msg:@"Setting up auth credentials."];
         self.testAppHybridViewConfig = [self stageTestCredentials];
-        
+       
         // Logout and login host change handlers.
         [[SFAuthenticationManager sharedManager] addDelegate:self];
         [[SFUserAccountManager sharedInstance] addDelegate:self];
@@ -164,7 +164,6 @@
     hybridConfig.startPage = @"index.html";
     hybridConfig.shouldAuthenticate = YES;
     hybridConfig.attemptOfflineLoad = NO;
-    
     return hybridConfig;
 }
 
@@ -193,10 +192,12 @@
         });
         return;
     }
+    [TestSetupUtils synchronousAuthRefresh];
     self.viewController = [[SFHybridViewController alloc] initWithConfig:self.testAppHybridViewConfig];
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
 }
+                                                            
 
 @end
 

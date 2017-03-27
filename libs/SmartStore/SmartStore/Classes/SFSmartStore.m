@@ -135,14 +135,13 @@ NSString *const EXPLAIN_ROWS = @"rows";
 - (id) initWithName:(NSString*)name user:(SFUserAccount *)user isGlobal:(BOOL)isGlobal {
     self = [super init];
     if (self)  {
-        if ((user == nil || [user.accountIdentity isEqual:[SFUserAccountManager sharedInstance].temporaryUserIdentity]) && !isGlobal) {
+        if (user == nil  && !isGlobal) {
             [self log:SFLogLevelWarning format:@"%@ Cannot create SmartStore with name '%@': user is not configured, and isGlobal is not configured.  Did you mean to call [%@ sharedGlobalStoreWithName:]?",
              NSStringFromSelector(_cmd),
              name,
              NSStringFromClass([self class])];
             return nil;
         }
-        
         [self log:SFLogLevelDebug format:@"%@ %@, user: %@, isGlobal: %d", NSStringFromSelector(_cmd), name, [SFSmartStoreUtils userKeyForUser:user], isGlobal];
         
         @synchronized ([SFSmartStore class]) {

@@ -79,9 +79,16 @@
  */
 + (instancetype)currentNetwork;
 
+/**
+ Returns a shared global shared network instance.
+ 
+ @see networkForUserAccount:
+ */
++ (instancetype)globalNetwork;
+
 /** Returns a reference to the shared instance of this class for the supplied user.
  
- If an instance doesn't yet exist for this user, one will be created.
+ If an instance doesn't yet exist for this user, one will be created. if nil will return a shared global network instance.
 
  @see currentNetwork
  */
