@@ -89,6 +89,35 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
 
 @end
 
+@protocol SFUserAccountPersister <NSObject>
+
+/**
+ Called when the Account manager requires to save the state of an account.
+ @param userAccount The instance of SFUserAccount making the call.
+ @param  error On output, the error if the return value is NO
+ @return YES if the account was saved properly, NO in case of error
+ */
+- (BOOL)saveAccountForUser:(SFUserAccount *)userAccount error:(NSError **) error;
+
+/** Fetches all the accounts.
+  @param error On output, the error if the return value is NO
+  @return NSDictionary with SFUserAccountIdentity as keys and SFUserAccount as values
+  */
+- (NSDictionary<SFUserAccountIdentity *,SFUserAccount *> *)fetchAllAccounts:(NSError **)error;
+
+/**
+ Allows you to remove the given user account.
+ @param user The user account to remove.
+ @param error Output error parameter, populated if there was an error deleting
+ the account (likely from the filesystem operations).
+ @return YES if the deletion was successful, NO otherwise.  Note: If no persisted account matching
+ the user parameter is found, no action will be taken, and deletion will be reported as successful.
+ */
+- (BOOL)deleteAccountForUser:(SFUserAccount *)user error:(NSError **)error;
+
+@end
+
+
 /** Class used to manage the accounts functions used across the app.
  It supports multiple accounts and their associated credentials.
  */
@@ -99,97 +128,23 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
  */
 @property (nonatomic, strong, nullable) SFUserAccount *currentUser;
 
-/** The user identity for the temporary user account.
- */
-@property (nonatomic, readonly, nullable) SFUserAccountIdentity *temporaryUserIdentity;
-
-/** The "temporary" account user.  Useful for determining whether there's a valid user context.
- */
-@property (nonatomic, readonly, nullable) SFUserAccount *temporaryUser;
-
-/** Returns YES if the application supports anonymous user, no otherwise.
- 
- Note: the application must add the kSFUserAccountSupportAnonymousUsage value
- to its Info.plist file in order to enable this flag.
- */
-@property (nonatomic, readonly) BOOL supportsAnonymousUser;
-
-/** Returns YES if the application wants the anonymous user to be
-  created automatically at startup, no otherwise.
-  
-  Note: the application must add the kSFUserAccountSupportAnonymousUsage value
-  to its Info.plist file in order to enable this flag.
-  */
-@property (nonatomic, readonly) BOOL autocreateAnonymousUser;
-
-/** Returns the anonymous user or nil if none exists
-  */
-@property (nonatomic, strong, readonly, nullable) SFUserAccount *anonymousUser;
-
 /** Returns YES if the current user is anonymous, no otherwise
   */
 @property (nonatomic, readonly, getter=isCurrentUserAnonymous) BOOL currentUserAnonymous;
 
 /**  Convenience property to retrieve the current user's identity.
  */
-@property (nonatomic, readonly, nullable) SFUserAccountIdentity *currentUserIdentity;
+@property (readonly, nonatomic, nullable) SFUserAccountIdentity *currentUserIdentity;
 
 /**  Convenience property to retrieve the current user's communityId.
  This property is an alias for `currentUser.communityId`
  */
-@property (nonatomic, readonly, nullable) NSString *currentCommunityId;
-
-/** An NSArray of all the SFUserAccount instances for the app.
- */
-@property (nonatomic, readonly) NSArray<SFUserAccount*> *allUserAccounts;
-
-/** Returns all the user identities sorted by Org ID and User ID.
- */
-@property (nonatomic, readonly) NSArray<SFUserAccountIdentity*> *allUserIdentities;
-
-/** The most recently active user identity. Note that this may be temporarily
- different from currentUser if the user associated with the activeUserIdentity
- is removed from the accounts list.
- */
-@property (nonatomic, copy, nullable) SFUserAccountIdentity *activeUserIdentity;
-
-/** The most recently active community ID. Set when a user
- is changed and stored to disk for retrieval after bootup
- */
-@property (nonatomic, copy, nullable) NSString *activeCommunityId;
+@property (nonatomic, nullable) NSString *currentCommunityId;
 
 /** A convenience property to store the previous community
  id as it may change during early OAuth flow and we want to retain it
  */
 @property (nonatomic, strong, nullable) NSString *previousCommunityId;
-
-/** The host that will be used for login.
- */
-@property (nonatomic, strong, nullable) NSString *loginHost;
-
-/** Should the login process start again if it fails (default: YES)
- */
-@property (nonatomic, assign) BOOL retryLoginAfterFailure;
-
-/** OAuth client ID to use for login.  Apps may customize
- by setting this property before login; otherwise, this
- value is determined by the SFDCOAuthClientIdPreference 
- configured via the settings bundle.
- */
-@property (nonatomic, copy, nullable) NSString *oauthClientId;
-
-/** OAuth callback url to use for the OAuth login process.
- Apps may customize this by setting this property before login.
- By default this value is picked up from the main 
- bundle property SFDCOAuthRedirectUri
- default: @"sfdc:///axm/detect/oauth/done")
- */
-@property (nonatomic, copy, nullable) NSString *oauthCompletionUrl;
-
-/**
- The OAuth scopes associated with the app.
- */
-@property (nonatomic, copy) NSSet<NSString*> *scopes;
 
 /** Shared singleton
  */
@@ -200,19 +155,6 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
  @param credentials OAuth credentials whose log level will be updated
  */
 + (void)applyCurrentLogLevel:(SFOAuthCredentials*)credentials;
-
-/**
- Returns the path of the user account plist file for the specified user
- @param user The user
- @return the path to the user account plist of the specified user
- */
-+ (NSString*)userAccountPlistFileForUser:(SFUserAccount*)user;
-
-/**
- Sets the active user identity without instantiating the class
- @param activeUserIdentity The desired active user
- */
-+ (void)setActiveUserIdentity:(SFUserAccountIdentity *)activeUserIdentity;
 
 /**
  Adds a delegate to this user account manager.
@@ -232,23 +174,19 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
  */
 - (BOOL)loadAccounts:(NSError**)error;
 
-/** Save all the accounts.
- @param error On output, the error if the return value is NO
- @return YES if the accounts were saved properly, NO in case of error
+/** An NSArray of all the SFUserAccount instances for the app.
  */
-- (BOOL)saveAccounts:(NSError**)error;
+- (nullable NSArray <SFUserAccount *> *) allUserAccounts;
 
-/** Can be used to create an empty user account if you wish to configure all of the account info yourself.
- Otherwise, use `login` to allow SFUserAccountManager to automatically create an account when necessary.
+/** Returns all the user identities sorted by Org ID and User ID.
  */
-- (SFUserAccount*)createUserAccount;
+- (nullable NSArray<SFUserAccountIdentity*> *) allUserIdentities;
 
-/** This method ensures the anonymous user exists and if not, creates the anonymous
- user and saves it with the other users. This method doesn't change the current user.
- 
- Note: this method is invoked automatically if `autocreateAnonymousUser` returns YES.
+/** Create an account when necessary using the credentials provided.
+  @param credentials The credentials to use.
  */
-- (void)enableAnonymousAccount;
+- (SFUserAccount*)createUserAccount:(SFOAuthCredentials *)credentials;
+
 
 /** Allows you to look up the user account associated with a given user identity.
  @param userIdentity The user identity of the user account to be looked up
@@ -267,10 +205,15 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
  */
 - (NSArray<SFUserAccount*> *)accountsForInstanceURL:(NSURL *)instanceURL;
 
-/** Adds a user account
- @param acct The account to be added
+/** Adds/Updates a user account
+ @param userAccount The account to be added
  */
-- (void)addAccount:(SFUserAccount *)acct;
+- (BOOL)saveAccountForUser:(SFUserAccount *)userAccount error:(NSError **) error;
+
+/** Lookup  a user account
+ @param credentials used to  up Account matching the credentials
+ */
+- (SFUserAccount *)accountForCredentials:(SFOAuthCredentials *) credentials;
 
 /**
  Allows you to remove the given user account.
@@ -287,29 +230,32 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
 - (void)clearAllAccountState;
 
 /** Invoke this method to apply the specified credentials to the
- current user. If no user exists, a new one is created.
+ a user whose credentials match. If no user exists, a new one is created.
  This will post user update notification.
  @param credentials The credentials to apply
  */
-- (void)applyCredentials:(SFOAuthCredentials*)credentials;
+- (SFUserAccount *) applyCredentials:(SFOAuthCredentials*)credentials;
 
 /** Invoke this method to apply the specified id data to the
- current user. This will post user update notification.
- @param idData The ID data to apply
+  user. This will post user update notification.
+  @param idData The ID data to apply
+  @param user The SFUserAccount to apply this change to.
  */
-- (void)applyIdData:(SFIdentityData *)idData;
+- (void)applyIdData:(SFIdentityData *)idData forUser:(SFUserAccount *)user;
 
-/** This method will selectively update the custom attributes identity data for the current user.
+/** This method will selectively update the custom attributes identity data for the  user.
  Other identity data will not be impacted.
  @param customAttributes The new custom attributes data to update in the identity data.
+ @param user The SFUserAccount to apply this change to.
  */
-- (void)applyIdDataCustomAttributes:(NSDictionary *)customAttributes;
+- (void)applyIdDataCustomAttributes:(NSDictionary *)customAttributes forUser:(SFUserAccount *)user;
 
-/** This method will selectively update the custom permissions identity data for the current user.
+/** This method will selectively update the custom permissions identity data for the  user.
  Other identity data will not be impacted.
  @param customPermissions The new custom permissions data to update in the identity data.
+ @param user The SFUserAccount to apply this change to.
  */
-- (void)applyIdDataCustomPermissions:(NSDictionary *)customPermissions;
+- (void)applyIdDataCustomPermissions:(NSDictionary *)customPermissions forUser:(SFUserAccount *)user;
 
 /** Apply custom data to the SFUserAccount that can be
  accessed outside that user's sandbox. This data will be persisted
@@ -317,8 +263,9 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
  The NSDictionary should be NSCoder encodeable.
  @param object  The NScoding enabled object to set
  @param key     The key to retrieve this data for
+ @param user The SFUserAccount to apply this change to.
  */
-- (void)setObjectForCurrentUserCustomData:(NSObject<NSCoding> *)object forKey:(NSString *)key;
+- (void)setObjectForUserCustomData:(NSObject<NSCoding> *)object forKey:(NSString *)key andUser:(SFUserAccount *)user;
 /**
  Switches away from the current user, to a new user context.
  */
@@ -337,6 +284,8 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
  will try to determine that.
  */
 - (void)userChanged:(SFUserAccountChange)change;
+
+
 
 @end
 

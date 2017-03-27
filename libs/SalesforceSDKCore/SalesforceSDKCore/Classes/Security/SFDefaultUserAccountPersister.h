@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,50 +22,32 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFUserAccountManager.h"
+#import <Foundation/Foundation.h>
+@protocol SFUserAccountPersister;
 
-@interface SFUserAccountManager ()
-{
-    NSRecursiveLock *_accountsLock;
-}
+@interface SFDefaultUserAccountPersister:NSObject<SFUserAccountPersister>
 
-@property (nonatomic, strong, nonnull) NSHashTable<id<SFUserAccountManagerDelegate>> *delegates;
-
-/** A map of user accounts by user ID
+/** Loads a user account from a specified file
+ @param filePath The file to load the user account from
+ @param account On output, contains the user account or nil if an error occurred
+ @param error On output, contains the error if the method returned NO
+ @return YES if the method succeeded, NO otherwise
  */
-@property (nonatomic, strong, nonnull) NSMutableDictionary *userAccountMap;
+- (BOOL)loadUserAccountFromFile:(NSString *)filePath account:(SFUserAccount**)account error:(NSError**)error;
 
-@property (nonatomic, strong, nullable) NSString *lastChangedOrgId;
-@property (nonatomic, strong, nullable) NSString *lastChangedUserId;
-@property (nonatomic, strong, nullable) NSString *lastChangedCommunityId;
-@property (nonatomic, strong, nullable) id<SFUserAccountPersister> accountPersister;
-/**
- Executes the given block for each configured delegate.
- @param block The block to execute for each delegate.
+/** Updates/Saves a user account to a specified filePath
+ * @param userAccount On output, contains the user account or nil if an error occurred
+ * @param filePath  The file to save the user account to
+ * @param error On output, contains the error if the method returned NO
+ * @return YES if the method succeeded, NO otherwise
  */
-- (void)enumerateDelegates:(nullable void (^)(id<SFUserAccountManagerDelegate> _Nonnull))block;
+- (BOOL)saveUserAccount:(SFUserAccount *)userAccount toFile:(NSString *)filePath error:(NSError**)error;
 
 /**
- *
- * @return NSSet enumeration of all account Names
+ Returns the path of the user account plist file for the specified user
+ @param user The user
+ @return the path to the user account plist of the specified user
  */
-- (nullable NSSet *)allExistingAccountNames;
-
-/** Returns a unique identifier that can be used to create a new Account
- *
- * @param clientId OAuth Client Id
- * @return A unique identifier
- */
-- (nonnull NSString *)uniqueUserAccountIdentifier:(nonnull NSString *)clientId;
-
-/** Reload the accounts and reset the state of SFUserAccountManager. Use for tests only
- *
- */
-- (void)reload;
-
-/** Get the Account Persister being used.
- * @return SFUserAccountPersister that is used.
- */
-- (nullable id<SFUserAccountPersister>)accountPersister;
++ (NSString*)userAccountPlistFileForUser:(SFUserAccount*)user;
 
 @end

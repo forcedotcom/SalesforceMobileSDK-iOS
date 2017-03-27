@@ -189,7 +189,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     __weak __typeof(self) weakSelf = self;
     if (user.credentials.accessToken == nil && user.credentials.refreshToken == nil && request.requiresAuthentication) {
         [self log:SFLogLevelInfo msg:@"No auth credentials found. Authenticating before sending request."];
-        [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
+        [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [strongSelf enqueueRequest:request delegate:delegate];
         } failure:^(SFOAuthInfo *authInfo, NSError *error) {

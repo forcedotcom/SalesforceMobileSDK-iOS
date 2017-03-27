@@ -861,29 +861,7 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
 
 - (void) updateCredentials:(NSDictionary *) params {
 
-    // Logging event for token refresh flow.
-    if (self.authInfo.authType == SFOAuthTypeRefresh) {
-        [SFSDKEventBuilderHelper createAndStoreEvent:@"tokenRefresh" userAccount:nil className:NSStringFromClass([self class]) attributes:nil];
-    } else {
-
-        // Logging events for add user and number of servers.
-        NSArray *accounts = [SFUserAccountManager sharedInstance].allUserAccounts;
-        NSMutableDictionary *userAttributes = [[NSMutableDictionary alloc] init];
-        userAttributes[@"numUsers"] = [NSNumber numberWithInteger:(accounts ? accounts.count : 0)];
-        [SFSDKEventBuilderHelper createAndStoreEvent:@"addUser" userAccount:nil className:NSStringFromClass([self class]) attributes:userAttributes];
-        NSInteger numHosts = [SFSDKLoginHostStorage sharedInstance].numberOfLoginHosts;
-        NSMutableArray<NSString *> *hosts = [[NSMutableArray alloc] init];
-        for (int i = 0; i < numHosts; i++) {
-            SFSDKLoginHost *host = [[SFSDKLoginHostStorage sharedInstance] loginHostAtIndex:i];
-            if (host) {
-                [hosts addObject:host.host];
-            }
-        }
-        NSMutableDictionary *serverAttributes = [[NSMutableDictionary alloc] init];
-        serverAttributes[@"numLoginServers"] = [NSNumber numberWithInteger:numHosts];
-        serverAttributes[@"loginServers"] = hosts;
-        [SFSDKEventBuilderHelper createAndStoreEvent:@"addUser" userAccount:nil className:NSStringFromClass([self class]) attributes:serverAttributes];
-    }
+   
     if (params[kSFOAuthAccessToken]) self.credentials.accessToken = params[kSFOAuthAccessToken];
     if (params[kSFOAuthIssuedAt]) self.credentials.issuedAt = [[self class] timestampStringToDate:params[kSFOAuthIssuedAt]];
     if (params[kSFOAuthInstanceUrl]) self.credentials.instanceUrl = [NSURL URLWithString:params[kSFOAuthInstanceUrl]];
