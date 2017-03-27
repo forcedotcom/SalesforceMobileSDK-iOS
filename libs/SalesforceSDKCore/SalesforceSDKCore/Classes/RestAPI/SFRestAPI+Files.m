@@ -26,6 +26,7 @@
 
 #import "SFRestAPI+Files.h"
 #import "SFRestRequest+Internal.h"
+#import "SFJsonUtils.h"
 
 #define ME @"me"
 #define PAGE @"page"
@@ -100,13 +101,10 @@
     NSString *path = [NSString stringWithFormat:@"/%@/sobjects/ContentDocumentLink", self.apiVersion];
     NSDictionary *params = @{CONTENT_DOCUMENT_ID: fileId, LINKED_ENTITY_ID: entityId, SHARE_TYPE: shareType};
     SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
-    NSError *error = nil;
     if (params) {
         request.requestBodyAsDictionary = params;
-        NSData *body = [NSJSONSerialization dataWithJSONObject:params
-                                                       options:NSJSONWritingPrettyPrinted
-                                                         error:&error];
-        if (!error) {
+        NSData *body = [SFJsonUtils JSONDataRepresentation:params options:NSJSONWritingPrettyPrinted];
+        if (body) {
             [request setCustomRequestBodyData:body contentType:@"application/json"];
         }
     }

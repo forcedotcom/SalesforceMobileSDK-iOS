@@ -33,6 +33,7 @@
 #import "SFNetwork.h"
 #import "SFOAuthSessionRefresher.h"
 #import "NSString+SFAdditions.h"
+#import "SFJsonUtils.h"
 
 NSString* const kSFRestDefaultAPIVersion = @"v39.0";
 NSString* const kSFRestIfUnmodifiedSince = @"If-Unmodified-Since";
@@ -325,17 +326,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
                                            fields:(NSDictionary *)fields {
     NSString *path = [NSString stringWithFormat:@"/%@/sobjects/%@", self.apiVersion, objectType];
     SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
-    NSError *error = nil;
-    if (fields) {
-        request.requestBodyAsDictionary = fields;
-        NSData *body = [NSJSONSerialization dataWithJSONObject:fields
-                                                       options:NSJSONWritingPrettyPrinted
-                                                         error:&error];
-        if (!error) {
-            [request setCustomRequestBodyData:body contentType:kSFDefaultContentType];
-        }    
-    }
-    return request;
+    return [self addBodyForPostRequest:fields request:request];
 }
 
 - (SFRestRequest *)requestForUpdateWithObjectType:(NSString *)objectType
@@ -351,16 +342,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 
     NSString *path = [NSString stringWithFormat:@"/%@/sobjects/%@/%@", self.apiVersion, objectType, objectId];
     SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPATCH path:path queryParams:nil];
-    NSError *error = nil;
-    if (fields) {
-        request.requestBodyAsDictionary = fields;
-        NSData *body = [NSJSONSerialization dataWithJSONObject:fields
-                                                       options:NSJSONWritingPrettyPrinted
-                                                         error:&error];
-        if (!error) {
-            [request setCustomRequestBodyData:body contentType:kSFDefaultContentType];
-        }
-    }
+    request = [self addBodyForPostRequest:fields request:request];
     if (ifUnmodifiedSinceDate) {
         [request setHeaderValue:[SFRestAPI getHttpStringFomFromDate:ifUnmodifiedSinceDate] forHeaderName:kSFRestIfUnmodifiedSince];
     }
@@ -378,17 +360,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
                                                 externalId == nil ? @"" : externalId];
     SFRestMethod method = externalId == nil ? SFRestMethodPOST : SFRestMethodPATCH;
     SFRestRequest *request = [SFRestRequest requestWithMethod:method path:path queryParams:nil];
-    NSError *error = nil;
-    if (fields) {
-        request.requestBodyAsDictionary = fields;
-        NSData *body = [NSJSONSerialization dataWithJSONObject:fields
-                                                       options:NSJSONWritingPrettyPrinted
-                                                         error:&error];
-        if (!error) {
-            [request setCustomRequestBodyData:body contentType:kSFDefaultContentType];
-        }
-    }
-    return request;
+    return [self addBodyForPostRequest:fields request:request];
 }
 
 - (SFRestRequest *)requestForDeleteWithObjectType:(NSString *)objectType
@@ -435,7 +407,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
 }
 
-- (SFRestRequest *) batchRequest:(NSArray<SFRestRequest*>*) requests haltOnError:(BOOL) haltOnError {
+- (SFRestRequest *)batchRequest:(NSArray<SFRestRequest*>*) requests haltOnError:(BOOL) haltOnError {
     NSMutableArray *requestsArrayJson = [NSMutableArray new];
     for (SFRestRequest *request in requests) {
         NSMutableDictionary<NSString *, id> *requestJson = [NSMutableDictionary new];
@@ -458,20 +430,10 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     batchRequestJson[@"haltOnError"] = [NSNumber numberWithBool:haltOnError];
     NSString *path = [NSString stringWithFormat:@"/%@/composite/batch", self.apiVersion];
     SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
-    NSError *error = nil;
-    if (batchRequestJson) {
-        request.requestBodyAsDictionary = batchRequestJson;
-        NSData *body = [NSJSONSerialization dataWithJSONObject:batchRequestJson
-                                                       options:NSJSONWritingPrettyPrinted
-                                                         error:&error];
-        if (!error) {
-            [request setCustomRequestBodyData:body contentType:kSFDefaultContentType];
-        }
-    }
-    return request;
+    return [self addBodyForPostRequest:batchRequestJson request:request];
 }
 
-- (SFRestRequest *) compositeRequest:(NSArray<SFRestRequest*>*) requests refIds:(NSArray<NSString*>*)refIds allOrNone:(BOOL) allOrNone {
+- (SFRestRequest *)compositeRequest:(NSArray<SFRestRequest*>*) requests refIds:(NSArray<NSString*>*)refIds allOrNone:(BOOL) allOrNone {
     NSMutableArray *requestsArrayJson = [NSMutableArray new];
     for (int i=0; i<requests.count; i++) {
         SFRestRequest *request = requests[i];
@@ -497,21 +459,10 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     compositeRequestJson[@"allOrNone"] = [NSNumber numberWithBool:allOrNone];
     NSString *path = [NSString stringWithFormat:@"/%@/composite", self.apiVersion];
     SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
-    NSError *error = nil;
-    if (compositeRequestJson) {
-        request.requestBodyAsDictionary = compositeRequestJson;
-        NSData *body = [NSJSONSerialization dataWithJSONObject:compositeRequestJson
-                                                       options:NSJSONWritingPrettyPrinted
-                                                         error:&error];
-        if (!error) {
-            [request setCustomRequestBodyData:body contentType:kSFDefaultContentType];
-        }
-    }
-    return request;
+    return [self addBodyForPostRequest:compositeRequestJson request:request];
 }
 
-- (SFRestRequest*) requestForSObjectTree:(NSString*)objectType objectTrees:(NSArray<SFSObjectTree*>*)objectTrees
-{
+- (SFRestRequest *)requestForSObjectTree:(NSString *)objectType objectTrees:(NSArray<SFSObjectTree*>*)objectTrees {
     NSMutableArray<NSDictionary<NSString *, id> *>* jsonTrees = [NSMutableArray new];
     for (SFSObjectTree * objectTree in objectTrees) {
         [jsonTrees addObject:[objectTree asJSON]];
@@ -519,17 +470,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     NSDictionary<NSString *, id> * requestJson = @{@"records": jsonTrees};
     NSString *path = [NSString stringWithFormat:@"/%@/composite/tree/%@", self.apiVersion, objectType];
     SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
-    NSError *error = nil;
-    if (requestJson) {
-        request.requestBodyAsDictionary = requestJson;
-        NSData *body = [NSJSONSerialization dataWithJSONObject:requestJson
-                                                       options:NSJSONWritingPrettyPrinted
-                                                         error:&error];
-        if (!error) {
-            [request setCustomRequestBodyData:body contentType:kSFDefaultContentType];
-        }
-    }
-    return request;
+    return [self addBodyForPostRequest:requestJson request:request];
 }
 
 - (NSString *)toQueryString:(NSDictionary *)components {
@@ -543,6 +484,11 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
         }
     }
     return params;
+}
+
+- (SFRestRequest *)addBodyForPostRequest:(NSDictionary *)params request:(SFRestRequest *)request {
+    [request setCustomRequestBodyDictionary:params contentType:kSFDefaultContentType];
+    return request;
 }
 
 @end

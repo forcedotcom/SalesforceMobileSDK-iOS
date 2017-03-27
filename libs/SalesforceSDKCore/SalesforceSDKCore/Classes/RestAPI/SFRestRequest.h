@@ -176,6 +176,13 @@ extern NSString * const kSFDefaultRestEndpoint;
 - (void)setCustomRequestBodyString:(NSString *)bodyString contentType:(NSString *)contentType;
 
 /**
+ * Sets a custom request body based on an NSDictionary representation.
+ * @param bodyDictionary The NSDictionary object representing the request body.
+ * @param contentType The content type associated with this request.
+ */
+- (void)setCustomRequestBodyDictionary:(NSDictionary *)bodyDictionary contentType:(NSString *)contentType;
+
+/**
  * Sets a custom request body based on an NSData representation.
  * @param bodyData The NSData object representing the request body.
  * @param contentType The content type associated with this request.
