@@ -177,32 +177,32 @@ static NSString* ailtnAppName = nil;
 
 - (NSString *)connectedAppId
 {
-    return [SFUserAccountManager sharedInstance].oauthClientId;
+    return [SFAuthenticationManager sharedManager].oauthClientId;
 }
 
 - (void)setConnectedAppId:(NSString *)connectedAppId
 {
-    [SFUserAccountManager sharedInstance].oauthClientId = connectedAppId;
+    [SFAuthenticationManager sharedManager].oauthClientId = connectedAppId;
 }
 
 - (NSString *)connectedAppCallbackUri
 {
-    return [SFUserAccountManager sharedInstance].oauthCompletionUrl;
+    return [SFAuthenticationManager sharedManager].oauthCompletionUrl;
 }
 
 - (void)setConnectedAppCallbackUri:(NSString *)connectedAppCallbackUri
 {
-    [SFUserAccountManager sharedInstance].oauthCompletionUrl = connectedAppCallbackUri;
+    [SFAuthenticationManager sharedManager].oauthCompletionUrl = connectedAppCallbackUri;
 }
 
 - (NSArray *)authScopes
 {
-    return [[SFUserAccountManager sharedInstance].scopes allObjects];
+    return [[SFAuthenticationManager sharedManager].scopes allObjects];
 }
 
 - (void)setAuthScopes:(NSArray *)authScopes
 {
-    [SFUserAccountManager sharedInstance].scopes = [NSSet setWithArray:authScopes];
+    [SFAuthenticationManager sharedManager].scopes = [NSSet setWithArray:authScopes];
 }
 
 - (NSString *)preferredPasscodeProvider
@@ -271,11 +271,6 @@ static NSString* ailtnAppName = nil;
     }
     
     return launchActionString;
-}
-
-+ (void)setDesiredAccount:(SFUserAccount*)account
-{
-    [SFUserAccountManager setActiveUserIdentity:account.accountIdentity];
 }
 
 #pragma mark - Private methods
@@ -615,7 +610,7 @@ static NSString* ailtnAppName = nil;
 
 - (void)authValidationAtLaunch
 {
-    if (![SFUserAccountManager sharedInstance].isCurrentUserAnonymous && ![SFUserAccountManager sharedInstance].currentUser.credentials.accessToken && self.authenticateAtLaunch) {
+    if (self.authenticateAtLaunch &&  [SFUserAccountManager sharedInstance].currentUser.credentials.accessToken==nil) {
         // Access token check works equally well for any of the members being nil, which are all conditions to
         // (re-)authenticate.
         [self.sdkManagerFlow authAtLaunch];
@@ -629,8 +624,9 @@ static NSString* ailtnAppName = nil;
 - (void)authAtLaunch
 {
     [self log:SFLogLevelInfo msg:@"No valid credentials found.  Proceeding with authentication."];
-    [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
+    [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
         [self log:SFLogLevelInfo format:@"Authentication (%@) succeeded.  Launch completed.", authInfo.authTypeDescription];
+        [SFUserAccountManager sharedInstance].currentUser = userAccount;
         [SFSecurityLockout setupTimer];
         [SFSecurityLockout startActivityMonitoring];
         [self authValidatedToPostAuth:SFSDKLaunchActionAuthenticated];
@@ -645,7 +641,7 @@ static NSString* ailtnAppName = nil;
     // If there is a current user (from a previous authentication), we still need to set up the
     // in-memory auth state of that user.
     if ([SFUserAccountManager sharedInstance].currentUser != nil) {
-        [[SFAuthenticationManager sharedManager] setupWithUser:[SFUserAccountManager sharedInstance].currentUser];
+        [[SFAuthenticationManager sharedManager] setupWithCredentials:[SFUserAccountManager sharedInstance].currentUser.credentials];
     }
     
     SFSDKLaunchAction noAuthLaunchAction;

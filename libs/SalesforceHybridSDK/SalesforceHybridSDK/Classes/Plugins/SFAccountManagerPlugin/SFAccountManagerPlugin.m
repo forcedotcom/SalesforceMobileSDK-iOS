@@ -77,12 +77,10 @@ NSString * const kUserAccountClientIdDictKey       = @"clientId";
     /* NSString* jsVersionStr = */[self getVersion:@"getCurrentUser" withArguments:command.arguments];
     
     SFUserAccount *currentAccount = [SFUserAccountManager sharedInstance].currentUser;
-    
-    // Don't return the temporary account, if that's the current user.
-    NSDictionary *currentAccountDict = (currentAccount == [SFUserAccountManager sharedInstance].temporaryUser
-                                        ? nil
-                                        : [self dictionaryFromUserAccount:currentAccount]
-                                        );
+    NSDictionary *currentAccountDict = (currentAccount == nil
+            ? nil
+            : [self dictionaryFromUserAccount:currentAccount]
+    );
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:currentAccountDict];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
 }

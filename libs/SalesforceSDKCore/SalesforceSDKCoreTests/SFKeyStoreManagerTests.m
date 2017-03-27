@@ -82,12 +82,14 @@
 
 // retrieve key with label, do not create one by default.
 - (void)testRetrieveKeyButDontCreateForGeneratedStore {
+    [mgr removeKeyWithLabel:@"myLabel" keyType:SFKeyStoreKeyTypeGenerated];
     SFEncryptionKey *key =[mgr retrieveKeyWithLabel:@"myLabel" keyType:SFKeyStoreKeyTypeGenerated autoCreate: NO];
     XCTAssertNil(key, @"Should not have created key");
 }
 
 // retrieve key with label, do not create one by default.
 - (void)testRetrieveKeyButDontCreateForPasscodeStore {
+     [mgr removeKeyWithLabel:@"myLabel" keyType:SFKeyStoreKeyTypePasscode];
     SFEncryptionKey *key =[mgr retrieveKeyWithLabel:@"myLabel" keyType:SFKeyStoreKeyTypePasscode autoCreate: NO];
     XCTAssertNil(key, @"Should not have created key");
 }

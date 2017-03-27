@@ -79,10 +79,7 @@ static NSString *simpleTableIdentifier = @"SimpleTableItem";
         [SalesforceSDKManager sharedManager].connectedAppCallbackUri = config.oauthRedirectURI;
         [SalesforceSDKManager sharedManager].authScopes = config.oauthScopes;
         [SalesforceSDKManager sharedManager].authenticateAtLaunch = config.appGroupsEnabled;
-
-        SFUserAccountIdentity *activeUserIdentity = [SFUserAccountManager sharedInstance].activeUserIdentity;
-        SFUserAccount *currentUser = [[SFUserAccountManager sharedInstance] userAccountForUserIdentity:activeUserIdentity];
-        [SFUserAccountManager sharedInstance].currentUser = currentUser;
+        SFUserAccount *currentUser = [SFUserAccountManager sharedInstance].currentUser;
 
         __weak typeof(self) weakSelf = self;
         void (^completionBlock)(void) = ^{

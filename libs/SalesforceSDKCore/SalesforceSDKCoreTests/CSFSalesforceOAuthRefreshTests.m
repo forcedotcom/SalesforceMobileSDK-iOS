@@ -23,9 +23,10 @@
  */
 
 #import <XCTest/XCTest.h>
-
-#import <SalesforceSDKCore/SalesforceSDKCore.h>
-
+#import "CSFSalesforceAction.h"
+#import "SFUserAccountManager+Internal.h"
+#import "SFOAuthCoordinator.h"
+#import "SFAuthenticationManager.h"
 #import "CSFSalesforceOAuthRefresh.h"
 #import "CSFAuthRefresh+Internal.h"
 #import "CSFNetwork+Internal.h"
@@ -73,16 +74,19 @@
 @implementation CSFSalesforceOAuthRefreshTests
 
 - (void)testRevokedToken {
-    SFUserAccount *user = [SFUserAccount new];
-    user.credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"the-identifier"
-                                                             clientId:@"the-client"
-                                                            encrypted:NO
-                                                          storageType:SFOAuthCredentialsStorageTypeNone];
+    
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"the-identifier"
+                                                                            clientId:@"the-client"
+                                                                           encrypted:NO
+                                                                         storageType:SFOAuthCredentialsStorageTypeNone];
+    SFUserAccount *user = [[SFUserAccountManager sharedInstance]  createUserAccount:credentials];
     user.credentials.accessToken = @"AccessToken";
     user.credentials.refreshToken = @"RefreshToken";
     user.credentials.instanceUrl = [NSURL URLWithString:@"http://example.org"];
     user.credentials.identityUrl = [NSURL URLWithString:@"https://example.org/id/orgID/userID"];
-
+    NSError *error = nil;
+    [[SFUserAccountManager sharedInstance] saveAccountForUser:user error:&error];
+     XCTAssertNil(error);
     __block BOOL userLogoutNotificationReceived = NO;
     id handler = [[NSNotificationCenter defaultCenter] addObserverForName:kSFUserWillLogoutNotification
                                                                    object:nil
