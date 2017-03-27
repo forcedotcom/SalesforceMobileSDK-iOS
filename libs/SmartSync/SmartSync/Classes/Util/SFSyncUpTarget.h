@@ -92,6 +92,11 @@ typedef void (^SFSyncUpTargetErrorBlock)(NSError *error);
  */
 @property (nonatomic, assign) SFSyncUpTargetType targetType;
 
+
+@property (nonatomic, strong, readonly) NSArray*  createFieldlist;
+@property (nonatomic, strong, readonly) NSArray*  updateFieldlist;
+
+
 /**
  Creates a new instance of a server target from a serialized dictionary.
  @param dict The dictionary with the serialized server target.
@@ -122,39 +127,41 @@ typedef void (^SFSyncUpTargetErrorBlock)(NSError *error);
 
 /**
  Save locally created record back to server
- @param objectType The object type of the record.
- @param fields The map of record attribute names to values.
+ @param syncManager The sync manager doing the sync
+ @param record The record being synced
+ @param fieldlist List of fields to send to server
  @param completionBlock The block to execute after the server call completes.
  @param failBlock The block to execute if the server call fails.
  */
-- (void)createOnServer:(NSString*)objectType
-                fields:(NSDictionary*)fields
+- (void)createOnServer:(SFSmartSyncSyncManager *)syncManager
+                record:(NSDictionary*)record
+             fieldlist:(NSArray*)fieldlist
        completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
              failBlock:(SFSyncUpTargetErrorBlock)failBlock;
 
 /**
  Save locally updated record back to server
- @param objectType The object type of the record.
- @param objectId The object id of the record.
- @param fields The map of record attribute names to values.
+ @param syncManager The sync manager doing the sync
+ @param record The record being synced
+ @param fieldlist List of fields to send to server
  @param completionBlock The block to execute after the server call completes.
  @param failBlock The block to execute if the server call fails.
  */
-- (void)updateOnServer:(NSString*)objectType
-              objectId:(NSString*)objectId
-                fields:(NSDictionary*)fields
+- (void)updateOnServer:(SFSmartSyncSyncManager *)syncManager
+                record:(NSDictionary*)record
+             fieldlist:(NSArray*)fieldlist
        completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
              failBlock:(SFSyncUpTargetErrorBlock)failBlock;
 
 /**
  Delete locally deleted record from server
- @param objectType The object type of the record.
- @param objectId The object id of the record.
+ @param syncManager The sync manager doing the sync
+ @param record The record being synced
  @param completionBlock The block to execute after the server call completes.
  @param failBlock The block to execute if the server call fails.
  */
-- (void)deleteOnServer:(NSString*)objectType
-              objectId:(NSString*)objectId
+- (void)deleteOnServer:(SFSmartSyncSyncManager *)syncManager
+                record:(NSDictionary*)record
        completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
              failBlock:(SFSyncUpTargetErrorBlock)failBlock;
 

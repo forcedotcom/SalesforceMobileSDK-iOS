@@ -28,32 +28,43 @@
 #import <SalesforceSDKCore/SFSDKSoqlBuilder.h>
 #import "SFSmartSyncNetworkUtils.h"
 #import "SFSmartSyncSyncManager.h"
-#import <SalesforceSDKCore/SFRestAPI+Blocks.h>
-#import <SalesforceSDKCore/SFRestRequest.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
 #import <SmartStore/SFSmartStore.h>
 
 // target types
-static NSString * const kSFSyncUpTargetTypeRestStandard = @"rest";
-static NSString * const kSFSyncUpTargetTypeCustom = @"custom";
+static NSString *const kSFSyncUpTargetTypeRestStandard = @"rest";
+static NSString *const kSFSyncUpTargetTypeCustom = @"custom";
+static NSString *const kSFSyncUpTargetCreateFieldlist = @"createFieldlist";
+static NSString *const kSFSyncUpTargetUpdateFieldlist = @"updateFieldlist";
+
+
+@interface  SFSyncUpTarget ()
+@property (nonatomic, strong) NSArray*  createFieldlist;
+@property (nonatomic, strong) NSArray*  updateFieldlist;
+@end
 
 @implementation SFSyncUpTarget
 
 - (instancetype)initWithDict:(NSDictionary *)dict {
-    self = [super initWithDict:dict];
+    return [self initWithTargetType:SFSyncUpTargetTypeRestStandard createFieldlist:dict[kSFSyncUpTargetCreateFieldlist] updateFieldlist:dict[kSFSyncUpTargetUpdateFieldlist]];
+}
+
+- (instancetype)init {
+    return [self initWithTargetType:SFSyncUpTargetTypeRestStandard createFieldlist:nil updateFieldlist:nil];
+}
+
+- (instancetype)initWithTargetType:(SFSyncUpTargetType)targetType
+                   createFieldlist:(NSArray *)createFieldlist
+                   updateFieldlist:(NSArray *)updateFieldlist {
+    self = [super init];
     if (self) {
-        self.targetType = SFSyncUpTargetTypeRestStandard;
+        self.targetType = targetType;
+        self.createFieldlist = createFieldlist;
+        self.updateFieldlist = updateFieldlist;
     }
     return self;
 }
 
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        self.targetType = SFSyncUpTargetTypeRestStandard;
-    }
-    return self;
-}
 
 #pragma mark - Serialization and factory methods
 
@@ -87,6 +98,8 @@ static NSString * const kSFSyncUpTargetTypeCustom = @"custom";
 - (NSMutableDictionary *)asDict {
     NSMutableDictionary *dict = [super asDict];
     dict[kSFSyncTargetTypeKey] = [[self class] targetTypeToString:self.targetType];
+    if (self.createFieldlist) dict[kSFSyncUpTargetCreateFieldlist] = self.createFieldlist;
+    if (self.updateFieldlist) dict[kSFSyncUpTargetUpdateFieldlist] = self.updateFieldlist;
     return dict;
 }
 
@@ -151,6 +164,18 @@ static NSString * const kSFSyncUpTargetTypeCustom = @"custom";
      ];
 }
 
+- (void)createOnServer:(SFSmartSyncSyncManager *)syncManager
+                record:(NSDictionary*)record
+             fieldlist:(NSArray*)fieldlist
+       completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
+             failBlock:(SFSyncUpTargetErrorBlock)failBlock
+{
+    fieldlist = self.createFieldlist ? self.createFieldlist : fieldlist;
+    NSString* objectType = [SFJsonUtils projectIntoJson:record path:kObjectTypeField];
+    NSDictionary * fields = [self buildFieldsMap:record fieldlist:fieldlist];
+    [self createOnServer:objectType fields:fields completionBlock:completionBlock failBlock:failBlock];
+}
+
 - (void)createOnServer:(NSString*)objectType
                 fields:(NSDictionary*)fields
        completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
@@ -158,6 +183,20 @@ static NSString * const kSFSyncUpTargetTypeCustom = @"custom";
 {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCreateWithObjectType:objectType fields:fields];
     [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:failBlock completeBlock:completionBlock];
+}
+
+- (void)updateOnServer:(SFSmartSyncSyncManager *)syncManager
+                record:(NSDictionary*)record
+             fieldlist:(NSArray*)fieldlist
+       completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
+             failBlock:(SFSyncUpTargetErrorBlock)failBlock
+{
+    fieldlist = self.updateFieldlist ? self.updateFieldlist : fieldlist;
+    NSString* objectType = [SFJsonUtils projectIntoJson:record path:kObjectTypeField];
+    NSString* objectId = record[self.idFieldName];
+    NSDictionary * fields = [self buildFieldsMap:record fieldlist:fieldlist];
+    [self updateOnServer:objectType objectId:objectId fields:fields completionBlock:completionBlock failBlock:failBlock];
+
 }
 
 - (void)updateOnServer:(NSString*)objectType
@@ -168,6 +207,16 @@ static NSString * const kSFSyncUpTargetTypeCustom = @"custom";
 {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForUpdateWithObjectType:objectType objectId:objectId fields:fields];
     [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:failBlock completeBlock:completionBlock];
+}
+
+- (void)deleteOnServer:(SFSmartSyncSyncManager *)syncManager
+                record:(NSDictionary*)record
+       completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
+             failBlock:(SFSyncUpTargetErrorBlock)failBlock
+{
+    NSString* objectType = [SFJsonUtils projectIntoJson:record path:kObjectTypeField];
+    NSString* objectId = record[self.idFieldName];
+    [self deleteOnServer:objectType objectId:objectId completionBlock:completionBlock failBlock:failBlock];
 }
 
 - (void)deleteOnServer:(NSString*)objectType
@@ -184,6 +233,18 @@ static NSString * const kSFSyncUpTargetTypeCustom = @"custom";
                            soupName:(NSString*)soupName
 {
     return [[syncManager getDirtyRecordIds:soupName idField:SOUP_ENTRY_ID] array];
+}
+
+- (NSDictionary*) buildFieldsMap:(NSDictionary *)record fieldlist:(NSArray *)fieldlist {
+    NSMutableDictionary* fields = [NSMutableDictionary dictionary];
+    for (NSString *fieldName in fieldlist) {
+        if (![fieldName isEqualToString:self.idFieldName] && ![fieldName isEqualToString:self.modificationDateFieldName]) {
+            NSObject* fieldValue = [SFJsonUtils projectIntoJson:record path:fieldName];
+            if (fieldValue != nil)
+                fields[fieldName] = fieldValue;
+        }
+    }
+    return fields;
 }
 
 

@@ -23,13 +23,9 @@
  */
 
 #import "SFSmartSyncSyncManager.h"
-#import "SFSmartSyncConstants.h"
-#import "SFSmartSyncObjectUtils.h"
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
-#import <SalesforceSDKCore/SFUserAccount.h>
 #import <SmartStore/SFSmartStore.h>
 #import <SmartStore/SFQuerySpec.h>
-#import <SalesforceSDKCore/SFJsonUtils.h>
 #import <SalesforceSDKCore/SFSDKAppFeatureMarkers.h>
 #import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
 
@@ -619,36 +615,6 @@ static NSMutableDictionary *syncMgrList = nil;
     NSString* soupName = sync.soupName;
     NSNumber* soupEntryId = record[SOUP_ENTRY_ID];
     
-    // Getting type and id
-    NSString* objectType = [SFJsonUtils projectIntoJson:record path:kObjectTypeField];
-    NSString* objectId = record[target.idFieldName];
-
-    // Fields to save (in the case of create or update)
-    NSMutableDictionary* fields = [NSMutableDictionary dictionary];
-    if (action == SFSyncUpTargetActionCreate || action == SFSyncUpTargetActionUpdate) {
-        NSArray *fieldList;
-        // During create use options.createFieldlist if specified
-        if (action == SFSyncUpTargetActionCreate && sync.options.createFieldlist) {
-            fieldList = sync.options.createFieldlist;
-        }
-        // During update use options.updateFieldlist if specified
-        else if (action == SFSyncUpTargetActionUpdate && sync.options.updateFieldlist) {
-            fieldList = sync.options.updateFieldlist;
-        }
-        // Otherwise use options.fieldlist
-        else {
-            fieldList = sync.options.fieldlist;
-        }
-
-        for (NSString *fieldName in fieldList) {
-            if (![fieldName isEqualToString:target.idFieldName] && ![fieldName isEqualToString:target.modificationDateFieldName]) {
-                NSObject* fieldValue = [SFJsonUtils projectIntoJson:record path:fieldName];
-                if (fieldValue != nil)
-                    fields[fieldName] = fieldValue;
-            }
-        }
-    }
-    
     // Delete handler
     SFSyncUpTargetCompleteBlock completeBlockDelete = ^(NSDictionary *d) {
         // Remove entry on delete
@@ -685,7 +651,7 @@ static NSMutableDictionary *syncMgrList = nil;
         // Handling remotely deleted records
         if (err.code == 404) {
             if (mergeMode == SFSyncStateMergeModeOverwrite) {
-                [target createOnServer:objectType fields:fields completionBlock:completeBlockCreate failBlock:failBlock];
+                [target createOnServer:self record:record fieldlist:sync.options.fieldlist completionBlock:completeBlockCreate failBlock:failBlock];
             }
             else {
                 // Next
@@ -710,10 +676,10 @@ static NSMutableDictionary *syncMgrList = nil;
     
     switch(action) {
         case SFSyncUpTargetActionCreate:
-            [target createOnServer:objectType fields:fields completionBlock:completeBlockCreate failBlock:failBlock];
+            [target createOnServer:self record:record fieldlist:sync.options.fieldlist completionBlock:completeBlockCreate failBlock:failBlock];
             break;
         case SFSyncUpTargetActionUpdate:
-            [target updateOnServer:objectType objectId:objectId fields:fields completionBlock:completeBlockUpdate failBlock:failBlockUpdate];
+            [target updateOnServer:self record:record fieldlist:sync.options.fieldlist completionBlock:completeBlockCreate failBlock:failBlock];
             break;
         case SFSyncUpTargetActionDelete:
             // if locally created it can't exist on the server - we don't need to actually do the deleteOnServer call
@@ -721,7 +687,7 @@ static NSMutableDictionary *syncMgrList = nil;
                 completeBlockDelete(record);
             }
             else {
-                [target deleteOnServer:objectType objectId:objectId completionBlock:completeBlockDelete failBlock:failBlockDelete];
+                [target deleteOnServer:self record:record completionBlock:completeBlockDelete failBlock:failBlockDelete];
             }
             break;
         default:
