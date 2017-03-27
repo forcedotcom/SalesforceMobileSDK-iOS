@@ -103,7 +103,7 @@
     SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
     if (params) {
         request.requestBodyAsDictionary = params;
-        NSData *body = [SFJsonUtils JSONDataRepresentation:params options:NSJSONWritingPrettyPrinted];
+        NSData *body = [SFJsonUtils JSONDataRepresentation:params options:0];
         if (body) {
             [request setCustomRequestBodyData:body contentType:@"application/json"];
         }

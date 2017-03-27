@@ -29,21 +29,11 @@
 
 #import <Foundation/Foundation.h>
 
-@interface SFNetwork : NSObject <NSURLSessionDataDelegate, NSURLSessionDownloadDelegate, NSURLSessionStreamDelegate>
+@interface SFNetwork : NSObject <NSURLSessionDataDelegate>
 
 typedef void (^SFDataResponseBlock) (NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error);
-typedef void (^SFDownloadResponseBlock) (NSURL * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error);
 
-@property (nonatomic, readonly, strong, nonnull) NSURLSession *ephemeralSession;
-@property (nonatomic, readonly, strong, nonnull) NSURLSession *backgroundSession;
 @property (nonatomic, readwrite, assign) BOOL useBackground;
-
-/**
- * Default initializer.
- *
- * @return Instance of this class.
- */
-- (nonnull instancetype)init;
 
 /**
  * Sends a REST request and calls the appropriate completion block.

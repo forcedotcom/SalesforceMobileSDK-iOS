@@ -80,7 +80,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 - (void)setCustomRequestBodyDictionary:(NSDictionary *)bodyDictionary contentType:(NSString *)contentType {
     if (bodyDictionary) {
         self.requestBodyAsDictionary = bodyDictionary;
-        NSData *body = [SFJsonUtils JSONDataRepresentation:bodyDictionary options:NSJSONWritingPrettyPrinted];
+        NSData *body = [SFJsonUtils JSONDataRepresentation:bodyDictionary options:0];
         if (body) {
             [self setCustomRequestBodyData:body contentType:contentType];
         }
