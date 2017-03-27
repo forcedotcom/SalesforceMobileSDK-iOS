@@ -1051,7 +1051,6 @@ static NSException *authException = nil;
     // check response
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     XCTAssertEqualObjects(listener.dataResponse[@"title"], fileTitle, @"wrong title");
-    XCTAssertEqualObjects(listener.dataResponse[@"description"], fileDescription, @"wrong description");
     XCTAssertEqual([listener.dataResponse[@"contentSize"] intValue], [fileSize intValue], @"wrong content size");
     XCTAssertEqualObjects(listener.dataResponse[@"mimeType"], fileMimeType, @"wrong mime type");
     
@@ -1060,7 +1059,6 @@ static NSException *authException = nil;
     
     // making dictionary with file attributes
     NSDictionary *fileAttrs = @{@"title": fileTitle,
-                                @"description": fileDescription,
                                 @"data": fileData,
                                 @"mimeType": fileMimeType,
                                 LID: fileId,
@@ -1071,7 +1069,7 @@ static NSException *authException = nil;
 
 // Compare file attributes
 - (void) compareFileAttributes:(NSDictionary *)actualFileAttrs expectedAttrs:(NSDictionary *)expectedFileAttrs {
-    NSArray *keys = @[LID, @"title", @"description", @"contentSize", @"mimeType"];
+    NSArray *keys = @[LID, @"title", @"contentSize", @"mimeType"];
     for (id key in keys) {
         XCTAssertEqualObjects(actualFileAttrs[key], expectedFileAttrs[key], @"wrong %@", key);
     }
