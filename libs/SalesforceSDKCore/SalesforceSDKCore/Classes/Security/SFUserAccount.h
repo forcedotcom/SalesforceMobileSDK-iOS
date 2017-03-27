@@ -109,10 +109,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, readonly, getter = isUserLoggingOut) BOOL userLoggingOut;
 
-/** Indicates if this user is being logged out.  Returns `YES` if this user is being logged out.
- */
-@property (nonatomic, readonly, getter = isUserLoggingOut) BOOL userLoggingOut;
-
 /** Initialize with SFOAuthCredentials credentials
  @param credentials The credentials to link with the SFUserAccount.
  @return the account instance
