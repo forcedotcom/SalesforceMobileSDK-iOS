@@ -213,10 +213,9 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     [body appendData:fileData];
     [body appendData:[newline dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"%@%@%@%@", mpeSeparator, mpeBoundary, mpeSeparator, newline] dataUsingEncoding:NSUTF8StringEncoding]];
-    [self setCustomRequestBodyData:body contentType:mimeType];
+    [self setCustomRequestBodyData:body contentType:[NSString stringWithFormat:@"multipart/form-data; boundary=%@", mpeBoundary]];
     [self.request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
     [self.request setHTTPShouldHandleCookies:NO];
-    [self setHeaderValue:[NSString stringWithFormat:@"multipart/form-data; boundary=%@", mpeBoundary] forHeaderName:@"Content-Type"];
     [self setHeaderValue:@"Keep-Alive" forHeaderName:@"Connection"];
 }
 
