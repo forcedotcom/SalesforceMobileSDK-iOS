@@ -99,7 +99,18 @@
 - (SFRestRequest *) requestForAddFileShare:(NSString *)fileId entityId:(NSString *)entityId shareType:(NSString*)shareType {
     NSString *path = [NSString stringWithFormat:@"/%@/sobjects/ContentDocumentLink", self.apiVersion];
     NSDictionary *params = @{CONTENT_DOCUMENT_ID: fileId, LINKED_ENTITY_ID: entityId, SHARE_TYPE: shareType};
-    return [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:params];
+    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
+    NSError *error = nil;
+    if (params) {
+        request.requestBodyAsDictionary = params;
+        NSData *body = [NSJSONSerialization dataWithJSONObject:params
+                                                       options:NSJSONWritingPrettyPrinted
+                                                         error:&error];
+        if (!error) {
+            [request setCustomRequestBodyData:body contentType:@"application/json"];
+        }
+    }
+    return request;
 }
 
 - (SFRestRequest *) requestForDeleteFileShare:(NSString *)shareId {
