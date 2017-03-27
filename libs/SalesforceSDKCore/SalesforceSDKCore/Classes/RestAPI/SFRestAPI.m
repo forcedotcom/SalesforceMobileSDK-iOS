@@ -264,7 +264,12 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
             }
         } else {
             if (!error) {
-                error = [[NSError alloc] initWithDomain:response.URL.absoluteString code:statusCode userInfo:nil];
+                NSDictionary *errorDict = nil;
+                if (data) {
+                    NSError *parsingError;
+                    errorDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parsingError];
+                }
+                error = [[NSError alloc] initWithDomain:response.URL.absoluteString code:statusCode userInfo:errorDict];
             }
             [delegate request:request didFailLoadWithError:error];
         }
