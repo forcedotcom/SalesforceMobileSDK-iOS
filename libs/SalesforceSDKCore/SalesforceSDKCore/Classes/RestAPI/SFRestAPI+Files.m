@@ -25,6 +25,8 @@
  */
 
 #import "SFRestAPI+Files.h"
+#import "SFRestRequest+Internal.h"
+#import "SFJsonUtils.h"
 
 #define ME @"me"
 #define PAGE @"page"
@@ -33,9 +35,6 @@
 #define LINKED_ENTITY_ID @"LinkedEntityId"
 #define SHARE_TYPE @"ShareType"
 #define RENDITION_TYPE @"type"
-#define FILE_DATA @"fileData"
-#define TITLE @"title"
-#define DESCRIPTION @"desc"
 
 @implementation SFRestAPI (Files)
 
@@ -80,7 +79,6 @@
     if (page) params[PAGE] = @(page);
     if (version) params[VERSION] = version;
     SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:params];
-    request.parseResponse = NO;
     return request;
 }
 
@@ -89,7 +87,6 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     if (version) params[VERSION] = version;
     SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:params];
-    request.parseResponse = NO;
     return request;
 }
 
@@ -103,7 +100,15 @@
 - (SFRestRequest *) requestForAddFileShare:(NSString *)fileId entityId:(NSString *)entityId shareType:(NSString*)shareType {
     NSString *path = [NSString stringWithFormat:@"/%@/sobjects/ContentDocumentLink", self.apiVersion];
     NSDictionary *params = @{CONTENT_DOCUMENT_ID: fileId, LINKED_ENTITY_ID: entityId, SHARE_TYPE: shareType};
-    return [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:params];
+    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
+    if (params) {
+        request.requestBodyAsDictionary = params;
+        NSData *body = [SFJsonUtils JSONDataRepresentation:params options:0];
+        if (body) {
+            [request setCustomRequestBodyData:body contentType:@"application/json"];
+        }
+    }
+    return request;
 }
 
 - (SFRestRequest *) requestForDeleteFileShare:(NSString *)shareId {
@@ -113,13 +118,9 @@
 
 - (SFRestRequest *) requestForUploadFile:(NSData *)data name:(NSString *)name description:(NSString *)description mimeType:(NSString *)mimeType {
     NSString *path = [NSString stringWithFormat:@"/%@/connect/files/users/me", self.apiVersion];
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    if (name) params[TITLE] = name;
-    if (description) params[DESCRIPTION] = description;
-    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:params];
-    [request addPostFileData:data paramName:FILE_DATA fileName:name mimeType:mimeType];
+    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
+    [request addPostFileData:data description:description fileName:name mimeType:mimeType];
     return request;
 }
-
 
 @end

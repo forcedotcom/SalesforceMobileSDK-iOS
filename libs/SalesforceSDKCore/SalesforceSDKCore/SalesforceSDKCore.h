@@ -88,6 +88,7 @@
 #import <SalesforceSDKCore/SFLoginViewController.h>
 #import <SalesforceSDKCore/SFManagedPreferences.h>
 #import <SalesforceSDKCore/SFMethodInterceptor.h>
+#import <SalesforceSDKCore/SFNetwork.h>
 #import <SalesforceSDKCore/SFOAuthCoordinator.h>
 #import <SalesforceSDKCore/SFOAuthCredentials.h>
 #import <SalesforceSDKCore/SFOAuthCrypto.h>
@@ -110,7 +111,6 @@
 #import <SalesforceSDKCore/SFRestAPI+Files.h>
 #import <SalesforceSDKCore/SFRestAPI+QueryBuilder.h>
 #import <SalesforceSDKCore/SFRestAPI.h>
-#import <SalesforceSDKCore/SFRestAPISalesforceAction.h>
 #import <SalesforceSDKCore/SFRestRequest.h>
 #import <SalesforceSDKCore/SFRootViewManager.h>
 #import <SalesforceSDKCore/SFSDKAILTNPublisher.h>

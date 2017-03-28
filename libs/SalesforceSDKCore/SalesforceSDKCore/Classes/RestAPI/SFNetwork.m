@@ -1,5 +1,10 @@
 /*
- Copyright (c) 2011-present, salesforce.com, inc. All rights reserved.
+ SFNetwork.m
+ SalesforceSDKCore
+ 
+ Created by Bharath Hariharan on 2/15/17.
+ 
+ Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,36 +27,40 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFRestAPI.h"
-#import "SFUserAccountManager.h"
-#import "SFAuthenticationManager.h"
+#import "SFNetwork.h"
 
-/**
- We declare here a set of interfaces that are meant to be used by code running internally
- to SFRestAPI or close "friend" classes such as unit test helpers. You SHOULD NOT access these interfaces
- from application code.  If you find yourself accessing properties or calling methods
- declared in this file from app code, you're probably doing something wrong.
- */
-@interface SFRestAPI () <SFUserAccountManagerDelegate>
-{
-    SFUserAccountManager *_accountMgr;
-    SFAuthenticationManager *_authMgr;
-}
+@interface SFNetwork()
 
-/**
- * Active requests property
- */
-@property (nonatomic, readonly, strong) NSMutableSet *activeRequests;
-
-- (void)removeActiveRequestObject:(SFRestRequest *)request;
-
-/**
- Force a request to timeout: for testing only!
- 
- @param req The request to force a timeout on, or nil to grab any active request and force it to timeout
- @return YES if we were able to find and timeout the request, NO if the request could not be found
- */
-- (BOOL)forceTimeoutRequest:(SFRestRequest*)req;
+@property (nonatomic, readwrite, strong, nonnull) NSURLSession *ephemeralSession;
+@property (nonatomic, readwrite, strong, nonnull) NSURLSession *backgroundSession;
 
 @end
 
+@implementation SFNetwork
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        self.ephemeralSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration ephemeralSessionConfiguration] delegate:self delegateQueue:nil];
+        self.backgroundSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:@"com.salesforce.network"]
+            delegate:self delegateQueue:nil];
+        self.useBackground = NO;
+    }
+    return self;
+}
+
+- (NSURLSessionDataTask *)sendRequest:(nonnull NSURLRequest *)urlRequest dataResponseBlock:(nullable SFDataResponseBlock)dataResponseBlock {
+    NSURLSessionDataTask *dataTask = [[self activeSession] dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (dataResponseBlock) {
+            dataResponseBlock(data, response, error);
+        }
+    }];
+    [dataTask resume];
+    return dataTask;
+}
+
+- (NSURLSession *)activeSession {
+    return (self.useBackground ? self.backgroundSession : self.ephemeralSession);
+}
+
+@end

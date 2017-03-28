@@ -178,7 +178,6 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
     self = [[self class] requestWithMethod:SFRestMethodPOST path:SOAP_PATH queryParams:nil];
     if (self) {
         self.endpoint = SOAP_ENDPOINT;
-        self.parseResponse = NO;
         self.query = query;
         self.queryLocator = nil;
     }
@@ -190,29 +189,25 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
     self = [[self class] requestWithMethod:SFRestMethodPOST path:@"" queryParams:nil];
     if (self) {
         self.endpoint = SOAP_ENDPOINT;
-        self.parseResponse = NO;
         self.query = nil;
         self.queryLocator = queryLocator;
     }
     return self;
 }
 
-- (void)prepareRequestForSend
+- (NSURLRequest *)prepareRequestForSend
 {
     NSString *sessionId = [SFAuthenticationManager sharedManager].coordinator.credentials.accessToken;
     NSString *body;
     if (self.queryLocator) {
         body = [NSString stringWithFormat:QUERY_MORE_TEMPLATE, self.queryLocator];
-    }
-    else {
+    } else {
         body = [NSString stringWithFormat:QUERY_TEMPLATE, self.query];
     }
     NSString *soapBody = [NSString stringWithFormat:REQUEST_TEMPLATE, sessionId, body];
     [self setCustomRequestBodyString:soapBody contentType:XML_MIME_TYPE];
-    
     [self setHeaderValue:SOAP_ACTION_VALUE forHeaderName:SOAP_ACTION];
-    
-    [super prepareRequestForSend];
+    return [super prepareRequestForSend];
 }
 
 @end

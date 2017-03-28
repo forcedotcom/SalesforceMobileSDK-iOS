@@ -79,14 +79,7 @@ extern NSString* const kSFRestIfUnmodifiedSince;
  send:delegate: expects that if the request.path does not begin with the
  request.endpoint prefix, it will add the request.endpoint prefix 
  (kSFDefaultRestEndpoint by default) to the request path.
- 
- You can also specify whether or not you want the request's response to be parsed.  By default,
- the response associated with the request will be parsed as JSON, and the structured JSON
- object will be returned.  By setting `request.parseResponse = NO`, the response data will be returned
- as a binary `NSData` object.  This can be useful for requests that return non-JSON data, such as
- binary data.
- 
- 
+  
  For example, this sample code calls the `requestForDescribeWithObjectType:` method to return
  information about the Account object.
 
@@ -190,9 +183,8 @@ extern NSString* const kSFRestIfUnmodifiedSince;
  * @param request the SFRestRequest to be sent
  * @param delegate the delegate object used when the response from the server is returned. 
  * This overwrites the delegate property of the request.
- * Returns the SFNetworkOperation through which the network call is actually carried out
  */
-- (SFRestAPISalesforceAction *)send:(SFRestRequest *)request delegate:(nullable id<SFRestDelegate>)delegate;
+- (void)send:(SFRestRequest *)request delegate:(nullable id<SFRestDelegate>)delegate;
 
 ///---------------------------------------------------------------------------------------
 /// @name SFRestRequest factory methods
