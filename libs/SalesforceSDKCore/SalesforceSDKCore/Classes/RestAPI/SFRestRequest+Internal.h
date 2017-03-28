@@ -26,7 +26,9 @@
 
 @interface SFRestRequest ()
 
-@property (nonatomic, copy) NSInputStream *(^requestBodyStreamBlock)(void);
-@property (nonatomic, copy) NSString *requestContentType;
+@property (nonnull, nonatomic, strong, readwrite) NSMutableURLRequest *request;
+@property (nullable, nonatomic, copy) NSInputStream * _Nullable (^requestBodyStreamBlock)(void);
+@property (nullable, nonatomic, copy) NSDictionary *requestBodyAsDictionary;
+@property (nullable, nonatomic, copy) NSString *requestContentType;
 
 @end

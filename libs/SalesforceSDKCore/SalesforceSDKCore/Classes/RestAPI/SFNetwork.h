@@ -1,5 +1,10 @@
 /*
- Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
+ SFNetwork.h
+ SalesforceSDKCore
+ 
+ Created by Bharath Hariharan on 2/15/17.
+ 
+ Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,16 +27,28 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "CSFSalesforceAction.h"
+#import <Foundation/Foundation.h>
+
+@interface SFNetwork : NSObject <NSURLSessionDataDelegate>
+
+typedef void (^SFDataResponseBlock) (NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error);
+
+@property (nonatomic, readwrite, assign) BOOL useBackground;
 
 /**
- Implementation of CSFSalesforceAction, specific to the SFRestAPI library.
+ * Sends a REST request and calls the appropriate completion block.
+ *
+ * @param urlRequest NSURLRequest instance.
+ * @param dataResponseBlock Network response block.
+ * @return NSURLSessionDataTask instance.
  */
-@interface SFRestAPISalesforceAction : CSFSalesforceAction
+- (nonnull NSURLSessionDataTask *)sendRequest:(nonnull NSURLRequest *)urlRequest dataResponseBlock:(nullable SFDataResponseBlock)dataResponseBlock;
 
 /**
- Whether or not to parse the response from the server.
+ * Returns the current NSURLSession instance being used.
+ *
+ * @return NSURLSession instance.
  */
-@property (nonatomic, assign) BOOL parseResponse;
+- (nonnull NSURLSession *)activeSession;
 
 @end
