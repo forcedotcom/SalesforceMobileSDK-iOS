@@ -699,8 +699,6 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
     NSData *encodedBody = [params dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:encodedBody];
     
-    request.timeoutInterval = self.timeout;
-    
     [[self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
             NSURL *requestUrl = [request URL];
