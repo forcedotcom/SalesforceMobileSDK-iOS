@@ -25,7 +25,6 @@
 
 #import "SFHybridViewController.h"
 #import "SFHybridConnectionMonitor.h"
-#import "SFWKWebViewNavigationDelegate.h"
 #import <SalesforceSDKCore/SFSDKAppFeatureMarkers.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
 #import <SalesforceSDKCore/NSURL+SFStringUtils.h>
@@ -72,11 +71,6 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
 }
 
 @property (nonatomic, readwrite, assign) BOOL useUIWebView;
-
-/**
- * Navigation web view delegate.
- */
-@property (nonatomic, strong, readwrite) SFWKWebViewNavigationDelegate *navWebViewDelegate;
 
 /**
  * Hidden WKWebView used to load the VF ping page.
@@ -205,11 +199,7 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
 - (UIView *)newCordovaViewWithFrameAndEngine:(CGRect)bounds webViewEngine:(NSString *)webViewEngine
 {
     [self.settings setCordovaSetting:webViewEngine forKey:@"CordovaWebViewEngine"];
-    UIView *view = [super newCordovaViewWithFrame:bounds];
-    if (!self.useUIWebView) {
-        self.navWebViewDelegate = [[SFWKWebViewNavigationDelegate alloc] initWithEnginePlugin:self.webViewEngine];
-    }
-    return view;
+    return [super newCordovaViewWithFrame:bounds];
 }
 
 - (void)dealloc
@@ -521,13 +511,6 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
     startPageConfigured = YES;
 }
 
-- (void) webView:(WKWebView *) webView didStartProvisionalNavigation:(WKNavigation *) navigation
-{
-    if (self.navWebViewDelegate) {
-        [self.navWebViewDelegate webView:webView didStartProvisionalNavigation:navigation];
-    }
-}
-
 - (void) webViewDidStartLoad:(UIWebView *) webView
 {
     [self.commandQueue resetRequestId];
@@ -578,17 +561,13 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
                  }
              }];
             shouldAllowRequest = NO;
-        } else if (self.navWebViewDelegate) {
-            [self.navWebViewDelegate webView:webView decidePolicyForNavigationAction:navigationAction decisionHandler:decisionHandler];
-            return;
         }
     }
-    
-    if(shouldAllowRequest)
+    if (shouldAllowRequest) {
         decisionHandler(WKNavigationActionPolicyAllow);
-    else
+    } else {
         decisionHandler(WKNavigationActionPolicyCancel);
-    
+    }
 }
 
 - (BOOL) webView:(UIWebView *) webView shouldStartLoadWithRequest:(NSURLRequest *) request navigationType:(UIWebViewNavigationType) navigationType
@@ -727,10 +706,6 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
         if (self.useUIWebView) {
             [CDVUserAgentUtil releaseLock:self.userAgentLockToken];
             [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPageDidLoadNotification object:self.webView]];
-        } else {
-            if (self.navWebViewDelegate) {
-                [self.navWebViewDelegate webView:(WKWebView *) webView didFinishNavigation:navigation];
-            }
         }
     }
 }

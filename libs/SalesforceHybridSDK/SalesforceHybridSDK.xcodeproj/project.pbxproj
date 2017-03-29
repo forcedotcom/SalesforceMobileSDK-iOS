@@ -185,18 +185,6 @@
 		CEA8847A1C1918EA008D871B /* SalesforceOAuthPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF2EB16E7C84900A63CDF /* SalesforceOAuthPlugin.m */; };
 		CEA8847B1C1918F3008D871B /* SFSmartStorePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 82EFF2ED16E7C84900A63CDF /* SFSmartStorePlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CEA8847C1C1918F3008D871B /* SFSmartStorePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF2EE16E7C84900A63CDF /* SFSmartStorePlugin.m */; };
-		CED7469E1E8C7D820019AA9D /* CDVWKProcessPoolFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = CED746981E8C7D820019AA9D /* CDVWKProcessPoolFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CED7469F1E8C7D820019AA9D /* CDVWKProcessPoolFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = CED746991E8C7D820019AA9D /* CDVWKProcessPoolFactory.m */; };
-		CED746A01E8C7D820019AA9D /* CDVWKWebViewEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = CED7469A1E8C7D820019AA9D /* CDVWKWebViewEngine.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CED746A11E8C7D820019AA9D /* CDVWKWebViewEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = CED7469B1E8C7D820019AA9D /* CDVWKWebViewEngine.m */; };
-		CED746A21E8C7D820019AA9D /* CDVWKWebViewUIDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = CED7469C1E8C7D820019AA9D /* CDVWKWebViewUIDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CED746A31E8C7D820019AA9D /* CDVWKWebViewUIDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CED7469D1E8C7D820019AA9D /* CDVWKWebViewUIDelegate.m */; };
-		CED746A41E8C7D890019AA9D /* CDVWKProcessPoolFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = CED746981E8C7D820019AA9D /* CDVWKProcessPoolFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CED746A51E8C7D920019AA9D /* CDVWKProcessPoolFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = CED746991E8C7D820019AA9D /* CDVWKProcessPoolFactory.m */; };
-		CED746A61E8C7D960019AA9D /* CDVWKWebViewEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = CED7469A1E8C7D820019AA9D /* CDVWKWebViewEngine.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CED746A71E8C7D990019AA9D /* CDVWKWebViewEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = CED7469B1E8C7D820019AA9D /* CDVWKWebViewEngine.m */; };
-		CED746A81E8C7D9C0019AA9D /* CDVWKWebViewUIDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = CED7469C1E8C7D820019AA9D /* CDVWKWebViewUIDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CED746A91E8C7D9F0019AA9D /* CDVWKWebViewUIDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CED7469D1E8C7D820019AA9D /* CDVWKWebViewUIDelegate.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -548,12 +536,6 @@
 		CEA884851C191F60008D871B /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceSDKCore.framework; path = "../SalesforceSDKCore/build/Debug-iphoneos/SalesforceSDKCore.framework"; sourceTree = "<group>"; };
 		CECB662E1C1BB8CB008038AE /* SalesforceHybridSDK-Dynamic-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceHybridSDK-Dynamic-iOS-Debug.xcconfig"; path = "Configuration/SalesforceHybridSDK-Dynamic-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
 		CECB662F1C1BB8CB008038AE /* SalesforceHybridSDK-Dynamic-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceHybridSDK-Dynamic-iOS-Release.xcconfig"; path = "Configuration/SalesforceHybridSDK-Dynamic-iOS-Release.xcconfig"; sourceTree = "<group>"; };
-		CED746981E8C7D820019AA9D /* CDVWKProcessPoolFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVWKProcessPoolFactory.h; path = "../../../../../external/cordova-plugin-wkwebview-engine/src/ios/CDVWKProcessPoolFactory.h"; sourceTree = "<group>"; };
-		CED746991E8C7D820019AA9D /* CDVWKProcessPoolFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVWKProcessPoolFactory.m; path = "../../../../../external/cordova-plugin-wkwebview-engine/src/ios/CDVWKProcessPoolFactory.m"; sourceTree = "<group>"; };
-		CED7469A1E8C7D820019AA9D /* CDVWKWebViewEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVWKWebViewEngine.h; path = "../../../../../external/cordova-plugin-wkwebview-engine/src/ios/CDVWKWebViewEngine.h"; sourceTree = "<group>"; };
-		CED7469B1E8C7D820019AA9D /* CDVWKWebViewEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVWKWebViewEngine.m; path = "../../../../../external/cordova-plugin-wkwebview-engine/src/ios/CDVWKWebViewEngine.m"; sourceTree = "<group>"; };
-		CED7469C1E8C7D820019AA9D /* CDVWKWebViewUIDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVWKWebViewUIDelegate.h; path = "../../../../../external/cordova-plugin-wkwebview-engine/src/ios/CDVWKWebViewUIDelegate.h"; sourceTree = "<group>"; };
-		CED7469D1E8C7D820019AA9D /* CDVWKWebViewUIDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVWKWebViewUIDelegate.m; path = "../../../../../external/cordova-plugin-wkwebview-engine/src/ios/CDVWKWebViewUIDelegate.m"; sourceTree = "<group>"; };
 		CEF4FFAE170CC748001AA255 /* SFHybridViewConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHybridViewConfig.h; sourceTree = "<group>"; };
 		CEF4FFAF170CC748001AA255 /* SFHybridViewConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHybridViewConfig.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -962,7 +944,6 @@
 		82EFF2E216E7C84900A63CDF /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
-				CED746971E8C7D580019AA9D /* cordova-plugin-wkwebview-engine */,
 				CE7BA15C1D89F9FC000B91D7 /* SFNetworkPlugin */,
 				4F22155019DF477C00FF2D26 /* SFForcePlugin */,
 				4FC2767E19DCA6BB008F4AA6 /* SFSmartSyncPlugin */,
@@ -1103,19 +1084,6 @@
 			name = SFNetworkPlugin;
 			sourceTree = "<group>";
 		};
-		CED746971E8C7D580019AA9D /* cordova-plugin-wkwebview-engine */ = {
-			isa = PBXGroup;
-			children = (
-				CED746981E8C7D820019AA9D /* CDVWKProcessPoolFactory.h */,
-				CED746991E8C7D820019AA9D /* CDVWKProcessPoolFactory.m */,
-				CED7469A1E8C7D820019AA9D /* CDVWKWebViewEngine.h */,
-				CED7469B1E8C7D820019AA9D /* CDVWKWebViewEngine.m */,
-				CED7469C1E8C7D820019AA9D /* CDVWKWebViewUIDelegate.h */,
-				CED7469D1E8C7D820019AA9D /* CDVWKWebViewUIDelegate.m */,
-			);
-			name = "cordova-plugin-wkwebview-engine";
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -1135,11 +1103,8 @@
 				CE4CE4561C0E5AF9009F6029 /* SFAccountManagerPlugin.h in Headers */,
 				CE4CE4581C0E5B05009F6029 /* CDVPlugin+SFAdditions.h in Headers */,
 				CE4CE4641C0E5B2A009F6029 /* SFHybridViewConfig.h in Headers */,
-				CED746A21E8C7D820019AA9D /* CDVWKWebViewUIDelegate.h in Headers */,
-				CED7469E1E8C7D820019AA9D /* CDVWKProcessPoolFactory.h in Headers */,
 				CE4CE45C1C0E5B1F009F6029 /* SFSmartStorePlugin.h in Headers */,
 				CE4CE4541C0E5AEE009F6029 /* SFSDKInfoPlugin.h in Headers */,
-				CED746A01E8C7D820019AA9D /* CDVWKWebViewEngine.h in Headers */,
 				4F06AFB71C49A77200F70798 /* SmartStoreLoadTestSuite.h in Headers */,
 				CE7BA1571D89F9EE000B91D7 /* SFNetworkPlugin.h in Headers */,
 				829DA2B11C12677B0040F5F1 /* SalesforceHybridSDK.h in Headers */,
@@ -1153,7 +1118,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CED746A81E8C7D9C0019AA9D /* CDVWKWebViewUIDelegate.h in Headers */,
 				CEA884791C1918EA008D871B /* SalesforceOAuthPlugin.h in Headers */,
 				CEA8846F1C1918BA008D871B /* SFForcePlugin.h in Headers */,
 				CEA8846B1C1918A4008D871B /* SFHybridViewController.h in Headers */,
@@ -1163,10 +1127,8 @@
 				CEA884731C1918CD008D871B /* SFSDKInfoPlugin.h in Headers */,
 				CEA884751C1918D6008D871B /* SFAccountManagerPlugin.h in Headers */,
 				CE7BA15D1D8A356F000B91D7 /* SFNetworkPlugin.h in Headers */,
-				CED746A41E8C7D890019AA9D /* CDVWKProcessPoolFactory.h in Headers */,
 				CEA884711C1918C4008D871B /* SFSmartSyncPlugin.h in Headers */,
 				CEA884771C1918E0008D871B /* CDVPlugin+SFAdditions.h in Headers */,
-				CED746A61E8C7D960019AA9D /* CDVWKWebViewEngine.h in Headers */,
 				CEA8847B1C1918F3008D871B /* SFSmartStorePlugin.h in Headers */,
 				CEA884671C1918A4008D871B /* SFLocalhostSubstitutionCache.h in Headers */,
 			);
@@ -1440,18 +1402,15 @@
 				CE4CE4531C0E5ADF009F6029 /* SFSmartSyncPlugin.m in Sources */,
 				CE4CE4611C0E5B2A009F6029 /* SFHybridConnectionMonitor.m in Sources */,
 				CE4CE4511C0E5AD2009F6029 /* SFForcePlugin.m in Sources */,
-				CED7469F1E8C7D820019AA9D /* CDVWKProcessPoolFactory.m in Sources */,
 				CE4CE45D1C0E5B1F009F6029 /* SFSmartStorePlugin.m in Sources */,
 				CE4CE4551C0E5AEE009F6029 /* SFSDKInfoPlugin.m in Sources */,
 				CE4CE45F1C0E5B2A009F6029 /* SFLocalhostSubstitutionCache.m in Sources */,
-				CED746A31E8C7D820019AA9D /* CDVWKWebViewUIDelegate.m in Sources */,
 				CE4CE4651C0E5B2A009F6029 /* SFHybridViewConfig.m in Sources */,
 				CE4CE4591C0E5B05009F6029 /* CDVPlugin+SFAdditions.m in Sources */,
 				CE4CE4631C0E5B2A009F6029 /* SFHybridViewController.m in Sources */,
 				CE4CE4571C0E5AF9009F6029 /* SFAccountManagerPlugin.m in Sources */,
 				CE7BA1581D89F9EE000B91D7 /* SFNetworkPlugin.m in Sources */,
 				CE4CE45B1C0E5B14009F6029 /* SalesforceOAuthPlugin.m in Sources */,
-				CED746A11E8C7D820019AA9D /* CDVWKWebViewEngine.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1462,18 +1421,15 @@
 				CEA884721C1918C4008D871B /* SFSmartSyncPlugin.m in Sources */,
 				CEA884681C1918A4008D871B /* SFLocalhostSubstitutionCache.m in Sources */,
 				CEA8847C1C1918F3008D871B /* SFSmartStorePlugin.m in Sources */,
-				CED746A51E8C7D920019AA9D /* CDVWKProcessPoolFactory.m in Sources */,
 				CEA884741C1918CD008D871B /* SFSDKInfoPlugin.m in Sources */,
 				CEA884761C1918D6008D871B /* SFAccountManagerPlugin.m in Sources */,
 				CEA8846A1C1918A4008D871B /* SFHybridConnectionMonitor.m in Sources */,
-				CED746A91E8C7D9F0019AA9D /* CDVWKWebViewUIDelegate.m in Sources */,
 				CEA884701C1918BA008D871B /* SFForcePlugin.m in Sources */,
 				CEA8846C1C1918A4008D871B /* SFHybridViewController.m in Sources */,
 				CEA884781C1918E0008D871B /* CDVPlugin+SFAdditions.m in Sources */,
 				CEA8846E1C1918A4008D871B /* SFHybridViewConfig.m in Sources */,
 				CE7BA15E1D8A3577000B91D7 /* SFNetworkPlugin.m in Sources */,
 				CEA8847A1C1918EA008D871B /* SalesforceOAuthPlugin.m in Sources */,
-				CED746A71E8C7D990019AA9D /* CDVWKWebViewEngine.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
