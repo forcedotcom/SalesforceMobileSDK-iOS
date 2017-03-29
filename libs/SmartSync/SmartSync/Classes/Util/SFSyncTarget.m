@@ -24,7 +24,18 @@
 
 #import "SFSyncTarget.h"
 #import "SFSmartSyncConstants.h"
-#import <SalesforceSDKCore/SalesforceSDKConstants.h>
+#import "SFSmartSyncSyncManager.h"
+#import <SmartStore/SFQuerySpec.h>
+#import <SmartStore/SFSmartStore.h>
+
+// Page size
+NSUInteger const kSyncTargetPageSize = 2000;
+
+// soups and soup fields
+NSString * const kSyncTargetLocal = @"__local__";
+NSString * const kSyncTargetLocallyCreated = @"__locally_created__";
+NSString * const kSyncTargetLocallyUpdated = @"__locally_updated__";
+NSString * const kSyncTargetLocallyDeleted = @"__locally_deleted__";
 
 @implementation SFSyncTarget
 
@@ -56,6 +67,106 @@
     dict[kSFSyncTargetIdFieldNameKey] = self.idFieldName;
     dict[kSFSyncTargetModificationDateFieldNameKey] = self.modificationDateFieldName;
     return dict;
+}
+
+- (void) cleanAndSaveInLocalStore:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName record:(NSDictionary*)record {
+    [self cleanAndSaveInLocalStore:syncManager.store soupName:soupName record:record];
+}
+
+- (void) cleanAndSaveInSmartStore:(SFSmartStore*)smartStore soupName:(NSString*)soupName record:(NSMutableDictionary*)record {
+    [self cleanRecord:record];
+    if (record[SOUP_ENTRY_ID]) {
+        // Record came from smartstore
+        [smartStore upsertEntries:@[record] toSoup:soupName];
+    }
+    else {
+        // Record came from server
+        [smartStore upsertEntries:@[record] toSoup:soupName withExternalIdPath:self.idFieldName error:nil];
+    }
+}
+
+- (void) cleanRecord:(NSMutableDictionary*)record {
+    record[kSyncTargetLocal] = @NO;
+    record[kSyncTargetLocallyCreated] = @NO;
+    record[kSyncTargetLocallyUpdated] = @NO;
+    record[kSyncTargetLocallyDeleted] = @NO;
+}
+
+
+- (void) saveRecordsToLocalStore:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName records:(NSArray*)records {
+    for (NSMutableDictionary * record  in records) {
+        // XXX should be done in one transaction
+        [self cleanAndSaveInSmartStore:syncManager.store soupName:soupName record:record];
+    }
+}
+
+- (void) deleteRecordsFromLocalStore:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName ids:(NSArray*)ids idField:(NSString*)idField {
+    if (ids.count > 0) {
+        NSString *smartSql = [NSString stringWithFormat:@"SELECT {%s:%s} FROM {%s} WHERE {%s:%s} IN ('%s')",
+                                                        soupName, SOUP_ENTRY_ID, soupName, soupName, idField,
+                                                        [ids componentsJoinedByString:@", "]];
+
+        SFQuerySpec *querySpec = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:ids.count];
+        [syncManager.store removeEntriesByQuery:querySpec fromSoup:soupName];
+    }
+}
+
+
+- (BOOL) isLocallyCreated:(NSDictionary*)record {
+    return record[kSyncTargetLocallyCreated];
+}
+
+- (BOOL) isLocallyUpdated:(NSDictionary*)record {
+    return record[kSyncTargetLocallyUpdated];
+}
+
+- (BOOL) isLocallyDeleted:(NSDictionary*)record {
+    return record[kSyncTargetLocallyDeleted];
+}
+
+- (BOOL) isDirty:(NSDictionary*)record {
+    return record[kSyncTargetLocal];
+}
+
+- (NSOrderedSet*) getDirtyRecordIds:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName idField:(NSString*)idField {
+    NSString* dirtyRecordSql = [self getDirtyRecordIdsSql:soupName idField:idField];
+    return [self getIdsWithQuery:dirtyRecordSql syncManager:syncManager];
+
+}
+
+- (NSString*) getDirtyRecordIdsSql:(NSString*)soupName idField:(NSString*)idField {
+    return [NSString stringWithFormat:@"SELECT {%@:%@} FROM {%@} WHERE {%@:%@} = '1' ORDER BY {%@:%@} ASC",
+                                      soupName, idField, soupName, soupName, kSyncTargetLocal, soupName, idField];
+}
+
+- (NSOrderedSet *)getIdsWithQuery:idsSql syncManager:(SFSmartSyncSyncManager *)syncManager {
+    NSMutableOrderedSet* ids = [NSMutableOrderedSet new];
+    SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:idsSql withPageSize:kSyncTargetPageSize];
+
+    BOOL hasMore = YES;
+    for (NSUInteger pageIndex=0; hasMore; pageIndex++) {
+        NSArray* results = [syncManager.store queryWithQuerySpec:querySpec pageIndex:pageIndex error:nil];
+        hasMore = (results.count == kSyncTargetPageSize);
+        [ids addObjectsFromArray:[self flatten:results]];
+    }
+    return ids;
+}
+
+- (NSDictionary*) getFromLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString*)soupName storeId:(NSString*)storeId {
+    return [syncManager.store retrieveEntries:@[storeId] fromSoup:soupName][0];
+}
+
+- (void) deleteFromLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString*)soupName record:(NSDictionary*)record {
+    [syncManager.store removeEntries:@[record[SOUP_ENTRY_ID]] fromSoup:soupName];
+}
+
+
+- (NSArray*) flatten:(NSArray*)results {
+    NSMutableArray* flatArray = [NSMutableArray new];
+    for (NSArray* row in results) {
+        [flatArray addObjectsFromArray:row];
+    }
+    return flatArray;
 }
 
 @end

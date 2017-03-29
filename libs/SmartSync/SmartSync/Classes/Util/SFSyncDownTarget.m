@@ -111,6 +111,31 @@ ABSTRACT_METHOD
     return maxTimeStamp;
 }
 
+- (NSOrderedSet*) getNonDirtyRecordIds:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName idField:(NSString*)idField {
+    NSString* nonDirtyRecordsSql = [self getNonDirtyRecordIdsSql:soupName idField:idField];
+    return [self getIdsWithQuery:nonDirtyRecordsSql syncManager:syncManager];
+    // FIXME create SFTarget_Internal.h
+
+}
+
+- (NSString*) getNonDirtyRecordIdsSql:(NSString*)soupName idField:(NSString*)idField {
+    return [NSString stringWithFormat:@"SELECT {%s:%s} FROM {%s} WHERE {%s:%s} = 'false' ORDER BY {%s:%s} ASC",
+                    soupName, idField, soupName, soupName, kSyncTargetLocal, soupName, idField];
+}
+
+- (NSUInteger) cleanGhosts:(SFSmartSyncSyncManager *)syncManager soupName:(NSString*)soupName {
+    // Fetches list of IDs present in local soup that have not been modified locally.
+    NSArray* localIds = [self getNonDirtyRecordIds:syncManager soupName:soupName idField:self.idFieldName];
+
+    // Fetches list of IDs still present on the server from the list of local IDs
+    // and removes the list of IDs that are still present on the server.
+
+    //
+    // FIXME
+    //
+}
+
+
 #pragma mark - string to/from enum for query type
 
 + (SFSyncDownTargetQueryType) queryTypeFromString:(NSString*)queryType {

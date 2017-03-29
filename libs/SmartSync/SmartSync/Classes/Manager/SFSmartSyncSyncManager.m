@@ -29,17 +29,8 @@
 #import <SalesforceSDKCore/SFSDKAppFeatureMarkers.h>
 #import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
 
-// Page size
-NSUInteger const kSyncManagerPageSize = 2000;
-
 // Unchanged
 NSInteger const kSyncManagerUnchanged = -1;
-
-// soups and soup fields
-NSString * const kSyncManagerLocal = @"__local__";
-NSString * const kSyncManagerLocallyCreated = @"__locally_created__";
-NSString * const kSyncManagerLocallyUpdated = @"__locally_updated__";
-NSString * const kSyncManagerLocallyDeleted = @"__locally_deleted__";
 
 static NSString * const kSFAppFeatureSmartSync   = @"SY";
 
@@ -377,29 +368,6 @@ static NSMutableDictionary *syncMgrList = nil;
     }
 }
 
-- (NSOrderedSet*) getDirtyRecordIds:(NSString*)soupName idField:(NSString*)idField {
-    NSMutableOrderedSet* ids = [NSMutableOrderedSet new];
-    
-    NSString* dirtyRecordSql = [NSString stringWithFormat:@"SELECT {%@:%@} FROM {%@} WHERE {%@:%@} = '1' ORDER BY {%@:%@} ASC", soupName, idField, soupName, soupName, kSyncManagerLocal, soupName, idField];
-    SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:dirtyRecordSql withPageSize:kSyncManagerPageSize];
-
-    BOOL hasMore = YES;
-    for (NSUInteger pageIndex=0; hasMore; pageIndex++) {
-        NSArray* results = [self.store queryWithQuerySpec:querySpec pageIndex:pageIndex error:nil];
-        hasMore = (results.count == kSyncManagerPageSize);
-        [ids addObjectsFromArray:[self flatten:results]];
-    }
-    return ids;
-}
-
-- (NSArray*) flatten:(NSArray*)results {
-    NSMutableArray* flatArray = [NSMutableArray new];
-    for (NSArray* row in results) {
-        [flatArray addObjectsFromArray:row];
-    }
-    return flatArray;
-}
-
 #pragma mark - syncUp and supporting methods
 
 /** Create and run a sync up
@@ -508,6 +476,7 @@ static NSMutableDictionary *syncMgrList = nil;
             }
             [localIds removeObjectsInArray:remoteIds];
             // Deletes extra IDs from SmartStore.
+            [sync.target deleteFromLocalStore:self soupName:soupName id
             if (localIds.count > 0) {
                 NSString* smartSql = [NSString stringWithFormat:@"SELECT {%@:%@} FROM {%@} WHERE {%@:%@} IN ('%@')", soupName, SOUP_ENTRY_ID, soupName, soupName, idFieldName, [localIds componentsJoinedByString:@", "]];
                 SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:localIds.count];

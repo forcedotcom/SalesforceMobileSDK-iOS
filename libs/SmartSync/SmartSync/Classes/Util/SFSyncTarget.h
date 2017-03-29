@@ -1,3 +1,5 @@
+@class SFSmartSyncSyncManager;
+
 /*
  Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
  
@@ -24,6 +26,11 @@
 
 @interface SFSyncTarget : NSObject
 
+extern NSString * const kSyncTargetLocal;
+extern NSString * const kSyncTargetLocallyCreated;
+extern NSString * const kSyncTargetLocallyUpdated;
+extern NSString * const kSyncTargetLocallyDeleted;
+
 /**
  The field name of the ID field of the record.  Defaults to "Id".
  */
@@ -47,5 +54,69 @@
  @return The target represented as a dictionary.
  */
 - (NSMutableDictionary *)asDict;
+
+/**
+ * Save record in local store (marked as clean)
+ * @param syncManager The sync manager
+ * @param soupName The soup
+ * @param record The record
+ */
+- (void) cleanAndSaveInLocalStore:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName record:(NSDictionary*)record;
+
+/**
+ * Save records in local store
+ * @param syncManager The sync manager
+ * @param soupName The soup
+ * @param records
+ */
+- (void) saveRecordsToLocalStore:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName records:(NSArray*)records;
+
+/**
+ * @param record The record
+ * @return YES if record was locally created
+ */
+- (BOOL) isLocallyCreated:(NSDictionary*)record;
+
+/**
+ * @param record The record
+ * @return YES if record was locally updated
+ */
+- (BOOL) isLocallyUpdated:(NSDictionary*)record;
+
+/**
+ * @param record The record
+ * @return YES if record was locally deleted
+ */
+- (BOOL) isLocallyDeleted:(NSDictionary*)record;
+
+/**
+ * @param record The record
+ * @return YES if record was locally created/updated or deleted
+*/
+- (BOOL) isDirty:(NSDictionary*)record;
+
+/**
+ *
+ * @param syncManager The sync manager
+ * @param soupName The soup
+ * @param idField The field containing the ids to return
+ * @return ids of "dirty" records (records locally created/upated or deleted)
+ */
+- (NSOrderedSet*) getDirtyRecordIds:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName idField:(NSString*)idField;
+
+/**
+ * @param syncManager
+ * @param storeId
+ * @return Record from local store by storeId
+ */
+- (NSDictionary*) getFromLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString*)soupName storeId:(NSString*)storeId;
+
+/**
+ * Delete record from local store
+ * @param syncManager The sync manager
+ * @param soupName The soup
+ * @param record The record to delete
+ */
+- (void) deleteFromLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString*)soupName record:(NSDictionary*)record;
 
 @end

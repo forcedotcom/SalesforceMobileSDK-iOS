@@ -66,14 +66,6 @@ typedef NS_ENUM(NSInteger, SFSyncDownTargetQueryType) {
          completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock;
 
 /**
- * Fetch list of IDs still present on the server from the list of local IDs
- */
-- (void) getListOfRemoteIds:(SFSmartSyncSyncManager*)syncManager
-                       localIds:(NSArray*)localIds
-                     errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
-                  completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock;
-
-/**
  * Gets the latest modification timestamp from the array of records. Note: inheriting classes can
  * override this method to determine the timestamp in a customized way. The default implementation
  * looks at the LastModifiedDate field of each record.
@@ -82,6 +74,15 @@ typedef NS_ENUM(NSInteger, SFSyncDownTargetQueryType) {
  * @return The timestamp of the record with the most recent modification date.
  */
 - (long long) getLatestModificationTimeStamp:(NSArray*)records;
+
+
+/**
+ * Delete from local store records that a full sync down would no longer download
+ */
+- (NSUInteger)cleanGhosts:(SFSmartSyncSyncManager *)syncManager
+                 soupName:(NSString *)soupName
+               errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+            completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock;
 
 /**
  * Enum to/from string helper methods

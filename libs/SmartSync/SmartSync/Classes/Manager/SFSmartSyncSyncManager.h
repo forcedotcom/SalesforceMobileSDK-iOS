@@ -30,11 +30,6 @@
 
 @class SFUserAccount;
 
-extern NSString * const kSyncManagerLocal;
-extern NSString * const kSyncManagerLocallyCreated;
-extern NSString * const kSyncManagerLocallyUpdated;
-extern NSString * const kSyncManagerLocallyDeleted;
-
 // block type
 typedef void (^SFSyncSyncManagerUpdateBlock) (SFSyncState* sync);
 typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncStatus);
@@ -43,6 +38,8 @@ typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncSt
  * This class provides methods for doing synching records to/from the server from/to the smartstore.
  */
 @interface SFSmartSyncSyncManager : NSObject
+
+@property (nonatomic, strong, readonly) SFSmartStore *store;
 
 /**
  * Singleton method for accessing sync manager instance by user. Configured SmartStore store will be
