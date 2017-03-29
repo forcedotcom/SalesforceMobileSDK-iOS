@@ -41,6 +41,7 @@
 #import <SalesforceSDKCore/SFSDKSoqlBuilder.h>
 #import <SalesforceSDKCore/SFSDKSoslBuilder.h>
 #import <SalesforceSDKCore/SFSDKSoslReturningBuilder.h>
+#import <Foundation/Foundation.h>
 
 #define ACCOUNTS_SOUP       @"accounts"
 #define ID                  @"Id"
@@ -671,9 +672,9 @@ static NSException *authException = nil;
     NSDictionary* idToFieldsLocallyUpdated = [self makeSomeLocalChanges];
     
     // Sync up with update field list including only name
-    SFSyncOptions* options = [SFSyncOptions newSyncOptionsForSyncUp:@[NAME, DESCRIPTION] createFieldlist:nil updateFieldlist:@[NAME] mergeMode:SFSyncStateMergeModeOverwrite];
-    [self trySyncUp:idToFieldsLocallyUpdated.count options:options];
-    
+    SFSyncUpTarget *target = [[SFSyncUpTarget alloc] initWithCreateFieldlist:nil updateFieldlist:@[NAME]];
+    [self trySyncUp:idToFieldsLocallyUpdated.count target:target mergeMode:SFSyncStateMergeModeOverwrite];
+
     // Check that db doesn't show entries as locally modified anymore
     NSArray* ids = [idToFieldsLocallyUpdated allKeys];
     NSString* idsClause = [self buildInClause:ids];
@@ -710,9 +711,9 @@ static NSException *authException = nil;
     [self createAccountsLocally:names];
     
     // Sync up with create field list including only name
-    SFSyncOptions* options = [SFSyncOptions newSyncOptionsForSyncUp:@[NAME, DESCRIPTION] createFieldlist:@[NAME] updateFieldlist:nil mergeMode:SFSyncStateMergeModeOverwrite];
-    [self trySyncUp:names.count options:options];
-    
+    SFSyncUpTarget *target = [[SFSyncUpTarget alloc] initWithCreateFieldlist:@[NAME] updateFieldlist:nil];
+    [self trySyncUp:names.count target:target mergeMode:SFSyncStateMergeModeOverwrite];
+
     // Check that db doesn't show entries as locally created anymore and that they use sfdc id
     NSString* namesClause = [self buildInClause:names];
     NSString* smartSql = [NSString stringWithFormat:@"SELECT {accounts:_soup} FROM {accounts} WHERE {accounts:Name} IN %@", namesClause];
@@ -765,8 +766,8 @@ static NSException *authException = nil;
     [self createAccountsLocally:namesOfCreated];
     
     // Sync up with different create and update field lists
-    SFSyncOptions* options = [SFSyncOptions newSyncOptionsForSyncUp:@[NAME, DESCRIPTION] createFieldlist:@[NAME] updateFieldlist:@[DESCRIPTION] mergeMode:SFSyncStateMergeModeOverwrite];
-    [self trySyncUp:(namesOfUpdated.count + namesOfCreated.count) options:options];
+    SFSyncUpTarget *target = [[SFSyncUpTarget alloc] initWithCreateFieldlist:@[NAME] updateFieldlist:@[DESCRIPTION]];
+    [self trySyncUp:(namesOfUpdated.count + namesOfCreated.count) target:target mergeMode:SFSyncStateMergeModeOverwrite];
     
     // Check that db doesn't show entries as locally created anymore and that they use sfdc id
     NSArray* allNames = [namesOfCreated arrayByAddingObjectsFromArray:namesOfUpdated];
@@ -1676,6 +1677,8 @@ static NSException *authException = nil;
             }
         } else {
             XCTAssertTrue([sync.target isKindOfClass:[SFSyncUpTarget class]]);
+            XCTAssertEqualObjects(((SFSyncUpTarget*)expectedTarget).createFieldlist, ((SFSyncUpTarget*)sync.target).createFieldlist);
+            XCTAssertEqualObjects(((SFSyncUpTarget*)expectedTarget).updateFieldlist, ((SFSyncUpTarget*)sync.target).updateFieldlist);
         }
     } else {
         XCTAssertNil(sync.target);
@@ -1684,8 +1687,6 @@ static NSException *authException = nil;
         XCTAssertNotNil(sync.options);
         XCTAssertEqual(expectedOptions.mergeMode, sync.options.mergeMode);
         XCTAssertEqualObjects(expectedOptions.fieldlist, sync.options.fieldlist);
-        XCTAssertEqualObjects(expectedOptions.createFieldlist, sync.options.createFieldlist);
-        XCTAssertEqualObjects(expectedOptions.updateFieldlist, sync.options.updateFieldlist);
     } else {
         XCTAssertNil(sync.options);
     }

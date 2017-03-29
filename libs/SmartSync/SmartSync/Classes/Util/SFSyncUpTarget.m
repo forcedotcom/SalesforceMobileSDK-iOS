@@ -46,19 +46,18 @@ static NSString *const kSFSyncUpTargetUpdateFieldlist = @"updateFieldlist";
 @implementation SFSyncUpTarget
 
 - (instancetype)initWithDict:(NSDictionary *)dict {
-    return [self initWithTargetType:SFSyncUpTargetTypeRestStandard createFieldlist:dict[kSFSyncUpTargetCreateFieldlist] updateFieldlist:dict[kSFSyncUpTargetUpdateFieldlist]];
+    return [self initWithCreateFieldlist:dict[kSFSyncUpTargetCreateFieldlist] updateFieldlist:dict[kSFSyncUpTargetUpdateFieldlist]];
 }
 
 - (instancetype)init {
-    return [self initWithTargetType:SFSyncUpTargetTypeRestStandard createFieldlist:nil updateFieldlist:nil];
+    return [self initWithCreateFieldlist:nil updateFieldlist:nil];
 }
 
-- (instancetype)initWithTargetType:(SFSyncUpTargetType)targetType
-                   createFieldlist:(NSArray *)createFieldlist
-                   updateFieldlist:(NSArray *)updateFieldlist {
+- (instancetype)initWithCreateFieldlist:(NSArray *)createFieldlist
+                        updateFieldlist:(NSArray *)updateFieldlist {
     self = [super init];
     if (self) {
-        self.targetType = targetType;
+        self.targetType = SFSyncUpTargetTypeRestStandard;
         self.createFieldlist = createFieldlist;
         self.updateFieldlist = updateFieldlist;
     }
@@ -136,7 +135,8 @@ static NSString *const kSFSyncUpTargetUpdateFieldlist = @"updateFieldlist";
     NSString *query = [soqlBuilder build];
     
     SFRestFailBlock failBlock = ^(NSError *error) {
-        [self log:SFLogLevelError format:@"REST request failed with error: %@", error];
+// XXX crashing with some error
+//      [self log:SFLogLevelError format:@"REST request failed with error: %@", error];
         if (modificationResultBlock != NULL) {
             modificationResultBlock(localLastModifiedDate, nil, error);
         }

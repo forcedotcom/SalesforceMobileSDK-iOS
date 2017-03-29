@@ -679,7 +679,7 @@ static NSMutableDictionary *syncMgrList = nil;
             [target createOnServer:self record:record fieldlist:sync.options.fieldlist completionBlock:completeBlockCreate failBlock:failBlock];
             break;
         case SFSyncUpTargetActionUpdate:
-            [target updateOnServer:self record:record fieldlist:sync.options.fieldlist completionBlock:completeBlockCreate failBlock:failBlock];
+            [target updateOnServer:self record:record fieldlist:sync.options.fieldlist completionBlock:completeBlockUpdate failBlock:failBlockUpdate];
             break;
         case SFSyncUpTargetActionDelete:
             // if locally created it can't exist on the server - we don't need to actually do the deleteOnServer call

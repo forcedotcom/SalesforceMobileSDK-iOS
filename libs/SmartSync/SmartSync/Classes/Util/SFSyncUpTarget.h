@@ -118,6 +118,16 @@ typedef void (^SFSyncUpTargetErrorBlock)(NSError *error);
 + (NSString *)targetTypeToString:(SFSyncUpTargetType)targetType;
 
 /**
+ * Constructor
+ * @param targetType
+ * @param createFieldlist
+ * @param updateFieldlist
+ * @return
+ */
+- (instancetype)initWithCreateFieldlist:(NSArray *)createFieldlist
+                        updateFieldlist:(NSArray *)updateFieldlist;
+
+/**
  Gives the current modification times of a record, on the client and on the server.
  @param record The record to query for modification times.
  @param modificationResultBlock The block to execute with the modification date values.
