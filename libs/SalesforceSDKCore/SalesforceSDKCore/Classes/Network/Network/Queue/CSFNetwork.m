@@ -186,6 +186,14 @@ static NSMutableDictionary *SharedInstances = nil;
     [[SFAuthenticationManager sharedManager] removeDelegate:self];
 }
 
+- (void)setSessionConfiguration:(NSURLSessionConfiguration *)sessionConfig isBackgroundSession:(BOOL)isBackgroundSession {
+    if (isBackgroundSession) {
+        self.backgroundSession = [NSURLSession sessionWithConfiguration:sessionConfig];
+    } else {
+        self.ephemeralSession = [NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:nil];
+    }
+}
+
 - (void)setAccount:(SFUserAccount *)account {
     if (_account != account) {
         _account = account;
