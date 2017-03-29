@@ -18,4 +18,7 @@
 	url = https://github.com/forcedotcom/react-native.git
 [submodule "external/CocoaLumberjack"]
 	path = external/CocoaLumberjack
-    url=https://github.com/forcedotcom/CocoaLumberjack.git
+	url=https://github.com/forcedotcom/CocoaLumberjack.git
+[submodule "external/cordova-plugin-wkwebview-engine"]
+	path = external/cordova-plugin-wkwebview-engine
+	url = https://github.com/apache/cordova-plugin-wkwebview-engine
