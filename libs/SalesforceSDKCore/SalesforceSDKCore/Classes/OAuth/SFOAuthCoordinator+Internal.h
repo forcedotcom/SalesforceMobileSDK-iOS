@@ -55,19 +55,12 @@ typedef NS_ENUM(NSUInteger, SFOAuthTokenEndpointFlow) {
 @property (nonatomic, strong) NSMutableData *responseData;
 @property (nonatomic, assign) BOOL initialRequestLoaded;
 @property (nonatomic, copy) NSString *approvalCode;
-@property (nonatomic, strong) NSTimer *refreshFlowConnectionTimer;
-@property (nonatomic, strong) NSThread *refreshTimerThread;
 @property (nonatomic, strong) WKWebView *view;
 @property (nonatomic, strong) NSString *codeVerifier;
 @property (nonatomic, strong) SFOAuthInfo *authInfo;
 @property (nonatomic, readwrite) SFOAuthAdvancedAuthState advancedAuthState;
 @property (nonatomic, copy) NSString *origWebUserAgent;
 
-- (void)startRefreshFlowConnectionTimer;
-- (void)stopRefreshFlowConnectionTimer;
-- (void)refreshFlowConnectionTimerFired:(NSTimer *)rfcTimer;
-- (void)invalidateRefreshTimer;
-- (void)cleanupRefreshTimer;
 - (void)handleUserAgentResponse:(NSURL *)requestUrl;
 
 /**
