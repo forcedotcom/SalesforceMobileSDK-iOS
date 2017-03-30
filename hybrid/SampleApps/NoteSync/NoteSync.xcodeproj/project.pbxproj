@@ -84,6 +84,11 @@
 		CEBDA0611D3C04E700DBDBD0 /* CDVAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBDA0601D3C04E700DBDBD0 /* CDVAppDelegate.m */; };
 		CEBDA0B71D3C05DF00DBDBD0 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBDA0B51D3C05DF00DBDBD0 /* MainViewController.m */; };
 		CEBDA0B81D3C05DF00DBDBD0 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEBDA0B61D3C05DF00DBDBD0 /* MainViewController.xib */; };
+		CED7472B1E8C82370019AA9D /* CDVWKProcessPoolFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = CED747261E8C82370019AA9D /* CDVWKProcessPoolFactory.m */; };
+		CED7472C1E8C82370019AA9D /* CDVWKWebViewEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = CED747281E8C82370019AA9D /* CDVWKWebViewEngine.m */; };
+		CED7472D1E8C82370019AA9D /* CDVWKWebViewUIDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CED7472A1E8C82370019AA9D /* CDVWKWebViewUIDelegate.m */; };
+		CED7473A1E8C82D80019AA9D /* ios-wkwebview-exec.js in Resources */ = {isa = PBXBuildFile; fileRef = CED747391E8C82D80019AA9D /* ios-wkwebview-exec.js */; };
+		CED747401E8C837F0019AA9D /* ios-wkwebview-exec.js in Copy cordova-plugin-wkwebview-engine */ = {isa = PBXBuildFile; fileRef = CED747391E8C82D80019AA9D /* ios-wkwebview-exec.js */; };
 		CEF4A3361D9494010025EDF0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEF4A3341D9494010025EDF0 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -489,6 +494,17 @@
 			name = "Copy cordova-plugin-console plugin";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CED7473F1E8C83690019AA9D /* Copy cordova-plugin-wkwebview-engine */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = www;
+			dstSubfolderSpec = 7;
+			files = (
+				CED747401E8C837F0019AA9D /* ios-wkwebview-exec.js in Copy cordova-plugin-wkwebview-engine */,
+			);
+			name = "Copy cordova-plugin-wkwebview-engine";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -576,6 +592,13 @@
 		CEBDA0B41D3C05DF00DBDBD0 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainViewController.h; path = ../../../../shared/hybrid/MainViewController.h; sourceTree = "<group>"; };
 		CEBDA0B51D3C05DF00DBDBD0 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainViewController.m; path = ../../../../shared/hybrid/MainViewController.m; sourceTree = "<group>"; };
 		CEBDA0B61D3C05DF00DBDBD0 /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainViewController.xib; path = ../../../../shared/hybrid/MainViewController.xib; sourceTree = "<group>"; };
+		CED747251E8C82370019AA9D /* CDVWKProcessPoolFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVWKProcessPoolFactory.h; path = "../../../external/cordova-plugin-wkwebview-engine/src/ios/CDVWKProcessPoolFactory.h"; sourceTree = "<group>"; };
+		CED747261E8C82370019AA9D /* CDVWKProcessPoolFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVWKProcessPoolFactory.m; path = "../../../external/cordova-plugin-wkwebview-engine/src/ios/CDVWKProcessPoolFactory.m"; sourceTree = "<group>"; };
+		CED747271E8C82370019AA9D /* CDVWKWebViewEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVWKWebViewEngine.h; path = "../../../external/cordova-plugin-wkwebview-engine/src/ios/CDVWKWebViewEngine.h"; sourceTree = "<group>"; };
+		CED747281E8C82370019AA9D /* CDVWKWebViewEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVWKWebViewEngine.m; path = "../../../external/cordova-plugin-wkwebview-engine/src/ios/CDVWKWebViewEngine.m"; sourceTree = "<group>"; };
+		CED747291E8C82370019AA9D /* CDVWKWebViewUIDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVWKWebViewUIDelegate.h; path = "../../../external/cordova-plugin-wkwebview-engine/src/ios/CDVWKWebViewUIDelegate.h"; sourceTree = "<group>"; };
+		CED7472A1E8C82370019AA9D /* CDVWKWebViewUIDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVWKWebViewUIDelegate.m; path = "../../../external/cordova-plugin-wkwebview-engine/src/ios/CDVWKWebViewUIDelegate.m"; sourceTree = "<group>"; };
+		CED747391E8C82D80019AA9D /* ios-wkwebview-exec.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "ios-wkwebview-exec.js"; path = "../../../external/cordova-plugin-wkwebview-engine/src/www/ios/ios-wkwebview-exec.js"; sourceTree = "<group>"; };
 		CEF4A3351D9494010025EDF0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -733,6 +756,7 @@
 		824A9BC51721FCA400C9BD79 = {
 			isa = PBXGroup;
 			children = (
+				CED746CE1E8C81C20019AA9D /* cordova-plugin-wkwebview-engine */,
 				82AF5ADD1A0DADA4006C7A4B /* cordova-plugin-console */,
 				824A9BD71721FCA400C9BD79 /* NoteSync */,
 				824A9BD01721FCA400C9BD79 /* Frameworks */,
@@ -918,6 +942,36 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		CED746CE1E8C81C20019AA9D /* cordova-plugin-wkwebview-engine */ = {
+			isa = PBXGroup;
+			children = (
+				CED747191E8C81EC0019AA9D /* Classes */,
+				CED747181E8C81E60019AA9D /* www */,
+			);
+			name = "cordova-plugin-wkwebview-engine";
+			sourceTree = "<group>";
+		};
+		CED747181E8C81E60019AA9D /* www */ = {
+			isa = PBXGroup;
+			children = (
+				CED747391E8C82D80019AA9D /* ios-wkwebview-exec.js */,
+			);
+			name = www;
+			sourceTree = "<group>";
+		};
+		CED747191E8C81EC0019AA9D /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				CED747251E8C82370019AA9D /* CDVWKProcessPoolFactory.h */,
+				CED747261E8C82370019AA9D /* CDVWKProcessPoolFactory.m */,
+				CED747271E8C82370019AA9D /* CDVWKWebViewEngine.h */,
+				CED747281E8C82370019AA9D /* CDVWKWebViewEngine.m */,
+				CED747291E8C82370019AA9D /* CDVWKWebViewUIDelegate.h */,
+				CED7472A1E8C82370019AA9D /* CDVWKWebViewUIDelegate.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -934,6 +988,7 @@
 				824A9D7A1724C51500C9BD79 /* Copy plugins Files */,
 				82AF5AE91A0DADFB006C7A4B /* Copy cordova-plugin-console plugin */,
 				8236ADCD1C4DB3A7004B69B8 /* Embed Frameworks */,
+				CED7473F1E8C83690019AA9D /* Copy cordova-plugin-wkwebview-engine */,
 			);
 			buildRules = (
 			);
@@ -1276,6 +1331,7 @@
 				8230E2461A24181500EFE764 /* Images.xcassets in Resources */,
 				4FC276B019DCBC6E008F4AA6 /* config.xml in Resources */,
 				4FC276B119DCBC6E008F4AA6 /* InfoPlist.strings in Resources */,
+				CED7473A1E8C82D80019AA9D /* ios-wkwebview-exec.js in Resources */,
 				CEF4A3361D9494010025EDF0 /* LaunchScreen.storyboard in Resources */,
 				CEBDA0B81D3C05DF00DBDBD0 /* MainViewController.xib in Resources */,
 			);
@@ -1288,12 +1344,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CED7472B1E8C82370019AA9D /* CDVWKProcessPoolFactory.m in Sources */,
 				8272301C19D764160066A350 /* InitialViewController.m in Sources */,
 				82AF5AE61A0DADA4006C7A4B /* CDVLogger.m in Sources */,
 				4F6D839A19525B66003EBB16 /* AppDelegate+SalesforceHybridSDK.m in Sources */,
 				4F1FD0801A9559D3006E1795 /* SFContentSoqlSyncDownTarget.m in Sources */,
 				CEBDA0B71D3C05DF00DBDBD0 /* MainViewController.m in Sources */,
+				CED7472C1E8C82370019AA9D /* CDVWKWebViewEngine.m in Sources */,
 				CEBDA0611D3C04E700DBDBD0 /* CDVAppDelegate.m in Sources */,
+				CED7472D1E8C82370019AA9D /* CDVWKWebViewUIDelegate.m in Sources */,
 				824A9BDE1721FCA400C9BD79 /* main.m in Sources */,
 				82638F0C19B8E1FD00FBB3C9 /* UIApplication+SalesforceHybridSDK.m in Sources */,
 				4F6D839B19525B66003EBB16 /* AppDelegate.m in Sources */,
@@ -1398,7 +1457,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(BUILT_PRODUCTS_DIR)/Headers",
 					"$(OBJROOT)/UninstalledProducts/Headers",
-          "$(OBJROOT)/UninstalledProducts/$(PLATFORM_NAME)/include",
+					"$(OBJROOT)/UninstalledProducts/$(PLATFORM_NAME)/include",
 					"$(PROJECT_DIR)/../../../external/cordova-ios/cordova-ios/CordovaLib/Classes/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
