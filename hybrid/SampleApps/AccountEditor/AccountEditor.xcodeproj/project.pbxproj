@@ -88,6 +88,7 @@
 		CED747241E8C82150019AA9D /* CDVWKWebViewUIDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CED747211E8C82150019AA9D /* CDVWKWebViewUIDelegate.m */; };
 		CED747381E8C82BC0019AA9D /* ios-wkwebview-exec.js in Resources */ = {isa = PBXBuildFile; fileRef = CED747371E8C82BC0019AA9D /* ios-wkwebview-exec.js */; };
 		CED7473E1E8C834C0019AA9D /* ios-wkwebview-exec.js in Copy cordova-plugin-wkwebview-engine */ = {isa = PBXBuildFile; fileRef = CED747371E8C82BC0019AA9D /* ios-wkwebview-exec.js */; };
+		CED747481E8C86EB0019AA9D /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CED747471E8C86EB0019AA9D /* WebKit.framework */; };
 		CEF4A3101D9493BB0025EDF0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEF4A30E1D9493BB0025EDF0 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -596,6 +597,7 @@
 		CED747201E8C82150019AA9D /* CDVWKWebViewUIDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVWKWebViewUIDelegate.h; path = "../../../external/cordova-plugin-wkwebview-engine/src/ios/CDVWKWebViewUIDelegate.h"; sourceTree = "<group>"; };
 		CED747211E8C82150019AA9D /* CDVWKWebViewUIDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVWKWebViewUIDelegate.m; path = "../../../external/cordova-plugin-wkwebview-engine/src/ios/CDVWKWebViewUIDelegate.m"; sourceTree = "<group>"; };
 		CED747371E8C82BC0019AA9D /* ios-wkwebview-exec.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "ios-wkwebview-exec.js"; path = "../../../external/cordova-plugin-wkwebview-engine/src/www/ios/ios-wkwebview-exec.js"; sourceTree = "<group>"; };
+		CED747471E8C86EB0019AA9D /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		CEF4A30F1D9493BB0025EDF0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -604,6 +606,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CED747481E8C86EB0019AA9D /* WebKit.framework in Frameworks */,
 				CE2B8D9F1CE9330200C6FC6A /* SalesforceAnalytics.framework in Frameworks */,
 				8236AD101C4D9FF5004B69B8 /* SalesforceHybridSDK.framework in Frameworks */,
 				8236ACF71C4D9F9F004B69B8 /* SalesforceSDKCore.framework in Frameworks */,
@@ -783,6 +786,7 @@
 		824A9BD01721FCA400C9BD79 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CED747471E8C86EB0019AA9D /* WebKit.framework */,
 				CE2B8D681CE932E800C6FC6A /* SalesforceAnalytics.xcodeproj */,
 				8236ACAC1C4D9F44004B69B8 /* Lumberjack.xcodeproj */,
 				8236AC7C1C4D9EFC004B69B8 /* SalesforceSDKCore.xcodeproj */,
