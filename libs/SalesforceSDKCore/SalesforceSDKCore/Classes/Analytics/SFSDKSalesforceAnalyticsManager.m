@@ -288,6 +288,11 @@ static NSMutableDictionary *analyticsManagerList = nil;
 }
 
 - (void) publishOnAppBackground {
+
+    // Publishing should only happen for the current user, not for all users signed in.
+    if (![self.userAccount.idData isEqual:[SFUserAccountManager sharedInstance].currentUser.idData]) {
+        return;
+    }
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         __block UIBackgroundTaskIdentifier task;
         task = [[SFApplicationHelper sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
