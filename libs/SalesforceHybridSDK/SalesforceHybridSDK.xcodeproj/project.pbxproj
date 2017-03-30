@@ -155,6 +155,11 @@
 		CE65C23A1C0FD52F00319E68 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2391C0FD52F00319E68 /* libz.tbd */; };
 		CE65C23B1C0FD53800319E68 /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFDAD711C06918B009BCD6D /* libCordova.a */; };
 		CE6AB3C51C10CD440012125E /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F0C192B18AAFDF3000FD4E9 /* AssetsLibrary.framework */; };
+		CE77E2FD1E8C8BAB003E1CD6 /* CDVWKProcessPoolFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = CE77E2F81E8C8BAB003E1CD6 /* CDVWKProcessPoolFactory.m */; };
+		CE77E2FE1E8C8BAB003E1CD6 /* CDVWKWebViewEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = CE77E2FA1E8C8BAB003E1CD6 /* CDVWKWebViewEngine.m */; };
+		CE77E2FF1E8C8BAB003E1CD6 /* CDVWKWebViewUIDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CE77E2FC1E8C8BAB003E1CD6 /* CDVWKWebViewUIDelegate.m */; };
+		CE77E3011E8C8BC8003E1CD6 /* ios-wkwebview-exec.js in Resources */ = {isa = PBXBuildFile; fileRef = CE77E3001E8C8BC8003E1CD6 /* ios-wkwebview-exec.js */; };
+		CE77E3031E8C8C00003E1CD6 /* ios-wkwebview-exec.js in Copy cordova-plugin-wkwebview-engine */ = {isa = PBXBuildFile; fileRef = CE77E3001E8C8BC8003E1CD6 /* ios-wkwebview-exec.js */; };
 		CE7BA1571D89F9EE000B91D7 /* SFNetworkPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = CE7BA1551D89F9EE000B91D7 /* SFNetworkPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE7BA1581D89F9EE000B91D7 /* SFNetworkPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = CE7BA1561D89F9EE000B91D7 /* SFNetworkPlugin.m */; };
 		CE7BA15D1D8A356F000B91D7 /* SFNetworkPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = CE7BA1551D89F9EE000B91D7 /* SFNetworkPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -395,6 +400,17 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CE77E3021E8C8BE2003E1CD6 /* Copy cordova-plugin-wkwebview-engine */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = www;
+			dstSubfolderSpec = 7;
+			files = (
+				CE77E3031E8C8C00003E1CD6 /* ios-wkwebview-exec.js in Copy cordova-plugin-wkwebview-engine */,
+			);
+			name = "Copy cordova-plugin-wkwebview-engine";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -523,6 +539,13 @@
 		CE65C2311C0FD51400319E68 /* SmartStore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SmartStore.framework; path = "../SmartStore/build/Debug-iphoneos/SmartStore.framework"; sourceTree = "<group>"; };
 		CE65C2331C0FD51A00319E68 /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceSDKCore.framework; path = "../SalesforceSDKCore/build/Debug-iphoneos/SalesforceSDKCore.framework"; sourceTree = "<group>"; };
 		CE65C2391C0FD52F00319E68 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		CE77E2F71E8C8BAB003E1CD6 /* CDVWKProcessPoolFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVWKProcessPoolFactory.h; path = "../../../external/cordova-plugin-wkwebview-engine/src/ios/CDVWKProcessPoolFactory.h"; sourceTree = "<group>"; };
+		CE77E2F81E8C8BAB003E1CD6 /* CDVWKProcessPoolFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVWKProcessPoolFactory.m; path = "../../../external/cordova-plugin-wkwebview-engine/src/ios/CDVWKProcessPoolFactory.m"; sourceTree = "<group>"; };
+		CE77E2F91E8C8BAB003E1CD6 /* CDVWKWebViewEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVWKWebViewEngine.h; path = "../../../external/cordova-plugin-wkwebview-engine/src/ios/CDVWKWebViewEngine.h"; sourceTree = "<group>"; };
+		CE77E2FA1E8C8BAB003E1CD6 /* CDVWKWebViewEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVWKWebViewEngine.m; path = "../../../external/cordova-plugin-wkwebview-engine/src/ios/CDVWKWebViewEngine.m"; sourceTree = "<group>"; };
+		CE77E2FB1E8C8BAB003E1CD6 /* CDVWKWebViewUIDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVWKWebViewUIDelegate.h; path = "../../../external/cordova-plugin-wkwebview-engine/src/ios/CDVWKWebViewUIDelegate.h"; sourceTree = "<group>"; };
+		CE77E2FC1E8C8BAB003E1CD6 /* CDVWKWebViewUIDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVWKWebViewUIDelegate.m; path = "../../../external/cordova-plugin-wkwebview-engine/src/ios/CDVWKWebViewUIDelegate.m"; sourceTree = "<group>"; };
+		CE77E3001E8C8BC8003E1CD6 /* ios-wkwebview-exec.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "ios-wkwebview-exec.js"; path = "../../../external/cordova-plugin-wkwebview-engine/src/www/ios/ios-wkwebview-exec.js"; sourceTree = "<group>"; };
 		CE7BA1551D89F9EE000B91D7 /* SFNetworkPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFNetworkPlugin.h; path = SFNetworkPlugin/SFNetworkPlugin.h; sourceTree = "<group>"; };
 		CE7BA1561D89F9EE000B91D7 /* SFNetworkPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFNetworkPlugin.m; path = SFNetworkPlugin/SFNetworkPlugin.m; sourceTree = "<group>"; };
 		CE7BA1E31D8CA3E7000B91D7 /* com.salesforce.plugin.network.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.plugin.network.js; sourceTree = "<group>"; };
@@ -1003,6 +1026,7 @@
 		82EFF30516E8049500A63CDF /* SalesforceHybridSDKTestApp */ = {
 			isa = PBXGroup;
 			children = (
+				CE77E2F11E8C8B70003E1CD6 /* cordova-plugin-wkwebview-engine */,
 				B7282F4C1D8C717200475F79 /* SalesforceHybridSDKTestApp.entitlements */,
 				82AF5A621A0D911D006C7A4B /* cordova-plugin-console */,
 				82EFF34616E80D8800A63CDF /* shared-www */,
@@ -1073,6 +1097,36 @@
 				CE8F13091AD4A87200233F2F /* SalesforceHybridSDK-Test.xcconfig */,
 			);
 			name = Configuration;
+			sourceTree = "<group>";
+		};
+		CE77E2F11E8C8B70003E1CD6 /* cordova-plugin-wkwebview-engine */ = {
+			isa = PBXGroup;
+			children = (
+				CE77E2F51E8C8B84003E1CD6 /* Classes */,
+				CE77E2F61E8C8B8B003E1CD6 /* www */,
+			);
+			name = "cordova-plugin-wkwebview-engine";
+			sourceTree = "<group>";
+		};
+		CE77E2F51E8C8B84003E1CD6 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				CE77E2F71E8C8BAB003E1CD6 /* CDVWKProcessPoolFactory.h */,
+				CE77E2F81E8C8BAB003E1CD6 /* CDVWKProcessPoolFactory.m */,
+				CE77E2F91E8C8BAB003E1CD6 /* CDVWKWebViewEngine.h */,
+				CE77E2FA1E8C8BAB003E1CD6 /* CDVWKWebViewEngine.m */,
+				CE77E2FB1E8C8BAB003E1CD6 /* CDVWKWebViewUIDelegate.h */,
+				CE77E2FC1E8C8BAB003E1CD6 /* CDVWKWebViewUIDelegate.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		CE77E2F61E8C8B8B003E1CD6 /* www */ = {
+			isa = PBXGroup;
+			children = (
+				CE77E3001E8C8BC8003E1CD6 /* ios-wkwebview-exec.js */,
+			);
+			name = www;
 			sourceTree = "<group>";
 		};
 		CE7BA15C1D89F9FC000B91D7 /* SFNetworkPlugin */ = {
@@ -1171,6 +1225,7 @@
 				82AF5A6E1A0D91F3006C7A4B /* Copy cordova-plugin-console plugin */,
 				82AF5A8B1A0D9DD4006C7A4B /* Copy Salesforce plugin */,
 				CE4CE2F21C0E465C009F6029 /* Embed Frameworks */,
+				CE77E3021E8C8BE2003E1CD6 /* Copy cordova-plugin-wkwebview-engine */,
 			);
 			buildRules = (
 			);
@@ -1334,6 +1389,7 @@
 				4FC7B5D718AC3BB8006922FD /* bootconfig.json in Resources */,
 				82EFF31216E8049500A63CDF /* Default.png in Resources */,
 				82EFF31416E8049500A63CDF /* Default@2x.png in Resources */,
+				CE77E3011E8C8BC8003E1CD6 /* ios-wkwebview-exec.js in Resources */,
 				82EFF31616E8049500A63CDF /* Default-568h@2x.png in Resources */,
 				82EFF33C16E805E300A63CDF /* config.xml in Resources */,
 			);
@@ -1388,9 +1444,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE77E2FD1E8C8BAB003E1CD6 /* CDVWKProcessPoolFactory.m in Sources */,
 				82EFF30C16E8049500A63CDF /* main.m in Sources */,
 				82EFF34416E80B6300A63CDF /* AppDelegate.m in Sources */,
+				CE77E2FE1E8C8BAB003E1CD6 /* CDVWKWebViewEngine.m in Sources */,
 				82EFF39F16E816CB00A63CDF /* SFTestRunnerPlugin.m in Sources */,
+				CE77E2FF1E8C8BAB003E1CD6 /* CDVWKWebViewUIDelegate.m in Sources */,
 				82AF5A6B1A0D911D006C7A4B /* CDVLogger.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
