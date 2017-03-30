@@ -159,7 +159,10 @@ static NSString* const kTestAppName = @"OverridenAppName";
     [self createTestAppIdentity];
     [self launchAndVerify:YES failMessage:@"Launch attempt should have been successful."];
     [self verifyPostLaunchState];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
     [SalesforceSDKManager setAiltnAppName:nil];
+#pragma clang diagnostic pop
     NSString *appName = [[NSBundle mainBundle] infoDictionary][(NSString *) kCFBundleNameKey];
     [self compareAiltnAppNames:appName];
 }
