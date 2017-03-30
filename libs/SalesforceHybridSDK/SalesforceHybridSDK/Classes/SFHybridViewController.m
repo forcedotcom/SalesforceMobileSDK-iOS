@@ -511,6 +511,11 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
     startPageConfigured = YES;
 }
 
+- (void) webView:(WKWebView *) webView didStartProvisionalNavigation:(WKNavigation *) navigation
+{
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginResetNotification object:webView]];
+}
+
 - (void) webViewDidStartLoad:(UIWebView *) webView
 {
     [self.commandQueue resetRequestId];
@@ -561,12 +566,52 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
                  }
              }];
             shouldAllowRequest = NO;
+        } else {
+            [self defaultWKNavigationHandling:webView decidePolicyForNavigationAction:navigationAction decisionHandler:decisionHandler];
+            return;
         }
     }
     if (shouldAllowRequest) {
         decisionHandler(WKNavigationActionPolicyAllow);
     } else {
         decisionHandler(WKNavigationActionPolicyCancel);
+    }
+}
+
+- (void) defaultWKNavigationHandling:(WKWebView *) webView decidePolicyForNavigationAction:(WKNavigationAction *) navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy)) decisionHandler {
+    NSURL *url = [navigationAction.request URL];
+
+    /*
+     * Execute any commands queued with cordova.exec() on the JS side.
+     * The part of the URL after gap:// is irrelevant.
+     */
+    if ([[url scheme] isEqualToString:@"gap"]) {
+        [self.commandQueue fetchCommandsFromJs];
+        
+        /*
+         * The delegate is called asynchronously in this case, so we don't have to use
+         * flushCommandQueueWithDelayedJs (setTimeout(0)) as we do with hash changes.
+         */
+        [self.commandQueue executePending];
+        decisionHandler(WKNavigationActionPolicyCancel);
+        return;
+    } else {
+
+        /*
+         * Handle all other types of urls (tel:, sms:), and requests to load a URL in the main WebView.
+         */
+        BOOL shouldAllowNavigation = NO;
+        if ([url isFileURL]) {
+            shouldAllowNavigation = YES;
+        }
+        if (shouldAllowNavigation) {
+            decisionHandler(WKNavigationActionPolicyAllow);
+            return;
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginHandleOpenURLNotification object:url]];
+            decisionHandler(WKNavigationActionPolicyCancel);
+            return;
+        }
     }
 }
 
@@ -703,10 +748,8 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
                 _foundHomeUrl = YES;
             }
         }
-        if (self.useUIWebView) {
-            [CDVUserAgentUtil releaseLock:self.userAgentLockToken];
-            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPageDidLoadNotification object:self.webView]];
-        }
+        [CDVUserAgentUtil releaseLock:self.userAgentLockToken];
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPageDidLoadNotification object:self.webView]];
     }
 }
 
