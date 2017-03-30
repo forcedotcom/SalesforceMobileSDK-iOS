@@ -63,6 +63,17 @@
 @end
 
 /**
+ To test getRemoteIds
+ */
+@interface SFSyncDownTarget ()
+- (void) getRemoteIds:(SFSmartSyncSyncManager*)syncManager
+             localIds:(NSArray *)localIds
+           errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+        completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock;
+@end
+
+
+/**
  Soql sync down target that pauses for a second at the beginning of the fetch
  */
 @interface SlowSoqlSyncDownTarget : SFSoqlSyncDownTarget
@@ -159,7 +170,7 @@ static NSException *authException = nil;
 {
     NSString *soqlQueryWithFromField = [[[[SFSDKSoqlBuilder withFields:@"From_customer__c, Id"] from:ACCOUNT_TYPE] limit:10] build];
     SFSoqlSyncDownTarget* target = [SFSoqlSyncDownTarget newSyncTarget:soqlQueryWithFromField];
-    [target getListOfRemoteIds:syncManager localIds:@[] errorBlock:^(NSError *e) {
+    [target getRemoteIds:syncManager localIds:@[] errorBlock:^(NSError *e) {
         NSLog(@"%@", [e localizedDescription]);
         XCTFail(@"Wrong query was generated.");
     } completeBlock:^(NSArray *records) {}];
@@ -611,10 +622,10 @@ static NSException *authException = nil;
     NSArray* rows = [store queryWithQuerySpec:query pageIndex:0 error:nil];
     for (NSArray* row in rows) {
         NSDictionary* account = row[0];
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocal]);
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyCreated]);
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyUpdated]);
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyDeleted]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocal]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyCreated]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyUpdated]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyDeleted]);
     }
     
     // Check server
@@ -647,10 +658,10 @@ static NSException *authException = nil;
     NSArray* rows = [store queryWithQuerySpec:query pageIndex:0 error:nil];
     for (NSArray* row in rows) {
         NSDictionary* account = row[0];
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocal]);
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyCreated]);
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyUpdated]);
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyDeleted]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocal]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyCreated]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyUpdated]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyDeleted]);
     }
     
     // Check server
@@ -683,10 +694,10 @@ static NSException *authException = nil;
     NSArray* rows = [store queryWithQuerySpec:query pageIndex:0 error:nil];
     for (NSArray* row in rows) {
         NSDictionary* account = row[0];
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocal]);
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyCreated]);
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyUpdated]);
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyDeleted]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocal]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyCreated]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyUpdated]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyDeleted]);
     }
     
     // Check server - make sure only name was updated
@@ -724,10 +735,10 @@ static NSException *authException = nil;
         NSDictionary* account = row[0];
         NSString* accountId = account[ID];
         idToFieldsCreated[accountId] = @{NAME:account[NAME], DESCRIPTION:account[DESCRIPTION]};
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocal]);
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyCreated]);
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyUpdated]);
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyDeleted]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocal]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyCreated]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyUpdated]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyDeleted]);
         XCTAssertFalse([accountId hasPrefix:@"local_"]);
     }
     
@@ -784,10 +795,10 @@ static NSException *authException = nil;
         if ([namesOfCreated containsObject:accountName]) {
             idToFieldsCreated[accountId] = @{NAME:accountName, DESCRIPTION:accountDescription};
         }
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocal]);
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyCreated]);
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyUpdated]);
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyDeleted]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocal]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyCreated]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyUpdated]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyDeleted]);
         XCTAssertFalse([accountId hasPrefix:@"local_"]);
     }
     // Make sure all the locally created records have synched up
@@ -839,10 +850,10 @@ static NSException *authException = nil;
     NSArray* rows = [store queryWithQuerySpec:query pageIndex:0 error:nil];
     for (NSArray* row in rows) {
         NSDictionary* account = row[0];
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocal]);
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyCreated]);
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyUpdated]);
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyDeleted]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocal]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyCreated]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyUpdated]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyDeleted]);
     }
 }
 
@@ -880,10 +891,10 @@ static NSException *authException = nil;
     NSArray* rows = [store queryWithQuerySpec:query pageIndex:0 error:nil];
     for (NSArray* row in rows) {
         NSDictionary* account = row[0];
-        XCTAssertEqualObjects(@YES, account[kSyncManagerLocal]);
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyCreated]);
-        XCTAssertEqualObjects(@YES, account[kSyncManagerLocallyUpdated]);
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyDeleted]);
+        XCTAssertEqualObjects(@YES, account[kSyncTargetLocal]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyCreated]);
+        XCTAssertEqualObjects(@YES, account[kSyncTargetLocallyUpdated]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyDeleted]);
     }
 
     // Check server
@@ -918,10 +929,10 @@ static NSException *authException = nil;
     NSArray* rows = [store queryWithQuerySpec:query pageIndex:0 error:nil];
     for (NSArray* row in rows) {
         NSDictionary* account = row[0];
-        XCTAssertEqualObjects(@YES, account[kSyncManagerLocal]);
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyCreated]);
-        XCTAssertEqualObjects(@YES, account[kSyncManagerLocallyUpdated]);
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyDeleted]);
+        XCTAssertEqualObjects(@YES, account[kSyncTargetLocal]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyCreated]);
+        XCTAssertEqualObjects(@YES, account[kSyncTargetLocallyUpdated]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyDeleted]);
     }
 }
 
@@ -964,10 +975,10 @@ static NSException *authException = nil;
         NSDictionary* account = row[0];
         NSString* accountId = account[ID];
         idToFieldsCreated[accountId] = @{NAME:account[NAME], DESCRIPTION:account[DESCRIPTION]};
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocal]);
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyCreated]);
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyUpdated]);
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyDeleted]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocal]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyCreated]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyUpdated]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyDeleted]);
         XCTAssertFalse([accountId hasPrefix:@"local_"]);
     }
     
@@ -1038,10 +1049,10 @@ static NSException *authException = nil;
     for (NSArray* row in rows) {
         NSDictionary* account = row[0];
         NSString* accountId = account[ID];
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocal]);
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyCreated]);
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyUpdated]);
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyDeleted]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocal]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyCreated]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyUpdated]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyDeleted]);
         XCTAssertFalse([accountId hasPrefix:@"local_"]);
     }
 }
@@ -1118,10 +1129,10 @@ static NSException *authException = nil;
         NSString* accountId = account[ID];
         NSString* accountName = account[NAME];
         idToFieldsUpdated[accountId] = @{NAME: accountName, DESCRIPTION: account[DESCRIPTION]};
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocal]);
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyCreated]);
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyUpdated]);
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyDeleted]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocal]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyCreated]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyUpdated]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyDeleted]);
 
         // Check that locally updated / remotely deleted record has new id (not in idToFields)
         if ([accountName isEqualToString:locallyUpdatedRemotelyDeletedName]) {
@@ -1170,15 +1181,15 @@ static NSException *authException = nil;
     for (NSArray* row in rows) {
         NSDictionary* account = row[0];
         if ([account[ID] isEqualToString:remotelyDeletedId]) {
-            XCTAssertEqualObjects(@YES, account[kSyncManagerLocal]);
-            XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyCreated]);
-            XCTAssertEqualObjects(@YES, account[kSyncManagerLocallyUpdated]);
-            XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyDeleted]);
+            XCTAssertEqualObjects(@YES, account[kSyncTargetLocal]);
+            XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyCreated]);
+            XCTAssertEqualObjects(@YES, account[kSyncTargetLocallyUpdated]);
+            XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyDeleted]);
         } else {
-            XCTAssertEqualObjects(@NO, account[kSyncManagerLocal]);
-            XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyCreated]);
-            XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyUpdated]);
-            XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyDeleted]);
+            XCTAssertEqualObjects(@NO, account[kSyncTargetLocal]);
+            XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyCreated]);
+            XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyUpdated]);
+            XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyDeleted]);
         }
     }
     
@@ -1301,10 +1312,10 @@ static NSException *authException = nil;
     XCTAssertEqual(3, rows.count);
     for (NSArray* row in rows) {
         NSDictionary* account = row[0];
-        XCTAssertEqualObjects(@YES, account[kSyncManagerLocal]);
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyCreated]);
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyUpdated]);
-        XCTAssertEqualObjects(@YES, account[kSyncManagerLocallyDeleted]);
+        XCTAssertEqualObjects(@YES, account[kSyncTargetLocal]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyCreated]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyUpdated]);
+        XCTAssertEqualObjects(@YES, account[kSyncTargetLocallyDeleted]);
     }
 
     // Check server
@@ -1341,10 +1352,10 @@ static NSException *authException = nil;
     XCTAssertEqual(3, rows.count);
     for (NSArray* row in rows) {
         NSDictionary* account = row[0];
-        XCTAssertEqualObjects(@YES, account[kSyncManagerLocal]);
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyCreated]);
-        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyUpdated]);
-        XCTAssertEqualObjects(@YES, account[kSyncManagerLocallyDeleted]);
+        XCTAssertEqualObjects(@YES, account[kSyncTargetLocal]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyCreated]);
+        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyUpdated]);
+        XCTAssertEqualObjects(@YES, account[kSyncTargetLocallyDeleted]);
     }
 }
 
@@ -1722,7 +1733,7 @@ static NSException *authException = nil;
                             [[SFSoupIndex alloc] initWithPath:ID indexType:kSoupIndexTypeFullText columnName:nil],
                             [[SFSoupIndex alloc] initWithPath:NAME indexType:kSoupIndexTypeFullText columnName:nil],
                             [[SFSoupIndex alloc] initWithPath:DESCRIPTION indexType:kSoupIndexTypeFullText columnName:nil],
-                            [[SFSoupIndex alloc] initWithPath:kSyncManagerLocal indexType:kSoupIndexTypeString columnName:nil]
+                            [[SFSoupIndex alloc] initWithPath:kSyncTargetLocal indexType:kSoupIndexTypeString columnName:nil]
                             ];
     [store registerSoup:soupName withIndexSpecs:indexSpecs error:nil];
 }
@@ -1814,10 +1825,10 @@ static NSException *authException = nil;
         account[NAME] = name;
         account[DESCRIPTION] = [self createDescription:name];
         account[ATTRIBUTES] = attributes;
-        account[kSyncManagerLocal] = @YES;
-        account[kSyncManagerLocallyCreated] = @YES;
-        account[kSyncManagerLocallyDeleted] = @NO;
-        account[kSyncManagerLocallyUpdated] = @NO;
+        account[kSyncTargetLocal] = @YES;
+        account[kSyncTargetLocallyCreated] = @YES;
+        account[kSyncTargetLocallyDeleted] = @NO;
+        account[kSyncTargetLocallyUpdated] = @NO;
         [createdAccounts addObject:account];
         idToFieldsLocallyCreated[accountId] = name;
     }
@@ -1835,10 +1846,10 @@ static NSException *authException = nil;
         NSMutableDictionary* account = [[NSMutableDictionary alloc] initWithDictionary:results[0]];
         account[NAME] = updatedName;
         account[DESCRIPTION] = updatedDescription;
-        account[kSyncManagerLocal] = @YES;
-        account[kSyncManagerLocallyCreated] = @NO;
-        account[kSyncManagerLocallyDeleted] = @NO;
-        account[kSyncManagerLocallyUpdated] = @YES;
+        account[kSyncTargetLocal] = @YES;
+        account[kSyncTargetLocallyCreated] = @NO;
+        account[kSyncTargetLocallyDeleted] = @NO;
+        account[kSyncTargetLocallyUpdated] = @YES;
         [updatedAccounts addObject:account];
     }
     [store upsertEntries:updatedAccounts toSoup:ACCOUNTS_SOUP];
@@ -1850,10 +1861,10 @@ static NSException *authException = nil;
         SFQuerySpec* query = [SFQuerySpec newExactQuerySpec:ACCOUNTS_SOUP withPath:ID withMatchKey:accountId withOrderPath:ID withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
         NSArray* results = [store queryWithQuerySpec:query pageIndex:0 error:nil];
         NSMutableDictionary* account = [[NSMutableDictionary alloc] initWithDictionary:results[0]];
-        account[kSyncManagerLocal] = @YES;
-        account[kSyncManagerLocallyCreated] = @NO;
-        account[kSyncManagerLocallyDeleted] = @YES;
-        account[kSyncManagerLocallyUpdated] = @NO;
+        account[kSyncTargetLocal] = @YES;
+        account[kSyncTargetLocallyCreated] = @NO;
+        account[kSyncTargetLocallyDeleted] = @YES;
+        account[kSyncTargetLocallyUpdated] = @NO;
         [deletedAccounts addObject:account];
     }
     [store upsertEntries:deletedAccounts toSoup:ACCOUNTS_SOUP];

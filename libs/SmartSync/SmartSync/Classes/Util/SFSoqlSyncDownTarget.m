@@ -134,10 +134,10 @@ static NSString * const kSFSoqlSyncTargetQuery = @"query";
     }
 }
 
-- (void) getListOfRemoteIds:(SFSmartSyncSyncManager*)syncManager
-                   localIds:(NSArray*)localIds
-                 errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
-              completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
+- (void)getRemoteIds:(SFSmartSyncSyncManager *)syncManager
+            localIds:(NSArray *)localIds
+          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     if (localIds == nil) {
         completeBlock(nil);
         return;
@@ -149,7 +149,7 @@ static NSString * const kSFSoqlSyncTargetQuery = @"query";
     NSString* fromClause = [self.query substringFromIndex:rangeFirst.location];
     [soql appendString:fromClause];
     __block NSUInteger countFetched = 0;
-    __block NSMutableArray* allRecords = [[NSMutableArray alloc] init];
+    __block NSMutableArray* remoteIds = [[NSMutableArray alloc] init];
     __block SFSyncDownTargetFetchCompleteBlock fetchBlockRecurse = ^(NSArray *records) {};
     SFSyncDownTargetFetchCompleteBlock fetchBlock = ^(NSArray* records) {
         // NB with the recursive block, using weakSelf doesn't work (it goes to nil)
@@ -161,11 +161,13 @@ static NSString * const kSFSoqlSyncTargetQuery = @"query";
             }
         }
         countFetched += [records count];
-        [allRecords addObjectsFromArray:records];
+        for (NSDictionary * record in records) {
+            [remoteIds addObject:record[self.idFieldName]];
+        }
         if (countFetched < self.totalSize) {
             [self continueFetch:syncManager errorBlock:errorBlock completeBlock:fetchBlockRecurse];
         } else {
-            completeBlock(allRecords);
+            completeBlock(remoteIds);
         }
     };
     fetchBlockRecurse = fetchBlock;

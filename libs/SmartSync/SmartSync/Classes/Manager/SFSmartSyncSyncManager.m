@@ -25,7 +25,6 @@
 #import "SFSmartSyncSyncManager.h"
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SmartStore/SFSmartStore.h>
-#import <SmartStore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFSDKAppFeatureMarkers.h>
 #import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
 
@@ -288,8 +287,12 @@ static NSMutableDictionary *syncMgrList = nil;
     __block NSUInteger totalSize = 0;
     __block NSUInteger progress = 0;
     __block SFSyncDownTargetFetchCompleteBlock continueFetchBlockRecurse = ^(NSArray *records) {};
-    __weak typeof(self) weakSelf = self;
-    
+
+    __block NSOrderedSet* idsToSkip = nil;
+    if (mergeMode == SFSyncStateMergeModeLeaveIfChanged) {
+        idsToSkip = [target getDirtyRecordIds:self soupName:soupName idField:target.idFieldName];
+    }
+
     SFSyncDownTargetFetchCompleteBlock startFetchBlock = ^(NSArray* records) {
         totalSize = target.totalSize;
         updateSync(nil, totalSize == 0 ? 100 : 0, totalSize, kSyncManagerUnchanged);
@@ -297,25 +300,24 @@ static NSMutableDictionary *syncMgrList = nil;
     };
 
     SFSyncDownTargetFetchCompleteBlock continueFetchBlock = ^(NSArray* records) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
         if (records != nil) {
+            // Figure out records to save
+            NSArray* recordsToSave = idsToSkip && idsToSkip.count > 0 ? [self removeWithIds:records idsToSkip:idsToSkip idField:target.idFieldName] : records;
+
+            // Save to smartstore.
+            [target saveRecordsToLocalStore:self soupName:soupName records:recordsToSave];
             countFetched += [records count];
             progress = 100*countFetched / totalSize;
 
             long long maxTimeStampForFetched = [target getLatestModificationTimeStamp:records];
-            
-            // Save records
-            NSError *saveRecordsError = nil;
-            [strongSelf saveRecords:records soup:soupName idFieldName:target.idFieldName mergeMode:mergeMode error:&saveRecordsError];
-            if (saveRecordsError) {
-                failSync(@"Failed to save SmartStore records on syncDown", saveRecordsError);
-            } else {
-                // Update status
+
+            // Update sync status.
+            if (countFetched < totalSize) {
                 updateSync(nil, progress, totalSize, maxTimeStampForFetched);
-                
-                // Continue
-                [target continueFetch:self errorBlock:failBlock completeBlock:continueFetchBlockRecurse];
             }
+
+            // Fetch next records, if any.
+            [target continueFetch:self errorBlock:failBlock completeBlock:continueFetchBlockRecurse];
         }
         else {
             // In some cases (e.g. resync for refresh sync down), the totalSize is just an (over)estimation
@@ -333,39 +335,16 @@ static NSMutableDictionary *syncMgrList = nil;
     [target startFetch:self maxTimeStamp:maxTimeStamp errorBlock:failBlock completeBlock:startFetchBlock];
 }
 
-- (void) saveRecords:(NSArray*)records
-                soup:(NSString*)soupName
-         idFieldName:(NSString *)idFieldName
-           mergeMode:(SFSyncStateMergeMode)mergeMode
-               error:(NSError **)error {
-    NSMutableArray* recordsToSave = [NSMutableArray array];
-    
-    NSOrderedSet* idsToSkip = nil;
-    if (mergeMode == SFSyncStateMergeModeLeaveIfChanged) {
-        idsToSkip = [self getDirtyRecordIds:soupName idField:idFieldName];
-    }
-    
-    // Prepare for smartstore
+- (NSArray*) removeWithIds:(NSArray*)records idsToSkip:(NSOrderedSet*)idsToSkip idField:(NSString*)idField {
+    NSMutableArray * arr = [NSMutableArray new];
     for (NSDictionary* record in records) {
-        // Skip?
-        if (idsToSkip != nil && [idsToSkip containsObject:record[idFieldName]]) {
-            continue;
+        // Keep ?
+        NSString* id = record[idField];
+        if (!id || ![idsToSkip containsObject:id]) {
+            [arr addObject:record];
         }
-        
-        NSMutableDictionary* udpatedRecord = [record mutableCopy];
-        udpatedRecord[kSyncManagerLocal] = @NO;
-        udpatedRecord[kSyncManagerLocallyCreated] = @NO;
-        udpatedRecord[kSyncManagerLocallyUpdated] = @NO;
-        udpatedRecord[kSyncManagerLocallyDeleted] = @NO;
-        [recordsToSave addObject:udpatedRecord];
     }
-    
-    // Save to smartstore
-    NSError *upsertError = nil;
-    [self.store upsertEntries:recordsToSave toSoup:soupName withExternalIdPath:idFieldName error:&upsertError];
-    if (upsertError && error) {
-        *error = upsertError;
-    }
+    return arr;
 }
 
 #pragma mark - syncUp and supporting methods
@@ -395,7 +374,7 @@ static NSMutableDictionary *syncMgrList = nil;
 
     // Call smartstore
     NSArray* dirtyRecordIds = [target getIdsOfRecordsToSyncUp:self soupName:soupName];
-    NSUInteger totalSize = [dirtyRecordIds count];
+    NSUInteger totalSize = dirtyRecordIds.count;
     if (totalSize == 0) {
         updateSync(nil, 100, totalSize, kSyncManagerUnchanged);
         return;
@@ -424,72 +403,31 @@ static NSMutableDictionary *syncMgrList = nil;
         [self log:SFLogLevelError format:@"Cannot run cleanResyncGhosts:%@:wrong type:%@", syncId, [SFSyncState syncTypeToString:sync.type]];
         return;
     }
+
     NSString* soupName = [sync soupName];
-    NSString* idFieldName = [sync.target idFieldName];
 
-    /*
-     * Fetches list of IDs present in local soup that have not been modified locally.
-     */
-    SFQuerySpec* querySpec = [SFQuerySpec newAllQuerySpec:soupName withOrderPath:idFieldName withOrder:kSFSoupQuerySortOrderAscending withPageSize:10];
-    NSUInteger count = [self.store countWithQuerySpec:querySpec error:nil];
-    NSMutableString* smartSqlQuery = [[NSMutableString alloc] init];
-    [smartSqlQuery appendString:@"SELECT {"];
-    [smartSqlQuery appendString:soupName];
-    [smartSqlQuery appendString:@":"];
-    [smartSqlQuery appendString:idFieldName];
-    [smartSqlQuery appendString:@"} FROM {"];
-    [smartSqlQuery appendString:soupName];
-    [smartSqlQuery appendString:@"} WHERE {"];
-    [smartSqlQuery appendString:soupName];
-    [smartSqlQuery appendString:@":"];
-    [smartSqlQuery appendString:kSyncManagerLocal];
-    [smartSqlQuery appendString:@"}='0'"];
-    querySpec = [SFQuerySpec newSmartQuerySpec:smartSqlQuery withPageSize:count];
-    __block NSMutableArray* localIds = [[NSMutableArray alloc] init];
-    NSArray* rows = [self.store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
-    for (NSArray* row in rows) {
-        [localIds addObject:row[0]];
-    }
-
-    /*
-     * Fetches list of IDs still present on the server from the list of local IDs
-     * and removes the list of IDs that are still present on the server.
-     */
     __weak typeof(self) weakSelf = self;
-    __block NSMutableArray* remoteIds = [[NSMutableArray alloc] init];
-    [((SFSyncDownTarget*) sync.target) getListOfRemoteIds:self localIds:localIds errorBlock:^(NSError* e) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        [strongSelf log:SFLogLevelError format:@"Failed to get list of remote IDs, %@", [e localizedDescription]];
-        NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
-        attributes[@"syncId"] = [NSNumber numberWithInteger:sync.syncId];
-        attributes[@"syncTarget"] = NSStringFromClass([sync.target class]);
-        [SFSDKEventBuilderHelper createAndStoreEvent:@"cleanResyncGhosts" userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
-        completionStatusBlock(SFSyncStateStatusFailed);
-    } completeBlock:^(NSArray* records) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        if (records != nil) {
-            for (NSDictionary* record in records) {
-                if (record != nil) {
-                    NSString *id = record[idFieldName];
-                    [remoteIds addObject:id];
-                }
-            }
-            [localIds removeObjectsInArray:remoteIds];
-            // Deletes extra IDs from SmartStore.
-            [sync.target deleteFromLocalStore:self soupName:soupName id
-            if (localIds.count > 0) {
-                NSString* smartSql = [NSString stringWithFormat:@"SELECT {%@:%@} FROM {%@} WHERE {%@:%@} IN ('%@')", soupName, SOUP_ENTRY_ID, soupName, soupName, idFieldName, [localIds componentsJoinedByString:@", "]];
-                SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:localIds.count];
-                [strongSelf.store removeEntriesByQuery:querySpec fromSoup:soupName];
-            }
-        }
-        NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
-        attributes[@"numRecords"] = [NSNumber numberWithInteger:localIds.count];
-        attributes[@"syncId"] = [NSNumber numberWithInteger:sync.syncId];
-        attributes[@"syncTarget"] = NSStringFromClass([sync.target class]);
-        [SFSDKEventBuilderHelper createAndStoreEvent:@"cleanResyncGhosts" userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
-        completionStatusBlock(SFSyncStateStatusDone);
-    }];
+
+    [(SFSyncDownTarget *)sync.target cleanGhosts:self
+                                        soupName:soupName
+                                      errorBlock:^(NSError* e) {
+                                          __strong typeof(weakSelf) strongSelf = weakSelf;
+                                          [strongSelf log:SFLogLevelError format:@"Failed to get list of remote IDs, %@", [e localizedDescription]];
+                                          NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
+                                          attributes[@"syncId"] = [NSNumber numberWithInteger:sync.syncId];
+                                          attributes[@"syncTarget"] = NSStringFromClass([sync.target class]);
+                                          [SFSDKEventBuilderHelper createAndStoreEvent:@"cleanResyncGhosts" userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
+                                          completionStatusBlock(SFSyncStateStatusFailed);
+                                      }
+                                   completeBlock:^(NSArray* localIds) {
+                                       NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
+                                       attributes[@"numRecords"] = [NSNumber numberWithInteger:localIds.count];
+                                       attributes[@"syncId"] = [NSNumber numberWithInteger:sync.syncId];
+                                       attributes[@"syncTarget"] = NSStringFromClass([sync.target class]);
+                                       [SFSDKEventBuilderHelper createAndStoreEvent:@"cleanResyncGhosts" userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
+                                       completionStatusBlock(SFSyncStateStatusDone);
+                                   }];
+
 }
 
 - (void)syncUpOneEntry:(SFSyncState*)sync
@@ -513,9 +451,9 @@ static NSMutableDictionary *syncMgrList = nil;
     NSMutableDictionary* record = [[self.store retrieveEntries:@[idStr] fromSoup:soupName][0] mutableCopy];
     
     // Do we need to do a create, update or delete
-    BOOL locallyCreated = [record[kSyncManagerLocallyCreated] boolValue];
-    BOOL locallyUpdated = [record[kSyncManagerLocallyUpdated] boolValue];
-    BOOL locallyDeleted = [record[kSyncManagerLocallyDeleted] boolValue];
+    BOOL locallyCreated = [target isLocallyCreated:record];
+    BOOL locallyUpdated = [target isLocallyUpdated:record];
+    BOOL locallyDeleted = [target isLocallyDeleted:record];
     
     SFSyncUpTargetAction action = SFSyncUpTargetActionNone;
     if (locallyDeleted)
@@ -595,15 +533,8 @@ static NSMutableDictionary *syncMgrList = nil;
     
     // Update handler
     SFSyncUpTargetCompleteBlock completeBlockUpdate = ^(NSDictionary *d) {
-        // Set local flags to false
-        record[kSyncManagerLocal] = @NO;
-        record[kSyncManagerLocallyCreated] = @NO;
-        record[kSyncManagerLocallyUpdated] = @NO;
-        record[kSyncManagerLocallyDeleted] = @NO;
-        
-        // Update smartstore
-        [self.store upsertEntries:@[record] toSoup:soupName];
-        
+        [target cleanAndSaveInLocalStore:self soupName:soupName record:record];
+
         // Next
         [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failBlock:failBlock];
     };
@@ -652,7 +583,7 @@ static NSMutableDictionary *syncMgrList = nil;
             break;
         case SFSyncUpTargetActionDelete:
             // if locally created it can't exist on the server - we don't need to actually do the deleteOnServer call
-            if ([record[kSyncManagerLocallyCreated] boolValue]) {
+            if ([target isLocallyCreated:record]) {
                 completeBlockDelete(record);
             }
             else {

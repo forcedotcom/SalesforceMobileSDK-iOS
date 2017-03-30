@@ -228,11 +228,10 @@ static NSString *const kSFSyncUpTargetUpdateFieldlist = @"updateFieldlist";
     [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:failBlock completeBlock:completionBlock];
 }
 
-
 - (NSArray*)getIdsOfRecordsToSyncUp:(SFSmartSyncSyncManager*)syncManager
                            soupName:(NSString*)soupName
 {
-    return [[syncManager getDirtyRecordIds:soupName idField:SOUP_ENTRY_ID] array];
+    return [[self getDirtyRecordIds:syncManager soupName:soupName idField:SOUP_ENTRY_ID] array];
 }
 
 - (NSDictionary*) buildFieldsMap:(NSDictionary *)record fieldlist:(NSArray *)fieldlist {

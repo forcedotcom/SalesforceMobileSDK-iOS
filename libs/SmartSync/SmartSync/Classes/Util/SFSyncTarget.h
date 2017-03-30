@@ -67,7 +67,7 @@ extern NSString * const kSyncTargetLocallyDeleted;
  * Save records in local store
  * @param syncManager The sync manager
  * @param soupName The soup
- * @param records
+ * @param records The records to save
  */
 - (void) saveRecordsToLocalStore:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName records:(NSArray*)records;
 
@@ -105,8 +105,9 @@ extern NSString * const kSyncTargetLocallyDeleted;
 - (NSOrderedSet*) getDirtyRecordIds:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName idField:(NSString*)idField;
 
 /**
- * @param syncManager
- * @param storeId
+ * @param syncManager The sync manager
+ * @param soupName The soup
+ * @param storeId The soup entry id
  * @return Record from local store by storeId
  */
 - (NSDictionary*) getFromLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString*)soupName storeId:(NSString*)storeId;

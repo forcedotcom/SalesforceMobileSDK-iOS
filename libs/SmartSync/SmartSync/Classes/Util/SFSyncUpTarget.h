@@ -119,10 +119,6 @@ typedef void (^SFSyncUpTargetErrorBlock)(NSError *error);
 
 /**
  * Constructor
- * @param targetType
- * @param createFieldlist
- * @param updateFieldlist
- * @return
  */
 - (instancetype)initWithCreateFieldlist:(NSArray *)createFieldlist
                         updateFieldlist:(NSArray *)updateFieldlist;
@@ -181,6 +177,6 @@ typedef void (^SFSyncUpTargetErrorBlock)(NSError *error);
  @param syncManager The sync manager running the sync.
  @param soupName The soup name to look into for records.
  */
-- (NSArray*)getIdsOfRecordsToSyncUp:(SFSmartSyncSyncManager*)syncManager
-                           soupName:(NSString*)soupName;
+- (NSArray *)getIdsOfRecordsToSyncUp:(SFSmartSyncSyncManager *)syncManager
+                            soupName:(NSString *)soupName;
 @end

@@ -79,7 +79,7 @@ typedef NS_ENUM(NSInteger, SFSyncDownTargetQueryType) {
 /**
  * Delete from local store records that a full sync down would no longer download
  */
-- (NSUInteger)cleanGhosts:(SFSmartSyncSyncManager *)syncManager
+- (void)cleanGhosts:(SFSmartSyncSyncManager *)syncManager
                  soupName:(NSString *)soupName
                errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
             completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock;

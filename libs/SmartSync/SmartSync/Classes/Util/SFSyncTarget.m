@@ -70,18 +70,19 @@ NSString * const kSyncTargetLocallyDeleted = @"__locally_deleted__";
 }
 
 - (void) cleanAndSaveInLocalStore:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName record:(NSDictionary*)record {
-    [self cleanAndSaveInLocalStore:syncManager.store soupName:soupName record:record];
+    [self cleanAndSaveInSmartStore:syncManager.store soupName:soupName record:record];
 }
 
-- (void) cleanAndSaveInSmartStore:(SFSmartStore*)smartStore soupName:(NSString*)soupName record:(NSMutableDictionary*)record {
-    [self cleanRecord:record];
-    if (record[SOUP_ENTRY_ID]) {
+- (void) cleanAndSaveInSmartStore:(SFSmartStore*)smartStore soupName:(NSString*)soupName record:(NSDictionary*)record {
+    NSMutableDictionary* mutableCopy = [NSMutableDictionary dictionaryWithDictionary:record];
+    [self cleanRecord:mutableCopy];
+    if (mutableCopy[SOUP_ENTRY_ID]) {
         // Record came from smartstore
-        [smartStore upsertEntries:@[record] toSoup:soupName];
+        [smartStore upsertEntries:@[mutableCopy] toSoup:soupName];
     }
     else {
         // Record came from server
-        [smartStore upsertEntries:@[record] toSoup:soupName withExternalIdPath:self.idFieldName error:nil];
+        [smartStore upsertEntries:@[mutableCopy] toSoup:soupName withExternalIdPath:self.idFieldName error:nil];
     }
 }
 
@@ -102,7 +103,7 @@ NSString * const kSyncTargetLocallyDeleted = @"__locally_deleted__";
 
 - (void) deleteRecordsFromLocalStore:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName ids:(NSArray*)ids idField:(NSString*)idField {
     if (ids.count > 0) {
-        NSString *smartSql = [NSString stringWithFormat:@"SELECT {%s:%s} FROM {%s} WHERE {%s:%s} IN ('%s')",
+        NSString *smartSql = [NSString stringWithFormat:@"SELECT {%@:%@} FROM {%@} WHERE {%@:%@} IN ('%@')",
                                                         soupName, SOUP_ENTRY_ID, soupName, soupName, idField,
                                                         [ids componentsJoinedByString:@", "]];
 

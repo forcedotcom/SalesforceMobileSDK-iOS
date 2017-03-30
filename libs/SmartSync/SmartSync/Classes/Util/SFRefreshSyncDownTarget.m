@@ -135,10 +135,10 @@ static NSUInteger const kSFSyncTargetRefreshDefaultCountIdsPerSoql = 500;
     }
 }
 
-- (void) getListOfRemoteIds:(SFSmartSyncSyncManager*)syncManager
-                   localIds:(NSArray*)localIds
-                 errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
-              completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
+- (void) getRemoteIds:(SFSmartSyncSyncManager*)syncManager
+             localIds:(NSArray*)localIds
+           errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+        completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     if (localIds == nil) {
         completeBlock(nil);
         return;

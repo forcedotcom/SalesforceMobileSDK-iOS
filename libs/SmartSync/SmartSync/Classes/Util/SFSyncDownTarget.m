@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSyncDownTarget.h"
+#import "SFSyncTarget+Internal.h"
 #import "SFMruSyncDownTarget.h"
 #import "SFRefreshSyncDownTarget.h"
 #import "SFSoqlSyncDownTarget.h"
@@ -92,11 +92,10 @@ ABSTRACT_METHOD
     completeBlock(nil);
 }
 
-- (void) getListOfRemoteIds:(SFSmartSyncSyncManager*)syncManager
-                       localIds:(NSArray*)localIds
-                     errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
-                  completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock
-ABSTRACT_METHOD
+- (void) getRemoteIds:(SFSmartSyncSyncManager*)syncManager
+        localIds:(NSArray *)localIds
+      errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+   completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock ABSTRACT_METHOD
 
 - (long long)getLatestModificationTimeStamp:(NSArray*)records {
     long long maxTimeStamp = -1L;
@@ -114,25 +113,32 @@ ABSTRACT_METHOD
 - (NSOrderedSet*) getNonDirtyRecordIds:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName idField:(NSString*)idField {
     NSString* nonDirtyRecordsSql = [self getNonDirtyRecordIdsSql:soupName idField:idField];
     return [self getIdsWithQuery:nonDirtyRecordsSql syncManager:syncManager];
-    // FIXME create SFTarget_Internal.h
-
 }
 
 - (NSString*) getNonDirtyRecordIdsSql:(NSString*)soupName idField:(NSString*)idField {
-    return [NSString stringWithFormat:@"SELECT {%s:%s} FROM {%s} WHERE {%s:%s} = 'false' ORDER BY {%s:%s} ASC",
+    return [NSString stringWithFormat:@"SELECT {%@:%@ FROM {%@} WHERE {%@:%@} = '0' ORDER BY {%@:%@} ASC",
                     soupName, idField, soupName, soupName, kSyncTargetLocal, soupName, idField];
 }
 
-- (NSUInteger) cleanGhosts:(SFSmartSyncSyncManager *)syncManager soupName:(NSString*)soupName {
+- (void)cleanGhosts:(SFSmartSyncSyncManager *)syncManager
+                 soupName:(NSString *)soupName
+               errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+            completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
+
     // Fetches list of IDs present in local soup that have not been modified locally.
-    NSArray* localIds = [self getNonDirtyRecordIds:syncManager soupName:soupName idField:self.idFieldName];
+    NSMutableOrderedSet* localIds = [NSMutableOrderedSet orderedSetWithOrderedSet:[self getNonDirtyRecordIds:syncManager soupName:soupName idField:self.idFieldName]];
 
     // Fetches list of IDs still present on the server from the list of local IDs
     // and removes the list of IDs that are still present on the server.
+    [self getRemoteIds:syncManager
+              localIds:[localIds array]
+            errorBlock:errorBlock
+         completeBlock: ^(NSArray* remoteIds){
+             [localIds removeObjectsInArray:remoteIds];
 
-    //
-    // FIXME
-    //
+             // Deletes extra IDs from SmartStore.
+             [self deleteRecordsFromLocalStore:syncManager soupName:soupName ids:[localIds array] idField:self.idFieldName];
+         }];
 }
 
 

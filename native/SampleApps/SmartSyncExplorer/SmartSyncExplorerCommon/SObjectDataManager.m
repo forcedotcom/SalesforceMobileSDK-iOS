@@ -164,44 +164,44 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
 }
 
 - (void)createLocalData:(SObjectData *)newData {
-    [newData updateSoupForFieldName:kSyncManagerLocal fieldValue:@YES];
-    [newData updateSoupForFieldName:kSyncManagerLocallyCreated fieldValue:@YES];
+    [newData updateSoupForFieldName:kSyncTargetLocal fieldValue:@YES];
+    [newData updateSoupForFieldName:kSyncTargetLocallyCreated fieldValue:@YES];
     [self.store upsertEntries:@[ newData.soupDict ] toSoup:[[newData class] dataSpec].soupName];
 }
 
 - (void)updateLocalData:(SObjectData *)updatedData {
-    [updatedData updateSoupForFieldName:kSyncManagerLocal fieldValue:@YES];
-    [updatedData updateSoupForFieldName:kSyncManagerLocallyUpdated fieldValue:@YES];
+    [updatedData updateSoupForFieldName:kSyncTargetLocal fieldValue:@YES];
+    [updatedData updateSoupForFieldName:kSyncTargetLocallyUpdated fieldValue:@YES];
     [self.store upsertEntries:@[ updatedData.soupDict ] toSoup:[[updatedData class] dataSpec].soupName];
 }
 
 - (void)deleteLocalData:(SObjectData *)dataToDelete {
-    [dataToDelete updateSoupForFieldName:kSyncManagerLocal fieldValue:@YES];
-    [dataToDelete updateSoupForFieldName:kSyncManagerLocallyDeleted fieldValue:@YES];
+    [dataToDelete updateSoupForFieldName:kSyncTargetLocal fieldValue:@YES];
+    [dataToDelete updateSoupForFieldName:kSyncTargetLocallyDeleted fieldValue:@YES];
     [self.store upsertEntries:@[ dataToDelete.soupDict ] toSoup:[[dataToDelete class] dataSpec].soupName];
 }
 
 - (void)undeleteLocalData:(SObjectData *)dataToUnDelete {
-    [dataToUnDelete updateSoupForFieldName:kSyncManagerLocallyDeleted fieldValue:@NO];
+    [dataToUnDelete updateSoupForFieldName:kSyncTargetLocallyDeleted fieldValue:@NO];
     NSNumber* locallyCreatedOrUpdated = [NSNumber numberWithBool:[self dataLocallyCreated:dataToUnDelete] || [self dataLocallyUpdated:dataToUnDelete]];
-    [dataToUnDelete updateSoupForFieldName:kSyncManagerLocal fieldValue:locallyCreatedOrUpdated];
+    [dataToUnDelete updateSoupForFieldName:kSyncTargetLocal fieldValue:locallyCreatedOrUpdated];
     [self.store upsertEntries:@[ dataToUnDelete.soupDict ] toSoup:[[dataToUnDelete class] dataSpec].soupName withExternalIdPath:kSObjectIdField error:nil];
 }
 
 - (BOOL)dataHasLocalChanges:(SObjectData *)data {
-    return [[data fieldValueForFieldName:kSyncManagerLocal] boolValue];
+    return [[data fieldValueForFieldName:kSyncTargetLocal] boolValue];
 }
 
 - (BOOL)dataLocallyCreated:(SObjectData *)data {
-    return [[data fieldValueForFieldName:kSyncManagerLocallyCreated] boolValue];
+    return [[data fieldValueForFieldName:kSyncTargetLocallyCreated] boolValue];
 }
 
 - (BOOL)dataLocallyUpdated:(SObjectData *)data {
-    return [[data fieldValueForFieldName:kSyncManagerLocallyUpdated] boolValue];
+    return [[data fieldValueForFieldName:kSyncTargetLocallyUpdated] boolValue];
 }
 
 - (BOOL)dataLocallyDeleted:(SObjectData *)data {
-    return [[data fieldValueForFieldName:kSyncManagerLocallyDeleted] boolValue];
+    return [[data fieldValueForFieldName:kSyncTargetLocallyDeleted] boolValue];
 }
 
 - (NSArray *)populateDataRows:(NSArray *)queryResults {

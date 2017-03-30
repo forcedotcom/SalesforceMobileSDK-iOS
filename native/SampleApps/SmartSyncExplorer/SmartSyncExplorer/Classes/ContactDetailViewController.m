@@ -277,7 +277,7 @@
 }
 
 - (UIButton *)deleteButtonView {
-    BOOL deleted = ([[self.contact fieldValueForFieldName:kSyncManagerLocallyDeleted] boolValue]);
+    BOOL deleted = ([[self.contact fieldValueForFieldName:kSyncTargetLocallyDeleted] boolValue]);
     UIButton *deleteButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [deleteButton setTitle:(deleted ? @"Undelete Contact" : @"Delete Contact") forState:UIControlStateNormal];
     [deleteButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];

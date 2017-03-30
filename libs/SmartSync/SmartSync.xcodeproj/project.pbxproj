@@ -35,6 +35,8 @@
 		4FC47E141D8A1A8800B7F583 /* SFRefreshSyncDownTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FC47E121D8A1A8800B7F583 /* SFRefreshSyncDownTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4FC47E191D8A1B6A00B7F583 /* SFRefreshSyncDownTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FC47E181D8A1B6A00B7F583 /* SFRefreshSyncDownTarget.m */; };
 		4FC47E1A1D8A1B6A00B7F583 /* SFRefreshSyncDownTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FC47E181D8A1B6A00B7F583 /* SFRefreshSyncDownTarget.m */; };
+		4FCF78401E8C7E3D00106939 /* SFSyncTarget+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FCF783C1E8C7DE400106939 /* SFSyncTarget+Internal.h */; };
+		4FCF78411E8C7E4000106939 /* SFSyncTarget+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FCF783C1E8C7DE400106939 /* SFSyncTarget+Internal.h */; };
 		828E0E541AB398AA004E0AF2 /* TestSyncUpTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 828E0E531AB398AA004E0AF2 /* TestSyncUpTarget.m */; };
 		829DA2AF1C12674D0040F5F1 /* SmartSync.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2AE1C12674D0040F5F1 /* SmartSync.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE0AB07D1C10D3FE00BFAEED /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB07C1C10D3FE00BFAEED /* libxml2.tbd */; };
@@ -247,6 +249,7 @@
 		4F9732D51A816C2D006E2A86 /* SyncManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncManagerTests.m; sourceTree = "<group>"; };
 		4FC47E121D8A1A8800B7F583 /* SFRefreshSyncDownTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFRefreshSyncDownTarget.h; sourceTree = "<group>"; };
 		4FC47E181D8A1B6A00B7F583 /* SFRefreshSyncDownTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFRefreshSyncDownTarget.m; sourceTree = "<group>"; };
+		4FCF783C1E8C7DE400106939 /* SFSyncTarget+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SFSyncTarget+Internal.h"; sourceTree = "<group>"; };
 		4FDE57BC1ABA12A70060A583 /* SFSyncTarget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSyncTarget.h; sourceTree = "<group>"; };
 		4FDE57BD1ABA13640060A583 /* SFSyncTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSyncTarget.m; sourceTree = "<group>"; };
 		4FFEE5B31BFE8F8800B7AA8A /* SmartStore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SmartStore.xcodeproj; path = ../SmartStore/SmartStore.xcodeproj; sourceTree = "<group>"; };
@@ -591,6 +594,7 @@
 				4F12836F1A018ED9007F87EC /* SFSyncDownTarget.m */,
 				4FDE57BC1ABA12A70060A583 /* SFSyncTarget.h */,
 				4FDE57BD1ABA13640060A583 /* SFSyncTarget.m */,
+				4FCF783C1E8C7DE400106939 /* SFSyncTarget+Internal.h */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -614,6 +618,7 @@
 				CE4CE42F1C0E5A49009F6029 /* SFObjectTypeLayout.h in Headers */,
 				CE4CE4321C0E5A49009F6029 /* SFSmartSyncPersistableObject.h in Headers */,
 				CE4CE44C1C0E5A75009F6029 /* SFSyncDownTarget.h in Headers */,
+				4FCF78401E8C7E3D00106939 /* SFSyncTarget+Internal.h in Headers */,
 				CE4CE44A1C0E5A75009F6029 /* SFSyncState.h in Headers */,
 				CE4CE44E1C0E5A75009F6029 /* SFSyncTarget.h in Headers */,
 				CE4CE4281C0E5A49009F6029 /* SFObject+Internal.h in Headers */,
@@ -645,6 +650,7 @@
 				CEA884251C191719008D871B /* SFSmartSyncConstants.h in Headers */,
 				CEA884111C1916E8008D871B /* SFSmartSyncSyncManager.h in Headers */,
 				CEA884201C1916FA008D871B /* SFSmartSyncPersistableObject+Internal.h in Headers */,
+				4FCF78411E8C7E4000106939 /* SFSyncTarget+Internal.h in Headers */,
 				CEA884311C191719008D871B /* SFSoqlSyncDownTarget.h in Headers */,
 				CEA884211C1916FA008D871B /* SFSmartSyncPersistableObject.h in Headers */,
 				CEA884151C1916E8008D871B /* SFSmartSyncCacheManager.h in Headers */,
