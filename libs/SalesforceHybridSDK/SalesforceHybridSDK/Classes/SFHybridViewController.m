@@ -189,11 +189,7 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
 
 - (UIView *)newCordovaViewWithFrame:(CGRect)bounds
 {
-    UIView *view = [self newCordovaViewWithFrameAndEngine:bounds webViewEngine:@"CDVWKWebViewEngine"];
-    if (self.useUIWebView) {
-        view = [self newCordovaViewWithFrameAndEngine:bounds webViewEngine:@"CDVUIWebViewEngine"];
-    }
-    return view;
+    return [self newCordovaViewWithFrameAndEngine:bounds webViewEngine:self.useUIWebView ? @"CDVUIWebViewEngine" : @"CDVWKWebViewEngine"];
 }
 
 - (UIView *)newCordovaViewWithFrameAndEngine:(CGRect)bounds webViewEngine:(NSString *)webViewEngine
@@ -596,22 +592,9 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
         decisionHandler(WKNavigationActionPolicyCancel);
         return;
     } else {
-
-        /*
-         * Handle all other types of urls (tel:, sms:), and requests to load a URL in the main WebView.
-         */
-        BOOL shouldAllowNavigation = NO;
-        if ([url isFileURL]) {
-            shouldAllowNavigation = YES;
-        }
-        if (shouldAllowNavigation) {
-            decisionHandler(WKNavigationActionPolicyAllow);
-            return;
-        } else {
-            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginHandleOpenURLNotification object:url]];
-            decisionHandler(WKNavigationActionPolicyCancel);
-            return;
-        }
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginHandleOpenURLNotification object:url]];
+        decisionHandler(WKNavigationActionPolicyAllow);
+        return;
     }
 }
 
