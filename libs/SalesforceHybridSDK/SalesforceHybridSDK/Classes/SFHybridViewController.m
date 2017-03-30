@@ -189,7 +189,7 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
 
 - (UIView *)newCordovaViewWithFrame:(CGRect)bounds
 {
-    UIView *view = [self newCordovaViewWithFrameAndEngine:bounds webViewEngine:@"SFWKWebViewEngine"];
+    UIView *view = [self newCordovaViewWithFrameAndEngine:bounds webViewEngine:@"CDVWKWebViewEngine"];
     if (self.useUIWebView) {
         view = [self newCordovaViewWithFrameAndEngine:bounds webViewEngine:@"CDVUIWebViewEngine"];
     }
