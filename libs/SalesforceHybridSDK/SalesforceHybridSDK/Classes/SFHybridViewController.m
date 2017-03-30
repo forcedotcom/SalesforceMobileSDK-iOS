@@ -25,7 +25,6 @@
 
 #import "SFHybridViewController.h"
 #import "SFHybridConnectionMonitor.h"
-#import "SFWKWebViewNavigationDelegate.h"
 #import <SalesforceSDKCore/SFSDKAppFeatureMarkers.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
 #import <SalesforceSDKCore/NSURL+SFStringUtils.h>
@@ -72,11 +71,6 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
 }
 
 @property (nonatomic, readwrite, assign) BOOL useUIWebView;
-
-/**
- * Navigation web view delegate.
- */
-@property (nonatomic, strong, readwrite) SFWKWebViewNavigationDelegate *navWebViewDelegate;
 
 /**
  * Hidden WKWebView used to load the VF ping page.
@@ -195,7 +189,7 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
 
 - (UIView *)newCordovaViewWithFrame:(CGRect)bounds
 {
-    UIView *view = [self newCordovaViewWithFrameAndEngine:bounds webViewEngine:@"SFWKWebViewEngine"];
+    UIView *view = [self newCordovaViewWithFrameAndEngine:bounds webViewEngine:@"CDVWKWebViewEngine"];
     if (self.useUIWebView) {
         view = [self newCordovaViewWithFrameAndEngine:bounds webViewEngine:@"CDVUIWebViewEngine"];
     }
@@ -205,11 +199,7 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
 - (UIView *)newCordovaViewWithFrameAndEngine:(CGRect)bounds webViewEngine:(NSString *)webViewEngine
 {
     [self.settings setCordovaSetting:webViewEngine forKey:@"CordovaWebViewEngine"];
-    UIView *view = [super newCordovaViewWithFrame:bounds];
-    if (!self.useUIWebView) {
-        self.navWebViewDelegate = [[SFWKWebViewNavigationDelegate alloc] initWithEnginePlugin:self.webViewEngine];
-    }
-    return view;
+    return [super newCordovaViewWithFrame:bounds];
 }
 
 - (void)dealloc
@@ -523,9 +513,7 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
 
 - (void) webView:(WKWebView *) webView didStartProvisionalNavigation:(WKNavigation *) navigation
 {
-    if (self.navWebViewDelegate) {
-        [self.navWebViewDelegate webView:webView didStartProvisionalNavigation:navigation];
-    }
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginResetNotification object:webView]];
 }
 
 - (void) webViewDidStartLoad:(UIWebView *) webView
@@ -578,17 +566,53 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
                  }
              }];
             shouldAllowRequest = NO;
-        } else if (self.navWebViewDelegate) {
-            [self.navWebViewDelegate webView:webView decidePolicyForNavigationAction:navigationAction decisionHandler:decisionHandler];
+        } else {
+            [self defaultWKNavigationHandling:webView decidePolicyForNavigationAction:navigationAction decisionHandler:decisionHandler];
             return;
         }
     }
-    
-    if(shouldAllowRequest)
+    if (shouldAllowRequest) {
         decisionHandler(WKNavigationActionPolicyAllow);
-    else
+    } else {
         decisionHandler(WKNavigationActionPolicyCancel);
-    
+    }
+}
+
+- (void) defaultWKNavigationHandling:(WKWebView *) webView decidePolicyForNavigationAction:(WKNavigationAction *) navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy)) decisionHandler {
+    NSURL *url = [navigationAction.request URL];
+
+    /*
+     * Execute any commands queued with cordova.exec() on the JS side.
+     * The part of the URL after gap:// is irrelevant.
+     */
+    if ([[url scheme] isEqualToString:@"gap"]) {
+        [self.commandQueue fetchCommandsFromJs];
+        
+        /*
+         * The delegate is called asynchronously in this case, so we don't have to use
+         * flushCommandQueueWithDelayedJs (setTimeout(0)) as we do with hash changes.
+         */
+        [self.commandQueue executePending];
+        decisionHandler(WKNavigationActionPolicyCancel);
+        return;
+    } else {
+
+        /*
+         * Handle all other types of urls (tel:, sms:), and requests to load a URL in the main WebView.
+         */
+        BOOL shouldAllowNavigation = NO;
+        if ([url isFileURL]) {
+            shouldAllowNavigation = YES;
+        }
+        if (shouldAllowNavigation) {
+            decisionHandler(WKNavigationActionPolicyAllow);
+            return;
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginHandleOpenURLNotification object:url]];
+            decisionHandler(WKNavigationActionPolicyCancel);
+            return;
+        }
+    }
 }
 
 - (BOOL) webView:(UIWebView *) webView shouldStartLoadWithRequest:(NSURLRequest *) request navigationType:(UIWebViewNavigationType) navigationType
@@ -724,14 +748,8 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
                 _foundHomeUrl = YES;
             }
         }
-        if (self.useUIWebView) {
-            [CDVUserAgentUtil releaseLock:self.userAgentLockToken];
-            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPageDidLoadNotification object:self.webView]];
-        } else {
-            if (self.navWebViewDelegate) {
-                [self.navWebViewDelegate webView:(WKWebView *) webView didFinishNavigation:navigation];
-            }
-        }
+        [CDVUserAgentUtil releaseLock:self.userAgentLockToken];
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPageDidLoadNotification object:self.webView]];
     }
 }
 
