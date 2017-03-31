@@ -194,27 +194,15 @@ static NSException *authException = nil;
  */
 - (void)testCleanResyncGhostsForSOQLTarget
 {
+    [self createAccountsSoup:ACCOUNTS_SOUP];
 
     // Creates 3 accounts on the server.
-    NSMutableDictionary* accountIdToFields = [[NSMutableDictionary alloc] initWithDictionary:[self createAccountsOnServer:3]];
-    XCTAssertEqual(accountIdToFields.count, 3, @"3 accounts should have been created");
-    NSArray* accountIds = [accountIdToFields allKeys];
-    NSString* soupName = ACCOUNTS_SOUP;
-    [self createAccountsSoup:soupName];
+    NSArray* accountIds = [[self createAccountsOnServer:3] allKeys];
 
     // Builds SOQL sync down target and performs initial sync.
-    NSMutableString* soql = [[NSMutableString alloc] init];
-    [soql appendString:@"SELECT Id, Name FROM Account WHERE Id IN ('"];
-    [soql appendString:accountIds[0]];
-    [soql appendString:@"', '"];
-    [soql appendString:accountIds[1]];
-    [soql appendString:@"', '"];
-    [soql appendString:accountIds[2]];
-    [soql appendString:@"')"];
-    NSNumber* syncId = [NSNumber numberWithInteger:[self trySyncDown:SFSyncStateMergeModeLeaveIfChanged target:[SFSoqlSyncDownTarget newSyncTarget:soql] soupName:soupName totalSize:accountIdToFields.count numberFetches:1]];
-    SFQuerySpec *querySpec = [SFQuerySpec newAllQuerySpec:soupName withOrderPath:ID withOrder:kSFSoupQuerySortOrderAscending withPageSize:10];
-    NSUInteger numRecords = [store countWithQuerySpec:querySpec error:nil];
-    XCTAssertEqual(numRecords, 3, @"3 accounts should be stored in the soup");
+    NSString* soql = [NSString stringWithFormat:@"SELECT Id, Name FROM Account WHERE Id IN %@", [self buildInClause:accountIds]];
+    NSNumber* syncId = [NSNumber numberWithInteger:[self trySyncDown:SFSyncStateMergeModeLeaveIfChanged target:[SFSoqlSyncDownTarget newSyncTarget:soql] soupName:ACCOUNTS_SOUP totalSize:accountIds.count numberFetches:1]];
+    [self checkDbExists:ACCOUNTS_SOUP ids:accountIds idField:@"Id"];
 
     // Deletes 1 account on the server and verifies the ghost record is cleared from the soup.
     [self deleteAccountsOnServer:@[accountIds[0]]];
@@ -225,8 +213,7 @@ static NSException *authException = nil;
         }
     }];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
-    numRecords = [store countWithQuerySpec:querySpec error:nil];
-    XCTAssertEqual(numRecords, 2, @"2 accounts should be stored in the soup");
+    [self checkDbDeleted:ACCOUNTS_SOUP ids:@[accountIds[0]] idField:@"Id"];
 
     // Deletes the remaining accounts on the server.
     [self deleteAccountsOnServer:@[accountIds[1]]];
@@ -238,25 +225,20 @@ static NSException *authException = nil;
  */
 - (void)testCleanResyncGhostsForMRUTarget
 {
+    [self createAccountsSoup:ACCOUNTS_SOUP];
+
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForMetadataWithObjectType:ACCOUNT_TYPE];
-    NSMutableArray* existingAcccounts =[self sendSyncRequest:request][kRecentItems];
+    NSMutableArray* existingAccounts =[self sendSyncRequest:request][kRecentItems];
 
     // Creates 3 accounts on the server.
-    NSMutableDictionary* accountIdToFields = [[NSMutableDictionary alloc] initWithDictionary:[self createAccountsOnServer:3]];
-    XCTAssertEqual(accountIdToFields.count, 3, @"3 accounts should have been created");
-    NSArray* accountIds = [accountIdToFields allKeys];
-    NSString* soupName = ACCOUNTS_SOUP;
-    [self createAccountsSoup:soupName];
-    
-    for (NSDictionary* account in existingAcccounts) {
-        accountIdToFields[account[ID]] = @{NAME:account[NAME]};
+    NSMutableArray* accountIds = [[[self createAccountsOnServer:3] allKeys] mutableCopy];
+    for (NSDictionary* account in existingAccounts) {
+        [accountIds addObject:account[ID]];
     }
 
     // Builds MRU sync down target and performs initial sync.
-    NSNumber* syncId = [NSNumber numberWithInteger:[self trySyncDown:SFSyncStateMergeModeLeaveIfChanged target:[SFMruSyncDownTarget newSyncTarget:ACCOUNT_TYPE fieldlist:@[ID, NAME, DESCRIPTION]] soupName:soupName totalSize:accountIdToFields.count numberFetches:1]];
-    SFQuerySpec *querySpec = [SFQuerySpec newAllQuerySpec:soupName withOrderPath:ID withOrder:kSFSoupQuerySortOrderAscending withPageSize:10];
-    NSUInteger preNumRecords = [store countWithQuerySpec:querySpec error:nil];
-    XCTAssertTrue(preNumRecords > 0, @"At least 1 account should be stored in the soup");
+    NSNumber* syncId = [NSNumber numberWithInteger:[self trySyncDown:SFSyncStateMergeModeLeaveIfChanged target:[SFMruSyncDownTarget newSyncTarget:ACCOUNT_TYPE fieldlist:@[ID, NAME, DESCRIPTION]] soupName:ACCOUNTS_SOUP totalSize:accountIds.count numberFetches:1]];
+    [self checkDbExists:ACCOUNTS_SOUP ids:accountIds idField:@"Id"];
 
     // Deletes 1 account on the server and verifies the ghost record is cleared from the soup.
     [self deleteAccountsOnServer:@[accountIds[0]]];
@@ -267,8 +249,7 @@ static NSException *authException = nil;
         }
     }];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
-    NSUInteger postNumRecords = [store countWithQuerySpec:querySpec error:nil];
-    XCTAssertEqual(postNumRecords, preNumRecords - 1, @"1 less account should be stored in the soup");
+    [self checkDbDeleted:ACCOUNTS_SOUP ids:@[accountIds[0]] idField:@"Id"];
 
     // Deletes the remaining accounts on the server.
     [self deleteAccountsOnServer:@[accountIds[1]]];
@@ -281,22 +262,25 @@ static NSException *authException = nil;
 - (void)testCleanResyncGhostsForSOSLTarget
 {
 
+    [self createAccountsSoup:ACCOUNTS_SOUP];
+
     // Creates 1 account on the server.
-    NSMutableDictionary* accountIdToFields = [[NSMutableDictionary alloc] initWithDictionary:[self createAccountsOnServer:1]];
-    XCTAssertEqual(accountIdToFields.count, 1, @"1 account should have been created");
+    NSDictionary* accountIdToFields = [self createAccountsOnServer:3];
     NSArray* accountIds = [accountIdToFields allKeys];
-    NSString* soupName = ACCOUNTS_SOUP;
-    [self createAccountsSoup:soupName];
+    
+    NSMutableArray* accountNames = [NSMutableArray new];
+    for (NSDictionary* fields in [accountIdToFields allValues]) {
+        [accountNames addObject:fields[NAME]];
+    }
 
     // Builds SOSL sync down target and performs initial sync.
-    SFSDKSoslBuilder* soslBuilder = [SFSDKSoslBuilder withSearchTerm:accountIdToFields[accountIds[0]][NAME]];
+    NSString* searchQuery = [accountNames componentsJoinedByString:@" OR "];
+    SFSDKSoslBuilder* soslBuilder = [SFSDKSoslBuilder withSearchTerm:searchQuery];
     SFSDKSoslReturningBuilder* returningBuilder = [SFSDKSoslReturningBuilder withObjectName:ACCOUNT_TYPE];
     [returningBuilder fields:@"Id, Name, Description"];
     NSString* sosl = [[[soslBuilder returning:returningBuilder] searchGroup:@"NAME FIELDS"] build];
-    NSNumber* syncId = [NSNumber numberWithInteger:[self trySyncDown:SFSyncStateMergeModeLeaveIfChanged target:[SFSoslSyncDownTarget newSyncTarget:sosl] soupName:soupName totalSize:accountIdToFields.count numberFetches:1]];
-    SFQuerySpec *querySpec = [SFQuerySpec newAllQuerySpec:soupName withOrderPath:ID withOrder:kSFSoupQuerySortOrderAscending withPageSize:10];
-    NSUInteger numRecords = [store countWithQuerySpec:querySpec error:nil];
-    XCTAssertEqual(numRecords, 1, @"1 account should be stored in the soup");
+    NSNumber* syncId = [NSNumber numberWithInteger:[self trySyncDown:SFSyncStateMergeModeLeaveIfChanged target:[SFSoslSyncDownTarget newSyncTarget:sosl] soupName:ACCOUNTS_SOUP totalSize:accountIds.count numberFetches:1]];
+    [self checkDbExists:ACCOUNTS_SOUP ids:accountIds idField:@"Id"];
 
     // Deletes 1 account on the server and verifies the ghost record is cleared from the soup.
     [self deleteAccountsOnServer:@[accountIds[0]]];
@@ -307,8 +291,7 @@ static NSException *authException = nil;
         }
     }];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
-    numRecords = [store countWithQuerySpec:querySpec error:nil];
-    XCTAssertEqual(numRecords, 0, @"No accounts should be stored in the soup");
+    [self checkDbDeleted:ACCOUNTS_SOUP ids:@[accountIds[0]] idField:@"Id"];
 
     // Deletes the remaining accounts on the server.
     [self deleteAccountsOnServer:@[accountIds[0]]];
@@ -596,8 +579,7 @@ static NSException *authException = nil;
 
     // Make sure the soup doesn't contain the record deleted on the server anymore
     [self checkDb:idToFieldsLeft];
-    NSUInteger numRecords = [store countWithQuerySpec:[SFQuerySpec newAllQuerySpec:ACCOUNTS_SOUP withOrderPath:ID withOrder:kSFSoupQuerySortOrderAscending withPageSize:10] error:nil];
-    XCTAssertEqual(numRecords, idToFieldsLeft.count, @"Wrong number of accounts found in soup");
+    [self checkDbDeleted:ACCOUNTS_SOUP ids:@[idDeleted] idField:@"Id"];
 }
 
 /**
@@ -804,13 +786,13 @@ static NSException *authException = nil;
     // Make sure all the locally created records have synched up
     XCTAssertEqual(namesOfCreated.count, idToFieldsCreated.count);
     
-    // Check server - make updated records only have updated description - make sure created records only have name
+    // Check server - make sure updated records only have updated description - make sure created records only have name
     NSMutableDictionary* idToFieldsExpectedOnServer = [NSMutableDictionary new];
     for (NSString* id in idToFieldsLocallyUpdated) {
         idToFieldsExpectedOnServer[id] = @{NAME: idToFields[id][NAME], DESCRIPTION:idToFieldsLocallyUpdated[id][DESCRIPTION]}; // updated records should have original name and updated description
     }
     for (NSString* id in idToFieldsCreated) {
-        idToFieldsExpectedOnServer[id] = @{NAME: idToFieldsCreated[id][NAME], DESCRIPTION:[NSNull null]}; // created recrods should have name but no description
+        idToFieldsExpectedOnServer[id] = @{NAME: idToFieldsCreated[id][NAME], DESCRIPTION:[NSNull null]}; // created records should have name but no description
     }
 
     // Make sure we found all the records on the server
@@ -1530,6 +1512,24 @@ static NSException *authException = nil;
         [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusDone expectedProgress:100];
     }
     return syncId;
+}
+
+- (void)checkDbExists:(NSString*)soupName ids:(NSArray*)ids idField:(NSString*)idField {
+    NSString* smartSql = [NSString stringWithFormat:@"SELECT {%@:_soup} FROM {%@} WHERE {%@:%@} IN %@",
+            soupName, soupName, soupName, idField, [self buildInClause:ids]];
+
+    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:ids.count];
+    NSArray* rowsFromDb = [store queryWithQuerySpec:query pageIndex:0 error:nil];
+    XCTAssertEqual(ids.count, rowsFromDb.count, "All records should have been returned from smartstore");
+}
+
+- (void)checkDbDeleted:(NSString*)soupName ids:(NSArray*)ids idField:(NSString*)idField {
+    NSString* smartSql = [NSString stringWithFormat:@"SELECT {%@:_soup} FROM {%@} WHERE {%@:%@} IN %@",
+                                                    soupName, soupName, soupName, idField, [self buildInClause:ids]];
+
+    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:ids.count];
+    NSArray* rowsFromDb = [store queryWithQuerySpec:query pageIndex:0 error:nil];
+    XCTAssertEqual(0, rowsFromDb.count, "No records should have been returned from smartstore");
 }
 
 - (void)checkDb:(NSDictionary*)dict {

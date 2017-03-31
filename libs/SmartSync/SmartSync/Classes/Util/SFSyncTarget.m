@@ -114,19 +114,19 @@ NSString * const kSyncTargetLocallyDeleted = @"__locally_deleted__";
 
 
 - (BOOL) isLocallyCreated:(NSDictionary*)record {
-    return record[kSyncTargetLocallyCreated];
+    return [record[kSyncTargetLocallyCreated] boolValue];
 }
 
 - (BOOL) isLocallyUpdated:(NSDictionary*)record {
-    return record[kSyncTargetLocallyUpdated];
+    return [record[kSyncTargetLocallyUpdated] boolValue];
 }
 
 - (BOOL) isLocallyDeleted:(NSDictionary*)record {
-    return record[kSyncTargetLocallyDeleted];
+    return [record[kSyncTargetLocallyDeleted] boolValue];
 }
 
 - (BOOL) isDirty:(NSDictionary*)record {
-    return record[kSyncTargetLocal];
+    return [record[kSyncTargetLocal] boolValue];
 }
 
 - (NSOrderedSet*) getDirtyRecordIds:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName idField:(NSString*)idField {

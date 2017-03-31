@@ -116,7 +116,7 @@ ABSTRACT_METHOD
 }
 
 - (NSString*) getNonDirtyRecordIdsSql:(NSString*)soupName idField:(NSString*)idField {
-    return [NSString stringWithFormat:@"SELECT {%@:%@ FROM {%@} WHERE {%@:%@} = '0' ORDER BY {%@:%@} ASC",
+    return [NSString stringWithFormat:@"SELECT {%@:%@} FROM {%@} WHERE {%@:%@} = '0' ORDER BY {%@:%@} ASC",
                     soupName, idField, soupName, soupName, kSyncTargetLocal, soupName, idField];
 }
 
@@ -130,14 +130,16 @@ ABSTRACT_METHOD
 
     // Fetches list of IDs still present on the server from the list of local IDs
     // and removes the list of IDs that are still present on the server.
+    NSArray *localIdsArr = [localIds array];
     [self getRemoteIds:syncManager
-              localIds:[localIds array]
+              localIds:localIdsArr
             errorBlock:errorBlock
-         completeBlock: ^(NSArray* remoteIds){
+         completeBlock:^(NSArray *remoteIds) {
              [localIds removeObjectsInArray:remoteIds];
 
              // Deletes extra IDs from SmartStore.
-             [self deleteRecordsFromLocalStore:syncManager soupName:soupName ids:[localIds array] idField:self.idFieldName];
+             [self deleteRecordsFromLocalStore:syncManager soupName:soupName ids:localIdsArr idField:self.idFieldName];
+             completeBlock(localIdsArr);
          }];
 }
 

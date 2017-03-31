@@ -312,9 +312,7 @@ static NSMutableDictionary *syncMgrList = nil;
             long long maxTimeStampForFetched = [target getLatestModificationTimeStamp:records];
 
             // Update sync status.
-            if (countFetched < totalSize) {
-                updateSync(nil, progress, totalSize, maxTimeStampForFetched);
-            }
+            updateSync(nil, progress, totalSize, maxTimeStampForFetched);
 
             // Fetch next records, if any.
             [target continueFetch:self errorBlock:failBlock completeBlock:continueFetchBlockRecurse];
@@ -448,8 +446,8 @@ static NSMutableDictionary *syncMgrList = nil;
     }
     
     NSString* idStr = [(NSNumber*) recordIds[i] stringValue];
-    NSMutableDictionary* record = [[self.store retrieveEntries:@[idStr] fromSoup:soupName][0] mutableCopy];
-    
+    NSMutableDictionary* record = [[target getFromLocalStore:self soupName:soupName storeId:idStr] mutableCopy];
+
     // Do we need to do a create, update or delete
     BOOL locallyCreated = [target isLocallyCreated:record];
     BOOL locallyUpdated = [target isLocallyUpdated:record];
@@ -525,8 +523,8 @@ static NSMutableDictionary *syncMgrList = nil;
     // Delete handler
     SFSyncUpTargetCompleteBlock completeBlockDelete = ^(NSDictionary *d) {
         // Remove entry on delete
-        [self.store removeEntries:@[soupEntryId] fromSoup:soupName];
-        
+        [target deleteFromLocalStore:self soupName:soupName record:record];
+
         // Next
         [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failBlock:failBlock];
     };

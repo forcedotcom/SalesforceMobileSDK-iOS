@@ -126,7 +126,16 @@ static NSString * const kSFSyncTargetFieldlist = @"fieldlist";
                         from:self.objectType]
                        whereClause:inPredicate]
                       build];
-    [self startFetch:syncManager maxTimeStamp:0 queryRun:soql errorBlock:errorBlock completeBlock:completeBlock];
+
+    SFSyncDownTargetFetchCompleteBlock fetchBlock = ^(NSArray* records) {
+        NSMutableArray * remoteIds = [NSMutableArray new];
+        for (NSDictionary * record in records) {
+            [remoteIds addObject:record[self.idFieldName]];
+        }
+        completeBlock(remoteIds);
+    };
+
+    [self startFetch:syncManager maxTimeStamp:0 queryRun:soql errorBlock:errorBlock completeBlock:fetchBlock];
 }
 
 - (NSArray*) pluck:(NSArray*)arrayOfDictionaries key:(NSString*)key {
