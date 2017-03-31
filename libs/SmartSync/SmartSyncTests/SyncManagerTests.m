@@ -263,7 +263,9 @@ static NSException *authException = nil;
     [self createAccountsSoup:ACCOUNTS_SOUP];
 
     // Creates 1 account on the server.
-    NSDictionary* accountIdToFields = [self createAccountsOnServer:3];
+    NSDictionary* accountIdToFields = [self createAccountsOnServer:1];
+    [NSThread sleepForTimeInterval:1]; //give server a second to settle to reflect in API
+
     NSArray* accountIds = [accountIdToFields allKeys];
     
     NSMutableArray* accountNames = [NSMutableArray new];
@@ -282,6 +284,8 @@ static NSException *authException = nil;
 
     // Deletes 1 account on the server and verifies the ghost record is cleared from the soup.
     [self deleteAccountsOnServer:@[accountIds[0]]];
+    [NSThread sleepForTimeInterval:1]; //give server a second to settle to reflect in API
+ 
     XCTestExpectation* cleanResyncGhosts = [self expectationWithDescription:@"cleanResyncGhosts"];
     [syncManager cleanResyncGhosts:syncId completionStatusBlock:^(SFSyncStateStatus syncStatus) {
         if (syncStatus == SFSyncStateStatusFailed || syncStatus == SFSyncStateStatusDone) {
@@ -1745,16 +1749,25 @@ static NSException *authException = nil;
 }
 
 - (NSDictionary*)createAccountsOnServer:(NSUInteger)count {
+    NSMutableArray * arrayOfFields = [NSMutableArray new];
+    NSMutableArray* requests = [NSMutableArray new];
     NSMutableDictionary* dict = [NSMutableDictionary dictionary];
     for (NSUInteger i = 0; i < count; i++) {
         NSString* accountName = [self createAccountName];
         NSString* description = [self createDescription:accountName];
         NSDictionary* fields = @{NAME: accountName, DESCRIPTION: description};
-        SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCreateWithObjectType:ACCOUNT_TYPE fields:fields];
-        NSString* accountId = [self sendSyncRequest:request][@"id"];
-        dict[accountId] = fields;
+        [arrayOfFields addObject:fields];
+        [requests addObject:[[SFRestAPI sharedInstance] requestForCreateWithObjectType:ACCOUNT_TYPE fields:fields]];
     }
-    [NSThread sleepForTimeInterval:1]; //give server a second to settle to reflect in API
+
+    NSDictionary * batchResponse = [self sendSyncRequest:[[SFRestAPI sharedInstance] batchRequest:requests haltOnError:NO]];
+    NSArray* results = batchResponse[@"results"];
+    for (NSUInteger  i = 0; i < results.count; i++) {
+        NSDictionary * result = results[i];
+        XCTAssertEqual(201, [result[@"statusCode"] intValue], "Status code should be HTTP_CREATED");
+        dict[result[@"result"][@"id"]] = arrayOfFields[i];
+    }
+
     return dict;
 }
 
