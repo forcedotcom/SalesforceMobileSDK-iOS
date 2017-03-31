@@ -216,8 +216,7 @@ static NSException *authException = nil;
     [self checkDbDeleted:ACCOUNTS_SOUP ids:@[accountIds[0]] idField:@"Id"];
 
     // Deletes the remaining accounts on the server.
-    [self deleteAccountsOnServer:@[accountIds[1]]];
-    [self deleteAccountsOnServer:@[accountIds[2]]];
+    [self deleteAccountsOnServer:accountIds];
 }
 
 /**
@@ -252,8 +251,7 @@ static NSException *authException = nil;
     [self checkDbDeleted:ACCOUNTS_SOUP ids:@[accountIds[0]] idField:@"Id"];
 
     // Deletes the remaining accounts on the server.
-    [self deleteAccountsOnServer:@[accountIds[1]]];
-    [self deleteAccountsOnServer:@[accountIds[2]]];
+    [self deleteAccountsOnServer:accountIds];
 }
 
 /**
@@ -294,7 +292,7 @@ static NSException *authException = nil;
     [self checkDbDeleted:ACCOUNTS_SOUP ids:@[accountIds[0]] idField:@"Id"];
 
     // Deletes the remaining accounts on the server.
-    [self deleteAccountsOnServer:@[accountIds[0]]];
+    [self deleteAccountsOnServer:accountIds];
 }
 
 /**
@@ -1760,12 +1758,19 @@ static NSException *authException = nil;
     return dict;
 }
 
-- (void)deleteAccountsOnServer:(NSArray*)ids {
+- (void)deleteAccountsOnServer:(NSArray *)ids {
+    NSMutableArray* requests = [NSMutableArray new];
     for (NSString* accountId in ids) {
-        SFRestRequest* request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:ACCOUNT_TYPE objectId:accountId];
-        [self sendSyncRequest:request ignoreNotFound:YES];
+        SFRestRequest *deleteRequest = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:ACCOUNT_TYPE objectId:accountId];
+        [requests addObject:deleteRequest];
+        if (requests.count == 25) {
+            [self sendSyncRequest:[[SFRestAPI sharedInstance] batchRequest:requests haltOnError:NO]];
+            [requests removeAllObjects];
+        }
     }
-    [NSThread sleepForTimeInterval:1]; //give server a second to settle to reflect in API
+    if (requests.count > 0) {
+        [self sendSyncRequest:[[SFRestAPI sharedInstance] batchRequest:requests haltOnError:NO]];
+    }
 }
 
 - (NSString*) createAccountName {
