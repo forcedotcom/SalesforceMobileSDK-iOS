@@ -122,14 +122,15 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
     if ([self isLocallyCreated:record]) {
         resultBlock(YES);
     }
+    else {
+        __block SFRecordModDate *localModDate = [[SFRecordModDate alloc]
+                initWithTimestamp:record[self.modificationDateFieldName]
+                        isDeleted:[self isLocallyDeleted:record]];
 
-    __block SFRecordModDate *localModDate = [[SFRecordModDate alloc]
-            initWithTimestamp:record[self.modificationDateFieldName]
-                    isDeleted:[self isLocallyDeleted:record]];
-
-    [self fetchLastModifiedDate:record completeBlock:^(SFRecordModDate *remoteModDate) {
-        resultBlock([self isNewerThanServer:localModDate remoteModDate:remoteModDate]);
-    }];
+        [self fetchLastModifiedDate:record completeBlock:^(SFRecordModDate *remoteModDate) {
+            resultBlock([self isNewerThanServer:localModDate remoteModDate:remoteModDate]);
+        }];
+    }
 }
 
 
@@ -265,9 +266,9 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
         remoteModDate:(SFRecordModDate*)remoteModDate
 {
 if ((localModDate.timestamp != nil && remoteModDate.timestamp != nil
-        && [localModDate.timestamp compare:remoteModDate.timestamp] == NSOrderedDescending) // we got a local and remote mod date and the local one is greater
-        || (localModDate.isDeleted && remoteModDate.isDeleted)                              // or we have a local delete and a remote delete
-        || localModDate.timestamp == nil)                                                   // or we don't have a local mod date
+        && [localModDate.timestamp compare:remoteModDate.timestamp] >= 0) // we got a local and remote mod date and the local one is greater
+        || (localModDate.isDeleted && remoteModDate.isDeleted)            // or we have a local delete and a remote delete
+        || localModDate.timestamp == nil)                                 // or we don't have a local mod date
 {
     return true;
 }

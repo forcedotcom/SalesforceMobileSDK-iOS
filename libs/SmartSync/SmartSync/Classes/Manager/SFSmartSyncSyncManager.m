@@ -473,7 +473,8 @@ static NSMutableDictionary *syncMgrList = nil;
      * passed in tells us to leave the record alone under these
      * circumstances, we will do nothing.
      */
-    if (mergeMode == SFSyncStateMergeModeLeaveIfChanged) {
+    if (mergeMode == SFSyncStateMergeModeLeaveIfChanged && !locallyCreated) {
+        // Need to check the modification date on the server, against the local date.
         __weak typeof(self) weakSelf = self;
         [target isNewerThanServer:self record:record resultBlock:^(BOOL isNewerThanServer) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
