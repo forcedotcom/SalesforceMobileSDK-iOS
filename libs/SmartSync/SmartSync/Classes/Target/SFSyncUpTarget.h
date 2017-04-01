@@ -68,9 +68,9 @@ typedef NS_ENUM(NSUInteger, SFSyncUpTargetAction) {
 };
 
 /**
- Block definition for returning record modification information.
+ Block definition for returning whether a records changed on server.
  */
-typedef void (^SFSyncUpRecordModificationResultBlock)(NSDate *localModificationDate, NSDate *remoteModificationDate, NSError *error);
+typedef void (^SFSyncUpRecordNewerThanServerBlock)(BOOL isNewerThanServer);
 
 /**
  Block definition for calling a sync up completion block.
@@ -83,6 +83,17 @@ typedef void (^SFSyncUpTargetCompleteBlock)(NSDictionary *syncUpResult);
 typedef void (^SFSyncUpTargetErrorBlock)(NSError *error);
 
 /**
+ Helper class for isNewerThanServer
+ */
+@interface SFRecordModDate : NSObject
+
+@property (nonatomic, strong) NSString*  timestamp; // time stamp in the ISO8601 format - can be nil if unknown
+@property (nonatomic, assign) BOOL isDeleted;       // YES if record was deleted
+
+- (instancetype)initWithTimestamp:(NSString*)timestamp isDeleted:(BOOL)isDeleted;
+@end
+
+/**
  Base class for a server target, used to manage sync ups to the configured service.
  */
 @interface SFSyncUpTarget : SFSyncTarget
@@ -93,9 +104,15 @@ typedef void (^SFSyncUpTargetErrorBlock)(NSError *error);
 @property (nonatomic, assign) SFSyncUpTargetType targetType;
 
 
+/**
+ Create field list (optional)
+ */
 @property (nonatomic, strong, readonly) NSArray*  createFieldlist;
-@property (nonatomic, strong, readonly) NSArray*  updateFieldlist;
 
+/**
+ Update field list (optional)
+ */
+@property (nonatomic, strong, readonly) NSArray*  updateFieldlist;
 
 /**
  Creates a new instance of a server target from a serialized dictionary.
@@ -124,12 +141,15 @@ typedef void (^SFSyncUpTargetErrorBlock)(NSError *error);
                         updateFieldlist:(NSArray *)updateFieldlist;
 
 /**
- Gives the current modification times of a record, on the client and on the server.
- @param record The record to query for modification times.
- @param modificationResultBlock The block to execute with the modification date values.
+ Call resultBlock with YES if record is more recent than corresponding record on server
+ NB: also call resultBlock true if both were deleted or if local mod date is missing
+ Used to decide whether a record should be synced up or not when using merge mode leave-if-changed
+ @param record The record
+ @param resultBlock The block to execute
  */
-- (void)fetchRecordModificationDates:(NSDictionary *)record
-             modificationResultBlock:(SFSyncUpRecordModificationResultBlock)modificationResultBlock;
+- (void)isNewerThanServer:(SFSmartSyncSyncManager *)syncManager
+                   record:(NSDictionary*)record
+             resultBlock:(SFSyncUpRecordNewerThanServerBlock)resultBlock;
 
 /**
  Save locally created record back to server
@@ -180,3 +200,4 @@ typedef void (^SFSyncUpTargetErrorBlock)(NSError *error);
 - (NSArray *)getIdsOfRecordsToSyncUp:(SFSmartSyncSyncManager *)syncManager
                             soupName:(NSString *)soupName;
 @end
+

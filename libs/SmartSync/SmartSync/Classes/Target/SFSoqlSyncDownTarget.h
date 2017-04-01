@@ -29,17 +29,14 @@
 
 @property (nonatomic, strong) NSString* query;
 
-/**
- Adds a filter for re-syncing a data set, using the given modification date field.
- @param query The original query to append a re-syncing clause to.
- @param modDateFieldName The name of the SOQL field representing the modification date field.
- @param maxTimeStamp The latest modification time represented locally.
- @return The original query with an additional re-syncing clause added.
- */
-+ (NSString*) addFilterForReSync:(NSString*)query modDateFieldName:(NSString *)modDateFieldName maxTimeStamp:(long long)maxTimeStamp;
-
 /** Factory methods
  */
 + (SFSoqlSyncDownTarget*) newSyncTarget:(NSString*)query;
+
+/**
+ * @param maxTimeStamp
+ * @return query to run taking into account max time stamp
+ */
+- (NSString*) getQueryToRun:(long long)maxTimeStamp;
 
 @end

@@ -24,8 +24,6 @@
 
 #import "SFSyncUpTarget.h"
 #import "SFSmartSyncConstants.h"
-#import "SFSmartSyncObjectUtils.h"
-#import <SalesforceSDKCore/SFSDKSoqlBuilder.h>
 #import "SFSmartSyncNetworkUtils.h"
 #import "SFSmartSyncSyncManager.h"
 #import <SalesforceSDKCore/SFJsonUtils.h>
@@ -37,6 +35,19 @@ static NSString *const kSFSyncUpTargetTypeCustom = @"custom";
 static NSString *const kSFSyncUpTargetCreateFieldlist = @"createFieldlist";
 static NSString *const kSFSyncUpTargetUpdateFieldlist = @"updateFieldlist";
 
+@implementation SFRecordModDate
+- (instancetype)initWithTimestamp:(NSString*)timestamp isDeleted:(BOOL)isDeleted {
+    self = [super init];
+    if (self) {
+        self.timestamp = timestamp;
+        self.isDeleted = isDeleted;
+    }
+    return self;
+}
+
+@end
+
+typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
 
 @interface  SFSyncUpTarget ()
 @property (nonatomic, strong) NSArray*  createFieldlist;
@@ -44,6 +55,8 @@ static NSString *const kSFSyncUpTargetUpdateFieldlist = @"updateFieldlist";
 @end
 
 @implementation SFSyncUpTarget
+
+#pragma mark - Initialization and serialization methods
 
 - (instancetype)initWithDict:(NSDictionary *)dict {
     return [self initWithCreateFieldlist:dict[kSFSyncUpTargetCreateFieldlist] updateFieldlist:dict[kSFSyncUpTargetUpdateFieldlist]];
@@ -64,8 +77,6 @@ static NSString *const kSFSyncUpTargetUpdateFieldlist = @"updateFieldlist";
     return self;
 }
 
-
-#pragma mark - Serialization and factory methods
 
 + (instancetype)newFromDict:(NSDictionary*)dict {
     // We should have an implementation class or a target type
@@ -102,67 +113,25 @@ static NSString *const kSFSyncUpTargetUpdateFieldlist = @"updateFieldlist";
     return dict;
 }
 
-+ (SFSyncUpTargetType)targetTypeFromString:(NSString *)targetType {
-    if ([targetType isEqualToString:kSFSyncUpTargetTypeRestStandard]) {
-        return SFSyncUpTargetTypeRestStandard;
+# pragma mark - Public sync up methods
+
+- (void)isNewerThanServer:(SFSmartSyncSyncManager *)syncManager
+                   record:(NSDictionary*)record
+              resultBlock:(SFSyncUpRecordNewerThanServerBlock)resultBlock
+{
+    if ([self isLocallyCreated:record]) {
+        resultBlock(YES);
     }
-    // Must be custom
-    else {
-        return SFSyncUpTargetTypeCustom;
-    }
+
+    __block SFRecordModDate *localModDate = [[SFRecordModDate alloc]
+            initWithTimestamp:record[self.modificationDateFieldName]
+                    isDeleted:[self isLocallyDeleted:record]];
+
+    [self fetchLastModifiedDate:record completeBlock:^(SFRecordModDate *remoteModDate) {
+        resultBlock([self isNewerThanServer:localModDate remoteModDate:remoteModDate]);
+    }];
 }
 
-+ (NSString *)targetTypeToString:(SFSyncUpTargetType)targetType {
-    switch (targetType) {
-        case SFSyncUpTargetTypeRestStandard:  return kSFSyncUpTargetTypeRestStandard;
-        case SFSyncUpTargetTypeCustom: return kSFSyncUpTargetTypeCustom;
-    }
-}
-
-#pragma mark - Sync up methods
-
-- (void)fetchRecordModificationDates:(NSDictionary *)record
-             modificationResultBlock:(SFSyncUpRecordModificationResultBlock)modificationResultBlock {
-    
-    NSString *objectType = [SFJsonUtils projectIntoJson:record path:kObjectTypeField];
-    NSString *objectId = record[self.idFieldName];
-    NSDate *localLastModifiedDate = [SFSmartSyncObjectUtils getDateFromIsoDateString:record[self.modificationDateFieldName]];
-    __block NSDate *serverLastModifiedDate = nil;
-    
-    SFSDKSoqlBuilder *soqlBuilder = [SFSDKSoqlBuilder withFields:self.modificationDateFieldName];
-    [soqlBuilder from:objectType];
-    [soqlBuilder whereClause:[NSString stringWithFormat:@"%@ = '%@'", self.idFieldName, objectId]];
-    NSString *query = [soqlBuilder build];
-    
-    SFRestFailBlock failBlock = ^(NSError *error) {
-// XXX crashing with some error
-//      [self log:SFLogLevelError format:@"REST request failed with error: %@", error];
-        if (modificationResultBlock != NULL) {
-            modificationResultBlock(localLastModifiedDate, nil, error);
-        }
-    };
-    
-    id completeBlock = ^(NSDictionary *response) {
-        if (nil != response && [response[@"records"] count] > 0) {
-            NSDictionary *record = response[@"records"][0];
-            if (nil != record) {
-                NSString *serverLastModifiedStr = record[self.modificationDateFieldName];
-                if (nil != serverLastModifiedStr) {
-                    serverLastModifiedDate = [SFSmartSyncObjectUtils getDateFromIsoDateString:serverLastModifiedStr];
-                }
-            }
-        }
-        if (modificationResultBlock != NULL) {
-            modificationResultBlock(localLastModifiedDate, serverLastModifiedDate, nil);
-        }
-    };
-    
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQuery:query];
-    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request
-                                                     failBlock:failBlock
-                                                 completeBlock:completeBlock
-     ];
-}
 
 - (void)createOnServer:(SFSmartSyncSyncManager *)syncManager
                 record:(NSDictionary*)record
@@ -174,15 +143,6 @@ static NSString *const kSFSyncUpTargetUpdateFieldlist = @"updateFieldlist";
     NSString* objectType = [SFJsonUtils projectIntoJson:record path:kObjectTypeField];
     NSDictionary * fields = [self buildFieldsMap:record fieldlist:fieldlist];
     [self createOnServer:objectType fields:fields completionBlock:completionBlock failBlock:failBlock];
-}
-
-- (void)createOnServer:(NSString*)objectType
-                fields:(NSDictionary*)fields
-       completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
-             failBlock:(SFSyncUpTargetErrorBlock)failBlock
-{
-    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCreateWithObjectType:objectType fields:fields];
-    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:failBlock completeBlock:completionBlock];
 }
 
 - (void)updateOnServer:(SFSmartSyncSyncManager *)syncManager
@@ -199,16 +159,6 @@ static NSString *const kSFSyncUpTargetUpdateFieldlist = @"updateFieldlist";
 
 }
 
-- (void)updateOnServer:(NSString*)objectType
-              objectId:(NSString*)objectId
-                fields:(NSDictionary*)fields
-       completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
-             failBlock:(SFSyncUpTargetErrorBlock)failBlock
-{
-    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForUpdateWithObjectType:objectType objectId:objectId fields:fields];
-    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:failBlock completeBlock:completionBlock];
-}
-
 - (void)deleteOnServer:(SFSmartSyncSyncManager *)syncManager
                 record:(NSDictionary*)record
        completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
@@ -219,20 +169,33 @@ static NSString *const kSFSyncUpTargetUpdateFieldlist = @"updateFieldlist";
     [self deleteOnServer:objectType objectId:objectId completionBlock:completionBlock failBlock:failBlock];
 }
 
-- (void)deleteOnServer:(NSString*)objectType
-              objectId:(NSString*)objectId
-       completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
-             failBlock:(SFSyncUpTargetErrorBlock)failBlock
-{
-    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:objectType objectId:objectId];
-    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:failBlock completeBlock:completionBlock];
-}
 
 - (NSArray*)getIdsOfRecordsToSyncUp:(SFSmartSyncSyncManager*)syncManager
                            soupName:(NSString*)soupName
 {
     return [[self getDirtyRecordIds:syncManager soupName:soupName idField:SOUP_ENTRY_ID] array];
 }
+
+#pragma mark - String to/from enum for sync up target type
+
++ (SFSyncUpTargetType)targetTypeFromString:(NSString *)targetType {
+    if ([targetType isEqualToString:kSFSyncUpTargetTypeRestStandard]) {
+        return SFSyncUpTargetTypeRestStandard;
+    }
+        // Must be custom
+    else {
+        return SFSyncUpTargetTypeCustom;
+    }
+}
+
++ (NSString *)targetTypeToString:(SFSyncUpTargetType)targetType {
+    switch (targetType) {
+        case SFSyncUpTargetTypeRestStandard:  return kSFSyncUpTargetTypeRestStandard;
+        case SFSyncUpTargetTypeCustom: return kSFSyncUpTargetTypeCustom;
+    }
+}
+
+#pragma mark - Helper methods
 
 - (NSDictionary*) buildFieldsMap:(NSDictionary *)record fieldlist:(NSArray *)fieldlist {
     NSMutableDictionary* fields = [NSMutableDictionary dictionary];
@@ -245,6 +208,72 @@ static NSString *const kSFSyncUpTargetUpdateFieldlist = @"updateFieldlist";
     }
     return fields;
 }
+
+- (void)createOnServer:(NSString*)objectType
+                fields:(NSDictionary*)fields
+       completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
+             failBlock:(SFSyncUpTargetErrorBlock)failBlock
+{
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCreateWithObjectType:objectType fields:fields];
+    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:failBlock completeBlock:completionBlock];
+}
+
+- (void)updateOnServer:(NSString*)objectType
+              objectId:(NSString*)objectId
+                fields:(NSDictionary*)fields
+       completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
+             failBlock:(SFSyncUpTargetErrorBlock)failBlock
+{
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForUpdateWithObjectType:objectType objectId:objectId fields:fields];
+    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:failBlock completeBlock:completionBlock];
+}
+
+- (void)deleteOnServer:(NSString*)objectType
+              objectId:(NSString*)objectId
+       completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
+             failBlock:(SFSyncUpTargetErrorBlock)failBlock
+{
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:objectType objectId:objectId];
+    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:failBlock completeBlock:completionBlock];
+}
+
+- (void)fetchLastModifiedDate:(NSDictionary *)record
+                completeBlock:(SFSyncUpRecordModDateBlock)completeBlock {
+
+    NSString *objectType = [SFJsonUtils projectIntoJson:record path:kObjectTypeField];
+    NSString *objectId = record[self.idFieldName];
+    SFRestRequest *request = [[SFRestAPI sharedInstance]
+            requestForRetrieveWithObjectType:objectType
+                                    objectId:objectId
+                                   fieldList:self.modificationDateFieldName];
+
+    [SFSmartSyncNetworkUtils
+            sendRequestWithSmartSyncUserAgent:request
+                                    failBlock:^(NSError *e) {
+                                        completeBlock([[SFRecordModDate alloc] initWithTimestamp:nil isDeleted:e.code == 404]);
+                                    }
+                                completeBlock:^(id response) {
+                                    completeBlock([[SFRecordModDate alloc] initWithTimestamp:response[self.modificationDateFieldName] isDeleted:FALSE]);
+                                }
+    ];
+}
+/**
+ Return true if local mod date is greater than remote mod date
+ NB: also return true if both were deleted or if local mod date is missing
+*/
+- (BOOL)isNewerThanServer:(SFRecordModDate*)localModDate
+        remoteModDate:(SFRecordModDate*)remoteModDate
+{
+if ((localModDate.timestamp != nil && remoteModDate.timestamp != nil
+        && [localModDate.timestamp compare:remoteModDate.timestamp] == NSOrderedDescending) // we got a local and remote mod date and the local one is greater
+        || (localModDate.isDeleted && remoteModDate.isDeleted)                              // or we have a local delete and a remote delete
+        || localModDate.timestamp == nil)                                                   // or we don't have a local mod date
+{
+    return true;
+}
+return false;
+}
+
 
 
 @end

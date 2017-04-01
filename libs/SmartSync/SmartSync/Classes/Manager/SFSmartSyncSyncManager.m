@@ -290,7 +290,7 @@ static NSMutableDictionary *syncMgrList = nil;
 
     __block NSOrderedSet* idsToSkip = nil;
     if (mergeMode == SFSyncStateMergeModeLeaveIfChanged) {
-        idsToSkip = [target getDirtyRecordIds:self soupName:soupName idField:target.idFieldName];
+        idsToSkip = [target getIdsToSkip:self soupName:soupName];
     }
 
     SFSyncDownTargetFetchCompleteBlock startFetchBlock = ^(NSArray* records) {
@@ -471,17 +471,13 @@ static NSMutableDictionary *syncMgrList = nil;
      * Checks if we are attempting to update a record that has been updated
      * on the server AFTER the client's last sync down. If the merge mode
      * passed in tells us to leave the record alone under these
-     * circumstances, we will do nothing and return here.
+     * circumstances, we will do nothing.
      */
-    if (mergeMode == SFSyncStateMergeModeLeaveIfChanged && !locallyCreated) {
-        // Need to check the modification date on the server, against the local date.
+    if (mergeMode == SFSyncStateMergeModeLeaveIfChanged) {
         __weak typeof(self) weakSelf = self;
-        SFSyncUpRecordModificationResultBlock modificationBlock = ^(NSDate *localDate, NSDate *serverDate, NSError *error) {
+        [target isNewerThanServer:self record:record resultBlock:^(BOOL isNewerThanServer) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
-            if (localDate == nil // We didn't capture the last modified date so we can't really enforce merge mode
-                || serverDate == nil // We were unable to get the last modified date from the server
-                || [localDate compare:serverDate] != NSOrderedAscending) // local date is newer than server
-            {
+            if (isNewerThanServer) {
                 [strongSelf resumeSyncUpOneEntry:sync
                                        recordIds:recordIds
                                            index:i
@@ -489,18 +485,16 @@ static NSMutableDictionary *syncMgrList = nil;
                                           action:action
                                       updateSync:updateSync
                                        failBlock:failBlock];
-            } else {
+            }
+            else {
                 // Server date is newer than the local date.  Skip this update.
-                [strongSelf log:SFLogLevelInfo format:@"Record with id '%@' has been modified on the server.  Local last mod date: %@, Server last mod date: %@ . Skipping.", record[target.idFieldName], localDate, serverDate];
                 [strongSelf syncUpOneEntry:sync
                                  recordIds:recordIds
                                      index:i+1
                                 updateSync:updateSync
                                  failBlock:failBlock];
             }
-        };
-        
-        [target fetchRecordModificationDates:record modificationResultBlock:modificationBlock];
+        }];
     } else {
         // State is such that we can simply update the record directly.
         [self resumeSyncUpOneEntry:sync recordIds:recordIds index:i record:record action:action updateSync:updateSync failBlock:failBlock];
@@ -518,7 +512,6 @@ static NSMutableDictionary *syncMgrList = nil;
     SFSyncStateMergeMode mergeMode = sync.mergeMode;
     SFSyncUpTarget *target = (SFSyncUpTarget *)sync.target;
     NSString* soupName = sync.soupName;
-    NSNumber* soupEntryId = record[SOUP_ENTRY_ID];
     
     // Delete handler
     SFSyncUpTargetCompleteBlock completeBlockDelete = ^(NSDictionary *d) {

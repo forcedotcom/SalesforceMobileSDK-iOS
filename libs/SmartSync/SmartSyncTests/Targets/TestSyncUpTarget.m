@@ -87,15 +87,14 @@ static NSString * const kTestSyncUpSendSyncUpErrorKey = @"sendSyncUpErrorKey";
     return dict;
 }
 
-- (void)fetchRecordModificationDates:(NSDictionary *)record
-             modificationResultBlock:(SFSyncUpRecordModificationResultBlock)modificationResultBlock {
+- (void)isNewerThanServer:(SFSmartSyncSyncManager *)syncManager
+                   record:(NSDictionary*)record
+              resultBlock:(SFSyncUpRecordNewerThanServerBlock)resultBlock
+{
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        if (modificationResultBlock != NULL) {
+        if (resultBlock != NULL) {
             if (self.sendRemoteModError) {
-                NSError *remoteModError = [NSError errorWithDomain:kTestSyncUpTargetErrorDomain
-                                                              code:555
-                                                          userInfo:@{ NSLocalizedDescriptionKey: @"RemoteModError" }];
-                modificationResultBlock(nil, nil, remoteModError);
+                resultBlock([[SFRecordModDate alloc] initWithTimestamp:nil isDeleted:FALSE]);
             } else {
                 NSDate *localLastModifiedDate = [SFSmartSyncObjectUtils getDateFromIsoDateString:record[self.modificationDateFieldName]];
                 NSDate *remoteLastModifiedDate;
@@ -110,7 +109,8 @@ static NSString * const kTestSyncUpSendSyncUpErrorKey = @"sendSyncUpErrorKey";
                         remoteLastModifiedDate = [localLastModifiedDate copy];
                         break;
                 }
-                modificationResultBlock(localLastModifiedDate, remoteLastModifiedDate, nil);
+                NSString* remoteLastModifiedDateStr = [SFSmartSyncObjectUtils getIsoStringFromDate:remoteLastModifiedDate];
+                resultBlock([[SFRecordModDate alloc] initWithTimestamp:remoteLastModifiedDateStr isDeleted:FALSE]);
             }
         }
     });
@@ -140,7 +140,6 @@ static NSString * const kTestSyncUpSendSyncUpErrorKey = @"sendSyncUpErrorKey";
 {
     [self fakeRemoteCall:NO completionBlock:completionBlock failBlock:failBlock];
 }
-
 
 
 - (void)fakeRemoteCall:(BOOL)isCreate

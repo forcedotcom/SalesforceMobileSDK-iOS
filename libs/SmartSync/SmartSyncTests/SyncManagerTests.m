@@ -79,6 +79,13 @@
 @interface SlowSoqlSyncDownTarget : SFSoqlSyncDownTarget
 @end
 
+/**
+ To test addFilterForReSync 
+ */
+@interface SFSoqlSyncDownTarget ()
++ (NSString*) addFilterForReSync:(NSString*)query modDateFieldName:(NSString *)modDateFieldName maxTimeStamp:(long long)maxTimeStamp;
+@end
+
 @implementation SlowSoqlSyncDownTarget
 
 + (SlowSoqlSyncDownTarget*) newSyncTarget:(NSString*)query {

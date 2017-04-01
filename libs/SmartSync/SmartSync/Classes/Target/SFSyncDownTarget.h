@@ -85,6 +85,15 @@ typedef NS_ENUM(NSInteger, SFSyncDownTargetQueryType) {
             completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock;
 
 /**
+ * Get ids of records that should not be written over
+ * during a sync down with merge mode leave-if-changed
+ * @param syncManager
+ * @param soupName
+ * @return set of ids
+ */
+- (NSOrderedSet *)getIdsToSkip:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName;
+
+/**
  * Enum to/from string helper methods
  */
 + (SFSyncDownTargetQueryType) queryTypeFromString:(NSString*)queryType;
