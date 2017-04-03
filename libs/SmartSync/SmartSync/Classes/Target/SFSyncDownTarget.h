@@ -87,8 +87,8 @@ typedef NS_ENUM(NSInteger, SFSyncDownTargetQueryType) {
 /**
  * Get ids of records that should not be written over
  * during a sync down with merge mode leave-if-changed
- * @param syncManager
- * @param soupName
+ * @param syncManager The sync manager
+ * @param soupName The soup
  * @return set of ids
  */
 - (NSOrderedSet *)getIdsToSkip:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName;

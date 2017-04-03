@@ -26,6 +26,7 @@
 #import "SFSmartSyncConstants.h"
 #import "SFSmartSyncNetworkUtils.h"
 #import "SFSmartSyncSyncManager.h"
+#import "SFSmartSyncObjectUtils.h"
 #import <SalesforceSDKCore/SFJsonUtils.h>
 #import <SmartStore/SFSmartStore.h>
 
@@ -39,7 +40,7 @@ static NSString *const kSFSyncUpTargetUpdateFieldlist = @"updateFieldlist";
 - (instancetype)initWithTimestamp:(NSString*)timestamp isDeleted:(BOOL)isDeleted {
     self = [super init];
     if (self) {
-        self.timestamp = timestamp;
+        self.timestamp = [SFSmartSyncObjectUtils getDateFromIsoDateString:timestamp];
         self.isDeleted = isDeleted;
     }
     return self;

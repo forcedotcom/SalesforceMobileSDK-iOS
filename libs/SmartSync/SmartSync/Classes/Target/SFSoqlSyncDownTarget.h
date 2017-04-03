@@ -34,7 +34,7 @@
 + (SFSoqlSyncDownTarget*) newSyncTarget:(NSString*)query;
 
 /**
- * @param maxTimeStamp
+ * @param maxTimeStamp max time stamp to use in query (can be 0)
  * @return query to run taking into account max time stamp
  */
 - (NSString*) getQueryToRun:(long long)maxTimeStamp;

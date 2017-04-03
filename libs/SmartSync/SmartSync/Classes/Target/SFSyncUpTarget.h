@@ -87,7 +87,7 @@ typedef void (^SFSyncUpTargetErrorBlock)(NSError *error);
  */
 @interface SFRecordModDate : NSObject
 
-@property (nonatomic, strong) NSString*  timestamp; // time stamp in the ISO8601 format - can be nil if unknown
+@property (nonatomic, strong) NSDate*  timestamp;   // time stamp - can be nil if unknown
 @property (nonatomic, assign) BOOL isDeleted;       // YES if record was deleted
 
 - (instancetype)initWithTimestamp:(NSString*)timestamp isDeleted:(BOOL)isDeleted;
