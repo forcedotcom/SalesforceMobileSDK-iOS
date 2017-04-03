@@ -41,5 +41,10 @@
  */
 - (void)clearAccountState:(BOOL)clearAccountData;
 
+/**
+ * @param dict Dictionary of NV Pairs received from token endpoint
+ * @return SFUserAccountChange OPTIONS reflecting changes
+ */
+- (SFUserAccountChange)userAccountChangeFromDict:(NSDictionary *)dict;
 @end
 

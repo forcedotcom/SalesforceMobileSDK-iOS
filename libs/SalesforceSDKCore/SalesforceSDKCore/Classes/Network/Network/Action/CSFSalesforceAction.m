@@ -55,9 +55,9 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
         self.authRefreshClass = [CSFSalesforceOAuthRefresh class];
         NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
         [notificationCenter addObserver:self
-                               selector:@selector(userAccountManagerDidChangeCurrentUser:)
-                               name:SFUserAccountManagerDidChangeCurrentUserNotification
-                               object:nil];
+                               selector:@selector(userAccountManagerDidChangeUserDataNotification:)
+                                   name:SFUserAccountManagerDidChangeUserDataNotification
+                                 object:nil];
     }
     return self;
 }
@@ -324,18 +324,36 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
 }
 
 #pragma mark SFAuthenticationManagerDelegate
-
-- (void)userAccountManagerDidChangeCurrentUser:(NSNotification*)notification {
+- (void)userAccountManagerDidChangeUserDataNotification:(NSNotification*)notification {
     SFUserAccountManager *accountManager = (SFUserAccountManager*)notification.object;
+
     if ([accountManager isKindOfClass:[SFUserAccountManager class]]) {
-        if (![accountManager.currentUserIdentity isEqual:self.enqueuedNetwork.account.accountIdentity]) {
-            self.enqueuedNetwork.networkSuspended = YES;
-        } else {
-            [self.enqueuedNetwork resetSession];
-            self.enqueuedNetwork.networkSuspended = NO;
-        }
-        if (accountManager.currentCommunityId != self.enqueuedNetwork.defaultConnectCommunityId) {
-            self.enqueuedNetwork.defaultConnectCommunityId = accountManager.currentCommunityId;
+
+        NSString *userId = notification.userInfo[SFUserAccountManagerUserChangeUserIdKey];
+        NSString *orgId = notification.userInfo[SFUserAccountManagerUserChangeOrgIdKey];
+        SFUserAccountIdentity *identity = [[SFUserAccountIdentity alloc] initWithUserId:userId orgId:orgId];
+        SFUserAccountChange change = (SFUserAccountChange) notification.userInfo[SFUserAccountManagerUserChangeKey];
+
+        if (change & SFUserAccountChangeNewUser) {
+            if (![accountManager.currentUserIdentity isEqual:self.enqueuedNetwork.account.accountIdentity]) {
+                self.enqueuedNetwork.networkSuspended = YES;
+            } else {
+                [self.enqueuedNetwork resetSession];
+                self.enqueuedNetwork.networkSuspended = NO;
+            }
+            if (accountManager.currentCommunityId != self.enqueuedNetwork.defaultConnectCommunityId) {
+                self.enqueuedNetwork.defaultConnectCommunityId = accountManager.currentCommunityId;
+            }
+        } else if ([self.enqueuedNetwork.account.accountIdentity isEqual:identity]) {
+            [self willChangeValueForKey:@"isReady"];
+            if (change & SFUserAccountChangeCommunityId) {
+                self.credentialsReady = NO;
+            }
+            SFUserAccountChange credsChanged = SFUserAccountChangeInstanceURL | SFUserAccountChangeAccessToken;
+            if ((change & credsChanged) == credsChanged) {
+                self.credentialsReady = YES;
+            }
+            [self didChangeValueForKey:@"isReady"];
         }
     }
 }

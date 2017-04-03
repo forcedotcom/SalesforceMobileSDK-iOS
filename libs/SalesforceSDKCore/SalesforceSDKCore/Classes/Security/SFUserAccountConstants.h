@@ -83,7 +83,20 @@ typedef NS_OPTIONS(NSUInteger, SFUserAccountChange) {
 
     /** The ID data changed
      */
-    SFUserAccountChangeIdData = 1 << 6
+    SFUserAccountChangeIdData = 1 << 6,
+
+    /** InstanceURL Changed
+    */
+    SFUserAccountChangeInstanceURL = 1 << 7,
+
+    /** AccessToken Changed
+    */
+    SFUserAccountChangeAccessToken = 1 << 8,
+
+    /** Current User was changed
+    */
+    SFUserAccountChangeCurrentUser = 1 << 9
+
 };
 
 #endif

@@ -42,6 +42,7 @@
 #import "SFOAuthCredentials.h"
 #import "SFOAuthInfo.h"
 #import "SFLoginViewController.h"
+#import "SFOAuthCoordinator+Internal.h"
 
 static SFAuthenticationManager *sharedInstance = nil;
 
@@ -76,6 +77,10 @@ static NSString * const kDeprecatedLoginHostPrefKey = @"login_host_pref";
 // Oauth
 static NSString * const kSFUserAccountOAuthLoginHostDefault = @"login.salesforce.com"; // last resort default OAuth host
 static NSString * const kSFUserAccountOAuthLoginHost = @"SFDCOAuthLoginHost";
+static NSString * const kSFAuthAccessToken = @"access_token";
+static NSString * const kSFAuthInstanceUrl = @"instance_url";
+static NSString * const kSFAuthCommunityId = @"sfdc_community_id";
+
 // The key for storing the persisted OAuth scopes.
 NSString * const kOAuthScopesKey = @"oauth_scopes";
 
@@ -738,7 +743,12 @@ static Class InstanceClass = nil;
 {
     // Apply the credentials that will ensure there is a user and that this
     // current user as the proper credentials.
-    SFUserAccount *user = [[SFUserAccountManager sharedInstance] applyCredentials:self.coordinator.credentials];
+    SFUserAccountChange change = [self userAccountChangeFromDict:self.coordinator.credentialsChangeSet];
+    SFUserAccount *user = [[SFUserAccountManager sharedInstance] applyCredentials:self.coordinator.credentials
+                                                                       withIdData:self.idCoordinator.idData
+                                                                        andChange:change];
+    [self.coordinator resetCredentialsChangeSet];
+
     [[SFUserAccountManager sharedInstance] applyIdData:self.idCoordinator.idData forUser:user];
     // Notify the session is ready
     [self willChangeValueForKey:@"haveValidSession"];
@@ -1469,6 +1479,26 @@ static Class InstanceClass = nil;
     creds.accessToken = nil;
     creds.clientId = self.oauthClientId;
     return creds;
+}
+
+- (SFUserAccountChange)userAccountChangeFromDict:(NSDictionary *)changeSet {
+
+    SFUserAccountChange change = SFUserAccountChangeUnknown;
+
+    if (changeSet[kSFAuthInstanceUrl])
+        change |= SFUserAccountChangeInstanceURL;
+
+    if (changeSet[kSFAuthAccessToken])
+        change |= SFUserAccountChangeAccessToken;
+
+    if (changeSet[kSFAuthCommunityId])
+        change |= SFUserAccountChangeCommunityId;
+
+
+    if (change!=SFUserAccountChangeUnknown)
+        change &= ~SFUserAccountChangeUnknown;
+
+    return change;
 }
 
 @end

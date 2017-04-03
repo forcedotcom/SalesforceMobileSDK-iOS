@@ -853,17 +853,59 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
  - communityId
  - communityUrl
  */
-
 - (void) updateCredentials:(NSDictionary *) params {
+    NSMutableDictionary *changeSet = [NSMutableDictionary new];
+    if (params[kSFOAuthAccessToken]) {
+        if(![params[kSFOAuthAccessToken] isEqualToString:self.credentials.accessToken])
+            changeSet[kSFOAuthAccessToken] = @[self.credentials.accessToken?
+                    self.credentials.accessToken:[NSNull null],
+                    params[kSFOAuthAccessToken]];
 
-   
-    if (params[kSFOAuthAccessToken]) self.credentials.accessToken = params[kSFOAuthAccessToken];
-    if (params[kSFOAuthIssuedAt]) self.credentials.issuedAt = [[self class] timestampStringToDate:params[kSFOAuthIssuedAt]];
-    if (params[kSFOAuthInstanceUrl]) self.credentials.instanceUrl = [NSURL URLWithString:params[kSFOAuthInstanceUrl]];
-    if (params[kSFOAuthId]) self.credentials.identityUrl = [NSURL URLWithString:params[kSFOAuthId]];
-    if (params[kSFOAuthCommunityId]) self.credentials.communityId = params[kSFOAuthCommunityId];
-    if (params[kSFOAuthCommunityUrl]) self.credentials.communityUrl = [NSURL URLWithString:params[kSFOAuthCommunityUrl]];
+        self.credentials.accessToken = params[kSFOAuthAccessToken];
+    }
 
+    if (params[kSFOAuthIssuedAt]) {
+        self.credentials.issuedAt = [[self class] timestampStringToDate:params[kSFOAuthIssuedAt]];
+    }
+
+    if (params[kSFOAuthInstanceUrl]) {
+        NSURL *newInstanceUrl = [NSURL URLWithString:params[kSFOAuthInstanceUrl]];
+
+        if(![newInstanceUrl isEqual:self.credentials.instanceUrl])
+            changeSet[kSFOAuthInstanceUrl] = @[self.credentials.instanceUrl?
+                    [self.credentials.instanceUrl absoluteString]:[NSNull null],
+                    params[kSFOAuthInstanceUrl]];
+
+        self.credentials.instanceUrl = newInstanceUrl;
+    }
+
+    if (params[kSFOAuthId]) {
+        NSURL *newIdUrl = [NSURL URLWithString:params[kSFOAuthId]];
+        if(![newIdUrl isEqual:self.credentials.identityUrl])
+            changeSet[kSFOAuthId] = @[self.credentials.identityUrl?
+                    [self.credentials.identityUrl absoluteString]:[NSNull null],
+                    params[kSFOAuthId]];
+
+        self.credentials.identityUrl = newIdUrl;
+    }
+
+    if (params[kSFOAuthCommunityId]) {
+        if(![changeSet[kSFOAuthCommunityId] isEqualToString:self.credentials.communityId])
+            changeSet[kSFOAuthCommunityId] = @[self.credentials.communityId?
+                    self.credentials.communityId:[NSNull null],
+                    params[kSFOAuthCommunityId]];
+        self.credentials.communityId = params[kSFOAuthCommunityId];
+    }
+
+    if (params[kSFOAuthCommunityUrl]) {
+        NSURL *newCommUrl = [NSURL URLWithString:params[kSFOAuthCommunityUrl]];
+        if(![newCommUrl isEqual:self.credentials.communityUrl])
+            changeSet[kSFOAuthCommunityUrl] = @[self.credentials.communityUrl?
+                    [self.credentials.communityUrl absoluteString]:[NSNull null],
+                    params[kSFOAuthCommunityUrl]];
+        self.credentials.communityUrl = newCommUrl;
+    }
+    _credentialsChangeSet = changeSet;
     // Parse additional flags
     if(self.additionalOAuthParameterKeys.count > 0) {
         NSMutableDictionary * parsedValues = [NSMutableDictionary dictionaryWithCapacity:self.additionalOAuthParameterKeys.count];
@@ -875,6 +917,10 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
         }
         self.credentials.additionalOAuthFields = parsedValues;
     }
+}
+
+- (void)resetCredentialsChangeSet {
+    _credentialsChangeSet = nil;
 }
 
 - (void)configureWebUserAgent

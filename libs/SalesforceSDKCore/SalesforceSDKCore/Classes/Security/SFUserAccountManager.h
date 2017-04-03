@@ -30,7 +30,7 @@
 NS_ASSUME_NONNULL_BEGIN
 /** Notification sent when something has changed with the current user
  */
-FOUNDATION_EXTERN NSString * const SFUserAccountManagerDidChangeCurrentUserNotification;
+FOUNDATION_EXTERN NSString * const SFUserAccountManagerDidChangeUserDataNotification;
 
 /** Notification sent when something user init has finished
  */
@@ -40,6 +40,14 @@ FOUNDATION_EXTERN NSString * const SFUserAccountManagerDidFinishUserInitNotifica
  The value is a NSNumber that can be casted to the option SFUserAccountChange
  */
 FOUNDATION_EXTERN NSString * const SFUserAccountManagerUserChangeKey;
+
+/** The key containing the type of change for the SFUserAccountManagerDidChangeCurrentUserNotification
+ */
+FOUNDATION_EXTERN NSString * const SFUserAccountManagerUserChangeUserIdKey;
+
+/** The key containing the type of change for the SFUserAccountManagerUserChangeOrgIdKey
+ */
+FOUNDATION_EXTERN NSString * const SFUserAccountManagerUserChangeOrgIdKey;
 
 /**
  Identifies the notification for the login host changing in the app's settings.
@@ -233,8 +241,11 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
  a user whose credentials match. If no user exists, a new one is created.
  This will post user update notification.
  @param credentials The credentials to apply
+ @param identityData The identityData to apply
+ @param change changes to propagate for notifications
  */
-- (SFUserAccount *) applyCredentials:(SFOAuthCredentials*)credentials;
+- (SFUserAccount *)applyCredentials:(SFOAuthCredentials*)credentials withIdData:(nullable SFIdentityData *) identityData andChange:(SFUserAccountChange) change;
+
 
 /** Invoke this method to apply the specified id data to the
   user. This will post user update notification.
@@ -283,7 +294,7 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
  if you don't know what kind of change was made to this object and this method
  will try to determine that.
  */
-- (void)userChanged:(SFUserAccountChange)change;
+- (void)userChanged:(SFUserAccount *)user change:(SFUserAccountChange)change;
 
 
 
