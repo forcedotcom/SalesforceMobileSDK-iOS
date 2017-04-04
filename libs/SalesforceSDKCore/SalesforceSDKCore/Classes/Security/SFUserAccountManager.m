@@ -542,7 +542,6 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
     [self saveAccountForUser:user error:nil];
     [_accountsLock unlock];
     [self notifyUserChange:SFUserAccountManagerDidChangeUserDataNotification withUser:user andChange:SFUserAccountChangeIdData];
-    [self notifyUserChange:SFUserAccountManagerDidChangeUserDataNotification withUser:user andChange:SFUserAccountChangeIdData];
 }
 
 - (void)applyIdDataCustomPermissions:(NSDictionary *)customPermissions forUser:(SFUserAccount *)user {
