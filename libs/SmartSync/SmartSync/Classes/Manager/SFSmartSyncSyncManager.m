@@ -23,6 +23,7 @@
  */
 
 #import "SFSmartSyncSyncManager.h"
+#import "SFSyncManagerLogger.h"
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SmartStore/SFSmartStore.h>
 #import <SalesforceSDKCore/SFSDKAppFeatureMarkers.h>
@@ -40,6 +41,8 @@ NSString * const kSyncManagerLObjectId = @"id"; // e.g. create response
 // dispatch queue
 char * const kSyncManagerQueue = "com.salesforce.smartsync.manager.syncmanager.QUEUE";
 
+@class message;
+
 // block type
 typedef void (^SyncUpdateBlock) (NSString* status, NSInteger progress, NSInteger totalSize, long long maxTimeStamp);
 typedef void (^SyncFailBlock) (NSString* message, NSError* error);
@@ -47,7 +50,7 @@ typedef void (^SyncFailBlock) (NSString* message, NSError* error);
 @interface SFSmartSyncSyncManager () <SFAuthenticationManagerDelegate>
 
 @property (nonatomic, strong) SFSmartStore *store;
-@property (nonatomic, strong) dispatch_queue_t queue;
+@property (nonatomic) dispatch_queue_t queue;
 @property (nonatomic, strong) NSMutableSet *runningSyncIds;
 
 @end
@@ -62,6 +65,7 @@ static NSMutableDictionary *syncMgrList = nil;
 + (void)initialize {
     if (self == [SFSmartSyncSyncManager class]) {
         syncMgrList = [NSMutableDictionary new];
+        [SFSyncManagerLogger setLevel:SFLogLevelInfo];
     }
 }
 
@@ -161,7 +165,7 @@ static NSMutableDictionary *syncMgrList = nil;
     SFSyncState* sync = [SFSyncState newById:syncId store:self.store];
     
     if (sync == nil) {
-        [self log:SFLogLevelError format:@"Sync %@ not found", syncId];
+        LogSyncError(@"Sync %@ not found", syncId);
     }
     return sync;
 }
@@ -178,7 +182,7 @@ static NSMutableDictionary *syncMgrList = nil;
         if (totalSize>=0) sync.totalSize = totalSize;
         if (maxTimeStamp>=0) sync.maxTimeStamp = (sync.maxTimeStamp < maxTimeStamp ? maxTimeStamp : sync.maxTimeStamp);
         [sync save:strongSelf.store];
-        [strongSelf log:SFLogLevelDebug format:@"Sync update:%@", sync];
+        LogSyncDebug(@"Sync update:%@", sync);
         NSString *eventName = nil;
         switch (sync.type) {
             case SFSyncStateSyncTypeDown:
@@ -211,7 +215,7 @@ static NSMutableDictionary *syncMgrList = nil;
 
     SyncFailBlock failSync = ^(NSString* message, NSError* error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        [strongSelf log:SFLogLevelError format:@"Sync type:%@ id:%d FAILED cause:%@ error:%@", [SFSyncState syncTypeToString:sync.type], sync.syncId, message, error];
+        LogSyncError(@"runSync failed:%@ cause:%@ error%@", sync, message, error);
         updateSync(kSFSyncStateStatusFailed, kSyncManagerUnchanged, kSyncManagerUnchanged, kSyncManagerUnchanged);
     };
 
@@ -244,6 +248,7 @@ static NSMutableDictionary *syncMgrList = nil;
  */
 - (SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
     SFSyncState* sync = [SFSyncState newSyncDownWithOptions:options target:target soupName:soupName store:self.store];
+    LogSyncDebug(@"syncDown:%@", sync);
     [self runSync:sync updateBlock:updateBlock];
     return [sync copy];
 }
@@ -266,6 +271,7 @@ static NSMutableDictionary *syncMgrList = nil;
     }
     sync.totalSize = -1;
     [sync save:self.store];
+    LogSyncDebug(@"reSync:%@", sync);
     [self runSync:sync updateBlock:updateBlock];
     return [sync copy];
 }
@@ -351,6 +357,7 @@ static NSMutableDictionary *syncMgrList = nil;
  */
 - (SFSyncState*) syncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
     SFSyncState *sync = [SFSyncState newSyncUpWithOptions:options soupName:soupName store:self.store];
+    LogSyncDebug(@"syncUp:%@", sync);
     [self runSync:sync updateBlock:updateBlock];
     return [sync copy];
 }
@@ -402,6 +409,8 @@ static NSMutableDictionary *syncMgrList = nil;
         return;
     }
 
+    LogSyncDebug(@"cleanResyncGhosts:%@", sync);
+
     NSString* soupName = [sync soupName];
 
     __weak typeof(self) weakSelf = self;
@@ -410,7 +419,7 @@ static NSMutableDictionary *syncMgrList = nil;
                                         soupName:soupName
                                       errorBlock:^(NSError* e) {
                                           __strong typeof(weakSelf) strongSelf = weakSelf;
-                                          [strongSelf log:SFLogLevelError format:@"Failed to get list of remote IDs, %@", [e localizedDescription]];
+                                          LogSyncError(@"Failed to get list of remote IDs, %@", [e localizedDescription]);
                                           NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
                                           attributes[@"syncId"] = [NSNumber numberWithInteger:sync.syncId];
                                           attributes[@"syncTarget"] = NSStringFromClass([sync.target class]);
@@ -447,6 +456,8 @@ static NSMutableDictionary *syncMgrList = nil;
     
     NSString* idStr = [(NSNumber*) recordIds[i] stringValue];
     NSMutableDictionary* record = [[target getFromLocalStore:self soupName:soupName storeId:idStr] mutableCopy];
+
+    LogSyncDebug(@"syncUpOneRecord:%@", record);
 
     // Do we need to do a create, update or delete
     BOOL locallyCreated = [target isLocallyCreated:record];
@@ -489,6 +500,7 @@ static NSMutableDictionary *syncMgrList = nil;
             }
             else {
                 // Server date is newer than the local date.  Skip this update.
+                LogSyncDebug(@"syncUpOneRecord: Record not synced since client does not have the latest from server:%@", record);
                 [strongSelf syncUpOneEntry:sync
                                  recordIds:recordIds
                                      index:i+1
@@ -584,7 +596,7 @@ static NSMutableDictionary *syncMgrList = nil;
             break;
         default:
             // Action is unsupported here.  Move on.
-            [self log:SFLogLevelInfo format:@"%@ unsupported action with value %d.  Moving to the next record.", NSStringFromSelector(_cmd), action];
+            LogSyncInfo(@"%@ unsupported action with value %d.  Moving to the next record.", NSStringFromSelector(_cmd), action);
             [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failBlock:failBlock];
             return;
     }

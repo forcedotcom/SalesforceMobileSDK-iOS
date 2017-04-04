@@ -124,6 +124,7 @@ static NSException *authException = nil;
 {
     @try {
         [SFLogger sharedLogger].logLevel = SFLogLevelDebug;
+        [SFSyncManagerLogger setLevel:SFLogLevelDebug];
         [TestSetupUtils populateAuthCredentialsFromConfigFileForClass:[self class]];
         [TestSetupUtils synchronousAuthRefresh];
         [SFSmartStore removeAllStores];

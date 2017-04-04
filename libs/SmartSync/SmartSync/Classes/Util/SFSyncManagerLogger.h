@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,25 +22,20 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSmartSyncNetworkUtils.h"
-#import "SFSyncManagerLogger.h"
-#import <SalesforceSDKCore/SFRestRequest.h>
+#import <Foundation/Foundation.h>
 
-// For user agent
-NSString * const kUserAgent = @"User-Agent";
-NSString * const kSmartSync = @"SmartSync";
+#import <SalesforceSDKCore/SFLogger.h>
 
-@implementation SFSmartSyncNetworkUtils
+static NSInteger kSFSyncManagerLoggerContext;
 
-+ (void)sendRequestWithSmartSyncUserAgent:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestResponseBlock)completeBlock {
-    LogSyncDebug(@"sendRequestWithSmartSyncUserAgent:request:%@", request);
-    [request setHeaderValue:[SFRestAPI userAgentString:kSmartSync] forHeaderName:kUserAgent];
-    [[SFRestAPI sharedInstance] sendRESTRequest:request failBlock:^(NSError *e) {
-        LogSyncError(@"sendRequestWithSmartSyncUserAgent:response%@", [e localizedDescription]);
-        failBlock(e);
-    }                             completeBlock:^(id response) {
-        LogSyncDebug(@"sendRequestWithSmartSyncUserAgent:response:%@", response);
-    }];
-}
+#define LogSyncError(frmt, ...)      SFLogErrorToContext(kSFSyncManagerLoggerContext, self, frmt, ##__VA_ARGS__)
+#define LogSyncWarn(frmt, ...)       SFLogWarnToContext(kSFSyncManagerLoggerContext, self, frmt, ##__VA_ARGS__)
+#define LogSyncInfo(frmt, ...)       SFLogInfoToContext(kSFSyncManagerLoggerContext, self, frmt, ##__VA_ARGS__)
+#define LogSyncDebug(frmt, ...)      SFLogDebugToContext(kSFSyncManagerLoggerContext, self, frmt, ##__VA_ARGS__)
+#define LogSyncVerbose(frmt, ...)    SFLogVerboseToContext(kSFSyncManagerLoggerContext, self, frmt, ##__VA_ARGS__)
+
+@interface SFSyncManagerLogger : SFLogger
+
++ (void)setLevel:(SFLogLevel)logLevel;
 
 @end
