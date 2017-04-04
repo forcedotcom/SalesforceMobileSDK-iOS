@@ -36,10 +36,11 @@ NSString * const kSmartSync = @"SmartSync";
     LogSyncDebug(@"sendRequestWithSmartSyncUserAgent:request:%@", request);
     [request setHeaderValue:[SFRestAPI userAgentString:kSmartSync] forHeaderName:kUserAgent];
     [[SFRestAPI sharedInstance] sendRESTRequest:request failBlock:^(NSError *e) {
-        LogSyncError(@"sendRequestWithSmartSyncUserAgent:response%@", [e localizedDescription]);
+        LogSyncError(@"sendRequestWithSmartSyncUserAgent:error:%ld:%@", (long) e.code, e.domain);
         failBlock(e);
     }                             completeBlock:^(id response) {
         LogSyncDebug(@"sendRequestWithSmartSyncUserAgent:response:%@", response);
+        completeBlock(response);
     }];
 }
 

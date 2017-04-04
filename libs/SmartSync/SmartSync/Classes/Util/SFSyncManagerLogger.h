@@ -28,11 +28,11 @@
 
 static NSInteger kSFSyncManagerLoggerContext;
 
-#define LogSyncError(frmt, ...)      SFLogErrorToContext(kSFSyncManagerLoggerContext, self, frmt, ##__VA_ARGS__)
-#define LogSyncWarn(frmt, ...)       SFLogWarnToContext(kSFSyncManagerLoggerContext, self, frmt, ##__VA_ARGS__)
-#define LogSyncInfo(frmt, ...)       SFLogInfoToContext(kSFSyncManagerLoggerContext, self, frmt, ##__VA_ARGS__)
-#define LogSyncDebug(frmt, ...)      SFLogDebugToContext(kSFSyncManagerLoggerContext, self, frmt, ##__VA_ARGS__)
-#define LogSyncVerbose(frmt, ...)    SFLogVerboseToContext(kSFSyncManagerLoggerContext, self, frmt, ##__VA_ARGS__)
+#define LogSyncError(frmt, ...)      SFLogErrorToContext(kSFSyncManagerLoggerContext, nil, frmt, ##__VA_ARGS__)
+#define LogSyncWarn(frmt, ...)       SFLogWarnToContext(kSFSyncManagerLoggerContext, nil, frmt, ##__VA_ARGS__)
+#define LogSyncInfo(frmt, ...)       SFLogInfoToContext(kSFSyncManagerLoggerContext, nil, frmt, ##__VA_ARGS__)
+#define LogSyncDebug(frmt, ...)      SFLogDebugToContext(kSFSyncManagerLoggerContext, nil, frmt, ##__VA_ARGS__)
+#define LogSyncVerbose(frmt, ...)    SFLogVerboseToContext(kSFSyncManagerLoggerContext, nil, frmt, ##__VA_ARGS__)
 
 @interface SFSyncManagerLogger : SFLogger
 
