@@ -46,7 +46,7 @@
 #pragma mark SFAuthenticationManagerDelegate
 - (void)userAccountManagerDidChangeCurrentUser:(NSNotification*)notification {
     SFUserAccountManager *accountManager = (SFUserAccountManager*)notification.object;
-    SFUserAccountChange change = (SFUserAccountChange)notification.userInfo[SFUserAccountManagerUserChangeKey];
+    SFUserAccountChange change = (SFUserAccountChange)[notification.userInfo[SFUserAccountManagerUserChangeKey] integerValue];
     if ([accountManager isKindOfClass:[SFUserAccountManager class]]
             && (change & SFUserAccountChangeCurrentUser)) {
         if ([accountManager.currentUserIdentity isEqual:self.account.accountIdentity] &&

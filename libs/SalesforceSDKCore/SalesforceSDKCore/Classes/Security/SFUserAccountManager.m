@@ -634,7 +634,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
                                                             object:self
                                                           userInfo:@{
                                                                   SFUserAccountManagerUserChangeKey: @(change),
-                                                                  SFUserAccountManagerUserChangeUserIdKey: user.accountIdentity.userId,
+                                                                SFUserAccountManagerUserChangeUserIdKey: user.accountIdentity.userId,
                                                                   SFUserAccountManagerUserChangeOrgIdKey: user.accountIdentity.orgId
                                                           }];
     }else {

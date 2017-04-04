@@ -5,13 +5,15 @@
 //  Created by Raj Rao on 4/3/17.
 //  Copyright © 2017 salesforce.com. All rights reserved.
 //
-
+#import <objc/runtime.h>
 #import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
 #import "SFAuthenticationManager+Internal.h"
 #import "SFUserAccountManager+Internal.h"
 #import "SFUserAccountPersisterEphemeral.h"
 #import "SFOAuthCoordinator+Internal.h"
+#import "CSFNetwork+Internal.h"
+
 static NSString * const kUserIdFormatString = @"005R0000000Dsl%lu";
 static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 static NSString * const kSFOAuthAccessToken = @"access_token";
@@ -19,11 +21,104 @@ static NSString * const kSFOAuthInstanceUrl = @"instance_url";
 static NSString * const kSFOAuthCommunityId = @"sfdc_community_id";
 static NSString * const kSFOAuthCommunityUrl = @"sfdc_community_url";
 
+
+@interface CSFNetwork(SalesforceNetworkMock)
+- (void)setupSalesforceObserver;
+@property (nonatomic) void(^completionBlock)(BOOL) ;
+
+@end
+
+@implementation CSFNetwork(SalesforceNetworkMock)
+@dynamic completionBlock;
+NSString const *key = @"completionBlockKey";
+
+- (void) setCompletionBlock:(void (^)(BOOL))completionBlock {
+     objc_setAssociatedObject(self, &key, [completionBlock copy], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+- (void (^)(BOOL)) completionBlock {
+   return objc_getAssociatedObject(self, &key);
+}
+
+- (void)setupSalesforceObserver {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(userAccountManagerDidChangeCurrentUser:)
+                                                 name:SFUserAccountManagerDidChangeUserDataNotification
+                                               object:nil];
+}
+
+- (void)removeSalesforceObserver {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma mark SFAuthenticationManagerDelegate
+- (void)userAccountManagerDidChangeCurrentUser:(NSNotification*)notification {
+    SFUserAccountManager *accountManager = (SFUserAccountManager*)notification.object;
+    SFUserAccountChange change = (SFUserAccountChange)[notification.userInfo[SFUserAccountManagerUserChangeKey] integerValue];
+    
+    if ([accountManager isKindOfClass:[SFUserAccountManager class]]
+        && (change & (SFUserAccountChangeCurrentUser|SFUserAccountChangeCommunityId))) {
+        if ([accountManager.currentUserIdentity isEqual:self.account.accountIdentity] &&
+            ![accountManager.currentCommunityId isEqualToString:self.defaultConnectCommunityId])
+        {
+            
+            if (self.completionBlock)
+                self.completionBlock(YES);
+            return;
+        }
+    }
+    if (self.completionBlock)
+        self.completionBlock(NO);
+}
+
+@end
+
+@interface MOCKCSFAction : CSFSalesforceAction
+- (void)removeSalesforceObserver;
+@property (nonatomic) void (^actionCompletionBlock)(BOOL,SFUserAccountChange);
+@property (nonatomic, weak) CSFNetwork *enqueuedNetwork;
+
+@end
+
+@implementation MOCKCSFAction
+@dynamic enqueuedNetwork;
+@synthesize actionCompletionBlock = _actionCompletionBlock;
+
+- (void)removeSalesforceObserver {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)userAccountManagerDidChangeUserDataNotification:(NSNotification*)notification {
+    SFUserAccountManager *accountManager = (SFUserAccountManager*)notification.object;
+    
+    if ([accountManager isKindOfClass:[SFUserAccountManager class]]) {
+        
+        NSString *userId = notification.userInfo[SFUserAccountManagerUserChangeUserIdKey];
+        NSString *orgId = notification.userInfo[SFUserAccountManagerUserChangeOrgIdKey];
+        SFUserAccountIdentity *identity = [[SFUserAccountIdentity alloc] initWithUserId:userId orgId:orgId];
+        SFUserAccountChange change = (SFUserAccountChange)[notification.userInfo[SFUserAccountManagerUserChangeKey] integerValue];
+        
+        if ([self requiresAuthentication] && [self.enqueuedNetwork.account.accountIdentity isEqual:identity]) {
+            if (change & SFUserAccountChangeCommunityId) {
+                self.actionCompletionBlock(YES,change);
+                return;
+            }
+            SFUserAccountChange credsChanged = SFUserAccountChangeInstanceURL | SFUserAccountChangeAccessToken;
+            if ((change & credsChanged) == credsChanged) {
+                self.actionCompletionBlock(YES,change);
+                return;
+            }
+           
+        }
+    }
+    self.actionCompletionBlock(NO,SFUserAccountChangeUnknown);
+}
+@end
+
 @interface SFUserAccountManagerNotificationsTests : XCTestCase {
     id<SFUserAccountPersister> _origAccountPersister;
     SFUserAccount *_user;
+    SFUserAccount *_origCurrentUser;
 }
-
 @property (nonatomic, strong) SFUserAccountManager *uam;
 
 @end
@@ -34,14 +129,15 @@ static NSString * const kSFOAuthCommunityUrl = @"sfdc_community_url";
     [super setUp];
     self.uam = [SFUserAccountManager sharedInstance];
     _origAccountPersister = self.uam.accountPersister;
+    _origCurrentUser = self.uam.currentUser;
     self.uam.accountPersister = [SFUserAccountPersisterEphemeral new];
-    _user = [self createNewUser:@"NOT-1-USER"];
-    
+    _user = [self createNewUser:1];
 }
 
 - (void)tearDown {
     [self deleteUserAndVerify:_user];
     self.uam.accountPersister = _origAccountPersister;
+    self.uam.currentUser = _origCurrentUser;
     [super tearDown];
 }
 
@@ -255,7 +351,6 @@ static NSString * const kSFOAuthCommunityUrl = @"sfdc_community_url";
 - (void)testCurrentUserChangeNotificationPosted
 {
     NSString *notificationName = SFUserAccountManagerDidChangeUserDataNotification;
-    
     id observerMock = [OCMockObject observerMock];
     [[NSNotificationCenter defaultCenter] addMockObserver:observerMock name:notificationName object:self.uam];
     
@@ -306,22 +401,145 @@ static NSString * const kSFOAuthCommunityUrl = @"sfdc_community_url";
     
 }
 
-
-- (SFUserAccount*)createNewUser:(NSString *) identifier {
+- (void)testNotficationReceivedForSetCurrentUserWithCSFNetwork {
     
-    NSUInteger index = 1;
+    SFOAuthCredentials *credentials1 = [[SFOAuthCredentials alloc] initWithIdentifier:@"the-identifier"
+                                                                            clientId:@"the-client"
+                                                                           encrypted:NO
+                                                                         storageType:SFOAuthCredentialsStorageTypeNone];
+
+    SFOAuthCredentials *credentials2 = [[SFOAuthCredentials alloc] initWithIdentifier:@"the-identifier-1"
+                                                                            clientId:@"the-client-1"
+                                                                           encrypted:NO
+                                                                         storageType:SFOAuthCredentialsStorageTypeNone];
+    SFUserAccount *user1 = [[SFUserAccountManager sharedInstance]  createUserAccount:credentials1];
+    user1.credentials.accessToken = @"AccessToken";
+    user1.credentials.refreshToken = @"RefreshToken";
+    user1.credentials.instanceUrl = [NSURL URLWithString:@"http://example.org"];
+    user1.credentials.identityUrl = [NSURL URLWithString:@"https://example.org/id/orgID/userID"];
+    user1.credentials.communityId = @"OLD_COMMUNITY_ID";
+    NSError *error = nil;
+    [[SFUserAccountManager sharedInstance] saveAccountForUser:user1 error:&error];
+    XCTAssertNil(error);
+   
+    SFUserAccount *user2 = [[SFUserAccountManager sharedInstance]  createUserAccount:credentials2];
+    user2.credentials.accessToken = @"AccessToken1";
+    user2.credentials.refreshToken = @"RefreshToken1";
+    user2.credentials.instanceUrl = [NSURL URLWithString:@"http://example1.org/"];
+    user2.credentials.identityUrl = [NSURL URLWithString:@"https://example1.org/id/orgID/userID-1"];
+    [[SFUserAccountManager sharedInstance] saveAccountForUser:user2 error:&error];
+
+    XCTAssertNil(error);
+    XCTestExpectation *expectation = [self expectationWithDescription:@"user changed"];
+    
+    CSFNetwork *network = [[CSFNetwork alloc] initWithUserAccount:user1];
+    
+    //[network setupSalesforceObserver];
+    network.completionBlock = ^(BOOL communityIdChanged) {
+         // ignore the communityIdChanged flag here only applies the for same user
+        [expectation fulfill];
+    };
+   
+    self.uam.currentUser = user2;
+    
+    [self waitForExpectationsWithTimeout:1 handler:^(NSError *error) {
+        XCTAssertNil(error);
+        [network removeSalesforceObserver];
+    }];
+    [self deleteUserAndVerify:user1];
+    [self deleteUserAndVerify:user2];
+    
+}
+
+- (void)testNotficationReceivedForCommunityIdChangeWithCSFNetwork {
+    _user.credentials.communityId = @"NEW_COMMUNITY_ID";
+    self.uam.currentUser = _user;
+
+    XCTestExpectation *expectation = [self expectationWithDescription:@"user changed"];
+    CSFNetwork *network = [[CSFNetwork alloc] initWithUserAccount:_user];
+    network.defaultConnectCommunityId = @"OLD_COMMUNITY_ID";
+    
+    //[network setupSalesforceObserver];
+    network.completionBlock = ^(BOOL communityIdChanged) {
+        if (communityIdChanged)
+            [expectation fulfill];
+    };
+    
+    [self.uam applyCredentials:_user.credentials withIdData:nil andChange:SFUserAccountChangeCommunityId];
+    
+    
+    [self waitForExpectationsWithTimeout:1 handler:^(NSError *error) {
+        XCTAssertNil(error);
+        [network removeSalesforceObserver];
+    }];
+}
+
+- (void)testNotficationReceivedForCommunityIdChangeWithCSFAction {
+    _user.credentials.communityId = @"NEW_COMMUNITY_ID";
+    self.uam.currentUser = _user;
+    
+    XCTestExpectation *expectation = [self expectationWithDescription:@"user changed"];
+    CSFNetwork *network = [[CSFNetwork alloc] initWithUserAccount:_user];
+    network.defaultConnectCommunityId = @"OLD_COMMUNITY_ID";
+    
+    MOCKCSFAction *action = [MOCKCSFAction new];
+    action.enqueuedNetwork = network;
+    action.requiresAuthentication = YES;
+    action.actionCompletionBlock = ^(BOOL success,SFUserAccountChange change) {
+        if (change & SFUserAccountChangeCommunityId)
+            [expectation fulfill];
+    };
+    
+    [self.uam applyCredentials:_user.credentials withIdData:nil andChange:SFUserAccountChangeCommunityId];
+    
+    
+    [self waitForExpectationsWithTimeout:1 handler:^(NSError *error) {
+        XCTAssertNil(error);
+        [network removeSalesforceObserver];
+    }];
+}
+
+- (void)testNotficationReceivedForCredentialsChangeWithCSFAction {
+    _user.credentials.communityId = @"NEW_COMMUNITY_ID";
+    _user.credentials.accessToken = @"__CHANGED_ACCESS_TOKEN";
+    _user.credentials.instanceUrl = [NSURL URLWithString:@"http://changed.instance.url"];
+    self.uam.currentUser = _user;
+    
+    XCTestExpectation *expectation = [self expectationWithDescription:@"user changed"];
+    CSFNetwork *network = [[CSFNetwork alloc] initWithUserAccount:_user];
+    network.defaultConnectCommunityId = @"OLD_COMMUNITY_ID";
+    
+    MOCKCSFAction *action = [MOCKCSFAction new];
+    action.enqueuedNetwork = network;
+    action.requiresAuthentication = YES;
+    action.actionCompletionBlock = ^(BOOL success,SFUserAccountChange change) {
+        if (change & (SFUserAccountChangeAccessToken|SFUserAccountChangeInstanceURL))
+            [expectation fulfill];
+    };
+    
+    [self.uam applyCredentials:_user.credentials withIdData:nil andChange:SFUserAccountChangeAccessToken|SFUserAccountChangeInstanceURL];
+    
+    
+    [self waitForExpectationsWithTimeout:1 handler:^(NSError *error) {
+        XCTAssertNil(error);
+        [network removeSalesforceObserver];
+    }];
+}
+
+- (SFUserAccount*)createNewUser:(NSUInteger) index {
+  
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc]initWithIdentifier:[NSString stringWithFormat:@"identifier-%lu",index] clientId:@"fakeClientIdForTesting" encrypted:YES];
     
     credentials.accessToken = nil;
     credentials.refreshToken = nil;
     credentials.instanceUrl = nil;
-    credentials.communityId = nil;
-    credentials.userId = nil;
-    
-    
+
     SFUserAccount *user =[[SFUserAccount alloc] initWithCredentials:credentials];
     NSString *userId = [NSString stringWithFormat:kUserIdFormatString, index];
     NSString *orgId = [NSString stringWithFormat:kOrgIdFormatString, index];
+    credentials.communityId = orgId;
+    credentials.userId = userId;
+    
     user.credentials.identityUrl = [NSURL URLWithString:[NSString stringWithFormat:@"https://login.salesforce.com/id/%@/%@", orgId, userId]];
     
     NSError *saveAccountError = nil;
