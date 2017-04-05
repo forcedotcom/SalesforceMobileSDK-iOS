@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,40 +22,20 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSyncTarget.h"
-#import "SFSmartSyncConstants.h"
-#import <SalesforceSDKCore/SalesforceSDKConstants.h>
+#import <Foundation/Foundation.h>
 
-@implementation SFSyncTarget
+#import <SalesforceSDKCore/SFLogger.h>
 
-- (instancetype)initWithDict:(NSDictionary *)dict {
-    if (dict == nil) return nil;
-    
-    self = [super init];
-    if (self) {
-        NSString *idFieldName = dict[kSFSyncTargetIdFieldNameKey];
-        NSString *modificationDateFieldName = dict[kSFSyncTargetModificationDateFieldNameKey];
-        self.idFieldName = (idFieldName.length > 0 ? idFieldName : kId);
-        self.modificationDateFieldName = (modificationDateFieldName.length > 0 ? modificationDateFieldName : kLastModifiedDate);
-    }
-    return self;
-}
+static NSInteger kSFSyncManagerLoggerContext;
 
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        self.idFieldName = kId;
-        self.modificationDateFieldName = kLastModifiedDate;
-    }
-    return self;
-}
+#define LogSyncError(frmt, ...)      SFLogErrorToContext(kSFSyncManagerLoggerContext, nil, frmt, ##__VA_ARGS__)
+#define LogSyncWarn(frmt, ...)       SFLogWarnToContext(kSFSyncManagerLoggerContext, nil, frmt, ##__VA_ARGS__)
+#define LogSyncInfo(frmt, ...)       SFLogInfoToContext(kSFSyncManagerLoggerContext, nil, frmt, ##__VA_ARGS__)
+#define LogSyncDebug(frmt, ...)      SFLogDebugToContext(kSFSyncManagerLoggerContext, nil, frmt, ##__VA_ARGS__)
+#define LogSyncVerbose(frmt, ...)    SFLogVerboseToContext(kSFSyncManagerLoggerContext, nil, frmt, ##__VA_ARGS__)
 
-- (NSMutableDictionary *)asDict {
-    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    dict[kSFSyncTargetiOSImplKey] = NSStringFromClass([self class]);
-    dict[kSFSyncTargetIdFieldNameKey] = self.idFieldName;
-    dict[kSFSyncTargetModificationDateFieldNameKey] = self.modificationDateFieldName;
-    return dict;
-}
+@interface SFSyncManagerLogger : SFLogger
+
++ (void)setLevel:(SFLogLevel)logLevel;
 
 @end

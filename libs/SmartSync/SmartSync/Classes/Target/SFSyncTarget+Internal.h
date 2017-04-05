@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,27 +22,11 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+#import "SFSyncTarget.h"
 
-#import "SFSyncState.h"
+@interface SFSyncTarget ()
 
-extern NSString * const kSFSyncOptionsFieldlist;
-extern NSString * const kSFSyncOptionsMergeMode;
-
-@interface SFSyncOptions : NSObject
-
-@property (nonatomic, strong, readonly) NSArray*  fieldlist;
-@property (nonatomic, readonly) SFSyncStateMergeMode mergeMode;
-
-/** Factory methods
- */
-+ (SFSyncOptions*) newSyncOptionsForSyncDown:(SFSyncStateMergeMode)mergeMode;
-+ (SFSyncOptions*) newSyncOptionsForSyncUp:(NSArray*)fieldlist;
-+ (SFSyncOptions*) newSyncOptionsForSyncUp:(NSArray*)fieldlist mergeMode:(SFSyncStateMergeMode)mergeMode;
-
-/** Methods to translate to/from dictionary
- */
-+ (SFSyncOptions*) newFromDict:(NSDictionary *)dict;
-- (NSDictionary*) asDict;
+- (NSOrderedSet *)getIdsWithQuery:(id)idsSql syncManager:(SFSmartSyncSyncManager *)syncManager;
+- (void) deleteRecordsFromLocalStore:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName ids:(NSArray*)ids idField:(NSString*)idField;
 
 @end

@@ -239,12 +239,7 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
 {
     __weak typeof(self) weakSelf = self;
     
-    // Resync?
-    NSString* queryToRun = self.query;
-    if (maxTimeStamp > 0) {
-        queryToRun = [SFSoqlSyncDownTarget addFilterForReSync:self.query modDateFieldName:self.modificationDateFieldName maxTimeStamp:maxTimeStamp];
-    }
-    
+    NSString* queryToRun = [self getQueryToRun:maxTimeStamp];
     [[SFRestAPI sharedInstance] performRequestForResourcesWithFailBlock:errorBlock completeBlock:^(NSDictionary* d) { // cheap call to refresh session
         SFRestRequest* request = [[SFSoapSoqlRequest alloc] initWithQuery:queryToRun];
         [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSData * response) {

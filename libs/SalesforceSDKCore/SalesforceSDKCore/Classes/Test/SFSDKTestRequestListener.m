@@ -105,7 +105,6 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
             return kTestRequestStatusDidTimeout;
         }
         
-        [self log:SFLogLevelDebug msg:@"## sleeping..."];
         [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
     }
     

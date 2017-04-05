@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,24 +22,21 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-#import "SFSyncDownTarget.h"
+#import "SFSyncManagerLogger.h"
 
-@interface SFSoqlSyncDownTarget : SFSyncDownTarget
+NSString * const SyncManagerLogIdentifier = @"SyncManagerLogger";
+static NSInteger kSFSyncManagerLoggerContext;
 
-@property (nonatomic, strong) NSString* query;
+@implementation SFSyncManagerLogger
 
-/**
- Adds a filter for re-syncing a data set, using the given modification date field.
- @param query The original query to append a re-syncing clause to.
- @param modDateFieldName The name of the SOQL field representing the modification date field.
- @param maxTimeStamp The latest modification time represented locally.
- @return The original query with an additional re-syncing clause added.
- */
-+ (NSString*) addFilterForReSync:(NSString*)query modDateFieldName:(NSString *)modDateFieldName maxTimeStamp:(long long)maxTimeStamp;
++ (void)load {
+    if (self == [SFSyncManagerLogger class]) {
+        kSFSyncManagerLoggerContext = [[SFLogger sharedLogger] registerIdentifier:SyncManagerLogIdentifier];
+    }
+}
 
-/** Factory methods
- */
-+ (SFSoqlSyncDownTarget*) newSyncTarget:(NSString*)query;
++ (void)setLevel:(SFLogLevel)logLevel {
+    [[SFLogger sharedLogger] setLogLevel:logLevel forIdentifier:SyncManagerLogIdentifier];
+}
 
 @end

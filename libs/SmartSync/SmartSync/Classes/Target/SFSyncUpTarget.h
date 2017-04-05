@@ -68,9 +68,9 @@ typedef NS_ENUM(NSUInteger, SFSyncUpTargetAction) {
 };
 
 /**
- Block definition for returning record modification information.
+ Block definition for returning whether a records changed on server.
  */
-typedef void (^SFSyncUpRecordModificationResultBlock)(NSDate *localModificationDate, NSDate *remoteModificationDate, NSError *error);
+typedef void (^SFSyncUpRecordNewerThanServerBlock)(BOOL isNewerThanServer);
 
 /**
  Block definition for calling a sync up completion block.
@@ -83,6 +83,17 @@ typedef void (^SFSyncUpTargetCompleteBlock)(NSDictionary *syncUpResult);
 typedef void (^SFSyncUpTargetErrorBlock)(NSError *error);
 
 /**
+ Helper class for isNewerThanServer
+ */
+@interface SFRecordModDate : NSObject
+
+@property (nonatomic, strong) NSDate*  timestamp;   // time stamp - can be nil if unknown
+@property (nonatomic, assign) BOOL isDeleted;       // YES if record was deleted
+
+- (instancetype)initWithTimestamp:(NSString*)timestamp isDeleted:(BOOL)isDeleted;
+@end
+
+/**
  Base class for a server target, used to manage sync ups to the configured service.
  */
 @interface SFSyncUpTarget : SFSyncTarget
@@ -91,6 +102,17 @@ typedef void (^SFSyncUpTargetErrorBlock)(NSError *error);
  The type of server target represented by this instance.
  */
 @property (nonatomic, assign) SFSyncUpTargetType targetType;
+
+
+/**
+ Create field list (optional)
+ */
+@property (nonatomic, strong, readonly) NSArray*  createFieldlist;
+
+/**
+ Update field list (optional)
+ */
+@property (nonatomic, strong, readonly) NSArray*  updateFieldlist;
 
 /**
  Creates a new instance of a server target from a serialized dictionary.
@@ -113,48 +135,59 @@ typedef void (^SFSyncUpTargetErrorBlock)(NSError *error);
 + (NSString *)targetTypeToString:(SFSyncUpTargetType)targetType;
 
 /**
- Gives the current modification times of a record, on the client and on the server.
- @param record The record to query for modification times.
- @param modificationResultBlock The block to execute with the modification date values.
+ * Constructor
  */
-- (void)fetchRecordModificationDates:(NSDictionary *)record
-             modificationResultBlock:(SFSyncUpRecordModificationResultBlock)modificationResultBlock;
+- (instancetype)initWithCreateFieldlist:(NSArray *)createFieldlist
+                        updateFieldlist:(NSArray *)updateFieldlist;
+
+/**
+ Call resultBlock with YES if record is more recent than corresponding record on server
+ NB: also call resultBlock true if both were deleted or if local mod date is missing
+ Used to decide whether a record should be synced up or not when using merge mode leave-if-changed
+ @param record The record
+ @param resultBlock The block to execute
+ */
+- (void)isNewerThanServer:(SFSmartSyncSyncManager *)syncManager
+                   record:(NSDictionary*)record
+             resultBlock:(SFSyncUpRecordNewerThanServerBlock)resultBlock;
 
 /**
  Save locally created record back to server
- @param objectType The object type of the record.
- @param fields The map of record attribute names to values.
+ @param syncManager The sync manager doing the sync
+ @param record The record being synced
+ @param fieldlist List of fields to send to server
  @param completionBlock The block to execute after the server call completes.
  @param failBlock The block to execute if the server call fails.
  */
-- (void)createOnServer:(NSString*)objectType
-                fields:(NSDictionary*)fields
+- (void)createOnServer:(SFSmartSyncSyncManager *)syncManager
+                record:(NSDictionary*)record
+             fieldlist:(NSArray*)fieldlist
        completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
              failBlock:(SFSyncUpTargetErrorBlock)failBlock;
 
 /**
  Save locally updated record back to server
- @param objectType The object type of the record.
- @param objectId The object id of the record.
- @param fields The map of record attribute names to values.
+ @param syncManager The sync manager doing the sync
+ @param record The record being synced
+ @param fieldlist List of fields to send to server
  @param completionBlock The block to execute after the server call completes.
  @param failBlock The block to execute if the server call fails.
  */
-- (void)updateOnServer:(NSString*)objectType
-              objectId:(NSString*)objectId
-                fields:(NSDictionary*)fields
+- (void)updateOnServer:(SFSmartSyncSyncManager *)syncManager
+                record:(NSDictionary*)record
+             fieldlist:(NSArray*)fieldlist
        completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
              failBlock:(SFSyncUpTargetErrorBlock)failBlock;
 
 /**
  Delete locally deleted record from server
- @param objectType The object type of the record.
- @param objectId The object id of the record.
+ @param syncManager The sync manager doing the sync
+ @param record The record being synced
  @param completionBlock The block to execute after the server call completes.
  @param failBlock The block to execute if the server call fails.
  */
-- (void)deleteOnServer:(NSString*)objectType
-              objectId:(NSString*)objectId
+- (void)deleteOnServer:(SFSmartSyncSyncManager *)syncManager
+                record:(NSDictionary*)record
        completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
              failBlock:(SFSyncUpTargetErrorBlock)failBlock;
 
@@ -164,6 +197,7 @@ typedef void (^SFSyncUpTargetErrorBlock)(NSError *error);
  @param syncManager The sync manager running the sync.
  @param soupName The soup name to look into for records.
  */
-- (NSArray*)getIdsOfRecordsToSyncUp:(SFSmartSyncSyncManager*)syncManager
-                           soupName:(NSString*)soupName;
+- (NSArray *)getIdsOfRecordsToSyncUp:(SFSmartSyncSyncManager *)syncManager
+                            soupName:(NSString *)soupName;
 @end
+

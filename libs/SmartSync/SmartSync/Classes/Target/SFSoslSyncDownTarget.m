@@ -98,11 +98,20 @@ static NSString * const kSFSoslSyncTargetQuery = @"query";
     }];
 }
 
-- (void) getListOfRemoteIds:(SFSmartSyncSyncManager*)syncManager
-                       localIds:(NSArray*)localIds
-                     errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
-                  completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
-    [self startFetch:syncManager maxTimeStamp:0 queryRun:self.query errorBlock:errorBlock completeBlock:completeBlock];
+- (void) getRemoteIds:(SFSmartSyncSyncManager*)syncManager
+             localIds:(NSArray*)localIds
+           errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+        completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
+
+    SFSyncDownTargetFetchCompleteBlock fetchBlock = ^(NSArray* records) {
+        NSMutableArray * remoteIds = [NSMutableArray new];
+        for (NSDictionary * record in records) {
+            [remoteIds addObject:record[self.idFieldName]];
+        }
+        completeBlock(remoteIds);
+    };
+
+    [self startFetch:syncManager maxTimeStamp:0 queryRun:self.query errorBlock:errorBlock completeBlock:fetchBlock];
 }
 
 @end

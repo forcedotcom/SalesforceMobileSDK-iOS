@@ -91,25 +91,22 @@ static NSString * const kSFSoqlSyncTargetQuery = @"query";
 # pragma mark - Data fetching
 
 - (void) startFetch:(SFSmartSyncSyncManager*)syncManager
-       maxTimeStamp:(long long)maxTimeStamp
-         errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
-      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
-    [self startFetch:syncManager maxTimeStamp:maxTimeStamp queryRun:self.query errorBlock:errorBlock completeBlock:completeBlock];
+        maxTimeStamp:(long long)maxTimeStamp
+        errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+        completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock
+{
+    [self startFetch:syncManager
+          queryToRun:[self getQueryToRun:maxTimeStamp]
+          errorBlock:errorBlock
+       completeBlock:completeBlock];
 }
 
 - (void) startFetch:(SFSmartSyncSyncManager*)syncManager
-       maxTimeStamp:(long long)maxTimeStamp
-           queryRun:(NSString*)queryRun
-         errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+        queryToRun:(NSString *)queryToRun
+        errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     __weak typeof(self) weakSelf = self;
     
-    // Resync?
-    NSString* queryToRun = queryRun;
-    if (maxTimeStamp > 0) {
-        queryToRun = [SFSoqlSyncDownTarget addFilterForReSync:queryRun modDateFieldName:self.modificationDateFieldName maxTimeStamp:maxTimeStamp];
-    }
-
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:queryToRun];
     [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSDictionary *d) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -134,10 +131,10 @@ static NSString * const kSFSoqlSyncTargetQuery = @"query";
     }
 }
 
-- (void) getListOfRemoteIds:(SFSmartSyncSyncManager*)syncManager
-                   localIds:(NSArray*)localIds
-                 errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
-              completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
+- (void)getRemoteIds:(SFSmartSyncSyncManager *)syncManager
+            localIds:(NSArray *)localIds
+          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     if (localIds == nil) {
         completeBlock(nil);
         return;
@@ -149,7 +146,7 @@ static NSString * const kSFSoqlSyncTargetQuery = @"query";
     NSString* fromClause = [self.query substringFromIndex:rangeFirst.location];
     [soql appendString:fromClause];
     __block NSUInteger countFetched = 0;
-    __block NSMutableArray* allRecords = [[NSMutableArray alloc] init];
+    __block NSMutableArray* remoteIds = [[NSMutableArray alloc] init];
     __block SFSyncDownTargetFetchCompleteBlock fetchBlockRecurse = ^(NSArray *records) {};
     SFSyncDownTargetFetchCompleteBlock fetchBlock = ^(NSArray* records) {
         // NB with the recursive block, using weakSelf doesn't work (it goes to nil)
@@ -161,15 +158,31 @@ static NSString * const kSFSoqlSyncTargetQuery = @"query";
             }
         }
         countFetched += [records count];
-        [allRecords addObjectsFromArray:records];
+        for (NSDictionary * record in records) {
+            [remoteIds addObject:record[self.idFieldName]];
+        }
         if (countFetched < self.totalSize) {
             [self continueFetch:syncManager errorBlock:errorBlock completeBlock:fetchBlockRecurse];
         } else {
-            completeBlock(allRecords);
+            completeBlock(remoteIds);
         }
     };
     fetchBlockRecurse = fetchBlock;
-    [self startFetch:syncManager maxTimeStamp:0 queryRun:soql errorBlock:errorBlock completeBlock:fetchBlock];
+    [self startFetch:syncManager queryToRun:soql errorBlock:errorBlock completeBlock:fetchBlock];
+}
+
+#pragma mark - Utility methods
+
+- (NSString*) getQueryToRun {
+    return [self getQueryToRun:0];
+}
+
+- (NSString*) getQueryToRun:(long long)maxTimeStamp {
+    NSString* queryToRun = self.query;
+    if (maxTimeStamp > 0) {
+        queryToRun = [SFSoqlSyncDownTarget addFilterForReSync:self.query modDateFieldName:self.modificationDateFieldName maxTimeStamp:maxTimeStamp];
+    }
+    return queryToRun;
 }
 
 + (NSString*) addFilterForReSync:(NSString*)query modDateFieldName:(NSString *)modDateFieldName maxTimeStamp:(long long)maxTimeStamp {

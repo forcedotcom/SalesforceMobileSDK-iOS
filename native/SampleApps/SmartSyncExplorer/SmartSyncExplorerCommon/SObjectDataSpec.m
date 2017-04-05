@@ -91,7 +91,7 @@ NSString * const kSObjectIdField = @"Id";
 
 - (NSArray *)buildSoupIndexSpecs:(NSArray *)origIndexSpecs {
     NSMutableArray *mutableIndexSpecs = [NSMutableArray arrayWithArray:origIndexSpecs];
-    SFSoupIndex *isLocalDataIndexSpec = [[SFSoupIndex alloc] initWithPath:kSyncManagerLocal indexType:kSoupIndexTypeString columnName:kSyncManagerLocal];
+    SFSoupIndex *isLocalDataIndexSpec = [[SFSoupIndex alloc] initWithPath:kSyncTargetLocal indexType:kSoupIndexTypeString columnName:kSyncTargetLocal];
     [mutableIndexSpecs insertObject:isLocalDataIndexSpec atIndex:0];
     
     BOOL foundIdSpec = NO;

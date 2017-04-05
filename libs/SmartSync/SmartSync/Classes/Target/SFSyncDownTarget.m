@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSyncDownTarget.h"
+#import "SFSyncTarget+Internal.h"
 #import "SFMruSyncDownTarget.h"
 #import "SFRefreshSyncDownTarget.h"
 #import "SFSoqlSyncDownTarget.h"
@@ -40,7 +40,7 @@ NSString * const kSFSyncTargetQueryTypeCustom = @"custom";
 
 @implementation SFSyncDownTarget
 
-#pragma mark - From/to dictionary
+#pragma mark - Initialization and serialization methods
 
 + (SFSyncDownTarget*) newFromDict:(NSDictionary*)dict {
     // We should have an implementation class or a target type
@@ -78,7 +78,7 @@ NSString * const kSFSyncTargetQueryTypeCustom = @"custom";
     return dict;
 }
 
-# pragma mark - Data fetching
+# pragma mark - Public sync down methods
 
 - (void) startFetch:(SFSmartSyncSyncManager*)syncManager
        maxTimeStamp:(long long)maxTimeStamp
@@ -92,11 +92,10 @@ ABSTRACT_METHOD
     completeBlock(nil);
 }
 
-- (void) getListOfRemoteIds:(SFSmartSyncSyncManager*)syncManager
-                       localIds:(NSArray*)localIds
-                     errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
-                  completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock
-ABSTRACT_METHOD
+- (void) getRemoteIds:(SFSmartSyncSyncManager*)syncManager
+        localIds:(NSArray *)localIds
+      errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+   completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock ABSTRACT_METHOD
 
 - (long long)getLatestModificationTimeStamp:(NSArray*)records {
     long long maxTimeStamp = -1L;
@@ -111,7 +110,35 @@ ABSTRACT_METHOD
     return maxTimeStamp;
 }
 
-#pragma mark - string to/from enum for query type
+- (void)cleanGhosts:(SFSmartSyncSyncManager *)syncManager
+                 soupName:(NSString *)soupName
+               errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+            completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
+
+    // Fetches list of IDs present in local soup that have not been modified locally.
+    NSMutableOrderedSet* localIds = [NSMutableOrderedSet orderedSetWithOrderedSet:[self getNonDirtyRecordIds:syncManager soupName:soupName idField:self.idFieldName]];
+
+    // Fetches list of IDs still present on the server from the list of local IDs
+    // and removes the list of IDs that are still present on the server.
+    NSArray *localIdsArr = [localIds array];
+    [self getRemoteIds:syncManager
+              localIds:localIdsArr
+            errorBlock:errorBlock
+         completeBlock:^(NSArray *remoteIds) {
+             [localIds removeObjectsInArray:remoteIds];
+
+             // Deletes extra IDs from SmartStore.
+             [self deleteRecordsFromLocalStore:syncManager soupName:soupName ids:localIdsArr idField:self.idFieldName];
+             completeBlock(localIdsArr);
+         }];
+}
+
+- (NSOrderedSet*) getIdsToSkip:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName {
+    return [self getDirtyRecordIds:syncManager soupName:soupName idField:self.idFieldName];
+}
+
+
+#pragma mark - String to/from enum for query type
 
 + (SFSyncDownTargetQueryType) queryTypeFromString:(NSString*)queryType {
     if ([queryType isEqualToString:kSFSyncTargetQueryTypeSoql]) {
@@ -138,6 +165,18 @@ ABSTRACT_METHOD
         case SFSyncDownTargetQueryTypeRefresh: return kSFSyncTargetQueryTypeRefresh;
         case SFSyncDownTargetQueryTypeCustom: return kSFSyncTargetQueryTypeCustom;
     }
+}
+
+#pragma mark - Helper methods
+
+- (NSOrderedSet*) getNonDirtyRecordIds:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName idField:(NSString*)idField {
+    NSString* nonDirtyRecordsSql = [self getNonDirtyRecordIdsSql:soupName idField:idField];
+    return [self getIdsWithQuery:nonDirtyRecordsSql syncManager:syncManager];
+}
+
+- (NSString*) getNonDirtyRecordIdsSql:(NSString*)soupName idField:(NSString*)idField {
+    return [NSString stringWithFormat:@"SELECT {%@:%@} FROM {%@} WHERE {%@:%@} = '0' ORDER BY {%@:%@} ASC",
+                                      soupName, idField, soupName, soupName, kSyncTargetLocal, soupName, idField];
 }
 
 @end

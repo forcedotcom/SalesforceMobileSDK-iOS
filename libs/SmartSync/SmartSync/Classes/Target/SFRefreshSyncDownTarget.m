@@ -135,10 +135,10 @@ static NSUInteger const kSFSyncTargetRefreshDefaultCountIdsPerSoql = 500;
     }
 }
 
-- (void) getListOfRemoteIds:(SFSmartSyncSyncManager*)syncManager
-                   localIds:(NSArray*)localIds
-                 errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
-              completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
+- (void) getRemoteIds:(SFSmartSyncSyncManager*)syncManager
+             localIds:(NSArray*)localIds
+           errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+        completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     if (localIds == nil) {
         completeBlock(nil);
         return;
@@ -153,7 +153,10 @@ static NSUInteger const kSFSyncTargetRefreshDefaultCountIdsPerSoql = 500;
     SFSyncDownTargetFetchCompleteBlock fetchBlock = ^(NSArray* records) {
         // NB with the recursive block, using weakSelf doesn't work (it goes to nil)
         //    are we leaking memory?
-        [remoteIds addObjectsFromArray:records];
+
+        for (NSDictionary * record in records) {
+            [remoteIds addObject:record[self.idFieldName]];
+        }
 
         if (slice < countSlices) {
             NSArray* idsToFetch = [localIds subarrayWithRange:NSMakeRange(slice*sliceSize, MIN(localIds.count, (slice+1)*sliceSize))];
