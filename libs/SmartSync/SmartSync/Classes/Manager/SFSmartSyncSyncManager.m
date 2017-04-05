@@ -41,8 +41,6 @@ NSString * const kSyncManagerLObjectId = @"id"; // e.g. create response
 // dispatch queue
 char * const kSyncManagerQueue = "com.salesforce.smartsync.manager.syncmanager.QUEUE";
 
-@class message;
-
 // block type
 typedef void (^SyncUpdateBlock) (NSString* status, NSInteger progress, NSInteger totalSize, long long maxTimeStamp);
 typedef void (^SyncFailBlock) (NSString* message, NSError* error);
@@ -50,7 +48,7 @@ typedef void (^SyncFailBlock) (NSString* message, NSError* error);
 @interface SFSmartSyncSyncManager () <SFAuthenticationManagerDelegate>
 
 @property (nonatomic, strong) SFSmartStore *store;
-@property (nonatomic) dispatch_queue_t queue;
+@property (nonatomic, strong) dispatch_queue_t queue;
 @property (nonatomic, strong) NSMutableSet *runningSyncIds;
 
 @end
@@ -213,9 +211,8 @@ static NSMutableDictionary *syncMgrList = nil;
         }
     };
 
-    SyncFailBlock failSync = ^(NSString* message, NSError* error) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        LogSyncError(@"runSync failed:%@ cause:%@ error%@", sync, message, error);
+    SyncFailBlock failSync = ^(NSString* failureMessage, NSError* error) {
+        LogSyncError(@"runSync failed:%@ cause:%@ error%@", sync, failureMessage, error);
         updateSync(kSFSyncStateStatusFailed, kSyncManagerUnchanged, kSyncManagerUnchanged, kSyncManagerUnchanged);
     };
 
@@ -413,12 +410,9 @@ static NSMutableDictionary *syncMgrList = nil;
 
     NSString* soupName = [sync soupName];
 
-    __weak typeof(self) weakSelf = self;
-
     [(SFSyncDownTarget *)sync.target cleanGhosts:self
                                         soupName:soupName
                                       errorBlock:^(NSError* e) {
-                                          __strong typeof(weakSelf) strongSelf = weakSelf;
                                           LogSyncError(@"Failed to get list of remote IDs, %@", [e localizedDescription]);
                                           NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
                                           attributes[@"syncId"] = [NSNumber numberWithInteger:sync.syncId];
@@ -596,7 +590,7 @@ static NSMutableDictionary *syncMgrList = nil;
             break;
         default:
             // Action is unsupported here.  Move on.
-            LogSyncInfo(@"%@ unsupported action with value %d.  Moving to the next record.", NSStringFromSelector(_cmd), action);
+            LogSyncInfo(@"%@ unsupported action with value %lu.  Moving to the next record.", NSStringFromSelector(_cmd), (unsigned long) action);
             [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failBlock:failBlock];
             return;
     }
