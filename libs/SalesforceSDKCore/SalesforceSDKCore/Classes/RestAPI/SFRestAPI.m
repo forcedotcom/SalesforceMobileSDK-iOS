@@ -255,7 +255,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
                 [strongSelf log:SFLogLevelInfo format:@"%@ Invalid grant error received, triggering logout.", NSStringFromSelector(_cmd)];
                 // make sure we call logoutUser on main thread
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [strongSelf createAndStoreLogoutEvent:error];
+                    [strongSelf createAndStoreLogoutEvent:error user:user];
                     [[SFAuthenticationManager sharedManager] logoutUser:user];
                 });
             }
@@ -286,11 +286,11 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     }
 }
 
-- (void)createAndStoreLogoutEvent:(NSError *)error {
+- (void)createAndStoreLogoutEvent:(NSError *)error user:(SFUserAccount*)user {
     NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
     attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
     attributes[@"errorDescription"] = error.localizedDescription;
-    [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
+    [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:user className:NSStringFromClass([self class]) attributes:attributes];
 }
 
 # pragma mark - helper method for conditional requests
