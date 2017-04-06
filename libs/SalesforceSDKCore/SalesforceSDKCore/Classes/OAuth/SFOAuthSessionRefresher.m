@@ -23,7 +23,6 @@
  */
 
 #import "SFOAuthSessionRefresher+Internal.h"
-#import "SFOAuthCredentials.h"
 #import "SFAuthenticationManager.h"
 
 @implementation SFOAuthSessionRefresher
@@ -95,6 +94,7 @@
 
 - (void)completeWithError:(NSError *)error {
     [self log:SFLogLevelError format:@"%@ Refresh failed with error: %@", NSStringFromSelector(_cmd), error];
+
     if (self.errorBlock) {
         dispatch_async(dispatch_get_main_queue(), ^{
             self.errorBlock(error);

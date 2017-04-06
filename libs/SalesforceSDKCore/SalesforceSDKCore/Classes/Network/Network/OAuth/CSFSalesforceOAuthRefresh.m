@@ -83,7 +83,7 @@
             NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
             attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
             attributes[@"errorDescription"] = error.localizedDescription;
-            [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
+            [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:self.network.account className:NSStringFromClass([self class]) attributes:attributes];
             [[SFAuthenticationManager sharedManager] logoutUser:self.network.account];
         });
     }
