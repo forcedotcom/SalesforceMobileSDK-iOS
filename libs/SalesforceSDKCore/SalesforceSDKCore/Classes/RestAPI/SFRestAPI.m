@@ -240,7 +240,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     // Checks if the access token has expired.
     NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
     if (statusCode == 401 || statusCode == 403) {
-        SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
+        __block SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
         [self log:SFLogLevelInfo format:@"%@: REST request failed due to expired credentials. Attempting to refresh credentials.", NSStringFromSelector(_cmd)];
         self.oauthSessionRefresher = [[SFOAuthSessionRefresher alloc] initWithCredentials:user.credentials];
         __weak __typeof(self) weakSelf = self;
@@ -251,6 +251,14 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
         } error:^(NSError *refreshError) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [strongSelf log:SFLogLevelError format:@"Failed to refresh expired session. Error: %@", refreshError];
+            if ([refreshError.domain isEqualToString:kSFOAuthErrorDomain] && refreshError.code == kSFOAuthErrorInvalidGrant) {
+                [strongSelf log:SFLogLevelInfo format:@"%@ Invalid grant error received, triggering logout.", NSStringFromSelector(_cmd)];
+                // make sure we call logoutUser on main thread
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [strongSelf createAndStoreLogoutEvent:error];
+                    [[SFAuthenticationManager sharedManager] logoutUser:user];
+                });
+            }
         }];
     } else {
 
@@ -276,6 +284,13 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
         }
         [[SFRestAPI sharedInstance] removeActiveRequestObject:request];
     }
+}
+
+- (void)createAndStoreLogoutEvent:(NSError *)error {
+    NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
+    attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
+    attributes[@"errorDescription"] = error.localizedDescription;
+    [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
 }
 
 # pragma mark - helper method for conditional requests

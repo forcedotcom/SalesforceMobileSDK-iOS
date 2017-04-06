@@ -23,9 +23,7 @@
  */
 
 #import "SFOAuthSessionRefresher+Internal.h"
-#import "SFOAuthCredentials.h"
 #import "SFAuthenticationManager.h"
-#import "SFSDKEventBuilderHelper.h"
 
 @implementation SFOAuthSessionRefresher
 
@@ -97,32 +95,11 @@
 - (void)completeWithError:(NSError *)error {
     [self log:SFLogLevelError format:@"%@ Refresh failed with error: %@", NSStringFromSelector(_cmd), error];
 
-    if ([error.domain isEqualToString:kSFOAuthErrorDomain] && error.code == kSFOAuthErrorInvalidGrant) {
-        [self log:SFLogLevelInfo format:@"%@ Invalid grant error received, triggering logout.", NSStringFromSelector(_cmd)];
-        // make sure we call logoutUser on main thread
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self createAndStoreLogoutEvent:error];
-            [self logoutUser];
-        });
-    }
-    else if (self.errorBlock) {
+    if (self.errorBlock) {
         dispatch_async(dispatch_get_main_queue(), ^{
             self.errorBlock(error);
         });
     }
-}
-
-- (void)logoutUser {
-    SFUserAccountIdentity *userIdentity = [[SFUserAccountIdentity alloc] initWithUserId:self.coordinator.credentials.userId orgId:self.coordinator.credentials.organizationId];
-    SFUserAccount *userAccount = [[SFUserAccountManager sharedInstance] userAccountForUserIdentity:userIdentity];
-    [[SFAuthenticationManager sharedManager] logoutUser:userAccount];
-}
-
-- (void)createAndStoreLogoutEvent:(NSError *)error {
-    NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
-    attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
-    attributes[@"errorDescription"] = error.localizedDescription;
-    [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
 }
 
 #pragma mark - SFOAuthCoordinatorDelegate
