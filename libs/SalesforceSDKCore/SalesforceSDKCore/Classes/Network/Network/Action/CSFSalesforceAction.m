@@ -30,6 +30,7 @@
 #import "SFOAuthCredentials.h"
 #import "SFUserAccountManager.h"
 #import "NSURL+SFStringUtils.h"
+#import "CSFNetwork+Salesforce.h"
 
 NSString * const CSFAuthorizationHeaderValueFormat = @"OAuth %@";
 NSString * const CSFAuthorizationHeaderName = @"Authorization";
@@ -53,11 +54,6 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
         _apiVersion = CSFSalesforceDefaultAPIVersion;
         _pathPrefix = CSFSalesforceActionDefaultPathPrefix;
         self.authRefreshClass = [CSFSalesforceOAuthRefresh class];
-        NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-        [notificationCenter addObserver:self
-                               selector:@selector(userAccountManagerDidChangeUserDataNotification:)
-                                   name:SFUserAccountManagerDidChangeUserDataNotification
-                                 object:nil];
     }
     return self;
 }
@@ -78,10 +74,11 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
         // add observers to the new network
         if (_enqueuedNetwork) {
             NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+
             [notificationCenter addObserver:self
-                                   selector:@selector(userAccountManagerDidChangeUserDataNotification:)
-                                       name:SFUserAccountManagerDidChangeUserDataNotification
-                                     object:nil];
+                                   selector:@selector(didChangeUserDataNotification:)
+                                       name:CSFDidChangeUserDataNotification
+                                     object:_enqueuedNetwork];
         }
     }
 }
@@ -295,39 +292,23 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
     }
 }
 
-#pragma mark SFAuthenticationManagerDelegate
-- (void)userAccountManagerDidChangeUserDataNotification:(NSNotification*)notification {
-    SFUserAccountManager *accountManager = (SFUserAccountManager*)notification.object;
+- (void)didChangeUserDataNotification:(NSNotification*)notification {
+    CSFNetwork *network = (CSFNetwork*)notification.object;
 
-    if ([accountManager isKindOfClass:[SFUserAccountManager class]]) {
-
-        NSString *userId = notification.userInfo[SFUserAccountManagerUserChangeUserIdKey];
-        NSString *orgId = notification.userInfo[SFUserAccountManagerUserChangeOrgIdKey];
-        SFUserAccountIdentity *identity = [[SFUserAccountIdentity alloc] initWithUserId:userId orgId:orgId];
-        SFUserAccount *userAccount = [[SFUserAccountManager sharedInstance] userAccountForUserIdentity:identity];
+    if ([network isKindOfClass:[CSFNetwork class]]) {
+        SFUserAccount *userAccount = notification.userInfo[SFUserAccountManagerUserChangeUserKey];
         SFUserAccountChange change = (SFUserAccountChange)[notification.userInfo[SFUserAccountManagerUserChangeKey] integerValue];
 
-        if (change & SFUserAccountChangeCurrentUser) {
-            if (![accountManager.currentUserIdentity isEqual:self.enqueuedNetwork.account.accountIdentity]) {
-                self.enqueuedNetwork.networkSuspended = YES;
-            } else {
-                [self.enqueuedNetwork resetSession];
-                self.enqueuedNetwork.networkSuspended = NO;
-            }
-            if (accountManager.currentCommunityId != self.enqueuedNetwork.defaultConnectCommunityId) {
-                self.enqueuedNetwork.defaultConnectCommunityId = accountManager.currentCommunityId;
-            }
-        } else if ([self requiresAuthentication] && [self.enqueuedNetwork.account.accountIdentity isEqual:identity]) {
-            [self willChangeValueForKey:@"isReady"];
-            if (change & SFUserAccountChangeCommunityId) {
-                self.enqueuedNetwork.defaultConnectCommunityId = userAccount.communityId;
-            }
-            SFUserAccountChange credsChanged = SFUserAccountChangeInstanceURL | SFUserAccountChangeAccessToken;
-            if ((change & credsChanged) == credsChanged) {
-                self.credentialsReady = YES;
-            }
-            [self didChangeValueForKey:@"isReady"];
+        [self willChangeValueForKey:@"isReady"];
+        if (change & SFUserAccountDataChangeCommunityId) {
+            self.enqueuedNetwork.defaultConnectCommunityId = userAccount.communityId;
         }
+        SFUserAccountDataChange credsChanged = SFUserAccountDataChangeInstanceURL | SFUserAccountDataChangeAccessToken;
+        if ((change & credsChanged) == credsChanged) {
+            self.credentialsReady = YES;
+        }
+        [self didChangeValueForKey:@"isReady"];
+
     }
 }
 

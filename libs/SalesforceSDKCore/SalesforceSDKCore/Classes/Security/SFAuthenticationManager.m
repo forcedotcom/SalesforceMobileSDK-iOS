@@ -39,7 +39,7 @@
 #import "SFPasscodeProviderManager.h"
 #import "SFPushNotificationManager.h"
 #import "SFManagedPreferences.h"
-#import "SFOAuthCredentials.h"
+#import "SFOAuthCredentials+Internal.h"
 #import "SFOAuthInfo.h"
 #import "SFLoginViewController.h"
 #import "SFOAuthCoordinator+Internal.h"
@@ -743,13 +743,9 @@ static Class InstanceClass = nil;
 {
     // Apply the credentials that will ensure there is a user and that this
     // current user as the proper credentials.
-    SFUserAccountChange change = [self userAccountChangeFromDict:self.coordinator.credentialsChangeSet];
     SFUserAccount *user = [[SFUserAccountManager sharedInstance] applyCredentials:self.coordinator.credentials
-                                                                       withIdData:self.idCoordinator.idData
-                                                                        andChange:change];
-    [self.coordinator resetCredentialsChangeSet];
-
-    [[SFUserAccountManager sharedInstance] applyIdData:self.idCoordinator.idData forUser:user];
+                                                                       withIdData:self.idCoordinator.idData];
+ 
     // Notify the session is ready
     [self willChangeValueForKey:@"haveValidSession"];
     [self didChangeValueForKey:@"haveValidSession"];
@@ -1479,26 +1475,6 @@ static Class InstanceClass = nil;
     creds.accessToken = nil;
     creds.clientId = self.oauthClientId;
     return creds;
-}
-
-- (SFUserAccountChange)userAccountChangeFromDict:(NSDictionary *)changeSet {
-
-    SFUserAccountChange change = SFUserAccountChangeUnknown;
-
-    if (changeSet[kSFAuthInstanceUrl])
-        change |= SFUserAccountChangeInstanceURL;
-
-    if (changeSet[kSFAuthAccessToken])
-        change |= SFUserAccountChangeAccessToken;
-
-    if (changeSet[kSFAuthCommunityId])
-        change |= SFUserAccountChangeCommunityId;
-
-
-    if (change!=SFUserAccountChangeUnknown)
-        change &= ~SFUserAccountChangeUnknown;
-
-    return change;
 }
 
 @end

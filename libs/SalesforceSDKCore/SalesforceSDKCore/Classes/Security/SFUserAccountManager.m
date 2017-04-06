@@ -37,13 +37,15 @@
 #import "NSUserDefaults+SFAdditions.h"
 #import "SFSDKAppFeatureMarkers.h"
 #import "SFDefaultUserAccountPersister.h"
+#import "SFOAuthCredentials+Internal.h"
 
 // Notifications
+NSString * const SFUserAccountManagerDidChangeUserNotification   = @"SFUserAccountManagerDidChangeUserNotification";
 NSString * const SFUserAccountManagerDidChangeUserDataNotification   = @"SFUserAccountManagerDidChangeUserDataNotification";
 NSString * const SFUserAccountManagerDidFinishUserInitNotification   = @"SFUserAccountManagerDidFinishUserInitNotification";
 
 NSString * const SFUserAccountManagerUserChangeKey      = @"change";
-NSString * const SFUserAccountManagerUserChangeUserIdKey      = @"userId";
+NSString * const SFUserAccountManagerUserChangeUserKey      = @"user";
 NSString * const SFUserAccountManagerUserChangeOrgIdKey      = @"orgId";
 
 NSString * const kSFLoginHostChangedNotification = @"kSFLoginHostChanged";
@@ -392,28 +394,48 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
     [_accountsLock unlock];
     return success;
 }
+
 - (SFUserAccount *)applyCredentials:(SFOAuthCredentials*)credentials {
-    return [self applyCredentials:credentials withIdData:nil andChange:SFUserAccountChangeUnknown];
+    return [self applyCredentials:credentials withIdData:nil];
 }
 
-- (SFUserAccount *)applyCredentials:(SFOAuthCredentials*)credentials withIdData:(SFIdentityData *) identityData andChange:(SFUserAccountChange) change{
+- (SFUserAccount *)applyCredentials:(SFOAuthCredentials*)credentials withIdData:(SFIdentityData *) identityData {
+    return [self applyCredentials:credentials withIdData:identityData andNotification:YES];
+}
+
+- (SFUserAccount *)applyCredentials:(SFOAuthCredentials*)credentials withIdData:(SFIdentityData *) identityData andNotification:(BOOL) shouldSendNotification{
+    
     SFUserAccount *currentAccount = [self accountForCredentials:credentials];
+    SFUserAccountDataChange accountDataChange = SFUserAccountDataChangeUnknown;
+    SFUserAccountChange userAccountChange = SFUserAccountChangeUnknown;
+
     if (currentAccount) {
 
         if (identityData)
-            change |= SFUserAccountChangeIdData;
+            accountDataChange |= SFUserAccountDataChangeIdData;
 
-        if (change!=SFUserAccountChangeUnknown)
-            change &= ~SFUserAccountChangeUnknown;
+        if ([credentials hasPropertyValueChangedForKey:@"accessToken"])
+            accountDataChange |= SFUserAccountDataChangeAccessToken;
+
+        if ([credentials hasPropertyValueChangedForKey:@"instanceUrl"])
+            accountDataChange |= SFUserAccountDataChangeInstanceURL;
+
+        if ([credentials hasPropertyValueChangedForKey:@"communityId"])
+            accountDataChange |= SFUserAccountDataChangeCommunityId;
+
+        if (accountDataChange!=SFUserAccountDataChangeUnknown)
+            accountDataChange &= ~SFUserAccountDataChangeUnknown;
 
         currentAccount.credentials = credentials;
     }else {
         currentAccount = [[SFUserAccount alloc] initWithCredentials:credentials];
+
         //add the account to our list of possible accounts, but
         //don't set this as the current user account until somebody
         //asks us to login with this account.
-        change = SFUserAccountChangeNewUser;
+        userAccountChange = SFUserAccountChangeNewUser;
     }
+    [credentials resetCredentialsChangeSet];
 
     currentAccount.idData = identityData;
     // If the user has logged using a community-base URL, then let's create the community data
@@ -434,8 +456,13 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
     }
 
     [self saveAccountForUser:currentAccount error:nil];
-    if (change!=SFUserAccountChangeUnknown) {
-        [self notifyUserChange:SFUserAccountManagerDidChangeUserDataNotification withUser:currentAccount andChange:change];
+
+    if(shouldSendNotification) {
+        if (accountDataChange != SFUserAccountChangeUnknown) {
+            [self notifyUserDataChange:SFUserAccountManagerDidChangeUserDataNotification withUser:currentAccount andChange:accountDataChange];
+        } else if (userAccountChange!=SFUserAccountDataChangeUnknown) {
+            [self notifyUserChange:SFUserAccountManagerDidChangeUserNotification withUser:currentAccount andChange:userAccountChange];
+        }
     }
     return currentAccount;
 }
@@ -496,7 +523,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
         [_accountsLock unlock];
     }
     if (userChanged)
-        [self notifyCurrentUserChange:SFUserAccountChangeCurrentUser];
+        [self notifyUserChange:SFUserAccountManagerDidChangeUserNotification withUser:_currentUser andChange:SFUserAccountChangeCurrentUser];
 }
 
 -(SFUserAccountIdentity *) currentUserIdentity {
@@ -533,7 +560,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
     user.idData = idData;
     [self saveAccountForUser:user error:nil];
     [_accountsLock unlock];
-    [self notifyUserChange:SFUserAccountManagerDidChangeUserDataNotification withUser:user andChange:SFUserAccountChangeIdData];
+    [self notifyUserDataChange:SFUserAccountManagerDidChangeUserDataNotification withUser:user andChange:SFUserAccountDataChangeIdData];
 }
 
 - (void)applyIdDataCustomAttributes:(NSDictionary *)customAttributes forUser:(SFUserAccount *)user {
@@ -541,7 +568,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
     user.idData.customAttributes = customAttributes;
     [self saveAccountForUser:user error:nil];
     [_accountsLock unlock];
-    [self notifyUserChange:SFUserAccountManagerDidChangeUserDataNotification withUser:user andChange:SFUserAccountChangeIdData];
+    [self notifyUserDataChange:SFUserAccountManagerDidChangeUserDataNotification withUser:user andChange:SFUserAccountDataChangeIdData];
 }
 
 - (void)applyIdDataCustomPermissions:(NSDictionary *)customPermissions forUser:(SFUserAccount *)user {
@@ -549,7 +576,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
     user.idData.customPermissions = customPermissions;
     [self saveAccountForUser:user error:nil];
     [_accountsLock unlock];
-    [self notifyUserChange:SFUserAccountManagerDidChangeUserDataNotification withUser:user andChange:SFUserAccountChangeIdData];
+    [self notifyUserDataChange:SFUserAccountManagerDidChangeUserDataNotification withUser:user andChange:SFUserAccountDataChangeIdData];
 }
 
 - (void)setObjectForUserCustomData:(NSObject <NSCoding> *)object forKey:(NSString *)key andUser:(SFUserAccount *)user {
@@ -602,29 +629,36 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 }
 
 - (void)userChanged:(SFUserAccount *)user change:(SFUserAccountChange)change {
-    [self notifyUserChange:SFUserAccountManagerDidChangeUserDataNotification withUser:user andChange:change];
+    [self notifyUserDataChange:SFUserAccountManagerDidChangeUserDataNotification withUser:user andChange:change];
 }
 
-- (void)notifyCurrentUserChange:(SFUserAccountChange)change {
+- (void)notifyCurrentUserChange:(SFUserAccountDataChange)change {
     SFUserAccount *user  = [self currentUser];
-    if (![self.lastChangedOrgId isEqualToString:user.credentials.organizationId]) {
-        self.lastChangedOrgId = user.credentials.organizationId;
-        change |= SFUserAccountChangeOrgId;
-        change &= ~SFUserAccountChangeUnknown; // clear the unknown bit
-    }
-
-    if (![self.lastChangedUserId isEqualToString:self.currentUser.credentials.userId]) {
-        self.lastChangedUserId = user.credentials.userId;
-        change |= SFUserAccountChangeUserId;
-        change &= ~SFUserAccountChangeUnknown; // clear the unknown bit
-    }
 
     if ((self.lastChangedCommunityId && ![self.lastChangedCommunityId isEqualToString:self.currentUser.communityId])
             || (!self.lastChangedCommunityId && self.currentUser.communityId)) {
-        change |= SFUserAccountChangeCommunityId;
+        change |= SFUserAccountDataChangeCommunityId;
         change &= ~SFUserAccountChangeUnknown;
     }
-    [self notifyUserChange:SFUserAccountManagerDidChangeUserDataNotification withUser:user andChange:change];
+    [self notifyUserDataChange:SFUserAccountManagerDidChangeUserDataNotification withUser:user andChange:change];
+}
+
+- (void)notifyUserDataChange:(NSString *)notificationName withUser:(SFUserAccount *)user andChange:(SFUserAccountDataChange)change {
+    if (user) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:notificationName
+                                                            object:self
+                                                          userInfo:@{
+                                                                SFUserAccountManagerUserChangeKey: @(change),
+                                                                SFUserAccountManagerUserChangeUserKey: user
+                                                          }];
+    }else {
+        [[NSNotificationCenter defaultCenter] postNotificationName:notificationName
+                                                            object:self
+                                                          userInfo:@{
+                                                                  SFUserAccountManagerUserChangeKey: @(change)
+                                                          }];
+
+    }
 }
 
 - (void)notifyUserChange:(NSString *)notificationName withUser:(SFUserAccount *)user andChange:(SFUserAccountChange)change {
@@ -632,9 +666,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
         [[NSNotificationCenter defaultCenter] postNotificationName:notificationName
                                                             object:self
                                                           userInfo:@{
-                                                                  SFUserAccountManagerUserChangeKey: @(change),
-                                                                SFUserAccountManagerUserChangeUserIdKey: user.accountIdentity.userId,
-                                                                  SFUserAccountManagerUserChangeOrgIdKey: user.accountIdentity.orgId
+                                                                  SFUserAccountManagerUserChangeKey: @(change),                                                                  SFUserAccountManagerUserChangeUserKey: user
                                                           }];
     }else {
         [[NSNotificationCenter defaultCenter] postNotificationName:notificationName

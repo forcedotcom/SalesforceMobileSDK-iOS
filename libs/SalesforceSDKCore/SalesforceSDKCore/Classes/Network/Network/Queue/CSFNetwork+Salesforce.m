@@ -24,6 +24,8 @@
 
 #import "CSFNetwork+Salesforce.h"
 
+NSString * const CSFDidChangeUserDataNotification = @"CSFDidChangeUserDataNotification";
+
 @implementation CSFNetwork (Salesforce)
 
 - (NSString*)defaultConnectCommunityId {
@@ -38,21 +40,53 @@
 
 - (void)setupSalesforceObserver {
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(userAccountManagerDidChangeCurrentUser:)
+                                             selector:@selector(userAccountManagerDidChangeUserData:)
                                                  name:SFUserAccountManagerDidChangeUserDataNotification
+                                               object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(userAccountManagerDidChangeUser:)
+                                                 name:SFUserAccountManagerDidChangeUserNotification
                                                object:nil];
 }
 
 #pragma mark SFAuthenticationManagerDelegate
-- (void)userAccountManagerDidChangeCurrentUser:(NSNotification*)notification {
+- (void)userAccountManagerDidChangeUser:(NSNotification*)notification {
+
     SFUserAccountManager *accountManager = (SFUserAccountManager*)notification.object;
     SFUserAccountChange change = (SFUserAccountChange)[notification.userInfo[SFUserAccountManagerUserChangeKey] integerValue];
+
     if ([accountManager isKindOfClass:[SFUserAccountManager class]]
             && (change & SFUserAccountChangeCurrentUser)) {
-        if ([accountManager.currentUserIdentity isEqual:self.account.accountIdentity] &&
-                ![accountManager.currentCommunityId isEqualToString:self.defaultConnectCommunityId])
-        {
-            self.defaultConnectCommunityId = accountManager.currentCommunityId;
+
+        if (![accountManager.currentUserIdentity isEqual:self.account.accountIdentity]) {
+            self.networkSuspended = YES;
+        } else {
+            [self resetSession];
+            self.networkSuspended = NO;
+        }
+    }
+}
+
+- (void)userAccountManagerDidChangeUserData:(NSNotification*)notification {
+    SFUserAccountManager *accountManager = (SFUserAccountManager*)notification.object;
+    SFUserAccountDataChange change = (SFUserAccountDataChange)[notification.userInfo[SFUserAccountManagerUserChangeKey] integerValue];
+    if ([accountManager isKindOfClass:[SFUserAccountManager class]]) {
+        SFUserAccount *userAccount = notification.userInfo[SFUserAccountManagerUserChangeUserKey];
+        if([self.account.accountIdentity isEqual:userAccount.accountIdentity]) {
+
+            if ([accountManager.currentUserIdentity isEqual:self.account.accountIdentity] &&
+                    ![accountManager.currentCommunityId isEqualToString:self.defaultConnectCommunityId])
+            {
+                self.defaultConnectCommunityId = accountManager.currentCommunityId;
+            }
+
+            [[NSNotificationCenter defaultCenter] postNotificationName:CSFDidChangeUserDataNotification
+                                                                object:self
+                                                              userInfo:@{
+                                                                      SFUserAccountManagerUserChangeKey: @(change),
+                                                                      SFUserAccountManagerUserChangeUserKey: userAccount
+                                                              }];
         }
     }
 }

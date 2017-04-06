@@ -24,6 +24,7 @@
 
 #import "SFUserAccountManager.h"
 #import "CSFNetwork+Internal.h"
+FOUNDATION_EXTERN NSString * const CSFDidChangeUserDataNotification;
 
 @interface CSFNetwork (SalesforcePrivate) <SFUserAccountManagerDelegate>
 

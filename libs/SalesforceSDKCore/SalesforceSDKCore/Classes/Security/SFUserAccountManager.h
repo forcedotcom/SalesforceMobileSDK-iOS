@@ -28,6 +28,11 @@
 #import "SFUserAccountConstants.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
+/**Notification sent when user has been created or is set as current User
+ */
+FOUNDATION_EXTERN NSString * const SFUserAccountManagerDidChangeUserNotification;
+
 /** Notification sent when something has changed with the current user
  */
 FOUNDATION_EXTERN NSString * const SFUserAccountManagerDidChangeUserDataNotification;
@@ -43,11 +48,7 @@ FOUNDATION_EXTERN NSString * const SFUserAccountManagerUserChangeKey;
 
 /** The key containing the type of change for the SFUserAccountManagerDidChangeCurrentUserNotification
  */
-FOUNDATION_EXTERN NSString * const SFUserAccountManagerUserChangeUserIdKey;
-
-/** The key containing the type of change for the SFUserAccountManagerUserChangeOrgIdKey
- */
-FOUNDATION_EXTERN NSString * const SFUserAccountManagerUserChangeOrgIdKey;
+FOUNDATION_EXTERN NSString * const SFUserAccountManagerUserChangeUserKey;
 
 /**
  Identifies the notification for the login host changing in the app's settings.
@@ -238,13 +239,28 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
 - (void)clearAllAccountState;
 
 /** Invoke this method to apply the specified credentials to the
+ a user whose credentials match. If no user exists, a new one is created. Fire notifications.
+ This will post user update notification.
+ @param credentials The credentials to apply
+ */
+- (SFUserAccount *)applyCredentials:(SFOAuthCredentials*)credentials;
+
+/** Invoke this method to apply the specified credentials to the
+ a user whose credentials match. If no user exists, a new one is created. Fire notifications.
+ This will post user update notification.
+ @param credentials The credentials to apply
+ @param identityData The identityData to apply
+ */
+- (SFUserAccount *)applyCredentials:(SFOAuthCredentials*)credentials withIdData:(nullable SFIdentityData *) identityData;
+
+/** Invoke this method to apply the specified credentials to the
  a user whose credentials match. If no user exists, a new one is created.
  This will post user update notification.
  @param credentials The credentials to apply
  @param identityData The identityData to apply
- @param change changes to propagate for notifications
+ @param shouldSendNotification whether to post notifications.
  */
-- (SFUserAccount *)applyCredentials:(SFOAuthCredentials*)credentials withIdData:(nullable SFIdentityData *) identityData andChange:(SFUserAccountChange) change;
+- (SFUserAccount *)applyCredentials:(SFOAuthCredentials*)credentials withIdData:(SFIdentityData *) identityData andNotification:(BOOL) shouldSendNotification;
 
 
 /** Invoke this method to apply the specified id data to the
