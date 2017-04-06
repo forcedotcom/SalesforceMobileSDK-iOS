@@ -51,4 +51,12 @@ typedef void (^SFDataResponseBlock) (NSData * _Nullable data, NSURLResponse * _N
  */
 - (nonnull NSURLSession *)activeSession;
 
+/**
+ * Sets a session configuration to be used for network requests in the Mobile SDK.
+ *
+ * @param sessionConfig Session configuration to be used.
+ * @param isBackgroundSession YES - if it is a background session configuration, NO - otherwise.
+ */
+- (void)setSessionConfiguration:(nonnull NSURLSessionConfiguration *)sessionConfig isBackgroundSession:(BOOL)isBackgroundSession;
+
 @end

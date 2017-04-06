@@ -124,6 +124,14 @@
 - (NSArray*)actionsWithContext:(id)context;
 
 /**
+ * Sets a session configuration to be used for network requests in the Network SDK.
+ *
+ * @param sessionConfig Session configuration to be used.
+ * @param isBackgroundSession YES - if it is a background session configuration, NO - otherwise.
+ */
+- (void)setSessionConfiguration:(NSURLSessionConfiguration *)sessionConfig isBackgroundSession:(BOOL)isBackgroundSession;
+
+/**
  Cross-site Request Forgery (CSRF) token provided in each server response and required for all Push API
  requests that change state (i.e. POST).
  */

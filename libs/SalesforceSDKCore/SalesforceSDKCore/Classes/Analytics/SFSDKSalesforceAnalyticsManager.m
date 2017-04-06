@@ -180,7 +180,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
         __block BOOL overallCompletionStatus = NO;
         NSMutableArray<SFSDKAnalyticsTransformPublisherPair *> *remoteKeySet = [self.remotes mutableCopy];
         __block SFSDKAnalyticsTransformPublisherPair *currentTpp = remoteKeySet[0];
-        PublishCompleteBlock publishCompleteBlock = ^void(BOOL success, NSError *error) {
+        PublishCompleteBlock __block publishCompleteBlock = ^void(BOOL success, NSError *error) {
 
             /*
              * Updates the success flag only if all previous requests have been
@@ -211,6 +211,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
                 if (overallSuccess) {
                     [self.eventStoreManager deleteEvents:eventIds];
                 }
+                publishCompleteBlock = nil;
             }
         };
         [self applyTransformAndPublish:currentTpp events:events publishCompleteBlock:publishCompleteBlock];
@@ -287,6 +288,11 @@ static NSMutableDictionary *analyticsManagerList = nil;
 }
 
 - (void) publishOnAppBackground {
+
+    // Publishing should only happen for the current user, not for all users signed in.
+    if (![self.userAccount.accountIdentity isEqual:[SFUserAccountManager sharedInstance].currentUser.accountIdentity]) {
+        return;
+    }
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         __block UIBackgroundTaskIdentifier task;
         task = [[SFApplicationHelper sharedApplication] beginBackgroundTaskWithExpirationHandler:^{

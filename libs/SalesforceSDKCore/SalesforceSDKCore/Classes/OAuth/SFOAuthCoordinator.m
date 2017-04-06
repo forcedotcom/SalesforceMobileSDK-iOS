@@ -134,8 +134,6 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
 @synthesize initialRequestLoaded        = _initialRequestLoaded;
 @synthesize approvalCode                = _approvalCode;
 @synthesize scopes                      = _scopes;
-@synthesize refreshFlowConnectionTimer  = _refreshFlowConnectionTimer;
-@synthesize refreshTimerThread          = _refreshTimerThread;
 @synthesize advancedAuthConfiguration   = _advancedAuthConfiguration;
 @synthesize advancedAuthState           = _advancedAuthState;
 @synthesize codeVerifier                = _codeVerifier;
@@ -171,7 +169,6 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
     _credentials = nil;
     _responseData = nil;
     _scopes = nil;
-    [self stopRefreshFlowConnectionTimer];
     [_view setNavigationDelegate:nil];
     _view = nil;
 }
@@ -290,7 +287,6 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
     [self.session invalidateAndCancel];
     _session = nil;
     
-    [self stopRefreshFlowConnectionTimer];
     self.authenticating = NO;
 }
 
@@ -703,17 +699,17 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
     NSData *encodedBody = [params dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:encodedBody];
     
-    // We set the timeout value for NSMutableURLRequest above, but NSMutableURLRequest has its own ideas
-    // about managing the timeout value (see https://devforums.apple.com/thread/25282).  So we manage
-    // the timeout with an NSTimer, which gets started here.
-    [self startRefreshFlowConnectionTimer];
-    
     [[self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
             NSURL *requestUrl = [request URL];
             NSString *errorUrlString = [NSString stringWithFormat:@"%@://%@%@", [requestUrl scheme], [requestUrl host], [requestUrl relativePath]];
+            if(error.code == NSURLErrorTimedOut) {
+                [self log:SFLogLevelDebug format:@"Refresh attempt timed out after %f seconds.", self.timeout];
+                [self stopAuthentication];
+                error = [[self class] errorWithType:kSFOAuthErrorTypeTimeout
+                                        description:@"The token refresh process timed out."];
+            }
             [self log:SFLogLevelDebug format:@"SFOAuthCoordinator session failed with error: error code: %ld, description: %@, URL: %@", (long)error.code, [error localizedDescription], errorUrlString];
-            [self stopRefreshFlowConnectionTimer];
             [self notifyDelegateOfFailure:error authInfo:self.authInfo];
             return;
         }
@@ -736,7 +732,6 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
         { "error":"invalid_grant","error_description":"authentication failure - Invalid Password" }
  */
 - (void)handleTokenEndpointResponse:(NSMutableData *) data {
-    [self stopRefreshFlowConnectionTimer];
     self.responseData = data;
     NSString *responseString = [[NSString alloc] initWithData:self.responseData encoding:NSUTF8StringEncoding];
     NSError *jsonError = nil;
@@ -908,48 +903,6 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
     }
 }
 
-- (void)startRefreshFlowConnectionTimer
-{
-    self.refreshTimerThread = [NSThread currentThread];
-    self.refreshFlowConnectionTimer = [NSTimer scheduledTimerWithTimeInterval:self.timeout
-                                                                       target:self
-                                                                     selector:@selector(refreshFlowConnectionTimerFired:)
-                                                                     userInfo:nil
-                                                                      repeats:NO];
-}
-
-- (void)stopRefreshFlowConnectionTimer
-{
-    if (self.refreshFlowConnectionTimer != nil && self.refreshTimerThread != nil) {
-        [self performSelector:@selector(invalidateRefreshTimer) onThread:self.refreshTimerThread withObject:nil waitUntilDone:YES];
-        [self cleanupRefreshTimer];
-    }
-}
-
-- (void)invalidateRefreshTimer
-{
-    [self.refreshFlowConnectionTimer invalidate];
-}
-
-- (void)cleanupRefreshTimer
-{
-    self.refreshFlowConnectionTimer = nil;
-    self.refreshTimerThread = nil;
-}
-
-- (void)refreshFlowConnectionTimerFired:(NSTimer *)rfcTimer
-{
-    // If this timer fired, the timeout period for the refresh flow has expired, without the
-    // refresh flow completing.
-    
-    [self cleanupRefreshTimer];
-    [self log:SFLogLevelDebug format:@"Refresh attempt timed out after %f seconds.", self.timeout];
-    [self stopAuthentication];
-    NSError *error = [[self class] errorWithType:kSFOAuthErrorTypeTimeout
-                                     description:@"The token refresh process timed out."];
-    [self notifyDelegateOfFailure:error authInfo:self.authInfo];
-}
-
 + (NSString *)advancedAuthStateDesc:(SFOAuthAdvancedAuthState)authState
 {
     switch (authState) {
@@ -1025,7 +978,7 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
 
 - (BOOL) isRedirectURL:(NSString *) requestUrlString
 {
-    return [[requestUrlString lowercaseString] hasPrefix:[self.credentials.redirectUri lowercaseString]];
+    return (self.credentials.redirectUri && [[requestUrlString lowercaseString] hasPrefix:[self.credentials.redirectUri lowercaseString]]);
 }
 
 - (void)sfwebView:(WKWebView *)webView didFailLoadWithError:(NSError *)error

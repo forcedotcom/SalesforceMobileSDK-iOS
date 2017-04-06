@@ -63,4 +63,12 @@
     return (self.useBackground ? self.backgroundSession : self.ephemeralSession);
 }
 
+- (void)setSessionConfiguration:(NSURLSessionConfiguration *)sessionConfig isBackgroundSession:(BOOL)isBackgroundSession {
+    if (isBackgroundSession) {
+        self.backgroundSession = [NSURLSession sessionWithConfiguration:sessionConfig];
+    } else {
+        self.ephemeralSession = [NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:nil];
+    }
+}
+
 @end
