@@ -147,6 +147,7 @@
 		CEAAAE58195911E600CBBFE9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
 		CEAAAE63195911E600CBBFE9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEAAAE61195911E600CBBFE9 /* InfoPlist.strings */; };
 		CECDF84419ABE009007A29E5 /* MetadataManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CECDF84319ABE009007A29E5 /* MetadataManagerTests.m */; };
+		CEE6EE941E96E26A0031F7CD /* SFSyncTarget+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FDCBD451E8DDC5C008F8FCE /* SFSyncTarget+Internal.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -678,6 +679,7 @@
 				CEA8841B1C1916FA008D871B /* SFObjectType.h in Headers */,
 				CEA8841E1C1916FA008D871B /* SFObjectTypeLayout.h in Headers */,
 				4FDCBD6D1E8DDC82008F8FCE /* SFRefreshSyncDownTarget.h in Headers */,
+				CEE6EE941E96E26A0031F7CD /* SFSyncTarget+Internal.h in Headers */,
 				CEA8841A1C1916FA008D871B /* SFObjectType+Internal.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
