@@ -628,7 +628,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
     }
 }
 
-- (void)userChanged:(SFUserAccount *)user change:(SFUserAccountChange)change {
+- (void)userChanged:(SFUserAccount *)user change:(SFUserAccountDataChange)change {
     [self notifyUserDataChange:SFUserAccountManagerDidChangeUserDataNotification withUser:user andChange:change];
 }
 

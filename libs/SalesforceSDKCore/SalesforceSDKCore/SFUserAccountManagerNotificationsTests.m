@@ -1,10 +1,27 @@
-//
-//  SFUserAccountManagerNotificationsTests.m
-//  SalesforceSDKCore
-//
-//  Created by Raj Rao on 4/3/17.
-//  Copyright © 2017 salesforce.com. All rights reserved.
-//
+/*
+ Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
+
+ Redistribution and use of this software in source and binary forms, with or without modification,
+ are permitted provided that the following conditions are met:
+ * Redistributions of source code must retain the above copyright notice, this list of conditions
+ and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice, this list of
+ conditions and the following disclaimer in the documentation and/or other materials provided
+ with the distribution.
+ * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
+ endorse or promote products derived from this software without specific prior written
+ permission of salesforce.com, inc.
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
 #import <objc/runtime.h>
 #import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
@@ -12,6 +29,7 @@
 #import "SFUserAccountManager+Internal.h"
 #import "SFUserAccountPersisterEphemeral.h"
 #import "SFOAuthCoordinator+Internal.h"
+#import "SFOAuthCredentials+Internal.h"
 #import "CSFNetwork+Internal.h"
 
 static NSString * const kUserIdFormatString = @"005R0000000Dsl%lu";
@@ -42,39 +60,68 @@ NSString const *key = @"completionBlockKey";
 - (void)setupSalesforceObserver {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(userAccountManagerDidChangeCurrentUser:)
+                                                 name:SFUserAccountManagerDidChangeUserNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(userAccountManagerDidChangeUserData:)
                                                  name:SFUserAccountManagerDidChangeUserDataNotification
                                                object:nil];
+
 }
 
 - (void)removeSalesforceObserver {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-#pragma mark SFAuthenticationManagerDelegate
 - (void)userAccountManagerDidChangeCurrentUser:(NSNotification*)notification {
     SFUserAccountManager *accountManager = (SFUserAccountManager*)notification.object;
     SFUserAccountChange change = (SFUserAccountChange)[notification.userInfo[SFUserAccountManagerUserChangeKey] integerValue];
     
     if ([accountManager isKindOfClass:[SFUserAccountManager class]]
-        && (change & (SFUserAccountChangeCurrentUser|SFUserAccountChangeCommunityId))) {
-        if ([accountManager.currentUserIdentity isEqual:self.account.accountIdentity] &&
-            ![accountManager.currentCommunityId isEqualToString:self.defaultConnectCommunityId])
+        && (change & SFUserAccountChangeCurrentUser)) {
+        if ([accountManager.currentUserIdentity isEqual:self.account.accountIdentity] )
         {
-            
             if (self.completionBlock)
                 self.completionBlock(YES);
-            return;
+        }else {
+            if (self.completionBlock)
+                self.completionBlock(NO);
         }
     }
-    if (self.completionBlock)
-        self.completionBlock(NO);
 }
+
+- (void)userAccountManagerDidChangeUserData:(NSNotification*)notification {
+    SFUserAccountManager *accountManager = (SFUserAccountManager*)notification.object;
+    SFUserAccountDataChange change = (SFUserAccountDataChange)[notification.userInfo[SFUserAccountManagerUserChangeKey] integerValue];
+    if ([accountManager isKindOfClass:[SFUserAccountManager class]]) {
+        SFUserAccount *userAccount = notification.userInfo[SFUserAccountManagerUserChangeUserKey];
+        if([self.account.accountIdentity isEqual:userAccount.accountIdentity]) {
+            
+            if ([accountManager.currentUserIdentity isEqual:self.account.accountIdentity] &&
+                ![accountManager.currentCommunityId isEqualToString:self.defaultConnectCommunityId])
+            {
+                if(self.completionBlock)
+                    self.completionBlock(YES);
+            }
+            if(self.completionBlock)self.completionBlock(NO);
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"CSFDidChangeUserDataNotification"
+                                                                object:self
+                                                              userInfo:@{
+                                                                         SFUserAccountManagerUserChangeKey: @(change),
+                                                                         SFUserAccountManagerUserChangeUserKey: userAccount
+                                                                         }];
+
+        }
+    }
+}
+
 
 @end
 
 @interface MOCKCSFAction : CSFSalesforceAction
 - (void)removeSalesforceObserver;
-@property (nonatomic) void (^actionCompletionBlock)(BOOL,SFUserAccountChange);
+@property (nonatomic) void (^actionCompletionBlock)(BOOL,SFUserAccountDataChange);
 @property (nonatomic, weak) CSFNetwork *enqueuedNetwork;
 
 @end
@@ -87,22 +134,21 @@ NSString const *key = @"completionBlockKey";
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)userAccountManagerDidChangeUserDataNotification:(NSNotification*)notification {
-    SFUserAccountManager *accountManager = (SFUserAccountManager*)notification.object;
+- (void)didChangeUserDataNotification:(NSNotification*)notification {
+    CSFNetwork *csfNetwork = (CSFNetwork*)notification.object;
     
-    if ([accountManager isKindOfClass:[SFUserAccountManager class]]) {
+    if ([csfNetwork isKindOfClass:[CSFNetwork class]]) {
         
-        NSString *userId = notification.userInfo[SFUserAccountManagerUserChangeUserIdKey];
-        NSString *orgId = notification.userInfo[SFUserAccountManagerUserChangeOrgIdKey];
-        SFUserAccountIdentity *identity = [[SFUserAccountIdentity alloc] initWithUserId:userId orgId:orgId];
-        SFUserAccountChange change = (SFUserAccountChange)[notification.userInfo[SFUserAccountManagerUserChangeKey] integerValue];
+        SFUserAccount *userAccount = notification.userInfo[SFUserAccountManagerUserChangeUserKey];
+
+        SFUserAccountDataChange change = (SFUserAccountDataChange)[notification.userInfo[SFUserAccountManagerUserChangeKey] integerValue];
         
-        if ([self requiresAuthentication] && [self.enqueuedNetwork.account.accountIdentity isEqual:identity]) {
-            if (change & SFUserAccountChangeCommunityId) {
+        if ([self requiresAuthentication] && [self.enqueuedNetwork.account.accountIdentity isEqual:userAccount.accountIdentity]) {
+            if (change & SFUserAccountDataChangeCommunityId) {
                 self.actionCompletionBlock(YES,change);
                 return;
             }
-            SFUserAccountChange credsChanged = SFUserAccountChangeInstanceURL | SFUserAccountChangeAccessToken;
+            SFUserAccountDataChange credsChanged = SFUserAccountDataChangeInstanceURL | SFUserAccountDataChangeAccessToken;
             if ((change & credsChanged) == credsChanged) {
                 self.actionCompletionBlock(YES,change);
                 return;
@@ -110,7 +156,7 @@ NSString const *key = @"completionBlockKey";
            
         }
     }
-    self.actionCompletionBlock(NO,SFUserAccountChangeUnknown);
+    self.actionCompletionBlock(NO,SFUserAccountDataChangeUnknown);
 }
 @end
 
@@ -155,12 +201,9 @@ NSString const *key = @"completionBlockKey";
     authenticationManager.coordinator = coordinator;
     
     [coordinator updateCredentials:credentials];
-    XCTAssertTrue(coordinator.credentialsChangeSet==nil || [coordinator.credentialsChangeSet count] < 1,@"There should not be any changes to existing credentials");
-    SFUserAccountChange changeSet = [authenticationManager userAccountChangeFromDict:coordinator.credentialsChangeSet];
+    XCTAssertTrue(coordinator.credentials.credentialsChangeSet==nil || [coordinator.credentials.credentialsChangeSet count] < 1,@"There should not be any changes to existing credentials");
     
-    XCTAssertTrue(changeSet==SFUserAccountChangeUnknown,@"SFAuthenticationManager should not detect changes to known credential properties");
-    
-    [self.uam applyCredentials:coordinator.credentials withIdData:nil andChange:changeSet];
+    [self.uam applyCredentials:coordinator.credentials];
     
     [[NSNotificationCenter defaultCenter] removeObserver:observerMock];
 }
@@ -177,9 +220,8 @@ NSString const *key = @"completionBlockKey";
     authenticationManager.coordinator = coordinator;
     
     NSDictionary *expectedUserInfo = @{
-                                       SFUserAccountManagerUserChangeKey: @(SFUserAccountChangeCommunityId),
-                                       SFUserAccountManagerUserChangeUserIdKey: _user.accountIdentity.userId,
-                                       SFUserAccountManagerUserChangeOrgIdKey: _user.accountIdentity.orgId
+                                       SFUserAccountManagerUserChangeKey: @(SFUserAccountDataChangeCommunityId),
+                                       SFUserAccountManagerUserChangeUserKey: _user
                                        };
     
     [[observerMock expect] notificationWithName:notificationName object:self.uam userInfo:expectedUserInfo];
@@ -188,12 +230,11 @@ NSString const *key = @"completionBlockKey";
                                   };
     
     [coordinator updateCredentials:credentials];
-    XCTAssertTrue(coordinator.credentialsChangeSet!=nil && [coordinator.credentialsChangeSet count] > 0,@"There should not be at least one change in credentials");
-    SFUserAccountChange changeSet = [authenticationManager userAccountChangeFromDict:coordinator.credentialsChangeSet];
+    XCTAssertTrue(coordinator.credentials.credentialsChangeSet!=nil && [coordinator.credentials.credentialsChangeSet count] > 0,@"There should not be at least one change in credentials");
     
-    XCTAssertTrue(changeSet==SFUserAccountChangeCommunityId,@"SFAuthenticationManager should detect change to properties");
+    XCTAssertTrue([coordinator.credentials hasPropertyValueChangedForKey:@"communityId"],@"SFAuthenticationManager should detect change to properties");
     
-    [self.uam applyCredentials:coordinator.credentials withIdData:nil andChange:changeSet];
+    [self.uam applyCredentials:coordinator.credentials withIdData:nil];
     
     [observerMock verify];
     [[NSNotificationCenter defaultCenter] removeObserver:observerMock];
@@ -211,9 +252,8 @@ NSString const *key = @"completionBlockKey";
     authenticationManager.coordinator = coordinator;
     
     NSDictionary *expectedUserInfo = @{
-                                       SFUserAccountManagerUserChangeKey: @(SFUserAccountChangeInstanceURL),
-                                       SFUserAccountManagerUserChangeUserIdKey: _user.accountIdentity.userId,
-                                       SFUserAccountManagerUserChangeOrgIdKey: _user.accountIdentity.orgId
+                                       SFUserAccountManagerUserChangeKey: @(SFUserAccountDataChangeInstanceURL),
+                                       SFUserAccountManagerUserChangeUserKey: _user
                                        };
     
     [[observerMock expect] notificationWithName:notificationName object:self.uam userInfo:expectedUserInfo];
@@ -223,12 +263,11 @@ NSString const *key = @"completionBlockKey";
                                   };
     
     [coordinator updateCredentials:credentials];
-    XCTAssertTrue(coordinator.credentialsChangeSet!=nil && [coordinator.credentialsChangeSet count] > 0,@"There should not be at least one change in credentials");
-    SFUserAccountChange changeSet = [authenticationManager userAccountChangeFromDict:coordinator.credentialsChangeSet];
+    XCTAssertTrue(coordinator.credentials.credentialsChangeSet!=nil && [coordinator.credentials.credentialsChangeSet count] > 0,@"There should be at least one change in credentials");
     
-    XCTAssertTrue(changeSet==SFUserAccountChangeInstanceURL,@"SFAuthenticationManager should detect change to properties");
+    XCTAssertTrue([coordinator.credentials hasPropertyValueChangedForKey:@"instanceUrl"],@"SFAuthenticationManager should detect change to instanceUrl");
     
-    [self.uam applyCredentials:coordinator.credentials withIdData:nil andChange:changeSet];
+    [self.uam applyCredentials:coordinator.credentials];
     
     [observerMock verify];
     [[NSNotificationCenter defaultCenter] removeObserver:observerMock];
@@ -246,9 +285,8 @@ NSString const *key = @"completionBlockKey";
     authenticationManager.coordinator = coordinator;
     
     NSDictionary *expecTedUserInfo = @{
-                                       SFUserAccountManagerUserChangeKey: @(SFUserAccountChangeAccessToken),
-                                       SFUserAccountManagerUserChangeUserIdKey: _user.accountIdentity.userId,
-                                       SFUserAccountManagerUserChangeOrgIdKey: _user.accountIdentity.orgId
+                                       SFUserAccountManagerUserChangeKey: @(SFUserAccountDataChangeAccessToken),
+                                       SFUserAccountManagerUserChangeUserKey: _user
                                        };
     
     [[observerMock expect] notificationWithName:notificationName object:self.uam userInfo:expecTedUserInfo];
@@ -258,12 +296,13 @@ NSString const *key = @"completionBlockKey";
                                   };
     
     [coordinator updateCredentials:credentials];
-    XCTAssertTrue(coordinator.credentialsChangeSet!=nil && [coordinator.credentialsChangeSet count] > 0,@"There should not be at least one change in credentials");
-    SFUserAccountChange changeSet = [authenticationManager userAccountChangeFromDict:coordinator.credentialsChangeSet];
     
-    XCTAssertTrue(changeSet==SFUserAccountChangeAccessToken,@"SFAuthenticationManager should detect change to properties");
+    XCTAssertTrue(coordinator.credentials.credentialsChangeSet!=nil && [coordinator.credentials.credentialsChangeSet count] > 0,@"There should be at least one change in credentials");
     
-    [self.uam applyCredentials:coordinator.credentials withIdData:nil andChange:changeSet];
+    XCTAssertTrue([coordinator.credentials hasPropertyValueChangedForKey:@"accessToken"],@"SFAuthenticationManager should detect change to instanceUrl");
+
+    
+    [self.uam applyCredentials:coordinator.credentials];
     
     [observerMock verify];
     [[NSNotificationCenter defaultCenter] removeObserver:observerMock];
@@ -279,11 +318,10 @@ NSString const *key = @"completionBlockKey";
     SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:_user.credentials];
     SFAuthenticationManager * authenticationManager = [SFAuthenticationManager sharedManager];
     authenticationManager.coordinator = coordinator;
-    SFUserAccountChange expectedChange = (SFUserAccountChangeCommunityId|SFUserAccountChangeInstanceURL|SFUserAccountChangeAccessToken);
+    SFUserAccountDataChange expectedChange = (SFUserAccountDataChangeCommunityId|SFUserAccountDataChangeInstanceURL|SFUserAccountDataChangeAccessToken);
     NSDictionary *expecTedUserInfo = @{
                                        SFUserAccountManagerUserChangeKey: @(expectedChange),
-                                       SFUserAccountManagerUserChangeUserIdKey: _user.accountIdentity.userId,
-                                       SFUserAccountManagerUserChangeOrgIdKey: _user.accountIdentity.orgId
+                                       SFUserAccountManagerUserChangeUserKey: _user
                                        };
     
     [[observerMock expect] notificationWithName:notificationName object:self.uam userInfo:expecTedUserInfo];
@@ -295,12 +333,15 @@ NSString const *key = @"completionBlockKey";
                                   };
     
     [coordinator updateCredentials:credentials];
-    XCTAssertTrue(coordinator.credentialsChangeSet!=nil && [coordinator.credentialsChangeSet count] > 1,@"There should notmore than one change in credentials");
-    SFUserAccountChange changeSet = [authenticationManager userAccountChangeFromDict:coordinator.credentialsChangeSet];
+    XCTAssertTrue(coordinator.credentials.credentialsChangeSet!=nil && [coordinator.credentials.credentialsChangeSet count] > 0,@"There should be at least one change in credentials");
     
-    XCTAssertTrue(changeSet==expectedChange,@"SFAuthenticationManager should detect change to properties");
+    XCTAssertTrue([coordinator.credentials  hasPropertyValueChangedForKey:@"accessToken"],@"SFAuthenticationManager should detect change to accessToken");
     
-    [self.uam applyCredentials:coordinator.credentials withIdData:nil andChange:changeSet];
+     XCTAssertTrue([coordinator.credentials hasPropertyValueChangedForKey:@"communityId"],@"SFAuthenticationManager should detect change to communityId");
+    
+     XCTAssertTrue([coordinator.credentials hasPropertyValueChangedForKey:@"instanceUrl"],@"SFAuthenticationManager should detect change to instanceUrl");
+    
+    [self.uam applyCredentials:coordinator.credentials];
     
     [observerMock verify];
     [[NSNotificationCenter defaultCenter] removeObserver:observerMock];
@@ -308,97 +349,31 @@ NSString const *key = @"completionBlockKey";
 
 - (void)testNewUserChangeNotificationPosted
 {
-    NSString *notificationName = SFUserAccountManagerDidChangeUserDataNotification;
-    
+    NSString *notificationName = SFUserAccountManagerDidChangeUserNotification;
+
     id observerMock = [OCMockObject observerMock];
     [[NSNotificationCenter defaultCenter] addMockObserver:observerMock name:notificationName object:self.uam];
-    
+
     SFOAuthCredentials *newUsercredentials = [SFOAuthCredentials new];
     newUsercredentials.userId = [NSString stringWithFormat:kUserIdFormatString, (NSUInteger)2];
     newUsercredentials.organizationId =_user.credentials.organizationId;
     newUsercredentials.instanceUrl = [NSURL URLWithString:@"http://a.new.url"];
     newUsercredentials.communityId = @"NEW_COMMUNITY_ID";
-    
+
     SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:newUsercredentials];
     SFAuthenticationManager * authenticationManager = [SFAuthenticationManager sharedManager];
     authenticationManager.coordinator = coordinator;
-    SFUserAccountChange expectedChange = SFUserAccountChangeNewUser;
-    NSDictionary *expecTedUserInfo = @{
-                                       SFUserAccountManagerUserChangeKey: @(expectedChange),
-                                       SFUserAccountManagerUserChangeUserIdKey: newUsercredentials.userId,
-                                       SFUserAccountManagerUserChangeOrgIdKey: newUsercredentials.organizationId
-                                       };
-    
-    [[observerMock expect] notificationWithName:notificationName object:self.uam userInfo:expecTedUserInfo];
-    
+    [[observerMock expect] notificationWithName:notificationName object:self.uam userInfo:[OCMArg any]];
+
     NSDictionary *credentials = @{
                                   kSFOAuthAccessToken:@"new_access_token_1"
                                   };
-    
+
     [coordinator updateCredentials:credentials];
-    XCTAssertTrue(coordinator.credentialsChangeSet!=nil && [coordinator.credentialsChangeSet count] > 0,@"There should be changes in credentials");
-    SFUserAccountChange changeSet = [authenticationManager userAccountChangeFromDict:coordinator.credentialsChangeSet];
-    
-    XCTAssertTrue(changeSet==SFUserAccountChangeAccessToken,@"SFAuthenticationManager should detect a change in access token");
-    
-    [self.uam applyCredentials:coordinator.credentials withIdData:nil andChange:changeSet];
-    
+    [self.uam applyCredentials:coordinator.credentials];
+
     [observerMock verify];
     [[NSNotificationCenter defaultCenter] removeObserver:observerMock];
-}
-
-
-- (void)testCurrentUserChangeNotificationPosted
-{
-    NSString *notificationName = SFUserAccountManagerDidChangeUserDataNotification;
-    id observerMock = [OCMockObject observerMock];
-    [[NSNotificationCenter defaultCenter] addMockObserver:observerMock name:notificationName object:self.uam];
-    
-    SFOAuthCredentials *newUsercredentials = [SFOAuthCredentials new];
-    newUsercredentials.userId = [NSString stringWithFormat:kUserIdFormatString, (NSUInteger)2];
-    newUsercredentials.organizationId =_user.credentials.organizationId;
-    newUsercredentials.instanceUrl = [NSURL URLWithString:@"http://a.new.url"];
-    newUsercredentials.communityId = @"NEW_COMMUNITY_ID";
-    
-    SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:newUsercredentials];
-    SFAuthenticationManager * authenticationManager = [SFAuthenticationManager sharedManager];
-    authenticationManager.coordinator = coordinator;
-    SFUserAccountChange expectedChange = SFUserAccountChangeNewUser;
-    NSDictionary *expecTedUserInfo = @{
-                                       SFUserAccountManagerUserChangeKey: @(expectedChange),
-                                       SFUserAccountManagerUserChangeUserIdKey: newUsercredentials.userId,
-                                       SFUserAccountManagerUserChangeOrgIdKey: newUsercredentials.organizationId
-                                       };
-    
-    [[observerMock expect] notificationWithName:notificationName object:self.uam userInfo:expecTedUserInfo];
-    
-    NSDictionary *credentials = @{
-                                  kSFOAuthAccessToken:@"new_access_token_1"
-                                  };
-    
-    [coordinator updateCredentials:credentials];
-    XCTAssertTrue(coordinator.credentialsChangeSet!=nil && [coordinator.credentialsChangeSet count] > 0,@"There should be changes in credentials");
-    SFUserAccountChange changeSet = [authenticationManager userAccountChangeFromDict:coordinator.credentialsChangeSet];
-    
-    XCTAssertTrue(changeSet==SFUserAccountChangeAccessToken,@"SFAuthenticationManager should detect a change in access token");
-    
-    [self.uam applyCredentials:coordinator.credentials withIdData:nil andChange:changeSet];
-    
-    [observerMock verify];
-    
-    // now onto current user
-    expectedChange = SFUserAccountChangeCurrentUser|SFUserAccountChangeOrgId|SFUserAccountChangeUserId;
-    expecTedUserInfo = @{
-                         SFUserAccountManagerUserChangeKey: @(expectedChange),
-                         SFUserAccountManagerUserChangeUserIdKey: _user.accountIdentity.userId,
-                         SFUserAccountManagerUserChangeOrgIdKey: _user.accountIdentity.orgId
-                         };
-    
-    [[observerMock expect] notificationWithName:notificationName object:self.uam userInfo:expecTedUserInfo];
-    self.uam.currentUser = _user;
-    [observerMock verify];
-    [[NSNotificationCenter defaultCenter] removeObserver:observerMock];
-    
 }
 
 - (void)testNotficationReceivedForSetCurrentUserWithCSFNetwork {
@@ -452,7 +427,7 @@ NSString const *key = @"completionBlockKey";
 }
 
 - (void)testNotficationReceivedForCommunityIdChangeWithCSFNetwork {
-    _user.credentials.communityId = @"NEW_COMMUNITY_ID";
+   
     self.uam.currentUser = _user;
 
     XCTestExpectation *expectation = [self expectationWithDescription:@"user changed"];
@@ -465,8 +440,12 @@ NSString const *key = @"completionBlockKey";
             [expectation fulfill];
     };
     
-    [self.uam applyCredentials:_user.credentials withIdData:nil andChange:SFUserAccountChangeCommunityId];
-    
+    NSDictionary *credentials = @{
+                                  kSFOAuthCommunityId:@"NEW_COMMUNITY_ID"                             };
+    SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:_user.credentials];
+    [coordinator updateCredentials:credentials];
+
+    [self.uam applyCredentials:_user.credentials];
     
     [self waitForExpectationsWithTimeout:1 handler:^(NSError *error) {
         XCTAssertNil(error);
@@ -474,50 +453,29 @@ NSString const *key = @"completionBlockKey";
     }];
 }
 
-- (void)testNotficationReceivedForCommunityIdChangeWithCSFAction {
-    _user.credentials.communityId = @"NEW_COMMUNITY_ID";
+- (void) testNotficationReceivedForCredentialsChangeWithCSFAction {
     self.uam.currentUser = _user;
-    
     XCTestExpectation *expectation = [self expectationWithDescription:@"user changed"];
     CSFNetwork *network = [[CSFNetwork alloc] initWithUserAccount:_user];
     network.defaultConnectCommunityId = @"OLD_COMMUNITY_ID";
     
-    MOCKCSFAction *action = [MOCKCSFAction new];
-    action.enqueuedNetwork = network;
-    action.requiresAuthentication = YES;
-    action.actionCompletionBlock = ^(BOOL success,SFUserAccountChange change) {
-        if (change & SFUserAccountChangeCommunityId)
-            [expectation fulfill];
-    };
-    
-    [self.uam applyCredentials:_user.credentials withIdData:nil andChange:SFUserAccountChangeCommunityId];
-    
-    
-    [self waitForExpectationsWithTimeout:1 handler:^(NSError *error) {
-        XCTAssertNil(error);
-        [network removeSalesforceObserver];
-    }];
-}
+    NSDictionary *credentials = @{
+                                  kSFOAuthAccessToken:@"__CHANGED_ACCESS_TOKEN",
+                                  kSFOAuthInstanceUrl:@"http://changed.instance.url"
+                                  };
+    SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:_user.credentials];
+    [coordinator updateCredentials:credentials];
 
-- (void)testNotficationReceivedForCredentialsChangeWithCSFAction {
-    _user.credentials.communityId = @"NEW_COMMUNITY_ID";
-    _user.credentials.accessToken = @"__CHANGED_ACCESS_TOKEN";
-    _user.credentials.instanceUrl = [NSURL URLWithString:@"http://changed.instance.url"];
-    self.uam.currentUser = _user;
-    
-    XCTestExpectation *expectation = [self expectationWithDescription:@"user changed"];
-    CSFNetwork *network = [[CSFNetwork alloc] initWithUserAccount:_user];
-    network.defaultConnectCommunityId = @"OLD_COMMUNITY_ID";
     
     MOCKCSFAction *action = [MOCKCSFAction new];
     action.enqueuedNetwork = network;
     action.requiresAuthentication = YES;
-    action.actionCompletionBlock = ^(BOOL success,SFUserAccountChange change) {
-        if (change & (SFUserAccountChangeAccessToken|SFUserAccountChangeInstanceURL))
+    action.actionCompletionBlock = ^(BOOL success,SFUserAccountDataChange change) {
+        if (change & (SFUserAccountDataChangeAccessToken|SFUserAccountDataChangeInstanceURL))
             [expectation fulfill];
     };
     
-    [self.uam applyCredentials:_user.credentials withIdData:nil andChange:SFUserAccountChangeAccessToken|SFUserAccountChangeInstanceURL];
+    [self.uam applyCredentials:_user.credentials];
     
     
     [self waitForExpectationsWithTimeout:1 handler:^(NSError *error) {
