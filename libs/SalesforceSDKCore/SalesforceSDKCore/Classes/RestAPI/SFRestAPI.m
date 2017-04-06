@@ -240,7 +240,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     // Checks if the access token has expired.
     NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
     if (statusCode == 401 || statusCode == 403) {
-        __block SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
+        SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
         [self log:SFLogLevelInfo format:@"%@: REST request failed due to expired credentials. Attempting to refresh credentials.", NSStringFromSelector(_cmd)];
         self.oauthSessionRefresher = [[SFOAuthSessionRefresher alloc] initWithCredentials:user.credentials];
         __weak __typeof(self) weakSelf = self;
