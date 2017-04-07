@@ -59,7 +59,7 @@ NSString const *key = @"completionBlockKey";
 
 - (void)setupSalesforceObserver {
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(userAccountManagerDidChangeCurrentUser:)
+                                             selector:@selector(userAccountManagerDidChangeUser:)
                                                  name:SFUserAccountManagerDidChangeUserNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -73,7 +73,7 @@ NSString const *key = @"completionBlockKey";
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)userAccountManagerDidChangeCurrentUser:(NSNotification*)notification {
+- (void)userAccountManagerDidChangeUser:(NSNotification*)notification {
     SFUserAccountManager *accountManager = (SFUserAccountManager*)notification.object;
     SFUserAccountChange change = (SFUserAccountChange)[notification.userInfo[SFUserAccountManagerUserChangeKey] integerValue];
     
@@ -91,18 +91,16 @@ NSString const *key = @"completionBlockKey";
 }
 
 - (void)userAccountManagerDidChangeUserData:(NSNotification*)notification {
-    SFUserAccountManager *accountManager = (SFUserAccountManager*)notification.object;
+    SFUserAccount *userAccount = (SFUserAccount*)notification.object;
     SFUserAccountDataChange change = (SFUserAccountDataChange)[notification.userInfo[SFUserAccountManagerUserChangeKey] integerValue];
-    if ([accountManager isKindOfClass:[SFUserAccountManager class]]) {
-        SFUserAccount *userAccount = notification.userInfo[SFUserAccountManagerUserChangeUserKey];
+    if ([userAccount isKindOfClass:[SFUserAccount class]]) {
         if([self.account.accountIdentity isEqual:userAccount.accountIdentity]) {
-            
-            if ([accountManager.currentUserIdentity isEqual:self.account.accountIdentity] &&
-                ![accountManager.currentCommunityId isEqualToString:self.defaultConnectCommunityId])
+            if (![userAccount.communityId isEqualToString:self.defaultConnectCommunityId])
             {
                 if(self.completionBlock)
                     self.completionBlock(YES);
             }
+
             if(self.completionBlock)self.completionBlock(NO);
             
             [[NSNotificationCenter defaultCenter] postNotificationName:@"CSFDidChangeUserDataNotification"
@@ -213,18 +211,17 @@ NSString const *key = @"completionBlockKey";
     NSString *notificationName = SFUserAccountManagerDidChangeUserDataNotification;
     
     id observerMock = [OCMockObject observerMock];
-    [[NSNotificationCenter defaultCenter] addMockObserver:observerMock name:notificationName object:self.uam];
+    [[NSNotificationCenter defaultCenter] addMockObserver:observerMock name:notificationName object:nil];
     
     SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:_user.credentials];
     SFAuthenticationManager * authenticationManager = [SFAuthenticationManager sharedManager];
     authenticationManager.coordinator = coordinator;
     
     NSDictionary *expectedUserInfo = @{
-                                       SFUserAccountManagerUserChangeKey: @(SFUserAccountDataChangeCommunityId),
-                                       SFUserAccountManagerUserChangeUserKey: _user
+                                       SFUserAccountManagerUserChangeKey: @(SFUserAccountDataChangeCommunityId)
                                        };
     
-    [[observerMock expect] notificationWithName:notificationName object:self.uam userInfo:expectedUserInfo];
+    [[observerMock expect] notificationWithName:notificationName object:_user userInfo:expectedUserInfo];
     
     NSDictionary *credentials = @{kSFOAuthCommunityId:@"COMMUNITY_ID"
                                   };
@@ -245,18 +242,17 @@ NSString const *key = @"completionBlockKey";
     NSString *notificationName = SFUserAccountManagerDidChangeUserDataNotification;
     
     id observerMock = [OCMockObject observerMock];
-    [[NSNotificationCenter defaultCenter] addMockObserver:observerMock name:notificationName object:self.uam];
+    [[NSNotificationCenter defaultCenter] addMockObserver:observerMock name:notificationName object:nil];
     
     SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:_user.credentials];
     SFAuthenticationManager * authenticationManager = [SFAuthenticationManager sharedManager];
     authenticationManager.coordinator = coordinator;
     
     NSDictionary *expectedUserInfo = @{
-                                       SFUserAccountManagerUserChangeKey: @(SFUserAccountDataChangeInstanceURL),
-                                       SFUserAccountManagerUserChangeUserKey: _user
+                                       SFUserAccountManagerUserChangeKey: @(SFUserAccountDataChangeInstanceURL)
                                        };
     
-    [[observerMock expect] notificationWithName:notificationName object:self.uam userInfo:expectedUserInfo];
+    [[observerMock expect] notificationWithName:notificationName object:_user userInfo:expectedUserInfo];
     
     NSDictionary *credentials = @{
                                   kSFOAuthInstanceUrl:@"https://new.instance.url"
@@ -278,18 +274,17 @@ NSString const *key = @"completionBlockKey";
     NSString *notificationName = SFUserAccountManagerDidChangeUserDataNotification;
     
     id observerMock = [OCMockObject observerMock];
-    [[NSNotificationCenter defaultCenter] addMockObserver:observerMock name:notificationName object:self.uam];
+    [[NSNotificationCenter defaultCenter] addMockObserver:observerMock name:notificationName object:nil];
     
     SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:_user.credentials];
     SFAuthenticationManager * authenticationManager = [SFAuthenticationManager sharedManager];
     authenticationManager.coordinator = coordinator;
     
     NSDictionary *expecTedUserInfo = @{
-                                       SFUserAccountManagerUserChangeKey: @(SFUserAccountDataChangeAccessToken),
-                                       SFUserAccountManagerUserChangeUserKey: _user
+                                       SFUserAccountManagerUserChangeKey: @(SFUserAccountDataChangeAccessToken)
                                        };
     
-    [[observerMock expect] notificationWithName:notificationName object:self.uam userInfo:expecTedUserInfo];
+    [[observerMock expect] notificationWithName:notificationName object:_user userInfo:expecTedUserInfo];
     
     NSDictionary *credentials = @{
                                   kSFOAuthAccessToken:@"new_access_token"
@@ -313,18 +308,16 @@ NSString const *key = @"completionBlockKey";
     NSString *notificationName = SFUserAccountManagerDidChangeUserDataNotification;
     
     id observerMock = [OCMockObject observerMock];
-    [[NSNotificationCenter defaultCenter] addMockObserver:observerMock name:notificationName object:self.uam];
+    [[NSNotificationCenter defaultCenter] addMockObserver:observerMock name:notificationName object:nil];
     
     SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:_user.credentials];
     SFAuthenticationManager * authenticationManager = [SFAuthenticationManager sharedManager];
     authenticationManager.coordinator = coordinator;
     SFUserAccountDataChange expectedChange = (SFUserAccountDataChangeCommunityId|SFUserAccountDataChangeInstanceURL|SFUserAccountDataChangeAccessToken);
     NSDictionary *expecTedUserInfo = @{
-                                       SFUserAccountManagerUserChangeKey: @(expectedChange),
-                                       SFUserAccountManagerUserChangeUserKey: _user
-                                       };
+                                       SFUserAccountManagerUserChangeKey: @(expectedChange)                                       };
     
-    [[observerMock expect] notificationWithName:notificationName object:self.uam userInfo:expecTedUserInfo];
+    [[observerMock expect] notificationWithName:notificationName object:_user userInfo:expecTedUserInfo];
     
     NSDictionary *credentials = @{
                                   kSFOAuthCommunityId:@"COMMUNITY_ID_1",

@@ -294,19 +294,17 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
 
 - (void)didChangeUserDataNotification:(NSNotification*)notification {
     CSFNetwork *network = (CSFNetwork*)notification.object;
+    SFUserAccount *account = network.account;
 
     if ([network isKindOfClass:[CSFNetwork class]]) {
-        SFUserAccount *userAccount = notification.userInfo[SFUserAccountManagerUserChangeUserKey];
         SFUserAccountChange change = (SFUserAccountChange)[notification.userInfo[SFUserAccountManagerUserChangeKey] integerValue];
 
         [self willChangeValueForKey:@"isReady"];
-        if (change & SFUserAccountDataChangeCommunityId) {
-            self.enqueuedNetwork.defaultConnectCommunityId = userAccount.communityId;
-        }
         SFUserAccountDataChange credsChanged = SFUserAccountDataChangeInstanceURL | SFUserAccountDataChangeAccessToken;
         if ((change & credsChanged) == credsChanged) {
-            self.credentialsReady = YES;
+            self.credentialsReady = (account.credentials.instanceUrl != nil && account.credentials.accessToken.length > 0);
         }
+
         [self didChangeValueForKey:@"isReady"];
 
     }

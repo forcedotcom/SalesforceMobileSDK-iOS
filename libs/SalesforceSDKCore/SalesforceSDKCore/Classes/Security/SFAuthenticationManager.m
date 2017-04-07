@@ -75,11 +75,8 @@ static NSString * const kSFUserAccountOAuthRedirectUri = @"SFDCOAuthRedirectUri"
 static NSString * const kDeprecatedLoginHostPrefKey = @"login_host_pref";
 
 // Oauth
-static NSString * const kSFUserAccountOAuthLoginHostDefault = @"login.salesforce.com"; // last resort default OAuth host
-static NSString * const kSFUserAccountOAuthLoginHost = @"SFDCOAuthLoginHost";
-static NSString * const kSFAuthAccessToken = @"access_token";
-static NSString * const kSFAuthInstanceUrl = @"instance_url";
-static NSString * const kSFAuthCommunityId = @"sfdc_community_id";
+NSString * const kSFUserAccountOAuthLoginHostDefault = @"login.salesforce.com"; // last resort
+NSString * const kSFUserAccountOAuthLoginHost = @"SFDCOAuthLoginHost";
 
 // The key for storing the persisted OAuth scopes.
 NSString * const kOAuthScopesKey = @"oauth_scopes";

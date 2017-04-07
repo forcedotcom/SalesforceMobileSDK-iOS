@@ -46,7 +46,6 @@ NSString * const SFUserAccountManagerDidFinishUserInitNotification   = @"SFUserA
 
 NSString * const SFUserAccountManagerUserChangeKey      = @"change";
 NSString * const SFUserAccountManagerUserChangeUserKey      = @"user";
-NSString * const SFUserAccountManagerUserChangeOrgIdKey      = @"orgId";
 
 NSString * const kSFLoginHostChangedNotification = @"kSFLoginHostChanged";
 NSString * const kSFLoginHostChangedNotificationOriginalHostKey = @"originalLoginHost";
@@ -632,33 +631,14 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
     [self notifyUserDataChange:SFUserAccountManagerDidChangeUserDataNotification withUser:user andChange:change];
 }
 
-- (void)notifyCurrentUserChange:(SFUserAccountDataChange)change {
-    SFUserAccount *user  = [self currentUser];
-
-    if ((self.lastChangedCommunityId && ![self.lastChangedCommunityId isEqualToString:self.currentUser.communityId])
-            || (!self.lastChangedCommunityId && self.currentUser.communityId)) {
-        change |= SFUserAccountDataChangeCommunityId;
-        change &= ~SFUserAccountChangeUnknown;
-    }
-    [self notifyUserDataChange:SFUserAccountManagerDidChangeUserDataNotification withUser:user andChange:change];
-}
-
 - (void)notifyUserDataChange:(NSString *)notificationName withUser:(SFUserAccount *)user andChange:(SFUserAccountDataChange)change {
-    if (user) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:notificationName
-                                                            object:self
-                                                          userInfo:@{
-                                                                SFUserAccountManagerUserChangeKey: @(change),
-                                                                SFUserAccountManagerUserChangeUserKey: user
-                                                          }];
-    }else {
-        [[NSNotificationCenter defaultCenter] postNotificationName:notificationName
-                                                            object:self
-                                                          userInfo:@{
-                                                                  SFUserAccountManagerUserChangeKey: @(change)
-                                                          }];
 
-    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:notificationName
+                                                        object:user
+                                                      userInfo:@{
+                                                            SFUserAccountManagerUserChangeKey: @(change)
+                                                      }];
+
 }
 
 - (void)notifyUserChange:(NSString *)notificationName withUser:(SFUserAccount *)user andChange:(SFUserAccountChange)change {

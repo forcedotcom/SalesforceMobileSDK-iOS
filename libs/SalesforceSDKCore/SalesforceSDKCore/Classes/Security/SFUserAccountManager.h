@@ -304,10 +304,9 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
  */
 - (void)switchToUser:(nullable SFUserAccount *)newCurrentUser;
 
-/** Invoke this method to inform this manager that something has changed for the current user.
- @param change The type of change (enum type). Use SFUserAccountChangeUnknown
- if you don't know what kind of change was made to this object and this method
- will try to determine that.
+/** Invoke this method to inform this manager that something has changed for the  user.
+ @param user  The user
+ @param change The type of change (enum type). Use SFUserAccountDataChange.
  */
 - (void)userChanged:(SFUserAccount *)user change:(SFUserAccountDataChange)change;
 
