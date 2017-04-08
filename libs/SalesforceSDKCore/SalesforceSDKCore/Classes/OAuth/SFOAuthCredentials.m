@@ -74,6 +74,7 @@ NSException * SFOAuthInvalidIdentifierException() {
 
 - (id)initWithCoder:(NSCoder *)coder {
     NSString *clusterClassName = [coder decodeObjectOfClass:[NSString class] forKey:kSFOAuthClusterImplementationKey];
+    _credentialsChangeSet = [NSMutableDictionary new];
     if (clusterClassName.length == 0) {
         // Legacy credentials class (which doesn't have a persisted implementation class)
         // should default to SFOAuthKeychainCredentials.
@@ -168,6 +169,7 @@ NSException * SFOAuthInvalidIdentifierException() {
     } else {
         self = [[targetClass alloc] initWithIdentifier:theIdentifier clientId:theClientId encrypted:encrypted storageType:type];
     }
+    _credentialsChangeSet = [NSMutableDictionary new];
     return self;
 }
 
@@ -279,5 +281,30 @@ NSException * SFOAuthInvalidIdentifierException() {
     if (!([self.identifier length] > 0)) @throw SFOAuthInvalidIdentifierException();
     self.activationCode = nil;
 }
+
+- (void)setPropertyForKey:(NSString *) propertyName withValue:(id) newValue {
+    id oldValue = [self valueForKey:propertyName];
+    if (newValue) {
+        if (![newValue isEqual:oldValue]) {
+            @synchronized (_credentialsChangeSet) {
+                _credentialsChangeSet[propertyName] = @[oldValue == nil ? [NSNull null] : oldValue, newValue];
+            }
+        }
+    }
+    [self setValue:newValue forKey:propertyName];
+}
+
+- (void)resetCredentialsChangeSet {
+    if (_credentialsChangeSet) {
+        @synchronized (_credentialsChangeSet) {
+            [_credentialsChangeSet removeAllObjects];
+        }
+    }
+}
+
+- (BOOL)hasPropertyValueChangedForKey:(NSString *) key {
+    return [_credentialsChangeSet objectForKey:key]!=nil;
+}
+
 
 @end

@@ -56,34 +56,47 @@ typedef NS_ENUM(NSUInteger, SFUserAccountScope) {
 
 /** The various changes that can affect a user account
  */
-typedef NS_OPTIONS(NSUInteger, SFUserAccountChange) {
+typedef NS_OPTIONS(NSUInteger, SFUserAccountDataChange) {
     /** Unknown change
      */
-    SFUserAccountChangeUnknown      = 1 << 0,
-    
-    /** A new user account has been created
-     */
-    SFUserAccountChangeNewUser      = 1 << 1,
-    
-    /** The credentials changed
-     */
-    SFUserAccountChangeCredentials  = 1 << 2,
-    
-    /** The organization ID changed
-     */
-    SFUserAccountChangeOrgId        = 1 << 3,
-    
-    /** The user ID changed
-     */
-    SFUserAccountChangeUserId       = 1 << 4,
-    
+    SFUserAccountDataChangeUnknown      = 1 << 0,
+
     /** The community ID changed
      */
-    SFUserAccountChangeCommunityId  = 1 << 5,
+    SFUserAccountDataChangeCommunityId  = 1 << 1,
 
     /** The ID data changed
      */
-    SFUserAccountChangeIdData = 1 << 6
+    SFUserAccountDataChangeIdData = 1 << 2,
+
+    /** InstanceURL Changed
+    */
+    SFUserAccountDataChangeInstanceURL = 1 << 3,
+
+    /** AccessToken Changed
+    */
+    SFUserAccountDataChangeAccessToken = 1 << 4
+
 };
+
+
+/** The various changes that can affect a user account
+ */
+typedef NS_OPTIONS(NSUInteger, SFUserAccountChange) {
+    /** Unknown change
+     */
+     SFUserAccountChangeUnknown = 1 << 0,
+
+     /** New User
+      */
+    SFUserAccountChangeNewUser = 1 << 1,
+
+    /** Change of Current User
+     */
+    SFUserAccountChangeCurrentUser = 1 << 2
+
+};
+
+
 
 #endif

@@ -28,9 +28,14 @@
 #import "SFUserAccountConstants.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
+/**Notification sent when user has been created or is set as current User
+ */
+FOUNDATION_EXTERN NSString * const SFUserAccountManagerDidChangeUserNotification;
+
 /** Notification sent when something has changed with the current user
  */
-FOUNDATION_EXTERN NSString * const SFUserAccountManagerDidChangeCurrentUserNotification;
+FOUNDATION_EXTERN NSString * const SFUserAccountManagerDidChangeUserDataNotification;
 
 /** Notification sent when something user init has finished
  */
@@ -40,6 +45,10 @@ FOUNDATION_EXTERN NSString * const SFUserAccountManagerDidFinishUserInitNotifica
  The value is a NSNumber that can be casted to the option SFUserAccountChange
  */
 FOUNDATION_EXTERN NSString * const SFUserAccountManagerUserChangeKey;
+
+/** The key containing the type of change for the SFUserAccountManagerDidChangeCurrentUserNotification
+ */
+FOUNDATION_EXTERN NSString * const SFUserAccountManagerUserChangeUserKey;
 
 /**
  Identifies the notification for the login host changing in the app's settings.
@@ -230,11 +239,29 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
 - (void)clearAllAccountState;
 
 /** Invoke this method to apply the specified credentials to the
- a user whose credentials match. If no user exists, a new one is created.
+ a user whose credentials match. If no user exists, a new one is created. Fire notifications.
  This will post user update notification.
  @param credentials The credentials to apply
  */
-- (SFUserAccount *) applyCredentials:(SFOAuthCredentials*)credentials;
+- (SFUserAccount *)applyCredentials:(SFOAuthCredentials*)credentials;
+
+/** Invoke this method to apply the specified credentials to the
+ a user whose credentials match. If no user exists, a new one is created. Fire notifications.
+ This will post user update notification.
+ @param credentials The credentials to apply
+ @param identityData The identityData to apply
+ */
+- (SFUserAccount *)applyCredentials:(SFOAuthCredentials*)credentials withIdData:(nullable SFIdentityData *) identityData;
+
+/** Invoke this method to apply the specified credentials to the
+ a user whose credentials match. If no user exists, a new one is created.
+ This will post user update notification.
+ @param credentials The credentials to apply
+ @param identityData The identityData to apply
+ @param shouldSendNotification whether to post notifications.
+ */
+- (SFUserAccount *)applyCredentials:(SFOAuthCredentials*)credentials withIdData:(SFIdentityData *) identityData andNotification:(BOOL) shouldSendNotification;
+
 
 /** Invoke this method to apply the specified id data to the
   user. This will post user update notification.
@@ -277,13 +304,11 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
  */
 - (void)switchToUser:(nullable SFUserAccount *)newCurrentUser;
 
-/** Invoke this method to inform this manager
- that something has changed for the current user.
- @param change The type of change (enum type). Use SFUserAccountChangeUnknown
- if you don't know what kind of change was made to this object and this method
- will try to determine that.
+/** Invoke this method to inform this manager that something has changed for the  user.
+ @param user  The user
+ @param change The type of change (enum type). Use SFUserAccountDataChange.
  */
-- (void)userChanged:(SFUserAccountChange)change;
+- (void)userChanged:(SFUserAccount *)user change:(SFUserAccountDataChange)change;
 
 
 

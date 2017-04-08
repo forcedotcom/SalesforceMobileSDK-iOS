@@ -853,16 +853,31 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
  - communityId
  - communityUrl
  */
-
 - (void) updateCredentials:(NSDictionary *) params {
 
-   
-    if (params[kSFOAuthAccessToken]) self.credentials.accessToken = params[kSFOAuthAccessToken];
-    if (params[kSFOAuthIssuedAt]) self.credentials.issuedAt = [[self class] timestampStringToDate:params[kSFOAuthIssuedAt]];
-    if (params[kSFOAuthInstanceUrl]) self.credentials.instanceUrl = [NSURL URLWithString:params[kSFOAuthInstanceUrl]];
-    if (params[kSFOAuthId]) self.credentials.identityUrl = [NSURL URLWithString:params[kSFOAuthId]];
-    if (params[kSFOAuthCommunityId]) self.credentials.communityId = params[kSFOAuthCommunityId];
-    if (params[kSFOAuthCommunityUrl]) self.credentials.communityUrl = [NSURL URLWithString:params[kSFOAuthCommunityUrl]];
+    if (params[kSFOAuthAccessToken]) {
+        [self.credentials setPropertyForKey:@"accessToken" withValue:params[kSFOAuthAccessToken]];
+    }
+
+    if (params[kSFOAuthIssuedAt]) {
+        self.credentials.issuedAt = [[self class] timestampStringToDate:params[kSFOAuthIssuedAt]];
+    }
+
+    if (params[kSFOAuthInstanceUrl]) {
+         [self.credentials setPropertyForKey:@"instanceUrl" withValue:[NSURL URLWithString:params[kSFOAuthInstanceUrl]]];
+    }
+
+    if (params[kSFOAuthId]) {
+        [self.credentials setPropertyForKey:@"identityUrl" withValue:[NSURL URLWithString:params[kSFOAuthId]]];
+    }
+
+    if (params[kSFOAuthCommunityId]) {
+        [self.credentials setPropertyForKey:@"communityId" withValue:params[kSFOAuthCommunityId]];
+    }
+
+    if (params[kSFOAuthCommunityUrl]) {
+        [self.credentials setPropertyForKey:@"communityUrl" withValue:[NSURL URLWithString:params[kSFOAuthCommunityUrl]]];
+    }
 
     // Parse additional flags
     if(self.additionalOAuthParameterKeys.count > 0) {
@@ -875,6 +890,7 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
         }
         self.credentials.additionalOAuthFields = parsedValues;
     }
+
 }
 
 - (void)configureWebUserAgent
