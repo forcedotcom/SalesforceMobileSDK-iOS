@@ -24,7 +24,7 @@
 
 #import "SFNetReactBridge.h"
 
-#import "RCTUtils.h"
+#import <React/RCTUtils.h>
 
 #import <SalesforceSDKCore/NSDictionary+SFAdditions.h>
 #import <SalesforceSDKCore/SFRestAPI+Blocks.h>

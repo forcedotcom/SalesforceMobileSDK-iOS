@@ -74,6 +74,13 @@
 			remoteGlobalIDString = 83CBBA2D1A601D0E00E9B192;
 			remoteInfo = React;
 		};
+		CE81A9AB1E9C251100F3D0AD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFEE5CF1BFE904100B7AA8A /* SmartSync.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = CE4CE2C81C0E463C009F6029;
+			remoteInfo = SmartSync;
+		};
 		CEBA95211C1BA47900C0B2E0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4FFEE5CF1BFE904100B7AA8A /* SmartSync.xcodeproj */;
@@ -258,6 +265,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				CE81A9AC1E9C251100F3D0AD /* PBXTargetDependency */,
 				CE4CE4B21C0E611A009F6029 /* PBXTargetDependency */,
 			);
 			name = SalesforceReact;
@@ -395,6 +403,11 @@
 			isa = PBXTargetDependency;
 			name = React;
 			targetProxy = CE4CE4B11C0E611A009F6029 /* PBXContainerItemProxy */;
+		};
+		CE81A9AC1E9C251100F3D0AD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SmartSync;
+			targetProxy = CE81A9AB1E9C251100F3D0AD /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
