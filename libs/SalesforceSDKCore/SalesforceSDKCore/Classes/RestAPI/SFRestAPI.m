@@ -273,10 +273,20 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
             }
         } else {
             if (!error) {
-                NSDictionary *errorDict = nil;
+                NSMutableDictionary *errorDict = nil;
+                id errorObj = nil;
                 if (data) {
                     NSError *parsingError;
-                    errorDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parsingError];
+                    errorObj = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parsingError];
+                    if (!parsingError) {
+                        if ([errorObj isKindOfClass:[NSDictionary class]]) {
+                            errorDict = errorObj;
+                        } else {
+                            errorDict = [NSMutableDictionary dictionaryWithObject:errorObj forKey:@"error"];
+                        }
+                    } else {
+                        errorDict = [NSMutableDictionary dictionaryWithObject:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] forKey:@"error"];
+                    }
                 }
                 error = [[NSError alloc] initWithDomain:response.URL.absoluteString code:statusCode userInfo:errorDict];
             }
