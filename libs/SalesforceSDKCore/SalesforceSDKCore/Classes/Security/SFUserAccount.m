@@ -84,7 +84,8 @@ static NSString * const kGlobalScopingKey = @"-global-";
     self = [super init];
     if (self) {
         _observingCredentials = NO;
-        self.credentials = credentials;
+        _credentials = credentials;
+        _loginState = (credentials.refreshToken.length > 0 ? SFUserAccountLoginStateLoggedIn : SFUserAccountLoginStateNotLoggedIn);
         _syncQueue = dispatch_queue_create(kSyncQueue, NULL);
     }
     return self;
@@ -131,6 +132,7 @@ static NSString * const kGlobalScopingKey = @"-global-";
         _communities      = [decoder decodeObjectOfClass:[NSArray class] forKey:kUser_COMMUNITIES];
         _customData       = [[decoder decodeObjectOfClass:[NSDictionary class] forKey:kUser_CUSTOM_DATA] mutableCopy];
         _accessRestrictions = [decoder decodeIntegerForKey:kUser_ACCESS_RESTRICTIONS];
+        _loginState = (_credentials.refreshToken.length > 0 ? SFUserAccountLoginStateLoggedIn : SFUserAccountLoginStateNotLoggedIn);
         _syncQueue = dispatch_queue_create(kSyncQueue, NULL);
 	}
 	return self;

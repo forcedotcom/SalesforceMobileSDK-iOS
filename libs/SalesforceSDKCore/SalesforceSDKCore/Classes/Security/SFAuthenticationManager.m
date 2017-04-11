@@ -429,11 +429,11 @@ static Class InstanceClass = nil;
         return;
     }
 
-    if (user.isUserLoggingOut) {
-        [self log:SFLogLevelInfo msg:@"logoutUser: user is already in the process of logout."];
+    if (user.loginState != SFUserAccountLoginStateLoggedIn) {
+        [self log:SFLogLevelInfo format:@"%@ User login state is not logged in (%d). No action taken.", NSStringFromSelector(_cmd), user.loginState];
         return;
     }
-    user.userLoggingOut = YES;
+    user.loginState = SFUserAccountLoginStateLoggingOut;
     [self log:SFLogLevelInfo format:@"Logging out user '%@'.", user.userName];
     NSDictionary *userInfo = @{ @"account": user };
     [[NSNotificationCenter defaultCenter] postNotificationName:kSFUserWillLogoutNotification
@@ -477,7 +477,7 @@ static Class InstanceClass = nil;
             }
         }];
     }
-    user.userLoggingOut = NO;
+    user.loginState = SFUserAccountLoginStateNotLoggedIn;
 }
 
 - (void)cancelAuthentication
@@ -742,6 +742,7 @@ static Class InstanceClass = nil;
     // current user as the proper credentials.
     SFUserAccount *user = [[SFUserAccountManager sharedInstance] applyCredentials:self.coordinator.credentials
                                                                        withIdData:self.idCoordinator.idData];
+    user.loginState = SFUserAccountLoginStateLoggedIn;
  
     // Notify the session is ready
     [self willChangeValueForKey:@"haveValidSession"];

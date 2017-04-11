@@ -28,6 +28,6 @@
 @interface SFUserAccount ()
 
 @property (nonatomic, readwrite, getter = isUserDeleted) BOOL userDeleted;
-@property (nonatomic, readwrite, getter = isUserLoggingOut) BOOL userLoggingOut;
+@property (nonatomic, readwrite, assign) SFUserAccountLoginState loginState;
 
 @end

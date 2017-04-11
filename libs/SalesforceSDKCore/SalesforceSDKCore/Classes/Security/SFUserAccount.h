@@ -33,6 +33,26 @@ NS_ASSUME_NONNULL_BEGIN
 @class SFIdentityData;
 @class SFOAuthCredentials;
 
+/**
+ Enumeration of the potential login states of the user account.
+ */
+typedef NS_ENUM(NSUInteger, SFUserAccountLoginState) {
+    /**
+     User account is not logged in.
+     */
+    SFUserAccountLoginStateNotLoggedIn = 0,
+    
+    /**
+     User account is logged in.
+     */
+    SFUserAccountLoginStateLoggedIn,
+    
+    /**
+     User account is in the process of logging out.
+     */
+    SFUserAccountLoginStateLoggingOut,
+};
+
 /** Class that represents an `account`. An `account` represents
  a user together with the current community it is logged in.
  */
@@ -106,9 +126,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, getter = isUserDeleted) BOOL userDeleted;
 
 
-/** Indicates if this user is being logged out.  Returns `YES` if this user is being logged out.
+/** Indicates this user's current login state.
  */
-@property (nonatomic, readonly, getter = isUserLoggingOut) BOOL userLoggingOut;
+@property (nonatomic, readonly, assign) SFUserAccountLoginState loginState;
 
 /** Initialize with SFOAuthCredentials credentials
  @param credentials The credentials to link with the SFUserAccount.
