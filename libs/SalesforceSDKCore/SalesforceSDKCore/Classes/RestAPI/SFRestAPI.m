@@ -273,7 +273,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
             }
         } else {
             if (!error) {
-                NSMutableDictionary *errorDict = nil;
+                NSDictionary *errorDict = nil;
                 id errorObj = nil;
                 if (data) {
                     NSError *parsingError;
@@ -282,10 +282,10 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
                         if ([errorObj isKindOfClass:[NSDictionary class]]) {
                             errorDict = errorObj;
                         } else {
-                            errorDict = [NSMutableDictionary dictionaryWithObject:errorObj forKey:@"error"];
+                            errorDict = [NSDictionary dictionaryWithObject:errorObj forKey:@"error"];
                         }
                     } else {
-                        errorDict = [NSMutableDictionary dictionaryWithObject:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] forKey:@"error"];
+                        errorDict = [NSDictionary dictionaryWithObject:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] forKey:@"error"];
                     }
                 }
                 error = [[NSError alloc] initWithDomain:response.URL.absoluteString code:statusCode userInfo:errorDict];
