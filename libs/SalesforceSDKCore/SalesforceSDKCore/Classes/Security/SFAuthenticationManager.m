@@ -429,11 +429,13 @@ static Class InstanceClass = nil;
         return;
     }
 
-    if (user.loginState != SFUserAccountLoginStateLoggedIn) {
-        [self log:SFLogLevelInfo format:@"%@ User login state is not logged in (%d). No action taken.", NSStringFromSelector(_cmd), user.loginState];
-        return;
+    @synchronized (user) {
+        if (user.loginState != SFUserAccountLoginStateLoggedIn) {
+            [self log:SFLogLevelInfo format:@"%@ User login state is not logged in (%d). No action taken.", NSStringFromSelector(_cmd), user.loginState];
+            return;
+        }
+        user.loginState = SFUserAccountLoginStateLoggingOut;
     }
-    user.loginState = SFUserAccountLoginStateLoggingOut;
     [self log:SFLogLevelInfo format:@"Logging out user '%@'.", user.userName];
     NSDictionary *userInfo = @{ @"account": user };
     [[NSNotificationCenter defaultCenter] postNotificationName:kSFUserWillLogoutNotification
