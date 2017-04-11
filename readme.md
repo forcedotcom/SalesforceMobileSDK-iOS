@@ -57,7 +57,7 @@ Introduction
 - We have replaced forcetk.mobilesdk.js with force.js. Networking in hybrid apps is now handled natively through a new plugin (com.salesforce.plugin.network). As a result, session token refresh happens automatically.
 
 **Library Upgrades**
-- We've updated React Native to version 0.35.0.
+- We've updated React Native to version 0.43.1.
 - We've updated Cordova to version 4.3.0.
 
 **SalesforceAnalytics Library**
