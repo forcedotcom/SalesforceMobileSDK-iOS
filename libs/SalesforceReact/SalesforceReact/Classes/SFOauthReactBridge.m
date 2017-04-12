@@ -47,7 +47,7 @@ RCT_EXPORT_MODULE();
 RCT_EXPORT_METHOD(getAuthCredentials:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
 {
     [self log:SFLogLevelDebug format:@"getAuthCredentials: arguments: %@", args];
-    [self sendAuthCredentials:callback];
+    [self getAuthCredentialsWithCallback:callback];
 }
 
 RCT_EXPORT_METHOD(logoutCurrentUser:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
@@ -55,7 +55,7 @@ RCT_EXPORT_METHOD(logoutCurrentUser:(NSDictionary *)args callback:(RCTResponseSe
     [self log:SFLogLevelDebug format:@"logoutCurrentUser: arguments: %@", args];
     dispatch_async(dispatch_get_main_queue(), ^{
         [[SFAuthenticationManager sharedManager] logout];
-    });    
+    });
 }
 
 RCT_EXPORT_METHOD(authenticate:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
@@ -71,7 +71,7 @@ RCT_EXPORT_METHOD(authenticate:(NSDictionary *)args callback:(RCTResponseSenderB
     });
 }
 
-- (void) sendAuthCredentials:(RCTResponseSenderBlock) callback
+- (void)sendAuthCredentials:(RCTResponseSenderBlock) callback
 {
     SFOAuthCredentials *creds = [SFAuthenticationManager sharedManager].coordinator.credentials;
     if (nil != creds) {
@@ -93,8 +93,22 @@ RCT_EXPORT_METHOD(authenticate:(NSDictionary *)args callback:(RCTResponseSenderB
     }
 }
 
-- (void) sendNotAuthenticatedError:(RCTResponseSenderBlock) callback {
+- (void)sendNotAuthenticatedError:(RCTResponseSenderBlock) callback
+{
     callback(@[RCTMakeError(@"Not authenticated", nil, nil)]);
+}
+
+- (void)getAuthCredentialsWithCallback:(RCTResponseSenderBlock) callback
+{
+    SFOAuthCredentials *creds = [SFAuthenticationManager sharedManager].coordinator.credentials;
+    NSString *accessToken = creds.accessToken;
+    
+    // If access token is not present, authenticate first. Otherwise, send current credentials.
+    if (accessToken) {
+        [self sendAuthCredentials:callback];
+    } else {
+        [self authenticate:nil callback:callback];
+    }
 }
 
 @end
