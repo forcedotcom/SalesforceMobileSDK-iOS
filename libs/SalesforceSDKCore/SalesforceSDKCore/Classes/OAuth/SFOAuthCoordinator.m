@@ -298,13 +298,11 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
 - (void)setAdvancedAuthState:(SFOAuthAdvancedAuthState)advancedAuthState {
     if (_advancedAuthState != advancedAuthState) {
         _advancedAuthState = advancedAuthState;
-        
+
         // Re-trigger the native browser flow if the app becomes active on `SFOAuthAdvancedAuthStateBrowserRequestInitiated` state.
         if (_advancedAuthState == SFOAuthAdvancedAuthStateBrowserRequestInitiated) {
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAppDidBecomeActiveDuringAdvancedAuth:) name:UIApplicationDidBecomeActiveNotification object:nil];
-            [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
-        }
-        else {
+        } else {
             [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
         }
     }
@@ -315,26 +313,23 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
         [self log:SFLogLevelInfo format:@"%@ Current advanced auth state (%@) not compatible with handling app launch auth response.", NSStringFromSelector(_cmd), [[self class] advancedAuthStateDesc:self.advancedAuthState]];
         return NO;
     }
-    
+    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
     NSString *appUrlResponseString = [appUrlResponse absoluteString];
     if (![[appUrlResponseString lowercaseString] hasPrefix:[self.credentials.redirectUri lowercaseString]]) {
         [self log:SFLogLevelInfo format:@"%@ URL does not match redirect URI.", NSStringFromSelector(_cmd)];
         return NO;
     }
-    
     NSString *query = [appUrlResponse query];
     if ([query length] == 0) {
         [self log:SFLogLevelInfo format:@"%@ URL has no query string.", NSStringFromSelector(_cmd)];
         return NO;
     }
-    
     NSDictionary *queryDict = [[self class] parseQueryString:query decodeParams:NO];
     NSString *codeVal = queryDict[kSFOAuthResponseTypeCode];
     if ([codeVal length] == 0) {
         [self log:SFLogLevelInfo format:@"%@ URL has no '%@' parameter value.", NSStringFromSelector(_cmd), kSFOAuthResponseTypeCode];
         return NO;
     }
-    
     self.approvalCode = codeVal;
     [self log:SFLogLevelInfo format:@"%@ Received advanced authentication response.  Beginning token exchange.", NSStringFromSelector(_cmd)];
     self.advancedAuthState = SFOAuthAdvancedAuthStateTokenRequestInitiated;
