@@ -281,6 +281,31 @@ static NSString * const kGlobalScopingKey = @"-global-";
     return object;
 }
 
+- (BOOL)transitionToLoginState:(SFUserAccountLoginState)newLoginState {
+    __block BOOL transitionSucceeded;
+    dispatch_sync(_syncQueue, ^{
+        switch (newLoginState) {
+            case SFUserAccountLoginStateLoggedIn:
+                transitionSucceeded = (self.loginState == SFUserAccountLoginStateNotLoggedIn || self.loginState == SFUserAccountLoginStateLoggedIn);
+                break;
+            case SFUserAccountLoginStateNotLoggedIn:
+                transitionSucceeded = (self.loginState == SFUserAccountLoginStateNotLoggedIn || self.loginState == SFUserAccountLoginStateLoggingOut);
+                break;
+            case SFUserAccountLoginStateLoggingOut:
+                transitionSucceeded = (self.loginState == SFUserAccountLoginStateLoggedIn);
+                break;
+            default:
+                transitionSucceeded = NO;
+        }
+        if (transitionSucceeded) {
+            self.loginState = newLoginState;
+        } else {
+            [self log:SFLogLevelWarning format:@"%@ Invalid login state transition from '%@' to '%@'. No action taken.", NSStringFromSelector(_cmd), [[self class] loginStateDescriptionFromLoginState:self.loginState], [[self class] loginStateDescriptionFromLoginState:newLoginState]];
+        }
+    });
+    return transitionSucceeded;
+}
+
 - (BOOL)isSessionValid {
 
     // A session is considered "valid" when the user
@@ -302,6 +327,19 @@ static NSString * const kGlobalScopingKey = @"-global-";
     NSString * s = [NSString stringWithFormat:@"<SFUserAccount username=%@ fullName=%@ accessScopes=%@ credentials=%@, community=%@>",
                     theUserName, theFullName, self.accessScopes, self.credentials, self.communityId];
     return s;
+}
+
++ (NSString *)loginStateDescriptionFromLoginState:(SFUserAccountLoginState)loginState {
+    switch (loginState) {
+        case SFUserAccountLoginStateLoggedIn:
+            return @"SFUserAccountLoginStateLoggedIn";
+        case SFUserAccountLoginStateLoggingOut:
+            return @"SFUserAccountLoginStateLoggingOut";
+        case SFUserAccountLoginStateNotLoggedIn:
+            return @"SFUserAccountLoginStateNotLoggedIn";
+        default:
+            return [NSString stringWithFormat:@"Unknown login state (code: %lu)", (unsigned long)loginState];
+    }
 }
 
 NSString *SFKeyForUserAndScope(SFUserAccount *user, SFUserAccountScope scope) {
