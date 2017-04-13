@@ -59,7 +59,6 @@
     // Need to use SalesforceSDKManagerWithSmartStore when using smartstore
     [SalesforceSDKManager setInstanceClass:[SalesforceSDKManagerWithSmartStore class]];
     [SalesforceSDKManager sharedManager].appConfig = appConfig;
-    [SFAuthenticationManager sharedManager].advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;
     
     //Uncomment the following line inorder to enable/force the use of advanced authentication flow.
     //[SFAuthenticationManager sharedManager].advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;
