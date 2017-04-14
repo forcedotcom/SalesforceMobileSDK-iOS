@@ -11,4 +11,4 @@
 #include "../../../configuration/Configuration-Release.xcconfig"
 #include "SalesforceHybridSDK-Common.xcconfig"
 
-HEADER_SEARCH_PATHS = $(BUILT_PRODUCTS_DIR)/Headers $(TARGET_BUILD_DIR)/Headers $(PROJECT_DIR)/../../external/cordova-ios/cordova-ios/CordovaLib/Classes/** $(inherited)
+HEADER_SEARCH_PATHS = $(BUILT_PRODUCTS_DIR)/Headers $(TARGET_BUILD_DIR)/Headers $(PROJECT_DIR)/../../external/cordova-ios/cordova-ios/CordovaLib/Classes/** $(inherited) $(OBJROOT)/UninstalledProducts/$(PLATFORM_NAME)/include
