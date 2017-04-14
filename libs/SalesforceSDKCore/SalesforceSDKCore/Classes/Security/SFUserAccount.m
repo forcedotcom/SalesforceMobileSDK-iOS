@@ -84,7 +84,7 @@ static NSString * const kGlobalScopingKey = @"-global-";
     self = [super init];
     if (self) {
         _observingCredentials = NO;
-        _credentials = credentials;
+        self.credentials = credentials;
         _loginState = (credentials.refreshToken.length > 0 ? SFUserAccountLoginStateLoggedIn : SFUserAccountLoginStateNotLoggedIn);
         _syncQueue = dispatch_queue_create(kSyncQueue, NULL);
     }
