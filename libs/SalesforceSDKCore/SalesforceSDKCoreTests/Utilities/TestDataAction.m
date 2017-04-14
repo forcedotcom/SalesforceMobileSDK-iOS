@@ -35,8 +35,7 @@
     credentials.instanceUrl = [NSURL URLWithString:@"http://example.org"];
     credentials.identityUrl = [NSURL URLWithString:@"https://example.org/id/orgID/userID"];
     
-    SFUserAccount *account = [[SFUserAccount alloc] init];
-    account.credentials = credentials;
+    SFUserAccount *account = [[SFUserAccount alloc] initWithCredentials:credentials];
     return account;
 }
 

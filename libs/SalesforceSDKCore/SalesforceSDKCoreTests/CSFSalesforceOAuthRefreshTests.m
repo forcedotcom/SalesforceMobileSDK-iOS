@@ -79,11 +79,11 @@
                                                                             clientId:@"the-client"
                                                                            encrypted:NO
                                                                          storageType:SFOAuthCredentialsStorageTypeNone];
+    credentials.accessToken = @"AccessToken";
+    credentials.refreshToken = @"RefreshToken";
+    credentials.instanceUrl = [NSURL URLWithString:@"http://example.org"];
+    credentials.identityUrl = [NSURL URLWithString:@"https://example.org/id/orgID/userID"];
     SFUserAccount *user = [[SFUserAccountManager sharedInstance]  createUserAccount:credentials];
-    user.credentials.accessToken = @"AccessToken";
-    user.credentials.refreshToken = @"RefreshToken";
-    user.credentials.instanceUrl = [NSURL URLWithString:@"http://example.org"];
-    user.credentials.identityUrl = [NSURL URLWithString:@"https://example.org/id/orgID/userID"];
     NSError *error = nil;
     [[SFUserAccountManager sharedInstance] saveAccountForUser:user error:&error];
      XCTAssertNil(error);
