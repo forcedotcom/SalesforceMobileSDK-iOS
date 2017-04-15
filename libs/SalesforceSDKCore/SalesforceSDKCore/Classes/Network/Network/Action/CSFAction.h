@@ -35,6 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  This is a class that represents an chatter action that the action executer executes
  */
+__deprecated_msg("Will be removed in Mobile SDK 6.0. Please use SFRestRequest to construct requests and SFRestAPI to send requests.")
 @interface CSFAction : NSOperation
 
 /** Action executor this network operation is working within.

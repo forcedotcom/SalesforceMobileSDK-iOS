@@ -29,6 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 CSF_EXTERN NSString * const CSFSalesforceActionDefaultPathPrefix;
 CSF_EXTERN NSString * const CSFSalesforceDefaultAPIVersion;
 
+__deprecated_msg("Will be removed in Mobile SDK 6.0. Please use SFRestRequest to construct requests and SFRestAPI to send requests.")
 @interface CSFSalesforceAction : CSFAction
 
 /**

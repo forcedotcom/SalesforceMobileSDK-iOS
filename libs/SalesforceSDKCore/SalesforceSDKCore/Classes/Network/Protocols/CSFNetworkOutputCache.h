@@ -29,6 +29,7 @@
 /**
  Protocol description that allows arbitrary classes to define caching behavior for network output.
  */
+__deprecated_msg("Will be removed in Mobile SDK 6.0. Please use SFRestRequest to construct requests and SFRestAPI to send requests.")
 @protocol CSFNetworkOutputCache <NSObject>
 
 @required

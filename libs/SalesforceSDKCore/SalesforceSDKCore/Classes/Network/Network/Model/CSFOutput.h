@@ -34,6 +34,7 @@
  of these responses needs to be structured too. This class and its subclasses provide the
  capability to encode and expose the data provided from server resources to client code.
  */
+__deprecated_msg("Will be removed in Mobile SDK 6.0. Please use SFRestRequest to construct requests and SFRestAPI to send requests.")
 @interface CSFOutput : NSObject <NSSecureCoding, NSCopying, CSFActionModel>
 
 - (instancetype)init NS_DESIGNATED_INITIALIZER;
