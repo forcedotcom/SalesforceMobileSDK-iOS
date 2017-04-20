@@ -34,37 +34,23 @@ If you have problems building any of the projects, take a look at the online [FA
 Introduction
 ==
 
-### What's New in 5.0
+### What's New in 5.1
 
-**OS Version Support**
-- iOS 10.0 is fully supported in Mobile SDK 5.0.
-- The minimum supported version of Xcode is now Xcode 8.
-- The minimum supported version of iOS platform is now iOS 9.0.
-
-**Other iOS Platform Enhancements**
-- Hybrid apps built on Mobile SDK will now use WKWebView instead of UIWebView.
-- Extensions are now fully supported.
-- Salesforce servers are now fully ATS compliant. As a result, we have removed ATS exceptions from Mobile SDK apps.
-
-**SmartStore Enhancements**
-- We have added new APIs that allow hybrid developers to create their own named databases.
+**REST API Enhancements**
+- We've added support for batching REST requests together.
+- We've added an API for composite REST requests.
 
 **SmartSync Enhancements**
-- We now allow sync down/refresh of data stored in soups by specifying the fields to sync.
-- smartsync.js now uses native promises instead of jQuery.
-
-**Hybrid Networking Enhancements**
-- We have replaced forcetk.mobilesdk.js with force.js. Networking in hybrid apps is now handled natively through a new plugin (com.salesforce.plugin.network). As a result, session token refresh happens automatically.
+- In Mobile SDK 5.1, we’ve refactored SmartSync classes to decouple the SyncManager class from SyncTarget classes. This new architecture requires API changes that affect all apps that use SmartSync. However, the majority of the changes apply only to SmartSync apps that define custom targets.
 
 **Library Upgrades**
 - We've updated React Native to version 0.43.1.
-- We've updated Cordova to version 4.3.0.
-
-**SalesforceAnalytics Library**
-- We've added a new library in Mobile SDK 5.0 called SalesforceAnalytics. This enables us to collect non-sensitive data on which features in Mobile SDK are being used. It is turned on by default, but can be turned off if required.
 
 **Other Technical Improvements**
-- We now support rich app templates (see [forceios](https://npmjs.org/package/forceios) for more details).
+- Switched from our custom WKWebViewEngine plugin to Cordova's WKWebViewEngine plugin.
+- Simplified native network stack to use NSURLSession directly via SFNetwork instead of CSFNetwork and CSFAction classes.
+- Various account lifecycle management improvements.
+- Replaced KVO in key areas with notifications.
 - Improvements to sample apps.
 - Various bug fixes.
 
