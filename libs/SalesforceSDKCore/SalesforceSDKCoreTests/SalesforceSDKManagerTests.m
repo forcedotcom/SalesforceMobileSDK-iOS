@@ -368,6 +368,31 @@ static NSString* const kTestAppName = @"OverridenAppName";
     XCTAssertEqual(customSnapshot, snapshotOnDismissal, @"Custom snapshot view controller was not used on dismissal!");
 }
 
+#pragma mark - Process Pool Tests
+
+- (void)testDefaultProcessPoolIsNotNil
+{
+    SalesforceSDKManager *manager = [SalesforceSDKManager sharedManager];
+    XCTAssertNotNil(manager.processPool);
+}
+
+- (void)testProcessPoolCannotBeNil
+{
+    SalesforceSDKManager *manager = [SalesforceSDKManager sharedManager];
+    XCTAssertNotNil(manager.processPool);
+    manager.processPool = nil;
+    XCTAssertNotNil(manager.processPool);
+}
+
+- (void)testProcessPoolIsAssignable
+{
+    SalesforceSDKManager *manager = [SalesforceSDKManager sharedManager];
+    WKProcessPool *newPool = [[WKProcessPool alloc] init];
+    manager.processPool = newPool;
+    XCTAssertEqualObjects(newPool, manager.processPool);
+}
+
+
 #pragma mark - Private helpers
 
 - (void)createStandardPostLaunchBlock
