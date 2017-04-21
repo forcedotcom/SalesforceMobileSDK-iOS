@@ -632,13 +632,10 @@ static Class InstanceClass = nil;
 
 + (void)resetSessionCookie
 {
-    [self removeCookiesFromDomains:@[@".salesforce.com", @".force.com", @".cloudforce.com"]];
-    [self addSidCookieForInstance];
-}
-
-+ (void)removeCookiesFromDomains:(NSArray *)domainNames
-{
-    [self removeCookiesFromDomains:domainNames withCompletion:nil];
+    __weak typeof(self) weakSelf = self;
+    [self removeCookiesFromDomains:@[@".salesforce.com", @".force.com", @".cloudforce.com"] withCompletion:^{
+        [weakSelf addSidCookieForInstance];
+    }];
 }
 
 + (void)removeCookiesFromDomains:(NSArray *)domainNames withCompletion:(nullable void(^)())completionBlock {
@@ -646,13 +643,12 @@ static Class InstanceClass = nil;
     WKWebsiteDataStore *dateStore = [WKWebsiteDataStore defaultDataStore];
     NSSet *websiteDataTypes = [NSSet setWithArray:@[ WKWebsiteDataTypeCookies]];
     [dateStore fetchDataRecordsOfTypes:websiteDataTypes
-                     completionHandler:^(NSArray<WKWebsiteDataRecord *> * __nonnull records) {
+                     completionHandler:^(NSArray<WKWebsiteDataRecord *> *records) {
                          
                          NSMutableArray<WKWebsiteDataRecord *> *deletedRecords = [NSMutableArray new];
-                         
                          for ( WKWebsiteDataRecord * record in records) {
                              for(NSString *domainName in domainNames) {
-                                 if ([record.displayName hasSuffix:domainName] || [record.displayName hasSuffix:[domainName substringFromIndex:1]]) {
+                                 if ([record.displayName containsString:domainName]) {
                                      [deletedRecords addObject:record];
                                  }
                              }
@@ -666,11 +662,6 @@ static Class InstanceClass = nil;
                                                                    }];
                      }];
 
-}
-
-+ (void)removeAllCookies
-{
-    [self removeAllCookiesWithCompletion:nil];
 }
 
 + (void)removeAllCookiesWithCompletion:(void(^)())completionBlock
