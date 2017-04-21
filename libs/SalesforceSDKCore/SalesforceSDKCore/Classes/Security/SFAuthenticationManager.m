@@ -454,6 +454,11 @@ static Class InstanceClass = nil;
         [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotifications:user];
         [userAccountManager deleteAccountForUser:user error:nil];
         [self revokeRefreshToken:user];
+        
+        // NB: There's no real action that can be taken if this login state transition fails.  At any rate,
+        // it's an unlikely scenario.
+        [user transitionToLoginState:SFUserAccountLoginStateNotLoggedIn];
+
     }else {
         // Otherwise, the current user is being logged out.  Supply the user account to the
         // "Will Logout" notification before the credentials are revoked.  This will ensure
@@ -462,25 +467,28 @@ static Class InstanceClass = nil;
             [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotifications];
         }
         [self cancelAuthentication];
-        [self clearAccountState:YES];
-
-        [self willChangeValueForKey:@"haveValidSession"];
-        [userAccountManager deleteAccountForUser:user error:nil];
-        [self revokeRefreshToken:user];
-        userAccountManager.currentUser = nil;
-        [self didChangeValueForKey:@"haveValidSession"];
-
-        NSNotification *logoutNotification = [NSNotification notificationWithName:kSFUserLogoutNotification object:self];
-        [[NSNotificationCenter defaultCenter] postNotification:logoutNotification];
-        [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
-            if ([delegate respondsToSelector:@selector(authManagerDidLogout:)]) {
-                [delegate authManagerDidLogout:weakSelf];
-            }
+        __weak typeof (self) weakSelf = self;
+        [self clearAccountState:YES withCompletion:^{
+            __weak typeof (weakSelf) strongSelf = weakSelf;
+            [strongSelf willChangeValueForKey:@"haveValidSession"];
+            [userAccountManager deleteAccountForUser:user error:nil];
+            [strongSelf revokeRefreshToken:user];
+            userAccountManager.currentUser = nil;
+            [strongSelf didChangeValueForKey:@"haveValidSession"];
+            
+            NSNotification *logoutNotification = [NSNotification notificationWithName:kSFUserLogoutNotification object:strongSelf];
+            [[NSNotificationCenter defaultCenter] postNotification:logoutNotification];
+            [strongSelf enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
+                if ([delegate respondsToSelector:@selector(authManagerDidLogout:)]) {
+                    [delegate authManagerDidLogout:strongSelf];
+                }
+            }];
+            // NB: There's no real action that can be taken if this login state transition fails.  At any rate,
+            // it's an unlikely scenario.
+            [user transitionToLoginState:SFUserAccountLoginStateNotLoggedIn];
         }];
+
     }
-    // NB: There's no real action that can be taken if this login state transition fails.  At any rate,
-    // it's an unlikely scenario.
-    [user transitionToLoginState:SFUserAccountLoginStateNotLoggedIn];
 }
 
 - (void)cancelAuthentication
@@ -624,39 +632,49 @@ static Class InstanceClass = nil;
 
 + (void)resetSessionCookie
 {
-    [self removeCookies:@[@"sid"]
-            fromDomains:@[@".salesforce.com", @".force.com", @".cloudforce.com"]];
-    [self addSidCookieForInstance];
+    __weak typeof(self) weakSelf = self;
+    [self removeCookiesFromDomains:@[@".salesforce.com", @".force.com", @".cloudforce.com"] withCompletion:^{
+        [weakSelf addSidCookieForInstance];
+    }];
 }
 
-+ (void)removeCookies:(NSArray *)cookieNames fromDomains:(NSArray *)domainNames
-{
-    NSAssert(cookieNames != nil && [cookieNames count] > 0, @"No cookie names given to delete.");
++ (void)removeCookiesFromDomains:(NSArray *)domainNames withCompletion:(nullable void(^)())completionBlock {
     NSAssert(domainNames != nil && [domainNames count] > 0, @"No domain names given for deleting cookies.");
-    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-    NSArray *fullCookieList = [NSArray arrayWithArray:[cookieStorage cookies]];
-    for (NSHTTPCookie *cookie in fullCookieList) {
-        for (NSString *cookieToRemoveName in cookieNames) {
-            if ([[cookie.name lowercaseString] isEqualToString:[cookieToRemoveName lowercaseString]]) {
-                for (NSString *domainToRemoveName in domainNames) {
-                    if ([[cookie.domain lowercaseString] hasSuffix:[domainToRemoveName lowercaseString]]) {
-                        [cookieStorage deleteCookie:cookie];
-                    }
-                }
-            }
-        }
-    }
+    WKWebsiteDataStore *dateStore = [WKWebsiteDataStore defaultDataStore];
+    NSSet *websiteDataTypes = [NSSet setWithArray:@[ WKWebsiteDataTypeCookies]];
+    [dateStore fetchDataRecordsOfTypes:websiteDataTypes
+                     completionHandler:^(NSArray<WKWebsiteDataRecord *> *records) {
+                         
+                         NSMutableArray<WKWebsiteDataRecord *> *deletedRecords = [NSMutableArray new];
+                         for ( WKWebsiteDataRecord * record in records) {
+                             for(NSString *domainName in domainNames) {
+                                 if ([record.displayName containsString:domainName]) {
+                                     [deletedRecords addObject:record];
+                                 }
+                             }
+                         }
+                         if (deletedRecords.count > 0)
+                            [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:websiteDataTypes
+                                                                      forDataRecords:deletedRecords
+                                                                   completionHandler:^{
+                                                                       if (completionBlock)
+                                                                           completionBlock();
+                                                                   }];
+                     }];
+
 }
 
-+ (void)removeAllCookies
++ (void)removeAllCookiesWithCompletion:(void(^)())completionBlock
 {
-    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-    NSArray *fullCookieList = [NSArray arrayWithArray:[cookieStorage cookies]];
-    for (NSHTTPCookie *cookie in fullCookieList) {
-        if (![[cookie.name lowercaseString] isEqualToString:kUserNameCookieKey]) {
-            [cookieStorage deleteCookie:cookie];
-        }
-    }
+    NSSet *websiteDataTypes = [NSSet setWithArray:@[WKWebsiteDataTypeCookies]];
+    NSDate *dateFrom = [NSDate dateWithTimeIntervalSince1970:0];
+    [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:websiteDataTypes
+                                               modifiedSince:dateFrom
+                                           completionHandler:^{
+                                                if (completionBlock) {
+                                                    completionBlock();
+                                                }
+    }];
 }
 
 + (void)addSidCookieForInstance
@@ -912,6 +930,16 @@ static Class InstanceClass = nil;
  *        with the account.
  */
 - (void)clearAccountState:(BOOL)clearAccountData {
+    [self clearAccountState:clearAccountData withCompletion:nil];
+}
+
+/**
+ * Clears the account state of the given account (i.e. clears credentials, coordinator
+ * instances, etc.
+ * @param clearAccountData Whether to optionally revoke credentials and persisted data associated
+ *        with the account.
+ */
+- (void)clearAccountState:(BOOL)clearAccountData withCompletion:(void(^)())completion {
     if (![NSThread isMainThread]) {
         dispatch_sync(dispatch_get_main_queue(), ^{
             [self clearAccountState:clearAccountData];
@@ -927,11 +955,20 @@ static Class InstanceClass = nil;
         [self.coordinator.view removeFromSuperview];
     }
     
-    [SFAuthenticationManager removeAllCookies];
-    [self.coordinator stopAuthentication];
-
-    self.idCoordinator.idData = nil;
-    self.coordinator.credentials = nil;
+    __weak typeof(self) weakSelf = self;
+    [SFAuthenticationManager removeAllCookiesWithCompletion:^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [strongSelf.coordinator stopAuthentication];
+            strongSelf.idCoordinator.idData = nil;
+            strongSelf.coordinator.credentials = nil;
+            if (completion) {
+                completion();
+            }
+        });
+        
+    }];
+    
 }
 
 - (void)cleanupStatusAlert
