@@ -47,10 +47,10 @@ Introduction
 - We've updated React Native to version 0.43.1.
 
 **Other Technical Improvements**
-- Switched from our custom WKWebViewEngine plugin to Cordova's WKWebViewEngine plugin.
+- Switched from our custom WKWebViewEngine plug-in to Cordova's WKWebViewEngine plug-in.
 - Simplified native network stack to use NSURLSession directly via SFNetwork instead of CSFNetwork and CSFAction classes.
 - Various account lifecycle management improvements.
-- Replaced KVO in key areas with notifications.
+- Replaced KVO usage with notifications.
 - Improvements to sample apps.
 - Various bug fixes.
 
