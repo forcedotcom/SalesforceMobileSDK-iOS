@@ -39,6 +39,10 @@ Introduction
 **REST API Enhancements**
 - We've added support for batching REST requests together.
 - We've added an API for composite REST requests.
+- We now support:
+	- If-Unmodified-Since conditional requests.
+	- Use of `Id` as the external ID field for upserts, coupled with null for the external ID This pattern is useful if you’re upserting multiple records with different external ID fields.
+	- SObjectTree requests.
 
 **SmartSync Enhancements**
 - In Mobile SDK 5.1, we’ve refactored SmartSync classes to decouple the SyncManager class from SyncTarget classes. This new architecture requires API changes that affect all apps that use SmartSync. However, the majority of the changes apply only to SmartSync apps that define custom targets.
