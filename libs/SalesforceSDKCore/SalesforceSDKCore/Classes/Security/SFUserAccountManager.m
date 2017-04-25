@@ -473,21 +473,19 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
         NSUserDefaults *userDefaults = [NSUserDefaults msdkUserDefaults];
         resultData = [userDefaults objectForKey:kUserDefaultsLastUserIdentityKey];
         if (resultData) {
-             SFUserAccountIdentity *result = nil;
+            SFUserAccountIdentity *result = nil;
             @try {
                 NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:resultData];
                 result = [unarchiver decodeObjectForKey:kUserDefaultsLastUserIdentityKey];
                 [unarchiver finishDecoding];
-                if(result)
-                   _currentUser = [self userAccountForUserIdentity:result];
-                else
+                if (result) {
+                    _currentUser = [self userAccountForUserIdentity:result];
+                } else {
                     [self log:SFLogLevelError msg:@"Located current user Identity in NSUserDefaults but was not found in list of accounts managed by SFUserAccountManager."];
+                }
+            } @catch (NSException *exception) {
+                [self log:SFLogLevelDebug msg:@"Could not parse current user identity from user defaults. Setting to nil."];
             }
-            @catch (NSException *exception) {
-                [self log:SFLogLevelWarning msg:@"Could not parse current user identity from user defaults.  Setting to nil."];
-            }
-        }else {
-            [self log:SFLogLevelWarning msg:@"Could not parse locate user identity object from user defaults.  Setting to nil."];
         }
         [_accountsLock unlock];
     }
@@ -497,7 +495,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 - (void)setCurrentUser:(SFUserAccount*)user {
 
     BOOL userChanged = NO;
-    if(user!=_currentUser) {
+    if (user!=_currentUser) {
         [_accountsLock lock];
         if (!user) {
             //clear current user if  nil
