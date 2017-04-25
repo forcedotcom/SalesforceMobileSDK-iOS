@@ -57,6 +57,6 @@ typedef void (^SFDataResponseBlock) (NSData * _Nullable data, NSURLResponse * _N
  * @param sessionConfig Session configuration to be used.
  * @param isBackgroundSession YES - if it is a background session configuration, NO - otherwise.
  */
-- (void)setSessionConfiguration:(nonnull NSURLSessionConfiguration *)sessionConfig isBackgroundSession:(BOOL)isBackgroundSession;
++ (void)setSessionConfiguration:(nonnull NSURLSessionConfiguration *)sessionConfig isBackgroundSession:(BOOL)isBackgroundSession;
 
 @end

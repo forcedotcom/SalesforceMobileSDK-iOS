@@ -38,11 +38,22 @@
 
 @implementation SFNetwork
 
+static NSURLSessionConfiguration *kSFEphemeralSessionConfig;
+static NSURLSessionConfiguration *kSFBackgroundSessionConfig;
+
 - (instancetype)init {
     self = [super init];
     if (self) {
-        self.ephemeralSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration ephemeralSessionConfiguration] delegate:self delegateQueue:nil];
-        self.backgroundSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:@"com.salesforce.network"]
+        NSURLSessionConfiguration *ephemeralSessionConfig = [NSURLSessionConfiguration ephemeralSessionConfiguration];
+        if (kSFEphemeralSessionConfig) {
+            ephemeralSessionConfig = kSFEphemeralSessionConfig;
+        }
+        self.ephemeralSession = [NSURLSession sessionWithConfiguration:ephemeralSessionConfig delegate:self delegateQueue:nil];
+        NSURLSessionConfiguration *backgroundSessionConfig = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:@"com.salesforce.network"];
+        if (kSFBackgroundSessionConfig) {
+            backgroundSessionConfig = kSFBackgroundSessionConfig;
+        }
+        self.backgroundSession = [NSURLSession sessionWithConfiguration:backgroundSessionConfig
             delegate:self delegateQueue:nil];
         self.useBackground = NO;
     }
@@ -63,11 +74,11 @@
     return (self.useBackground ? self.backgroundSession : self.ephemeralSession);
 }
 
-- (void)setSessionConfiguration:(NSURLSessionConfiguration *)sessionConfig isBackgroundSession:(BOOL)isBackgroundSession {
++ (void)setSessionConfiguration:(NSURLSessionConfiguration *)sessionConfig isBackgroundSession:(BOOL)isBackgroundSession {
     if (isBackgroundSession) {
-        self.backgroundSession = [NSURLSession sessionWithConfiguration:sessionConfig];
+        kSFBackgroundSessionConfig = sessionConfig;
     } else {
-        self.ephemeralSession = [NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:nil];
+        kSFEphemeralSessionConfig = sessionConfig;
     }
 }
 
