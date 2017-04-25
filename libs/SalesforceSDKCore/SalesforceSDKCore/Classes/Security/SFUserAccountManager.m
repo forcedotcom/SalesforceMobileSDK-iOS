@@ -495,7 +495,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 - (void)setCurrentUser:(SFUserAccount*)user {
 
     BOOL userChanged = NO;
-    if (user!=_currentUser) {
+    if (user != _currentUser) {
         [_accountsLock lock];
         if (!user) {
             //clear current user if  nil
