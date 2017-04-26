@@ -42,12 +42,15 @@ NSString * const kSFSyncOptionsMergeMode = @"mergeMode";
     return [SFSyncOptions newSyncOptionsForSyncUp:fieldlist mergeMode:SFSyncStateMergeModeOverwrite];
 }
 
-+ (SFSyncOptions*) newSyncOptionsForSyncUp:(NSArray*)fieldlist mergeMode:(SFSyncStateMergeMode)mergeMode {
++ (SFSyncOptions*) newSyncOptionsForSyncUp:(NSArray*)fieldlist
+                                 mergeMode:(SFSyncStateMergeMode)mergeMode {
+    
     SFSyncOptions* syncOptions = [[SFSyncOptions alloc] init];
     syncOptions.fieldlist = fieldlist;
     syncOptions.mergeMode = mergeMode;
     return syncOptions;
 }
+
 
 + (SFSyncOptions*) newSyncOptionsForSyncDown:(SFSyncStateMergeMode)mergeMode {
     SFSyncOptions* syncOptions = [[SFSyncOptions alloc] init];
@@ -61,9 +64,8 @@ NSString * const kSFSyncOptionsMergeMode = @"mergeMode";
 + (SFSyncOptions*) newFromDict:(NSDictionary*)dict {
     SFSyncOptions* syncOptions = nil;
     if (dict != nil && [dict count] != 0) {
-        syncOptions = [[SFSyncOptions alloc] init];
-        syncOptions.mergeMode = [SFSyncState mergeModeFromString:dict[kSFSyncOptionsMergeMode]];
-        syncOptions.fieldlist = dict[kSFSyncOptionsFieldlist];
+        syncOptions = [SFSyncOptions newSyncOptionsForSyncUp:dict[kSFSyncOptionsFieldlist]
+                                                   mergeMode:[SFSyncState mergeModeFromString:dict[kSFSyncOptionsMergeMode]]];
     }
     return syncOptions;
 }

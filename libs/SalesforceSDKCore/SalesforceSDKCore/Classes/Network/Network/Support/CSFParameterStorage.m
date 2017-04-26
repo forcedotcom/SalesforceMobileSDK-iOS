@@ -189,7 +189,7 @@
     }
     
     if (resultError) {
-        NetworkDebug(@"Error binding parameters to request %@: %@", request.HTTPMethod, error);
+        NetworkDebug(@"Error binding parameters to request %@: %@", request.HTTPMethod, resultError);
         result = NO;
     }
     

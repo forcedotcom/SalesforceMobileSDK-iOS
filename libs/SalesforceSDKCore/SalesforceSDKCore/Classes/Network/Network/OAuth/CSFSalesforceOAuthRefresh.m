@@ -77,13 +77,13 @@
 
 - (void)finishWithOutput:(CSFOutput *)refreshOutput error:(NSError *)error {
     if ([error.domain isEqualToString:kSFOAuthErrorDomain] && error.code == kSFOAuthErrorInvalidGrant) {
-        NetworkInfo(@"invalid grant error received, triggering logout.");
+        NetworkOAuthInfo(@"invalid grant error received, triggering logout.");
         // make sure we call logoutUser on main thread
         dispatch_async(dispatch_get_main_queue(), ^{
             NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
             attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
             attributes[@"errorDescription"] = error.localizedDescription;
-            [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
+            [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:self.network.account className:NSStringFromClass([self class]) attributes:attributes];
             [[SFAuthenticationManager sharedManager] logoutUser:self.network.account];
         });
     }
@@ -97,6 +97,12 @@
     self.network.account.credentials = coordinator.credentials;
     CSFOAuthTokenRefreshOutput *output = [[CSFOAuthTokenRefreshOutput alloc] initWithCoordinator:coordinator];
     [self finishWithOutput:output error:nil];
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:kSFAuthenticationManagerFinishedNotification
+                                                            object:nil
+                                                          userInfo:nil];
+    });
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info {

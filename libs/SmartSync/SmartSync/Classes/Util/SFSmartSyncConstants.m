@@ -36,6 +36,7 @@ NSString * const kRawData = @"rawData";
 NSString * const kObjectTypeField = @"attributes.type";
 NSString * const kLastModifiedDate = @"LastModifiedDate";
 NSString * const kResponseRecords = @"records";
+NSString * const kResponseSearchRecords = @"searchRecords";
 NSString * const kResponseTotalSize = @"totalSize";
 NSString * const kResponseNextRecordsUrl = @"nextRecordsUrl";
 NSString * const kRecentItems = @"recentItems";

@@ -29,11 +29,13 @@
 #import "SFUserAccount.h"
 #import "SFOAuthCredentials.h"
 #import "SFUserAccountManager.h"
+#import "NSURL+SFStringUtils.h"
+#import "CSFNetwork+Salesforce.h"
 
 NSString * const CSFAuthorizationHeaderValueFormat = @"OAuth %@";
 NSString * const CSFAuthorizationHeaderName = @"Authorization";
 NSString * const CSFSalesforceActionDefaultPathPrefix = @"/services/data";
-NSString * const CSFSalesforceDefaultAPIVersion = @"v36.0";
+NSString * const CSFSalesforceDefaultAPIVersion = @"v39.0";
 
 static NSString * const kNetworkAccessTokenPath   = @"account.credentials.accessToken";
 static NSString * const kNetworkInstanceURLPath   = @"account.credentials.instanceUrl";
@@ -42,13 +44,6 @@ static void * kObservingKey = &kObservingKey;
 static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
     return errorDict[@"message"] ?: (errorDict[@"msg"] ?: errorDict[@"errorMsg"]);
 }
-
-@interface CSFSalesforceAction()
-
-@property (nonatomic, copy) NSURL *cachedAPIURL;
-
-@end
-
 
 @implementation CSFSalesforceAction
 
@@ -59,11 +54,6 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
         _apiVersion = CSFSalesforceDefaultAPIVersion;
         _pathPrefix = CSFSalesforceActionDefaultPathPrefix;
         self.authRefreshClass = [CSFSalesforceOAuthRefresh class];
-        NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-        [notificationCenter addObserver:self
-                               selector:@selector(userAccountManagerDidChangeCurrentUser:)
-                               name:SFUserAccountManagerDidChangeCurrentUserNotification
-                               object:nil];
     }
     return self;
 }
@@ -73,34 +63,31 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
     self.enqueuedNetwork = nil;
 }
 
+- (NSURL *)baseURL {
+    NSURL *manuallySetURL = [super baseURL];
+    return manuallySetURL ?: [[self.enqueuedNetwork.account.credentials.apiUrl slashTerminatedUrl] copy];
+}
+
 - (void)setEnqueuedNetwork:(CSFNetwork *) network {
     if (_enqueuedNetwork != network) {
-        // remove observer from old network.
-        if (_enqueuedNetwork) {
-            [_enqueuedNetwork removeObserver:self forKeyPath:kNetworkAccessTokenPath context:kObservingKey];
-            [_enqueuedNetwork removeObserver:self forKeyPath:kNetworkInstanceURLPath context:kObservingKey];
-            [_enqueuedNetwork removeObserver:self forKeyPath:kNetworkCommunityIDPath context:kObservingKey];
-        }
 		_enqueuedNetwork = network;
         // add observers to the new network
         if (_enqueuedNetwork) {
-            if ([self shouldUpdateBaseUrl]) {
-                self.baseURL = self.enqueuedNetwork.account.credentials.apiUrl;
-                self.cachedAPIURL = self.baseURL;
-            }
-            [_enqueuedNetwork addObserver:self forKeyPath:kNetworkAccessTokenPath
-                                 options:(NSKeyValueObservingOptionInitial |
-                                          NSKeyValueObservingOptionNew)
-                                 context:kObservingKey];
-            [_enqueuedNetwork addObserver:self forKeyPath:kNetworkInstanceURLPath
-                                 options:(NSKeyValueObservingOptionInitial |
-                                          NSKeyValueObservingOptionNew)
-                                 context:kObservingKey];
-            [_enqueuedNetwork addObserver:self forKeyPath:kNetworkCommunityIDPath
-                                 options:(NSKeyValueObservingOptionInitial |
-                                          NSKeyValueObservingOptionNew)
-                                 context:kObservingKey];
+            NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+
+            [notificationCenter addObserver:self
+                                   selector:@selector(didChangeUserDataNotification:)
+                                       name:CSFDidChangeUserDataNotification
+                                     object:_enqueuedNetwork];
         }
+    }
+}
+
+- (void)dequeueNetwork:(CSFNetwork *)network {
+    if (_enqueuedNetwork && _enqueuedNetwork == network) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self];
+        // remove observer from old network.
+        _enqueuedNetwork = nil;
     }
 }
 
@@ -209,7 +196,7 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
     
     NSString *errorDescription = errorMessage ?: [NSString stringWithFormat:@"HTTP %ld for %@ %@", (long)response.statusCode, self.method, self.verb];
     NSDictionary *baseErrorDict = @{ NSLocalizedDescriptionKey:errorDescription,
-                                     CSFNetworkErrorActionKey: self,
+                                     CSFNetworkErrorActionDescriptionKey: [self description],
                                      CSFNetworkErrorAuthenticationFailureKey: @(requestSessionRefresh) };
     NSMutableDictionary *userInfoDict = [NSMutableDictionary dictionaryWithDictionary:baseErrorDict];
     if (errorCode.length > 0) {
@@ -261,37 +248,6 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
     return returnBasePath;
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if (context == kObservingKey) {
-        [self willChangeValueForKey:@"isReady"];
-        if ([self requiresAuthentication] && (self.enqueuedNetwork == object)) {
-            SFUserAccount *account = self.enqueuedNetwork.account; 
-            if ([keyPath isEqualToString:kNetworkCommunityIDPath]) {
-                self.enqueuedNetwork.defaultConnectCommunityId = account.communityId;
-            } else if (account.credentials.accessToken && account.credentials.instanceUrl) {
-                self.credentialsReady = YES;
-                if ([keyPath isEqualToString:kNetworkInstanceURLPath] && [self shouldUpdateBaseUrl]) {
-                    // If an action is API based action, make sure the base URL it matches current credential's api URL
-                    // For actions that uses absolute URL like https://c.gus.visual.force.com/resource/1460146879000/HatImage, we should avoid the logic of changing base URL, otherwise raw content served server by absolute URL will not work
-                    self.baseURL = self.enqueuedNetwork.account.credentials.apiUrl;
-                    self.cachedAPIURL = self.baseURL;
-                }
-            } else {
-                self.credentialsReady = NO;
-            }
-        }
-        [self didChangeValueForKey:@"isReady"];
-    } else {
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-    }
-}
-
-- (BOOL)shouldUpdateBaseUrl {
-    // only set base URL to apiURL if baseURL is not already specified as absolute URL with it's own host
-    // this check is necessary as there are salesforce URL that is content server based and not API based
-    return (!self.baseURL.scheme && !self.baseURL.host) || [self.baseURL isEqual:self.cachedAPIURL];
-}
-
 - (BOOL)isEqualToAction:(CSFAction *)action {
     if (![action isKindOfClass:[CSFSalesforceAction class]]) {
         return NO;
@@ -336,20 +292,21 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
     }
 }
 
-#pragma mark SFAuthenticationManagerDelegate
+- (void)didChangeUserDataNotification:(NSNotification*)notification {
+    CSFNetwork *network = (CSFNetwork*)notification.object;
+    SFUserAccount *account = network.account;
 
-- (void)userAccountManagerDidChangeCurrentUser:(NSNotification*)notification {
-    SFUserAccountManager *accountManager = (SFUserAccountManager*)notification.object;
-    if ([accountManager isKindOfClass:[SFUserAccountManager class]]) {
-        if (![accountManager.currentUserIdentity isEqual:self.enqueuedNetwork.account.accountIdentity]) {
-            self.enqueuedNetwork.networkSuspended = YES;
-        } else {
-            [self.enqueuedNetwork resetSession];
-            self.enqueuedNetwork.networkSuspended = NO;
+    if ([network isKindOfClass:[CSFNetwork class]]) {
+        SFUserAccountChange change = (SFUserAccountChange)[notification.userInfo[SFUserAccountManagerUserChangeKey] integerValue];
+
+        [self willChangeValueForKey:@"isReady"];
+        SFUserAccountDataChange credsChanged = SFUserAccountDataChangeInstanceURL | SFUserAccountDataChangeAccessToken;
+        if ((change & credsChanged) == credsChanged) {
+            self.credentialsReady = (account.credentials.instanceUrl != nil && account.credentials.accessToken.length > 0);
         }
-        if (accountManager.currentCommunityId != self.enqueuedNetwork.defaultConnectCommunityId) {
-            self.enqueuedNetwork.defaultConnectCommunityId = accountManager.currentCommunityId;
-        }
+
+        [self didChangeValueForKey:@"isReady"];
+
     }
 }
 

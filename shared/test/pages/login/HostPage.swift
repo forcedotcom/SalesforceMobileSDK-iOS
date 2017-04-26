@@ -111,7 +111,7 @@ class HostPage: PageObject, PageThatWaits {
     }
     
     
-    @discardableResult func addAndCancel(_ toLogin: Bool) {
+    func addAndCancel(_ toLogin: Bool) {
         waitForElementEnabled(app.navigationBars["Choose Connection"].buttons["Add"])
         AddConnectionButton.tap()
         setHost("dummy")

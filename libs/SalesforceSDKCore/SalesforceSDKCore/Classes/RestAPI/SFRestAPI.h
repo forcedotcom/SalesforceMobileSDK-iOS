@@ -24,6 +24,7 @@
 
 #import <Foundation/Foundation.h>
 #import "SFRestRequest.h"
+#import "SFSObjectTree.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -39,10 +40,15 @@ extern NSString* const kSFRestErrorDomain;
 extern NSInteger const kSFRestErrorCode;
 
 /*
- * Default API version (currently "v36.0")
+ * Default API version (currently "v39.0")
  * You can override this by using setApiVersion:
  */
 extern NSString* const kSFRestDefaultAPIVersion;
+
+/*
+ * Misc keys appearing in requests
+ */
+extern NSString* const kSFRestIfUnmodifiedSince;
 
 @class SFOAuthCoordinator;
 
@@ -73,14 +79,7 @@ extern NSString* const kSFRestDefaultAPIVersion;
  send:delegate: expects that if the request.path does not begin with the
  request.endpoint prefix, it will add the request.endpoint prefix 
  (kSFDefaultRestEndpoint by default) to the request path.
- 
- You can also specify whether or not you want the request's response to be parsed.  By default,
- the response associated with the request will be parsed as JSON, and the structured JSON
- object will be returned.  By setting `request.parseResponse = NO`, the response data will be returned
- as a binary `NSData` object.  This can be useful for requests that return non-JSON data, such as
- binary data.
- 
- 
+  
  For example, this sample code calls the `requestForDescribeWithObjectType:` method to return
  information about the Account object.
 
@@ -147,7 +146,7 @@ extern NSString* const kSFRestDefaultAPIVersion;
 
 /**
  * The REST API version used for all the calls. This could be "v21.0", "v22.0"...
- * The default value is `kSFRestDefaultAPIVersion` (currently "v36.0")
+ * The default value is `kSFRestDefaultAPIVersion` (currently "v39.0")
  */
 @property (nonatomic, strong) NSString *apiVersion;
 
@@ -184,9 +183,8 @@ extern NSString* const kSFRestDefaultAPIVersion;
  * @param request the SFRestRequest to be sent
  * @param delegate the delegate object used when the response from the server is returned. 
  * This overwrites the delegate property of the request.
- * Returns the SFNetworkOperation through which the network call is actually carried out
  */
-- (SFRestAPISalesforceAction *)send:(SFRestRequest *)request delegate:(nullable id<SFRestDelegate>)delegate;
+- (void)send:(SFRestRequest *)request delegate:(nullable id<SFRestDelegate>)delegate;
 
 ///---------------------------------------------------------------------------------------
 /// @name SFRestRequest factory methods
@@ -268,7 +266,7 @@ extern NSString* const kSFRestDefaultAPIVersion;
  */
 - (SFRestRequest *)requestForUpsertWithObjectType:(NSString *)objectType
                                   externalIdField:(NSString *)externalIdField
-                                       externalId:(NSString *)externalId
+                                       externalId:(nullable NSString *)externalId
                                            fields:(NSDictionary<NSString*, id> *)fields;
 
 /**
@@ -283,6 +281,24 @@ extern NSString* const kSFRestDefaultAPIVersion;
 - (SFRestRequest *)requestForUpdateWithObjectType:(NSString *)objectType 
                                          objectId:(NSString *)objectId
                                            fields:(nullable NSDictionary<NSString*, id> *)fields;
+
+/**
+ * Same as requestForUpdateWithObjectType:objectId:fields but only executing update
+ * if the server record was not modified since ifModifiedSinceDate.
+ *
+ * @param objectType object type; for example, "Account"
+ * @param objectId the record's object ID
+ * @param fields an object containing initial field names and values for record
+ * @param ifUnmodifiedSinceDate update will only happens if current last modified date of record is
+ *                              older than ifUnmodifiedSinceDate
+ *                              otherwise a 412 (precondition failed) will be returned
+ * @see http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_sobject_retrieve.htm
+ */
+- (SFRestRequest *)requestForUpdateWithObjectType:(NSString *)objectType
+                                         objectId:(NSString *)objectId
+                                            fields:(nullable NSDictionary<NSString*, id> *)fields
+                            ifUnmodifiedSinceDate:(nullable NSDate *) ifUnmodifiedSinceDate;
+
 
 /**
  * Returns an `SFRestRequest` which deletes a record of the given type.
@@ -332,6 +348,30 @@ extern NSString* const kSFRestDefaultAPIVersion;
  */
 - (SFRestRequest *)requestForSearchResultLayout:(NSString*)objectList;
 
+/**
+ * Retursn an `SFRestRequest` which executes a batch of requests.
+ * @param requests Array of subrequests to execute.
+ * @param haltOnError Controls whether Salesforce should stop processing subrequests if a subrequest fails.
+ * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_batch.htm
+ */
+- (SFRestRequest *) batchRequest:(NSArray<SFRestRequest*>*) requests haltOnError:(BOOL) haltOnError;
+
+/**
+ * Retursn an `SFRestRequest` which executes a composite request.
+ * @param requests Array of subrequests to execute.
+ * @param refIds Array of reference id for the requests (should have the same number of element than requests)
+ * @param allOrNone Specifies what to do when an error occurs while processing a subrequest.
+ * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_composite.htm
+ */
+- (SFRestRequest *) compositeRequest:(NSArray<SFRestRequest*>*) requests refIds:(NSArray<NSString*>*)refIds allOrNone:(BOOL) allOrNone;
+
+/**
+ * Retursn an `SFRestRequest` which executes a sobject tree request.
+ * @param objectType object type; for example, "Account"
+ * @param objectTrees Array of sobject trees
+ * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobject_tree.htm
+ */
+- (SFRestRequest*) requestForSObjectTree:(NSString*)objectType objectTrees:(NSArray<SFSObjectTree*>*)objectTrees;
 
 ///---------------------------------------------------------------------------------------
 /// @name Other utility methods

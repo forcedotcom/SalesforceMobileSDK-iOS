@@ -63,4 +63,10 @@ extern NSString * const kSFRedactedQuerystringValue;
  */
 + (NSString*)stringUrlWithScheme:(NSString*)scheme host:(NSString*)host port:(NSNumber*)port pathComponents:(NSArray*)pathComponents;
 
+/**
+ Adds a trailing slash to the URL's path, if necessary
+ @return A URL whose path ends in a forward slash
+ */
+- (NSURL *)slashTerminatedUrl;
+
 @end

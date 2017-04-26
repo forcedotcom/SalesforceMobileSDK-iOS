@@ -301,12 +301,15 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 
     if ([self.dataMgr dataHasLocalChanges:contact]) {
         UIImage *localImage;
-        if ([self.dataMgr dataLocallyCreated:contact])
-            localImage = sLocalAddImage;
-        else if ([self.dataMgr dataLocallyUpdated:contact])
-            localImage = sLocalUpdateImage;
-        else
+        // If deleted and created or updated, we should show deleted
+        if ([self.dataMgr dataLocallyDeleted:contact])
             localImage = sLocalDeleteImage;
+        // If created and updated, we should show created
+        else if ([self.dataMgr dataLocallyCreated:contact])
+            localImage = sLocalAddImage;
+        // If updated (but not deleted or created), we should show updated
+        else
+            localImage = sLocalUpdateImage;
 
         //
         // Uber view

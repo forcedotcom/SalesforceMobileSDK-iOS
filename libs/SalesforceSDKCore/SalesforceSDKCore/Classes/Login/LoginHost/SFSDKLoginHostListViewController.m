@@ -47,7 +47,7 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
  */
 - (void)applyLoginHostAtIndex:(NSUInteger)index {
     SFSDKLoginHost *loginHost = [[SFSDKLoginHostStorage sharedInstance] loginHostAtIndex:index];
-    SFUserAccountManager *m = [SFUserAccountManager sharedInstance];
+    SFAuthenticationManager *m = [SFAuthenticationManager sharedManager];
     
     // Change the login host and login again. Don't do any logout as we don't
     // want to remove anything at this point.
@@ -68,7 +68,7 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
  * Returns the index of the current login host.
  */
 - (NSUInteger)indexOfCurrentLoginHost {
-    SFUserAccountManager *m = [SFUserAccountManager sharedInstance];
+    SFAuthenticationManager *m = [SFAuthenticationManager sharedManager];
     NSString *currentLoginHost = [m loginHost];
     NSUInteger numberOfLoginHosts = [[SFSDKLoginHostStorage sharedInstance] numberOfLoginHosts];
     for (NSUInteger index = 0; index < numberOfLoginHosts; index++) {
@@ -134,7 +134,7 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
     SFManagedPreferences *managedPreferences = [SFManagedPreferences sharedPreferences];
     if (!(managedPreferences.hasManagedPreferences && managedPreferences.onlyShowAuthorizedHosts)) {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(showAddLoginHost:)];
-        [self.navigationItem.rightBarButtonItem setTintColor:[UIColor whiteColor]];
+        [self.navigationItem.rightBarButtonItem setTintColor:[SFLoginViewController sharedInstance].navBarTextColor];
     }
     self.title = [SFSDKResourceUtils localizedString:@"LOGIN_CHOOSE_SERVER"];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]

@@ -309,6 +309,8 @@
     if ([platform isEqualToString:@"iPhone8,1"])    return UIDevice6siPhone;
     if ([platform isEqualToString:@"iPhone8,2"])    return UIDevice6sPlusiPhone;
     if ([platform isEqualToString:@"iPhone8,4"])    return UIDeviceSEiPhone;
+    if ([platform isEqualToString:@"iPhone9,1"])    return UIDevice7iPhone;
+    if ([platform isEqualToString:@"iPhone9,2"])    return UIDevice7PlusiPhone;
     if ([platform isEqualToString:@"iPhone9,3"])    return UIDevice7iPhone;
     if ([platform isEqualToString:@"iPhone9,4"])    return UIDevice7PlusiPhone;
     
@@ -350,6 +352,12 @@
     
     if ([platform isEqualToString:@"iPad5,3"])      return UIDevice2GiPadAir;
     if ([platform isEqualToString:@"iPad5,4"])      return UIDevice2GiPadAir;
+    
+    if ([platform isEqualToString:@"iPad6,3"])      return UIDevice97InchiPadPro;
+    if ([platform isEqualToString:@"iPad6,4"])      return UIDevice97InchiPadPro;
+    if ([platform isEqualToString:@"iPad6,7"])      return UIDevice129InchiPadPro;
+    if ([platform isEqualToString:@"iPad6,8"])      return UIDevice129InchiPadPro;
+    
     
     // Apple TV
     if ([platform hasPrefix:@"AppleTV2"])           return UIDeviceAppleTV2;
@@ -415,6 +423,8 @@
         case UIDevice1GiPadMini: return  IPAD_MINI_1G_NAMESTRING;
         case UIDevice2GiPadMini: return  IPAD_MINI_2G_NAMESTRING;
         case UIDevice3GiPadMini: return  IPAD_MINI_3G_NAMESTRING;
+        case UIDevice97InchiPadPro: return  IPAD_PRO_9_7_INCH_NAMESTRING;
+        case UIDevice129InchiPadPro: return  IPAD_PRO_12_9_INCH_NAMESTRING;
         case UIDeviceUnknowniPad : return IPAD_UNKNOWN_NAMESTRING;
             
         case UIDeviceAppleTV2 : return APPLETV_2G_NAMESTRING;

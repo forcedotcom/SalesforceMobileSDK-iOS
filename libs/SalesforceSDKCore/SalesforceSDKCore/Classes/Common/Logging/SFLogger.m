@@ -24,6 +24,7 @@
 
 #import <CocoaLumberjack/CocoaLumberjack.h>
 #import <CocoaLumberjack/DDContextFilterLogFormatter.h>
+#import <os/log.h>
 
 #import "NSData+SFAdditions.h"
 #import "SFLogger_Internal.h"
@@ -32,6 +33,7 @@
 #import <execinfo.h> // backtrace_symbols
 #import "SFCocoaLumberJackCustomFormatter.h"
 #import "NSUserDefaults+SFAdditions.h"
+#import "SFLoggerMacros.h"
 
 static inline SFLogFlag SFLogFlagForLogLevel(SFLogLevel level) {
     switch (level) {
@@ -100,6 +102,11 @@ NSString * SFLogNameForFlag(SFLogFlag flag) {
     }
 }
 
+os_log_t SFLoggerOSLog(NSInteger context, NSString *category) {
+    SFLogIdentifier *identifier = [[SFLogger sharedLogger] logIdentifierForContext:context];
+    return [identifier logForCategory:category];
+}
+
 @interface SFLogger (PrivateLoggingMethods)
 
 + (void)logAsync:(BOOL)asynchronous
@@ -146,39 +153,20 @@ NSString * const kSFLogIdentifierDefault = @"com.salesforce";
 static void * kObservingKey = &kObservingKey;
 static NSString * const kSFLogLevelKey = @"logLevel";
 SFLogLevel SFLoggerContextLogLevels[SF_LOG_MAX_IDENTIFIER_COUNT];
+os_log_t SFLoggerContextLogHandles[SF_LOG_MAX_IDENTIFIER_COUNT];
+
+__attribute__((constructor))
+static void initialize_logging() {
+    SFLoggerContextLogLevels[SFLoggerDefaultContext] = SFLogLevelError;
+    SFLoggerContextLogHandles[0] = OS_LOG_DEFAULT;
+    SFLoggerContextLogHandles[SFLoggerDefaultContext] = OS_LOG_DEFAULT;
+}
 
 /////////////////
 
-@implementation SFLogTag
-
-- (instancetype)initWithClass:(Class)originClass selector:(SEL)selector {
-    self = [self init];
-    if (self) {
-        _originClass = originClass;
-        _selector = selector;
-    }
-    return self;
+@implementation SFLogIdentifier {
+    NSMutableDictionary<NSString*,os_log_t> *_categoryDictionary;
 }
-
-- (BOOL)isEqual:(SFLogTag*)object {
-    BOOL result = YES;
-    if (self == object) {
-        result = YES;
-    } else if (![object isMemberOfClass:self.class]) {
-        result = NO;
-    } else if (_originClass != object->_originClass) {
-        result = NO;
-    } else if (_selector != object->_selector) {
-        result = NO;
-    }
-    return result;
-}
-
-@end
-
-/////////////////
-
-@implementation SFLogIdentifier
 
 + (NSSet*)keyPathsForValuesAffectingLogFlag {
     return [NSSet setWithObject:@"logLevel"];
@@ -194,13 +182,34 @@ SFLogLevel SFLoggerContextLogLevels[SF_LOG_MAX_IDENTIFIER_COUNT];
         _identifier = [identifier copy];
         _logLevel = SFLogLevelError;
         _logFlag = SFLogFlagError;
-        
+        if ([identifier isEqualToString:kSFLogIdentifierDefault]) {
+            _defaultLog = OS_LOG_DEFAULT;
+        } else {
+            _defaultLog = os_log_create([identifier UTF8String], "default");
+        }
+
+        _categoryDictionary = [NSMutableDictionary new];
+
         // Default identifier receives a context of `1`, for backwards compatibility with MobileSDKLogContext
         if (!_identifier) {
             _context = 1;
         }
     }
     return self;
+}
+
+- (os_log_t)logForCategory:(NSString *)category {
+    os_log_t result = _defaultLog;
+    if ([category isKindOfClass:[NSString class]]) {
+        @synchronized (_categoryDictionary) {
+            result = _categoryDictionary[category];
+            if (!result) {
+                result = os_log_create([_identifier UTF8String], [category UTF8String]);
+                _categoryDictionary[category] = result;
+            }
+        }
+    }
+    return result;
 }
 
 - (void)setLogLevel:(SFLogLevel)logLevel {
@@ -219,6 +228,15 @@ SFLogLevel SFLoggerContextLogLevels[SF_LOG_MAX_IDENTIFIER_COUNT];
     }
 }
 
+- (NSString *)debugDescription {
+    return [NSString stringWithFormat:@"<%@: %p; identifier = %@; logLevel = %@; categories = %@",
+            NSStringFromClass(self.class),
+            self,
+            _identifier,
+            SFLogNameForLogLevel(_logLevel),
+            [_categoryDictionary.allKeys componentsJoinedByString:@", "]];
+}
+
 @end
 
 /////////////////
@@ -230,24 +248,11 @@ SFLogLevel SFLoggerContextLogLevels[SF_LOG_MAX_IDENTIFIER_COUNT];
 }
 
 - (void)log:(SFLogLevel)level msg:(NSString *)msg {
-    [self log:level identifier:[self.class loggingIdentifier] msg:msg];
+    [self log:level identifier:[self.class loggingIdentifier] format:@"%@", msg];
 }
 
 - (void)log:(SFLogLevel)level identifier:(NSString*)logIdentifier msg:(NSString *)msg {
-    SFLogger *logger = [SFLogger sharedLogger];
-    NSString *identifierString = [self.class loggingIdentifier];
-    SFLogIdentifier *identifier = [logger logIdentifierForIdentifier:identifierString];
-    
-    [logger logAsync:YES
-               level:identifier.logLevel
-                flag:SFLogFlagForLogLevel(level)
-             context:identifier.context
-                file:nil
-            function:nil
-                line:0
-                 tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
-              format:msg
-                args:nil];
+    [self log:level identifier:logIdentifier format:@"%@", msg];
 }
 
 - (void)log:(SFLogLevel)level format:(NSString *)format, ... {
@@ -264,7 +269,7 @@ SFLogLevel SFLoggerContextLogLevels[SF_LOG_MAX_IDENTIFIER_COUNT];
                 file:nil
             function:nil
                 line:0
-                 tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
+                 tag:self.class
               format:format
                 args:args];
     va_end(args);
@@ -287,7 +292,7 @@ SFLogLevel SFLoggerContextLogLevels[SF_LOG_MAX_IDENTIFIER_COUNT];
                 file:nil
             function:nil
                 line:0
-                 tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
+                 tag:self.class
               format:format
                 args:args];
     va_end(args);
@@ -306,17 +311,11 @@ SFLogLevel SFLoggerContextLogLevels[SF_LOG_MAX_IDENTIFIER_COUNT];
                 file:nil
             function:nil
                 line:0
-                 tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
+                 tag:self.class
               format:format
                 args:args];
     va_end(args);
 }
-
-@end
-
-@interface SFLogger ()
-
-@property (nonatomic, weak) DDASLLogger *consoleLogger;
 
 @end
 
@@ -325,10 +324,7 @@ static BOOL assertionRecorded = NO;
 
 //////////////////
 
-@interface DDLog (SFLogger) <SFLogStorage>
-@end
-
-@implementation DDLog (SFLogger)
+@interface DDLog () <SFLogStorage>
 @end
 
 //////////////////
@@ -352,6 +348,7 @@ static BOOL assertionRecorded = NO;
         _contextCounter = 2;
         _logIdentifiers = [NSMutableDictionary new];
         _logIdentifiersByContext = [NSMutableArray new];
+        _logToASL = SFLoggerLogToASL;
         
         [self resetLoggers];
 
@@ -392,10 +389,6 @@ static BOOL assertionRecorded = NO;
                            forFlag:DDLogFlagWarning];
     _ttyLogger.logFormatter = [[SFCocoaLumberJackCustomFormatter alloc] initWithLogger:self];
     [_ddLog addLogger:_ttyLogger];
-    
-    if (kSFASLLoggerEnabledDefault) {
-        [_ddLog addLogger:[DDASLLogger sharedInstance]];
-    }
     
     _fileLogger = [[DDFileLogger alloc] init];
     _fileLogger.rollingFrequency = 60 * 60 * 48; // 48 hour rolling
@@ -454,17 +447,13 @@ static BOOL assertionRecorded = NO;
     return identifierObject.context;
 }
 
-- (BOOL)shouldLogToASL {
-    return [_ddLog.allLoggers containsObject:[DDASLLogger sharedInstance]];
+// Expose the ivar manually as a DDLog instance.  Internally we represent this as an SFLogStorage protocol so we can unit test it easily.
+- (DDLog *)ddLog {
+    return (DDLog*)_ddLog;
 }
 
 - (void)setLogToASL:(BOOL)logToASL {
-    BOOL hasLogger = [self shouldLogToASL];
-    if (logToASL && !hasLogger) {
-        [_ddLog addLogger:[DDASLLogger sharedInstance]];
-    } else if (!logToASL && hasLogger) {
-        [_ddLog removeLogger:[DDASLLogger sharedInstance]];
-    }
+    _logToASL = SFLoggerLogToASL = logToASL;
 }
 
 + (NSInteger)contextForIdentifier:(NSString*)identifier {
@@ -538,7 +527,7 @@ static BOOL assertionRecorded = NO;
               file:nil
           function:nil
               line:0
-               tag:[[SFLogTag alloc] initWithClass:cls selector:nil]
+               tag:cls
             format:msg];
 }
 
@@ -552,7 +541,7 @@ static BOOL assertionRecorded = NO;
               file:nil
           function:nil
               line:0
-               tag:[[SFLogTag alloc] initWithClass:cls selector:nil]
+               tag:cls
             format:msg];
 }
 
@@ -681,7 +670,7 @@ static BOOL assertionRecorded = NO;
                            file:[file cStringUsingEncoding:NSUTF8StringEncoding]
                        function:[NSStringFromSelector(method) cStringUsingEncoding:NSUTF8StringEncoding]
                            line:line
-                            tag:[[SFLogTag alloc] initWithClass:[obj class] selector:method]
+                            tag:[obj class]
                          format:message
                            args:args];
     va_end(args);
@@ -708,7 +697,7 @@ static BOOL assertionRecorded = NO;
                            file:[file cStringUsingEncoding:NSUTF8StringEncoding]
                        function:[NSStringFromSelector(method) cStringUsingEncoding:NSUTF8StringEncoding]
                            line:line
-                            tag:[[SFLogTag alloc] initWithClass:[obj class] selector:method]
+                            tag:[obj class]
                          format:stackTraces
                            args:nil];
     
@@ -755,31 +744,20 @@ static BOOL assertionRecorded = NO;
         function:(const char *)function
             line:(NSUInteger)line
              tag:(id)tag
-          format:(NSString *)format, ...
+         message:(NSString *)message
 {
-    va_list args;
-    
-    if (format) {
-        va_start(args, format);
-        if (tag && ![tag isKindOfClass:[SFLogTag class]]) {
-            if ([tag conformsToProtocol:@protocol(NSObject)]) {
-                tag = [[SFLogTag alloc] initWithClass:[(NSObject*)tag class] selector:nil];
-            } else {
-                tag = [[SFLogTag alloc] initWithClass:tag selector:nil];
-            }
-        }
-        
-        [self.sharedLogger logAsync:asynchronous
-                              level:level
-                               flag:flag
-                            context:context
-                               file:file
-                           function:function
-                               line:line
-                                tag:tag
-                             format:format
-                               args:args];
-        va_end(args);
+    if (message && (level & flag)) {
+        NSObject<SFLogStorage> *log = [SFLogger sharedLogger]->_ddLog;
+        [log log:asynchronous
+         message:message
+           level:(DDLogLevel)level
+            flag:(DDLogFlag)flag
+         context:context
+            file:file
+        function:function
+            line:line
+             tag:tag
+         ];
     }
 }
 
@@ -825,18 +803,8 @@ static BOOL assertionRecorded = NO;
           format:(NSString *)format
             args:(va_list)args
 {
-    if (level & flag) {
-        [_ddLog log:asynchronous
-              level:(DDLogLevel)level
-               flag:(DDLogFlag)flag
-            context:[self contextForIdentifier:identifier]
-               file:file
-           function:function
-               line:line
-                tag:tag
-             format:format
-               args:args];
-    }
+    NSInteger context = MAX(1, [self contextForIdentifier:identifier]) - 1;
+    [self logAsync:asynchronous level:level flag:flag context:context file:file function:function line:line tag:tag format:format args:args];
 }
 
 - (void)logAsync:(BOOL)asynchronous
@@ -851,16 +819,42 @@ static BOOL assertionRecorded = NO;
             args:(va_list)args
 {
     if (level & flag) {
+        NSString *message = [[NSString alloc] initWithFormat:format arguments:args];
+        if ([self shouldLogToASL]) {
+            os_log_type_t osLogType;
+            switch (flag) {
+                case SFLogFlagError:
+                    osLogType = OS_LOG_TYPE_ERROR;
+                    break;
+
+                case SFLogFlagWarning:
+                case SFLogFlagNSLog:
+                    osLogType = OS_LOG_TYPE_DEFAULT;
+                    break;
+
+                case SFLogFlagInfo:
+                    osLogType = OS_LOG_TYPE_INFO;
+                    break;
+
+                case SFLogFlagDebug:
+                case SFLogFlagVerbose:
+                default:
+                    osLogType = OS_LOG_TYPE_DEBUG;
+                    break;
+            }
+            
+            os_log_with_type(SFLoggerOSLog(context, tag), osLogType, [message UTF8String]);
+        }
+
         [_ddLog log:asynchronous
+            message:message
               level:(DDLogLevel)level
                flag:(DDLogFlag)flag
             context:context
                file:file
            function:function
                line:line
-                tag:tag
-             format:format
-               args:args];
+                tag:tag];
     }
 }
 

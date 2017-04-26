@@ -116,4 +116,14 @@ NSString * const kSFRedactedQuerystringValue = @"[redacted]";
     }
 }
 
+- (NSURL *)slashTerminatedUrl {
+    NSMutableString *urlString = [self.absoluteString mutableCopy];
+
+    if (NSMaxRange([self.path rangeOfString:@"/" options:NSBackwardsSearch]) < self.path.length - 1) {
+        [urlString appendString:@"/"];
+    }
+    
+    return [NSURL URLWithString:urlString];
+}
+
 @end

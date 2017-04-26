@@ -26,7 +26,7 @@
 #import "SFSmartSyncMetadataManager.h"
 #import "SFSmartSyncCacheManager.h"
 #import "SFObject.h"
-#import "SFSmartSyncSoqlBuilder.h"
+#import <SalesforceSDKCore/SFSDKSoqlBuilder.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/TestSetupUtils.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
@@ -114,7 +114,7 @@ static NSString* const kCaseOneName = @"00001001";
 
 - (void)testGlobalMRUObjectsFromServer
 {
-    SFSmartSyncSoqlBuilder *queryBuilder = [[SFSmartSyncSoqlBuilder withFields:@"Id"] from:@"Case"];
+    SFSDKSoqlBuilder *queryBuilder = [[SFSDKSoqlBuilder withFields:@"Id"] from:@"Case"];
     [queryBuilder whereClause:[NSString stringWithFormat:@"CaseNumber = '%@'", kCaseOneName]];
     NSString *queryString = [queryBuilder build];
     [self sendQuery:queryString withCompeletionBlock:^(NSArray *result){
@@ -147,14 +147,14 @@ static NSString* const kCaseOneName = @"00001001";
 - (void)testCommonMRUObjectsFromServer
 {
     //fetch test data
-    SFSmartSyncSoqlBuilder *queryBuilder = [[SFSmartSyncSoqlBuilder withFields:@"Id"] from:@"Account"];
+    SFSDKSoqlBuilder *queryBuilder = [[SFSDKSoqlBuilder withFields:@"Id"] from:@"Account"];
     [queryBuilder whereClause:[NSString stringWithFormat:@"Name = '%@'", kAccountOneName]];
     NSString *queryString = [queryBuilder build];
     [self sendQuery:queryString withCompeletionBlock:^(NSArray *result){
         kAccountOneId = [result[0] valueForKey:@"Id"];
     }];
     
-    queryBuilder = [[SFSmartSyncSoqlBuilder withFields:@"Id"] from:@"Opportunity"];
+    queryBuilder = [[SFSDKSoqlBuilder withFields:@"Id"] from:@"Opportunity"];
     [queryBuilder whereClause:[NSString stringWithFormat:@"Name = '%@'", kOpportunityOneName]];
     queryString = [queryBuilder build];
     [self sendQuery:queryString withCompeletionBlock:^(NSArray *result){

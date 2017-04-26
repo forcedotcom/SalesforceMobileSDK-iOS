@@ -36,6 +36,7 @@ extern NSString * const kRawData;
 extern NSString * const kObjectTypeField;
 extern NSString * const kLastModifiedDate;
 extern NSString * const kResponseRecords;
+extern NSString * const kResponseSearchRecords;
 extern NSString * const kResponseTotalSize;
 extern NSString * const kResponseNextRecordsUrl;
 extern NSString * const kRecentItems;

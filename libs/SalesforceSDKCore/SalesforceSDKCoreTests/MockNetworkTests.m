@@ -62,7 +62,7 @@
         error = [NSError errorWithDomain:CSFNetworkErrorDomain
                                     code:CSFNetworkInternalError
                                 userInfo:@{ NSLocalizedDescriptionKey: @"Semaphore wait timed out",
-                                            CSFNetworkErrorActionKey: self }];
+                                            CSFNetworkErrorActionDescriptionKey: [self description] }];
     }
     [super completeOperationWithError:error];
 }
@@ -118,6 +118,7 @@
     [NSThread sleepForTimeInterval:1];
     XCTAssertEqual(duplicateAction, action2);
     XCTAssertTrue([action2.dependencies containsObject:action1]);
+    [[SFUserAccountManager sharedInstance] deleteAccountForUser:user error:nil];
 }
 
 - (void)dont_testNetworkContexts {
@@ -176,6 +177,7 @@
     XCTAssertFalse(action3.cancelled);
     XCTAssertFalse(action4.cancelled);
     XCTAssertFalse(action5.cancelled);
+    [[SFUserAccountManager sharedInstance] deleteAccountForUser:user error:nil];
 }
 
 // Test that the cached CSFNetwork is removed on logout
@@ -185,6 +187,7 @@
     XCTAssertNotNil([CSFNetwork cachedNetworkForUserAccount:user]);
     [[SFAuthenticationManager sharedManager] logoutUser:user];
     XCTAssertNil([CSFNetwork cachedNetworkForUserAccount:user]);
+    [[SFUserAccountManager sharedInstance] deleteAccountForUser:user error:nil];
 }
 
 // Test that dependent actions run after parent completes
@@ -221,6 +224,7 @@
     // Expect no actions running
     XCTAssertFalse(action1.isExecuting);
     XCTAssertFalse(action2.isExecuting);
+    [[SFUserAccountManager sharedInstance] deleteAccountForUser:user error:nil];
 }
 
 

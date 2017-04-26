@@ -48,6 +48,7 @@
 #import <SalesforceSDKCore/SFDirectoryManager.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
 #import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
+#import <SalesforceSDKCore/SFSDKAppFeatureMarkers.h>
 
 static NSMutableDictionary *_allSharedStores;
 static NSMutableDictionary *_allGlobalSharedStores;
@@ -134,14 +135,13 @@ NSString *const EXPLAIN_ROWS = @"rows";
 - (id) initWithName:(NSString*)name user:(SFUserAccount *)user isGlobal:(BOOL)isGlobal {
     self = [super init];
     if (self)  {
-        if ((user == nil || [user.accountIdentity isEqual:[SFUserAccountManager sharedInstance].temporaryUserIdentity]) && !isGlobal) {
+        if (user == nil  && !isGlobal) {
             [self log:SFLogLevelWarning format:@"%@ Cannot create SmartStore with name '%@': user is not configured, and isGlobal is not configured.  Did you mean to call [%@ sharedGlobalStoreWithName:]?",
              NSStringFromSelector(_cmd),
              name,
              NSStringFromClass([self class])];
             return nil;
         }
-        
         [self log:SFLogLevelDebug format:@"%@ %@, user: %@, isGlobal: %d", NSStringFromSelector(_cmd), name, [SFSmartStoreUtils userKeyForUser:user], isGlobal];
         
         @synchronized ([SFSmartStore class]) {
@@ -156,10 +156,10 @@ NSString *const EXPLAIN_ROWS = @"rows";
         _user = user;
         if (_isGlobal) {
             _dbMgr = [SFSmartStoreDatabaseManager sharedGlobalManager];
-            [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureSmartStoreGlobal];
+            [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSmartStoreGlobal];
         } else {
             _dbMgr = [SFSmartStoreDatabaseManager sharedManagerForUser:_user];
-            [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureSmartStoreUser];
+            [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSmartStoreUser];
         }
         
         // Setup listening for data protection available / unavailable

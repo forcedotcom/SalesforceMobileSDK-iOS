@@ -33,6 +33,26 @@ NS_ASSUME_NONNULL_BEGIN
 @class SFIdentityData;
 @class SFOAuthCredentials;
 
+/**
+ Enumeration of the potential login states of the user account.
+ */
+typedef NS_ENUM(NSUInteger, SFUserAccountLoginState) {
+    /**
+     User account is not logged in.
+     */
+    SFUserAccountLoginStateNotLoggedIn = 0,
+    
+    /**
+     User account is logged in.
+     */
+    SFUserAccountLoginStateLoggedIn,
+    
+    /**
+     User account is in the process of logging out.
+     */
+    SFUserAccountLoginStateLoggingOut,
+};
+
 /** Class that represents an `account`. An `account` represents
  a user together with the current community it is logged in.
  */
@@ -96,10 +116,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, copy, nullable) NSArray<SFCommunityData *> *communities;
 
-/** Indicates whether or not the receiver represents a guest user account.
- */
-@property (nonatomic, readonly, getter = isGuestUser) BOOL guestUser;
-
 /** Returns YES if the user has an access token and, presumably,
  a valid session.
  */
@@ -109,37 +125,16 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, readonly, getter = isUserDeleted) BOOL userDeleted;
 
-/** Returns YES if the user is a temporary user.
- Note: a temporary user is created when a new user
- is requested, for example during the login into
- a new org, and is replaced by the real user once
- the login is finished.
- */
-@property (nonatomic, readonly, getter = isTemporaryUser) BOOL temporaryUser;
 
-/** Returns YES if the user is an anonymous user.
- Note: an anonymous user is a user that doesn't require
- credentials towards a server.
+/** Indicates this user's current login state.
  */
-@property (nonatomic, readonly, getter = isAnonymousUser) BOOL anonymousUser;
+@property (nonatomic, readonly, assign) SFUserAccountLoginState loginState;
 
-/** Designated initializer
- @param identifier The user identifier
+/** Initialize with SFOAuthCredentials credentials
+ @param credentials The credentials to link with the SFUserAccount.
  @return the account instance
  */
-- (instancetype)initWithIdentifier:(NSString*)identifier;
-
-/** Designated initializer to construct a user account with a guest user account.
- @return The guest user account instance.
- */
-- (instancetype)initWithGuestUser NS_DESIGNATED_INITIALIZER;
-
-/** Initialize with identifier and client id
- @param identifier The user identifier
- @param clientId The client id
- @return the account instance
- */
-- (instancetype)initWithIdentifier:(NSString*)identifier clientId:(NSString*)clientId NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithCredentials:(SFOAuthCredentials *) credentials NS_DESIGNATED_INITIALIZER;
 
 /** Returns the community API url for a particular
  community ID if it exists in the communities array

@@ -87,23 +87,23 @@ static NSMutableDictionary *SharedInstances = nil;
 + (instancetype)currentNetwork {
     SFUserAccount *currentUser = [SFUserAccountManager sharedInstance].currentUser;
     CSFNetwork *instance = [self networkForUserAccount:currentUser];
-    
     return instance;
 }
 
 + (instancetype)networkForUserAccount:(SFUserAccount*)account {
     CSFNetwork *instance = nil;
-    if (!account.isTemporaryUser) {
-        @synchronized (SharedInstances) {
-            instance = [CSFNetwork cachedNetworkForUserAccount:account];
-            if (!instance) {
-                NSString *key = CSFNetworkInstanceKey(account);
-                instance = SharedInstances[key] = [[self alloc] initWithUserAccount:account];
-            }
+    @synchronized (SharedInstances) {
+        instance = [CSFNetwork cachedNetworkForUserAccount:account];
+        if (!instance) {
+            NSString *key = CSFNetworkInstanceKey(account);
+            instance = SharedInstances[key] = [[self alloc] initWithUserAccount:account];
         }
     }
-    
     return instance;
+}
+
++ (instancetype)globalNetwork {
+    return [self networkForUserAccount:nil];
 }
 
 + (instancetype)cachedNetworkForUserAccount:(SFUserAccount*)account {
@@ -184,6 +184,14 @@ static NSMutableDictionary *SharedInstances = nil;
     [self.queue cancelAllOperations];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[SFAuthenticationManager sharedManager] removeDelegate:self];
+}
+
+- (void)setSessionConfiguration:(NSURLSessionConfiguration *)sessionConfig isBackgroundSession:(BOOL)isBackgroundSession {
+    if (isBackgroundSession) {
+        self.backgroundSession = [NSURLSession sessionWithConfiguration:sessionConfig];
+    } else {
+        self.ephemeralSession = [NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:nil];
+    }
 }
 
 - (void)setAccount:(SFUserAccount *)account {

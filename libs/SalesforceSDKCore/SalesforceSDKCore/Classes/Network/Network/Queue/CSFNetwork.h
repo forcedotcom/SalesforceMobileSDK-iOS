@@ -79,9 +79,16 @@
  */
 + (instancetype)currentNetwork;
 
+/**
+ Returns a shared global shared network instance.
+ 
+ @see networkForUserAccount:
+ */
++ (instancetype)globalNetwork;
+
 /** Returns a reference to the shared instance of this class for the supplied user.
  
- If an instance doesn't yet exist for this user, one will be created.
+ If an instance doesn't yet exist for this user, one will be created. if nil will return a shared global network instance.
 
  @see currentNetwork
  */
@@ -115,6 +122,14 @@
  * @see [CSFAction context]
  */
 - (NSArray*)actionsWithContext:(id)context;
+
+/**
+ * Sets a session configuration to be used for network requests in the Network SDK.
+ *
+ * @param sessionConfig Session configuration to be used.
+ * @param isBackgroundSession YES - if it is a background session configuration, NO - otherwise.
+ */
+- (void)setSessionConfiguration:(NSURLSessionConfiguration *)sessionConfig isBackgroundSession:(BOOL)isBackgroundSession;
 
 /**
  Cross-site Request Forgery (CSRF) token provided in each server response and required for all Push API

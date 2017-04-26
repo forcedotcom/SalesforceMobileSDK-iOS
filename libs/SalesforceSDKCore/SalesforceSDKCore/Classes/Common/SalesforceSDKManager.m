@@ -35,6 +35,7 @@
 #import "SFApplicationHelper.h"
 #import "SFSwiftDetectUtil.h"
 #import "SFUserAccountManager.h"
+#import "SFSDKAppFeatureMarkers.h"
 
 static NSString * const kSFAppFeatureSwiftApp   = @"SW";
 static NSString * const kSFAppFeatureMultiUser   = @"MU";
@@ -46,11 +47,11 @@ NSString * const kSalesforceSDKManagerErrorDetailsKey = @"SalesforceSDKManagerEr
 // Device id
 static NSString* uid = nil;
 
-
-
-
 // Instance class
 static Class InstanceClass = nil;
+
+// AILTN app name
+static NSString* ailtnAppName = nil;
 
 @implementation SnapshotViewController
 
@@ -81,8 +82,36 @@ static Class InstanceClass = nil;
     InstanceClass = className;
 }
 
-+ (instancetype)sharedManager
-{
++ (void)setAiltnAppName:(NSString *)appName {
+    @synchronized (ailtnAppName) {
+        if (appName) {
+            ailtnAppName = appName;
+        }
+    }
+}
+
++ (NSString *)ailtnAppName {
+    return ailtnAppName;
+}
+
++ (void)initialize {
+    if (self == [SalesforceSDKManager class]) {
+
+        /*
+         * Checks if an analytics app name has already been set by the app.
+         * If not, fetches the default app name to be used and sets it.
+         */
+        NSString *currentAiltnAppName = [SalesforceSDKManager ailtnAppName];
+        if (!currentAiltnAppName) {
+            NSString *ailtnAppName = [[NSBundle mainBundle] infoDictionary][(NSString *) kCFBundleNameKey];
+            if (ailtnAppName) {
+                [SalesforceSDKManager setAiltnAppName:ailtnAppName];
+            }
+        }
+    }
+}
+
++ (instancetype)sharedManager {
     static dispatch_once_t pred;
     static SalesforceSDKManager *sdkManager = nil;
     dispatch_once(&pred , ^{
@@ -92,21 +121,20 @@ static Class InstanceClass = nil;
         } else {
             sdkManager = [[self alloc] init];
         }
-        if([SFSwiftDetectUtil isSwiftApp]){
-            [sdkManager registerAppFeature:kSFAppFeatureSwiftApp];
+        if([SFSwiftDetectUtil isSwiftApp]) {
+            [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSwiftApp];
         }
         if([[[SFUserAccountManager sharedInstance] allUserIdentities] count]>1){
-            [sdkManager registerAppFeature:kSFAppFeatureMultiUser];
+            [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureMultiUser];
         }
         else{
-            [sdkManager unregisterAppFeature:kSFAppFeatureMultiUser];
+            [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureMultiUser];
         }
     });
     return sdkManager;
 }
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
         self.sdkManagerFlow = self;
@@ -119,25 +147,20 @@ static Class InstanceClass = nil;
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAuthCompleted:) name:kSFAuthenticationManagerFinishedNotification object:nil];
-        
         [SFPasscodeManager sharedManager].preferredPasscodeProvider = kSFPasscodeProviderPBKDF2;
         if (NSClassFromString(@"SFHybridViewController") != nil) {
             self.appType = kSFAppTypeHybrid;
-        }
-        else {
+        } else {
             if (NSClassFromString(@"SFNetReactBridge") != nil) {
                 self.appType = kSFAppTypeReactNative;
-            }
-            else {
+            } else {
                 self.appType = kSFAppTypeNative;
             }            
         }
         self.useSnapshotView = YES;
         self.authenticateAtLaunch = YES;
-        self.features = [NSMutableSet set];
         self.userAgentString = [self defaultUserAgentString];
     }
-    
     return self;
 }
 
@@ -154,32 +177,32 @@ static Class InstanceClass = nil;
 
 - (NSString *)connectedAppId
 {
-    return [SFUserAccountManager sharedInstance].oauthClientId;
+    return [SFAuthenticationManager sharedManager].oauthClientId;
 }
 
 - (void)setConnectedAppId:(NSString *)connectedAppId
 {
-    [SFUserAccountManager sharedInstance].oauthClientId = connectedAppId;
+    [SFAuthenticationManager sharedManager].oauthClientId = connectedAppId;
 }
 
 - (NSString *)connectedAppCallbackUri
 {
-    return [SFUserAccountManager sharedInstance].oauthCompletionUrl;
+    return [SFAuthenticationManager sharedManager].oauthCompletionUrl;
 }
 
 - (void)setConnectedAppCallbackUri:(NSString *)connectedAppCallbackUri
 {
-    [SFUserAccountManager sharedInstance].oauthCompletionUrl = connectedAppCallbackUri;
+    [SFAuthenticationManager sharedManager].oauthCompletionUrl = connectedAppCallbackUri;
 }
 
 - (NSArray *)authScopes
 {
-    return [[SFUserAccountManager sharedInstance].scopes allObjects];
+    return [[SFAuthenticationManager sharedManager].scopes allObjects];
 }
 
 - (void)setAuthScopes:(NSArray *)authScopes
 {
-    [SFUserAccountManager sharedInstance].scopes = [NSSet setWithArray:authScopes];
+    [SFAuthenticationManager sharedManager].scopes = [NSSet setWithArray:authScopes];
 }
 
 - (NSString *)preferredPasscodeProvider
@@ -248,11 +271,6 @@ static Class InstanceClass = nil;
     }
     
     return launchActionString;
-}
-
-+ (void)setDesiredAccount:(SFUserAccount*)account
-{
-    [SFUserAccountManager setActiveUserIdentity:account.accountIdentity];
 }
 
 #pragma mark - Private methods
@@ -522,14 +540,10 @@ static Class InstanceClass = nil;
     // Custom snapshot view controller provided
     if (customSnapshotViewController) {
         _snapshotViewController = customSnapshotViewController;
-        _defaultSnapshotViewController = nil; //no need to keep the default in memory
     }
     // No custom snapshot view controller provided
     else {
-        if (!_defaultSnapshotViewController) {
-            _defaultSnapshotViewController = [[SnapshotViewController alloc] initWithNibName:nil bundle:nil];
-        }
-        _snapshotViewController = _defaultSnapshotViewController;
+        _snapshotViewController =  [[SnapshotViewController alloc] initWithNibName:nil bundle:nil];
     }
     
     // Presentation
@@ -538,16 +552,6 @@ static Class InstanceClass = nil;
     } else {
         [[SFRootViewManager sharedManager] pushViewController:_snapshotViewController];
     }
-}
-
-- (void) registerAppFeature:(NSString *) appFeature
-{
-    [self.features addObject:appFeature];
-}
-
-- (void) unregisterAppFeature:(NSString *) appFeature
-{
-    [self.features removeObject:appFeature];
 }
 
 - (void)dismissSnapshot
@@ -606,7 +610,7 @@ static Class InstanceClass = nil;
 
 - (void)authValidationAtLaunch
 {
-    if (![SFUserAccountManager sharedInstance].isCurrentUserAnonymous && ![SFUserAccountManager sharedInstance].currentUser.credentials.accessToken && self.authenticateAtLaunch) {
+    if (self.authenticateAtLaunch &&  [SFUserAccountManager sharedInstance].currentUser.credentials.accessToken==nil) {
         // Access token check works equally well for any of the members being nil, which are all conditions to
         // (re-)authenticate.
         [self.sdkManagerFlow authAtLaunch];
@@ -620,8 +624,9 @@ static Class InstanceClass = nil;
 - (void)authAtLaunch
 {
     [self log:SFLogLevelInfo msg:@"No valid credentials found.  Proceeding with authentication."];
-    [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
+    [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
         [self log:SFLogLevelInfo format:@"Authentication (%@) succeeded.  Launch completed.", authInfo.authTypeDescription];
+        [SFUserAccountManager sharedInstance].currentUser = userAccount;
         [SFSecurityLockout setupTimer];
         [SFSecurityLockout startActivityMonitoring];
         [self authValidatedToPostAuth:SFSDKLaunchActionAuthenticated];
@@ -636,7 +641,7 @@ static Class InstanceClass = nil;
     // If there is a current user (from a previous authentication), we still need to set up the
     // in-memory auth state of that user.
     if ([SFUserAccountManager sharedInstance].currentUser != nil) {
-        [[SFAuthenticationManager sharedManager] setupWithUser:[SFUserAccountManager sharedInstance].currentUser];
+        [[SFAuthenticationManager sharedManager] setupWithCredentials:[SFUserAccountManager sharedInstance].currentUser.credentials];
     }
     
     SFSDKLaunchAction noAuthLaunchAction;
@@ -695,7 +700,7 @@ static Class InstanceClass = nil;
                                  appTypeStr,
                                  (qualifier != nil ? qualifier : @""),
                                  uid,
-                                 [[[self.features allObjects] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] componentsJoinedByString:@"."]
+                                 [[[SFSDKAppFeatureMarkers appFeatures].allObjects sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] componentsJoinedByString:@"."]
                                  ];
         return myUserAgent;
     };

@@ -25,7 +25,7 @@
 
 #import "SFHybridViewController.h"
 #import "SFHybridConnectionMonitor.h"
-#import "SFWKWebViewNavigationDelegate.h"
+#import <SalesforceSDKCore/SFSDKAppFeatureMarkers.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
 #import <SalesforceSDKCore/NSURL+SFStringUtils.h>
 #import <SalesforceSDKCore/NSURL+SFAdditions.h>
@@ -71,11 +71,6 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
 }
 
 @property (nonatomic, readwrite, assign) BOOL useUIWebView;
-
-/**
- * Navigation web view delegate.
- */
-@property (nonatomic, strong, readwrite) SFWKWebViewNavigationDelegate *navWebViewDelegate;
 
 /**
  * Hidden WKWebView used to load the VF ping page.
@@ -183,7 +178,7 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
     if (self) {
         self.useUIWebView = useUIWebView;
         if (useUIWebView) {
-            [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureUsesUIWebView];
+            [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureUsesUIWebView];
         }
         _hybridViewConfig = (viewConfig == nil ? [SFHybridViewConfig fromDefaultConfigFile] : viewConfig);
         NSAssert(_hybridViewConfig != nil, @"_hybridViewConfig was not properly initialized. See output log for errors.");
@@ -194,21 +189,13 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
 
 - (UIView *)newCordovaViewWithFrame:(CGRect)bounds
 {
-    UIView *view = [self newCordovaViewWithFrameAndEngine:bounds webViewEngine:@"SFWKWebViewEngine"];
-    if (self.useUIWebView) {
-        view = [self newCordovaViewWithFrameAndEngine:bounds webViewEngine:@"CDVUIWebViewEngine"];
-    }
-    return view;
+    return [self newCordovaViewWithFrameAndEngine:bounds webViewEngine:self.useUIWebView ? @"CDVUIWebViewEngine" : @"CDVWKWebViewEngine"];
 }
 
 - (UIView *)newCordovaViewWithFrameAndEngine:(CGRect)bounds webViewEngine:(NSString *)webViewEngine
 {
     [self.settings setCordovaSetting:webViewEngine forKey:@"CordovaWebViewEngine"];
-    UIView *view = [super newCordovaViewWithFrame:bounds];
-    if (!self.useUIWebView) {
-        self.navWebViewDelegate = [[SFWKWebViewNavigationDelegate alloc] initWithEnginePlugin:self.webViewEngine];
-    }
-    return view;
+    return [super newCordovaViewWithFrame:bounds];
 }
 
 - (void)dealloc
@@ -305,7 +292,7 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
      * WKWebView that hosts the login screen (important for SSO outside of Salesforce domains).
      */
     [SFSDKWebUtils configureUserAgent:[self sfHybridViewUserAgentString]];
-    [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
+    [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
         [self authenticationCompletion:nil authInfo:authInfo];
         if (authInfo.authType == SFOAuthTypeRefresh) {
             [self loadVFPingPage];
@@ -522,9 +509,7 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
 
 - (void) webView:(WKWebView *) webView didStartProvisionalNavigation:(WKNavigation *) navigation
 {
-    if (self.navWebViewDelegate) {
-        [self.navWebViewDelegate webView:webView didStartProvisionalNavigation:navigation];
-    }
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginResetNotification object:webView]];
 }
 
 - (void) webViewDidStartLoad:(UIWebView *) webView
@@ -558,8 +543,8 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
              */
             [SFSDKWebUtils configureUserAgent:[self sfHybridViewUserAgentString]];
             [[SFAuthenticationManager sharedManager]
-             loginWithCompletion:^(SFOAuthInfo *authInfo) {
-                 
+             loginWithCompletion:^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
+                 [SFUserAccountManager sharedInstance].currentUser = userAccount;
                  // Reset the user agent back to Cordova.
                  [self authenticationCompletion:refreshUrl authInfo:authInfo];
              } failure:^(SFOAuthInfo *authInfo, NSError *error) {
@@ -577,17 +562,40 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
                  }
              }];
             shouldAllowRequest = NO;
-        } else if (self.navWebViewDelegate) {
-            [self.navWebViewDelegate webView:webView decidePolicyForNavigationAction:navigationAction decisionHandler:decisionHandler];
+        } else {
+            [self defaultWKNavigationHandling:webView decidePolicyForNavigationAction:navigationAction decisionHandler:decisionHandler];
             return;
         }
     }
-    
-    if(shouldAllowRequest)
+    if (shouldAllowRequest) {
         decisionHandler(WKNavigationActionPolicyAllow);
-    else
+    } else {
         decisionHandler(WKNavigationActionPolicyCancel);
-    
+    }
+}
+
+- (void) defaultWKNavigationHandling:(WKWebView *) webView decidePolicyForNavigationAction:(WKNavigationAction *) navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy)) decisionHandler {
+    NSURL *url = [navigationAction.request URL];
+
+    /*
+     * Execute any commands queued with cordova.exec() on the JS side.
+     * The part of the URL after gap:// is irrelevant.
+     */
+    if ([[url scheme] isEqualToString:@"gap"]) {
+        [self.commandQueue fetchCommandsFromJs];
+        
+        /*
+         * The delegate is called asynchronously in this case, so we don't have to use
+         * flushCommandQueueWithDelayedJs (setTimeout(0)) as we do with hash changes.
+         */
+        [self.commandQueue executePending];
+        decisionHandler(WKNavigationActionPolicyCancel);
+        return;
+    } else {
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginHandleOpenURLNotification object:url]];
+        decisionHandler(WKNavigationActionPolicyAllow);
+        return;
+    }
 }
 
 - (BOOL) webView:(UIWebView *) webView shouldStartLoadWithRequest:(NSURLRequest *) request navigationType:(UIWebViewNavigationType) navigationType
@@ -622,8 +630,8 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
              * UIWebView that hosts the login screen (important for SSO outside of Salesforce domains).
              */
             [SFSDKWebUtils configureUserAgent:[self sfHybridViewUserAgentString]];
-            [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
-
+            [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
+                [SFUserAccountManager sharedInstance].currentUser = userAccount;
                 // Reset the user agent back to Cordova.
                 [self authenticationCompletion:refreshUrl authInfo:authInfo];
             } failure:^(SFOAuthInfo *authInfo, NSError *error) {
@@ -723,14 +731,8 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
                 _foundHomeUrl = YES;
             }
         }
-        if (self.useUIWebView) {
-            [CDVUserAgentUtil releaseLock:self.userAgentLockToken];
-            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPageDidLoadNotification object:self.webView]];
-        } else {
-            if (self.navWebViewDelegate) {
-                [self.navWebViewDelegate webView:(WKWebView *) webView didFinishNavigation:navigation];
-            }
-        }
+        [CDVUserAgentUtil releaseLock:self.userAgentLockToken];
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPageDidLoadNotification object:self.webView]];
     }
 }
 

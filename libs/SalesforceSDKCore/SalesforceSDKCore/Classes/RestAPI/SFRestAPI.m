@@ -24,30 +24,48 @@
 
 #import "SFRestAPI+Internal.h"
 #import "SFRestRequest+Internal.h"
-#import "SFRestAPISalesforceAction.h"
-#import "CSFSalesforceAction.h"
 #import "SFOAuthCoordinator.h"
 #import "SFUserAccount.h"
 #import "SFAuthenticationManager.h"
 #import "SFSDKWebUtils.h"
 #import "SalesforceSDKManager.h"
 #import "SFSDKEventBuilderHelper.h"
+#import "SFNetwork.h"
+#import "SFOAuthSessionRefresher.h"
+#import "NSString+SFAdditions.h"
+#import "SFJsonUtils.h"
 
-NSString* const kSFRestDefaultAPIVersion = @"v36.0";
+NSString* const kSFRestDefaultAPIVersion = @"v39.0";
+NSString* const kSFRestIfUnmodifiedSince = @"If-Unmodified-Since";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
+NSString* const kSFDefaultContentType = @"application/json";
 NSInteger const kSFRestErrorCode = 999;
-
 
 // singleton instance
 static SFRestAPI *_instance;
 static dispatch_once_t _sharedInstanceGuard;
 static BOOL kIsTestRun;
 
+@interface SFRestAPI ()
+
+@property (nonatomic, strong) SFOAuthSessionRefresher *oauthSessionRefresher;
+
+@end
+
 @implementation SFRestAPI
 
 @synthesize apiVersion=_apiVersion;
 @synthesize activeRequests=_activeRequests;
-@synthesize currentNetwork=_currentNetwork;
+
+__strong static NSDateFormatter *httpDateFormatter = nil;
+
++ (void) initialize {
+    if (self == [SFRestAPI class]) {
+        httpDateFormatter = [NSDateFormatter new];
+        httpDateFormatter.dateFormat = @"EEE',' dd MMM yyyy HH':'mm':'ss 'GMT'";
+    }
+}
+
 
 #pragma mark - init/setup
 
@@ -114,7 +132,6 @@ static BOOL kIsTestRun;
 - (BOOL)forceTimeoutRequest:(SFRestRequest*)req {
     BOOL found = NO;
     SFRestRequest *toCancel = (nil != req ? req : [self.activeRequests anyObject]);
-    
     if (nil != toCancel) {
         found = YES;
         if ([toCancel.delegate respondsToSelector:@selector(requestDidTimeout:)]) {
@@ -122,19 +139,16 @@ static BOOL kIsTestRun;
             [self removeActiveRequestObject:toCancel];
         }
     }
-    
     return found;
 }
 
 #pragma mark - Properties
 
-- (SFOAuthCoordinator *)coordinator
-{
+- (SFOAuthCoordinator *)coordinator {
     return _authMgr.coordinator;
 }
 
-- (void)setCoordinator:(SFOAuthCoordinator *)coordinator
-{
+- (void)setCoordinator:(SFOAuthCoordinator *)coordinator {
     _authMgr.coordinator = coordinator;
 }
 
@@ -148,16 +162,11 @@ static BOOL kIsTestRun;
 }
 
 + (NSString *)userAgentString:(NSString*)qualifier {
-    
     NSString *returnString = @"";
     if ([SalesforceSDKManager sharedManager].userAgentString != NULL) {
         returnString = [SalesforceSDKManager sharedManager].userAgentString(qualifier);
     }
     return returnString;
-}
-
-- (CSFNetwork *)currentNetwork {
-    return [CSFNetwork currentNetwork];
 }
 
 #pragma mark - SFUserAccountManagerDelegate
@@ -170,25 +179,22 @@ static BOOL kIsTestRun;
 
 #pragma mark - send method
 
-
-- (SFRestAPISalesforceAction *)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate {
-    
+- (void)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate {
     if (nil != delegate) {
         request.delegate = delegate;
     }
-    
     [self.activeRequests addObject:request];
 
     // If there are no demonstrable auth credentials, login before sending.
-    CSFNetwork *currentNetwork = self.currentNetwork;
-    SFUserAccount *user = currentNetwork.account;
+    SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
+    __weak __typeof(self) weakSelf = self;
     if (user.credentials.accessToken == nil && user.credentials.refreshToken == nil && request.requiresAuthentication) {
-        [self log:SFLogLevelInfo msg:@"No auth credentials found.  Authenticating before sending request."];
-        [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
-            [request prepareRequestForSend];
-            [currentNetwork executeAction:request.action];
+        [self log:SFLogLevelInfo msg:@"No auth credentials found. Authenticating before sending request."];
+        [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            [strongSelf enqueueRequest:request delegate:delegate];
         } failure:^(SFOAuthInfo *authInfo, NSError *error) {
-            [self log:SFLogLevelError format:@"Authentication failed in SFRestAPI: %@.  Logging out.", error];
+            [self log:SFLogLevelError format:@"Authentication failed in SFRestAPI: %@. Logging out.", error];
             NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
             attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
             attributes[@"errorDescription"] = error.localizedDescription;
@@ -196,11 +202,112 @@ static BOOL kIsTestRun;
             [[SFAuthenticationManager sharedManager] logout];
         }];
     } else {
-        // Auth credentials exist.  Just send the request.
-        [request prepareRequestForSend];
-        [currentNetwork executeAction:request.action];
+
+        // Auth credentials exist. Just send the request.
+        [self enqueueRequest:request delegate:delegate];
     }
-    return request.action;
+}
+
+- (void)enqueueRequest:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate {
+    __weak __typeof(self) weakSelf = self;
+    NSURLRequest *finalRequest = [request prepareRequestForSend];
+    if (finalRequest) {
+        SFNetwork *network = [[SFNetwork alloc] init];
+        NSURLSessionDataTask *dataTask = [network sendRequest:finalRequest dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            if (error) {
+                [strongSelf log:SFLogLevelDebug format:@"REST request failed with error: Error Code: %ld, Description: %@, URL: %@", (long) error.code, error.localizedDescription, finalRequest.URL];
+
+                // Checks if the request was canceled.
+                if (error.code == -999) {
+                    [delegate requestDidCancelLoad:request];
+                } else {
+                    [delegate request:request didFailLoadWithError:error];
+                }
+                return;
+            }
+            if (!response) {
+                [delegate requestDidTimeout:request];
+            }
+            [strongSelf replayRequestIfRequired:data response:response error:error request:request delegate:delegate];
+        }];
+        request.sessionDataTask = dataTask;
+    }
+}
+
+- (void)replayRequestIfRequired:(NSData *)data response:(NSURLResponse *)response error:(NSError *)error request:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate {
+
+    // Checks if the access token has expired.
+    NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+    if (statusCode == 401 || statusCode == 403) {
+        SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
+        [self log:SFLogLevelInfo format:@"%@: REST request failed due to expired credentials. Attempting to refresh credentials.", NSStringFromSelector(_cmd)];
+        self.oauthSessionRefresher = [[SFOAuthSessionRefresher alloc] initWithCredentials:user.credentials];
+        __weak __typeof(self) weakSelf = self;
+        [self.oauthSessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            [strongSelf log:SFLogLevelInfo format:@"%@: Credentials refresh successful. Replaying original REST request.", NSStringFromSelector(_cmd)];
+            [strongSelf send:request delegate:delegate];
+        } error:^(NSError *refreshError) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            [strongSelf log:SFLogLevelError format:@"Failed to refresh expired session. Error: %@", refreshError];
+            if ([refreshError.domain isEqualToString:kSFOAuthErrorDomain] && refreshError.code == kSFOAuthErrorInvalidGrant) {
+                [strongSelf log:SFLogLevelInfo format:@"%@ Invalid grant error received, triggering logout.", NSStringFromSelector(_cmd)];
+                // make sure we call logoutUser on main thread
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [strongSelf createAndStoreLogoutEvent:error user:user];
+                    [[SFAuthenticationManager sharedManager] logoutUser:user];
+                });
+            }
+        }];
+    } else {
+
+        // 2xx indicates success.
+        if (statusCode >= 200 && statusCode <= 299) {
+            NSError *parsingError;
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parsingError];
+            if (parsingError) {
+                [delegate request:request didLoadResponse:data];
+            } else {
+                [delegate request:request didLoadResponse:jsonDict];
+            }
+        } else {
+            if (!error) {
+                NSDictionary *errorDict = nil;
+                id errorObj = nil;
+                if (data) {
+                    NSError *parsingError;
+                    errorObj = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parsingError];
+                    if (!parsingError) {
+                        if ([errorObj isKindOfClass:[NSDictionary class]]) {
+                            errorDict = errorObj;
+                        } else {
+                            errorDict = [NSDictionary dictionaryWithObject:errorObj forKey:@"error"];
+                        }
+                    } else {
+                        errorDict = [NSDictionary dictionaryWithObject:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] forKey:@"error"];
+                    }
+                }
+                error = [[NSError alloc] initWithDomain:response.URL.absoluteString code:statusCode userInfo:errorDict];
+            }
+            [delegate request:request didFailLoadWithError:error];
+        }
+        [[SFRestAPI sharedInstance] removeActiveRequestObject:request];
+    }
+}
+
+- (void)createAndStoreLogoutEvent:(NSError *)error user:(SFUserAccount*)user {
+    NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
+    attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
+    attributes[@"errorDescription"] = error.localizedDescription;
+    [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:user className:NSStringFromClass([self class]) attributes:attributes];
+}
+
+# pragma mark - helper method for conditional requests
+
++ (NSString *)getHttpStringFomFromDate:(NSDate *)date {
+    if (date == nil) return nil;
+    return [httpDateFormatter stringFromDate:date];
 }
 
 #pragma mark - SFRestRequest factory methods
@@ -243,22 +350,42 @@ static BOOL kIsTestRun;
 - (SFRestRequest *)requestForCreateWithObjectType:(NSString *)objectType
                                            fields:(NSDictionary *)fields {
     NSString *path = [NSString stringWithFormat:@"/%@/sobjects/%@", self.apiVersion, objectType];
-    return [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:fields];
+    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
+    return [self addBodyForPostRequest:fields request:request];
 }
 
 - (SFRestRequest *)requestForUpdateWithObjectType:(NSString *)objectType
                                          objectId:(NSString *)objectId
                                            fields:(NSDictionary *)fields {
+    return [self requestForUpdateWithObjectType:objectType objectId:objectId fields:fields ifUnmodifiedSinceDate:nil];
+}
+
+- (SFRestRequest *)requestForUpdateWithObjectType:(NSString *)objectType
+                                         objectId:(NSString *)objectId
+                                           fields:(NSDictionary *)fields
+                            ifUnmodifiedSinceDate:(NSDate *) ifUnmodifiedSinceDate {
+
     NSString *path = [NSString stringWithFormat:@"/%@/sobjects/%@/%@", self.apiVersion, objectType, objectId];
-    return [SFRestRequest requestWithMethod:SFRestMethodPATCH path:path queryParams:fields];
+    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPATCH path:path queryParams:nil];
+    request = [self addBodyForPostRequest:fields request:request];
+    if (ifUnmodifiedSinceDate) {
+        [request setHeaderValue:[SFRestAPI getHttpStringFomFromDate:ifUnmodifiedSinceDate] forHeaderName:kSFRestIfUnmodifiedSince];
+    }
+    return request;
 }
 
 - (SFRestRequest *)requestForUpsertWithObjectType:(NSString *)objectType
                                   externalIdField:(NSString *)externalIdField
                                        externalId:(NSString *)externalId
                                            fields:(NSDictionary *)fields {
-    NSString *path = [NSString stringWithFormat:@"/%@/sobjects/%@/%@/%@", self.apiVersion, objectType, externalIdField, externalId];
-    return [SFRestRequest requestWithMethod:SFRestMethodPATCH path:path queryParams:fields];
+    NSString *path = [NSString stringWithFormat:@"/%@/sobjects/%@/%@/%@",
+                                                self.apiVersion,
+                                                objectType,
+                                                externalIdField,
+                                                externalId == nil ? @"" : externalId];
+    SFRestMethod method = externalId == nil ? SFRestMethodPOST : SFRestMethodPATCH;
+    SFRestRequest *request = [SFRestRequest requestWithMethod:method path:path queryParams:nil];
+    return [self addBodyForPostRequest:fields request:request];
 }
 
 - (SFRestRequest *)requestForDeleteWithObjectType:(NSString *)objectType
@@ -303,6 +430,90 @@ static BOOL kIsTestRun;
     NSDictionary *queryParams = @{@"q": objectList};
     NSString *path = [NSString stringWithFormat:@"/%@/search/layout", self.apiVersion];
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
+}
+
+- (SFRestRequest *)batchRequest:(NSArray<SFRestRequest*>*) requests haltOnError:(BOOL) haltOnError {
+    NSMutableArray *requestsArrayJson = [NSMutableArray new];
+    for (SFRestRequest *request in requests) {
+        NSMutableDictionary<NSString *, id> *requestJson = [NSMutableDictionary new];
+        requestJson[@"method"] = [SFRestRequest httpMethodFromSFRestMethod:request.method];
+
+        // queryParams belong in url
+        if (request.method == SFRestMethodGET || request.method == SFRestMethodDELETE) {
+            requestJson[@"url"] = [NSString stringWithFormat:@"%@%@", request.path, [self toQueryString:request.queryParams]];
+        }
+
+        // queryParams belongs in body
+        else {
+            requestJson[@"url"] = request.path;
+            requestJson[@"richInput"] = request.requestBodyAsDictionary;
+        }
+        [requestsArrayJson addObject:requestJson];
+    }
+    NSMutableDictionary<NSString *, id> *batchRequestJson = [NSMutableDictionary new];
+    batchRequestJson[@"batchRequests"] = requestsArrayJson;
+    batchRequestJson[@"haltOnError"] = [NSNumber numberWithBool:haltOnError];
+    NSString *path = [NSString stringWithFormat:@"/%@/composite/batch", self.apiVersion];
+    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
+    return [self addBodyForPostRequest:batchRequestJson request:request];
+}
+
+- (SFRestRequest *)compositeRequest:(NSArray<SFRestRequest*>*) requests refIds:(NSArray<NSString*>*)refIds allOrNone:(BOOL) allOrNone {
+    NSMutableArray *requestsArrayJson = [NSMutableArray new];
+    for (int i=0; i<requests.count; i++) {
+        SFRestRequest *request = requests[i];
+        NSString *refId = refIds[i];
+        NSMutableDictionary<NSString *, id> *requestJson = [NSMutableDictionary new];
+        requestJson[@"referenceId"] = refId;
+        requestJson[@"method"] = [SFRestRequest httpMethodFromSFRestMethod:request.method];
+
+        // queryParams belong in url
+        if (request.method == SFRestMethodGET || request.method == SFRestMethodDELETE) {
+            requestJson[@"url"] = [NSString stringWithFormat:@"%@%@%@", request.endpoint, request.path, [self toQueryString:request.queryParams]];
+        }
+
+        // queryParams belongs in body
+        else {
+            requestJson[@"url"] = [NSString stringWithFormat:@"%@%@", request.endpoint, request.path];
+            requestJson[@"body"] = request.requestBodyAsDictionary;
+        }
+        [requestsArrayJson addObject:requestJson];
+    }
+    NSMutableDictionary<NSString *, id> *compositeRequestJson = [NSMutableDictionary new];
+    compositeRequestJson[@"compositeRequest"] = requestsArrayJson;
+    compositeRequestJson[@"allOrNone"] = [NSNumber numberWithBool:allOrNone];
+    NSString *path = [NSString stringWithFormat:@"/%@/composite", self.apiVersion];
+    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
+    return [self addBodyForPostRequest:compositeRequestJson request:request];
+}
+
+- (SFRestRequest *)requestForSObjectTree:(NSString *)objectType objectTrees:(NSArray<SFSObjectTree*>*)objectTrees {
+    NSMutableArray<NSDictionary<NSString *, id> *>* jsonTrees = [NSMutableArray new];
+    for (SFSObjectTree * objectTree in objectTrees) {
+        [jsonTrees addObject:[objectTree asJSON]];
+    }
+    NSDictionary<NSString *, id> * requestJson = @{@"records": jsonTrees};
+    NSString *path = [NSString stringWithFormat:@"/%@/composite/tree/%@", self.apiVersion, objectType];
+    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
+    return [self addBodyForPostRequest:requestJson request:request];
+}
+
+- (NSString *)toQueryString:(NSDictionary *)components {
+    NSMutableString *params = [NSMutableString new];
+    if (components) {
+        [params appendString:@"?"];
+        for (NSString *paramName in [components allKeys]) {
+            [params appendString:paramName];
+            [params appendString:@"="];
+            [params appendString:[components[paramName] stringByURLEncoding]];
+        }
+    }
+    return params;
+}
+
+- (SFRestRequest *)addBodyForPostRequest:(NSDictionary *)params request:(SFRestRequest *)request {
+    [request setCustomRequestBodyDictionary:params contentType:kSFDefaultContentType];
+    return request;
 }
 
 @end

@@ -146,6 +146,20 @@
     XCTAssertEqualObjects(action.verb, @"/some/path/to/a/request");
 }
 
+- (void)testCustomCommunityBaseURL {
+    CSFAction *action = [[CSFAction alloc] initWithResponseBlock:^(CSFAction *action, NSError *error){}];
+    XCTAssertNotNil(action);
+    action.baseURL = [NSURL URLWithString:@"http://example.com/community1"];
+    XCTAssertEqualObjects(action.baseURL.absoluteString, @"http://example.com/community1/");
+    action.verb = @"some/relative/path";
+    XCTAssertEqualObjects(action.url.absoluteString, @"http://example.com/community1/some/relative/path");
+    action.verb = @"/some/relative/path";
+    XCTAssertEqualObjects(action.url.absoluteString, @"http://example.com/community1/some/relative/path");
+    action.baseURL = [NSURL URLWithString:@"http://example.com/v1/root"];
+    XCTAssertEqualObjects(action.baseURL.absoluteString, @"http://example.com/v1/root/");
+    XCTAssertEqualObjects(action.url.absoluteString, @"http://example.com/v1/root/some/relative/path");
+}
+
 - (void)testEquals {
     CSFAction *action1 = [[CSFAction alloc] initWithResponseBlock:^(CSFAction *action, NSError *error){}];
     
