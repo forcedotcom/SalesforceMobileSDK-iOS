@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSMutableURLRequest+SalesforceNetwork.html">
+	<File path="Categories/NSData+SFSDKUtils.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSMutableURLRequest(SalesforceNetwork)</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>NSMutableURLRequest+SalesforceNetwork.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFSDKUtils)</TokenIdentifier>
+			<Abstract type="html">Mobile SDK utility additions to NSData.</Abstract>
+			<DeclaredIn>NSData+SFSDKUtils.h</DeclaredIn>
             
 			
 			<NodeRef refid="129"/>
@@ -13,22 +13,26 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSMutableURLRequest/bindParameters:error:</TokenIdentifier>
-			<Abstract type="html">Binds the supplied parameters to the receiver.</Abstract>
-			<DeclaredIn>NSMutableURLRequest+SalesforceNetwork.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/msdkBase64UrlString</TokenIdentifier>
+			<Abstract type="html">Creates a base64url string based on the data.  See RFC 4648.</Abstract>
+			<DeclaredIn>NSData+SFSDKUtils.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)bindParameters:(CSFParameterStorage *)parameterStorage error:(NSError **)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>parameterStorage</Name>
-					<Abstract type="html">Parameter storage to bind.</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">Error value if something went wrong.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if binding the parameters was successful, otherwise NO.</Abstract></ReturnValue>
-			<Anchor>//api/name/bindParameters:error:</Anchor>
+			<Declaration>- (NSString *)msdkBase64UrlString</Declaration>
+			
+			<ReturnValue><Abstract type="html">The base64url string based on the data.</Abstract></ReturnValue>
+			<Anchor>//api/name/msdkBase64UrlString</Anchor>
+            <NodeRef refid="129"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/msdkSha256Data</TokenIdentifier>
+			<Abstract type="html">Creates an SHA256 hash of the given data.</Abstract>
+			<DeclaredIn>NSData+SFSDKUtils.h</DeclaredIn>
+			
+			<Declaration>- (NSData *)msdkSha256Data</Declaration>
+			
+			<ReturnValue><Abstract type="html">The SHA256 hash of the given data.</Abstract></ReturnValue>
+			<Anchor>//api/name/msdkSha256Data</Anchor>
             <NodeRef refid="129"/>
 		</Token>
 		

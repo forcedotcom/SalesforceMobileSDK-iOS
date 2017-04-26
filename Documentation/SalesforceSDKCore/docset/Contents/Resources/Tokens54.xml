@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFLogTag.html">
+	<File path="Classes/SFLogIdentifier.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFLogTag</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFLogIdentifier</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
             
@@ -13,86 +13,242 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogTag/setSelector:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/setLogger:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) SEL selector</Declaration>
+			<Declaration>@property (nonatomic, weak) SFLogger *logger</Declaration>
 			
 			
-			<Anchor>//api/name/selector</Anchor>
+			<Anchor>//api/name/logger</Anchor>
             <NodeRef refid="54"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogTag/selector</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/logger</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) SEL selector</Declaration>
+			<Declaration>@property (nonatomic, weak) SFLogger *logger</Declaration>
 			
 			
-			<Anchor>//api/name/selector</Anchor>
+			<Anchor>//api/name/logger</Anchor>
             <NodeRef refid="54"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLogTag/selector</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLogIdentifier/logger</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) SEL selector</Declaration>
+			<Declaration>@property (nonatomic, weak) SFLogger *logger</Declaration>
 			
 			
-			<Anchor>//api/name/selector</Anchor>
+			<Anchor>//api/name/logger</Anchor>
             <NodeRef refid="54"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogTag/setOriginClass:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/setIdentifier:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) Class originClass</Declaration>
+			<Declaration>@property (nonatomic, copy, readonly) NSString *identifier</Declaration>
 			
 			
-			<Anchor>//api/name/originClass</Anchor>
+			<Anchor>//api/name/identifier</Anchor>
             <NodeRef refid="54"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogTag/originClass</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/identifier</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) Class originClass</Declaration>
+			<Declaration>@property (nonatomic, copy, readonly) NSString *identifier</Declaration>
 			
 			
-			<Anchor>//api/name/originClass</Anchor>
+			<Anchor>//api/name/identifier</Anchor>
             <NodeRef refid="54"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLogTag/originClass</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLogIdentifier/identifier</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) Class originClass</Declaration>
+			<Declaration>@property (nonatomic, copy, readonly) NSString *identifier</Declaration>
 			
 			
-			<Anchor>//api/name/originClass</Anchor>
+			<Anchor>//api/name/identifier</Anchor>
             <NodeRef refid="54"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogTag/initWithClass:selector:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/setLogLevel:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)initWithClass:(Class)originClass selector:(SEL)selector</Declaration>
+			<Declaration>@property (nonatomic, assign) SFLogLevel logLevel</Declaration>
 			
 			
-			<Anchor>//api/name/initWithClass:selector:</Anchor>
+			<Anchor>//api/name/logLevel</Anchor>
+            <NodeRef refid="54"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/logLevel</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) SFLogLevel logLevel</Declaration>
+			
+			
+			<Anchor>//api/name/logLevel</Anchor>
+            <NodeRef refid="54"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLogIdentifier/logLevel</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) SFLogLevel logLevel</Declaration>
+			
+			
+			<Anchor>//api/name/logLevel</Anchor>
+            <NodeRef refid="54"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/setLogFlag:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) SFLogFlag logFlag</Declaration>
+			
+			
+			<Anchor>//api/name/logFlag</Anchor>
+            <NodeRef refid="54"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/logFlag</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) SFLogFlag logFlag</Declaration>
+			
+			
+			<Anchor>//api/name/logFlag</Anchor>
+            <NodeRef refid="54"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLogIdentifier/logFlag</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) SFLogFlag logFlag</Declaration>
+			
+			
+			<Anchor>//api/name/logFlag</Anchor>
+            <NodeRef refid="54"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/setContext:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSInteger context</Declaration>
+			
+			
+			<Anchor>//api/name/context</Anchor>
+            <NodeRef refid="54"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/context</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSInteger context</Declaration>
+			
+			
+			<Anchor>//api/name/context</Anchor>
+            <NodeRef refid="54"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLogIdentifier/context</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSInteger context</Declaration>
+			
+			
+			<Anchor>//api/name/context</Anchor>
+            <NodeRef refid="54"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/setDefaultLog:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) os_log_t defaultLog</Declaration>
+			
+			
+			<Anchor>//api/name/defaultLog</Anchor>
+            <NodeRef refid="54"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/defaultLog</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) os_log_t defaultLog</Declaration>
+			
+			
+			<Anchor>//api/name/defaultLog</Anchor>
+            <NodeRef refid="54"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLogIdentifier/defaultLog</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) os_log_t defaultLog</Declaration>
+			
+			
+			<Anchor>//api/name/defaultLog</Anchor>
+            <NodeRef refid="54"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/initWithIdentifier:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithIdentifier:(NSString *)identifier</Declaration>
+			
+			
+			<Anchor>//api/name/initWithIdentifier:</Anchor>
+            <NodeRef refid="54"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/logForCategory:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			
+			<Declaration>- (os_log_t)logForCategory:(NSString *)category</Declaration>
+			
+			
+			<Anchor>//api/name/logForCategory:</Anchor>
             <NodeRef refid="54"/>
 		</Token>
 		

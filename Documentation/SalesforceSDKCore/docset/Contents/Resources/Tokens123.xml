@@ -1,28 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSData+SFMD5.html">
+	<File path="Classes/ViewController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFMD5)</TokenIdentifier>
-			<Abstract type="html">Provides MD5 conversion support.</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/ViewController</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>ViewController.h</DeclaredIn>
             
 			
 			<NodeRef refid="123"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/md5</TokenIdentifier>
-			<Abstract type="html">Converts this NSData to md5 format.</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)md5</Declaration>
-			
-			<ReturnValue><Abstract type="html">md5 version of data.</Abstract></ReturnValue>
-			<Anchor>//api/name/md5</Anchor>
-            <NodeRef refid="123"/>
-		</Token>
 		
         
         

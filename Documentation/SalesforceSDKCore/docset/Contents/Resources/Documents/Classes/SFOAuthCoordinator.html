@@ -82,10 +82,6 @@
 		
 		<option value="//api/name/origWebUserAgent">origWebUserAgent</option>
 		
-		<option value="//api/name/refreshFlowConnectionTimer">refreshFlowConnectionTimer</option>
-		
-		<option value="//api/name/refreshTimerThread">refreshTimerThread</option>
-		
 		<option value="//api/name/responseData">responseData</option>
 		
 		<option value="//api/name/scopes">scopes</option>
@@ -122,15 +118,11 @@
 		
 		<option value="//api/name/authenticateWithCredentials:">- authenticateWithCredentials:</option>
 		
-		<option value="//api/name/cleanupRefreshTimer">- cleanupRefreshTimer</option>
-		
 		<option value="//api/name/handleAdvancedAuthenticationResponse:">- handleAdvancedAuthenticationResponse:</option>
 		
 		<option value="//api/name/handleUserAgentResponse:">- handleUserAgentResponse:</option>
 		
 		<option value="//api/name/initWithCredentials:">- initWithCredentials:</option>
-		
-		<option value="//api/name/invalidateRefreshTimer">- invalidateRefreshTimer</option>
 		
 		<option value="//api/name/isAuthenticating">- isAuthenticating</option>
 		
@@ -138,15 +130,11 @@
 		
 		<option value="//api/name/notifyDelegateOfSuccess:">- notifyDelegateOfSuccess:</option>
 		
-		<option value="//api/name/refreshFlowConnectionTimerFired:">- refreshFlowConnectionTimerFired:</option>
-		
 		<option value="//api/name/revokeAuthentication">- revokeAuthentication</option>
-		
-		<option value="//api/name/startRefreshFlowConnectionTimer">- startRefreshFlowConnectionTimer</option>
 		
 		<option value="//api/name/stopAuthentication">- stopAuthentication</option>
 		
-		<option value="//api/name/stopRefreshFlowConnectionTimer">- stopRefreshFlowConnectionTimer</option>
+		<option value="//api/name/updateCredentials:">- updateCredentials:</option>
 		
 	</optgroup>
 	
@@ -1180,38 +1168,6 @@ should handle, NO otherwise.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/refreshFlowConnectionTimer" title="refreshFlowConnectionTimer"></a>
-	<h3 class="method-title"><code><a href="#//api/name/refreshFlowConnectionTimer">&nbsp;&nbsp;refreshFlowConnectionTimer</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSTimer *refreshFlowConnectionTimer</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/refreshTimerThread" title="refreshTimerThread"></a>
-	<h3 class="method-title"><code><a href="#//api/name/refreshTimerThread">&nbsp;&nbsp;refreshTimerThread</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSThread *refreshTimerThread</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
 	<a name="//api/name/codeVerifier" title="codeVerifier"></a>
 	<h3 class="method-title"><code><a href="#//api/name/codeVerifier">&nbsp;&nbsp;codeVerifier</a></code>
 </h3>
@@ -1260,8 +1216,8 @@ should handle, NO otherwise.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/startRefreshFlowConnectionTimer" title="startRefreshFlowConnectionTimer"></a>
-	<h3 class="method-title"><code><a href="#//api/name/startRefreshFlowConnectionTimer">&ndash;&nbsp;startRefreshFlowConnectionTimer</a></code>
+	<a name="//api/name/updateCredentials:" title="updateCredentials:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/updateCredentials:">&ndash;&nbsp;updateCredentials:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -1269,74 +1225,47 @@ should handle, NO otherwise.</p>
 
 		<div class="method-info-container">
 			
+			
+			<div class="method-subsection brief-description">
+				<p>UpdateCredentials and record changes to instanceUrl,accessToken,communityId</p>
+			</div>
+			
+		    
 
-			<div class="method-subsection method-declaration"><code>- (void)startRefreshFlowConnectionTimer</code></div>
+			<div class="method-subsection method-declaration"><code>- (void)updateCredentials:(NSDictionary *)<em>params</em></code></div>
 
 		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/stopRefreshFlowConnectionTimer" title="stopRefreshFlowConnectionTimer"></a>
-	<h3 class="method-title"><code><a href="#//api/name/stopRefreshFlowConnectionTimer">&ndash;&nbsp;stopRefreshFlowConnectionTimer</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>params</code></th>
+						<td><p>NV pairs received from token endpoint.</p></td>
+					</tr>
+				
+				</table>
+			</div>
 			
 
-			<div class="method-subsection method-declaration"><code>- (void)stopRefreshFlowConnectionTimer</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/refreshFlowConnectionTimerFired:" title="refreshFlowConnectionTimerFired:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/refreshFlowConnectionTimerFired:">&ndash;&nbsp;refreshFlowConnectionTimerFired:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>- (void)refreshFlowConnectionTimerFired:(NSTimer *)<em>rfcTimer</em></code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/invalidateRefreshTimer" title="invalidateRefreshTimer"></a>
-	<h3 class="method-title"><code><a href="#//api/name/invalidateRefreshTimer">&ndash;&nbsp;invalidateRefreshTimer</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>- (void)invalidateRefreshTimer</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/cleanupRefreshTimer" title="cleanupRefreshTimer"></a>
-	<h3 class="method-title"><code><a href="#//api/name/cleanupRefreshTimer">&ndash;&nbsp;cleanupRefreshTimer</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>- (void)cleanupRefreshTimer</code></div>
+			
 
-		    
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFOAuthCoordinator+Internal.h</code></p>
+			</div>
+			
+			
 		</div>
 	</div>
 </div><div class="section-method">
@@ -1516,7 +1445,7 @@ should handle, NO otherwise.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-12-12</p>
+						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-04-26</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

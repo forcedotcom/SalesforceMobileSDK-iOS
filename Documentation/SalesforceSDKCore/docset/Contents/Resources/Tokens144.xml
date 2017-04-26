@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/CSFActionValue.html">
+	<File path="Categories/UIColor+SFColors.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/CSFActionValue</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cat/UIColor(SFColors)</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFActionValue.h</DeclaredIn>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
             
 			
 			<NodeRef refid="144"/>
@@ -13,26 +13,39 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/CSFActionValue/actionValue</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/salesforceBlueColor</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFActionValue.h</DeclaredIn>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
 			
-			<Declaration>- (id)actionValue</Declaration>
+			<Declaration>+ (UIColor *)salesforceBlueColor</Declaration>
 			
 			
-			<Anchor>//api/name/actionValue</Anchor>
+			<Anchor>//api/name/salesforceBlueColor</Anchor>
             <NodeRef refid="144"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/CSFActionValue/decodedObjectForActionValue:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFActionValue.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/colorFromHexValue:</TokenIdentifier>
+			<Abstract type="html">Construct a color given hex color, like &quot;#00FF00&quot; (#RRGGBB).</Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
 			
-			<Declaration>+ (id&lt;CSFActionValue&gt;)decodedObjectForActionValue:(id)actionValue</Declaration>
+			<Declaration>+ (UIColor *)colorFromHexValue:(NSString *)hexString</Declaration>
 			
 			
-			<Anchor>//api/name/decodedObjectForActionValue:</Anchor>
+			<Anchor>//api/name/colorFromHexValue:</Anchor>
+            <NodeRef refid="144"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/hexStringFromColor</TokenIdentifier>
+			<Abstract type="html">Returns a CSS hex color representation
+of this color</Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)hexStringFromColor</Declaration>
+			
+			
+			<Anchor>//api/name/hexStringFromColor</Anchor>
             <NodeRef refid="144"/>
 		</Token>
 		

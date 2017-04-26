@@ -56,19 +56,7 @@
 	
 	<optgroup label="Properties">
 		
-		<option value="//api/name/activeCommunityId">activeCommunityId</option>
-		
-		<option value="//api/name/activeUserIdentity">activeUserIdentity</option>
-		
-		<option value="//api/name/allUserAccounts">allUserAccounts</option>
-		
-		<option value="//api/name/allUserIdentities">allUserIdentities</option>
-		
-		<option value="//api/name/anonymousUser">anonymousUser</option>
-		
-		<option value="//api/name/anonymousUserIdentity">anonymousUserIdentity</option>
-		
-		<option value="//api/name/autocreateAnonymousUser">autocreateAnonymousUser</option>
+		<option value="//api/name/accountPersister">accountPersister</option>
 		
 		<option value="//api/name/currentCommunityId">currentCommunityId</option>
 		
@@ -86,23 +74,7 @@
 		
 		<option value="//api/name/lastChangedUserId">lastChangedUserId</option>
 		
-		<option value="//api/name/loginHost">loginHost</option>
-		
-		<option value="//api/name/oauthClientId">oauthClientId</option>
-		
-		<option value="//api/name/oauthCompletionUrl">oauthCompletionUrl</option>
-		
 		<option value="//api/name/previousCommunityId">previousCommunityId</option>
-		
-		<option value="//api/name/retryLoginAfterFailure">retryLoginAfterFailure</option>
-		
-		<option value="//api/name/scopes">scopes</option>
-		
-		<option value="//api/name/supportsAnonymousUser">supportsAnonymousUser</option>
-		
-		<option value="//api/name/temporaryUser">temporaryUser</option>
-		
-		<option value="//api/name/temporaryUserIdentity">temporaryUserIdentity</option>
 		
 		<option value="//api/name/userAccountMap">userAccountMap</option>
 		
@@ -114,13 +86,7 @@
 		
 		<option value="//api/name/applyCurrentLogLevel:">+ applyCurrentLogLevel:</option>
 		
-		<option value="//api/name/isUserAnonymous:">+ isUserAnonymous:</option>
-		
-		<option value="//api/name/setActiveUserIdentity:">+ setActiveUserIdentity:</option>
-		
 		<option value="//api/name/sharedInstance">+ sharedInstance</option>
-		
-		<option value="//api/name/userAccountPlistFileForUser:">+ userAccountPlistFileForUser:</option>
 		
 	</optgroup>
 	
@@ -128,53 +94,61 @@
 	
 	<optgroup label="Instance Methods">
 		
+		<option value="//api/name/accountForCredentials:">- accountForCredentials:</option>
+		
+		<option value="//api/name/accountPersister">- accountPersister</option>
+		
 		<option value="//api/name/accountsForInstanceURL:">- accountsForInstanceURL:</option>
 		
 		<option value="//api/name/accountsForOrgId:">- accountsForOrgId:</option>
 		
-		<option value="//api/name/addAccount:">- addAccount:</option>
-		
 		<option value="//api/name/addDelegate:">- addDelegate:</option>
+		
+		<option value="//api/name/allExistingAccountNames">- allExistingAccountNames</option>
+		
+		<option value="//api/name/allUserAccounts">- allUserAccounts</option>
+		
+		<option value="//api/name/allUserIdentities">- allUserIdentities</option>
 		
 		<option value="//api/name/applyCredentials:">- applyCredentials:</option>
 		
-		<option value="//api/name/applyIdData:">- applyIdData:</option>
+		<option value="//api/name/applyCredentials:withIdData:">- applyCredentials:withIdData:</option>
 		
-		<option value="//api/name/applyIdDataCustomAttributes:">- applyIdDataCustomAttributes:</option>
+		<option value="//api/name/applyCredentials:withIdData:andNotification:">- applyCredentials:withIdData:andNotification:</option>
 		
-		<option value="//api/name/applyIdDataCustomPermissions:">- applyIdDataCustomPermissions:</option>
+		<option value="//api/name/applyIdData:forUser:">- applyIdData:forUser:</option>
+		
+		<option value="//api/name/applyIdDataCustomAttributes:forUser:">- applyIdDataCustomAttributes:forUser:</option>
+		
+		<option value="//api/name/applyIdDataCustomPermissions:forUser:">- applyIdDataCustomPermissions:forUser:</option>
 		
 		<option value="//api/name/clearAllAccountState">- clearAllAccountState</option>
 		
-		<option value="//api/name/createUserAccount">- createUserAccount</option>
-		
-		<option value="//api/name/createUserAccountWithCredentials:">- createUserAccountWithCredentials:</option>
+		<option value="//api/name/createUserAccount:">- createUserAccount:</option>
 		
 		<option value="//api/name/deleteAccountForUser:error:">- deleteAccountForUser:error:</option>
-		
-		<option value="//api/name/disableAnonymousAccount">- disableAnonymousAccount</option>
-		
-		<option value="//api/name/enableAnonymousAccount">- enableAnonymousAccount</option>
 		
 		<option value="//api/name/enumerateDelegates:">- enumerateDelegates:</option>
 		
 		<option value="//api/name/loadAccounts:">- loadAccounts:</option>
 		
+		<option value="//api/name/reload">- reload</option>
+		
 		<option value="//api/name/removeDelegate:">- removeDelegate:</option>
 		
-		<option value="//api/name/saveAccounts:">- saveAccounts:</option>
+		<option value="//api/name/saveAccountForUser:error:">- saveAccountForUser:error:</option>
 		
-		<option value="//api/name/setObjectForCurrentUserCustomData:forKey:">- setObjectForCurrentUserCustomData:forKey:</option>
-		
-		<option value="//api/name/setupAnonymousUser:autocreateAnonymousUser:">- setupAnonymousUser:autocreateAnonymousUser:</option>
+		<option value="//api/name/setObjectForUserCustomData:forKey:andUser:">- setObjectForUserCustomData:forKey:andUser:</option>
 		
 		<option value="//api/name/switchToNewUser">- switchToNewUser</option>
 		
 		<option value="//api/name/switchToUser:">- switchToUser:</option>
 		
+		<option value="//api/name/uniqueUserAccountIdentifier:">- uniqueUserAccountIdentifier:</option>
+		
 		<option value="//api/name/userAccountForUserIdentity:">- userAccountForUserIdentity:</option>
 		
-		<option value="//api/name/userChanged:">- userChanged:</option>
+		<option value="//api/name/userChanged:change:">- userChanged:change:</option>
 		
 	</optgroup>
 	
@@ -269,221 +243,6 @@ has never logged in.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/temporaryUserIdentity" title="temporaryUserIdentity"></a>
-	<h3 class="method-title"><code><a href="#//api/name/temporaryUserIdentity">&nbsp;&nbsp;temporaryUserIdentity</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>The user identity for the temporary user account.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, nullable) SFUserAccountIdentity *temporaryUserIdentity</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/temporaryUser" title="temporaryUser"></a>
-	<h3 class="method-title"><code><a href="#//api/name/temporaryUser">&nbsp;&nbsp;temporaryUser</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>The &ldquo;temporary&rdquo; account user.  Useful for determining whether there&rsquo;s a valid user context.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, nullable) SFUserAccount *temporaryUser</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/supportsAnonymousUser" title="supportsAnonymousUser"></a>
-	<h3 class="method-title"><code><a href="#//api/name/supportsAnonymousUser">&nbsp;&nbsp;supportsAnonymousUser</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Returns YES if the application supports anonymous user, no otherwise.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) BOOL supportsAnonymousUser</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>Note: the application must add the kSFUserAccountSupportAnonymousUsage value
-to its Info.plist file in order to enable this flag.</p>
-			</div>
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/autocreateAnonymousUser" title="autocreateAnonymousUser"></a>
-	<h3 class="method-title"><code><a href="#//api/name/autocreateAnonymousUser">&nbsp;&nbsp;autocreateAnonymousUser</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Returns YES if the application wants the anonymous user to be
-  created automatically at startup, no otherwise.</p>
-
-<p>  Note: the application must add the kSFUserAccountSupportAnonymousUsage value
-  to its Info.plist file in order to enable this flag.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) BOOL autocreateAnonymousUser</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/anonymousUser" title="anonymousUser"></a>
-	<h3 class="method-title"><code><a href="#//api/name/anonymousUser">&nbsp;&nbsp;anonymousUser</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Returns the anonymous user or nil if none exists</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, readonly, nullable) SFUserAccount *anonymousUser</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
 	<a name="//api/name/currentUserAnonymous" title="currentUserAnonymous"></a>
 	<h3 class="method-title"><code><a href="#//api/name/currentUserAnonymous">&nbsp;&nbsp;currentUserAnonymous</a></code>
 </h3>
@@ -541,7 +300,7 @@ to its Info.plist file in order to enable this flag.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, nullable) SFUserAccountIdentity *currentUserIdentity</code></div>
+			<div class="method-subsection method-declaration"><code>@property (readonly, nonatomic, nullable) SFUserAccountIdentity *currentUserIdentity</code></div>
 
 		    
 			
@@ -583,174 +342,7 @@ This property is an alias for <code></code>currentUser<code>.communityId</code><
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, nullable) NSString *currentCommunityId</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/allUserAccounts" title="allUserAccounts"></a>
-	<h3 class="method-title"><code><a href="#//api/name/allUserAccounts">&nbsp;&nbsp;allUserAccounts</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>An NSArray of all the <a href="../Classes/SFUserAccount.html">SFUserAccount</a> instances for the app.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSArray&lt;SFUserAccount*&gt; *allUserAccounts</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/allUserIdentities" title="allUserIdentities"></a>
-	<h3 class="method-title"><code><a href="#//api/name/allUserIdentities">&nbsp;&nbsp;allUserIdentities</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Returns all the user identities sorted by Org ID and User ID.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSArray&lt;SFUserAccountIdentity*&gt; *allUserIdentities</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/activeUserIdentity" title="activeUserIdentity"></a>
-	<h3 class="method-title"><code><a href="#//api/name/activeUserIdentity">&nbsp;&nbsp;activeUserIdentity</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>The most recently active user identity. Note that this may be temporarily
-different from <a href="#//api/name/currentUser">currentUser</a> if the user associated with the activeUserIdentity
-is removed from the accounts list.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) SFUserAccountIdentity *activeUserIdentity</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/activeCommunityId" title="activeCommunityId"></a>
-	<h3 class="method-title"><code><a href="#//api/name/activeCommunityId">&nbsp;&nbsp;activeCommunityId</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>The most recently active community ID. Set when a user
-is changed and stored to disk for retrieval after bootup</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) NSString *activeCommunityId</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, nullable) NSString *currentCommunityId</code></div>
 
 		    
 			
@@ -793,214 +385,6 @@ id as it may change during early OAuth flow and we want to retain it</p>
 		    
 
 			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable) NSString *previousCommunityId</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/loginHost" title="loginHost"></a>
-	<h3 class="method-title"><code><a href="#//api/name/loginHost">&nbsp;&nbsp;loginHost</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>The host that will be used for login.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable) NSString *loginHost</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/retryLoginAfterFailure" title="retryLoginAfterFailure"></a>
-	<h3 class="method-title"><code><a href="#//api/name/retryLoginAfterFailure">&nbsp;&nbsp;retryLoginAfterFailure</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Should the login process start again if it fails (default: YES)</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL retryLoginAfterFailure</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/oauthClientId" title="oauthClientId"></a>
-	<h3 class="method-title"><code><a href="#//api/name/oauthClientId">&nbsp;&nbsp;oauthClientId</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>OAuth client ID to use for login.  Apps may customize
-by setting this property before login; otherwise, this
-value is determined by the SFDCOAuthClientIdPreference
-configured via the settings bundle.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) NSString *oauthClientId</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/oauthCompletionUrl" title="oauthCompletionUrl"></a>
-	<h3 class="method-title"><code><a href="#//api/name/oauthCompletionUrl">&nbsp;&nbsp;oauthCompletionUrl</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>axm/detect/oauth/done")</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) NSString *oauthCompletionUrl</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/scopes" title="scopes"></a>
-	<h3 class="method-title"><code><a href="#//api/name/scopes">&nbsp;&nbsp;scopes</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>The OAuth scopes associated with the app.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSSet&lt;NSString*&gt; *scopes</code></div>
 
 		    
 			
@@ -1094,117 +478,6 @@ control the OAuth library log level.</p>
 					<tr>
 						<th scope="row" class="argument-name"><code>credentials</code></th>
 						<td><p>OAuth credentials whose log level will be updated</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/userAccountPlistFileForUser:" title="userAccountPlistFileForUser:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/userAccountPlistFileForUser:">+&nbsp;userAccountPlistFileForUser:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Returns the path of the user account plist file for the specified user</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (NSString *)userAccountPlistFileForUser:(SFUserAccount *)<em>user</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>user</code></th>
-						<td><p>The user</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>the path to the user account plist of the specified user</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/setActiveUserIdentity:" title="setActiveUserIdentity:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/setActiveUserIdentity:">+&nbsp;setActiveUserIdentity:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Sets the active user identity without instantiating the class</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (void)setActiveUserIdentity:(SFUserAccountIdentity *)<em>activeUserIdentity</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>activeUserIdentity</code></th>
-						<td><p>The desired active user</p></td>
 					</tr>
 				
 				</table>
@@ -1395,8 +668,8 @@ control the OAuth library log level.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/saveAccounts:" title="saveAccounts:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/saveAccounts:">&ndash;&nbsp;saveAccounts:</a></code>
+	<a name="//api/name/allUserAccounts" title="allUserAccounts"></a>
+	<h3 class="method-title"><code><a href="#//api/name/allUserAccounts">&ndash;&nbsp;allUserAccounts</a></code>
 </h3>
 
 	<div class="method-info">
@@ -1406,12 +679,94 @@ control the OAuth library log level.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Save all the accounts.</p>
+				<p>An NSArray of all the <a href="../Classes/SFUserAccount.html">SFUserAccount</a> instances for the app.</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (BOOL)saveAccounts:(NSError **)<em>error</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (nullable NSArray&lt;SFUserAccount*&gt; *)allUserAccounts</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/allUserIdentities" title="allUserIdentities"></a>
+	<h3 class="method-title"><code><a href="#//api/name/allUserIdentities">&ndash;&nbsp;allUserIdentities</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns all the user identities sorted by Org ID and User ID.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (nullable NSArray&lt;SFUserAccountIdentity*&gt; *)allUserIdentities</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/createUserAccount:" title="createUserAccount:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/createUserAccount:">&ndash;&nbsp;createUserAccount:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Create an account when necessary using the credentials provided.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFUserAccount *)createUserAccount:(SFOAuthCredentials *)<em>credentials</em></code></div>
 
 		    
 			
@@ -1420,8 +775,8 @@ control the OAuth library log level.</p>
 				<table class="argument-def parameter-def">
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>error</code></th>
-						<td><p>On output, the error if the return value is NO</p></td>
+						<th scope="row" class="argument-name"><code>credentials</code></th>
+						<td><p>The credentials to use.</p></td>
 					</tr>
 				
 				</table>
@@ -1429,103 +784,9 @@ control the OAuth library log level.</p>
 			
 
 			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>YES if the accounts were saved properly, NO in case of error</p>
-			</div>
-			
 
 			
 
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/createUserAccount" title="createUserAccount"></a>
-	<h3 class="method-title"><code><a href="#//api/name/createUserAccount">&ndash;&nbsp;createUserAccount</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Can be used to create an empty user account if you wish to configure all of the account info yourself.
-Otherwise, use <code>login</code> to allow SFUserAccountManager to automatically create an account when necessary.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFUserAccount *)createUserAccount</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/enableAnonymousAccount" title="enableAnonymousAccount"></a>
-	<h3 class="method-title"><code><a href="#//api/name/enableAnonymousAccount">&ndash;&nbsp;enableAnonymousAccount</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>This method ensures the anonymous user exists and if not, creates the anonymous
-user and saves it with the other users. This method doesn&rsquo;t change the current user.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (void)enableAnonymousAccount</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>Note: this method is invoked automatically if <a href="#//api/name/autocreateAnonymousUser"><code>autocreateAnonymousUser</code></a> returns YES.</p>
-			</div>
 			
 
 			
@@ -1711,8 +972,8 @@ user and saves it with the other users. This method doesn&rsquo;t change the cur
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/addAccount:" title="addAccount:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/addAccount:">&ndash;&nbsp;addAccount:</a></code>
+	<a name="//api/name/saveAccountForUser:error:" title="saveAccountForUser:error:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/saveAccountForUser:error:">&ndash;&nbsp;saveAccountForUser:error:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -1722,12 +983,12 @@ user and saves it with the other users. This method doesn&rsquo;t change the cur
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Adds a user account</p>
+				<p>Adds/Updates a user account</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)addAccount:(SFUserAccount *)<em>acct</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (BOOL)saveAccountForUser:(SFUserAccount *)<em>userAccount</em> error:(NSError **)<em>error</em></code></div>
 
 		    
 			
@@ -1736,8 +997,61 @@ user and saves it with the other users. This method doesn&rsquo;t change the cur
 				<table class="argument-def parameter-def">
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>acct</code></th>
+						<th scope="row" class="argument-name"><code>userAccount</code></th>
 						<td><p>The account to be added</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/accountForCredentials:" title="accountForCredentials:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/accountForCredentials:">&ndash;&nbsp;accountForCredentials:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Lookup  a user account</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFUserAccount *)accountForCredentials:(SFOAuthCredentials *)<em>credentials</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>credentials</code></th>
+						<td><p>used to  up Account matching the credentials</p></td>
 					</tr>
 				
 				</table>
@@ -1882,13 +1196,13 @@ the user parameter is found, no action will be taken, and deletion will be repor
 			
 			<div class="method-subsection brief-description">
 				<p>Invoke this method to apply the specified credentials to the
-current user. If no user exists, a new one is created.
+a user whose credentials match. If no user exists, a new one is created. Fire notifications.
 This will post user update notification.</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)applyCredentials:(SFOAuthCredentials *)<em>credentials</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (SFUserAccount *)applyCredentials:(SFOAuthCredentials *)<em>credentials</em></code></div>
 
 		    
 			
@@ -1925,8 +1239,133 @@ This will post user update notification.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/applyIdData:" title="applyIdData:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/applyIdData:">&ndash;&nbsp;applyIdData:</a></code>
+	<a name="//api/name/applyCredentials:withIdData:" title="applyCredentials:withIdData:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/applyCredentials:withIdData:">&ndash;&nbsp;applyCredentials:withIdData:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Invoke this method to apply the specified credentials to the
+a user whose credentials match. If no user exists, a new one is created. Fire notifications.
+This will post user update notification.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFUserAccount *)applyCredentials:(SFOAuthCredentials *)<em>credentials</em> withIdData:(nullable SFIdentityData *)<em>identityData</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>credentials</code></th>
+						<td><p>The credentials to apply</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>identityData</code></th>
+						<td><p>The identityData to apply</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/applyCredentials:withIdData:andNotification:" title="applyCredentials:withIdData:andNotification:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/applyCredentials:withIdData:andNotification:">&ndash;&nbsp;applyCredentials:withIdData:andNotification:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Invoke this method to apply the specified credentials to the
+a user whose credentials match. If no user exists, a new one is created.
+This will post user update notification.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFUserAccount *)applyCredentials:(SFOAuthCredentials *)<em>credentials</em> withIdData:(SFIdentityData *)<em>identityData</em> andNotification:(BOOL)<em>shouldSendNotification</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>credentials</code></th>
+						<td><p>The credentials to apply</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>identityData</code></th>
+						<td><p>The identityData to apply</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>shouldSendNotification</code></th>
+						<td><p>whether to post notifications.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/applyIdData:forUser:" title="applyIdData:forUser:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/applyIdData:forUser:">&ndash;&nbsp;applyIdData:forUser:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -1937,12 +1376,12 @@ This will post user update notification.</p>
 			
 			<div class="method-subsection brief-description">
 				<p>Invoke this method to apply the specified id data to the
-current user. This will post user update notification.</p>
+  user. This will post user update notification.</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)applyIdData:(SFIdentityData *)<em>idData</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)applyIdData:(SFIdentityData *)<em>idData</em> forUser:(SFUserAccount *)<em>user</em></code></div>
 
 		    
 			
@@ -1955,6 +1394,11 @@ current user. This will post user update notification.</p>
 						<td><p>The ID data to apply</p></td>
 					</tr>
 				
+					<tr>
+						<th scope="row" class="argument-name"><code>user</code></th>
+						<td><p>The <a href="../Classes/SFUserAccount.html">SFUserAccount</a> to apply this change to.</p></td>
+					</tr>
+				
 				</table>
 			</div>
 			
@@ -1979,8 +1423,8 @@ current user. This will post user update notification.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/applyIdDataCustomAttributes:" title="applyIdDataCustomAttributes:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/applyIdDataCustomAttributes:">&ndash;&nbsp;applyIdDataCustomAttributes:</a></code>
+	<a name="//api/name/applyIdDataCustomAttributes:forUser:" title="applyIdDataCustomAttributes:forUser:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/applyIdDataCustomAttributes:forUser:">&ndash;&nbsp;applyIdDataCustomAttributes:forUser:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -1990,13 +1434,13 @@ current user. This will post user update notification.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>This method will selectively update the custom attributes identity data for the current user.
+				<p>This method will selectively update the custom attributes identity data for the  user.
 Other identity data will not be impacted.</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)applyIdDataCustomAttributes:(NSDictionary *)<em>customAttributes</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)applyIdDataCustomAttributes:(NSDictionary *)<em>customAttributes</em> forUser:(SFUserAccount *)<em>user</em></code></div>
 
 		    
 			
@@ -2009,58 +1453,9 @@ Other identity data will not be impacted.</p>
 						<td><p>The new custom attributes data to update in the identity data.</p></td>
 					</tr>
 				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/applyIdDataCustomPermissions:" title="applyIdDataCustomPermissions:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/applyIdDataCustomPermissions:">&ndash;&nbsp;applyIdDataCustomPermissions:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>This method will selectively update the custom permissions identity data for the current user.
-Other identity data will not be impacted.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (void)applyIdDataCustomPermissions:(NSDictionary *)<em>customPermissions</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
 					<tr>
-						<th scope="row" class="argument-name"><code>customPermissions</code></th>
-						<td><p>The new custom permissions data to update in the identity data.</p></td>
+						<th scope="row" class="argument-name"><code>user</code></th>
+						<td><p>The <a href="../Classes/SFUserAccount.html">SFUserAccount</a> to apply this change to.</p></td>
 					</tr>
 				
 				</table>
@@ -2087,8 +1482,67 @@ Other identity data will not be impacted.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/setObjectForCurrentUserCustomData:forKey:" title="setObjectForCurrentUserCustomData:forKey:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/setObjectForCurrentUserCustomData:forKey:">&ndash;&nbsp;setObjectForCurrentUserCustomData:forKey:</a></code>
+	<a name="//api/name/applyIdDataCustomPermissions:forUser:" title="applyIdDataCustomPermissions:forUser:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/applyIdDataCustomPermissions:forUser:">&ndash;&nbsp;applyIdDataCustomPermissions:forUser:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>This method will selectively update the custom permissions identity data for the  user.
+Other identity data will not be impacted.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)applyIdDataCustomPermissions:(NSDictionary *)<em>customPermissions</em> forUser:(SFUserAccount *)<em>user</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>customPermissions</code></th>
+						<td><p>The new custom permissions data to update in the identity data.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>user</code></th>
+						<td><p>The <a href="../Classes/SFUserAccount.html">SFUserAccount</a> to apply this change to.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setObjectForUserCustomData:forKey:andUser:" title="setObjectForUserCustomData:forKey:andUser:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setObjectForUserCustomData:forKey:andUser:">&ndash;&nbsp;setObjectForUserCustomData:forKey:andUser:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -2106,7 +1560,7 @@ The NSDictionary should be NSCoder encodeable.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)setObjectForCurrentUserCustomData:(NSObject&lt;NSCoding&gt; *)<em>object</em> forKey:(NSString *)<em>key</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)setObjectForUserCustomData:(NSObject&lt;NSCoding&gt; *)<em>object</em> forKey:(NSString *)<em>key</em> andUser:(SFUserAccount *)<em>user</em></code></div>
 
 		    
 			
@@ -2122,6 +1576,11 @@ The NSDictionary should be NSCoder encodeable.</p>
 					<tr>
 						<th scope="row" class="argument-name"><code>key</code></th>
 						<td><p>The key to retrieve this data for</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>user</code></th>
+						<td><p>The <a href="../Classes/SFUserAccount.html">SFUserAccount</a> to apply this change to.</p></td>
 					</tr>
 				
 				</table>
@@ -2242,8 +1701,8 @@ The NSDictionary should be NSCoder encodeable.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/userChanged:" title="userChanged:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/userChanged:">&ndash;&nbsp;userChanged:</a></code>
+	<a name="//api/name/userChanged:change:" title="userChanged:change:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/userChanged:change:">&ndash;&nbsp;userChanged:change:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -2253,13 +1712,12 @@ The NSDictionary should be NSCoder encodeable.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Invoke this method to inform this manager
-that something has changed for the current user.</p>
+				<p>Invoke this method to inform this manager that something has changed for the  user.</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)userChanged:(SFUserAccountChange)<em>change</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)userChanged:(SFUserAccount *)<em>user</em> change:(SFUserAccountDataChange)<em>change</em></code></div>
 
 		    
 			
@@ -2268,10 +1726,13 @@ that something has changed for the current user.</p>
 				<table class="argument-def parameter-def">
 				
 					<tr>
+						<th scope="row" class="argument-name"><code>user</code></th>
+						<td><p>The user</p></td>
+					</tr>
+				
+					<tr>
 						<th scope="row" class="argument-name"><code>change</code></th>
-						<td><p>The type of change (enum type). Use SFUserAccountChangeUnknown
-if you don&rsquo;t know what kind of change was made to this object and this method
-will try to determine that.</p></td>
+						<td><p>The type of change (enum type). Use <a href="../Constants/SFUserAccountDataChange.html">SFUserAccountDataChange</a>.</p></td>
 					</tr>
 				
 				</table>
@@ -2317,22 +1778,6 @@ will try to determine that.</p></td>
 			
 
 			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nonnull) NSHashTable&lt;id&lt;SFUserAccountManagerDelegate&gt; &gt; *delegates</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/anonymousUserIdentity" title="anonymousUserIdentity"></a>
-	<h3 class="method-title"><code><a href="#//api/name/anonymousUserIdentity">&nbsp;&nbsp;anonymousUserIdentity</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nonnull) SFUserAccountIdentity *anonymousUserIdentity</code></div>
 
 		    
 		</div>
@@ -2427,8 +1872,8 @@ will try to determine that.</p></td>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/isUserAnonymous:" title="isUserAnonymous:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/isUserAnonymous:">+&nbsp;isUserAnonymous:</a></code>
+	<a name="//api/name/accountPersister" title="accountPersister"></a>
+	<h3 class="method-title"><code><a href="#//api/name/accountPersister">&nbsp;&nbsp;accountPersister</a></code>
 </h3>
 
 	<div class="method-info">
@@ -2436,37 +1881,10 @@ will try to determine that.</p></td>
 
 		<div class="method-info-container">
 			
-			
-			<div class="method-subsection brief-description">
-				<p>Returns YES if the specified user is anonymous.
-Note: an anonymous user is a user that doesn&rsquo;t require
-credentials towards a server.</p>
-			</div>
-			
-		    
 
-			<div class="method-subsection method-declaration"><code>+ (BOOL)isUserAnonymous:(nullable SFUserAccount *)<em>user</em></code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable) id&lt;SFUserAccountPersister&gt; accountPersister</code></div>
 
 		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager+Internal.h</code></p>
-			</div>
-			
-			
 		</div>
 	</div>
 </div><div class="section-method">
@@ -2523,8 +1941,8 @@ credentials towards a server.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/createUserAccountWithCredentials:" title="createUserAccountWithCredentials:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/createUserAccountWithCredentials:">&ndash;&nbsp;createUserAccountWithCredentials:</a></code>
+	<a name="//api/name/allExistingAccountNames" title="allExistingAccountNames"></a>
+	<h3 class="method-title"><code><a href="#//api/name/allExistingAccountNames">&ndash;&nbsp;allExistingAccountNames</a></code>
 </h3>
 
 	<div class="method-info">
@@ -2534,12 +1952,58 @@ credentials towards a server.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Creates a user account staged with the given auth credentials.</p>
+				<p>NSSet enumeration of all account Names</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (nonnull SFUserAccount *)createUserAccountWithCredentials:(nonnull SFOAuthCredentials *)<em>credentials</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (nullable NSSet *)allExistingAccountNames</code></div>
+
+		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>NSSet enumeration of all account Names</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/uniqueUserAccountIdentifier:" title="uniqueUserAccountIdentifier:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/uniqueUserAccountIdentifier:">&ndash;&nbsp;uniqueUserAccountIdentifier:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns a unique identifier that can be used to create a new Account</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (nonnull NSString *)uniqueUserAccountIdentifier:(nonnull NSString *)<em>clientId</em></code></div>
 
 		    
 			
@@ -2548,8 +2012,8 @@ credentials towards a server.</p>
 				<table class="argument-def parameter-def">
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>credentials</code></th>
-						<td><p>The OAuth credentials to apply to the user account.</p></td>
+						<th scope="row" class="argument-name"><code>clientId</code></th>
+						<td><p>OAuth Client Id</p></td>
 					</tr>
 				
 				</table>
@@ -2559,7 +2023,7 @@ credentials towards a server.</p>
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The new user account with the given credentials.</p>
+				<p>A unique identifier</p>
 			</div>
 			
 
@@ -2581,8 +2045,8 @@ credentials towards a server.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/setupAnonymousUser:autocreateAnonymousUser:" title="setupAnonymousUser:autocreateAnonymousUser:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/setupAnonymousUser:autocreateAnonymousUser:">&ndash;&nbsp;setupAnonymousUser:autocreateAnonymousUser:</a></code>
+	<a name="//api/name/reload" title="reload"></a>
+	<h3 class="method-title"><code><a href="#//api/name/reload">&ndash;&nbsp;reload</a></code>
 </h3>
 
 	<div class="method-info">
@@ -2592,14 +2056,12 @@ credentials towards a server.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Setup the anonymous user according
-to the existing settings.
-Note: method exposed only to unit tests</p>
+				<p>Reload the accounts and reset the state of SFUserAccountManager. Use for tests only</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)setupAnonymousUser:(BOOL)<em>supportsAnonymousUser</em> autocreateAnonymousUser:(BOOL)<em>autocreateAnonymousUser</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)reload</code></div>
 
 		    
 			
@@ -2624,8 +2086,8 @@ Note: method exposed only to unit tests</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/disableAnonymousAccount" title="disableAnonymousAccount"></a>
-	<h3 class="method-title"><code><a href="#//api/name/disableAnonymousAccount">&ndash;&nbsp;disableAnonymousAccount</a></code>
+	<a name="//api/name/accountPersister" title="accountPersister"></a>
+	<h3 class="method-title"><code><a href="#//api/name/accountPersister">&ndash;&nbsp;accountPersister</a></code>
 </h3>
 
 	<div class="method-info">
@@ -2635,17 +2097,21 @@ Note: method exposed only to unit tests</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Delete and disable the anonymous user
-Note: method exposed only to unit tests</p>
+				<p>Get the Account Persister being used.</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)disableAnonymousAccount</code></div>
+			<div class="method-subsection method-declaration"><code>- (nullable id&lt;SFUserAccountPersister&gt;)accountPersister</code></div>
 
 		    
 			
 
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p><a href="../Protocols/SFUserAccountPersister.html">SFUserAccountPersister</a> that is used.</p>
+			</div>
 			
 
 			
@@ -2680,7 +2146,7 @@ Note: method exposed only to unit tests</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-12-12</p>
+						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-04-26</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

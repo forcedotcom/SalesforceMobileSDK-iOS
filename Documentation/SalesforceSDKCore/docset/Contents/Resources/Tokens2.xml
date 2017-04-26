@@ -1424,6 +1424,23 @@ contentFromData:fromResponse:error: .</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/dequeueNetwork:</TokenIdentifier>
+			<Abstract type="html">Dequeues Network if network is currently enqueued</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>- (void)dequeueNetwork:(CSFNetwork *)network</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>network</Name>
+					<Abstract type="html">Network to dequeue</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/dequeueNetwork:</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setBasePath:</TokenIdentifier>
 			<Abstract type="html">URL path prefix used as the basis for action requests.</Abstract>
 			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>

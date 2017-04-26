@@ -1,52 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFWKWebViewEngine.html">
+	<File path="Classes/SmartStoreLoadTestSuite.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFWKWebViewEngine</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SmartStoreLoadTestSuite</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFWKWebViewEngine.h</DeclaredIn>
+			<DeclaredIn>SmartStoreLoadTestSuite.h</DeclaredIn>
             
 			
 			<NodeRef refid="18"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFWKWebViewEngine/setWkWebViewDelegate:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFWKWebViewEngine.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) id&lt;WKNavigationDelegate&gt; wkWebViewDelegate</Declaration>
-			
-			
-			<Anchor>//api/name/wkWebViewDelegate</Anchor>
-            <NodeRef refid="18"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFWKWebViewEngine/wkWebViewDelegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFWKWebViewEngine.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) id&lt;WKNavigationDelegate&gt; wkWebViewDelegate</Declaration>
-			
-			
-			<Anchor>//api/name/wkWebViewDelegate</Anchor>
-            <NodeRef refid="18"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFWKWebViewEngine/wkWebViewDelegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFWKWebViewEngine.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) id&lt;WKNavigationDelegate&gt; wkWebViewDelegate</Declaration>
-			
-			
-			<Anchor>//api/name/wkWebViewDelegate</Anchor>
-            <NodeRef refid="18"/>
-		</Token>
 		
         
         

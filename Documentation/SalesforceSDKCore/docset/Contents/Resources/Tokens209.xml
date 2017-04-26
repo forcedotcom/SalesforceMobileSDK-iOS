@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFUserAccountChange.html">
+	<File path="Constants/SFOAuthType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountChange</TokenIdentifier>
-			<Abstract type="html">The various changes that can affect a user account</Abstract>
-			<DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthType</TokenIdentifier>
+			<Abstract type="html">The type of authentication being attempted, in a given OAuth coordinator cycle.</Abstract>
+			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>
             
 			
 			<NodeRef refid="209"/>
@@ -14,78 +14,51 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeUnknown</TokenIdentifier>
-            <Abstract type="html">Unknown change
-     </Abstract>
-            <Declaration>SFUserAccountChangeUnknown</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTypeUnknown</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFOAuthTypeUnknown</Declaration>
             
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
-            <NodeRef refid="209"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeNewUser</TokenIdentifier>
-            <Abstract type="html">A new user account has been created
-     </Abstract>
-            <Declaration>SFUserAccountChangeNewUser</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            <DeclaredIn>SFOAuthInfo.h</DeclaredIn>
             
             <NodeRef refid="209"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeCredentials</TokenIdentifier>
-            <Abstract type="html">The credentials changed
-     </Abstract>
-            <Declaration>SFUserAccountChangeCredentials</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTypeUserAgent</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFOAuthTypeUserAgent</Declaration>
             
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
-            <NodeRef refid="209"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeOrgId</TokenIdentifier>
-            <Abstract type="html">The organization ID changed
-     </Abstract>
-            <Declaration>SFUserAccountChangeOrgId</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            <DeclaredIn>SFOAuthInfo.h</DeclaredIn>
             
             <NodeRef refid="209"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeUserId</TokenIdentifier>
-            <Abstract type="html">The user ID changed
-     </Abstract>
-            <Declaration>SFUserAccountChangeUserId</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTypeRefresh</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFOAuthTypeRefresh</Declaration>
             
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
-            <NodeRef refid="209"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeCommunityId</TokenIdentifier>
-            <Abstract type="html">The community ID changed
-     </Abstract>
-            <Declaration>SFUserAccountChangeCommunityId</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            <DeclaredIn>SFOAuthInfo.h</DeclaredIn>
             
             <NodeRef refid="209"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeIdData</TokenIdentifier>
-            <Abstract type="html">The ID data changed
-     </Abstract>
-            <Declaration>SFUserAccountChangeIdData</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTypeAdvancedBrowser</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFOAuthTypeAdvancedBrowser</Declaration>
             
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            <DeclaredIn>SFOAuthInfo.h</DeclaredIn>
+            
+            <NodeRef refid="209"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTypeJwtTokenExchange</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFOAuthTypeJwtTokenExchange</Declaration>
+            
+            <DeclaredIn>SFOAuthInfo.h</DeclaredIn>
             
             <NodeRef refid="209"/>
         </Token>

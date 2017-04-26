@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFOAuthTokenEndpointFlow.html">
+	<File path="Constants/SFOAuthAdvancedAuthState.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthTokenEndpointFlow</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthAdvancedAuthState</TokenIdentifier>
+			<Abstract type="html">Enumeration of different advanced authentication stages.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
             
 			
 			<NodeRef refid="202"/>
@@ -14,41 +14,35 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTokenEndpointFlowNone</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFOAuthTokenEndpointFlowNone</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthStateNotStarted</TokenIdentifier>
+            <Abstract type="html">     No advanced authentication is currently under way.
+     </Abstract>
+            <Declaration>SFOAuthAdvancedAuthStateNotStarted</Declaration>
             
-            <DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-            
-            <NodeRef refid="202"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTokenEndpointFlowRefresh</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFOAuthTokenEndpointFlowRefresh</Declaration>
-            
-            <DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+            <DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
             
             <NodeRef refid="202"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTokenEndpointFlowIPBypass</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFOAuthTokenEndpointFlowIPBypass</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthStateBrowserRequestInitiated</TokenIdentifier>
+            <Abstract type="html">     The advanced authentication flow has initiated a request through the external browser (Safari).
+     </Abstract>
+            <Declaration>SFOAuthAdvancedAuthStateBrowserRequestInitiated</Declaration>
             
-            <DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+            <DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
             
             <NodeRef refid="202"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTokenEndpointFlowAdvancedBrowser</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFOAuthTokenEndpointFlowAdvancedBrowser</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthStateTokenRequestInitiated</TokenIdentifier>
+            <Abstract type="html">     The advanced authentication flow has received a response from the external browser, and has
+     initiated a token exchange request.
+     </Abstract>
+            <Declaration>SFOAuthAdvancedAuthStateTokenRequestInitiated</Declaration>
             
-            <DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+            <DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
             
             <NodeRef refid="202"/>
         </Token>

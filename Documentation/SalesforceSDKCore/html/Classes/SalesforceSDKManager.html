@@ -70,8 +70,6 @@
 		
 		<option value="//api/name/delegates">delegates</option>
 		
-		<option value="//api/name/features">features</option>
-		
 		<option value="//api/name/hasVerifiedPasscodeAtStartup">hasVerifiedPasscodeAtStartup</option>
 		
 		<option value="//api/name/isLaunching">isLaunching</option>
@@ -108,9 +106,11 @@
 	
 	<optgroup label="Class Methods">
 		
+		<option value="//api/name/ailtnAppName">+ ailtnAppName</option>
+		
 		<option value="//api/name/launchActionsStringRepresentation:">+ launchActionsStringRepresentation:</option>
 		
-		<option value="//api/name/setDesiredAccount:">+ setDesiredAccount:</option>
+		<option value="//api/name/setAiltnAppName:">+ setAiltnAppName:</option>
 		
 		<option value="//api/name/setInstanceClass:">+ setInstanceClass:</option>
 		
@@ -128,15 +128,17 @@
 		
 		<option value="//api/name/deviceId">- deviceId</option>
 		
+		<option value="//api/name/dismissSnapshot">- dismissSnapshot</option>
+		
+		<option value="//api/name/isSnapshotPresented">- isSnapshotPresented</option>
+		
 		<option value="//api/name/launch">- launch</option>
 		
 		<option value="//api/name/passcodeValidatedToAuthValidation">- passcodeValidatedToAuthValidation</option>
 		
-		<option value="//api/name/registerAppFeature:">- registerAppFeature:</option>
+		<option value="//api/name/presentSnapshot">- presentSnapshot</option>
 		
 		<option value="//api/name/removeDelegate:">- removeDelegate:</option>
-		
-		<option value="//api/name/unregisterAppFeature:">- unregisterAppFeature:</option>
 		
 	</optgroup>
 	
@@ -226,6 +228,105 @@ backgrounding and foregrounding state.</p>
 			</div>
 			
 
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SalesforceSDKManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setAiltnAppName:" title="setAiltnAppName:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setAiltnAppName:">+&nbsp;setAiltnAppName:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Sets the app name to be used by the analytics framework.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)setAiltnAppName:(nonnull NSString *)<em>appName</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>appName</code></th>
+						<td><p>App name.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SalesforceSDKManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/ailtnAppName" title="ailtnAppName"></a>
+	<h3 class="method-title"><code><a href="#//api/name/ailtnAppName">+&nbsp;ailtnAppName</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns the app name being used by the analytics framework.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (nonnull NSString *)ailtnAppName</code></div>
+
+		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>App name.</p>
+			</div>
 			
 
 			
@@ -417,22 +518,6 @@ backgrounding and foregrounding state.</p>
 			</div>
 			
 			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/features" title="features"></a>
-	<h3 class="method-title"><code><a href="#//api/name/features">&nbsp;&nbsp;features</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSMutableSet *features</code></div>
-
-		    
 		</div>
 	</div>
 </div><div class="section-method">
@@ -1157,112 +1242,6 @@ actions.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/registerAppFeature:" title="registerAppFeature:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/registerAppFeature:">&ndash;&nbsp;registerAppFeature:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>AppFeature to register.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (void)registerAppFeature:(NSString *)<em>appFeature</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>appFeature</code></th>
-						<td><p>AppFeature to register.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SalesforceSDKManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/unregisterAppFeature:" title="unregisterAppFeature:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/unregisterAppFeature:">&ndash;&nbsp;unregisterAppFeature:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>AppFeature to unregister.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (void)unregisterAppFeature:(NSString *)<em>appFeature</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>appFeature</code></th>
-						<td><p>AppFeature to unregister.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SalesforceSDKManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
 	<a name="//api/name/addDelegate:" title="addDelegate:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/addDelegate:">&ndash;&nbsp;addDelegate:</a></code>
 </h3>
@@ -1426,59 +1405,6 @@ actions.</p>
 			
 		</div>
 	</div>
-</div><div class="section-method">
-	<a name="//api/name/setDesiredAccount:" title="setDesiredAccount:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/setDesiredAccount:">+&nbsp;setDesiredAccount:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>The account you would like loaded upon initialization.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (void)setDesiredAccount:(SFUserAccount *)<em>account</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>account</code></th>
-						<td><p>The account you would like loaded upon initialization.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SalesforceSDKManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
 </div>
 						</div>
 						
@@ -1583,6 +1509,54 @@ actions.</p>
 		    
 		</div>
 	</div>
+</div><div class="section-method">
+	<a name="//api/name/presentSnapshot" title="presentSnapshot"></a>
+	<h3 class="method-title"><code><a href="#//api/name/presentSnapshot">&ndash;&nbsp;presentSnapshot</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)presentSnapshot</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/isSnapshotPresented" title="isSnapshotPresented"></a>
+	<h3 class="method-title"><code><a href="#//api/name/isSnapshotPresented">&ndash;&nbsp;isSnapshotPresented</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)isSnapshotPresented</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/dismissSnapshot" title="dismissSnapshot"></a>
+	<h3 class="method-title"><code><a href="#//api/name/dismissSnapshot">&ndash;&nbsp;dismissSnapshot</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)dismissSnapshot</code></div>
+
+		    
+		</div>
+	</div>
 </div>
 						</div>
 						
@@ -1598,7 +1572,7 @@ actions.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-12-12</p>
+						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-04-26</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

@@ -1,17 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFDefaultUserManagementListViewController.html">
+	<File path="Classes/SFDefaultUserManagementDetailViewController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFDefaultUserManagementListViewController</TokenIdentifier>
-			<Abstract type="html">Shows the list of users who have authenticated to this app, allowing the user to switch between
-users, revoke credentials, etc.</Abstract>
-			<DeclaredIn>SFDefaultUserManagementListViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFDefaultUserManagementDetailViewController</TokenIdentifier>
+			<Abstract type="html">View controller for showing the user management details of a given user.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementDetailViewController.h</DeclaredIn>
             
 			
 			<NodeRef refid="37"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFDefaultUserManagementDetailViewController/initWithUser:</TokenIdentifier>
+			<Abstract type="html">Initialize to provide the details of the given user.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementDetailViewController.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithUser:(SFUserAccount *)user</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>user</Name>
+					<Abstract type="html">The user providing the details.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/initWithUser:</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
 		
         
         

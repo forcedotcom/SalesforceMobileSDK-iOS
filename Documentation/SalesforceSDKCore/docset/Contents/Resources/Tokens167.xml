@@ -1,237 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/CSFForceFieldMetadataType.html">
+	<File path="Protocols/SFUserAccountManagerDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/CSFForceFieldMetadataType</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFForceDefines.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFUserAccountManagerDelegate</TokenIdentifier>
+			<Abstract type="html">Protocol for handling callbacks from SFUserAccountManager.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="167"/>
 		</Token>
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeUnknown</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeUnknown</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFUserAccountManagerDelegate/userAccountManager:willSwitchFromUser:toUser:</TokenIdentifier>
+			<Abstract type="html">Called before the user account manager switches from one user to another.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>- (void)userAccountManager:(SFUserAccountManager *)userAccountManager willSwitchFromUser:(SFUserAccount *)fromUser toUser:(nullable SFUserAccount *)toUser</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>userAccountManager</Name>
+					<Abstract type="html">The SFUserAccountManager instance making the switch.</Abstract>
+				</Parameter><Parameter>
+					<Name>fromUser</Name>
+					<Abstract type="html">The user being switched away from.</Abstract>
+				</Parameter><Parameter>
+					<Name>toUser</Name>
+					<Abstract type="html">The user to be switched to.  nil if the user context is being switched back
+to no user.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/userAccountManager:willSwitchFromUser:toUser:</Anchor>
             <NodeRef refid="167"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeBase64</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeBase64</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFUserAccountManagerDelegate/userAccountManager:didSwitchFromUser:toUser:</TokenIdentifier>
+			<Abstract type="html">Called after the user account manager switches from one user to another.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>- (void)userAccountManager:(SFUserAccountManager *)userAccountManager didSwitchFromUser:(SFUserAccount *)fromUser toUser:(nullable SFUserAccount *)toUser</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>userAccountManager</Name>
+					<Abstract type="html">The SFUserAccountManager instance making the switch.</Abstract>
+				</Parameter><Parameter>
+					<Name>fromUser</Name>
+					<Abstract type="html">The user that was switched away from.</Abstract>
+				</Parameter><Parameter>
+					<Name>toUser</Name>
+					<Abstract type="html">The user that was switched to.  nil if the user context is being switched back
+to no user.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/userAccountManager:didSwitchFromUser:toUser:</Anchor>
             <NodeRef refid="167"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeBoolean</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeBoolean</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="167"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeComboBox</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeComboBox</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="167"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeCurrency</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeCurrency</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="167"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeDate</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeDate</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="167"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeDateTime</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeDateTime</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="167"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeDouble</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeDouble</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="167"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeEmail</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeEmail</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="167"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeEncryptedString</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeEncryptedString</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="167"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeId</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeId</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="167"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeInteger</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeInteger</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="167"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeInt</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeInt</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="167"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeMultiPickList</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeMultiPickList</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="167"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypePercent</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypePercent</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="167"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypePhone</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypePhone</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="167"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypePickList</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypePickList</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="167"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeString</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeString</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="167"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeReference</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeReference</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="167"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeTextArea</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeTextArea</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="167"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeTime</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeTime</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="167"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeUrl</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeUrl</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="167"/>
-        </Token>
+		</Token>
+		
         
         
 	</File>

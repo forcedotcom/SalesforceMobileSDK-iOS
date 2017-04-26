@@ -30,30 +30,6 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFInput/objectForKeyedSubscript:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInput.h</DeclaredIn>
-			
-			<Declaration>- (id)objectForKeyedSubscript:(id)key</Declaration>
-			
-			
-			<Anchor>//api/name/objectForKeyedSubscript:</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFInput/setObject:forKeyedSubscript:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInput.h</DeclaredIn>
-			
-			<Declaration>- (void)setObject:(id)obj forKeyedSubscript:(id&lt;NSCopying&gt;)key</Declaration>
-			
-			
-			<Anchor>//api/name/setObject:forKeyedSubscript:</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/CSFInput/allowsCustomAttributes</TokenIdentifier>
 			<Abstract type="html">Method indicating whether or not to accept arbitrary key/value properties to be set on input models.</Abstract>
 			<DeclaredIn>CSFInput.h</DeclaredIn>
@@ -139,6 +115,30 @@
 			
 			
 			<Anchor>//api/name/JSONDictionary</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFInput/objectForKeyedSubscript:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFInput.h</DeclaredIn>
+			
+			<Declaration>- (id)objectForKeyedSubscript:(id)key</Declaration>
+			
+			
+			<Anchor>//api/name/objectForKeyedSubscript:</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFInput/setObject:forKeyedSubscript:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFInput.h</DeclaredIn>
+			
+			<Declaration>- (void)setObject:(id)obj forKeyedSubscript:(id&lt;NSCopying&gt;)key</Declaration>
+			
+			
+			<Anchor>//api/name/setObject:forKeyedSubscript:</Anchor>
             <NodeRef refid="6"/>
 		</Token>
 		

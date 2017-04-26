@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/CSFForceTaskPriority.html">
+	<File path="Constants/CSFForceNotificationFrequency.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/CSFForceTaskPriority</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/CSFForceNotificationFrequency</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -14,9 +14,9 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskPriorityUnknown</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceNotificationFrequencyUnknown</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskPriorityUnknown</Declaration>
+            <Declaration>CSFForceNotificationFrequencyUnknown</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -24,9 +24,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskPriorityHigh</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceNotificationFrequencyEachPost</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskPriorityHigh</Declaration>
+            <Declaration>CSFForceNotificationFrequencyEachPost</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -34,9 +34,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskPriorityNormal</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceNotificationFrequencyDailyDigest</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskPriorityNormal</Declaration>
+            <Declaration>CSFForceNotificationFrequencyDailyDigest</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -44,9 +44,19 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskPriorityLow</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceNotificationFrequencyWeeklyDigest</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskPriorityLow</Declaration>
+            <Declaration>CSFForceNotificationFrequencyWeeklyDigest</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="175"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceNotificationFrequencyNever</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceNotificationFrequencyNever</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             

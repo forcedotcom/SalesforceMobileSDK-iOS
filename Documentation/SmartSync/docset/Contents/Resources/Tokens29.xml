@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSyncStateSyncType.html">
+	<File path="Constants/SFSyncUpTargetAction.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSyncStateSyncType</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSyncUpTargetAction</TokenIdentifier>
+			<Abstract type="html">Enumeration of the types of actions that can be executed against the server target.</Abstract>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
             
 			
 			<NodeRef refid="29"/>
@@ -14,21 +14,45 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncStateSyncTypeDown</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSyncStateSyncTypeDown</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFSyncUpTargetActionNone</TokenIdentifier>
+            <Abstract type="html">     No action should be taken against the server.
+     </Abstract>
+            <Declaration>SFSyncUpTargetActionNone</Declaration>
             
-            <DeclaredIn>SFSyncState.h</DeclaredIn>
+            <DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
             
             <NodeRef refid="29"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncStateSyncTypeUp</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSyncStateSyncTypeUp</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFSyncUpTargetActionCreate</TokenIdentifier>
+            <Abstract type="html">     Created data will be posted to the server.
+     </Abstract>
+            <Declaration>SFSyncUpTargetActionCreate</Declaration>
             
-            <DeclaredIn>SFSyncState.h</DeclaredIn>
+            <DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+            
+            <NodeRef refid="29"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSyncUpTargetActionUpdate</TokenIdentifier>
+            <Abstract type="html">     Updated data will be posted to the server.
+     </Abstract>
+            <Declaration>SFSyncUpTargetActionUpdate</Declaration>
+            
+            <DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+            
+            <NodeRef refid="29"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSyncUpTargetActionDelete</TokenIdentifier>
+            <Abstract type="html">     Data will be deleted from the server.
+     </Abstract>
+            <Declaration>SFSyncUpTargetActionDelete</Declaration>
+            
+            <DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
             
             <NodeRef refid="29"/>
         </Token>

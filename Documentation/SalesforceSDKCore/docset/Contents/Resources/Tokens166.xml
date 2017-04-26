@@ -1,47 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/CSFChatterCommunityMode.html">
+	<File path="Protocols/SFSecurityLockoutDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/CSFChatterCommunityMode</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFDefines.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSecurityLockoutDelegate</TokenIdentifier>
+			<Abstract type="html">Delegate protocol for SFSecurityLockout events and callbacks.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
             
 			
 			<NodeRef refid="166"/>
 		</Token>
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFChatterCommunityOptional</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFChatterCommunityOptional</Declaration>
-            
-            <DeclaredIn>CSFDefines.h</DeclaredIn>
-            
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSecurityLockoutDelegate/passcodeFlowWillBegin:</TokenIdentifier>
+			<Abstract type="html">Called just before the passcode flow begins and the view is displayed.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>- (void)passcodeFlowWillBegin:(SFPasscodeControllerMode)mode</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>mode</Name>
+					<Abstract type="html">The mode of the passcode flow, i.e. passcode creation or verification.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/passcodeFlowWillBegin:</Anchor>
             <NodeRef refid="166"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFChatterCommunityRequired</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFChatterCommunityRequired</Declaration>
-            
-            <DeclaredIn>CSFDefines.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSecurityLockoutDelegate/passcodeFlowDidComplete:</TokenIdentifier>
+			<Abstract type="html">Called after the passcode flow has completed.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>- (void)passcodeFlowDidComplete:(BOOL)success</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>success</Name>
+					<Abstract type="html">Whether or not the passcode flow was successful, i.e. the passcode was successfully
+created or verified.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/passcodeFlowDidComplete:</Anchor>
             <NodeRef refid="166"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFChatterCommunityDisallowed</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFChatterCommunityDisallowed</Declaration>
-            
-            <DeclaredIn>CSFDefines.h</DeclaredIn>
-            
-            <NodeRef refid="166"/>
-        </Token>
+		</Token>
+		
         
         
 	</File>

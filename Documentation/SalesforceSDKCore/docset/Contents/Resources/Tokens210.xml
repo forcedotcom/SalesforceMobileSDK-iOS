@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFUserAccountScope.html">
+	<File path="Constants/SFPasscodeControllerMode.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountScope</TokenIdentifier>
-			<Abstract type="html">The various scopes related to a user account</Abstract>
-			<DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFPasscodeControllerMode</TokenIdentifier>
+			<Abstract type="html">Mode constants indicating whether to create or verify an existing passcode.</Abstract>
+			<DeclaredIn>SFPasscodeViewControllerTypes.h</DeclaredIn>
             
 			
 			<NodeRef refid="210"/>
@@ -14,45 +14,31 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeGlobal</TokenIdentifier>
-            <Abstract type="html">Global scope (one per application)
-     </Abstract>
-            <Declaration>SFUserAccountScopeGlobal</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFPasscodeControllerModeCreate</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFPasscodeControllerModeCreate</Declaration>
             
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
-            <NodeRef refid="210"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeOrg</TokenIdentifier>
-            <Abstract type="html">Scope by organization
-     </Abstract>
-            <Declaration>SFUserAccountScopeOrg</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            <DeclaredIn>SFPasscodeViewControllerTypes.h</DeclaredIn>
             
             <NodeRef refid="210"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeUser</TokenIdentifier>
-            <Abstract type="html">Scope by user
-     </Abstract>
-            <Declaration>SFUserAccountScopeUser</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFPasscodeControllerModeVerify</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFPasscodeControllerModeVerify</Declaration>
             
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            <DeclaredIn>SFPasscodeViewControllerTypes.h</DeclaredIn>
             
             <NodeRef refid="210"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeCommunity</TokenIdentifier>
-            <Abstract type="html">Scope by community
-     </Abstract>
-            <Declaration>SFUserAccountScopeCommunity</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFPasscodeControllerModeChange</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFPasscodeControllerModeChange</Declaration>
             
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            <DeclaredIn>SFPasscodeViewControllerTypes.h</DeclaredIn>
             
             <NodeRef refid="210"/>
         </Token>

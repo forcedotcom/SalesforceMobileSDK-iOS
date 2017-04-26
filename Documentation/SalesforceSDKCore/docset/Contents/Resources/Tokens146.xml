@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/CSFNetworkDelegate.html">
+	<File path="Categories/UIScreen+SFAdditions.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/CSFNetworkDelegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFNetwork.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/UIScreen(SFAdditions)</TokenIdentifier>
+			<Abstract type="html">Salesforce Mobile SDK additions to the UIScreen class.</Abstract>
+			<DeclaredIn>UIScreen+SFAdditions.h</DeclaredIn>
             
 			
 			<NodeRef refid="146"/>
@@ -13,62 +13,14 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/CSFNetworkDelegate/network:willEnqueueAction:</TokenIdentifier>
-			<Abstract type="html">Called when an action is about to get enqueued.</Abstract>
-			<DeclaredIn>CSFNetwork.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIScreen/portraitScreenBounds</TokenIdentifier>
+			<Abstract type="html">Returns the rectangle that describes the screen boundaries in portrait orientation.</Abstract>
+			<DeclaredIn>UIScreen+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>- (void)network:(CSFNetwork *)network willEnqueueAction:(CSFAction *)action</Declaration>
+			<Declaration>- (CGRect)portraitScreenBounds</Declaration>
 			
-			
-			<Anchor>//api/name/network:willEnqueueAction:</Anchor>
-            <NodeRef refid="146"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/CSFNetworkDelegate/network:didStartAction:</TokenIdentifier>
-			<Abstract type="html">These methods inform delegates asynchronously about state of actions.</Abstract>
-			<DeclaredIn>CSFNetwork.h</DeclaredIn>
-			
-			<Declaration>- (void)network:(CSFNetwork *)network didStartAction:(CSFAction *)action</Declaration>
-			
-			
-			<Anchor>//api/name/network:didStartAction:</Anchor>
-            <NodeRef refid="146"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/CSFNetworkDelegate/network:didCancelAction:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFNetwork.h</DeclaredIn>
-			
-			<Declaration>- (void)network:(CSFNetwork *)network didCancelAction:(CSFAction *)action</Declaration>
-			
-			
-			<Anchor>//api/name/network:didCancelAction:</Anchor>
-            <NodeRef refid="146"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/CSFNetworkDelegate/network:didCompleteAction:withError:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFNetwork.h</DeclaredIn>
-			
-			<Declaration>- (void)network:(CSFNetwork *)network didCompleteAction:(CSFAction *)action withError:(NSError *)error</Declaration>
-			
-			
-			<Anchor>//api/name/network:didCompleteAction:withError:</Anchor>
-            <NodeRef refid="146"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/CSFNetworkDelegate/network:sessionTask:changedState:toState:forAction:</TokenIdentifier>
-			<Abstract type="html">Inform delegates asynchronously about states of tasks for an action</Abstract>
-			<DeclaredIn>CSFNetwork.h</DeclaredIn>
-			
-			<Declaration>- (void)network:(CSFNetwork *)network sessionTask:(NSURLSessionTask *)task changedState:(NSURLSessionTaskState)oldState toState:(NSURLSessionTaskState)newState forAction:(CSFAction *)action</Declaration>
-			
-			
-			<Anchor>//api/name/network:sessionTask:changedState:toState:forAction:</Anchor>
+			<ReturnValue><Abstract type="html">Screen boundaries in portrait orientation.</Abstract></ReturnValue>
+			<Anchor>//api/name/portraitScreenBounds</Anchor>
             <NodeRef refid="146"/>
 		</Token>
 		

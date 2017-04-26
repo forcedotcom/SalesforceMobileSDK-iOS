@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFFileProtectionHelper.html">
+	<File path="Classes/SFEncryptionKey.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFFileProtectionHelper</TokenIdentifier>
-			<Abstract type="html">This helper class aims at providing a centralized
-place where NSFileProtection can be configured and retrieved.</Abstract>
-			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFEncryptionKey</TokenIdentifier>
+			<Abstract type="html">Data object representing an symmetric encryption key, with a key value and initialization vector.</Abstract>
+			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
             
 			
 			<NodeRef refid="42"/>
@@ -14,130 +13,166 @@ place where NSFileProtection can be configured and retrieved.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFFileProtectionHelper/setDefaultNSFileProtectionMode:</TokenIdentifier>
-			<Abstract type="html">Contains the default NSFileProtection mode to use
-if no protection is specified. By default, this property
-is NSFileProtectionComplete</Abstract>
-			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/initWithData:initializationVector:</TokenIdentifier>
+			<Abstract type="html">Designated initializer.</Abstract>
+			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *defaultNSFileProtectionMode</Declaration>
-			
-			
-			<Anchor>//api/name/defaultNSFileProtectionMode</Anchor>
-            <NodeRef refid="42"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFFileProtectionHelper/defaultNSFileProtectionMode</TokenIdentifier>
-			<Abstract type="html">Contains the default NSFileProtection mode to use
-if no protection is specified. By default, this property
-is NSFileProtectionComplete</Abstract>
-			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *defaultNSFileProtectionMode</Declaration>
-			
-			
-			<Anchor>//api/name/defaultNSFileProtectionMode</Anchor>
-            <NodeRef refid="42"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFFileProtectionHelper/defaultNSFileProtectionMode</TokenIdentifier>
-			<Abstract type="html">Contains the default NSFileProtection mode to use
-if no protection is specified. By default, this property
-is NSFileProtectionComplete</Abstract>
-			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *defaultNSFileProtectionMode</Declaration>
-			
-			
-			<Anchor>//api/name/defaultNSFileProtectionMode</Anchor>
-            <NodeRef refid="42"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFFileProtectionHelper/setPathsToFileProtection:</TokenIdentifier>
-			<Abstract type="html">A mapping of paths to custom file protection statuses</Abstract>
-			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSDictionary *pathsToFileProtection</Declaration>
-			
-			
-			<Anchor>//api/name/pathsToFileProtection</Anchor>
-            <NodeRef refid="42"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFFileProtectionHelper/pathsToFileProtection</TokenIdentifier>
-			<Abstract type="html">A mapping of paths to custom file protection statuses</Abstract>
-			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSDictionary *pathsToFileProtection</Declaration>
-			
-			
-			<Anchor>//api/name/pathsToFileProtection</Anchor>
-            <NodeRef refid="42"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFFileProtectionHelper/pathsToFileProtection</TokenIdentifier>
-			<Abstract type="html">A mapping of paths to custom file protection statuses</Abstract>
-			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSDictionary *pathsToFileProtection</Declaration>
-			
-			
-			<Anchor>//api/name/pathsToFileProtection</Anchor>
-            <NodeRef refid="42"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFFileProtectionHelper/sharedInstance</TokenIdentifier>
-			<Abstract type="html">Returns the shared instance</Abstract>
-			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
-			
-			<Declaration>+ (instancetype)sharedInstance</Declaration>
-			
-			
-			<Anchor>//api/name/sharedInstance</Anchor>
-            <NodeRef refid="42"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFFileProtectionHelper/fileProtectionForPath:</TokenIdentifier>
-			<Abstract type="html">Helper method that will return the file protection
-for the specified file path.</Abstract>
-			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
-			
-			<Declaration>+ (NSString *)fileProtectionForPath:(NSString *)path</Declaration>
+			<Declaration>- (id)initWithData:(NSData *)keyData initializationVector:(NSData *)iv</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>path</Name>
-					<Abstract type="html">The path for which to return the file protection</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The file protection</Abstract></ReturnValue>
-			<Anchor>//api/name/fileProtectionForPath:</Anchor>
-            <NodeRef refid="42"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFFileProtectionHelper/addProtection:forPath:</TokenIdentifier>
-			<Abstract type="html">Add a valid file protection attribute to a path</Abstract>
-			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
-			
-			<Declaration>- (void)addProtection:(NSString *)fileProtection forPath:(NSString *)path</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>fileProtection</Name>
-					<Abstract type="html">Type of file protection to apply to the path</Abstract>
+					<Name>keyData</Name>
+					<Abstract type="html">The key component, represented as NSData.</Abstract>
 				</Parameter><Parameter>
-					<Name>path</Name>
-					<Abstract type="html">The path for which to return the file protection</Abstract>
+					<Name>iv</Name>
+					<Abstract type="html">The initialization vector, represented as NSData.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/addProtection:forPath:</Anchor>
+			<Anchor>//api/name/initWithData:initializationVector:</Anchor>
+            <NodeRef refid="42"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/setKey:</TokenIdentifier>
+			<Abstract type="html">The key component of the object.</Abstract>
+			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSData *key</Declaration>
+			
+			
+			<Anchor>//api/name/key</Anchor>
+            <NodeRef refid="42"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/key</TokenIdentifier>
+			<Abstract type="html">The key component of the object.</Abstract>
+			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSData *key</Declaration>
+			
+			
+			<Anchor>//api/name/key</Anchor>
+            <NodeRef refid="42"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFEncryptionKey/key</TokenIdentifier>
+			<Abstract type="html">The key component of the object.</Abstract>
+			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSData *key</Declaration>
+			
+			
+			<Anchor>//api/name/key</Anchor>
+            <NodeRef refid="42"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/setInitializationVector:</TokenIdentifier>
+			<Abstract type="html">The initialization vector component of the object.</Abstract>
+			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSData *initializationVector</Declaration>
+			
+			
+			<Anchor>//api/name/initializationVector</Anchor>
+            <NodeRef refid="42"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/initializationVector</TokenIdentifier>
+			<Abstract type="html">The initialization vector component of the object.</Abstract>
+			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSData *initializationVector</Declaration>
+			
+			
+			<Anchor>//api/name/initializationVector</Anchor>
+            <NodeRef refid="42"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFEncryptionKey/initializationVector</TokenIdentifier>
+			<Abstract type="html">The initialization vector component of the object.</Abstract>
+			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSData *initializationVector</Declaration>
+			
+			
+			<Anchor>//api/name/initializationVector</Anchor>
+            <NodeRef refid="42"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/setKeyAsString:</TokenIdentifier>
+			<Abstract type="html">The base64 representation of the key data.</Abstract>
+			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *keyAsString</Declaration>
+			
+			
+			<Anchor>//api/name/keyAsString</Anchor>
+            <NodeRef refid="42"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/keyAsString</TokenIdentifier>
+			<Abstract type="html">The base64 representation of the key data.</Abstract>
+			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *keyAsString</Declaration>
+			
+			
+			<Anchor>//api/name/keyAsString</Anchor>
+            <NodeRef refid="42"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFEncryptionKey/keyAsString</TokenIdentifier>
+			<Abstract type="html">The base64 representation of the key data.</Abstract>
+			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *keyAsString</Declaration>
+			
+			
+			<Anchor>//api/name/keyAsString</Anchor>
+            <NodeRef refid="42"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/setInitializationVectorAsString:</TokenIdentifier>
+			<Abstract type="html">The base64 representation of the initialization vector data.</Abstract>
+			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *initializationVectorAsString</Declaration>
+			
+			
+			<Anchor>//api/name/initializationVectorAsString</Anchor>
+            <NodeRef refid="42"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/initializationVectorAsString</TokenIdentifier>
+			<Abstract type="html">The base64 representation of the initialization vector data.</Abstract>
+			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *initializationVectorAsString</Declaration>
+			
+			
+			<Anchor>//api/name/initializationVectorAsString</Anchor>
+            <NodeRef refid="42"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFEncryptionKey/initializationVectorAsString</TokenIdentifier>
+			<Abstract type="html">The base64 representation of the initialization vector data.</Abstract>
+			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *initializationVectorAsString</Declaration>
+			
+			
+			<Anchor>//api/name/initializationVectorAsString</Anchor>
             <NodeRef refid="42"/>
 		</Token>
 		

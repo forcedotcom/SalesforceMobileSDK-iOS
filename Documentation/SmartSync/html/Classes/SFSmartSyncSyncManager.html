@@ -54,6 +54,12 @@
 
 	
 	
+	<optgroup label="Properties">
+		
+		<option value="//api/name/store">store</option>
+		
+	</optgroup>
+	
 
 	
 	<optgroup label="Class Methods">
@@ -79,8 +85,6 @@
 	<optgroup label="Instance Methods">
 		
 		<option value="//api/name/cleanResyncGhosts:completionStatusBlock:">- cleanResyncGhosts:completionStatusBlock:</option>
-		
-		<option value="//api/name/getDirtyRecordIds:idField:">- getDirtyRecordIds:idField:</option>
 		
 		<option value="//api/name/getSyncStatus:">- getSyncStatus:</option>
 		
@@ -128,7 +132,7 @@
 					<div class="section section-overview">
 						<a title="Overview" name="overview"></a>
 						<h2 class="subtitle subtitle-overview">Overview</h2>
-						<p>This class provides methods for doing synching records to/from the server from/to the smartstore.</p>
+						<p>This class provides methods for doing synching records to/from the server from/to the smart<a href="#//api/name/store">store</a>.</p>
 					</div>
 					
 					
@@ -144,6 +148,22 @@
 
 						<div class="task-list">
 							<div class="section-method">
+	<a name="//api/name/store" title="store"></a>
+	<h3 class="method-title"><code><a href="#//api/name/store">&nbsp;&nbsp;store</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, readonly) SFSmartStore *store</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/sharedInstance:" title="sharedInstance:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/sharedInstance:">+&nbsp;sharedInstance:</a></code>
 </h3>
@@ -155,8 +175,8 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Singleton method for accessing sync manager instance by user. Configured SmartStore store will be
-the default store for the user.</p>
+				<p>Singleton method for accessing sync manager instance by user. Configured SmartStore <a href="#//api/name/store">store</a> will be
+the default <a href="#//api/name/store">store</a> for the user.</p>
 			</div>
 			
 		    
@@ -209,8 +229,8 @@ the default store for the user.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Singleton method for accessing a sync manager based on user and store name. Configured SmartStore
-store will be the store with the given name for the given user.</p>
+				<p>Singleton method for accessing a sync manager based on user and <a href="#//api/name/store">store</a> name. Configured SmartStore
+<a href="#//api/name/store">store</a> will be the <a href="#//api/name/store">store</a> with the given name for the given user.</p>
 			</div>
 			
 		    
@@ -225,7 +245,7 @@ store will be the store with the given name for the given user.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>user</code></th>
-						<td><p>The user associated with the store.</p></td>
+						<td><p>The user associated with the <a href="#//api/name/store">store</a>.</p></td>
 					</tr>
 				
 					<tr>
@@ -268,7 +288,7 @@ store will be the store with the given name for the given user.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Singleton method for accessing sync manager instance by SmartStore store.</p>
+				<p>Singleton method for accessing sync manager instance by SmartStore <a href="#//api/name/store">store</a>.</p>
 			</div>
 			
 		    
@@ -283,7 +303,7 @@ store will be the store with the given name for the given user.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>store</code></th>
-						<td><p>The store instance to configure.</p></td>
+						<td><p>The <a href="#//api/name/store">store</a> instance to configure.</p></td>
 					</tr>
 				
 				</table>
@@ -374,7 +394,7 @@ store will be the store with the given name for the given user.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Removes the shared instance associated with the given user and store name.</p>
+				<p>Removes the shared instance associated with the given user and <a href="#//api/name/store">store</a> name.</p>
 			</div>
 			
 		    
@@ -389,12 +409,12 @@ store will be the store with the given name for the given user.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>user</code></th>
-						<td><p>The user associated with the store.</p></td>
+						<td><p>The user associated with the <a href="#//api/name/store">store</a>.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>storeName</code></th>
-						<td><p>The name of the store associated with the given user.</p></td>
+						<td><p>The name of the <a href="#//api/name/store">store</a> associated with the given user.</p></td>
 					</tr>
 				
 				</table>
@@ -432,7 +452,7 @@ store will be the store with the given name for the given user.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Removes the shared instance associated with the specified store.</p>
+				<p>Removes the shared instance associated with the specified <a href="#//api/name/store">store</a>.</p>
 			</div>
 			
 		    
@@ -447,7 +467,7 @@ store will be the store with the given name for the given user.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>store</code></th>
-						<td><p>The store instance.</p></td>
+						<td><p>The <a href="#//api/name/store">store</a> instance.</p></td>
 					</tr>
 				
 				</table>
@@ -890,64 +910,6 @@ or do not match the query results on the server anymore.</p>
 			
 		</div>
 	</div>
-</div><div class="section-method">
-	<a name="//api/name/getDirtyRecordIds:idField:" title="getDirtyRecordIds:idField:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/getDirtyRecordIds:idField:">&ndash;&nbsp;getDirtyRecordIds:idField:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Returns IDs (specified ID field) from dirty records in the given soup.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (NSOrderedSet *)getDirtyRecordIds:(NSString *)<em>soupName</em> idField:(NSString *)<em>idField</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>soupName</code></th>
-						<td><p>The name of the soup to look into.</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>idField</code></th>
-						<td><p>The field to return.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSmartSyncSyncManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
 </div>
 						</div>
 						
@@ -963,7 +925,7 @@ or do not match the query results on the server anymore.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-12-12</p>
+						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-04-26</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

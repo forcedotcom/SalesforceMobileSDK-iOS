@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/CSFActionModel.html">
+	<File path="Categories/NSValueTransformer+SalesforceNetwork.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/CSFActionModel</TokenIdentifier>
-			<Abstract type="html">This protocol represents objects that can be used as the model class for a CSFAction.</Abstract>
-			<DeclaredIn>CSFActionModel.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSValueTransformer(SalesforceNetwork)</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>NSValueTransformer+SalesforceNetwork.h</DeclaredIn>
             
 			
 			<NodeRef refid="143"/>
@@ -13,22 +13,14 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/CSFActionModel/initWithJSON:context:</TokenIdentifier>
-			<Abstract type="html">Designated initializer to construct a model object from its JSON representation.</Abstract>
-			<DeclaredIn>CSFActionModel.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSValueTransformer/networkDataTransformerForObject:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>NSValueTransformer+SalesforceNetwork.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithJSON:(NSDictionary *)json context:(NSDictionary *)context</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>json</Name>
-					<Abstract type="html">Dictionary of structured data from the network.</Abstract>
-				</Parameter><Parameter>
-					<Name>context</Name>
-					<Abstract type="html">Dictionary of relevant information about the request and the action that performed it.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">Initialized model object.</Abstract></ReturnValue>
-			<Anchor>//api/name/initWithJSON:context:</Anchor>
+			<Declaration>+ (NSValueTransformer *)networkDataTransformerForObject:(id)object</Declaration>
+			
+			
+			<Anchor>//api/name/networkDataTransformerForObject:</Anchor>
             <NodeRef refid="143"/>
 		</Token>
 		

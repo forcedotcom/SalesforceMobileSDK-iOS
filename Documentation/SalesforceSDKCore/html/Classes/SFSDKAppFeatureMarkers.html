@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 
-	<title>SFUserAccountManagerUpgrade Class Reference</title>
+	<title>SFSDKAppFeatureMarkers Class Reference</title>
 
 	<link rel="stylesheet" href="../css/style.css">
 	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
@@ -58,9 +58,11 @@
 	
 	<optgroup label="Class Methods">
 		
-		<option value="//api/name/createUserFromLegacyAccountData">+ createUserFromLegacyAccountData</option>
+		<option value="//api/name/appFeatures">+ appFeatures</option>
 		
-		<option value="//api/name/updateToActiveUserIdentity:">+ updateToActiveUserIdentity:</option>
+		<option value="//api/name/registerAppFeature:">+ registerAppFeature:</option>
+		
+		<option value="//api/name/unregisterAppFeature:">+ unregisterAppFeature:</option>
 		
 	</optgroup>
 	
@@ -79,7 +81,7 @@
 		<div id="overview_contents" class="container">
 			<div id="content">
 				<main role="main">
-					<h1 class="title">SFUserAccountManagerUpgrade Class Reference</h1>
+					<h1 class="title">SFSDKAppFeatureMarkers Class Reference</h1>
 
 					
 					<div class="section section-specification"><table cellspacing="0"><tbody>
@@ -88,7 +90,7 @@
 	<td>NSObject</td>
 </tr><tr>
 	<th>Declared in</th>
-	<td>SFUserAccountManagerUpgrade.h</td>
+	<td>SFSDKAppFeatureMarkers.h</td>
 </tr>
 						</tbody></table></div>
 					
@@ -98,7 +100,8 @@
 					<div class="section section-overview">
 						<a title="Overview" name="overview"></a>
 						<h2 class="subtitle subtitle-overview">Overview</h2>
-						<p>Class for updating legacy accounts and active users to current standards.</p>
+						<p>Class to register and unregister feature markers associated with SDK facilities being used in
+an app.</p>
 					</div>
 					
 					
@@ -114,8 +117,8 @@
 
 						<div class="task-list">
 							<div class="section-method">
-	<a name="//api/name/createUserFromLegacyAccountData" title="createUserFromLegacyAccountData"></a>
-	<h3 class="method-title"><code><a href="#//api/name/createUserFromLegacyAccountData">+&nbsp;createUserFromLegacyAccountData</a></code>
+	<a name="//api/name/registerAppFeature:" title="registerAppFeature:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/registerAppFeature:">+&nbsp;registerAppFeature:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -125,60 +128,12 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>If legacy account data exists, create a user account from that data, and then remove
-the legacy data.</p>
+				<p>Register a particular app feature.</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>+ (SFUserAccount *)createUserFromLegacyAccountData</code></div>
-
-		    
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>An <a href="../Classes/SFUserAccount.html"><code>SFUserAccount</code></a> object based on the legacy data, or <code>nil</code> if there is no legacy
-account data.</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManagerUpgrade.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/updateToActiveUserIdentity:" title="updateToActiveUserIdentity:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/updateToActiveUserIdentity:">+&nbsp;updateToActiveUserIdentity:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>If legacy active user data exists, update it to the user identity data model.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (void)updateToActiveUserIdentity:(SFUserAccountManager *)<em>accountManager</em></code></div>
+			<div class="method-subsection method-declaration"><code>+ (void)registerAppFeature:(nonnull NSString *)<em>appFeature</em></code></div>
 
 		    
 			
@@ -187,8 +142,8 @@ account data.</p>
 				<table class="argument-def parameter-def">
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>accountManager</code></th>
-						<td><p>The user account manager to query user data.</p></td>
+						<th scope="row" class="argument-name"><code>appFeature</code></th>
+						<td><p>The string representation of the feature to register.</p></td>
 					</tr>
 				
 				</table>
@@ -208,7 +163,106 @@ account data.</p>
 			
 			<div class="method-subsection declared-in-section">
 				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManagerUpgrade.h</code></p>
+				<p><code class="declared-in-ref">SFSDKAppFeatureMarkers.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/unregisterAppFeature:" title="unregisterAppFeature:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/unregisterAppFeature:">+&nbsp;unregisterAppFeature:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Unregister a particular app feature.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)unregisterAppFeature:(nonnull NSString *)<em>appFeature</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>appFeature</code></th>
+						<td><p>The string representation of the feature to unregister.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKAppFeatureMarkers.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/appFeatures" title="appFeatures"></a>
+	<h3 class="method-title"><code><a href="#//api/name/appFeatures">+&nbsp;appFeatures</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The current set of registered features.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (nonnull NSSet&lt;NSString*&gt; *)appFeatures</code></div>
+
+		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>The current set of registered features.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKAppFeatureMarkers.h</code></p>
 			</div>
 			
 			
@@ -229,7 +283,7 @@ account data.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-12-12</p>
+						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-04-26</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

@@ -19,10 +19,10 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setMethod:</TokenIdentifier>
-			<Abstract type="html">The HTTP method of the request.  See SFRestMethod.</Abstract>
+			<Abstract type="html">The HTTP method of the request. See SFRestMethod.</Abstract>
 			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) SFRestMethod method</Declaration>
+			<Declaration>@property (nonatomic, assign, readwrite) SFRestMethod method</Declaration>
 			
 			
 			<Anchor>//api/name/method</Anchor>
@@ -31,10 +31,10 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/method</TokenIdentifier>
-			<Abstract type="html">The HTTP method of the request.  See SFRestMethod.</Abstract>
+			<Abstract type="html">The HTTP method of the request. See SFRestMethod.</Abstract>
 			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) SFRestMethod method</Declaration>
+			<Declaration>@property (nonatomic, assign, readwrite) SFRestMethod method</Declaration>
 			
 			
 			<Anchor>//api/name/method</Anchor>
@@ -43,13 +43,52 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/method</TokenIdentifier>
-			<Abstract type="html">The HTTP method of the request.  See SFRestMethod.</Abstract>
+			<Abstract type="html">The HTTP method of the request. See SFRestMethod.</Abstract>
 			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) SFRestMethod method</Declaration>
+			<Declaration>@property (nonatomic, assign, readwrite) SFRestMethod method</Declaration>
 			
 			
 			<Anchor>//api/name/method</Anchor>
+            <NodeRef refid="80"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setSessionDataTask:</TokenIdentifier>
+			<Abstract type="html">The NSURLSesssionDataTask instance associated with the request. This is set only
+once the request is queued and could be &apos;nil&apos; before that happens.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong, readwrite) NSURLSessionDataTask *sessionDataTask</Declaration>
+			
+			
+			<Anchor>//api/name/sessionDataTask</Anchor>
+            <NodeRef refid="80"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/sessionDataTask</TokenIdentifier>
+			<Abstract type="html">The NSURLSesssionDataTask instance associated with the request. This is set only
+once the request is queued and could be &apos;nil&apos; before that happens.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong, readwrite) NSURLSessionDataTask *sessionDataTask</Declaration>
+			
+			
+			<Anchor>//api/name/sessionDataTask</Anchor>
+            <NodeRef refid="80"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/sessionDataTask</TokenIdentifier>
+			<Abstract type="html">The NSURLSesssionDataTask instance associated with the request. This is set only
+once the request is queued and could be &apos;nil&apos; before that happens.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong, readwrite) NSURLSessionDataTask *sessionDataTask</Declaration>
+			
+			
+			<Anchor>//api/name/sessionDataTask</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
@@ -60,7 +99,7 @@ For instance, &quot;&quot; (empty string), &quot;v22.0/recent&quot;, &quot;v22.0
 Note that the path doesn&apos;t have to start with a &apos;/&apos;. For instance, passing &quot;v22.0/recent&quot; is the same as passing &quot;/v22.0/recent&quot;.</Abstract>
 			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *path</Declaration>
+			<Declaration>@property (nonnull, nonatomic, strong, readwrite) NSString *path</Declaration>
 			
 			
 			<Anchor>//api/name/path</Anchor>
@@ -74,7 +113,7 @@ For instance, &quot;&quot; (empty string), &quot;v22.0/recent&quot;, &quot;v22.0
 Note that the path doesn&apos;t have to start with a &apos;/&apos;. For instance, passing &quot;v22.0/recent&quot; is the same as passing &quot;/v22.0/recent&quot;.</Abstract>
 			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *path</Declaration>
+			<Declaration>@property (nonnull, nonatomic, strong, readwrite) NSString *path</Declaration>
 			
 			
 			<Anchor>//api/name/path</Anchor>
@@ -88,7 +127,7 @@ For instance, &quot;&quot; (empty string), &quot;v22.0/recent&quot;, &quot;v22.0
 Note that the path doesn&apos;t have to start with a &apos;/&apos;. For instance, passing &quot;v22.0/recent&quot; is the same as passing &quot;/v22.0/recent&quot;.</Abstract>
 			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *path</Declaration>
+			<Declaration>@property (nonnull, nonatomic, strong, readwrite) NSString *path</Declaration>
 			
 			
 			<Anchor>//api/name/path</Anchor>
@@ -101,7 +140,7 @@ Note that the path doesn&apos;t have to start with a &apos;/&apos;. For instance
 Note that URL encoding of the parameters will automatically happen when the request is sent.</Abstract>
 			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, strong) NSDictionary&lt;NSString*NSObject*&gt; *queryParams</Declaration>
+			<Declaration>@property (nullable, nonatomic, strong, readwrite) NSDictionary&lt;NSString*id&gt; *queryParams</Declaration>
 			
 			
 			<Anchor>//api/name/queryParams</Anchor>
@@ -114,7 +153,7 @@ Note that URL encoding of the parameters will automatically happen when the requ
 Note that URL encoding of the parameters will automatically happen when the request is sent.</Abstract>
 			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, strong) NSDictionary&lt;NSString*NSObject*&gt; *queryParams</Declaration>
+			<Declaration>@property (nullable, nonatomic, strong, readwrite) NSDictionary&lt;NSString*id&gt; *queryParams</Declaration>
 			
 			
 			<Anchor>//api/name/queryParams</Anchor>
@@ -127,7 +166,7 @@ Note that URL encoding of the parameters will automatically happen when the requ
 Note that URL encoding of the parameters will automatically happen when the request is sent.</Abstract>
 			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, strong) NSDictionary&lt;NSString*NSObject*&gt; *queryParams</Declaration>
+			<Declaration>@property (nullable, nonatomic, strong, readwrite) NSDictionary&lt;NSString*id&gt; *queryParams</Declaration>
 			
 			
 			<Anchor>//api/name/queryParams</Anchor>
@@ -140,7 +179,7 @@ Note that URL encoding of the parameters will automatically happen when the requ
 setHeaderValue:forHeaderName: to add headers to this property.</Abstract>
 			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSDictionary&lt;NSString*NSString*&gt; *customHeaders</Declaration>
+			<Declaration>@property (nullable, nonatomic, strong, readwrite) NSDictionary&lt;NSString*NSString*&gt; *customHeaders</Declaration>
 			
 			
 			<Anchor>//api/name/customHeaders</Anchor>
@@ -153,7 +192,7 @@ setHeaderValue:forHeaderName: to add headers to this property.</Abstract>
 setHeaderValue:forHeaderName: to add headers to this property.</Abstract>
 			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSDictionary&lt;NSString*NSString*&gt; *customHeaders</Declaration>
+			<Declaration>@property (nullable, nonatomic, strong, readwrite) NSDictionary&lt;NSString*NSString*&gt; *customHeaders</Declaration>
 			
 			
 			<Anchor>//api/name/customHeaders</Anchor>
@@ -166,46 +205,10 @@ setHeaderValue:forHeaderName: to add headers to this property.</Abstract>
 setHeaderValue:forHeaderName: to add headers to this property.</Abstract>
 			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSDictionary&lt;NSString*NSString*&gt; *customHeaders</Declaration>
+			<Declaration>@property (nullable, nonatomic, strong, readwrite) NSDictionary&lt;NSString*NSString*&gt; *customHeaders</Declaration>
 			
 			
 			<Anchor>//api/name/customHeaders</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setAction:</TokenIdentifier>
-			<Abstract type="html">Underlying SFRestAPISalesforceAction through which the network call is carried out</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) SFRestAPISalesforceAction *action</Declaration>
-			
-			
-			<Anchor>//api/name/action</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/action</TokenIdentifier>
-			<Abstract type="html">Underlying SFRestAPISalesforceAction through which the network call is carried out</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) SFRestAPISalesforceAction *action</Declaration>
-			
-			
-			<Anchor>//api/name/action</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/action</TokenIdentifier>
-			<Abstract type="html">Underlying SFRestAPISalesforceAction through which the network call is carried out</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) SFRestAPISalesforceAction *action</Declaration>
-			
-			
-			<Anchor>//api/name/action</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
@@ -250,7 +253,7 @@ setHeaderValue:forHeaderName: to add headers to this property.</Abstract>
 			<Abstract type="html">Typically kSFDefaultRestEndpoint but you may use eg custom Apex endpoints</Abstract>
 			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *endpoint</Declaration>
+			<Declaration>@property (nonnull, nonatomic, strong, readwrite) NSString *endpoint</Declaration>
 			
 			
 			<Anchor>//api/name/endpoint</Anchor>
@@ -262,7 +265,7 @@ setHeaderValue:forHeaderName: to add headers to this property.</Abstract>
 			<Abstract type="html">Typically kSFDefaultRestEndpoint but you may use eg custom Apex endpoints</Abstract>
 			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *endpoint</Declaration>
+			<Declaration>@property (nonnull, nonatomic, strong, readwrite) NSString *endpoint</Declaration>
 			
 			
 			<Anchor>//api/name/endpoint</Anchor>
@@ -274,7 +277,7 @@ setHeaderValue:forHeaderName: to add headers to this property.</Abstract>
 			<Abstract type="html">Typically kSFDefaultRestEndpoint but you may use eg custom Apex endpoints</Abstract>
 			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *endpoint</Declaration>
+			<Declaration>@property (nonnull, nonatomic, strong, readwrite) NSString *endpoint</Declaration>
 			
 			
 			<Anchor>//api/name/endpoint</Anchor>
@@ -321,54 +324,13 @@ the request headers before sending the request.  If NO, they will not.</Abstract
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setParseResponse:</TokenIdentifier>
-			<Abstract type="html">Whether or not to parse the response data as structured JSON data.  Defaults to YES. If
-set to NO, response data will be returned as binary data in an NSData object.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL parseResponse</Declaration>
-			
-			
-			<Anchor>//api/name/parseResponse</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/parseResponse</TokenIdentifier>
-			<Abstract type="html">Whether or not to parse the response data as structured JSON data.  Defaults to YES. If
-set to NO, response data will be returned as binary data in an NSData object.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL parseResponse</Declaration>
-			
-			
-			<Anchor>//api/name/parseResponse</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/parseResponse</TokenIdentifier>
-			<Abstract type="html">Whether or not to parse the response data as structured JSON data.  Defaults to YES. If
-set to NO, response data will be returned as binary data in an NSData object.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL parseResponse</Declaration>
-			
-			
-			<Anchor>//api/name/parseResponse</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/prepareRequestForSend</TokenIdentifier>
-			<Abstract type="html">Override this method to implement any request preparations immediately prior to the request
-being sent.  Note: You should not call this method directly.  And make sure to call the
-super implementation within your own implementation.</Abstract>
+			<Abstract type="html">Prepares the request before sending it out.</Abstract>
 			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>- (void)prepareRequestForSend</Declaration>
+			<Declaration>- (NSURLRequest *)prepareRequestForSend</Declaration>
 			
-			
+			<ReturnValue><Abstract type="html">NSURLRequest instance.</Abstract></ReturnValue>
 			<Anchor>//api/name/prepareRequestForSend</Anchor>
             <NodeRef refid="80"/>
 		</Token>
@@ -396,7 +358,7 @@ from the collection of headers.</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/cancel</TokenIdentifier>
-			<Abstract type="html">Cancels this request if it is running</Abstract>
+			<Abstract type="html">Cancels this request if it is running.</Abstract>
 			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
 			<Declaration>- (void)cancel</Declaration>
@@ -407,18 +369,18 @@ from the collection of headers.</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/addPostFileData:paramName:fileName:mimeType:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/addPostFileData:description:fileName:mimeType:</TokenIdentifier>
 			<Abstract type="html">Add file to upload.</Abstract>
 			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>- (void)addPostFileData:(NSData *)fileData paramName:(NSString *)paramName fileName:(NSString *)fileName mimeType:(NSString *)mimeType</Declaration>
+			<Declaration>- (void)addPostFileData:(NSData *)fileData description:(nullable NSString *)description fileName:(NSString *)fileName mimeType:(NSString *)mimeType</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>fileData</Name>
 					<Abstract type="html">Value of this POST parameter</Abstract>
 				</Parameter><Parameter>
-					<Name>paramName</Name>
-					<Abstract type="html">Name of the POST parameter</Abstract>
+					<Name>description</Name>
+					<Abstract type="html">Description of the file</Abstract>
 				</Parameter><Parameter>
 					<Name>fileName</Name>
 					<Abstract type="html">Name of the file</Abstract>
@@ -428,7 +390,7 @@ from the collection of headers.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/addPostFileData:paramName:fileName:mimeType:</Anchor>
+			<Anchor>//api/name/addPostFileData:description:fileName:mimeType:</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
@@ -449,6 +411,26 @@ from the collection of headers.</Abstract>
 			</Parameters>
 			
 			<Anchor>//api/name/setCustomRequestBodyString:contentType:</Anchor>
+            <NodeRef refid="80"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setCustomRequestBodyDictionary:contentType:</TokenIdentifier>
+			<Abstract type="html">Sets a custom request body based on an NSDictionary representation.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>- (void)setCustomRequestBodyDictionary:(NSDictionary *)bodyDictionary contentType:(NSString *)contentType</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>bodyDictionary</Name>
+					<Abstract type="html">The NSDictionary object representing the request body.</Abstract>
+				</Parameter><Parameter>
+					<Name>contentType</Name>
+					<Abstract type="html">The content type associated with this request.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setCustomRequestBodyDictionary:contentType:</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
@@ -510,6 +492,23 @@ from the collection of headers.</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestRequest/httpMethodFromSFRestMethod:</TokenIdentifier>
+			<Abstract type="html">Return HTTP method as string for SFRestMethod</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)httpMethodFromSFRestMethod:(SFRestMethod)restMethod</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>restMethod</Name>
+					<Abstract type="html">The SFRestMethod</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the HTTP string for the given SFRestMethod</Abstract></ReturnValue>
+			<Anchor>//api/name/httpMethodFromSFRestMethod:</Anchor>
+            <NodeRef refid="80"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFRestRequest/sfRestMethodFromHTTPMethod:</TokenIdentifier>
 			<Abstract type="html">* Return SFRestMethod from string</Abstract>
 			<DeclaredIn>SFRestRequest.h</DeclaredIn>
@@ -531,7 +530,7 @@ from the collection of headers.</Abstract>
 			<Abstract type="html">Creates an SFRestRequest object. See SFRestMethod.</Abstract>
 			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)requestWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(nullable NSDictionary&lt;NSString*,NSString*&gt; *)queryParams</Declaration>
+			<Declaration>+ (instancetype)requestWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(nullable NSDictionary&lt;NSString*,id&gt; *)queryParams</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>method</Name>
@@ -550,11 +549,47 @@ from the collection of headers.</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setRequest:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonnull, nonatomic, strong, readwrite) NSMutableURLRequest *request</Declaration>
+			
+			
+			<Anchor>//api/name/request</Anchor>
+            <NodeRef refid="80"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/request</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonnull, nonatomic, strong, readwrite) NSMutableURLRequest *request</Declaration>
+			
+			
+			<Anchor>//api/name/request</Anchor>
+            <NodeRef refid="80"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/request</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonnull, nonatomic, strong, readwrite) NSMutableURLRequest *request</Declaration>
+			
+			
+			<Anchor>//api/name/request</Anchor>
+            <NodeRef refid="80"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setRequestBodyStreamBlock:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSInputStream *^ ) ( void ) requestBodyStreamBlock</Declaration>
+			<Declaration>@property (nullable, nonatomic, copy) NSInputStream *( ^ ) ( void ) requestBodyStreamBlock</Declaration>
 			
 			
 			<Anchor>//api/name/requestBodyStreamBlock</Anchor>
@@ -566,7 +601,7 @@ from the collection of headers.</Abstract>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSInputStream *^ ) ( void ) requestBodyStreamBlock</Declaration>
+			<Declaration>@property (nullable, nonatomic, copy) NSInputStream *( ^ ) ( void ) requestBodyStreamBlock</Declaration>
 			
 			
 			<Anchor>//api/name/requestBodyStreamBlock</Anchor>
@@ -578,10 +613,46 @@ from the collection of headers.</Abstract>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSInputStream *^ ) ( void ) requestBodyStreamBlock</Declaration>
+			<Declaration>@property (nullable, nonatomic, copy) NSInputStream *( ^ ) ( void ) requestBodyStreamBlock</Declaration>
 			
 			
 			<Anchor>//api/name/requestBodyStreamBlock</Anchor>
+            <NodeRef refid="80"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setRequestBodyAsDictionary:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, copy) NSDictionary *requestBodyAsDictionary</Declaration>
+			
+			
+			<Anchor>//api/name/requestBodyAsDictionary</Anchor>
+            <NodeRef refid="80"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/requestBodyAsDictionary</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, copy) NSDictionary *requestBodyAsDictionary</Declaration>
+			
+			
+			<Anchor>//api/name/requestBodyAsDictionary</Anchor>
+            <NodeRef refid="80"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/requestBodyAsDictionary</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, copy) NSDictionary *requestBodyAsDictionary</Declaration>
+			
+			
+			<Anchor>//api/name/requestBodyAsDictionary</Anchor>
             <NodeRef refid="80"/>
 		</Token>
 		
@@ -590,7 +661,7 @@ from the collection of headers.</Abstract>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *requestContentType</Declaration>
+			<Declaration>@property (nullable, nonatomic, copy) NSString *requestContentType</Declaration>
 			
 			
 			<Anchor>//api/name/requestContentType</Anchor>
@@ -602,7 +673,7 @@ from the collection of headers.</Abstract>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *requestContentType</Declaration>
+			<Declaration>@property (nullable, nonatomic, copy) NSString *requestContentType</Declaration>
 			
 			
 			<Anchor>//api/name/requestContentType</Anchor>
@@ -614,7 +685,7 @@ from the collection of headers.</Abstract>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *requestContentType</Declaration>
+			<Declaration>@property (nullable, nonatomic, copy) NSString *requestContentType</Declaration>
 			
 			
 			<Anchor>//api/name/requestContentType</Anchor>

@@ -56,7 +56,11 @@
 	
 	<optgroup label="Properties">
 		
+		<option value="//api/name/createFieldlist">createFieldlist</option>
+		
 		<option value="//api/name/targetType">targetType</option>
+		
+		<option value="//api/name/updateFieldlist">updateFieldlist</option>
 		
 	</optgroup>
 	
@@ -76,15 +80,17 @@
 	
 	<optgroup label="Instance Methods">
 		
-		<option value="//api/name/createOnServer:fields:completionBlock:failBlock:">- createOnServer:fields:completionBlock:failBlock:</option>
+		<option value="//api/name/createOnServer:record:fieldlist:completionBlock:failBlock:">- createOnServer:record:fieldlist:completionBlock:failBlock:</option>
 		
-		<option value="//api/name/deleteOnServer:objectId:completionBlock:failBlock:">- deleteOnServer:objectId:completionBlock:failBlock:</option>
-		
-		<option value="//api/name/fetchRecordModificationDates:modificationResultBlock:">- fetchRecordModificationDates:modificationResultBlock:</option>
+		<option value="//api/name/deleteOnServer:record:completionBlock:failBlock:">- deleteOnServer:record:completionBlock:failBlock:</option>
 		
 		<option value="//api/name/getIdsOfRecordsToSyncUp:soupName:">- getIdsOfRecordsToSyncUp:soupName:</option>
 		
-		<option value="//api/name/updateOnServer:objectId:fields:completionBlock:failBlock:">- updateOnServer:objectId:fields:completionBlock:failBlock:</option>
+		<option value="//api/name/initWithCreateFieldlist:updateFieldlist:">- initWithCreateFieldlist:updateFieldlist:</option>
+		
+		<option value="//api/name/isNewerThanServer:record:resultBlock:">- isNewerThanServer:record:resultBlock:</option>
+		
+		<option value="//api/name/updateOnServer:record:fieldlist:completionBlock:failBlock:">- updateOnServer:record:fieldlist:completionBlock:failBlock:</option>
 		
 	</optgroup>
 	
@@ -153,6 +159,88 @@
 		    
 
 			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) SFSyncUpTargetType targetType</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSyncUpTarget.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/createFieldlist" title="createFieldlist"></a>
+	<h3 class="method-title"><code><a href="#//api/name/createFieldlist">&nbsp;&nbsp;createFieldlist</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Create field list (optional)</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, readonly) NSArray *createFieldlist</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSyncUpTarget.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/updateFieldlist" title="updateFieldlist"></a>
+	<h3 class="method-title"><code><a href="#//api/name/updateFieldlist">&nbsp;&nbsp;updateFieldlist</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Update field list (optional)</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, readonly) NSArray *updateFieldlist</code></div>
 
 		    
 			
@@ -346,8 +434,8 @@
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/fetchRecordModificationDates:modificationResultBlock:" title="fetchRecordModificationDates:modificationResultBlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/fetchRecordModificationDates:modificationResultBlock:">&ndash;&nbsp;fetchRecordModificationDates:modificationResultBlock:</a></code>
+	<a name="//api/name/initWithCreateFieldlist:updateFieldlist:" title="initWithCreateFieldlist:updateFieldlist:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/initWithCreateFieldlist:updateFieldlist:">&ndash;&nbsp;initWithCreateFieldlist:updateFieldlist:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -357,12 +445,55 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Gives the current modification times of a record, on the client and on the server.</p>
+				<p>Constructor</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)fetchRecordModificationDates:(NSDictionary *)<em>record</em> modificationResultBlock:(SFSyncUpRecordModificationResultBlock)<em>modificationResultBlock</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (instancetype)initWithCreateFieldlist:(NSArray *)<em>createFieldlist</em> updateFieldlist:(NSArray *)<em>updateFieldlist</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSyncUpTarget.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/isNewerThanServer:record:resultBlock:" title="isNewerThanServer:record:resultBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/isNewerThanServer:record:resultBlock:">&ndash;&nbsp;isNewerThanServer:record:resultBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Call resultBlock with YES if record is more recent than corresponding record on server
+NB: also call resultBlock true if both were deleted or if local mod date is missing
+Used to decide whether a record should be synced up or not when using merge mode leave-if-changed</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)isNewerThanServer:(SFSmartSyncSyncManager *)<em>syncManager</em> record:(NSDictionary *)<em>record</em> resultBlock:(SFSyncUpRecordNewerThanServerBlock)<em>resultBlock</em></code></div>
 
 		    
 			
@@ -372,12 +503,12 @@
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>record</code></th>
-						<td><p>The record to query for modification times.</p></td>
+						<td><p>The record</p></td>
 					</tr>
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>modificationResultBlock</code></th>
-						<td><p>The block to execute with the modification date values.</p></td>
+						<th scope="row" class="argument-name"><code>resultBlock</code></th>
+						<td><p>The block to execute</p></td>
 					</tr>
 				
 				</table>
@@ -404,8 +535,8 @@
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/createOnServer:fields:completionBlock:failBlock:" title="createOnServer:fields:completionBlock:failBlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/createOnServer:fields:completionBlock:failBlock:">&ndash;&nbsp;createOnServer:fields:completionBlock:failBlock:</a></code>
+	<a name="//api/name/createOnServer:record:fieldlist:completionBlock:failBlock:" title="createOnServer:record:fieldlist:completionBlock:failBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/createOnServer:record:fieldlist:completionBlock:failBlock:">&ndash;&nbsp;createOnServer:record:fieldlist:completionBlock:failBlock:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -420,7 +551,7 @@
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)createOnServer:(NSString *)<em>objectType</em> fields:(NSDictionary *)<em>fields</em> completionBlock:(SFSyncUpTargetCompleteBlock)<em>completionBlock</em> failBlock:(SFSyncUpTargetErrorBlock)<em>failBlock</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)createOnServer:(SFSmartSyncSyncManager *)<em>syncManager</em> record:(NSDictionary *)<em>record</em> fieldlist:(NSArray *)<em>fieldlist</em> completionBlock:(SFSyncUpTargetCompleteBlock)<em>completionBlock</em> failBlock:(SFSyncUpTargetErrorBlock)<em>failBlock</em></code></div>
 
 		    
 			
@@ -429,13 +560,18 @@
 				<table class="argument-def parameter-def">
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>objectType</code></th>
-						<td><p>The object type of the record.</p></td>
+						<th scope="row" class="argument-name"><code>syncManager</code></th>
+						<td><p>The sync manager doing the sync</p></td>
 					</tr>
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>fields</code></th>
-						<td><p>The map of record attribute names to values.</p></td>
+						<th scope="row" class="argument-name"><code>record</code></th>
+						<td><p>The record being synced</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>fieldlist</code></th>
+						<td><p>List of fields to send to server</p></td>
 					</tr>
 				
 					<tr>
@@ -472,8 +608,8 @@
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/updateOnServer:objectId:fields:completionBlock:failBlock:" title="updateOnServer:objectId:fields:completionBlock:failBlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/updateOnServer:objectId:fields:completionBlock:failBlock:">&ndash;&nbsp;updateOnServer:objectId:fields:completionBlock:failBlock:</a></code>
+	<a name="//api/name/updateOnServer:record:fieldlist:completionBlock:failBlock:" title="updateOnServer:record:fieldlist:completionBlock:failBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/updateOnServer:record:fieldlist:completionBlock:failBlock:">&ndash;&nbsp;updateOnServer:record:fieldlist:completionBlock:failBlock:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -488,7 +624,7 @@
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)updateOnServer:(NSString *)<em>objectType</em> objectId:(NSString *)<em>objectId</em> fields:(NSDictionary *)<em>fields</em> completionBlock:(SFSyncUpTargetCompleteBlock)<em>completionBlock</em> failBlock:(SFSyncUpTargetErrorBlock)<em>failBlock</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)updateOnServer:(SFSmartSyncSyncManager *)<em>syncManager</em> record:(NSDictionary *)<em>record</em> fieldlist:(NSArray *)<em>fieldlist</em> completionBlock:(SFSyncUpTargetCompleteBlock)<em>completionBlock</em> failBlock:(SFSyncUpTargetErrorBlock)<em>failBlock</em></code></div>
 
 		    
 			
@@ -497,18 +633,18 @@
 				<table class="argument-def parameter-def">
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>objectType</code></th>
-						<td><p>The object type of the record.</p></td>
+						<th scope="row" class="argument-name"><code>syncManager</code></th>
+						<td><p>The sync manager doing the sync</p></td>
 					</tr>
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>objectId</code></th>
-						<td><p>The object id of the record.</p></td>
+						<th scope="row" class="argument-name"><code>record</code></th>
+						<td><p>The record being synced</p></td>
 					</tr>
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>fields</code></th>
-						<td><p>The map of record attribute names to values.</p></td>
+						<th scope="row" class="argument-name"><code>fieldlist</code></th>
+						<td><p>List of fields to send to server</p></td>
 					</tr>
 				
 					<tr>
@@ -545,8 +681,8 @@
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/deleteOnServer:objectId:completionBlock:failBlock:" title="deleteOnServer:objectId:completionBlock:failBlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/deleteOnServer:objectId:completionBlock:failBlock:">&ndash;&nbsp;deleteOnServer:objectId:completionBlock:failBlock:</a></code>
+	<a name="//api/name/deleteOnServer:record:completionBlock:failBlock:" title="deleteOnServer:record:completionBlock:failBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/deleteOnServer:record:completionBlock:failBlock:">&ndash;&nbsp;deleteOnServer:record:completionBlock:failBlock:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -561,7 +697,7 @@
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)deleteOnServer:(NSString *)<em>objectType</em> objectId:(NSString *)<em>objectId</em> completionBlock:(SFSyncUpTargetCompleteBlock)<em>completionBlock</em> failBlock:(SFSyncUpTargetErrorBlock)<em>failBlock</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)deleteOnServer:(SFSmartSyncSyncManager *)<em>syncManager</em> record:(NSDictionary *)<em>record</em> completionBlock:(SFSyncUpTargetCompleteBlock)<em>completionBlock</em> failBlock:(SFSyncUpTargetErrorBlock)<em>failBlock</em></code></div>
 
 		    
 			
@@ -570,13 +706,13 @@
 				<table class="argument-def parameter-def">
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>objectType</code></th>
-						<td><p>The object type of the record.</p></td>
+						<th scope="row" class="argument-name"><code>syncManager</code></th>
+						<td><p>The sync manager doing the sync</p></td>
 					</tr>
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>objectId</code></th>
-						<td><p>The object id of the record.</p></td>
+						<th scope="row" class="argument-name"><code>record</code></th>
+						<td><p>The record being synced</p></td>
 					</tr>
 				
 					<tr>
@@ -685,7 +821,7 @@
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-12-12</p>
+						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-04-26</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

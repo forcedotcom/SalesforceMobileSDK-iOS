@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFUserActivityMonitor.html">
+	<File path="Classes/SFTestSDKManagerFlow.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFUserActivityMonitor</TokenIdentifier>
-			<Abstract type="html">Singleton class to monitor the application for user activity, and update SFInactivityTimerCenter when
-a change is detected.</Abstract>
-			<DeclaredIn>SFUserActivityMonitor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFTestSDKManagerFlow</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
             
 			
 			<NodeRef refid="109"/>
@@ -14,38 +13,74 @@ a change is detected.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFUserActivityMonitor/sharedInstance</TokenIdentifier>
-			<Abstract type="html">Returns the singleton instance of the class.</Abstract>
-			<DeclaredIn>SFUserActivityMonitor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/setPauseInAuth:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)sharedInstance</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL pauseInAuth</Declaration>
 			
 			
-			<Anchor>//api/name/sharedInstance</Anchor>
+			<Anchor>//api/name/pauseInAuth</Anchor>
             <NodeRef refid="109"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserActivityMonitor/startMonitoring</TokenIdentifier>
-			<Abstract type="html">Starts the application monitoring process.</Abstract>
-			<DeclaredIn>SFUserActivityMonitor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/pauseInAuth</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
 			
-			<Declaration>- (void)startMonitoring</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL pauseInAuth</Declaration>
 			
 			
-			<Anchor>//api/name/startMonitoring</Anchor>
+			<Anchor>//api/name/pauseInAuth</Anchor>
             <NodeRef refid="109"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserActivityMonitor/stopMonitoring</TokenIdentifier>
-			<Abstract type="html">Stops the application monitoring process.</Abstract>
-			<DeclaredIn>SFUserActivityMonitor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFTestSDKManagerFlow/pauseInAuth</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
 			
-			<Declaration>- (void)stopMonitoring</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL pauseInAuth</Declaration>
 			
 			
-			<Anchor>//api/name/stopMonitoring</Anchor>
+			<Anchor>//api/name/pauseInAuth</Anchor>
+            <NodeRef refid="109"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/initWithStepTimeDelaySecs:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithStepTimeDelaySecs:(NSTimeInterval)timeDelayInSecs</Declaration>
+			
+			
+			<Anchor>//api/name/initWithStepTimeDelaySecs:</Anchor>
+            <NodeRef refid="109"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/resumeAuth</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
+			
+			<Declaration>- (void)resumeAuth</Declaration>
+			
+			
+			<Anchor>//api/name/resumeAuth</Anchor>
+            <NodeRef refid="109"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/waitForLaunchCompletion</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)waitForLaunchCompletion</Declaration>
+			
+			
+			<Anchor>//api/name/waitForLaunchCompletion</Anchor>
             <NodeRef refid="109"/>
 		</Token>
 		

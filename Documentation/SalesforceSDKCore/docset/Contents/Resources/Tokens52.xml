@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFKeychainItemWrapper.html">
+	<File path="Classes/SFKeyStoreManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFKeychainItemWrapper</TokenIdentifier>
-			<Abstract type="html">This is a wrapper class used to interact with the keychain.</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFKeyStoreManager</TokenIdentifier>
+			<Abstract type="html">Singleton class to manage operations on the key store.</Abstract>
+			<DeclaredIn>SFKeyStoreManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="52"/>
@@ -13,296 +13,309 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/setEncrypted:</TokenIdentifier>
-			<Abstract type="html">Determines if the keychain wrapper should encrypt/decrypt keychain sensitive data like refreshtoken</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFKeyStoreManager/sharedInstance</TokenIdentifier>
+			<Abstract type="html">The singleton instance of the key store manager.</Abstract>
+			<DeclaredIn>SFKeyStoreManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) BOOL encrypted</Declaration>
+			<Declaration>+ (instancetype)sharedInstance</Declaration>
 			
-			
-			<Anchor>//api/name/encrypted</Anchor>
+			<ReturnValue><Abstract type="html">The singleton instance of the key store manager.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedInstance</Anchor>
             <NodeRef refid="52"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/encrypted</TokenIdentifier>
-			<Abstract type="html">Determines if the keychain wrapper should encrypt/decrypt keychain sensitive data like refreshtoken</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/retrieveKeyWithLabel:autoCreate:</TokenIdentifier>
+			<Abstract type="html">Retrieves a key with the given label from the key store, or nil depending on the autoCreate value.
+Key will be stored with the default encryption type of &apos;passcode&apos;, and will fall back to a &apos;generated&apos;
+store encryption if a passcode is not configured.</Abstract>
+			<DeclaredIn>SFKeyStoreManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) BOOL encrypted</Declaration>
-			
-			
-			<Anchor>//api/name/encrypted</Anchor>
-            <NodeRef refid="52"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFKeychainItemWrapper/encrypted</TokenIdentifier>
-			<Abstract type="html">Determines if the keychain wrapper should encrypt/decrypt keychain sensitive data like refreshtoken</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL encrypted</Declaration>
-			
-			
-			<Anchor>//api/name/encrypted</Anchor>
-            <NodeRef refid="52"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/setAccessibleAttribute:</TokenIdentifier>
-			<Abstract type="html">Returns the accessible attribute used to store this keychain item</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) CFTypeRef accessibleAttribute</Declaration>
-			
-			
-			<Anchor>//api/name/accessibleAttribute</Anchor>
-            <NodeRef refid="52"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/accessibleAttribute</TokenIdentifier>
-			<Abstract type="html">Returns the accessible attribute used to store this keychain item</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) CFTypeRef accessibleAttribute</Declaration>
-			
-			
-			<Anchor>//api/name/accessibleAttribute</Anchor>
-            <NodeRef refid="52"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFKeychainItemWrapper/accessibleAttribute</TokenIdentifier>
-			<Abstract type="html">Returns the accessible attribute used to store this keychain item</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) CFTypeRef accessibleAttribute</Declaration>
-			
-			
-			<Anchor>//api/name/accessibleAttribute</Anchor>
-            <NodeRef refid="52"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFKeychainItemWrapper/keychainAccessErrorsAreFatal</TokenIdentifier>
-			<Abstract type="html">Whether or not keychain access errors cause a fatal exception.  Default is YES.</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
-			
-			<Declaration>+ (BOOL)keychainAccessErrorsAreFatal</Declaration>
-			
-			<ReturnValue><Abstract type="html">Whether or not keychain access errors cause a fatal exception.  Default is YES.</Abstract></ReturnValue>
-			<Anchor>//api/name/keychainAccessErrorsAreFatal</Anchor>
-            <NodeRef refid="52"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFKeychainItemWrapper/setKeychainAccessErrorsAreFatal:</TokenIdentifier>
-			<Abstract type="html">Sets whether or not keychain access errors cause a fatal exception.</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
-			
-			<Declaration>+ (void)setKeychainAccessErrorsAreFatal:(BOOL)errorsAreFatal</Declaration>
+			<Declaration>- (SFEncryptionKey *)retrieveKeyWithLabel:(NSString *)keyLabel autoCreate:(BOOL)create</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>errorsAreFatal</Name>
-					<Abstract type="html">Whether keychain access errors should be fatal.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/setKeychainAccessErrorsAreFatal:</Anchor>
-            <NodeRef refid="52"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFKeychainItemWrapper/setAccessibleAttribute:</TokenIdentifier>
-			<Abstract type="html">Sets the accessible attribute used by this keychain item wrapper class.
-If the previous attribute value is different, this method will trigger
-an update of all the items in the keychain.</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
-			
-			<Declaration>+ (void)setAccessibleAttribute:(CFTypeRef)accessibleAttribute</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>accessibleAttribute</Name>
-					<Abstract type="html">The accessible attribute for this keychain item wrapper class.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/setAccessibleAttribute:</Anchor>
-            <NodeRef refid="52"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFKeychainItemWrapper/itemWithIdentifier:account:</TokenIdentifier>
-			<Abstract type="html">Factory method to hand out an SFKeychainItemWrapper object with the given identifier and account.
-Note that, for any given combination of identifier and account, only one object will be created
-at runtime.  Subsequent requests will return the same object.</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
-			
-			<Declaration>+ (SFKeychainItemWrapper *)itemWithIdentifier:(NSString *)identifier account:(NSString *)account</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>identifier</Name>
-					<Abstract type="html">Identifier to use for the SFKeychainItemWrapper object.</Abstract>
+					<Name>keyLabel</Name>
+					<Abstract type="html">The label associated with the stored key.</Abstract>
 				</Parameter><Parameter>
-					<Name>account</Name>
-					<Abstract type="html">Account to use for the SFKeychainItemWrapper object.</Abstract>
+					<Name>create</Name>
+					<Abstract type="html">Indicates whether a new key should be created if one does not exist.</Abstract>
 				</Parameter>
 			</Parameters>
-			
-			<Anchor>//api/name/itemWithIdentifier:account:</Anchor>
+			<ReturnValue><Abstract type="html">The encryption key, or nil depending on the autoCreate value.</Abstract></ReturnValue>
+			<Anchor>//api/name/retrieveKeyWithLabel:autoCreate:</Anchor>
             <NodeRef refid="52"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/resetKeychainItem</TokenIdentifier>
-			<Abstract type="html">Reset the keychain item.</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/retrieveKeyWithLabel:keyType:autoCreate:</TokenIdentifier>
+			<Abstract type="html">Retrieves a key with the given label from the key store, or nil depending on the autoCreate value.</Abstract>
+			<DeclaredIn>SFKeyStoreManager.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)resetKeychainItem</Declaration>
-			
-			
-			<Anchor>//api/name/resetKeychainItem</Anchor>
-            <NodeRef refid="52"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/setPasscode:</TokenIdentifier>
-			<Abstract type="html">Sets the passcode in the keychain.</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
-			
-			<Declaration>- (void)setPasscode:(NSString *)passcode</Declaration>
+			<Declaration>- (SFEncryptionKey *)retrieveKeyWithLabel:(NSString *)keyLabel keyType:(SFKeyStoreKeyType)keyType autoCreate:(BOOL)create</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>passcode</Name>
-					<Abstract type="html">Plain text passcode</Abstract>
+					<Name>keyLabel</Name>
+					<Abstract type="html">The label associated with the stored key.</Abstract>
+				</Parameter><Parameter>
+					<Name>keyType</Name>
+					<Abstract type="html">The type of key store encryption to use for the key.  If &apos;passcode&apos; is specified and
+a passcode is not configured, the key will still be encrypted with a generated key.  If &apos;generated&apos; is
+specified, the key will be encrypted with a generated key, even if a passcode is configured.</Abstract>
+				</Parameter><Parameter>
+					<Name>create</Name>
+					<Abstract type="html">Indicates whether a new key should be created if one does not exist.</Abstract>
 				</Parameter>
 			</Parameters>
-			
-			<Anchor>//api/name/setPasscode:</Anchor>
+			<ReturnValue><Abstract type="html">The encryption key, or nil depending on the autoCreate value.</Abstract></ReturnValue>
+			<Anchor>//api/name/retrieveKeyWithLabel:keyType:autoCreate:</Anchor>
             <NodeRef refid="52"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/passcode</TokenIdentifier>
-			<Abstract type="html">The passcode.</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/storeKey:withLabel:</TokenIdentifier>
+			<Abstract type="html">Stores a key with the given label in the key store, with a default encryption type of &apos;passcode&apos;.  If
+a passcode is not configured, the key will be encrypted with a generated key.</Abstract>
+			<DeclaredIn>SFKeyStoreManager.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)passcode</Declaration>
-			
-			
-			<Anchor>//api/name/passcode</Anchor>
-            <NodeRef refid="52"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/verifyPasscode:</TokenIdentifier>
-			<Abstract type="html">Performs passcode verification.</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)verifyPasscode:(NSString *)passcode</Declaration>
+			<Declaration>- (void)storeKey:(SFEncryptionKey *)key withLabel:(NSString *)keyLabel</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>passcode</Name>
-					<Abstract type="html">The passcode to verify.</Abstract>
+					<Name>key</Name>
+					<Abstract type="html">The encryption key to store.</Abstract>
+				</Parameter><Parameter>
+					<Name>keyLabel</Name>
+					<Abstract type="html">The label associated with the key.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/verifyPasscode:</Anchor>
+			<Anchor>//api/name/storeKey:withLabel:</Anchor>
             <NodeRef refid="52"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/setValueData:</TokenIdentifier>
-			<Abstract type="html">Store arbitrary data to the keychain for the service (identifier) and account specified in the initializer.</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/storeKey:withKeyType:label:</TokenIdentifier>
+			<Abstract type="html">Stores a key with the given label in the key store.</Abstract>
+			<DeclaredIn>SFKeyStoreManager.h</DeclaredIn>
 			
-			<Declaration>- (OSStatus)setValueData:(NSData *)data</Declaration>
+			<Declaration>- (void)storeKey:(SFEncryptionKey *)key withKeyType:(SFKeyStoreKeyType)keyType label:(NSString *)keyLabel</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>data</Name>
-					<Abstract type="html">Arbitrary data to store to in the keychain. May be nil.</Abstract>
+					<Name>key</Name>
+					<Abstract type="html">The encryption key to store.</Abstract>
+				</Parameter><Parameter>
+					<Name>keyType</Name>
+					<Abstract type="html">The type of key store encryption to use for the key.  If &apos;passcode&apos; is specified and
+a passcode is not configured, the key will still be encrypted with a generated key.  If &apos;generated&apos; is
+specified, the key will be encrypted with a generated key, even if a passcode is configured.</Abstract>
+				</Parameter><Parameter>
+					<Name>keyLabel</Name>
+					<Abstract type="html">The label associated with the key.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The status of the keychain update request.</Abstract></ReturnValue>
-			<Anchor>//api/name/setValueData:</Anchor>
+			
+			<Anchor>//api/name/storeKey:withKeyType:label:</Anchor>
             <NodeRef refid="52"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/valueData</TokenIdentifier>
-			<Abstract type="html">Read arbitrary data from the keychain for the service (identifier) and account specified in the initializer.</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/removeKeyWithLabel:</TokenIdentifier>
+			<Abstract type="html">Removes the key with the given label from the key store holding passcode-based encrypted keys.</Abstract>
+			<DeclaredIn>SFKeyStoreManager.h</DeclaredIn>
 			
-			<Declaration>- (NSData *)valueData</Declaration>
-			
-			<ReturnValue><Abstract type="html">Arbitrary data read from the keychain. May be nil.</Abstract></ReturnValue>
-			<Anchor>//api/name/valueData</Anchor>
-            <NodeRef refid="52"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFKeychainItemWrapper/keychainErrorCodeString:</TokenIdentifier>
-			<Abstract type="html">Return a string value for an OSStatus error code.</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
-			
-			<Declaration>+ (NSString *)keychainErrorCodeString:(OSStatus)errorCode</Declaration>
+			<Declaration>- (void)removeKeyWithLabel:(NSString *)keyLabel</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>errorCode</Name>
-					<Abstract type="html">The code to stringify</Abstract>
+					<Name>keyLabel</Name>
+					<Abstract type="html">The label associated with the key to remove.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The string version of the error code.</Abstract></ReturnValue>
-			<Anchor>//api/name/keychainErrorCodeString:</Anchor>
+			
+			<Anchor>//api/name/removeKeyWithLabel:</Anchor>
             <NodeRef refid="52"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/setKeychainData:</TokenIdentifier>
-			<Abstract type="html">The in-memory state of the keychain data.</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/removeKeyWithLabel:keyType:</TokenIdentifier>
+			<Abstract type="html">Removes the key with the given label and encryption type from the key store.</Abstract>
+			<DeclaredIn>SFKeyStoreManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSMutableDictionary *keychainData</Declaration>
+			<Declaration>- (void)removeKeyWithLabel:(NSString *)keyLabel keyType:(SFKeyStoreKeyType)keyType</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>keyLabel</Name>
+					<Abstract type="html">The label identifying the key.</Abstract>
+				</Parameter><Parameter>
+					<Name>keyType</Name>
+					<Abstract type="html">The encryption type used to encrypt the key in the store.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/keychainData</Anchor>
+			<Anchor>//api/name/removeKeyWithLabel:keyType:</Anchor>
             <NodeRef refid="52"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/keychainData</TokenIdentifier>
-			<Abstract type="html">The in-memory state of the keychain data.</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/keyWithLabelExists:</TokenIdentifier>
+			<Abstract type="html">Determines whether a key with the given label, and encrypted with passcode-based encryption, exists.</Abstract>
+			<DeclaredIn>SFKeyStoreManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSMutableDictionary *keychainData</Declaration>
-			
-			
-			<Anchor>//api/name/keychainData</Anchor>
+			<Declaration>- (BOOL)keyWithLabelExists:(NSString *)keyLabel</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>keyLabel</Name>
+					<Abstract type="html">The label associated with the key to query.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the key exists in the key store, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/keyWithLabelExists:</Anchor>
             <NodeRef refid="52"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFKeychainItemWrapper/keychainData</TokenIdentifier>
-			<Abstract type="html">The in-memory state of the keychain data.</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/keyWithLabelAndKeyTypeExists:keyType:</TokenIdentifier>
+			<Abstract type="html">Determines whether the key with the given label and encryption type exists.</Abstract>
+			<DeclaredIn>SFKeyStoreManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSMutableDictionary *keychainData</Declaration>
-			
-			
-			<Anchor>//api/name/keychainData</Anchor>
+			<Declaration>- (BOOL)keyWithLabelAndKeyTypeExists:(NSString *)keyLabel keyType:(SFKeyStoreKeyType)keyType</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>keyLabel</Name>
+					<Abstract type="html">The label identifying the key.</Abstract>
+				</Parameter><Parameter>
+					<Name>keyType</Name>
+					<Abstract type="html">The type of encryption used to encrypt the key in the store.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the given key exists, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/keyWithLabelAndKeyTypeExists:keyType:</Anchor>
             <NodeRef refid="52"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFKeychainItemWrapper/resetInMemoryKeychainItems</TokenIdentifier>
-			<Abstract type="html">Clears the memory cache of keychain items.  NOTE: Used for unit tests only!</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/keyWithRandomValue</TokenIdentifier>
+			<Abstract type="html">Returns a key with a random value for the key and initialization vector.  The key size
+will be the size for the AES-256 algorithm (kCCKeySizeAES256), and the initialization
+vector will be the block size associated with AES encryption (kCCBlockSizeAES128).</Abstract>
+			<DeclaredIn>SFKeyStoreManager.h</DeclaredIn>
 			
-			<Declaration>+ (void)resetInMemoryKeychainItems</Declaration>
+			<Declaration>- (SFEncryptionKey *)keyWithRandomValue</Declaration>
+			
+			<ReturnValue><Abstract type="html">An instance of SFEncryptionKey with the described values.</Abstract></ReturnValue>
+			<Anchor>//api/name/keyWithRandomValue</Anchor>
+            <NodeRef refid="52"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/setGeneratedKeyStore:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFKeyStoreManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFGeneratedKeyStore *generatedKeyStore</Declaration>
 			
 			
-			<Anchor>//api/name/resetInMemoryKeychainItems</Anchor>
+			<Anchor>//api/name/generatedKeyStore</Anchor>
+            <NodeRef refid="52"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/generatedKeyStore</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFKeyStoreManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFGeneratedKeyStore *generatedKeyStore</Declaration>
+			
+			
+			<Anchor>//api/name/generatedKeyStore</Anchor>
+            <NodeRef refid="52"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFKeyStoreManager/generatedKeyStore</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFKeyStoreManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFGeneratedKeyStore *generatedKeyStore</Declaration>
+			
+			
+			<Anchor>//api/name/generatedKeyStore</Anchor>
+            <NodeRef refid="52"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/setPasscodeKeyStore:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFKeyStoreManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFPasscodeKeyStore *passcodeKeyStore</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeKeyStore</Anchor>
+            <NodeRef refid="52"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/passcodeKeyStore</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFKeyStoreManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFPasscodeKeyStore *passcodeKeyStore</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeKeyStore</Anchor>
+            <NodeRef refid="52"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFKeyStoreManager/passcodeKeyStore</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFKeyStoreManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFPasscodeKeyStore *passcodeKeyStore</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeKeyStore</Anchor>
+            <NodeRef refid="52"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/createDefaultKey</TokenIdentifier>
+			<Abstract type="html">Creates a default key store key from random generated key and IV values.  Used when a passcode
+is not present.</Abstract>
+			<DeclaredIn>SFKeyStoreManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (SFKeyStoreKey *)createDefaultKey</Declaration>
+			
+			<ReturnValue><Abstract type="html">The generated key used to encrypt/decrypt the key store.</Abstract></ReturnValue>
+			<Anchor>//api/name/createDefaultKey</Anchor>
+            <NodeRef refid="52"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/createNewPasscodeKey</TokenIdentifier>
+			<Abstract type="html">Creates a key store key based on the encryption key provided in part by the user&apos;s passcode.</Abstract>
+			<DeclaredIn>SFKeyStoreManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (SFKeyStoreKey *)createNewPasscodeKey</Declaration>
+			
+			<ReturnValue><Abstract type="html">A passcode-based key store key used to encrypt/decrypt the key store.</Abstract></ReturnValue>
+			<Anchor>//api/name/createNewPasscodeKey</Anchor>
+            <NodeRef refid="52"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFKeyStoreManager/keyStringToData:</TokenIdentifier>
+			<Abstract type="html">Converts an NSString-based key into NSData.</Abstract>
+			<DeclaredIn>SFKeyStoreManager+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (NSData *)keyStringToData:(NSString *)keyString</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>keyString</Name>
+					<Abstract type="html">The key to convert.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The NSData representation of the key.</Abstract></ReturnValue>
+			<Anchor>//api/name/keyStringToData:</Anchor>
             <NodeRef refid="52"/>
 		</Token>
 		

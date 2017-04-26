@@ -300,6 +300,23 @@ of responses, and aggregation of common actions into batches.</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/CSFNetwork/globalNetwork</TokenIdentifier>
+			<Abstract type="html">Returns a shared global shared network instance.</Abstract>
+			<DeclaredIn>CSFNetwork.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/clm/CSFNetwork/networkForUserAccount:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>+ (instancetype)globalNetwork</Declaration>
+			
+			
+			<Anchor>//api/name/globalNetwork</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/CSFNetwork/networkForUserAccount:</TokenIdentifier>
 			<Abstract type="html">Returns a reference to the shared instance of this class for the supplied user.</Abstract>
 			<DeclaredIn>CSFNetwork.h</DeclaredIn>
@@ -387,6 +404,26 @@ of responses, and aggregation of common actions into batches.</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/setSessionConfiguration:isBackgroundSession:</TokenIdentifier>
+			<Abstract type="html">Sets a session configuration to be used for network requests in the Network SDK.</Abstract>
+			<DeclaredIn>CSFNetwork.h</DeclaredIn>
+			
+			<Declaration>- (void)setSessionConfiguration:(NSURLSessionConfiguration *)sessionConfig isBackgroundSession:(BOOL)isBackgroundSession</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>sessionConfig</Name>
+					<Abstract type="html">Session configuration to be used.</Abstract>
+				</Parameter><Parameter>
+					<Name>isBackgroundSession</Name>
+					<Abstract type="html">YES - if it is a background session configuration, NO - otherwise.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setSessionConfiguration:isBackgroundSession:</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/setSecurityToken:</TokenIdentifier>
 			<Abstract type="html">Cross-site Request Forgery (CSRF) token provided in each server response and required for all Push API
 requests that change state (i.e. POST).</Abstract>
@@ -446,6 +483,148 @@ requests that change state (i.e. POST).</Abstract>
 			
 			
 			<Anchor>//api/name/removeDelegate:</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/setOfflineCacheEnabled:</TokenIdentifier>
+			<Abstract type="html">Indicates if caching the results of network requests through a local cache is enabled.</Abstract>
+			<DeclaredIn>CSFNetwork.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/intf/CSFNetworkOutputCache</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/instp/CSFAction/cacheResponse</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, assign, getter=isOfflineCacheEnabled) BOOL offlineCacheEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/offlineCacheEnabled</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/isOfflineCacheEnabled</TokenIdentifier>
+			<Abstract type="html">Indicates if caching the results of network requests through a local cache is enabled.</Abstract>
+			<DeclaredIn>CSFNetwork.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/intf/CSFNetworkOutputCache</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/instp/CSFAction/cacheResponse</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, assign, getter=isOfflineCacheEnabled) BOOL offlineCacheEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/offlineCacheEnabled</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFNetwork/offlineCacheEnabled</TokenIdentifier>
+			<Abstract type="html">Indicates if caching the results of network requests through a local cache is enabled.</Abstract>
+			<DeclaredIn>CSFNetwork.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/intf/CSFNetworkOutputCache</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/instp/CSFAction/cacheResponse</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, assign, getter=isOfflineCacheEnabled) BOOL offlineCacheEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/offlineCacheEnabled</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/setOutputCaches:</TokenIdentifier>
+			<Abstract type="html">List of output cache handlers that will be used for storing results retrieved from this network instance.</Abstract>
+			<DeclaredIn>CSFNetwork.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/addOutputCache:</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/removeOutputCache:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, copy, readonly) NSArray *outputCaches</Declaration>
+			
+			
+			<Anchor>//api/name/outputCaches</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/outputCaches</TokenIdentifier>
+			<Abstract type="html">List of output cache handlers that will be used for storing results retrieved from this network instance.</Abstract>
+			<DeclaredIn>CSFNetwork.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/addOutputCache:</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/removeOutputCache:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, copy, readonly) NSArray *outputCaches</Declaration>
+			
+			
+			<Anchor>//api/name/outputCaches</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFNetwork/outputCaches</TokenIdentifier>
+			<Abstract type="html">List of output cache handlers that will be used for storing results retrieved from this network instance.</Abstract>
+			<DeclaredIn>CSFNetwork.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/addOutputCache:</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/removeOutputCache:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, copy, readonly) NSArray *outputCaches</Declaration>
+			
+			
+			<Anchor>//api/name/outputCaches</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/addOutputCache:</TokenIdentifier>
+			<Abstract type="html">Explicitly adds an output cache handler to this network instance.</Abstract>
+			<DeclaredIn>CSFNetwork.h</DeclaredIn>
+			
+			<Declaration>- (void)addOutputCache:(NSObject&lt;CSFNetworkOutputCache&gt; *)outputCache</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>outputCache</Name>
+					<Abstract type="html">Output cache instance to add.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/addOutputCache:</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/removeOutputCache:</TokenIdentifier>
+			<Abstract type="html">Explicitly removes the indicated output cache handler from this network instance.</Abstract>
+			<DeclaredIn>CSFNetwork.h</DeclaredIn>
+			
+			<Declaration>- (void)removeOutputCache:(NSObject&lt;CSFNetworkOutputCache&gt; *)outputCache</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>outputCache</Name>
+					<Abstract type="html">Output cache instance to remove.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/removeOutputCache:</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		
@@ -812,148 +991,6 @@ This prevents new action from be scheduled.</Abstract>
 			
 			
 			<Anchor>//api/name/delegate_networkTask:changedState:toState:forAction:</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/setOfflineCacheEnabled:</TokenIdentifier>
-			<Abstract type="html">Indicates if caching the results of network requests through a local cache is enabled.</Abstract>
-			<DeclaredIn>CSFNetwork.h</DeclaredIn>
-			
-	<RelatedTokens>
-		<TokenIdentifier>//apple_ref/occ/intf/CSFNetworkOutputCache</TokenIdentifier>
-		<TokenIdentifier>//apple_ref/occ/instp/CSFAction/cacheResponse</TokenIdentifier>
-		
-	</RelatedTokens>
-	
-			<Declaration>@property (nonatomic, assign, getter=isOfflineCacheEnabled) BOOL offlineCacheEnabled</Declaration>
-			
-			
-			<Anchor>//api/name/offlineCacheEnabled</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/isOfflineCacheEnabled</TokenIdentifier>
-			<Abstract type="html">Indicates if caching the results of network requests through a local cache is enabled.</Abstract>
-			<DeclaredIn>CSFNetwork.h</DeclaredIn>
-			
-	<RelatedTokens>
-		<TokenIdentifier>//apple_ref/occ/intf/CSFNetworkOutputCache</TokenIdentifier>
-		<TokenIdentifier>//apple_ref/occ/instp/CSFAction/cacheResponse</TokenIdentifier>
-		
-	</RelatedTokens>
-	
-			<Declaration>@property (nonatomic, assign, getter=isOfflineCacheEnabled) BOOL offlineCacheEnabled</Declaration>
-			
-			
-			<Anchor>//api/name/offlineCacheEnabled</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/CSFNetwork/offlineCacheEnabled</TokenIdentifier>
-			<Abstract type="html">Indicates if caching the results of network requests through a local cache is enabled.</Abstract>
-			<DeclaredIn>CSFNetwork.h</DeclaredIn>
-			
-	<RelatedTokens>
-		<TokenIdentifier>//apple_ref/occ/intf/CSFNetworkOutputCache</TokenIdentifier>
-		<TokenIdentifier>//apple_ref/occ/instp/CSFAction/cacheResponse</TokenIdentifier>
-		
-	</RelatedTokens>
-	
-			<Declaration>@property (nonatomic, assign, getter=isOfflineCacheEnabled) BOOL offlineCacheEnabled</Declaration>
-			
-			
-			<Anchor>//api/name/offlineCacheEnabled</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/setOutputCaches:</TokenIdentifier>
-			<Abstract type="html">List of output cache handlers that will be used for storing results retrieved from this network instance.</Abstract>
-			<DeclaredIn>CSFNetwork.h</DeclaredIn>
-			
-	<RelatedTokens>
-		<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/addOutputCache:</TokenIdentifier>
-		<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/removeOutputCache:</TokenIdentifier>
-		
-	</RelatedTokens>
-	
-			<Declaration>@property (nonatomic, copy, readonly) NSArray *outputCaches</Declaration>
-			
-			
-			<Anchor>//api/name/outputCaches</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/outputCaches</TokenIdentifier>
-			<Abstract type="html">List of output cache handlers that will be used for storing results retrieved from this network instance.</Abstract>
-			<DeclaredIn>CSFNetwork.h</DeclaredIn>
-			
-	<RelatedTokens>
-		<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/addOutputCache:</TokenIdentifier>
-		<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/removeOutputCache:</TokenIdentifier>
-		
-	</RelatedTokens>
-	
-			<Declaration>@property (nonatomic, copy, readonly) NSArray *outputCaches</Declaration>
-			
-			
-			<Anchor>//api/name/outputCaches</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/CSFNetwork/outputCaches</TokenIdentifier>
-			<Abstract type="html">List of output cache handlers that will be used for storing results retrieved from this network instance.</Abstract>
-			<DeclaredIn>CSFNetwork.h</DeclaredIn>
-			
-	<RelatedTokens>
-		<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/addOutputCache:</TokenIdentifier>
-		<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/removeOutputCache:</TokenIdentifier>
-		
-	</RelatedTokens>
-	
-			<Declaration>@property (nonatomic, copy, readonly) NSArray *outputCaches</Declaration>
-			
-			
-			<Anchor>//api/name/outputCaches</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/addOutputCache:</TokenIdentifier>
-			<Abstract type="html">Explicitly adds an output cache handler to this network instance.</Abstract>
-			<DeclaredIn>CSFNetwork.h</DeclaredIn>
-			
-			<Declaration>- (void)addOutputCache:(NSObject&lt;CSFNetworkOutputCache&gt; *)outputCache</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>outputCache</Name>
-					<Abstract type="html">Output cache instance to add.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/addOutputCache:</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/removeOutputCache:</TokenIdentifier>
-			<Abstract type="html">Explicitly removes the indicated output cache handler from this network instance.</Abstract>
-			<DeclaredIn>CSFNetwork.h</DeclaredIn>
-			
-			<Declaration>- (void)removeOutputCache:(NSObject&lt;CSFNetworkOutputCache&gt; *)outputCache</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>outputCache</Name>
-					<Abstract type="html">Output cache instance to remove.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/removeOutputCache:</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		

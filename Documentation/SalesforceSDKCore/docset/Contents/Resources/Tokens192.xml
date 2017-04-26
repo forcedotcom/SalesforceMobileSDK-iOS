@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFLogContext.html">
+	<File path="Constants/SFAuthenticationManagerDelegatePriority.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFLogContext</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFAuthenticationManagerDelegatePriority</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="192"/>
@@ -14,11 +14,51 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/MobileSDKLogContext</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFAuthenticationManagerDelegatePriorityMax</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>MobileSDKLogContext</Declaration>
+            <Declaration>SFAuthenticationManagerDelegatePriorityMax</Declaration>
             
-            <DeclaredIn>SFLogger.h</DeclaredIn>
+            <DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
+            
+            <NodeRef refid="192"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFAuthenticationManagerDelegatePriorityHigh</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFAuthenticationManagerDelegatePriorityHigh</Declaration>
+            
+            <DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
+            
+            <NodeRef refid="192"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFAuthenticationManagerDelegatePriorityMedium</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFAuthenticationManagerDelegatePriorityMedium</Declaration>
+            
+            <DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
+            
+            <NodeRef refid="192"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFAuthenticationManagerDelegatePriorityLow</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFAuthenticationManagerDelegatePriorityLow</Declaration>
+            
+            <DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
+            
+            <NodeRef refid="192"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFAuthenticationManagerDelegatePriorityDefault</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFAuthenticationManagerDelegatePriorityDefault</Declaration>
+            
+            <DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
             
             <NodeRef refid="192"/>
         </Token>
