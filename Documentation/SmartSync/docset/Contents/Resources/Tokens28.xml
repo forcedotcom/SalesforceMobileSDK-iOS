@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSyncStateStatus.html">
+	<File path="Constants/SFSyncStateSyncType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSyncStateStatus</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSyncStateSyncType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSyncState.h</DeclaredIn>
             
@@ -14,9 +14,9 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncStateStatusNew</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSyncStateSyncTypeDown</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSyncStateStatusNew</Declaration>
+            <Declaration>SFSyncStateSyncTypeDown</Declaration>
             
             <DeclaredIn>SFSyncState.h</DeclaredIn>
             
@@ -24,29 +24,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncStateStatusRunning</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSyncStateSyncTypeUp</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSyncStateStatusRunning</Declaration>
-            
-            <DeclaredIn>SFSyncState.h</DeclaredIn>
-            
-            <NodeRef refid="28"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncStateStatusDone</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSyncStateStatusDone</Declaration>
-            
-            <DeclaredIn>SFSyncState.h</DeclaredIn>
-            
-            <NodeRef refid="28"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncStateStatusFailed</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSyncStateStatusFailed</Declaration>
+            <Declaration>SFSyncStateSyncTypeUp</Declaration>
             
             <DeclaredIn>SFSyncState.h</DeclaredIn>
             

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFTestSDKManagerFlow.html">
+	<File path="Classes/SFSObjectTree.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFTestSDKManagerFlow</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSObjectTree</TokenIdentifier>
+			<Abstract type="html">Helper class for sobject tree requests</Abstract>
+			<DeclaredIn>SFSObjectTree.h</DeclaredIn>
             
 			
 			<NodeRef refid="104"/>
@@ -13,74 +13,43 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/setPauseInAuth:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSObjectTree/initWithObjectType:objectTypePlural:referenceId:fields:childrenTrees:</TokenIdentifier>
+			<Abstract type="html">Constructor</Abstract>
+			<DeclaredIn>SFSObjectTree.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL pauseInAuth</Declaration>
+			<Declaration>- (nullable id)initWithObjectType:(NSString *)objectType objectTypePlural:(nullable NSString *)objectTypePlural referenceId:(NSString *)referenceId fields:(NSDictionary&lt;NSString*,id&gt; *)fields childrenTrees:(nullable NSArray&lt;SFSObjectTree*&gt; *)childrenTrees</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>objectType</Name>
+					<Abstract type="html">Object type (e.g. &quot;Contact&quot;)</Abstract>
+				</Parameter><Parameter>
+					<Name>objectTypePlural</Name>
+					<Abstract type="html">Plural object type (e.g. &quot;Contacts&quot;) - can be null for the root sobject</Abstract>
+				</Parameter><Parameter>
+					<Name>referenceId</Name>
+					<Abstract type="html">Reference id for the root record</Abstract>
+				</Parameter><Parameter>
+					<Name>fields</Name>
+					<Abstract type="html">Fields for the root sobject</Abstract>
+				</Parameter><Parameter>
+					<Name>childrenTrees</Name>
+					<Abstract type="html">Array of SFSObjectTree for the children sobject&apos;s</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/pauseInAuth</Anchor>
+			<Anchor>//api/name/initWithObjectType:objectTypePlural:referenceId:fields:childrenTrees:</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/pauseInAuth</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSObjectTree/asJSON</TokenIdentifier>
+			<Abstract type="html">NSDictionary representing SObject tree</Abstract>
+			<DeclaredIn>SFSObjectTree.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL pauseInAuth</Declaration>
+			<Declaration>- (NSDictionary&lt;NSString*,id&gt; *)asJSON</Declaration>
 			
-			
-			<Anchor>//api/name/pauseInAuth</Anchor>
-            <NodeRef refid="104"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFTestSDKManagerFlow/pauseInAuth</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL pauseInAuth</Declaration>
-			
-			
-			<Anchor>//api/name/pauseInAuth</Anchor>
-            <NodeRef refid="104"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/initWithStepTimeDelaySecs:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
-			
-			<Declaration>- (id)initWithStepTimeDelaySecs:(NSTimeInterval)timeDelayInSecs</Declaration>
-			
-			
-			<Anchor>//api/name/initWithStepTimeDelaySecs:</Anchor>
-            <NodeRef refid="104"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/resumeAuth</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
-			
-			<Declaration>- (void)resumeAuth</Declaration>
-			
-			
-			<Anchor>//api/name/resumeAuth</Anchor>
-            <NodeRef refid="104"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/waitForLaunchCompletion</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)waitForLaunchCompletion</Declaration>
-			
-			
-			<Anchor>//api/name/waitForLaunchCompletion</Anchor>
+			<ReturnValue><Abstract type="html">NSDictionary representing SObject tree</Abstract></ReturnValue>
+			<Anchor>//api/name/asJSON</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		

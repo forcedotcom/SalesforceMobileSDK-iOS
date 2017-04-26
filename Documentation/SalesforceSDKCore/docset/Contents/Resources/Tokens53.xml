@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFLogIdentifier.html">
+	<File path="Classes/SFKeychainItemWrapper.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFLogIdentifier</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFKeychainItemWrapper</TokenIdentifier>
+			<Abstract type="html">This is a wrapper class used to interact with the keychain.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
             
 			
 			<NodeRef refid="53"/>
@@ -13,194 +13,296 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/setLogger:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/setEncrypted:</TokenIdentifier>
+			<Abstract type="html">Determines if the keychain wrapper should encrypt/decrypt keychain sensitive data like refreshtoken</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) SFLogger *logger</Declaration>
+			<Declaration>@property (nonatomic) BOOL encrypted</Declaration>
 			
 			
-			<Anchor>//api/name/logger</Anchor>
+			<Anchor>//api/name/encrypted</Anchor>
             <NodeRef refid="53"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/logger</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/encrypted</TokenIdentifier>
+			<Abstract type="html">Determines if the keychain wrapper should encrypt/decrypt keychain sensitive data like refreshtoken</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) SFLogger *logger</Declaration>
+			<Declaration>@property (nonatomic) BOOL encrypted</Declaration>
 			
 			
-			<Anchor>//api/name/logger</Anchor>
+			<Anchor>//api/name/encrypted</Anchor>
             <NodeRef refid="53"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLogIdentifier/logger</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFKeychainItemWrapper/encrypted</TokenIdentifier>
+			<Abstract type="html">Determines if the keychain wrapper should encrypt/decrypt keychain sensitive data like refreshtoken</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) SFLogger *logger</Declaration>
+			<Declaration>@property (nonatomic) BOOL encrypted</Declaration>
 			
 			
-			<Anchor>//api/name/logger</Anchor>
+			<Anchor>//api/name/encrypted</Anchor>
             <NodeRef refid="53"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/setIdentifier:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/setAccessibleAttribute:</TokenIdentifier>
+			<Abstract type="html">Returns the accessible attribute used to store this keychain item</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, readonly) NSString *identifier</Declaration>
+			<Declaration>@property (nonatomic, readonly) CFTypeRef accessibleAttribute</Declaration>
 			
 			
-			<Anchor>//api/name/identifier</Anchor>
+			<Anchor>//api/name/accessibleAttribute</Anchor>
             <NodeRef refid="53"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/identifier</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/accessibleAttribute</TokenIdentifier>
+			<Abstract type="html">Returns the accessible attribute used to store this keychain item</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, readonly) NSString *identifier</Declaration>
+			<Declaration>@property (nonatomic, readonly) CFTypeRef accessibleAttribute</Declaration>
 			
 			
-			<Anchor>//api/name/identifier</Anchor>
+			<Anchor>//api/name/accessibleAttribute</Anchor>
             <NodeRef refid="53"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLogIdentifier/identifier</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFKeychainItemWrapper/accessibleAttribute</TokenIdentifier>
+			<Abstract type="html">Returns the accessible attribute used to store this keychain item</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, readonly) NSString *identifier</Declaration>
+			<Declaration>@property (nonatomic, readonly) CFTypeRef accessibleAttribute</Declaration>
 			
 			
-			<Anchor>//api/name/identifier</Anchor>
+			<Anchor>//api/name/accessibleAttribute</Anchor>
             <NodeRef refid="53"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/setLogLevel:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFKeychainItemWrapper/keychainAccessErrorsAreFatal</TokenIdentifier>
+			<Abstract type="html">Whether or not keychain access errors cause a fatal exception.  Default is YES.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) SFLogLevel logLevel</Declaration>
+			<Declaration>+ (BOOL)keychainAccessErrorsAreFatal</Declaration>
 			
-			
-			<Anchor>//api/name/logLevel</Anchor>
+			<ReturnValue><Abstract type="html">Whether or not keychain access errors cause a fatal exception.  Default is YES.</Abstract></ReturnValue>
+			<Anchor>//api/name/keychainAccessErrorsAreFatal</Anchor>
             <NodeRef refid="53"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/logLevel</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFKeychainItemWrapper/setKeychainAccessErrorsAreFatal:</TokenIdentifier>
+			<Abstract type="html">Sets whether or not keychain access errors cause a fatal exception.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) SFLogLevel logLevel</Declaration>
+			<Declaration>+ (void)setKeychainAccessErrorsAreFatal:(BOOL)errorsAreFatal</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>errorsAreFatal</Name>
+					<Abstract type="html">Whether keychain access errors should be fatal.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/logLevel</Anchor>
+			<Anchor>//api/name/setKeychainAccessErrorsAreFatal:</Anchor>
             <NodeRef refid="53"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLogIdentifier/logLevel</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFKeychainItemWrapper/setAccessibleAttribute:</TokenIdentifier>
+			<Abstract type="html">Sets the accessible attribute used by this keychain item wrapper class.
+If the previous attribute value is different, this method will trigger
+an update of all the items in the keychain.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) SFLogLevel logLevel</Declaration>
+			<Declaration>+ (void)setAccessibleAttribute:(CFTypeRef)accessibleAttribute</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>accessibleAttribute</Name>
+					<Abstract type="html">The accessible attribute for this keychain item wrapper class.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/logLevel</Anchor>
+			<Anchor>//api/name/setAccessibleAttribute:</Anchor>
             <NodeRef refid="53"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/setLogFlag:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFKeychainItemWrapper/itemWithIdentifier:account:</TokenIdentifier>
+			<Abstract type="html">Factory method to hand out an SFKeychainItemWrapper object with the given identifier and account.
+Note that, for any given combination of identifier and account, only one object will be created
+at runtime.  Subsequent requests will return the same object.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readonly) SFLogFlag logFlag</Declaration>
+			<Declaration>+ (SFKeychainItemWrapper *)itemWithIdentifier:(NSString *)identifier account:(NSString *)account</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>identifier</Name>
+					<Abstract type="html">Identifier to use for the SFKeychainItemWrapper object.</Abstract>
+				</Parameter><Parameter>
+					<Name>account</Name>
+					<Abstract type="html">Account to use for the SFKeychainItemWrapper object.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/logFlag</Anchor>
+			<Anchor>//api/name/itemWithIdentifier:account:</Anchor>
             <NodeRef refid="53"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/logFlag</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/resetKeychainItem</TokenIdentifier>
+			<Abstract type="html">Reset the keychain item.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readonly) SFLogFlag logFlag</Declaration>
+			<Declaration>- (BOOL)resetKeychainItem</Declaration>
 			
 			
-			<Anchor>//api/name/logFlag</Anchor>
+			<Anchor>//api/name/resetKeychainItem</Anchor>
             <NodeRef refid="53"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLogIdentifier/logFlag</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/setPasscode:</TokenIdentifier>
+			<Abstract type="html">Sets the passcode in the keychain.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readonly) SFLogFlag logFlag</Declaration>
+			<Declaration>- (void)setPasscode:(NSString *)passcode</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>passcode</Name>
+					<Abstract type="html">Plain text passcode</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/logFlag</Anchor>
+			<Anchor>//api/name/setPasscode:</Anchor>
             <NodeRef refid="53"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/setContext:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/passcode</TokenIdentifier>
+			<Abstract type="html">The passcode.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSInteger context</Declaration>
+			<Declaration>- (NSString *)passcode</Declaration>
 			
 			
-			<Anchor>//api/name/context</Anchor>
+			<Anchor>//api/name/passcode</Anchor>
             <NodeRef refid="53"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/context</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/verifyPasscode:</TokenIdentifier>
+			<Abstract type="html">Performs passcode verification.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSInteger context</Declaration>
+			<Declaration>- (BOOL)verifyPasscode:(NSString *)passcode</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>passcode</Name>
+					<Abstract type="html">The passcode to verify.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/context</Anchor>
+			<Anchor>//api/name/verifyPasscode:</Anchor>
             <NodeRef refid="53"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLogIdentifier/context</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/setValueData:</TokenIdentifier>
+			<Abstract type="html">Store arbitrary data to the keychain for the service (identifier) and account specified in the initializer.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSInteger context</Declaration>
-			
-			
-			<Anchor>//api/name/context</Anchor>
+			<Declaration>- (OSStatus)setValueData:(NSData *)data</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>data</Name>
+					<Abstract type="html">Arbitrary data to store to in the keychain. May be nil.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The status of the keychain update request.</Abstract></ReturnValue>
+			<Anchor>//api/name/setValueData:</Anchor>
             <NodeRef refid="53"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/initWithIdentifier:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/valueData</TokenIdentifier>
+			<Abstract type="html">Read arbitrary data from the keychain for the service (identifier) and account specified in the initializer.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)initWithIdentifier:(NSString *)identifier</Declaration>
+			<Declaration>- (NSData *)valueData</Declaration>
+			
+			<ReturnValue><Abstract type="html">Arbitrary data read from the keychain. May be nil.</Abstract></ReturnValue>
+			<Anchor>//api/name/valueData</Anchor>
+            <NodeRef refid="53"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFKeychainItemWrapper/keychainErrorCodeString:</TokenIdentifier>
+			<Abstract type="html">Return a string value for an OSStatus error code.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)keychainErrorCodeString:(OSStatus)errorCode</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>errorCode</Name>
+					<Abstract type="html">The code to stringify</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The string version of the error code.</Abstract></ReturnValue>
+			<Anchor>//api/name/keychainErrorCodeString:</Anchor>
+            <NodeRef refid="53"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/setKeychainData:</TokenIdentifier>
+			<Abstract type="html">The in-memory state of the keychain data.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSMutableDictionary *keychainData</Declaration>
 			
 			
-			<Anchor>//api/name/initWithIdentifier:</Anchor>
+			<Anchor>//api/name/keychainData</Anchor>
+            <NodeRef refid="53"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/keychainData</TokenIdentifier>
+			<Abstract type="html">The in-memory state of the keychain data.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSMutableDictionary *keychainData</Declaration>
+			
+			
+			<Anchor>//api/name/keychainData</Anchor>
+            <NodeRef refid="53"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFKeychainItemWrapper/keychainData</TokenIdentifier>
+			<Abstract type="html">The in-memory state of the keychain data.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSMutableDictionary *keychainData</Declaration>
+			
+			
+			<Anchor>//api/name/keychainData</Anchor>
+            <NodeRef refid="53"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFKeychainItemWrapper/resetInMemoryKeychainItems</TokenIdentifier>
+			<Abstract type="html">Clears the memory cache of keychain items.  NOTE: Used for unit tests only!</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (void)resetInMemoryKeychainItems</Declaration>
+			
+			
+			<Anchor>//api/name/resetInMemoryKeychainItems</Anchor>
             <NodeRef refid="53"/>
 		</Token>
 		

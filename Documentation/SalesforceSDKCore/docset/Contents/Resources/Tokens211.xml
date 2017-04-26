@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFUserManagementAction.html">
+	<File path="Constants/SFRestMethod.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFUserManagementAction</TokenIdentifier>
-			<Abstract type="html">The various actions that may have been taken for account management.</Abstract>
-			<DeclaredIn>SFDefaultUserManagementViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFRestMethod</TokenIdentifier>
+			<Abstract type="html">HTTP methods for requests</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
             
 			
 			<NodeRef refid="211"/>
@@ -14,45 +14,61 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserManagementActionCancel</TokenIdentifier>
-            <Abstract type="html">No action was taken.
-     </Abstract>
-            <Declaration>SFUserManagementActionCancel</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodGET</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFRestMethodGET</Declaration>
             
-            <DeclaredIn>SFDefaultUserManagementViewController.h</DeclaredIn>
-            
-            <NodeRef refid="211"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserManagementActionLogoutUser</TokenIdentifier>
-            <Abstract type="html">A user was logged out.
-     </Abstract>
-            <Declaration>SFUserManagementActionLogoutUser</Declaration>
-            
-            <DeclaredIn>SFDefaultUserManagementViewController.h</DeclaredIn>
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
             
             <NodeRef refid="211"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserManagementActionSwitchUser</TokenIdentifier>
-            <Abstract type="html">Switched from one user to another.
-     </Abstract>
-            <Declaration>SFUserManagementActionSwitchUser</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodPOST</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFRestMethodPOST</Declaration>
             
-            <DeclaredIn>SFDefaultUserManagementViewController.h</DeclaredIn>
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
             
             <NodeRef refid="211"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserManagementActionCreateNewUser</TokenIdentifier>
-            <Abstract type="html">Logging in as a new user.
-     </Abstract>
-            <Declaration>SFUserManagementActionCreateNewUser</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodPUT</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFRestMethodPUT</Declaration>
             
-            <DeclaredIn>SFDefaultUserManagementViewController.h</DeclaredIn>
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
+            
+            <NodeRef refid="211"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodDELETE</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFRestMethodDELETE</Declaration>
+            
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
+            
+            <NodeRef refid="211"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodHEAD</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFRestMethodHEAD</Declaration>
+            
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
+            
+            <NodeRef refid="211"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodPATCH</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFRestMethodPATCH</Declaration>
+            
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
             
             <NodeRef refid="211"/>
         </Token>

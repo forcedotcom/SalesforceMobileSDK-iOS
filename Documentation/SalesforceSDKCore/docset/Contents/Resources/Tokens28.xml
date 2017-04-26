@@ -639,6 +639,195 @@ service to retrieve org authentication configuration.</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/setLoginHost:</TokenIdentifier>
+			<Abstract type="html">The host that will be used for login.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) NSString *loginHost</Declaration>
+			
+			
+			<Anchor>//api/name/loginHost</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/loginHost</TokenIdentifier>
+			<Abstract type="html">The host that will be used for login.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) NSString *loginHost</Declaration>
+			
+			
+			<Anchor>//api/name/loginHost</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationManager/loginHost</TokenIdentifier>
+			<Abstract type="html">The host that will be used for login.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) NSString *loginHost</Declaration>
+			
+			
+			<Anchor>//api/name/loginHost</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/setRetryLoginAfterFailure:</TokenIdentifier>
+			<Abstract type="html">Should the login process start again if it fails (default: YES)</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL retryLoginAfterFailure</Declaration>
+			
+			
+			<Anchor>//api/name/retryLoginAfterFailure</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/retryLoginAfterFailure</TokenIdentifier>
+			<Abstract type="html">Should the login process start again if it fails (default: YES)</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL retryLoginAfterFailure</Declaration>
+			
+			
+			<Anchor>//api/name/retryLoginAfterFailure</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationManager/retryLoginAfterFailure</TokenIdentifier>
+			<Abstract type="html">Should the login process start again if it fails (default: YES)</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL retryLoginAfterFailure</Declaration>
+			
+			
+			<Anchor>//api/name/retryLoginAfterFailure</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/setOauthClientId:</TokenIdentifier>
+			<Abstract type="html">OAuth client ID to use for login.  Apps may customize
+by setting this property before login; otherwise, this
+value is determined by the SFDCOAuthClientIdPreference
+configured via the settings bundle.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSString *oauthClientId</Declaration>
+			
+			
+			<Anchor>//api/name/oauthClientId</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/oauthClientId</TokenIdentifier>
+			<Abstract type="html">OAuth client ID to use for login.  Apps may customize
+by setting this property before login; otherwise, this
+value is determined by the SFDCOAuthClientIdPreference
+configured via the settings bundle.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSString *oauthClientId</Declaration>
+			
+			
+			<Anchor>//api/name/oauthClientId</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationManager/oauthClientId</TokenIdentifier>
+			<Abstract type="html">OAuth client ID to use for login.  Apps may customize
+by setting this property before login; otherwise, this
+value is determined by the SFDCOAuthClientIdPreference
+configured via the settings bundle.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSString *oauthClientId</Declaration>
+			
+			
+			<Anchor>//api/name/oauthClientId</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/setOauthCompletionUrl:</TokenIdentifier>
+			<Abstract type="html">axm/detect/oauth/done&quot;)</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSString *oauthCompletionUrl</Declaration>
+			
+			
+			<Anchor>//api/name/oauthCompletionUrl</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/oauthCompletionUrl</TokenIdentifier>
+			<Abstract type="html">axm/detect/oauth/done&quot;)</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSString *oauthCompletionUrl</Declaration>
+			
+			
+			<Anchor>//api/name/oauthCompletionUrl</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationManager/oauthCompletionUrl</TokenIdentifier>
+			<Abstract type="html">axm/detect/oauth/done&quot;)</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSString *oauthCompletionUrl</Declaration>
+			
+			
+			<Anchor>//api/name/oauthCompletionUrl</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/setScopes:</TokenIdentifier>
+			<Abstract type="html">The OAuth scopes associated with the app.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSSet&lt;NSString*&gt; *scopes</Declaration>
+			
+			
+			<Anchor>//api/name/scopes</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/scopes</TokenIdentifier>
+			<Abstract type="html">The OAuth scopes associated with the app.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSSet&lt;NSString*&gt; *scopes</Declaration>
+			
+			
+			<Anchor>//api/name/scopes</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationManager/scopes</TokenIdentifier>
+			<Abstract type="html">The OAuth scopes associated with the app.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSSet&lt;NSString*&gt; *scopes</Declaration>
+			
+			
+			<Anchor>//api/name/scopes</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/addDelegate:</TokenIdentifier>
 			<Abstract type="html">Adds a delegate to the list of authentication manager delegates.</Abstract>
 			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
@@ -694,8 +883,7 @@ service to retrieve org authentication configuration.</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/loginWithCompletion:failure:</TokenIdentifier>
-			<Abstract type="html">Kick off the login process for either the current user, or a new user if the current user is not
-configured.</Abstract>
+			<Abstract type="html">Kick off the login process for credentials that&apos;s previously configured.</Abstract>
 			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
 			
 			<Declaration>- (BOOL)loginWithCompletion:(nullable SFOAuthFlowSuccessCallbackBlock)completionBlock failure:(nullable SFOAuthFlowFailureCallbackBlock)failureBlock</Declaration>
@@ -716,11 +904,11 @@ in succession.</Abstract></ReturnValue>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/loginWithCompletion:failure:account:</TokenIdentifier>
-			<Abstract type="html">Kick off the login process for the given user.</Abstract>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/loginWithCompletion:failure:credentials:</TokenIdentifier>
+			<Abstract type="html">Kick off the login process for the specified credentials.</Abstract>
 			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)loginWithCompletion:(nullable SFOAuthFlowSuccessCallbackBlock)completionBlock failure:(nullable SFOAuthFlowFailureCallbackBlock)failureBlock account:(nullable SFUserAccount *)account</Declaration>
+			<Declaration>- (BOOL)loginWithCompletion:(nullable SFOAuthFlowSuccessCallbackBlock)completionBlock failure:(nullable SFOAuthFlowFailureCallbackBlock)failureBlock credentials:(nullable SFOAuthCredentials *)credentials</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>completionBlock</Name>
@@ -729,14 +917,14 @@ in succession.</Abstract></ReturnValue>
 					<Name>failureBlock</Name>
 					<Abstract type="html">The block of code to execute when the authentication process has a fatal failure.</Abstract>
 				</Parameter><Parameter>
-					<Name>account</Name>
-					<Abstract type="html">User account to be logged in.</Abstract>
+					<Name>credentials</Name>
+					<Abstract type="html">SFOAuthCredentials to be logged in.</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">YES if this call kicks off the authentication process.  NO if an authentication process has already
 started, in which case subsequent requests are queued up to have their completion or failure blocks executed
 in succession.</Abstract></ReturnValue>
-			<Anchor>//api/name/loginWithCompletion:failure:account:</Anchor>
+			<Anchor>//api/name/loginWithCompletion:failure:credentials:</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
@@ -854,6 +1042,18 @@ presentation.</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/createOAuthCredentials</TokenIdentifier>
+			<Abstract type="html">Return SFOAuthCredentials using know oauthClientId,</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
+			
+			<Declaration>- (SFOAuthCredentials *)createOAuthCredentials</Declaration>
+			
+			<ReturnValue><Abstract type="html">Connect App auth credentials</Abstract></ReturnValue>
+			<Anchor>//api/name/createOAuthCredentials</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFAuthenticationManager/resetSessionCookie</TokenIdentifier>
 			<Abstract type="html">Clears session cookie data from the cookie store, and sets a new session cookie based on the
 OAuth credentials.</Abstract>
@@ -945,26 +1145,26 @@ OAuth credentials.</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/loginWithUser:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/loginWithCredentials:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFAuthenticationManager+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)loginWithUser:(SFUserAccount *)account</Declaration>
+			<Declaration>- (void)loginWithCredentials:(SFOAuthCredentials *)credentials</Declaration>
 			
 			
-			<Anchor>//api/name/loginWithUser:</Anchor>
+			<Anchor>//api/name/loginWithCredentials:</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/setupWithUser:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/setupWithCredentials:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFAuthenticationManager+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)setupWithUser:(SFUserAccount *)account</Declaration>
+			<Declaration>- (void)setupWithCredentials:(SFOAuthCredentials *)credentials</Declaration>
 			
 			
-			<Anchor>//api/name/setupWithUser:</Anchor>
+			<Anchor>//api/name/setupWithCredentials:</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		

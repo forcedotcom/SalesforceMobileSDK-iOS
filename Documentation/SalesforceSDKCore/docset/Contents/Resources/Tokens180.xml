@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/CSFInteractionContext.html">
+	<File path="Constants/CSFForceTaskCallType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/CSFInteractionContext</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/CSFForceTaskCallType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFDefines.h</DeclaredIn>
+			<DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
 			
 			<NodeRef refid="180"/>
@@ -14,21 +14,41 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFInteractionContextUser</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskCallTypeUnknown</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFInteractionContextUser</Declaration>
+            <Declaration>CSFForceTaskCallTypeUnknown</Declaration>
             
-            <DeclaredIn>CSFDefines.h</DeclaredIn>
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
             <NodeRef refid="180"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFInteractionContextProgrammatic</TokenIdentifier>
-            <Abstract type="html">the event was caused by user interaction</Abstract>
-            <Declaration>CSFInteractionContextProgrammatic</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskCallTypeInternal</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceTaskCallTypeInternal</Declaration>
             
-            <DeclaredIn>CSFDefines.h</DeclaredIn>
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="180"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskCallTypeInbound</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceTaskCallTypeInbound</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="180"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskCallTypeOutbound</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceTaskCallTypeOutbound</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
             <NodeRef refid="180"/>
         </Token>

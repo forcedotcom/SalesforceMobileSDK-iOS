@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFKeyStoreKey.html">
+	<File path="Classes/SFKeyStore.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFKeyStoreKey</TokenIdentifier>
-			<Abstract type="html">Data object representing the encryption key used for encrypting/decrypting the key store.</Abstract>
-			<DeclaredIn>SFKeyStoreKey.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFKeyStore</TokenIdentifier>
+			<Abstract type="html">For internal use.</Abstract>
+			<DeclaredIn>SFKeyStore.h</DeclaredIn>
             
 			
 			<NodeRef refid="50"/>
@@ -13,94 +13,365 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreKey/initWithKey:type:</TokenIdentifier>
-			<Abstract type="html">Designated initializer.</Abstract>
-			<DeclaredIn>SFKeyStoreKey.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStore/setKeyStoreKey:</TokenIdentifier>
+			<Abstract type="html">The key store key, used for encrypting and decrypting the key store.</Abstract>
+			<DeclaredIn>SFKeyStore.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithKey:(SFEncryptionKey *)key type:(SFKeyStoreKeyType)keyType</Declaration>
+			<Declaration>@property (nonatomic, copy) SFKeyStoreKey *keyStoreKey</Declaration>
+			
+			
+			<Anchor>//api/name/keyStoreKey</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStore/keyStoreKey</TokenIdentifier>
+			<Abstract type="html">The key store key, used for encrypting and decrypting the key store.</Abstract>
+			<DeclaredIn>SFKeyStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) SFKeyStoreKey *keyStoreKey</Declaration>
+			
+			
+			<Anchor>//api/name/keyStoreKey</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFKeyStore/keyStoreKey</TokenIdentifier>
+			<Abstract type="html">The key store key, used for encrypting and decrypting the key store.</Abstract>
+			<DeclaredIn>SFKeyStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) SFKeyStoreKey *keyStoreKey</Declaration>
+			
+			
+			<Anchor>//api/name/keyStoreKey</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStore/setKeyStoreDictionary:</TokenIdentifier>
+			<Abstract type="html">The dictionary that holds the key store data.</Abstract>
+			<DeclaredIn>SFKeyStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDictionary *keyStoreDictionary</Declaration>
+			
+			
+			<Anchor>//api/name/keyStoreDictionary</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStore/keyStoreDictionary</TokenIdentifier>
+			<Abstract type="html">The dictionary that holds the key store data.</Abstract>
+			<DeclaredIn>SFKeyStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDictionary *keyStoreDictionary</Declaration>
+			
+			
+			<Anchor>//api/name/keyStoreDictionary</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFKeyStore/keyStoreDictionary</TokenIdentifier>
+			<Abstract type="html">The dictionary that holds the key store data.</Abstract>
+			<DeclaredIn>SFKeyStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDictionary *keyStoreDictionary</Declaration>
+			
+			
+			<Anchor>//api/name/keyStoreDictionary</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStore/setKeyStoreAvailable:</TokenIdentifier>
+			<Abstract type="html">Whether or not the key store is currently available for exchanging keys.</Abstract>
+			<DeclaredIn>SFKeyStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL keyStoreAvailable</Declaration>
+			
+			
+			<Anchor>//api/name/keyStoreAvailable</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStore/keyStoreAvailable</TokenIdentifier>
+			<Abstract type="html">Whether or not the key store is currently available for exchanging keys.</Abstract>
+			<DeclaredIn>SFKeyStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL keyStoreAvailable</Declaration>
+			
+			
+			<Anchor>//api/name/keyStoreAvailable</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFKeyStore/keyStoreAvailable</TokenIdentifier>
+			<Abstract type="html">Whether or not the key store is currently available for exchanging keys.</Abstract>
+			<DeclaredIn>SFKeyStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL keyStoreAvailable</Declaration>
+			
+			
+			<Anchor>//api/name/keyStoreAvailable</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStore/setKeyStoreEnabled:</TokenIdentifier>
+			<Abstract type="html">Whether or not the key store is enabled for use, i.e. whether or not this will be used at all for
+key storage and retrieval.</Abstract>
+			<DeclaredIn>SFKeyStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL keyStoreEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/keyStoreEnabled</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStore/keyStoreEnabled</TokenIdentifier>
+			<Abstract type="html">Whether or not the key store is enabled for use, i.e. whether or not this will be used at all for
+key storage and retrieval.</Abstract>
+			<DeclaredIn>SFKeyStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL keyStoreEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/keyStoreEnabled</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFKeyStore/keyStoreEnabled</TokenIdentifier>
+			<Abstract type="html">Whether or not the key store is enabled for use, i.e. whether or not this will be used at all for
+key storage and retrieval.</Abstract>
+			<DeclaredIn>SFKeyStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL keyStoreEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/keyStoreEnabled</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStore/keyLabelForString:</TokenIdentifier>
+			<Abstract type="html">Returns a key label unique to this key store, based on the input key label.</Abstract>
+			<DeclaredIn>SFKeyStore.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)keyLabelForString:(NSString *)baseKeyLabel</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The encryption key for the key store.</Abstract>
+					<Name>baseKeyLabel</Name>
+					<Abstract type="html">the input key label to make unique.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">A unique key label to this store.</Abstract></ReturnValue>
+			<Anchor>//api/name/keyLabelForString:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStore/setStoreKeychainIdentifier:</TokenIdentifier>
+			<Abstract type="html">The store&apos;s keychain identifier.</Abstract>
+			<DeclaredIn>SFKeyStore+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *storeKeychainIdentifier</Declaration>
+			
+			
+			<Anchor>//api/name/storeKeychainIdentifier</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStore/storeKeychainIdentifier</TokenIdentifier>
+			<Abstract type="html">The store&apos;s keychain identifier.</Abstract>
+			<DeclaredIn>SFKeyStore+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *storeKeychainIdentifier</Declaration>
+			
+			
+			<Anchor>//api/name/storeKeychainIdentifier</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFKeyStore/storeKeychainIdentifier</TokenIdentifier>
+			<Abstract type="html">The store&apos;s keychain identifier.</Abstract>
+			<DeclaredIn>SFKeyStore+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *storeKeychainIdentifier</Declaration>
+			
+			
+			<Anchor>//api/name/storeKeychainIdentifier</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStore/setStoreDataArchiveKey:</TokenIdentifier>
+			<Abstract type="html">The store&apos;s data archive key for serialization/deserialization.</Abstract>
+			<DeclaredIn>SFKeyStore+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *storeDataArchiveKey</Declaration>
+			
+			
+			<Anchor>//api/name/storeDataArchiveKey</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStore/storeDataArchiveKey</TokenIdentifier>
+			<Abstract type="html">The store&apos;s data archive key for serialization/deserialization.</Abstract>
+			<DeclaredIn>SFKeyStore+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *storeDataArchiveKey</Declaration>
+			
+			
+			<Anchor>//api/name/storeDataArchiveKey</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFKeyStore/storeDataArchiveKey</TokenIdentifier>
+			<Abstract type="html">The store&apos;s data archive key for serialization/deserialization.</Abstract>
+			<DeclaredIn>SFKeyStore+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *storeDataArchiveKey</Declaration>
+			
+			
+			<Anchor>//api/name/storeDataArchiveKey</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStore/setEncryptionKeyKeychainIdentifier:</TokenIdentifier>
+			<Abstract type="html">The store&apos;s encryption key keychain identifier.</Abstract>
+			<DeclaredIn>SFKeyStore+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *encryptionKeyKeychainIdentifier</Declaration>
+			
+			
+			<Anchor>//api/name/encryptionKeyKeychainIdentifier</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStore/encryptionKeyKeychainIdentifier</TokenIdentifier>
+			<Abstract type="html">The store&apos;s encryption key keychain identifier.</Abstract>
+			<DeclaredIn>SFKeyStore+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *encryptionKeyKeychainIdentifier</Declaration>
+			
+			
+			<Anchor>//api/name/encryptionKeyKeychainIdentifier</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFKeyStore/encryptionKeyKeychainIdentifier</TokenIdentifier>
+			<Abstract type="html">The store&apos;s encryption key keychain identifier.</Abstract>
+			<DeclaredIn>SFKeyStore+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *encryptionKeyKeychainIdentifier</Declaration>
+			
+			
+			<Anchor>//api/name/encryptionKeyKeychainIdentifier</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStore/setEncryptionKeyDataArchiveKey:</TokenIdentifier>
+			<Abstract type="html">The store&apos;s encryption key data archive key for serialization/deserialization.</Abstract>
+			<DeclaredIn>SFKeyStore+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *encryptionKeyDataArchiveKey</Declaration>
+			
+			
+			<Anchor>//api/name/encryptionKeyDataArchiveKey</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStore/encryptionKeyDataArchiveKey</TokenIdentifier>
+			<Abstract type="html">The store&apos;s encryption key data archive key for serialization/deserialization.</Abstract>
+			<DeclaredIn>SFKeyStore+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *encryptionKeyDataArchiveKey</Declaration>
+			
+			
+			<Anchor>//api/name/encryptionKeyDataArchiveKey</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFKeyStore/encryptionKeyDataArchiveKey</TokenIdentifier>
+			<Abstract type="html">The store&apos;s encryption key data archive key for serialization/deserialization.</Abstract>
+			<DeclaredIn>SFKeyStore+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *encryptionKeyDataArchiveKey</Declaration>
+			
+			
+			<Anchor>//api/name/encryptionKeyDataArchiveKey</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStore/buildUniqueKeychainId:</TokenIdentifier>
+			<Abstract type="html">Creates a keychain ID that should be unique across app installs/re-installs, making sure
+that erroneous keychain data is not present if the app is re-installed.</Abstract>
+			<DeclaredIn>SFKeyStore+Internal.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)buildUniqueKeychainId:(NSString *)baseKeychainId</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>baseKeychainId</Name>
+					<Abstract type="html">The identifier that the keychain key is based on.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">An identifier with the base ID and unique data appended to it.</Abstract></ReturnValue>
+			<Anchor>//api/name/buildUniqueKeychainId:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStore/keyStoreDictionaryWithKey:</TokenIdentifier>
+			<Abstract type="html">Retrieves the key store dictionary, decrypting it with the specified key.</Abstract>
+			<DeclaredIn>SFKeyStore+Internal.h</DeclaredIn>
+			
+			<Declaration>- (NSDictionary *)keyStoreDictionaryWithKey:(SFEncryptionKey *)decryptKey</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>decryptKey</Name>
+					<Abstract type="html">The key used to decrypt the dictionary.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The decrypted dictionary, or nil if the dictionary could not be decrypted.</Abstract></ReturnValue>
+			<Anchor>//api/name/keyStoreDictionaryWithKey:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStore/setKeyStoreDictionary:withKey:</TokenIdentifier>
+			<Abstract type="html">Sets the key store dictionary, encrypting it with the specified key.</Abstract>
+			<DeclaredIn>SFKeyStore+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)setKeyStoreDictionary:(NSDictionary *)keyStoreDictionary withKey:(SFEncryptionKey *)theEncryptionKey</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>keyStoreDictionary</Name>
+					<Abstract type="html">The new/updated dictionary to set.</Abstract>
 				</Parameter><Parameter>
-					<Name>keyType</Name>
-					<Abstract type="html">The type of key used to encrypt the key store.</Abstract>
+					<Name>theEncryptionKey</Name>
+					<Abstract type="html">The key used to encrypt the database.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/initWithKey:type:</Anchor>
-            <NodeRef refid="50"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreKey/setEncryptionKey:</TokenIdentifier>
-			<Abstract type="html">The encryption key for the key store.</Abstract>
-			<DeclaredIn>SFKeyStoreKey.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) SFEncryptionKey *encryptionKey</Declaration>
-			
-			
-			<Anchor>//api/name/encryptionKey</Anchor>
-            <NodeRef refid="50"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreKey/encryptionKey</TokenIdentifier>
-			<Abstract type="html">The encryption key for the key store.</Abstract>
-			<DeclaredIn>SFKeyStoreKey.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) SFEncryptionKey *encryptionKey</Declaration>
-			
-			
-			<Anchor>//api/name/encryptionKey</Anchor>
-            <NodeRef refid="50"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFKeyStoreKey/encryptionKey</TokenIdentifier>
-			<Abstract type="html">The encryption key for the key store.</Abstract>
-			<DeclaredIn>SFKeyStoreKey.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) SFEncryptionKey *encryptionKey</Declaration>
-			
-			
-			<Anchor>//api/name/encryptionKey</Anchor>
-            <NodeRef refid="50"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreKey/setKeyType:</TokenIdentifier>
-			<Abstract type="html">The type of key used to encrypt/decrypt the key store.</Abstract>
-			<DeclaredIn>SFKeyStoreKey.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) SFKeyStoreKeyType keyType</Declaration>
-			
-			
-			<Anchor>//api/name/keyType</Anchor>
-            <NodeRef refid="50"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreKey/keyType</TokenIdentifier>
-			<Abstract type="html">The type of key used to encrypt/decrypt the key store.</Abstract>
-			<DeclaredIn>SFKeyStoreKey.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) SFKeyStoreKeyType keyType</Declaration>
-			
-			
-			<Anchor>//api/name/keyType</Anchor>
-            <NodeRef refid="50"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFKeyStoreKey/keyType</TokenIdentifier>
-			<Abstract type="html">The type of key used to encrypt/decrypt the key store.</Abstract>
-			<DeclaredIn>SFKeyStoreKey.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) SFKeyStoreKeyType keyType</Declaration>
-			
-			
-			<Anchor>//api/name/keyType</Anchor>
+			<Anchor>//api/name/setKeyStoreDictionary:withKey:</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		

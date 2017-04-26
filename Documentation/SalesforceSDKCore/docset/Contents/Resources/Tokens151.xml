@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFLogStorage.html">
+	<File path="Protocols/CSFNetworkDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFLogStorage</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intf/CSFNetworkDelegate</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogStorage.h</DeclaredIn>
+			<DeclaredIn>CSFNetwork.h</DeclaredIn>
             
 			
 			<NodeRef refid="151"/>
@@ -13,98 +13,62 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFLogStorage/setAllLoggers:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogStorage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/CSFNetworkDelegate/network:willEnqueueAction:</TokenIdentifier>
+			<Abstract type="html">Called when an action is about to get enqueued.</Abstract>
+			<DeclaredIn>CSFNetwork.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSArray&lt;id&lt;DDLogger&gt; &gt; *allLoggers</Declaration>
+			<Declaration>- (void)network:(CSFNetwork *)network willEnqueueAction:(CSFAction *)action</Declaration>
 			
 			
-			<Anchor>//api/name/allLoggers</Anchor>
+			<Anchor>//api/name/network:willEnqueueAction:</Anchor>
             <NodeRef refid="151"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFLogStorage/allLoggers</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogStorage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/CSFNetworkDelegate/network:didStartAction:</TokenIdentifier>
+			<Abstract type="html">These methods inform delegates asynchronously about state of actions.</Abstract>
+			<DeclaredIn>CSFNetwork.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSArray&lt;id&lt;DDLogger&gt; &gt; *allLoggers</Declaration>
+			<Declaration>- (void)network:(CSFNetwork *)network didStartAction:(CSFAction *)action</Declaration>
 			
 			
-			<Anchor>//api/name/allLoggers</Anchor>
+			<Anchor>//api/name/network:didStartAction:</Anchor>
             <NodeRef refid="151"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/SFLogStorage/allLoggers</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/CSFNetworkDelegate/network:didCancelAction:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogStorage.h</DeclaredIn>
+			<DeclaredIn>CSFNetwork.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSArray&lt;id&lt;DDLogger&gt; &gt; *allLoggers</Declaration>
+			<Declaration>- (void)network:(CSFNetwork *)network didCancelAction:(CSFAction *)action</Declaration>
 			
 			
-			<Anchor>//api/name/allLoggers</Anchor>
+			<Anchor>//api/name/network:didCancelAction:</Anchor>
             <NodeRef refid="151"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFLogStorage/flushLog</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/CSFNetworkDelegate/network:didCompleteAction:withError:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogStorage.h</DeclaredIn>
+			<DeclaredIn>CSFNetwork.h</DeclaredIn>
 			
-			<Declaration>- (void)flushLog</Declaration>
+			<Declaration>- (void)network:(CSFNetwork *)network didCompleteAction:(CSFAction *)action withError:(NSError *)error</Declaration>
 			
 			
-			<Anchor>//api/name/flushLog</Anchor>
+			<Anchor>//api/name/network:didCompleteAction:withError:</Anchor>
             <NodeRef refid="151"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFLogStorage/addLogger:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogStorage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/CSFNetworkDelegate/network:sessionTask:changedState:toState:forAction:</TokenIdentifier>
+			<Abstract type="html">Inform delegates asynchronously about states of tasks for an action</Abstract>
+			<DeclaredIn>CSFNetwork.h</DeclaredIn>
 			
-			<Declaration>- (void)addLogger:(id&lt;DDLogger&gt;)logger</Declaration>
-			
-			
-			<Anchor>//api/name/addLogger:</Anchor>
-            <NodeRef refid="151"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFLogStorage/removeLogger:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogStorage.h</DeclaredIn>
-			
-			<Declaration>- (void)removeLogger:(id&lt;DDLogger&gt;)logger</Declaration>
+			<Declaration>- (void)network:(CSFNetwork *)network sessionTask:(NSURLSessionTask *)task changedState:(NSURLSessionTaskState)oldState toState:(NSURLSessionTaskState)newState forAction:(CSFAction *)action</Declaration>
 			
 			
-			<Anchor>//api/name/removeLogger:</Anchor>
-            <NodeRef refid="151"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFLogStorage/removeAllLoggers</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogStorage.h</DeclaredIn>
-			
-			<Declaration>- (void)removeAllLoggers</Declaration>
-			
-			
-			<Anchor>//api/name/removeAllLoggers</Anchor>
-            <NodeRef refid="151"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFLogStorage/log:level:flag:context:file:function:line:tag:format:args:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogStorage.h</DeclaredIn>
-			
-			<Declaration>- (void)log:(BOOL)asynchronous level:(DDLogLevel)level flag:(DDLogFlag)flag context:(NSInteger)context file:(const char *)file function:(const char *)function line:(NSUInteger)line tag:(id)tag format:(NSString *)format args:(va_list)args</Declaration>
-			
-			
-			<Anchor>//api/name/log:level:flag:context:file:function:line:tag:format:args:</Anchor>
+			<Anchor>//api/name/network:sessionTask:changedState:toState:forAction:</Anchor>
             <NodeRef refid="151"/>
 		</Token>
 		

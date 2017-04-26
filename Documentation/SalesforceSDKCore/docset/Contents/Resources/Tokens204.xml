@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFPasscodeControllerMode.html">
+	<File path="Constants/SFOAuthCredsEncryptionType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFPasscodeControllerMode</TokenIdentifier>
-			<Abstract type="html">Mode constants indicating whether to create or verify an existing passcode.</Abstract>
-			<DeclaredIn>SFPasscodeViewControllerTypes.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthCredsEncryptionType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
             
 			
 			<NodeRef refid="204"/>
@@ -14,31 +14,51 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFPasscodeControllerModeCreate</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeNotSet</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFPasscodeControllerModeCreate</Declaration>
+            <Declaration>kSFOAuthCredsEncryptionTypeNotSet</Declaration>
             
-            <DeclaredIn>SFPasscodeViewControllerTypes.h</DeclaredIn>
+            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
             
             <NodeRef refid="204"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFPasscodeControllerModeVerify</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeMac</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFPasscodeControllerModeVerify</Declaration>
+            <Declaration>kSFOAuthCredsEncryptionTypeMac</Declaration>
             
-            <DeclaredIn>SFPasscodeViewControllerTypes.h</DeclaredIn>
+            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
             
             <NodeRef refid="204"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFPasscodeControllerModeChange</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeIdForVendor</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFPasscodeControllerModeChange</Declaration>
+            <Declaration>kSFOAuthCredsEncryptionTypeIdForVendor</Declaration>
             
-            <DeclaredIn>SFPasscodeViewControllerTypes.h</DeclaredIn>
+            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+            
+            <NodeRef refid="204"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeBaseAppId</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>kSFOAuthCredsEncryptionTypeBaseAppId</Declaration>
+            
+            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+            
+            <NodeRef refid="204"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeKeyStore</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>kSFOAuthCredsEncryptionTypeKeyStore</Declaration>
+            
+            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
             
             <NodeRef refid="204"/>
         </Token>

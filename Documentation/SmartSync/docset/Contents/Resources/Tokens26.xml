@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSyncDownTargetQueryType.html">
+	<File path="Constants/SFSyncStateMergeMode.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSyncDownTargetQueryType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSyncStateMergeMode</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
+			<DeclaredIn>SFSyncState.h</DeclaredIn>
             
 			
 			<NodeRef refid="26"/>
@@ -14,51 +14,21 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncDownTargetQueryTypeMru</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSyncStateMergeModeOverwrite</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSyncDownTargetQueryTypeMru</Declaration>
+            <Declaration>SFSyncStateMergeModeOverwrite</Declaration>
             
-            <DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
+            <DeclaredIn>SFSyncState.h</DeclaredIn>
             
             <NodeRef refid="26"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncDownTargetQueryTypeSosl</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSyncStateMergeModeLeaveIfChanged</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSyncDownTargetQueryTypeSosl</Declaration>
+            <Declaration>SFSyncStateMergeModeLeaveIfChanged</Declaration>
             
-            <DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
-            
-            <NodeRef refid="26"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncDownTargetQueryTypeSoql</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSyncDownTargetQueryTypeSoql</Declaration>
-            
-            <DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
-            
-            <NodeRef refid="26"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncDownTargetQueryTypeRefresh</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSyncDownTargetQueryTypeRefresh</Declaration>
-            
-            <DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
-            
-            <NodeRef refid="26"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncDownTargetQueryTypeCustom</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSyncDownTargetQueryTypeCustom</Declaration>
-            
-            <DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
+            <DeclaredIn>SFSyncState.h</DeclaredIn>
             
             <NodeRef refid="26"/>
         </Token>

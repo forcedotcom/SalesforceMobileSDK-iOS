@@ -33,7 +33,7 @@ capability to encode and expose the data provided from server resources to clien
 			<Abstract type="html">Designated initializer to construct a model object from its JSON representation.</Abstract>
 			<DeclaredIn>CSFOutput.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)initWithJSON:(NSDictionary *)json context:(NSDictionary *)context</Declaration>
+			<Declaration>- (instancetype)initWithJSON:(id)json context:(NSDictionary *)context</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>json</Name>
@@ -62,102 +62,6 @@ capability to encode and expose the data provided from server resources to clien
 			</Parameters>
 			<ReturnValue><Abstract type="html">YES if model is equal to the receiver (if the properties of this and its child objects match), otherwise NO.</Abstract></ReturnValue>
 			<Anchor>//api/name/isEqualToOutput:</Anchor>
-            <NodeRef refid="13"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOutput/objectForKeyedSubscript:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOutput.h</DeclaredIn>
-			
-			<Declaration>- (id)objectForKeyedSubscript:(id)key</Declaration>
-			
-			
-			<Anchor>//api/name/objectForKeyedSubscript:</Anchor>
-            <NodeRef refid="13"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOutput/setObject:forKeyedSubscript:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOutput.h</DeclaredIn>
-			
-			<Declaration>- (void)setObject:(id)obj forKeyedSubscript:(id&lt;NSCopying&gt;)key</Declaration>
-			
-			
-			<Anchor>//api/name/setObject:forKeyedSubscript:</Anchor>
-            <NodeRef refid="13"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOutput/setParentObject:</TokenIdentifier>
-			<Abstract type="html">This property exposes the parent object to the receiver, as a weak reference.</Abstract>
-			<DeclaredIn>CSFOutput.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak, readwrite) NSObject *parentObject</Declaration>
-			
-			
-			<Anchor>//api/name/parentObject</Anchor>
-            <NodeRef refid="13"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOutput/parentObject</TokenIdentifier>
-			<Abstract type="html">This property exposes the parent object to the receiver, as a weak reference.</Abstract>
-			<DeclaredIn>CSFOutput.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak, readwrite) NSObject *parentObject</Declaration>
-			
-			
-			<Anchor>//api/name/parentObject</Anchor>
-            <NodeRef refid="13"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/CSFOutput/parentObject</TokenIdentifier>
-			<Abstract type="html">This property exposes the parent object to the receiver, as a weak reference.</Abstract>
-			<DeclaredIn>CSFOutput.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak, readwrite) NSObject *parentObject</Declaration>
-			
-			
-			<Anchor>//api/name/parentObject</Anchor>
-            <NodeRef refid="13"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOutput/importAllProperties</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOutput_Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)importAllProperties</Declaration>
-			
-			
-			<Anchor>//api/name/importAllProperties</Anchor>
-            <NodeRef refid="13"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOutput/importSynthesizedProperties</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOutput_Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)importSynthesizedProperties</Declaration>
-			
-			
-			<Anchor>//api/name/importSynthesizedProperties</Anchor>
-            <NodeRef refid="13"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOutput/importProperty:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOutput_Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)importProperty:(NSString *)propertyName</Declaration>
-			
-			
-			<Anchor>//api/name/importProperty:</Anchor>
             <NodeRef refid="13"/>
 		</Token>
 		
@@ -228,6 +132,102 @@ capability to encode and expose the data provided from server resources to clien
 			
 			<ReturnValue><Abstract type="html">Pointer to a C function capable of transforming this property to a primitive type.</Abstract></ReturnValue>
 			<Anchor>//api/name/actionModelFormatterForPrimitiveProperty:encodingType:</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFOutput/objectForKeyedSubscript:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOutput.h</DeclaredIn>
+			
+			<Declaration>- (id)objectForKeyedSubscript:(id)key</Declaration>
+			
+			
+			<Anchor>//api/name/objectForKeyedSubscript:</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFOutput/setObject:forKeyedSubscript:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOutput.h</DeclaredIn>
+			
+			<Declaration>- (void)setObject:(id)obj forKeyedSubscript:(id&lt;NSCopying&gt;)key</Declaration>
+			
+			
+			<Anchor>//api/name/setObject:forKeyedSubscript:</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFOutput/setParentObject:</TokenIdentifier>
+			<Abstract type="html">This property exposes the parent object to the receiver, as a weak reference.</Abstract>
+			<DeclaredIn>CSFOutput.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, readonly) NSObject *parentObject</Declaration>
+			
+			
+			<Anchor>//api/name/parentObject</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFOutput/parentObject</TokenIdentifier>
+			<Abstract type="html">This property exposes the parent object to the receiver, as a weak reference.</Abstract>
+			<DeclaredIn>CSFOutput.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, readonly) NSObject *parentObject</Declaration>
+			
+			
+			<Anchor>//api/name/parentObject</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFOutput/parentObject</TokenIdentifier>
+			<Abstract type="html">This property exposes the parent object to the receiver, as a weak reference.</Abstract>
+			<DeclaredIn>CSFOutput.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, readonly) NSObject *parentObject</Declaration>
+			
+			
+			<Anchor>//api/name/parentObject</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFOutput/importAllProperties</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOutput_Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)importAllProperties</Declaration>
+			
+			
+			<Anchor>//api/name/importAllProperties</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFOutput/importSynthesizedProperties</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOutput_Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)importSynthesizedProperties</Declaration>
+			
+			
+			<Anchor>//api/name/importSynthesizedProperties</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFOutput/importProperty:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOutput_Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)importProperty:(NSString *)propertyName</Declaration>
+			
+			
+			<Anchor>//api/name/importProperty:</Anchor>
             <NodeRef refid="13"/>
 		</Token>
 		

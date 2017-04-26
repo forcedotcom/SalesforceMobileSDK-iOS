@@ -185,7 +185,7 @@ capability to encode and expose the data provided from server resources to clien
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (instancetype)initWithJSON:(NSDictionary *)<em>json</em> context:(NSDictionary *)<em>context</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (instancetype)initWithJSON:(id)<em>json</em> context:(NSDictionary *)<em>context</em></code></div>
 
 		    
 			
@@ -293,149 +293,6 @@ Subclasses of this this class all augment this behavior to compare against their
 			</div>
 			
 			
-		</div>
-	</div>
-</div>
-						</div>
-						
-
-						<a title="KeyedSubscript Methods" name="task_KeyedSubscript Methods"></a>
-						<h2 class="task-title">KeyedSubscript Methods</h2>
-
-						<div class="task-list">
-							<div class="section-method">
-	<a name="//api/name/objectForKeyedSubscript:" title="objectForKeyedSubscript:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/objectForKeyedSubscript:">&ndash;&nbsp;objectForKeyedSubscript:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (id)objectForKeyedSubscript:(id)<em>key</em></code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/setObject:forKeyedSubscript:" title="setObject:forKeyedSubscript:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/setObject:forKeyedSubscript:">&ndash;&nbsp;setObject:forKeyedSubscript:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (void)setObject:(id)<em>obj</em> forKeyedSubscript:(id&lt;NSCopying&gt;)<em>key</em></code></div>
-
-		    
-		</div>
-	</div>
-</div>
-						</div>
-						
-
-						<a title="Extension Methods" name="task_Extension Methods"></a>
-						<h2 class="task-title">Extension Methods</h2>
-
-						<div class="task-list">
-							<div class="section-method">
-	<a name="//api/name/parentObject" title="parentObject"></a>
-	<h3 class="method-title"><code><a href="#//api/name/parentObject">&nbsp;&nbsp;parentObject</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>This property exposes the parent object to the receiver, as a weak reference.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, weak, readwrite) NSObject *parentObject</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>@discussion
-This property is automatically populated as a process of either initializing the object using <a href="../Protocols/CSFActionModel.html#//api/name/initWithJSON:context:">[CSFActionModel initWithJSON:context:]</a>, or though NSCoding decoding methods.  This property can safely be used without causing retain cycles, and is a convenient way to traverse an object graph.</p>
-			</div>
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">CSFOutput.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/importAllProperties" title="importAllProperties"></a>
-	<h3 class="method-title"><code><a href="#//api/name/importAllProperties">&ndash;&nbsp;importAllProperties</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (void)importAllProperties</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/importSynthesizedProperties" title="importSynthesizedProperties"></a>
-	<h3 class="method-title"><code><a href="#//api/name/importSynthesizedProperties">&ndash;&nbsp;importSynthesizedProperties</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (void)importSynthesizedProperties</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/importProperty:" title="importProperty:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/importProperty:">&ndash;&nbsp;importProperty:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (void)importProperty:(NSString *)<em>propertyName</em></code></div>
-
-		    
 		</div>
 	</div>
 </div>
@@ -770,6 +627,157 @@ handle the property or value supplied.</p>
 </div>
 						</div>
 						
+
+						<a title="KeyedSubscript Methods" name="task_KeyedSubscript Methods"></a>
+						<h2 class="task-title">KeyedSubscript Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/objectForKeyedSubscript:" title="objectForKeyedSubscript:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/objectForKeyedSubscript:">&ndash;&nbsp;objectForKeyedSubscript:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (id)objectForKeyedSubscript:(id)<em>key</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setObject:forKeyedSubscript:" title="setObject:forKeyedSubscript:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setObject:forKeyedSubscript:">&ndash;&nbsp;setObject:forKeyedSubscript:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)setObject:(id)<em>obj</em> forKeyedSubscript:(id&lt;NSCopying&gt;)<em>key</em></code></div>
+
+		    
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="Ancestry Methods" name="task_Ancestry Methods"></a>
+						<h2 class="task-title">Ancestry Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/parentObject" title="parentObject"></a>
+	<h3 class="method-title"><code><a href="#//api/name/parentObject">&nbsp;&nbsp;parentObject</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>This property exposes the parent object to the receiver, as a weak reference.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, weak, readonly) NSObject *parentObject</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>@discussion
+This property is automatically populated as a process of either initializing the object using <a href="../Protocols/CSFActionModel.html#//api/name/initWithJSON:context:">[CSFActionModel initWithJSON:context:]</a>, or though NSCoding decoding methods.  This property can safely be used without causing retain cycles, and is a convenient way to traverse an object graph.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">CSFOutput.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="Extension Methods" name="task_Extension Methods"></a>
+						<h2 class="task-title">Extension Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/importAllProperties" title="importAllProperties"></a>
+	<h3 class="method-title"><code><a href="#//api/name/importAllProperties">&ndash;&nbsp;importAllProperties</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)importAllProperties</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/importSynthesizedProperties" title="importSynthesizedProperties"></a>
+	<h3 class="method-title"><code><a href="#//api/name/importSynthesizedProperties">&ndash;&nbsp;importSynthesizedProperties</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)importSynthesizedProperties</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/importProperty:" title="importProperty:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/importProperty:">&ndash;&nbsp;importProperty:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)importProperty:(NSString *)<em>propertyName</em></code></div>
+
+		    
+		</div>
+	</div>
+</div>
+						</div>
+						
 					</div>
 					
 					
@@ -782,7 +790,7 @@ handle the property or value supplied.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-12-12</p>
+						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-04-26</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

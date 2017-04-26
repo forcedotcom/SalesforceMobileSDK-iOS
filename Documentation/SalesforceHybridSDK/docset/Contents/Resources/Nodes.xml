@@ -31,9 +31,6 @@
 						<NodeRef refid="18"/>
 						<NodeRef refid="19"/>
 						<NodeRef refid="20"/>
-						<NodeRef refid="21"/>
-						<NodeRef refid="22"/>
-						<NodeRef refid="23"/>
 						
 					</Subnodes>
 				</Node>
@@ -43,7 +40,7 @@
 					<Name>Categories</Name>
 					<Path>index.html</Path>
 					<Subnodes>
-						<NodeRef refid="24"/>
+						<NodeRef refid="21"/>
 						
 					</Subnodes>
 				</Node>
@@ -55,7 +52,7 @@
                     <Name>Blocks</Name>
                     <Path>index.html</Path>
                     <Subnodes>
-                        <NodeRef refid="25"/>
+                        <NodeRef refid="22"/>
                         
                     </Subnodes>
                 </Node>
@@ -480,93 +477,6 @@
             
         </Node>
 		<Node id="17" type="file" documentType="reference">
-            <Name>SFWKWebViewDelegate</Name>
-            <Path>Classes/SFWKWebViewDelegate.html</Path>
-            
-                <Subnodes>
-                <Node type="section">
-                    <Path>Classes/SFWKWebViewDelegate.html</Path>
-                    <Name>Overview</Name>
-                    <Anchor>overview</Anchor>
-                </Node>
-                <Node type="section">
-                    <Path>Classes/SFWKWebViewDelegate.html</Path>
-                    <Name>Tasks</Name>
-                    <Anchor>tasks</Anchor>
-                </Node>
-                
-                
-                
-                <Node type="section">
-                    <Path>Classes/SFWKWebViewDelegate.html</Path>
-                    <Name>Instance Methods</Name>
-                    <Anchor>instance_methods</Anchor>
-                </Node>
-                
-            </Subnodes>
-            
-        </Node>
-		<Node id="18" type="file" documentType="reference">
-            <Name>SFWKWebViewEngine</Name>
-            <Path>Classes/SFWKWebViewEngine.html</Path>
-            
-                <Subnodes>
-                <Node type="section">
-                    <Path>Classes/SFWKWebViewEngine.html</Path>
-                    <Name>Overview</Name>
-                    <Anchor>overview</Anchor>
-                </Node>
-                <Node type="section">
-                    <Path>Classes/SFWKWebViewEngine.html</Path>
-                    <Name>Tasks</Name>
-                    <Anchor>tasks</Anchor>
-                </Node>
-                
-                <Node type="section">
-                    <Path>Classes/SFWKWebViewEngine.html</Path>
-                    <Name>Properties</Name>
-                    <Anchor>properties</Anchor>
-                </Node>
-                
-                
-                
-            </Subnodes>
-            
-        </Node>
-		<Node id="19" type="file" documentType="reference">
-            <Name>SFWKWebViewNavigationDelegate</Name>
-            <Path>Classes/SFWKWebViewNavigationDelegate.html</Path>
-            
-                <Subnodes>
-                <Node type="section">
-                    <Path>Classes/SFWKWebViewNavigationDelegate.html</Path>
-                    <Name>Overview</Name>
-                    <Anchor>overview</Anchor>
-                </Node>
-                <Node type="section">
-                    <Path>Classes/SFWKWebViewNavigationDelegate.html</Path>
-                    <Name>Tasks</Name>
-                    <Anchor>tasks</Anchor>
-                </Node>
-                
-                <Node type="section">
-                    <Path>Classes/SFWKWebViewNavigationDelegate.html</Path>
-                    <Name>Properties</Name>
-                    <Anchor>properties</Anchor>
-                </Node>
-                
-                
-                
-                <Node type="section">
-                    <Path>Classes/SFWKWebViewNavigationDelegate.html</Path>
-                    <Name>Instance Methods</Name>
-                    <Anchor>instance_methods</Anchor>
-                </Node>
-                
-            </Subnodes>
-            
-        </Node>
-		<Node id="20" type="file" documentType="reference">
             <Name>SalesforceOAuthPlugin</Name>
             <Path>Classes/SalesforceOAuthPlugin.html</Path>
             
@@ -593,23 +503,23 @@
             </Subnodes>
             
         </Node>
-		<Node id="21" type="file" documentType="reference">
+		<Node id="18" type="file" documentType="reference">
             <Name>SmartStoreLoadTestSuite</Name>
             <Path>Classes/SmartStoreLoadTestSuite.html</Path>
             
         </Node>
-		<Node id="22" type="file" documentType="reference">
+		<Node id="19" type="file" documentType="reference">
             <Name>SmartStoreTestSuite</Name>
             <Path>Classes/SmartStoreTestSuite.html</Path>
             
         </Node>
-		<Node id="23" type="file" documentType="reference">
+		<Node id="20" type="file" documentType="reference">
             <Name>SmartSyncTestSuite</Name>
             <Path>Classes/SmartSyncTestSuite.html</Path>
             
         </Node>
 		
-		<Node id="24" type="file" documentType="reference">
+		<Node id="21" type="file" documentType="reference">
             <Name>CDVPlugin(SFAdditions)</Name>
             <Path>Categories/CDVPlugin+SFAdditions.html</Path>
             
@@ -639,7 +549,7 @@
 		
         
         
-        <Node id="25" type="file" documentType="reference">
+        <Node id="22" type="file" documentType="reference">
             <Name>SFOAuthPluginAuthSuccessBlock</Name>
             <Path>Blocks/SFOAuthPluginAuthSuccessBlock.html</Path>
             

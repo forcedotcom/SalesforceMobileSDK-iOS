@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFRestDelegate.html">
+	<File path="Protocols/SFLogStorage.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFRestDelegate</TokenIdentifier>
-			<Abstract type="html">Lifecycle events for SFRestRequests.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFLogStorage</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogStorage.h</DeclaredIn>
             
 			
 			<NodeRef refid="156"/>
@@ -13,81 +13,98 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFRestDelegate/request:didLoadResponse:</TokenIdentifier>
-			<Abstract type="html">Sent when a request has finished loading.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFLogStorage/setAllLoggers:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogStorage.h</DeclaredIn>
 			
-			<Declaration>- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>request</Name>
-					<Abstract type="html">The request that was loaded.</Abstract>
-				</Parameter><Parameter>
-					<Name>dataResponse</Name>
-					<Abstract type="html">The data from the response.  By default, this will be an object
-containing the parsed JSON response.  However, if request.parseResponse was set
-to NO, the data will be contained in a binary NSData object.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, strong, readonly) NSArray&lt;id&lt;DDLogger&gt; &gt; *allLoggers</Declaration>
 			
-			<Anchor>//api/name/request:didLoadResponse:</Anchor>
+			
+			<Anchor>//api/name/allLoggers</Anchor>
             <NodeRef refid="156"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFRestDelegate/request:didFailLoadWithError:</TokenIdentifier>
-			<Abstract type="html">Sent when a request has failed due to an error.
-This includes HTTP network errors, as well as Salesforce errors
-(for example, passing an invalid SOQL string when doing a query).</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFLogStorage/allLoggers</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogStorage.h</DeclaredIn>
 			
-			<Declaration>- (void)request:(SFRestRequest *)request didFailLoadWithError:(NSError *)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>request</Name>
-					<Abstract type="html">The attempted request.</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">The error associated with the failed request.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, strong, readonly) NSArray&lt;id&lt;DDLogger&gt; &gt; *allLoggers</Declaration>
 			
-			<Anchor>//api/name/request:didFailLoadWithError:</Anchor>
+			
+			<Anchor>//api/name/allLoggers</Anchor>
             <NodeRef refid="156"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFRestDelegate/requestDidCancelLoad:</TokenIdentifier>
-			<Abstract type="html">Sent to the delegate when a request was cancelled.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfp/SFLogStorage/allLoggers</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogStorage.h</DeclaredIn>
 			
-			<Declaration>- (void)requestDidCancelLoad:(SFRestRequest *)request</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>request</Name>
-					<Abstract type="html">The canceled request.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, strong, readonly) NSArray&lt;id&lt;DDLogger&gt; &gt; *allLoggers</Declaration>
 			
-			<Anchor>//api/name/requestDidCancelLoad:</Anchor>
+			
+			<Anchor>//api/name/allLoggers</Anchor>
             <NodeRef refid="156"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFRestDelegate/requestDidTimeout:</TokenIdentifier>
-			<Abstract type="html">Sent to the delegate when a request has timed out. This is sent when a
-backgrounded request expired before completion.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFLogStorage/flushLog</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogStorage.h</DeclaredIn>
 			
-			<Declaration>- (void)requestDidTimeout:(SFRestRequest *)request</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>request</Name>
-					<Abstract type="html">The request that timed out.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (void)flushLog</Declaration>
 			
-			<Anchor>//api/name/requestDidTimeout:</Anchor>
+			
+			<Anchor>//api/name/flushLog</Anchor>
+            <NodeRef refid="156"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFLogStorage/addLogger:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogStorage.h</DeclaredIn>
+			
+			<Declaration>- (void)addLogger:(id&lt;DDLogger&gt;)logger</Declaration>
+			
+			
+			<Anchor>//api/name/addLogger:</Anchor>
+            <NodeRef refid="156"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFLogStorage/removeLogger:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogStorage.h</DeclaredIn>
+			
+			<Declaration>- (void)removeLogger:(id&lt;DDLogger&gt;)logger</Declaration>
+			
+			
+			<Anchor>//api/name/removeLogger:</Anchor>
+            <NodeRef refid="156"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFLogStorage/removeAllLoggers</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogStorage.h</DeclaredIn>
+			
+			<Declaration>- (void)removeAllLoggers</Declaration>
+			
+			
+			<Anchor>//api/name/removeAllLoggers</Anchor>
+            <NodeRef refid="156"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFLogStorage/log:message:level:flag:context:file:function:line:tag:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogStorage.h</DeclaredIn>
+			
+			<Declaration>- (void)log:(BOOL)asynchronous message:(NSString *)message level:(DDLogLevel)level flag:(DDLogFlag)flag context:(NSInteger)context file:(const char *)file function:(const char *)function line:(NSUInteger)line tag:(id)tag</Declaration>
+			
+			
+			<Anchor>//api/name/log:message:level:flag:context:file:function:line:tag:</Anchor>
             <NodeRef refid="156"/>
 		</Token>
 		

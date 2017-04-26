@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFLogFlag.html">
+	<File path="Constants/SFCryptoMode.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFLogFlag</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLoggerMacros.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFCryptoMode</TokenIdentifier>
+			<Abstract type="html">This class is responsible for encrypting and decrypting the content data for chatter.</Abstract>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
             
 			
 			<NodeRef refid="193"/>
@@ -14,61 +14,21 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogFlagError</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFCryptoModeInMemory</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFLogFlagError</Declaration>
+            <Declaration>SFCryptoModeInMemory</Declaration>
             
-            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
+            <DeclaredIn>SFCrypto.h</DeclaredIn>
             
             <NodeRef refid="193"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogFlagWarning</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFCryptoModeDisk</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFLogFlagWarning</Declaration>
+            <Declaration>SFCryptoModeDisk</Declaration>
             
-            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
-            
-            <NodeRef refid="193"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogFlagInfo</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFLogFlagInfo</Declaration>
-            
-            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
-            
-            <NodeRef refid="193"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogFlagDebug</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFLogFlagDebug</Declaration>
-            
-            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
-            
-            <NodeRef refid="193"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogFlagVerbose</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFLogFlagVerbose</Declaration>
-            
-            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
-            
-            <NodeRef refid="193"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogFlagNSLog</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFLogFlagNSLog</Declaration>
-            
-            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
+            <DeclaredIn>SFCrypto.h</DeclaredIn>
             
             <NodeRef refid="193"/>
         </Token>

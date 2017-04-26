@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFAuthenticationManagerDelegatePriority.html">
+	<File path="Constants/CSFInteractionContext.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFAuthenticationManagerDelegatePriority</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/CSFInteractionContext</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
+			<DeclaredIn>CSFDefines.h</DeclaredIn>
             
 			
 			<NodeRef refid="186"/>
@@ -14,51 +14,21 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFAuthenticationManagerDelegatePriorityMax</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFInteractionContextUser</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFAuthenticationManagerDelegatePriorityMax</Declaration>
+            <Declaration>CSFInteractionContextUser</Declaration>
             
-            <DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
+            <DeclaredIn>CSFDefines.h</DeclaredIn>
             
             <NodeRef refid="186"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFAuthenticationManagerDelegatePriorityHigh</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFAuthenticationManagerDelegatePriorityHigh</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/CSFInteractionContextProgrammatic</TokenIdentifier>
+            <Abstract type="html">the event was caused by user interaction</Abstract>
+            <Declaration>CSFInteractionContextProgrammatic</Declaration>
             
-            <DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
-            
-            <NodeRef refid="186"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFAuthenticationManagerDelegatePriorityMedium</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFAuthenticationManagerDelegatePriorityMedium</Declaration>
-            
-            <DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
-            
-            <NodeRef refid="186"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFAuthenticationManagerDelegatePriorityLow</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFAuthenticationManagerDelegatePriorityLow</Declaration>
-            
-            <DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
-            
-            <NodeRef refid="186"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFAuthenticationManagerDelegatePriorityDefault</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFAuthenticationManagerDelegatePriorityDefault</Declaration>
-            
-            <DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
+            <DeclaredIn>CSFDefines.h</DeclaredIn>
             
             <NodeRef refid="186"/>
         </Token>

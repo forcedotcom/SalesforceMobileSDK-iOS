@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFCryptoOperation.html">
+	<File path="Constants/CSFParameterStyle.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFCryptoOperation</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/CSFParameterStyle</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			<DeclaredIn>CSFDefines.h</DeclaredIn>
             
 			
 			<NodeRef refid="188"/>
@@ -14,21 +14,41 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFCryptoOperationEncrypt</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFParameterStyleNone</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFCryptoOperationEncrypt</Declaration>
+            <Declaration>CSFParameterStyleNone</Declaration>
             
-            <DeclaredIn>SFCrypto.h</DeclaredIn>
+            <DeclaredIn>CSFDefines.h</DeclaredIn>
             
             <NodeRef refid="188"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFCryptoOperationDecrypt</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFParameterStyleQueryString</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFCryptoOperationDecrypt</Declaration>
+            <Declaration>CSFParameterStyleQueryString</Declaration>
             
-            <DeclaredIn>SFCrypto.h</DeclaredIn>
+            <DeclaredIn>CSFDefines.h</DeclaredIn>
+            
+            <NodeRef refid="188"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFParameterStyleURLEncoded</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFParameterStyleURLEncoded</Declaration>
+            
+            <DeclaredIn>CSFDefines.h</DeclaredIn>
+            
+            <NodeRef refid="188"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFParameterStyleMultipart</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFParameterStyleMultipart</Declaration>
+            
+            <DeclaredIn>CSFDefines.h</DeclaredIn>
             
             <NodeRef refid="188"/>
         </Token>

@@ -82,9 +82,19 @@
 		
 		<option value="//api/name/invalidCredentialsAuthErrorHandler">invalidCredentialsAuthErrorHandler</option>
 		
+		<option value="//api/name/loginHost">loginHost</option>
+		
 		<option value="//api/name/logoutSettingEnabled">logoutSettingEnabled</option>
 		
 		<option value="//api/name/networkFailureAuthErrorHandler">networkFailureAuthErrorHandler</option>
+		
+		<option value="//api/name/oauthClientId">oauthClientId</option>
+		
+		<option value="//api/name/oauthCompletionUrl">oauthCompletionUrl</option>
+		
+		<option value="//api/name/retryLoginAfterFailure">retryLoginAfterFailure</option>
+		
+		<option value="//api/name/scopes">scopes</option>
 		
 		<option value="//api/name/statusAlert">statusAlert</option>
 		
@@ -122,6 +132,8 @@
 		
 		<option value="//api/name/clearAccountState:">- clearAccountState:</option>
 		
+		<option value="//api/name/createOAuthCredentials">- createOAuthCredentials</option>
+		
 		<option value="//api/name/dismissAuthViewControllerIfPresent">- dismissAuthViewControllerIfPresent</option>
 		
 		<option value="//api/name/handleAdvancedAuthenticationResponse:">- handleAdvancedAuthenticationResponse:</option>
@@ -130,11 +142,11 @@
 		
 		<option value="//api/name/loginWithCompletion:failure:">- loginWithCompletion:failure:</option>
 		
-		<option value="//api/name/loginWithCompletion:failure:account:">- loginWithCompletion:failure:account:</option>
+		<option value="//api/name/loginWithCompletion:failure:credentials:">- loginWithCompletion:failure:credentials:</option>
+		
+		<option value="//api/name/loginWithCredentials:">- loginWithCredentials:</option>
 		
 		<option value="//api/name/loginWithJwtToken:completion:failure:">- loginWithJwtToken:completion:failure:</option>
-		
-		<option value="//api/name/loginWithUser:">- loginWithUser:</option>
 		
 		<option value="//api/name/logout">- logout</option>
 		
@@ -144,7 +156,7 @@
 		
 		<option value="//api/name/removeDelegate:">- removeDelegate:</option>
 		
-		<option value="//api/name/setupWithUser:">- setupWithUser:</option>
+		<option value="//api/name/setupWithCredentials:">- setupWithCredentials:</option>
 		
 	</optgroup>
 	
@@ -956,6 +968,214 @@ service to retrieve org authentication configuration.</p>
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/loginHost" title="loginHost"></a>
+	<h3 class="method-title"><code><a href="#//api/name/loginHost">&nbsp;&nbsp;loginHost</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The host that will be used for <a href="#//api/name/login">login</a>.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable) NSString *loginHost</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFAuthenticationManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/retryLoginAfterFailure" title="retryLoginAfterFailure"></a>
+	<h3 class="method-title"><code><a href="#//api/name/retryLoginAfterFailure">&nbsp;&nbsp;retryLoginAfterFailure</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Should the <a href="#//api/name/login">login</a> process start again if it fails (default: YES)</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL retryLoginAfterFailure</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFAuthenticationManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/oauthClientId" title="oauthClientId"></a>
+	<h3 class="method-title"><code><a href="#//api/name/oauthClientId">&nbsp;&nbsp;oauthClientId</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>OAuth client ID to use for <a href="#//api/name/login">login</a>.  Apps may customize
+by setting this property before <a href="#//api/name/login">login</a>; otherwise, this
+value is determined by the SFDCOAuthClientIdPreference
+configured via the settings bundle.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) NSString *oauthClientId</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFAuthenticationManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/oauthCompletionUrl" title="oauthCompletionUrl"></a>
+	<h3 class="method-title"><code><a href="#//api/name/oauthCompletionUrl">&nbsp;&nbsp;oauthCompletionUrl</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>axm/detect/oauth/done")</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) NSString *oauthCompletionUrl</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFAuthenticationManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/scopes" title="scopes"></a>
+	<h3 class="method-title"><code><a href="#//api/name/scopes">&nbsp;&nbsp;scopes</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The OAuth scopes associated with the app.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSSet&lt;NSString*&gt; *scopes</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFAuthenticationManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/addDelegate:" title="addDelegate:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/addDelegate:">&ndash;&nbsp;addDelegate:</a></code>
 </h3>
@@ -1131,8 +1351,7 @@ service to retrieve org authentication configuration.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Kick off the <a href="#//api/name/login">login</a> process for either the current user, or a new user if the current user is not
-configured.</p>
+				<p>Kick off the <a href="#//api/name/login">login</a> process for credentials that&rsquo;s previously configured.</p>
 			</div>
 			
 		    
@@ -1186,8 +1405,8 @@ in succession.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/loginWithCompletion:failure:account:" title="loginWithCompletion:failure:account:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/loginWithCompletion:failure:account:">&ndash;&nbsp;loginWithCompletion:failure:account:</a></code>
+	<a name="//api/name/loginWithCompletion:failure:credentials:" title="loginWithCompletion:failure:credentials:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/loginWithCompletion:failure:credentials:">&ndash;&nbsp;loginWithCompletion:failure:credentials:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -1197,12 +1416,12 @@ in succession.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Kick off the <a href="#//api/name/login">login</a> process for the given user.</p>
+				<p>Kick off the <a href="#//api/name/login">login</a> process for the specified credentials.</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (BOOL)loginWithCompletion:(nullable SFOAuthFlowSuccessCallbackBlock)<em>completionBlock</em> failure:(nullable SFOAuthFlowFailureCallbackBlock)<em>failureBlock</em> account:(nullable SFUserAccount *)<em>account</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (BOOL)loginWithCompletion:(nullable SFOAuthFlowSuccessCallbackBlock)<em>completionBlock</em> failure:(nullable SFOAuthFlowFailureCallbackBlock)<em>failureBlock</em> credentials:(nullable SFOAuthCredentials *)<em>credentials</em></code></div>
 
 		    
 			
@@ -1221,8 +1440,8 @@ in succession.</p>
 					</tr>
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>account</code></th>
-						<td><p>User account to be logged in.</p></td>
+						<th scope="row" class="argument-name"><code>credentials</code></th>
+						<td><p><a href="../Classes/SFOAuthCredentials.html">SFOAuthCredentials</a> to be logged in.</p></td>
 					</tr>
 				
 				</table>
@@ -1607,6 +1826,52 @@ presentation.</p>
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/createOAuthCredentials" title="createOAuthCredentials"></a>
+	<h3 class="method-title"><code><a href="#//api/name/createOAuthCredentials">&ndash;&nbsp;createOAuthCredentials</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Return <a href="../Classes/SFOAuthCredentials.html">SFOAuthCredentials</a> using know <a href="#//api/name/oauthClientId">oauthClientId</a>,</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFOAuthCredentials *)createOAuthCredentials</code></div>
+
+		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>Connect App auth credentials</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFAuthenticationManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/resetSessionCookie" title="resetSessionCookie"></a>
 	<h3 class="method-title"><code><a href="#//api/name/resetSessionCookie">+&nbsp;resetSessionCookie</a></code>
 </h3>
@@ -1883,8 +2148,8 @@ OAuth credentials.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/loginWithUser:" title="loginWithUser:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/loginWithUser:">&ndash;&nbsp;loginWithUser:</a></code>
+	<a name="//api/name/loginWithCredentials:" title="loginWithCredentials:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/loginWithCredentials:">&ndash;&nbsp;loginWithCredentials:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -1893,14 +2158,14 @@ OAuth credentials.</p>
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>- (void)loginWithUser:(SFUserAccount *)<em>account</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)loginWithCredentials:(SFOAuthCredentials *)<em>credentials</em></code></div>
 
 		    
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/setupWithUser:" title="setupWithUser:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/setupWithUser:">&ndash;&nbsp;setupWithUser:</a></code>
+	<a name="//api/name/setupWithCredentials:" title="setupWithCredentials:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setupWithCredentials:">&ndash;&nbsp;setupWithCredentials:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -1909,7 +2174,7 @@ OAuth credentials.</p>
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>- (void)setupWithUser:(SFUserAccount *)<em>account</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)setupWithCredentials:(SFOAuthCredentials *)<em>credentials</em></code></div>
 
 		    
 		</div>
@@ -1982,7 +2247,7 @@ OAuth credentials.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-12-12</p>
+						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-04-26</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

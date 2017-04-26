@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFEntityIdLength.html">
+	<File path="Constants/CSFValidationErrorCode.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFEntityIdLength</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/CSFValidationErrorCode</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			<DeclaredIn>CSFDefines.h</DeclaredIn>
             
 			
 			<NodeRef refid="189"/>
@@ -14,41 +14,21 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFEntityIdLength15</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFValidationDataTypeError</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFEntityIdLength15</Declaration>
+            <Declaration>CSFValidationDataTypeError</Declaration>
             
-            <DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+            <DeclaredIn>CSFDefines.h</DeclaredIn>
             
             <NodeRef refid="189"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFEntityIdLength18</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFValidationRangeError</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFEntityIdLength18</Declaration>
+            <Declaration>CSFValidationRangeError</Declaration>
             
-            <DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-            
-            <NodeRef refid="189"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFEntityIdLengthMin</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFEntityIdLengthMin</Declaration>
-            
-            <DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-            
-            <NodeRef refid="189"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFEntityIdLengthMax</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFEntityIdLengthMax</Declaration>
-            
-            <DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+            <DeclaredIn>CSFDefines.h</DeclaredIn>
             
             <NodeRef refid="189"/>
         </Token>

@@ -25,6 +25,42 @@
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/setDdLog:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) DDLog *ddLog</Declaration>
+			
+			
+			<Anchor>//api/name/ddLog</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/ddLog</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) DDLog *ddLog</Declaration>
+			
+			
+			<Anchor>//api/name/ddLog</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLogger/ddLog</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) DDLog *ddLog</Declaration>
+			
+			
+			<Anchor>//api/name/ddLog</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/setLogToASL:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFLogger.h</DeclaredIn>
@@ -604,18 +640,6 @@ a case insensitive comparison against &quot;Verbose&quot;, &quot;Debug&quot;, &q
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/logAsync:level:flag:context:file:function:line:tag:format:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>+ (void)logAsync:(BOOL)asynchronous level:(SFLogLevel)level flag:(SFLogFlag)flag context:(NSInteger)context file:(nullable const char *)file function:(nullable const char *)function line:(NSUInteger)line tag:(nullable id)tag format:(nullable NSString *)format, ...</Declaration>
-			
-			
-			<Anchor>//api/name/logAsync:level:flag:context:file:function:line:tag:format:</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/logIdentifierForIdentifier:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
@@ -648,6 +672,18 @@ a case insensitive comparison against &quot;Verbose&quot;, &quot;Debug&quot;, &q
 			
 			
 			<Anchor>//api/name/resetLoggers</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/logAsync:level:flag:context:file:function:line:tag:message:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>+ (void)logAsync:(BOOL)asynchronous level:(SFLogLevel)level flag:(SFLogFlag)flag context:(NSInteger)context file:(const char *)file function:(const char *)function line:(NSUInteger)line tag:(nullable id)tag message:(NSString *)message</Declaration>
+			
+			
+			<Anchor>//api/name/logAsync:level:flag:context:file:function:line:tag:message:</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		

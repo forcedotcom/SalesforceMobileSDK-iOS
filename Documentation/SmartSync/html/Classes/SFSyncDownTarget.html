@@ -76,11 +76,13 @@
 	
 	<optgroup label="Instance Methods">
 		
+		<option value="//api/name/cleanGhosts:soupName:errorBlock:completeBlock:">- cleanGhosts:soupName:errorBlock:completeBlock:</option>
+		
 		<option value="//api/name/continueFetch:errorBlock:completeBlock:">- continueFetch:errorBlock:completeBlock:</option>
 		
-		<option value="//api/name/getLatestModificationTimeStamp:">- getLatestModificationTimeStamp:</option>
+		<option value="//api/name/getIdsToSkip:soupName:">- getIdsToSkip:soupName:</option>
 		
-		<option value="//api/name/getListOfRemoteIds:localIds:errorBlock:completeBlock:">- getListOfRemoteIds:localIds:errorBlock:completeBlock:</option>
+		<option value="//api/name/getLatestModificationTimeStamp:">- getLatestModificationTimeStamp:</option>
 		
 		<option value="//api/name/startFetch:maxTimeStamp:errorBlock:completeBlock:">- startFetch:maxTimeStamp:errorBlock:completeBlock:</option>
 		
@@ -281,47 +283,6 @@
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/getListOfRemoteIds:localIds:errorBlock:completeBlock:" title="getListOfRemoteIds:localIds:errorBlock:completeBlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/getListOfRemoteIds:localIds:errorBlock:completeBlock:">&ndash;&nbsp;getListOfRemoteIds:localIds:errorBlock:completeBlock:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Fetch list of IDs still present on the server from the list of local IDs</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (void)getListOfRemoteIds:(SFSmartSyncSyncManager *)<em>syncManager</em> localIds:(NSArray *)<em>localIds</em> errorBlock:(SFSyncDownTargetFetchErrorBlock)<em>errorBlock</em> completeBlock:(SFSyncDownTargetFetchCompleteBlock)<em>completeBlock</em></code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSyncDownTarget.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
 	<a name="//api/name/getLatestModificationTimeStamp:" title="getLatestModificationTimeStamp:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/getLatestModificationTimeStamp:">&ndash;&nbsp;getLatestModificationTimeStamp:</a></code>
 </h3>
@@ -361,6 +322,111 @@ looks at the LastModifiedDate field of each record.</p>
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
 				<p>The timestamp of the record with the most recent modification date.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSyncDownTarget.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/cleanGhosts:soupName:errorBlock:completeBlock:" title="cleanGhosts:soupName:errorBlock:completeBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/cleanGhosts:soupName:errorBlock:completeBlock:">&ndash;&nbsp;cleanGhosts:soupName:errorBlock:completeBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Delete from local store records that a full sync down would no longer download</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)cleanGhosts:(SFSmartSyncSyncManager *)<em>syncManager</em> soupName:(NSString *)<em>soupName</em> errorBlock:(SFSyncDownTargetFetchErrorBlock)<em>errorBlock</em> completeBlock:(SFSyncDownTargetFetchCompleteBlock)<em>completeBlock</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSyncDownTarget.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/getIdsToSkip:soupName:" title="getIdsToSkip:soupName:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/getIdsToSkip:soupName:">&ndash;&nbsp;getIdsToSkip:soupName:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Get ids of records that should not be written over
+during a sync down with merge mode leave-if-changed</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (NSOrderedSet *)getIdsToSkip:(SFSmartSyncSyncManager *)<em>syncManager</em> soupName:(NSString *)<em>soupName</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>syncManager</code></th>
+						<td><p>The sync manager</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>soupName</code></th>
+						<td><p>The soup</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>set of ids</p>
 			</div>
 			
 
@@ -453,7 +519,7 @@ looks at the LastModifiedDate field of each record.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-12-12</p>
+						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-04-26</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

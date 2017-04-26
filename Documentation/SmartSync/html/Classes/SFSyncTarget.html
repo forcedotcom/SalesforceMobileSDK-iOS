@@ -68,7 +68,29 @@
 		
 		<option value="//api/name/asDict">- asDict</option>
 		
+		<option value="//api/name/cleanAndSaveInLocalStore:soupName:record:">- cleanAndSaveInLocalStore:soupName:record:</option>
+		
+		<option value="//api/name/deleteFromLocalStore:soupName:record:">- deleteFromLocalStore:soupName:record:</option>
+		
+		<option value="//api/name/deleteRecordsFromLocalStore:soupName:ids:idField:">- deleteRecordsFromLocalStore:soupName:ids:idField:</option>
+		
+		<option value="//api/name/getDirtyRecordIds:soupName:idField:">- getDirtyRecordIds:soupName:idField:</option>
+		
+		<option value="//api/name/getFromLocalStore:soupName:storeId:">- getFromLocalStore:soupName:storeId:</option>
+		
+		<option value="//api/name/getIdsWithQuery:syncManager:">- getIdsWithQuery:syncManager:</option>
+		
 		<option value="//api/name/initWithDict:">- initWithDict:</option>
+		
+		<option value="//api/name/isDirty:">- isDirty:</option>
+		
+		<option value="//api/name/isLocallyCreated:">- isLocallyCreated:</option>
+		
+		<option value="//api/name/isLocallyDeleted:">- isLocallyDeleted:</option>
+		
+		<option value="//api/name/isLocallyUpdated:">- isLocallyUpdated:</option>
+		
+		<option value="//api/name/saveRecordsToLocalStore:soupName:records:">- saveRecordsToLocalStore:soupName:records:</option>
 		
 	</optgroup>
 	
@@ -108,7 +130,7 @@
 						
 
 						
-						
+						<h2 class="task-title">Other Methods</h2>
 
 						<div class="task-list">
 							<div class="section-method">
@@ -294,6 +316,603 @@ dictionary along the way.</p>
 			
 		</div>
 	</div>
+</div><div class="section-method">
+	<a name="//api/name/cleanAndSaveInLocalStore:soupName:record:" title="cleanAndSaveInLocalStore:soupName:record:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/cleanAndSaveInLocalStore:soupName:record:">&ndash;&nbsp;cleanAndSaveInLocalStore:soupName:record:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Save record in local store (marked as clean)</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)cleanAndSaveInLocalStore:(SFSmartSyncSyncManager *)<em>syncManager</em> soupName:(NSString *)<em>soupName</em> record:(NSDictionary *)<em>record</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>syncManager</code></th>
+						<td><p>The sync manager</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>soupName</code></th>
+						<td><p>The soup</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>record</code></th>
+						<td><p>The record</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSyncTarget.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/saveRecordsToLocalStore:soupName:records:" title="saveRecordsToLocalStore:soupName:records:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/saveRecordsToLocalStore:soupName:records:">&ndash;&nbsp;saveRecordsToLocalStore:soupName:records:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Save records in local store</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)saveRecordsToLocalStore:(SFSmartSyncSyncManager *)<em>syncManager</em> soupName:(NSString *)<em>soupName</em> records:(NSArray *)<em>records</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>syncManager</code></th>
+						<td><p>The sync manager</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>soupName</code></th>
+						<td><p>The soup</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>records</code></th>
+						<td><p>The records to save</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSyncTarget.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/isLocallyCreated:" title="isLocallyCreated:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/isLocallyCreated:">&ndash;&nbsp;isLocallyCreated:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The record</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)isLocallyCreated:(NSDictionary *)<em>record</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>record</code></th>
+						<td><p>The record</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if record was locally created</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSyncTarget.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/isLocallyUpdated:" title="isLocallyUpdated:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/isLocallyUpdated:">&ndash;&nbsp;isLocallyUpdated:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The record</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)isLocallyUpdated:(NSDictionary *)<em>record</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>record</code></th>
+						<td><p>The record</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if record was locally updated</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSyncTarget.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/isLocallyDeleted:" title="isLocallyDeleted:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/isLocallyDeleted:">&ndash;&nbsp;isLocallyDeleted:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The record</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)isLocallyDeleted:(NSDictionary *)<em>record</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>record</code></th>
+						<td><p>The record</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if record was locally deleted</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSyncTarget.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/isDirty:" title="isDirty:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/isDirty:">&ndash;&nbsp;isDirty:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The record</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)isDirty:(NSDictionary *)<em>record</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>record</code></th>
+						<td><p>The record</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if record was locally created/updated or deleted</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSyncTarget.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/getDirtyRecordIds:soupName:idField:" title="getDirtyRecordIds:soupName:idField:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/getDirtyRecordIds:soupName:idField:">&ndash;&nbsp;getDirtyRecordIds:soupName:idField:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The sync manager</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (NSOrderedSet *)getDirtyRecordIds:(SFSmartSyncSyncManager *)<em>syncManager</em> soupName:(NSString *)<em>soupName</em> idField:(NSString *)<em>idField</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>syncManager</code></th>
+						<td><p>The sync manager</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>soupName</code></th>
+						<td><p>The soup</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>idField</code></th>
+						<td><p>The field containing the ids to return</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>ids of &ldquo;dirty&rdquo; records (records locally created/upated or deleted)</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSyncTarget.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/getFromLocalStore:soupName:storeId:" title="getFromLocalStore:soupName:storeId:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/getFromLocalStore:soupName:storeId:">&ndash;&nbsp;getFromLocalStore:soupName:storeId:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The sync manager</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (NSDictionary *)getFromLocalStore:(SFSmartSyncSyncManager *)<em>syncManager</em> soupName:(NSString *)<em>soupName</em> storeId:(NSString *)<em>storeId</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>syncManager</code></th>
+						<td><p>The sync manager</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>soupName</code></th>
+						<td><p>The soup</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>storeId</code></th>
+						<td><p>The soup entry id</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>Record from local store by storeId</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSyncTarget.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/deleteFromLocalStore:soupName:record:" title="deleteFromLocalStore:soupName:record:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/deleteFromLocalStore:soupName:record:">&ndash;&nbsp;deleteFromLocalStore:soupName:record:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Delete record from local store</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)deleteFromLocalStore:(SFSmartSyncSyncManager *)<em>syncManager</em> soupName:(NSString *)<em>soupName</em> record:(NSDictionary *)<em>record</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>syncManager</code></th>
+						<td><p>The sync manager</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>soupName</code></th>
+						<td><p>The soup</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>record</code></th>
+						<td><p>The record to delete</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSyncTarget.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="Extension Methods" name="task_Extension Methods"></a>
+						<h2 class="task-title">Extension Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/getIdsWithQuery:syncManager:" title="getIdsWithQuery:syncManager:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/getIdsWithQuery:syncManager:">&ndash;&nbsp;getIdsWithQuery:syncManager:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (NSOrderedSet *)getIdsWithQuery:(id)<em>idsSql</em> syncManager:(SFSmartSyncSyncManager *)<em>syncManager</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/deleteRecordsFromLocalStore:soupName:ids:idField:" title="deleteRecordsFromLocalStore:soupName:ids:idField:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/deleteRecordsFromLocalStore:soupName:ids:idField:">&ndash;&nbsp;deleteRecordsFromLocalStore:soupName:ids:idField:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)deleteRecordsFromLocalStore:(SFSmartSyncSyncManager *)<em>syncManager</em> soupName:(NSString *)<em>soupName</em> ids:(NSArray *)<em>ids</em> idField:(NSString *)<em>idField</em></code></div>
+
+		    
+		</div>
+	</div>
 </div>
 						</div>
 						
@@ -309,7 +928,7 @@ dictionary along the way.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-12-12</p>
+						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-04-26</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

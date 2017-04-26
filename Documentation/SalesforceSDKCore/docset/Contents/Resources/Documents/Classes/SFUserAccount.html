@@ -62,8 +62,6 @@
 		
 		<option value="//api/name/accountIdentity">accountIdentity</option>
 		
-		<option value="//api/name/anonymousUser">anonymousUser</option>
-		
 		<option value="//api/name/apiUrl">apiUrl</option>
 		
 		<option value="//api/name/communities">communities</option>
@@ -76,9 +74,9 @@
 		
 		<option value="//api/name/fullName">fullName</option>
 		
-		<option value="//api/name/guestUser">guestUser</option>
-		
 		<option value="//api/name/idData">idData</option>
+		
+		<option value="//api/name/loginState">loginState</option>
 		
 		<option value="//api/name/network">network</option>
 		
@@ -87,8 +85,6 @@
 		<option value="//api/name/photo">photo</option>
 		
 		<option value="//api/name/sessionValid">sessionValid</option>
-		
-		<option value="//api/name/temporaryUser">temporaryUser</option>
 		
 		<option value="//api/name/userDeleted">userDeleted</option>
 		
@@ -108,15 +104,13 @@
 		
 		<option value="//api/name/customDataObjectForKey:">- customDataObjectForKey:</option>
 		
-		<option value="//api/name/initWithGuestUser">- initWithGuestUser</option>
-		
-		<option value="//api/name/initWithIdentifier:">- initWithIdentifier:</option>
-		
-		<option value="//api/name/initWithIdentifier:clientId:">- initWithIdentifier:clientId:</option>
+		<option value="//api/name/initWithCredentials:">- initWithCredentials:</option>
 		
 		<option value="//api/name/removeCustomDataObjectForKey:">- removeCustomDataObjectForKey:</option>
 		
 		<option value="//api/name/setCustomDataObject:forKey:">- setCustomDataObject:forKey:</option>
+		
+		<option value="//api/name/transitionToLoginState:">- transitionToLoginState:</option>
 		
 	</optgroup>
 	
@@ -710,47 +704,6 @@ only stores it locally on the disk.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/guestUser" title="guestUser"></a>
-	<h3 class="method-title"><code><a href="#//api/name/guestUser">&nbsp;&nbsp;guestUser</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Indicates whether or not the receiver represents a guest user account.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, getter=isGuestUser) BOOL guestUser</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccount.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
 	<a name="//api/name/sessionValid" title="sessionValid"></a>
 	<h3 class="method-title"><code><a href="#//api/name/sessionValid">&nbsp;&nbsp;sessionValid</a></code>
 </h3>
@@ -834,8 +787,8 @@ a valid session.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/temporaryUser" title="temporaryUser"></a>
-	<h3 class="method-title"><code><a href="#//api/name/temporaryUser">&nbsp;&nbsp;temporaryUser</a></code>
+	<a name="//api/name/loginState" title="loginState"></a>
+	<h3 class="method-title"><code><a href="#//api/name/loginState">&nbsp;&nbsp;loginState</a></code>
 </h3>
 
 	<div class="method-info">
@@ -845,16 +798,12 @@ a valid session.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Returns YES if the user is a temporary user.
-Note: a temporary user is created when a new user
-is requested, for example during the login into
-a new org, and is replaced by the real user once
-the login is finished.</p>
+				<p>Indicates this user&rsquo;s current login state.</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, getter=isTemporaryUser) BOOL temporaryUser</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, assign) SFUserAccountLoginState loginState</code></div>
 
 		    
 			
@@ -879,8 +828,8 @@ the login is finished.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/anonymousUser" title="anonymousUser"></a>
-	<h3 class="method-title"><code><a href="#//api/name/anonymousUser">&nbsp;&nbsp;anonymousUser</a></code>
+	<a name="//api/name/initWithCredentials:" title="initWithCredentials:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/initWithCredentials:">&ndash;&nbsp;initWithCredentials:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -890,55 +839,12 @@ the login is finished.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Returns YES if the user is an anonymous user.
-Note: an anonymous user is a user that doesn&rsquo;t require
-<a href="#//api/name/credentials">credentials</a> towards a server.</p>
+				<p>Initialize with <a href="../Classes/SFOAuthCredentials.html">SFOAuthCredentials</a> <a href="#//api/name/credentials">credentials</a></p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, getter=isAnonymousUser) BOOL anonymousUser</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccount.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/initWithIdentifier:" title="initWithIdentifier:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/initWithIdentifier:">&ndash;&nbsp;initWithIdentifier:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Designated initializer</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (instancetype)initWithIdentifier:(NSString *)<em>identifier</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (instancetype)initWithCredentials:(SFOAuthCredentials *)<em>credentials</em></code></div>
 
 		    
 			
@@ -947,117 +853,8 @@ Note: an anonymous user is a user that doesn&rsquo;t require
 				<table class="argument-def parameter-def">
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>identifier</code></th>
-						<td><p>The user identifier</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>the account instance</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccount.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/initWithGuestUser" title="initWithGuestUser"></a>
-	<h3 class="method-title"><code><a href="#//api/name/initWithGuestUser">&ndash;&nbsp;initWithGuestUser</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Designated initializer to construct a user account with a guest user account.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (instancetype)initWithGuestUser</code></div>
-
-		    
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The guest user account instance.</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccount.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/initWithIdentifier:clientId:" title="initWithIdentifier:clientId:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/initWithIdentifier:clientId:">&ndash;&nbsp;initWithIdentifier:clientId:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Initialize with identifier and client id</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (instancetype)initWithIdentifier:(NSString *)<em>identifier</em> clientId:(NSString *)<em>clientId</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>identifier</code></th>
-						<td><p>The user identifier</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>clientId</code></th>
-						<td><p>The client id</p></td>
+						<th scope="row" class="argument-name"><code>credentials</code></th>
+						<td><p>The <a href="#//api/name/credentials">credentials</a> to link with the SFUserAccount.</p></td>
 					</tr>
 				
 				</table>
@@ -1378,6 +1175,79 @@ community ID if it exists in the <a href="#//api/name/communities">communities</
 						</div>
 						
 
+						<a title="Extension Methods" name="task_Extension Methods"></a>
+						<h2 class="task-title">Extension Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/transitionToLoginState:" title="transitionToLoginState:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/transitionToLoginState:">&ndash;&nbsp;transitionToLoginState:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Attempts to transition from the current login state to the new login state.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)transitionToLoginState:(SFUserAccountLoginState)<em>newLoginState</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>newLoginState</code></th>
+						<td><p>The new login state to set.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if the login state change was successful, NO otherwise.</p>
+			</div>
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>Only certain state transitions are allowed.  For example, you cannot transition
+from <code>SFUserAccountLoginStateNotLoggedIn</code> to <code>SFUserAccountLoginStateNotLoggingOut</code>, but
+you can transition from <code>SFUserAccountLoginStateNotLoggedIn</code> to <code>SFUserAccountLoginStateLoggedIn</code>.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccount+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+
 						<a title="SalesforceNetwork Methods" name="task_SalesforceNetwork Methods"></a>
 						<h2 class="task-title">SalesforceNetwork Methods</h2>
 
@@ -1413,7 +1283,7 @@ community ID if it exists in the <a href="#//api/name/communities">communities</
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-12-12</p>
+						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-04-26</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

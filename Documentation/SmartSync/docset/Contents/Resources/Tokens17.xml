@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSoslSyncDownTarget.html">
+	<File path="Classes/SFSyncManagerLogger.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSoslSyncDownTarget</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSyncManagerLogger</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSoslSyncDownTarget.h</DeclaredIn>
+			<DeclaredIn>SFSyncManagerLogger.h</DeclaredIn>
             
 			
 			<NodeRef refid="17"/>
@@ -13,50 +13,14 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSoslSyncDownTarget/setQuery:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSyncManagerLogger/setLevel:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSoslSyncDownTarget.h</DeclaredIn>
+			<DeclaredIn>SFSyncManagerLogger.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *query</Declaration>
-			
-			
-			<Anchor>//api/name/query</Anchor>
-            <NodeRef refid="17"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSoslSyncDownTarget/query</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSoslSyncDownTarget.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *query</Declaration>
+			<Declaration>+ (void)setLevel:(SFLogLevel)logLevel</Declaration>
 			
 			
-			<Anchor>//api/name/query</Anchor>
-            <NodeRef refid="17"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSoslSyncDownTarget/query</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSoslSyncDownTarget.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *query</Declaration>
-			
-			
-			<Anchor>//api/name/query</Anchor>
-            <NodeRef refid="17"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSoslSyncDownTarget/newSyncTarget:</TokenIdentifier>
-			<Abstract type="html">Factory methods</Abstract>
-			<DeclaredIn>SFSoslSyncDownTarget.h</DeclaredIn>
-			
-			<Declaration>+ (SFSoslSyncDownTarget *)newSyncTarget:(NSString *)query</Declaration>
-			
-			
-			<Anchor>//api/name/newSyncTarget:</Anchor>
+			<Anchor>//api/name/setLevel:</Anchor>
             <NodeRef refid="17"/>
 		</Token>
 		

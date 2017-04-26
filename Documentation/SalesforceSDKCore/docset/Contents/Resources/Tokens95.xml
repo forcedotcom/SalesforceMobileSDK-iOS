@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKTestCredentialsData.html">
+	<File path="Classes/SFSDKSalesforceAnalyticsManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKTestCredentialsData</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKSalesforceAnalyticsManager</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="95"/>
@@ -13,302 +13,267 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/initWithDict:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/setEventStoreManager:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithDict:(NSDictionary *)credentialsDict</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKEventStoreManager *eventStoreManager</Declaration>
 			
 			
-			<Anchor>//api/name/initWithDict:</Anchor>
+			<Anchor>//api/name/eventStoreManager</Anchor>
             <NodeRef refid="95"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setAccessToken:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/eventStoreManager</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *accessToken</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKEventStoreManager *eventStoreManager</Declaration>
 			
 			
-			<Anchor>//api/name/accessToken</Anchor>
+			<Anchor>//api/name/eventStoreManager</Anchor>
             <NodeRef refid="95"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/accessToken</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSalesforceAnalyticsManager/eventStoreManager</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *accessToken</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKEventStoreManager *eventStoreManager</Declaration>
 			
 			
-			<Anchor>//api/name/accessToken</Anchor>
+			<Anchor>//api/name/eventStoreManager</Anchor>
             <NodeRef refid="95"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/accessToken</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/setAnalyticsManager:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *accessToken</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKAnalyticsManager *analyticsManager</Declaration>
 			
 			
-			<Anchor>//api/name/accessToken</Anchor>
+			<Anchor>//api/name/analyticsManager</Anchor>
             <NodeRef refid="95"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setRefreshToken:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/analyticsManager</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *refreshToken</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKAnalyticsManager *analyticsManager</Declaration>
 			
 			
-			<Anchor>//api/name/refreshToken</Anchor>
+			<Anchor>//api/name/analyticsManager</Anchor>
             <NodeRef refid="95"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/refreshToken</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSalesforceAnalyticsManager/analyticsManager</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *refreshToken</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKAnalyticsManager *analyticsManager</Declaration>
 			
 			
-			<Anchor>//api/name/refreshToken</Anchor>
+			<Anchor>//api/name/analyticsManager</Anchor>
             <NodeRef refid="95"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/refreshToken</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/setUserAccount:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *refreshToken</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFUserAccount *userAccount</Declaration>
 			
 			
-			<Anchor>//api/name/refreshToken</Anchor>
+			<Anchor>//api/name/userAccount</Anchor>
             <NodeRef refid="95"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setIdentityUrl:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/userAccount</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *identityUrl</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFUserAccount *userAccount</Declaration>
 			
 			
-			<Anchor>//api/name/identityUrl</Anchor>
+			<Anchor>//api/name/userAccount</Anchor>
             <NodeRef refid="95"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/identityUrl</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSalesforceAnalyticsManager/userAccount</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *identityUrl</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFUserAccount *userAccount</Declaration>
 			
 			
-			<Anchor>//api/name/identityUrl</Anchor>
+			<Anchor>//api/name/userAccount</Anchor>
             <NodeRef refid="95"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/identityUrl</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/setLoggingEnabled:</TokenIdentifier>
+			<Abstract type="html">Disables or enables logging of events.</Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *identityUrl</Declaration>
+			<Declaration>@property (nonatomic, readwrite, assign, getter=isLoggingEnabled) BOOL loggingEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/identityUrl</Anchor>
+			<Anchor>//api/name/loggingEnabled</Anchor>
             <NodeRef refid="95"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setInstanceUrl:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/isLoggingEnabled</TokenIdentifier>
+			<Abstract type="html">Disables or enables logging of events.</Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *instanceUrl</Declaration>
+			<Declaration>@property (nonatomic, readwrite, assign, getter=isLoggingEnabled) BOOL loggingEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/instanceUrl</Anchor>
+			<Anchor>//api/name/loggingEnabled</Anchor>
             <NodeRef refid="95"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/instanceUrl</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSalesforceAnalyticsManager/loggingEnabled</TokenIdentifier>
+			<Abstract type="html">Disables or enables logging of events.</Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *instanceUrl</Declaration>
+			<Declaration>@property (nonatomic, readwrite, assign, getter=isLoggingEnabled) BOOL loggingEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/instanceUrl</Anchor>
+			<Anchor>//api/name/loggingEnabled</Anchor>
             <NodeRef refid="95"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/instanceUrl</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSalesforceAnalyticsManager/sharedInstanceWithUser:</TokenIdentifier>
+			<Abstract type="html">Returns an instance of this class associated with the specified user account.</Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *instanceUrl</Declaration>
-			
-			
-			<Anchor>//api/name/instanceUrl</Anchor>
+			<Declaration>+ (nonnull instancetype)sharedInstanceWithUser:(nonnull SFUserAccount *)userAccount</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>userAccount</Name>
+					<Abstract type="html">User account.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedInstanceWithUser:</Anchor>
             <NodeRef refid="95"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setClientId:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSalesforceAnalyticsManager/removeSharedInstanceWithUser:</TokenIdentifier>
+			<Abstract type="html">Resets and removes the instance associated with the specified user account.</Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *clientId</Declaration>
+			<Declaration>+ (void)removeSharedInstanceWithUser:(nonnull SFUserAccount *)userAccount</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>userAccount</Name>
+					<Abstract type="html">User account.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/clientId</Anchor>
+			<Anchor>//api/name/removeSharedInstanceWithUser:</Anchor>
             <NodeRef refid="95"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/clientId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/publishAllEvents</TokenIdentifier>
+			<Abstract type="html">Publishes all stored events to all registered network endpoints after
+applying the required event format transforms. Stored events will be
+deleted if publishing was successful for all registered endpoints.
+This method should NOT be called from the main thread.</Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *clientId</Declaration>
+			<Declaration>- (void)publishAllEvents</Declaration>
 			
 			
-			<Anchor>//api/name/clientId</Anchor>
+			<Anchor>//api/name/publishAllEvents</Anchor>
             <NodeRef refid="95"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/clientId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/publishEvents:</TokenIdentifier>
+			<Abstract type="html">Publishes a list of events to all registered network endpoints after
+applying the required event format transforms. Stored events will be
+deleted if publishing was successful for all registered endpoints.
+This method should NOT be called from the main thread.</Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *clientId</Declaration>
+			<Declaration>- (void)publishEvents:(nonnull NSArray&lt;SFSDKInstrumentationEvent*&gt; *)events</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>events</Name>
+					<Abstract type="html">List of events.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/clientId</Anchor>
+			<Anchor>//api/name/publishEvents:</Anchor>
             <NodeRef refid="95"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setRedirectUri:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/publishEvent:</TokenIdentifier>
+			<Abstract type="html">Publishes an event to all registered network endpoints after
+applying the required event format transforms. Stored event will be
+deleted if publishing was successful for all registered endpoints.
+This method should NOT be called from the main thread.</Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *redirectUri</Declaration>
+			<Declaration>- (void)publishEvent:(nonnull SFSDKInstrumentationEvent *)event</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>event</Name>
+					<Abstract type="html">Event.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/redirectUri</Anchor>
+			<Anchor>//api/name/publishEvent:</Anchor>
             <NodeRef refid="95"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/redirectUri</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/addRemotePublisher:publisher:</TokenIdentifier>
+			<Abstract type="html">Adds a remote publisher to publish events to.</Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *redirectUri</Declaration>
+			<Declaration>- (void)addRemotePublisher:(nonnull id&lt;SFSDKTransform&gt;)transformer publisher:(nonnull id&lt;SFSDKAnalyticsPublisher&gt;)publisher</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>transformer</Name>
+					<Abstract type="html">Transformer class.</Abstract>
+				</Parameter><Parameter>
+					<Name>publisher</Name>
+					<Abstract type="html">Publisher class.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/redirectUri</Anchor>
+			<Anchor>//api/name/addRemotePublisher:publisher:</Anchor>
             <NodeRef refid="95"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/redirectUri</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/updateLoggingPrefs</TokenIdentifier>
+			<Abstract type="html">Updates the preferences of this library.</Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *redirectUri</Declaration>
-			
-			
-			<Anchor>//api/name/redirectUri</Anchor>
-            <NodeRef refid="95"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setLoginHost:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *loginHost</Declaration>
+			<Declaration>- (void)updateLoggingPrefs</Declaration>
 			
 			
-			<Anchor>//api/name/loginHost</Anchor>
-            <NodeRef refid="95"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/loginHost</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *loginHost</Declaration>
-			
-			
-			<Anchor>//api/name/loginHost</Anchor>
-            <NodeRef refid="95"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/loginHost</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *loginHost</Declaration>
-			
-			
-			<Anchor>//api/name/loginHost</Anchor>
-            <NodeRef refid="95"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setCommunityUrl:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *communityUrl</Declaration>
-			
-			
-			<Anchor>//api/name/communityUrl</Anchor>
-            <NodeRef refid="95"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/communityUrl</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *communityUrl</Declaration>
-			
-			
-			<Anchor>//api/name/communityUrl</Anchor>
-            <NodeRef refid="95"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/communityUrl</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *communityUrl</Declaration>
-			
-			
-			<Anchor>//api/name/communityUrl</Anchor>
+			<Anchor>//api/name/updateLoggingPrefs</Anchor>
             <NodeRef refid="95"/>
 		</Token>
 		

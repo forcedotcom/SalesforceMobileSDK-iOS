@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFLogLevel.html">
+	<File path="Constants/SFCryptoOperation.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFLogLevel</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFCryptoOperation</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLoggerMacros.h</DeclaredIn>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
             
 			
 			<NodeRef refid="194"/>
@@ -14,78 +14,21 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogLevelOff</TokenIdentifier>
-            <Abstract type="html">No logs
-     </Abstract>
-            <Declaration>SFLogLevelOff</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFCryptoOperationEncrypt</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFCryptoOperationEncrypt</Declaration>
             
-            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
-            
-            <NodeRef refid="194"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogLevelError</TokenIdentifier>
-            <Abstract type="html">Error logs only
-     </Abstract>
-            <Declaration>SFLogLevelError</Declaration>
-            
-            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
+            <DeclaredIn>SFCrypto.h</DeclaredIn>
             
             <NodeRef refid="194"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogLevelWarning</TokenIdentifier>
-            <Abstract type="html">Error and warning logs
-     </Abstract>
-            <Declaration>SFLogLevelWarning</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFCryptoOperationDecrypt</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFCryptoOperationDecrypt</Declaration>
             
-            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
-            
-            <NodeRef refid="194"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogLevelInfo</TokenIdentifier>
-            <Abstract type="html">Error, warning and info logs
-     </Abstract>
-            <Declaration>SFLogLevelInfo</Declaration>
-            
-            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
-            
-            <NodeRef refid="194"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogLevelDebug</TokenIdentifier>
-            <Abstract type="html">Error, warning, info and debug logs
-     </Abstract>
-            <Declaration>SFLogLevelDebug</Declaration>
-            
-            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
-            
-            <NodeRef refid="194"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogLevelVerbose</TokenIdentifier>
-            <Abstract type="html">Error, warning, info, debug and verbose logs
-     </Abstract>
-            <Declaration>SFLogLevelVerbose</Declaration>
-            
-            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
-            
-            <NodeRef refid="194"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogLevelAll</TokenIdentifier>
-            <Abstract type="html">All logs (1...11111)
-     </Abstract>
-            <Declaration>SFLogLevelAll</Declaration>
-            
-            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
+            <DeclaredIn>SFCrypto.h</DeclaredIn>
             
             <NodeRef refid="194"/>
         </Token>

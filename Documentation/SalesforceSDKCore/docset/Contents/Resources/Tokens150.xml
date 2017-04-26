@@ -1,57 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFIdentityCoordinatorDelegate.html">
+	<File path="Protocols/CSFIndexedEntity.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFIdentityCoordinatorDelegate</TokenIdentifier>
-			<Abstract type="html">Protocol for being a delegate to the SFIdentityCoordinator process.  Delegates may receive
-notifications about the success or failure of the identity request process.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/CSFIndexedEntity</TokenIdentifier>
+			<Abstract type="html">The CSFIndexedEntity protocol indicates that an instance of CSFOutput
+has an indexable property bound to it that is capable of being used to uniquely identify
+an instance of the response.  This allows for these objects to be cached and later
+retrieved using the property.</Abstract>
+			<DeclaredIn>CSFIndexedEntity.h</DeclaredIn>
             
 			
-	<RelatedTokens>
-		<TokenIdentifier>//apple_ref/occ/cl/SFIdentityCoordinator</TokenIdentifier>
-		
-	</RelatedTokens>
-	
 			<NodeRef refid="150"/>
 		</Token>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFIdentityCoordinatorDelegate/identityCoordinatorRetrievedData:</TokenIdentifier>
-			<Abstract type="html">Called when the identity coordinator successfully receives identity data from the service.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/CSFIndexedEntity/indexedKey</TokenIdentifier>
+			<Abstract type="html">The key name that represents the property that is indexed.</Abstract>
+			<DeclaredIn>CSFIndexedEntity.h</DeclaredIn>
 			
-			<Declaration>- (void)identityCoordinatorRetrievedData:(SFIdentityCoordinator *)coordinator</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>coordinator</Name>
-					<Abstract type="html">the SFIdentityCoordinator instance associated with the requested data.</Abstract>
-				</Parameter>
-			</Parameters>
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/intfm/CSFIndexedEntity/indexedValue</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (NSString *)indexedKey</Declaration>
 			
-			<Anchor>//api/name/identityCoordinatorRetrievedData:</Anchor>
+			<ReturnValue><Abstract type="html">String that can be used by valueForKey:.</Abstract></ReturnValue>
+			<Anchor>//api/name/indexedKey</Anchor>
             <NodeRef refid="150"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFIdentityCoordinatorDelegate/identityCoordinator:didFailWithError:</TokenIdentifier>
-			<Abstract type="html">Called if there was an error while retrieving the identity data from the service.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/CSFIndexedEntity/indexedValue</TokenIdentifier>
+			<Abstract type="html">The value for the indexed key property.</Abstract>
+			<DeclaredIn>CSFIndexedEntity.h</DeclaredIn>
 			
-			<Declaration>- (void)identityCoordinator:(SFIdentityCoordinator *)coordinator didFailWithError:(NSError *)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>coordinator</Name>
-					<Abstract type="html">The SFIdentityCoordinator instance associated with the request.</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">The error that occurred during the request.</Abstract>
-				</Parameter>
-			</Parameters>
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/intfm/CSFIndexedEntity/indexedKey</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (id)indexedValue</Declaration>
 			
-			<Anchor>//api/name/identityCoordinator:didFailWithError:</Anchor>
+			<ReturnValue><Abstract type="html">Value for the indexed property.</Abstract></ReturnValue>
+			<Anchor>//api/name/indexedValue</Anchor>
             <NodeRef refid="150"/>
 		</Token>
 		

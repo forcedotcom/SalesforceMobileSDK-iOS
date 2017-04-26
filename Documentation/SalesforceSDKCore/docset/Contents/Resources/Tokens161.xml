@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSecurityLockoutDelegate.html">
+	<File path="Protocols/SFRestDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSecurityLockoutDelegate</TokenIdentifier>
-			<Abstract type="html">Delegate protocol for SFSecurityLockout events and callbacks.</Abstract>
-			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFRestDelegate</TokenIdentifier>
+			<Abstract type="html">Lifecycle events for SFRestRequests.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
             
 			
 			<NodeRef refid="161"/>
@@ -13,37 +13,81 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSecurityLockoutDelegate/passcodeFlowWillBegin:</TokenIdentifier>
-			<Abstract type="html">Called just before the passcode flow begins and the view is displayed.</Abstract>
-			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFRestDelegate/request:didLoadResponse:</TokenIdentifier>
+			<Abstract type="html">Sent when a request has finished loading.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>- (void)passcodeFlowWillBegin:(SFPasscodeControllerMode)mode</Declaration>
+			<Declaration>- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>mode</Name>
-					<Abstract type="html">The mode of the passcode flow, i.e. passcode creation or verification.</Abstract>
+					<Name>request</Name>
+					<Abstract type="html">The request that was loaded.</Abstract>
+				</Parameter><Parameter>
+					<Name>dataResponse</Name>
+					<Abstract type="html">The data from the response.  By default, this will be an object
+containing the parsed JSON response.  However, if the response is not JSON,
+the data will be contained in a binary NSData object.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/passcodeFlowWillBegin:</Anchor>
+			<Anchor>//api/name/request:didLoadResponse:</Anchor>
             <NodeRef refid="161"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSecurityLockoutDelegate/passcodeFlowDidComplete:</TokenIdentifier>
-			<Abstract type="html">Called after the passcode flow has completed.</Abstract>
-			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFRestDelegate/request:didFailLoadWithError:</TokenIdentifier>
+			<Abstract type="html">Sent when a request has failed due to an error.
+This includes HTTP network errors, as well as Salesforce errors
+(for example, passing an invalid SOQL string when doing a query).</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>- (void)passcodeFlowDidComplete:(BOOL)success</Declaration>
+			<Declaration>- (void)request:(SFRestRequest *)request didFailLoadWithError:(NSError *)error</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>success</Name>
-					<Abstract type="html">Whether or not the passcode flow was successful, i.e. the passcode was successfully
-created or verified.</Abstract>
+					<Name>request</Name>
+					<Abstract type="html">The attempted request.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">The error associated with the failed request.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/passcodeFlowDidComplete:</Anchor>
+			<Anchor>//api/name/request:didFailLoadWithError:</Anchor>
+            <NodeRef refid="161"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFRestDelegate/requestDidCancelLoad:</TokenIdentifier>
+			<Abstract type="html">Sent to the delegate when a request was cancelled.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>- (void)requestDidCancelLoad:(SFRestRequest *)request</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>request</Name>
+					<Abstract type="html">The canceled request.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/requestDidCancelLoad:</Anchor>
+            <NodeRef refid="161"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFRestDelegate/requestDidTimeout:</TokenIdentifier>
+			<Abstract type="html">Sent to the delegate when a request has timed out. This is sent when a
+backgrounded request expired before completion.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>- (void)requestDidTimeout:(SFRestRequest *)request</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>request</Name>
+					<Abstract type="html">The request that timed out.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/requestDidTimeout:</Anchor>
             <NodeRef refid="161"/>
 		</Token>
 		

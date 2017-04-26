@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFUserAccountManagerUpgrade.html">
+	<File path="Classes/SFTestContext.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFUserAccountManagerUpgrade</TokenIdentifier>
-			<Abstract type="html">Class for updating legacy accounts and active users to current standards.</Abstract>
-			<DeclaredIn>SFUserAccountManagerUpgrade.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFTestContext</TokenIdentifier>
+			<Abstract type="html">Helps determine whether we&apos;re currently running tests or not.</Abstract>
+			<DeclaredIn>SFTestContext.h</DeclaredIn>
             
 			
 			<NodeRef refid="108"/>
@@ -13,33 +13,80 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFUserAccountManagerUpgrade/createUserFromLegacyAccountData</TokenIdentifier>
-			<Abstract type="html">If legacy account data exists, create a user account from that data, and then remove
-the legacy data.</Abstract>
-			<DeclaredIn>SFUserAccountManagerUpgrade.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFTestContext/isRunningTests</TokenIdentifier>
+			<Abstract type="html">Return YES if is running test</Abstract>
+			<DeclaredIn>SFTestContext.h</DeclaredIn>
 			
-			<Declaration>+ (SFUserAccount *)createUserFromLegacyAccountData</Declaration>
+			<Declaration>+ (BOOL)isRunningTests</Declaration>
 			
-			<ReturnValue><Abstract type="html">An SFUserAccount object based on the legacy data, or nil if there is no legacy
-account data.</Abstract></ReturnValue>
-			<Anchor>//api/name/createUserFromLegacyAccountData</Anchor>
+			
+			<Anchor>//api/name/isRunningTests</Anchor>
             <NodeRef refid="108"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFUserAccountManagerUpgrade/updateToActiveUserIdentity:</TokenIdentifier>
-			<Abstract type="html">If legacy active user data exists, update it to the user identity data model.</Abstract>
-			<DeclaredIn>SFUserAccountManagerUpgrade.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFTestContext/setIsRunningTests:</TokenIdentifier>
+			<Abstract type="html">Update SFTestContext to indicate whether it is in testing context or live context</Abstract>
+			<DeclaredIn>SFTestContext.h</DeclaredIn>
 			
-			<Declaration>+ (void)updateToActiveUserIdentity:(SFUserAccountManager *)accountManager</Declaration>
+			<Declaration>+ (void)setIsRunningTests:(BOOL)runningTests</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>accountManager</Name>
-					<Abstract type="html">The user account manager to query user data.</Abstract>
+					<Name>runningTests</Name>
+					<Abstract type="html">Yes if code is running under testing context</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/updateToActiveUserIdentity:</Anchor>
+			<Anchor>//api/name/setIsRunningTests:</Anchor>
+            <NodeRef refid="108"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFTestContext/setObject:forKey:</TokenIdentifier>
+			<Abstract type="html">Sets an arbitrary object into the test context</Abstract>
+			<DeclaredIn>SFTestContext.h</DeclaredIn>
+			
+			<Declaration>+ (void)setObject:(id)object forKey:(id)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>object</Name>
+					<Abstract type="html">The object or nil to remove the object</Abstract>
+				</Parameter><Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The key</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setObject:forKey:</Anchor>
+            <NodeRef refid="108"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFTestContext/objectForKey:</TokenIdentifier>
+			<Abstract type="html">Returns an arbitrary object from the test context</Abstract>
+			<DeclaredIn>SFTestContext.h</DeclaredIn>
+			
+			<Declaration>+ (id)objectForKey:(id)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The key</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The object</Abstract></ReturnValue>
+			<Anchor>//api/name/objectForKey:</Anchor>
+            <NodeRef refid="108"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFTestContext/clearObjects</TokenIdentifier>
+			<Abstract type="html">Removes all the stored objects</Abstract>
+			<DeclaredIn>SFTestContext.h</DeclaredIn>
+			
+			<Declaration>+ (void)clearObjects</Declaration>
+			
+			
+			<Anchor>//api/name/clearObjects</Anchor>
             <NodeRef refid="108"/>
 		</Token>
 		

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/CSFForceTaskCallType.html">
+	<File path="Constants/CSFForceLayoutComponentType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/CSFForceTaskCallType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/CSFForceLayoutComponentType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -14,9 +14,9 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskCallTypeUnknown</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceLayoutComponentTypeUnknown</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskCallTypeUnknown</Declaration>
+            <Declaration>CSFForceLayoutComponentTypeUnknown</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -24,9 +24,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskCallTypeInternal</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceLayoutComponentTypeEmptySpace</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskCallTypeInternal</Declaration>
+            <Declaration>CSFForceLayoutComponentTypeEmptySpace</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -34,9 +34,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskCallTypeInbound</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceLayoutComponentTypeField</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskCallTypeInbound</Declaration>
+            <Declaration>CSFForceLayoutComponentTypeField</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -44,9 +44,19 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskCallTypeOutbound</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceLayoutComponentTypeSControl</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskCallTypeOutbound</Declaration>
+            <Declaration>CSFForceLayoutComponentTypeSControl</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="174"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceLayoutComponentTypeSeparator</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceLayoutComponentTypeSeparator</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             

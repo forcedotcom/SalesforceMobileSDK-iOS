@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSyncState.html">
+	<File path="Classes/SFSyncTarget.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSyncState</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSyncTarget</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
             
 			
 			<NodeRef refid="20"/>
@@ -13,566 +13,312 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/setSyncId:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/setIdFieldName:</TokenIdentifier>
+			<Abstract type="html">The field name of the ID field of the record.  Defaults to &quot;Id&quot;.</Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSInteger syncId</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *idFieldName</Declaration>
 			
 			
-			<Anchor>//api/name/syncId</Anchor>
+			<Anchor>//api/name/idFieldName</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/syncId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/idFieldName</TokenIdentifier>
+			<Abstract type="html">The field name of the ID field of the record.  Defaults to &quot;Id&quot;.</Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSInteger syncId</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *idFieldName</Declaration>
 			
 			
-			<Anchor>//api/name/syncId</Anchor>
+			<Anchor>//api/name/idFieldName</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSyncState/syncId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSyncTarget/idFieldName</TokenIdentifier>
+			<Abstract type="html">The field name of the ID field of the record.  Defaults to &quot;Id&quot;.</Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSInteger syncId</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *idFieldName</Declaration>
 			
 			
-			<Anchor>//api/name/syncId</Anchor>
+			<Anchor>//api/name/idFieldName</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/setType:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/setModificationDateFieldName:</TokenIdentifier>
+			<Abstract type="html">The field name of the modification date field of the record.  Defaults to &quot;LastModifiedDate&quot;.</Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) SFSyncStateSyncType type</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *modificationDateFieldName</Declaration>
 			
 			
-			<Anchor>//api/name/type</Anchor>
+			<Anchor>//api/name/modificationDateFieldName</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/type</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/modificationDateFieldName</TokenIdentifier>
+			<Abstract type="html">The field name of the modification date field of the record.  Defaults to &quot;LastModifiedDate&quot;.</Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) SFSyncStateSyncType type</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *modificationDateFieldName</Declaration>
 			
 			
-			<Anchor>//api/name/type</Anchor>
+			<Anchor>//api/name/modificationDateFieldName</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSyncState/type</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSyncTarget/modificationDateFieldName</TokenIdentifier>
+			<Abstract type="html">The field name of the modification date field of the record.  Defaults to &quot;LastModifiedDate&quot;.</Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) SFSyncStateSyncType type</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *modificationDateFieldName</Declaration>
 			
 			
-			<Anchor>//api/name/type</Anchor>
+			<Anchor>//api/name/modificationDateFieldName</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/setSoupName:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/initWithDict:</TokenIdentifier>
+			<Abstract type="html">Designated initializer that initializes a sync target from the given dictionary.</Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *soupName</Declaration>
+			<Declaration>- (instancetype)initWithDict:(NSDictionary *)dict</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>dict</Name>
+					<Abstract type="html">The sync target serialized to an NSDictionary.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/soupName</Anchor>
+			<Anchor>//api/name/initWithDict:</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/soupName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *soupName</Declaration>
-			
-			
-			<Anchor>//api/name/soupName</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSyncState/soupName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *soupName</Declaration>
-			
-			
-			<Anchor>//api/name/soupName</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/setTarget:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) SFSyncTarget *target</Declaration>
-			
-			
-			<Anchor>//api/name/target</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/target</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) SFSyncTarget *target</Declaration>
-			
-			
-			<Anchor>//api/name/target</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSyncState/target</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) SFSyncTarget *target</Declaration>
-			
-			
-			<Anchor>//api/name/target</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/setOptions:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) SFSyncOptions *options</Declaration>
-			
-			
-			<Anchor>//api/name/options</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/options</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) SFSyncOptions *options</Declaration>
-			
-			
-			<Anchor>//api/name/options</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSyncState/options</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) SFSyncOptions *options</Declaration>
-			
-			
-			<Anchor>//api/name/options</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/setStatus:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) SFSyncStateStatus status</Declaration>
-			
-			
-			<Anchor>//api/name/status</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/status</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) SFSyncStateStatus status</Declaration>
-			
-			
-			<Anchor>//api/name/status</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSyncState/status</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) SFSyncStateStatus status</Declaration>
-			
-			
-			<Anchor>//api/name/status</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/setProgress:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) NSInteger progress</Declaration>
-			
-			
-			<Anchor>//api/name/progress</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/progress</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) NSInteger progress</Declaration>
-			
-			
-			<Anchor>//api/name/progress</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSyncState/progress</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) NSInteger progress</Declaration>
-			
-			
-			<Anchor>//api/name/progress</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/setTotalSize:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) NSInteger totalSize</Declaration>
-			
-			
-			<Anchor>//api/name/totalSize</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/totalSize</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) NSInteger totalSize</Declaration>
-			
-			
-			<Anchor>//api/name/totalSize</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSyncState/totalSize</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) NSInteger totalSize</Declaration>
-			
-			
-			<Anchor>//api/name/totalSize</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/setMergeMode:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) SFSyncStateMergeMode mergeMode</Declaration>
-			
-			
-			<Anchor>//api/name/mergeMode</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/mergeMode</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) SFSyncStateMergeMode mergeMode</Declaration>
-			
-			
-			<Anchor>//api/name/mergeMode</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSyncState/mergeMode</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) SFSyncStateMergeMode mergeMode</Declaration>
-			
-			
-			<Anchor>//api/name/mergeMode</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/setMaxTimeStamp:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) long long maxTimeStamp</Declaration>
-			
-			
-			<Anchor>//api/name/maxTimeStamp</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/maxTimeStamp</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) long long maxTimeStamp</Declaration>
-			
-			
-			<Anchor>//api/name/maxTimeStamp</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSyncState/maxTimeStamp</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) long long maxTimeStamp</Declaration>
-			
-			
-			<Anchor>//api/name/maxTimeStamp</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncState/setupSyncsSoupIfNeeded:</TokenIdentifier>
-			<Abstract type="html">Setup soup that keeps track of sync operations</Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>+ (void)setupSyncsSoupIfNeeded:(SFSmartStore *)store</Declaration>
-			
-			
-			<Anchor>//api/name/setupSyncsSoupIfNeeded:</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncState/newSyncDownWithOptions:target:soupName:store:</TokenIdentifier>
-			<Abstract type="html">Factory methods</Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>+ (SFSyncState *)newSyncDownWithOptions:(SFSyncOptions *)options target:(SFSyncDownTarget *)target soupName:(NSString *)soupName store:(SFSmartStore *)store</Declaration>
-			
-			
-			<Anchor>//api/name/newSyncDownWithOptions:target:soupName:store:</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncState/newSyncUpWithOptions:soupName:store:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>+ (SFSyncState *)newSyncUpWithOptions:(SFSyncOptions *)options soupName:(NSString *)soupName store:(SFSmartStore *)store</Declaration>
-			
-			
-			<Anchor>//api/name/newSyncUpWithOptions:soupName:store:</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncState/newSyncUpWithOptions:target:soupName:store:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>+ (SFSyncState *)newSyncUpWithOptions:(SFSyncOptions *)options target:(SFSyncUpTarget *)target soupName:(NSString *)soupName store:(SFSmartStore *)store</Declaration>
-			
-			
-			<Anchor>//api/name/newSyncUpWithOptions:target:soupName:store:</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncState/newById:store:</TokenIdentifier>
-			<Abstract type="html">Methods to save/retrieve from smartstore</Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>+ (SFSyncState *)newById:(NSNumber *)syncId store:(SFSmartStore *)store</Declaration>
-			
-			
-			<Anchor>//api/name/newById:store:</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/save:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>- (void)save:(SFSmartStore *)store</Declaration>
-			
-			
-			<Anchor>//api/name/save:</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncState/newFromDict:</TokenIdentifier>
-			<Abstract type="html">Methods to translate to/from dictionary</Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>+ (SFSyncState *)newFromDict:(NSDictionary *)dict</Declaration>
-			
-			
-			<Anchor>//api/name/newFromDict:</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/asDict</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>- (NSDictionary *)asDict</Declaration>
-			
-			
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/asDict</TokenIdentifier>
+			<Abstract type="html">The target represented as a dictionary.  Note: inheriting classes should initialize their
+dictionary from the super representation, as each parent class can add fields to the
+dictionary along the way.</Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
+			
+			<Declaration>- (NSMutableDictionary *)asDict</Declaration>
+			
+			<ReturnValue><Abstract type="html">The target represented as a dictionary.</Abstract></ReturnValue>
 			<Anchor>//api/name/asDict</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/isDone</TokenIdentifier>
-			<Abstract type="html">Method for easy status check</Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/cleanAndSaveInLocalStore:soupName:record:</TokenIdentifier>
+			<Abstract type="html">Save record in local store (marked as clean)</Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)isDone</Declaration>
+			<Declaration>- (void)cleanAndSaveInLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName record:(NSDictionary *)record</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>syncManager</Name>
+					<Abstract type="html">The sync manager</Abstract>
+				</Parameter><Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">The soup</Abstract>
+				</Parameter><Parameter>
+					<Name>record</Name>
+					<Abstract type="html">The record</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/isDone</Anchor>
+			<Anchor>//api/name/cleanAndSaveInLocalStore:soupName:record:</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/hasFailed</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/saveRecordsToLocalStore:soupName:records:</TokenIdentifier>
+			<Abstract type="html">Save records in local store</Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
+			
+			<Declaration>- (void)saveRecordsToLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName records:(NSArray *)records</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>syncManager</Name>
+					<Abstract type="html">The sync manager</Abstract>
+				</Parameter><Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">The soup</Abstract>
+				</Parameter><Parameter>
+					<Name>records</Name>
+					<Abstract type="html">The records to save</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/saveRecordsToLocalStore:soupName:records:</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/isLocallyCreated:</TokenIdentifier>
+			<Abstract type="html">The record</Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)isLocallyCreated:(NSDictionary *)record</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>record</Name>
+					<Abstract type="html">The record</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if record was locally created</Abstract></ReturnValue>
+			<Anchor>//api/name/isLocallyCreated:</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/isLocallyUpdated:</TokenIdentifier>
+			<Abstract type="html">The record</Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)isLocallyUpdated:(NSDictionary *)record</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>record</Name>
+					<Abstract type="html">The record</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if record was locally updated</Abstract></ReturnValue>
+			<Anchor>//api/name/isLocallyUpdated:</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/isLocallyDeleted:</TokenIdentifier>
+			<Abstract type="html">The record</Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)isLocallyDeleted:(NSDictionary *)record</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>record</Name>
+					<Abstract type="html">The record</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if record was locally deleted</Abstract></ReturnValue>
+			<Anchor>//api/name/isLocallyDeleted:</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/isDirty:</TokenIdentifier>
+			<Abstract type="html">The record</Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)isDirty:(NSDictionary *)record</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>record</Name>
+					<Abstract type="html">The record</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if record was locally created/updated or deleted</Abstract></ReturnValue>
+			<Anchor>//api/name/isDirty:</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/getDirtyRecordIds:soupName:idField:</TokenIdentifier>
+			<Abstract type="html">The sync manager</Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
+			
+			<Declaration>- (NSOrderedSet *)getDirtyRecordIds:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName idField:(NSString *)idField</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>syncManager</Name>
+					<Abstract type="html">The sync manager</Abstract>
+				</Parameter><Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">The soup</Abstract>
+				</Parameter><Parameter>
+					<Name>idField</Name>
+					<Abstract type="html">The field containing the ids to return</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">ids of &quot;dirty&quot; records (records locally created/upated or deleted)</Abstract></ReturnValue>
+			<Anchor>//api/name/getDirtyRecordIds:soupName:idField:</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/getFromLocalStore:soupName:storeId:</TokenIdentifier>
+			<Abstract type="html">The sync manager</Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
+			
+			<Declaration>- (NSDictionary *)getFromLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName storeId:(NSString *)storeId</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>syncManager</Name>
+					<Abstract type="html">The sync manager</Abstract>
+				</Parameter><Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">The soup</Abstract>
+				</Parameter><Parameter>
+					<Name>storeId</Name>
+					<Abstract type="html">The soup entry id</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Record from local store by storeId</Abstract></ReturnValue>
+			<Anchor>//api/name/getFromLocalStore:soupName:storeId:</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/deleteFromLocalStore:soupName:record:</TokenIdentifier>
+			<Abstract type="html">Delete record from local store</Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
+			
+			<Declaration>- (void)deleteFromLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName record:(NSDictionary *)record</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>syncManager</Name>
+					<Abstract type="html">The sync manager</Abstract>
+				</Parameter><Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">The soup</Abstract>
+				</Parameter><Parameter>
+					<Name>record</Name>
+					<Abstract type="html">The record to delete</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/deleteFromLocalStore:soupName:record:</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/getIdsWithQuery:syncManager:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
+			<DeclaredIn>SFSyncTarget+Internal.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)hasFailed</Declaration>
+			<Declaration>- (NSOrderedSet *)getIdsWithQuery:(id)idsSql syncManager:(SFSmartSyncSyncManager *)syncManager</Declaration>
 			
 			
-			<Anchor>//api/name/hasFailed</Anchor>
+			<Anchor>//api/name/getIdsWithQuery:syncManager:</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/isRunning</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/deleteRecordsFromLocalStore:soupName:ids:idField:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
+			<DeclaredIn>SFSyncTarget+Internal.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)isRunning</Declaration>
-			
-			
-			<Anchor>//api/name/isRunning</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncState/syncTypeFromString:</TokenIdentifier>
-			<Abstract type="html">Enum to/from string helper methods</Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>+ (SFSyncStateSyncType)syncTypeFromString:(NSString *)syncType</Declaration>
+			<Declaration>- (void)deleteRecordsFromLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName ids:(NSArray *)ids idField:(NSString *)idField</Declaration>
 			
 			
-			<Anchor>//api/name/syncTypeFromString:</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncState/syncTypeToString:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>+ (NSString *)syncTypeToString:(SFSyncStateSyncType)syncType</Declaration>
-			
-			
-			<Anchor>//api/name/syncTypeToString:</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncState/syncStatusFromString:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>+ (SFSyncStateStatus)syncStatusFromString:(NSString *)syncStatus</Declaration>
-			
-			
-			<Anchor>//api/name/syncStatusFromString:</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncState/syncStatusToString:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>+ (NSString *)syncStatusToString:(SFSyncStateStatus)syncStatus</Declaration>
-			
-			
-			<Anchor>//api/name/syncStatusToString:</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncState/mergeModeFromString:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>+ (SFSyncStateMergeMode)mergeModeFromString:(NSString *)mergeMode</Declaration>
-			
-			
-			<Anchor>//api/name/mergeModeFromString:</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncState/mergeModeToString:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>+ (NSString *)mergeModeToString:(SFSyncStateMergeMode)mergeMode</Declaration>
-			
-			
-			<Anchor>//api/name/mergeModeToString:</Anchor>
+			<Anchor>//api/name/deleteRecordsFromLocalStore:soupName:ids:idField:</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
