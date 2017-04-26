@@ -232,6 +232,13 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
 @property (nonatomic, copy) SFSDKUserAgentCreationBlock userAgentString;
 
 /**
+ + Gets or sets an instance of WKProcessPool that will be used during instantiation of any WKWebView instances
+ + @discussion
+ + Use the default instance or provide an instance to share state between WKWebView instances
+ + */
+@property (nonatomic, strong) WKProcessPool *processPool;
+
+/**
  Launches the SDK.  This will verify an existing passcode the first time it runs, and attempt to
  authenticate if the current user is not already authenticated.  @see postLaunchAction, launchErrorAction,
  postLogoutAction, and switchUserAction for callbacks that can be set for handling post launch

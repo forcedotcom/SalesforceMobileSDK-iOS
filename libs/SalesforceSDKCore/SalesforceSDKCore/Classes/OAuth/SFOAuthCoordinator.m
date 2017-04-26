@@ -39,6 +39,7 @@
 #import "SFSDKLoginHost.h"
 #import "SFSDKEventBuilderHelper.h"
 #import "SFSDKAppFeatureMarkers.h"
+#import "SalesforceSDKManager.h"
 
 // Public constants
 
@@ -343,7 +344,9 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
 
 - (WKWebView *)view {
     if (_view == nil) {
-        _view = [[WKWebView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
+        config.processPool = [SalesforceSDKManager sharedManager].processPool;
+        _view = [[WKWebView alloc] initWithFrame:[[UIScreen mainScreen] bounds] configuration:config];
         _view.navigationDelegate = self;
         _view.UIDelegate = self;
     }

@@ -339,7 +339,9 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
         self.errorPageUIWebView.delegate = self;
         [self.view addSubview:self.errorPageUIWebView];
     } else {
-        self.errorPageWKWebView = [[WKWebView alloc] initWithFrame:self.view.frame];
+        WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
+        config.processPool = [SalesforceSDKManager sharedManager].processPool;
+        self.errorPageWKWebView = [[WKWebView alloc] initWithFrame:self.view.frame configuration:config];
         self.errorPageWKWebView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         self.errorPageWKWebView.navigationDelegate = self;
         [self.view addSubview:self.errorPageWKWebView];
@@ -824,7 +826,9 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
             self.vfPingPageHiddenUIWebView.delegate = self;
             [self.vfPingPageHiddenUIWebView loadRequest:pingRequest];
         } else {
-            self.vfPingPageHiddenWKWebView = [[WKWebView alloc] initWithFrame:CGRectZero];
+            WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
+            config.processPool = [SalesforceSDKManager sharedManager].processPool;
+            self.vfPingPageHiddenWKWebView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:config];
             self.vfPingPageHiddenWKWebView.navigationDelegate = self;
             [self.vfPingPageHiddenWKWebView loadRequest:pingRequest];
         }
