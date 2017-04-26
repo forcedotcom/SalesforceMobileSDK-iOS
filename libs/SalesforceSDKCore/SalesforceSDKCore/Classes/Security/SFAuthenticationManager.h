@@ -470,17 +470,16 @@ extern  NSString * const kOAuthRedirectUriKey;
 + (BOOL)errorIsInvalidAuthCredentials:(NSError *)error;
 
 /**
- Remove all cookies for the given domains. Call completion block when done.
+ Remove any cookies with the given names from the given domains.
+ @param cookieNames The names of the cookies to remove.
  @param domainNames The names of the domains where the cookies are set.
- @param completionBlock Block invoked when cookies are removed
  */
-+ (void)removeCookiesFromDomains:(NSArray<NSString*> *)domainNames withCompletion:(nullable void(^)())completionBlock;
++ (void)removeCookies:(NSArray<NSString*> *)cookieNames fromDomains:(NSArray<NSString*> *)domainNames;
 
 /**
  Remove all cookies from the cookie store.
- @param completionBlock Block invoked when cookies are removed
  */
-+ (void)removeAllCookiesWithCompletion:(nullable void(^)())completionBlock;
++ (void)removeAllCookies;
 
 /**
  Adds the access (session) token cookie to the web view, for authentication.
