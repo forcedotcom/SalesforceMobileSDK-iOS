@@ -67,73 +67,57 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
  * Test for missing mandatory field 'name'.
  */
 - (void) testMissingName {
-    @try {
-        [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^(SFSDKInstrumentationEventBuilder *builder) {
-            double curTime = 1000 * [[NSDate date] timeIntervalSince1970];
-            builder.startTime = curTime;
-            builder.page = [[NSDictionary alloc] init];
-            builder.sessionId = kTestSessionId;
-            builder.senderId = kTestSenderId;
-            builder.schemaType = SchemaTypeError;
-            builder.eventType = EventTypeSystem;
-            builder.errorType = ErrorTypeWarn;
-        } analyticsManager:self.analyticsManager];
-        XCTFail(@"Exception should have been thrown for missing mandatory field 'name'");
-    } @catch (NSException *exception) {
-        XCTAssertEqualObjects(@"EventBuilderException", exception.name);
-        NSLog(@"Exception thrown as expected");
-    }
+    SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^(SFSDKInstrumentationEventBuilder *builder) {
+        double curTime = 1000 * [[NSDate date] timeIntervalSince1970];
+        builder.startTime = curTime;
+        builder.page = [[NSDictionary alloc] init];
+        builder.sessionId = kTestSessionId;
+        builder.senderId = kTestSenderId;
+        builder.schemaType = SchemaTypeError;
+        builder.eventType = EventTypeSystem;
+        builder.errorType = ErrorTypeWarn;
+    } analyticsManager:self.analyticsManager];
+    XCTAssertEqualObjects(event, nil, @"Event should be nil due to missing mandatory field 'name'");
 }
 
 /**
  * Test for missing mandatory field 'page'.
  */
 - (void) testMissingPage {
-    @try {
-        [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^(SFSDKInstrumentationEventBuilder *builder) {
-            double curTime = 1000 * [[NSDate date] timeIntervalSince1970];
-            NSString *eventName = [NSString stringWithFormat:kTestEventName, curTime];
-            builder.name = eventName;
-            builder.startTime = curTime;
-            builder.sessionId = kTestSessionId;
-            builder.senderId = kTestSenderId;
-            builder.schemaType = SchemaTypeError;
-            builder.eventType = EventTypeSystem;
-            builder.errorType = ErrorTypeWarn;
-        } analyticsManager:self.analyticsManager];
-        XCTFail(@"Exception should have been thrown for missing mandatory field 'page'");
-    } @catch (NSException *exception) {
-        XCTAssertEqualObjects(@"EventBuilderException", exception.name);
-        NSLog(@"Exception thrown as expected");
-    }
+    SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^(SFSDKInstrumentationEventBuilder *builder) {
+        double curTime = 1000 * [[NSDate date] timeIntervalSince1970];
+        NSString *eventName = [NSString stringWithFormat:kTestEventName, curTime];
+        builder.name = eventName;
+        builder.startTime = curTime;
+        builder.sessionId = kTestSessionId;
+        builder.senderId = kTestSenderId;
+        builder.schemaType = SchemaTypeError;
+        builder.eventType = EventTypeSystem;
+        builder.errorType = ErrorTypeWarn;
+    } analyticsManager:self.analyticsManager];
+    XCTAssertEqualObjects(event, nil, @"Event should be nil due to missing mandatory field 'page'");
 }
 
 /**
  * Test for missing mandatory field 'device app attributes'.
  */
 - (void) testMissingDeviceAppAttributes {
-    @try {
-        [self.analyticsManager reset];
-        self.analyticsManager = [[SFSDKAnalyticsManager alloc] initWithStoreDirectory:self.storeDirectory dataEncryptorBlock:nil dataDecryptorBlock:nil deviceAttributes:nil];
-        [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^(SFSDKInstrumentationEventBuilder *builder) {
-            double curTime = 1000 * [[NSDate date] timeIntervalSince1970];
-            NSString *eventName = [NSString stringWithFormat:kTestEventName, curTime];
-            builder.name = eventName;
-            builder.page = [[NSDictionary alloc] init];
-            builder.startTime = curTime;
-            builder.sessionId = kTestSessionId;
-            builder.senderId = kTestSenderId;
-            builder.schemaType = SchemaTypeError;
-            builder.eventType = EventTypeSystem;
-            builder.errorType = ErrorTypeWarn;
-        } analyticsManager:self.analyticsManager];
-        XCTFail(@"Exception should have been thrown for missing mandatory field 'device app attributes'");
-    } @catch (NSException *exception) {
-        XCTAssertEqualObjects(@"EventBuilderException", exception.name);
-        NSLog(@"Exception thrown as expected");
-    } @finally {
-        [self.analyticsManager reset];
-    }
+    [self.analyticsManager reset];
+    self.analyticsManager = [[SFSDKAnalyticsManager alloc] initWithStoreDirectory:self.storeDirectory dataEncryptorBlock:nil dataDecryptorBlock:nil deviceAttributes:nil];
+    SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^(SFSDKInstrumentationEventBuilder *builder) {
+        double curTime = 1000 * [[NSDate date] timeIntervalSince1970];
+        NSString *eventName = [NSString stringWithFormat:kTestEventName, curTime];
+        builder.name = eventName;
+        builder.page = [[NSDictionary alloc] init];
+        builder.startTime = curTime;
+        builder.sessionId = kTestSessionId;
+        builder.senderId = kTestSenderId;
+        builder.schemaType = SchemaTypeError;
+        builder.eventType = EventTypeSystem;
+        builder.errorType = ErrorTypeWarn;
+    } analyticsManager:self.analyticsManager];
+    XCTAssertEqualObjects(event, nil, @"Event should be nil due to missing mandatory field 'device app attributes'");
+    [self.analyticsManager reset];
 }
 
 /**

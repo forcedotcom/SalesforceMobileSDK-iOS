@@ -40,7 +40,7 @@
 
 @implementation SFSDKInstrumentationEventBuilder
 
-+ (nonnull SFSDKInstrumentationEvent *) buildEventWithBuilderBlock:(nonnull SFSDKInstrumentationEventBuilderBlock) builderBlock analyticsManager:(nonnull SFSDKAnalyticsManager *) analyticsManager {
++ (SFSDKInstrumentationEvent *) buildEventWithBuilderBlock:(SFSDKInstrumentationEventBuilderBlock) builderBlock analyticsManager:(SFSDKAnalyticsManager *) analyticsManager {
     SFSDKInstrumentationEventBuilder *builder = [[SFSDKInstrumentationEventBuilder alloc] initWithAnalyticsManager:analyticsManager];
     builderBlock(builder);
     return [builder buildEvent];
@@ -68,7 +68,8 @@
         errorMessage = @"Mandatory field 'page' not set!";
     }
     if (errorMessage) {
-        @throw [NSException exceptionWithName:@"EventBuilderException" reason:errorMessage userInfo:nil];
+        NSLog(@"WARNING: Building event failed! REASON: %@", errorMessage);
+        return nil;
     }
     NSInteger sequenceId = self.analyticsManager.globalSequenceId + 1;
     self.analyticsManager.globalSequenceId = sequenceId;
