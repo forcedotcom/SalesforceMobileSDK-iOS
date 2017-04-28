@@ -69,6 +69,9 @@
 }
 
 - (void) storeEvent:(SFSDKInstrumentationEvent *) event {
+    if (!event) {
+        return;
+    }
 
     // Copies event, to isolate data for I/O.
     SFSDKInstrumentationEvent *eventCopy = [event copy];
