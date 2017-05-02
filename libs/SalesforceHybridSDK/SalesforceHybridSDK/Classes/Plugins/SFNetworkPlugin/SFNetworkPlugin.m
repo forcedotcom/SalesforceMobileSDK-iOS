@@ -71,8 +71,8 @@ static NSString * const kFileName        = @"fileName";
     NSDictionary<NSString*, NSDictionary*>* fileParams = [argsDict nonNullObjectForKey:kfileParams];
     SFRestRequest* request = nil;
 
-    // Sets HTTP body explicitly for a POST or PATCH request.
-    if (method == SFRestMethodPOST || method == SFRestMethodPATCH) {
+    // Sets HTTP body explicitly for a POST, PATCH or PUT request.
+    if (method == SFRestMethodPOST || method == SFRestMethodPATCH || method == SFRestMethodPUT) {
         request = [SFRestRequest requestWithMethod:method path:path queryParams:nil];
         [request setCustomRequestBodyDictionary:queryParams contentType:@"application/json"];
     } else {
