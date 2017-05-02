@@ -69,7 +69,15 @@ static NSString * const kFileName        = @"fileName";
     }
     NSDictionary<NSString*, NSString*>* headerParams = [argsDict nonNullObjectForKey:kHeaderParams];
     NSDictionary<NSString*, NSDictionary*>* fileParams = [argsDict nonNullObjectForKey:kfileParams];
-    SFRestRequest* request = [SFRestRequest requestWithMethod:method path:path queryParams:queryParams];
+    SFRestRequest* request = nil;
+
+    // Sets HTTP body explicitly for a POST, PATCH or PUT request.
+    if (method == SFRestMethodPOST || method == SFRestMethodPATCH || method == SFRestMethodPUT) {
+        request = [SFRestRequest requestWithMethod:method path:path queryParams:nil];
+        [request setCustomRequestBodyDictionary:queryParams contentType:@"application/json"];
+    } else {
+        request = [SFRestRequest requestWithMethod:method path:path queryParams:queryParams];
+    }
 
     // Adds custom headers, if any.
     [request setCustomHeaders:headerParams];
@@ -103,7 +111,16 @@ static NSString * const kFileName        = @"fileName";
                                       }
                                   completeBlock:^(id response) {
                                       __strong typeof(self) strongSelf = weakSelf;
-                                      CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:response];
+                                      CDVPluginResult *pluginResult = nil;
+                                      if ([response isKindOfClass:[NSDictionary class]]) {
+                                          pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:response];
+                                      } else if ([response isKindOfClass:[NSArray class]]) {
+                                          pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:response];
+                                      } else if ([response isKindOfClass:[NSString class]]) {
+                                          pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:response];
+                                      } else {
+                                          pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+                                      }
                                       [strongSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
                                   }
      ];
