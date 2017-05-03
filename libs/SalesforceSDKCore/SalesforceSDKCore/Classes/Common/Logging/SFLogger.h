@@ -44,6 +44,7 @@ typedef NS_ENUM(NSUInteger, SFLogContext) {
     MobileSDKLogContext = 1
 } __attribute__((deprecated("Use logging identifiers instead")));
 
+@class DDLog;
 
 #define SFLogAssert(_cond, _desc, ...) \
 do { \
@@ -135,6 +136,8 @@ if (!(_cond)) { \
 @interface SFLogger : NSObject
 
 + (instancetype)sharedLogger;
+
+@property (nonatomic, strong, readonly) DDLog *ddLog;
 
 @property (nonatomic, assign, getter=shouldLogToASL) BOOL logToASL;
 
@@ -231,11 +234,11 @@ if (!(_cond)) { \
            level:(SFLogLevel)level
             flag:(SFLogFlag)flag
          context:(NSInteger)context
-            file:(nullable const char *)file
-        function:(nullable const char *)function
+            file:(const char *)file
+        function:(const char *)function
             line:(NSUInteger)line
              tag:(nullable id)tag
-          format:(nullable NSString *)format, ...;
+         message:(NSString *)message;
 
 @end
 

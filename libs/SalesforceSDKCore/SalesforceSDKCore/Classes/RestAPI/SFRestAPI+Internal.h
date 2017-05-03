@@ -25,7 +25,6 @@
 #import "SFRestAPI.h"
 #import "SFUserAccountManager.h"
 #import "SFAuthenticationManager.h"
-#import "CSFNetwork.h"
 
 /**
  We declare here a set of interfaces that are meant to be used by code running internally
@@ -39,12 +38,10 @@
     SFAuthenticationManager *_authMgr;
 }
 
-@property (nonatomic, readonly) CSFNetwork *currentNetwork;
-
 /**
  * Active requests property
  */
-@property (nonatomic, readonly, strong) NSMutableSet	*activeRequests;
+@property (nonatomic, readonly, strong) NSMutableSet *activeRequests;
 
 - (void)removeActiveRequestObject:(SFRestRequest *)request;
 

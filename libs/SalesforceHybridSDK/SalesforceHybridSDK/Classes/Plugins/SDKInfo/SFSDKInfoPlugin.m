@@ -28,7 +28,7 @@
 #import <Cordova/CDVViewController.h>
 #import "CDVPlugin+SFAdditions.h"
 #import <Cordova/CDVInvokedUrlCommand.h>
-#import <SalesforceSDKCore/SalesforceSDKManager.h>
+#import <SalesforceSDKCore/SFSDKAppFeatureMarkers.h>
 #import <SalesforceSDKCore/NSDictionary+SFAdditions.h>
 
 // Keys in sdk info map
@@ -119,7 +119,7 @@ static NSString * const kAppFeatureKey   = @"feature";
     if(argsDict != nil){
         NSString *appFeatureCode = [argsDict nonNullObjectForKey:kAppFeatureKey];
         if(appFeatureCode != nil){
-            [[SalesforceSDKManager sharedManager] registerAppFeature:appFeatureCode];
+            [SFSDKAppFeatureMarkers registerAppFeature:appFeatureCode];
         }
     }
 }
@@ -131,7 +131,7 @@ static NSString * const kAppFeatureKey   = @"feature";
     if(argsDict != nil){
         NSString *appFeatureCode = [argsDict nonNullObjectForKey:kAppFeatureKey];
         if(appFeatureCode != nil){
-            [[SalesforceSDKManager sharedManager] unregisterAppFeature:appFeatureCode];
+            [SFSDKAppFeatureMarkers unregisterAppFeature:appFeatureCode];
         }
     }
 }

@@ -1,17 +1,35 @@
-//
-//  SalesforceSDKManagerTests.m
-//  SalesforceSDKCore
-//
-//  Created by Kevin Hawkins on 9/20/14.
-//  Copyright (c) 2014-present, salesforce.com. All rights reserved.
-//
+/*
+ Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
+ 
+ Redistribution and use of this software in source and binary forms, with or without modification,
+ are permitted provided that the following conditions are met:
+ * Redistributions of source code must retain the above copyright notice, this list of conditions
+ and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice, this list of
+ conditions and the following disclaimer in the documentation and/or other materials provided
+ with the distribution.
+ * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
+ endorse or promote products derived from this software without specific prior written
+ permission of salesforce.com, inc.
+ 
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #import <XCTest/XCTest.h>
 #import "SFTestSDKManagerFlow.h"
 #import "SalesforceSDKManager+Internal.h"
-#import "SFUserAccountManager.h"
+#import "SFUserAccountManager+Internal.h"
+#import "SFSDKSalesforceAnalyticsManager.h"
 
 static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
+static NSString* const kTestAppName = @"OverridenAppName";
 
 @interface SalesforceSDKManagerTests : XCTestCase
 {
@@ -32,6 +50,7 @@ static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
     SFSDKLaunchAction _postLaunchActions;
     BOOL _launchErrorBlockCalled;
     NSError *_launchError;
+    NSString *_origAppName;
 }
 
 @end
@@ -46,9 +65,8 @@ static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
 - (void)setUp
 {
     [super setUp];
-    
     XCTAssertFalse([SalesforceSDKManager sharedManager].isLaunching, @"SalesforceSDKManager should not be launching at the beginning of the test.");
-    
+
     // Since other tests may have a more "permanent" idea of (essentially global) app identity and
     // launch state, only clear values for the length of the test, then restore them.
     [self setupSdkManagerState];
@@ -56,14 +74,15 @@ static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
 
 - (void)tearDown
 {
+
     // Restore the original SDK Manager state (see setUp).
     [self restoreOrigSdkManagerState];
-    
     [super tearDown];
 }
 
 - (void)testValidateInput
 {
+
     // Set nothing, validate errors.
     [self createStandardLaunchErrorBlock];
     [self launchAndVerify:YES failMessage:@"Failed to start launch."];
@@ -98,27 +117,66 @@ static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
 {
     [self createStandardPostLaunchBlock];
     [self createTestAppIdentity];
-    
     [self launchAndVerify:YES failMessage:@"Initial launch attempt should have been successful."];
     [self launchAndVerify:NO failMessage:@"Second concurrent launch should not be allowed."];
-    
     [self verifyPostLaunchState];
+}
+
+- (void)testOverrideAiltnAppNameBeforeSDKManagerLaunch
+{
+    [SalesforceSDKManager setAiltnAppName:kTestAppName];
+    [self createStandardPostLaunchBlock];
+    [self createTestAppIdentity];
+    [self launchAndVerify:YES failMessage:@"Launch attempt should have been successful."];
+    [self verifyPostLaunchState];
+    [self compareAiltnAppNames:kTestAppName];
+}
+
+- (void)testOverrideAiltnAppNameAfterSDKManagerInit
+{
+    [self createStandardPostLaunchBlock];
+    [self createTestAppIdentity];
+    [self launchAndVerify:YES failMessage:@"Launch attempt should have been successful."];
+    [self verifyPostLaunchState];
+    [SalesforceSDKManager setAiltnAppName:kTestAppName];
+    [self compareAiltnAppNames:kTestAppName];
+}
+
+- (void)testDefaultAiltnAppName
+{
+    [self createStandardPostLaunchBlock];
+    [self createTestAppIdentity];
+    [self launchAndVerify:YES failMessage:@"Launch attempt should have been successful."];
+    [self verifyPostLaunchState];
+    NSString *appName = [[NSBundle mainBundle] infoDictionary][(NSString *) kCFBundleNameKey];
+    [self compareAiltnAppNames:appName];
+}
+
+- (void)testOverrideInvalidAiltnAppName
+{
+    [SFUserAccountManager sharedInstance].currentUser = [self createUserAccount];
+    [self createStandardPostLaunchBlock];
+    [self createTestAppIdentity];
+    [self launchAndVerify:YES failMessage:@"Launch attempt should have been successful."];
+    [self verifyPostLaunchState];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
+    [SalesforceSDKManager setAiltnAppName:nil];
+#pragma clang diagnostic pop
+    NSString *appName = [[NSBundle mainBundle] infoDictionary][(NSString *) kCFBundleNameKey];
+    [self compareAiltnAppNames:appName];
 }
 
 - (void)testPasscodeVerificationAtLaunch
 {
     [self createStandardPostLaunchBlock];
     [self createTestAppIdentity];
-    
     [self launchAndVerify:YES failMessage:@"Launch attempt should have been successful."];
     [self verifyPostLaunchState];
-    
     BOOL passcodeVerifiedOnInitialLaunch = ((_postLaunchActions & SFSDKLaunchActionPasscodeVerified) == SFSDKLaunchActionPasscodeVerified);
     XCTAssertTrue(passcodeVerifiedOnInitialLaunch, @"Passcode should have been verified on initial launch. Actual state: %@", [SalesforceSDKManager launchActionsStringRepresentation:_postLaunchActions]);
-    
     [self launchAndVerify:YES failMessage:@"Launch attempt should have been successful."];
     [self verifyPostLaunchState];
-    
     passcodeVerifiedOnInitialLaunch = ((_postLaunchActions & SFSDKLaunchActionPasscodeVerified) == SFSDKLaunchActionPasscodeVerified);
     XCTAssertFalse(passcodeVerifiedOnInitialLaunch, @"Passcode should NOT have been verified on subsequent launches.");
 }
@@ -126,22 +184,18 @@ static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
 - (void)testAuthAtLaunch
 {
     XCTAssertNil([SFUserAccountManager sharedInstance].currentUser, @"Current user should be nil.");
-    
     [self createStandardPostLaunchBlock];
     [self createTestAppIdentity];
     [SFUserAccountManager sharedInstance].currentUser = [self createUserAccount];
     [self launchAndVerify:YES failMessage:@"Launch attempt should have been successful."];
     [self verifyPostLaunchState];
-    
     BOOL userAuthenticatedAtLaunch = ((_postLaunchActions & SFSDKLaunchActionAuthenticated) == SFSDKLaunchActionAuthenticated);
     BOOL userAlreadyAuthenticated = ((_postLaunchActions & SFSDKLaunchActionAlreadyAuthenticated) == SFSDKLaunchActionAlreadyAuthenticated);
     BOOL authBypassed = ((_postLaunchActions & SFSDKLaunchActionAuthBypassed) == SFSDKLaunchActionAuthBypassed);
     XCTAssertTrue(userAuthenticatedAtLaunch, @"User without credentials should have been authenticated at launch.");
     XCTAssertFalse(userAlreadyAuthenticated, @"User without credentials should not have generated an already-authenticated status.");
     XCTAssertFalse(authBypassed, @"User without credentials should not have generated an auth-bypassed status.");
-    
     [SFUserAccountManager sharedInstance].currentUser.credentials.accessToken = @"test_access_token";
-    
     [self launchAndVerify:YES failMessage:@"Launch attempt should have been successful."];
     [self verifyPostLaunchState];
     userAuthenticatedAtLaunch = ((_postLaunchActions & SFSDKLaunchActionAuthenticated) == SFSDKLaunchActionAuthenticated);
@@ -150,28 +204,27 @@ static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
     XCTAssertFalse(userAuthenticatedAtLaunch, @"User with credentials should not have been authenticated at launch.");
     XCTAssertTrue(userAlreadyAuthenticated, @"User with credentials should have generated an already-authenticated status.");
     XCTAssertFalse(authBypassed, @"User with credentials should not have generated an auth-bypassed status.");
+    NSError *error = nil;
+    [[SFUserAccountManager sharedInstance] deleteAccountForUser:[SFUserAccountManager sharedInstance].currentUser error:&error];
+    XCTAssertNil(error, @"SalesforceSDKManagerTests for testAuthAtLaunch could not delete created user");
 }
 
 - (void)testAuthBypass
 {
     XCTAssertNil([SFUserAccountManager sharedInstance].currentUser, @"Current user should be nil.");
-    
     [SalesforceSDKManager sharedManager].authenticateAtLaunch = NO;
     [self createStandardPostLaunchBlock];
     [self createTestAppIdentity];
     [SFUserAccountManager sharedInstance].currentUser = [self createUserAccount];
     [self launchAndVerify:YES failMessage:@"Launch attempt should have been successful."];
     [self verifyPostLaunchState];
-    
     BOOL userAuthenticatedAtLaunch = ((_postLaunchActions & SFSDKLaunchActionAuthenticated) == SFSDKLaunchActionAuthenticated);
     BOOL userAlreadyAuthenticated = ((_postLaunchActions & SFSDKLaunchActionAlreadyAuthenticated) == SFSDKLaunchActionAlreadyAuthenticated);
     BOOL authBypassed = ((_postLaunchActions & SFSDKLaunchActionAuthBypassed) == SFSDKLaunchActionAuthBypassed);
     XCTAssertFalse(userAuthenticatedAtLaunch, @"User should not generate an authenticated status at launch when bypass is configured.");
     XCTAssertFalse(userAlreadyAuthenticated, @"User should not generate an already-authenticated status when bypass is configured.");
     XCTAssertTrue(authBypassed, @"Launch should have generated an auth-bypassed status.");
-    
     [SFUserAccountManager sharedInstance].currentUser.credentials.accessToken = @"test_access_token";
-    
     userAuthenticatedAtLaunch = ((_postLaunchActions & SFSDKLaunchActionAuthenticated) == SFSDKLaunchActionAuthenticated);
     userAlreadyAuthenticated = ((_postLaunchActions & SFSDKLaunchActionAlreadyAuthenticated) == SFSDKLaunchActionAlreadyAuthenticated);
     authBypassed = ((_postLaunchActions & SFSDKLaunchActionAuthBypassed) == SFSDKLaunchActionAuthBypassed);
@@ -191,7 +244,6 @@ static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
         return nil;
     };
     [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillResignActiveNotification object:nil];
-    
     XCTAssertTrue(creationViewControllerCalled, @"Did not call the snapshot view controller creation block upon application resigning active, when use snapshot is set to YES.");
 }
 
@@ -204,7 +256,6 @@ static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
         return nil;
     };
     [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillResignActiveNotification object:nil];
-    
     XCTAssertFalse(creationViewControllerCalled, @"Did call the snapshot view controller creation block upon application resigning active, when use snapshot is set to NO.");
 }
 
@@ -214,20 +265,17 @@ static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
     __block BOOL dismissOnDidBecomeActive = NO;
     UIView* fakeView = [UIView new];
     [SalesforceSDKManager sharedManager].useSnapshotView = YES;
-    
     [SalesforceSDKManager sharedManager].snapshotPresentationAction = ^(UIViewController* snapshotViewController) {
         presentOnResignActive = YES;
-        //This will simulate that the snapshot view is being presented
+
+        // This will simulate that the snapshot view is being presented
         [fakeView addSubview:snapshotViewController.view];
     };
     [SalesforceSDKManager sharedManager].snapshotDismissalAction = ^(UIViewController* snapshotViewController) {
         dismissOnDidBecomeActive = YES;
     };
-    
-    
     [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillResignActiveNotification object:nil];
     XCTAssertTrue(presentOnResignActive, @"Did not respond to app resign active.");
-    
     [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidBecomeActiveNotification object:nil];
     XCTAssertTrue(dismissOnDidBecomeActive, @"Did not respond to app did become active.");
 }
@@ -238,15 +286,14 @@ static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
     __block BOOL presentationBlockCalled = NO;
     __block BOOL dismissalBlockCalled = NO;
     [SalesforceSDKManager sharedManager].useSnapshotView = YES;
-    
     [SalesforceSDKManager sharedManager].snapshotPresentationAction = ^(UIViewController* snapshotViewController) {
         presentationBlockCalled = YES;
     };
     [SalesforceSDKManager sharedManager].snapshotDismissalAction = NULL;
     [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillResignActiveNotification object:nil];
     XCTAssertFalse(presentationBlockCalled || dismissalBlockCalled, @"Called a presentation/dismissal block without both blocks being set.");
-    
-    //Test inverse
+
+    // Test inverse
     [SalesforceSDKManager sharedManager].snapshotPresentationAction = NULL;
     [SalesforceSDKManager sharedManager].snapshotDismissalAction = ^(UIViewController* snapshotViewController) {
         dismissalBlockCalled = YES;
@@ -267,11 +314,10 @@ static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
     [SalesforceSDKManager sharedManager].snapshotDismissalAction = ^(UIViewController* snapshotViewController) {
         defaultViewControllerOnDismissal = snapshotViewController;
     };
-    
     [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillResignActiveNotification object:nil];
     XCTAssertTrue([defaultViewControllerOnPresentation isKindOfClass:UIViewController.class], @"Did not provide a valid default snapshot view controller.");
-    
-    //This will simulate that the snapshot view is being presented
+
+    // This will simulate that the snapshot view is being presented
     UIView* fakeView = [UIView new];
     [fakeView addSubview:defaultViewControllerOnPresentation.view];
     [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidBecomeActiveNotification object:nil];
@@ -289,9 +335,9 @@ static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
         defaultViewController = snapshotViewController;
     };
     [SalesforceSDKManager sharedManager].snapshotDismissalAction = ^(UIViewController* snapshotViewController) {
-        //Need to set the dismissal block in order to get the presentation block called.
+
+        // Need to set the dismissal block in order to get the presentation block called.
     };
-    
     [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillResignActiveNotification object:nil];
     XCTAssertTrue([defaultViewController isKindOfClass:UIViewController.class], @"Did not provide a valid default snapshot view controller.");
 }
@@ -314,8 +360,8 @@ static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
     
     [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillResignActiveNotification object:nil];
     XCTAssertEqual(customSnapshot, snapshotOnPresentation, @"Custom snapshot view controller was not used on presentation!");
-    
-    //This will simulate that the snapshot view is being presented
+
+    // This will simulate that the snapshot view is being presented
     UIView* fakeView = [UIView new];
     [fakeView addSubview:customSnapshot.view];
     [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidBecomeActiveNotification object:nil];
@@ -375,10 +421,14 @@ static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
 - (SFUserAccount *)createUserAccount
 {
     u_int32_t userIdentifier = arc4random();
-    SFUserAccount *user = [[SFUserAccount alloc] initWithIdentifier:[NSString stringWithFormat:@"identifier-%u", userIdentifier]];
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:[NSString stringWithFormat:@"identifier-%u", userIdentifier] clientId:[SFAuthenticationManager sharedManager].oauthClientId encrypted:YES];
+    SFUserAccount *user =[[SFUserAccount alloc] initWithCredentials:credentials];
     NSString *userId = [NSString stringWithFormat:@"user_%u", userIdentifier];
     NSString *orgId = [NSString stringWithFormat:@"org_%u", userIdentifier];
     user.credentials.identityUrl = [NSURL URLWithString:[NSString stringWithFormat:@"https://login.salesforce.com/id/%@/%@", orgId, userId]];
+    NSError *error = nil;
+    [[SFUserAccountManager sharedInstance] saveAccountForUser:user error:&error];
+    XCTAssertNil(error, @"Should be able to create user account");
     return user;
 }
 
@@ -386,7 +436,6 @@ static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
 {
     _currentSdkManagerFlow = [[SFTestSDKManagerFlow alloc] initWithStepTimeDelaySecs:kTimeDelaySecsBetweenLaunchSteps];
     _origSdkManagerFlow = [SalesforceSDKManager sharedManager].sdkManagerFlow; [SalesforceSDKManager sharedManager].sdkManagerFlow = _currentSdkManagerFlow;
-    
     _origConnectedAppId = [SalesforceSDKManager sharedManager].connectedAppId; [SalesforceSDKManager sharedManager].connectedAppId = nil;
     _origConnectedAppCallbackUri = [SalesforceSDKManager sharedManager].connectedAppCallbackUri; [SalesforceSDKManager sharedManager].connectedAppCallbackUri = nil;
     _origAuthScopes = [SalesforceSDKManager sharedManager].authScopes; [SalesforceSDKManager sharedManager].authScopes = nil;
@@ -398,11 +447,11 @@ static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
     _origSwitchUserAction = [SalesforceSDKManager sharedManager].switchUserAction; [SalesforceSDKManager sharedManager].switchUserAction = NULL;
     _origPostAppForegroundAction = [SalesforceSDKManager sharedManager].postAppForegroundAction; [SalesforceSDKManager sharedManager].postAppForegroundAction = NULL;
     _origCurrentUser = [SFUserAccountManager sharedInstance].currentUser; [SFUserAccountManager sharedInstance].currentUser = nil;
-    
     _postLaunchBlockCalled = NO;
     _postLaunchActions = SFSDKLaunchActionNone;
     _launchErrorBlockCalled = NO;
     _launchError = nil;
+    _origAppName = SalesforceSDKManager.ailtnAppName;
 }
 
 - (void)restoreOrigSdkManagerState
@@ -419,6 +468,23 @@ static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
     [SalesforceSDKManager sharedManager].switchUserAction = _origSwitchUserAction;
     [SalesforceSDKManager sharedManager].postAppForegroundAction = _origPostAppForegroundAction;
     [SFUserAccountManager sharedInstance].currentUser = _origCurrentUser;
+    SalesforceSDKManager.ailtnAppName = _origAppName;
+}
+
+- (void)compareAiltnAppNames:(NSString *)expectedAppName
+{
+    SFUserAccount *prevCurrentUser = [SFUserAccountManager sharedInstance].currentUser;
+    [SFUserAccountManager sharedInstance].currentUser = [self createUserAccount];
+    SFSDKSalesforceAnalyticsManager *analyticsManager = [SFSDKSalesforceAnalyticsManager sharedInstanceWithUser:[SFUserAccountManager sharedInstance].currentUser];
+    XCTAssertNotNil(analyticsManager, @"SFSDKSalesforceAnalyticsManager instance should not be nil");
+    SFSDKDeviceAppAttributes *deviceAttributes = analyticsManager.analyticsManager.deviceAttributes;
+    XCTAssertNotNil(deviceAttributes, @"SFSDKDeviceAppAttributes instance should not be nil");
+    XCTAssertEqualObjects(deviceAttributes.appName, expectedAppName, @"App names should match");
+    [SFSDKSalesforceAnalyticsManager removeSharedInstanceWithUser:[SFUserAccountManager sharedInstance].currentUser];
+     NSError *error = nil;
+    [[SFUserAccountManager sharedInstance] deleteAccountForUser:[SFUserAccountManager sharedInstance].currentUser error:&error];
+    XCTAssertNil(error, @"SalesforceSDKManagerTests for ailtn could not delete created user");
+    [SFUserAccountManager sharedInstance].currentUser = prevCurrentUser;
 }
 
 @end

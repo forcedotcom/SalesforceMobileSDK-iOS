@@ -31,9 +31,9 @@
 
 - (void)login;
 
-- (void)loginWithUser:(SFUserAccount*)account;
+- (void)loginWithCredentials:(SFOAuthCredentials *) credentials;
 
-- (void)setupWithUser:(SFUserAccount*)account;
+- (void)setupWithCredentials:(SFOAuthCredentials*) credentials;
 
 /**
  Clears the account state associated with the current account.

@@ -44,6 +44,17 @@ extern NSException * SFOAuthInvalidIdentifierException();
 
 @property (nonatomic, strong) NSDictionary * additionalOAuthFields;
 
+/** Holds the attributes that have changed during auth flow.
+ */
+@property (nonatomic) NSMutableDictionary * credentialsChangeSet;
+
+- (void)setPropertyForKey:(NSString *) key withValue:(id) newValue;
+
+- (BOOL)hasPropertyValueChangedForKey:(NSString *) key;
+
+/** Reset changes to credentials, called at the end of auth flow.
+ */
+- (void)resetCredentialsChangeSet;
 @end
 
 

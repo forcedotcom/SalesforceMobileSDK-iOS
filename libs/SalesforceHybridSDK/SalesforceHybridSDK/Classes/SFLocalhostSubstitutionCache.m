@@ -23,7 +23,7 @@
  */
 
 #import <MobileCoreServices/MobileCoreServices.h>
-#import <SalesforceSDKCore/SalesforceSDKManager.h>
+#import <SalesforceSDKCore/SFSDKAppFeatureMarkers.h>
 #import "SFLocalhostSubstitutionCache.h"
 
 #define WWW_DIR @"www"
@@ -67,7 +67,7 @@ static NSString * const kSFAppFeatureUsesLocalhost = @"LH";
     }
 
     // Localhost request.
-    [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureUsesLocalhost];
+    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureUsesLocalhost];
     NSString* urlPath = [url path];
     NSString* filePath = [self pathForResource:urlPath];
     NSString* wwwDirPath = [self pathForResource:@""];

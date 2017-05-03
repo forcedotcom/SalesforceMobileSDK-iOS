@@ -39,6 +39,7 @@
 #import "SFApplication.h"
 #import "NSUserDefaults+SFAdditions.h"
 #import "SFSDKEventBuilderHelper.h"
+#import "SalesforceSDKManager+Internal.h"
 
 // Private constants
 
@@ -105,6 +106,7 @@ static BOOL _showPasscode = YES;
         }];
         
         [SFSecurityLockout setPresentPasscodeViewControllerBlock:^(UIViewController *pvc) {
+            [[SalesforceSDKManager sharedManager] dismissSnapshot];
             [[SFRootViewManager sharedManager] pushViewController:pvc];
         }];
         

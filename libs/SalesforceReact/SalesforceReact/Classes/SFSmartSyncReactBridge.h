@@ -23,7 +23,7 @@
  */
 
 
-#import "RCTBridgeModule.h"
+#import <React/RCTBridgeModule.h>
 
 @interface SFSmartSyncReactBridge : NSObject <RCTBridgeModule>
 

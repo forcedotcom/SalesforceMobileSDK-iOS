@@ -25,8 +25,6 @@
 #import <Foundation/Foundation.h>
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
-@class SFRestAPISalesforceAction;
-
 /**
  * HTTP methods for requests
  */
@@ -36,7 +34,7 @@ typedef NS_ENUM(NSInteger, SFRestMethod) {
     SFRestMethodPUT,
     SFRestMethodDELETE,
     SFRestMethodHEAD,
-    SFRestMethodPATCH,
+    SFRestMethodPATCH
 };
 
 NS_ASSUME_NONNULL_BEGIN
@@ -45,7 +43,6 @@ NS_ASSUME_NONNULL_BEGIN
  The default REST endpoint used by requests.
  */
 extern NSString * const kSFDefaultRestEndpoint;
-
 
 //forward declaration
 @class SFRestRequest;
@@ -60,8 +57,8 @@ extern NSString * const kSFDefaultRestEndpoint;
  * Sent when a request has finished loading.
  * @param request The request that was loaded.
  * @param dataResponse The data from the response.  By default, this will be an object
- * containing the parsed JSON response.  However, if `request.parseResponse` was set
- * to `NO`, the data will be contained in a binary `NSData` object.
+ * containing the parsed JSON response.  However, if the response is not JSON,
+ * the data will be contained in a binary `NSData` object.
  */
 - (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse;
 
@@ -96,9 +93,15 @@ extern NSString * const kSFDefaultRestEndpoint;
 @interface SFRestRequest : NSObject
 
 /**
- * The HTTP method of the request.  See SFRestMethod.
+ * The HTTP method of the request. See SFRestMethod.
  */
-@property (nonatomic, assign) SFRestMethod method;
+@property (nonatomic, assign, readwrite) SFRestMethod method;
+
+/**
+ * The NSURLSesssionDataTask instance associated with the request. This is set only
+ * once the request is queued and could be 'nil' before that happens.
+ */
+@property (nullable, nonatomic, strong, readwrite) NSURLSessionDataTask *sessionDataTask;
 
 /**
  * The path of the request.
@@ -106,35 +109,29 @@ extern NSString * const kSFDefaultRestEndpoint;
  * Note that the path doesn't have to start with a '/'. For instance, passing "v22.0/recent" is the same as passing "/v22.0/recent".
  * @warning Do not pass URL encoded query parameters in the path. Use the `queryParams` property instead.
  */
-@property (nonatomic, strong) NSString *path;
+@property (nonnull, nonatomic, strong, readwrite) NSString *path;
 
 /**
  * The query parameters of the request (could be nil).
  * Note that URL encoding of the parameters will automatically happen when the request is sent.
  */
-@property (nullable, nonatomic, strong) NSDictionary<NSString*, NSObject*> *queryParams;
+@property (nullable, nonatomic, strong, readwrite) NSDictionary<NSString*, id> *queryParams;
 
 /**
  * Dictionary of any custom HTTP headers you wish to add to your request.  You can also use
  * `setHeaderValue:forHeaderName:` to add headers to this property.
  */
-@property (nonatomic, strong) NSDictionary<NSString*, NSString*> *customHeaders;
-
-/**
- * Underlying SFRestAPISalesforceAction through which the network call is carried out
- */
-@property (nonatomic, strong) SFRestAPISalesforceAction *action;
+@property (nullable, nonatomic, strong, readwrite) NSDictionary<NSString*, NSString*> *customHeaders;
 
 /**
  * The delegate for this request. Notified of request status.
  */
 @property (nullable, nonatomic, weak) id<SFRestDelegate> delegate;
 
-
 /**
  * Typically kSFDefaultRestEndpoint but you may use eg custom Apex endpoints
  */
-@property (nonatomic, strong) NSString *endpoint;
+@property (nonnull, nonatomic, strong, readwrite) NSString *endpoint;
 
 /**
  * Whether or not this request requires authentication.  If YES, the credentials will be added to
@@ -143,17 +140,11 @@ extern NSString * const kSFDefaultRestEndpoint;
 @property (nonatomic, assign) BOOL requiresAuthentication;
 
 /**
- * Whether or not to parse the response data as structured JSON data.  Defaults to `YES`. If
- * set to `NO`, response data will be returned as binary data in an `NSData` object.
+ * Prepares the request before sending it out.
+ *
+ * @return NSURLRequest instance.
  */
-@property (nonatomic, assign) BOOL parseResponse;
-
-/**
- * Override this method to implement any request preparations immediately prior to the request
- * being sent.  Note: You should not call this method directly.  And make sure to call the
- * super implementation within your own implementation.
- */
-- (void)prepareRequestForSend;
+- (NSURLRequest *)prepareRequestForSend;
 
 /**
  * Sets the value for the specified HTTP header.
@@ -164,18 +155,18 @@ extern NSString * const kSFDefaultRestEndpoint;
 - (void)setHeaderValue:(nullable NSString *)value forHeaderName:(NSString *)name;
 
 /**
- * Cancels this request if it is running
+ * Cancels this request if it is running.
  */
-- (void) cancel;
+- (void)cancel;
 
 /**
  * Add file to upload.
  * @param fileData Value of this POST parameter
- * @param paramName Name of the POST parameter
+ * @param description Description of the file
  * @param fileName Name of the file
  * @param mimeType MIME type of the file
  */
-- (void)addPostFileData:(NSData *)fileData paramName:(NSString *)paramName fileName:(NSString *)fileName mimeType:(NSString *)mimeType;
+- (void)addPostFileData:(NSData *)fileData description:(nullable NSString *)description fileName:(NSString *)fileName mimeType:(NSString *)mimeType;
 
 /**
  * Sets a custom request body based on an NSString representation.
@@ -183,6 +174,13 @@ extern NSString * const kSFDefaultRestEndpoint;
  * @param contentType The content type associated with this request.
  */
 - (void)setCustomRequestBodyString:(NSString *)bodyString contentType:(NSString *)contentType;
+
+/**
+ * Sets a custom request body based on an NSDictionary representation.
+ * @param bodyDictionary The NSDictionary object representing the request body.
+ * @param contentType The content type associated with this request.
+ */
+- (void)setCustomRequestBodyDictionary:(NSDictionary *)bodyDictionary contentType:(NSString *)contentType;
 
 /**
  * Sets a custom request body based on an NSData representation.
@@ -205,16 +203,18 @@ extern NSString * const kSFDefaultRestEndpoint;
 + (BOOL)isNetworkError:(NSError *)error;
 
 /**
+ * Return HTTP method as string for SFRestMethod
+ * @param restMethod The SFRestMethod
+ * @return the HTTP string for the given SFRestMethod
+ */
++ (NSString *)httpMethodFromSFRestMethod:(SFRestMethod)restMethod;
+
+/**
  * Return SFRestMethod from string
  @param httpMethod An HTTP method; for example, "get" or "post"
  @return The SFRestMethod enumerator for the given HTTP method
  */
 + (SFRestMethod)sfRestMethodFromHTTPMethod:(NSString *)httpMethod;
-
-
-///---------------------------------------------------------------------------------------
-/// @name Initialization
-///---------------------------------------------------------------------------------------
 
 /**
  * Creates an `SFRestRequest` object. See SFRestMethod.
@@ -222,7 +222,7 @@ extern NSString * const kSFDefaultRestEndpoint;
  * @param path the request path
  * @param queryParams the parameters of the request (could be nil)
  */
-+ (instancetype)requestWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, NSString*> *)queryParams;
++ (instancetype)requestWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, id> *)queryParams;
 
 @end
 

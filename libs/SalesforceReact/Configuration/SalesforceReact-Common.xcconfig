@@ -5,6 +5,8 @@
 //  Copyright (c) 2015-present Salesforce Inc. All rights reserved.
 //
 
+#include "../../../configuration/Version.xcconfig"
+
 GCC_PRECOMPILE_PREFIX_HEADER = YES
 GCC_PREFIX_HEADER = $(PROJECT_NAME)/$(PROJECT_NAME)-Prefix.pch
 OTHER_LDFLAGS = -ObjC -lc++

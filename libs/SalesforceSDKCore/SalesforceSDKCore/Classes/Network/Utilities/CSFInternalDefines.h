@@ -22,6 +22,8 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <objc/runtime.h>
+
 #import "CSFDefines.h"
 #import "CSFPrivateDefines.h"
 
@@ -39,17 +41,29 @@
 
 CSF_PRIVATE_EXTERN NSInteger kCSFNetworkLogContext;
 
-#define NetworkError(frmt, ...)      SFLogErrorToContext(kCSFNetworkLogContext, self, frmt, ##__VA_ARGS__)
-#define NetworkWarn(frmt, ...)        SFLogWarnToContext(kCSFNetworkLogContext, self, frmt, ##__VA_ARGS__)
-#define NetworkInfo(frmt, ...)        SFLogInfoToContext(kCSFNetworkLogContext, self, frmt, ##__VA_ARGS__)
-#define NetworkDebug(frmt, ...)      SFLogDebugToContext(kCSFNetworkLogContext, self, frmt, ##__VA_ARGS__)
-#define NetworkVerbose(frmt, ...)  SFLogVerboseToContext(kCSFNetworkLogContext, self, frmt, ##__VA_ARGS__)
+#define NetworkError(frmt, ...)      NetworkErrorTag(nil, frmt, ##__VA_ARGS__)
+#define NetworkWarn(frmt, ...)        NetworkWarnTag(nil, frmt, ##__VA_ARGS__)
+#define NetworkInfo(frmt, ...)        NetworkInfoTag(nil, frmt, ##__VA_ARGS__)
+#define NetworkDebug(frmt, ...)      NetworkDebugTag(nil, frmt, ##__VA_ARGS__)
+#define NetworkVerbose(frmt, ...)  NetworkVerboseTag(nil, frmt, ##__VA_ARGS__)
 
-#define NetworkCError(frmt, ...)      SFLogErrorToContext(kCSFNetworkLogContext, nil, frmt, ##__VA_ARGS__)
-#define NetworkCWarn(frmt, ...)        SFLogWarnToContext(kCSFNetworkLogContext, nil, frmt, ##__VA_ARGS__)
-#define NetworkCInfo(frmt, ...)        SFLogInfoToContext(kCSFNetworkLogContext, nil, frmt, ##__VA_ARGS__)
-#define NetworkCDebug(frmt, ...)      SFLogDebugToContext(kCSFNetworkLogContext, nil, frmt, ##__VA_ARGS__)
-#define NetworkCVerbose(frmt, ...)  SFLogVerboseToContext(kCSFNetworkLogContext, nil, frmt, ##__VA_ARGS__)
+#define NetworkActionError(frmt, ...)      NetworkErrorTag(@"action", frmt, ##__VA_ARGS__)
+#define NetworkActionWarn(frmt, ...)        NetworkWarnTag(@"action", frmt, ##__VA_ARGS__)
+#define NetworkActionInfo(frmt, ...)        NetworkInfoTag(@"action", frmt, ##__VA_ARGS__)
+#define NetworkActionDebug(frmt, ...)      NetworkDebugTag(@"action", frmt, ##__VA_ARGS__)
+#define NetworkActionVerbose(frmt, ...)  NetworkVerboseTag(@"action", frmt, ##__VA_ARGS__)
+
+#define NetworkOAuthError(frmt, ...)      NetworkErrorTag(@"oauth", frmt, ##__VA_ARGS__)
+#define NetworkOAuthWarn(frmt, ...)        NetworkWarnTag(@"oauth", frmt, ##__VA_ARGS__)
+#define NetworkOAuthInfo(frmt, ...)        NetworkInfoTag(@"oauth", frmt, ##__VA_ARGS__)
+#define NetworkOAuthDebug(frmt, ...)      NetworkDebugTag(@"oauth", frmt, ##__VA_ARGS__)
+#define NetworkOAuthVerbose(frmt, ...)  NetworkVerboseTag(@"oauth", frmt, ##__VA_ARGS__)
+
+#define NetworkErrorTag(tag, frmt, ...)      SFLogErrorToContext(kCSFNetworkLogContext, tag, frmt, ##__VA_ARGS__)
+#define NetworkWarnTag(tag, frmt, ...)        SFLogWarnToContext(kCSFNetworkLogContext, tag, frmt, ##__VA_ARGS__)
+#define NetworkInfoTag(tag, frmt, ...)        SFLogInfoToContext(kCSFNetworkLogContext, tag, frmt, ##__VA_ARGS__)
+#define NetworkDebugTag(tag, frmt, ...)      SFLogDebugToContext(kCSFNetworkLogContext, tag, frmt, ##__VA_ARGS__)
+#define NetworkVerboseTag(tag, frmt, ...)  SFLogVerboseToContext(kCSFNetworkLogContext, tag, frmt, ##__VA_ARGS__)
 
 CSF_EXTERN NSString * const CSFDateValueTransformerName;
 CSF_EXTERN NSString * const CSFURLValueTransformerName;

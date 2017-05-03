@@ -37,16 +37,36 @@
 
 + (UIColor *)colorFromHexValue:(NSString *)hexString {
     UIColor *color = nil;
+    hexString = [[self class] msdk_sixDigitHexFromString:hexString];
     if ([hexString length] > 0) {
         unsigned rgbValue = 0;
         NSScanner *scanner = [NSScanner scannerWithString:hexString];
-        if ([hexString rangeOfString:@"#"].location != NSNotFound) {
-            [scanner setScanLocation:1]; // bypass '#' character
-        }
         [scanner scanHexInt:&rgbValue];
         color = [UIColor colorWithRed:((rgbValue & 0xFF0000) >> 16)/255.0 green:((rgbValue & 0xFF00) >> 8)/255.0 blue:(rgbValue & 0xFF)/255.0 alpha:1.0];
     }
     return color;
+}
+
++ (NSString *)msdk_sixDigitHexFromString:(NSString *)hexString {
+    if (hexString.length == 0) {
+        return nil;
+    }
+    if ([hexString characterAtIndex:0] == '#') {
+        hexString = [hexString substringFromIndex:1];
+    }
+    if (hexString.length == 6) {
+        return hexString;
+    }
+    //invalid shorthand representation.
+    if (hexString.length != 3) {
+        return nil;
+    }
+    NSMutableString *sixDigitHex = [[NSMutableString alloc] init];
+    for (NSInteger i = 0; i < 3; i++) {
+        [sixDigitHex appendFormat:@"%C", [hexString characterAtIndex:i]];
+        [sixDigitHex appendFormat:@"%C", [hexString characterAtIndex:i]];
+    }
+    return [sixDigitHex copy];
 }
 
 - (NSString *)hexStringFromColor {

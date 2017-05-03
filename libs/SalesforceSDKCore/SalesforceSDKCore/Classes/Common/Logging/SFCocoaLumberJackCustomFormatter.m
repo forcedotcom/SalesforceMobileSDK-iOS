@@ -23,6 +23,7 @@
  */
 
 #include <pthread.h>
+#import <objc/runtime.h>
 
 #import <CocoaLumberjack/CocoaLumberjack.h>
 #import "SFCocoaLumberJackCustomFormatter.h"
@@ -60,18 +61,11 @@
     NSString *dateAndTime = [threadUnsafeDateFormatter stringFromDate:(logMessage->_timestamp)];
 
     NSString *classString = nil;
-    NSString *selectorString = nil;
-    if ([logMessage->_tag isKindOfClass:[SFLogTag class]]) {
-        SFLogTag *tag = (SFLogTag*)logMessage->_tag;
-        if (tag.originClass) {
-            classString = NSStringFromClass(tag.originClass);
-        }
-
-        if (tag.selector) {
-            selectorString = NSStringFromSelector(tag.selector);
-        }
+    if (logMessage->_tag && class_isMetaClass(object_getClass(logMessage->_tag))) {
+        Class tagClass = (Class)logMessage->_tag;
+        classString = NSStringFromClass(tagClass);
     }
-    
+
     SFLogIdentifier *identifier = nil;
     if (logMessage->_context < _logger->_logIdentifiersByContext.count) {
         identifier = _logger->_logIdentifiersByContext[logMessage->_context];
@@ -90,7 +84,7 @@
                                 identifier.identifier];
     
     NSString *file = ([logMessage->_file isEqualToString:@"(null)"]) ? nil : logMessage->_file;
-    NSString *function = ([logMessage->_function isEqualToString:@"(null)"]) ? selectorString : logMessage->_function;
+    NSString *function = ([logMessage->_function isEqualToString:@"(null)"]) ? nil : logMessage->_function;
     
     if (file && function) {
         [message appendFormat:@" <%@:%ld %@>", [file lastPathComponent], (unsigned long) logMessage->_line, function];

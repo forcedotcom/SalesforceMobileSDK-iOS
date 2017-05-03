@@ -38,7 +38,7 @@
 #import "SFSDKLoginHostStorage.h"
 #import "SFSDKLoginHost.h"
 #import "SFSDKEventBuilderHelper.h"
-#import "SalesforceSDKManager.h"
+#import "SFSDKAppFeatureMarkers.h"
 
 // Public constants
 
@@ -85,7 +85,6 @@ static NSString * const kSFOAuthApprovalCode                    = @"code";
 static NSString * const kSFOAuthGrantTypeAuthorizationCode      = @"authorization_code";
 static NSString * const kSFOAuthResponseTypeActivatedClientCode = @"activated_client_code";
 static NSString * const kSFOAuthResponseClientSecret            = @"client_secret";
-static NSString * const kSFOAuthClientSecretAnonymous           = @"anonymous";
 
 // OAuth Error Descriptions
 // see https://na1.salesforce.com/help/doc/en/remoteaccess_oauth_refresh_token_flow.htm
@@ -135,8 +134,6 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
 @synthesize initialRequestLoaded        = _initialRequestLoaded;
 @synthesize approvalCode                = _approvalCode;
 @synthesize scopes                      = _scopes;
-@synthesize refreshFlowConnectionTimer  = _refreshFlowConnectionTimer;
-@synthesize refreshTimerThread          = _refreshTimerThread;
 @synthesize advancedAuthConfiguration   = _advancedAuthConfiguration;
 @synthesize advancedAuthState           = _advancedAuthState;
 @synthesize codeVerifier                = _codeVerifier;
@@ -172,7 +169,6 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
     _credentials = nil;
     _responseData = nil;
     _scopes = nil;
-    [self stopRefreshFlowConnectionTimer];
     [_view setNavigationDelegate:nil];
     _view = nil;
 }
@@ -291,7 +287,6 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
     [self.session invalidateAndCancel];
     _session = nil;
     
-    [self stopRefreshFlowConnectionTimer];
     self.authenticating = NO;
 }
 
@@ -303,13 +298,11 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
 - (void)setAdvancedAuthState:(SFOAuthAdvancedAuthState)advancedAuthState {
     if (_advancedAuthState != advancedAuthState) {
         _advancedAuthState = advancedAuthState;
-        
+
         // Re-trigger the native browser flow if the app becomes active on `SFOAuthAdvancedAuthStateBrowserRequestInitiated` state.
         if (_advancedAuthState == SFOAuthAdvancedAuthStateBrowserRequestInitiated) {
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAppDidBecomeActiveDuringAdvancedAuth:) name:UIApplicationDidBecomeActiveNotification object:nil];
-            [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
-        }
-        else {
+        } else {
             [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
         }
     }
@@ -320,26 +313,23 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
         [self log:SFLogLevelInfo format:@"%@ Current advanced auth state (%@) not compatible with handling app launch auth response.", NSStringFromSelector(_cmd), [[self class] advancedAuthStateDesc:self.advancedAuthState]];
         return NO;
     }
-    
+    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
     NSString *appUrlResponseString = [appUrlResponse absoluteString];
     if (![[appUrlResponseString lowercaseString] hasPrefix:[self.credentials.redirectUri lowercaseString]]) {
         [self log:SFLogLevelInfo format:@"%@ URL does not match redirect URI.", NSStringFromSelector(_cmd)];
         return NO;
     }
-    
     NSString *query = [appUrlResponse query];
     if ([query length] == 0) {
         [self log:SFLogLevelInfo format:@"%@ URL has no query string.", NSStringFromSelector(_cmd)];
         return NO;
     }
-    
     NSDictionary *queryDict = [[self class] parseQueryString:query decodeParams:NO];
     NSString *codeVal = queryDict[kSFOAuthResponseTypeCode];
     if ([codeVal length] == 0) {
         [self log:SFLogLevelInfo format:@"%@ URL has no '%@' parameter value.", NSStringFromSelector(_cmd), kSFOAuthResponseTypeCode];
         return NO;
     }
-    
     self.approvalCode = codeVal;
     [self log:SFLogLevelInfo format:@"%@ Received advanced authentication response.  Beginning token exchange.", NSStringFromSelector(_cmd)];
     self.advancedAuthState = SFOAuthAdvancedAuthStateTokenRequestInitiated;
@@ -683,7 +673,6 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
         if (self.authInfo.authType == SFOAuthTypeAdvancedBrowser) {
             [params appendFormat:@"&%@=%@", kSFOAuthCodeVerifierParamName, self.codeVerifier];
             [logString appendFormat:@"&%@=REDACTED", kSFOAuthCodeVerifierParamName];
-            [params appendFormat:@"&%@=%@", kSFOAuthResponseClientSecret, kSFOAuthClientSecretAnonymous];
         }
         
         // Discard the approval code.
@@ -705,17 +694,17 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
     NSData *encodedBody = [params dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:encodedBody];
     
-    // We set the timeout value for NSMutableURLRequest above, but NSMutableURLRequest has its own ideas
-    // about managing the timeout value (see https://devforums.apple.com/thread/25282).  So we manage
-    // the timeout with an NSTimer, which gets started here.
-    [self startRefreshFlowConnectionTimer];
-    
     [[self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
             NSURL *requestUrl = [request URL];
             NSString *errorUrlString = [NSString stringWithFormat:@"%@://%@%@", [requestUrl scheme], [requestUrl host], [requestUrl relativePath]];
+            if(error.code == NSURLErrorTimedOut) {
+                [self log:SFLogLevelDebug format:@"Refresh attempt timed out after %f seconds.", self.timeout];
+                [self stopAuthentication];
+                error = [[self class] errorWithType:kSFOAuthErrorTypeTimeout
+                                        description:@"The token refresh process timed out."];
+            }
             [self log:SFLogLevelDebug format:@"SFOAuthCoordinator session failed with error: error code: %ld, description: %@, URL: %@", (long)error.code, [error localizedDescription], errorUrlString];
-            [self stopRefreshFlowConnectionTimer];
             [self notifyDelegateOfFailure:error authInfo:self.authInfo];
             return;
         }
@@ -738,7 +727,6 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
         { "error":"invalid_grant","error_description":"authentication failure - Invalid Password" }
  */
 - (void)handleTokenEndpointResponse:(NSMutableData *) data {
-    [self stopRefreshFlowConnectionTimer];
     self.responseData = data;
     NSString *responseString = [[NSString alloc] initWithData:self.responseData encoding:NSUTF8StringEncoding];
     NSError *jsonError = nil;
@@ -860,38 +848,31 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
  - communityId
  - communityUrl
  */
-
 - (void) updateCredentials:(NSDictionary *) params {
 
-    // Logging event for token refresh flow.
-    if (self.authInfo.authType == SFOAuthTypeRefresh) {
-        [SFSDKEventBuilderHelper createAndStoreEvent:@"tokenRefresh" userAccount:nil className:NSStringFromClass([self class]) attributes:nil];
-    } else {
-
-        // Logging events for add user and number of servers.
-        NSArray *accounts = [SFUserAccountManager sharedInstance].allUserAccounts;
-        NSMutableDictionary *userAttributes = [[NSMutableDictionary alloc] init];
-        userAttributes[@"numUsers"] = [NSNumber numberWithInteger:(accounts ? accounts.count : 0)];
-        [SFSDKEventBuilderHelper createAndStoreEvent:@"addUser" userAccount:nil className:NSStringFromClass([self class]) attributes:userAttributes];
-        NSInteger numHosts = [SFSDKLoginHostStorage sharedInstance].numberOfLoginHosts;
-        NSMutableArray<NSString *> *hosts = [[NSMutableArray alloc] init];
-        for (int i = 0; i < numHosts; i++) {
-            SFSDKLoginHost *host = [[SFSDKLoginHostStorage sharedInstance] loginHostAtIndex:i];
-            if (host) {
-                [hosts addObject:host.host];
-            }
-        }
-        NSMutableDictionary *serverAttributes = [[NSMutableDictionary alloc] init];
-        serverAttributes[@"numLoginServers"] = [NSNumber numberWithInteger:numHosts];
-        serverAttributes[@"loginServers"] = hosts;
-        [SFSDKEventBuilderHelper createAndStoreEvent:@"addUser" userAccount:nil className:NSStringFromClass([self class]) attributes:serverAttributes];
+    if (params[kSFOAuthAccessToken]) {
+        [self.credentials setPropertyForKey:@"accessToken" withValue:params[kSFOAuthAccessToken]];
     }
-    if (params[kSFOAuthAccessToken]) self.credentials.accessToken = params[kSFOAuthAccessToken];
-    if (params[kSFOAuthIssuedAt]) self.credentials.issuedAt = [[self class] timestampStringToDate:params[kSFOAuthIssuedAt]];
-    if (params[kSFOAuthInstanceUrl]) self.credentials.instanceUrl = [NSURL URLWithString:params[kSFOAuthInstanceUrl]];
-    if (params[kSFOAuthId]) self.credentials.identityUrl = [NSURL URLWithString:params[kSFOAuthId]];
-    if (params[kSFOAuthCommunityId]) self.credentials.communityId = params[kSFOAuthCommunityId];
-    if (params[kSFOAuthCommunityUrl]) self.credentials.communityUrl = [NSURL URLWithString:params[kSFOAuthCommunityUrl]];
+
+    if (params[kSFOAuthIssuedAt]) {
+        self.credentials.issuedAt = [[self class] timestampStringToDate:params[kSFOAuthIssuedAt]];
+    }
+
+    if (params[kSFOAuthInstanceUrl]) {
+         [self.credentials setPropertyForKey:@"instanceUrl" withValue:[NSURL URLWithString:params[kSFOAuthInstanceUrl]]];
+    }
+
+    if (params[kSFOAuthId]) {
+        [self.credentials setPropertyForKey:@"identityUrl" withValue:[NSURL URLWithString:params[kSFOAuthId]]];
+    }
+
+    if (params[kSFOAuthCommunityId]) {
+        [self.credentials setPropertyForKey:@"communityId" withValue:params[kSFOAuthCommunityId]];
+    }
+
+    if (params[kSFOAuthCommunityUrl]) {
+        [self.credentials setPropertyForKey:@"communityUrl" withValue:[NSURL URLWithString:params[kSFOAuthCommunityUrl]]];
+    }
 
     // Parse additional flags
     if(self.additionalOAuthParameterKeys.count > 0) {
@@ -904,6 +885,7 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
         }
         self.credentials.additionalOAuthFields = parsedValues;
     }
+
 }
 
 - (void)configureWebUserAgent
@@ -930,48 +912,6 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
             [[NSUserDefaults msdkUserDefaults] registerDefaults:userAgentDict];
         }
     }
-}
-
-- (void)startRefreshFlowConnectionTimer
-{
-    self.refreshTimerThread = [NSThread currentThread];
-    self.refreshFlowConnectionTimer = [NSTimer scheduledTimerWithTimeInterval:self.timeout
-                                                                       target:self
-                                                                     selector:@selector(refreshFlowConnectionTimerFired:)
-                                                                     userInfo:nil
-                                                                      repeats:NO];
-}
-
-- (void)stopRefreshFlowConnectionTimer
-{
-    if (self.refreshFlowConnectionTimer != nil && self.refreshTimerThread != nil) {
-        [self performSelector:@selector(invalidateRefreshTimer) onThread:self.refreshTimerThread withObject:nil waitUntilDone:YES];
-        [self cleanupRefreshTimer];
-    }
-}
-
-- (void)invalidateRefreshTimer
-{
-    [self.refreshFlowConnectionTimer invalidate];
-}
-
-- (void)cleanupRefreshTimer
-{
-    self.refreshFlowConnectionTimer = nil;
-    self.refreshTimerThread = nil;
-}
-
-- (void)refreshFlowConnectionTimerFired:(NSTimer *)rfcTimer
-{
-    // If this timer fired, the timeout period for the refresh flow has expired, without the
-    // refresh flow completing.
-    
-    [self cleanupRefreshTimer];
-    [self log:SFLogLevelDebug format:@"Refresh attempt timed out after %f seconds.", self.timeout];
-    [self stopAuthentication];
-    NSError *error = [[self class] errorWithType:kSFOAuthErrorTypeTimeout
-                                     description:@"The token refresh process timed out."];
-    [self notifyDelegateOfFailure:error authInfo:self.authInfo];
 }
 
 + (NSString *)advancedAuthStateDesc:(SFOAuthAdvancedAuthState)authState
@@ -1005,8 +945,9 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
     if ([self isRedirectURL:requestUrl]) {
         [self handleUserAgentResponse:url];
         decisionHandler(WKNavigationActionPolicyCancel);
+    }else {
+        decisionHandler(WKNavigationActionPolicyAllow);
     }
-    decisionHandler(WKNavigationActionPolicyAllow);
 }
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler {
@@ -1048,7 +989,7 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
 
 - (BOOL) isRedirectURL:(NSString *) requestUrlString
 {
-    return [[requestUrlString lowercaseString] hasPrefix:[self.credentials.redirectUri lowercaseString]];
+    return (self.credentials.redirectUri && [[requestUrlString lowercaseString] hasPrefix:[self.credentials.redirectUri lowercaseString]]);
 }
 
 - (void)sfwebView:(WKWebView *)webView didFailLoadWithError:(NSError *)error

@@ -96,7 +96,7 @@ typedef NS_ENUM(NSInteger, CSFChatterCommunityMode)  {
 };
 
 CSF_EXTERN NSString * const CSFNetworkErrorDomain;
-CSF_EXTERN NSString * const CSFNetworkErrorActionKey;
+CSF_EXTERN NSString * const CSFNetworkErrorActionDescriptionKey;
 CSF_EXTERN NSString * const CSFNetworkErrorAuthenticationFailureKey;
 
 /** Enumerator listing the error codes used by CSFNetwork

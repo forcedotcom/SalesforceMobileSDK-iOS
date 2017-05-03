@@ -27,7 +27,6 @@
 @interface SalesforceSDKManager () <SalesforceSDKManagerFlow, SFUserAccountManagerDelegate>
 {
     BOOL _isLaunching;
-    UIViewController* _defaultSnapshotViewController;
     UIViewController* _snapshotViewController;
 }
 
@@ -39,5 +38,8 @@
 
 - (void)passcodeValidatedToAuthValidation;
 - (void)authValidatedToPostAuth:(SFSDKLaunchAction)launchAction;
+- (void)presentSnapshot;
+- (BOOL)isSnapshotPresented;
+- (void)dismissSnapshot;
 
 @end

@@ -44,7 +44,7 @@
  @param context Dictionary of relevant information about the request and the action that performed it.
  @return Initialized model object.
  */
-- (instancetype)initWithJSON:(NSDictionary*)json context:(NSDictionary*)context NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithJSON:(id)json context:(NSDictionary*)context NS_DESIGNATED_INITIALIZER;
 
 /** Returns a boolean value that indicates whether a given model object is equal to the receiver.
 

@@ -187,8 +187,10 @@ static NSString * const kSFSDKInstrumentationForwardBlockPrefix = @"__method_for
     NSDate *endTime = [NSDate date];
     if (self.targetAfterBlock) {
         SFSDKInstrumentationPostExecutionData *data = [[SFSDKInstrumentationPostExecutionData alloc] init];
+        Class targetClass = object_getClass(anInvocation.target);
+        data.className = NSStringFromClass(targetClass);
         data.selectorName = [NSStringFromSelector(anInvocation.selector) substringFromIndex:kSFSDKInstrumentationForwardMethodPrefix.length];
-        data.isInstanceMethod = !(class_isMetaClass(object_getClass(anInvocation.target)));
+        data.isInstanceMethod = !(class_isMetaClass(targetClass));
         data.executionStartDate = startTime;
         data.executionEndDate = endTime;
         data.executionTime = [endTime timeIntervalSinceDate:startTime];

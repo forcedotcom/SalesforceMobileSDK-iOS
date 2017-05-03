@@ -24,6 +24,8 @@
 
 #import "CSFNetwork+Salesforce.h"
 
+NSString * const CSFDidChangeUserDataNotification = @"CSFDidChangeUserDataNotification";
+
 @implementation CSFNetwork (Salesforce)
 
 - (NSString*)defaultConnectCommunityId {
@@ -38,22 +40,29 @@
 
 - (void)setupSalesforceObserver {
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(userAccountManagerDidChangeCurrentUser:)
-                                                 name:SFUserAccountManagerDidChangeCurrentUserNotification
-                                               object:nil];
+                                             selector:@selector(userAccountManagerDidChangeUserData:)
+                                                 name:SFUserAccountManagerDidChangeUserDataNotification
+                                               object:self.account];
+
 }
 
 #pragma mark SFAuthenticationManagerDelegate
+- (void)userAccountManagerDidChangeUserData:(NSNotification*)notification {
+    SFUserAccount *userAccount = (SFUserAccount*)notification.object;
+    SFUserAccountDataChange change = (SFUserAccountDataChange)[notification.userInfo[SFUserAccountManagerUserChangeKey] integerValue];
 
-- (void)userAccountManagerDidChangeCurrentUser:(NSNotification*)notification {
-    SFUserAccountManager *accountManager = (SFUserAccountManager*)notification.object;
-    if ([accountManager isKindOfClass:[SFUserAccountManager class]]) {
-        if ([accountManager.currentUserIdentity isEqual:self.account.accountIdentity] &&
-            ![accountManager.currentCommunityId isEqualToString:self.defaultConnectCommunityId])
-        {
-            self.defaultConnectCommunityId = accountManager.currentCommunityId;
-        }
+    if (![userAccount.communityId isEqualToString:self.defaultConnectCommunityId])
+    {
+        self.defaultConnectCommunityId = userAccount.communityId;
     }
+    [[NSNotificationCenter defaultCenter] postNotificationName:CSFDidChangeUserDataNotification
+                                                        object:self
+                                                      userInfo:@{
+                                                              SFUserAccountManagerUserChangeKey: @(change),
+                                                              SFUserAccountManagerUserChangeUserKey: userAccount
+                                                      }];
+
+
 }
 
 @end

@@ -41,6 +41,6 @@
  @param context Dictionary of relevant information about the request and the action that performed it.
  @return Initialized model object.
  */
-- (id)initWithJSON:(NSDictionary*)json context:(NSDictionary*)context;
+- (id)initWithJSON:(id)json context:(NSDictionary*)context;
 
 @end

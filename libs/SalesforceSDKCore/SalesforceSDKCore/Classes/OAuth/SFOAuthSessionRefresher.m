@@ -23,7 +23,6 @@
  */
 
 #import "SFOAuthSessionRefresher+Internal.h"
-#import "SFOAuthCredentials.h"
 #import "SFAuthenticationManager.h"
 
 @implementation SFOAuthSessionRefresher
@@ -95,6 +94,7 @@
 
 - (void)completeWithError:(NSError *)error {
     [self log:SFLogLevelError format:@"%@ Refresh failed with error: %@", NSStringFromSelector(_cmd), error];
+
     if (self.errorBlock) {
         dispatch_async(dispatch_get_main_queue(), ^{
             self.errorBlock(error);
@@ -106,6 +106,12 @@
 
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info {
     [self completeWithSuccess:coordinator.credentials];
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:kSFAuthenticationManagerFinishedNotification
+                                                            object:nil
+                                                          userInfo:nil];
+    });
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info {

@@ -9,7 +9,8 @@
 #import <XCTest/XCTest.h>
 #import "SFPreferences.h"
 #import "SFUserAccount.h"
-#import "SFUserAccountManager.h"
+#import "SFUserAccountManager+Internal.h"
+#import "SFAuthenticationManager.h"
 #import "SFDirectoryManager.h"
 
 /** Class that tests the various scoped preferences
@@ -33,8 +34,16 @@
 }
 
 - (void)testOrgLevelPreferences {
-    SFUserAccount *user = [[SFUserAccount alloc] initWithIdentifier:@"happy-user"];
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"happy-user" clientId:[SFAuthenticationManager sharedManager].oauthClientId encrypted:YES];
+    SFUserAccount *user =[[SFUserAccount alloc] initWithCredentials:credentials];
+    NSError *error = nil;
+    BOOL success = [[SFUserAccountManager sharedInstance] saveAccountForUser:user error:&error];
+    XCTAssertNil(error, @"Should be able to create user account");
+        
     user.credentials.identityUrl = [NSURL URLWithString:@"https://login.salesforce.com/id/00D000000000062EA0/005R0000000Dsl0"];
+    success = [[SFUserAccountManager sharedInstance] saveAccountForUser:user error:&error];
+    XCTAssertNil(error, @"Should be able to update user account");
+    
     [SFUserAccountManager sharedInstance].currentUser = user;
 
     SFPreferences *prefs = [SFPreferences currentOrgLevelPreferences];
@@ -49,11 +58,18 @@
     
     // Check that the other scoped instances don't match
     XCTAssertFalse(prefs == [SFPreferences globalPreferences], @"Preferences instance should be different");
+    [[SFUserAccountManager sharedInstance] deleteAccountForUser:user error:nil];
 }
 
 - (void)testUserLevelPreferences {
-    SFUserAccount *user = [[SFUserAccount alloc] initWithIdentifier:@"happy-user"];
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"happy-user" clientId:[SFAuthenticationManager sharedManager].oauthClientId encrypted:YES];
+    SFUserAccount *user =[[SFUserAccount alloc] initWithCredentials:credentials];
     user.credentials.identityUrl = [NSURL URLWithString:@"https://login.salesforce.com/id/00D000000000062EA0/005R0000000Dsl0"];
+ 
+    NSError *error = nil;
+    [[SFUserAccountManager sharedInstance] saveAccountForUser:user error:&error];
+    XCTAssertNil(error, @"Should be able to create user account");
+ 
     [SFUserAccountManager sharedInstance].currentUser = user;
     
     SFPreferences *prefs = [SFPreferences currentUserLevelPreferences];
@@ -69,11 +85,16 @@
     // Check that the other scoped instances don't match
     XCTAssertFalse(prefs == [SFPreferences currentOrgLevelPreferences], @"Preferences instance should be different");
     XCTAssertFalse(prefs == [SFPreferences globalPreferences], @"Preferences instance should be different");
+    [[SFUserAccountManager sharedInstance] deleteAccountForUser:user error:nil];
 }
 
 - (void)testCommunityLevelPreferences {
-    SFUserAccount *user = [[SFUserAccount alloc] initWithIdentifier:@"happy-user"];
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"happy-user" clientId:[SFAuthenticationManager sharedManager].oauthClientId encrypted:YES];
+    SFUserAccount *user = [[SFUserAccount alloc] initWithCredentials:credentials];
     user.credentials.identityUrl = [NSURL URLWithString:@"https://login.salesforce.com/id/00D000000000062EA0/005R0000000Dsl0"];
+    NSError *error = nil;
+    [[SFUserAccountManager sharedInstance] saveAccountForUser:user error:&error];
+    XCTAssertNil(error, @"Should be able to create user account");
     [SFUserAccountManager sharedInstance].currentUser = user;
     
     SFPreferences *prefs = [SFPreferences currentCommunityLevelPreferences];
@@ -91,6 +112,7 @@
     XCTAssertFalse(prefs == [SFPreferences currentUserLevelPreferences], @"Preferences instance should be different");
     XCTAssertFalse(prefs == [SFPreferences currentOrgLevelPreferences], @"Preferences instance should be different");
     XCTAssertFalse(prefs == [SFPreferences globalPreferences], @"Preferences instance should be different");
+     [[SFUserAccountManager sharedInstance] deleteAccountForUser:user error:nil];
 }
 
 @end

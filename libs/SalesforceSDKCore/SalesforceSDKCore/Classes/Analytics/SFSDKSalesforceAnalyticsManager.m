@@ -40,6 +40,7 @@
 #import "SFApplicationHelper.h"
 #import <SalesforceAnalytics/SFSDKAILTNTransform.h>
 #import <SalesforceAnalytics/SFSDKDeviceAppAttributes.h>
+#import "SFSDKAppFeatureMarkers.h"
 
 static NSString * const kEventStoresDirectory = @"event_stores";
 static NSString * const kEventStoreEncryptionKeyLabel = @"com.salesforce.eventStore.encryptionKey";
@@ -81,6 +82,9 @@ static NSMutableDictionary *analyticsManagerList = nil;
             return nil;
         }
         NSString *key = SFKeyForUserAndScope(userAccount, SFUserAccountScopeCommunity);
+        if (!key) {
+            return nil;
+        }
         id analyticsMgr = analyticsManagerList[key];
         if (!analyticsMgr) {
             analyticsMgr = [[SFSDKSalesforceAnalyticsManager alloc] initWithUser:userAccount];
@@ -132,9 +136,9 @@ static NSMutableDictionary *analyticsManagerList = nil;
 
 - (void) setLoggingEnabled:(BOOL) loggingEnabled {
     if (loggingEnabled) {
-        [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureAiltnEnabled];
+        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureAiltnEnabled];
     } else {
-        [[SalesforceSDKManager sharedManager] unregisterAppFeature:kSFAppFeatureAiltnEnabled];
+        [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureAiltnEnabled];
     }
     [self storeAnalyticsPolicy:loggingEnabled];
     self.eventStoreManager.loggingEnabled = loggingEnabled;
@@ -176,7 +180,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
         __block BOOL overallCompletionStatus = NO;
         NSMutableArray<SFSDKAnalyticsTransformPublisherPair *> *remoteKeySet = [self.remotes mutableCopy];
         __block SFSDKAnalyticsTransformPublisherPair *currentTpp = remoteKeySet[0];
-        PublishCompleteBlock publishCompleteBlock = ^void(BOOL success, NSError *error) {
+        PublishCompleteBlock __block publishCompleteBlock = ^void(BOOL success, NSError *error) {
 
             /*
              * Updates the success flag only if all previous requests have been
@@ -207,6 +211,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
                 if (overallSuccess) {
                     [self.eventStoreManager deleteEvents:eventIds];
                 }
+                publishCompleteBlock = nil;
             }
         };
         [self applyTransformAndPublish:currentTpp events:events publishCompleteBlock:publishCompleteBlock];
@@ -238,7 +243,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
     NSString *prodAppVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     NSString *buildNumber = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
     NSString *appVersion = [NSString stringWithFormat:@"%@(%@)", prodAppVersion, buildNumber];
-    NSString *appName = [[NSBundle mainBundle] infoDictionary][(NSString *) kCFBundleNameKey];
+    NSString *appName = [SalesforceSDKManager ailtnAppName];
     UIDevice *curDevice = [UIDevice currentDevice];
     NSString *osVersion = [curDevice systemVersion];
     NSString *osName = [curDevice systemName];
@@ -283,6 +288,11 @@ static NSMutableDictionary *analyticsManagerList = nil;
 }
 
 - (void) publishOnAppBackground {
+
+    // Publishing should only happen for the current user, not for all users signed in.
+    if (![self.userAccount.accountIdentity isEqual:[SFUserAccountManager sharedInstance].currentUser.accountIdentity]) {
+        return;
+    }
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         __block UIBackgroundTaskIdentifier task;
         task = [[SFApplicationHelper sharedApplication] beginBackgroundTaskWithExpirationHandler:^{

@@ -74,6 +74,13 @@
 			remoteGlobalIDString = 83CBBA2D1A601D0E00E9B192;
 			remoteInfo = React;
 		};
+		CE81A9AB1E9C251100F3D0AD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFEE5CF1BFE904100B7AA8A /* SmartSync.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = CE4CE2C81C0E463C009F6029;
+			remoteInfo = SmartSync;
+		};
 		CEBA95211C1BA47900C0B2E0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4FFEE5CF1BFE904100B7AA8A /* SmartSync.xcodeproj */;
@@ -258,6 +265,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				CE81A9AC1E9C251100F3D0AD /* PBXTargetDependency */,
 				CE4CE4B21C0E611A009F6029 /* PBXTargetDependency */,
 			);
 			name = SalesforceReact;
@@ -271,7 +279,7 @@
 		4F36189E1AA51E3900AE3A65 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0830;
 				TargetAttributes = {
 					4FEE442F1BFD50BE00F09C43 = {
 						CreatedOnToolsVersion = 7.1.1;
@@ -396,6 +404,11 @@
 			name = React;
 			targetProxy = CE4CE4B11C0E611A009F6029 /* PBXContainerItemProxy */;
 		};
+		CE81A9AC1E9C251100F3D0AD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SmartSync;
+			targetProxy = CE81A9AB1E9C251100F3D0AD /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
@@ -478,6 +491,7 @@
 			baseConfigurationReference = CECB66341C1BB8F3008038AE /* SalesforceReact-Dynamic-iOS-Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUILD_VERSION_SUFFIX = "";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -491,9 +505,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -534,6 +547,7 @@
 			baseConfigurationReference = CECB66351C1BB8F3008038AE /* SalesforceReact-Dynamic-iOS-Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUILD_VERSION_SUFFIX = "";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -547,9 +561,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
