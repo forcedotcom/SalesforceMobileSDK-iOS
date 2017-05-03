@@ -70,11 +70,10 @@ static NSString * const kCSFInputCustomArrayAttributes = @"__CSFOutput_Array_Sto
 
         Ivar ivar = class_getInstanceVariable(ivarInfo[@"class"], [ivarName UTF8String]);
         Class ivarClass = CSFClassFromEncoding(ivarInfo[@"encoding"]);
-        NSString * encoding = ivarInfo[@"encoding"];
         if (ivarClass) {
             id value = object_getIvar(self, ivar);
             [encoder encodeObject:value forKey:propertyName];
-        } else if (encoding) {
+        } else if (ivarInfo[@"encoding"]) {
             const void * ivarPtr = (__bridge void*)(self) + ivar_getOffset(ivar);
             [encoder encodeValueOfObjCType:[ivarInfo[@"encoding"] UTF8String] at:ivarPtr];
         }
