@@ -74,7 +74,7 @@ static NSString * const kCSFInputCustomArrayAttributes = @"__CSFOutput_Array_Sto
         if (ivarClass) {
             id value = object_getIvar(self, ivar);
             [encoder encodeObject:value forKey:propertyName];
-        } else if (encoding && ![encoding hasPrefix:@"@"]) {
+        } else if (encoding) {
             const void * ivarPtr = (__bridge void*)(self) + ivar_getOffset(ivar);
             [encoder encodeValueOfObjCType:[ivarInfo[@"encoding"] UTF8String] at:ivarPtr];
         }
