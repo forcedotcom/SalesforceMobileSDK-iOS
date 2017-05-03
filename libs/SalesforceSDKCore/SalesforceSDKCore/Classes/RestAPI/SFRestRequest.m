@@ -121,14 +121,18 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
         if (![fullUrl hasSuffix:@"/"]) {
             [fullUrl appendString:@"/"];
         }
+
+        // 'endpoint' could be empty for a custom endpoint like 'apexrest'.
         NSMutableString *endpoint = [[NSMutableString alloc] initWithString:self.endpoint];
-        if ([endpoint hasPrefix:@"/"]) {
-            [endpoint deleteCharactersInRange:NSMakeRange(0, 1)];
+        if (endpoint.length > 0) {
+            if ([endpoint hasPrefix:@"/"]) {
+                [endpoint deleteCharactersInRange:NSMakeRange(0, 1)];
+            }
+            if (![endpoint hasSuffix:@"/"]) {
+                [endpoint appendString:@"/"];
+            }
+            [fullUrl appendString:endpoint];
         }
-        if (![endpoint hasSuffix:@"/"]) {
-            [endpoint appendString:@"/"];
-        }
-        [fullUrl appendString:endpoint];
         NSMutableString *path = [[NSMutableString alloc] initWithString:self.path];
         if ([path hasPrefix:@"/"]) {
             [path deleteCharactersInRange:NSMakeRange(0, 1)];
