@@ -1,9 +1,4 @@
 /*
- SmartSync.h
- SmartSync
-
- Created by Wolfgang Mathurin on Wed May  3 15:35:43 PDT 2017.
-
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -27,25 +22,21 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SmartSync/SFChildrenInfo.h>
-#import <SmartSync/SFMruSyncDownTarget.h>
-#import <SmartSync/SFObject.h>
-#import <SmartSync/SFObjectType.h>
-#import <SmartSync/SFObjectTypeLayout.h>
-#import <SmartSync/SFParentInfo.h>
-#import <SmartSync/SFRefreshSyncDownTarget.h>
-#import <SmartSync/SFSmartSyncCacheManager.h>
-#import <SmartSync/SFSmartSyncConstants.h>
-#import <SmartSync/SFSmartSyncMetadataManager.h>
-#import <SmartSync/SFSmartSyncNetworkUtils.h>
-#import <SmartSync/SFSmartSyncObjectUtils.h>
-#import <SmartSync/SFSmartSyncPersistableObject.h>
-#import <SmartSync/SFSmartSyncSyncManager.h>
-#import <SmartSync/SFSoqlSyncDownTarget.h>
-#import <SmartSync/SFSoslSyncDownTarget.h>
-#import <SmartSync/SFSyncDownTarget.h>
-#import <SmartSync/SFSyncManagerLogger.h>
-#import <SmartSync/SFSyncOptions.h>
-#import <SmartSync/SFSyncState.h>
-#import <SmartSync/SFSyncTarget.h>
-#import <SmartSync/SFSyncUpTarget.h>
+#import <Foundation/Foundation.h>
+
+extern NSString * const kSFParentInfoSObjectType;
+extern NSString * const kSFParentInfoSoupName;
+extern NSString * const kSFParentInfoIdFieldName;
+extern NSString * const kSFParentInfoModifificationDateFieldName;
+
+/**
+ * Simple object to capture details of parent in parent-child relationship
+ */
+@interface SFParentInfo : NSObject
+
+@property (nonatomic, readonly) NSString* sobjectType;
+@property (nonatomic, readonly) NSString* idFieldName;
+@property (nonatomic, readonly) NSString* modificationDateFieldName;
+@property (nonatomic, readonly) NSString* soupName;
+
+@end
