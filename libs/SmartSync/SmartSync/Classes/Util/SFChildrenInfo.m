@@ -27,6 +27,51 @@
 NSString * const kSFChildrenInfoSObjectTypePlural = @"sobjectTypePlural";
 NSString * const kSFChildrenInfoParentIdFieldName = @"parentIdFieldName"; // name of field on  holding parent server id
 
+@interface SFChildrenInfo ()
+
+@property (nonatomic, readwrite) NSString* sobjectTypePlural;
+@property (nonatomic, readwrite) NSString* parentIdFieldName;
+
+@end
+
 @implementation SFChildrenInfo
+
+- (instancetype)initWithDict:(NSDictionary *)dict
+{
+    return [self initWithSObjectType:dict[kSFParentInfoSObjectType]
+                         idFieldName:dict[kSFParentInfoIdFieldName]
+           modificationDateFieldName:dict[kSFParentInfoModifificationDateFieldName]
+                            soupName:dict[kSFParentInfoSoupName]
+                   sobjectTypePlural:dict[kSFChildrenInfoSObjectTypePlural]
+                   parentIdFieldName:dict[kSFChildrenInfoParentIdFieldName]];
+}
+
+- (instancetype)initWithSObjectType:(NSString*)sobjectType
+                        idFieldName:(NSString*)idFieldName
+          modificationDateFieldName:(NSString*)modificationDateFieldName
+                           soupName:(NSString*)soupName
+                  sobjectTypePlural:(NSString*)sobjectTypePlural
+                  parentIdFieldName:(NSString*)parentIdFieldName
+{
+    self = [super initWithSObjectType:sobjectType
+                          idFieldName:idFieldName
+            modificationDateFieldName:modificationDateFieldName
+                             soupName:soupName];
+
+    if (self) {
+        self.sobjectTypePlural = sobjectTypePlural;
+        self.parentIdFieldName = parentIdFieldName;
+    }
+    return self;
+
+}
+
+- (NSDictionary *)asDict
+{
+    NSMutableDictionary *dict = [[super asDict] mutableCopy];
+    dict[kSFChildrenInfoSObjectTypePlural] = self.sobjectTypePlural;
+    dict[kSFChildrenInfoParentIdFieldName] = self.parentIdFieldName;
+    return dict;
+}
 
 @end

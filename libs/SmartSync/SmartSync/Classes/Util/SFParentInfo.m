@@ -29,6 +29,49 @@ NSString * const kSFParentInfoSoupName = @"soupName";
 NSString * const kSFParentInfoIdFieldName = @"idFieldName";
 NSString * const kSFParentInfoModifificationDateFieldName = @"modificationDateFieldName";
 
+@interface SFParentInfo ()
+
+@property (nonatomic, readwrite) NSString* sobjectType;
+@property (nonatomic, readwrite) NSString* idFieldName;
+@property (nonatomic, readwrite) NSString* modificationDateFieldName;
+@property (nonatomic, readwrite) NSString* soupName;
+
+@end
+
 @implementation SFParentInfo
+
+- (instancetype)initWithDict:(NSDictionary *)dict
+{
+    return [self initWithSObjectType:dict[kSFParentInfoSObjectType]
+                         idFieldName:dict[kSFParentInfoIdFieldName]
+           modificationDateFieldName:dict[kSFParentInfoModifificationDateFieldName]
+                            soupName:dict[kSFParentInfoSoupName]];
+}
+
+- (instancetype)initWithSObjectType:(NSString*)sobjectType
+                        idFieldName:(NSString*)idFieldName
+          modificationDateFieldName:(NSString*)modificationDateFieldName
+                           soupName:(NSString*)soupName
+{
+    self = [self init];
+    if (self) {
+        self.sobjectType = sobjectType;
+        self.idFieldName = idFieldName;
+        self.modificationDateFieldName = modificationDateFieldName;
+        self.soupName = soupName;
+    }
+    return self;
+}
+
+- (NSDictionary *)asDict
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    dict[kSFParentInfoSObjectType] = self.sobjectType;
+    dict[kSFParentInfoIdFieldName] = self.idFieldName;
+    dict[kSFParentInfoModifificationDateFieldName] = self.modificationDateFieldName;
+    dict[kSFParentInfoSoupName] = self.soupName;
+    return dict;
+}
+
 
 @end

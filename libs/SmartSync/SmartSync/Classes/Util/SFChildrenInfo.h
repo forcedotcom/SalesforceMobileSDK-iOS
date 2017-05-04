@@ -35,4 +35,11 @@ extern NSString * const kSFChildrenInfoParentIdFieldName;
 @property (nonatomic, readonly) NSString* sobjectTypePlural;
 @property (nonatomic, readonly) NSString* parentIdFieldName;
 
+- (instancetype)initWithSObjectType:(NSString*)sobjectType
+                        idFieldName:(NSString*)idFieldName
+          modificationDateFieldName:(NSString*)modificationDateFieldName
+                           soupName:(NSString*)soupName
+                  sobjectTypePlural:(NSString*)sobjectTypePlural
+                  parentIdFieldName:(NSString*)parentIdFieldName;
+
 @end
