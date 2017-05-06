@@ -24,8 +24,20 @@
 
 #import "SFParentInfo.h"
 #import "SFChildrenInfo.h"
+#import "SFParentChildrenSyncHelper.h"
 #import "SFSoqlSyncDownTarget.h"
 
 @interface SFParentChildrenSyncDownTarget : SFSoqlSyncDownTarget
+
+/** Factory methods
+ */
++ (instancetype)newSyncTargetWithParentInfo:(SFParentInfo *)parentInfo
+                            parentFieldlist:(NSArray<NSString *> *)parentFieldlist
+                           parentSoqlFilter:(NSString *)parentSoqlFilter
+                               childrenInfo:(SFChildrenInfo *)childrenInfo
+                          childrenFieldlist:(NSArray<NSString *> *)childrenFieldlist
+                           relationshipType:(SFParentChildrenRelationshipType)relationshipType;
+
++ (instancetype)newFromDict:(NSDictionary *)dict;
 
 @end

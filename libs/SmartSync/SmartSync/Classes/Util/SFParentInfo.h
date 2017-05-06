@@ -39,12 +39,18 @@ extern NSString * const kSFParentInfoModifificationDateFieldName;
 @property (nonatomic, readonly) NSString* modificationDateFieldName;
 @property (nonatomic, readonly) NSString* soupName;
 
-- (instancetype)initWithDict:(NSDictionary *)dict;
-- (instancetype)initWithSObjectType:(NSString*)sobjectType
-                        idFieldName:(NSString*)idFieldName
-          modificationDateFieldName:(NSString*)modificationDateFieldName
-                           soupName:(NSString*)soupName;
 
+/** Factory methods
+ */
++ (SFParentInfo *)newWithSObjectType:(NSString *)sobjectType
+                         idFieldName:(NSString *)idFieldName
+           modificationDateFieldName:(NSString *)modificationDateFieldName
+                            soupName:(NSString *)soupName;
+
++ (SFParentInfo*) newFromDict:(NSDictionary*)dict;
+
+/** Method to translate to dictionary
+ */
 - (NSDictionary *)asDict;
 
 @end

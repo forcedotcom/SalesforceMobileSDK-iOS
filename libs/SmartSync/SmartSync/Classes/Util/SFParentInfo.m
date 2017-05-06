@@ -40,14 +40,6 @@ NSString * const kSFParentInfoModifificationDateFieldName = @"modificationDateFi
 
 @implementation SFParentInfo
 
-- (instancetype)initWithDict:(NSDictionary *)dict
-{
-    return [self initWithSObjectType:dict[kSFParentInfoSObjectType]
-                         idFieldName:dict[kSFParentInfoIdFieldName]
-           modificationDateFieldName:dict[kSFParentInfoModifificationDateFieldName]
-                            soupName:dict[kSFParentInfoSoupName]];
-}
-
 - (instancetype)initWithSObjectType:(NSString*)sobjectType
                         idFieldName:(NSString*)idFieldName
           modificationDateFieldName:(NSString*)modificationDateFieldName
@@ -62,6 +54,25 @@ NSString * const kSFParentInfoModifificationDateFieldName = @"modificationDateFi
     }
     return self;
 }
+
+#pragma mark Factory methods
+
++ (SFParentInfo *)newWithSObjectType:(NSString *)sobjectType
+                         idFieldName:(NSString *)idFieldName
+           modificationDateFieldName:(NSString *)modificationDateFieldName
+                            soupName:(NSString *)soupName
+{
+    return [[SFParentInfo alloc] initWithSObjectType:sobjectType idFieldName:idFieldName modificationDateFieldName:modificationDateFieldName soupName:soupName];
+}
+
++ (SFParentInfo*) newFromDict:(NSDictionary*)dict {
+    return [SFParentInfo newWithSObjectType:dict[kSFParentInfoSObjectType]
+                                idFieldName:dict[kSFParentInfoSObjectType]
+                  modificationDateFieldName:dict[kSFParentInfoModifificationDateFieldName]
+                                   soupName:dict[kSFParentInfoSoupName]];
+}
+
+#pragma mark - To dictionary
 
 - (NSDictionary *)asDict
 {

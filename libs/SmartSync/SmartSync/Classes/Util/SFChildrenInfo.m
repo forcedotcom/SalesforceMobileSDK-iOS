@@ -27,6 +27,15 @@
 NSString * const kSFChildrenInfoSObjectTypePlural = @"sobjectTypePlural";
 NSString * const kSFChildrenInfoParentIdFieldName = @"parentIdFieldName"; // name of field on  holding parent server id
 
+@interface SFParentInfo ()
+
+- (instancetype)initWithSObjectType:(NSString*)sobjectType
+                        idFieldName:(NSString*)idFieldName
+          modificationDateFieldName:(NSString*)modificationDateFieldName
+                           soupName:(NSString*)soupName;
+
+@end
+
 @interface SFChildrenInfo ()
 
 @property (nonatomic, readwrite) NSString* sobjectTypePlural;
@@ -35,16 +44,6 @@ NSString * const kSFChildrenInfoParentIdFieldName = @"parentIdFieldName"; // nam
 @end
 
 @implementation SFChildrenInfo
-
-- (instancetype)initWithDict:(NSDictionary *)dict
-{
-    return [self initWithSObjectType:dict[kSFParentInfoSObjectType]
-                         idFieldName:dict[kSFParentInfoIdFieldName]
-           modificationDateFieldName:dict[kSFParentInfoModifificationDateFieldName]
-                            soupName:dict[kSFParentInfoSoupName]
-                   sobjectTypePlural:dict[kSFChildrenInfoSObjectTypePlural]
-                   parentIdFieldName:dict[kSFChildrenInfoParentIdFieldName]];
-}
 
 - (instancetype)initWithSObjectType:(NSString*)sobjectType
                         idFieldName:(NSString*)idFieldName
@@ -65,6 +64,28 @@ NSString * const kSFChildrenInfoParentIdFieldName = @"parentIdFieldName"; // nam
     return self;
 
 }
+#pragma mark Factory methods
+
++ (SFChildrenInfo *)newWithSObjectType:(NSString*)sobjectType
+                         idFieldName:(NSString*)idFieldName
+           modificationDateFieldName:(NSString*)modificationDateFieldName
+                            soupName:(NSString*)soupName
+                   sobjectTypePlural:(NSString*)sobjectTypePlural
+                   parentIdFieldName:(NSString*)parentIdFieldName
+{
+    return [[SFChildrenInfo alloc] initWithSObjectType:sobjectType idFieldName:idFieldName modificationDateFieldName:modificationDateFieldName soupName:soupName sobjectTypePlural:sobjectTypePlural parentIdFieldName:parentIdFieldName];
+}
+
++ (SFChildrenInfo*) newFromDict:(NSDictionary*)dict {
+    return [SFChildrenInfo newWithSObjectType:dict[kSFParentInfoSObjectType]
+                                  idFieldName:dict[kSFParentInfoIdFieldName]
+                    modificationDateFieldName:dict[kSFParentInfoModifificationDateFieldName]
+                                     soupName:dict[kSFParentInfoSoupName]
+                            sobjectTypePlural:dict[kSFChildrenInfoSObjectTypePlural]
+                            parentIdFieldName:dict[kSFChildrenInfoParentIdFieldName]];
+}
+
+#pragma mark - To dictionary
 
 - (NSDictionary *)asDict
 {

@@ -1,9 +1,4 @@
 /*
- SmartSync.h
- SmartSync
-
- Created by Wolfgang Mathurin on Fri May  5 17:44:08 PDT 2017.
-
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -27,27 +22,21 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SmartSync/SFChildrenInfo.h>
-#import <SmartSync/SFMruSyncDownTarget.h>
-#import <SmartSync/SFObject.h>
-#import <SmartSync/SFObjectType.h>
-#import <SmartSync/SFObjectTypeLayout.h>
-#import <SmartSync/SFParentChildrenSyncDownTarget.h>
-#import <SmartSync/SFParentChildrenSyncHelper.h>
-#import <SmartSync/SFParentInfo.h>
-#import <SmartSync/SFRefreshSyncDownTarget.h>
-#import <SmartSync/SFSmartSyncCacheManager.h>
-#import <SmartSync/SFSmartSyncConstants.h>
-#import <SmartSync/SFSmartSyncMetadataManager.h>
-#import <SmartSync/SFSmartSyncNetworkUtils.h>
-#import <SmartSync/SFSmartSyncObjectUtils.h>
-#import <SmartSync/SFSmartSyncPersistableObject.h>
-#import <SmartSync/SFSmartSyncSyncManager.h>
-#import <SmartSync/SFSoqlSyncDownTarget.h>
-#import <SmartSync/SFSoslSyncDownTarget.h>
-#import <SmartSync/SFSyncDownTarget.h>
-#import <SmartSync/SFSyncManagerLogger.h>
-#import <SmartSync/SFSyncOptions.h>
-#import <SmartSync/SFSyncState.h>
-#import <SmartSync/SFSyncTarget.h>
-#import <SmartSync/SFSyncUpTarget.h>
+// Possible values for relationship type
+typedef NS_ENUM(NSInteger, SFParentChildrenRelationshipType) {
+    SFParentChildrenRelationpshipMasterDetail,
+    SFParentChildrenRelationpshipLookup
+};
+
+extern NSString * const kSFParentChildrenRelationshipMasterDetail;
+extern NSString * const kSFParentChildrenRelationshipLookup;
+
+@interface SFParentChildrenSyncHelper : NSObject
+
+/**
+ * Enum to/from string helper methods
+ */
++ (SFParentChildrenRelationshipType) relationshipTypeFromString:(NSString*)relationshipType;
++ (NSString*) relationshipTypeToString:(SFParentChildrenRelationshipType)relationshipType;
+
+@end
