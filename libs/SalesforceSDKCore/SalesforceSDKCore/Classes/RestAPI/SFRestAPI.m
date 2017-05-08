@@ -267,7 +267,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
             NSError *parsingError;
             NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parsingError];
             if (parsingError) {
-                if (data == nil || [data isEqualToData:[[NSData alloc] init]]) {
+                if (data.length == 0) {
                     data = nil;
                 }
                 [delegate request:request didLoadResponse:data];
