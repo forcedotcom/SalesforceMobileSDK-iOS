@@ -88,11 +88,14 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 }
 
 - (void)setCustomRequestBodyData:(NSData *)bodyData contentType:(NSString *)contentType {
-    if (bodyData == nil) bodyData = [NSData data];
+    if (bodyData == nil) {
+        bodyData = [NSData data];
+    }
     NSInputStream *(^bodyStreamBlock)(void) = ^{
         return [NSInputStream inputStreamWithData:bodyData];
     };
     [self setCustomRequestBodyStream:bodyStreamBlock contentType:contentType];
+    [self setHeaderValue:[NSString stringWithFormat:@"%lu", (unsigned long)[bodyData length]] forHeaderName:@"Content-Length"];
 }
 
 - (void)setCustomRequestBodyStream:(NSInputStream* (^)(void))bodyInputStreamBlock contentType:(NSString *)contentType {
