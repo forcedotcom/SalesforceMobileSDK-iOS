@@ -29,6 +29,7 @@
 #import "SFIdentityData.h"
 #import "SFJsonUtils.h"
 #import "SFUserAccountManager.h"
+#import "SFNetwork.h"
 
 // Public constants
 
@@ -134,19 +135,17 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
     [request setTimeoutInterval:self.timeout];
     [request setHTTPShouldHandleCookies:NO];
     [self log:SFLogLevelDebug format:@"SFIdentityCoordinator:Starting identity request at %@", self.credentials.identityUrl.absoluteString];
-    
     __weak __typeof(self) weakSelf = self;
-    
-    self.session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration ephemeralSessionConfiguration]];
-    [[self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    SFNetwork *network = [[SFNetwork alloc] init];
+    self.session = network.activeSession;
+    [network sendRequest:request dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (error) {
             [strongSelf log:SFLogLevelDebug format:@"SFIdentityCoordinator session failed with error: %@", error];
             [strongSelf notifyDelegateOfFailure:error];
             return;
-            
         }
-        
+
         // The connection can succeed, but the actual HTTP response is a failure.  Check for that.
         NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
         if (statusCode == 401 || statusCode == 403) {
@@ -172,7 +171,7 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
             // Successful response.  Process the return data.
             [strongSelf processResponse:data];
         }
-    }] resume];
+    }];
 }
 
 - (void)notifyDelegateOfSuccess
