@@ -41,5 +41,12 @@
  */
 - (void)clearAccountState:(BOOL)clearAccountData;
 
+/**
+ Remove all cookies for the given domains. Call completion block when done.
+ @param domainNames The names of the domains where the cookies are set.
+ @param completionBlock Block invoked when cookies are removed
+ */
++ (void)removeCookiesFromDomains:(NSArray<NSString*> *)domainNames withCompletion:(nullable void(^)())completionBlock;
+
 @end
 

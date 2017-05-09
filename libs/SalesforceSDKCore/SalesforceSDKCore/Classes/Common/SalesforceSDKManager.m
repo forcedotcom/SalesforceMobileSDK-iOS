@@ -95,16 +95,6 @@ static NSString* ailtnAppName = nil;
     return ailtnAppName;
 }
 
-+ (WKProcessPool *)processPool
-{
-    return SFSDKWKProcessPoolFactory.sharedProcessPool;
-}
-
-+ (void)setProcessPool:(WKProcessPool *)processPool
-{
-    SFSDKWKProcessPoolFactory.sharedProcessPool = processPool;
-}
-
 + (void)initialize {
     if (self == [SalesforceSDKManager class]) {
 

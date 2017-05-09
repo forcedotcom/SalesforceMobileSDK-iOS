@@ -115,19 +115,6 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
 + (nonnull NSString *)ailtnAppName;
 
 /**
-   Gets an instance of WKProcessPool that will be used during instantiation of any WKWebView instances
-  @discussion
-  Use the default instance to share state between WKWebView instances
-  */
-+ (nonnull WKProcessPool *) processPool;
-
-/**
-  Uses the instance of WKProcessPool during instantiation of any WKWebView instances. Setting this
-  value to null will force a reset of the shared WKProcessPool.
-  */
-+ (void)setProcessPool:(nullable WKProcessPool *) processPool;
-
-/**
  @return The singleton instance of the SDK Manager.
  */
 + (nonnull instancetype)sharedManager;

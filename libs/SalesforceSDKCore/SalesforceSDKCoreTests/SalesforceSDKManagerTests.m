@@ -373,21 +373,21 @@ static NSString* const kTestAppName = @"OverridenAppName";
 
 - (void)testDefaultProcessPoolIsNotNil
 {
-    XCTAssertNotNil(SalesforceSDKManager.processPool);
+    XCTAssertNotNil(SFSDKWKProcessPoolFactory.sharedProcessPool);
 }
 
 - (void)testProcessPoolCannotBeNil
 {
-    XCTAssertNotNil(SalesforceSDKManager.processPool);
-    SalesforceSDKManager.processPool = nil;
-    XCTAssertNotNil(SalesforceSDKManager.processPool);
+    XCTAssertNotNil(SFSDKWKProcessPoolFactory.sharedProcessPool);
+    SFSDKWKProcessPoolFactory.sharedProcessPool = nil;
+    XCTAssertNotNil(SFSDKWKProcessPoolFactory.sharedProcessPool);
 }
 
 - (void)testProcessPoolIsAssignable
 {
     WKProcessPool *newPool = [[WKProcessPool alloc] init];
-    SalesforceSDKManager.processPool = newPool;
-    XCTAssertEqualObjects(newPool, SalesforceSDKManager.processPool);
+    SFSDKWKProcessPoolFactory.sharedProcessPool = newPool;
+    XCTAssertEqualObjects(newPool, SFSDKWKProcessPoolFactory.sharedProcessPool);
 }
 
 

@@ -656,19 +656,6 @@ static Class InstanceClass = nil;
     
 }
 
-+ (void)removeAllCookiesWithCompletion:(void(^)())completionBlock
-{
-    NSSet *websiteDataTypes = [NSSet setWithArray:@[WKWebsiteDataTypeCookies]];
-    NSDate *dateFrom = [NSDate dateWithTimeIntervalSince1970:0];
-    [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:websiteDataTypes
-                                               modifiedSince:dateFrom
-                                           completionHandler:^{
-                                               if (completionBlock) {
-                                                   completionBlock();
-                                               }
-                                           }];
-}
-
 + (void)addSidCookieForInstance
 {
     [self addSidCookieForDomain:[[SFUserAccountManager sharedInstance].currentUser.credentials.apiUrl host]];

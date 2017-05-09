@@ -35,12 +35,12 @@ static WKProcessPool *_processPool = nil;
 }
 
 + (WKProcessPool *)sharedProcessPool {
+    if (!_processPool)
+        _processPool = [[WKProcessPool alloc] init];
     return _processPool;
 }
 
 + (void)setSharedProcessPool:(WKProcessPool *)sharedProcessPool {
-    if (_processPool != sharedProcessPool) {
-        _processPool = sharedProcessPool ?: [[WKProcessPool alloc] init];
-    }
+    _processPool = sharedProcessPool;
 }
 @end
