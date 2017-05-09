@@ -23,6 +23,7 @@
  */
 
 #import "SFParentInfo.h"
+#import "SFSmartSyncConstants.h"
 
 NSString * const kSFParentInfoSObjectType = @"sobjectType";
 NSString * const kSFParentInfoSoupName = @"soupName";
@@ -40,11 +41,7 @@ NSString * const kSFParentInfoModifificationDateFieldName = @"modificationDateFi
 
 @implementation SFParentInfo
 
-- (instancetype)initWithSObjectType:(NSString*)sobjectType
-                        idFieldName:(NSString*)idFieldName
-          modificationDateFieldName:(NSString*)modificationDateFieldName
-                           soupName:(NSString*)soupName
-{
+- (instancetype)initWithSObjectType:(NSString *)sobjectType soupName:(NSString *)soupName idFieldName:(NSString *)idFieldName modificationDateFieldName:(NSString *)modificationDateFieldName {
     self = [self init];
     if (self) {
         self.sobjectType = sobjectType;
@@ -55,21 +52,21 @@ NSString * const kSFParentInfoModifificationDateFieldName = @"modificationDateFi
     return self;
 }
 
-#pragma mark Factory methods
+#pragma mark - Factory methods
 
 + (SFParentInfo *)newWithSObjectType:(NSString *)sobjectType
-                         idFieldName:(NSString *)idFieldName
-           modificationDateFieldName:(NSString *)modificationDateFieldName
                             soupName:(NSString *)soupName
 {
-    return [[SFParentInfo alloc] initWithSObjectType:sobjectType idFieldName:idFieldName modificationDateFieldName:modificationDateFieldName soupName:soupName];
+    return [SFParentInfo newWithSObjectType:sobjectType soupName:soupName idFieldName:kId modificationDateFieldName:kLastModifiedDate];
+}
+
+
++ (SFParentInfo *)newWithSObjectType:(NSString *)sobjectType soupName:(NSString *)soupName idFieldName:(NSString *)idFieldName modificationDateFieldName:(NSString *)modificationDateFieldName {
+    return [[SFParentInfo alloc] initWithSObjectType:sobjectType soupName:soupName idFieldName:idFieldName modificationDateFieldName:modificationDateFieldName];
 }
 
 + (SFParentInfo*) newFromDict:(NSDictionary*)dict {
-    return [SFParentInfo newWithSObjectType:dict[kSFParentInfoSObjectType]
-                                idFieldName:dict[kSFParentInfoSObjectType]
-                  modificationDateFieldName:dict[kSFParentInfoModifificationDateFieldName]
-                                   soupName:dict[kSFParentInfoSoupName]];
+    return [SFParentInfo newWithSObjectType:dict[kSFParentInfoSObjectType] soupName:dict[kSFParentInfoSoupName] idFieldName:dict[kSFParentInfoSObjectType] modificationDateFieldName:dict[kSFParentInfoModifificationDateFieldName]];
 }
 
 #pragma mark - To dictionary

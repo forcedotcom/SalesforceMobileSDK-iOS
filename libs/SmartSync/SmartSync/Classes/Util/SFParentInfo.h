@@ -43,9 +43,9 @@ extern NSString * const kSFParentInfoModifificationDateFieldName;
 /** Factory methods
  */
 + (SFParentInfo *)newWithSObjectType:(NSString *)sobjectType
-                         idFieldName:(NSString *)idFieldName
-           modificationDateFieldName:(NSString *)modificationDateFieldName
                             soupName:(NSString *)soupName;
+
++ (SFParentInfo *)newWithSObjectType:(NSString *)sobjectType soupName:(NSString *)soupName idFieldName:(NSString *)idFieldName modificationDateFieldName:(NSString *)modificationDateFieldName;
 
 + (SFParentInfo*) newFromDict:(NSDictionary*)dict;
 

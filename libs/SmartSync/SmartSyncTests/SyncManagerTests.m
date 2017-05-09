@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <XCTest/XCTest.h>
+#import "SyncManagerTestCase.h"
 #import "SFSmartSyncSyncManager.h"
 #import "SFSyncUpdateCallbackQueue.h"
 #import "TestSyncUpTarget.h"
@@ -105,7 +105,7 @@
 @end
 
 
-@interface SyncManagerTests : XCTestCase
+@interface SyncManagerTests : SyncManagerTestCase
 {
     SFUserAccount *currentUser;
     SFSmartSyncSyncManager *syncManager;
