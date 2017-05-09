@@ -81,6 +81,8 @@ static NSString * const kSFParentChildrenSyncTargetChildrenFieldlist = @"childre
 {
     SFParentChildrenSyncDownTarget * syncTarget = [[SFParentChildrenSyncDownTarget alloc] init];
     syncTarget.parentInfo = parentInfo;
+    syncTarget.idFieldName = parentInfo.idFieldName;
+    syncTarget.modificationDateFieldName = parentInfo.modificationDateFieldName;
     syncTarget.parentFieldlist = parentFieldlist;
     syncTarget.parentSoqlFilter = parentSoqlFilter;
     syncTarget.childrenInfo = childrenInfo;

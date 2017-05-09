@@ -37,6 +37,7 @@ extern NSString * const kSFChildrenInfoParentIdFieldName;
 
 /** Factory methods
  */
++ (SFChildrenInfo *)newWithSObjectType:(NSString *)sobjectType sobjectTypePlural:(NSString *)sobjectTypePlural soupName:(NSString *)soupName parentIdFieldName:(NSString *)parentIdFieldName;
 + (SFChildrenInfo *)newWithSObjectType:(NSString *)sobjectType sobjectTypePlural:(NSString *)sobjectTypePlural soupName:(NSString *)soupName parentIdFieldName:(NSString *)parentIdFieldName idFieldName:(NSString *)idFieldName modificationDateFieldName:(NSString *)modificationDateFieldName;
 
 + (SFChildrenInfo*) newFromDict:(NSDictionary*)dict;

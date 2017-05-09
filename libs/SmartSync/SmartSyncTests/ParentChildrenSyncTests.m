@@ -46,20 +46,16 @@
 
     XCTAssert([target getQueryToRun], @"select ParentName, Title, ParentId, ParentModifiedDate, (select ChildName, School, ChildId, ChildLastModifiedDate from Children) from Parent where School = 'MIT'");
 
-    /*
     // With default id and modification date fields
-    target = new ParentChildrenSyncDownTarget(
-            new ParentInfo("Parent", "parentsSoup"),
-            Arrays.asList("ParentName", "Title"),
-            "School = 'MIT'",
-            new ChildrenInfo("Child", "Children", "childrenSoup", "parentId"),
-            Arrays.asList("ChildName", "School"),
-            RelationshipType.LOOKUP);
+    target = [SFParentChildrenSyncDownTarget
+            newSyncTargetWithParentInfo:[SFParentInfo newWithSObjectType:@"Parent" soupName:@"parentsSoup"]
+                        parentFieldlist:@[@"ParentName", @"Title"]
+                       parentSoqlFilter:@"School = 'MIT'"
+                           childrenInfo:[SFChildrenInfo newWithSObjectType:@"Child" sobjectTypePlural:@"Children" soupName:@"childrenSoup" parentIdFieldName:@"parentId"]
+                      childrenFieldlist:@[@"ChildName", @"School"]
+                       relationshipType:SFParentChildrenRelationpshipLookup];
 
-
-    assertEquals("select ParentName, Title, Id, LastModifiedDate, (select ChildName, School, Id, LastModifiedDate from Children) from Parent where School = 'MIT'", target.getQuery());
-
-     */
+    XCTAssert([target getQueryToRun], @"select ParentName, Title, Id, LastModifiedDate, (select ChildName, School, Id, LastModifiedDate from Children) from Parent where School = 'MIT'");
 }
 
 @end
