@@ -115,6 +115,20 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
 + (nonnull NSString *)ailtnAppName;
 
 /**
+ + Gets an instance of WKProcessPool that will be used during instantiation of any WKWebView instances
+ + @discussion
+ + Use the default instance or provide an instance to share state between WKWebView instances
+ + */
++ (nonnull WKProcessPool *) processPool;
+
+/**
+ + Sets an instance of WKProcessPool that will be used during instantiation of any WKWebView instances
+ + @discussion
+ + Use the default instance or provide an instance to share state between WKWebView instances
+ + */
++ (void)setProcessPool:(nonnull WKProcessPool *) processPool;
+
+/**
  @return The singleton instance of the SDK Manager.
  */
 + (nonnull instancetype)sharedManager;
@@ -230,13 +244,6 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
  SalesforceMobileSDK/3.0.0 iPhone OS/8.1 (iPad) AppName/AppVersion *Native or Hybrid with optional qualifier* *Web-based user agent string*
  */
 @property (nonatomic, copy) SFSDKUserAgentCreationBlock userAgentString;
-
-/**
- + Gets or sets an instance of WKProcessPool that will be used during instantiation of any WKWebView instances
- + @discussion
- + Use the default instance or provide an instance to share state between WKWebView instances
- + */
-@property (nonatomic, strong) WKProcessPool *processPool;
 
 /**
  Launches the SDK.  This will verify an existing passcode the first time it runs, and attempt to

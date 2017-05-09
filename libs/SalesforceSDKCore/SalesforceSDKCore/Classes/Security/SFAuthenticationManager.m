@@ -467,6 +467,7 @@ static Class InstanceClass = nil;
         [self willChangeValueForKey:@"haveValidSession"];
         [userAccountManager deleteAccountForUser:user error:nil];
         [self revokeRefreshToken:user];
+        SFSDKWKProcessPoolFactory.sharedProcessPool = nil;
         userAccountManager.currentUser = nil;
         [self didChangeValueForKey:@"haveValidSession"];
 
@@ -624,39 +625,49 @@ static Class InstanceClass = nil;
 
 + (void)resetSessionCookie
 {
-    [self removeCookies:@[@"sid"]
-            fromDomains:@[@".salesforce.com", @".force.com", @".cloudforce.com"]];
-    [self addSidCookieForInstance];
+    __weak typeof(self) weakSelf = self;
+    [self removeCookiesFromDomains:@[@".salesforce.com", @".force.com", @".cloudforce.com"] withCompletion:^{
+        [weakSelf addSidCookieForInstance];
+    }];
 }
 
-+ (void)removeCookies:(NSArray *)cookieNames fromDomains:(NSArray *)domainNames
-{
-    NSAssert(cookieNames != nil && [cookieNames count] > 0, @"No cookie names given to delete.");
++ (void)removeCookiesFromDomains:(NSArray *)domainNames withCompletion:(nullable void(^)())completionBlock {
     NSAssert(domainNames != nil && [domainNames count] > 0, @"No domain names given for deleting cookies.");
-    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-    NSArray *fullCookieList = [NSArray arrayWithArray:[cookieStorage cookies]];
-    for (NSHTTPCookie *cookie in fullCookieList) {
-        for (NSString *cookieToRemoveName in cookieNames) {
-            if ([[cookie.name lowercaseString] isEqualToString:[cookieToRemoveName lowercaseString]]) {
-                for (NSString *domainToRemoveName in domainNames) {
-                    if ([[cookie.domain lowercaseString] hasSuffix:[domainToRemoveName lowercaseString]]) {
-                        [cookieStorage deleteCookie:cookie];
-                    }
-                }
-            }
-        }
-    }
+    WKWebsiteDataStore *dateStore = [WKWebsiteDataStore defaultDataStore];
+    NSSet *websiteDataTypes = [NSSet setWithArray:@[ WKWebsiteDataTypeCookies]];
+    [dateStore fetchDataRecordsOfTypes:websiteDataTypes
+                     completionHandler:^(NSArray<WKWebsiteDataRecord *> *records) {
+                         
+                         NSMutableArray<WKWebsiteDataRecord *> *deletedRecords = [NSMutableArray new];
+                         for ( WKWebsiteDataRecord * record in records) {
+                             for(NSString *domainName in domainNames) {
+                                 if ([record.displayName containsString:domainName]) {
+                                     [deletedRecords addObject:record];
+                                 }
+                             }
+                         }
+                         if (deletedRecords.count > 0)
+                             [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:websiteDataTypes
+                                                                       forDataRecords:deletedRecords
+                                                                    completionHandler:^{
+                                                                        if (completionBlock)
+                                                                            completionBlock();
+                                                                    }];
+                     }];
+    
 }
 
-+ (void)removeAllCookies
++ (void)removeAllCookiesWithCompletion:(void(^)())completionBlock
 {
-    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-    NSArray *fullCookieList = [NSArray arrayWithArray:[cookieStorage cookies]];
-    for (NSHTTPCookie *cookie in fullCookieList) {
-        if (![[cookie.name lowercaseString] isEqualToString:kUserNameCookieKey]) {
-            [cookieStorage deleteCookie:cookie];
-        }
-    }
+    NSSet *websiteDataTypes = [NSSet setWithArray:@[WKWebsiteDataTypeCookies]];
+    NSDate *dateFrom = [NSDate dateWithTimeIntervalSince1970:0];
+    [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:websiteDataTypes
+                                               modifiedSince:dateFrom
+                                           completionHandler:^{
+                                               if (completionBlock) {
+                                                   completionBlock();
+                                               }
+                                           }];
 }
 
 + (void)addSidCookieForInstance
@@ -927,7 +938,7 @@ static Class InstanceClass = nil;
         [self.coordinator.view removeFromSuperview];
     }
     
-    [SFAuthenticationManager removeAllCookies];
+    [SFAuthenticationManager removeAllCookiesWithCompletion:nil];
     [self.coordinator stopAuthentication];
 
     self.idCoordinator.idData = nil;

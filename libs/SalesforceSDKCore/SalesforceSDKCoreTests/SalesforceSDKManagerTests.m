@@ -51,6 +51,7 @@ static NSString* const kTestAppName = @"OverridenAppName";
     BOOL _launchErrorBlockCalled;
     NSError *_launchError;
     NSString *_origAppName;
+    WKProcessPool *_origProcessPool;
 }
 
 @end
@@ -372,24 +373,21 @@ static NSString* const kTestAppName = @"OverridenAppName";
 
 - (void)testDefaultProcessPoolIsNotNil
 {
-    SalesforceSDKManager *manager = [SalesforceSDKManager sharedManager];
-    XCTAssertNotNil(manager.processPool);
+    XCTAssertNotNil(SalesforceSDKManager.processPool);
 }
 
 - (void)testProcessPoolCannotBeNil
 {
-    SalesforceSDKManager *manager = [SalesforceSDKManager sharedManager];
-    XCTAssertNotNil(manager.processPool);
-    manager.processPool = nil;
-    XCTAssertNotNil(manager.processPool);
+    XCTAssertNotNil(SalesforceSDKManager.processPool);
+    SalesforceSDKManager.processPool = nil;
+    XCTAssertNotNil(SalesforceSDKManager.processPool);
 }
 
 - (void)testProcessPoolIsAssignable
 {
-    SalesforceSDKManager *manager = [SalesforceSDKManager sharedManager];
     WKProcessPool *newPool = [[WKProcessPool alloc] init];
-    manager.processPool = newPool;
-    XCTAssertEqualObjects(newPool, manager.processPool);
+    SalesforceSDKManager.processPool = newPool;
+    XCTAssertEqualObjects(newPool, SalesforceSDKManager.processPool);
 }
 
 
@@ -477,6 +475,7 @@ static NSString* const kTestAppName = @"OverridenAppName";
     _launchErrorBlockCalled = NO;
     _launchError = nil;
     _origAppName = SalesforceSDKManager.ailtnAppName;
+    _origProcessPool = SalesforceSDKManager.processPool;
 }
 
 - (void)restoreOrigSdkManagerState
@@ -494,6 +493,7 @@ static NSString* const kTestAppName = @"OverridenAppName";
     [SalesforceSDKManager sharedManager].postAppForegroundAction = _origPostAppForegroundAction;
     [SFUserAccountManager sharedInstance].currentUser = _origCurrentUser;
     SalesforceSDKManager.ailtnAppName = _origAppName;
+    SalesforceSDKManager.processPool = _origProcessPool;
 }
 
 - (void)compareAiltnAppNames:(NSString *)expectedAppName

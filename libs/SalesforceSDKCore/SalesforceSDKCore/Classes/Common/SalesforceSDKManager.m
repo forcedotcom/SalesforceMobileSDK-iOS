@@ -36,6 +36,7 @@
 #import "SFSwiftDetectUtil.h"
 #import "SFUserAccountManager.h"
 #import "SFSDKAppFeatureMarkers.h"
+#import "SFSDKWKProcessPoolFactory.h"
 
 static NSString * const kSFAppFeatureSwiftApp   = @"SW";
 static NSString * const kSFAppFeatureMultiUser   = @"MU";
@@ -92,6 +93,16 @@ static NSString* ailtnAppName = nil;
 
 + (NSString *)ailtnAppName {
     return ailtnAppName;
+}
+
++ (WKProcessPool *)processPool
+{
+    return SFSDKWKProcessPoolFactory.sharedProcessPool;
+}
+
++ (void)setProcessPool:(WKProcessPool *)processPool
+{
+    SFSDKWKProcessPoolFactory.sharedProcessPool = processPool;
 }
 
 + (void)initialize {
@@ -160,7 +171,6 @@ static NSString* ailtnAppName = nil;
         self.useSnapshotView = YES;
         self.authenticateAtLaunch = YES;
         self.userAgentString = [self defaultUserAgentString];
-        self.processPool = [[WKProcessPool alloc] init];
     }
     return self;
 }
@@ -214,13 +224,6 @@ static NSString* ailtnAppName = nil;
 - (void)setPreferredPasscodeProvider:(NSString *)preferredPasscodeProvider
 {
     [SFPasscodeManager sharedManager].preferredPasscodeProvider = preferredPasscodeProvider;
-}
-
-- (void)setProcessPool:(WKProcessPool *)processPool
-{
-    if (_processPool == processPool) return;
-
-    _processPool = processPool ?: [[WKProcessPool alloc] init];
 }
 
 - (BOOL)launch
