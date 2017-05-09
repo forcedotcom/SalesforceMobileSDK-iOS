@@ -467,7 +467,6 @@ static Class InstanceClass = nil;
         [self willChangeValueForKey:@"haveValidSession"];
         [userAccountManager deleteAccountForUser:user error:nil];
         [self revokeRefreshToken:user];
-        SFSDKWKProcessPoolFactory.sharedProcessPool = nil;
         userAccountManager.currentUser = nil;
         [self didChangeValueForKey:@"haveValidSession"];
 
@@ -938,7 +937,8 @@ static Class InstanceClass = nil;
         [self.coordinator.view removeFromSuperview];
     }
     
-    [SFAuthenticationManager removeAllCookiesWithCompletion:nil];
+    SFSDKWKProcessPoolFactory.sharedProcessPool = nil;
+    
     [self.coordinator stopAuthentication];
 
     self.idCoordinator.idData = nil;
