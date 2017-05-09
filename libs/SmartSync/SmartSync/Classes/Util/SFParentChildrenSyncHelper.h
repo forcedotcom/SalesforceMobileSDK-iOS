@@ -43,7 +43,10 @@ extern NSString * const kSFParentChildrenRelationshipLookup;
  */
 + (SFParentChildrenRelationshipType) relationshipTypeFromString:(NSString*)relationshipType;
 + (NSString*) relationshipTypeToString:(SFParentChildrenRelationshipType)relationshipType;
-+ (NSString*) getDirtyRecordIdsSql:(SFParentInfo*)parentInfo childrenInfo:(SFChildrenInfo*)childrenInfo idField:(NSString*)idField;
-+ (NSString*) getNonDirtyRecordIdsSql:(SFParentInfo*)parentInfo childrenInfo:(SFChildrenInfo*)childrenInfo idField:(NSString*)idField;
-+ (void)saveRecordTreesToLocalStore:(SFSmartSyncSyncManager *)manager target:(SFSyncTarget *)target parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo records:(NSArray *)records;
+
+
++ (NSString*) getDirtyRecordIdsSql:(SFParentInfo*)parentInfo childrenInfo:(SFChildrenInfo*)childrenInfo parentFieldToSelect:(NSString*)parentFieldToSelect;
++ (NSString*) getNonDirtyRecordIdsSql:(SFParentInfo*)parentInfo childrenInfo:(SFChildrenInfo*)childrenInfo parentFieldToSelect:(NSString*)parentFieldToSelect;
++ (void)saveRecordTreesToLocalStore:(SFSmartSyncSyncManager *)syncManager target:(SFSyncTarget *)target parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo recordTrees:(NSArray *)recordTrees;
+
 @end

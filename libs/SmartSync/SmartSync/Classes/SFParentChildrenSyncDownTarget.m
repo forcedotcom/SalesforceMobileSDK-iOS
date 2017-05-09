@@ -210,7 +210,7 @@ static NSString * const kSFParentChildrenSyncTargetChildrenFieldlist = @"childre
 - (void)saveRecordsToLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName records:(NSArray *)records {
     // NB: method is called during sync down so for this target records contain parent and children
 
-    return [SFParentChildrenSyncHelper saveRecordTreesToLocalStore:syncManager target:self parentInfo:self.parentInfo childrenInfo:self.childrenInfo records:records];
+    return [SFParentChildrenSyncHelper saveRecordTreesToLocalStore:syncManager target:self parentInfo:self.parentInfo childrenInfo:self.childrenInfo recordTrees:records];
 }
 
 #pragma mark - Utility methods
@@ -296,12 +296,12 @@ static NSString * const kSFParentChildrenSyncTargetChildrenFieldlist = @"childre
 }
 
 - (NSString*) getDirtyRecordIdsSql:(NSString*)soupName idField:(NSString*)idField {
-     return [SFParentChildrenSyncHelper getDirtyRecordIdsSql:self.parentInfo childrenInfo:self.childrenInfo idField:idField];
+     return [SFParentChildrenSyncHelper getDirtyRecordIdsSql:self.parentInfo childrenInfo:self.childrenInfo parentFieldToSelect:idField];
 }
 
 
 - (NSString*) getNonDirtyRecordIdsSql:(NSString*)soupName idField:(NSString*)idField {
-    return [SFParentChildrenSyncHelper getNonDirtyRecordIdsSql:self.parentInfo childrenInfo:self.childrenInfo idField:idField];
+    return [SFParentChildrenSyncHelper getNonDirtyRecordIdsSql:self.parentInfo childrenInfo:self.childrenInfo parentFieldToSelect:idField];
 }
 
 

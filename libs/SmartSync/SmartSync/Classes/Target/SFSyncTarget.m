@@ -76,14 +76,11 @@ NSString * const kSyncTargetLocallyDeleted = @"__locally_deleted__";
 
 - (void) cleanAndSaveInLocalStore:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName record:(NSDictionary*)record {
     LogSyncDebug(@"cleanAndSaveInLocalStore:%@", record);
-    [self cleanAndSaveInSmartStore:syncManager.store soupName:soupName record:record];
+    [self cleanAndSaveInSmartStore:syncManager.store soupName:soupName records:@[record]];
 }
 
 - (void) saveRecordsToLocalStore:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName records:(NSArray*)records {
-    for (NSMutableDictionary * record  in records) {
-        // XXX should be done in one transaction
-        [self cleanAndSaveInSmartStore:syncManager.store soupName:soupName record:record];
-    }
+    [self cleanAndSaveInSmartStore:syncManager.store soupName:soupName records:records];
 }
 
 - (void) deleteRecordsFromLocalStore:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName ids:(NSArray*)ids idField:(NSString*)idField {
@@ -151,17 +148,27 @@ NSString * const kSyncTargetLocallyDeleted = @"__locally_deleted__";
     return ids;
 }
 
-- (void) cleanAndSaveInSmartStore:(SFSmartStore*)smartStore soupName:(NSString*)soupName record:(NSDictionary*)record {
-    NSMutableDictionary* mutableCopy = [NSMutableDictionary dictionaryWithDictionary:record];
-    [self cleanRecord:mutableCopy];
-    if (mutableCopy[SOUP_ENTRY_ID]) {
-        // Record came from smartstore
-        [smartStore upsertEntries:@[mutableCopy] toSoup:soupName];
+- (void) cleanAndSaveInSmartStore:(SFSmartStore*)smartStore soupName:(NSString*)soupName records:(NSArray*)records {
+
+    NSMutableArray* recordsFromSmartStore = [NSMutableArray new];
+    NSMutableArray* recordsFromServer = [NSMutableArray new];
+
+    for (NSDictionary * record in records) {
+        NSMutableDictionary *mutableRecord = [record mutableCopy];
+        [self cleanRecord:mutableRecord];
+        if (mutableRecord[SOUP_ENTRY_ID]) {
+            // Record came from smartstore
+            [recordsFromSmartStore addObject:mutableRecord];
+        } else {
+            // Record came from server
+            [recordsFromServer addObject:mutableRecord];
+        }
     }
-    else {
-        // Record came from server
-        [smartStore upsertEntries:@[mutableCopy] toSoup:soupName withExternalIdPath:self.idFieldName error:nil];
-    }
+
+    // Saving in bulk
+    [smartStore upsertEntries:recordsFromSmartStore toSoup:soupName];
+    [smartStore upsertEntries:recordsFromServer toSoup:soupName withExternalIdPath:self.idFieldName error:nil];
+
 }
 
 - (void) cleanRecord:(NSMutableDictionary*)record {
