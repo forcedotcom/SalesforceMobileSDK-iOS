@@ -37,6 +37,7 @@
  to describe real-time user input, and ensures that data can be copied when a network request is
  initiated.
  */
+__deprecated_msg("Will be removed in Mobile SDK 6.0. Please use SFRestRequest to construct requests and SFRestAPI to send requests.")
 @interface CSFInput : NSObject <NSSecureCoding, NSCopying, CSFActionInput>
 
 /** Returns a boolean value that indicates whether a given model object is equal to the receiver.

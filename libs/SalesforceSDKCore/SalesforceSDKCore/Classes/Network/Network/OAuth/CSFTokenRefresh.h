@@ -28,6 +28,7 @@
 @class CSFOAuthTokenRefreshInput;
 @class CSFOAuthTokenRefreshOutput;
 
+__deprecated_msg("Will be removed in Mobile SDK 6.0. Please use SFRestRequest to construct requests and SFRestAPI to send requests.")
 @interface CSFTokenRefresh : CSFAuthRefresh
 
 @property (nonatomic, copy, readonly) CSFOAuthTokenRefreshInput *refreshInput;

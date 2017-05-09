@@ -35,6 +35,7 @@
  the OAuth2 token refresh, queueing and scheduling of network operations, handling the parsing
  of responses, and aggregation of common actions into batches.
  */
+__deprecated_msg("Will be removed in Mobile SDK 6.0. Please use SFRestRequest to construct requests and SFRestAPI to send requests.")
 @interface CSFNetwork : NSObject
 
 @property (nonatomic, readonly, strong) NSURLSession *ephemeralSession;
@@ -202,6 +203,7 @@
 
 @end
 
+__deprecated_msg("Will be removed in Mobile SDK 6.0. Please use SFRestRequest to construct requests and SFRestAPI to send requests.")
 @protocol CSFNetworkDelegate <NSObject>
 
 @optional

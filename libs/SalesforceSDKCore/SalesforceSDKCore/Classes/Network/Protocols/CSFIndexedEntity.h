@@ -32,6 +32,7 @@
  The value for the index may be any value, though its use should be restricted to values that
  are easily indexed by Core Data, or at least that support NSCoding.
  */
+__deprecated_msg("Will be removed in Mobile SDK 6.0. Please use SFRestRequest to construct requests and SFRestAPI to send requests.")
 @protocol CSFIndexedEntity <NSObject>
 
 /** The key name that represents the property that is indexed.
