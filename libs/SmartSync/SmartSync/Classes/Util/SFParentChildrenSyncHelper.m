@@ -47,5 +47,18 @@ NSString * const kSFParentChildrenRelationshipLookup = @"LOOKUP";
     }
 }
 
++ (NSString*) getDirtyRecordIdsSql:(SFParentInfo*)parentInfo childrenInfo:(SFChildrenInfo*)childrenInfo idField:(NSString*)idField {
+    return nil; // TODO
+}
 
++ (NSString*) getNonDirtyRecordIdsSql:(SFParentInfo*)parentInfo childrenInfo:(SFChildrenInfo*)childrenInfo idField:(NSString*)idField {
+    return nil; // TODO
+
+}
+
++ (void)saveRecordTreesToLocalStore:(SFSmartSyncSyncManager *)manager target:(SFSyncTarget *)target parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo records:(NSArray *)records {
+
+    // TODO
+
+}
 @end

@@ -98,16 +98,7 @@ ABSTRACT_METHOD
    completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock ABSTRACT_METHOD
 
 - (long long)getLatestModificationTimeStamp:(NSArray*)records {
-    long long maxTimeStamp = -1L;
-    for(NSDictionary* record in records) {
-        NSString* timeStampStr = record[self.modificationDateFieldName];
-        if (!timeStampStr) {
-            break; // LastModifiedDate field not present
-        }
-        long long timeStamp = [SFSmartSyncObjectUtils getMillisFromIsoString:timeStampStr];
-        maxTimeStamp = (timeStamp > maxTimeStamp ? timeStamp : maxTimeStamp);
-    }
-    return maxTimeStamp;
+    return [self getLatestModificationTimeStamp:records modificationDateFieldName:self.modificationDateFieldName];
 }
 
 - (void)cleanGhosts:(SFSmartSyncSyncManager *)syncManager
@@ -168,6 +159,20 @@ ABSTRACT_METHOD
 }
 
 #pragma mark - Helper methods
+
+- (long long)getLatestModificationTimeStamp:(NSArray*)records modificationDateFieldName:(NSString*)modificationDateFieldName {
+    long long maxTimeStamp = -1L;
+    for(NSDictionary* record in records) {
+        NSString* timeStampStr = record[modificationDateFieldName];
+        if (!timeStampStr) {
+            break; // LastModifiedDate field not present
+        }
+        long long timeStamp = [SFSmartSyncObjectUtils getMillisFromIsoString:timeStampStr];
+        maxTimeStamp = (timeStamp > maxTimeStamp ? timeStamp : maxTimeStamp);
+    }
+    return maxTimeStamp;
+}
+
 
 - (NSOrderedSet*) getNonDirtyRecordIds:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName idField:(NSString*)idField {
     NSString* nonDirtyRecordsSql = [self getNonDirtyRecordIdsSql:soupName idField:idField];

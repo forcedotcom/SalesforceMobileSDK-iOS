@@ -22,6 +22,11 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import "SFParentInfo.h"
+#import "SFChildrenInfo.h"
+#import "SFSmartSyncSyncManager.h"
+#import "SFSyncTarget.h"
+
 // Possible values for relationship type
 typedef NS_ENUM(NSInteger, SFParentChildrenRelationshipType) {
     SFParentChildrenRelationpshipMasterDetail,
@@ -38,5 +43,7 @@ extern NSString * const kSFParentChildrenRelationshipLookup;
  */
 + (SFParentChildrenRelationshipType) relationshipTypeFromString:(NSString*)relationshipType;
 + (NSString*) relationshipTypeToString:(SFParentChildrenRelationshipType)relationshipType;
-
++ (NSString*) getDirtyRecordIdsSql:(SFParentInfo*)parentInfo childrenInfo:(SFChildrenInfo*)childrenInfo idField:(NSString*)idField;
++ (NSString*) getNonDirtyRecordIdsSql:(SFParentInfo*)parentInfo childrenInfo:(SFChildrenInfo*)childrenInfo idField:(NSString*)idField;
++ (void)saveRecordTreesToLocalStore:(SFSmartSyncSyncManager *)manager target:(SFSyncTarget *)target parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo records:(NSArray *)records;
 @end
