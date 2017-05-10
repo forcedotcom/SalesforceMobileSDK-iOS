@@ -104,10 +104,10 @@
 		B76ACC521D5BD75E004BF7DB /* NSUserDefaults+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = B76ACC501D5BD75E004BF7DB /* NSUserDefaults+SFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B76ACC531D5BD75E004BF7DB /* NSUserDefaults+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = B76ACC501D5BD75E004BF7DB /* NSUserDefaults+SFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B76ACC541D5BD75E004BF7DB /* NSUserDefaults+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B76ACC511D5BD75E004BF7DB /* NSUserDefaults+SFAdditions.m */; };
-		B791409C1EC11ADE0051492F /* SFSDKWKProcessPoolFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = B791409A1EC11ADE0051492F /* SFSDKWKProcessPoolFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B791409D1EC11ADE0051492F /* SFSDKWKProcessPoolFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = B791409B1EC11ADE0051492F /* SFSDKWKProcessPoolFactory.m */; };
-		B79140B21EC12BF40051492F /* SFSDKWKProcessPoolFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = B791409A1EC11ADE0051492F /* SFSDKWKProcessPoolFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B79140B31EC12BF40051492F /* SFSDKWKProcessPoolFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = B791409B1EC11ADE0051492F /* SFSDKWKProcessPoolFactory.m */; };
+		B791409C1EC11ADE0051492F /* SFSDKWebViewStateManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B791409A1EC11ADE0051492F /* SFSDKWebViewStateManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B791409D1EC11ADE0051492F /* SFSDKWebViewStateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B791409B1EC11ADE0051492F /* SFSDKWebViewStateManager.m */; };
+		B79140B21EC12BF40051492F /* SFSDKWebViewStateManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B791409A1EC11ADE0051492F /* SFSDKWebViewStateManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B79140B31EC12BF40051492F /* SFSDKWebViewStateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B791409B1EC11ADE0051492F /* SFSDKWebViewStateManager.m */; };
 		B7E8A2A51E7369DB007C0D92 /* SFDefaultUserAccountPersister.h in Headers */ = {isa = PBXBuildFile; fileRef = B7E8A2A31E7369DB007C0D92 /* SFDefaultUserAccountPersister.h */; };
 		B7E8A2A61E7369DB007C0D92 /* SFDefaultUserAccountPersister.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E8A2A41E7369DB007C0D92 /* SFDefaultUserAccountPersister.m */; };
 		B7E8A2A81E74559B007C0D92 /* SFDefaultUserAccountPersister.h in Headers */ = {isa = PBXBuildFile; fileRef = B7E8A2A31E7369DB007C0D92 /* SFDefaultUserAccountPersister.h */; };
@@ -1217,8 +1217,8 @@
 		B7282F3F1D8C70E700475F79 /* SalesforceSDKCoreTestApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SalesforceSDKCoreTestApp.entitlements; sourceTree = "<group>"; };
 		B76ACC501D5BD75E004BF7DB /* NSUserDefaults+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+SFAdditions.h"; sourceTree = "<group>"; };
 		B76ACC511D5BD75E004BF7DB /* NSUserDefaults+SFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+SFAdditions.m"; sourceTree = "<group>"; };
-		B791409A1EC11ADE0051492F /* SFSDKWKProcessPoolFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKWKProcessPoolFactory.h; sourceTree = "<group>"; };
-		B791409B1EC11ADE0051492F /* SFSDKWKProcessPoolFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKWKProcessPoolFactory.m; sourceTree = "<group>"; };
+		B791409A1EC11ADE0051492F /* SFSDKWebViewStateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKWebViewStateManager.h; sourceTree = "<group>"; };
+		B791409B1EC11ADE0051492F /* SFSDKWebViewStateManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKWebViewStateManager.m; sourceTree = "<group>"; };
 		B7E8A2A31E7369DB007C0D92 /* SFDefaultUserAccountPersister.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFDefaultUserAccountPersister.h; sourceTree = "<group>"; };
 		B7E8A2A41E7369DB007C0D92 /* SFDefaultUserAccountPersister.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFDefaultUserAccountPersister.m; sourceTree = "<group>"; };
 		B7E8A2AE1E77062E007C0D92 /* SFUserAccountManagerPersisterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFUserAccountManagerPersisterTests.m; path = SalesforceSDKCoreTests/SFUserAccountManagerPersisterTests.m; sourceTree = SOURCE_ROOT; };
@@ -1558,8 +1558,8 @@
 				82A195A41E73247F008F5AA8 /* SFSDKAppFeatureMarkers.m */,
 				4F96FC611BFD32130022F021 /* SFUserActivityMonitor.h */,
 				4F96FC621BFD32130022F021 /* SFUserActivityMonitor.m */,
-				B791409A1EC11ADE0051492F /* SFSDKWKProcessPoolFactory.h */,
-				B791409B1EC11ADE0051492F /* SFSDKWKProcessPoolFactory.m */,
+				B791409A1EC11ADE0051492F /* SFSDKWebViewStateManager.h */,
+				B791409B1EC11ADE0051492F /* SFSDKWebViewStateManager.m */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -2221,7 +2221,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B791409C1EC11ADE0051492F /* SFSDKWKProcessPoolFactory.h in Headers */,
+				B791409C1EC11ADE0051492F /* SFSDKWebViewStateManager.h in Headers */,
 				CE8EA2B11D7F67FA00AAC74C /* CSFIndexedEntity.h in Headers */,
 				CE8EA2AE1D7F67FA00AAC74C /* CSFActionInput.h in Headers */,
 				B76ACC521D5BD75E004BF7DB /* NSUserDefaults+SFAdditions.h in Headers */,
@@ -2437,7 +2437,7 @@
 				CE145A9E1D13838B003BCC20 /* SFSDKSalesforceAnalyticsManager.h in Headers */,
 				CEA882B41C18FB28008D871B /* SFIdentityData.h in Headers */,
 				CEA883211C18FC40008D871B /* SFManagedPreferences.h in Headers */,
-				B79140B21EC12BF40051492F /* SFSDKWKProcessPoolFactory.h in Headers */,
+				B79140B21EC12BF40051492F /* SFSDKWebViewStateManager.h in Headers */,
 				CEA882BE1C18FB4D008D871B /* SFOAuthCredentials.h in Headers */,
 				CE8EA33B1D7F6A9A00AAC74C /* CSFNetworkOutputCache.h in Headers */,
 				CE8EA3401D7F6AAE00AAC74C /* CSFISO8601DateFormatter.h in Headers */,
@@ -3088,7 +3088,7 @@
 				CE8EA2871D7F67FA00AAC74C /* NSValueTransformer+SalesforceNetwork.m in Sources */,
 				E1C80CE01C5AEBFA001B3A21 /* SFLoginViewController.m in Sources */,
 				CE8EA2851D7F67FA00AAC74C /* NSURL+ActionValue.m in Sources */,
-				B791409D1EC11ADE0051492F /* SFSDKWKProcessPoolFactory.m in Sources */,
+				B791409D1EC11ADE0051492F /* SFSDKWebViewStateManager.m in Sources */,
 				CE4CE3A21C0E5279009F6029 /* NSURL+SFStringUtils.m in Sources */,
 				CE8EA2A81D7F67FA00AAC74C /* CSFInputStreamElement.m in Sources */,
 				CE4CE3081C0E5229009F6029 /* SFLogger.m in Sources */,
@@ -3228,7 +3228,7 @@
 				CE8EA31C1D7F698500AAC74C /* CSFNetwork.m in Sources */,
 				CEA882B91C18FB3D008D871B /* SFMethodInterceptor.m in Sources */,
 				CE8EA3071D7F690B00AAC74C /* NSValueTransformer+SalesforceNetwork.m in Sources */,
-				B79140B31EC12BF40051492F /* SFSDKWKProcessPoolFactory.m in Sources */,
+				B79140B31EC12BF40051492F /* SFSDKWebViewStateManager.m in Sources */,
 				CEA8831A1C18FC40008D871B /* NSURL+SFStringUtils.m in Sources */,
 				CE8EA3061D7F690800AAC74C /* NSURL+ActionValue.m in Sources */,
 				CEA8827D1C18FA76008D871B /* SFLogger.m in Sources */,

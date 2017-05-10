@@ -36,7 +36,7 @@
 #import "SFSwiftDetectUtil.h"
 #import "SFUserAccountManager.h"
 #import "SFSDKAppFeatureMarkers.h"
-#import "SFSDKWKProcessPoolFactory.h"
+#import "SFSDKWebViewStateManager.h"
 
 static NSString * const kSFAppFeatureSwiftApp   = @"SW";
 static NSString * const kSFAppFeatureMultiUser   = @"MU";

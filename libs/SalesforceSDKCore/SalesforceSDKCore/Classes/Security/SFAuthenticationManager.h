@@ -469,12 +469,6 @@ extern  NSString * const kOAuthRedirectUriKey;
  */
 + (BOOL)errorIsInvalidAuthCredentials:(NSError *)error;
 
-/**
- Adds the access (session) token cookie to the web view, for authentication.
- @param domain The domain on which to set the cookie.
- */
-+ (void)addSidCookieForDomain:(NSString*)domain;
-
 @end
 
 NS_ASSUME_NONNULL_END

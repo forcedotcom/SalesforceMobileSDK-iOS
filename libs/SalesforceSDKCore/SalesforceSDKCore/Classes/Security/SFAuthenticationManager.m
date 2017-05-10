@@ -272,11 +272,6 @@ NSString * const kOAuthRedirectUriKey = @"oauth_redirect_uri";
  */
 - (void)processAuthError:(NSError *)error authInfo:(SFOAuthInfo *)info;
 
-/**
- Adds the sid cookie to the cookie store for the current authenticated instance.
- */
-+ (void)addSidCookieForInstance;
-
 @end
 
 @implementation SFAuthenticationManager
@@ -624,65 +619,9 @@ static Class InstanceClass = nil;
 
 + (void)resetSessionCookie
 {
-    __weak typeof(self) weakSelf = self;
-    [self removeCookiesFromDomains:@[@".salesforce.com", @".force.com", @".cloudforce.com"] withCompletion:^{
-        [weakSelf addSidCookieForInstance];
-    }];
-}
-
-+ (void)removeCookiesFromDomains:(NSArray *)domainNames withCompletion:(nullable void(^)())completionBlock {
-    NSAssert(domainNames != nil && [domainNames count] > 0, @"No domain names given for deleting cookies.");
-    WKWebsiteDataStore *dateStore = [WKWebsiteDataStore defaultDataStore];
-    NSSet *websiteDataTypes = [NSSet setWithArray:@[ WKWebsiteDataTypeCookies]];
-    [dateStore fetchDataRecordsOfTypes:websiteDataTypes
-                     completionHandler:^(NSArray<WKWebsiteDataRecord *> *records) {
-                         
-                         NSMutableArray<WKWebsiteDataRecord *> *deletedRecords = [NSMutableArray new];
-                         for ( WKWebsiteDataRecord * record in records) {
-                             for(NSString *domainName in domainNames) {
-                                 if ([record.displayName containsString:domainName]) {
-                                     [deletedRecords addObject:record];
-                                 }
-                             }
-                         }
-                         if (deletedRecords.count > 0)
-                             [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:websiteDataTypes
-                                                                       forDataRecords:deletedRecords
-                                                                    completionHandler:^{
-                                                                        if (completionBlock)
-                                                                            completionBlock();
-                                                                    }];
-                     }];
-    
-}
-
-+ (void)addSidCookieForInstance
-{
-    [self addSidCookieForDomain:[[SFUserAccountManager sharedInstance].currentUser.credentials.apiUrl host]];
-}
-
-+ (void)addSidCookieForDomain:(NSString*)domain
-{
-    NSAssert(domain != nil && [domain length] > 0, @"addSidCookieForDomain: domain cannot be empty");
-    [self log:SFLogLevelDebug format:@"addSidCookieForDomain: %@", domain];
-    
-    // Set the session ID cookie to be used by the web view.
-    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-    [cookieStorage setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
-    
-    NSMutableDictionary *newSidCookieProperties = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                   domain, NSHTTPCookieDomain,
-                                                   @"/", NSHTTPCookiePath,
-                                                   [SFAuthenticationManager sharedManager].coordinator.credentials.accessToken, NSHTTPCookieValue,
-                                                   @"sid", NSHTTPCookieName,
-                                                   @"TRUE", NSHTTPCookieDiscard,
-                                                   nil];
-    if ([[SFAuthenticationManager sharedManager].coordinator.credentials.protocol isEqualToString:@"https"]) {
-        newSidCookieProperties[NSHTTPCookieSecure] = @"TRUE";
-    }
-    
-    NSHTTPCookie *sidCookie0 = [NSHTTPCookie cookieWithProperties:newSidCookieProperties];
-    [cookieStorage setCookie:sidCookie0];
+   BOOL isSecure = [[SFAuthenticationManager sharedManager].coordinator.credentials.protocol isEqualToString:@"https"];
+   [SFSDKWebViewStateManager resetSessionWithAccessToken:[SFAuthenticationManager sharedManager].coordinator.credentials.accessToken
+                               andProtocol:isSecure];
 }
 
 + (BOOL)errorIsInvalidAuthCredentials:(NSError *)error
@@ -923,9 +862,8 @@ static Class InstanceClass = nil;
     if (self.coordinator.view) {
         [self.coordinator.view removeFromSuperview];
     }
-    
-    SFSDKWKProcessPoolFactory.sharedProcessPool = nil;
-    
+
+    [SFSDKWebViewStateManager removeSession];
     [self.coordinator stopAuthentication];
 
     self.idCoordinator.idData = nil;

@@ -373,21 +373,21 @@ static NSString* const kTestAppName = @"OverridenAppName";
 
 - (void)testDefaultProcessPoolIsNotNil
 {
-    XCTAssertNotNil(SFSDKWKProcessPoolFactory.sharedProcessPool);
+    XCTAssertNotNil(SFSDKWebViewStateManager.sharedProcessPool);
 }
 
 - (void)testProcessPoolCannotBeNil
 {
-    XCTAssertNotNil(SFSDKWKProcessPoolFactory.sharedProcessPool);
-    SFSDKWKProcessPoolFactory.sharedProcessPool = nil;
-    XCTAssertNotNil(SFSDKWKProcessPoolFactory.sharedProcessPool);
+    XCTAssertNotNil(SFSDKWebViewStateManager.sharedProcessPool);
+    SFSDKWebViewStateManager.sharedProcessPool = nil;
+    XCTAssertNotNil(SFSDKWebViewStateManager.sharedProcessPool);
 }
 
 - (void)testProcessPoolIsAssignable
 {
     WKProcessPool *newPool = [[WKProcessPool alloc] init];
-    SFSDKWKProcessPoolFactory.sharedProcessPool = newPool;
-    XCTAssertEqualObjects(newPool, SFSDKWKProcessPoolFactory.sharedProcessPool);
+    SFSDKWebViewStateManager.sharedProcessPool = newPool;
+    XCTAssertEqualObjects(newPool, SFSDKWebViewStateManager.sharedProcessPool);
 }
 
 
@@ -475,7 +475,7 @@ static NSString* const kTestAppName = @"OverridenAppName";
     _launchErrorBlockCalled = NO;
     _launchError = nil;
     _origAppName = SalesforceSDKManager.ailtnAppName;
-    _origProcessPool = SalesforceSDKManager.processPool;
+    _origProcessPool = SFSDKWebViewStateManager.sharedProcessPool;
 }
 
 - (void)restoreOrigSdkManagerState
@@ -493,7 +493,7 @@ static NSString* const kTestAppName = @"OverridenAppName";
     [SalesforceSDKManager sharedManager].postAppForegroundAction = _origPostAppForegroundAction;
     [SFUserAccountManager sharedInstance].currentUser = _origCurrentUser;
     SalesforceSDKManager.ailtnAppName = _origAppName;
-    SalesforceSDKManager.processPool = _origProcessPool;
+    SFSDKWebViewStateManager.sharedProcessPool = _origProcessPool;
 }
 
 - (void)compareAiltnAppNames:(NSString *)expectedAppName

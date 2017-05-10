@@ -24,7 +24,18 @@
 #import <Foundation/Foundation.h>
 
 @class WKProcessPool;
-@interface SFSDKWKProcessPoolFactory : NSObject
+
+@interface SFSDKWebViewStateManager : NSObject
+
+/**
+  Reset some associated state with WKWebView and UIWebView e.g. Remove Cookies then add SID cookie
+ */
++ (void)resetSessionWithAccessToken:(NSString *) accessToken andProtocol:(BOOL) isSecure;
+
+/**
+  Remove all associated state with WKWebView and UIWebView e.g. Remove Cookies, reset WKProcessPool
+ */
++ (void)removeSession;
 
 /**
  Gets or sets an instance of WKProcessPool that will be used during instantiation of any WKWebView instances @discussion
