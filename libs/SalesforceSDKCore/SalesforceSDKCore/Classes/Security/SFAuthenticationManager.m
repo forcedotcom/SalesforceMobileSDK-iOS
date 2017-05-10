@@ -620,8 +620,8 @@ static Class InstanceClass = nil;
 + (void)resetSessionCookie
 {
    BOOL isSecure = [[SFAuthenticationManager sharedManager].coordinator.credentials.protocol isEqualToString:@"https"];
-   [SFSDKWebViewStateManager resetSessionWithAccessToken:[SFAuthenticationManager sharedManager].coordinator.credentials.accessToken
-                               andProtocol:isSecure];
+    [SFSDKWebViewStateManager resetSessionWithNewAccessToken:[SFAuthenticationManager sharedManager].coordinator.credentials.accessToken
+                                            isSecureProtocol:isSecure];
 }
 
 + (BOOL)errorIsInvalidAuthCredentials:(NSError *)error

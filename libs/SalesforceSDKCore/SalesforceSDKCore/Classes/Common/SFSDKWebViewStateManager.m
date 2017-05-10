@@ -33,10 +33,10 @@ static NSString *const ERR_NO_COOKIE_NAMES = @"No cookie names given to delete."
 
 static WKProcessPool *_processPool = nil;
 
-+ (void)resetSessionWithAccessToken:(NSString *)accessToken andProtocol:(BOOL)isSecure {
++ (void)resetSessionWithNewAccessToken:(NSString *)accessToken isSecureProtocol:(BOOL)isSecure {
      //reset UIWebView related state if any
     [self removeUIWebViewCookies:@[SID_COOKIE] fromDomains:self.domains];
-    [self addSidCookieForDomain:SID_COOKIE withAccessToken:accessToken andProtocol:isSecure];
+    [self addSidCookieForDomain:SID_COOKIE withAccessToken:accessToken isSecureProtocol:isSecure];
     [self removeWKWebViewCookies:self.domains withCompletion:nil];
 }
 
@@ -54,7 +54,9 @@ static WKProcessPool *_processPool = nil;
 }
 
 + (void)setSharedProcessPool:(WKProcessPool *)sharedProcessPool {
-    _processPool = sharedProcessPool;
+    if (sharedProcessPool != _processPool) {
+        _processPool = sharedProcessPool;
+    }
 }
 
 #pragma mark Private helper methods
@@ -102,7 +104,7 @@ static WKProcessPool *_processPool = nil;
                                                                     }];
                      }];
 }
-+ (void)addSidCookieForDomain:(NSString*)domain withAccessToken:accessToken andProtocol:(BOOL)isSecure
++ (void)addSidCookieForDomain:(NSString*)domain withAccessToken:accessToken isSecureProtocol:(BOOL)isSecure
 {
     NSAssert(domain != nil && [domain length] > 0, @"addSidCookieForDomain: domain cannot be empty");
     [self log:SFLogLevelDebug format:@"addSidCookieForDomain: %@", domain];

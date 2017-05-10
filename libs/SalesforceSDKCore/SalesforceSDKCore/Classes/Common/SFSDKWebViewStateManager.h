@@ -30,7 +30,7 @@
 /**
   Reset some associated state with WKWebView and UIWebView e.g. Remove Cookies then add SID cookie
  */
-+ (void)resetSessionWithAccessToken:(NSString *) accessToken andProtocol:(BOOL) isSecure;
++ (void)resetSessionWithNewAccessToken:(NSString *)accessToken isSecureProtocol:(BOOL)isSecure;
 
 /**
   Remove all associated state with WKWebView and UIWebView e.g. Remove Cookies, reset WKProcessPool
