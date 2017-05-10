@@ -24,6 +24,15 @@
 
 #import "SyncManagerTestCase.h"
 #import "SFParentChildrenSyncDownTarget.h"
+#import "SFSmartSyncObjectUtils.h"
+
+@interface SFParentChildrenSyncDownTarget ()
+
+- (NSString *)getSoqlForRemoteIds;
+- (NSString*) getDirtyRecordIdsSql:(NSString*)soupName idField:(NSString*)idField;
+- (NSString*) getNonDirtyRecordIdsSql:(NSString*)soupName idField:(NSString*)idField;
+
+@end
 
 @interface ParentChildrenSyncTests : SyncManagerTestCase
 
@@ -33,7 +42,7 @@
 
 
 /**
- * Test getQuery SFfor ParentChildrenSyncDownTarget
+ * Test getQuery for SFParentChildrenSyncDownTarget
  */
 - (void) testGetQuery {
     SFParentChildrenSyncDownTarget* target = [SFParentChildrenSyncDownTarget
@@ -44,7 +53,8 @@
                       childrenFieldlist:@[@"ChildName", @"School"]
                        relationshipType:SFParentChildrenRelationpshipLookup];
 
-    XCTAssert([target getQueryToRun], @"select ParentName, Title, ParentId, ParentModifiedDate, (select ChildName, School, ChildId, ChildLastModifiedDate from Children) from Parent where School = 'MIT'");
+    NSString *expectedQuery = @"select ParentName, Title, ParentId, ParentModifiedDate, (select ChildName, School, ChildId, ChildLastModifiedDate from Children) from Parent where School = 'MIT'";
+    XCTAssertEqualObjects([target getQueryToRun], expectedQuery);
 
     // With default id and modification date fields
     target = [SFParentChildrenSyncDownTarget
@@ -55,7 +65,100 @@
                       childrenFieldlist:@[@"ChildName", @"School"]
                        relationshipType:SFParentChildrenRelationpshipLookup];
 
-    XCTAssert([target getQueryToRun], @"select ParentName, Title, Id, LastModifiedDate, (select ChildName, School, Id, LastModifiedDate from Children) from Parent where School = 'MIT'");
+    expectedQuery = @"select ParentName, Title, Id, LastModifiedDate, (select ChildName, School, Id, LastModifiedDate from Children) from Parent where School = 'MIT'";
+    XCTAssertEqualObjects([target getQueryToRun], expectedQuery);
+}
+
+/**
+ * Test query for reSync by calling getQuery with maxTimeStamp for SFParentChildrenSyncDownTarget
+ */
+- (void) testGetQueryWithMaxTimeStamp {
+    NSDate* date = [NSDate new];
+    long long maxTimeStamp = [date timeIntervalSince1970];
+    NSString* dateStr = [SFSmartSyncObjectUtils getIsoStringFromMillis:maxTimeStamp];
+    
+    SFParentChildrenSyncDownTarget* target = [SFParentChildrenSyncDownTarget
+            newSyncTargetWithParentInfo:[SFParentInfo newWithSObjectType:@"Parent" soupName:@"parentsSoup" idFieldName:@"ParentId" modificationDateFieldName:@"ParentModifiedDate"]
+                        parentFieldlist:@[@"ParentName", @"Title"]
+                       parentSoqlFilter:@"School = 'MIT'"
+                           childrenInfo:[SFChildrenInfo newWithSObjectType:@"Child" sobjectTypePlural:@"Children" soupName:@"childrenSoup" parentIdFieldName:@"parentId" idFieldName:@"ChildId" modificationDateFieldName:@"ChildLastModifiedDate"]
+                      childrenFieldlist:@[@"ChildName", @"School"]
+                       relationshipType:SFParentChildrenRelationpshipLookup];
+
+    NSString* expectedQuery = [NSString stringWithFormat:@"select ParentName, Title, ParentId, ParentModifiedDate, (select ChildName, School, ChildId, ChildLastModifiedDate from Children where ChildLastModifiedDate > %@) from Parent where ParentModifiedDate > %@ and School = 'MIT'", dateStr, dateStr];
+    XCTAssertEqualObjects([target getQueryToRun:maxTimeStamp], expectedQuery);
+
+    // With default id and modification date fields
+    target = [SFParentChildrenSyncDownTarget
+            newSyncTargetWithParentInfo:[SFParentInfo newWithSObjectType:@"Parent" soupName:@"parentsSoup"]
+                        parentFieldlist:@[@"ParentName", @"Title"]
+                       parentSoqlFilter:@"School = 'MIT'"
+                           childrenInfo:[SFChildrenInfo newWithSObjectType:@"Child" sobjectTypePlural:@"Children" soupName:@"childrenSoup" parentIdFieldName:@"parentId"]
+                      childrenFieldlist:@[@"ChildName", @"School"]
+                       relationshipType:SFParentChildrenRelationpshipLookup];
+
+    expectedQuery = [NSString stringWithFormat:@"select ParentName, Title, Id, LastModifiedDate, (select ChildName, School, Id, LastModifiedDate from Children where LastModifiedDate > %@) from Parent where LastModifiedDate > %@ and School = 'MIT'", dateStr, dateStr];
+    XCTAssertEqualObjects([target getQueryToRun:maxTimeStamp], expectedQuery);
+}
+
+/**
+ * Test getSoqlForRemoteIds for SFParentChildrenSyncDownTarget
+ */
+- (void) testGetSoqlForRemoteIds {
+    SFParentChildrenSyncDownTarget* target = [SFParentChildrenSyncDownTarget
+            newSyncTargetWithParentInfo:[SFParentInfo newWithSObjectType:@"Parent" soupName:@"parentsSoup" idFieldName:@"ParentId" modificationDateFieldName:@"ParentModifiedDate"]
+                        parentFieldlist:@[@"ParentName", @"Title"]
+                       parentSoqlFilter:@"School = 'MIT'"
+                           childrenInfo:[SFChildrenInfo newWithSObjectType:@"Child" sobjectTypePlural:@"Children" soupName:@"childrenSoup" parentIdFieldName:@"ChildParentId" idFieldName:@"ChildId" modificationDateFieldName:@"ChildLastModifiedDate"]
+                      childrenFieldlist:@[@"ChildName", @"School"]
+                       relationshipType:SFParentChildrenRelationpshipLookup];
+
+    NSString *expectedQuery = @"select ParentId from Parent where School = 'MIT'";
+    XCTAssertEqualObjects([target getSoqlForRemoteIds], expectedQuery);
+
+    // With default id and modification date fields
+    target = [SFParentChildrenSyncDownTarget
+            newSyncTargetWithParentInfo:[SFParentInfo newWithSObjectType:@"Parent" soupName:@"parentsSoup"]
+                        parentFieldlist:@[@"ParentName", @"Title"]
+                       parentSoqlFilter:@"School = 'MIT'"
+                           childrenInfo:[SFChildrenInfo newWithSObjectType:@"Child" sobjectTypePlural:@"Children" soupName:@"childrenSoup" parentIdFieldName:@"parentId"]
+                      childrenFieldlist:@[@"ChildName", @"School"]
+                       relationshipType:SFParentChildrenRelationpshipLookup];
+
+    expectedQuery = @"select Id from Parent where School = 'MIT'";
+    XCTAssertEqualObjects([target getSoqlForRemoteIds], expectedQuery);
+}
+
+/**
+ * Test testGetDirtyRecordIdsSql for SFParentChildrenSyncDownTarget
+ */
+- (void) testGetDirtyRecordIdsSql {
+    SFParentChildrenSyncDownTarget *target = [SFParentChildrenSyncDownTarget
+            newSyncTargetWithParentInfo:[SFParentInfo newWithSObjectType:@"Parent" soupName:@"parentsSoup" idFieldName:@"ParentId" modificationDateFieldName:@"ParentModifiedDate"]
+                        parentFieldlist:@[@"ParentName", @"Title"]
+                       parentSoqlFilter:@"School = 'MIT'"
+                           childrenInfo:[SFChildrenInfo newWithSObjectType:@"Child" sobjectTypePlural:@"Children" soupName:@"childrenSoup" parentIdFieldName:@"ChildParentId" idFieldName:@"ChildId" modificationDateFieldName:@"ChildLastModifiedDate"]
+                      childrenFieldlist:@[@"ChildName", @"School"]
+                       relationshipType:SFParentChildrenRelationpshipLookup];
+
+    NSString *expectedQuery = @"SELECT DISTINCT {parentsSoup:IdForQuery} FROM {parentsSoup} WHERE {parentsSoup:__local__} = 1 OR EXISTS (SELECT {childrenSoup:ChildId} FROM {childrenSoup} WHERE {childrenSoup:ChildParentId} = {parentsSoup:ParentId} AND {childrenSoup:__local__} = 1)";
+    XCTAssertEqualObjects([target getDirtyRecordIdsSql:@"parentsSoup" idField:@"IdForQuery"], expectedQuery);
+}
+
+/**
+ * Test testGetNonDirtyRecordIdsSql for SFParentChildrenSyncDownTarget
+ */
+- (void) testGetNonDirtyRecordIdsSql {
+    SFParentChildrenSyncDownTarget *target = [SFParentChildrenSyncDownTarget
+            newSyncTargetWithParentInfo:[SFParentInfo newWithSObjectType:@"Parent" soupName:@"parentsSoup" idFieldName:@"ParentId" modificationDateFieldName:@"ParentModifiedDate"]
+                        parentFieldlist:@[@"ParentName", @"Title"]
+                       parentSoqlFilter:@"School = 'MIT'"
+                           childrenInfo:[SFChildrenInfo newWithSObjectType:@"Child" sobjectTypePlural:@"Children" soupName:@"childrenSoup" parentIdFieldName:@"ChildParentId" idFieldName:@"ChildId" modificationDateFieldName:@"ChildLastModifiedDate"]
+                      childrenFieldlist:@[@"ChildName", @"School"]
+                       relationshipType:SFParentChildrenRelationpshipLookup];
+
+    NSString *expectedQuery = @"SELECT DISTINCT {parentsSoup:IdForQuery} FROM {parentsSoup} WHERE {parentsSoup:__local__} = 0 AND NOT EXISTS (SELECT {childrenSoup:ChildId} FROM {childrenSoup} WHERE {childrenSoup:ChildParentId} = {parentsSoup:ParentId} AND {childrenSoup:__local__} = 1)";
+    XCTAssertEqualObjects([target getNonDirtyRecordIdsSql:@"parentsSoup" idField:@"IdForQuery"], expectedQuery);
 }
 
 @end
