@@ -23,7 +23,38 @@
  */
 
 #import <XCTest/XCTest.h>
+#import <SalesforceSDKCore/SFUserAccountManager.h>
+#import <SmartStore/SFSmartStore.h>
+#import "SFSmartSyncSyncManager.h"
+
+#define ACCOUNTS_SOUP       @"accounts"
+#define ACCOUNT_TYPE        @"Account"
+#define ID                  @"Id"
+#define NAME                @"Name"
+#define DESCRIPTION         @"Description"
+#define LAST_MODIFIED_DATE  @"lastModifiedDate"
+#define ATTRIBUTES          @"attributes"
+#define TYPE                @"type"
+#define RECORDS             @"records"
+#define CONTACT_TYPE        @"Contact"
+#define LAST_NAME           @"LastName"
+#define CONTACTS_SOUP       @"contacts"
+#define ACCOUNT_ID          @"AccountId"
 
 @interface SyncManagerTestCase : XCTestCase
 
+@property (nonatomic, strong) SFUserAccount* currentUser;
+@property (nonatomic, strong) SFSmartSyncSyncManager* syncManager;
+@property (nonatomic, strong) SFSmartStore* store;
+
+- (NSString *)createRecordName:(NSString *)objectType;
+- (NSString *)createAccountName;
+- (NSArray<NSDictionary*>*) createAccountsLocally:(NSArray<NSString*>*)names;
+- (NSString*) createLocalId;
+- (void)createAccountsSoup;
+- (void)dropAccountsSoup;
+
+- (void)createContactsSoup;
+
+- (void)dropContactsSoup;
 @end

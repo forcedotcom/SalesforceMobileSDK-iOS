@@ -22,9 +22,120 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <SmartStore/SFSoupIndex.h>
+#import <SmartStore/SFSmartStore.h>
+#import <SalesforceSDKCore/SFAuthenticationManager.h>
+#import <SalesforceSDKCore/TestSetupUtils.h>
+#import "TestSyncUpTarget.h"
 #import "SyncManagerTestCase.h"
+
+static NSException *authException = nil;
 
 @implementation SyncManagerTestCase
 
++ (void)setUp
+{
+    @try {
+        [SFLogger sharedLogger].logLevel = SFLogLevelDebug;
+        [SFSyncManagerLogger setLevel:SFLogLevelDebug];
+        [TestSetupUtils populateAuthCredentialsFromConfigFileForClass:[self class]];
+        [TestSetupUtils synchronousAuthRefresh];
+        [SFSmartStore removeAllStores];
 
+    } @catch (NSException *exception) {
+        [self log:SFLogLevelDebug format:@"Populating auth from config failed: %@", exception];
+        authException = exception;
+    }
+    [super setUp];
+}
+
+- (void)setUp
+{
+    if (authException) {
+        XCTFail(@"Setting up authentication failed: %@", authException);
+    }
+    [SFRestAPI setIsTestRun:YES];
+    [[SFRestAPI sharedInstance] setCoordinator:[SFAuthenticationManager sharedManager].coordinator];
+
+    // User and managers setup
+    self.currentUser = [SFUserAccountManager sharedInstance].currentUser;
+    self.syncManager = [SFSmartSyncSyncManager sharedInstance:self.currentUser];
+    self.store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName user:self.currentUser];
+    [super setUp];
+}
+
+- (void)tearDown
+{
+    // User and managers tear down
+    [SFSmartSyncSyncManager removeSharedInstance:self.currentUser];
+    [[SFRestAPI sharedInstance] cleanup];
+    [SFRestAPI setIsTestRun:NO];
+
+    self.currentUser = nil;
+    self.syncManager = nil;
+    self.store = nil;
+
+    // Some test runs were failing, saying the run didn't complete. This seems to fix that.
+    [NSThread sleepForTimeInterval:0.1];
+    [super tearDown];
+}
+
+- (NSString*)createRecordName:(NSString*)objectType {
+    return [NSString stringWithFormat:@"SyncManagerTestCase_%@_%08d", objectType, arc4random_uniform(100000000)];
+}
+
+- (NSString*) createAccountName {
+    return [self createRecordName:ACCOUNT_TYPE];
+}
+
+- (NSArray<NSDictionary*>*) createAccountsLocally:(NSArray<NSString*>*)names {
+    NSMutableArray<NSDictionary *> *accounts = [NSMutableArray new];
+    NSDictionary *attributes = @{TYPE: ACCOUNT_TYPE};
+    for (NSString *name in names) {
+        NSDictionary *account = @{
+                ID: [self createLocalId],
+                NAME: name,
+                DESCRIPTION: [@[DESCRIPTION, name] componentsJoinedByString:@"_"],
+                ATTRIBUTES: attributes,
+                kSyncTargetLocal: @YES,
+                kSyncTargetLocallyCreated: @YES,
+                kSyncTargetLocallyUpdated: @NO,
+                kSyncTargetLocallyDeleted: @NO,
+        };
+        [accounts addObject:account];
+    }
+    return [self.store upsertEntries:accounts toSoup:ACCOUNTS_SOUP];
+}
+
+- (NSString*) createLocalId {
+    return [NSString stringWithFormat:@"local_%08d", arc4random_uniform(100000000)];
+}
+
+- (void)createAccountsSoup {
+    NSArray* indexSpecs = @[
+                            [[SFSoupIndex alloc] initWithPath:ID indexType:kSoupIndexTypeString columnName:nil],
+                            [[SFSoupIndex alloc] initWithPath:NAME indexType:kSoupIndexTypeString columnName:nil],
+                            [[SFSoupIndex alloc] initWithPath:DESCRIPTION indexType:kSoupIndexTypeFullText columnName:nil],
+                            [[SFSoupIndex alloc] initWithPath:kSyncTargetLocal indexType:kSoupIndexTypeString columnName:nil]
+                            ];
+    [self.store registerSoup:ACCOUNTS_SOUP withIndexSpecs:indexSpecs error:nil];
+}
+
+- (void)dropAccountsSoup{
+    [self.store removeSoup:ACCOUNTS_SOUP];
+}
+
+- (void)createContactsSoup {
+    NSArray* indexSpecs = @[
+            [[SFSoupIndex alloc] initWithPath:ID indexType:kSoupIndexTypeString columnName:nil],
+            [[SFSoupIndex alloc] initWithPath:LAST_NAME indexType:kSoupIndexTypeString columnName:nil],
+            [[SFSoupIndex alloc] initWithPath:ACCOUNT_ID indexType:kSoupIndexTypeString columnName:nil],
+            [[SFSoupIndex alloc] initWithPath:kSyncTargetLocal indexType:kSoupIndexTypeString columnName:nil]
+    ];
+    [self.store registerSoup:CONTACTS_SOUP withIndexSpecs:indexSpecs error:nil];
+}
+
+- (void)dropContactsSoup{
+    [self.store removeSoup:CONTACTS_SOUP];
+}
 @end
