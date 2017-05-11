@@ -36,6 +36,7 @@
 #import <SalesforceSDKCore/SFSDKResourceUtils.h>
 #import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
 #import <SalesforceSDKCore/NSString+SFAdditions.h>
+#import <SalesforceSDKCore/SFSDKWebViewStateManager.h>
 #import <Cordova/NSDictionary+CordovaPreferences.h>
 #import <Cordova/CDVUserAgentUtil.h>
 #import <objc/message.h>
@@ -340,7 +341,7 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
         [self.view addSubview:self.errorPageUIWebView];
     } else {
         WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
-        config.processPool = [SalesforceSDKManager sharedManager].processPool;
+        config.processPool = SFSDKWebViewStateManager.sharedProcessPool;
         self.errorPageWKWebView = [[WKWebView alloc] initWithFrame:self.view.frame configuration:config];
         self.errorPageWKWebView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         self.errorPageWKWebView.navigationDelegate = self;
@@ -827,7 +828,7 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
             [self.vfPingPageHiddenUIWebView loadRequest:pingRequest];
         } else {
             WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
-            config.processPool = [SalesforceSDKManager sharedManager].processPool;
+            config.processPool = SFSDKWebViewStateManager.sharedProcessPool;
             self.vfPingPageHiddenWKWebView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:config];
             self.vfPingPageHiddenWKWebView.navigationDelegate = self;
             [self.vfPingPageHiddenWKWebView loadRequest:pingRequest];
