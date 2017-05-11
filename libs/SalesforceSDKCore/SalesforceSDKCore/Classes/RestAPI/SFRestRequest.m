@@ -88,11 +88,14 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 }
 
 - (void)setCustomRequestBodyData:(NSData *)bodyData contentType:(NSString *)contentType {
-    if (bodyData == nil) bodyData = [NSData data];
+    if (bodyData == nil) {
+        bodyData = [NSData data];
+    }
     NSInputStream *(^bodyStreamBlock)(void) = ^{
         return [NSInputStream inputStreamWithData:bodyData];
     };
     [self setCustomRequestBodyStream:bodyStreamBlock contentType:contentType];
+    [self setHeaderValue:[NSString stringWithFormat:@"%lu", (unsigned long)[bodyData length]] forHeaderName:@"Content-Length"];
 }
 
 - (void)setCustomRequestBodyStream:(NSInputStream* (^)(void))bodyInputStreamBlock contentType:(NSString *)contentType {
@@ -156,9 +159,11 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
         // Sets HTTP method on the request.
         [self.request setHTTPMethod:[SFRestRequest httpMethodFromSFRestMethod:self.method]];
 
-        // Sets OAuth Bearer token header on the request.
-        NSString *bearer = [NSString stringWithFormat:@"Bearer %@", user.credentials.accessToken];
-        [self.request setValue:bearer forHTTPHeaderField:@"Authorization"];
+        // Sets OAuth Bearer token header on the request (if not already present).
+        if (self.request.allHTTPHeaderFields && self.request.allHTTPHeaderFields.allKeys && ![self.request.allHTTPHeaderFields.allKeys containsObject:@"Authorization"]) {
+            NSString *bearer = [NSString stringWithFormat:@"Bearer %@", user.credentials.accessToken];
+            [self.request setValue:bearer forHTTPHeaderField:@"Authorization"];
+        }
 
         // Adds custom headers to the request if any are set.
         if (self.customHeaders) {

@@ -43,6 +43,7 @@
 #import "SFOAuthInfo.h"
 #import "SFLoginViewController.h"
 #import "SFOAuthCoordinator+Internal.h"
+#import "SFNetwork.h"
 
 static SFAuthenticationManager *sharedInstance = nil;
 
@@ -781,8 +782,8 @@ static Class InstanceClass = nil;
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
         [request setHTTPMethod:@"GET"];
         [request setHTTPShouldHandleCookies:NO];
-        NSURLSession* session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration ephemeralSessionConfiguration]];
-        [[session dataTaskWithRequest:request] resume];
+        SFNetwork *network = [[SFNetwork alloc] init];
+        [network sendRequest:request dataResponseBlock:nil];
     }
     [user.credentials revoke];
 }

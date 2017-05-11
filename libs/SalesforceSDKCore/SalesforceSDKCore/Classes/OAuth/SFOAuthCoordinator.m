@@ -41,6 +41,7 @@
 #import "SFSDKAppFeatureMarkers.h"
 #import "SalesforceSDKManager.h"
 #import "SFSDKWebViewStateManager.h"
+#import "SFNetwork.h"
 
 // Public constants
 
@@ -936,20 +937,20 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
 
 - (NSURLSession*)session {
     if (_session == nil) {
-        _session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration ephemeralSessionConfiguration]];
+        SFNetwork *network = [[SFNetwork alloc] init];
+        _session = network.activeSession;
     }
     return _session;
 }
 
 #pragma mark - WKNavigationDelegate (User-Agent Token Flow)
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
-
     NSURL *url = navigationAction.request.URL;
     NSString *requestUrl = [url absoluteString];
     if ([self isRedirectURL:requestUrl]) {
         [self handleUserAgentResponse:url];
         decisionHandler(WKNavigationActionPolicyCancel);
-    }else {
+    } else {
         decisionHandler(WKNavigationActionPolicyAllow);
     }
 }
@@ -959,13 +960,10 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
 }
 
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
-
-    NSURL *url = [webView URL];  //.request.URL;
-
+    NSURL *url = [webView URL];
     if (self.credentials.logLevel < kSFOAuthLogLevelWarning) {
         [self log:SFLogLevelDebug format:@"%@ host=%@ : path=%@", NSStringFromSelector(_cmd), url.host, url.path];
     }
-
     if ([self.delegate respondsToSelector:@selector(oauthCoordinator:didStartLoad:)]) {
         [self.delegate oauthCoordinator:self didStartLoad:webView];
     }
