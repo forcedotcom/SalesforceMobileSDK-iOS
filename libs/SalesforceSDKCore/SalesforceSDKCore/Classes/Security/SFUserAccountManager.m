@@ -452,7 +452,6 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
                 currentAccount.communities = @[communityData];
             }
         }
-        [self setCurrentCommunityId:currentAccount.communityId];
     }
 
     [self saveAccountForUser:currentAccount error:nil];
@@ -613,19 +612,8 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
     }];
 }
 
-#pragma mark -
-#pragma mark User Change Notifications
-- (BOOL)hasCommunityChanged {
-    // If the last changed communityID exists and is inequal or
-    // if there was no previous communityID and now there is
-    if ((self.lastChangedCommunityId && ![self.lastChangedCommunityId isEqualToString:self.currentUser.communityId])
-        || (!self.lastChangedCommunityId && self.currentUser.communityId)) {
-        return YES;
-    } else {
-        return NO;
-    }
-}
 
+#pragma mark - User Change Notifications
 - (void)userChanged:(SFUserAccount *)user change:(SFUserAccountDataChange)change {
     [self notifyUserDataChange:SFUserAccountManagerDidChangeUserDataNotification withUser:user andChange:change];
 }
