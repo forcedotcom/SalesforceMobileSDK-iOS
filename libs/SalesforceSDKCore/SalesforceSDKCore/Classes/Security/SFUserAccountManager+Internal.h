@@ -35,9 +35,6 @@
  */
 @property (nonatomic, strong, nonnull) NSMutableDictionary *userAccountMap;
 
-@property (nonatomic, strong, nullable) NSString *lastChangedOrgId;
-@property (nonatomic, strong, nullable) NSString *lastChangedUserId;
-@property (nonatomic, strong, nullable) NSString *lastChangedCommunityId;
 @property (nonatomic, strong, nullable) id<SFUserAccountPersister> accountPersister;
 /**
  Executes the given block for each configured delegate.
