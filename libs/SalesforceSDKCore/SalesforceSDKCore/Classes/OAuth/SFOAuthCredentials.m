@@ -277,11 +277,6 @@ NSException * SFOAuthInvalidIdentifierException() {
     self.identityUrl  = nil;
 }
 
-- (void)revokeActivationCode {
-    if (!([self.identifier length] > 0)) @throw SFOAuthInvalidIdentifierException();
-    self.activationCode = nil;
-}
-
 - (void)setPropertyForKey:(NSString *) propertyName withValue:(id) newValue {
     id oldValue = [self valueForKey:propertyName];
     if (newValue) {
