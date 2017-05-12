@@ -138,4 +138,8 @@ static NSException *authException = nil;
 - (void)dropContactsSoup{
     [self.store removeSoup:CONTACTS_SOUP];
 }
+
+- (NSString*) buildInClause:(NSArray*)values {
+    return [NSString stringWithFormat:@"('%@')", [values componentsJoinedByString:@"', '"]];
+}
 @end

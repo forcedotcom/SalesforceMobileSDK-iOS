@@ -22,6 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <SmartStore/SFQuerySpec.h>
 #import "SyncManagerTestCase.h"
 #import "SFParentChildrenSyncDownTarget.h"
 #import "SFSmartSyncObjectUtils.h"
@@ -225,6 +226,91 @@
     [self tryGetNonDirtyRecordIds:@[accounts[3]]];
 }
 
+
+/**
+  * Test saveRecordsToLocalStore
+  */
+- (void) testSaveRecordsToLocalStore {
+
+    // Putting together an array of accounts with contacts
+    // looking like what we would get back from startFetch/continueFetch
+    // - not having local fields
+    // - not have _soupEntryId field
+    NSUInteger numberAccounts = 4;
+    NSUInteger numberContactsPerAccount = 3;
+
+    NSDictionary * accountAttributes = @{TYPE: ACCOUNT_TYPE};
+    NSDictionary * contactAttributes = @{TYPE: CONTACT_TYPE};
+
+    NSMutableArray* accounts = [NSMutableArray new];
+    NSMutableDictionary * mapAccountContacts = [NSMutableDictionary new];
+
+    for (NSUInteger i = 0; i<numberAccounts; i++) {
+        NSDictionary * account = @{ID: [self createLocalId], ATTRIBUTES: accountAttributes};
+        NSMutableArray * contacts = [NSMutableArray new];
+        for (NSUInteger j = 0; j < numberContactsPerAccount; j++) {
+            [contacts addObject:@{ID: [self createLocalId], ATTRIBUTES: contactAttributes, ACCOUNT_ID: account[ID]}];
+        }
+        mapAccountContacts[account] = contacts;
+        [accounts addObject:account];
+    }
+
+    NSMutableArray * records = [NSMutableArray new];
+    for (NSDictionary * account in accounts) {
+        NSMutableDictionary * record = [account mutableCopy];
+        NSMutableArray * contacts = [NSMutableArray new];
+        for (NSDictionary * contact in mapAccountContacts[account]) {
+            [contacts addObject:contact];
+        }
+        record[@"Contacts"] = contacts;
+        [records addObject:record];
+    }
+
+    // Now calling saveRecordsToLocalStore
+    SFParentChildrenSyncDownTarget * target = [self getAccountContactsSyncDownTarget];
+    [target saveRecordsToLocalStore:self.syncManager soupName:ACCOUNTS_SOUP records:records];
+
+    // Checking accounts and contacts soup
+    // Making sure local fields are populated
+    // Making sure accountId and accountLocalId fields are populated on contacts
+
+    NSMutableArray * accountIds = [NSMutableArray new];
+    for (NSDictionary * account in accounts) {
+        [accountIds addObject:account[ID]];
+    }
+    NSArray<NSDictionary *> *accountsFromDb = [self queryWithInClause:ACCOUNTS_SOUP fieldName:ID values:accountIds orderBy:SOUP_ENTRY_ID];
+    XCTAssertEqual(accountsFromDb.count, accounts.count, @"Wrong number of accounts in db");
+
+    for (NSUInteger i = 0; i < accountsFromDb.count; i++) {
+        NSDictionary * account = accounts[i];
+        NSDictionary * accountFromDb = accountsFromDb[i];
+
+        XCTAssertEqualObjects(accountFromDb[ID], account[ID]);
+        XCTAssertEqualObjects(accountFromDb[ATTRIBUTES][TYPE], ACCOUNT_TYPE);
+        XCTAssertEqualObjects(@NO, accountFromDb[kSyncTargetLocal]);
+        XCTAssertEqualObjects(@NO, accountFromDb[kSyncTargetLocallyCreated]);
+        XCTAssertEqualObjects(@NO, accountFromDb[kSyncTargetLocallyUpdated]);
+        XCTAssertEqualObjects(@NO, accountFromDb[kSyncTargetLocallyDeleted]);
+
+        NSArray<NSDictionary *>* contactsFromDb = [self queryWithInClause:CONTACTS_SOUP fieldName:ACCOUNT_ID values:@[account[ID]] orderBy:SOUP_ENTRY_ID];
+        NSArray<NSDictionary *>* contacts = mapAccountContacts[account];
+        XCTAssertEqual(contactsFromDb.count, contacts.count, @"Wrong number of accounts in db");
+
+        for (NSUInteger j = 0; j < contactsFromDb.count; j++) {
+            NSDictionary *  contact = contacts[j];
+            NSDictionary *  contactFromDb = contactsFromDb[j];
+
+            XCTAssertEqualObjects(contactFromDb[ID], contact[ID]);
+            XCTAssertEqualObjects(contactFromDb[ATTRIBUTES][TYPE], CONTACT_TYPE);
+            XCTAssertEqualObjects(@NO, contactFromDb[kSyncTargetLocal]);
+            XCTAssertEqualObjects(@NO, contactFromDb[kSyncTargetLocallyCreated]);
+            XCTAssertEqualObjects(@NO, contactFromDb[kSyncTargetLocallyUpdated]);
+            XCTAssertEqualObjects(@NO, contactFromDb[kSyncTargetLocallyDeleted]);
+            XCTAssertEqualObjects(accountFromDb[ID], contactFromDb[ACCOUNT_ID]);
+        }
+    }
+}
+
 #pragma mark - Helper methods
 
 - (void)createTestData {
@@ -343,5 +429,23 @@
                        relationshipType:SFParentChildrenRelationpshipMasterDetail]; // account-contacts are master-detail
     return target;
 }
+
+- (NSArray<NSDictionary*>*) queryWithInClause:(NSString*)soupName fieldName:(NSString*)fieldName values:(NSArray<NSString*>*)values orderBy:(NSString*)orderBy
+{
+    NSString* sql = [NSString stringWithFormat:@"SELECT {%@:%@} FROM {%@} WHERE {%@:%@} IN %@ %@",
+            soupName, @"_soup", soupName, soupName, fieldName,
+            [self buildInClause:values],
+            orderBy == nil ? @"" : [NSString stringWithFormat:@" ORDER BY {%@:%@} ASC", soupName, orderBy]
+            ];
+
+    SFQuerySpec * querySpec = [SFQuerySpec newSmartQuerySpec:sql withPageSize:INT_MAX];
+    NSArray* rows = [self.store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
+    NSMutableArray * arr = [NSMutableArray new];
+    for (NSUInteger i = 0; i < rows.count; i++) {
+        arr[i] = rows[i][0];
+    }
+    return arr;
+}
+
 
 @end

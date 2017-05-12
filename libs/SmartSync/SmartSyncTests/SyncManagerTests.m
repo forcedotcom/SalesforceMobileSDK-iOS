@@ -1665,6 +1665,7 @@
     [self deleteSyncs];
 }
 
+
 - (NSDictionary*)createAccountsOnServer:(NSUInteger)count {
     NSMutableArray * arrayOfFields = [NSMutableArray new];
     NSMutableArray* requests = [NSMutableArray new];
@@ -1803,10 +1804,6 @@
         SFRestRequest* request = [[SFRestAPI sharedInstance] requestForUpdateWithObjectType:ACCOUNT_TYPE objectId:accountId fields:fields];
         [self sendSyncRequest:request];
     }
-}
-
-- (NSString*) buildInClause:(NSArray*)values {
-    return [NSString stringWithFormat:@"('%@')", [values componentsJoinedByString:@"', '"]];
 }
 
 - (NSDictionary*)sendSyncRequest:(SFRestRequest*)request {

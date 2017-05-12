@@ -53,8 +53,8 @@
 - (NSString*) createLocalId;
 - (void)createAccountsSoup;
 - (void)dropAccountsSoup;
-
 - (void)createContactsSoup;
-
 - (void)dropContactsSoup;
+- (NSString *)buildInClause:(NSArray *)values;
+
 @end
