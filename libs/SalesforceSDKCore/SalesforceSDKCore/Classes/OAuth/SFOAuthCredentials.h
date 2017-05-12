@@ -108,15 +108,6 @@ typedef NS_ENUM(NSInteger, SFOAuthCredentialsStorageType){
  */
 @property (nonatomic, copy, nullable) NSString *redirectUri;
 
-/** Activation code.
- 
- Activation code used in the client IP/IC bypass flow.
- This property is set by the `SFOAuthCoordinator` after authentication has successfully completed.
- 
- @warning The setter for this property is exposed publicly only for unit tests. Client code should not set this property.
- @exception NSInternalInconsistencyException If accessed while the identifier property is `nil`.
- */
-@property (nonatomic, copy, nullable) NSString *activationCode;
 /** JWT.
  
  JWT code used in the client breeze link flow.
@@ -278,11 +269,5 @@ typedef NS_ENUM(NSInteger, SFOAuthCredentialsStorageType){
  @exception NSInternalInconsistencyException If called while the identifier property is `nil`.
  */
 - (void)revokeRefreshToken;
-
-/** Revoke the OAuth activation code.
- 
- @exception NSInternalInconsistencyException If called while the identifier property is `nil`.
- */
-- (void)revokeActivationCode;
 
 @end

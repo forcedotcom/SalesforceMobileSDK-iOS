@@ -661,12 +661,7 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
                                kSFOAuthClientId, self.credentials.clientId];
     NSMutableString *logString = [NSMutableString stringWithString:params];
     
-    // If an activation code is available (IP bypass flow), then provide the activation code in the request
-    if (self.credentials.activationCode) {
-        [params appendFormat:@"&%@=%@", kSFOAuthResponseClientSecret, self.credentials.activationCode];
-    }
-    
-    // If there is an approval code (IP bypass flow or Advanced Auth flow), use it once to get the tokens.
+    // If there is an approval code (Advanced Auth flow), use it once to get the tokens.
     if (self.approvalCode) {
         [self log:SFLogLevelInfo format:@"%@: Initiating authorization code flow.", NSStringFromSelector(_cmd)];
         [params appendFormat:@"&%@=%@&%@=%@", kSFOAuthGrantType, kSFOAuthGrantTypeAuthorizationCode, kSFOAuthApprovalCode, self.approvalCode];
@@ -788,14 +783,7 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
         if (nil == error) {
             [self updateCredentials:params];
             self.credentials.refreshToken   = params[kSFOAuthRefreshToken];
-            self.approvalCode = params[kSFOAuthApprovalCode];
-            if (self.approvalCode) {
-                // If there is an approval code, then proceed to get the access/refresh token (IP bypass flow).
-                [self.oauthCoordinatorFlow beginTokenEndpointFlow:SFOAuthTokenEndpointFlowIPBypass];
-            } else {
-                // Otherwise, we are done with the authentication.
-                [self notifyDelegateOfSuccess:self.authInfo];
-            }
+            [self notifyDelegateOfSuccess:self.authInfo];
         } else {
             NSError *finalError;
             NSError *error = [[self class] errorWithType:params[kSFOAuthError]
@@ -824,12 +812,7 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
                                           kSFOAuthRedirectUri, self.credentials.redirectUri,
                                           kSFOAuthDisplay, kSFOAuthDisplayTouch];
     
-    // If an activation code is available (IP bypass flow), then use the "activated client" response type.
-    if (self.credentials.activationCode) {
-        [approvalUrlString appendFormat:@"&%@=%@", kSFOAuthResponseType, kSFOAuthResponseTypeActivatedClientCode];
-    } else {
-        [approvalUrlString appendFormat:@"&%@=%@", kSFOAuthResponseType, kSFOAuthResponseTypeToken];
-    }
+    [approvalUrlString appendFormat:@"&%@=%@", kSFOAuthResponseType, kSFOAuthResponseTypeToken];
     NSString *scopeString = [self scopeQueryParamString];
     if (scopeString != nil) {
         [approvalUrlString appendString:scopeString];
