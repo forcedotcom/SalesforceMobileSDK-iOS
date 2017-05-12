@@ -563,7 +563,7 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
                      // Error is not invalid credentials, or developer otherwise wants to handle it.
                      [self loadErrorPageWithCode:error.code description:error.localizedDescription context:kErrorContextAuthExpiredSessionRefresh];
                  }
-             }];
+             } credentials:[SFUserAccountManager sharedInstance].currentUser.credentials];
             shouldAllowRequest = NO;
         } else {
             [self defaultWKNavigationHandling:webView decidePolicyForNavigationAction:navigationAction decisionHandler:decisionHandler];
@@ -650,7 +650,7 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
                     // Error is not invalid credentials, or developer otherwise wants to handle it.
                     [self loadErrorPageWithCode:error.code description:error.localizedDescription context:kErrorContextAuthExpiredSessionRefresh];
                 }
-            }];
+            } credentials:[SFUserAccountManager sharedInstance].currentUser.credentials];
             return NO;
         }
         NSURL* url = [request URL];
