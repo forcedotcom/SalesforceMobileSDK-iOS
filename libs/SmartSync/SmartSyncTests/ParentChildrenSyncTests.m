@@ -311,6 +311,94 @@
     }
 }
 
+/**
+ * Test getLatestModificationTimeStamp
+ */
+- (void) testGetLatestModificationTimeStamp
+{
+    // Putting together a JSONArray of accounts with contacts
+    // looking like what we would get back from startFetch/continueFetch
+    // with different fields for last modified time
+    NSUInteger numberAccounts = 4;
+    NSUInteger numberContactsPerAccount = 3;
+
+
+    NSMutableArray<NSNumber*> *timeStamps = [NSMutableArray new];
+    NSMutableArray<NSString*> *timeStampStrs = [NSMutableArray new];
+    for (NSUInteger i = 1; i<5; i++) {
+        long long int millis = i*100000000;
+        [timeStamps addObject:[NSNumber numberWithLongLong:millis]];
+        [timeStampStrs addObject:[SFSmartSyncObjectUtils getIsoStringFromMillis:millis]];
+    }
+
+    NSDictionary * accountAttributes = @{TYPE: ACCOUNT_TYPE};
+    NSDictionary * contactAttributes = @{TYPE: CONTACT_TYPE};
+
+    NSMutableArray* accounts = [NSMutableArray new];
+    NSMutableDictionary * mapAccountContacts = [NSMutableDictionary new];
+
+    for (NSUInteger i = 0; i<numberAccounts; i++) {
+        NSDictionary * account = @{ID: [self createLocalId],
+                ATTRIBUTES: accountAttributes,
+                @"AccountTimeStamp1": timeStampStrs[i % timeStampStrs.count],
+                @"AccountTimeStamp2": timeStampStrs[0]
+        };
+        NSMutableArray * contacts = [NSMutableArray new];
+        for (NSUInteger j = 0; j < numberContactsPerAccount; j++) {
+            [contacts addObject:@{ID: [self createLocalId],
+                    ATTRIBUTES: contactAttributes,
+                    ACCOUNT_ID: account[ID],
+                    @"ContactTimeStamp1": timeStampStrs[1],
+                    @"ContactTimeStamp2": timeStampStrs[j % timeStampStrs.count]
+            }
+            ];
+        }
+        mapAccountContacts[account] = contacts;
+        [accounts addObject:account];
+    }
+
+    NSMutableArray * records = [NSMutableArray new];
+    for (NSDictionary * account in accounts) {
+        NSMutableDictionary * record = [account mutableCopy];
+        NSMutableArray * contacts = [NSMutableArray new];
+        for (NSDictionary * contact in mapAccountContacts[account]) {
+            [contacts addObject:contact];
+        }
+        record[@"Contacts"] = contacts;
+        [records addObject:record];
+    }
+
+    // Maximums
+
+    // Get max time stamps based on fields AccountTimeStamp1 / ContactTimeStamp1
+    SFParentChildrenSyncDownTarget *target = [self getAccountContactsSyncDownTargetWithAccountModificationDateFieldName:@"AccountTimeStamp1" contactModificationDateFieldName:@"ContactTimeStamp1" parentSoqlFilter:nil];
+    XCTAssertEqual(
+            [target getLatestModificationTimeStamp:records],
+            [timeStamps[3] longLongValue]
+    );
+
+    // Get max time stamps based on fields AccountTimeStamp1 / ContactTimeStamp2
+    target = [self getAccountContactsSyncDownTargetWithAccountModificationDateFieldName:@"AccountTimeStamp1" contactModificationDateFieldName:@"ContactTimeStamp2" parentSoqlFilter:nil];
+    XCTAssertEqual(
+            [target getLatestModificationTimeStamp:records],
+            [timeStamps[3] longLongValue]
+    );
+
+    // Get max time stamps based on fields AccountTimeStamp2 / ContactTimeStamp1
+    target = [self getAccountContactsSyncDownTargetWithAccountModificationDateFieldName:@"AccountTimeStamp2" contactModificationDateFieldName:@"ContactTimeStamp1" parentSoqlFilter:nil];
+    XCTAssertEqual(
+            [target getLatestModificationTimeStamp:records],
+            [timeStamps[1] longLongValue]
+    );
+
+    // Get max time stamps based on fields AccountTimeStamp2 / ContactTimeStamp2
+    target = [self getAccountContactsSyncDownTargetWithAccountModificationDateFieldName:@"AccountTimeStamp2" contactModificationDateFieldName:@"ContactTimeStamp2" parentSoqlFilter:nil];
+    XCTAssertEqual(
+            [target getLatestModificationTimeStamp:records],
+            [timeStamps[2] longLongValue]
+    );
+}
+
 #pragma mark - Helper methods
 
 - (void)createTestData {
@@ -409,22 +497,22 @@
 
 
 - (SFParentChildrenSyncDownTarget*) getAccountContactsSyncDownTarget {
-    return [self getAccountContactsSyncDownTarget:@""];
+    return [self getAccountContactsSyncDownTargetWithParentSoqlFilter:@""];
 }
 
-- (SFParentChildrenSyncDownTarget*) getAccountContactsSyncDownTarget:(NSString*) parentSoqlFilter {
-    return [self getAccountContactsSyncDownTarget:LAST_MODIFIED_DATE contactModificationDateFieldName:LAST_MODIFIED_DATE parentSoqlFilter:parentSoqlFilter];
+- (SFParentChildrenSyncDownTarget*)getAccountContactsSyncDownTargetWithParentSoqlFilter:(NSString*) parentSoqlFilter {
+    return [self getAccountContactsSyncDownTargetWithAccountModificationDateFieldName:LAST_MODIFIED_DATE contactModificationDateFieldName:LAST_MODIFIED_DATE parentSoqlFilter:parentSoqlFilter];
 }
 
-- (SFParentChildrenSyncDownTarget*) getAccountContactsSyncDownTarget:(NSString*) accountModificationDateFieldName
-                                    contactModificationDateFieldName:(NSString*) contactModificationDateFieldName
-                                                    parentSoqlFilter:(NSString*) parentSoqlFilter {
+- (SFParentChildrenSyncDownTarget*)getAccountContactsSyncDownTargetWithAccountModificationDateFieldName:(NSString *)accountModificationDateFieldName
+                                                                       contactModificationDateFieldName:(NSString *)contactModificationDateFieldName
+                                                                                       parentSoqlFilter:(NSString*) parentSoqlFilter {
 
     SFParentChildrenSyncDownTarget *target = [SFParentChildrenSyncDownTarget
             newSyncTargetWithParentInfo:[SFParentInfo newWithSObjectType:ACCOUNT_TYPE soupName:ACCOUNTS_SOUP idFieldName:ID modificationDateFieldName:accountModificationDateFieldName]
                         parentFieldlist:@[ID, NAME, DESCRIPTION]
                        parentSoqlFilter:parentSoqlFilter
-                           childrenInfo:[SFChildrenInfo newWithSObjectType:CONTACT_TYPE sobjectTypePlural:@"Contacts" soupName:CONTACTS_SOUP parentIdFieldName:ACCOUNT_ID idFieldName:ID modificationDateFieldName:LAST_MODIFIED_DATE]
+                           childrenInfo:[SFChildrenInfo newWithSObjectType:CONTACT_TYPE sobjectTypePlural:@"Contacts" soupName:CONTACTS_SOUP parentIdFieldName:ACCOUNT_ID idFieldName:ID modificationDateFieldName:contactModificationDateFieldName]
                       childrenFieldlist:@[LAST_NAME, ACCOUNT_ID]
                        relationshipType:SFParentChildrenRelationpshipMasterDetail]; // account-contacts are master-detail
     return target;
