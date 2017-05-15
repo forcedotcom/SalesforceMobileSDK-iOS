@@ -23,12 +23,14 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SalesforceSDKConstants.h"
 
 @class CSFNetwork;
 @class CSFOutput;
 
-typedef void (^CSFAuthRefreshCompletionBlock) (CSFOutput *output, NSError *error);
+typedef void (^CSFAuthRefreshCompletionBlock) (CSFOutput *output, NSError *error) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
 
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 @interface CSFAuthRefresh : NSObject
 
 - (instancetype)initWithNetwork:(CSFNetwork *)network;

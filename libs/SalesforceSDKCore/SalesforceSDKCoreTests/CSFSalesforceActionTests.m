@@ -24,13 +24,14 @@
 
 @import XCTest;
 #import <OCMock/OCMock.h>
-
+#import "SalesforceSDKConstants.h"
 #import "CSFSalesforceAction.h"
 #import "CSFAction+Internal.h"
 #import "CSFNetwork.h"
 #import "SFUserAccount.h"
 #import "SFOAuthCredentials.h"
 
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 @interface CSFSalesforceActionTests : XCTestCase
 
 @property (strong, nonatomic) CSFSalesforceAction *action;

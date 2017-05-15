@@ -26,6 +26,7 @@
 #import "CSFAction+Internal.h"
 #import "CSFNetwork+Internal.h"
 
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 @interface TestDataAction : CSFAction {
     BOOL _overriddenCancel;
 }

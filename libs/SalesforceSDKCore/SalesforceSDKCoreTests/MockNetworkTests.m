@@ -24,10 +24,11 @@
 
 #import <XCTest/XCTest.h>
 #import "TestDataAction.h"
-
+#import "SalesforceSDKConstants.h"
 #import "CSFNetwork+Internal.h"
 #import "CSFSalesforceAction.h"
 
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 @interface MockAction : CSFAction
 
 @property (nonatomic, strong) NSString *actionName;
@@ -73,6 +74,7 @@
 
 @end
 
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 @interface MockNetworkTests : XCTestCase
 
 @end

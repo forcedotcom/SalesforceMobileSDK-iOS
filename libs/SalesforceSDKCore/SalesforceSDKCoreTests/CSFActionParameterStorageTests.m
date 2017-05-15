@@ -26,6 +26,7 @@
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import "CSFParameterStorage_Internal.h"
 
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 @interface CSFParameterStorageTests : XCTestCase
 
 @end
