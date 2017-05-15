@@ -26,7 +26,10 @@
 
 NSString * const CSFDidChangeUserDataNotification = @"CSFDidChangeUserDataNotification";
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 @implementation CSFNetwork (Salesforce)
+#pragma clang diagnostic pop
 
 - (NSString*)defaultConnectCommunityId {
     return _defaultConnectCommunityId;

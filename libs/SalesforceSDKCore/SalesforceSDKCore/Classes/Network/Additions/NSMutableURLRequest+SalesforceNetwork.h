@@ -35,6 +35,9 @@
 
  @return `YES` if binding the parameters was successful, otherwise `NO`.
  */
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (BOOL)bindParameters:(CSFParameterStorage*)parameterStorage error:(NSError**)error;
+#pragma clang diagnostic pop
 
 @end

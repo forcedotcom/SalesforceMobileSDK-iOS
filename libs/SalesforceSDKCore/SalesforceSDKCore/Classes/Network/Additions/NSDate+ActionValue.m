@@ -31,8 +31,12 @@
     return [[NSValueTransformer valueTransformerForName:CSFDateValueTransformerName] transformedValue:self];
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 + (id<CSFActionValue>)decodedObjectForActionValue:(id)actionValue {
     return [[NSValueTransformer valueTransformerForName:CSFDateValueTransformerName] reverseTransformedValue:actionValue];
 }
+#pragma clang diagnostic pop
+
 
 @end

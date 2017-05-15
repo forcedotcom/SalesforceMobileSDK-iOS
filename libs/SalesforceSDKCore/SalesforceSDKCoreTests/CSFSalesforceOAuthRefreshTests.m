@@ -75,6 +75,8 @@ SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API r
 @interface CSFSalesforceOAuthRefreshTests : XCTestCase
 @end
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 @implementation CSFSalesforceOAuthRefreshTests
 
 - (void)testRevokedToken {
@@ -118,3 +120,4 @@ SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API r
 }
 
 @end
+#pragma clang diagnostic pop
