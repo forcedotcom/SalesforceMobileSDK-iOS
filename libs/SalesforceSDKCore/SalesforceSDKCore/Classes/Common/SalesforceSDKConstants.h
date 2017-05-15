@@ -58,9 +58,9 @@ __builtin_unreachable(); \
 }
 
 #ifdef __clang__
-#define SFSDK_DEPRECATED(version, msg) __attribute__((deprecated("Deprecated in Salesforce Mobile SDK " #version ". " msg)))
+#define SFSDK_DEPRECATED(dep_version, rem_version, msg) __attribute__((deprecated("Deprecated in Salesforce Mobile SDK " #dep_version " and will be removed in Salesforce Mobile SDK " #rem_version ". " msg)))
 #else
-#define SFSDK_DEPRECATED(version, msg) __attribute__((deprecated()))
+#define SFSDK_DEPRECATED(dep_version, rem_version, msg) __attribute__((deprecated()))
 #endif
 
 #endif // SalesforceSDKConstants_h

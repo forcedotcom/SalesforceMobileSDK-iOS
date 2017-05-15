@@ -399,7 +399,7 @@ extern  NSString * const kOAuthRedirectUriKey;
  */
 - (BOOL)loginWithCompletion:(nullable SFOAuthFlowSuccessCallbackBlock)completionBlock
                     failure:(nullable SFOAuthFlowFailureCallbackBlock)failureBlock
-                credentials:(nullable SFOAuthCredentials *)credentials SFSDK_DEPRECATED(5.2, "Use refreshCredentials:completion:failure: to refresh existing credentials. This method will go away in 6.0.");
+                credentials:(nullable SFOAuthCredentials *)credentials SFSDK_DEPRECATED(5.2, 6.0, "Use refreshCredentials:completion:failure: to refresh existing credentials.");
 
 /**
  Kick off the refresh process for the specified credentials.
