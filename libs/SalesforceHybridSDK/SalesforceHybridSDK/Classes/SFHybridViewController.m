@@ -545,25 +545,26 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
              * WKWebView that hosts the login screen (important for SSO outside of Salesforce domains).
              */
             [SFSDKWebUtils configureUserAgent:[self sfHybridViewUserAgentString]];
-            [[SFAuthenticationManager sharedManager] refreshCredentials:[SFUserAccountManager sharedInstance].currentUser.credentials
-                                                             completion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
-                                                                 [SFUserAccountManager sharedInstance].currentUser = userAccount;
-                                                                 // Reset the user agent back to Cordova.
-                                                                 [self authenticationCompletion:refreshUrl authInfo:authInfo];
-                                                             } failure:^(SFOAuthInfo *authInfo, NSError *error) {
-                                                                 if ([self logoutOnInvalidCredentials:error]) {
-                                                                     [self log:SFLogLevelError msg:@"Could not refresh expired session. Logging out."];
-                                                                     NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
-                                                                     attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
-                                                                     attributes[@"errorDescription"] = error.localizedDescription;
-                                                                     [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
-                                                                     [[SFAuthenticationManager sharedManager] logout];
-                                                                 } else {
-                                                                     
-                                                                     // Error is not invalid credentials, or developer otherwise wants to handle it.
-                                                                     [self loadErrorPageWithCode:error.code description:error.localizedDescription context:kErrorContextAuthExpiredSessionRefresh];
-                                                                 }
-                                                             }];
+            [[SFAuthenticationManager sharedManager]
+             refreshCredentials:[SFUserAccountManager sharedInstance].currentUser.credentials
+             completion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
+                 [SFUserAccountManager sharedInstance].currentUser = userAccount;
+                 // Reset the user agent back to Cordova.
+                 [self authenticationCompletion:refreshUrl authInfo:authInfo];
+             } failure:^(SFOAuthInfo *authInfo, NSError *error) {
+                 if ([self logoutOnInvalidCredentials:error]) {
+                     [self log:SFLogLevelError msg:@"Could not refresh expired session. Logging out."];
+                     NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
+                     attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
+                     attributes[@"errorDescription"] = error.localizedDescription;
+                     [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
+                     [[SFAuthenticationManager sharedManager] logout];
+                 } else {
+                     
+                     // Error is not invalid credentials, or developer otherwise wants to handle it.
+                     [self loadErrorPageWithCode:error.code description:error.localizedDescription context:kErrorContextAuthExpiredSessionRefresh];
+                 }
+             }];
             shouldAllowRequest = NO;
         } else {
             [self defaultWKNavigationHandling:webView decidePolicyForNavigationAction:navigationAction decisionHandler:decisionHandler];
@@ -633,25 +634,26 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
              * UIWebView that hosts the login screen (important for SSO outside of Salesforce domains).
              */
             [SFSDKWebUtils configureUserAgent:[self sfHybridViewUserAgentString]];
-            [[SFAuthenticationManager sharedManager] refreshCredentials:[SFUserAccountManager sharedInstance].currentUser.credentials
-                                                             completion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
-                                                                 [SFUserAccountManager sharedInstance].currentUser = userAccount;
-                                                                 // Reset the user agent back to Cordova.
-                                                                 [self authenticationCompletion:refreshUrl authInfo:authInfo];
-                                                             } failure:^(SFOAuthInfo *authInfo, NSError *error) {
-                                                                 if ([self logoutOnInvalidCredentials:error]) {
-                                                                     [self log:SFLogLevelError msg:@"Could not refresh expired session. Logging out."];
-                                                                     NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
-                                                                     attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
-                                                                     attributes[@"errorDescription"] = error.localizedDescription;
-                                                                     [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
-                                                                     [[SFAuthenticationManager sharedManager] logout];
-                                                                 } else {
-                                                                     
-                                                                     // Error is not invalid credentials, or developer otherwise wants to handle it.
-                                                                     [self loadErrorPageWithCode:error.code description:error.localizedDescription context:kErrorContextAuthExpiredSessionRefresh];
-                                                                 }
-                                                             }];
+            [[SFAuthenticationManager sharedManager]
+             refreshCredentials:[SFUserAccountManager sharedInstance].currentUser.credentials
+             completion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
+                 [SFUserAccountManager sharedInstance].currentUser = userAccount;
+                 // Reset the user agent back to Cordova.
+                 [self authenticationCompletion:refreshUrl authInfo:authInfo];
+             } failure:^(SFOAuthInfo *authInfo, NSError *error) {
+                 if ([self logoutOnInvalidCredentials:error]) {
+                     [self log:SFLogLevelError msg:@"Could not refresh expired session. Logging out."];
+                     NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
+                     attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
+                     attributes[@"errorDescription"] = error.localizedDescription;
+                     [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
+                     [[SFAuthenticationManager sharedManager] logout];
+                 } else {
+                     
+                     // Error is not invalid credentials, or developer otherwise wants to handle it.
+                     [self loadErrorPageWithCode:error.code description:error.localizedDescription context:kErrorContextAuthExpiredSessionRefresh];
+                 }
+             }];
             return NO;
         }
         NSURL* url = [request URL];
