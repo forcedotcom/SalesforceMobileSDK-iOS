@@ -97,14 +97,15 @@ static SFOAuthCredentials *credentials = nil;
     NSAssert(credentials!=nil, @"You must call populateAuthCredentialsFromConfigFileForClass before synchronousAuthRefresh");
     __block SFSDKTestRequestListener *authListener = [[SFSDKTestRequestListener alloc] init];
     __block SFUserAccount *user = nil;
-    [[SFAuthenticationManager sharedManager] refreshCredentials:credentials
-                                                     completion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
-                                                         authListener.returnStatus = kTestRequestStatusDidLoad;
-                                                         user = userAccount;
-                                                     } failure:^(SFOAuthInfo *authInfo, NSError *error) {
-                                                         authListener.lastError = error;
-                                                         authListener.returnStatus = kTestRequestStatusDidFail;
-                                                     }];
+    [[SFAuthenticationManager sharedManager]
+     refreshCredentials:credentials
+     completion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
+         authListener.returnStatus = kTestRequestStatusDidLoad;
+         user = userAccount;
+     } failure:^(SFOAuthInfo *authInfo, NSError *error) {
+         authListener.lastError = error;
+         authListener.returnStatus = kTestRequestStatusDidFail;
+     }];
     [authListener waitForCompletion];
     [[SFUserAccountManager sharedInstance] setCurrentUser:user];
     
