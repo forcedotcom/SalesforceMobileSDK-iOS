@@ -204,6 +204,7 @@ SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API r
 
 @end
 
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 @protocol CSFNetworkDelegate <NSObject>
 
 @optional
