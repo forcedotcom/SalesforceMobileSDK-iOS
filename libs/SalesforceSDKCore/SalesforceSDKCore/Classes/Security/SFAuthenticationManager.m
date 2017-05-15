@@ -226,11 +226,6 @@ NSString * const kOAuthRedirectUriKey = @"oauth_redirect_uri";
 - (void)finalizeAuthCompletion;
 
 /**
- Kick off the login process (post-configuration in the public method).
- */
-- (void)login;
-
-/**
  Execute the configured failure blocks, if in fact configured.
  */
 - (void)execFailureBlocks;
@@ -344,7 +339,7 @@ static Class InstanceClass = nil;
 - (BOOL)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
                     failure:(SFOAuthFlowFailureCallbackBlock)failureBlock
 {
-    return [self loginWithCompletion:completionBlock failure:failureBlock credentials:[self createOAuthCredentials]];
+    return [self authenticateWithCompletion:completionBlock failure:failureBlock credentials:[self createOAuthCredentials]];
 }
 
 
@@ -352,27 +347,7 @@ static Class InstanceClass = nil;
                     failure:(SFOAuthFlowFailureCallbackBlock)failureBlock
                     credentials:(SFOAuthCredentials *)credentials
 {
-
-    SFAuthBlockPair *blockPair = [[SFAuthBlockPair alloc] initWithSuccessBlock:completionBlock
-                                                                  failureBlock:failureBlock];
-    @synchronized (self.authBlockList) {
-        if (!self.authenticating) {
-            // Kick off (async) authentication.
-            [self log:SFLogLevelDebug msg:@"No authentication in progress.  Initiating new authentication request."];
-            [self.authBlockList addObject:blockPair];
-            [self loginWithCredentials:credentials];
-            return YES;
-        } else {
-            // Already authenticating.  Add completion blocks to the list, if they're not there already.
-            if (![self.authBlockList containsObject:blockPair]) {
-                [self log:SFLogLevelDebug msg:@"Authentication already in progress.  Will run the appropriate block at the end of the in-progress auth."];
-                [self.authBlockList addObject:blockPair];
-            } else {
-                [self log:SFLogLevelDebug msg:@"Authentication already in progress and these completion blocks are already in the queue.  The original blocks will be executed once; these will not be added."];
-            }
-            return NO;
-        }
-    }
+    return [self authenticateWithCompletion:completionBlock failure:failureBlock credentials:credentials];
 }
 
 - (BOOL)loginWithJwtToken:(NSString *)jwtToken
@@ -383,9 +358,17 @@ static Class InstanceClass = nil;
     NSAssert(jwtToken.length > 0, @"JWT token value required.");
     SFOAuthCredentials *credentials = [self createOAuthCredentials];
     credentials.jwt = jwtToken;
-    return [self loginWithCompletion:completionBlock
-                             failure:failureBlock
-                             credentials:credentials];
+    return [self authenticateWithCompletion:completionBlock
+                                    failure:failureBlock
+                                credentials:credentials];
+}
+
+- (BOOL)refreshCredentials:(SFOAuthCredentials *)credentials
+                completion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
+                   failure:(SFOAuthFlowFailureCallbackBlock)failureBlock
+{
+    NSAssert(credentials.refreshToken.length > 0, @"Refresh token required to refresh credentials.");
+    return [self authenticateWithCompletion:completionBlock failure:failureBlock credentials:credentials];
 }
 
 - (void)loggedIn:(BOOL)fromOffline
@@ -788,11 +771,32 @@ static Class InstanceClass = nil;
     [user.credentials revoke];
 }
 
-- (void)login
+- (BOOL)authenticateWithCompletion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
+                           failure:(SFOAuthFlowFailureCallbackBlock)failureBlock
+                       credentials:(SFOAuthCredentials *)credentials
 {
-    [self loginWithCredentials:[self createOAuthCredentials]];
+    
+    SFAuthBlockPair *blockPair = [[SFAuthBlockPair alloc] initWithSuccessBlock:completionBlock
+                                                                  failureBlock:failureBlock];
+    @synchronized (self.authBlockList) {
+        if (!self.authenticating) {
+            // Kick off (async) authentication.
+            [self log:SFLogLevelDebug msg:@"No authentication in progress.  Initiating new authentication request."];
+            [self.authBlockList addObject:blockPair];
+            [self loginWithCredentials:credentials];
+            return YES;
+        } else {
+            // Already authenticating.  Add completion blocks to the list, if they're not there already.
+            if (![self.authBlockList containsObject:blockPair]) {
+                [self log:SFLogLevelDebug msg:@"Authentication already in progress.  Will run the appropriate block at the end of the in-progress auth."];
+                [self.authBlockList addObject:blockPair];
+            } else {
+                [self log:SFLogLevelDebug msg:@"Authentication already in progress and these completion blocks are already in the queue.  The original blocks will be executed once; these will not be added."];
+            }
+            return NO;
+        }
+    }
 }
-
 
 - (void)loginWithCredentials:(SFOAuthCredentials *) credentials
 {
@@ -958,7 +962,7 @@ static Class InstanceClass = nil;
                                        __strong typeof(weakSelf) strongSelf = weakSelf;
                                        if (tag == kOAuthGenericAlertViewTag) {
                                            [strongSelf dismissAuthViewControllerIfPresent];
-                                           [strongSelf login];
+                                           [strongSelf loginWithCredentials:[strongSelf createOAuthCredentials]];
                                        } else if (tag == kIdentityAlertViewTag) {
                                            [strongSelf.idCoordinator initiateIdentityDataRetrieval];
                                        } else if (tag == kConnectedAppVersionMismatchViewTag) {
