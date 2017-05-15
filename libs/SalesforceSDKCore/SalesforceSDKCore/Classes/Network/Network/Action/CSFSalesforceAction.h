@@ -23,12 +23,14 @@
  */
 
 #import "CSFAction.h"
+#import "SalesforceSDKConstants.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 CSF_EXTERN NSString * const CSFSalesforceActionDefaultPathPrefix;
 CSF_EXTERN NSString * const CSFSalesforceDefaultAPIVersion;
 
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 @interface CSFSalesforceAction : CSFAction
 
 /**
