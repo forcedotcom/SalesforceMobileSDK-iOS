@@ -28,6 +28,7 @@
 #import "SFOAuthInfo.h"
 #import "SFUserAccountManager.h"
 #import "SFIdentityCoordinator.h"
+#import "SalesforceSDKConstants.h"
 @class SFAuthenticationManager;
 @class SFAuthenticationViewHandler;
 @class SFAuthErrorHandler;
