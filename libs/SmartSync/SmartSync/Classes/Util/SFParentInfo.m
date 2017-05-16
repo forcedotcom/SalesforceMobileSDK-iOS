@@ -66,7 +66,10 @@ NSString * const kSFParentInfoModifificationDateFieldName = @"modificationDateFi
 }
 
 + (SFParentInfo*) newFromDict:(NSDictionary*)dict {
-    return [SFParentInfo newWithSObjectType:dict[kSFParentInfoSObjectType] soupName:dict[kSFParentInfoSoupName] idFieldName:dict[kSFParentInfoSObjectType] modificationDateFieldName:dict[kSFParentInfoModifificationDateFieldName]];
+    return [SFParentInfo newWithSObjectType:dict[kSFParentInfoSObjectType]
+                                   soupName:dict[kSFParentInfoSoupName]
+                                idFieldName:dict[kSFParentInfoIdFieldName]
+                  modificationDateFieldName:dict[kSFParentInfoModifificationDateFieldName]];
 }
 
 #pragma mark - To dictionary

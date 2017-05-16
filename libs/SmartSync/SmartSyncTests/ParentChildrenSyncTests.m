@@ -531,6 +531,7 @@
     // accountIdToFields and accountIdContactIdToFields are not used by all tests
     if (accountIdToFields != nil) {
         [self deleteRecordsOnServer:[accountIdToFields allKeys] objectType:ACCOUNT_TYPE];
+        accountIdToFields = nil;
     }
 
     if (accountIdContactIdToFields != nil) {
@@ -538,6 +539,7 @@
             NSMutableDictionary<NSString *, NSMutableDictionary<NSString *, NSObject *> *> *contactIdToFields = accountIdContactIdToFields[accountId];
             [self deleteRecordsOnServer:[contactIdToFields allKeys] objectType:CONTACT_TYPE];
         }
+        accountIdContactIdToFields = nil;
     }
 }
 
@@ -677,13 +679,13 @@
     for (NSUInteger i = 0; i<listAccountFields.count; i++) {
         NSArray* listContactFields = [self buildFieldsMapForRecords:numberContactsPerAccount objectType:CONTACT_TYPE additionalFields:nil];
 
-        NSString* refIdAccount = [NSString stringWithFormat:@"refAccount_%d", i];
+        NSString* refIdAccount = [NSString stringWithFormat:@"refAccount_%lu", i];
         NSDictionary * accountFields = listAccountFields[i];
         refIdToFields[refIdAccount] = accountFields;
 
         NSMutableArray* contactTrees = [NSMutableArray new];
         for (NSUInteger j = 0; j<listContactFields.count; j++) {
-            NSString* refIdContact = [NSString stringWithFormat:@"%@_refContact_%d", refIdAccount, j];
+            NSString* refIdContact = [NSString stringWithFormat:@"%@:refContact_%lu", refIdAccount, j];
             NSDictionary * contactFields = listContactFields[j];
             refIdToFields[refIdContact] = contactFields;
             [contactTrees addObject:[[SFSObjectTree alloc] initWithObjectType:CONTACT_TYPE objectTypePlural:CONTACT_TYPE_PLURAL referenceId:refIdContact fields:contactFields childrenTrees:nil]];

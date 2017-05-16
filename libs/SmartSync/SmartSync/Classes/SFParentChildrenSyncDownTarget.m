@@ -304,8 +304,12 @@ static NSString * const kSFParentChildrenSyncTargetChildrenFieldlist = @"childre
     NSMutableArray<NSDictionary *> * records = [NSMutableArray new];
 
     for (NSDictionary * originalRecord in responseJson[kResponseRecords]) {
-        NSArray<NSDictionary *> *childrenRecords = originalRecord[self.childrenInfo.sobjectTypePlural][kResponseRecords];
-        if (!childrenRecords) childrenRecords = [NSArray new];
+        NSObject* children = originalRecord[self.childrenInfo.sobjectTypePlural];
+        BOOL hasChildren = children && children != [NSNull null];
+        NSArray<NSDictionary *> *childrenRecords = @[];
+        if (hasChildren) {
+            childrenRecords = originalRecord[self.childrenInfo.sobjectTypePlural][kResponseRecords];
+        }
         // Cleaning up record
         NSMutableDictionary *record = [originalRecord mutableCopy];
         record[self.childrenInfo.sobjectTypePlural] = childrenRecords;

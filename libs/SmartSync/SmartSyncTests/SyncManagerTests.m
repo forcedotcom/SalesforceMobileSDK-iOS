@@ -25,7 +25,6 @@
 #import "SyncManagerTestCase.h"
 #import "SFSyncUpdateCallbackQueue.h"
 #import "TestSyncUpTarget.h"
-#import "../../../../../../../../../Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSDictionary.h"
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SmartStore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFSDKSoqlBuilder.h>
@@ -1549,6 +1548,7 @@
     [self deleteAccountsOnServer:[idToFields allKeys]];
     [self dropAccountsSoup];
     [self deleteSyncs];
+    idToFields = nil;
 }
 
 
