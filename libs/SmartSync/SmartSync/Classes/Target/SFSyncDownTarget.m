@@ -29,13 +29,14 @@
 #import "SFSoslSyncDownTarget.h"
 #import "SFSmartSyncConstants.h"
 #import "SFSmartSyncObjectUtils.h"
-#import <SalesforceSDKCore/SalesforceSDKConstants.h>
+#import "SFParentChildrenSyncDownTarget.h"
 
 // query types
 NSString * const kSFSyncTargetQueryTypeMru = @"mru";
 NSString * const kSFSyncTargetQueryTypeSoql = @"soql";
 NSString * const kSFSyncTargetQueryTypeSosl = @"sosl";
 NSString * const kSFSyncTargetQueryTypeRefresh = @"refresh";
+NSString * const kSFSyncTargetQueryTypeParentChidlren = @"parentChildren";
 NSString * const kSFSyncTargetQueryTypeCustom = @"custom";
 
 @implementation SFSyncDownTarget
@@ -65,6 +66,8 @@ NSString * const kSFSyncTargetQueryTypeCustom = @"custom";
                 return [[SFSoqlSyncDownTarget alloc] initWithDict:dict];
             case SFSyncDownTargetQueryTypeRefresh:
                 return [[SFRefreshSyncDownTarget alloc] initWithDict:dict];
+            case SFSyncDownTargetQueryTypeParentChildren:
+                return [[SFParentChildrenSyncDownTarget alloc] initWithDict:dict];
             case SFSyncDownTargetQueryTypeCustom:
                 [SFLogger log:self level:SFLogLevelError format:@"%@ Custom class name not specified.", NSStringFromSelector(_cmd)];
                 return nil;
@@ -154,6 +157,7 @@ ABSTRACT_METHOD
         case SFSyncDownTargetQueryTypeSosl: return kSFSyncTargetQueryTypeSosl;
         case SFSyncDownTargetQueryTypeSoql: return kSFSyncTargetQueryTypeSoql;
         case SFSyncDownTargetQueryTypeRefresh: return kSFSyncTargetQueryTypeRefresh;
+        case SFSyncDownTargetQueryTypeParentChildren: return kSFSyncTargetQueryTypeParentChidlren;
         case SFSyncDownTargetQueryTypeCustom: return kSFSyncTargetQueryTypeCustom;
     }
 }

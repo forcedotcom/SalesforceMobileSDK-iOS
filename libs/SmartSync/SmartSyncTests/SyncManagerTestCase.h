@@ -40,6 +40,8 @@
 #define LAST_NAME           @"LastName"
 #define CONTACTS_SOUP       @"contacts"
 #define ACCOUNT_ID          @"AccountId"
+#define CONTACT_TYPE_PLURAL @"Contacts"
+#define TOTAL_SIZE_UNKNOWN  -2
 
 @interface SyncManagerTestCase : XCTestCase
 
@@ -49,12 +51,25 @@
 
 - (NSString *)createRecordName:(NSString *)objectType;
 - (NSString *)createAccountName;
-- (NSArray<NSDictionary*>*) createAccountsLocally:(NSArray<NSString*>*)names;
+- (NSString *)createDescription:(NSString *)name;
 - (NSString*) createLocalId;
+- (NSString *)buildInClause:(NSArray *)values;
+
+- (NSArray<NSDictionary*>*) createAccountsLocally:(NSArray<NSString*>*)names;
 - (void)createAccountsSoup;
 - (void)dropAccountsSoup;
 - (void)createContactsSoup;
 - (void)dropContactsSoup;
-- (NSString *)buildInClause:(NSArray *)values;
 
+- (NSArray*) buildFieldsMapForRecords:(NSUInteger)count objectType:(NSString*)objectType additionalFields:(NSDictionary*)additionalFields;
+- (NSDictionary *)createAccountsOnServer:(NSUInteger)count;
+- (void)deleteRecordsOnServer:(NSArray *)ids objectType:(NSString*)objectType;
+- (NSDictionary *)sendSyncRequest:(SFRestRequest *)request;
+
+- (NSInteger)trySyncDown:(SFSyncStateMergeMode)mergeMode target:(SFSyncDownTarget *)target soupName:(NSString *)soupName totalSize:(NSUInteger)totalSize numberFetches:(NSUInteger)numberFetches;
+- (void)checkStatus:(SFSyncState *)sync expectedType:(SFSyncStateSyncType)expectedType expectedId:(NSInteger)expectedId expectedTarget:(SFSyncTarget *)expectedTarget expectedOptions:(SFSyncOptions *)expectedOptions expectedStatus:(SFSyncStateStatus)expectedStatus expectedProgress:(NSInteger)expectedProgress expectedTotalSize:(NSInteger)expectedTotalSize;
+- (void)checkDb:(NSDictionary *)expectedIdToFields soupName:(NSString *)soupName;
+
+- (NSDictionary *)makeSomeLocalChanges:(NSDictionary *)idToFields soupName:(NSString *)soupName idsToUpdate:(NSArray *)idsToUpdate;
+- (NSDictionary *)prepareSomeChanges:(NSDictionary *)idToFields idsToUpdate:(NSArray *)idsToUpdate suffix:(NSString *)suffix;
 @end

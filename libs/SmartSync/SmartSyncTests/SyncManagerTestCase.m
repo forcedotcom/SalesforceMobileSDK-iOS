@@ -22,6 +22,9 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <SmartStore/SFQuerySpec.h>
+#import "SFSyncUpdateCallbackQueue.h"
+#import <SalesforceSDKCore/SFSDKTestRequestListener.h>
 #import <SmartStore/SFSoupIndex.h>
 #import <SmartStore/SFSmartStore.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
@@ -141,5 +144,254 @@ static NSException *authException = nil;
 
 - (NSString*) buildInClause:(NSArray*)values {
     return [NSString stringWithFormat:@"('%@')", [values componentsJoinedByString:@"', '"]];
+}
+
+- (void)deleteRecordsOnServer:(NSArray *)ids objectType:(NSString*)objectType {
+
+    NSMutableArray* requests = [NSMutableArray new];
+    for (NSString* id in ids) {
+        SFRestRequest *deleteRequest = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:objectType objectId:id];
+        [requests addObject:deleteRequest];
+        if (requests.count == 25) {
+            [self sendSyncRequest:[[SFRestAPI sharedInstance] batchRequest:requests haltOnError:NO]];
+            [requests removeAllObjects];
+        }
+    }
+    if (requests.count > 0) {
+        [self sendSyncRequest:[[SFRestAPI sharedInstance] batchRequest:requests haltOnError:NO]];
+    }
+}
+
+- (NSDictionary*)sendSyncRequest:(SFRestRequest*)request {
+    return [self sendSyncRequest:request ignoreNotFound:NO];
+}
+
+- (NSDictionary*)sendSyncRequest:(SFRestRequest*)request ignoreNotFound:(BOOL)ignoreNotFound {
+    SFSDKTestRequestListener *listener = [[SFSDKTestRequestListener alloc] init];
+    SFRestFailBlock failBlock = ^(NSError *error) {
+        listener.lastError = error;
+        listener.returnStatus = kTestRequestStatusDidFail;
+
+    };
+    SFRestDictionaryResponseBlock completeBlock = ^(NSDictionary *data) {
+        listener.dataResponse = data;
+        listener.returnStatus = kTestRequestStatusDidLoad;
+    };
+    [[SFRestAPI sharedInstance] sendRESTRequest:request
+                                      failBlock:failBlock
+                                  completeBlock:completeBlock];
+    [listener waitForCompletion];
+    if (listener.lastError && (listener.lastError.code != 404 || !ignoreNotFound)) {
+        XCTFail(@"Rest call %@ failed with error %@", request, listener.lastError);
+    }
+    return (NSDictionary*) listener.dataResponse;
+}
+
+
+-(NSArray*) buildFieldsMapForRecords:(NSUInteger)count objectType:(NSString*)objectType additionalFields:(NSDictionary*)additionalFields
+{
+    NSMutableArray* listFields = [NSMutableArray new];
+    for (NSUInteger i = 0; i < count; i++) {
+
+        // Request
+        NSString* name = [self createRecordName:objectType];
+        NSMutableDictionary * fields = [NSMutableDictionary new];
+
+        // Add additional fields if any
+        if (additionalFields) {
+            [fields addEntriesFromDictionary:additionalFields];
+        }
+
+        // Add more object type if need to support to use this API
+        // to create a new record on server
+        if ([objectType isEqualToString:ACCOUNT_TYPE]) {
+            fields[NAME] = name;
+            fields[DESCRIPTION] = [self createDescription:name];
+        }
+        else if ([objectType isEqualToString:CONTACT_TYPE]) {
+            fields[LAST_NAME] = name;
+        }
+
+        [listFields addObject:fields];
+    }
+
+    return listFields;
+}
+
+- (NSString *)createDescription:(NSString *)name {
+    return [@[@"Description", name] componentsJoinedByString:@"_"];
+}
+
+- (NSDictionary*)createAccountsOnServer:(NSUInteger)count {
+    NSArray * listFields = [self buildFieldsMapForRecords:count objectType:ACCOUNT_TYPE additionalFields:nil];
+    NSMutableArray* requests = [NSMutableArray new];
+    for (NSUInteger i = 0; i < count; i++) {
+        [requests addObject:[[SFRestAPI sharedInstance] requestForCreateWithObjectType:ACCOUNT_TYPE fields:listFields[i]]];
+    }
+
+    NSMutableDictionary * idToFields = [NSMutableDictionary new];
+    NSDictionary * batchResponse = [self sendSyncRequest:[[SFRestAPI sharedInstance] batchRequest:requests haltOnError:NO]];
+    NSArray* results = batchResponse[@"results"];
+    for (NSUInteger  i = 0; i < results.count; i++) {
+        NSDictionary * result = results[i];
+        XCTAssertEqual(201, [result[@"statusCode"] intValue], "Status code should be HTTP_CREATED");
+        idToFields[result[@"result"][@"id"]] = listFields[i];
+    }
+
+    return idToFields;
+}
+
+- (NSInteger)trySyncDown:(SFSyncStateMergeMode)mergeMode target:(SFSyncDownTarget*)target soupName:(NSString*)soupName totalSize:(NSUInteger)totalSize numberFetches:(NSUInteger)numberFetches {
+
+    // Creates sync.
+    SFSyncOptions* options = [SFSyncOptions newSyncOptionsForSyncDown:mergeMode];
+    SFSyncState* sync = [SFSyncState newSyncDownWithOptions:options target:target soupName:soupName store:self.store];
+    NSInteger syncId = sync.syncId;
+    [self checkStatus:sync expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusNew expectedProgress:0 expectedTotalSize:-1];
+
+    // Runs sync.
+    SFSyncUpdateCallbackQueue* queue = [[SFSyncUpdateCallbackQueue alloc] init];
+    [queue runSync:sync syncManager:self.syncManager];
+
+    // Checks status updates.
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:-1];
+
+    if (totalSize != TOTAL_SIZE_UNKNOWN) {
+        for (int i = 0; i < numberFetches; i++) {
+            [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:(i*100/numberFetches) expectedTotalSize:totalSize];
+        }
+        [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusDone expectedProgress:100 expectedTotalSize:totalSize];
+    } else {
+        [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0];
+        [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusDone expectedProgress:100];
+    }
+    return syncId;
+}
+
+- (void)checkStatus:(SFSyncState*)sync
+       expectedType:(SFSyncStateSyncType)expectedType
+         expectedId:(NSInteger)expectedId
+     expectedTarget:(SFSyncTarget*)expectedTarget
+    expectedOptions:(SFSyncOptions*)expectedOptions
+     expectedStatus:(SFSyncStateStatus)expectedStatus
+   expectedProgress:(NSInteger)expectedProgress
+  expectedTotalSize:(NSInteger)expectedTotalSize {
+    XCTAssertNotNil(sync);
+    if (!sync) {
+        return;
+    }
+    XCTAssertEqual(expectedType, sync.type);
+    XCTAssertEqual(expectedId, sync.syncId);
+    XCTAssertEqual(expectedStatus, sync.status);
+    XCTAssertEqual(expectedProgress, sync.progress);
+    if (expectedTotalSize != TOTAL_SIZE_UNKNOWN) {
+        XCTAssertEqual(expectedTotalSize, sync.totalSize);
+    }
+    if (expectedTarget) {
+        XCTAssertNotNil(sync.target);
+        if (expectedType == SFSyncStateSyncTypeDown) {
+            XCTAssertTrue([sync.target isKindOfClass:[SFSyncDownTarget class]]);
+            SFSyncDownTargetQueryType expectedQueryType = ((SFSyncDownTarget*) expectedTarget).queryType;
+            XCTAssertEqual(expectedQueryType, ((SFSyncDownTarget*)sync.target).queryType);
+            if (expectedQueryType == SFSyncDownTargetQueryTypeSoql) {
+                XCTAssertTrue([sync.target isKindOfClass:[SFSoqlSyncDownTarget class]]);
+                XCTAssertEqualObjects(((SFSoqlSyncDownTarget*)expectedTarget).query, ((SFSoqlSyncDownTarget*)sync.target).query);
+            } else if (expectedQueryType == SFSyncDownTargetQueryTypeSosl) {
+                XCTAssertTrue([sync.target isKindOfClass:[SFSoslSyncDownTarget class]]);
+                XCTAssertEqualObjects(((SFSoslSyncDownTarget*)expectedTarget).query, ((SFSoslSyncDownTarget*)sync.target).query);
+            } else if (expectedQueryType == SFSyncDownTargetQueryTypeMru) {
+                XCTAssertTrue([sync.target isKindOfClass:[SFMruSyncDownTarget class]]);
+                XCTAssertEqualObjects(((SFMruSyncDownTarget*)expectedTarget).objectType, ((SFMruSyncDownTarget*)sync.target).objectType);
+                XCTAssertEqualObjects(((SFMruSyncDownTarget*)expectedTarget).fieldlist, ((SFMruSyncDownTarget*)sync.target).fieldlist);
+            } else if (expectedQueryType == SFSyncDownTargetQueryTypeCustom) {
+                XCTAssertTrue([sync.target isKindOfClass:[SFSyncDownTarget class]]);
+            }
+        } else {
+            XCTAssertTrue([sync.target isKindOfClass:[SFSyncUpTarget class]]);
+            XCTAssertEqualObjects(((SFSyncUpTarget*)expectedTarget).createFieldlist, ((SFSyncUpTarget*)sync.target).createFieldlist);
+            XCTAssertEqualObjects(((SFSyncUpTarget*)expectedTarget).updateFieldlist, ((SFSyncUpTarget*)sync.target).updateFieldlist);
+        }
+    } else {
+        XCTAssertNil(sync.target);
+    }
+    if (expectedOptions) {
+        XCTAssertNotNil(sync.options);
+        XCTAssertEqual(expectedOptions.mergeMode, sync.options.mergeMode);
+        XCTAssertEqualObjects(expectedOptions.fieldlist, sync.options.fieldlist);
+    } else {
+        XCTAssertNil(sync.options);
+    }
+}
+
+- (void)checkStatus:(SFSyncState*)sync
+       expectedType:(SFSyncStateSyncType)expectedType
+         expectedId:(NSInteger)expectedId
+     expectedTarget:(SFSyncTarget*)expectedTarget
+    expectedOptions:(SFSyncOptions*)expectedOptions
+     expectedStatus:(SFSyncStateStatus)expectedStatus
+   expectedProgress:(NSInteger)expectedProgress {
+    [self checkStatus:sync expectedType:expectedType expectedId:expectedId expectedTarget:expectedTarget expectedOptions:expectedOptions expectedStatus:expectedStatus expectedProgress:expectedProgress expectedTotalSize:TOTAL_SIZE_UNKNOWN];
+}
+
+- (void)checkDb:(NSDictionary*)expectedIdToFields soupName:(NSString*)soupName {
+
+    // Ids clause
+    NSString* idsClause = [self buildInClause:[expectedIdToFields allKeys]];
+
+    // Query
+    NSString* smartSql = [NSString stringWithFormat:@"SELECT {%@:_soup} FROM {%@} WHERE {%@:Id} IN %@", soupName, soupName, soupName, idsClause];
+
+    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:expectedIdToFields.count];
+    NSArray* rows = [self.store queryWithQuerySpec:query pageIndex:0 error:nil];
+    XCTAssertEqual(expectedIdToFields.count, rows.count);
+    for (NSArray* row in rows) {
+        NSDictionary * recordFromDb = row[0];
+        NSString* recordId = recordFromDb[ID];
+        NSDictionary * expectedFields = expectedIdToFields[recordId];
+        for (NSString* fieldName in [expectedFields allKeys]) {
+            XCTAssertEqualObjects(expectedFields[fieldName], recordFromDb[fieldName]);
+        }
+    }
+}
+
+- (NSDictionary*) makeSomeLocalChanges:(NSDictionary*)idToFields soupName:(NSString*) soupName idsToUpdate:(NSArray*)idsToUpdate {
+    NSDictionary* idToFieldsLocallyUpdated = [self prepareSomeChanges:idToFields idsToUpdate:idsToUpdate suffix:@"_updated"];
+    [self updateRecordsLocally:idToFieldsLocallyUpdated soupName:soupName];
+    return idToFieldsLocallyUpdated;
+}
+
+- (NSDictionary*)prepareSomeChanges:(NSDictionary*)idToFields idsToUpdate:(NSArray*)idsToUpdate suffix:(NSString*) suffix {
+    NSMutableDictionary* idToFieldsUpdated = [NSMutableDictionary new];
+    for (NSString* idToUpdate in idsToUpdate) {
+        idToFieldsUpdated[idToUpdate] = [self updateFields:idToFields[idToUpdate] suffix:suffix];
+    }
+    return idToFieldsUpdated;
+}
+
+- (NSDictionary*)updateFields:(NSDictionary*)fields suffix:(NSString*)sufffix {
+    NSArray* fieldNamesUpdatable = @[NAME, DESCRIPTION, LAST_NAME];
+
+    NSMutableDictionary * updatedFields = [NSMutableDictionary new];
+    for (NSString* fieldName in [fields allKeys]) {
+        if ([fieldNamesUpdatable containsObject:fieldName]) {
+            updatedFields[fieldName] = [NSString stringWithFormat:@"%@%@", fields[fieldName], sufffix];
+        }
+    }
+    return updatedFields;
+}
+
+- (void)updateRecordsLocally:(NSDictionary*)idToFieldsLocallyUpdated soupName:(NSString*)soupName {
+    for (NSString* id in [idToFieldsLocallyUpdated allKeys]) {
+        NSDictionary * updatedFields = idToFieldsLocallyUpdated[id];
+        NSMutableDictionary * record = [[self.store retrieveEntries:@[[self.store lookupSoupEntryIdForSoupName:soupName forFieldPath:ID fieldValue:id error:nil]] fromSoup:soupName] mutableCopy];
+        for (NSString* fieldName in [updatedFields allKeys]) {
+            record[fieldName] = updatedFields[fieldName];
+        }
+        record[kSyncTargetLocal] = @YES;
+        record[kSyncTargetLocallyCreated] = @NO;
+        record[kSyncTargetLocallyUpdated] = @YES;
+        record[kSyncTargetLocallyDeleted] = @NO;
+        [self.store upsertEntries:@[record] toSoup:soupName];
+    }
 }
 @end

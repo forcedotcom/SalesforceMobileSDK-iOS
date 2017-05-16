@@ -36,7 +36,10 @@
 
 @end
 
-@interface ParentChildrenSyncTests : SyncManagerTestCase
+@interface ParentChildrenSyncTests : SyncManagerTestCase {
+    NSMutableDictionary* accountIdToFields;          // id -> {Name: xxx, Description: yyy}
+    NSMutableDictionary* accountIdContactIdToFields; // account-id -> {contact-id -> {LastName: xxx}, ...}
+}
 
 @end
 
@@ -262,7 +265,7 @@
         for (NSDictionary * contact in mapAccountContacts[account]) {
             [contacts addObject:contact];
         }
-        record[@"Contacts"] = contacts;
+        record[CONTACT_TYPE_PLURAL] = contacts;
         [records addObject:record];
     }
 
@@ -327,7 +330,7 @@
     NSMutableArray<NSString*> *timeStampStrs = [NSMutableArray new];
     for (NSUInteger i = 1; i<5; i++) {
         long long int millis = i*100000000;
-        [timeStamps addObject:[NSNumber numberWithLongLong:millis]];
+        [timeStamps addObject:@(millis)];
         [timeStampStrs addObject:[SFSmartSyncObjectUtils getIsoStringFromMillis:millis]];
     }
 
@@ -364,7 +367,7 @@
         for (NSDictionary * contact in mapAccountContacts[account]) {
             [contacts addObject:contact];
         }
-        record[@"Contacts"] = contacts;
+        record[CONTACT_TYPE_PLURAL] = contacts;
         [records addObject:record];
     }
 
@@ -399,6 +402,121 @@
     );
 }
 
+
+/**
+ * Sync down the test accounts and contacts, check smart store, check status during sync
+ */
+- (void) testSyncDown {
+    NSUInteger numberAccounts = 4;
+    NSUInteger numberContactsPerAccount = 3;
+
+    // Creating test accounts and contacts on server
+    [self createAccountsAndContactsOnServer:numberAccounts numberContactsPerAccount:numberContactsPerAccount];
+
+    // Sync down
+    NSString *parentSoqlFilter = [NSString stringWithFormat:@"%@ IN %@", ID, [self buildInClause:[accountIdToFields allKeys]]];
+    SFParentChildrenSyncDownTarget * target = [self getAccountContactsSyncDownTargetWithParentSoqlFilter:parentSoqlFilter];
+
+    [self trySyncDown:SFSyncStateMergeModeOverwrite target:target soupName:ACCOUNTS_SOUP totalSize:numberAccounts numberFetches:1];
+
+    // Check that db was correctly populated
+    [self checkDb:accountIdToFields soupName:ACCOUNTS_SOUP];
+
+    for (NSString* accountId in [accountIdToFields allKeys]) {
+        [self checkDb:accountIdContactIdToFields[accountId] soupName:CONTACTS_SOUP];
+    }
+}
+
+/**
+ * Sync down the test accounts that do not have children contacts, check smart store, check status during sync
+ */
+- (void) testSyncDownNoChildren {
+
+    NSUInteger numberAccounts = 4;
+
+    // Creating test accounts on server
+    accountIdToFields = [[self createAccountsOnServer:numberAccounts] mutableCopy];
+
+    // Sync down
+    NSString *parentSoqlFilter = [NSString stringWithFormat:@"%@ IN %@", ID, [self buildInClause:[accountIdToFields allKeys]]];
+    SFParentChildrenSyncDownTarget * target = [self getAccountContactsSyncDownTargetWithParentSoqlFilter:parentSoqlFilter];
+
+    [self trySyncDown:SFSyncStateMergeModeOverwrite target:target soupName:ACCOUNTS_SOUP totalSize:numberAccounts numberFetches:1];
+
+    // Check that db was correctly populated
+    [self checkDb:accountIdToFields soupName:ACCOUNTS_SOUP];
+}
+
+/**
+ * Sync down the test accounts and contacts, make some local changes,
+ * then sync down again with merge mode LEAVE_IF_CHANGED then sync down with merge mode OVERWRITE
+ */
+- (void) testSyncDownWithoutOverwrite {
+
+    NSUInteger numberAccounts = 4;
+    NSUInteger numberContactsPerAccount = 3;
+
+    // Creating test accounts and contacts on server
+    [self createAccountsAndContactsOnServer:numberAccounts numberContactsPerAccount:numberContactsPerAccount];
+
+    // Sync down
+    NSString *parentSoqlFilter = [NSString stringWithFormat:@"%@ IN %@", ID, [self buildInClause:[accountIdToFields allKeys]]];
+    SFParentChildrenSyncDownTarget * target = [self getAccountContactsSyncDownTargetWithParentSoqlFilter:parentSoqlFilter];
+
+    [self trySyncDown:SFSyncStateMergeModeOverwrite target:target soupName:ACCOUNTS_SOUP totalSize:numberAccounts numberFetches:1];
+
+    // Make some local changes
+    NSArray* accountIds = [accountIdToFields allKeys];
+    NSString* accountIdUpdated = accountIds[0]; // account that will updated along with some of the children
+    NSDictionary *accountIdToFieldsUpdated = [self makeSomeLocalChanges:accountIdToFields soupName:ACCOUNTS_SOUP idsToUpdate:@[accountIdUpdated]];
+
+
+    XCTFail(@"Test implementation incomplete");
+
+    /*
+    Map<String, Map<String, Object>> contactIdToFieldsUpdated = makeLocalChanges(accountIdContactIdToFields.get(accountIdUpdated), CONTACTS_SOUP);
+    String otherAccountId = accountIds[1]; // account that will not be updated but will have updated children
+    Map<String, Map<String, Object>> otherContactIdToFieldsUpdated = makeLocalChanges(accountIdContactIdToFields.get(otherAccountId), CONTACTS_SOUP);
+
+    // Sync down again with MergeMode.LEAVE_IF_CHANGED
+    trySyncDown(SyncState.MergeMode.LEAVE_IF_CHANGED, target, ACCOUNTS_SOUP, numberAccounts, 1);
+
+    // Check db - if an account and/or its children was locally modified then that account and all its children should be left alone
+    Map<String, Map<String, Object>> accountIdToFieldsExpected = new HashMap<>(accountIdToFields);
+    accountIdToFieldsExpected.putAll(accountIdToFieldsUpdated);
+    checkDb(accountIdToFieldsExpected, ACCOUNTS_SOUP);
+
+    for (String accountId : accountIdToFields.keySet()) {
+        if (accountId.equals(accountIdUpdated)) {
+            checkDbStateFlags(Arrays.asList(accountId), false, true, false, ACCOUNTS_SOUP);
+            checkDb(contactIdToFieldsUpdated, CONTACTS_SOUP);
+            checkDbStateFlags(contactIdToFieldsUpdated.keySet(), false, true, false, CONTACTS_SOUP);
+        } else if (accountId.equals(otherAccountId)) {
+            checkDbStateFlags(Arrays.asList(accountId), false, false, false, ACCOUNTS_SOUP);
+            checkDb(otherContactIdToFieldsUpdated, CONTACTS_SOUP);
+            checkDbStateFlags(otherContactIdToFieldsUpdated.keySet(), false, true, false, CONTACTS_SOUP);
+        } else {
+            checkDbStateFlags(Arrays.asList(accountId), false, false, false, ACCOUNTS_SOUP);
+            checkDb(accountIdContactIdToFields.get(accountId), CONTACTS_SOUP);
+            checkDbStateFlags(accountIdContactIdToFields.get(accountId).keySet(), false, false, false, CONTACTS_SOUP);
+        }
+    }
+
+
+    // Sync down again with MergeMode.OVERWRITE
+    trySyncDown(SyncState.MergeMode.OVERWRITE, target, ACCOUNTS_SOUP, numberAccounts, 1);
+
+    // Check db - all local changes should have been written over
+    checkDb(accountIdToFields, ACCOUNTS_SOUP);
+    checkDbStateFlags(accountIdToFields.keySet(), false, false, false, ACCOUNTS_SOUP);
+
+    for (String accountId : accountIdToFields.keySet()) {
+        checkDb(accountIdContactIdToFields.get(accountId), CONTACTS_SOUP);
+        checkDbStateFlags(accountIdContactIdToFields.get(accountId).keySet(), false, false, false, CONTACTS_SOUP);
+    }
+    */
+}
+
 #pragma mark - Helper methods
 
 - (void)createTestData {
@@ -409,6 +527,18 @@
 - (void)deleteTestData {
     [self dropAccountsSoup];
     [self dropContactsSoup];
+
+    // accountIdToFields and accountIdContactIdToFields are not used by all tests
+    if (accountIdToFields != nil) {
+        [self deleteRecordsOnServer:[accountIdToFields allKeys] objectType:ACCOUNT_TYPE];
+    }
+
+    if (accountIdContactIdToFields != nil) {
+        for (NSString* accountId in [accountIdContactIdToFields allKeys]) {
+            NSMutableDictionary<NSString *, NSMutableDictionary<NSString *, NSObject *> *> *contactIdToFields = accountIdContactIdToFields[accountId];
+            [self deleteRecordsOnServer:[contactIdToFields allKeys] objectType:CONTACT_TYPE];
+        }
+    }
 }
 
 - (NSDictionary<NSDictionary*, NSArray<NSDictionary*>*>*) createAccountsAndContactsLocally:(NSArray<NSString*>*)names
@@ -512,7 +642,7 @@
             newSyncTargetWithParentInfo:[SFParentInfo newWithSObjectType:ACCOUNT_TYPE soupName:ACCOUNTS_SOUP idFieldName:ID modificationDateFieldName:accountModificationDateFieldName]
                         parentFieldlist:@[ID, NAME, DESCRIPTION]
                        parentSoqlFilter:parentSoqlFilter
-                           childrenInfo:[SFChildrenInfo newWithSObjectType:CONTACT_TYPE sobjectTypePlural:@"Contacts" soupName:CONTACTS_SOUP parentIdFieldName:ACCOUNT_ID idFieldName:ID modificationDateFieldName:contactModificationDateFieldName]
+                           childrenInfo:[SFChildrenInfo newWithSObjectType:CONTACT_TYPE sobjectTypePlural:CONTACT_TYPE_PLURAL soupName:CONTACTS_SOUP parentIdFieldName:ACCOUNT_ID idFieldName:ID modificationDateFieldName:contactModificationDateFieldName]
                       childrenFieldlist:@[LAST_NAME, ACCOUNT_ID]
                        relationshipType:SFParentChildrenRelationpshipMasterDetail]; // account-contacts are master-detail
     return target;
@@ -535,5 +665,65 @@
     return arr;
 }
 
+- (void) createAccountsAndContactsOnServer:(NSUInteger) numberAccounts numberContactsPerAccount:(NSUInteger) numberContactsPerAccount
+{
+    accountIdToFields = [NSMutableDictionary new];
+    accountIdContactIdToFields = [NSMutableDictionary new];
+
+    NSMutableDictionary* refIdToFields = [NSMutableDictionary new];
+    NSMutableArray* accountTrees = [NSMutableArray new];
+    NSArray* listAccountFields = [self buildFieldsMapForRecords:numberAccounts objectType:ACCOUNT_TYPE additionalFields:nil]; 
+    
+    for (NSUInteger i = 0; i<listAccountFields.count; i++) {
+        NSArray* listContactFields = [self buildFieldsMapForRecords:numberContactsPerAccount objectType:CONTACT_TYPE additionalFields:nil];
+
+        NSString* refIdAccount = [NSString stringWithFormat:@"refAccount_%d", i];
+        NSDictionary * accountFields = listAccountFields[i];
+        refIdToFields[refIdAccount] = accountFields;
+
+        NSMutableArray* contactTrees = [NSMutableArray new];
+        for (NSUInteger j = 0; j<listContactFields.count; j++) {
+            NSString* refIdContact = [NSString stringWithFormat:@"%@_refContact_%d", refIdAccount, j];
+            NSDictionary * contactFields = listContactFields[j];
+            refIdToFields[refIdContact] = contactFields;
+            [contactTrees addObject:[[SFSObjectTree alloc] initWithObjectType:CONTACT_TYPE objectTypePlural:CONTACT_TYPE_PLURAL referenceId:refIdContact fields:contactFields childrenTrees:nil]];
+        }
+        [accountTrees addObject:[[SFSObjectTree alloc] initWithObjectType:ACCOUNT_TYPE objectTypePlural:nil referenceId:refIdAccount fields:accountFields childrenTrees:contactTrees]];
+    }
+
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForSObjectTree:ACCOUNT_TYPE objectTrees:accountTrees];
+
+    // Send request
+    NSDictionary *response = [self sendSyncRequest:request];
+
+    // Parse response
+    NSMutableDictionary * refIdToId = [NSMutableDictionary new];
+
+    NSArray* results = response[@"results"];
+    for (NSUInteger i=0; i<results.count; i++) {
+        NSDictionary* result = results[i];
+        NSString* refId = result[@"referenceId"];
+        NSString* id = result[@"id"];
+        refIdToId[refId] = id;
+    }
+
+    // Populate accountIdToFields and accountIdContactIdToFields
+    for (NSString* refId in [refIdToId allKeys]) {
+        NSDictionary * fields = refIdToFields[refId];
+        NSArray* parts = [refId componentsSeparatedByString:@":"];
+        NSString* accountId = refIdToId[parts[0]];
+        NSString* contactId = parts.count > 1 ? refIdToId[refId] : nil;
+
+        if (contactId == nil) {
+            accountIdToFields[accountId] = fields;
+        }
+        else {
+            if (accountIdContactIdToFields[accountId] == nil) {
+                accountIdContactIdToFields[accountId] = [NSMutableDictionary new];
+            }
+            accountIdContactIdToFields[accountId][contactId] = fields;
+        }
+    }
+}
 
 @end

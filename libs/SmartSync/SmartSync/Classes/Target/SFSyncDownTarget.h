@@ -35,6 +35,7 @@ typedef NS_ENUM(NSInteger, SFSyncDownTargetQueryType) {
   SFSyncDownTargetQueryTypeSosl,
   SFSyncDownTargetQueryTypeSoql,
   SFSyncDownTargetQueryTypeRefresh,
+  SFSyncDownTargetQueryTypeParentChildren,
   SFSyncDownTargetQueryTypeCustom
 };
 

@@ -70,36 +70,55 @@ static NSString * const kSFParentChildrenSyncTargetChildrenFieldlist = @"childre
 
 @implementation SFParentChildrenSyncDownTarget
 
+- (instancetype)initWithParentInfo:(SFParentInfo *)parentInfo
+                   parentFieldlist:(NSArray<NSString *> *)parentFieldlist
+                  parentSoqlFilter:(NSString *)parentSoqlFilter
+                      childrenInfo:(SFChildrenInfo *)childrenInfo
+                 childrenFieldlist:(NSArray<NSString *> *)childrenFieldlist
+                  relationshipType:(SFParentChildrenRelationshipType)relationshipType {
+    self = [super init];
+    if (self) {
+        self.queryType = SFSyncDownTargetQueryTypeParentChildren;
+        self.parentInfo = parentInfo;
+        self.idFieldName = parentInfo.idFieldName;
+        self.modificationDateFieldName = parentInfo.modificationDateFieldName;
+        self.parentFieldlist = parentFieldlist;
+        self.parentSoqlFilter = parentSoqlFilter;
+        self.childrenInfo = childrenInfo;
+        self.childrenFieldlist = childrenFieldlist;
+        self.relationshipType = relationshipType;
+    }
+    return self;
+}
+
+- (instancetype)initWithDict:(NSDictionary *)dict {
+    return [self initWithParentInfo:[SFParentInfo newFromDict:dict[kSFParentChildrenSyncTargetParent]]
+                    parentFieldlist:dict[kSFParentChildrenSyncTargetParentFieldlist]
+                   parentSoqlFilter:dict[kSFParentChildrenSyncTargetParentSoqlFilter]
+                       childrenInfo:[SFChildrenInfo newFromDict:dict[kSFParentChildrenSyncTargetChildren]]
+                  childrenFieldlist:dict[kSFParentChildrenSyncTargetChildrenFieldlist]
+                   relationshipType:[SFParentChildrenSyncHelper relationshipTypeFromString:dict[kSFParentChildrenSyncTargetRelationshipType]]];
+}
+
+
 #pragma mark - Factory methods
 
-+ (instancetype) newSyncTargetWithParentInfo:(SFParentInfo*)parentInfo
-               parentFieldlist:(NSArray<NSString*>*)parentFieldlist
-              parentSoqlFilter:(NSString*)parentSoqlFilter
-                  childrenInfo:(SFChildrenInfo*)childrenInfo
-             childrenFieldlist:(NSArray<NSString*>*)childrenFieldlist
-              relationshipType:(SFParentChildrenRelationshipType)relationshipType
-{
-    SFParentChildrenSyncDownTarget * syncTarget = [[SFParentChildrenSyncDownTarget alloc] init];
-    syncTarget.parentInfo = parentInfo;
-    syncTarget.idFieldName = parentInfo.idFieldName;
-    syncTarget.modificationDateFieldName = parentInfo.modificationDateFieldName;
-    syncTarget.parentFieldlist = parentFieldlist;
-    syncTarget.parentSoqlFilter = parentSoqlFilter;
-    syncTarget.childrenInfo = childrenInfo;
-    syncTarget.childrenFieldlist = childrenFieldlist;
-    syncTarget.relationshipType = relationshipType;
-    return syncTarget;
++ (instancetype)newSyncTargetWithParentInfo:(SFParentInfo *)parentInfo
+                            parentFieldlist:(NSArray<NSString *> *)parentFieldlist
+                           parentSoqlFilter:(NSString *)parentSoqlFilter
+                               childrenInfo:(SFChildrenInfo *)childrenInfo
+                          childrenFieldlist:(NSArray<NSString *> *)childrenFieldlist
+                           relationshipType:(SFParentChildrenRelationshipType)relationshipType {
+    return [[SFParentChildrenSyncDownTarget alloc] initWithParentInfo:parentInfo
+                                                      parentFieldlist:parentFieldlist
+                                                     parentSoqlFilter:parentSoqlFilter
+                                                         childrenInfo:childrenInfo
+                                                    childrenFieldlist:childrenFieldlist
+                                                     relationshipType:relationshipType];
 }
 
 + (instancetype)newFromDict:(NSDictionary *)dict {
-    {
-        return [SFParentChildrenSyncDownTarget newSyncTargetWithParentInfo:[SFParentInfo newFromDict:dict[kSFParentChildrenSyncTargetParent]]
-                                                           parentFieldlist:dict[kSFParentChildrenSyncTargetParentFieldlist]
-                                                          parentSoqlFilter:dict[kSFParentChildrenSyncTargetParentSoqlFilter]
-                                                              childrenInfo:[SFChildrenInfo newFromDict:dict[kSFParentChildrenSyncTargetChildren]]
-                                                         childrenFieldlist:dict[kSFParentChildrenSyncTargetChildrenFieldlist]
-                                                          relationshipType:[SFParentChildrenSyncHelper relationshipTypeFromString:dict[kSFParentChildrenSyncTargetRelationshipType]]];
-    }
+    return [[SFParentChildrenSyncDownTarget alloc] initWithDict:dict];
 }
 
 #pragma mark - To dictionary
@@ -146,7 +165,7 @@ static NSString * const kSFParentChildrenSyncTargetChildrenFieldlist = @"childre
         [parentWhere appendString:[self buildModificationDateFilter:self.modificationDateFieldName maxTimeStamp:maxTimeStamp]];
         if (self.parentSoqlFilter.length > 0) [parentWhere appendString:@" and "];
     }
-    [parentWhere appendString:self.parentSoqlFilter];
+    if (self.parentSoqlFilter) [parentWhere appendString:self.parentSoqlFilter];
 
     // Nested query
     NSMutableArray * nestedFields = [NSMutableArray arrayWithArray:self.childrenFieldlist];
