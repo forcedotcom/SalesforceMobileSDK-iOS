@@ -185,6 +185,18 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     XCTAssertEqual([self.uam allUserAccounts].count, (NSUInteger)0, @"There should be 0 accounts after delete");
 }
 
+- (void)testSwitchToSameUser {
+    SFUserAccount *newUser = self.uam.currentUser = [self createAndVerifyUserAccounts:1][0];
+    TestUserAccountManagerPersisterDelegate *acctDelegate = [[TestUserAccountManagerPersisterDelegate alloc] init];
+    [self.uam switchToUser:newUser];
+    XCTAssertNil(acctDelegate.willSwitchOrigUserAccount, @"No switchToUser action should be taken for same accounts.");
+    XCTAssertNil(acctDelegate.willSwitchNewUserAccount, @"No switchToUser action should be taken for same accounts.");
+    XCTAssertNil(acctDelegate.didSwitchOrigUserAccount, @"No switchToUser action should be taken for same accounts.");
+    XCTAssertNil(acctDelegate.didSwitchNewUserAccount, @"No switchToUser action should be taken for same accounts.");
+    [self deleteUserAndVerify:newUser];
+    XCTAssertEqual([self.uam allUserAccounts].count, (NSUInteger)0, @"There should be 0 accounts after delete");
+}
+
 #pragma mark - Helper methods
 
 - (NSArray *)createAndVerifyUserAccounts:(NSUInteger)numAccounts {
