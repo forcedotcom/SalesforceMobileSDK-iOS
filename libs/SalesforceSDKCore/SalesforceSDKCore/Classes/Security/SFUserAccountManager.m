@@ -596,20 +596,24 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 }
 
 - (void)switchToUser:(SFUserAccount *)newCurrentUser {
-    [self enumerateDelegates:^(id<SFUserAccountManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(userAccountManager:willSwitchFromUser:toUser:)]) {
-            [delegate userAccountManager:self willSwitchFromUser:self.currentUser toUser:newCurrentUser];
-        }
-    }];
-
-    SFUserAccount *prevUser = self.currentUser;
-    [self setCurrentUser:newCurrentUser];
-
-    [self enumerateDelegates:^(id<SFUserAccountManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(userAccountManager:didSwitchFromUser:toUser:)]) {
-            [delegate userAccountManager:self didSwitchFromUser:prevUser toUser:newCurrentUser];
-        }
-    }];
+    if ((self.currentUser.accountIdentity == nil && newCurrentUser.accountIdentity == nil) || [self.currentUser.accountIdentity isEqual:newCurrentUser.accountIdentity])  {
+        [self log:SFLogLevelWarning format:@"%@ new user identity is the same as the current user (%@/%@).  No action taken.", NSStringFromSelector(_cmd), newCurrentUser.credentials.organizationId, newCurrentUser.credentials.userId];
+    } else {
+        [self enumerateDelegates:^(id<SFUserAccountManagerDelegate> delegate) {
+            if ([delegate respondsToSelector:@selector(userAccountManager:willSwitchFromUser:toUser:)]) {
+                [delegate userAccountManager:self willSwitchFromUser:self.currentUser toUser:newCurrentUser];
+            }
+        }];
+        
+        SFUserAccount *prevUser = self.currentUser;
+        [self setCurrentUser:newCurrentUser];
+        
+        [self enumerateDelegates:^(id<SFUserAccountManagerDelegate> delegate) {
+            if ([delegate respondsToSelector:@selector(userAccountManager:didSwitchFromUser:toUser:)]) {
+                [delegate userAccountManager:self didSwitchFromUser:prevUser toUser:newCurrentUser];
+            }
+        }];
+    }
 }
 
 
