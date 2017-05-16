@@ -24,8 +24,11 @@
 
 #import "SFOAuthSessionRefresher+Internal.h"
 #import "SFAuthenticationManager.h"
+#import "SFSDKAppFeatureMarkers.h"
 
 @implementation SFOAuthSessionRefresher
+
+static NSString * const kSFAppFeatureRefreshTokenFlow = @"RT";
 
 - (instancetype)initWithCredentials:(SFOAuthCredentials *)credentials {
     self = [super init];
@@ -77,6 +80,7 @@
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{
+        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureRefreshTokenFlow];
         [self.coordinator authenticate];
     });
 }
