@@ -193,6 +193,15 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     XCTAssertNil(acctDelegate.willSwitchNewUserAccount, @"No switchToUser action should be taken for same accounts.");
     XCTAssertNil(acctDelegate.didSwitchOrigUserAccount, @"No switchToUser action should be taken for same accounts.");
     XCTAssertNil(acctDelegate.didSwitchNewUserAccount, @"No switchToUser action should be taken for same accounts.");
+    
+    // Should create a new user with the same identity (but won't persist it).
+    SFUserAccount *newUserSameIdentity = [self createNewUserWithIndex:0];
+    [self.uam switchToUser:newUserSameIdentity];
+    XCTAssertNil(acctDelegate.willSwitchOrigUserAccount, @"No switchToUser action should be taken for accounts with same identity.");
+    XCTAssertNil(acctDelegate.willSwitchNewUserAccount, @"No switchToUser action should be taken for accounts with same identity.");
+    XCTAssertNil(acctDelegate.didSwitchOrigUserAccount, @"No switchToUser action should be taken for accounts with same identity.");
+    XCTAssertNil(acctDelegate.didSwitchNewUserAccount, @"No switchToUser action should be taken for accounts with same identity.");
+    
     [self deleteUserAndVerify:newUser];
     XCTAssertEqual([self.uam allUserAccounts].count, (NSUInteger)0, @"There should be 0 accounts after delete");
 }
