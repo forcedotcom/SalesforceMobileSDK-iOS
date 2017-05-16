@@ -28,6 +28,7 @@
 @class CSFOAuthTokenRefreshInput;
 @class CSFOAuthTokenRefreshOutput;
 
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 @interface CSFTokenRefresh : CSFAuthRefresh
 
 @property (nonatomic, copy, readonly) CSFOAuthTokenRefreshInput *refreshInput;

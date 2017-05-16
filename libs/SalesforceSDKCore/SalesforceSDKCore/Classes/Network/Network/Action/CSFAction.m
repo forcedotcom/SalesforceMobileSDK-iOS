@@ -932,6 +932,8 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
 
 @end
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 @implementation CSFAction (Timing)
 
 - (NSTimeInterval)intervalForTimingKey:(CSFActionTiming)key {
@@ -960,3 +962,4 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
 }
 
 @end
+#pragma clang diagnostic pop

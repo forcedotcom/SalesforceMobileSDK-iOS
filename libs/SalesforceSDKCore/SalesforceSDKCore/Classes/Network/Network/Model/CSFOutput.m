@@ -30,6 +30,8 @@
 static NSString * const kCSFInputCustomDictionaryAttributes = @"__CSFOutput_Dictionary_Storage";
 static NSString * const kCSFInputCustomArrayAttributes = @"__CSFOutput_Array_Storage";
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 @implementation CSFOutput
 
 + (BOOL)supportsSecureCoding {
@@ -684,3 +686,4 @@ static NSString * const kCSFInputCustomArrayAttributes = @"__CSFOutput_Array_Sto
 }
 
 @end
+#pragma clang diagnostic pop

@@ -51,6 +51,8 @@ SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API r
 
 @end
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 @implementation CourseOutput
 
 + (Class<CSFActionModel>)actionModelForPropertyName:(NSString*)propertyName propertyClass:(Class)originalClass contents:(id)contents {
@@ -153,3 +155,4 @@ SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API r
 }
 
 @end
+#pragma clang diagnostic pop
