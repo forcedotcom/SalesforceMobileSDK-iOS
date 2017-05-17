@@ -482,6 +482,7 @@
     [self checkDb:accountIdToFieldsExpected soupName:ACCOUNTS_SOUP];
 
     for (NSString* accountId in [accountIdToFields allKeys]) {
+
         if ([accountId isEqualToString:accountIdUpdated]) {
             [self checkDbStateFlags:@[accountId] soupName:ACCOUNTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:YES expectedLocallyDeleted:NO];
             [self checkDb:contactIdToFieldsUpdated soupName:CONTACTS_SOUP];
@@ -489,7 +490,7 @@
         } else if ([accountId isEqualToString:otherAccountId]) {
             [self checkDbStateFlags:@[accountId] soupName:ACCOUNTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:NO expectedLocallyDeleted:NO];
             [self checkDb:contactIdToFieldsUpdated soupName:CONTACTS_SOUP];
-            [self checkDbStateFlags:[otherContactIdToFieldsUpdated allKeys] soupName:CONTACTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:NO expectedLocallyDeleted:NO];
+            [self checkDbStateFlags:[otherContactIdToFieldsUpdated allKeys] soupName:CONTACTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:YES expectedLocallyDeleted:NO];
         } else {
             [self checkDbStateFlags:@[accountId] soupName:ACCOUNTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:NO expectedLocallyDeleted:NO];
             [self checkDb:accountIdContactIdToFields[accountId] soupName:CONTACTS_SOUP];
