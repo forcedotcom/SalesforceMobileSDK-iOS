@@ -596,7 +596,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 }
 
 - (void)switchToUser:(SFUserAccount *)newCurrentUser {
-    if ((self.currentUser.accountIdentity == nil && newCurrentUser.accountIdentity == nil) || [self.currentUser.accountIdentity isEqual:newCurrentUser.accountIdentity])  {
+    if ([self.currentUser.accountIdentity isEqual:newCurrentUser.accountIdentity]) {
         [self log:SFLogLevelWarning format:@"%@ new user identity is the same as the current user (%@/%@).  No action taken.", NSStringFromSelector(_cmd), newCurrentUser.credentials.organizationId, newCurrentUser.credentials.userId];
     } else {
         [self enumerateDelegates:^(id<SFUserAccountManagerDelegate> delegate) {
