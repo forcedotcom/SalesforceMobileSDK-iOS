@@ -28,6 +28,7 @@
 #import "SFOAuthInfo.h"
 #import "SFUserAccountManager.h"
 #import "SFIdentityCoordinator.h"
+#import "SalesforceSDKConstants.h"
 @class SFAuthenticationManager;
 @class SFAuthenticationViewHandler;
 @class SFAuthErrorHandler;
@@ -387,17 +388,31 @@ extern  NSString * const kOAuthRedirectUriKey;
                     failure:(nullable SFOAuthFlowFailureCallbackBlock)failureBlock;
 
 /**
- Kick off the login process for the specified credentials.
- @param completionBlock The block of code to execute when the authentication process successfully completes.
- @param failureBlock The block of code to execute when the authentication process has a fatal failure.
- @param credentials SFOAuthCredentials to be logged in.
+ Kick off the refresh process for the specified credentials.
+ Note: This method is deprecated.  Use refreshCredentials:completion:failure: to refresh existing credentials.
+ @param completionBlock The block of code to execute when the refresh process successfully completes.
+ @param failureBlock The block of code to execute when the refresh process has a fatal failure.
+ @param credentials SFOAuthCredentials to be refreshed.
  @return YES if this call kicks off the authentication process.  NO if an authentication process has already
  started, in which case subsequent requests are queued up to have their completion or failure blocks executed
  in succession.
  */
 - (BOOL)loginWithCompletion:(nullable SFOAuthFlowSuccessCallbackBlock)completionBlock
                     failure:(nullable SFOAuthFlowFailureCallbackBlock)failureBlock
-                    credentials:(nullable SFOAuthCredentials *)credentials;
+                credentials:(nullable SFOAuthCredentials *)credentials SFSDK_DEPRECATED(5.2, 6.0, "Use refreshCredentials:completion:failure: to refresh existing credentials.");
+
+/**
+ Kick off the refresh process for the specified credentials.
+ @param credentials SFOAuthCredentials to be refreshed.
+ @param completionBlock The block of code to execute when the refresh process successfully completes.
+ @param failureBlock The block of code to execute when the refresh process has a fatal failure.
+ @return YES if this call kicks off the authentication process.  NO if an authentication process has already
+ started, in which case subsequent requests are queued up to have their completion or failure blocks executed
+ in succession.
+ */
+- (BOOL)refreshCredentials:(nonnull SFOAuthCredentials *)credentials
+                completion:(nullable SFOAuthFlowSuccessCallbackBlock)completionBlock
+                   failure:(nullable SFOAuthFlowFailureCallbackBlock)failureBlock;
 
 /**
  Login using the given JWT token to exchange with the service for credentials.
@@ -468,24 +483,6 @@ extern  NSString * const kOAuthRedirectUriKey;
  @return YES if the error is due to invalid credentials, NO otherwise.
  */
 + (BOOL)errorIsInvalidAuthCredentials:(NSError *)error;
-
-/**
- Remove any cookies with the given names from the given domains.
- @param cookieNames The names of the cookies to remove.
- @param domainNames The names of the domains where the cookies are set.
- */
-+ (void)removeCookies:(NSArray<NSString*> *)cookieNames fromDomains:(NSArray<NSString*> *)domainNames;
-
-/**
- Remove all cookies from the cookie store.
- */
-+ (void)removeAllCookies;
-
-/**
- Adds the access (session) token cookie to the web view, for authentication.
- @param domain The domain on which to set the cookie.
- */
-+ (void)addSidCookieForDomain:(NSString*)domain;
 
 @end
 

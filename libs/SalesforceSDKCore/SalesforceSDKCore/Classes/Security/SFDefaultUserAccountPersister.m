@@ -85,7 +85,13 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
             }
         } else {
             for (NSString *rootContent in rootContents) {
+                
+                // Ignore content that doesn't represent the OrgID-based folder structure of user account persistence.
+                if (![rootContent hasPrefix:kOrgPrefix]) {
+                    continue;
+                }
                 NSString *rootPath = [rootDirectory stringByAppendingPathComponent:rootContent];
+                
                 // Fetch the content of the org directory
                 NSArray *orgContents = [fm contentsOfDirectoryAtPath:rootPath error:error];
                 if (nil == orgContents) {
@@ -96,6 +102,11 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
                 }
 
                 for (NSString *orgContent in orgContents) {
+                    
+                    // Ignore content that doesn't represent the UserID-based folder structure of user account persistence.
+                    if (![orgContent hasPrefix:kUserPrefix]) {
+                        continue;
+                    }
                     NSString *orgPath = [rootPath stringByAppendingPathComponent:orgContent];
 
                     // Now let's try to load the user account file in there

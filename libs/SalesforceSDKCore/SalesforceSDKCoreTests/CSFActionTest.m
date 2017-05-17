@@ -25,8 +25,9 @@
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
 #import "TestDataAction.h"
+#import "SalesforceSDKConstants.h"
 
-
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 @interface MockDelegate : NSObject<CSFNetworkDelegate>
 
 @property (nonatomic) BOOL startCalled;
@@ -53,7 +54,7 @@
 }
 @end
 
-
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 @interface CSFActionTest : XCTestCase
 
 @property (nonatomic, strong) CSFNetwork *networkMock;
@@ -61,6 +62,8 @@
 
 @end
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 @implementation CSFActionTest
 
 - (void)setUp {
@@ -234,5 +237,5 @@
     }];
 }
 
-
 @end
+#pragma clang diagnostic pop

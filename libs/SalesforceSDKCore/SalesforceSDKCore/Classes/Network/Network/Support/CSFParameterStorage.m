@@ -38,6 +38,8 @@
 
 @end
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 @implementation CSFParameterStorage
 
 + (NSSet*)keyPathsForValuesAffectingParameterStyle {
@@ -409,3 +411,4 @@
 }
 
 @end
+#pragma clang diagnostic pop

@@ -1,6 +1,6 @@
 /*
- Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
- 
+ Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
+
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
  * Redistributions of source code must retain the above copyright notice, this list of conditions
@@ -11,33 +11,36 @@
  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
  endorse or promote products derived from this software without specific prior written
  permission of salesforce.com, inc.
- 
+
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DAMAGES (INCLUDING, BUT NOT LIMITExD TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#import <Foundation/Foundation.h>
 
-#import "CSFOutput.h"
-#import "CSFIndexedEntity.h"
+@class WKProcessPool;
 
-@class SFOAuthCoordinator;
+@interface SFSDKWebViewStateManager : NSObject
 
-SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
-@interface CSFOAuthTokenRefreshOutput : CSFOutput<CSFIndexedEntity>
+/**
+  Reset some associated state with WKWebView and UIWebView e.g. Remove Cookies then add SID cookie
+ */
++ (void)resetSessionWithNewAccessToken:(NSString *)accessToken isSecureProtocol:(BOOL)isSecure;
 
-@property (nonatomic, strong, readonly) NSURL *idUrl;
-@property (nonatomic, strong, readonly) NSString *tokenType;
-@property (nonatomic, strong, readonly) NSString *signature;
-@property (nonatomic, strong, readonly) NSString *accessToken;
-@property (nonatomic, strong, readonly) NSArray *scope;
-@property (nonatomic, strong, readonly) NSDate *issuedAt;
-@property (nonatomic, strong, readonly) NSURL *instanceUrl;
+/**
+  Remove all associated state with WKWebView and UIWebView e.g. Remove Cookies, reset WKProcessPool
+ */
++ (void)removeSession;
 
-- (instancetype)initWithCoordinator:(SFOAuthCoordinator *)coordinator;
+/**
+ Gets or sets an instance of WKProcessPool that will be used during instantiation of any WKWebView instances @discussion
+  Use the default instance or provide an instance to share state between WKWebView instances
+ */
+@property (class, strong, nonatomic) WKProcessPool *sharedProcessPool;
 
 @end

@@ -43,7 +43,6 @@ static NSString * const kSFAppFeatureOAuth = @"UA";
 
 @dynamic refreshToken;   // stored in keychain
 @dynamic accessToken;    // stored in keychain
-@dynamic activationCode; // stored in keychain
 
 - (id)initWithCoder:(NSCoder *)coder {
     self = [super initWithCoder:coder];
@@ -88,29 +87,7 @@ static NSString * const kSFAppFeatureOAuth = @"UA";
     [standardUserDefaults synchronize];
 }
 
-- (NSString *)activationCode {
-    NSData *activationCodeData = [self tokenForService:kSFOAuthServiceActivation];
-    if (!activationCodeData) {
-        return nil;
-    }
-    return [[NSString alloc] initWithData:activationCodeData encoding:NSUTF8StringEncoding];
-}
-
-// This setter is exposed publicly for unit tests. Other external client code should use the revoke methods.
-- (void)setActivationCode:(NSString *)token {
-    if (!([self.identifier length] > 0)) {
-        @throw SFOAuthInvalidIdentifierException();
-    }
-    
-    NSData *tokenData = ([token length] > 0 ? [token dataUsingEncoding:NSUTF8StringEncoding] : nil);
-    BOOL updateSucceeded = [self updateKeychainWithTokenData:tokenData forService:kSFOAuthServiceActivation];
-    if (!updateSucceeded) {
-        [self log:SFLogLevelWarning format:@"%@:%@ - Failed to update legacy activation code.", [self class], NSStringFromSelector(_cmd)];
-    }
-}
-
 #pragma mark - Private Keychain Methods
-
 - (NSData *)tokenForService:(NSString *)service
 {
     if (!([self.identifier length] > 0)) {

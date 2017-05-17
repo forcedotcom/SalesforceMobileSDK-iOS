@@ -30,7 +30,6 @@
 typedef NS_ENUM(NSUInteger, SFOAuthTokenEndpointFlow) {
     SFOAuthTokenEndpointFlowNone = 0,
     SFOAuthTokenEndpointFlowRefresh,
-    SFOAuthTokenEndpointFlowIPBypass,
     SFOAuthTokenEndpointFlowAdvancedBrowser
 };
 

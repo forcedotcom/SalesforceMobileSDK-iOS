@@ -43,6 +43,7 @@
 #import "SFOAuthInfo.h"
 #import "SFLoginViewController.h"
 #import "SFOAuthCoordinator+Internal.h"
+#import "SFNetwork.h"
 
 static SFAuthenticationManager *sharedInstance = nil;
 
@@ -225,11 +226,6 @@ NSString * const kOAuthRedirectUriKey = @"oauth_redirect_uri";
 - (void)finalizeAuthCompletion;
 
 /**
- Kick off the login process (post-configuration in the public method).
- */
-- (void)login;
-
-/**
  Execute the configured failure blocks, if in fact configured.
  */
 - (void)execFailureBlocks;
@@ -271,11 +267,6 @@ NSString * const kOAuthRedirectUriKey = @"oauth_redirect_uri";
  @param info The SFOAuthInfo data associated with authentication.
  */
 - (void)processAuthError:(NSError *)error authInfo:(SFOAuthInfo *)info;
-
-/**
- Adds the sid cookie to the cookie store for the current authenticated instance.
- */
-+ (void)addSidCookieForInstance;
 
 @end
 
@@ -348,7 +339,7 @@ static Class InstanceClass = nil;
 - (BOOL)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
                     failure:(SFOAuthFlowFailureCallbackBlock)failureBlock
 {
-    return [self loginWithCompletion:completionBlock failure:failureBlock credentials:[self createOAuthCredentials]];
+    return [self authenticateWithCompletion:completionBlock failure:failureBlock credentials:[self createOAuthCredentials]];
 }
 
 
@@ -356,27 +347,7 @@ static Class InstanceClass = nil;
                     failure:(SFOAuthFlowFailureCallbackBlock)failureBlock
                     credentials:(SFOAuthCredentials *)credentials
 {
-
-    SFAuthBlockPair *blockPair = [[SFAuthBlockPair alloc] initWithSuccessBlock:completionBlock
-                                                                  failureBlock:failureBlock];
-    @synchronized (self.authBlockList) {
-        if (!self.authenticating) {
-            // Kick off (async) authentication.
-            [self log:SFLogLevelDebug msg:@"No authentication in progress.  Initiating new authentication request."];
-            [self.authBlockList addObject:blockPair];
-            [self loginWithCredentials:credentials];
-            return YES;
-        } else {
-            // Already authenticating.  Add completion blocks to the list, if they're not there already.
-            if (![self.authBlockList containsObject:blockPair]) {
-                [self log:SFLogLevelDebug msg:@"Authentication already in progress.  Will run the appropriate block at the end of the in-progress auth."];
-                [self.authBlockList addObject:blockPair];
-            } else {
-                [self log:SFLogLevelDebug msg:@"Authentication already in progress and these completion blocks are already in the queue.  The original blocks will be executed once; these will not be added."];
-            }
-            return NO;
-        }
-    }
+    return [self authenticateWithCompletion:completionBlock failure:failureBlock credentials:credentials];
 }
 
 - (BOOL)loginWithJwtToken:(NSString *)jwtToken
@@ -387,9 +358,17 @@ static Class InstanceClass = nil;
     NSAssert(jwtToken.length > 0, @"JWT token value required.");
     SFOAuthCredentials *credentials = [self createOAuthCredentials];
     credentials.jwt = jwtToken;
-    return [self loginWithCompletion:completionBlock
-                             failure:failureBlock
-                             credentials:credentials];
+    return [self authenticateWithCompletion:completionBlock
+                                    failure:failureBlock
+                                credentials:credentials];
+}
+
+- (BOOL)refreshCredentials:(SFOAuthCredentials *)credentials
+                completion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
+                   failure:(SFOAuthFlowFailureCallbackBlock)failureBlock
+{
+    NSAssert(credentials.refreshToken.length > 0, @"Refresh token required to refresh credentials.");
+    return [self authenticateWithCompletion:completionBlock failure:failureBlock credentials:credentials];
 }
 
 - (void)loggedIn:(BOOL)fromOffline
@@ -624,68 +603,9 @@ static Class InstanceClass = nil;
 
 + (void)resetSessionCookie
 {
-    [self removeCookies:@[@"sid"]
-            fromDomains:@[@".salesforce.com", @".force.com", @".cloudforce.com"]];
-    [self addSidCookieForInstance];
-}
-
-+ (void)removeCookies:(NSArray *)cookieNames fromDomains:(NSArray *)domainNames
-{
-    NSAssert(cookieNames != nil && [cookieNames count] > 0, @"No cookie names given to delete.");
-    NSAssert(domainNames != nil && [domainNames count] > 0, @"No domain names given for deleting cookies.");
-    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-    NSArray *fullCookieList = [NSArray arrayWithArray:[cookieStorage cookies]];
-    for (NSHTTPCookie *cookie in fullCookieList) {
-        for (NSString *cookieToRemoveName in cookieNames) {
-            if ([[cookie.name lowercaseString] isEqualToString:[cookieToRemoveName lowercaseString]]) {
-                for (NSString *domainToRemoveName in domainNames) {
-                    if ([[cookie.domain lowercaseString] hasSuffix:[domainToRemoveName lowercaseString]]) {
-                        [cookieStorage deleteCookie:cookie];
-                    }
-                }
-            }
-        }
-    }
-}
-
-+ (void)removeAllCookies
-{
-    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-    NSArray *fullCookieList = [NSArray arrayWithArray:[cookieStorage cookies]];
-    for (NSHTTPCookie *cookie in fullCookieList) {
-        if (![[cookie.name lowercaseString] isEqualToString:kUserNameCookieKey]) {
-            [cookieStorage deleteCookie:cookie];
-        }
-    }
-}
-
-+ (void)addSidCookieForInstance
-{
-    [self addSidCookieForDomain:[[SFUserAccountManager sharedInstance].currentUser.credentials.apiUrl host]];
-}
-
-+ (void)addSidCookieForDomain:(NSString*)domain
-{
-    NSAssert(domain != nil && [domain length] > 0, @"addSidCookieForDomain: domain cannot be empty");
-    [self log:SFLogLevelDebug format:@"addSidCookieForDomain: %@", domain];
-    
-    // Set the session ID cookie to be used by the web view.
-    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-    [cookieStorage setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
-    
-    NSMutableDictionary *newSidCookieProperties = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                   domain, NSHTTPCookieDomain,
-                                                   @"/", NSHTTPCookiePath,
-                                                   [SFAuthenticationManager sharedManager].coordinator.credentials.accessToken, NSHTTPCookieValue,
-                                                   @"sid", NSHTTPCookieName,
-                                                   @"TRUE", NSHTTPCookieDiscard,
-                                                   nil];
-    if ([[SFAuthenticationManager sharedManager].coordinator.credentials.protocol isEqualToString:@"https"]) {
-        newSidCookieProperties[NSHTTPCookieSecure] = @"TRUE";
-    }
-    
-    NSHTTPCookie *sidCookie0 = [NSHTTPCookie cookieWithProperties:newSidCookieProperties];
-    [cookieStorage setCookie:sidCookie0];
+   BOOL isSecure = [[SFAuthenticationManager sharedManager].coordinator.credentials.protocol isEqualToString:@"https"];
+    [SFSDKWebViewStateManager resetSessionWithNewAccessToken:[SFAuthenticationManager sharedManager].coordinator.credentials.accessToken
+                                            isSecureProtocol:isSecure];
 }
 
 + (BOOL)errorIsInvalidAuthCredentials:(NSError *)error
@@ -845,17 +765,38 @@ static Class InstanceClass = nil;
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
         [request setHTTPMethod:@"GET"];
         [request setHTTPShouldHandleCookies:NO];
-        NSURLSession* session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration ephemeralSessionConfiguration]];
-        [[session dataTaskWithRequest:request] resume];
+        SFNetwork *network = [[SFNetwork alloc] init];
+        [network sendRequest:request dataResponseBlock:nil];
     }
     [user.credentials revoke];
 }
 
-- (void)login
+- (BOOL)authenticateWithCompletion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
+                           failure:(SFOAuthFlowFailureCallbackBlock)failureBlock
+                       credentials:(SFOAuthCredentials *)credentials
 {
-    [self loginWithCredentials:[self createOAuthCredentials]];
+    
+    SFAuthBlockPair *blockPair = [[SFAuthBlockPair alloc] initWithSuccessBlock:completionBlock
+                                                                  failureBlock:failureBlock];
+    @synchronized (self.authBlockList) {
+        if (!self.authenticating) {
+            // Kick off (async) authentication.
+            [self log:SFLogLevelDebug msg:@"No authentication in progress.  Initiating new authentication request."];
+            [self.authBlockList addObject:blockPair];
+            [self loginWithCredentials:credentials];
+            return YES;
+        } else {
+            // Already authenticating.  Add completion blocks to the list, if they're not there already.
+            if (![self.authBlockList containsObject:blockPair]) {
+                [self log:SFLogLevelDebug msg:@"Authentication already in progress.  Will run the appropriate block at the end of the in-progress auth."];
+                [self.authBlockList addObject:blockPair];
+            } else {
+                [self log:SFLogLevelDebug msg:@"Authentication already in progress and these completion blocks are already in the queue.  The original blocks will be executed once; these will not be added."];
+            }
+            return NO;
+        }
+    }
 }
-
 
 - (void)loginWithCredentials:(SFOAuthCredentials *) credentials
 {
@@ -926,8 +867,8 @@ static Class InstanceClass = nil;
     if (self.coordinator.view) {
         [self.coordinator.view removeFromSuperview];
     }
-    
-    [SFAuthenticationManager removeAllCookies];
+
+    [SFSDKWebViewStateManager removeSession];
     [self.coordinator stopAuthentication];
 
     self.idCoordinator.idData = nil;
@@ -1021,7 +962,7 @@ static Class InstanceClass = nil;
                                        __strong typeof(weakSelf) strongSelf = weakSelf;
                                        if (tag == kOAuthGenericAlertViewTag) {
                                            [strongSelf dismissAuthViewControllerIfPresent];
-                                           [strongSelf login];
+                                           [strongSelf loginWithCredentials:[strongSelf createOAuthCredentials]];
                                        } else if (tag == kIdentityAlertViewTag) {
                                            [strongSelf.idCoordinator initiateIdentityDataRetrieval];
                                        } else if (tag == kConnectedAppVersionMismatchViewTag) {

@@ -145,16 +145,6 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
  */
 @property (readonly, nonatomic, nullable) SFUserAccountIdentity *currentUserIdentity;
 
-/**  Convenience property to retrieve the current user's communityId.
- This property is an alias for `currentUser.communityId`
- */
-@property (nonatomic, nullable) NSString *currentCommunityId;
-
-/** A convenience property to store the previous community
- id as it may change during early OAuth flow and we want to retain it
- */
-@property (nonatomic, strong, nullable) NSString *previousCommunityId;
-
 /** Shared singleton
  */
 + (instancetype)sharedInstance;

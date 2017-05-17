@@ -36,6 +36,7 @@
 #import <SalesforceSDKCore/SFSDKResourceUtils.h>
 #import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
 #import <SalesforceSDKCore/NSString+SFAdditions.h>
+#import <SalesforceSDKCore/SFSDKWebViewStateManager.h>
 #import <Cordova/NSDictionary+CordovaPreferences.h>
 #import <Cordova/CDVUserAgentUtil.h>
 #import <objc/message.h>
@@ -340,7 +341,7 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
         [self.view addSubview:self.errorPageUIWebView];
     } else {
         WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
-        config.processPool = [SalesforceSDKManager sharedManager].processPool;
+        config.processPool = SFSDKWebViewStateManager.sharedProcessPool;
         self.errorPageWKWebView = [[WKWebView alloc] initWithFrame:self.view.frame configuration:config];
         self.errorPageWKWebView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         self.errorPageWKWebView.navigationDelegate = self;
@@ -528,7 +529,7 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
     BOOL shouldAllowRequest = YES;
     if ([webView isEqual:self.vfPingPageHiddenWKWebView]) { // Hidden ping page load.
         [self log:SFLogLevelDebug msg:@"Setting up VF web state after plugin-based refresh."];
-    }else if ([webView isEqual:self.errorPageWKWebView]) { // Local error page load.
+    } else if ([webView isEqual:self.errorPageWKWebView]) { // Local error page load.
         [self log:SFLogLevelDebug format:@"Local error page ('%@') is loading.", navigationAction.request.URL.absoluteString];
     } else if ([webView isEqual:self.webView]) { // Cordova web view load.
         /*
@@ -538,14 +539,15 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
         NSString *refreshUrl = [self isLoginRedirectUrl:navigationAction.request.URL];
         if (refreshUrl != nil) {
             [self log:SFLogLevelWarning msg:@"Caught login redirect from session timeout. Reauthenticating."];
-
+            
             /*
              * Reconfigure user agent. Basically this ensures that Cordova whitelisting won't apply to the
              * WKWebView that hosts the login screen (important for SSO outside of Salesforce domains).
              */
             [SFSDKWebUtils configureUserAgent:[self sfHybridViewUserAgentString]];
             [[SFAuthenticationManager sharedManager]
-             loginWithCompletion:^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
+             refreshCredentials:[SFUserAccountManager sharedInstance].currentUser.credentials
+             completion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
                  [SFUserAccountManager sharedInstance].currentUser = userAccount;
                  // Reset the user agent back to Cordova.
                  [self authenticationCompletion:refreshUrl authInfo:authInfo];
@@ -626,30 +628,32 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
         NSString *refreshUrl = [self isLoginRedirectUrl:webView.request.URL];
         if (refreshUrl != nil) {
             [self log:SFLogLevelWarning msg:@"Caught login redirect from session timeout. Reauthenticating."];
-
+            
             /*
              * Reconfigure user agent. Basically this ensures that Cordova whitelisting won't apply to the
              * UIWebView that hosts the login screen (important for SSO outside of Salesforce domains).
              */
             [SFSDKWebUtils configureUserAgent:[self sfHybridViewUserAgentString]];
-            [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
-                [SFUserAccountManager sharedInstance].currentUser = userAccount;
-                // Reset the user agent back to Cordova.
-                [self authenticationCompletion:refreshUrl authInfo:authInfo];
-            } failure:^(SFOAuthInfo *authInfo, NSError *error) {
-                if ([self logoutOnInvalidCredentials:error]) {
-                    [self log:SFLogLevelError msg:@"Could not refresh expired session. Logging out."];
-                    NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
-                    attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
-                    attributes[@"errorDescription"] = error.localizedDescription;
-                    [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
-                    [[SFAuthenticationManager sharedManager] logout];
-                } else {
-
-                    // Error is not invalid credentials, or developer otherwise wants to handle it.
-                    [self loadErrorPageWithCode:error.code description:error.localizedDescription context:kErrorContextAuthExpiredSessionRefresh];
-                }
-            }];
+            [[SFAuthenticationManager sharedManager]
+             refreshCredentials:[SFUserAccountManager sharedInstance].currentUser.credentials
+             completion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
+                 [SFUserAccountManager sharedInstance].currentUser = userAccount;
+                 // Reset the user agent back to Cordova.
+                 [self authenticationCompletion:refreshUrl authInfo:authInfo];
+             } failure:^(SFOAuthInfo *authInfo, NSError *error) {
+                 if ([self logoutOnInvalidCredentials:error]) {
+                     [self log:SFLogLevelError msg:@"Could not refresh expired session. Logging out."];
+                     NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
+                     attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
+                     attributes[@"errorDescription"] = error.localizedDescription;
+                     [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
+                     [[SFAuthenticationManager sharedManager] logout];
+                 } else {
+                     
+                     // Error is not invalid credentials, or developer otherwise wants to handle it.
+                     [self loadErrorPageWithCode:error.code description:error.localizedDescription context:kErrorContextAuthExpiredSessionRefresh];
+                 }
+             }];
             return NO;
         }
         NSURL* url = [request URL];
@@ -827,7 +831,7 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
             [self.vfPingPageHiddenUIWebView loadRequest:pingRequest];
         } else {
             WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
-            config.processPool = [SalesforceSDKManager sharedManager].processPool;
+            config.processPool = SFSDKWebViewStateManager.sharedProcessPool;
             self.vfPingPageHiddenWKWebView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:config];
             self.vfPingPageHiddenWKWebView.navigationDelegate = self;
             [self.vfPingPageHiddenWKWebView loadRequest:pingRequest];

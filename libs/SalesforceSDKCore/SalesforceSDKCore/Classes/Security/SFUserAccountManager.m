@@ -452,7 +452,6 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
                 currentAccount.communities = @[communityData];
             }
         }
-        [self setCurrentCommunityId:currentAccount.communityId];
     }
 
     [self saveAccountForUser:currentAccount error:nil];
@@ -597,35 +596,28 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 }
 
 - (void)switchToUser:(SFUserAccount *)newCurrentUser {
-    [self enumerateDelegates:^(id<SFUserAccountManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(userAccountManager:willSwitchFromUser:toUser:)]) {
-            [delegate userAccountManager:self willSwitchFromUser:self.currentUser toUser:newCurrentUser];
-        }
-    }];
-
-    SFUserAccount *prevUser = self.currentUser;
-    [self setCurrentUser:newCurrentUser];
-
-    [self enumerateDelegates:^(id<SFUserAccountManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(userAccountManager:didSwitchFromUser:toUser:)]) {
-            [delegate userAccountManager:self didSwitchFromUser:prevUser toUser:newCurrentUser];
-        }
-    }];
-}
-
-#pragma mark -
-#pragma mark User Change Notifications
-- (BOOL)hasCommunityChanged {
-    // If the last changed communityID exists and is inequal or
-    // if there was no previous communityID and now there is
-    if ((self.lastChangedCommunityId && ![self.lastChangedCommunityId isEqualToString:self.currentUser.communityId])
-        || (!self.lastChangedCommunityId && self.currentUser.communityId)) {
-        return YES;
+    if ((self.currentUser.accountIdentity == nil && newCurrentUser.accountIdentity == nil) || [self.currentUser.accountIdentity isEqual:newCurrentUser.accountIdentity])  {
+        [self log:SFLogLevelWarning format:@"%@ new user identity is the same as the current user (%@/%@).  No action taken.", NSStringFromSelector(_cmd), newCurrentUser.credentials.organizationId, newCurrentUser.credentials.userId];
     } else {
-        return NO;
+        [self enumerateDelegates:^(id<SFUserAccountManagerDelegate> delegate) {
+            if ([delegate respondsToSelector:@selector(userAccountManager:willSwitchFromUser:toUser:)]) {
+                [delegate userAccountManager:self willSwitchFromUser:self.currentUser toUser:newCurrentUser];
+            }
+        }];
+        
+        SFUserAccount *prevUser = self.currentUser;
+        [self setCurrentUser:newCurrentUser];
+        
+        [self enumerateDelegates:^(id<SFUserAccountManagerDelegate> delegate) {
+            if ([delegate respondsToSelector:@selector(userAccountManager:didSwitchFromUser:toUser:)]) {
+                [delegate userAccountManager:self didSwitchFromUser:prevUser toUser:newCurrentUser];
+            }
+        }];
     }
 }
 
+
+#pragma mark - User Change Notifications
 - (void)userChanged:(SFUserAccount *)user change:(SFUserAccountDataChange)change {
     [self notifyUserDataChange:SFUserAccountManagerDidChangeUserDataNotification withUser:user andChange:change];
 }

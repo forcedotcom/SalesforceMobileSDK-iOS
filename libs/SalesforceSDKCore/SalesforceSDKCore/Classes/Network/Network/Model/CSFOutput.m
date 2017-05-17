@@ -30,6 +30,8 @@
 static NSString * const kCSFInputCustomDictionaryAttributes = @"__CSFOutput_Dictionary_Storage";
 static NSString * const kCSFInputCustomArrayAttributes = @"__CSFOutput_Array_Storage";
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 @implementation CSFOutput
 
 + (BOOL)supportsSecureCoding {
@@ -92,6 +94,7 @@ static NSString * const kCSFInputCustomArrayAttributes = @"__CSFOutput_Array_Sto
             
             Ivar ivar = class_getInstanceVariable(ivarInfo[@"class"], [ivarName UTF8String]);
             Class ivarClass = CSFClassFromEncoding(ivarInfo[@"encoding"]);
+            NSString * encoding = ivarInfo[@"encoding"];
             if (ivarClass) {
                 id result = [decoder decodeObjectOfClass:ivarClass forKey:propertyName];
                 if ([result isKindOfClass:[CSFOutput class]]) {
@@ -99,7 +102,7 @@ static NSString * const kCSFInputCustomArrayAttributes = @"__CSFOutput_Array_Sto
                     resultOutput.parentObject = self;
                 }
                 object_setIvar(self, ivar, result);
-            } else if (ivarInfo[@"encoding"]) {
+            } else if (encoding && ![encoding hasPrefix:@"@"]) {
                 const void * ivarPtr = (__bridge void*)(self) + ivar_getOffset(ivar);
                 [decoder decodeValueOfObjCType:[ivarInfo[@"encoding"] UTF8String] at:(void *)ivarPtr];
             }
@@ -683,3 +686,4 @@ static NSString * const kCSFInputCustomArrayAttributes = @"__CSFOutput_Array_Sto
 }
 
 @end
+#pragma clang diagnostic pop

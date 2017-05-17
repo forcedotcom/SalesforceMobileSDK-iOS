@@ -30,6 +30,7 @@
 #import "SFJsonUtils.h"
 #import "SFApplicationHelper.h"
 #import "SFSDKAppFeatureMarkers.h"
+#import "SFNetwork.h"
 
 static NSString* const kSFDeviceToken = @"deviceToken";
 static NSString* const kSFDeviceSalesforceId = @"deviceSalesforceId";
@@ -193,19 +194,17 @@ static NSString * const kSFAppFeaturePushNotifications   = @"PN";
     [request setHTTPBody:[SFJsonUtils JSONDataRepresentation:bodyDict]];
     
     // Send
-    NSURLSession* session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration ephemeralSessionConfiguration]];
-    [[session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    SFNetwork *network = [[SFNetwork alloc] init];
+    [network sendRequest:request dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error != nil) {
             [self log:SFLogLevelError format:@"Registration for notifications with Salesforce failed with error %@", error];
-        }
-        else {
+        } else {
             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) response;
             NSInteger statusCode = httpResponse.statusCode;
             if (statusCode < 200 || statusCode >= 300) {
                 [self log:SFLogLevelError format:@"Registration for notifications with Salesforce failed with status %ld", statusCode];
                 [self log:SFLogLevelError format:@"Response:%@", [SFJsonUtils objectFromJSONData:data]];
-            }
-            else {
+            } else {
                 [self log:SFLogLevelInfo msg:@"Registration for notifications with Salesforce succeeded"];
                 NSDictionary *responseAsJson = (NSDictionary*) [SFJsonUtils objectFromJSONData:data];
                 self->_deviceSalesforceId = (NSString*) responseAsJson[@"id"];
@@ -213,8 +212,7 @@ static NSString * const kSFAppFeaturePushNotifications   = @"PN";
                 [self log:SFLogLevelInfo format:@"Response:%@", responseAsJson];
             }
         }
-    }] resume];
-    
+    }];
     return YES;
 }
 
@@ -260,8 +258,8 @@ static NSString * const kSFAppFeaturePushNotifications   = @"PN";
     [request setHTTPShouldHandleCookies:NO];
     
     // Send (fire and forget)
-    NSURLSession* session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration ephemeralSessionConfiguration]];
-    [[session dataTaskWithRequest:request] resume];
+    SFNetwork *network = [[SFNetwork alloc] init];
+    [network sendRequest:request dataResponseBlock:nil];
     [self log:SFLogLevelInfo msg:@"Unregister from notifications with Salesforce sent"];
     return YES;
 }

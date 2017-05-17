@@ -23,6 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SalesforceSDKConstants.h"
 
 /**
  This protocol represents objects that can be used as the model class for a CSFAction.
@@ -31,6 +32,7 @@
  a class that conforms to this protocol, the action will attempt to construct a model
  with the result of the network request.
  */
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 @protocol CSFActionModel <NSObject>
 
 @optional

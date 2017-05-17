@@ -27,6 +27,9 @@
 @class CSFNetwork;
 @interface SFUserAccount (SalesforceNetwork)
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 @property (nonatomic, strong, readonly) CSFNetwork *network;
+#pragma clang diagnostic pop
 
 @end
