@@ -1483,28 +1483,6 @@
     return idToFieldsRemotelyUpdated;
 }
 
-- (NSDictionary*) createAccountsLocally:(NSArray*)names {
-    NSMutableDictionary* idToFieldsLocallyCreated = [NSMutableDictionary new];
-    NSMutableArray* createdAccounts = [NSMutableArray new];
-    NSMutableDictionary* attributes = [NSMutableDictionary new];
-    attributes[TYPE] = ACCOUNT_TYPE;
-    for (NSString* name in names) {
-        NSMutableDictionary* account = [NSMutableDictionary new];
-        NSString* accountId = [self createLocalId];
-        account[ID] = accountId;
-        account[NAME] = name;
-        account[DESCRIPTION] = [self createDescription:name];
-        account[ATTRIBUTES] = attributes;
-        account[kSyncTargetLocal] = @YES;
-        account[kSyncTargetLocallyCreated] = @YES;
-        account[kSyncTargetLocallyDeleted] = @NO;
-        account[kSyncTargetLocallyUpdated] = @NO;
-        [createdAccounts addObject:account];
-        idToFieldsLocallyCreated[accountId] = name;
-    }
-    [self.store upsertEntries:createdAccounts toSoup:ACCOUNTS_SOUP];
-    return idToFieldsLocallyCreated;
-}
 
 -(void) deleteAccountsLocally:(NSArray*)idsLocallyDeleted {
     NSMutableArray* deletedAccounts = [NSMutableArray new];

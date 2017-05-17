@@ -22,14 +22,9 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import "SFSyncTarget+Internal.h"
 #import "SFParentChildrenSyncHelper.h"
 #import <SmartStore/SFSmartStore.h>
-
-@interface SFSyncTarget ()
-
-- (void) cleanAndSaveInSmartStore:(SFSmartStore*)smartStore soupName:(NSString*)soupName records:(NSArray*)record;
-
-@end
 
 @implementation SFParentChildrenSyncHelper
 

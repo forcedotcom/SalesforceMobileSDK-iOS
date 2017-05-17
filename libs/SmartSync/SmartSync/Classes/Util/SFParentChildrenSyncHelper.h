@@ -27,6 +27,8 @@
 #import "SFSmartSyncSyncManager.h"
 #import "SFSyncTarget.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 // Possible values for relationship type
 typedef NS_ENUM(NSInteger, SFParentChildrenRelationshipType) {
     SFParentChildrenRelationpshipMasterDetail,
@@ -50,3 +52,5 @@ extern NSString * const kSFParentChildrenRelationshipLookup;
 + (void)saveRecordTreesToLocalStore:(SFSmartSyncSyncManager *)syncManager target:(SFSyncTarget *)target parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo recordTrees:(NSArray *)recordTrees;
 
 @end
+
+NS_ASSUME_NONNULL_END

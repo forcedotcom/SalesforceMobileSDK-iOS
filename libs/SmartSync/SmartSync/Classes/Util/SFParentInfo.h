@@ -24,6 +24,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 extern NSString * const kSFParentInfoSObjectType;
 extern NSString * const kSFParentInfoSoupName;
 extern NSString * const kSFParentInfoIdFieldName;
@@ -54,3 +56,5 @@ extern NSString * const kSFParentInfoModifificationDateFieldName;
 - (NSDictionary *)asDict;
 
 @end
+
+NS_ASSUME_NONNULL_END

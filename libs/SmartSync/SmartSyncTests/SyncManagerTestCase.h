@@ -52,16 +52,16 @@
 - (NSString *)createRecordName:(NSString *)objectType;
 - (NSString *)createAccountName;
 - (NSString *)createDescription:(NSString *)name;
-- (NSString*) createLocalId;
+- (NSString *) createLocalId;
 - (NSString *)buildInClause:(NSArray *)values;
 
-- (NSArray<NSDictionary*>*) createAccountsLocally:(NSArray<NSString*>*)names;
+- (NSDictionary *) createAccountsLocally:(NSArray*)names;
 - (void)createAccountsSoup;
 - (void)dropAccountsSoup;
 - (void)createContactsSoup;
 - (void)dropContactsSoup;
 
-- (NSArray*) buildFieldsMapForRecords:(NSUInteger)count objectType:(NSString*)objectType additionalFields:(NSDictionary*)additionalFields;
+- (NSArray *) buildFieldsMapForRecords:(NSUInteger)count objectType:(NSString*)objectType additionalFields:(NSDictionary*)additionalFields;
 - (NSDictionary *)createAccountsOnServer:(NSUInteger)count;
 - (void)deleteRecordsOnServer:(NSArray *)ids objectType:(NSString*)objectType;
 - (NSDictionary *)sendSyncRequest:(SFRestRequest *)request;

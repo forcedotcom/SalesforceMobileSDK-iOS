@@ -24,6 +24,8 @@
 
 #import "SFParentInfo.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 extern NSString * const kSFChildrenInfoSObjectTypePlural;
 extern NSString * const kSFChildrenInfoParentIdFieldName;
 
@@ -48,3 +50,5 @@ extern NSString * const kSFChildrenInfoParentIdFieldName;
 - (NSDictionary *)asDict;
 
 @end
+
+NS_ASSUME_NONNULL_END

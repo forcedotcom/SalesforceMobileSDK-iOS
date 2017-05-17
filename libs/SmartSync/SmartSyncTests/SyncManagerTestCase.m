@@ -91,23 +91,28 @@ static NSException *authException = nil;
     return [self createRecordName:ACCOUNT_TYPE];
 }
 
-- (NSArray<NSDictionary*>*) createAccountsLocally:(NSArray<NSString*>*)names {
-    NSMutableArray<NSDictionary *> *accounts = [NSMutableArray new];
-    NSDictionary *attributes = @{TYPE: ACCOUNT_TYPE};
-    for (NSString *name in names) {
-        NSDictionary *account = @{
-                ID: [self createLocalId],
-                NAME: name,
-                DESCRIPTION: [@[DESCRIPTION, name] componentsJoinedByString:@"_"],
-                ATTRIBUTES: attributes,
-                kSyncTargetLocal: @YES,
-                kSyncTargetLocallyCreated: @YES,
-                kSyncTargetLocallyUpdated: @NO,
-                kSyncTargetLocallyDeleted: @NO,
-        };
-        [accounts addObject:account];
+
+- (NSDictionary*) createAccountsLocally:(NSArray*)names {
+    NSMutableDictionary* idToFieldsLocallyCreated = [NSMutableDictionary new];
+    NSMutableArray* createdAccounts = [NSMutableArray new];
+    NSMutableDictionary* attributes = [NSMutableDictionary new];
+    attributes[TYPE] = ACCOUNT_TYPE;
+    for (NSString* name in names) {
+        NSMutableDictionary* account = [NSMutableDictionary new];
+        NSString* accountId = [self createLocalId];
+        account[ID] = accountId;
+        account[NAME] = name;
+        account[DESCRIPTION] = [self createDescription:name];
+        account[ATTRIBUTES] = attributes;
+        account[kSyncTargetLocal] = @YES;
+        account[kSyncTargetLocallyCreated] = @YES;
+        account[kSyncTargetLocallyDeleted] = @NO;
+        account[kSyncTargetLocallyUpdated] = @NO;
+        [createdAccounts addObject:account];
+        idToFieldsLocallyCreated[accountId] = name;
     }
-    return [self.store upsertEntries:accounts toSoup:ACCOUNTS_SOUP];
+    [self.store upsertEntries:createdAccounts toSoup:ACCOUNTS_SOUP];
+    return idToFieldsLocallyCreated;
 }
 
 - (NSString*) createLocalId {

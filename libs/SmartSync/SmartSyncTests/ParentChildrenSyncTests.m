@@ -196,8 +196,8 @@
             [self createAccountName]
     ];
 
-    NSDictionary<NSDictionary *, NSArray<NSDictionary *> *> *mapAccountToContacts = [self createAccountsAndContactsLocally:accountNames numberOfContactsPerAccount:3];
-    NSArray<NSDictionary *>* accounts = [mapAccountToContacts allKeys];
+    NSDictionary* mapAccountToContacts = [self createAccountsAndContactsLocally:accountNames numberOfContactsPerAccount:3];
+    NSArray* accounts = [mapAccountToContacts allKeys];
 
     // All Accounts should be returned
     [self tryGetDirtyRecordIds:accounts];
@@ -537,33 +537,47 @@
     }
 }
 
-- (NSDictionary<NSDictionary*, NSArray<NSDictionary*>*>*) createAccountsAndContactsLocally:(NSArray<NSString*>*)names
-                                                                numberOfContactsPerAccount:(NSUInteger)numberOfContactsPerAccount
+- (NSDictionary*) createAccountsAndContactsLocally:(NSArray<NSString*>*)names
+                        numberOfContactsPerAccount:(NSUInteger)numberOfContactsPerAccount
 {
-    NSArray<NSDictionary *>* accounts = [self createAccountsLocally:names];
-    NSMutableArray * accountIds = [NSMutableArray new];
-    for (NSDictionary * account in accounts) {
+    
+    NSMutableArray* accounts = [NSMutableArray new];
+    NSMutableArray* accountIds = [NSMutableArray new];
+    NSDictionary *attributes = @{TYPE: ACCOUNT_TYPE};
+    for (NSString* name in names) {
+        NSDictionary *account = @{
+                                  ID: [self createLocalId],
+                                  NAME: name,
+                                  DESCRIPTION: [@[DESCRIPTION, name] componentsJoinedByString:@"_"],
+                                  ATTRIBUTES: attributes,
+                                  kSyncTargetLocal: @YES,
+                                  kSyncTargetLocallyCreated: @YES,
+                                  kSyncTargetLocallyUpdated: @NO,
+                                  kSyncTargetLocallyDeleted: @NO,
+                                  };
+        [accounts addObject:account];
         [accountIds addObject:account[ID]];
     }
+    NSArray* createdAccounts = [self.store upsertEntries:accounts toSoup:ACCOUNTS_SOUP];
 
-    NSDictionary<NSDictionary *, NSArray<NSDictionary *> *> *accountIdsToContacts = [self createContactsForAccountsLocally:numberOfContactsPerAccount accountIds:accountIds];
+    NSDictionary* accountIdsToContacts = [self createContactsForAccountsLocally:numberOfContactsPerAccount accountIds:accountIds];
+    NSMutableDictionary* accountToContacts = [NSMutableDictionary new];
 
-    NSMutableDictionary<NSDictionary*, NSArray<NSDictionary*>*>* accountToContacts = [NSMutableDictionary new];
-
-    for (NSDictionary * account in accounts) {
-        accountToContacts[account] = accountIdsToContacts[account[ID]];
+    for (NSDictionary* createdAccount in createdAccounts) {
+        accountToContacts[createdAccount] = accountIdsToContacts[createdAccount[ID]];
+        
     }
     return accountToContacts;
 }
 
-- (NSDictionary<NSDictionary*, NSArray<NSDictionary*>*>*) createContactsForAccountsLocally:(NSUInteger)numberOfContactsPerAccount
-                                                                                accountIds:(NSArray<NSString*>*)accountIds
+- (NSDictionary*) createContactsForAccountsLocally:(NSUInteger)numberOfContactsPerAccount
+                                        accountIds:(NSArray<NSString*>*)accountIds
 {
-    NSMutableDictionary<NSDictionary *, NSArray<NSDictionary *> *> *accountIdsToContacts = [NSMutableDictionary new];
+    NSMutableDictionary* accountIdsToContacts = [NSMutableDictionary new];
 
     NSDictionary *attributes = @{TYPE: ACCOUNT_TYPE};
     for (NSString *accountId in accountIds) {
-        NSMutableArray<NSDictionary *>* contacts = [NSMutableArray new];
+        NSMutableArray* contacts = [NSMutableArray new];
         for (NSUInteger i=0; i<numberOfContactsPerAccount; i++) {
             NSDictionary *contact = @{
                     ID: [self createLocalId],
@@ -673,13 +687,13 @@
     for (NSUInteger i = 0; i<listAccountFields.count; i++) {
         NSArray* listContactFields = [self buildFieldsMapForRecords:numberContactsPerAccount objectType:CONTACT_TYPE additionalFields:nil];
 
-        NSString* refIdAccount = [NSString stringWithFormat:@"refAccount_%lu", i];
+        NSString* refIdAccount = [NSString stringWithFormat:@"refAccount_%lu", (unsigned long)i];
         NSDictionary * accountFields = listAccountFields[i];
         refIdToFields[refIdAccount] = accountFields;
 
         NSMutableArray* contactTrees = [NSMutableArray new];
         for (NSUInteger j = 0; j<listContactFields.count; j++) {
-            NSString* refIdContact = [NSString stringWithFormat:@"%@:refContact_%lu", refIdAccount, j];
+            NSString* refIdContact = [NSString stringWithFormat:@"%@:refContact_%lu", refIdAccount, (unsigned long)j];
             NSDictionary * contactFields = listContactFields[j];
             refIdToFields[refIdContact] = contactFields;
             [contactTrees addObject:[[SFSObjectTree alloc] initWithObjectType:CONTACT_TYPE objectTypePlural:CONTACT_TYPE_PLURAL referenceId:refIdContact fields:contactFields childrenTrees:nil]];

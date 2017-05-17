@@ -22,6 +22,9 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import "SFSyncTarget+Internal.h"
+#import "SFSyncDownTarget+Internal.h"
+#import "SFSoqlSyncDownTarget+Internal.h"
 #import "SFParentChildrenSyncDownTarget.h"
 #import "SFSmartSyncObjectUtils.h"
 #import "SFSmartSyncConstants.h"
@@ -33,29 +36,6 @@ static NSString * const kSFParentChildrenSyncTargetRelationshipType = @"relation
 static NSString * const kSFParentChildrenSyncTargetParentFieldlist = @"parentFieldlist";
 static NSString * const kSFParentChildrenSyncTargetParentSoqlFilter = @"parentSoqlFilter";
 static NSString * const kSFParentChildrenSyncTargetChildrenFieldlist = @"childrenFieldlist";
-
-@interface SFSyncTarget ()
-
-- (NSString*) getDirtyRecordIdsSql:(NSString*)soupName idField:(NSString*)idField;
-- (void) deleteRecordsFromLocalStore:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName ids:(NSArray*)ids idField:(NSString*)idField;
-
-@end
-
-@interface SFSyncDownTarget ()
-
-- (NSString*) getNonDirtyRecordIdsSql:(NSString*)soupName idField:(NSString*)idField;
-
-@end
-
-@interface SFSoqlSyncDownTarget ()
-
-- (NSOrderedSet *)getNonDirtyRecordIds:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName idField:(NSString *)idField;
-- (void)startFetch:(SFSmartSyncSyncManager *)syncManager queryToRun:(NSString *)queryToRun errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock;
-- (NSSet<NSString*>*) parseIdsFromResponse:(NSArray*)records;
-- (NSArray<NSDictionary *> *)getRecordsFromResponse:(NSDictionary *)responseJson;
-- (long long)getLatestModificationTimeStamp:(NSArray*)records modificationDateFieldName:(NSString*)modificationDateFieldName;
-
-@end
 
 @interface SFParentChildrenSyncDownTarget ()
 
