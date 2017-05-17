@@ -354,6 +354,35 @@ static NSException *authException = nil;
     }
 }
 
+- (void)checkDbStateFlags:(NSArray *)ids
+                 soupName:(NSString *)soupName
+   expectedLocallyCreated:(bool)expectedLocallyCreated
+   expectedLocallyUpdated:(bool)expectedLocallyUpdated
+   expectedLocallyDeleted:(bool)expectedLocallyDeleted {
+
+    // Ids clause
+    NSString* idsClause = [self buildInClause:ids];
+
+    // Query
+    NSString* smartSql = [NSString stringWithFormat:@"SELECT {%@:_soup} FROM {%@} WHERE {%@:Id} IN %@", soupName, soupName, soupName, idsClause];
+
+    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:ids.count];
+    NSArray* rows = [self.store queryWithQuerySpec:query pageIndex:0 error:nil];
+    XCTAssertEqual(ids.count, rows.count);
+    for (NSArray* row in rows) {
+        NSDictionary *recordFromDb = row[0];
+        XCTAssertEqualObjects(@(expectedLocallyCreated||expectedLocallyUpdated||expectedLocallyDeleted), recordFromDb[kSyncTargetLocal]);
+        XCTAssertEqualObjects(@(expectedLocallyCreated), recordFromDb[kSyncTargetLocallyCreated]);
+        XCTAssertEqualObjects(@(expectedLocallyUpdated), recordFromDb[kSyncTargetLocallyUpdated]);
+        XCTAssertEqualObjects(@(expectedLocallyDeleted), recordFromDb[kSyncTargetLocallyDeleted]);
+    }
+}
+
+- (NSDictionary *)makeSomeLocalChanges:(NSDictionary *)idToFields soupName:(NSString *)soupName {
+    NSArray* allIds = [[idToFields allKeys] sortedArrayUsingSelector:@selector(compare:)];
+    return [self makeSomeLocalChanges:idToFields soupName:soupName idsToUpdate:@[allIds[0], allIds[2]]];
+}
+
 - (NSDictionary*) makeSomeLocalChanges:(NSDictionary*)idToFields soupName:(NSString*) soupName idsToUpdate:(NSArray*)idsToUpdate {
     NSDictionary* idToFieldsLocallyUpdated = [self prepareSomeChanges:idToFields idsToUpdate:idsToUpdate suffix:@"_updated"];
     [self updateRecordsLocally:idToFieldsLocallyUpdated soupName:soupName];
@@ -383,7 +412,7 @@ static NSException *authException = nil;
 - (void)updateRecordsLocally:(NSDictionary*)idToFieldsLocallyUpdated soupName:(NSString*)soupName {
     for (NSString* id in [idToFieldsLocallyUpdated allKeys]) {
         NSDictionary * updatedFields = idToFieldsLocallyUpdated[id];
-        NSMutableDictionary * record = [[self.store retrieveEntries:@[[self.store lookupSoupEntryIdForSoupName:soupName forFieldPath:ID fieldValue:id error:nil]] fromSoup:soupName] mutableCopy];
+        NSMutableDictionary * record = [[self.store retrieveEntries:@[[self.store lookupSoupEntryIdForSoupName:soupName forFieldPath:ID fieldValue:id error:nil]] fromSoup:soupName][0] mutableCopy];
         for (NSString* fieldName in [updatedFields allKeys]) {
             record[fieldName] = updatedFields[fieldName];
         }

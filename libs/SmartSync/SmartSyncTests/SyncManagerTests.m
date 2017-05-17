@@ -536,19 +536,8 @@
     [self trySyncUp:0 mergeMode:SFSyncStateMergeModeOverwrite];
     
     // Check that db doesn't show entries as locally modified
-    NSArray* ids = [idToFields allKeys];
-    NSString* idsClause = [self buildInClause:ids];
-    NSString* smartSql = [NSString stringWithFormat:@"SELECT {accounts:_soup} FROM {accounts} WHERE {accounts:Id} IN %@", idsClause];
-    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:ids.count];
-    NSArray* rows = [self.store queryWithQuerySpec:query pageIndex:0 error:nil];
-    for (NSArray* row in rows) {
-        NSDictionary* account = row[0];
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocal]);
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyCreated]);
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyUpdated]);
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyDeleted]);
-    }
-    
+    [self checkDbStateFlags:[idToFields allKeys] soupName:ACCOUNTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:NO expectedLocallyDeleted:NO];
+
     // Check server
     [self checkServer:idToFields];
 }
@@ -572,19 +561,8 @@
     [self trySyncUp:idToFieldsLocallyUpdated.count mergeMode:SFSyncStateMergeModeOverwrite];
     
     // Check that db doesn't show entries as locally modified anymore
-    NSArray* ids = [idToFieldsLocallyUpdated allKeys];
-    NSString* idsClause = [self buildInClause:ids];
-    NSString* smartSql = [NSString stringWithFormat:@"SELECT {accounts:_soup} FROM {accounts} WHERE {accounts:Id} IN %@", idsClause];
-    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:ids.count];
-    NSArray* rows = [self.store queryWithQuerySpec:query pageIndex:0 error:nil];
-    for (NSArray* row in rows) {
-        NSDictionary* account = row[0];
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocal]);
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyCreated]);
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyUpdated]);
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyDeleted]);
-    }
-    
+    [self checkDbStateFlags:[idToFieldsLocallyUpdated allKeys] soupName:ACCOUNTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:NO expectedLocallyDeleted:NO];
+
     // Check server
     [self checkServer:idToFieldsLocallyUpdated];
 }
@@ -608,19 +586,8 @@
     [self trySyncUp:idToFieldsLocallyUpdated.count target:target mergeMode:SFSyncStateMergeModeOverwrite];
 
     // Check that db doesn't show entries as locally modified anymore
-    NSArray* ids = [idToFieldsLocallyUpdated allKeys];
-    NSString* idsClause = [self buildInClause:ids];
-    NSString* smartSql = [NSString stringWithFormat:@"SELECT {accounts:_soup} FROM {accounts} WHERE {accounts:Id} IN %@", idsClause];
-    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:ids.count];
-    NSArray* rows = [self.store queryWithQuerySpec:query pageIndex:0 error:nil];
-    for (NSArray* row in rows) {
-        NSDictionary* account = row[0];
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocal]);
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyCreated]);
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyUpdated]);
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyDeleted]);
-    }
-    
+    [self checkDbStateFlags:[idToFieldsLocallyUpdated allKeys] soupName:ACCOUNTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:NO expectedLocallyDeleted:NO];
+
     // Check server - make sure only name was updated
     NSMutableDictionary* idToFieldsExpectedOnServer = [NSMutableDictionary new];
     for (NSString* id in idToFieldsLocallyUpdated) {
@@ -764,18 +731,7 @@
     [self trySyncUp:idToFieldsLocallyUpdated.count target:customTarget mergeMode:SFSyncStateMergeModeOverwrite];
     
     // Check that db doesn't show entries as locally modified anymore
-    NSArray* ids = [idToFieldsLocallyUpdated allKeys];
-    NSString* idsClause = [self buildInClause:ids];
-    NSString* smartSql = [NSString stringWithFormat:@"SELECT {accounts:_soup} FROM {accounts} WHERE {accounts:Id} IN %@", idsClause];
-    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:ids.count];
-    NSArray* rows = [self.store queryWithQuerySpec:query pageIndex:0 error:nil];
-    for (NSArray* row in rows) {
-        NSDictionary* account = row[0];
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocal]);
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyCreated]);
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyUpdated]);
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyDeleted]);
-    }
+    [self checkDbStateFlags:[idToFieldsLocallyUpdated allKeys] soupName:ACCOUNTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:NO expectedLocallyDeleted:NO];
 }
 
 /**
@@ -806,17 +762,7 @@
     [self trySyncUp:idToFieldsLocallyUpdated.count mergeMode:SFSyncStateMergeModeLeaveIfChanged];
     
     // Check that db does still shows entries as locally modified
-    NSString* idsClause = [self buildInClause:ids];
-    NSString* smartSql = [NSString stringWithFormat:@"SELECT {accounts:_soup} FROM {accounts} WHERE {accounts:Id} IN %@", idsClause];
-    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:ids.count];
-    NSArray* rows = [self.store queryWithQuerySpec:query pageIndex:0 error:nil];
-    for (NSArray* row in rows) {
-        NSDictionary* account = row[0];
-        XCTAssertEqualObjects(@YES, account[kSyncTargetLocal]);
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyCreated]);
-        XCTAssertEqualObjects(@YES, account[kSyncTargetLocallyUpdated]);
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyDeleted]);
-    }
+    [self checkDbStateFlags:ids soupName:ACCOUNTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:YES expectedLocallyDeleted:NO];
 
     // Check server
     [self checkServer:idToFieldsRemotelyUpdated];
@@ -844,17 +790,7 @@
     [self trySyncUp:ids.count target:customTarget mergeMode:SFSyncStateMergeModeLeaveIfChanged];
     
     // Check that db still shows entries as locally modified
-    NSString* idsClause = [self buildInClause:ids];
-    NSString* smartSql = [NSString stringWithFormat:@"SELECT {accounts:_soup} FROM {accounts} WHERE {accounts:Id} IN %@", idsClause];
-    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:ids.count];
-    NSArray* rows = [self.store queryWithQuerySpec:query pageIndex:0 error:nil];
-    for (NSArray* row in rows) {
-        NSDictionary* account = row[0];
-        XCTAssertEqualObjects(@YES, account[kSyncTargetLocal]);
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyCreated]);
-        XCTAssertEqualObjects(@YES, account[kSyncTargetLocallyUpdated]);
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyDeleted]);
-    }
+    [self checkDbStateFlags:ids soupName:ACCOUNTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:YES expectedLocallyDeleted:NO];
 }
 
 /**
@@ -1226,18 +1162,7 @@
     [self trySyncUp:3 mergeMode:SFSyncStateMergeModeLeaveIfChanged];
     
     // Check that db still shows entries as locally deleted
-    NSString* idsClause = [self buildInClause:idsLocallyDeleted];
-    NSString* smartSql = [NSString stringWithFormat:@"SELECT {accounts:_soup} FROM {accounts} WHERE {accounts:Id} IN %@", idsClause];
-    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:idsLocallyDeleted.count];
-    NSArray* rows = [self.store queryWithQuerySpec:query pageIndex:0 error:nil];
-    XCTAssertEqual(3, rows.count);
-    for (NSArray* row in rows) {
-        NSDictionary* account = row[0];
-        XCTAssertEqualObjects(@YES, account[kSyncTargetLocal]);
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyCreated]);
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyUpdated]);
-        XCTAssertEqualObjects(@YES, account[kSyncTargetLocallyDeleted]);
-    }
+    [self checkDbStateFlags:idsLocallyDeleted soupName:ACCOUNTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:NO expectedLocallyDeleted:YES];
 
     // Check server
     [self checkServer:idToFieldsRemotelyUpdated];
@@ -1266,18 +1191,7 @@
     [self trySyncUp:3 target:customTarget mergeMode:SFSyncStateMergeModeLeaveIfChanged];
     
     // Check that db still shows entries as locally deleted
-    NSString* idsClause = [self buildInClause:idsLocallyDeleted];
-    NSString* smartSql = [NSString stringWithFormat:@"SELECT {accounts:_soup} FROM {accounts} WHERE {accounts:Id} IN %@", idsClause];
-    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:idsLocallyDeleted.count];
-    NSArray* rows = [self.store queryWithQuerySpec:query pageIndex:0 error:nil];
-    XCTAssertEqual(3, rows.count);
-    for (NSArray* row in rows) {
-        NSDictionary* account = row[0];
-        XCTAssertEqualObjects(@YES, account[kSyncTargetLocal]);
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyCreated]);
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyUpdated]);
-        XCTAssertEqualObjects(@YES, account[kSyncTargetLocallyDeleted]);
-    }
+    [self checkDbStateFlags:idsLocallyDeleted soupName:ACCOUNTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:NO expectedLocallyDeleted:YES];
 }
 
 /**
@@ -1557,8 +1471,7 @@
 }
 
 - (NSDictionary*) makeSomeLocalChanges {
-    NSArray* allIds = [[idToFields allKeys] sortedArrayUsingSelector:@selector(compare:)];
-    return [self makeSomeLocalChanges:idToFields soupName:ACCOUNTS_SOUP idsToUpdate:@[allIds[0], allIds[2]]];
+    return [self makeSomeLocalChanges:idToFields soupName:ACCOUNTS_SOUP];
 }
 
 - (NSDictionary*) makeSomeRemoteChanges {

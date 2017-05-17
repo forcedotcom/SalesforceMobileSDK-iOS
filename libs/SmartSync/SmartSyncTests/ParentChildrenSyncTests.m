@@ -469,52 +469,45 @@
     NSArray* accountIds = [accountIdToFields allKeys];
     NSString* accountIdUpdated = accountIds[0]; // account that will updated along with some of the children
     NSDictionary *accountIdToFieldsUpdated = [self makeSomeLocalChanges:accountIdToFields soupName:ACCOUNTS_SOUP idsToUpdate:@[accountIdUpdated]];
+    NSDictionary *contactIdToFieldsUpdated = [self makeSomeLocalChanges:accountIdContactIdToFields[accountIdUpdated] soupName:CONTACTS_SOUP];
+    NSString* otherAccountId = accountIds[1]; // account that will not be updated but will have updated children
+    NSDictionary *otherContactIdToFieldsUpdated = [self makeSomeLocalChanges:accountIdContactIdToFields[otherAccountId] soupName:CONTACTS_SOUP];
 
-
-    XCTFail(@"Test implementation incomplete");
-
-    /*
-    Map<String, Map<String, Object>> contactIdToFieldsUpdated = makeLocalChanges(accountIdContactIdToFields.get(accountIdUpdated), CONTACTS_SOUP);
-    String otherAccountId = accountIds[1]; // account that will not be updated but will have updated children
-    Map<String, Map<String, Object>> otherContactIdToFieldsUpdated = makeLocalChanges(accountIdContactIdToFields.get(otherAccountId), CONTACTS_SOUP);
-
-    // Sync down again with MergeMode.LEAVE_IF_CHANGED
-    trySyncDown(SyncState.MergeMode.LEAVE_IF_CHANGED, target, ACCOUNTS_SOUP, numberAccounts, 1);
+    // Sync down again with LEAVE_IF_CHANGED
+    [self trySyncDown:SFSyncStateMergeModeLeaveIfChanged target:target soupName:ACCOUNTS_SOUP totalSize:numberAccounts numberFetches:1];
 
     // Check db - if an account and/or its children was locally modified then that account and all its children should be left alone
-    Map<String, Map<String, Object>> accountIdToFieldsExpected = new HashMap<>(accountIdToFields);
-    accountIdToFieldsExpected.putAll(accountIdToFieldsUpdated);
-    checkDb(accountIdToFieldsExpected, ACCOUNTS_SOUP);
+    NSMutableDictionary * accountIdToFieldsExpected = [NSMutableDictionary dictionaryWithDictionary:accountIdToFields];
+    [accountIdToFieldsExpected setDictionary:accountIdToFieldsUpdated];
+    [self checkDb:accountIdToFieldsExpected soupName:ACCOUNTS_SOUP];
 
-    for (String accountId : accountIdToFields.keySet()) {
-        if (accountId.equals(accountIdUpdated)) {
-            checkDbStateFlags(Arrays.asList(accountId), false, true, false, ACCOUNTS_SOUP);
-            checkDb(contactIdToFieldsUpdated, CONTACTS_SOUP);
-            checkDbStateFlags(contactIdToFieldsUpdated.keySet(), false, true, false, CONTACTS_SOUP);
-        } else if (accountId.equals(otherAccountId)) {
-            checkDbStateFlags(Arrays.asList(accountId), false, false, false, ACCOUNTS_SOUP);
-            checkDb(otherContactIdToFieldsUpdated, CONTACTS_SOUP);
-            checkDbStateFlags(otherContactIdToFieldsUpdated.keySet(), false, true, false, CONTACTS_SOUP);
+    for (NSString* accountId in [accountIdToFields allKeys]) {
+        if ([accountId isEqualToString:accountIdUpdated]) {
+            [self checkDbStateFlags:@[accountId] soupName:ACCOUNTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:YES expectedLocallyDeleted:NO];
+            [self checkDb:contactIdToFieldsUpdated soupName:CONTACTS_SOUP];
+            [self checkDbStateFlags:[contactIdToFieldsUpdated allKeys] soupName:CONTACTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:YES expectedLocallyDeleted:NO];
+        } else if ([accountId isEqualToString:otherAccountId]) {
+            [self checkDbStateFlags:@[accountId] soupName:ACCOUNTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:NO expectedLocallyDeleted:NO];
+            [self checkDb:contactIdToFieldsUpdated soupName:CONTACTS_SOUP];
+            [self checkDbStateFlags:[otherContactIdToFieldsUpdated allKeys] soupName:CONTACTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:NO expectedLocallyDeleted:NO];
         } else {
-            checkDbStateFlags(Arrays.asList(accountId), false, false, false, ACCOUNTS_SOUP);
-            checkDb(accountIdContactIdToFields.get(accountId), CONTACTS_SOUP);
-            checkDbStateFlags(accountIdContactIdToFields.get(accountId).keySet(), false, false, false, CONTACTS_SOUP);
+            [self checkDbStateFlags:@[accountId] soupName:ACCOUNTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:NO expectedLocallyDeleted:NO];
+            [self checkDb:accountIdContactIdToFields[accountId] soupName:CONTACTS_SOUP];
+            [self checkDbStateFlags:[accountIdContactIdToFields[accountId] allKeys] soupName:CONTACTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:NO expectedLocallyDeleted:NO];
         }
     }
 
-
-    // Sync down again with MergeMode.OVERWRITE
-    trySyncDown(SyncState.MergeMode.OVERWRITE, target, ACCOUNTS_SOUP, numberAccounts, 1);
+    // Sync down again with OVERWRITE
+    [self trySyncDown:SFSyncStateMergeModeOverwrite target:target soupName:ACCOUNTS_SOUP totalSize:numberAccounts numberFetches:1];
 
     // Check db - all local changes should have been written over
-    checkDb(accountIdToFields, ACCOUNTS_SOUP);
-    checkDbStateFlags(accountIdToFields.keySet(), false, false, false, ACCOUNTS_SOUP);
+    [self checkDb:accountIdToFields soupName:ACCOUNTS_SOUP];
+    [self checkDbStateFlags:[accountIdToFields allKeys] soupName:ACCOUNTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:NO expectedLocallyDeleted:NO];
 
-    for (String accountId : accountIdToFields.keySet()) {
-        checkDb(accountIdContactIdToFields.get(accountId), CONTACTS_SOUP);
-        checkDbStateFlags(accountIdContactIdToFields.get(accountId).keySet(), false, false, false, CONTACTS_SOUP);
+    for (NSString* accountId in [accountIdToFields allKeys]) {
+        [self checkDb:accountIdContactIdToFields[accountId] soupName:CONTACTS_SOUP];
+        [self checkDbStateFlags:[accountIdContactIdToFields[accountId] allKeys] soupName:CONTACTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:NO expectedLocallyDeleted:NO];
     }
-    */
 }
 
 #pragma mark - Helper methods
