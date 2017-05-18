@@ -75,7 +75,8 @@ static NSString * const SFSDKNewLoginHostCellIdentifier = @"SFSDKNewLoginHostCel
  * Invoked when the user taps on the done button to add the login host to the list of hosts.
  */
 - (void)addNewServer:(id)sender {
-    [self.loginHostListViewController addLoginHost:[SFSDKLoginHost hostWithName:self.name.text host:[self.server.text stringByTrimmingCharactersInSet:
+    [self.loginHostListViewController addLoginHost:[SFSDKLoginHost hostWithName:[self.name.text stringByTrimmingCharactersInSet:
+                                                                                 [NSCharacterSet whitespaceCharacterSet]] host:[self.server.text stringByTrimmingCharactersInSet:
                                                                                                      [NSCharacterSet whitespaceCharacterSet]] deletable:YES]];
 }
 
