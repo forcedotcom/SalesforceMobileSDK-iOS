@@ -843,7 +843,7 @@ static BOOL assertionRecorded = NO;
                     break;
             }
             
-            os_log_with_type(SFLoggerOSLog(context, tag), osLogType, [message UTF8String]);
+            os_log_with_type(SFLoggerOSLog(context, tag), osLogType, "%@", message);
         }
 
         [_ddLog log:asynchronous

@@ -100,18 +100,18 @@ static BOOL SFLoggerLogToASL = YES;
 #define SF_LOG_TO_OS_LOG(flg) \
     _OS_LOG_##flg
 
-#define SF_LOG_MAYBE(async, flg, ctx, tag, fnct, frmt, ...)                                                           \
-    ({                                                                                                                \
-        SFLogLevel level = SFLoggerContextLogLevels[MAX(1, ctx) - 1];                                                 \
-        if (SFLoggerLogToASL || (flg & level)) {                                                                      \
-            NSString *message = [NSString stringWithFormat:frmt, ##__VA_ARGS__];                                      \
-            if (SFLoggerLogToASL) {                                                                                   \
-                os_log_with_type(SFLoggerOSLog(MAX(1, ctx) - 1, tag), SF_LOG_TO_OS_LOG(flg), [message UTF8String]);   \
-            }                                                                                                         \
-            if (flg & level) {                                                                                        \
-                SF_LOG_MACRO(async, level, flg, ctx, tag, fnct, message);                                             \
-            }                                                                                                         \
-        }                                                                                                             \
+#define SF_LOG_MAYBE(__async, __flg, __ctx, __tag, __fnct, __frmt, ...)                                              \
+    ({                                                                                                               \
+        SFLogLevel __level = SFLoggerContextLogLevels[MAX(1, __ctx) - 1];                                            \
+        if (SFLoggerLogToASL || (__flg & __level)) {                                                                 \
+            NSString *__message = [NSString stringWithFormat:__frmt, ##__VA_ARGS__];                                 \
+            if (SFLoggerLogToASL) {                                                                                  \
+                os_log_with_type(SFLoggerOSLog(MAX(1, __ctx) - 1, __tag), SF_LOG_TO_OS_LOG(__flg), "%@", __message); \
+            }                                                                                                        \
+            if (__flg & __level) {                                                                                   \
+                SF_LOG_MACRO(__async, __level, __flg, __ctx, __tag, __fnct, __message);                              \
+            }                                                                                                        \
+        }                                                                                                            \
     })
 
 #define SFLogErrorToContext(context, tag, frmt, ...)   SF_LOG_MAYBE(NO,  SFLogFlagError,   context, tag, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
