@@ -35,6 +35,16 @@ typedef NS_ENUM(NSInteger, SFParentChildrenRelationshipType) {
     SFParentChildrenRelationpshipLookup
 };
 
+extern NSString * const kSFParentChildrenSyncTargetParent;
+extern NSString * const kSFParentChildrenSyncTargetChildren;
+extern NSString * const kSFParentChildrenSyncTargetRelationshipType;
+extern NSString * const kSFParentChildrenSyncTargetParentFieldlist;
+extern NSString * const kSFParentChildrenSyncTargetParentCreateFieldlist;
+extern NSString * const kSFParentChildrenSyncTargetParentUpdateFieldlist;
+extern NSString * const kSFParentChildrenSyncTargetParentSoqlFilter;
+extern NSString * const kSFParentChildrenSyncTargetChildrenFieldlist;
+extern NSString * const kSFParentChildrenSyncTargetChildrenCreateFieldlist;
+extern NSString * const kSFParentChildrenSyncTargetChildrenUpdateFieldlist;
 extern NSString * const kSFParentChildrenRelationshipMasterDetail;
 extern NSString * const kSFParentChildrenRelationshipLookup;
 

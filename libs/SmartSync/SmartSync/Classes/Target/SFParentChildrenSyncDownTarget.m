@@ -30,13 +30,6 @@
 #import "SFSmartSyncConstants.h"
 #import <SalesforceSDKCore/SFSDKSoqlBuilder.h>
 
-static NSString * const kSFParentChildrenSyncTargetParent = @"parent";
-static NSString * const kSFParentChildrenSyncTargetChildren = @"children";
-static NSString * const kSFParentChildrenSyncTargetRelationshipType = @"relationshipType";
-static NSString * const kSFParentChildrenSyncTargetParentFieldlist = @"parentFieldlist";
-static NSString * const kSFParentChildrenSyncTargetParentSoqlFilter = @"parentSoqlFilter";
-static NSString * const kSFParentChildrenSyncTargetChildrenFieldlist = @"childrenFieldlist";
-
 @interface SFParentChildrenSyncDownTarget ()
 
 @property (nonatomic) SFParentInfo* parentInfo;

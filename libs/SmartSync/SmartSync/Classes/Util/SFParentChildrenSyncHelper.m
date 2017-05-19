@@ -28,6 +28,16 @@
 
 @implementation SFParentChildrenSyncHelper
 
+NSString * const kSFParentChildrenSyncTargetParent = @"parent";
+NSString * const kSFParentChildrenSyncTargetChildren = @"children";
+NSString * const kSFParentChildrenSyncTargetRelationshipType = @"relationshipType";
+NSString * const kSFParentChildrenSyncTargetParentFieldlist = @"parentFieldlist";
+NSString * const kSFParentChildrenSyncTargetParentCreateFieldlist = @"parentCreateFieldlist";
+NSString * const kSFParentChildrenSyncTargetParentUpdateFieldlist = @"parentUpdateFieldlist";
+NSString * const kSFParentChildrenSyncTargetParentSoqlFilter = @"parentSoqlFilter";
+NSString * const kSFParentChildrenSyncTargetChildrenFieldlist = @"childrenFieldlist";
+NSString * const kSFParentChildrenSyncTargetChildrenCreateFieldlist = @"childrenCreateFieldlist";
+NSString * const kSFParentChildrenSyncTargetChildrenUpdateFieldlist = @"childrenUpdateFieldlist";
 NSString * const kSFParentChildrenRelationshipMasterDetail = @"MASTER_DETAIL";
 NSString * const kSFParentChildrenRelationshipLookup = @"LOOKUP";
 
