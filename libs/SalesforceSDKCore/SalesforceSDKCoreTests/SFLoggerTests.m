@@ -611,7 +611,7 @@ static NSInteger kMyLogContext;
     MyLogDebug(@"This is a debug message: %d", 1U);
     XCTAssertEqual(recorder.results.count, 2U);
     XCTAssertEqual(recorder.results[1].context, kMyLogContext);
-    
+
     MyLogInfo(@"This is a info message");
     XCTAssertEqual(recorder.results.count, 3U);
     XCTAssertEqual(recorder.results[2].context, kMyLogContext);
