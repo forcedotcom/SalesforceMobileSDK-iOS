@@ -1569,7 +1569,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
 - (NSArray *)queryWithQuerySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex withDb:(FMDatabase*)db
 {
     // [self log:SFLogLevelDebug format:@"queryWithQuerySpec: \nquerySpec:%@ \n", querySpec];
-    NSMutableArray* result = [NSMutableArray arrayWithCapacity:querySpec.pageSize];
+    NSMutableArray* result = [NSMutableArray new]; // to get all records in one shot, caller might specify a large pageSize - we don't want to blindly allocate an array of size pageSize
     
     // Page
     NSUInteger offsetRows = querySpec.pageSize * pageIndex;

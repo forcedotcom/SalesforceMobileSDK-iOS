@@ -1,9 +1,4 @@
 /*
- SmartSync.h
- SmartSync
-
- Created by Wolfgang Mathurin on Fri May  5 17:44:08 PDT 2017.
-
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -27,27 +22,26 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SmartSync/SFChildrenInfo.h>
-#import <SmartSync/SFMruSyncDownTarget.h>
-#import <SmartSync/SFObject.h>
-#import <SmartSync/SFObjectType.h>
-#import <SmartSync/SFObjectTypeLayout.h>
-#import <SmartSync/SFParentChildrenSyncDownTarget.h>
-#import <SmartSync/SFParentChildrenSyncHelper.h>
-#import <SmartSync/SFParentInfo.h>
-#import <SmartSync/SFRefreshSyncDownTarget.h>
-#import <SmartSync/SFSmartSyncCacheManager.h>
-#import <SmartSync/SFSmartSyncConstants.h>
-#import <SmartSync/SFSmartSyncMetadataManager.h>
-#import <SmartSync/SFSmartSyncNetworkUtils.h>
-#import <SmartSync/SFSmartSyncObjectUtils.h>
-#import <SmartSync/SFSmartSyncPersistableObject.h>
-#import <SmartSync/SFSmartSyncSyncManager.h>
-#import <SmartSync/SFSoqlSyncDownTarget.h>
-#import <SmartSync/SFSoslSyncDownTarget.h>
-#import <SmartSync/SFSyncDownTarget.h>
-#import <SmartSync/SFSyncManagerLogger.h>
-#import <SmartSync/SFSyncOptions.h>
-#import <SmartSync/SFSyncState.h>
-#import <SmartSync/SFSyncTarget.h>
-#import <SmartSync/SFSyncUpTarget.h>
+#import "SFParentInfo.h"
+#import "SFChildrenInfo.h"
+#import "SFParentChildrenSyncHelper.h"
+#import "SFSoqlSyncDownTarget.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SFParentChildrenSyncDownTarget : SFSoqlSyncDownTarget
+
+/** Factory methods
+ */
++ (instancetype)newSyncTargetWithParentInfo:(SFParentInfo *)parentInfo
+                            parentFieldlist:(NSArray<NSString *> *)parentFieldlist
+                           parentSoqlFilter:(NSString *)parentSoqlFilter
+                               childrenInfo:(SFChildrenInfo *)childrenInfo
+                          childrenFieldlist:(NSArray<NSString *> *)childrenFieldlist
+                           relationshipType:(SFParentChildrenRelationshipType)relationshipType;
+
++ (instancetype)newFromDict:(NSDictionary *)dict;
+
+@end
+
+NS_ASSUME_NONNULL_END
