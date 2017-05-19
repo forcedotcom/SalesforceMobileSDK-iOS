@@ -29,7 +29,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SFParentChildrenSyncUpTarget : SFSyncUpTarget
+@interface SFParentChildrenSyncUpTarget : SFSyncUpTarget <SFAdvancedSyncUpTarget>
 
 /** Factory methods
  */

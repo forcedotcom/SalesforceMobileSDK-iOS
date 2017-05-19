@@ -28,6 +28,7 @@
 #import <SmartStore/SFSmartStore.h>
 #import <SalesforceSDKCore/SFSDKAppFeatureMarkers.h>
 #import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
+#import "SFAdvancedSyncUpTarget.h"
 
 // Unchanged
 NSInteger const kSyncManagerUnchanged = -1;
@@ -519,14 +520,32 @@ static NSMutableDictionary *syncMgrList = nil;
     SFSyncStateMergeMode mergeMode = sync.mergeMode;
     SFSyncUpTarget *target = (SFSyncUpTarget *)sync.target;
     NSString* soupName = sync.soupName;
-    
+
+    // Next
+    void (^nextBlock)()=^() {
+        [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failBlock:failBlock];
+    };
+
+    // Advanced sync up target take it from here
+    if ([target conformsToProtocol:@protocol(SFAdvancedSyncUpTarget)]) {
+// FIXME
+//        [((SFAdvancedSyncUpTarget *) target) syncUpRecord:self
+//                                                   record:record
+//                                                fieldlist:sync.options.fieldlist
+//                                                mergeMode:sync.options.mergeMode
+//                                          completionBlock:^(NSDictionary *syncUpResult) { nextBlock(); }
+//                                                failBlock:^(NSError *error) { failBlock(error); }
+//                ];
+    }
+
+
     // Delete handler
     SFSyncUpTargetCompleteBlock completeBlockDelete = ^(NSDictionary *d) {
         // Remove entry on delete
         [target deleteFromLocalStore:self soupName:soupName record:record];
 
         // Next
-        [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failBlock:failBlock];
+        nextBlock();
     };
     
     // Update handler
@@ -534,7 +553,7 @@ static NSMutableDictionary *syncMgrList = nil;
         [target cleanAndSaveInLocalStore:self soupName:soupName record:record];
 
         // Next
-        [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failBlock:failBlock];
+        nextBlock();
     };
     
     // Create handler
@@ -553,7 +572,7 @@ static NSMutableDictionary *syncMgrList = nil;
             }
             else {
                 // Next
-                [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failBlock:failBlock];
+                nextBlock();
             }
         }
         else {
@@ -591,7 +610,7 @@ static NSMutableDictionary *syncMgrList = nil;
         default:
             // Action is unsupported here.  Move on.
             LogSyncInfo(@"%@ unsupported action with value %lu.  Moving to the next record.", NSStringFromSelector(_cmd), (unsigned long) action);
-            [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failBlock:failBlock];
+            nextBlock();
             return;
     }
 }

@@ -110,6 +110,16 @@
 
 #pragma mark - Other public methods
 
+- (void)syncUpRecord:(SFSmartSyncSyncManager *)syncManager
+              record:(NSDictionary*)record
+           fieldlist:(NSArray*)fieldlist
+           mergeMode:(SFSyncStateMergeMode)mergeMode
+     completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
+           failBlock:(SFSyncUpTargetErrorBlock)failBlock
+{
+    // TODO
+}
+
 - (NSString*) getDirtyRecordIdsSql:(NSString*)soupName idField:(NSString*)idField {
      return [SFParentChildrenSyncHelper getDirtyRecordIdsSql:self.parentInfo childrenInfo:self.childrenInfo parentFieldToSelect:idField];
 }

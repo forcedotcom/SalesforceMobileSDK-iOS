@@ -1,9 +1,4 @@
 /*
- SmartSync.h
- SmartSync
-
- Created by Wolfgang Mathurin on Fri May 19 16:10:49 PDT 2017.
-
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -27,29 +22,31 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SmartSync/SFAdvancedSyncUpTarget.h>
-#import <SmartSync/SFChildrenInfo.h>
-#import <SmartSync/SFMruSyncDownTarget.h>
-#import <SmartSync/SFObject.h>
-#import <SmartSync/SFObjectType.h>
-#import <SmartSync/SFObjectTypeLayout.h>
-#import <SmartSync/SFParentChildrenSyncDownTarget.h>
-#import <SmartSync/SFParentChildrenSyncHelper.h>
-#import <SmartSync/SFParentChildrenSyncUpTarget.h>
-#import <SmartSync/SFParentInfo.h>
-#import <SmartSync/SFRefreshSyncDownTarget.h>
-#import <SmartSync/SFSmartSyncCacheManager.h>
-#import <SmartSync/SFSmartSyncConstants.h>
-#import <SmartSync/SFSmartSyncMetadataManager.h>
-#import <SmartSync/SFSmartSyncNetworkUtils.h>
-#import <SmartSync/SFSmartSyncObjectUtils.h>
-#import <SmartSync/SFSmartSyncPersistableObject.h>
-#import <SmartSync/SFSmartSyncSyncManager.h>
-#import <SmartSync/SFSoqlSyncDownTarget.h>
-#import <SmartSync/SFSoslSyncDownTarget.h>
-#import <SmartSync/SFSyncDownTarget.h>
-#import <SmartSync/SFSyncManagerLogger.h>
-#import <SmartSync/SFSyncOptions.h>
-#import <SmartSync/SFSyncState.h>
-#import <SmartSync/SFSyncTarget.h>
-#import <SmartSync/SFSyncUpTarget.h>
+#import "SFSyncUpTarget.h"
+#import "SFSyncState.h"
+
+/**
+ Protocol for advanced sync up target where records are not simply created/updated/deleted
+ With advanced sync up target, sync manager simply calls the method: syncUpRecord
+ */
+@protocol SFAdvancedSyncUpTarget
+
+
+/**
+ Sync up locally created/updated or deleted record back to server
+ @param syncManager The sync manager doing the sync
+ @param record The record being synced
+ @param fieldlist List of fields to send to server
+ @param mergeMode Merge mode (overwrite or leave if changed)
+ @param completionBlock The block to execute after the server call completes.
+ @param failBlock The block to execute if the server call fails.
+ */
+- (void)syncUpRecord:(SFSmartSyncSyncManager *)syncManager
+              record:(NSDictionary*)record
+            fieldlist:(NSArray*)fieldlist
+           mergeMode:(SFSyncStateMergeMode)mergeMode
+      completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
+            failBlock:(SFSyncUpTargetErrorBlock)failBlock;
+
+@end
+
