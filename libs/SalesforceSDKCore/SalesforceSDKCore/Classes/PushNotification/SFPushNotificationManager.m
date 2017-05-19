@@ -107,7 +107,6 @@ static NSString * const kSFAppFeaturePushNotifications   = @"PN";
     static SFPushNotificationManager *mgr = nil;
     dispatch_once(&pred, ^{
         mgr = [[super allocWithZone:nil] init];
-        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeaturePushNotifications];
     });
     return mgr;
 }
@@ -166,18 +165,15 @@ static NSString * const kSFAppFeaturePushNotifications   = @"PN";
         [self log:SFLogLevelInfo msg:@"Skipping Salesforce push notification registration because push isn't supported on the simulator"];
         return YES;  // "Successful", from this standpoint.
     }
-    
     SFOAuthCredentials *credentials = [SFAuthenticationManager sharedManager].coordinator.credentials;
     if (!credentials) {
         [self log:SFLogLevelError msg:@"Cannot register for notifications with Salesforce: not authenticated"];
         return NO;
     }
-    
     if (!_deviceToken) {
         [self log:SFLogLevelError msg:@"Cannot register for notifications with Salesforce: no deviceToken"];
         return NO;
     }
-    
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     
     // URL and method
@@ -199,6 +195,7 @@ static NSString * const kSFAppFeaturePushNotifications   = @"PN";
         if (error != nil) {
             [self log:SFLogLevelError format:@"Registration for notifications with Salesforce failed with error %@", error];
         } else {
+            [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeaturePushNotifications];
             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) response;
             NSInteger statusCode = httpResponse.statusCode;
             if (statusCode < 200 || statusCode >= 300) {
