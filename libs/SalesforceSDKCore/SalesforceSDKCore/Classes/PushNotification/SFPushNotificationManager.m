@@ -51,7 +51,7 @@ static NSString* const kSFPushNotificationEndPoint = @"services/data/v39.0/sobje
 // Default: kiOS8UserNotificationTypes = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert
 static NSUInteger const kiOS8UserNotificationTypes = ((1 << 0) | (1 << 1) | (1 << 2));
 
-static NSString * const kSFAppFeaturePushNotifications   = @"PN";
+static NSString * const kSFAppFeaturePushNotifications = @"PN";
 
 
 #pragma clang diagnostic pop
