@@ -24,12 +24,9 @@
 
 #import "SFSyncTarget+Internal.h"
 #import "SFParentChildrenSyncHelper.h"
-#import <SalesforceSDKCore/SFSDKAppFeatureMarkers.h>
 #import <SmartStore/SFSmartStore.h>
 
 @implementation SFParentChildrenSyncHelper
-
-static NSString * const kSFAppFeatureRelatedRecords = @"RR";
 
 NSString * const kSFParentChildrenRelationshipMasterDetail = @"MASTER_DETAIL";
 NSString * const kSFParentChildrenRelationshipLookup = @"LOOKUP";
@@ -66,7 +63,6 @@ NSString * const kSFParentChildrenRelationshipLookup = @"LOOKUP";
 }
 
 + (void)saveRecordTreesToLocalStore:(SFSmartSyncSyncManager *)syncManager target:(SFSyncTarget *)target parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo recordTrees:(NSArray *)recordTrees {
-    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureRelatedRecords];
     NSMutableArray * parentRecords = [NSMutableArray new];
     NSMutableArray * childrenRecords = [NSMutableArray new];
     for (NSDictionary * recordTree  in recordTrees) {

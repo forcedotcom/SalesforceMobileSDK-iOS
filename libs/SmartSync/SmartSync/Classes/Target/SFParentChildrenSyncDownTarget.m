@@ -29,6 +29,7 @@
 #import "SFSmartSyncObjectUtils.h"
 #import "SFSmartSyncConstants.h"
 #import <SalesforceSDKCore/SFSDKSoqlBuilder.h>
+#import <SalesforceSDKCore/SFSDKAppFeatureMarkers.h>
 
 static NSString * const kSFParentChildrenSyncTargetParent = @"parent";
 static NSString * const kSFParentChildrenSyncTargetChildren = @"children";
@@ -36,6 +37,7 @@ static NSString * const kSFParentChildrenSyncTargetRelationshipType = @"relation
 static NSString * const kSFParentChildrenSyncTargetParentFieldlist = @"parentFieldlist";
 static NSString * const kSFParentChildrenSyncTargetParentSoqlFilter = @"parentSoqlFilter";
 static NSString * const kSFParentChildrenSyncTargetChildrenFieldlist = @"childrenFieldlist";
+static NSString * const kSFAppFeatureRelatedRecords = @"RR";
 
 @interface SFParentChildrenSyncDownTarget ()
 
@@ -67,6 +69,7 @@ static NSString * const kSFParentChildrenSyncTargetChildrenFieldlist = @"childre
         self.childrenInfo = childrenInfo;
         self.childrenFieldlist = childrenFieldlist;
         self.relationshipType = relationshipType;
+        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureRelatedRecords];
     }
     return self;
 }
