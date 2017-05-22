@@ -61,6 +61,8 @@ extern NSString * const kSFParentChildrenRelationshipLookup;
 + (NSString*) getNonDirtyRecordIdsSql:(SFParentInfo*)parentInfo childrenInfo:(SFChildrenInfo*)childrenInfo parentFieldToSelect:(NSString*)parentFieldToSelect;
 + (void)saveRecordTreesToLocalStore:(SFSmartSyncSyncManager *)syncManager target:(SFSyncTarget *)target parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo recordTrees:(NSArray *)recordTrees;
 
++ (NSArray *)getChildrenFromLocalStore:(SFSmartStore *)store parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo parent:(NSDictionary *)parent;
+
 @end
 
 NS_ASSUME_NONNULL_END

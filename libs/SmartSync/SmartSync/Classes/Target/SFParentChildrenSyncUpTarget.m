@@ -110,14 +110,145 @@
 
 #pragma mark - Other public methods
 
+- (void)createOnServer:(SFSmartSyncSyncManager *)syncManager record:(NSDictionary *)record fieldlist:(NSArray *)fieldlist completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock failBlock:(SFSyncUpTargetErrorBlock)failBlock {
+    // For advanced sync up target, call syncUpOneRecord
+    [self doesNotRecognizeSelector:_cmd];
+}
+
+- (void)updateOnServer:(SFSmartSyncSyncManager *)syncManager record:(NSDictionary *)record fieldlist:(NSArray *)fieldlist completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock failBlock:(SFSyncUpTargetErrorBlock)failBlock {
+    // For advanced sync up target, call syncUpOneRecord
+    [self doesNotRecognizeSelector:_cmd];
+}
+
+- (void)deleteOnServer:(SFSmartSyncSyncManager *)syncManager record:(NSDictionary *)record completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock failBlock:(SFSyncUpTargetErrorBlock)failBlock {
+    // For advanced sync up target, call syncUpOneRecord
+    [self doesNotRecognizeSelector:_cmd];
+}
+
 - (void)syncUpRecord:(SFSmartSyncSyncManager *)syncManager
               record:(NSDictionary*)record
            fieldlist:(NSArray*)fieldlist
            mergeMode:(SFSyncStateMergeMode)mergeMode
      completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
-           failBlock:(SFSyncUpTargetErrorBlock)failBlock
-{
-    // TODO
+           failBlock:(SFSyncUpTargetErrorBlock)failBlock {
+
+    BOOL isCreate = [self isLocallyCreated:record];
+    BOOL isDelete = [self isLocallyDeleted:record];
+
+
+    // Getting children
+    NSArray<NSDictionary *> *children = (self.relationshipType == SFParentChildrenRelationpshipMasterDetail && isDelete && !isCreate)
+            // deleting master in a master-detail relationship will delete the children
+            // so no need to actually do any work on the children
+            ? [NSArray new]
+            : [SFParentChildrenSyncHelper getChildrenFromLocalStore:syncManager.store parentInfo:self.parentInfo childrenInfo:self.childrenInfo parent:record];
+
+    [self syncUpRecord:syncManager record:record children:children fieldlist:fieldlist mergeMode:mergeMode completionBlock:completionBlock failBlock:failBlock];
+}
+
+- (void) syncUpRecord:(SFSmartSyncSyncManager *)syncManager
+               record:(NSDictionary*)record
+             children:(NSArray<NSDictionary*>*)children
+            fieldlist:(NSArray*)fieldlist
+            mergeMode:(SFSyncStateMergeMode)mergeMode
+      completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
+            failBlock:(SFSyncUpTargetErrorBlock)failBlock {
+
+    BOOL isCreate = [self isLocallyCreated:record];
+    BOOL isDelete = [self isLocallyDeleted:record];
+
+    NSMutableArray *refIds = [NSMutableArray new];
+    NSMutableArray *requests = [NSMutableArray new];
+
+    // Preparing request for parent
+    NSString* parentId = record[self.idFieldName];
+    SFRestRequest * parentRequest = [self buildRequestForParentRecord:record fieldlist:fieldlist];
+
+    // Parent request goes first unless it's a delete
+    if (parentRequest && !isDelete) {
+        [refIds addObject:parentId];
+        [requests addObject:parentRequest];
+    }
+
+    // Preparing requests for children
+    for (NSUInteger i=0; i<children.count; i++) {
+        NSMutableDictionary * childRecord = [children[i] mutableCopy];
+        NSString* childId = childRecord[self.childrenInfo.idFieldName];
+
+        // Parent will get a server id
+        // Children need to be updated
+        if (isCreate) {
+            childRecord[kSyncTargetLocal] = @YES;
+            childRecord[kSyncTargetLocallyUpdated] = @YES;
+        }
+
+        SFRestRequest * childRequest = [self buildRequestForChildRecord:childRecord useParentIdReference:isCreate parentId:isDelete ? nil : parentId];
+
+        if (childRequest) {
+            [refIds addObject:childId];
+            [requests addObject:childRequest];
+        }
+
+    }
+
+    // Parent request goes last when it's a delete
+    if (parentRequest && isDelete) {
+        [refIds addObject:parentId];
+        [requests addObject:parentRequest];
+    }
+
+    /*
+
+        // Sending composite request
+        Map<String, JSONObject> refIdToResponses = sendCompositeRequest(syncManager, false, refIdToRequests);
+
+        // Build refId to server id / status code / time stamp maps
+        Map<String, String> refIdToServerId = parseIdsFromResponse(refIdToResponses);
+        Map<String, Integer> refIdToHttpStatusCode = parseStatusCodesFromResponse(refIdToResponses);
+
+        // Will a re-run be required?
+        boolean needReRun = false;
+
+        // Update parent in local store
+        if (isDirty(record)) {
+            needReRun = updateParentRecordInLocalStore(syncManager, record, children, mergeMode, refIdToServerId, refIdToHttpStatusCode);
+        }
+
+        // Update children local store
+        for (int i = 0; i < children.length(); i++) {
+            JSONObject childRecord = children.getJSONObject(i);
+            if (isDirty(childRecord) || isCreate) {
+                needReRun = needReRun || updateChildRecordInLocalStore(syncManager, childRecord, mergeMode, refIdToServerId, refIdToHttpStatusCode);
+            }
+        }
+
+        // Re-run if required
+        if (needReRun) {
+            syncManager.getLogger().d(this, "syncUpOneRecord", record);
+            syncUpRecord(syncManager, record, children, fieldlist, mergeMode);
+        }
+
+     */
+}
+
+- (SFRestRequest*) buildRequestForParentRecord:(NSDictionary*)record fieldlist:(NSArray*)fieldlist {
+    return [self buildRequestForRecord:record fieldlist:fieldlist isParent:true useParentIdReference:false parentId:nil];
+}
+
+- (SFRestRequest*) buildRequestForChildRecord:(NSDictionary*)record
+                         useParentIdReference:(BOOL)useParentIdReference
+                                     parentId:(NSString*)parentId {
+
+    return [self buildRequestForRecord:record fieldlist:nil isParent:false useParentIdReference:useParentIdReference parentId:parentId];
+}
+
+- (SFRestRequest*) buildRequestForRecord:(NSDictionary*)record
+                               fieldlist:(NSArray*)fieldlist
+                                isParent:(BOOL)isParent
+                    useParentIdReference:(BOOL)useParentIdReference
+                                parentId:(NSString*)parentId {
+    // FIXME
+    return nil;
 }
 
 - (NSString*) getDirtyRecordIdsSql:(NSString*)soupName idField:(NSString*)idField {

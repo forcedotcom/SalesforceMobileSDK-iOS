@@ -25,6 +25,7 @@
 #import "SFSyncTarget+Internal.h"
 #import "SFParentChildrenSyncHelper.h"
 #import <SmartStore/SFSmartStore.h>
+#import <SmartStore/SFQuerySpec.h>
 
 @implementation SFParentChildrenSyncHelper
 
@@ -104,4 +105,28 @@ NSString * const kSFParentChildrenRelationshipLookup = @"LOOKUP";
     // saving children
     [target cleanAndSaveInSmartStore:syncManager.store soupName:childrenInfo.soupName records:childrenRecords];
 }
+
++ (NSArray *)getChildrenFromLocalStore:(SFSmartStore *)store parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo parent:(NSDictionary *)parent {
+    SFQuerySpec*  querySpec = [self getQueryForChildren:parentInfo childrenInfo:childrenInfo childFieldToSelect:@"_soup" parentIds:@[parent[parentInfo.idFieldName]]];
+    NSArray* rows = [store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
+    NSMutableArray * children = [NSMutableArray new];
+    for (NSArray* row in rows) {
+        [children addObject:row[0]];
+    }
+    return children;
+}
+
++ (SFQuerySpec*) getQueryForChildren:(SFParentInfo*)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo childFieldToSelect:(NSString*)childFieldToSelect parentIds:(NSArray*)parentIds {
+    NSString* smartSql = [NSString stringWithFormat:@"SELECT {%@:%@} FROM {%@},{%@} WHERE {%@:%@} = {%@:%@} AND {%@:%@} IN (%@)",
+                                                    childrenInfo.soupName, childFieldToSelect,
+                                                    childrenInfo.soupName, parentInfo.soupName,
+                                                    childrenInfo.soupName, childrenInfo.parentIdFieldName,
+                                                    parentInfo.soupName, parentInfo.idFieldName,
+                                                    parentInfo.soupName, parentInfo.idFieldName,
+                                                    [NSString stringWithFormat:@"('%@')", [parentIds componentsJoinedByString:@"', '"]]
+                          ];
+
+    return [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:INT_MAX];
+}
+
 @end
