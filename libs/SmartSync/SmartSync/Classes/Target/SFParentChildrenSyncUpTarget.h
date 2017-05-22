@@ -26,6 +26,7 @@
 #import "SFChildrenInfo.h"
 #import "SFParentChildrenSyncHelper.h"
 #import "SFSyncUpTarget.h"
+#import "SFAdvancedSyncUpTarget.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
