@@ -25,11 +25,19 @@
 #import "SFSyncTarget+Internal.h"
 #import "SFParentChildrenSyncUpTarget.h"
 
+@interface  SFSyncUpTarget ()
+@property (nonatomic, strong) NSArray*  createFieldlist;
+@property (nonatomic, strong) NSArray*  updateFieldlist;
+
+- (NSMutableDictionary *)buildFieldsMap:(NSDictionary *)record
+                              fieldlist:(NSArray *)fieldlist
+                            idFieldName:(NSString *)idFieldName
+              modificationDateFieldName:(NSString *)modificationDateFieldName;
+@end
+
 @interface SFParentChildrenSyncUpTarget ()
 
 @property (nonatomic) SFParentInfo* parentInfo;
-@property (nonatomic) NSArray<NSString*>* parentCreateFieldlist;
-@property (nonatomic) NSArray<NSString*>* parentUpdateFieldlist;
 @property (nonatomic) SFChildrenInfo* childrenInfo;
 @property (nonatomic) NSArray<NSString*>* childrenCreateFieldlist;
 @property (nonatomic) NSArray<NSString*>* childrenUpdateFieldlist;
@@ -51,8 +59,8 @@
         self.parentInfo = parentInfo;
         self.idFieldName = parentInfo.idFieldName;
         self.modificationDateFieldName = parentInfo.modificationDateFieldName;
-        self.parentCreateFieldlist = parentCreateFieldlist;
-        self.parentUpdateFieldlist = parentUpdateFieldlist;
+        self.createFieldlist = parentCreateFieldlist;
+        self.updateFieldlist = parentUpdateFieldlist;
         self.childrenInfo = childrenInfo;
         self.childrenCreateFieldlist = childrenCreateFieldlist;
         self.childrenUpdateFieldlist = childrenUpdateFieldlist;
@@ -99,8 +107,8 @@
 - (NSMutableDictionary *)asDict {
     NSMutableDictionary *dict = [super asDict];
     dict[kSFParentChildrenSyncTargetParent] = [self.parentInfo asDict];
-    dict[kSFParentChildrenSyncTargetParentCreateFieldlist] = self.parentCreateFieldlist;
-    dict[kSFParentChildrenSyncTargetParentUpdateFieldlist] = self.parentUpdateFieldlist;
+    dict[kSFParentChildrenSyncTargetParentCreateFieldlist] = self.createFieldlist;
+    dict[kSFParentChildrenSyncTargetParentUpdateFieldlist] = self.updateFieldlist;
     dict[kSFParentChildrenSyncTargetChildren] = [self.childrenInfo asDict];
     dict[kSFParentChildrenSyncTargetChildrenCreateFieldlist] = self.childrenCreateFieldlist;
     dict[kSFParentChildrenSyncTargetChildrenUpdateFieldlist] = self.childrenUpdateFieldlist;
@@ -134,7 +142,6 @@
 
     BOOL isCreate = [self isLocallyCreated:record];
     BOOL isDelete = [self isLocallyDeleted:record];
-
 
     // Getting children
     NSArray<NSDictionary *> *children = (self.relationshipType == SFParentChildrenRelationpshipMasterDetail && isDelete && !isCreate)
@@ -247,8 +254,49 @@
                                 isParent:(BOOL)isParent
                     useParentIdReference:(BOOL)useParentIdReference
                                 parentId:(NSString*)parentId {
-    // FIXME
-    return nil;
+
+    if (![self isDirty:record]) {
+        return nil; // nothing to do
+    }
+
+    SFParentInfo * info = isParent ? self.parentInfo : self.childrenInfo;
+    NSString* id = record[info.idFieldName];
+
+    // Delete case
+    BOOL isCreate = [self isLocallyCreated:record];
+    BOOL isDelete = [self isLocallyDeleted:record];
+
+    if (isDelete) {
+        if (isCreate) {
+            return nil; // no need to go to server
+        }
+        else {
+            return [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:info.sobjectType objectId:id];
+        }
+    }
+    // Create/update cases
+    else {
+        fieldlist = isParent
+                ? isCreate
+                    ? (self.createFieldlist ? self.createFieldlist : fieldlist)
+                    : (self.updateFieldlist ? self.updateFieldlist : fieldlist)
+                : isCreate
+                    ? self.childrenCreateFieldlist
+                    : self.childrenUpdateFieldlist
+                ;
+
+        NSMutableDictionary *fields = [self buildFieldsMap:record fieldlist:fieldlist idFieldName:info.idFieldName modificationDateFieldName:info.modificationDateFieldName];
+        if (parentId) {
+            fields[((SFChildrenInfo *) info).parentIdFieldName] = useParentIdReference ? [NSString stringWithFormat:@"{%@.%@}", parentId, @"id"]  : parentId;
+        }
+
+        if (isCreate) {
+            return [[SFRestAPI sharedInstance] requestForCreateWithObjectType:info.sobjectType fields:fields];
+        }
+        else {
+            return [[SFRestAPI sharedInstance] requestForUpdateWithObjectType:info.sobjectType objectId:id fields:fields];
+        }
+    }
 }
 
 - (NSString*) getDirtyRecordIdsSql:(NSString*)soupName idField:(NSString*)idField {
