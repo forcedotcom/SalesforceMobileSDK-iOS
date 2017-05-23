@@ -26,6 +26,9 @@
 #import "SFParentChildrenSyncHelper.h"
 #import <SmartStore/SFSmartStore.h>
 #import <SmartStore/SFQuerySpec.h>
+#import <SalesforceSDKCore/SFSDKAppFeatureMarkers.h>
+
+static NSString * const kSFAppFeatureRelatedRecords = @"RR";
 
 @implementation SFParentChildrenSyncHelper
 
@@ -41,6 +44,11 @@ NSString * const kSFParentChildrenSyncTargetChildrenCreateFieldlist = @"children
 NSString * const kSFParentChildrenSyncTargetChildrenUpdateFieldlist = @"childrenUpdateFieldlist";
 NSString * const kSFParentChildrenRelationshipMasterDetail = @"MASTER_DETAIL";
 NSString * const kSFParentChildrenRelationshipLookup = @"LOOKUP";
+
+#pragma mark - App feature registration
++ (void) registerAppFeature {
+    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureRelatedRecords];
+}
 
 #pragma mark - String to/from enum for query type
 
@@ -58,6 +66,8 @@ NSString * const kSFParentChildrenRelationshipLookup = @"LOOKUP";
         case SFParentChildrenRelationpshipLookup: return kSFParentChildrenRelationshipLookup;
     }
 }
+
+#pragma mark - Other methods
 
 + (NSString*) getDirtyRecordIdsSql:(SFParentInfo*)parentInfo childrenInfo:(SFChildrenInfo*)childrenInfo parentFieldToSelect:(NSString*)parentFieldToSelect {
     return [NSString stringWithFormat:@"SELECT DISTINCT {%@:%@} FROM {%@} WHERE {%@:%@} = 1 OR EXISTS (SELECT {%@:%@} FROM {%@} WHERE {%@:%@} = {%@:%@} AND {%@:%@} = 1)",

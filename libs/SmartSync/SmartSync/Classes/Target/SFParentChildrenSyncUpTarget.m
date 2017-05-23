@@ -65,6 +65,7 @@
         self.childrenCreateFieldlist = childrenCreateFieldlist;
         self.childrenUpdateFieldlist = childrenUpdateFieldlist;
         self.relationshipType = relationshipType;
+        [SFParentChildrenSyncHelper registerAppFeature];
     }
     return self;
 }
