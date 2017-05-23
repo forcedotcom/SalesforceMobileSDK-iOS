@@ -72,12 +72,13 @@ static NSString * const kCSFInputCustomArrayAttributes = @"__CSFOutput_Array_Sto
 
         Ivar ivar = class_getInstanceVariable(ivarInfo[@"class"], [ivarName UTF8String]);
         Class ivarClass = CSFClassFromEncoding(ivarInfo[@"encoding"]);
+        NSString * encoding = ivarInfo[@"encoding"];
         if (ivarClass) {
             id value = object_getIvar(self, ivar);
             [encoder encodeObject:value forKey:propertyName];
-        } else if (ivarInfo[@"encoding"]) {
+        } else if (encoding && ![encoding hasPrefix:@"@"]) {
             const void * ivarPtr = (__bridge void*)(self) + ivar_getOffset(ivar);
-            [encoder encodeValueOfObjCType:[ivarInfo[@"encoding"] UTF8String] at:ivarPtr];
+            [encoder encodeValueOfObjCType:[encoding UTF8String] at:ivarPtr];
         }
     }];
 }
@@ -104,7 +105,7 @@ static NSString * const kCSFInputCustomArrayAttributes = @"__CSFOutput_Array_Sto
                 object_setIvar(self, ivar, result);
             } else if (encoding && ![encoding hasPrefix:@"@"]) {
                 const void * ivarPtr = (__bridge void*)(self) + ivar_getOffset(ivar);
-                [decoder decodeValueOfObjCType:[ivarInfo[@"encoding"] UTF8String] at:(void *)ivarPtr];
+                [decoder decodeValueOfObjCType:[encoding UTF8String] at:(void *)ivarPtr];
             }
         }];
     }
