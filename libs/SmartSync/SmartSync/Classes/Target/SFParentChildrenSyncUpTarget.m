@@ -26,18 +26,9 @@
 #import "SFParentChildrenSyncUpTarget.h"
 #import "SFSmartSyncNetworkUtils.h"
 #import "SmartSync.h"
+#import "SFSyncUpTarget+Internal.h"
 
 typedef void (^SFSendCompositeRequestCompleteBlock)(NSDictionary *refIdToResponses);
-
-@interface  SFSyncUpTarget ()
-@property (nonatomic, strong) NSArray*  createFieldlist;
-@property (nonatomic, strong) NSArray*  updateFieldlist;
-
-- (NSMutableDictionary *)buildFieldsMap:(NSDictionary *)record
-                              fieldlist:(NSArray *)fieldlist
-                            idFieldName:(NSString *)idFieldName
-              modificationDateFieldName:(NSString *)modificationDateFieldName;
-@end
 
 @interface SFParentChildrenSyncUpTarget ()
 
@@ -163,36 +154,102 @@ typedef void (^SFSendCompositeRequestCompleteBlock)(NSDictionary *refIdToRespons
 }
 
 - (void)isNewerThanServer:(SFSmartSyncSyncManager *)syncManager record:(NSDictionary *)record resultBlock:(SFSyncUpRecordNewerThanServerBlock)resultBlock {
-    /*
-
-     // FIXME
-
-    if (isLocallyCreated(record)) {
-        return true;
+    if ([self isLocallyCreated:record]) {
+        resultBlock(YES);
+        return;
     }
 
-    Map<String, RecordModDate> idToLocalTimestamps = getLocalLastModifiedDates(syncManager, record);
-    Map<String, String> idToRemoteTimestamps = fetchLastModifiedDates(syncManager, record);
+    NSDictionary<NSString*, SFRecordModDate*>* idToLocalTimestamps = [self getLocalLastModifiedDates:syncManager record:record];
+    NSDictionary<NSString*, NSString*>* idToRemoteTimestamps = [self fetchLastModifiedDates:syncManager record:record];
 
-    for (String id : idToLocalTimestamps.keySet()) {
+    for (NSString* id in [idToLocalTimestamps allKeys]) {
+        SFRecordModDate * localModDate = idToLocalTimestamps[id];
+        NSString* remoteTimestamp = idToRemoteTimestamps[id];
+        SFRecordModDate *remoteModDate = [[SFRecordModDate alloc]
+                initWithTimestamp:remoteTimestamp
+                        isDeleted:remoteTimestamp == nil // if it wasn't returned by fetchLastModifiedDates, then the record must have been deleted
+        ];
 
-        final RecordModDate localModDate = idToLocalTimestamps.get(id);
-        final String remoteTimestamp = idToRemoteTimestamps.get(id);
-        final RecordModDate remoteModDate = new RecordModDate(
-                remoteTimestamp,
-                remoteTimestamp == null // if it wasn't returned by fetchLastModifiedDates, then the record must have been deleted
-        );
-
-        if (!super.isNewerThanServer(localModDate, remoteModDate)) {
-            return false; // no need to go further
+        if (![super isNewerThanServer:localModDate remoteModDate:remoteModDate]) {
+            resultBlock(NO); // no need to go further
+            return;
         }
     }
 
-    return true;
-     */
+    resultBlock(YES);
 }
 
 #pragma mark - Helper methods
+
+- (NSDictionary<NSString *, SFRecordModDate *> *)getLocalLastModifiedDates:(SFSmartSyncSyncManager *)manager record:(NSDictionary *)record {
+    return nil;
+
+    /*
+
+        Map<String, RecordModDate> idToLocalTimestamps = new HashMap<>();
+
+        final boolean isParentDeleted = isLocallyDeleted(record);
+
+        final RecordModDate parentModDate = new RecordModDate(
+                JSONObjectHelper.optString(record, getModificationDateFieldName()),
+                isParentDeleted
+        );
+
+        idToLocalTimestamps.put(record.getString(childrenInfo.idFieldName), parentModDate);
+
+        JSONArray children = ParentChildrenSyncTargetHelper.getChildrenFromLocalStore(
+                syncManager.getSmartStore(),
+                parentInfo,
+                childrenInfo,
+                record
+        );
+
+        for (int i=0; i<children.length(); i++) {
+            JSONObject childRecord = children.getJSONObject(i);
+            final RecordModDate childModDate = new RecordModDate(
+                    JSONObjectHelper.optString(childRecord, childrenInfo.modificationDateFieldName),
+                    isLocallyDeleted(childRecord) || (isParentDeleted && relationshipType == RelationshipType.MASTER_DETAIL)
+            );
+            idToLocalTimestamps.put(childRecord.getString(childrenInfo.idFieldName), childModDate);
+        }
+
+        return idToLocalTimestamps;
+
+     */
+
+}
+
+- (NSDictionary<NSString *, NSString *> *)fetchLastModifiedDates:(SFSmartSyncSyncManager *)manager record:(NSDictionary *)record {
+    return nil;
+
+    /*
+
+        Map<String, String> idToRemoteTimestamps = new HashMap<>();
+
+        if (!isLocallyCreated(record)) {
+            String parentId = record.getString(getIdFieldName());
+            RestRequest lastModRequest = getRequestForTimestamps(syncManager.apiVersion, parentId);
+            RestResponse lastModResponse = syncManager.sendSyncWithSmartSyncUserAgent(lastModRequest);
+            JSONArray rows = lastModResponse.isSuccess() ? lastModResponse.asJSONObject().getJSONArray(Constants.RECORDS) : null;
+
+            if (rows != null && rows.length() > 0) {
+                JSONObject row = rows.getJSONObject(0);
+                idToRemoteTimestamps.put(row.getString(getIdFieldName()), row.getString(getModificationDateFieldName()));
+                if (row.has(childrenInfo.sobjectTypePlural) && !row.isNull(childrenInfo.sobjectTypePlural)) {
+                    JSONArray childrenRows = row.getJSONObject(childrenInfo.sobjectTypePlural).getJSONArray(Constants.RECORDS);
+                    for (int i = 0; i < childrenRows.length(); i++) {
+                        final JSONObject childRow = childrenRows.getJSONObject(i);
+                        idToRemoteTimestamps.put(childRow.getString(childrenInfo.idFieldName), childRow.getString(childrenInfo.modificationDateFieldName));
+                    }
+                }
+            }
+        }
+
+        return idToRemoteTimestamps;
+
+     */
+
+}
 
 - (NSDictionary *)sendCompositeRequest:(SFSmartSyncSyncManager *)manager
                              allOrNone:(BOOL)allOrNone
