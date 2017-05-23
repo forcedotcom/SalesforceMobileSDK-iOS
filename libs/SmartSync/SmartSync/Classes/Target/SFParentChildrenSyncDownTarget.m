@@ -29,6 +29,9 @@
 #import "SFSmartSyncObjectUtils.h"
 #import "SFSmartSyncConstants.h"
 #import <SalesforceSDKCore/SFSDKSoqlBuilder.h>
+#import <SalesforceSDKCore/SFSDKAppFeatureMarkers.h>
+
+static NSString * const kSFAppFeatureRelatedRecords = @"RR";
 
 @interface SFParentChildrenSyncDownTarget ()
 
@@ -60,6 +63,7 @@
         self.childrenInfo = childrenInfo;
         self.childrenFieldlist = childrenFieldlist;
         self.relationshipType = relationshipType;
+        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureRelatedRecords];
     }
     return self;
 }

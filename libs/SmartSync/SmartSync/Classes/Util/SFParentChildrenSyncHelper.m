@@ -47,8 +47,7 @@ NSString * const kSFParentChildrenRelationshipLookup = @"LOOKUP";
 + (SFParentChildrenRelationshipType) relationshipTypeFromString:(NSString*)relationshipType {
     if ([relationshipType isEqualToString:kSFParentChildrenRelationshipMasterDetail]) {
         return SFParentChildrenRelationpshipMasterDetail;
-    }
-    else {
+    } else {
         return SFParentChildrenRelationpshipLookup;
     }
 }
@@ -75,12 +74,10 @@ NSString * const kSFParentChildrenRelationshipLookup = @"LOOKUP";
 }
 
 + (void)saveRecordTreesToLocalStore:(SFSmartSyncSyncManager *)syncManager target:(SFSyncTarget *)target parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo recordTrees:(NSArray *)recordTrees {
-
     NSMutableArray * parentRecords = [NSMutableArray new];
     NSMutableArray * childrenRecords = [NSMutableArray new];
-
-
     for (NSDictionary * recordTree  in recordTrees) {
+
         // XXX should be done in one transaction
         NSMutableDictionary * parent = [recordTree mutableCopy];
 
