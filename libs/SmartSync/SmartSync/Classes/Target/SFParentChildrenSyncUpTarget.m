@@ -24,6 +24,10 @@
 
 #import "SFSyncTarget+Internal.h"
 #import "SFParentChildrenSyncUpTarget.h"
+#import "SFSmartSyncNetworkUtils.h"
+#import "SmartSync.h"
+
+typedef void (^SFSendCompositeRequestCompleteBlock)(NSDictionary *refIdToResponses);
 
 @interface  SFSyncUpTarget ()
 @property (nonatomic, strong) NSArray*  createFieldlist;
@@ -154,6 +158,65 @@
     [self syncUpRecord:syncManager record:record children:children fieldlist:fieldlist mergeMode:mergeMode completionBlock:completionBlock failBlock:failBlock];
 }
 
+- (NSString*) getDirtyRecordIdsSql:(NSString*)soupName idField:(NSString*)idField {
+    return [SFParentChildrenSyncHelper getDirtyRecordIdsSql:self.parentInfo childrenInfo:self.childrenInfo parentFieldToSelect:idField];
+}
+
+- (void)isNewerThanServer:(SFSmartSyncSyncManager *)syncManager record:(NSDictionary *)record resultBlock:(SFSyncUpRecordNewerThanServerBlock)resultBlock {
+    /*
+
+     // FIXME
+
+    if (isLocallyCreated(record)) {
+        return true;
+    }
+
+    Map<String, RecordModDate> idToLocalTimestamps = getLocalLastModifiedDates(syncManager, record);
+    Map<String, String> idToRemoteTimestamps = fetchLastModifiedDates(syncManager, record);
+
+    for (String id : idToLocalTimestamps.keySet()) {
+
+        final RecordModDate localModDate = idToLocalTimestamps.get(id);
+        final String remoteTimestamp = idToRemoteTimestamps.get(id);
+        final RecordModDate remoteModDate = new RecordModDate(
+                remoteTimestamp,
+                remoteTimestamp == null // if it wasn't returned by fetchLastModifiedDates, then the record must have been deleted
+        );
+
+        if (!super.isNewerThanServer(localModDate, remoteModDate)) {
+            return false; // no need to go further
+        }
+    }
+
+    return true;
+     */
+}
+
+#pragma mark - Helper methods
+
+- (NSDictionary *)sendCompositeRequest:(SFSmartSyncSyncManager *)manager
+                             allOrNone:(BOOL)allOrNone
+                                refIds:(NSArray<NSString*>*)refIds
+                              requests:(NSArray<SFRestRequest*> *)requests
+        completionBlock:(SFSendCompositeRequestCompleteBlock)completionBlock
+              failBlock:(SFSyncUpTargetErrorBlock)failBlock {
+
+    SFRestRequest* compositeRequest = [[SFRestAPI sharedInstance] compositeRequest:requests refIds:refIds allOrNone:allOrNone];
+
+    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:compositeRequest
+                                                     failBlock:failBlock
+                                                 completeBlock:^(id compositeResponse) {
+                                                     NSMutableDictionary *refIdToResponses = [NSMutableDictionary new];
+                                                     NSArray *responses = compositeResponse[@"compositeResponse"];
+                                                     for (NSDictionary *response in responses) {
+                                                         refIdToResponses[response[@"referenceId"]] = response;
+                                                     }
+                                                     completionBlock(refIdToResponses);
+                                                 }];
+
+    return nil;
+}
+
 - (void) syncUpRecord:(SFSmartSyncSyncManager *)syncManager
                record:(NSDictionary*)record
              children:(NSArray<NSDictionary*>*)children
@@ -165,8 +228,8 @@
     BOOL isCreate = [self isLocallyCreated:record];
     BOOL isDelete = [self isLocallyDeleted:record];
 
-    NSMutableArray *refIds = [NSMutableArray new];
-    NSMutableArray *requests = [NSMutableArray new];
+    NSMutableArray<NSString*> *refIds = [NSMutableArray new];
+    NSMutableArray<SFRestRequest*> *requests = [NSMutableArray new];
 
     // Preparing request for parent
     NSString* parentId = record[self.idFieldName];
@@ -205,39 +268,55 @@
         [requests addObject:parentRequest];
     }
 
-    /*
+    // Sending composite request
+    SFSendCompositeRequestCompleteBlock sendCompositeRequestCompleteBlock = ^(NSDictionary * refIdToResponses) {
+            // Build refId to server id / status code / time stamp maps
+            NSDictionary * refIdToServerId = [self parseIdsFromResponse:refIdToResponses];
+            NSDictionary * refIdToHttpStatusCode = [self parseStatusCodesFromResponse:refIdToResponses];
 
-        // Sending composite request
-        Map<String, JSONObject> refIdToResponses = sendCompositeRequest(syncManager, false, refIdToRequests);
+            // Will a re-run be required?
+            BOOL needReRun = NO;
 
-        // Build refId to server id / status code / time stamp maps
-        Map<String, String> refIdToServerId = parseIdsFromResponse(refIdToResponses);
-        Map<String, Integer> refIdToHttpStatusCode = parseStatusCodesFromResponse(refIdToResponses);
-
-        // Will a re-run be required?
-        boolean needReRun = false;
-
-        // Update parent in local store
-        if (isDirty(record)) {
-            needReRun = updateParentRecordInLocalStore(syncManager, record, children, mergeMode, refIdToServerId, refIdToHttpStatusCode);
-        }
-
-        // Update children local store
-        for (int i = 0; i < children.length(); i++) {
-            JSONObject childRecord = children.getJSONObject(i);
-            if (isDirty(childRecord) || isCreate) {
-                needReRun = needReRun || updateChildRecordInLocalStore(syncManager, childRecord, mergeMode, refIdToServerId, refIdToHttpStatusCode);
+            // Update parent in local store
+            if ([self isDirty:record]) {
+                needReRun = [self updateParentRecordInLocalStore:syncManager
+                                                          record:record
+                                                        children:children
+                                                       mergeMode:mergeMode
+                                                 refIdToServerId:refIdToServerId
+                                               refIdToStatusCode:refIdToHttpStatusCode];
             }
-        }
 
-        // Re-run if required
-        if (needReRun) {
-            syncManager.getLogger().d(this, "syncUpOneRecord", record);
-            syncUpRecord(syncManager, record, children, fieldlist, mergeMode);
-        }
+            // Update children local store
+            for (NSDictionary * childRecord in children) {
+                if ([self isDirty:childRecord] || isCreate) {
+                    needReRun = needReRun || [self updateChildRecordInLocalStore:syncManager
+                                                                          record:record
+                                                                       mergeMode:mergeMode
+                                                                 refIdToServerId:refIdToServerId
+                                                               refIdToStatusCode:refIdToHttpStatusCode];
+                }
+            }
 
-     */
+            // Re-run if required
+            if (needReRun) {
+                LogSyncDebug(@"syncUpOneRecord:%@", record);
+                [self syncUpRecord:syncManager record:record children:children fieldlist:fieldlist mergeMode:mergeMode completionBlock:completionBlock failBlock:failBlock];
+            }
+            else {
+                // Done
+                completionBlock(nil);
+            }
+    };
+
+    NSDictionary * refIdToResponses = [self sendCompositeRequest:syncManager
+                                                       allOrNone:NO
+                                                          refIds:refIds
+                                                        requests:requests
+                                                 completionBlock:sendCompositeRequestCompleteBlock
+                                                       failBlock:failBlock];
 }
+
 
 - (SFRestRequest*) buildRequestForParentRecord:(NSDictionary*)record fieldlist:(NSArray*)fieldlist {
     return [self buildRequestForRecord:record fieldlist:fieldlist isParent:true useParentIdReference:false parentId:nil];
@@ -300,8 +379,153 @@
     }
 }
 
-- (NSString*) getDirtyRecordIdsSql:(NSString*)soupName idField:(NSString*)idField {
-     return [SFParentChildrenSyncHelper getDirtyRecordIdsSql:self.parentInfo childrenInfo:self.childrenInfo parentFieldToSelect:idField];
+-(NSDictionary*) parseIdsFromResponse:(NSDictionary*) refIdToResponses {
+    NSMutableDictionary* refIdToId = [NSMutableDictionary new];
+    for (NSString* refId in [refIdToResponses allKeys]) {
+        NSDictionary * response = refIdToResponses[refId];
+        if (response[@"httpStatusCode"] == @201) {
+            NSString* serverId = response[@"body"][@"id"];
+            refIdToId[refId] = serverId;
+        }
+    }
+    return refIdToId;
+}
+
+-(NSDictionary*) parseStatusCodesFromResponse:(NSDictionary*) refIdToResponses {
+    NSMutableDictionary* refIdToStatusCode = [NSMutableDictionary new];
+    for (NSString* refId in [refIdToResponses allKeys]) {
+        NSDictionary * response = refIdToResponses[refId];
+        NSNumber* statusCode = response[@"httpStatusCode"];
+        refIdToStatusCode[refId] = statusCode;
+    }
+    return refIdToStatusCode;
+}
+
+- (BOOL) updateParentRecordInLocalStore:(SFSmartSyncSyncManager *)syncManager
+                                 record:(NSDictionary *)record
+                               children:(NSArray*)children
+                              mergeMode:(SFSyncStateMergeMode)mergeMode
+                        refIdToServerId:(NSDictionary *)refIdToServerId
+                      refIdToStatusCode:(NSDictionary *)refIdToStatusCode {
+    BOOL needReRun = NO;
+/*
+    final String soupName = parentInfo.soupName;
+    final String idFieldName = getIdFieldName();
+    final String refId = record.getString(idFieldName);
+
+    final Integer statusCode = refIdToHttpStatusCode.containsKey(refId) ? refIdToHttpStatusCode.get(refId) : -1;
+
+    // Delete case
+    if (isLocallyDeleted(record)) {
+        if (isLocallyCreated(record)  // we didn't go to the sever
+                || RestResponse.isSuccess(statusCode) // or we successfully deleted on the server
+                || statusCode == HttpURLConnection.HTTP_NOT_FOUND) // or the record was already deleted on the server
+        {
+            if (relationshipType == RelationshipType.MASTER_DETAIL) {
+                ParentChildrenSyncTargetHelper.deleteChildrenFromLocalStore(syncManager.getSmartStore(), parentInfo, childrenInfo, record.getString(idFieldName));
+            }
+
+            deleteFromLocalStore(syncManager, soupName, record);
+        }
+    }
+
+        // Create / update case
+    else {
+        // Success case
+        if (RestResponse.isSuccess(statusCode))
+        {
+            // Plugging server id in id field
+            updateReferences(record, idFieldName, refIdToServerId);
+
+            // Clean and save
+            cleanAndSaveInLocalStore(syncManager, soupName, record);
+        }
+            // Handling remotely deleted records
+        else if (statusCode == HttpURLConnection.HTTP_NOT_FOUND) {
+            // Record needs to be recreated
+            if (mergeMode == SyncState.MergeMode.OVERWRITE) {
+
+                record.put(LOCAL, true);
+                record.put(LOCALLY_CREATED, true);
+
+                // Children need to be updated or recreated as well (since the parent will get a new server id)
+                for (int i=0; i<children.length(); i++) {
+                    JSONObject childRecord = children.getJSONObject(i);
+                    childRecord.put(LOCAL, true);
+                    childRecord.put(relationshipType == RelationshipType.MASTER_DETAIL ? LOCALLY_CREATED : LOCALLY_UPDATED, true);
+                }
+
+                needReRun = true;
+            }
+        }
+    }
+*/
+    return needReRun;
+}
+
+- (BOOL) updateChildRecordInLocalStore:(SFSmartSyncSyncManager *)syncManager
+                                 record:(NSDictionary *)record
+                              mergeMode:(SFSyncStateMergeMode)mergeMode
+                        refIdToServerId:(NSDictionary *)refIdToServerId
+                      refIdToStatusCode:(NSDictionary *)refIdToStatusCode {
+    BOOL needReRun = NO;
+/*
+    final String soupName = childrenInfo.soupName;
+    final String idFieldName = childrenInfo.idFieldName;
+    final String refId = record.getString(idFieldName);
+
+    final Integer statusCode = refIdToHttpStatusCode.containsKey(refId) ? refIdToHttpStatusCode.get(refId) : -1;
+
+    // Delete case
+    if (isLocallyDeleted(record)) {
+        if (isLocallyCreated(record)  // we didn't go to the sever
+                || RestResponse.isSuccess(statusCode) // or we successfully deleted on the server
+                || statusCode == HttpURLConnection.HTTP_NOT_FOUND) // or the record was already deleted on the server
+        {
+            deleteFromLocalStore(syncManager, soupName, record);
+        }
+    }
+
+        // Create / update case
+    else {
+        // Success case
+        if (RestResponse.isSuccess(statusCode))
+        {
+            // Plugging server id in id field
+            updateReferences(record, idFieldName, refIdToServerId);
+
+            // Plugging server id in parent id field
+            updateReferences(record, childrenInfo.parentIdFieldName, refIdToServerId);
+
+            // Clean and save
+            cleanAndSaveInLocalStore(syncManager, soupName, record);
+        }
+            // Handling remotely deleted records
+        else if (statusCode == HttpURLConnection.HTTP_NOT_FOUND) {
+            // Record needs to be recreated
+            if (mergeMode == SyncState.MergeMode.OVERWRITE) {
+
+                record.put(LOCAL, true);
+                record.put(LOCALLY_CREATED, true);
+
+                // We need a re-run
+                needReRun = true;
+            }
+        }
+    }
+*/
+    return needReRun;
+}
+
+
+- (void) updateReferences:(NSMutableDictionary*) record
+           fieldWithRefId:(NSString*) fieldWithRefId
+          refIdToServerId:(NSDictionary*)refIdToServerId {
+
+    NSString* refId = record[fieldWithRefId];
+    if (refId && refIdToServerId[refId]) {
+        record[fieldWithRefId] = refIdToServerId[refId];
+    }
 }
 
 @end
