@@ -76,12 +76,8 @@ CSFParameterStyle CSFRequiredParameterStyleForHTTPMethod(NSString *method) {
 Class CSFClassFromEncoding(NSString *encoding) {
     Class result = nil;
     if ([encoding hasPrefix:@"@"]) {
-        if (encoding.length > 2) {
-            NSString *className = [[encoding substringFromIndex:2] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
-            result = NSClassFromString(className);
-        } else {
-            result = [NSObject class];
-        }
+        NSString *className = [[encoding substringFromIndex:2] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+        result = NSClassFromString(className);
     }
     return result;
 }
