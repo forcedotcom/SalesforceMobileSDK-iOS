@@ -26,5 +26,15 @@
 
 @interface SFSyncUpTarget ()
 
+@property (nonatomic, strong) NSArray*  createFieldlist;
+@property (nonatomic, strong) NSArray*  updateFieldlist;
+
+- (NSMutableDictionary *)buildFieldsMap:(NSDictionary *)record
+                              fieldlist:(NSArray *)fieldlist
+                            idFieldName:(NSString *)idFieldName
+              modificationDateFieldName:(NSString *)modificationDateFieldName;
+
+- (BOOL)isNewerThanServer:(SFRecordModDate*)localModDate
+            remoteModDate:(SFRecordModDate*)remoteModDate;
 
 @end
