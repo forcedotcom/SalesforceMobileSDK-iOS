@@ -27,6 +27,13 @@
 #import "SFParentChildrenSyncDownTarget.h"
 #import "SFSmartSyncObjectUtils.h"
 
+//  Useful enum for trySyncUpsWithVariousChanges
+typedef NS_ENUM(NSInteger, SFSyncUpChange) {
+    NONE,
+    UPDATE,
+    DELETE
+};
+
 @interface SFParentChildrenSyncDownTarget ()
 
 - (NSString *)getSoqlForRemoteIds;
@@ -511,6 +518,331 @@
     }
 }
 
+
+/**
+ * Sync down the test accounts and contacts, modify accounts, re-sync, make sure only the updated ones are downloaded
+ */
+-(void) testReSyncWithUpdatedParents {
+    XCTFail(@"Test not implemented yet");
+}
+
+/**
+ * Sync down the test accounts and contacts
+ * Modify an account and some of its contacts and modify other contacts (without changing parent account)
+ * Make sure only the modified account and its modified contacts are re-synced
+ */
+- (void) testReSyncWithUpdatedChildren {
+    XCTFail(@"Test not implemented yet");
+}
+
+/**
+ * Sync down the test accounts and contacts
+ * Delete account from server - run cleanResyncGhosts
+ */
+- (void) testCleanResyncGhostsForParentChildrenTarget {
+    XCTFail(@"Test not implemented yet");
+}
+
+/**
+ * Create accounts and contacts locally, sync up with merge mode OVERWRITE, check smartstore and server afterwards
+ */
+- (void) testSyncUpWithLocallyCreatedRecords {
+    [self trySyncUpWithLocallyCreatedRecords:SFSyncStateMergeModeOverwrite];
+}
+
+/**
+ * Create accounts and contacts locally, sync up with mege mode LEAVE_IF_CHANGED, check smartstore and server afterwards
+ */
+- (void) testSyncUpWithLocallyCreatedRecordsWithoutOverwrite {
+    [self trySyncUpWithLocallyCreatedRecords:SFSyncStateMergeModeLeaveIfChanged];
+}
+
+/**
+ * Create contacts on server, sync down
+ * Create accounts locally, update contacts locally to be associated with them
+ * Run sync up
+ * Check smartstore and server afterwards
+ */
+- (void) testSyncUpWithLocallyCreatedParentRecords {
+    XCTFail(@"Test not implemented yet");
+}
+
+/**
+ * Create accounts on server, sync down
+ * Create contacts locally associated the accounts with them and run sync up
+ * Check smartstore and server afterwards
+ */
+- (void) testSyncUpWithLocallyCreatedChildrenRecords {
+    XCTFail(@"Test not implemented yet");
+}
+
+/**
+ * Sync up with locally updated child
+ */
+- (void)testSyncUpLocallyUpdatedChild {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:2 localChangeForAccount:NONE remoteChangeForAccount:NONE localChangeForContact:UPDATE remoteChangeForContact:NONE];
+}
+
+/**
+ * Sync up with locally updated child remotely updated child
+ */
+- (void)testSyncUpLocallyUpdatedChildRemotelyUpdatedChild {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:2 localChangeForAccount:NONE remoteChangeForAccount:NONE localChangeForContact:UPDATE remoteChangeForContact:UPDATE];
+}
+
+/**
+ * Sync up with locally updated child remotely deleted child
+ */
+- (void)testSyncUpLocallyUpdatedChildRemotelyDeletedChild {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:2 localChangeForAccount:NONE remoteChangeForAccount:NONE localChangeForContact:UPDATE remoteChangeForContact:DELETE];
+}
+
+/**
+ * Sync up with locally deleted child
+ */
+- (void)testSyncUpLocallyDeletedChild {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:2 localChangeForAccount:NONE remoteChangeForAccount:NONE localChangeForContact:DELETE remoteChangeForContact:NONE];
+}
+
+/**
+ * Sync up with locally deleted child remotely updated child
+ */
+- (void)testSyncUpLocallyDeletedChildRemotelyUpdatedChild {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:2 localChangeForAccount:NONE remoteChangeForAccount:NONE localChangeForContact:DELETE remoteChangeForContact:UPDATE];
+}
+
+/**
+ * Sync up with locally deleted child remotely deleted child
+ */
+- (void)testSyncUpLocallyDeletedChildRemotelyDeletedChild {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:2 localChangeForAccount:NONE remoteChangeForAccount:NONE localChangeForContact:DELETE remoteChangeForContact:DELETE];
+}
+
+/**
+ * Sync up with locally updated parent
+ */
+- (void)testSyncUpLocallyUpdatedParent {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:2 localChangeForAccount:UPDATE remoteChangeForAccount:NONE localChangeForContact:NONE remoteChangeForContact:NONE];
+}
+
+/**
+ * Sync up with locally updated parent remotely updated parent
+ */
+- (void)testSyncUpLocallyUpdatedParentRemotelyUpdatedParent {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:2 localChangeForAccount:UPDATE remoteChangeForAccount:UPDATE localChangeForContact:NONE remoteChangeForContact:NONE];
+}
+
+/**
+ * Sync up with locally updated parent remotely deleted parent
+ */
+- (void)testSyncUpLocallyUpdatedParentRemotelyDeletedParent {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:2 localChangeForAccount:UPDATE remoteChangeForAccount:DELETE localChangeForContact:NONE remoteChangeForContact:NONE];
+}
+
+/**
+ * Sync up with locally updated parent updated child
+ */
+- (void)testSyncUpLocallyUpdatedParentUpdatedChild {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:2 localChangeForAccount:UPDATE remoteChangeForAccount:NONE localChangeForContact:UPDATE remoteChangeForContact:NONE];
+}
+
+/**
+ * Sync up with locally updated parent updated child remotely updated child
+ */
+- (void)testSyncUpLocallyUpdatedParentUpdatedChildRemotelyUpdatedChild {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:2 localChangeForAccount:UPDATE remoteChangeForAccount:NONE localChangeForContact:UPDATE remoteChangeForContact:UPDATE];
+}
+
+/**
+ * Sync up with locally updated parent updated child remotely deleted child
+ */
+- (void)testSyncUpLocallyUpdatedParentUpdatedChildRemotelyDeletedChild {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:2 localChangeForAccount:UPDATE remoteChangeForAccount:NONE localChangeForContact:UPDATE remoteChangeForContact:DELETE];
+}
+
+/**
+ * Sync up with locally updated parent updated child remotely updated parent
+ */
+- (void)testSyncUpLocallyUpdatedParentUpdatedChildRemotelyUpdatedParent {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:2 localChangeForAccount:UPDATE remoteChangeForAccount:UPDATE localChangeForContact:UPDATE remoteChangeForContact:NONE];
+}
+
+/**
+ * Sync up with locally updated parent updated child remotely updated parent updated child
+ */
+- (void)testSyncUpLocallyUpdatedParentUpdatedChildRemotelyUpdatedParentUpdatedChild {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:2 localChangeForAccount:UPDATE remoteChangeForAccount:UPDATE localChangeForContact:UPDATE remoteChangeForContact:UPDATE];
+}
+
+/**
+ * Sync up with locally updated parent updated child remotely updated parent deleted child
+ */
+- (void)testSyncUpLocallyUpdatedParentUpdatedChildRemotelyUpdatedParentDeletedChild {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:2 localChangeForAccount:UPDATE remoteChangeForAccount:UPDATE localChangeForContact:UPDATE remoteChangeForContact:DELETE];
+}
+
+/**
+ * Sync up with locally updated parent updated child remotely deleted parent
+ */
+- (void)testSyncUpLocallyUpdatedParentUpdatedChildRemotelyDeletedParent {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:2 localChangeForAccount:UPDATE remoteChangeForAccount:DELETE localChangeForContact:UPDATE remoteChangeForContact:NONE];
+}
+
+/**
+ * Sync up with locally updated parent deleted child
+ */
+- (void)testSyncUpLocallyUpdatedParentDeletedChild {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:2 localChangeForAccount:UPDATE remoteChangeForAccount:NONE localChangeForContact:DELETE remoteChangeForContact:NONE];
+}
+
+/**
+ * Sync up with locally updated parent deleted child remotely updated child
+ */
+- (void)testSyncUpLocallyUpdatedParentDeletedChildRemotelyUpdatedChild {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:2 localChangeForAccount:UPDATE remoteChangeForAccount:NONE localChangeForContact:DELETE remoteChangeForContact:UPDATE];
+}
+
+/**
+ * Sync up with locally updated parent deleted child remotely deleted child
+ */
+- (void)testSyncUpLocallyUpdatedParentDeletedChildRemotelyDeletedChild {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:2 localChangeForAccount:UPDATE remoteChangeForAccount:NONE localChangeForContact:DELETE remoteChangeForContact:DELETE];
+}
+
+/**
+ * Sync up with locally updated parent deleted child remotely updated parent
+ */
+- (void)testSyncUpLocallyUpdatedParentDeletedChildRemotelyUpdatedParent {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:2 localChangeForAccount:UPDATE remoteChangeForAccount:UPDATE localChangeForContact:DELETE remoteChangeForContact:NONE];
+}
+
+/**
+ * Sync up with locally updated parent deleted child remotely updated parent updated child
+ */
+- (void)testSyncUpLocallyUpdatedParentDeletedChildRemotelyUpdatedParentUpdatedChild {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:2 localChangeForAccount:UPDATE remoteChangeForAccount:UPDATE localChangeForContact:DELETE remoteChangeForContact:UPDATE];
+}
+
+/**
+ * Sync up with locally updated parent deleted child remotely updated parent deleted child
+ */
+- (void)testSyncUpLocallyUpdatedParentDeletedChildRemotelyUpdatedParentDeletedChild {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:2 localChangeForAccount:UPDATE remoteChangeForAccount:UPDATE localChangeForContact:DELETE remoteChangeForContact:DELETE];
+}
+
+/**
+ * Sync up with locally updated parent deleted child remotely deleted parent
+ */
+- (void)testSyncUpLocallyUpdatedParentDeletedChildRemotelyDeletedParent {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:2 localChangeForAccount:UPDATE remoteChangeForAccount:DELETE localChangeForContact:DELETE remoteChangeForContact:NONE];
+}
+
+/**
+ * Sync up with locally deleted parent
+ */
+- (void)testSyncUpLocallyDeletedParent {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:2 localChangeForAccount:DELETE remoteChangeForAccount:NONE localChangeForContact:NONE remoteChangeForContact:NONE];
+}
+
+/**
+ * Sync up with locally deleted parent remotely updated parent
+ */
+- (void)testSyncUpLocallyDeletedParentRemotelyUpdatedParent {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:2 localChangeForAccount:DELETE remoteChangeForAccount:UPDATE localChangeForContact:NONE remoteChangeForContact:NONE];
+}
+
+/**
+ * Sync up with locally deleted parent remotely deleted parent
+ */
+- (void)testSyncUpLocallyDeletedParentRemotelyDeletedParent {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:2 localChangeForAccount:DELETE remoteChangeForAccount:DELETE localChangeForContact:NONE remoteChangeForContact:NONE];
+}
+
+/**
+ * Sync up with locally deleted parent updated child
+ */
+- (void)testSyncUpLocallyDeletedParentUpdatedChild {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:2 localChangeForAccount:DELETE remoteChangeForAccount:NONE localChangeForContact:UPDATE remoteChangeForContact:NONE];
+}
+
+/**
+ * Sync up with locally deleted parent updated child remotely updated parent
+ */
+- (void)testSyncUpLocallyDeletedParentUpdatedChildRemotelyUpdatedParent {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:2 localChangeForAccount:DELETE remoteChangeForAccount:UPDATE localChangeForContact:UPDATE remoteChangeForContact:NONE];
+}
+
+/**
+ * Sync up with locally deleted parent updated child remotely deleted parent
+ */
+- (void)testSyncUpLocallyDeletedParentUpdatedChildRemotelyDeletedParent {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:2 localChangeForAccount:DELETE remoteChangeForAccount:DELETE localChangeForContact:UPDATE remoteChangeForContact:NONE];
+}
+
+/**
+ * Sync up with locally deleted parent deleted child
+ */
+- (void)testSyncUpLocallyDeletedParentDeletedChild {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:2 localChangeForAccount:DELETE remoteChangeForAccount:NONE localChangeForContact:DELETE remoteChangeForContact:NONE];
+}
+
+/**
+ * Sync up with locally deleted parent deleted child remotely updated parent
+ */
+- (void)testSyncUpLocallyDeletedParentDeletedChildRemotelyUpdatedParent {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:2 localChangeForAccount:DELETE remoteChangeForAccount:UPDATE localChangeForContact:DELETE remoteChangeForContact:NONE];
+}
+
+/**
+ * Sync up with locally deleted parent deleted child remotely deleted parent
+ */
+- (void)testSyncUpLocallyDeletedParentDeletedChildRemotelyDeletedParent {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:2 localChangeForAccount:DELETE remoteChangeForAccount:DELETE localChangeForContact:DELETE remoteChangeForContact:NONE];
+}
+
+/**
+ * Sync up with locally updated parent and no children
+ */
+- (void)testSyncUpLocallyUpdatedParentNoChildren {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:0 localChangeForAccount:UPDATE remoteChangeForAccount:NONE localChangeForContact:NONE remoteChangeForContact:NONE];
+}
+
+/**
+ * Sync up with locally updated parent remotely updated parent and no children
+ */
+- (void)testSyncUpLocallyUpdatedParentRemotelyUpdatedParentNoChildren {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:0 localChangeForAccount:UPDATE remoteChangeForAccount:UPDATE localChangeForContact:NONE remoteChangeForContact:NONE];
+}
+
+/**
+ * Sync up with locally updated parent remotely deleted parent and no children
+ */
+- (void)testSyncUpLocallyUpdatedParentRemotelyDeletedParentNoChildren {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:0 localChangeForAccount:UPDATE remoteChangeForAccount:DELETE localChangeForContact:NONE remoteChangeForContact:NONE];
+}
+
+/**
+ * Sync up with locally deleted parent and no children
+ */
+- (void)testSyncUpLocallyDeletedParentNoChildren {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:0 localChangeForAccount:DELETE remoteChangeForAccount:NONE localChangeForContact:NONE remoteChangeForContact:NONE];
+}
+
+/**
+ * Sync up with locally deleted parent remotely updated parent and no children
+ */
+- (void)testSyncUpLocallyDeletedParentRemotelyUpdatedParentNoChildren {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:0 localChangeForAccount:DELETE remoteChangeForAccount:UPDATE localChangeForContact:NONE remoteChangeForContact:NONE];
+}
+
+/**
+ * Sync up with locally deleted parent remotely deleted parent and no children
+ */
+- (void)testSyncUpLocallyDeletedParentRemotelyDeletedParentNoChildren {
+    [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:0 localChangeForAccount:DELETE remoteChangeForAccount:DELETE localChangeForContact:NONE remoteChangeForContact:NONE];
+}
+
+
 #pragma mark - Helper methods
 
 - (void)createTestData {
@@ -560,7 +892,7 @@
     }
     NSArray* createdAccounts = [self.store upsertEntries:accounts toSoup:ACCOUNTS_SOUP];
 
-    NSDictionary* accountIdsToContacts = [self createContactsForAccountsLocally:numberOfContactsPerAccount accountIds:accountIds];
+    NSDictionary* accountIdsToContacts = [self createContactsForAccountLocally:numberOfContactsPerAccount accountIds:accountIds];
     NSMutableDictionary* accountToContacts = [NSMutableDictionary new];
 
     for (NSDictionary* createdAccount in createdAccounts) {
@@ -570,7 +902,7 @@
     return accountToContacts;
 }
 
-- (NSDictionary*) createContactsForAccountsLocally:(NSUInteger)numberOfContactsPerAccount
+- (NSDictionary*) createContactsForAccountLocally:(NSUInteger)numberOfContactsPerAccount
                                         accountIds:(NSArray<NSString*>*)accountIds
 {
     NSMutableDictionary* accountIdsToContacts = [NSMutableDictionary new];
@@ -735,5 +1067,35 @@
         }
     }
 }
+
+/**
+ * Helper for various sync up test
+ *
+ * Create accounts and contacts on server
+ * Run sync down
+ * Then locally and/or remotely delete and/or update an account or contact
+ * Run sync up with leave-if-changed (if requested)
+ * Check db and server
+ * Run sync up with overwrite
+ * Check db and server
+ */
+- (void)trySyncUpsWithVariousChangesWithNumberAccounts:(NSUInteger)numberAccounts
+                              numberContactsPerAccount:(NSUInteger)numberContactsPerAccount
+                                 localChangeForAccount:(SFSyncUpChange)localChangeForAccount
+                                remoteChangeForAccount:(SFSyncUpChange)remoteChangeForAccount
+                                 localChangeForContact:(SFSyncUpChange)localChangeForContact
+                                remoteChangeForContact:(SFSyncUpChange)remoteChangeForContact {
+    XCTFail(@"trySyncUpsWithVariousChangesWithNumberAccounts not implemented");
+}
+
+/**
+ * Helper method for testSyncUpWithLocallyCreatedRecords*
+ */
+- (void)trySyncUpWithLocallyCreatedRecords:(enum SFSyncStateMergeMode)mergeMode {
+    XCTFail(@"trySyncUpWithLocallyCreatedRecords not implemented");
+
+}
+
+
 
 @end
