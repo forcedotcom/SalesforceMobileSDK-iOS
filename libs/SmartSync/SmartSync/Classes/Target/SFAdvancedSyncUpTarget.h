@@ -42,7 +42,7 @@
  @param failBlock The block to execute if the server call fails.
  */
 - (void)syncUpRecord:(SFSmartSyncSyncManager *)syncManager
-              record:(NSDictionary*)record
+              record:(NSMutableDictionary*)record
             fieldlist:(NSArray*)fieldlist
            mergeMode:(SFSyncStateMergeMode)mergeMode
       completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock

@@ -65,6 +65,7 @@ NSString * const kSFParentChildrenRelationshipLookup = @"LOOKUP";
         case SFParentChildrenRelationpshipMasterDetail:  return kSFParentChildrenRelationshipMasterDetail;
         case SFParentChildrenRelationpshipLookup: return kSFParentChildrenRelationshipLookup;
     }
+    return nil;
 }
 
 #pragma mark - Other methods
@@ -113,14 +114,19 @@ NSString * const kSFParentChildrenRelationshipLookup = @"LOOKUP";
     [target cleanAndSaveInSmartStore:syncManager.store soupName:childrenInfo.soupName records:childrenRecords];
 }
 
-+ (NSArray *)getChildrenFromLocalStore:(SFSmartStore *)store parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo parent:(NSDictionary *)parent {
++ (NSArray<NSMutableDictionary*> *)getMutableChildrenFromLocalStore:(SFSmartStore *)store parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo parent:(NSDictionary *)parent {
     SFQuerySpec*  querySpec = [self getQueryForChildren:parentInfo childrenInfo:childrenInfo childFieldToSelect:@"_soup" parentIds:@[parent[parentInfo.idFieldName]]];
-    NSArray* rows = [store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
+    NSArray<NSMutableDictionary *>* rows = [store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
     NSMutableArray * children = [NSMutableArray new];
     for (NSArray* row in rows) {
-        [children addObject:row[0]];
+        [children addObject:[((NSDictionary *)row[0]) mutableCopy]];
     }
     return children;
+}
+
++ (void)deleteChildrenFromLocalStore:(SFSmartStore *)store parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo parentIds:(NSArray *)parentIds {
+    SFQuerySpec *querySpec = [self getQueryForChildren:parentInfo childrenInfo:childrenInfo childFieldToSelect:SOUP_ENTRY_ID parentIds:parentIds];
+    [store removeEntriesByQuery:querySpec fromSoup:childrenInfo.soupName];
 }
 
 + (SFQuerySpec*) getQueryForChildren:(SFParentInfo*)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo childFieldToSelect:(NSString*)childFieldToSelect parentIds:(NSArray*)parentIds {
