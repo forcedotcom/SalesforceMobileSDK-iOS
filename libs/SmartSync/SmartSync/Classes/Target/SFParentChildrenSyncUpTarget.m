@@ -22,6 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <SalesforceSDKCore/SFSDKSoqlBuilder.h>
 #import "SFSyncTarget+Internal.h"
 #import "SFParentChildrenSyncUpTarget.h"
 #import "SFSmartSyncNetworkUtils.h"
@@ -216,10 +217,10 @@ typedef void (^SFSendCompositeRequestCompleteBlock)(NSDictionary *refIdToRespons
 - (NSDictionary<NSString *, NSString *> *)fetchLastModifiedDates:(SFSmartSyncSyncManager *)manager record:(NSDictionary *)record {
     NSMutableDictionary<NSString *, NSString *> * idToRemoteTimestamps = [NSMutableDictionary new];
     if (![self isLocallyCreated:record]) {
+        NSString* parentId = record[self.idFieldName];
+        SFRestRequest* lastModRequest = [self getRequestForTimestamps:parentId];
 
         /* FIXME
-        String parentId = record.getString(getIdFieldName());
-        RestRequest lastModRequest = getRequestForTimestamps(syncManager.apiVersion, parentId);
         RestResponse lastModResponse = syncManager.sendSyncWithSmartSyncUserAgent(lastModRequest);
         JSONArray rows = lastModResponse.isSuccess() ? lastModResponse.asJSONObject().getJSONArray(Constants.RECORDS) : null;
 
@@ -571,5 +572,18 @@ typedef void (^SFSendCompositeRequestCompleteBlock)(NSDictionary *refIdToRespons
 - (BOOL) isStatusCodeSuccess:(NSNumber*) statusCode {
     return [statusCode unsignedIntegerValue] >= 200 && [statusCode unsignedIntValue] < 300;
 }
+
+- (SFRestRequest*) getRequestForTimestamps:(NSString*) parentId {
+    SFSDKSoqlBuilder * builderNested = [SFSDKSoqlBuilder withFieldsArray:@[self.childrenInfo.idFieldName, self.childrenInfo.modificationDateFieldName]];
+    [builderNested from:self.childrenInfo.sobjectTypePlural];
+
+    SFSDKSoqlBuilder * builder = [SFSDKSoqlBuilder withFieldsArray:@[self.idFieldName, self.modificationDateFieldName, [NSString stringWithFormat:@"(%@)", [builderNested build]]]];
+    [builder from:self.parentInfo.sobjectType];
+    [builder whereClause:[NSString stringWithFormat:@"%@ = '%@'", self.idFieldName, parentId]];
+
+    SFRestRequest * request = [[SFRestAPI sharedInstance] requestForQuery:[builder build]];
+    return request;
+}
+
 
 @end
