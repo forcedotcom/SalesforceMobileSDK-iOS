@@ -377,6 +377,10 @@ extern NSString* const kSFRestIfUnmodifiedSince;
 /// @name Other utility methods
 ///---------------------------------------------------------------------------------------
 
++ (BOOL)isStatusCodeSuccess:(NSUInteger)statusCode;
+
++ (BOOL)isStatusCodeNotFound:(NSUInteger)statusCode;
+
 /**
  * Provides the User-Agent string used by the SDK
  */

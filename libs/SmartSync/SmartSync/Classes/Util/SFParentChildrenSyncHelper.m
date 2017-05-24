@@ -89,7 +89,6 @@ NSString * const kSFParentChildrenRelationshipLookup = @"LOOKUP";
     NSMutableArray * childrenRecords = [NSMutableArray new];
     for (NSDictionary * recordTree  in recordTrees) {
 
-        // XXX should be done in one transaction
         NSMutableDictionary * parent = [recordTree mutableCopy];
 
         // Separating parent from children
@@ -110,7 +109,7 @@ NSString * const kSFParentChildrenRelationshipLookup = @"LOOKUP";
     // Saving parents
     [target cleanAndSaveInSmartStore:syncManager.store soupName:parentInfo.soupName records:parentRecords];
 
-    // saving children
+    // Saving children
     [target cleanAndSaveInSmartStore:syncManager.store soupName:childrenInfo.soupName records:childrenRecords];
 }
 

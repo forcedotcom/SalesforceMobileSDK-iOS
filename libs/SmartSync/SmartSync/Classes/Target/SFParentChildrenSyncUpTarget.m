@@ -30,6 +30,7 @@
 #import "SFSyncUpTarget+Internal.h"
 
 typedef void (^SFSendCompositeRequestCompleteBlock)(NSDictionary *refIdToResponses);
+typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, NSString *> * idToLastModifiedDates);
 
 @interface SFParentChildrenSyncUpTarget ()
 
@@ -170,23 +171,23 @@ typedef void (^SFSendCompositeRequestCompleteBlock)(NSDictionary *refIdToRespons
     }
 
     NSDictionary<NSString *, SFRecordModDate *> *idToLocalTimestamps = [self getLocalLastModifiedDates:syncManager record:record];
-    NSDictionary<NSString *, NSString *> *idToRemoteTimestamps = [self fetchLastModifiedDates:syncManager record:record];
+    [self fetchLastModifiedDates:syncManager record:record completionBlock:^(NSDictionary<NSString *, NSString *> *idToRemoteTimestamps) {
+        for (NSString *id in [idToLocalTimestamps allKeys]) {
+            SFRecordModDate *localModDate = idToLocalTimestamps[id];
+            NSString *remoteTimestamp = idToRemoteTimestamps[id];
+            SFRecordModDate *remoteModDate = [[SFRecordModDate alloc]
+                    initWithTimestamp:remoteTimestamp
+                            isDeleted:remoteTimestamp == nil // if it wasn't returned by fetchLastModifiedDates, then the record must have been deleted
+            ];
 
-    for (NSString *id in [idToLocalTimestamps allKeys]) {
-        SFRecordModDate *localModDate = idToLocalTimestamps[id];
-        NSString *remoteTimestamp = idToRemoteTimestamps[id];
-        SFRecordModDate *remoteModDate = [[SFRecordModDate alloc]
-                initWithTimestamp:remoteTimestamp
-                        isDeleted:remoteTimestamp == nil // if it wasn't returned by fetchLastModifiedDates, then the record must have been deleted
-        ];
-
-        if (![super isNewerThanServer:localModDate remoteModDate:remoteModDate]) {
-            resultBlock(NO); // no need to go further
-            return;
+            if (![super isNewerThanServer:localModDate remoteModDate:remoteModDate]) {
+                resultBlock(NO); // no need to go further
+                return;
+            }
         }
-    }
 
-    resultBlock(YES);
+        resultBlock(YES);
+    }];
 }
 
 #pragma mark - Helper methods
@@ -214,34 +215,39 @@ typedef void (^SFSendCompositeRequestCompleteBlock)(NSDictionary *refIdToRespons
     return idToLocalTimestamps;
 }
 
-- (NSDictionary<NSString *, NSString *> *)fetchLastModifiedDates:(SFSmartSyncSyncManager *)manager record:(NSDictionary *)record {
+- (void)fetchLastModifiedDates:(SFSmartSyncSyncManager *)manager
+                        record:(NSDictionary *)record
+        completionBlock:(SFFetchLastModifiedDatesCompleteBlock)completionBlock {
     NSMutableDictionary<NSString *, NSString *> * idToRemoteTimestamps = [NSMutableDictionary new];
-    if (![self isLocallyCreated:record]) {
-        NSString* parentId = record[self.idFieldName];
-        SFRestRequest* lastModRequest = [self getRequestForTimestamps:parentId];
 
-        /* FIXME
-        RestResponse lastModResponse = syncManager.sendSyncWithSmartSyncUserAgent(lastModRequest);
-        JSONArray rows = lastModResponse.isSuccess() ? lastModResponse.asJSONObject().getJSONArray(Constants.RECORDS) : null;
-
-        if (rows != null && rows.length() > 0) {
-            JSONObject row = rows.getJSONObject(0);
-            idToRemoteTimestamps.put(row.getString(getIdFieldName()), row.getString(getModificationDateFieldName()));
-            if (row.has(childrenInfo.sobjectTypePlural) && !row.isNull(childrenInfo.sobjectTypePlural)) {
-                JSONArray childrenRows = row.getJSONObject(childrenInfo.sobjectTypePlural).getJSONArray(Constants.RECORDS);
-                for (int i = 0; i < childrenRows.length(); i++) {
-                    final JSONObject childRow = childrenRows.getJSONObject(i);
-                    idToRemoteTimestamps.put(childRow.getString(childrenInfo.idFieldName), childRow.getString(childrenInfo.modificationDateFieldName));
-                }
-            }
-        }
-         */
+    if ([self isLocallyCreated:record]) {
+        completionBlock(idToRemoteTimestamps);
+        return;
     }
 
-    return idToRemoteTimestamps;
+    NSString* parentId = record[self.idFieldName];
+    SFRestRequest* lastModRequest = [self getRequestForTimestamps:parentId];
+    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:lastModRequest
+                                                     failBlock:^(NSError* error) {
+                                                         completionBlock(idToRemoteTimestamps);
+                                                     }
+                                                 completeBlock:^(id lastModResponse) {
+                                                     NSUInteger statusCode = [((NSNumber *) lastModResponse[@"httpStatusCode"]) unsignedIntegerValue];
+                                                     NSArray* rows = [SFRestAPI isStatusCodeSuccess:statusCode] ? lastModResponse[@"records"] : nil;
+
+                                                     if (rows && rows.count > 0) {
+                                                         NSDictionary * row = rows[0];
+                                                         idToRemoteTimestamps[row[self.idFieldName]] = row[self.modificationDateFieldName];
+                                                         if (row[self.childrenInfo.sobjectTypePlural]) {
+                                                             for (NSDictionary * childRow in row[self.childrenInfo.sobjectTypePlural][@"records"]) {
+                                                                 idToRemoteTimestamps[childRow[self.childrenInfo.idFieldName]] = childRow[self.childrenInfo.modificationDateFieldName];
+                                                             }
+                                                         }
+                                                     }
+                                                 }];
 }
 
-- (NSDictionary *)sendCompositeRequest:(SFSmartSyncSyncManager *)manager
+- (void)sendCompositeRequest:(SFSmartSyncSyncManager *)syncManager
                              allOrNone:(BOOL)allOrNone
                                 refIds:(NSArray<NSString *> *)refIds
                               requests:(NSArray<SFRestRequest *> *)requests
@@ -260,8 +266,6 @@ typedef void (^SFSendCompositeRequestCompleteBlock)(NSDictionary *refIdToRespons
                                                      }
                                                      completionBlock(refIdToResponses);
                                                  }];
-
-    return nil;
 }
 
 - (void)syncUpRecord:(SFSmartSyncSyncManager *)syncManager
@@ -354,12 +358,12 @@ typedef void (^SFSendCompositeRequestCompleteBlock)(NSDictionary *refIdToRespons
         }
     };
 
-    NSDictionary *refIdToResponses = [self sendCompositeRequest:syncManager
-                                                      allOrNone:NO
-                                                         refIds:refIds
-                                                       requests:requests
-                                                completionBlock:sendCompositeRequestCompleteBlock
-                                                      failBlock:failBlock];
+    [self sendCompositeRequest:syncManager
+                     allOrNone:NO
+                        refIds:refIds
+                      requests:requests
+               completionBlock:sendCompositeRequestCompleteBlock
+                     failBlock:failBlock];
 }
 
 
@@ -453,9 +457,9 @@ typedef void (^SFSendCompositeRequestCompleteBlock)(NSDictionary *refIdToRespons
     NSString* soupName = self.parentInfo.soupName;
     NSString* idFieldName = self.idFieldName;
     NSString* refId = record[idFieldName];
-    NSNumber* statusCode = refIdToStatusCode[refId] ? refIdToStatusCode[refId] : @-1;
-    BOOL successStatusCode = [self isStatusCodeSuccess:statusCode];
-    BOOL notFoundStatusCode = [statusCode unsignedIntegerValue] == 404;
+    NSUInteger statusCode = [((NSNumber *) refIdToStatusCode[refId]) unsignedIntegerValue];
+    BOOL successStatusCode = [SFRestAPI isStatusCodeSuccess:statusCode];
+    BOOL notFoundStatusCode = [SFRestAPI isStatusCodeNotFound:statusCode];
 
     // Delete case
     if ([self isLocallyDeleted:record]) {
@@ -485,14 +489,14 @@ typedef void (^SFSendCompositeRequestCompleteBlock)(NSDictionary *refIdToRespons
         // Handling remotely deleted records
         else if (notFoundStatusCode) {
             // Record needs to be recreated
-            if (mergeMode == kSFSyncStateMergeModeOverwrite) {
+            if (mergeMode == SFSyncStateMergeModeOverwrite) {
                 record[kSyncTargetLocal] = @YES;
                 record[kSyncTargetLocallyCreated] = @YES;
 
                 // Children need to be updated or recreated as well (since the parent will get a new server id)
                 for (NSMutableDictionary *childRecord in children) {
                     childRecord[kSyncTargetLocal] = @YES;
-                    childRecord[self.relationshipType == kSFParentChildrenRelationshipMasterDetail ? kSyncTargetLocallyCreated : kSyncTargetLocallyUpdated] = @YES;
+                    childRecord[self.relationshipType == SFParentChildrenRelationpshipMasterDetail ? kSyncTargetLocallyCreated : kSyncTargetLocallyUpdated] = @YES;
                 }
 
                 needReRun = YES;
@@ -512,9 +516,9 @@ typedef void (^SFSendCompositeRequestCompleteBlock)(NSDictionary *refIdToRespons
     NSString* soupName = self.childrenInfo.soupName;
     NSString* idFieldName = self.childrenInfo.idFieldName;
     NSString* refId = record[idFieldName];
-    NSNumber* statusCode = refIdToStatusCode[refId] ? refIdToStatusCode[refId] : @-1;
-    BOOL successStatusCode = [self isStatusCodeSuccess:statusCode];
-    BOOL notFoundStatusCode = [statusCode unsignedIntegerValue] == 404;
+    NSUInteger statusCode = [((NSNumber *) refIdToStatusCode[refId]) unsignedIntegerValue];
+    BOOL successStatusCode = [SFRestAPI isStatusCodeSuccess:statusCode];
+    BOOL notFoundStatusCode = [SFRestAPI isStatusCodeNotFound:statusCode];
 
     // Delete case
     if ([self isLocallyDeleted:record]) {
@@ -545,7 +549,7 @@ typedef void (^SFSendCompositeRequestCompleteBlock)(NSDictionary *refIdToRespons
         else if (notFoundStatusCode) {
 
             // Record needs to be recreated
-            if (mergeMode == kSFSyncStateMergeModeOverwrite) {
+            if (mergeMode == SFSyncStateMergeModeOverwrite) {
                 record[kSyncTargetLocal] = @YES;
                 record[kSyncTargetLocallyCreated] = @YES;
 
@@ -567,10 +571,6 @@ typedef void (^SFSendCompositeRequestCompleteBlock)(NSDictionary *refIdToRespons
     if (refId && refIdToServerId[refId]) {
         record[fieldWithRefId] = refIdToServerId[refId];
     }
-}
-
-- (BOOL) isStatusCodeSuccess:(NSNumber*) statusCode {
-    return [statusCode unsignedIntegerValue] >= 200 && [statusCode unsignedIntValue] < 300;
 }
 
 - (SFRestRequest*) getRequestForTimestamps:(NSString*) parentId {

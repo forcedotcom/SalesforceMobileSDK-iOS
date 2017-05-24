@@ -528,7 +528,7 @@ static NSMutableDictionary *syncMgrList = nil;
 
     // Advanced sync up target take it from here
     if ([target conformsToProtocol:@protocol(SFAdvancedSyncUpTarget)]) {
-        SFSyncUpTarget<SFAdvancedSyncUpTarget>* advancedTarget = target;
+        SFSyncUpTarget<SFAdvancedSyncUpTarget>* advancedTarget = (SFSyncUpTarget<SFAdvancedSyncUpTarget>*) target;
         [advancedTarget syncUpRecord:self
                               record:record
                            fieldlist:sync.options.fieldlist
