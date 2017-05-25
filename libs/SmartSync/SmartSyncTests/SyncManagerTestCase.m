@@ -428,4 +428,37 @@ static NSException *authException = nil;
         [self.store upsertEntries:@[record] toSoup:soupName];
     }
 }
+
+- (NSDictionary *)makeSomeRemoteChanges:(NSDictionary *)idToFields objectType:(NSString *)objectType {
+    // Make some remote changes
+    [NSThread sleepForTimeInterval:1.0f];
+    NSArray* allIds = [[idToFields allKeys] sortedArrayUsingSelector:@selector(compare:)];
+    NSArray *idsToUpdate = @[allIds[0], allIds[2]];
+    return [self makeSomeRemoteChanges:idToFields objectType:objectType idsToUpdate:idsToUpdate];
+}
+
+
+- (NSDictionary *)makeSomeRemoteChanges:(NSDictionary *)idToFields objectType:(NSString *)objectType idsToUpdate:(NSArray*)idsToUpdate {
+    NSDictionary* idToFieldsRemotelyUpdated = [self prepareSomeChanges:idToFields idsToUpdate:idsToUpdate suffix:@"_remotely_updated"];
+    [self updateRecordsOnServer:idToFieldsRemotelyUpdated objectType:objectType];
+    return idToFieldsRemotelyUpdated;
+
+}
+
+-(void)updateRecordsOnServer:(NSDictionary*)idToFieldsUpdated objectType:(NSString*)objectType {
+    for (NSString* accountId in idToFieldsUpdated) {
+        NSDictionary* fields = idToFieldsUpdated[accountId];
+        SFRestRequest* request = [[SFRestAPI sharedInstance] requestForUpdateWithObjectType:objectType objectId:accountId fields:fields];
+        [self sendSyncRequest:request];
+    }
+}
+
+- (void)checkDbDeleted:(NSString*)soupName ids:(NSArray*)ids idField:(NSString*)idField {
+    NSString* smartSql = [NSString stringWithFormat:@"SELECT {%@:_soup} FROM {%@} WHERE {%@:%@} IN %@",
+                                                    soupName, soupName, soupName, idField, [self buildInClause:ids]];
+
+    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:ids.count];
+    NSArray* rowsFromDb = [self.store queryWithQuerySpec:query pageIndex:0 error:nil];
+    XCTAssertEqual(0, rowsFromDb.count, "No records should have been returned from smartstore");
+}
 @end

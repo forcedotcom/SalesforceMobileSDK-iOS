@@ -26,6 +26,7 @@
 #import "SyncManagerTestCase.h"
 #import "SFParentChildrenSyncDownTarget.h"
 #import "SFSmartSyncObjectUtils.h"
+#import "SFSyncUpdateCallbackQueue.h"
 
 //  Useful enum for trySyncUpsWithVariousChanges
 typedef NS_ENUM(NSInteger, SFSyncUpChange) {
@@ -523,7 +524,40 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
  * Sync down the test accounts and contacts, modify accounts, re-sync, make sure only the updated ones are downloaded
  */
 -(void) testReSyncWithUpdatedParents {
-    XCTFail(@"Test not implemented yet");
+    NSUInteger numberAccounts = 4;
+    NSUInteger numberContactsPerAccount = 3;
+
+    // Creating test accounts and contacts on server
+    [self createAccountsAndContactsOnServer:numberAccounts numberContactsPerAccount:numberContactsPerAccount];
+
+    // Sync down
+    NSString *parentSoqlFilter = [NSString stringWithFormat:@"%@ IN %@", ID, [self buildInClause:[accountIdToFields allKeys]]];
+    SFParentChildrenSyncDownTarget * target = [self getAccountContactsSyncDownTargetWithParentSoqlFilter:parentSoqlFilter];
+    NSNumber* syncId = [NSNumber numberWithInteger:[self trySyncDown:SFSyncStateMergeModeOverwrite target:target soupName:ACCOUNTS_SOUP totalSize:numberAccounts numberFetches:1]];
+
+    // Check sync time stamp
+    SFSyncState* sync = [self.syncManager getSyncStatus:syncId];
+    SFSyncOptions* options = sync.options;
+    long long maxTimeStamp = sync.maxTimeStamp;
+    XCTAssertTrue(maxTimeStamp > 0, @"Wrong time stamp");
+
+    // Make some remote change to accounts
+    NSDictionary* idToFieldsUpdated = [self makeSomeRemoteChanges:accountIdToFields objectType:ACCOUNT_TYPE];
+
+    // Call reSync
+    SFSyncUpdateCallbackQueue* queue = [[SFSyncUpdateCallbackQueue alloc] init];
+    [queue runReSync:syncId syncManager:self.syncManager];
+
+    // Check status updates
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:[syncId integerValue] expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:-1]; // we get an update right away before getting records to sync
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:[syncId integerValue] expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:idToFieldsUpdated.count];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:[syncId integerValue] expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusDone expectedProgress:100 expectedTotalSize:idToFieldsUpdated.count];
+
+    // Check db
+    [self checkDb:idToFieldsUpdated soupName:ACCOUNTS_SOUP];
+
+    // Check sync time stamp
+    XCTAssertTrue([self.syncManager getSyncStatus:syncId].maxTimeStamp > maxTimeStamp);
 }
 
 /**
@@ -532,7 +566,47 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
  * Make sure only the modified account and its modified contacts are re-synced
  */
 - (void) testReSyncWithUpdatedChildren {
-    XCTFail(@"Test not implemented yet");
+    NSUInteger numberAccounts = 4;
+    NSUInteger numberContactsPerAccount = 3;
+
+    // Creating test accounts and contacts on server
+    [self createAccountsAndContactsOnServer:numberAccounts numberContactsPerAccount:numberContactsPerAccount];
+
+    // Sync down
+    NSString *parentSoqlFilter = [NSString stringWithFormat:@"%@ IN %@", ID, [self buildInClause:[accountIdToFields allKeys]]];
+    SFParentChildrenSyncDownTarget * target = [self getAccountContactsSyncDownTargetWithParentSoqlFilter:parentSoqlFilter];
+    NSNumber* syncId = [NSNumber numberWithInteger:[self trySyncDown:SFSyncStateMergeModeOverwrite target:target soupName:ACCOUNTS_SOUP totalSize:numberAccounts numberFetches:1]];
+
+    // Check sync time stamp
+    SFSyncState* sync = [self.syncManager getSyncStatus:syncId];
+    SFSyncOptions* options = sync.options;
+    long long maxTimeStamp = sync.maxTimeStamp;
+    XCTAssertTrue(maxTimeStamp > 0, @"Wrong time stamp");
+
+    // Make some remote changes
+    NSArray* accountIds = [accountIdToFields allKeys];
+    NSString* accountId = accountIds[0]; // account that will updated along with some of the children
+    NSDictionary* accountIdToFieldsUpdated = [self makeSomeRemoteChanges:accountIdToFields objectType:ACCOUNT_TYPE idsToUpdate:@[accountId]];
+    NSDictionary* contactIdToFieldsUpdated = [self makeSomeRemoteChanges:accountIdContactIdToFields[accountId] objectType:CONTACT_TYPE];
+    NSString* otherAccountId = accountIds[1]; // account that will not be updated but will have updated children
+    NSDictionary* otherContactIdToFieldsUpdated = [self makeSomeRemoteChanges:accountIdContactIdToFields[otherAccountId] objectType:CONTACT_TYPE];
+
+    // Call reSync
+    SFSyncUpdateCallbackQueue* queue = [[SFSyncUpdateCallbackQueue alloc] init];
+    [queue runReSync:syncId syncManager:self.syncManager];
+
+    // Check status updates
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:[syncId integerValue] expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:-1]; // we get an update right away before getting records to sync
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:[syncId integerValue] expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:accountIdToFieldsUpdated.count];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:[syncId integerValue] expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusDone expectedProgress:100 expectedTotalSize:accountIdToFieldsUpdated.count];
+
+    // Check db
+    [self checkDb:accountIdToFieldsUpdated soupName:ACCOUNTS_SOUP]; // updated account should be updated in db
+    [self checkDb:contactIdToFieldsUpdated soupName:CONTACTS_SOUP]; // updated contacts of updated account should be updated in db
+    [self checkDb:accountIdContactIdToFields[otherAccountId] soupName:CONTACTS_SOUP]; // updated contacts of non-updated account should not be updated in db
+
+    // Check sync time stamp
+    XCTAssertTrue([self.syncManager getSyncStatus:syncId].maxTimeStamp > maxTimeStamp);
 }
 
 /**
@@ -540,7 +614,43 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
  * Delete account from server - run cleanResyncGhosts
  */
 - (void) testCleanResyncGhostsForParentChildrenTarget {
-    XCTFail(@"Test not implemented yet");
+    NSUInteger numberAccounts = 4;
+    NSUInteger numberContactsPerAccount = 3;
+
+    // Creating test accounts and contacts on server
+    [self createAccountsAndContactsOnServer:numberAccounts numberContactsPerAccount:numberContactsPerAccount];
+
+    // Sync down
+    NSString *parentSoqlFilter = [NSString stringWithFormat:@"%@ IN %@", ID, [self buildInClause:[accountIdToFields allKeys]]];
+    SFParentChildrenSyncDownTarget * target = [self getAccountContactsSyncDownTargetWithParentSoqlFilter:parentSoqlFilter];
+    NSNumber* syncId = [NSNumber numberWithInteger:[self trySyncDown:SFSyncStateMergeModeOverwrite target:target soupName:ACCOUNTS_SOUP totalSize:numberAccounts numberFetches:1]];
+
+    // Deletes 1 account on the server and verifies the ghost record is cleared from the soup.
+    NSString* accountIdDeleted = [accountIdToFields allKeys][0];
+    [self deleteRecordsOnServer:@[accountIdDeleted] objectType:ACCOUNT_TYPE];
+    XCTestExpectation* cleanResyncGhosts = [self expectationWithDescription:@"cleanResyncGhosts"];
+    [self.syncManager cleanResyncGhosts:syncId completionStatusBlock:^(SFSyncStateStatus syncStatus) {
+        if (syncStatus == SFSyncStateStatusFailed || syncStatus == SFSyncStateStatusDone) {
+            [cleanResyncGhosts fulfill];
+        }
+    }];
+    [self waitForExpectationsWithTimeout:30.0 handler:nil];
+
+    // Accounts and contacts expected to still be in db
+    NSMutableDictionary * accountIdToFieldsLeft = [accountIdToFields mutableCopy];
+    [accountIdToFieldsLeft removeObjectForKey:accountIdDeleted];
+
+    // Checking db
+    [self checkDb:accountIdToFieldsLeft soupName:ACCOUNTS_SOUP];
+    [self checkDbDeleted:ACCOUNTS_SOUP ids:@[accountIdDeleted] idField:ID];
+
+    for (NSString* accountId in [accountIdContactIdToFields allKeys]) {
+        if ([accountId isEqualToString:accountIdDeleted]) {
+            [self checkDbDeleted:CONTACTS_SOUP ids:[((NSDictionary *) accountIdContactIdToFields[accountId]) allKeys] idField:ID];
+        } else {
+            [self checkDb:accountIdContactIdToFields[accountId] soupName:CONTACTS_SOUP];
+        }
+    }
 }
 
 /**

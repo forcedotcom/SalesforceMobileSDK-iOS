@@ -75,4 +75,9 @@
 - (NSDictionary *)makeSomeLocalChanges:(NSDictionary *)idToFields soupName:(NSString *)soupName;
 - (NSDictionary *)makeSomeLocalChanges:(NSDictionary *)idToFields soupName:(NSString *)soupName idsToUpdate:(NSArray *)idsToUpdate;
 - (NSDictionary *)prepareSomeChanges:(NSDictionary *)idToFields idsToUpdate:(NSArray *)idsToUpdate suffix:(NSString *)suffix;
+- (NSDictionary *)makeSomeRemoteChanges:(NSDictionary *)idToFields objectType:(NSString *)objectType;
+
+- (NSDictionary *)makeSomeRemoteChanges:(NSDictionary *)idToFields objectType:(NSString *)objectType idsToUpdate:(NSArray *)idsToUpdate;
+- (void)updateRecordsOnServer:(NSDictionary *)idToFieldsUpdated objectType:(NSString *)objectType;
+- (void)checkDbDeleted:(NSString *)soupName ids:(NSArray *)ids idField:(NSString *)idField;
 @end

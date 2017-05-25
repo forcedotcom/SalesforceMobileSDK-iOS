@@ -1345,15 +1345,6 @@
     XCTAssertEqual(ids.count, rowsFromDb.count, "All records should have been returned from smartstore");
 }
 
-- (void)checkDbDeleted:(NSString*)soupName ids:(NSArray*)ids idField:(NSString*)idField {
-    NSString* smartSql = [NSString stringWithFormat:@"SELECT {%@:_soup} FROM {%@} WHERE {%@:%@} IN %@",
-                                                    soupName, soupName, soupName, idField, [self buildInClause:ids]];
-
-    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:ids.count];
-    NSArray* rowsFromDb = [self.store queryWithQuerySpec:query pageIndex:0 error:nil];
-    XCTAssertEqual(0, rowsFromDb.count, "No records should have been returned from smartstore");
-}
-
 - (void)checkDb:(NSDictionary*)dict {
     [self checkDb:dict soupName:ACCOUNTS_SOUP];
 }
@@ -1475,12 +1466,7 @@
 }
 
 - (NSDictionary*) makeSomeRemoteChanges {
-    // Make some remote changes
-    [NSThread sleepForTimeInterval:1.0f];
-    NSArray* allIds = [[idToFields allKeys] sortedArrayUsingSelector:@selector(compare:)];
-    NSDictionary* idToFieldsRemotelyUpdated = [self prepareSomeChanges:idToFields idsToUpdate:@[allIds[0], allIds[2]] suffix:@"_remotely_updated"];
-    [self updateAccountsOnServer:idToFieldsRemotelyUpdated];
-    return idToFieldsRemotelyUpdated;
+    return [self makeSomeRemoteChanges:idToFields objectType:ACCOUNT_TYPE];
 }
 
 
@@ -1500,11 +1486,7 @@
 }
 
 -(void)updateAccountsOnServer:(NSDictionary*)idToFieldsUpdated {
-    for (NSString* accountId in idToFieldsUpdated) {
-        NSDictionary* fields = idToFieldsUpdated[accountId];
-        SFRestRequest* request = [[SFRestAPI sharedInstance] requestForUpdateWithObjectType:ACCOUNT_TYPE objectId:accountId fields:fields];
-        [self sendSyncRequest:request];
-    }
+    [self updateRecordsOnServer:idToFieldsUpdated objectType:ACCOUNT_TYPE];
 }
 
 - (void)deleteAccountsOnServer:(NSArray *)ids {
