@@ -32,7 +32,7 @@
 #define ID                  @"Id"
 #define NAME                @"Name"
 #define DESCRIPTION         @"Description"
-#define LAST_MODIFIED_DATE  @"lastModifiedDate"
+#define LAST_MODIFIED_DATE  @"LastModifiedDate"
 #define ATTRIBUTES          @"attributes"
 #define TYPE                @"type"
 #define RECORDS             @"records"
