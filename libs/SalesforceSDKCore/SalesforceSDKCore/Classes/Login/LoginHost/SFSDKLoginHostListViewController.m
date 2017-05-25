@@ -47,12 +47,12 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
  */
 - (void)applyLoginHostAtIndex:(NSUInteger)index {
     SFSDKLoginHost *loginHost = [[SFSDKLoginHostStorage sharedInstance] loginHostAtIndex:index];
-    SFAuthenticationManager *m = [SFAuthenticationManager sharedManager];
+    SFAuthenticationManager *authMgr = [SFAuthenticationManager sharedManager];
     
     // Change the login host and login again. Don't do any logout as we don't
     // want to remove anything at this point.
-    m.loginHost = loginHost.host;
-    [[SFAuthenticationManager sharedManager] restartAuthentication];
+    authMgr.loginHost = loginHost.host;
+    [authMgr restartAuthentication];
 }
 
 /**
