@@ -172,8 +172,7 @@
 
              // NB: ParentChildrenSyncDownTarget's getNonDirtyRecordIdsSql does a join between parent and children soups
              // We only want to look at the children soup, so using SoqlSyncDownTarget's getNonDirtyRecordIdsSql
-
-             NSMutableOrderedSet* localChildrenIds = [NSMutableOrderedSet orderedSetWithOrderedSet:[self getNonDirtyRecordIds:syncManager soupName:self.childrenInfo.soupName idField:self.childrenInfo.idFieldName]];
+             NSMutableOrderedSet* localChildrenIds = [[self getIdsWithQuery:[super getNonDirtyRecordIdsSql:self.childrenInfo.soupName idField:self.childrenInfo.idFieldName] syncManager:syncManager] mutableCopy];
 
              [self getChildrenRemoteIdsWithSoql:syncManager soqlForChildrenRemoteIds:[self getSoqlForRemoteChildrenIds] errorBlock:errorBlock completeBlock:^(NSArray *remoteChildrenIds) {
                  [localChildrenIds removeObjectsInArray:remoteChildrenIds];

@@ -26,7 +26,6 @@
 
 @interface SFSoqlSyncDownTarget ()
 
-- (NSOrderedSet *)getNonDirtyRecordIds:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName idField:(NSString *)idField;
 - (void)startFetch:(SFSmartSyncSyncManager *)syncManager queryToRun:(NSString *)queryToRun errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock;
 - (NSSet<NSString*>*) parseIdsFromResponse:(NSArray*)records;
 - (NSArray<NSDictionary *> *)getRecordsFromResponse:(NSDictionary *)responseJson;

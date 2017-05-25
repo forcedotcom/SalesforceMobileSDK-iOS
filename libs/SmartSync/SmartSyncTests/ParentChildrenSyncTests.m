@@ -590,7 +590,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
     NSDictionary* accountIdToFieldsUpdated = [self makeSomeRemoteChanges:accountIdToFields objectType:ACCOUNT_TYPE idsToUpdate:@[accountId]];
     NSDictionary* contactIdToFieldsUpdated = [self makeSomeRemoteChanges:accountIdContactIdToFields[accountId] objectType:CONTACT_TYPE];
     NSString* otherAccountId = accountIds[1]; // account that will not be updated but will have updated children
-    NSDictionary* otherContactIdToFieldsUpdated = [self makeSomeRemoteChanges:accountIdContactIdToFields[otherAccountId] objectType:CONTACT_TYPE];
+    /*NSDictionary* otherContactIdToFieldsUpdated =*/ [self makeSomeRemoteChanges:accountIdContactIdToFields[otherAccountId] objectType:CONTACT_TYPE];
 
     // Call reSync
     SFSyncUpdateCallbackQueue* queue = [[SFSyncUpdateCallbackQueue alloc] init];

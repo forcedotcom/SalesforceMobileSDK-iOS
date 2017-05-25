@@ -27,5 +27,6 @@
 @interface SFSyncDownTarget ()
 
 - (NSString*) getNonDirtyRecordIdsSql:(NSString*)soupName idField:(NSString*)idField;
+- (NSOrderedSet *)getNonDirtyRecordIds:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName idField:(NSString *)idField;
 
 @end
