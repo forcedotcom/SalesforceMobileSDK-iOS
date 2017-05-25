@@ -846,6 +846,18 @@ static Class InstanceClass = nil;
     self.idCoordinator.delegate = self;
 }
 
+- (void)restartAuthentication {
+    @synchronized (self.authBlockList) {
+        if (!self.authenticating) {
+            [self log:SFLogLevelWarning format:@"%@: Authentication manager is not currently authenticating.  No action taken.", NSStringFromSelector(_cmd)];
+            return;
+        }
+        [self log:SFLogLevelInfo format:@"%@: Restarting in-progress authentication process.", NSStringFromSelector(_cmd)];
+        [self.coordinator stopAuthentication];
+        [self loginWithCredentials:[self createOAuthCredentials]];
+    }
+}
+
 /**
  * Clears the account state of the given account (i.e. clears credentials, coordinator
  * instances, etc.

@@ -39,5 +39,13 @@
  */
 - (void)clearAccountState:(BOOL)clearAccountData;
 
+/**
+ Restarts an authentication process that's already in progress.  Useful if underyling configuration
+ changes in the process, such as a login host change.
+ @discussion
+ If authentication is not already in progress, this method will exit without action.
+ */
+- (void)restartAuthentication;
+
 @end
 
