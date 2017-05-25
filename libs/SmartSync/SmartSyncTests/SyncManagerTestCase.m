@@ -380,6 +380,9 @@ static NSException *authException = nil;
         XCTAssertEqualObjects(@(expectedLocallyCreated), recordFromDb[kSyncTargetLocallyCreated]);
         XCTAssertEqualObjects(@(expectedLocallyUpdated), recordFromDb[kSyncTargetLocallyUpdated]);
         XCTAssertEqualObjects(@(expectedLocallyDeleted), recordFromDb[kSyncTargetLocallyDeleted]);
+        NSString* id = recordFromDb[ID];
+        bool hasLocalIdPrefix = [id hasPrefix:LOCAL_ID_PREFIX];
+        XCTAssertEqual(expectedLocallyCreated, hasLocalIdPrefix);
     }
 }
 
@@ -460,5 +463,88 @@ static NSException *authException = nil;
     SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:ids.count];
     NSArray* rowsFromDb = [self.store queryWithQuerySpec:query pageIndex:0 error:nil];
     XCTAssertEqual(0, rowsFromDb.count, "No records should have been returned from smartstore");
+}
+
+- (void)trySyncUp:(NSInteger)numberChanges
+           target:(SFSyncUpTarget *)target
+        mergeMode:(SFSyncStateMergeMode)mergeMode {
+    SFSyncOptions* defaultOptions = [SFSyncOptions newSyncOptionsForSyncUp:@[NAME, DESCRIPTION] mergeMode:mergeMode];
+    [self trySyncUp:numberChanges
+      actualChanges:numberChanges
+             target:target
+            options:defaultOptions
+   completionStatus:SFSyncStateStatusDone];
+}
+
+- (void)trySyncUp:(NSInteger)numberChanges
+    actualChanges:(NSInteger)actualNumberChanges
+           target:(SFSyncUpTarget *)target
+          options:(SFSyncOptions *) options
+ completionStatus:(SFSyncStateStatus)completionStatus {
+
+    // Creates sync.
+    SFSyncState *sync = [SFSyncState newSyncUpWithOptions:options target:target soupName:ACCOUNTS_SOUP store:self.store];
+    NSInteger syncId = sync.syncId;
+    [self checkStatus:sync expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusNew expectedProgress:0 expectedTotalSize:-1];
+
+    // Runs sync.
+    SFSyncUpdateCallbackQueue* queue = [[SFSyncUpdateCallbackQueue alloc] init];
+    [queue runSync:sync syncManager:self.syncManager];
+
+    // Checks status updates.
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:-1];
+    if (actualNumberChanges > 0) {
+        [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:numberChanges];
+        for (int i=1; i<actualNumberChanges; i++) {
+            [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:i*100/numberChanges expectedTotalSize:numberChanges];
+        }
+    }
+    if (completionStatus == SFSyncStateStatusDone) {
+        [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:completionStatus expectedProgress:100 expectedTotalSize:numberChanges];
+    } else if (completionStatus == SFSyncStateStatusFailed) {
+        NSInteger expectedProgress = (actualNumberChanges - 1) * 100 / numberChanges;
+        [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:completionStatus expectedProgress:expectedProgress expectedTotalSize:numberChanges];
+    } else {
+        XCTFail(@"completionStatus value '%ld' not currently supported.", (long)completionStatus);
+    }
+}
+
+
+- (NSDictionary*) getIdToFieldsByName:(NSString*)soupName fieldNames:(NSArray*)fieldNames nameField:(NSString*)nameField names:(NSArray*)names {
+    NSString* namesClause = [self buildInClause:names];
+    NSString* smartSql = [NSString stringWithFormat:@"SELECT {accounts:_soup} FROM {accounts} WHERE {accounts:Name} IN %@", namesClause];
+    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:names.count];
+    NSArray* rows = [self.store queryWithQuerySpec:query pageIndex:0 error:nil];
+    NSMutableDictionary * idToFields = [NSMutableDictionary new];
+    for (NSArray* row in rows) {
+        NSDictionary* soupElt = row[0];
+        NSString* id = soupElt[ID];
+        NSMutableDictionary * fields = [NSMutableDictionary new];
+        for (NSString* fieldName in fieldNames) {
+            fields[fieldName] = soupElt[fieldName];
+        }
+        idToFields[id] = fields;
+    }
+    return idToFields;
+}
+
+- (void) checkServer:(NSDictionary*)idToFields objectType:(NSString*)objectType {
+    // Ids clause
+    NSString* idsClause = [self buildInClause:[idToFields allKeys]];
+
+    // Field names
+    NSArray* fieldNames = [((NSDictionary *) idToFields[[idToFields allKeys][0]]) allKeys];
+
+    // Query
+    NSString* soql = [NSString stringWithFormat:@"SELECT %@, %@ FROM %@ WHERE Id IN %@", ID, [fieldNames componentsJoinedByString:@","], objectType, idsClause];
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:soql];
+    NSArray* records = [self sendSyncRequest:request][RECORDS];
+    XCTAssertEqual(idToFields.count, records.count);
+    for (NSDictionary* record in records) {
+        NSString* recordId = record[ID];
+        for (NSString* fieldName in [idToFields[recordId] allKeys]) {
+            XCTAssertEqualObjects(idToFields[recordId][fieldName], record[fieldName]);
+        }
+    }
 }
 @end

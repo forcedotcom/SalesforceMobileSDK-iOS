@@ -27,6 +27,7 @@
 #import "SFParentChildrenSyncDownTarget.h"
 #import "SFSmartSyncObjectUtils.h"
 #import "SFSyncUpdateCallbackQueue.h"
+#import "SFParentChildrenSyncUpTarget.h"
 
 //  Useful enum for trySyncUpsWithVariousChanges
 typedef NS_ENUM(NSInteger, SFSyncUpChange) {
@@ -1202,10 +1203,71 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
  * Helper method for testSyncUpWithLocallyCreatedRecords*
  */
 - (void)trySyncUpWithLocallyCreatedRecords:(enum SFSyncStateMergeMode)mergeMode {
-    XCTFail(@"trySyncUpWithLocallyCreatedRecords not implemented");
+    NSUInteger numberContactsPerAccount = 3;
 
+    // Create a few entries locally
+    NSArray<NSString *> *accountNames = @[
+            [self createAccountName],
+            [self createAccountName],
+            [self createAccountName],
+            [self createAccountName],
+            [self createAccountName]
+    ];
+
+    NSDictionary *mapAccountToContacts = [self createAccountsAndContactsLocally:accountNames numberOfContactsPerAccount:numberContactsPerAccount];
+    NSMutableArray* contactNames = [NSMutableArray new];
+    for (NSArray* contacts in [mapAccountToContacts allValues]) {
+        for (NSDictionary* contact in contacts) {
+            [contactNames addObject:contact[LAST_NAME]];
+        }
+    }
+
+    // Sync up
+    SFParentChildrenSyncUpTarget* target = [self getAccountContactsSyncUpTarget];
+    [self trySyncUp:accountNames.count target:target mergeMode:mergeMode];
+
+    // Check that db doesn't show account entries as locally created anymore and that they use sfdc id
+    NSDictionary* accountIdToFieldsCreated = [self getIdToFieldsByName:ACCOUNTS_SOUP fieldNames:@[NAME, DESCRIPTION] nameField:NAME names:accountNames];
+    [self checkDbStateFlags:[accountIdToFieldsCreated allKeys] soupName:ACCOUNTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:NO expectedLocallyDeleted:NO];
+
+    // Check accounts on server
+    [self checkServer:accountIdToFieldsCreated objectType:ACCOUNT_TYPE];
+
+    // Check that db doesn't show contact entries as locally created anymore and that they use sfc id
+    NSDictionary* contactIdToFieldsCreated = [self getIdToFieldsByName:CONTACTS_SOUP fieldNames:@[LAST_NAME, ACCOUNT_ID] nameField:LAST_NAME names:contactNames];
+    [self checkDbStateFlags:[contactIdToFieldsCreated allKeys] soupName:CONTACTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:NO expectedLocallyDeleted:NO];
+
+    // Check contacts on server
+    [self checkServer:contactIdToFieldsCreated objectType:CONTACT_TYPE];
+
+    // Cleanup
+    [self deleteRecordsOnServer:[accountIdToFieldsCreated allKeys] objectType:ACCOUNT_TYPE];
+    [self deleteRecordsOnServer:[contactIdToFieldsCreated allKeys] objectType:CONTACT_TYPE];
 }
 
+- (SFParentChildrenSyncUpTarget *)getAccountContactsSyncUpTarget {
+    return [self getAccountContactsSyncUpTargetWithParentSoqlFilter:@""];
+}
+
+- (SFParentChildrenSyncUpTarget *)getAccountContactsSyncUpTargetWithParentSoqlFilter:(NSString*)parentSoqlFilter {
+    return [self getAccountContactsSyncUpTargetWithParentSoqlFilter:parentSoqlFilter accountModificationDateFieldName:LAST_MODIFIED_DATE contactModificationDateFieldName:LAST_MODIFIED_DATE];
+}
+
+- (SFParentChildrenSyncUpTarget *)getAccountContactsSyncUpTargetWithParentSoqlFilter:(NSString*)parentSoqlFilter
+                                                    accountModificationDateFieldName:(NSString*)accountModificationDateFieldName
+                                                    contactModificationDateFieldName:(NSString*)contactModificationDateFieldName {
+
+
+    SFParentChildrenSyncUpTarget *target = [SFParentChildrenSyncUpTarget
+            newSyncTargetWithParentInfo:[SFParentInfo newWithSObjectType:ACCOUNT_TYPE soupName:ACCOUNTS_SOUP idFieldName:ID modificationDateFieldName:accountModificationDateFieldName]
+                        parentCreateFieldlist:@[ID, NAME, DESCRIPTION]
+                  parentUpdateFieldlist:@[NAME, DESCRIPTION]
+                           childrenInfo:[SFChildrenInfo newWithSObjectType:CONTACT_TYPE sobjectTypePlural:CONTACT_TYPE_PLURAL soupName:CONTACTS_SOUP parentIdFieldName:ACCOUNT_ID idFieldName:ID modificationDateFieldName:contactModificationDateFieldName]
+                      childrenCreateFieldlist:@[LAST_NAME, ACCOUNT_ID]
+            childrenUpdateFieldlist:@[LAST_NAME, ACCOUNT_ID]
+                       relationshipType:SFParentChildrenRelationpshipMasterDetail]; // account-contacts are master-detail
+    return target;
+}
 
 
 @end

@@ -25,7 +25,6 @@
 #import "SyncManagerTestCase.h"
 #import "SFSyncUpdateCallbackQueue.h"
 #import "TestSyncUpTarget.h"
-#import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SmartStore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFSDKSoqlBuilder.h>
 #import <SalesforceSDKCore/SFSDKSoslBuilder.h>
@@ -614,22 +613,9 @@
     [self trySyncUp:names.count target:target mergeMode:SFSyncStateMergeModeOverwrite];
 
     // Check that db doesn't show entries as locally created anymore and that they use sfdc id
-    NSString* namesClause = [self buildInClause:names];
-    NSString* smartSql = [NSString stringWithFormat:@"SELECT {accounts:_soup} FROM {accounts} WHERE {accounts:Name} IN %@", namesClause];
-    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:names.count];
-    NSArray* rows = [self.store queryWithQuerySpec:query pageIndex:0 error:nil];
-    NSMutableDictionary* idToFieldsCreated = [NSMutableDictionary new];
-    for (NSArray* row in rows) {
-        NSDictionary* account = row[0];
-        NSString* accountId = account[ID];
-        idToFieldsCreated[accountId] = @{NAME:account[NAME], DESCRIPTION:account[DESCRIPTION]};
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocal]);
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyCreated]);
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyUpdated]);
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyDeleted]);
-        XCTAssertFalse([accountId hasPrefix:@"local_"]);
-    }
-    
+    NSDictionary* idToFieldsCreated = [self getIdToFieldsByName:ACCOUNTS_SOUP fieldNames:@[NAME, DESCRIPTION] nameField:NAME names:names];
+    [self checkDbStateFlags:[idToFieldsCreated allKeys] soupName:ACCOUNTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:NO expectedLocallyDeleted:NO];
+
     // Check server - make sure only name was set
     NSMutableDictionary* idToFieldsExpectedOnServer = [NSMutableDictionary new];
     for (NSString* id in idToFieldsCreated) {
@@ -669,26 +655,9 @@
     [self trySyncUp:(namesOfUpdated.count + namesOfCreated.count) target:target mergeMode:SFSyncStateMergeModeOverwrite];
     
     // Check that db doesn't show entries as locally created anymore and that they use sfdc id
-    NSArray* allNames = [namesOfCreated arrayByAddingObjectsFromArray:namesOfUpdated];
-    NSString* namesClause = [self buildInClause:allNames];
-    NSString* smartSql = [NSString stringWithFormat:@"SELECT {accounts:_soup} FROM {accounts} WHERE {accounts:Name} IN %@", namesClause];
-    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:allNames.count];
-    NSArray* rows = [self.store queryWithQuerySpec:query pageIndex:0 error:nil];
-    NSMutableDictionary* idToFieldsCreated = [NSMutableDictionary new];
-    for (NSArray* row in rows) {
-        NSDictionary* account = row[0];
-        NSString* accountId = account[ID];
-        NSString* accountName = account[NAME];
-        NSString* accountDescription = account[DESCRIPTION];
-        if ([namesOfCreated containsObject:accountName]) {
-            idToFieldsCreated[accountId] = @{NAME:accountName, DESCRIPTION:accountDescription};
-        }
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocal]);
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyCreated]);
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyUpdated]);
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyDeleted]);
-        XCTAssertFalse([accountId hasPrefix:@"local_"]);
-    }
+    NSDictionary* idToFieldsCreated = [self getIdToFieldsByName:ACCOUNTS_SOUP fieldNames:@[NAME, DESCRIPTION] nameField:NAME names:namesOfCreated];
+    [self checkDbStateFlags:[idToFieldsCreated allKeys] soupName:ACCOUNTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:NO expectedLocallyDeleted:NO];
+
     // Make sure all the locally created records have synched up
     XCTAssertEqual(namesOfCreated.count, idToFieldsCreated.count);
     
@@ -702,6 +671,7 @@
     }
 
     // Make sure we found all the records on the server
+    NSArray* allNames = [namesOfCreated arrayByAddingObjectsFromArray:namesOfUpdated];
     XCTAssertEqual(allNames.count, idToFieldsExpectedOnServer.count);
     [self checkServer:idToFieldsExpectedOnServer];
     
@@ -823,22 +793,9 @@
     [self trySyncUp:3 mergeMode:syncUpMergeMode];
     
     // Check that db doesn't show entries as locally created anymore and that they use sfdc id
-    NSString* namesClause = [self buildInClause:names];
-    NSString* smartSql = [NSString stringWithFormat:@"SELECT {accounts:_soup} FROM {accounts} WHERE {accounts:Name} IN %@", namesClause];
-    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:names.count];
-    NSArray* rows = [self.store queryWithQuerySpec:query pageIndex:0 error:nil];
-    NSMutableDictionary* idToFieldsCreated = [NSMutableDictionary new];
-    for (NSArray* row in rows) {
-        NSDictionary* account = row[0];
-        NSString* accountId = account[ID];
-        idToFieldsCreated[accountId] = @{NAME:account[NAME], DESCRIPTION:account[DESCRIPTION]};
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocal]);
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyCreated]);
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyUpdated]);
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyDeleted]);
-        XCTAssertFalse([accountId hasPrefix:@"local_"]);
-    }
-    
+    NSDictionary* idToFieldsCreated = [self getIdToFieldsByName:ACCOUNTS_SOUP fieldNames:@[NAME, DESCRIPTION] nameField:NAME names:names];
+    [self checkDbStateFlags:[idToFieldsCreated allKeys] soupName:ACCOUNTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:NO expectedLocallyDeleted:NO];
+
     // Check server
     [self checkServer:idToFieldsCreated byNames:names];
     
@@ -899,19 +856,8 @@
     [self trySyncUp:3 target:customTarget mergeMode:SFSyncStateMergeModeOverwrite];
     
     // Check that db doesn't show entries as locally created anymore and that they use returned id
-    NSString* namesClause = [self buildInClause:names];
-    NSString* smartSql = [NSString stringWithFormat:@"SELECT {accounts:_soup} FROM {accounts} WHERE {accounts:Name} IN %@", namesClause];
-    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:names.count];
-    NSArray* rows = [self.store queryWithQuerySpec:query pageIndex:0 error:nil];
-    for (NSArray* row in rows) {
-        NSDictionary* account = row[0];
-        NSString* accountId = account[ID];
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocal]);
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyCreated]);
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyUpdated]);
-        XCTAssertEqualObjects(@NO, account[kSyncTargetLocallyDeleted]);
-        XCTAssertFalse([accountId hasPrefix:@"local_"]);
-    }
+    NSDictionary* idToFieldsCreated = [self getIdToFieldsByName:ACCOUNTS_SOUP fieldNames:@[NAME, DESCRIPTION] nameField:NAME names:names];
+    [self checkDbStateFlags:[idToFieldsCreated allKeys] soupName:ACCOUNTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:NO expectedLocallyDeleted:NO];
 }
 
 /**
@@ -1349,24 +1295,11 @@
     [self checkDb:dict soupName:ACCOUNTS_SOUP];
 }
 
-- (void) checkServer:(NSDictionary*)dict {
-    // Ids clause.
-    NSString* idsClause = [self buildInClause:[dict allKeys]];
-
-    // Query
-    NSString* soql = [NSString stringWithFormat:@"SELECT Id, Name, Description FROM Account WHERE Id IN %@", idsClause];
-    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:soql];
-    NSArray* records = [self sendSyncRequest:request][RECORDS];
-    XCTAssertEqual(dict.count, records.count);
-    for (NSDictionary* record in records) {
-        NSString* accountId = record[ID];
-        for (NSString* fieldName in [dict[accountId] allKeys]) {
-            XCTAssertEqualObjects(dict[accountId][fieldName], record[fieldName]);
-        }
-    }
+- (void) checkServer:(NSDictionary*)idToFieldsToCheck {
+    return [self checkServer:idToFieldsToCheck objectType:ACCOUNT_TYPE];
 }
 
-- (void) checkServer:(NSDictionary*)dict byNames:(NSArray*)names {
+- (void) checkServer:(NSDictionary*)idToFieldsToCheck byNames:(NSArray*)names {
     // Ids clause.
     NSString* namesClause = [self buildInClause:names];
     
@@ -1377,8 +1310,8 @@
     XCTAssertEqual(names.count, records.count);
     for (NSDictionary* record in records) {
         NSString* accountId = record[ID];
-        for (NSString* fieldName in [dict[accountId] allKeys]) {
-            XCTAssertEqualObjects(dict[accountId][fieldName], record[fieldName]);
+        for (NSString* fieldName in [idToFieldsToCheck[accountId] allKeys]) {
+            XCTAssertEqualObjects(idToFieldsToCheck[accountId][fieldName], record[fieldName]);
         }
     }
 }
@@ -1390,17 +1323,6 @@
 }
 
 - (void)trySyncUp:(NSInteger)numberChanges
-           target:(SFSyncUpTarget *)target
-        mergeMode:(SFSyncStateMergeMode)mergeMode {
-    SFSyncOptions* defaultOptions = [SFSyncOptions newSyncOptionsForSyncUp:@[NAME, DESCRIPTION] mergeMode:mergeMode];
-    [self trySyncUp:numberChanges
-      actualChanges:numberChanges
-             target:target
-            options:defaultOptions
-   completionStatus:SFSyncStateStatusDone];
-}
-
-- (void)trySyncUp:(NSInteger)numberChanges
           options:(SFSyncOptions *) options {
     SFSyncUpTarget *defaultTarget = [[SFSyncUpTarget alloc] init];
     [self trySyncUp:numberChanges
@@ -1408,40 +1330,6 @@
              target:defaultTarget
             options:options
    completionStatus:SFSyncStateStatusDone];
-}
-
-
-- (void) trySyncUp:(NSInteger)numberChanges
-     actualChanges:(NSInteger)actualNumberChanges
-            target:(SFSyncUpTarget *)target
-           options:(SFSyncOptions *) options
-  completionStatus:(SFSyncStateStatus)completionStatus {
-
-    // Creates sync.
-    SFSyncState *sync = [SFSyncState newSyncUpWithOptions:options target:target soupName:ACCOUNTS_SOUP store:self.store];
-    NSInteger syncId = sync.syncId;
-    [self checkStatus:sync expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusNew expectedProgress:0 expectedTotalSize:-1];
-
-    // Runs sync.
-    SFSyncUpdateCallbackQueue* queue = [[SFSyncUpdateCallbackQueue alloc] init];
-    [queue runSync:sync syncManager:self.syncManager];
-
-    // Checks status updates.
-    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:-1];
-    if (actualNumberChanges > 0) {
-        [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:numberChanges];
-        for (int i=1; i<actualNumberChanges; i++) {
-            [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:i*100/numberChanges expectedTotalSize:numberChanges];
-        }
-    }
-    if (completionStatus == SFSyncStateStatusDone) {
-        [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:completionStatus expectedProgress:100 expectedTotalSize:numberChanges];
-    } else if (completionStatus == SFSyncStateStatusFailed) {
-        NSInteger expectedProgress = (actualNumberChanges - 1) * 100 / numberChanges;
-        [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:completionStatus expectedProgress:expectedProgress expectedTotalSize:numberChanges];
-    } else {
-        XCTFail(@"completionStatus value '%ld' not currently supported.", (long)completionStatus);
-    }
 }
 
 - (void)createTestData {

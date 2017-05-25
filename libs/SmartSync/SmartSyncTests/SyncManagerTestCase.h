@@ -42,6 +42,9 @@
 #define ACCOUNT_ID          @"AccountId"
 #define CONTACT_TYPE_PLURAL @"Contacts"
 #define TOTAL_SIZE_UNKNOWN  -2
+#define LOCAL_ID_PREFIX     @"local_"
+
+
 
 @interface SyncManagerTestCase : XCTestCase
 
@@ -80,4 +83,11 @@
 - (NSDictionary *)makeSomeRemoteChanges:(NSDictionary *)idToFields objectType:(NSString *)objectType idsToUpdate:(NSArray *)idsToUpdate;
 - (void)updateRecordsOnServer:(NSDictionary *)idToFieldsUpdated objectType:(NSString *)objectType;
 - (void)checkDbDeleted:(NSString *)soupName ids:(NSArray *)ids idField:(NSString *)idField;
+
+- (void)trySyncUp:(NSInteger)numberChanges target:(SFSyncUpTarget *)target mergeMode:(SFSyncStateMergeMode)mergeMode;
+- (void)trySyncUp:(NSInteger)numberChanges actualChanges:(NSInteger)actualNumberChanges target:(SFSyncUpTarget *)target options:(SFSyncOptions *)options completionStatus:(SFSyncStateStatus)completionStatus;
+
+- (NSDictionary *)getIdToFieldsByName:(NSString *)soupName fieldNames:(NSArray *)fieldNames nameField:(NSString *)nameField names:(NSArray *)names;
+
+- (void)checkServer:(NSDictionary *)idToFields objectType:(NSString *)objectType;
 @end
