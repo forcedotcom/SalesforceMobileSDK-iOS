@@ -228,17 +228,31 @@ static NSException *authException = nil;
 }
 
 - (NSDictionary*)createAccountsOnServer:(NSUInteger)count {
-    NSArray * listFields = [self buildFieldsMapForRecords:count objectType:ACCOUNT_TYPE additionalFields:nil];
-    NSMutableArray* requests = [NSMutableArray new];
+    return [self createRecordsOnServerReturnFields:count objectType:ACCOUNT_TYPE additionalFields:nil];
+}
+
+ - (NSDictionary<NSString*, NSString*>*) createRecordsOnServer:(NSUInteger)count objectType:(NSString*)objectType {
+     NSDictionary<NSString *, NSDictionary *> *idToFields = [self createRecordsOnServerReturnFields:count objectType:objectType additionalFields:nil];
+     NSMutableDictionary * idToNames = [NSMutableDictionary new];
+     for (NSString * id in [idToFields allKeys]) {
+         NSString* nameField = [objectType isEqualToString:CONTACT_TYPE] ? LAST_NAME : NAME;
+         idToNames[id] = idToFields[id][nameField];
+     }
+     return idToNames;
+}
+
+- (NSDictionary<NSString*, NSDictionary*>*) createRecordsOnServerReturnFields:(NSUInteger)count objectType:(NSString*)objectType additionalFields:(NSDictionary*)additionalFields {
+    NSArray *listFields = [self buildFieldsMapForRecords:count objectType:objectType additionalFields:additionalFields];
+    NSMutableArray *requests = [NSMutableArray new];
     for (NSUInteger i = 0; i < count; i++) {
-        [requests addObject:[[SFRestAPI sharedInstance] requestForCreateWithObjectType:ACCOUNT_TYPE fields:listFields[i]]];
+        [requests addObject:[[SFRestAPI sharedInstance] requestForCreateWithObjectType:objectType fields:listFields[i]]];
     }
 
-    NSMutableDictionary * idToFields = [NSMutableDictionary new];
-    NSDictionary * batchResponse = [self sendSyncRequest:[[SFRestAPI sharedInstance] batchRequest:requests haltOnError:NO]];
-    NSArray* results = batchResponse[@"results"];
-    for (NSUInteger  i = 0; i < results.count; i++) {
-        NSDictionary * result = results[i];
+    NSMutableDictionary *idToFields = [NSMutableDictionary new];
+    NSDictionary *batchResponse = [self sendSyncRequest:[[SFRestAPI sharedInstance] batchRequest:requests haltOnError:NO]];
+    NSArray *results = batchResponse[@"results"];
+    for (NSUInteger i = 0; i < results.count; i++) {
+        NSDictionary *result = results[i];
         XCTAssertEqual(201, [result[@"statusCode"] intValue], "Status code should be HTTP_CREATED");
         idToFields[result[@"result"][@"id"]] = listFields[i];
     }
@@ -512,7 +526,7 @@ static NSException *authException = nil;
 
 - (NSDictionary*) getIdToFieldsByName:(NSString*)soupName fieldNames:(NSArray*)fieldNames nameField:(NSString*)nameField names:(NSArray*)names {
     NSString* namesClause = [self buildInClause:names];
-    NSString* smartSql = [NSString stringWithFormat:@"SELECT {accounts:_soup} FROM {accounts} WHERE {accounts:Name} IN %@", namesClause];
+    NSString* smartSql = [NSString stringWithFormat:@"SELECT {%@:_soup} FROM {%@} WHERE {%@:%@} IN %@", soupName, soupName, soupName, nameField, namesClause];
     SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:names.count];
     NSArray* rows = [self.store queryWithQuerySpec:query pageIndex:0 error:nil];
     NSMutableDictionary * idToFields = [NSMutableDictionary new];

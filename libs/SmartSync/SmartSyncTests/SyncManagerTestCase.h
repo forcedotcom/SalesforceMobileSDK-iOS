@@ -66,6 +66,9 @@
 
 - (NSArray *) buildFieldsMapForRecords:(NSUInteger)count objectType:(NSString*)objectType additionalFields:(NSDictionary*)additionalFields;
 - (NSDictionary *)createAccountsOnServer:(NSUInteger)count;
+
+- (NSDictionary<NSString *, NSString *> *)createRecordsOnServer:(NSUInteger)count objectType:(NSString *)objectType;
+
 - (void)deleteRecordsOnServer:(NSArray *)ids objectType:(NSString*)objectType;
 - (NSDictionary *)sendSyncRequest:(SFRestRequest *)request;
 
