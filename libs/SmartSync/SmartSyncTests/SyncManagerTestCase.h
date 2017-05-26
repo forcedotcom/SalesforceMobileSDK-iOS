@@ -61,7 +61,7 @@
 - (NSString *) createLocalId;
 - (NSString *)buildInClause:(NSArray *)values;
 
-- (NSDictionary *) createAccountsLocally:(NSArray*)names;
+- (NSArray *) createAccountsLocally:(NSArray*)names;
 - (void)createAccountsSoup;
 - (void)dropAccountsSoup;
 - (void)createContactsSoup;
@@ -105,4 +105,8 @@
 - (NSDictionary *)updateRecordLocally:(NSDictionary *)fields idToUpdate:(NSString *)idToUpdate soupName:(NSString *)soupName;
 
 - (void)deleteRecordsLocally:(NSArray *)ids soupName:(NSString *)soupName;
+
+- (void)checkServerDeleted:(NSArray *)ids objectType:(NSString *)objectType;
+
+- (void)checkDbRelationshipsWithChildrenIds:(NSArray *)childrenIds expectedParentId:(NSString *)expectedParentId soupName:(NSString *)soupName idFieldName:(NSString *)idFieldName parentIdFieldName:(NSString *)parentIdFieldName;
 @end

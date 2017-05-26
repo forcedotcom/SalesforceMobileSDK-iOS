@@ -818,7 +818,8 @@
     
     // Create a few entries locally
     NSArray* names = @[ [self createAccountName], [self createAccountName], [self createAccountName]];
-    NSDictionary* idToFieldsCreated = [self createAccountsLocally:names];
+    [self createAccountsLocally:names];
+    NSDictionary *idToFieldsCreated = [self getIdToFieldsByName:ACCOUNTS_SOUP fieldNames:@[NAME, DESCRIPTION] nameField:NAME names:names];
 
     // Delete a few entries locally
     NSArray* allIds = [idToFieldsCreated allKeys];

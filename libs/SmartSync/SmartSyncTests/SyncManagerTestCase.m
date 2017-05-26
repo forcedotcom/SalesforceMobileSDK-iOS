@@ -92,8 +92,7 @@ static NSException *authException = nil;
 }
 
 
-- (NSDictionary*) createAccountsLocally:(NSArray*)names {
-    NSMutableDictionary* idToFieldsLocallyCreated = [NSMutableDictionary new];
+- (NSArray*) createAccountsLocally:(NSArray*)names {
     NSMutableArray* createdAccounts = [NSMutableArray new];
     NSMutableDictionary* attributes = [NSMutableDictionary new];
     attributes[TYPE] = ACCOUNT_TYPE;
@@ -109,10 +108,8 @@ static NSException *authException = nil;
         account[kSyncTargetLocallyDeleted] = @NO;
         account[kSyncTargetLocallyUpdated] = @NO;
         [createdAccounts addObject:account];
-        idToFieldsLocallyCreated[accountId] = name;
     }
-    [self.store upsertEntries:createdAccounts toSoup:ACCOUNTS_SOUP];
-    return idToFieldsLocallyCreated;
+    return [self.store upsertEntries:createdAccounts toSoup:ACCOUNTS_SOUP];
 }
 
 - (NSString*) createLocalId {
@@ -591,5 +588,24 @@ static NSException *authException = nil;
         [deletedAccounts addObject:account];
     }
     [self.store upsertEntries:deletedAccounts toSoup:ACCOUNTS_SOUP];
+}
+
+-(void) checkServerDeleted:(NSArray*)ids objectType:(NSString*)objectType {
+    NSString* soql = [NSString stringWithFormat:@"SELECT %@ FROM %@ WHERE %@ IN %@", ID, objectType, ID, [self buildInClause:ids]];
+    SFRestRequest * request = [[SFRestAPI sharedInstance] requestForQuery:soql];
+    NSDictionary * response = [self sendSyncRequest:request];
+    NSArray* records = response[@"records"];
+    XCTAssertEqual(records.count, 0, @"No accounts should have been returned from server");
+}
+
+-(void) checkDbRelationshipsWithChildrenIds:(NSArray*)childrenIds expectedParentId:(NSString*)expectedParentId soupName:(NSString*)soupName idFieldName:(NSString*)idFieldName parentIdFieldName:(NSString*)parentIdFieldName {
+    NSString* smartSql = [NSString stringWithFormat:@"SELECT {%@:_soup} FROM {%@} WHERE {%@:%@} IN %@", soupName, soupName, soupName, idFieldName, [self buildInClause:childrenIds]];
+    SFQuerySpec * smartStoreQuery = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:childrenIds.count];
+    NSArray* rows = [self.syncManager.store queryWithQuerySpec:smartStoreQuery pageIndex:0 error:nil];
+    XCTAssertEqual(rows.count, childrenIds.count, @"All records should have been returned from smartstore");
+    for (NSArray* row in rows) {
+        NSDictionary * childRecord = row[0];
+        XCTAssertEqualObjects(childRecord[parentIdFieldName], expectedParentId, @"Wrong parent id");
+    }
 }
 @end

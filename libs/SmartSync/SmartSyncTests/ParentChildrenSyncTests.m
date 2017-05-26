@@ -1421,7 +1421,66 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
                        localUpdatesContact:(NSDictionary *)localUpdatesContact
                       remoteUpdatesContact:(NSDictionary *)remoteUpdatesContact {
 
-    XCTFail(@"checkDbAndServerAfterBlockedSyncUp not implemented");
+    //
+    // Check parent
+    //
+
+    // Check db
+    if (localChangeForAccount == UPDATE) {
+        [self checkDb:localUpdatesAccount soupName:ACCOUNTS_SOUP];
+    }
+
+    [self checkDbStateFlags:@[accountId] soupName:ACCOUNTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:localChangeForAccount == UPDATE expectedLocallyDeleted:localChangeForAccount == DELETE];
+
+    // Check server
+    switch (remoteChangeForAccount) {
+        case NONE:
+            break;
+        case UPDATE:
+            [self checkServer:remoteUpdatesAccount objectType:ACCOUNT_TYPE];
+            break;
+        case DELETE:
+            [self checkServerDeleted:@[accountId] objectType:ACCOUNT_TYPE];
+            break;
+    }
+
+    //
+    // Check children if any
+    //
+
+    if (contactId) {
+        NSArray *contactIdsOfAccounts = [((NSDictionary *) accountIdContactIdToFields[accountId]) allKeys];
+        NSMutableArray* otherContactIdsOfAccount = [contactIdsOfAccounts mutableCopy];
+        [otherContactIdsOfAccount removeObject:contactId];
+
+        // Check db
+
+        if (localChangeForContact == UPDATE) {
+            [self checkDb:localUpdatesContact soupName:CONTACTS_SOUP];
+        }
+
+        [self checkDbStateFlags:@[contactId] soupName:CONTACTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:localChangeForContact == UPDATE expectedLocallyDeleted:localChangeForContact == DELETE];
+        [self checkDbRelationshipsWithChildrenIds:contactIdsOfAccounts expectedParentId:accountId soupName:CONTACTS_SOUP idFieldName:ID parentIdFieldName:ACCOUNT_ID];
+
+        // Check server
+
+        if (remoteChangeForAccount == DELETE) {
+            // Master delete => deletes children
+            [self checkServerDeleted:contactIdsOfAccounts objectType:CONTACT_TYPE];
+        }
+        else {
+            switch (remoteChangeForContact) {
+                case NONE:
+                    break;
+                case UPDATE:
+                    [self checkServer:remoteUpdatesContact objectType:CONTACT_TYPE];
+                    break;
+                case DELETE:
+                    [self checkServerDeleted:@[contactId] objectType:CONTACT_TYPE];
+                    break;
+            }
+        }
+    }
 }
 
 
@@ -1435,7 +1494,132 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
                          localUpdatesAccount:(NSDictionary *)localUpdatesAccount
                          localUpdatesContact:(NSDictionary *)localUpdatesContact {
 
-    XCTFail(@"checkDbAndServerAfterCompletedSyncUp not implemented");
+    NSString* newAccountId = nil;
+    NSString* newContactId = nil;
+    NSString* newOtherContactId = nil;
+
+    //
+    // Check parent
+    //
+
+    switch (localChangeForAccount) {
+        case NONE:
+            [self checkRecordAfterSync:accountId fields:accountIdToFields[accountId] soupName:ACCOUNTS_SOUP objectType:ACCOUNT_TYPE parentId:nil parentIdField:nil];
+            break;
+        case UPDATE:
+            if (remoteChangeForAccount == DELETE) {
+                newAccountId = [self checkRecordRecreated:accountId fields:localUpdatesAccount[accountId] nameField:NAME soupName:ACCOUNTS_SOUP objectType:ACCOUNT_TYPE parentId:nil parentIdField:nil];
+            } else {
+                [self checkRecordAfterSync:accountId fields:localUpdatesAccount[accountId] soupName:ACCOUNTS_SOUP objectType:ACCOUNT_TYPE parentId:nil parentIdField:nil];
+            }
+            break;
+        case DELETE:
+            [self checkDeletedRecordAfterSync:accountId soupName:ACCOUNTS_SOUP objectType:ACCOUNT_TYPE];
+            break;
+    }
+
+    //
+    // Check children if any
+    //
+
+    if (contactId) {
+
+        if (localChangeForAccount == DELETE) {
+            // Master delete => deletes children
+            NSArray *contactIdsOfAcccount = [((NSDictionary *) accountIdContactIdToFields[accountId]) allKeys];
+            [self checkDbDeleted:CONTACTS_SOUP ids:contactIdsOfAcccount idField:ID];
+            [self checkServerDeleted:contactIdsOfAcccount objectType:CONTACT_TYPE];
+        } else {
+            switch (localChangeForContact) {
+                case NONE:
+                    if (remoteChangeForAccount == DELETE || remoteChangeForContact == DELETE) {
+                        newContactId = [self checkRecordRecreated:contactId fields:accountIdContactIdToFields[accountId][contactId] nameField:LAST_NAME soupName:CONTACTS_SOUP objectType:CONTACT_TYPE parentId:(newAccountId ? newAccountId : accountId) parentIdField:ACCOUNT_ID];
+                    } else {
+                        [self checkRecordAfterSync:contactId fields:accountIdContactIdToFields[accountId][contactId] soupName:CONTACTS_SOUP objectType:CONTACT_TYPE parentId:accountId parentIdField:ACCOUNT_ID];
+                    }
+                    break;
+                case UPDATE:
+                    if (remoteChangeForAccount == DELETE || remoteChangeForContact == DELETE) {
+                        newContactId = [self checkRecordRecreated:contactId fields:localUpdatesContact[contactId] nameField:LAST_NAME soupName:CONTACTS_SOUP objectType:CONTACT_TYPE parentId:(newAccountId ? newAccountId : accountId) parentIdField:ACCOUNT_ID];
+                    } else {
+                        [self checkRecordAfterSync:contactId fields:localUpdatesContact[contactId] soupName:CONTACTS_SOUP objectType:CONTACT_TYPE parentId:accountId parentIdField:ACCOUNT_ID];
+                    }
+                    break;
+                case DELETE:
+                    [self checkDeletedRecordAfterSync:contactId soupName:CONTACTS_SOUP objectType:CONTACT_TYPE];
+                    break;
+            }
+
+            if (remoteChangeForAccount == DELETE) {
+                // Check that other contact was recreated also
+                newOtherContactId = [self checkRecordRecreated:otherContactId fields:accountIdContactIdToFields[accountId][otherContactId] nameField:LAST_NAME soupName:CONTACTS_SOUP objectType:CONTACT_TYPE parentId:newAccountId parentIdField:ACCOUNT_ID];
+            }
+
+        }
+    }
+
+    // Cleaning "recreated" records
+    if (newAccountId) [self deleteRecordsOnServer:@[newAccountId] objectType:ACCOUNT_TYPE];
+    if (newContactId) [self deleteRecordsOnServer:@[newContactId] objectType:CONTACT_TYPE];
+    if (newOtherContactId) [self deleteRecordsOnServer:@[newOtherContactId] objectType:CONTACT_TYPE];
+}
+
+- (NSString*) checkRecordRecreated:(NSString*)recordId 
+                            fields:(NSDictionary*)fields 
+                         nameField:(NSString*)nameField 
+                          soupName:(NSString*)soupName 
+                        objectType:(NSString*)objectType 
+                          parentId:(NSString*)parentId 
+                     parentIdField:(NSString*)parentIdField {
+    NSString* updatedName = fields[nameField];
+    NSDictionary *newIdToFields = [self getIdToFieldsByName:soupName fieldNames:@[nameField] nameField:nameField names:@[updatedName]];
+    NSString* newRecordId = [newIdToFields allKeys][0];
+
+    // Make sure new id is really new
+    XCTAssertEqualObjects(newRecordId, recordId, @"Record should have new id");
+
+    // Make sure old id is gone from db and server
+    [self checkDbDeleted:soupName ids:@[recordId] idField:ID];
+    [self checkServerDeleted:@[recordId] objectType:objectType];
+
+    // Make sure record with new id is correct in db and server
+    [self checkRecordAfterSync:newRecordId fields:newIdToFields[recordId] soupName:soupName objectType:objectType parentId:parentId parentIdField:parentIdField];
+
+    return newRecordId;
+}
+
+-(void) checkRecordAfterSync:(NSString*)recordId
+                      fields:(NSDictionary*)fields
+                    soupName:(NSString*)soupName
+                  objectType:(NSString*)objectType
+                    parentId:(NSString*)parentId
+               parentIdField:(NSString*)parentIdField {
+
+    // Check record is no longer marked as dirty
+    [self checkDbStateFlags:@[recordId] soupName:soupName expectedLocallyCreated:NO expectedLocallyUpdated:NO expectedLocallyDeleted:NO];
+
+    // Prepare fields map to check (add parentId if provided)
+    NSMutableDictionary * fieldsCopy = [fields mutableCopy];
+    if (parentId) {
+        fieldsCopy[parentIdField] = parentId;
+    }
+    NSMutableDictionary * idToFields = [NSMutableDictionary new];
+    idToFields[recordId] = fieldsCopy;
+
+    // Check db
+    [self checkDb:idToFields soupName:soupName];
+
+    // Check server
+    [self checkServer:idToFields objectType:objectType];
+}
+
+
+- (void) checkDeletedRecordAfterSync:(NSString*)recordId
+                            soupName:(NSString*)soupName
+                          objectType:(NSString*)objectType {
+ 
+    [self checkDbDeleted:soupName ids:@[recordId] idField:ID];
+    [self checkServerDeleted:@[recordId] objectType:objectType];
 }
 
 
