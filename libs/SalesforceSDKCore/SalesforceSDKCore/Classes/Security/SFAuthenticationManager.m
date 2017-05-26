@@ -44,6 +44,14 @@
 #import "SFLoginViewController.h"
 #import "SFOAuthCoordinator+Internal.h"
 #import "SFNetwork.h"
+#import "SFSDKLoginHostDelegate.h"
+#import "NSUserDefaults+SFAdditions.h"
+#import "SFSDKWebViewStateManager.h"
+#import "SFSDKSalesforceAnalyticsManager.h"
+#import "SFSDKLoginHostListViewController.h"
+#import "SFSDKEventBuilderHelper.h"
+#import "SFSDKLoginHostStorage.h"
+#import "SFSDKLoginHost.h"
 
 static SFAuthenticationManager *sharedInstance = nil;
 
@@ -155,7 +163,7 @@ NSString * const kOAuthRedirectUriKey = @"oauth_redirect_uri";
 
 #pragma mark - SFAuthenticationManager
 
-@interface SFAuthenticationManager () <SFSDKLoginHostDelegate>
+@interface SFAuthenticationManager () <SFSDKLoginHostDelegate, SFLoginViewControllerDelegate>
 {
 }
 
@@ -201,12 +209,6 @@ NSString * const kOAuthRedirectUriKey = @"oauth_redirect_uri";
  Dismisses the authentication retry alert box, if present.
  */
 - (void)cleanupStatusAlert;
-
-/**
- Method to present the authorizing view controller with the given auth webView.
- @param webView The auth webView to present.
- */
-- (void)presentAuthViewController:(WKWebView *)webView;
 
 /**
  Called after initial authentication has completed.
@@ -307,8 +309,10 @@ static Class InstanceClass = nil;
         self.authViewHandler = [[SFAuthenticationViewHandler alloc]
                                 initWithDisplayBlock:^(SFAuthenticationManager *authManager, WKWebView *authWebView) {
                                     __strong typeof(weakSelf) strongSelf = weakSelf;
-                                    if (strongSelf.authViewController == nil)
+                                    if (strongSelf.authViewController == nil) {
                                         strongSelf.authViewController = [SFLoginViewController sharedInstance];
+                                        strongSelf.authViewController.delegate = strongSelf;
+                                    }
                                     [strongSelf.authViewController setOauthView:authWebView];
                                     [[SFRootViewManager sharedManager] pushViewController:strongSelf.authViewController];
                                 } dismissBlock:^(SFAuthenticationManager *authViewManager) {
@@ -892,21 +896,6 @@ static Class InstanceClass = nil;
    [self.statusAlert dismissViewControllerAnimated:NO completion:nil];
 }
 
-- (void)presentAuthViewController:(WKWebView *)webView
-{
-    if (![NSThread isMainThread]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self presentAuthViewController:webView];
-        });
-        return;
-    }
-    
-    if (self.authViewController == nil)
-        self.authViewController = [[SFLoginViewController alloc] initWithNibName:nil bundle:nil];
-    [self.authViewController setOauthView:webView];
-    [[SFRootViewManager sharedManager] pushViewController:self.authViewController];
-}
-
 - (void)dismissAuthViewControllerIfPresent
 {
     if (![NSThread isMainThread]) {
@@ -1196,6 +1185,13 @@ static Class InstanceClass = nil;
 
 - (void)hostListViewControllerDidSelectLoginHost:(SFSDKLoginHostListViewController *)hostListViewController {
     [hostListViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - SFLoginViewControllerDelegate
+
+- (void)loginViewController:(SFLoginViewController *)loginViewController didChangeLoginHost:(SFSDKLoginHost *)newLoginHost {
+    self.loginHost = newLoginHost.host;
+    [self restartAuthentication];
 }
 
 #pragma mark - SFUserAccountManagerDelegate

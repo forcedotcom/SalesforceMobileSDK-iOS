@@ -30,9 +30,10 @@
 #import "SFSDKNewLoginHostViewController.h"
 #import "SFSDKLoginHostStorage.h"
 #import "SFSDKLoginHost.h"
-#import "SFAuthenticationManager+Internal.h"
+#import "SFAuthenticationManager.h"
 #import "SFSDKResourceUtils.h"
 #import "SFLoginViewController.h"
+#import "SFManagedPreferences.h"
 
 static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCellIdentifier";
 
@@ -47,12 +48,9 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
  */
 - (void)applyLoginHostAtIndex:(NSUInteger)index {
     SFSDKLoginHost *loginHost = [[SFSDKLoginHostStorage sharedInstance] loginHostAtIndex:index];
-    SFAuthenticationManager *authMgr = [SFAuthenticationManager sharedManager];
-    
-    // Change the login host and login again. Don't do any logout as we don't
-    // want to remove anything at this point.
-    authMgr.loginHost = loginHost.host;
-    [authMgr restartAuthentication];
+    if ([self.delegate respondsToSelector:@selector(hostListViewController:didChangeLoginHost:)]) {
+        [self.delegate hostListViewController:self didChangeLoginHost:loginHost];
+    }
 }
 
 /**
