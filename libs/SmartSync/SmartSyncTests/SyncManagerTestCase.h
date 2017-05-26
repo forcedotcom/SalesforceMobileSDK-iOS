@@ -43,6 +43,9 @@
 #define CONTACT_TYPE_PLURAL @"Contacts"
 #define TOTAL_SIZE_UNKNOWN  -2
 #define LOCAL_ID_PREFIX     @"local_"
+#define REMOTELY_UPDATED    @"_r_upd"
+#define LOCALLY_UPDATED     @"_l_upd"
+
 
 
 
@@ -96,4 +99,10 @@
 - (NSDictionary *)getIdToFieldsByName:(NSString *)soupName fieldNames:(NSArray *)fieldNames nameField:(NSString *)nameField names:(NSArray *)names;
 
 - (void)checkServer:(NSDictionary *)idToFields objectType:(NSString *)objectType;
+
+- (NSDictionary *)updateRecordOnServer:(NSDictionary *)fields idToUpdate:(NSString *)idToUpdate objectType:(NSString *)objectType;
+
+- (NSDictionary *)updateRecordLocally:(NSDictionary *)fields idToUpdate:(NSString *)idToUpdate soupName:(NSString *)soupName;
+
+- (void)deleteRecordsLocally:(NSArray *)ids soupName:(NSString *)soupName;
 @end

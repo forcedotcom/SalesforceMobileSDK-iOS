@@ -561,4 +561,35 @@ static NSException *authException = nil;
         }
     }
 }
+
+-(NSDictionary *)updateRecordOnServer:(NSDictionary *)fields idToUpdate:(NSString *)idToUpdate objectType:(NSString*)objectType {
+    NSMutableDictionary * idToFieldsRemotelyUpdated = [NSMutableDictionary new];
+    NSDictionary* updatedFields = [self updateFields:fields suffix:REMOTELY_UPDATED];
+    idToFieldsRemotelyUpdated[idToUpdate] = updatedFields;
+    [self updateRecordsOnServer:idToFieldsRemotelyUpdated objectType:objectType];
+    return idToFieldsRemotelyUpdated;
+}
+
+- (NSDictionary *)updateRecordLocally:(NSDictionary *)fields idToUpdate:(NSString *)idToUpdate soupName:(NSString*)soupName {
+    NSMutableDictionary * idToFieldsLocallyUpdated = [NSMutableDictionary new];
+    NSDictionary* updatedFields = [self updateFields:fields suffix:LOCALLY_UPDATED];
+    idToFieldsLocallyUpdated[idToUpdate] = updatedFields;
+    [self updateRecordsLocally:idToFieldsLocallyUpdated soupName:soupName];
+    return idToFieldsLocallyUpdated;
+}
+
+-(void)deleteRecordsLocally:(NSArray*)ids soupName:(NSString*)soupName {
+    NSMutableArray* deletedAccounts = [NSMutableArray new];
+    for (NSString* idToDelete in ids) {
+        SFQuerySpec* query = [SFQuerySpec newExactQuerySpec:soupName withPath:ID withMatchKey:idToDelete withOrderPath:ID withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
+        NSArray* results = [self.store queryWithQuerySpec:query pageIndex:0 error:nil];
+        NSMutableDictionary* account = [[NSMutableDictionary alloc] initWithDictionary:results[0]];
+        account[kSyncTargetLocal] = @YES;
+        account[kSyncTargetLocallyCreated] = @NO;
+        account[kSyncTargetLocallyDeleted] = @YES;
+        account[kSyncTargetLocallyUpdated] = @NO;
+        [deletedAccounts addObject:account];
+    }
+    [self.store upsertEntries:deletedAccounts toSoup:ACCOUNTS_SOUP];
+}
 @end

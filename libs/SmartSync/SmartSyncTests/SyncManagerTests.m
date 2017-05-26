@@ -1358,19 +1358,8 @@
 }
 
 
--(void) deleteAccountsLocally:(NSArray*)idsLocallyDeleted {
-    NSMutableArray* deletedAccounts = [NSMutableArray new];
-    for (NSString* accountId in idsLocallyDeleted) {
-        SFQuerySpec* query = [SFQuerySpec newExactQuerySpec:ACCOUNTS_SOUP withPath:ID withMatchKey:accountId withOrderPath:ID withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
-        NSArray* results = [self.store queryWithQuerySpec:query pageIndex:0 error:nil];
-        NSMutableDictionary* account = [[NSMutableDictionary alloc] initWithDictionary:results[0]];
-        account[kSyncTargetLocal] = @YES;
-        account[kSyncTargetLocallyCreated] = @NO;
-        account[kSyncTargetLocallyDeleted] = @YES;
-        account[kSyncTargetLocallyUpdated] = @NO;
-        [deletedAccounts addObject:account];
-    }
-    [self.store upsertEntries:deletedAccounts toSoup:ACCOUNTS_SOUP];
+-(void) deleteAccountsLocally:(NSArray*)ids {
+    [self deleteRecordsLocally:ids soupName:ACCOUNTS_SOUP];
 }
 
 -(void)updateAccountsOnServer:(NSDictionary*)idToFieldsUpdated {

@@ -1296,8 +1296,148 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
                                 remoteChangeForAccount:(SFSyncUpChange)remoteChangeForAccount
                                  localChangeForContact:(SFSyncUpChange)localChangeForContact
                                 remoteChangeForContact:(SFSyncUpChange)remoteChangeForContact {
-    XCTFail(@"trySyncUpsWithVariousChangesWithNumberAccounts not implemented");
+    // Creating test accounts and contacts on server
+    [self createAccountsAndContactsOnServer:numberAccounts numberContactsPerAccount:numberContactsPerAccount];
+
+    // Sync down
+    NSString *parentSoqlFilter = [NSString stringWithFormat:@"%@ IN %@", ID, [self buildInClause:[accountIdToFields allKeys]]];
+    SFParentChildrenSyncDownTarget * syncDownTarget = [self getAccountContactsSyncDownTargetWithParentSoqlFilter:parentSoqlFilter];
+    [self trySyncDown:SFSyncStateMergeModeOverwrite target:syncDownTarget soupName:ACCOUNTS_SOUP totalSize:numberAccounts numberFetches:1];
+
+    // Pick an account and contact
+    NSArray* accountIds = [accountIdToFields allKeys];
+    NSString* accountId = accountIds[0];
+    NSDictionary* accountFields = accountIdToFields[accountId];
+
+    NSArray* contactIdsOfAccount = numberContactsPerAccount > 0 ? [((NSDictionary*)accountIdContactIdToFields[accountId]) allKeys] : nil;
+    NSString* contactId = contactIdsOfAccount ? contactIdsOfAccount[0] : nil;
+    NSString* otherContactId = contactIdsOfAccount ? contactIdsOfAccount[1] : nil;
+    NSDictionary* contactFields = contactId ? accountIdContactIdToFields[accountId][contactId] : nil;
+
+    // Build sync up target
+    SFParentChildrenSyncUpTarget* syncUpTarget = [self getAccountContactsSyncUpTarget];
+
+    // Apply localChangeForAccount
+    NSDictionary * localUpdatesAccount = nil;
+    switch (localChangeForAccount) {
+        case NONE:
+            break;
+        case UPDATE:
+            localUpdatesAccount = [self updateRecordLocally:accountFields idToUpdate:accountId soupName:ACCOUNTS_SOUP];
+            break;
+        case DELETE:
+            [self deleteRecordsLocally:@[accountId] soupName:ACCOUNTS_SOUP];
+            break;
+    }
+
+    // Apply localChangeForContact
+    NSDictionary *localUpdatesContact = nil;
+    if (contactId) {
+        switch (localChangeForContact) {
+            case NONE:
+                break;
+            case UPDATE:
+                localUpdatesContact = [self updateRecordLocally:contactFields idToUpdate:contactId soupName:CONTACTS_SOUP];
+                break;
+            case DELETE:
+                [self deleteRecordsLocally:@[contactId] soupName:CONTACTS_SOUP];
+                break;
+        }
+    }
+
+    // Sleep before doing remote changes
+    if (remoteChangeForAccount != NONE || remoteChangeForContact != NONE) {
+        [NSThread sleepForTimeInterval:1.0]; // time stamp precision is in seconds
+    }
+
+    // Apply remoteChangeForAccount
+    NSDictionary *remoteUpdatesAccount = nil;
+    switch (remoteChangeForAccount) {
+        case NONE:
+            break;
+        case UPDATE:
+            remoteUpdatesAccount = [self updateRecordOnServer:accountFields idToUpdate:accountId objectType:ACCOUNT_TYPE];
+            break;
+        case DELETE:
+            [self deleteRecordsOnServer:@[accountId] objectType:ACCOUNT_TYPE];
+            break;
+    }
+
+    NSDictionary *remoteUpdatesContact = nil;
+    if (contactId) {
+        switch (remoteChangeForContact) {
+            case NONE:
+                break;
+            case UPDATE:
+                remoteUpdatesContact = [self updateRecordOnServer:contactFields idToUpdate:contactId objectType:CONTACT_TYPE];
+
+                break;
+            case DELETE:
+                [self deleteRecordsOnServer:@[contactId] objectType:CONTACT_TYPE];
+                break;
+        }
+    }
+
+    // Sync up
+
+    // In some cases, leave-if-changed will succeed
+    if ((remoteChangeForAccount == NONE || (remoteChangeForAccount == DELETE && localChangeForAccount == DELETE))          // no remote parent change or it's a delete and we did a local delete also
+            && (remoteChangeForContact == NONE || (remoteChangeForContact == DELETE && localChangeForContact == DELETE)))  // no remote child change  or it's a delete and we did a local delete also
+    {
+        // Sync up with leave-if-changed
+        [self trySyncUp:1 target:syncUpTarget mergeMode:SFSyncStateMergeModeLeaveIfChanged];
+
+        // Check db and server - local changes should have made it over
+        [self checkDbAndServerAfterCompletedSyncUp:accountId contactId:contactId otherContactId:otherContactId localChangeForAccount:localChangeForAccount remoteChangeForAccount:remoteChangeForAccount localChangeForContact:localChangeForContact remoteChangeForContact:remoteChangeForContact localUpdatesAccount:localUpdatesAccount localUpdatesContact:localUpdatesContact];
+
+        // Sync up with overwrite - there should be dirty records found
+        [self trySyncUp:0 target:syncUpTarget mergeMode:SFSyncStateMergeModeOverwrite];
+    }
+    // In all other cases, leave-if-changed will fail
+    else {
+
+        // Sync up with leave-if-changed
+        [self trySyncUp:1 target:syncUpTarget mergeMode:SFSyncStateMergeModeLeaveIfChanged];
+
+        // Check db and server - nothing should have changed
+        [self checkDbAndServerAfterCompletedSyncUp:accountId contactId:contactId otherContactId:otherContactId localChangeForAccount:localChangeForAccount remoteChangeForAccount:remoteChangeForAccount localChangeForContact:localChangeForContact remoteChangeForContact:remoteChangeForContact localUpdatesAccount:localUpdatesAccount localUpdatesContact:localUpdatesContact];
+
+        // Sync up with overwrite
+        [self trySyncUp:1 target:syncUpTarget mergeMode:SFSyncStateMergeModeOverwrite];
+
+        // Check db and server - local changes should have made it over
+        [self checkDbAndServerAfterCompletedSyncUp:accountId contactId:contactId otherContactId:otherContactId localChangeForAccount:localChangeForAccount remoteChangeForAccount:remoteChangeForAccount localChangeForContact:localChangeForContact remoteChangeForContact:remoteChangeForContact localUpdatesAccount:localUpdatesAccount localUpdatesContact:localUpdatesContact];
+    }
 }
+
+- (void)checkDbAndServerAfterBlockedSyncUp:(NSString *)accountId
+                                 contactId:(NSString *)contactId
+                     localChangeForAccount:(SFSyncUpChange)localChangeForAccount
+                    remoteChangeForAccount:(SFSyncUpChange)remoteChangeForAccount
+                     localChangeForContact:(SFSyncUpChange)localChangeForContact
+                    remoteChangeForContact:(SFSyncUpChange)remoteChangeForContact
+                       localUpdatesAccount:(NSDictionary *)localUpdatesAccount
+                      remoteUpdatesAccount:(NSDictionary *)remoteUpdatesAccount
+                       localUpdatesContact:(NSDictionary *)localUpdatesContact
+                      remoteUpdatesContact:(NSDictionary *)remoteUpdatesContact {
+
+    XCTFail(@"checkDbAndServerAfterBlockedSyncUp not implemented");
+}
+
+
+- (void)checkDbAndServerAfterCompletedSyncUp:(NSString *)accountId
+                                   contactId:(NSString *)contactId
+                              otherContactId:(NSString *)otherContactId
+                       localChangeForAccount:(SFSyncUpChange)localChangeForAccount
+                      remoteChangeForAccount:(SFSyncUpChange)remoteChangeForAccount
+                       localChangeForContact:(SFSyncUpChange)localChangeForContact
+                      remoteChangeForContact:(SFSyncUpChange)remoteChangeForContact
+                         localUpdatesAccount:(NSDictionary *)localUpdatesAccount
+                         localUpdatesContact:(NSDictionary *)localUpdatesContact {
+
+    XCTFail(@"checkDbAndServerAfterCompletedSyncUp not implemented");
+}
+
 
 /**
  * Helper method for testSyncUpWithLocallyCreatedRecords*
