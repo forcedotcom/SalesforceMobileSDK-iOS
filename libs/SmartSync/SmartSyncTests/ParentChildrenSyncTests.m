@@ -684,7 +684,40 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
  * Check smartstore and server afterwards
  */
 - (void) testSyncUpWithLocallyCreatedChildrenRecords {
-    XCTFail(@"Test not implemented yet");
+
+    // Create accounts on server
+    NSDictionary* accountIdToName = [self createRecordsOnServer:2 objectType:ACCOUNT_TYPE];
+    NSArray* accountNames = [accountIdToName allValues];
+    
+    // Sync down remote accounts
+    NSString *soql = [NSString stringWithFormat:@"SELECT Id, Name, LastModifiedDate FROM Account WHERE Id IN %@", [self buildInClause:[accountIdToName allKeys]]];
+    SFSyncDownTarget* accountSyncDownTarget = [SFSoqlSyncDownTarget newSyncTarget:soql];
+    [self trySyncDown:SFSyncStateMergeModeOverwrite target:accountSyncDownTarget soupName:ACCOUNTS_SOUP totalSize:accountIdToName.count numberFetches:1];
+    
+    // Create a few contacts locally associated with existing accounts
+    NSDictionary * accountIdToFieldsCreated = [self getIdToFieldsByName:ACCOUNTS_SOUP fieldNames:@[NAME] nameField:NAME names:accountNames];
+    NSDictionary *contactsForAccountsLocally = [self createContactsForAccountLocally:3 accountIds:[accountIdToFieldsCreated allKeys]];
+    NSMutableArray * contactNames = [NSMutableArray new];
+    for (NSArray * contacts in [contactsForAccountsLocally allValues]) {
+        for (NSDictionary * contact in contacts) {
+            [contactNames addObject:contact[LAST_NAME]];
+        }
+    }
+
+    // Sync up
+    SFParentChildrenSyncUpTarget * target = [self getAccountContactsSyncUpTarget];
+    [self trySyncUp:accountNames.count target:target mergeMode:SFSyncStateMergeModeOverwrite];
+
+    // Check that db doesn't show contact entries as locally created anymore
+    NSDictionary * contactIdToFieldsCreated = [self getIdToFieldsByName:CONTACTS_SOUP fieldNames:@[LAST_NAME, ACCOUNT_ID] nameField:LAST_NAME names:contactNames];
+    [self checkDbStateFlags:[contactIdToFieldsCreated allKeys] soupName:CONTACTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:NO expectedLocallyDeleted:NO];
+
+    // Check contacts on server
+    [self checkServer:contactIdToFieldsCreated objectType:CONTACT_TYPE];
+
+    // Cleanup
+    [self deleteRecordsOnServer:[accountIdToFieldsCreated allKeys] objectType:ACCOUNT_TYPE];
+    [self deleteRecordsOnServer:[contactIdToFieldsCreated allKeys] objectType:CONTACT_TYPE];
 }
 
 /**
