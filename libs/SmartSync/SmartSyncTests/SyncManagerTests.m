@@ -589,8 +589,8 @@
 
     // Check server - make sure only name was updated
     NSMutableDictionary* idToFieldsExpectedOnServer = [NSMutableDictionary new];
-    for (NSString* id in idToFieldsLocallyUpdated) {
-        idToFieldsExpectedOnServer[id] = @{NAME: idToFieldsLocallyUpdated[id][NAME], DESCRIPTION:idToFields[id][DESCRIPTION]}; // should have modified name but original description
+    for (NSString* recordId in idToFieldsLocallyUpdated) {
+        idToFieldsExpectedOnServer[recordId] = @{NAME: idToFieldsLocallyUpdated[recordId][NAME], DESCRIPTION:idToFields[recordId][DESCRIPTION]}; // should have modified name but original description
     }
     [self checkServer:idToFieldsExpectedOnServer];
     
@@ -618,8 +618,8 @@
 
     // Check server - make sure only name was set
     NSMutableDictionary* idToFieldsExpectedOnServer = [NSMutableDictionary new];
-    for (NSString* id in idToFieldsCreated) {
-        idToFieldsExpectedOnServer[id] = @{NAME: idToFieldsCreated[id][NAME], DESCRIPTION:[NSNull null]}; // should have name but no description
+    for (NSString* recordId in idToFieldsCreated) {
+        idToFieldsExpectedOnServer[recordId] = @{NAME: idToFieldsCreated[recordId][NAME], DESCRIPTION:[NSNull null]}; // should have name but no description
     }
     [self checkServer:idToFieldsExpectedOnServer byNames:names];
     
@@ -642,8 +642,8 @@
     // Make some local change
     NSDictionary* idToFieldsLocallyUpdated = [self makeSomeLocalChanges];
     NSMutableArray* namesOfUpdated = [NSMutableArray new];
-    for (NSString* id in idToFieldsLocallyUpdated) {
-        [namesOfUpdated addObject:idToFieldsLocallyUpdated[id][NAME]];
+    for (NSString* recordId in idToFieldsLocallyUpdated) {
+        [namesOfUpdated addObject:idToFieldsLocallyUpdated[recordId][NAME]];
     }
     
     // Create a few entries locally
@@ -663,11 +663,11 @@
     
     // Check server - make sure updated records only have updated description - make sure created records only have name
     NSMutableDictionary* idToFieldsExpectedOnServer = [NSMutableDictionary new];
-    for (NSString* id in idToFieldsLocallyUpdated) {
-        idToFieldsExpectedOnServer[id] = @{NAME: idToFields[id][NAME], DESCRIPTION:idToFieldsLocallyUpdated[id][DESCRIPTION]}; // updated records should have original name and updated description
+    for (NSString* recordId in idToFieldsLocallyUpdated) {
+        idToFieldsExpectedOnServer[recordId] = @{NAME: idToFields[recordId][NAME], DESCRIPTION:idToFieldsLocallyUpdated[recordId][DESCRIPTION]}; // updated records should have original name and updated description
     }
-    for (NSString* id in idToFieldsCreated) {
-        idToFieldsExpectedOnServer[id] = @{NAME: idToFieldsCreated[id][NAME], DESCRIPTION:[NSNull null]}; // created records should have name but no description
+    for (NSString* recordId in idToFieldsCreated) {
+        idToFieldsExpectedOnServer[recordId] = @{NAME: idToFieldsCreated[recordId][NAME], DESCRIPTION:[NSNull null]}; // created records should have name but no description
     }
 
     // Make sure we found all the records on the server

@@ -151,8 +151,8 @@ static NSException *authException = nil;
 - (void)deleteRecordsOnServer:(NSArray *)ids objectType:(NSString*)objectType {
 
     NSMutableArray* requests = [NSMutableArray new];
-    for (NSString* id in ids) {
-        SFRestRequest *deleteRequest = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:objectType objectId:id];
+    for (NSString* recordId in ids) {
+        SFRestRequest *deleteRequest = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:objectType objectId:recordId];
         [requests addObject:deleteRequest];
         if (requests.count == 25) {
             [self sendSyncRequest:[[SFRestAPI sharedInstance] batchRequest:requests haltOnError:NO]];
@@ -231,9 +231,9 @@ static NSException *authException = nil;
  - (NSDictionary<NSString*, NSString*>*) createRecordsOnServer:(NSUInteger)count objectType:(NSString*)objectType {
      NSDictionary<NSString *, NSDictionary *> *idToFields = [self createRecordsOnServerReturnFields:count objectType:objectType additionalFields:nil];
      NSMutableDictionary * idToNames = [NSMutableDictionary new];
-     for (NSString * id in [idToFields allKeys]) {
+     for (NSString * recordId in [idToFields allKeys]) {
          NSString* nameField = [objectType isEqualToString:CONTACT_TYPE] ? LAST_NAME : NAME;
-         idToNames[id] = idToFields[id][nameField];
+         idToNames[recordId] = idToFields[recordId][nameField];
      }
      return idToNames;
 }
@@ -429,9 +429,11 @@ static NSException *authException = nil;
 }
 
 - (void)updateRecordsLocally:(NSDictionary*)idToFieldsLocallyUpdated soupName:(NSString*)soupName {
-    for (NSString* id in [idToFieldsLocallyUpdated allKeys]) {
-        NSDictionary * updatedFields = idToFieldsLocallyUpdated[id];
-        NSMutableDictionary * record = [[self.store retrieveEntries:@[[self.store lookupSoupEntryIdForSoupName:soupName forFieldPath:ID fieldValue:id error:nil]] fromSoup:soupName][0] mutableCopy];
+    for (NSString* recordId in [idToFieldsLocallyUpdated allKeys]) {
+        NSDictionary * updatedFields = idToFieldsLocallyUpdated[recordId];
+        NSNumber* soupEntryId = [self.store lookupSoupEntryIdForSoupName:soupName forFieldPath:ID fieldValue:recordId error:nil];
+        NSArray* matchingRecords = [self.store retrieveEntries:@[soupEntryId] fromSoup:soupName];
+        NSMutableDictionary * record = [matchingRecords[0] mutableCopy];
         for (NSString* fieldName in [updatedFields allKeys]) {
             record[fieldName] = updatedFields[fieldName];
         }

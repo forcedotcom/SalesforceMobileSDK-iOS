@@ -338,10 +338,10 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
         }
 
         // Update children local store
-        for (NSDictionary *childRecord in children) {
+        for (NSMutableDictionary *childRecord in children) {
             if ([self isDirty:childRecord] || isCreate) {
                 needReRun = needReRun || [self updateChildRecordInLocalStore:syncManager
-                                                                      record:record
+                                                                      record:childRecord
                                                                    mergeMode:mergeMode
                                                              refIdToServerId:refIdToServerId
                                                            refIdToStatusCode:refIdToHttpStatusCode];
@@ -414,7 +414,7 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
 
         NSMutableDictionary *fields = [self buildFieldsMap:record fieldlist:fieldlist idFieldName:info.idFieldName modificationDateFieldName:info.modificationDateFieldName];
         if (parentId) {
-            fields[((SFChildrenInfo *) info).parentIdFieldName] = useParentIdReference ? [NSString stringWithFormat:@"{%@.%@}", parentId, @"id"] : parentId;
+            fields[((SFChildrenInfo *) info).parentIdFieldName] = useParentIdReference ? [NSString stringWithFormat:@"@{%@.%@}", parentId, @"id"] : parentId;
         }
 
         if (isCreate) {

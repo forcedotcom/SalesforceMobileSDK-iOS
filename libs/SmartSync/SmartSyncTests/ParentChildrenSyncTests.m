@@ -680,7 +680,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
     NSDictionary* contactIdToName = [self createRecordsOnServer:6 objectType:CONTACT_TYPE];
 
     // Sync down remote contacts
-    NSString *soql = [NSString stringWithFormat:@"SELECT Id, LastName, LastModifiedDate FROM Account WHERE Id IN %@", [self buildInClause:[contactIdToName allKeys]]];
+    NSString *soql = [NSString stringWithFormat:@"SELECT Id, LastName, LastModifiedDate FROM Contact WHERE Id IN %@", [self buildInClause:[contactIdToName allKeys]]];
     SFSyncDownTarget* contactSyncDownTarget = [SFSoqlSyncDownTarget newSyncTarget:soql];
     [self trySyncDown:SFSyncStateMergeModeOverwrite target:contactSyncDownTarget soupName:CONTACTS_SOUP totalSize:contactIdToName.count numberFetches:1];
 
@@ -709,6 +709,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
         fieldsLocallyUpdated[ACCOUNT_ID] = accountNameToServerId[accountName];
         idToFieldsLocallyUpdated[contactId] = fieldsLocallyUpdated;
         contactIdToAccountName[contactId] = accountName;
+        i++;
     }
     [self updateRecordsLocally:idToFieldsLocallyUpdated soupName:CONTACTS_SOUP];
 
@@ -729,12 +730,12 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
     [self checkServer:accountIdToFieldsCreated objectType:ACCOUNT_TYPE];
 
     // Check that db doesn't show contact entries as locally updated anymore
-    NSDictionary * contactIdToFieldsUpdated = [self getIdToFieldsByName:CONTACTS_SOUP fieldNames:@[LAST_NAME, ACCOUNT_ID] nameField:NAME names:[contactIdToName allValues]];
+    NSDictionary * contactIdToFieldsUpdated = [self getIdToFieldsByName:CONTACTS_SOUP fieldNames:@[LAST_NAME, ACCOUNT_ID] nameField:LAST_NAME names:[contactIdToName allValues]];
     [self checkDbStateFlags:[contactIdToFieldsUpdated allKeys] soupName:CONTACTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:NO expectedLocallyDeleted:NO];
 
     // Check that contact use server account id in accountId field
     for (NSString* contactId in [contactIdToFieldsUpdated allKeys]) {
-        XCTAssertEqualObjects(contactIdToFieldsUpdated[contactId][ACCOUNT_ID], accountNameToServerId[contactIdToAccountName][contactId]);
+        XCTAssertEqualObjects(contactIdToFieldsUpdated[contactId][ACCOUNT_ID], accountNameToServerId[contactIdToAccountName[contactId]]);
     }
 
     // Check contacts on server
