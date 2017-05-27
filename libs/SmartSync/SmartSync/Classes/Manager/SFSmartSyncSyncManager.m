@@ -467,12 +467,6 @@ static NSMutableDictionary *syncMgrList = nil;
     else if (locallyUpdated)
         action = SFSyncUpTargetActionUpdate;
     
-    if (action == SFSyncUpTargetActionNone) {
-        // Next
-        [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failBlock:failBlock];
-        return;
-    }
-    
     /*
      * Checks if we are attempting to update a record that has been updated
      * on the server AFTER the client's last sync down. If the merge mode
@@ -539,6 +533,12 @@ static NSMutableDictionary *syncMgrList = nil;
         return;
     }
 
+    // If it is not a advanced sync up target and there is no changes on the record, go to next
+    if (action == SFSyncUpTargetActionNone) {
+        // Next
+        nextBlock();
+        return;
+    }
 
     // Delete handler
     SFSyncUpTargetCompleteBlock completeBlockDelete = ^(NSDictionary *d) {
