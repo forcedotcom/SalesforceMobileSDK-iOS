@@ -172,17 +172,19 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
 
     NSDictionary<NSString *, SFRecordModDate *> *idToLocalTimestamps = [self getLocalLastModifiedDates:syncManager record:record];
     [self fetchLastModifiedDates:syncManager record:record completionBlock:^(NSDictionary<NSString *, NSString *> *idToRemoteTimestamps) {
-        for (NSString *id in [idToLocalTimestamps allKeys]) {
-            SFRecordModDate *localModDate = idToLocalTimestamps[id];
-            NSString *remoteTimestamp = idToRemoteTimestamps[id];
-            SFRecordModDate *remoteModDate = [[SFRecordModDate alloc]
-                    initWithTimestamp:remoteTimestamp
-                            isDeleted:remoteTimestamp == nil // if it wasn't returned by fetchLastModifiedDates, then the record must have been deleted
-            ];
-
-            if (![super isNewerThanServer:localModDate remoteModDate:remoteModDate]) {
-                resultBlock(NO); // no need to go further
-                return;
+        if (idToLocalTimestamps) {
+            for (NSString *id in [idToLocalTimestamps allKeys]) {
+                SFRecordModDate *localModDate = idToLocalTimestamps[id];
+                NSString *remoteTimestamp = idToRemoteTimestamps[id];
+                SFRecordModDate *remoteModDate = [[SFRecordModDate alloc]
+                                                  initWithTimestamp:remoteTimestamp
+                                                  isDeleted:remoteTimestamp == nil // if it wasn't returned by fetchLastModifiedDates, then the record must have been deleted
+                                                  ];
+                
+                if (![super isNewerThanServer:localModDate remoteModDate:remoteModDate]) {
+                    resultBlock(NO); // no need to go further
+                    return;
+                }
             }
         }
 
@@ -218,10 +220,8 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
 - (void)fetchLastModifiedDates:(SFSmartSyncSyncManager *)manager
                         record:(NSDictionary *)record
         completionBlock:(SFFetchLastModifiedDatesCompleteBlock)completionBlock {
-    NSMutableDictionary<NSString *, NSString *> * idToRemoteTimestamps = [NSMutableDictionary new];
-
     if ([self isLocallyCreated:record]) {
-        completionBlock(idToRemoteTimestamps);
+        completionBlock(nil);
         return;
     }
 
@@ -229,13 +229,13 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
     SFRestRequest* lastModRequest = [self getRequestForTimestamps:parentId];
     [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:lastModRequest
                                                      failBlock:^(NSError* error) {
-                                                         completionBlock(idToRemoteTimestamps);
+                                                         completionBlock(nil);
                                                      }
                                                  completeBlock:^(id lastModResponse) {
-                                                     NSUInteger statusCode = [((NSNumber *) lastModResponse[@"httpStatusCode"]) unsignedIntegerValue];
-                                                     NSArray* rows = [SFRestAPI isStatusCodeSuccess:statusCode] ? lastModResponse[@"records"] : nil;
-
+                                                     NSMutableDictionary<NSString *, NSString *> * idToRemoteTimestamps = nil;
+                                                     NSArray* rows = lastModResponse[@"records"];
                                                      if (rows && rows.count > 0) {
+                                                         idToRemoteTimestamps = [NSMutableDictionary new];
                                                          NSDictionary * row = rows[0];
                                                          idToRemoteTimestamps[row[self.idFieldName]] = row[self.modificationDateFieldName];
                                                          if (row[self.childrenInfo.sobjectTypePlural]) {
@@ -244,6 +244,7 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
                                                              }
                                                          }
                                                      }
+                                                     completionBlock(idToRemoteTimestamps);
                                                  }];
 }
 
