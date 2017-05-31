@@ -28,6 +28,7 @@
 */
 
 @class SFSDKLoginHostListViewController;
+@class SFSDKLoginHost;
 
 /**
  * Use the SFSDKLoginHostDelegate to be notified of the actions taken by the user on the login host list view controller.
@@ -61,6 +62,14 @@
  * @param hostListViewController The instance sending this message.
  */
 - (void)hostListViewControllerDidCancelLoginHost:(SFSDKLoginHostListViewController *)hostListViewController;
+
+/**
+ * Notifies the delegate that the login host has been changed in some capacity (user-selected, host entry edited,
+ * custom login host added, previous current login host deleted, etc.).
+ * @param hostListViewController The instance sending this message.
+ * @param newLoginHost The updated login host.
+ */
+- (void)hostListViewController:(SFSDKLoginHostListViewController *)hostListViewController didChangeLoginHost:(SFSDKLoginHost *)newLoginHost;
 
 
 @end
