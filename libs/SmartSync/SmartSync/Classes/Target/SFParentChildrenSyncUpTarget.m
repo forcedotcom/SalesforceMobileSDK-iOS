@@ -233,14 +233,14 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
                                                      }
                                                  completeBlock:^(id lastModResponse) {
                                                      NSMutableDictionary<NSString *, NSString *> * idToRemoteTimestamps = nil;
-                                                     id rows = lastModResponse[@"records"];
+                                                     id rows = lastModResponse[kResponseRecords];
                                                      if (rows && rows != [NSNull null] && [rows count] > 0) {
                                                          idToRemoteTimestamps = [NSMutableDictionary new];
                                                          NSDictionary * row = rows[0];
                                                          idToRemoteTimestamps[row[self.idFieldName]] = row[self.modificationDateFieldName];
                                                          id childrenRows = row[self.childrenInfo.sobjectTypePlural];
                                                          if (childrenRows && childrenRows != [NSNull null]) {
-                                                             for (NSDictionary * childRow in childrenRows[@"records"]) {
+                                                             for (NSDictionary * childRow in childrenRows[kResponseRecords]) {
                                                                  idToRemoteTimestamps[childRow[self.childrenInfo.idFieldName]] = childRow[self.childrenInfo.modificationDateFieldName];
                                                              }
                                                          }
@@ -262,9 +262,9 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
                                                      failBlock:failBlock
                                                  completeBlock:^(id compositeResponse) {
                                                      NSMutableDictionary *refIdToResponses = [NSMutableDictionary new];
-                                                     NSArray *responses = compositeResponse[@"compositeResponse"];
+                                                     NSArray *responses = compositeResponse[kCompositeResponse];
                                                      for (NSDictionary *response in responses) {
-                                                         refIdToResponses[response[@"referenceId"]] = response;
+                                                         refIdToResponses[response[kReferenceId]] = response;
                                                      }
                                                      completionBlock(refIdToResponses);
                                                  }];
@@ -416,7 +416,7 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
 
         NSMutableDictionary *fields = [self buildFieldsMap:record fieldlist:fieldlist idFieldName:info.idFieldName modificationDateFieldName:info.modificationDateFieldName];
         if (parentId) {
-            fields[((SFChildrenInfo *) info).parentIdFieldName] = useParentIdReference ? [NSString stringWithFormat:@"@{%@.%@}", parentId, @"id"] : parentId;
+            fields[((SFChildrenInfo *) info).parentIdFieldName] = useParentIdReference ? [NSString stringWithFormat:@"@{%@.%@}", parentId, kCreatedId] : parentId;
         }
 
         if (isCreate) {
@@ -431,8 +431,8 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
     NSMutableDictionary *refIdToId = [NSMutableDictionary new];
     for (NSString *refId in [refIdToResponses allKeys]) {
         NSDictionary *response = refIdToResponses[refId];
-        if ([((NSNumber *) response[@"httpStatusCode"]) unsignedIntegerValue] == 201) {
-            NSString *serverId = response[@"body"][@"id"];
+        if ([((NSNumber *) response[kHttpStatusCode]) unsignedIntegerValue] == 201) {
+            NSString *serverId = response[kBody][kCreatedId];
             refIdToId[refId] = serverId;
         }
     }
@@ -443,7 +443,7 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
     NSMutableDictionary *refIdToStatusCode = [NSMutableDictionary new];
     for (NSString *refId in [refIdToResponses allKeys]) {
         NSDictionary *response = refIdToResponses[refId];
-        NSNumber *statusCode = response[@"httpStatusCode"];
+        NSNumber *statusCode = response[kHttpStatusCode];
         refIdToStatusCode[refId] = statusCode;
     }
     return refIdToStatusCode;

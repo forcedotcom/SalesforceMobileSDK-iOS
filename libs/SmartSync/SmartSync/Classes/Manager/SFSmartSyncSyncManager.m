@@ -29,15 +29,13 @@
 #import <SalesforceSDKCore/SFSDKAppFeatureMarkers.h>
 #import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
 #import "SFAdvancedSyncUpTarget.h"
+#import "SFSmartSyncConstants.h"
 
 // Unchanged
 NSInteger const kSyncManagerUnchanged = -1;
 
 static NSString * const kSFAppFeatureSmartSync   = @"SY";
 
-
-// response
-NSString * const kSyncManagerLObjectId = @"id"; // e.g. create response
 
 // dispatch queue
 char * const kSyncManagerQueue = "com.salesforce.smartsync.manager.syncmanager.QUEUE";
@@ -560,7 +558,7 @@ static NSMutableDictionary *syncMgrList = nil;
     // Create handler
     SFSyncUpTargetCompleteBlock completeBlockCreate = ^(NSDictionary *d) {
         // Replace id with server id during create
-        record[target.idFieldName] = d[kSyncManagerLObjectId];
+        record[target.idFieldName] = d[kCreatedId];
         completeBlockUpdate(d);
     };
     
