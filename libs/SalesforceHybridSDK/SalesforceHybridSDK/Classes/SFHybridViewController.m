@@ -287,13 +287,13 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
 
 - (void)authenticateWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock
 {
-
     /*
      * Reconfigure user agent. Basically this ensures that Cordova whitelisting won't apply to the
      * WKWebView that hosts the login screen (important for SSO outside of Salesforce domains).
      */
     [SFSDKWebUtils configureUserAgent:[self sfHybridViewUserAgentString]];
-    [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
+
+    SFOAuthFlowSuccessCallbackBlock authCompletionBlock = ^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
         [self authenticationCompletion:nil authInfo:authInfo];
         if (authInfo.authType == SFOAuthTypeRefresh) {
             [self loadVFPingPage];
@@ -302,7 +302,9 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
             NSDictionary *authDict = [self credentialsAsDictionary];
             completionBlock(authInfo, authDict);
         }
-    } failure:^(SFOAuthInfo *authInfo, NSError *error) {
+    };
+
+    SFOAuthFlowFailureCallbackBlock authFailureBlock = ^(SFOAuthInfo *authInfo, NSError *error) {
         if ([self logoutOnInvalidCredentials:error]) {
             [self log:SFLogLevelError msg:@"OAuth plugin authentication request failed. Logging out."];
             NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
@@ -313,7 +315,16 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
         } else if (failureBlock != NULL) {
             failureBlock(authInfo, error);
         }
-    }];
+    };
+
+    if (![SFUserAccountManager sharedInstance].currentUser) {
+        [[SFAuthenticationManager sharedManager] loginWithCompletion:authCompletionBlock
+                                                             failure:authFailureBlock];
+    } else {
+        [[SFAuthenticationManager sharedManager] refreshCredentials:[SFUserAccountManager sharedInstance].currentUser.credentials
+                                                         completion:authCompletionBlock
+                                                            failure:authFailureBlock];
+    }
 }
 
 - (void)getAuthCredentialsWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock
