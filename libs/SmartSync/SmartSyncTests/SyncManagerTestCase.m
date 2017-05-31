@@ -589,7 +589,7 @@ static NSException *authException = nil;
         account[kSyncTargetLocallyUpdated] = @NO;
         [deletedAccounts addObject:account];
     }
-    [self.store upsertEntries:deletedAccounts toSoup:ACCOUNTS_SOUP];
+    [self.store upsertEntries:deletedAccounts toSoup:soupName];
 }
 
 -(void) checkServerDeleted:(NSArray*)ids objectType:(NSString*)objectType {

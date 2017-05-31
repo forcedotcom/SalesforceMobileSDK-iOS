@@ -1401,7 +1401,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
         [self trySyncUp:1 target:syncUpTarget mergeMode:SFSyncStateMergeModeLeaveIfChanged];
 
         // Check db and server - nothing should have changed
-        [self checkDbAndServerAfterCompletedSyncUp:accountId contactId:contactId otherContactId:otherContactId localChangeForAccount:localChangeForAccount remoteChangeForAccount:remoteChangeForAccount localChangeForContact:localChangeForContact remoteChangeForContact:remoteChangeForContact localUpdatesAccount:localUpdatesAccount localUpdatesContact:localUpdatesContact];
+        [self checkDbAndServerAfterBlockedSyncUp:accountId contactId:contactId localChangeForAccount:localChangeForAccount remoteChangeForAccount:remoteChangeForAccount localChangeForContact:localChangeForContact remoteChangeForContact:remoteChangeForContact localUpdatesAccount:localUpdatesAccount remoteUpdatesAccount:remoteUpdatesAccount localUpdatesContact:localUpdatesContact remoteUpdatesContact:remoteUpdatesContact];
 
         // Sync up with overwrite
         [self trySyncUp:1 target:syncUpTarget mergeMode:SFSyncStateMergeModeOverwrite];
@@ -1577,14 +1577,14 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
     NSString* newRecordId = [newIdToFields allKeys][0];
 
     // Make sure new id is really new
-    XCTAssertEqualObjects(newRecordId, recordId, @"Record should have new id");
+    XCTAssertNotEqualObjects(newRecordId, recordId, @"Record should have new id");
 
     // Make sure old id is gone from db and server
     [self checkDbDeleted:soupName ids:@[recordId] idField:ID];
     [self checkServerDeleted:@[recordId] objectType:objectType];
 
     // Make sure record with new id is correct in db and server
-    [self checkRecordAfterSync:newRecordId fields:newIdToFields[recordId] soupName:soupName objectType:objectType parentId:parentId parentIdField:parentIdField];
+    [self checkRecordAfterSync:newRecordId fields:newIdToFields[newRecordId] soupName:soupName objectType:objectType parentId:parentId parentIdField:parentIdField];
 
     return newRecordId;
 }

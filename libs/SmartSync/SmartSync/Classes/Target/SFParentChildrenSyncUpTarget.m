@@ -233,13 +233,14 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
                                                      }
                                                  completeBlock:^(id lastModResponse) {
                                                      NSMutableDictionary<NSString *, NSString *> * idToRemoteTimestamps = nil;
-                                                     NSArray* rows = lastModResponse[@"records"];
-                                                     if (rows && rows.count > 0) {
+                                                     id rows = lastModResponse[@"records"];
+                                                     if (rows && rows != [NSNull null] && [rows count] > 0) {
                                                          idToRemoteTimestamps = [NSMutableDictionary new];
                                                          NSDictionary * row = rows[0];
                                                          idToRemoteTimestamps[row[self.idFieldName]] = row[self.modificationDateFieldName];
-                                                         if (row[self.childrenInfo.sobjectTypePlural]) {
-                                                             for (NSDictionary * childRow in row[self.childrenInfo.sobjectTypePlural][@"records"]) {
+                                                         id childrenRows = row[self.childrenInfo.sobjectTypePlural];
+                                                         if (childrenRows && childrenRows != [NSNull null]) {
+                                                             for (NSDictionary * childRow in childrenRows[@"records"]) {
                                                                  idToRemoteTimestamps[childRow[self.childrenInfo.idFieldName]] = childRow[self.childrenInfo.modificationDateFieldName];
                                                              }
                                                          }
