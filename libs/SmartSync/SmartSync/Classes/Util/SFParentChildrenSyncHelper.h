@@ -35,10 +35,22 @@ typedef NS_ENUM(NSInteger, SFParentChildrenRelationshipType) {
     SFParentChildrenRelationpshipLookup
 };
 
+extern NSString * const kSFParentChildrenSyncTargetParent;
+extern NSString * const kSFParentChildrenSyncTargetChildren;
+extern NSString * const kSFParentChildrenSyncTargetRelationshipType;
+extern NSString * const kSFParentChildrenSyncTargetParentFieldlist;
+extern NSString * const kSFParentChildrenSyncTargetParentCreateFieldlist;
+extern NSString * const kSFParentChildrenSyncTargetParentUpdateFieldlist;
+extern NSString * const kSFParentChildrenSyncTargetParentSoqlFilter;
+extern NSString * const kSFParentChildrenSyncTargetChildrenFieldlist;
+extern NSString * const kSFParentChildrenSyncTargetChildrenCreateFieldlist;
+extern NSString * const kSFParentChildrenSyncTargetChildrenUpdateFieldlist;
 extern NSString * const kSFParentChildrenRelationshipMasterDetail;
 extern NSString * const kSFParentChildrenRelationshipLookup;
 
 @interface SFParentChildrenSyncHelper : NSObject
+
++ (void)registerAppFeature;
 
 /**
  * Enum to/from string helper methods
@@ -50,7 +62,9 @@ extern NSString * const kSFParentChildrenRelationshipLookup;
 + (NSString*) getDirtyRecordIdsSql:(SFParentInfo*)parentInfo childrenInfo:(SFChildrenInfo*)childrenInfo parentFieldToSelect:(NSString*)parentFieldToSelect;
 + (NSString*) getNonDirtyRecordIdsSql:(SFParentInfo*)parentInfo childrenInfo:(SFChildrenInfo*)childrenInfo parentFieldToSelect:(NSString*)parentFieldToSelect;
 + (void)saveRecordTreesToLocalStore:(SFSmartSyncSyncManager *)syncManager target:(SFSyncTarget *)target parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo recordTrees:(NSArray *)recordTrees;
++ (NSArray<NSMutableDictionary*> *)getMutableChildrenFromLocalStore:(SFSmartStore *)store parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo parent:(NSDictionary *)parent;
 
++ (void)deleteChildrenFromLocalStore:(SFSmartStore *)store parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo parentIds:(NSArray *)parentIds;
 @end
 
 NS_ASSUME_NONNULL_END

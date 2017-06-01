@@ -22,11 +22,19 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSyncDownTarget.h"
+#import "SFSyncUpTarget.h"
 
-@interface SFSyncDownTarget ()
+@interface SFSyncUpTarget ()
 
-- (NSString*) getNonDirtyRecordIdsSql:(NSString*)soupName idField:(NSString*)idField;
-- (NSOrderedSet *)getNonDirtyRecordIds:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName idField:(NSString *)idField;
+@property (nonatomic, strong) NSArray*  createFieldlist;
+@property (nonatomic, strong) NSArray*  updateFieldlist;
+
+- (NSMutableDictionary *)buildFieldsMap:(NSDictionary *)record
+                              fieldlist:(NSArray *)fieldlist
+                            idFieldName:(NSString *)idFieldName
+              modificationDateFieldName:(NSString *)modificationDateFieldName;
+
+- (BOOL)isNewerThanServer:(SFRecordModDate*)localModDate
+            remoteModDate:(SFRecordModDate*)remoteModDate;
 
 @end

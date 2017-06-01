@@ -22,11 +22,31 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSyncDownTarget.h"
+#import "SFSyncUpTarget.h"
+#import "SFSyncState.h"
 
-@interface SFSyncDownTarget ()
+/**
+ Protocol for advanced sync up target where records are not simply created/updated/deleted
+ With advanced sync up target, sync manager simply calls the method: syncUpRecord
+ */
+@protocol SFAdvancedSyncUpTarget
 
-- (NSString*) getNonDirtyRecordIdsSql:(NSString*)soupName idField:(NSString*)idField;
-- (NSOrderedSet *)getNonDirtyRecordIds:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName idField:(NSString *)idField;
+
+/**
+ Sync up locally created/updated or deleted record back to server
+ @param syncManager The sync manager doing the sync
+ @param record The record being synced
+ @param fieldlist List of fields to send to server
+ @param mergeMode Merge mode (overwrite or leave if changed)
+ @param completionBlock The block to execute after the server call completes.
+ @param failBlock The block to execute if the server call fails.
+ */
+- (void)syncUpRecord:(SFSmartSyncSyncManager *)syncManager
+              record:(NSMutableDictionary*)record
+            fieldlist:(NSArray*)fieldlist
+           mergeMode:(SFSyncStateMergeMode)mergeMode
+      completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
+            failBlock:(SFSyncUpTargetErrorBlock)failBlock;
 
 @end
+

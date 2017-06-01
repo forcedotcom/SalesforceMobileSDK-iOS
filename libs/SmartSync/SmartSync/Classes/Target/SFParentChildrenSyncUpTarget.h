@@ -22,11 +22,28 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSyncDownTarget.h"
+#import "SFParentInfo.h"
+#import "SFChildrenInfo.h"
+#import "SFParentChildrenSyncHelper.h"
+#import "SFSyncUpTarget.h"
+#import "SFAdvancedSyncUpTarget.h"
 
-@interface SFSyncDownTarget ()
+NS_ASSUME_NONNULL_BEGIN
 
-- (NSString*) getNonDirtyRecordIdsSql:(NSString*)soupName idField:(NSString*)idField;
-- (NSOrderedSet *)getNonDirtyRecordIds:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName idField:(NSString *)idField;
+@interface SFParentChildrenSyncUpTarget : SFSyncUpTarget <SFAdvancedSyncUpTarget>
+
+/** Factory methods
+ */
++ (instancetype)newSyncTargetWithParentInfo:(SFParentInfo *)parentInfo
+                      parentCreateFieldlist:(NSArray<NSString *> *)parentCreateFieldlist
+                      parentUpdateFieldlist:(NSArray<NSString *> *)parentUpdateFieldlist
+                               childrenInfo:(SFChildrenInfo *)childrenInfo
+                    childrenCreateFieldlist:(NSArray<NSString *> *)childrenCreateFieldlist
+                    childrenUpdateFieldlist:(NSArray<NSString *> *)childrenUpdateFieldlist
+                           relationshipType:(SFParentChildrenRelationshipType)relationshipType;
+
++ (instancetype)newFromDict:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

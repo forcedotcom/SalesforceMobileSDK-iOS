@@ -519,4 +519,12 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     return request;
 }
 
++ (BOOL) isStatusCodeSuccess:(NSUInteger) statusCode {
+    return statusCode >= 200 && statusCode < 300;
+}
+
++ (BOOL) isStatusCodeNotFound:(NSUInteger) statusCode {
+    return statusCode  == 404;
+}
+
 @end

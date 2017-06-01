@@ -28,6 +28,7 @@ extern NSString * const kEmptyString;
 extern NSString * const kNullString;
 
 extern NSString * const kId;
+extern NSString * const kCreatedId;
 extern NSString * const kName;
 extern NSString * const kType;
 extern NSString * const kAttributes;
@@ -40,6 +41,10 @@ extern NSString * const kResponseSearchRecords;
 extern NSString * const kResponseTotalSize;
 extern NSString * const kResponseNextRecordsUrl;
 extern NSString * const kRecentItems;
+extern NSString * const kCompositeResponse;
+extern NSString * const kHttpStatusCode;
+extern NSString * const kReferenceId;
+extern NSString * const kBody;
 
 /**
  * Salesforce object types.

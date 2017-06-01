@@ -32,7 +32,7 @@
 #define ID                  @"Id"
 #define NAME                @"Name"
 #define DESCRIPTION         @"Description"
-#define LAST_MODIFIED_DATE  @"lastModifiedDate"
+#define LAST_MODIFIED_DATE  @"LastModifiedDate"
 #define ATTRIBUTES          @"attributes"
 #define TYPE                @"type"
 #define RECORDS             @"records"
@@ -42,6 +42,12 @@
 #define ACCOUNT_ID          @"AccountId"
 #define CONTACT_TYPE_PLURAL @"Contacts"
 #define TOTAL_SIZE_UNKNOWN  -2
+#define LOCAL_ID_PREFIX     @"local_"
+#define REMOTELY_UPDATED    @"_r_upd"
+#define LOCALLY_UPDATED     @"_l_upd"
+
+
+
 
 @interface SyncManagerTestCase : XCTestCase
 
@@ -55,7 +61,7 @@
 - (NSString *) createLocalId;
 - (NSString *)buildInClause:(NSArray *)values;
 
-- (NSDictionary *) createAccountsLocally:(NSArray*)names;
+- (NSArray *) createAccountsLocally:(NSArray*)names;
 - (void)createAccountsSoup;
 - (void)dropAccountsSoup;
 - (void)createContactsSoup;
@@ -63,6 +69,9 @@
 
 - (NSArray *) buildFieldsMapForRecords:(NSUInteger)count objectType:(NSString*)objectType additionalFields:(NSDictionary*)additionalFields;
 - (NSDictionary *)createAccountsOnServer:(NSUInteger)count;
+
+- (NSDictionary<NSString *, NSString *> *)createRecordsOnServer:(NSUInteger)count objectType:(NSString *)objectType;
+
 - (void)deleteRecordsOnServer:(NSArray *)ids objectType:(NSString*)objectType;
 - (NSDictionary *)sendSyncRequest:(SFRestRequest *)request;
 
@@ -75,4 +84,29 @@
 - (NSDictionary *)makeSomeLocalChanges:(NSDictionary *)idToFields soupName:(NSString *)soupName;
 - (NSDictionary *)makeSomeLocalChanges:(NSDictionary *)idToFields soupName:(NSString *)soupName idsToUpdate:(NSArray *)idsToUpdate;
 - (NSDictionary *)prepareSomeChanges:(NSDictionary *)idToFields idsToUpdate:(NSArray *)idsToUpdate suffix:(NSString *)suffix;
+
+- (void)updateRecordsLocally:(NSDictionary *)idToFieldsLocallyUpdated soupName:(NSString *)soupName;
+
+- (NSDictionary *)makeSomeRemoteChanges:(NSDictionary *)idToFields objectType:(NSString *)objectType;
+
+- (NSDictionary *)makeSomeRemoteChanges:(NSDictionary *)idToFields objectType:(NSString *)objectType idsToUpdate:(NSArray *)idsToUpdate;
+- (void)updateRecordsOnServer:(NSDictionary *)idToFieldsUpdated objectType:(NSString *)objectType;
+- (void)checkDbDeleted:(NSString *)soupName ids:(NSArray *)ids idField:(NSString *)idField;
+
+- (void)trySyncUp:(NSInteger)numberChanges target:(SFSyncUpTarget *)target mergeMode:(SFSyncStateMergeMode)mergeMode;
+- (void)trySyncUp:(NSInteger)numberChanges actualChanges:(NSInteger)actualNumberChanges target:(SFSyncUpTarget *)target options:(SFSyncOptions *)options completionStatus:(SFSyncStateStatus)completionStatus;
+
+- (NSDictionary *)getIdToFieldsByName:(NSString *)soupName fieldNames:(NSArray *)fieldNames nameField:(NSString *)nameField names:(NSArray *)names;
+
+- (void)checkServer:(NSDictionary *)idToFields objectType:(NSString *)objectType;
+
+- (NSDictionary *)updateRecordOnServer:(NSDictionary *)fields idToUpdate:(NSString *)idToUpdate objectType:(NSString *)objectType;
+
+- (NSDictionary *)updateRecordLocally:(NSDictionary *)fields idToUpdate:(NSString *)idToUpdate soupName:(NSString *)soupName;
+
+- (void)deleteRecordsLocally:(NSArray *)ids soupName:(NSString *)soupName;
+
+- (void)checkServerDeleted:(NSArray *)ids objectType:(NSString *)objectType;
+
+- (void)checkDbRelationshipsWithChildrenIds:(NSArray *)childrenIds expectedParentId:(NSString *)expectedParentId soupName:(NSString *)soupName idFieldName:(NSString *)idFieldName parentIdFieldName:(NSString *)parentIdFieldName;
 @end

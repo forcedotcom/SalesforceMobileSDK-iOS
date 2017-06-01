@@ -87,7 +87,7 @@ NSString * const kSyncTargetLocallyDeleted = @"__locally_deleted__";
     if (ids.count > 0) {
         NSString *smartSql = [NSString stringWithFormat:@"SELECT {%@:%@} FROM {%@} WHERE {%@:%@} IN ('%@')",
                                                         soupName, SOUP_ENTRY_ID, soupName, soupName, idField,
-                                                        [ids componentsJoinedByString:@", "]];
+                                                        [ids componentsJoinedByString:@"','"]];
 
         SFQuerySpec *querySpec = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:ids.count];
         [syncManager.store removeEntriesByQuery:querySpec fromSoup:soupName];

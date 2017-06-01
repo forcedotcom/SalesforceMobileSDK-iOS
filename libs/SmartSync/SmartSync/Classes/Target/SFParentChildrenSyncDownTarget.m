@@ -29,15 +29,6 @@
 #import "SFSmartSyncObjectUtils.h"
 #import "SFSmartSyncConstants.h"
 #import <SalesforceSDKCore/SFSDKSoqlBuilder.h>
-#import <SalesforceSDKCore/SFSDKAppFeatureMarkers.h>
-
-static NSString * const kSFParentChildrenSyncTargetParent = @"parent";
-static NSString * const kSFParentChildrenSyncTargetChildren = @"children";
-static NSString * const kSFParentChildrenSyncTargetRelationshipType = @"relationshipType";
-static NSString * const kSFParentChildrenSyncTargetParentFieldlist = @"parentFieldlist";
-static NSString * const kSFParentChildrenSyncTargetParentSoqlFilter = @"parentSoqlFilter";
-static NSString * const kSFParentChildrenSyncTargetChildrenFieldlist = @"childrenFieldlist";
-static NSString * const kSFAppFeatureRelatedRecords = @"RR";
 
 @interface SFParentChildrenSyncDownTarget ()
 
@@ -69,7 +60,7 @@ static NSString * const kSFAppFeatureRelatedRecords = @"RR";
         self.childrenInfo = childrenInfo;
         self.childrenFieldlist = childrenFieldlist;
         self.relationshipType = relationshipType;
-        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureRelatedRecords];
+        [SFParentChildrenSyncHelper registerAppFeature];
     }
     return self;
 }
@@ -181,8 +172,7 @@ static NSString * const kSFAppFeatureRelatedRecords = @"RR";
 
              // NB: ParentChildrenSyncDownTarget's getNonDirtyRecordIdsSql does a join between parent and children soups
              // We only want to look at the children soup, so using SoqlSyncDownTarget's getNonDirtyRecordIdsSql
-
-             NSMutableOrderedSet* localChildrenIds = [NSMutableOrderedSet orderedSetWithOrderedSet:[self getNonDirtyRecordIds:syncManager soupName:self.childrenInfo.soupName idField:self.childrenInfo.idFieldName]];
+             NSMutableOrderedSet* localChildrenIds = [[self getIdsWithQuery:[super getNonDirtyRecordIdsSql:self.childrenInfo.soupName idField:self.childrenInfo.idFieldName] syncManager:syncManager] mutableCopy];
 
              [self getChildrenRemoteIdsWithSoql:syncManager soqlForChildrenRemoteIds:[self getSoqlForRemoteChildrenIds] errorBlock:errorBlock completeBlock:^(NSArray *remoteChildrenIds) {
                  [localChildrenIds removeObjectsInArray:remoteChildrenIds];

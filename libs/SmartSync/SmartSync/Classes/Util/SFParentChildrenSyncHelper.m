@@ -25,11 +25,30 @@
 #import "SFSyncTarget+Internal.h"
 #import "SFParentChildrenSyncHelper.h"
 #import <SmartStore/SFSmartStore.h>
+#import <SmartStore/SFQuerySpec.h>
+#import <SalesforceSDKCore/SFSDKAppFeatureMarkers.h>
+
+static NSString * const kSFAppFeatureRelatedRecords = @"RR";
 
 @implementation SFParentChildrenSyncHelper
 
+NSString * const kSFParentChildrenSyncTargetParent = @"parent";
+NSString * const kSFParentChildrenSyncTargetChildren = @"children";
+NSString * const kSFParentChildrenSyncTargetRelationshipType = @"relationshipType";
+NSString * const kSFParentChildrenSyncTargetParentFieldlist = @"parentFieldlist";
+NSString * const kSFParentChildrenSyncTargetParentCreateFieldlist = @"parentCreateFieldlist";
+NSString * const kSFParentChildrenSyncTargetParentUpdateFieldlist = @"parentUpdateFieldlist";
+NSString * const kSFParentChildrenSyncTargetParentSoqlFilter = @"parentSoqlFilter";
+NSString * const kSFParentChildrenSyncTargetChildrenFieldlist = @"childrenFieldlist";
+NSString * const kSFParentChildrenSyncTargetChildrenCreateFieldlist = @"childrenCreateFieldlist";
+NSString * const kSFParentChildrenSyncTargetChildrenUpdateFieldlist = @"childrenUpdateFieldlist";
 NSString * const kSFParentChildrenRelationshipMasterDetail = @"MASTER_DETAIL";
 NSString * const kSFParentChildrenRelationshipLookup = @"LOOKUP";
+
+#pragma mark - App feature registration
++ (void) registerAppFeature {
+    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureRelatedRecords];
+}
 
 #pragma mark - String to/from enum for query type
 
@@ -46,7 +65,10 @@ NSString * const kSFParentChildrenRelationshipLookup = @"LOOKUP";
         case SFParentChildrenRelationpshipMasterDetail:  return kSFParentChildrenRelationshipMasterDetail;
         case SFParentChildrenRelationpshipLookup: return kSFParentChildrenRelationshipLookup;
     }
+    return nil;
 }
+
+#pragma mark - Other methods
 
 + (NSString*) getDirtyRecordIdsSql:(SFParentInfo*)parentInfo childrenInfo:(SFChildrenInfo*)childrenInfo parentFieldToSelect:(NSString*)parentFieldToSelect {
     return [NSString stringWithFormat:@"SELECT DISTINCT {%@:%@} FROM {%@} WHERE {%@:%@} = 1 OR EXISTS (SELECT {%@:%@} FROM {%@} WHERE {%@:%@} = {%@:%@} AND {%@:%@} = 1)",
@@ -67,7 +89,6 @@ NSString * const kSFParentChildrenRelationshipLookup = @"LOOKUP";
     NSMutableArray * childrenRecords = [NSMutableArray new];
     for (NSDictionary * recordTree  in recordTrees) {
 
-        // XXX should be done in one transaction
         NSMutableDictionary * parent = [recordTree mutableCopy];
 
         // Separating parent from children
@@ -88,8 +109,36 @@ NSString * const kSFParentChildrenRelationshipLookup = @"LOOKUP";
     // Saving parents
     [target cleanAndSaveInSmartStore:syncManager.store soupName:parentInfo.soupName records:parentRecords];
 
-    // saving children
+    // Saving children
     [target cleanAndSaveInSmartStore:syncManager.store soupName:childrenInfo.soupName records:childrenRecords];
+}
+
++ (NSArray<NSMutableDictionary*> *)getMutableChildrenFromLocalStore:(SFSmartStore *)store parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo parent:(NSDictionary *)parent {
+    SFQuerySpec*  querySpec = [self getQueryForChildren:parentInfo childrenInfo:childrenInfo childFieldToSelect:@"_soup" parentIds:@[parent[parentInfo.idFieldName]]];
+    NSArray<NSMutableDictionary *>* rows = [store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
+    NSMutableArray * children = [NSMutableArray new];
+    for (NSArray* row in rows) {
+        [children addObject:[((NSDictionary *)row[0]) mutableCopy]];
+    }
+    return children;
+}
+
++ (void)deleteChildrenFromLocalStore:(SFSmartStore *)store parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo parentIds:(NSArray *)parentIds {
+    SFQuerySpec *querySpec = [self getQueryForChildren:parentInfo childrenInfo:childrenInfo childFieldToSelect:SOUP_ENTRY_ID parentIds:parentIds];
+    [store removeEntriesByQuery:querySpec fromSoup:childrenInfo.soupName];
+}
+
++ (SFQuerySpec*) getQueryForChildren:(SFParentInfo*)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo childFieldToSelect:(NSString*)childFieldToSelect parentIds:(NSArray*)parentIds {
+    NSString* smartSql = [NSString stringWithFormat:@"SELECT {%@:%@} FROM {%@},{%@} WHERE {%@:%@} = {%@:%@} AND {%@:%@} IN (%@)",
+                                                    childrenInfo.soupName, childFieldToSelect,
+                                                    childrenInfo.soupName, parentInfo.soupName,
+                                                    childrenInfo.soupName, childrenInfo.parentIdFieldName,
+                                                    parentInfo.soupName, parentInfo.idFieldName,
+                                                    parentInfo.soupName, parentInfo.idFieldName,
+                                                    [NSString stringWithFormat:@"('%@')", [parentIds componentsJoinedByString:@"', '"]]
+                          ];
+
+    return [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:INT_MAX];
 }
 
 @end

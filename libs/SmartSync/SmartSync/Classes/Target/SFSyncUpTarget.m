@@ -200,10 +200,17 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
 #pragma mark - Helper methods
 
 - (NSDictionary*) buildFieldsMap:(NSDictionary *)record fieldlist:(NSArray *)fieldlist {
-    NSMutableDictionary* fields = [NSMutableDictionary dictionary];
+    return [self buildFieldsMap:record fieldlist:fieldlist idFieldName:self.idFieldName modificationDateFieldName:self.modificationDateFieldName];
+}
+
+- (NSMutableDictionary *)buildFieldsMap:(NSDictionary *)record
+                              fieldlist:(NSArray *)fieldlist
+                            idFieldName:(NSString *)idFieldName
+              modificationDateFieldName:(NSString *)modificationDateFieldName {
+    NSMutableDictionary *fields = [NSMutableDictionary dictionary];
     for (NSString *fieldName in fieldlist) {
-        if (![fieldName isEqualToString:self.idFieldName] && ![fieldName isEqualToString:self.modificationDateFieldName]) {
-            NSObject* fieldValue = [SFJsonUtils projectIntoJson:record path:fieldName];
+        if (![fieldName isEqualToString:idFieldName] && ![fieldName isEqualToString:modificationDateFieldName]) {
+            NSObject *fieldValue = [SFJsonUtils projectIntoJson:record path:fieldName];
             if (fieldValue != nil)
                 fields[fieldName] = fieldValue;
         }
