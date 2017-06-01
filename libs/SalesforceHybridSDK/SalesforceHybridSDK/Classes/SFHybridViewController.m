@@ -287,24 +287,29 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
 
 - (void)authenticateWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock
 {
-
     /*
      * Reconfigure user agent. Basically this ensures that Cordova whitelisting won't apply to the
      * WKWebView that hosts the login screen (important for SSO outside of Salesforce domains).
      */
     [SFSDKWebUtils configureUserAgent:[self sfHybridViewUserAgentString]];
-    [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
-        [self authenticationCompletion:nil authInfo:authInfo];
+    __weak __typeof(self) weakSelf = self;
+    SFOAuthFlowSuccessCallbackBlock authCompletionBlock = ^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        [SFUserAccountManager sharedInstance].currentUser = userAccount;
+        [strongSelf authenticationCompletion:nil authInfo:authInfo];
         if (authInfo.authType == SFOAuthTypeRefresh) {
-            [self loadVFPingPage];
+            [strongSelf loadVFPingPage];
         }
         if (completionBlock != NULL) {
             NSDictionary *authDict = [self credentialsAsDictionary];
             completionBlock(authInfo, authDict);
         }
-    } failure:^(SFOAuthInfo *authInfo, NSError *error) {
-        if ([self logoutOnInvalidCredentials:error]) {
-            [self log:SFLogLevelError msg:@"OAuth plugin authentication request failed. Logging out."];
+    };
+
+    SFOAuthFlowFailureCallbackBlock authFailureBlock = ^(SFOAuthInfo *authInfo, NSError *error) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if ([strongSelf logoutOnInvalidCredentials:error]) {
+            [strongSelf log:SFLogLevelError msg:@"OAuth plugin authentication request failed. Logging out."];
             NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
             attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
             attributes[@"errorDescription"] = error.localizedDescription;
@@ -313,7 +318,16 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
         } else if (failureBlock != NULL) {
             failureBlock(authInfo, error);
         }
-    }];
+    };
+
+    if (![SFUserAccountManager sharedInstance].currentUser) {
+        [[SFAuthenticationManager sharedManager] loginWithCompletion:authCompletionBlock
+                                                             failure:authFailureBlock];
+    } else {
+        [[SFAuthenticationManager sharedManager] refreshCredentials:[SFUserAccountManager sharedInstance].currentUser.credentials
+                                                         completion:authCompletionBlock
+                                                            failure:authFailureBlock];
+    }
 }
 
 - (void)getAuthCredentialsWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock
