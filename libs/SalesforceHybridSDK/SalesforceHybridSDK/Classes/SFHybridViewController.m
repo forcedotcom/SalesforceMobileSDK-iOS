@@ -292,11 +292,12 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
      * WKWebView that hosts the login screen (important for SSO outside of Salesforce domains).
      */
     [SFSDKWebUtils configureUserAgent:[self sfHybridViewUserAgentString]];
-
+    __weak __typeof(self) weakSelf = self;
     SFOAuthFlowSuccessCallbackBlock authCompletionBlock = ^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
-        [self authenticationCompletion:nil authInfo:authInfo];
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf authenticationCompletion:nil authInfo:authInfo];
         if (authInfo.authType == SFOAuthTypeRefresh) {
-            [self loadVFPingPage];
+            [strongSelf loadVFPingPage];
         }
         if (completionBlock != NULL) {
             NSDictionary *authDict = [self credentialsAsDictionary];
@@ -305,8 +306,9 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
     };
 
     SFOAuthFlowFailureCallbackBlock authFailureBlock = ^(SFOAuthInfo *authInfo, NSError *error) {
-        if ([self logoutOnInvalidCredentials:error]) {
-            [self log:SFLogLevelError msg:@"OAuth plugin authentication request failed. Logging out."];
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if ([strongSelf logoutOnInvalidCredentials:error]) {
+            [strongSelf log:SFLogLevelError msg:@"OAuth plugin authentication request failed. Logging out."];
             NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
             attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
             attributes[@"errorDescription"] = error.localizedDescription;
