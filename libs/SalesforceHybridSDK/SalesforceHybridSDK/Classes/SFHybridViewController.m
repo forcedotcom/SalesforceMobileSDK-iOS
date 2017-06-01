@@ -295,6 +295,7 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
     __weak __typeof(self) weakSelf = self;
     SFOAuthFlowSuccessCallbackBlock authCompletionBlock = ^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
+        [SFUserAccountManager sharedInstance].currentUser = userAccount;
         [strongSelf authenticationCompletion:nil authInfo:authInfo];
         if (authInfo.authType == SFOAuthTypeRefresh) {
             [strongSelf loadVFPingPage];
