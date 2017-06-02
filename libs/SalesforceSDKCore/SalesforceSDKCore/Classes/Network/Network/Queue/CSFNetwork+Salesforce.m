@@ -58,12 +58,14 @@ NSString * const CSFDidChangeUserDataNotification = @"CSFDidChangeUserDataNotifi
     {
         self.defaultConnectCommunityId = userAccount.communityId;
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName:CSFDidChangeUserDataNotification
-                                                        object:self
-                                                      userInfo:@{
-                                                              SFUserAccountManagerUserChangeKey: @(change),
-                                                              SFUserAccountManagerUserChangeUserKey: userAccount
-                                                      }];
+    if (userAccount) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:CSFDidChangeUserDataNotification
+                                                            object:self
+                                                          userInfo:@{
+                                                                  SFUserAccountManagerUserChangeKey: @(change),
+                                                                  SFUserAccountManagerUserChangeUserKey: userAccount
+                                                          }];
+    }
 
 
 }

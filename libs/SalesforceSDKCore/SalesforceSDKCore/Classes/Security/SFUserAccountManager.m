@@ -553,34 +553,42 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 }
 
 - (void)applyIdData:(SFIdentityData *)idData forUser:(SFUserAccount *)user {
-    [_accountsLock lock];
-    user.idData = idData;
-    [self saveAccountForUser:user error:nil];
-    [_accountsLock unlock];
-    [self notifyUserDataChange:SFUserAccountManagerDidChangeUserDataNotification withUser:user andChange:SFUserAccountDataChangeIdData];
+    if (user) {
+        [_accountsLock lock];
+        user.idData = idData;
+        [self saveAccountForUser:user error:nil];
+        [_accountsLock unlock];
+        [self notifyUserDataChange:SFUserAccountManagerDidChangeUserDataNotification withUser:user andChange:SFUserAccountDataChangeIdData];
+    }
 }
 
 - (void)applyIdDataCustomAttributes:(NSDictionary *)customAttributes forUser:(SFUserAccount *)user {
-    [_accountsLock lock];
-    user.idData.customAttributes = customAttributes;
-    [self saveAccountForUser:user error:nil];
-    [_accountsLock unlock];
-    [self notifyUserDataChange:SFUserAccountManagerDidChangeUserDataNotification withUser:user andChange:SFUserAccountDataChangeIdData];
+    if (user) {
+        [_accountsLock lock];
+        user.idData.customAttributes = customAttributes;
+        [self saveAccountForUser:user error:nil];
+        [_accountsLock unlock];
+        [self notifyUserDataChange:SFUserAccountManagerDidChangeUserDataNotification withUser:user andChange:SFUserAccountDataChangeIdData];
+    }
 }
 
 - (void)applyIdDataCustomPermissions:(NSDictionary *)customPermissions forUser:(SFUserAccount *)user {
-    [_accountsLock lock];
-    user.idData.customPermissions = customPermissions;
-    [self saveAccountForUser:user error:nil];
-    [_accountsLock unlock];
-    [self notifyUserDataChange:SFUserAccountManagerDidChangeUserDataNotification withUser:user andChange:SFUserAccountDataChangeIdData];
+     if (user) {
+        [_accountsLock lock];
+        user.idData.customPermissions = customPermissions;
+        [self saveAccountForUser:user error:nil];
+        [_accountsLock unlock];
+        [self notifyUserDataChange:SFUserAccountManagerDidChangeUserDataNotification withUser:user andChange:SFUserAccountDataChangeIdData];
+     }
 }
 
 - (void)setObjectForUserCustomData:(NSObject <NSCoding> *)object forKey:(NSString *)key andUser:(SFUserAccount *)user {
-    [_accountsLock lock];
-    [user setCustomDataObject:object forKey:key];
-    [self saveAccountForUser:user error:nil];
-    [_accountsLock unlock];
+    if (user) {
+        [_accountsLock lock];
+        [user setCustomDataObject:object forKey:key];
+        [self saveAccountForUser:user error:nil];
+        [_accountsLock unlock];
+    }
 }
 
 - (NSString *)currentCommunityId {
@@ -623,12 +631,13 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 }
 
 - (void)notifyUserDataChange:(NSString *)notificationName withUser:(SFUserAccount *)user andChange:(SFUserAccountDataChange)change {
-
-    [[NSNotificationCenter defaultCenter] postNotificationName:notificationName
-                                                        object:user
-                                                      userInfo:@{
-                                                            SFUserAccountManagerUserChangeKey: @(change)
-                                                      }];
+    if (user) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:notificationName
+                                                            object:user
+                                                          userInfo:@{
+                                                                SFUserAccountManagerUserChangeKey: @(change)
+                                                          }];
+    }
 
 }
 
