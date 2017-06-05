@@ -198,7 +198,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     if (!self.customHeaders) {
         self.customHeaders = [[NSMutableDictionary alloc] init];
     }
-    [self.customHeaders setValue:value forKey:name];
+    [self.customHeaders setObject:value forKey:name];
 }
 
 #pragma mark - Upload
