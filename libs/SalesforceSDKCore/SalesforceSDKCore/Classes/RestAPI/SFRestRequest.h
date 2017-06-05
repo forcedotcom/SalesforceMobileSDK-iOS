@@ -112,6 +112,11 @@ extern NSString * const kSFDefaultRestEndpoint;
 @property (nonnull, nonatomic, strong, readwrite) NSString *path;
 
 /**
+ * Used to specify if the response should be parsed. YES by default.
+ */
+@property (nonatomic, assign) BOOL parseResponse;
+
+/**
  * The query parameters of the request (could be nil).
  * Note that URL encoding of the parameters will automatically happen when the request is sent.
  */

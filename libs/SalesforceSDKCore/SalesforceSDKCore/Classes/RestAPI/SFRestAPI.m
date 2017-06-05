@@ -274,15 +274,19 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 
         // 2xx indicates success.
         if (statusCode >= 200 && statusCode <= 299) {
-            NSError *parsingError;
-            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parsingError];
-            if (parsingError) {
-                if (data.length == 0) {
-                    data = nil;
+            if (request.parseResponse) {
+                NSError *parsingError;
+                NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parsingError];
+                if (parsingError) {
+                    if (data.length == 0) {
+                        data = nil;
+                    }
+                    [delegate request:request didLoadResponse:data];
+                } else {
+                    [delegate request:request didLoadResponse:jsonDict];
                 }
-                [delegate request:request didLoadResponse:data];
             } else {
-                [delegate request:request didLoadResponse:jsonDict];
+                [delegate request:request didLoadResponse:data];
             }
         } else {
             if (!error) {
