@@ -39,6 +39,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
         self.queryParams = queryParams;
         self.endpoint = kSFDefaultRestEndpoint;
         self.requiresAuthentication = YES;
+        self.parseResponse = YES;
         self.request = [[NSMutableURLRequest alloc] init];
     }
     return self;
