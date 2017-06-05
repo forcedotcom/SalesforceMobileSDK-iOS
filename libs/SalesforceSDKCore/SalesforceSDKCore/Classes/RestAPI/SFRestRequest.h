@@ -120,13 +120,13 @@ extern NSString * const kSFDefaultRestEndpoint;
  * The query parameters of the request (could be nil).
  * Note that URL encoding of the parameters will automatically happen when the request is sent.
  */
-@property (nullable, nonatomic, strong, readwrite) NSDictionary<NSString*, id> *queryParams;
+@property (nullable, nonatomic, strong, readwrite) NSMutableDictionary<NSString*, id> *queryParams;
 
 /**
  * Dictionary of any custom HTTP headers you wish to add to your request.  You can also use
  * `setHeaderValue:forHeaderName:` to add headers to this property.
  */
-@property (nullable, nonatomic, strong, readwrite) NSDictionary<NSString*, NSString*> *customHeaders;
+@property (nullable, nonatomic, strong, readwrite) NSMutableDictionary<NSString*, NSString*> *customHeaders;
 
 /**
  * The delegate for this request. Notified of request status.

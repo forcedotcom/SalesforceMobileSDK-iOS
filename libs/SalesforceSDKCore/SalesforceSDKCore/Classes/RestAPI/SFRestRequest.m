@@ -36,7 +36,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     if (self) {
         self.method = method;
         self.path = path;
-        self.queryParams = queryParams;
+        self.queryParams = [queryParams mutableCopy];
         self.endpoint = kSFDefaultRestEndpoint;
         self.requiresAuthentication = YES;
         self.parseResponse = YES;
@@ -198,7 +198,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     if (!self.customHeaders) {
         self.customHeaders = [[NSMutableDictionary alloc] init];
     }
-    [self.customHeaders setValue:value forKey:name];
+    [self.customHeaders setObject:value forKey:name];
 }
 
 #pragma mark - Upload
