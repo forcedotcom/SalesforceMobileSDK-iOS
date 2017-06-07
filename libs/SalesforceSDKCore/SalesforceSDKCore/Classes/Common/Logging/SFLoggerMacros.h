@@ -103,14 +103,12 @@ static BOOL SFLoggerLogToASL = YES;
 #define SF_LOG_MAYBE(__async, __flg, __ctx, __tag, __fnct, __frmt, ...)                                              \
     ({                                                                                                               \
         SFLogLevel __level = SFLoggerContextLogLevels[MAX(1, __ctx) - 1];                                            \
-        if (SFLoggerLogToASL || (__flg & __level)) {                                                                 \
+        if (__flg & __level) {                                                                                       \
             NSString *__message = [NSString stringWithFormat:__frmt, ##__VA_ARGS__];                                 \
             if (SFLoggerLogToASL) {                                                                                  \
                 os_log_with_type(SFLoggerOSLog(MAX(1, __ctx) - 1, __tag), SF_LOG_TO_OS_LOG(__flg), "%@", __message); \
             }                                                                                                        \
-            if (__flg & __level) {                                                                                   \
-                SF_LOG_MACRO(__async, __level, __flg, __ctx, __tag, __fnct, __message);                              \
-            }                                                                                                        \
+            SF_LOG_MACRO(__async, __level, __flg, __ctx, __tag, __fnct, __message);                                  \
         }                                                                                                            \
     })
 
