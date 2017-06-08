@@ -42,6 +42,11 @@
 		05460B721DD409B8004E3320 /* SFSwiftDetectUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 05460B701DD409B8004E3320 /* SFSwiftDetectUtil.m */; };
 		1098078C1CB8713A002AF771 /* UIColor+SFColors.m in Sources */ = {isa = PBXBuildFile; fileRef = E1DDC0FD1CAA2A8B002F51DD /* UIColor+SFColors.m */; };
 		444B95D01E83251900908C61 /* UIColor+SFColorsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 444B95CF1E83251900908C61 /* UIColor+SFColorsTests.m */; };
+		44D1FCE31EE9C31D006E2633 /* SFSDKSafeMutableDictionaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 44D1FCE21EE9C31D006E2633 /* SFSDKSafeMutableDictionaryTests.m */; };
+		44D3523D1EE9AC0B00D0E677 /* SFSDKSafeMutableDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 44EFFA301EE8C63600B30267 /* SFSDKSafeMutableDictionary.m */; };
+		44D3523E1EE9AC1A00D0E677 /* SFSDKSafeMutableDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 44EFFA301EE8C63600B30267 /* SFSDKSafeMutableDictionary.m */; };
+		44D3523F1EE9AC2000D0E677 /* SFSDKSafeMutableDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 44EFFA2F1EE8C63600B30267 /* SFSDKSafeMutableDictionary.h */; };
+		44EFFA311EE8C63600B30267 /* SFSDKSafeMutableDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 44EFFA2F1EE8C63600B30267 /* SFSDKSafeMutableDictionary.h */; };
 		4F06AF731C49A16A00F70798 /* NSURL+SFStringUtilsTests.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F06AF5D1C49A16A00F70798 /* NSURL+SFStringUtilsTests.h */; };
 		4F06AF751C49A16A00F70798 /* SalesforceOAuthUnitTests.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F06AF5F1C49A16A00F70798 /* SalesforceOAuthUnitTests.h */; };
 		4F06AF771C49A16A00F70798 /* SalesforceOAuthUnitTestsCoordinatorDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F06AF611C49A16A00F70798 /* SalesforceOAuthUnitTestsCoordinatorDelegate.h */; };
@@ -972,6 +977,9 @@
 		05460B6F1DD409B8004E3320 /* SFSwiftDetectUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSwiftDetectUtil.h; sourceTree = "<group>"; };
 		05460B701DD409B8004E3320 /* SFSwiftDetectUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSwiftDetectUtil.m; sourceTree = "<group>"; };
 		444B95CF1E83251900908C61 /* UIColor+SFColorsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+SFColorsTests.m"; path = "SalesforceSDKCoreTests/UIColor+SFColorsTests.m"; sourceTree = SOURCE_ROOT; };
+		44D1FCE21EE9C31D006E2633 /* SFSDKSafeMutableDictionaryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKSafeMutableDictionaryTests.m; path = SalesforceSDKCoreTests/SFSDKSafeMutableDictionaryTests.m; sourceTree = SOURCE_ROOT; };
+		44EFFA2F1EE8C63600B30267 /* SFSDKSafeMutableDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKSafeMutableDictionary.h; sourceTree = "<group>"; };
+		44EFFA301EE8C63600B30267 /* SFSDKSafeMutableDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKSafeMutableDictionary.m; sourceTree = "<group>"; };
 		4F06AF5D1C49A16A00F70798 /* NSURL+SFStringUtilsTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSURL+SFStringUtilsTests.h"; path = "SalesforceSDKCoreTests/NSURL+SFStringUtilsTests.h"; sourceTree = SOURCE_ROOT; };
 		4F06AF5E1C49A16A00F70798 /* NSURL+SFStringUtilsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSURL+SFStringUtilsTests.m"; path = "SalesforceSDKCoreTests/NSURL+SFStringUtilsTests.m"; sourceTree = SOURCE_ROOT; };
 		4F06AF5F1C49A16A00F70798 /* SalesforceOAuthUnitTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SalesforceOAuthUnitTests.h; path = SalesforceSDKCoreTests/SalesforceOAuthUnitTests.h; sourceTree = SOURCE_ROOT; };
@@ -1427,6 +1435,7 @@
 		4F7EB3F61BFFC84700768720 /* SalesforceSDKCoreTests */ = {
 			isa = PBXGroup;
 			children = (
+				44D1FCE21EE9C31D006E2633 /* SFSDKSafeMutableDictionaryTests.m */,
 				CE81A9C61E9C26EF00F3D0AD /* SFUserAccountManagerNotificationsTests.m */,
 				A25EE80C1E57543B00BDF5B1 /* CSFSalesforceActionTests.m */,
 				CED452E71D808DEE009266EB /* SalesforceRestAPITests.h */,
@@ -1560,6 +1569,8 @@
 				4F96FC621BFD32130022F021 /* SFUserActivityMonitor.m */,
 				B791409A1EC11ADE0051492F /* SFSDKWebViewStateManager.h */,
 				B791409B1EC11ADE0051492F /* SFSDKWebViewStateManager.m */,
+				44EFFA2F1EE8C63600B30267 /* SFSDKSafeMutableDictionary.h */,
+				44EFFA301EE8C63600B30267 /* SFSDKSafeMutableDictionary.m */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -2340,6 +2351,7 @@
 				CE7F662B1E556CA800DC3FBB /* SFNetwork.h in Headers */,
 				CE4CE36C1C0E526A009F6029 /* SFEncryptionKey.h in Headers */,
 				CE4CE3561C0E526A009F6029 /* SFAbstractPasscodeViewController.h in Headers */,
+				44EFFA311EE8C63600B30267 /* SFSDKSafeMutableDictionary.h in Headers */,
 				CE8EA2B31D7F67FA00AAC74C /* CSFAvailability.h in Headers */,
 				BE2B45BE1DB0037E004DA618 /* UIColor+SFColors.h in Headers */,
 				CE8EA2961D7F67FA00AAC74C /* CSFOAuthTokenRefreshInput.h in Headers */,
@@ -2571,6 +2583,7 @@
 				CEA882BB1C18FB4D008D871B /* SFOAuthCoordinator.h in Headers */,
 				E1C80D2C1C5C367D001B3A21 /* SFSDKLoginHostStorage.h in Headers */,
 				CEA8828B1C18FAAB008D871B /* NSString+SFAdditions.h in Headers */,
+				44D3523F1EE9AC2000D0E677 /* SFSDKSafeMutableDictionary.h in Headers */,
 				CEA882AE1C18FAAB008D871B /* SFUserActivityMonitor.h in Headers */,
 				CEA882E11C18FB8E008D871B /* SFDefaultUserManagementViewController+Internal.h in Headers */,
 				CEA883061C18FB8E008D871B /* SFUserAccount.h in Headers */,
@@ -3002,6 +3015,7 @@
 				E1DDC1441CAEEB34002F51DD /* SFSDKLoginHostTests.m in Sources */,
 				CE8EA2F91D7F684B00AAC74C /* CSFInputStreamElementTests.m in Sources */,
 				4F06AF941C49A18E00F70798 /* SFTestSDKManagerFlow.m in Sources */,
+				44D1FCE31EE9C31D006E2633 /* SFSDKSafeMutableDictionaryTests.m in Sources */,
 				4F7EB4161BFFC8D700768720 /* SDKCommonNSDataTests.m in Sources */,
 				4F06AF931C49A18E00F70798 /* SFSecurityLockoutTests.m in Sources */,
 				CE81A9C81E9C26F900F3D0AD /* SFUserAccountManagerNotificationsTests.m in Sources */,
@@ -3102,6 +3116,7 @@
 				CE4CE31B1C0E523B009F6029 /* SFInactivityTimerCenter.m in Sources */,
 				CE4CE3A41C0E5279009F6029 /* SalesforceSDKCoreDefines.m in Sources */,
 				CE4CE34D1C0E5252009F6029 /* SFOAuthKeychainCredentials.m in Sources */,
+				44D3523D1EE9AC0B00D0E677 /* SFSDKSafeMutableDictionary.m in Sources */,
 				CE4CE3371C0E523B009F6029 /* SFUserActivityMonitor.m in Sources */,
 				CE4CE33B1C0E5245009F6029 /* SFIdentityCoordinator.m in Sources */,
 				82A195A71E73247F008F5AA8 /* SFSDKAppFeatureMarkers.m in Sources */,
@@ -3242,6 +3257,7 @@
 				CEA882931C18FAAB008D871B /* SFInactivityTimerCenter.m in Sources */,
 				CE8EA3081D7F690E00AAC74C /* SFUserAccount+SalesforceNetwork.m in Sources */,
 				CEA8831C1C18FC40008D871B /* SalesforceSDKCoreDefines.m in Sources */,
+				44D3523E1EE9AC1A00D0E677 /* SFSDKSafeMutableDictionary.m in Sources */,
 				CEA882C51C18FB4D008D871B /* SFOAuthKeychainCredentials.m in Sources */,
 				CEA882AF1C18FAAB008D871B /* SFUserActivityMonitor.m in Sources */,
 				CEA882B31C18FB28008D871B /* SFIdentityCoordinator.m in Sources */,
