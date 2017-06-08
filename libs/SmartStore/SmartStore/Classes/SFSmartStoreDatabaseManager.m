@@ -77,6 +77,9 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
 {
     @synchronized (self) {
         NSString *userKey = [SFSmartStoreUtils userKeyForUser:user];
+        if (userKey == nil) {
+            return nil;
+        }
         SFSmartStoreDatabaseManager *mgr = sDatabaseManagers[userKey];
         if (mgr == nil) {
             mgr = [[SFSmartStoreDatabaseManager alloc] initWithUser:user];
