@@ -50,14 +50,14 @@
 - (void)testConcurrentReadWrites {
     NSArray *overwriteValues = [self generateTestValues];
     XCTestExpectation *writeExpectation = [self expectationWithDescription:@"writeExpectation"];
-    XCTestExpectation *readExpactation = [self expectationWithDescription:@"readExpactation"];
+    XCTestExpectation *readExpectation = [self expectationWithDescription:@"readExpectation"];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         [self performWrites:self.testDictionary keys:self.testKeys objects:overwriteValues];
         [writeExpectation fulfill];
     });
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         [self performReads:self.testDictionary keys:self.testKeys];
-        [readExpactation fulfill];
+        [readExpectation fulfill];
     });
     
     [self waitForExpectationsWithTimeout:5.0 handler:^(NSError * _Nullable error) {
