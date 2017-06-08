@@ -38,14 +38,13 @@
 
 @end
 
-// Key under which the list of login hosts will be stored in the user defaults.
 static NSString * const SFSDKLoginHostList = @"SalesforceLoginHostListPrefs";
-
-// Key for the host.
 static NSString * const SFSDKLoginHostKey = @"SalesforceLoginHostKey";
-
-// Key for the name.
 static NSString * const SFSDKLoginHostNameKey = @"SalesforceLoginHostNameKey";
+
+static NSString * const SFSDKLoginHostListLegacy = @"ChatterLoginHostListPrefs";
+static NSString * const SFSDKLoginHostLegacyKey = @"ChatterLoginHostKey";
+static NSString * const SFSDKLoginHostNameLegacyKey = @"ChatterLoginHostNameKey";
 
 @implementation SFSDKLoginHostStorage
 
@@ -101,17 +100,21 @@ static NSString * const SFSDKLoginHostNameKey = @"SalesforceLoginHostNameKey";
             }
         }
 
-        // Load from the user defaults.
-        NSArray *persistedList = [[NSUserDefaults msdkUserDefaults] objectForKey:SFSDKLoginHostList];
-        if (persistedList) {
-            for (NSDictionary *dic in persistedList) {
-                [self.loginHostList addObject:[SFSDKLoginHost hostWithName:[dic objectForKey:SFSDKLoginHostNameKey]
-                                                                      host:[dic objectForKey:SFSDKLoginHostKey]
-                                                                 deletable:YES]];
-            }
-        }
+        [self loadLoginHostsFromUserDefaultsWithKey:SFSDKLoginHostList hostKey:SFSDKLoginHostKey hostNameKey:SFSDKLoginHostNameKey];
+        [self loadLoginHostsFromUserDefaultsWithKey:SFSDKLoginHostListLegacy hostKey:SFSDKLoginHostLegacyKey hostNameKey:SFSDKLoginHostNameLegacyKey];
     }
     return self;
+}
+
+- (void)loadLoginHostsFromUserDefaultsWithKey:(NSString *)listKey hostKey:(NSString *)hostKey hostNameKey:(NSString *)hostNameKey {
+    NSArray *persistedList = [[NSUserDefaults msdkUserDefaults] objectForKey:listKey];
+    if (persistedList) {
+        for (NSDictionary *dic in persistedList) {
+            [self.loginHostList addObject:[SFSDKLoginHost hostWithName:[dic objectForKey:hostNameKey]
+                                                                  host:[dic objectForKey:hostKey]
+                                                             deletable:YES]];
+        }
+    }
 }
 
 - (void)save {
