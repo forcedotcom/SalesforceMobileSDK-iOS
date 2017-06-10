@@ -45,8 +45,8 @@
 		44D1FCE31EE9C31D006E2633 /* SFSDKSafeMutableDictionaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 44D1FCE21EE9C31D006E2633 /* SFSDKSafeMutableDictionaryTests.m */; };
 		44D3523D1EE9AC0B00D0E677 /* SFSDKSafeMutableDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 44EFFA301EE8C63600B30267 /* SFSDKSafeMutableDictionary.m */; };
 		44D3523E1EE9AC1A00D0E677 /* SFSDKSafeMutableDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 44EFFA301EE8C63600B30267 /* SFSDKSafeMutableDictionary.m */; };
-		44D3523F1EE9AC2000D0E677 /* SFSDKSafeMutableDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 44EFFA2F1EE8C63600B30267 /* SFSDKSafeMutableDictionary.h */; };
-		44EFFA311EE8C63600B30267 /* SFSDKSafeMutableDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 44EFFA2F1EE8C63600B30267 /* SFSDKSafeMutableDictionary.h */; };
+		44D3523F1EE9AC2000D0E677 /* SFSDKSafeMutableDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 44EFFA2F1EE8C63600B30267 /* SFSDKSafeMutableDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		44EFFA311EE8C63600B30267 /* SFSDKSafeMutableDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 44EFFA2F1EE8C63600B30267 /* SFSDKSafeMutableDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4F06AF731C49A16A00F70798 /* NSURL+SFStringUtilsTests.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F06AF5D1C49A16A00F70798 /* NSURL+SFStringUtilsTests.h */; };
 		4F06AF751C49A16A00F70798 /* SalesforceOAuthUnitTests.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F06AF5F1C49A16A00F70798 /* SalesforceOAuthUnitTests.h */; };
 		4F06AF771C49A16A00F70798 /* SalesforceOAuthUnitTestsCoordinatorDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F06AF611C49A16A00F70798 /* SalesforceOAuthUnitTestsCoordinatorDelegate.h */; };
