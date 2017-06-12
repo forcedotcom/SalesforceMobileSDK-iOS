@@ -41,4 +41,16 @@
  */
 - (nonnull instancetype)initWithComponent:(nonnull NSString *)componentName;
 
+/**
+ * Flushes the log file and resets it to its original state.
+ */
+- (void)flushLog;
+
+/**
+ * Returns all log lines stored in this file.
+ *
+ * @return All log lines stored in this file.
+ */
+- (nullable NSString *)readFile;
+
 @end

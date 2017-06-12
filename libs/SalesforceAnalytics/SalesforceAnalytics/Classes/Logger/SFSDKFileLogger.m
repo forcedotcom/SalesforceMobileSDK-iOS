@@ -36,16 +36,47 @@
 
 @end
 
-@implementation SFSDKFileLogger
+@implementation SFSDKFileLogger {
+    SFSDKLogFileManager *_logFileManager;
+}
 
 - (instancetype)initWithComponent:(NSString *)componentName {
-    SFSDKLogFileManager *logFileManager = [[SFSDKLogFileManager alloc] initWithComponent:componentName];
-    self = [super initWithLogFileManager:logFileManager];
+    SFSDKLogFileManager *logManager = [[SFSDKLogFileManager alloc] initWithComponent:componentName];
+    self = [super initWithLogFileManager:logManager];
     if (self) {
         self.componentName = componentName;
-        self.rollingFrequency = 0;
+        _logFileManager = logManager;
+        self.rollingFrequency = 0; // Disables rolling of log files based on time and does it based on size.
     }
     return self;
+}
+
+- (void)flushLog {
+    NSFileManager *fileManager = [[NSFileManager alloc] init];
+    __weak __typeof(self) weakSelf = self;
+    [self rollLogFileWithCompletionBlock: ^{
+        __strong __typeof(weakSelf) strongSelf = weakSelf;
+        for (NSString *filename in strongSelf->_logFileManager.sortedLogFilePaths) {
+            [fileManager removeItemAtPath:filename error:nil];
+        }
+    }];
+}
+
+- (NSString *)readFile {
+    NSString *logFile = nil;
+    NSArray *logFiles = _logFileManager.sortedLogFilePaths;
+    if (logFiles.count > 0) {
+        logFile = logFiles[0];
+    }
+    NSFileManager *fileManager = [[NSFileManager alloc] init];
+    NSError *error = nil;
+    if ([fileManager fileExistsAtPath:logFile]) {
+        NSString *fileContent = [NSString stringWithContentsOfFile:logFile
+                                                          encoding:NSUTF8StringEncoding
+                                                             error:&error];
+        return fileContent;
+    }
+    return nil;
 }
 
 @end
