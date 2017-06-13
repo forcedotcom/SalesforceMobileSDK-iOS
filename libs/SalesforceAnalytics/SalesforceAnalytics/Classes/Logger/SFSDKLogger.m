@@ -28,11 +28,64 @@
  */
 
 #import "SFSDKLogger.h"
+#import <CocoaLumberjack/DDTTYLogger.h>
+
+static NSMutableDictionary *loggerList = nil;
 
 @interface SFSDKLogger ()
+
+@property (nonatomic, readwrite, strong) NSString *componentName;
+@property (nonatomic, readwrite, strong) DDLog *logger;
+@property (nonatomic, readwrite, strong) SFSDKFileLogger *fileLogger;
 
 @end
 
 @implementation SFSDKLogger
+
++ (instancetype)sharedInstanceWithComponent:(NSString *)componentName {
+    static dispatch_once_t pred;
+    dispatch_once(&pred, ^{
+        loggerList = [[NSMutableDictionary alloc] init];
+    });
+    @synchronized ([SFSDKLogger class]) {
+        if (!componentName) {
+            return nil;
+        }
+        id logger = loggerList[componentName];
+        if (!logger) {
+            logger = [[SFSDKLogger alloc] initWithComponent:componentName];
+            loggerList[componentName] = logger;
+        }
+        return logger;
+    }
+}
+
++ (void)flushComponents:(nonnull NSString *)componentName {
+    @synchronized ([SFSDKLogger class]) {
+        if (!componentName) {
+            return;
+        }
+        [loggerList removeAllObjects];
+        [loggerList removeObjectForKey:componentName];
+    }
+}
+
+- (instancetype)initWithComponent:(NSString *)componentName {
+    self = [super init];
+    if (self) {
+        self.componentName = componentName;
+        self.logger = [[DDLog alloc] init];
+        self.fileLogger = [[SFSDKFileLogger alloc] initWithComponent:componentName];
+        DDLogLevel logLevel = DDLogLevelError;
+#ifdef DEBUG
+        logLevel = DDLogLevelDebug;
+#endif
+        DDTTYLogger *consoleLogger = [DDTTYLogger sharedInstance];
+        consoleLogger.colorsEnabled = YES;
+        [self.logger addLogger:consoleLogger withLevel:logLevel];
+        [self.logger addLogger:self.fileLogger withLevel:logLevel];
+    }
+    return self;
+}
 
 @end
