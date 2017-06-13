@@ -352,6 +352,14 @@ static NSException *authException = nil;
     XCTAssertEqual((int)[records count], 0, @"expected no result");
 }
 
+// Runs a SOQL query which contains +
+// Make sure it succeeds
+-(void) testEscapingWithSOQLQuery {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:@"Select Name from Account where LastModifiedDate > 2017-03-21T12:11:06.000+0000"];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];    listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
 // - create object (requestForCreateWithObjectType)
 // - query new object (requestForQuery) and make sure we just got 1 object
 // - update object
