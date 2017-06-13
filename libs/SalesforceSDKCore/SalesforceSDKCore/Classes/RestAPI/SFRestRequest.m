@@ -24,9 +24,8 @@
 
 #import "SFRestRequest+Internal.h"
 #import "SFRestAPI+Internal.h"
-#import "SalesforceSDKConstants.h"
 #import "SFJsonUtils.h"
-#import "SalesforceSDKCore.h"
+#import <SalesforceSDKCore/NSString+SFAdditions.h>
 
 NSString * const kSFDefaultRestEndpoint = @"/services/data";
 
@@ -279,10 +278,12 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     NSMutableString *params = [NSMutableString new];
     if (components) {
         [params appendString:@"?"];
+        NSUInteger countParams = [components count];
         for (NSString *paramName in [components allKeys]) {
             [params appendString:paramName];
             [params appendString:@"="];
             [params appendString:[components[paramName] stringByURLEncoding]];
+            if (countParams > 1) [params appendString:@"&"];
         }
     }
     return params;
