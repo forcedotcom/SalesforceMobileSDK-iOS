@@ -275,17 +275,17 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 }
 
 + (NSString *)toQueryString:(NSDictionary *)components {
-    NSMutableString *params = [NSMutableString new];
+    NSMutableString* queryString = [NSMutableString new];
     if (components) {
-        [params appendString:@"?"];
-        NSUInteger countParams = [components count];
+        NSMutableArray *parts = [NSMutableArray array];
+        [queryString appendString:@"?"];
         for (NSString *paramName in [components allKeys]) {
-            [params appendString:paramName];
-            [params appendString:@"="];
-            [params appendString:[components[paramName] stringByURLEncoding]];
-            if (countParams > 1) [params appendString:@"&"];
+            NSString* paramValue = components[paramName];
+            NSString *part = [NSString stringWithFormat:@"%@=%@", [paramName stringByURLEncoding], [paramValue stringByURLEncoding]];
+            [parts addObject:part];
         }
+        [queryString appendString:[parts componentsJoinedByString:@"&"]];
     }
-    return params;
+    return queryString;
 }
 @end
