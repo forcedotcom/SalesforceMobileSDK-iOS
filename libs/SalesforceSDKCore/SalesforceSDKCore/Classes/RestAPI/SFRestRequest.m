@@ -24,8 +24,8 @@
 
 #import "SFRestRequest+Internal.h"
 #import "SFRestAPI+Internal.h"
-#import "SalesforceSDKConstants.h"
 #import "SFJsonUtils.h"
+#import "NSString+SFAdditions.h"
 
 NSString * const kSFDefaultRestEndpoint = @"/services/data";
 
@@ -142,20 +142,13 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
             [path deleteCharactersInRange:NSMakeRange(0, 1)];
         }
         [fullUrl appendString:path];
-        NSURLComponents *components = [NSURLComponents componentsWithString:fullUrl];
 
         // Adds query parameters to the request if any are set.
         if (self.queryParams) {
-            NSMutableArray<NSURLQueryItem *> *queryItems = [[NSMutableArray alloc] init];
-            for (NSString *key in self.queryParams.allKeys) {
-                if (key != nil) {
-                    NSURLQueryItem *query = [NSURLQueryItem queryItemWithName:key value:self.queryParams[key]];
-                    [queryItems addObject:query];
-                }
-            }
-            components.queryItems = queryItems;
+            // Not using NSUrlQueryItems because of https://stackoverflow.com/questions/41273994/special-characters-not-being-encoded-properly-inside-urlqueryitems
+            [fullUrl appendString:[SFRestRequest toQueryString:self.queryParams]];
         }
-        self.request = [[NSMutableURLRequest alloc] initWithURL:components.URL];
+        self.request = [[NSMutableURLRequest alloc] initWithURL:[[NSURL alloc] initWithString:fullUrl]];
 
         // Sets HTTP method on the request.
         [self.request setHTTPMethod:[SFRestRequest httpMethodFromSFRestMethod:self.method]];
@@ -281,4 +274,18 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     return restMethodName;
 }
 
++ (NSString *)toQueryString:(NSDictionary *)components {
+    NSMutableString* queryString = [NSMutableString new];
+    if (components) {
+        NSMutableArray *parts = [NSMutableArray array];
+        [queryString appendString:@"?"];
+        for (NSString *paramName in [components allKeys]) {
+            NSString* paramValue = components[paramName];
+            NSString *part = [NSString stringWithFormat:@"%@=%@", [paramName stringByURLEncoding], [paramValue stringByURLEncoding]];
+            [parts addObject:part];
+        }
+        [queryString appendString:[parts componentsJoinedByString:@"&"]];
+    }
+    return queryString;
+}
 @end
