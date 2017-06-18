@@ -53,10 +53,8 @@
 
 - (void)flushLog {
     NSFileManager *fileManager = [[NSFileManager alloc] init];
-    __weak __typeof(self) weakSelf = self;
     [self rollLogFileWithCompletionBlock: ^{
-        __strong __typeof(weakSelf) strongSelf = weakSelf;
-        for (NSString *filename in strongSelf->_logFileManager.sortedLogFilePaths) {
+        for (NSString *filename in self->_logFileManager.sortedLogFilePaths) {
             [fileManager removeItemAtPath:filename error:nil];
         }
     }];
