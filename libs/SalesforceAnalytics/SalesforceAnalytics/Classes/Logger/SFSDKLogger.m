@@ -63,7 +63,7 @@ static NSMutableDictionary<NSString *, SFSDKLogger *> *loggerList = nil;
 + (void)flushAllComponents {
     @synchronized ([SFSDKLogger class]) {
         for (NSString *loggerKey in loggerList.allKeys) {
-            [loggerList[loggerKey].fileLogger flushLog];
+            [loggerList[loggerKey].fileLogger flushLogWithCompletionBlock:nil];
         }
         [loggerList removeAllObjects];
     }

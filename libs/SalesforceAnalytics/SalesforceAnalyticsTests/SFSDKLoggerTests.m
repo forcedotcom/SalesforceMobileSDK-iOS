@@ -47,11 +47,13 @@ unsigned long long const kDefaultMaxFileSize = 1024 * 1024; // 1 MB.
 - (void)setUp {
     [super setUp];
     [SFSDKLogger flushAllComponents];
+    [NSThread sleepForTimeInterval:1.0]; // Flushing the log file is asynchronous.
     
 }
 
 - (void)tearDown {
     [SFSDKLogger flushAllComponents];
+    [NSThread sleepForTimeInterval:1.0]; // Flushing the log file is asynchronous.
     [super tearDown];
 }
 
@@ -74,10 +76,12 @@ unsigned long long const kDefaultMaxFileSize = 1024 * 1024; // 1 MB.
     XCTAssertEqualObjects(nil, [logger.fileLogger readFile], @"Log file should be empty");
     [logger.logger log:NO message:[self messageForLogLine:kTestLogLine1]];
     XCTAssertNotEqualObjects(nil, [logger.fileLogger readFile], @"Log file should not be empty");
-    [logger.fileLogger flushLog];
+    [logger.fileLogger flushLogWithCompletionBlock:nil];
+
+    // Flushing the log file is asynchronous.
+    [NSThread sleepForTimeInterval:1.0];
     XCTAssertEqualObjects(nil, [logger.fileLogger readFile], @"Log file should be empty");
 }
-
 
 /**
  * Test for adding a log line.

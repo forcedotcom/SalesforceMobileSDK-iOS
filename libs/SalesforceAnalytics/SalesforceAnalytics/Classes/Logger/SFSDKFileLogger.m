@@ -51,11 +51,14 @@
     return self;
 }
 
-- (void)flushLog {
+- (void)flushLogWithCompletionBlock:(void (^)())completionBlock {
     NSFileManager *fileManager = [[NSFileManager alloc] init];
     [self rollLogFileWithCompletionBlock: ^{
         for (NSString *filename in self->_logFileManager.sortedLogFilePaths) {
             [fileManager removeItemAtPath:filename error:nil];
+        }
+        if (completionBlock) {
+            completionBlock();
         }
     }];
 }
