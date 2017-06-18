@@ -58,6 +58,13 @@
 /**
  * Resets and removes all components configured. Used only by tests.
  */
-+ (void)flushComponents:(nonnull NSString *)componentName;
++ (void)flushAllComponents;
+
+/**
+ * Returns an array of components that have loggers initialized.
+ *
+ * @return Array of components.
+ */
++ (nonnull NSArray<NSString *> *)allComponents;
 
 @end

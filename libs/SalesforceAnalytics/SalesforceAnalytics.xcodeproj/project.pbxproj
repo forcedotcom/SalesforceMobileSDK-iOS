@@ -42,6 +42,7 @@
 		CE2B91B11D03A61000C6FC6A /* SFSDKEventStoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2B91AF1D03A61000C6FC6A /* SFSDKEventStoreManager.m */; };
 		CE2B91B41D03A69D00C6FC6A /* SFSDKEventStoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2B91AF1D03A61000C6FC6A /* SFSDKEventStoreManager.m */; };
 		CE2B91B61D03A6A900C6FC6A /* SFSDKEventStoreManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2B91AE1D03A61000C6FC6A /* SFSDKEventStoreManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE4712191EF6CDE000D9E059 /* SFSDKLoggerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CE4712181EF6CDE000D9E059 /* SFSDKLoggerTests.m */; };
 		CE57B2E41EE9EA97006F560B /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE57B2C31EE9EA5E006F560B /* CocoaLumberjack.framework */; };
 		CE57B2EC1EE9EC64006F560B /* SFSDKFileLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = CE57B2E81EE9EC64006F560B /* SFSDKFileLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE57B2ED1EE9EC64006F560B /* SFSDKFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CE57B2E91EE9EC64006F560B /* SFSDKFileLogger.m */; };
@@ -282,6 +283,7 @@
 		CE2B8FFD1CF6032C00C6FC6A /* SFSDKInstrumentationEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKInstrumentationEvent.m; path = Classes/Model/SFSDKInstrumentationEvent.m; sourceTree = "<group>"; };
 		CE2B91AE1D03A61000C6FC6A /* SFSDKEventStoreManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSDKEventStoreManager.h; path = Classes/Store/SFSDKEventStoreManager.h; sourceTree = "<group>"; };
 		CE2B91AF1D03A61000C6FC6A /* SFSDKEventStoreManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKEventStoreManager.m; path = Classes/Store/SFSDKEventStoreManager.m; sourceTree = "<group>"; };
+		CE4712181EF6CDE000D9E059 /* SFSDKLoggerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKLoggerTests.m; sourceTree = "<group>"; };
 		CE57B2AF1EE9EA5D006F560B /* Lumberjack.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Lumberjack.xcodeproj; path = ../../external/CocoaLumberjack/Lumberjack.xcodeproj; sourceTree = "<group>"; };
 		CE57B2E81EE9EC64006F560B /* SFSDKFileLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSDKFileLogger.h; path = Classes/Logger/SFSDKFileLogger.h; sourceTree = "<group>"; };
 		CE57B2E91EE9EC64006F560B /* SFSDKFileLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKFileLogger.m; path = Classes/Logger/SFSDKFileLogger.m; sourceTree = "<group>"; };
@@ -390,6 +392,7 @@
 		CE2B8BDD1CE900F500C6FC6A /* SalesforceAnalyticsTests */ = {
 			isa = PBXGroup;
 			children = (
+				CE4712181EF6CDE000D9E059 /* SFSDKLoggerTests.m */,
 				CEFEB5591D05063F007D5EAE /* InstrumentationEventBuilderTests.m */,
 				CEF371E71D11B76E0004A237 /* EventStoreManagerTests.m */,
 				CEF372441D120FEE0004A237 /* AnalyticsTestUtil.h */,
@@ -955,6 +958,7 @@
 				CEF371E81D11B76E0004A237 /* EventStoreManagerTests.m in Sources */,
 				CEF372461D12100D0004A237 /* AnalyticsTestUtil.m in Sources */,
 				CEFEB55A1D05063F007D5EAE /* InstrumentationEventBuilderTests.m in Sources */,
+				CE4712191EF6CDE000D9E059 /* SFSDKLoggerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

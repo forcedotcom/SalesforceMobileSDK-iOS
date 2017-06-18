@@ -60,13 +60,18 @@ static NSMutableDictionary *loggerList = nil;
     }
 }
 
-+ (void)flushComponents:(nonnull NSString *)componentName {
++ (void)flushAllComponents {
     @synchronized ([SFSDKLogger class]) {
-        if (!componentName) {
-            return;
+        for (SFSDKLogger *logger in loggerList) {
+            [logger.fileLogger flushLog];
         }
         [loggerList removeAllObjects];
-        [loggerList removeObjectForKey:componentName];
+    }
+}
+
++ (NSArray<NSString *> *)allComponents {
+    @synchronized ([SFSDKLogger class]) {
+        return loggerList.allKeys;
     }
 }
 
@@ -87,5 +92,7 @@ static NSMutableDictionary *loggerList = nil;
     }
     return self;
 }
+
+// TODO: Add setter for log level and test for it.
 
 @end
