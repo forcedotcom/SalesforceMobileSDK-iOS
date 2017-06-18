@@ -30,7 +30,7 @@
 #import "SFSDKLogger.h"
 #import <CocoaLumberjack/DDTTYLogger.h>
 
-static NSMutableDictionary *loggerList = nil;
+static NSMutableDictionary<NSString *, SFSDKLogger *> *loggerList = nil;
 
 @interface SFSDKLogger ()
 
@@ -62,8 +62,8 @@ static NSMutableDictionary *loggerList = nil;
 
 + (void)flushAllComponents {
     @synchronized ([SFSDKLogger class]) {
-        for (SFSDKLogger *logger in loggerList) {
-            [logger.fileLogger flushLog];
+        for (NSString *loggerKey in loggerList.allKeys) {
+            [loggerList[loggerKey].fileLogger flushLog];
         }
         [loggerList removeAllObjects];
     }
