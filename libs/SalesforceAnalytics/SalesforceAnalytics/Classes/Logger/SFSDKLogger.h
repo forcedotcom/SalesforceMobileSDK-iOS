@@ -48,6 +48,11 @@
 @property (nonatomic, readonly, strong, nonnull) SFSDKFileLogger *fileLogger;
 
 /**
+ * Used to get and set the current log level associated with this logger.
+ */
+@property (nonatomic, readwrite, assign) DDLogLevel logLevel;
+
+/**
  * Returns an instance of this class associated with the specified component.
  *
  * @param componentName Component name.

@@ -168,6 +168,17 @@ unsigned long long const kDefaultMaxFileSize = 1024 * 1024; // 1 MB.
     XCTAssertTrue([[SFSDKLogger allComponents] containsObject:kTestComponent2], @"Component should be present in results");
 }
 
+/**
+ * Test for setting log level.
+ */
+- (void)testSetLogLevel {
+    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kTestComponent1];
+    XCTAssertNotNil(logger, @"SFSDKLogger instance should not be nil");
+    XCTAssertNotEqual(DDLogLevelVerbose, logger.logLevel, @"Log levels should not be same");
+    logger.logLevel = DDLogLevelVerbose;
+    XCTAssertEqual(DDLogLevelVerbose, logger.logLevel, @"Log levels should be the same");
+}
+
 - (DDLogMessage *)messageForLogLine:(NSString *)logLine {
     return [[DDLogMessage alloc] initWithMessage:logLine level:DDLogLevelError flag:DDLogFlagError context:0 file:nil function:nil line:0 tag:[self class] options:0 timestamp:[NSDate date]];
 }

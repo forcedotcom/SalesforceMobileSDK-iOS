@@ -93,6 +93,13 @@ static NSMutableDictionary<NSString *, SFSDKLogger *> *loggerList = nil;
     return self;
 }
 
-// TODO: Add setter for log level and test for it.
+- (void)setLogLevel:(DDLogLevel)logLevel {
+    [self.logger removeAllLoggers];
+    DDTTYLogger *consoleLogger = [DDTTYLogger sharedInstance];
+    consoleLogger.colorsEnabled = YES;
+    [self.logger addLogger:consoleLogger withLevel:logLevel];
+    [self.logger addLogger:self.fileLogger withLevel:logLevel];
+    _logLevel = logLevel;
+}
 
 @end
