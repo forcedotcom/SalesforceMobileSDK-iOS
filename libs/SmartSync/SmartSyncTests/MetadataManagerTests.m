@@ -72,7 +72,6 @@ static NSString* const kCaseOneName = @"00001001";
         XCTFail(@"Setting up authentication failed: %@", authException);
     }
     [SFRestAPI setIsTestRun:YES];
-    [[SFRestAPI sharedInstance] setCoordinator:[SFAuthenticationManager sharedManager].coordinator];
     self.currentUser = [SFUserAccountManager sharedInstance].currentUser;
     [SFSmartSyncCacheManager sharedInstance:self.currentUser];
     self.metadataManager = [SFSmartSyncMetadataManager sharedInstance:self.currentUser];

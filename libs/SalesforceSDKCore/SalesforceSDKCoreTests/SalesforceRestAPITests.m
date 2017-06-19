@@ -1612,32 +1612,6 @@ static NSException *authException = nil;
     XCTAssertTrue(!completionTimedOut); // when we force timeout the request, its error handler gets invoked right away, so the semaphore-wait should not time out
 }
 
-#pragma mark - SFRestAPI utility tests
-
-- (void)testSFRestAPICoordinatorProperty
-{
-    // [SFRestAPI sharedInstance].coordinator tracks [SFAuthenticationManager sharedManager].coordinator by default.
-    SFOAuthCoordinator *acctMgrCoord = [SFAuthenticationManager sharedManager].coordinator;
-    SFOAuthCoordinator *restApiCoord = [SFRestAPI sharedInstance].coordinator;
-    XCTAssertEqualObjects(acctMgrCoord, restApiCoord, @"Coordinator property on SFRestAPI should track the value in SFAccountManager.");
-    
-    // Updating [SFRestAPI sharedInstance].coordinator updates [SFAuthenticationManager sharedManager].coordinator as well.
-    SFOAuthCredentials *creds = _currentUser.credentials;
-    SFOAuthCoordinator *newRestApiCoord = [[SFOAuthCoordinator alloc] initWithCredentials:creds];
-    XCTAssertFalse(newRestApiCoord == [SFAuthenticationManager sharedManager].coordinator, @"Object references shouldn't be equal with new object.");
-    [SFRestAPI sharedInstance].coordinator = newRestApiCoord;
-    acctMgrCoord = [SFAuthenticationManager sharedManager].coordinator;
-    restApiCoord = [SFRestAPI sharedInstance].coordinator;
-    XCTAssertEqualObjects(acctMgrCoord, restApiCoord, @"Updating SFRestAPI's coordinator property should update SFAccountManager as well.");
-    
-    // After updating [SFRestAPI sharedInstance].coordinator, REST calls still work.
-    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForVersions];
-    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-    XCTAssertEqualObjects(listener.returnStatus,
-                         kTestRequestStatusDidLoad,
-                         @"Request failed with updated value for [SFRestAPI sharedInstance].coordinator");
-}
-
 #pragma mark - queryBuilder tests
 
 - (void) testSOQL {
