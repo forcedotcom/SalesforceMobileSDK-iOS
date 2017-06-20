@@ -31,7 +31,7 @@
 #import <CocoaLumberjack/DDTTYLogger.h>
 
 static NSString * const kFileLoggerOnOffKey = @"file_logger_enabled";
-
+static NSString * const kLogLevelKey = @"log_level";
 static NSMutableDictionary<NSString *, SFSDKLogger *> *loggerList = nil;
 
 @interface SFSDKLogger ()
@@ -83,28 +83,14 @@ static NSMutableDictionary<NSString *, SFSDKLogger *> *loggerList = nil;
         self.componentName = componentName;
         self.logger = [[DDLog alloc] init];
         self.fileLogger = [[SFSDKFileLogger alloc] initWithComponent:componentName];
-        DDLogLevel logLevel = DDLogLevelError;
-#ifdef DEBUG
-        logLevel = DDLogLevelDebug;
-#endif
         DDTTYLogger *consoleLogger = [DDTTYLogger sharedInstance];
         consoleLogger.colorsEnabled = YES;
-        [self.logger addLogger:consoleLogger withLevel:logLevel];
-        BOOL fileLoggingEnabled = [self readFileLoggingPolicy];
-        if (fileLoggingEnabled) {
-            [self.logger addLogger:self.fileLogger withLevel:logLevel];
+        [self.logger addLogger:consoleLogger withLevel:self.logLevel];
+        if (self.fileLoggingEnabled) {
+            [self.logger addLogger:self.fileLogger withLevel:self.logLevel];
         }
     }
     return self;
-}
-
-- (void)setLogLevel:(DDLogLevel)logLevel {
-    [self.logger removeAllLoggers];
-    DDTTYLogger *consoleLogger = [DDTTYLogger sharedInstance];
-    consoleLogger.colorsEnabled = YES;
-    [self.logger addLogger:consoleLogger withLevel:logLevel];
-    [self.logger addLogger:self.fileLogger withLevel:logLevel];
-    _logLevel = logLevel;
 }
 
 - (void)setFileLoggingEnabled:(BOOL)loggingEnabled {
@@ -115,7 +101,7 @@ static NSMutableDictionary<NSString *, SFSDKLogger *> *loggerList = nil;
     // Adds or removes the file logger depending on the change in policy.
     if (curPolicy != newPolicy) {
         if (newPolicy) {
-            [self.logger addLogger:self.fileLogger withLevel:_logLevel]; // Disabled to enabled.
+            [self.logger addLogger:self.fileLogger withLevel:self.logLevel]; // Disabled to enabled.
         } else {
             [self.logger removeLogger:self.fileLogger]; // Enabled to disabled.
         }
@@ -124,6 +110,19 @@ static NSMutableDictionary<NSString *, SFSDKLogger *> *loggerList = nil;
 
 - (BOOL)isFileLoggingEnabled {
     return [self readFileLoggingPolicy];
+}
+
+- (DDLogLevel)getLogLevel {
+    return [self readLogLevel];
+}
+
+- (void)setLogLevel:(DDLogLevel)logLevel {
+    [self storeLogLevel:logLevel];
+    [self.logger removeAllLoggers];
+    DDTTYLogger *consoleLogger = [DDTTYLogger sharedInstance];
+    consoleLogger.colorsEnabled = YES;
+    [self.logger addLogger:consoleLogger withLevel:logLevel];
+    [self.logger addLogger:self.fileLogger withLevel:logLevel];
 }
 
 - (void)storeFileLoggingPolicy:(BOOL)enabled {
@@ -146,6 +145,28 @@ static NSMutableDictionary<NSString *, SFSDKLogger *> *loggerList = nil;
         fileLoggingEnabled = [fileLoggingEnabledNum boolValue];
     }
     return fileLoggingEnabled;
+}
+
+- (void)storeLogLevel:(DDLogLevel)logLevel {
+    @synchronized (self) {
+        NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+        [defs setInteger:logLevel forKey:kLogLevelKey];
+        [defs synchronize];
+    }
+}
+
+- (DDLogLevel)readLogLevel {
+    DDLogLevel logLevel;
+    if ([[[[NSUserDefaults standardUserDefaults] dictionaryRepresentation] allKeys] containsObject:kLogLevelKey]) {
+        logLevel = [[NSUserDefaults standardUserDefaults] integerForKey:kLogLevelKey];
+    } else {
+        logLevel = DDLogLevelError;
+#ifdef DEBUG
+        logLevel = DDLogLevelDebug;
+#endif
+        [self storeLogLevel:logLevel];
+    }
+    return logLevel;
 }
 
 @end
