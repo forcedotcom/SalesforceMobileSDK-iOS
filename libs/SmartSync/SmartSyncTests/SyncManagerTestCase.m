@@ -58,7 +58,6 @@ static NSException *authException = nil;
         XCTFail(@"Setting up authentication failed: %@", authException);
     }
     [SFRestAPI setIsTestRun:YES];
-    [[SFRestAPI sharedInstance] setCoordinator:[SFAuthenticationManager sharedManager].coordinator];
 
     // User and managers setup
     self.currentUser = [SFUserAccountManager sharedInstance].currentUser;
