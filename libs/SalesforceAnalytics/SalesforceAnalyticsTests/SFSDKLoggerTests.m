@@ -128,25 +128,6 @@ unsigned long long const kDefaultMaxFileSize = 1024 * 1024; // 1 MB.
 }
 
 /**
- * Test for writing a log line if max size has been set to 0.
- */
-- (void)testWriteForMaxSizeZero {
-    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kTestComponent1];
-    XCTAssertEqualObjects(nil, [logger.fileLogger readFile], @"Log file should be empty");
-    [logger.logger log:NO message:[self messageForLogLine:kTestLogLine1]];
-    [logger.logger log:NO message:[self messageForLogLine:kTestLogLine2]];
-    [logger.logger log:NO message:[self messageForLogLine:kTestLogLine3]];
-    XCTAssertNotEqualObjects(nil, [logger.fileLogger readFile], @"Log file should not be empty");
-    logger.fileLogger.maximumFileSize = 0;
-    XCTAssertEqual(0, logger.fileLogger.maximumFileSize, @"Max size didn't match expected max size");
-    [logger.logger log:NO message:[self messageForLogLine:kTestLogLine4]];
-    XCTAssertFalse([[logger.fileLogger readFile] containsString:kTestLogLine1], @"Log file contains unexpected log line");
-    XCTAssertFalse([[logger.fileLogger readFile] containsString:kTestLogLine2], @"Log file contains unexpected log line");
-    XCTAssertFalse([[logger.fileLogger readFile] containsString:kTestLogLine3], @"Log file contains unexpected log line");
-    XCTAssertFalse([[logger.fileLogger readFile] containsString:kTestLogLine4], @"Log file contains unexpected log line");
-}
-
-/**
  * Test for adding a single component.
  */
 - (void)testAddSingleComponent {
@@ -177,6 +158,60 @@ unsigned long long const kDefaultMaxFileSize = 1024 * 1024; // 1 MB.
     XCTAssertNotEqual(DDLogLevelVerbose, logger.logLevel, @"Log levels should not be same");
     logger.logLevel = DDLogLevelVerbose;
     XCTAssertEqual(DDLogLevelVerbose, logger.logLevel, @"Log levels should be the same");
+}
+
+/**
+ * Test for checking if the file logger is enabled by default.
+ */
+- (void)testDefaultFileLoggerEnabled {
+    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kTestComponent1];
+    XCTAssertTrue([logger isFileLoggingEnabled], @"File logger should be enabled");
+}
+
+/**
+ * Test for disabling the file logger.
+ */
+- (void)testDisableFileLogger {
+    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kTestComponent1];
+    XCTAssertTrue([logger isFileLoggingEnabled], @"File logger should be enabled");
+    [logger setFileLoggingEnabled:NO];
+    XCTAssertFalse([logger isFileLoggingEnabled], @"File logger should not be enabled");
+    [logger setFileLoggingEnabled:YES];
+}
+
+/**
+ * Test for enabling the file logger.
+ */
+- (void)testEnableFileLogger {
+    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kTestComponent1];
+    XCTAssertTrue([logger isFileLoggingEnabled], @"File logger should be enabled");
+    [logger setFileLoggingEnabled:NO];
+    XCTAssertFalse([logger isFileLoggingEnabled], @"File logger should not be enabled");
+    [logger setFileLoggingEnabled:YES];
+    XCTAssertTrue([logger isFileLoggingEnabled], @"File logger should be enabled");
+}
+
+/**
+ * Test for disabling the file logger twice in a row.
+ */
+- (void)testDisableFileLoggerTwice {
+    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kTestComponent1];
+    XCTAssertTrue([logger isFileLoggingEnabled], @"File logger should be enabled");
+    [logger setFileLoggingEnabled:NO];
+    XCTAssertFalse([logger isFileLoggingEnabled], @"File logger should not be enabled");
+    [logger setFileLoggingEnabled:NO];
+    XCTAssertFalse([logger isFileLoggingEnabled], @"File logger should not be enabled");
+    [logger setFileLoggingEnabled:YES];
+}
+
+/**
+ * Test for enabling the file logger twice in a row.
+ */
+- (void)testEnableFileLoggerTwice {
+    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kTestComponent1];
+    XCTAssertTrue([logger isFileLoggingEnabled], @"File logger should be enabled");
+    [logger setFileLoggingEnabled:YES];
+    XCTAssertTrue([logger isFileLoggingEnabled], @"File logger should be enabled");
 }
 
 - (DDLogMessage *)messageForLogLine:(NSString *)logLine {

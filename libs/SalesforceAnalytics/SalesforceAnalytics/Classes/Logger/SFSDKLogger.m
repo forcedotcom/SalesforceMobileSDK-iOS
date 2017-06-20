@@ -30,6 +30,8 @@
 #import "SFSDKLogger.h"
 #import <CocoaLumberjack/DDTTYLogger.h>
 
+static NSString * const kFileLoggerOnOffKey = @"file_logger_enabled";
+
 static NSMutableDictionary<NSString *, SFSDKLogger *> *loggerList = nil;
 
 @interface SFSDKLogger ()
@@ -88,7 +90,10 @@ static NSMutableDictionary<NSString *, SFSDKLogger *> *loggerList = nil;
         DDTTYLogger *consoleLogger = [DDTTYLogger sharedInstance];
         consoleLogger.colorsEnabled = YES;
         [self.logger addLogger:consoleLogger withLevel:logLevel];
-        [self.logger addLogger:self.fileLogger withLevel:logLevel];
+        BOOL fileLoggingEnabled = [self readFileLoggingPolicy];
+        if (fileLoggingEnabled) {
+            [self.logger addLogger:self.fileLogger withLevel:logLevel];
+        }
     }
     return self;
 }
@@ -100,6 +105,47 @@ static NSMutableDictionary<NSString *, SFSDKLogger *> *loggerList = nil;
     [self.logger addLogger:consoleLogger withLevel:logLevel];
     [self.logger addLogger:self.fileLogger withLevel:logLevel];
     _logLevel = logLevel;
+}
+
+- (void)setFileLoggingEnabled:(BOOL)loggingEnabled {
+    BOOL curPolicy = [self readFileLoggingPolicy];
+    [self storeFileLoggingPolicy:loggingEnabled];
+    BOOL newPolicy = [self readFileLoggingPolicy];
+
+    // Adds or removes the file logger depending on the change in policy.
+    if (curPolicy != newPolicy) {
+        if (newPolicy) {
+            [self.logger addLogger:self.fileLogger withLevel:_logLevel]; // Disabled to enabled.
+        } else {
+            [self.logger removeLogger:self.fileLogger]; // Enabled to disabled.
+        }
+    }
+}
+
+- (BOOL)isFileLoggingEnabled {
+    return [self readFileLoggingPolicy];
+}
+
+- (void)storeFileLoggingPolicy:(BOOL)enabled {
+    @synchronized (self) {
+        NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+        [defs setBool:enabled forKey:kFileLoggerOnOffKey];
+        [defs synchronize];
+    }
+}
+
+- (BOOL)readFileLoggingPolicy {
+    BOOL fileLoggingEnabled;
+    NSNumber *fileLoggingEnabledNum = [[NSUserDefaults standardUserDefaults] objectForKey:kFileLoggerOnOffKey];
+    if (fileLoggingEnabledNum == nil) {
+
+        // Default is enabled.
+        fileLoggingEnabled = YES;
+        [self storeFileLoggingPolicy:fileLoggingEnabled];
+    } else {
+        fileLoggingEnabled = [fileLoggingEnabledNum boolValue];
+    }
+    return fileLoggingEnabled;
 }
 
 @end

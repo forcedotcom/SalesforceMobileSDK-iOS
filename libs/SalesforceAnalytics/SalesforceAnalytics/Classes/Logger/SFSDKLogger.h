@@ -53,6 +53,11 @@
 @property (nonatomic, readwrite, assign) DDLogLevel logLevel;
 
 /**
+ * Used to disable or enable file logging.
+ */
+@property (nonatomic, readwrite, assign, getter=isFileLoggingEnabled) BOOL fileLoggingEnabled;
+
+/**
  * Returns an instance of this class associated with the specified component.
  *
  * @param componentName Component name.
