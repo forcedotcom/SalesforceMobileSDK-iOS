@@ -50,7 +50,12 @@
 /**
  * Used to get and set the current log level associated with this logger.
  */
-@property (nonatomic, readwrite, assign) DDLogLevel logLevel;
+@property (nonatomic, readwrite, assign, getter=getLogLevel) DDLogLevel logLevel;
+
+/**
+ * Used to disable or enable file logging.
+ */
+@property (nonatomic, readwrite, assign, getter=isFileLoggingEnabled) BOOL fileLoggingEnabled;
 
 /**
  * Returns an instance of this class associated with the specified component.
