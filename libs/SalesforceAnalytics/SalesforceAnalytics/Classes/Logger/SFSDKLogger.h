@@ -1,9 +1,9 @@
 /*
- SalesforceAnalytics.h
+ SFSDKLogger.h
  SalesforceAnalytics
-
- Created by Bharath Hariharan on Sun Jun 11 09:49:33 PDT 2017.
-
+ 
+ Created by Bharath Hariharan on 6/8/17.
+ 
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -27,13 +27,49 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SalesforceAnalytics/SFSDKAILTNTransform.h>
-#import <SalesforceAnalytics/SFSDKAnalyticsManager.h>
-#import <SalesforceAnalytics/SFSDKDeviceAppAttributes.h>
-#import <SalesforceAnalytics/SFSDKEventStoreManager.h>
-#import <SalesforceAnalytics/SFSDKFileLogger.h>
-#import <SalesforceAnalytics/SFSDKInstrumentationEvent.h>
-#import <SalesforceAnalytics/SFSDKInstrumentationEventBuilder.h>
-#import <SalesforceAnalytics/SFSDKLogger.h>
-#import <SalesforceAnalytics/SFSDKReachability.h>
-#import <SalesforceAnalytics/SFSDKTransform.h>
+#import <CocoaLumberjack/DDLog.h>
+#import "SFSDKFileLogger.h"
+
+@interface SFSDKLogger : NSObject
+
+/**
+ * Component name associated with this logger.
+ */
+@property (nonatomic, readonly, strong, nonnull) NSString *componentName;
+
+/**
+ * Instance of the underlying logger being used.
+ */
+@property (nonatomic, readonly, strong, nonnull) DDLog *logger;
+
+/**
+ * Instance of the underlying file logger being used.
+ */
+@property (nonatomic, readonly, strong, nonnull) SFSDKFileLogger *fileLogger;
+
+/**
+ * Used to get and set the current log level associated with this logger.
+ */
+@property (nonatomic, readwrite, assign) DDLogLevel logLevel;
+
+/**
+ * Returns an instance of this class associated with the specified component.
+ *
+ * @param componentName Component name.
+ * @return Instance of this class.
+ */
++ (nonnull instancetype)sharedInstanceWithComponent:(nonnull NSString *)componentName;
+
+/**
+ * Resets and removes all components configured. Used only by tests.
+ */
++ (void)flushAllComponents;
+
+/**
+ * Returns an array of components that have loggers initialized.
+ *
+ * @return Array of components.
+ */
++ (nonnull NSArray<NSString *> *)allComponents;
+
+@end

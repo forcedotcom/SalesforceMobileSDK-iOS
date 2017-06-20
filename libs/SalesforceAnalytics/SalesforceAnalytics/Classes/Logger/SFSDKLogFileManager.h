@@ -1,9 +1,9 @@
 /*
- SalesforceAnalytics.h
+ SFSDKLogFileManager.h
  SalesforceAnalytics
-
- Created by Bharath Hariharan on Sun Jun 11 09:49:33 PDT 2017.
-
+ 
+ Created by Bharath Hariharan on 6/8/17.
+ 
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -27,13 +27,18 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SalesforceAnalytics/SFSDKAILTNTransform.h>
-#import <SalesforceAnalytics/SFSDKAnalyticsManager.h>
-#import <SalesforceAnalytics/SFSDKDeviceAppAttributes.h>
-#import <SalesforceAnalytics/SFSDKEventStoreManager.h>
-#import <SalesforceAnalytics/SFSDKFileLogger.h>
-#import <SalesforceAnalytics/SFSDKInstrumentationEvent.h>
-#import <SalesforceAnalytics/SFSDKInstrumentationEventBuilder.h>
-#import <SalesforceAnalytics/SFSDKLogger.h>
-#import <SalesforceAnalytics/SFSDKReachability.h>
-#import <SalesforceAnalytics/SFSDKTransform.h>
+#import <CocoaLumberjack/DDFileLogger.h>
+
+@interface SFSDKLogFileManager : DDLogFileManagerDefault
+
+/**
+ * Component name associated with this log file manager.
+ */
+@property (nonatomic, readonly, strong, nonnull) NSString *componentName;
+
+/**
+ * Initializes a log file manager for the specified component.
+ */
+- (nonnull instancetype)initWithComponent:(nonnull NSString *)componentName;
+
+@end

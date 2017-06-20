@@ -925,20 +925,6 @@
 			remoteGlobalIDString = CE2B8BFE1CE91BFA00C6FC6A;
 			remoteInfo = SalesforceAnalyticsStatic;
 		};
-		CE4CE46F1C0E5E16009F6029 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CE0021551C03DBB70079DCA4 /* Lumberjack.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 19FF46011B8B4CF400B43179;
-			remoteInfo = "CocoaLumberjack-iOS";
-		};
-		CEA884CB1C1A25D4008D871B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CE0021551C03DBB70079DCA4 /* Lumberjack.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 18F3BFD61A81E06E00692297;
-			remoteInfo = "CocoaLumberjack-iOS-Static";
-		};
 		CED4521F1D7F834D009266EB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CE0CDED11D7F753D005AAFAB /* OCMock.xcodeproj */;
@@ -2662,7 +2648,6 @@
 			);
 			dependencies = (
 				CE2B8CDC1CE92FB300C6FC6A /* PBXTargetDependency */,
-				CE4CE4701C0E5E16009F6029 /* PBXTargetDependency */,
 			);
 			name = SalesforceSDKCore;
 			productName = SalesforceSDKCore;
@@ -2681,7 +2666,6 @@
 			);
 			dependencies = (
 				CE2B8CDF1CE92FE000C6FC6A /* PBXTargetDependency */,
-				CEA884CC1C1A25D4008D871B /* PBXTargetDependency */,
 			);
 			name = SalesforceSDKCoreStatic;
 			productName = SalesforceSDKCoreStatic;
@@ -3363,16 +3347,6 @@
 			isa = PBXTargetDependency;
 			target = CE4CE26A1C0E449C009F6029 /* SalesforceSDKCore */;
 			targetProxy = 82A8C6E21C122998006BBDFE /* PBXContainerItemProxy */;
-		};
-		CE4CE4701C0E5E16009F6029 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "CocoaLumberjack-iOS";
-			targetProxy = CE4CE46F1C0E5E16009F6029 /* PBXContainerItemProxy */;
-		};
-		CEA884CC1C1A25D4008D871B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "CocoaLumberjack-iOS-Static";
-			targetProxy = CEA884CB1C1A25D4008D871B /* PBXContainerItemProxy */;
 		};
 		CED452201D7F834D009266EB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

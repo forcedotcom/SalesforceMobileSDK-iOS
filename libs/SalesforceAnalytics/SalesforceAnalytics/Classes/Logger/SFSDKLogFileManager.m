@@ -1,9 +1,9 @@
 /*
- SalesforceAnalytics.h
+ SFSDKLogFileManager.m
  SalesforceAnalytics
-
- Created by Bharath Hariharan on Sun Jun 11 09:49:33 PDT 2017.
-
+ 
+ Created by Bharath Hariharan on 6/8/17.
+ 
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -27,13 +27,36 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SalesforceAnalytics/SFSDKAILTNTransform.h>
-#import <SalesforceAnalytics/SFSDKAnalyticsManager.h>
-#import <SalesforceAnalytics/SFSDKDeviceAppAttributes.h>
-#import <SalesforceAnalytics/SFSDKEventStoreManager.h>
-#import <SalesforceAnalytics/SFSDKFileLogger.h>
-#import <SalesforceAnalytics/SFSDKInstrumentationEvent.h>
-#import <SalesforceAnalytics/SFSDKInstrumentationEventBuilder.h>
-#import <SalesforceAnalytics/SFSDKLogger.h>
-#import <SalesforceAnalytics/SFSDKReachability.h>
-#import <SalesforceAnalytics/SFSDKTransform.h>
+#import "SFSDKLogFileManager.h"
+
+static NSString * const kLogSuffix = @"_log";
+
+@interface SFSDKLogFileManager ()
+
+@property (nonatomic, readwrite, strong) NSString *componentName;
+
+@end
+
+@implementation SFSDKLogFileManager
+
+- (instancetype)initWithComponent:(NSString *)componentName {
+    self = [super init];
+    if (self) {
+        self.componentName = componentName;
+        self.maximumNumberOfLogFiles = 0; // Disables archiving of log files and re-uses a single file that's rolled when the log file size limit is reached.
+    }
+    return self;
+}
+
+- (NSString *)newLogFileName {
+    return [NSString stringWithFormat:@"%@%@", self.componentName, kLogSuffix];
+}
+
+- (BOOL)isLogFile:(NSString *)fileName {
+    if (fileName && [fileName isEqualToString:[NSString stringWithFormat:@"%@%@", self.componentName, kLogSuffix]]) {
+        return YES;
+    }
+    return NO;
+}
+
+@end
