@@ -1334,19 +1334,9 @@ static Class InstanceClass = nil;
         });
         return;
     }
-    
+
     self.authCoordinatorBrowserBlock = callbackBlock;
-    NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];;
-    NSString *alertMessage = [NSString stringWithFormat:[SFSDKResourceUtils localizedString:@"authAlertBrowserFlowMessage"], coordinator.credentials.domain, appName];
-    
-    if (self.statusAlert) {
-        self.statusAlert = nil;
-    }
-    [self showAlertWithTitle:[SFSDKResourceUtils localizedString:@"authAlertBrowserFlowTitle"]
-                     message:alertMessage
-            firstButtonTitle:[SFSDKResourceUtils localizedString:@"authAlertOkButton"]
-           secondButtonTitle:[SFSDKResourceUtils localizedString:@"authAlertCancelButton"]
-                         tag:kAdvancedAuthDialogTag];
+    callbackBlock(YES);
 }
 
 - (void)oauthCoordinatorDidCancelBrowserFlow:(SFOAuthCoordinator *)coordinator {

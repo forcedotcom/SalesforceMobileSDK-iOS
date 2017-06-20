@@ -22,6 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <SafariServices/SafariServices.h>
 #import <Security/Security.h>
 #import <WebKit/WebKit.h>
 #import "SFOAuthCredentials+Internal.h"
@@ -42,6 +43,7 @@
 #import "SalesforceSDKManager.h"
 #import "SFSDKWebViewStateManager.h"
 #import "SFNetwork.h"
+#import "SFRootViewManager.h"
 
 // Public constants
 
@@ -509,17 +511,11 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
     // Launch the native browser.
     [self log:SFLogLevelDebug format:@"%@: Initiating native browser flow with URL %@", NSStringFromSelector(_cmd), approvalUrl];
     NSURL *nativeBrowserUrl = [NSURL URLWithString:approvalUrl];
-    BOOL browserOpenSucceeded = [SFApplicationHelper openURL:nativeBrowserUrl];
-    if (!browserOpenSucceeded) {
-        [self log:SFLogLevelError format:@"%@: Could not launch native browser with URL %@", NSStringFromSelector(_cmd), approvalUrl];
-        NSError *launchError = [[self class] errorWithType:kSFOAuthErrorTypeBrowserLaunchFailed description:@"The native browser failed to launch for advanced authentication."];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self notifyDelegateOfFailure:launchError authInfo:self.authInfo];
-        });
-    } else {
-        self.advancedAuthState = SFOAuthAdvancedAuthStateBrowserRequestInitiated;
-    }
     
+    
+    SFSafariViewController *svc = [[SFSafariViewController alloc] initWithURL:nativeBrowserUrl];
+    [[SFRootViewManager sharedManager] pushViewController:svc];
+    self.advancedAuthState = SFOAuthAdvancedAuthStateBrowserRequestInitiated;
 }
 
 - (void)handleAppDidBecomeActiveDuringAdvancedAuth:(NSNotification*)notification {
