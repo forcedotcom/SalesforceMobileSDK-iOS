@@ -198,7 +198,6 @@ static NSMutableDictionary<NSString *, SFSDKLogger *> *loggerList = nil;
 
 static inline DDLogFlag DDLogFlagForLogLevel(DDLogLevel level) {
     switch (level) {
-        case DDLogLevelOff:
         case DDLogLevelError:
             return DDLogFlagError;
         case DDLogLevelWarning:
