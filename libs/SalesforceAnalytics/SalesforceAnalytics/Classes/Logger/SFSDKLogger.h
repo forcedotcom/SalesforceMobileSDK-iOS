@@ -77,4 +77,53 @@
  */
 + (nonnull NSArray<NSString *> *)allComponents;
 
+/**
+ * Logs an error log line.
+ *
+ * @param class Class.
+ * @param message Log message.
+ */
+- (void)e:(nonnull Class)class message:(nonnull NSString *)message;
+
+/**
+ * Logs a warning log line.
+ *
+ * @param class Class.
+ * @param message Log message.
+ */
+- (void)w:(nonnull Class)class message:(nonnull NSString *)message;
+
+/**
+ * Logs an info log line.
+ *
+ * @param class Class.
+ * @param message Log message.
+ */
+- (void)i:(nonnull Class)class message:(nonnull NSString *)message;
+
+/**
+ * Logs a verbose log line.
+ *
+ * @param class Class.
+ * @param message Log message.
+ */
+- (void)v:(nonnull Class)class message:(nonnull NSString *)message;
+
+/**
+ * Logs a debug log line.
+ *
+ * @param class Class.
+ * @param message Log message.
+ */
+- (void)d:(nonnull Class)class message:(nonnull NSString *)message;
+
+/**
+ * Logs a log line of the specified level.
+ *
+ * @param class Class.
+ * @param level Log level.
+ * @param message Log message.
+ */
+- (void)log:(nonnull Class)class level:(DDLogLevel)level message:(nonnull NSString *)message;
+
 @end
