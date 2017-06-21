@@ -32,6 +32,7 @@
 
 static NSString * const kFileLoggerOnOffKey = @"file_logger_enabled";
 static NSString * const kLogLevelKey = @"log_level";
+static NSString * const kLogIdentifierFormat = @"COMPONENT: %@, CLASS: %@";
 static NSMutableDictionary<NSString *, SFSDKLogger *> *loggerList = nil;
 
 @interface SFSDKLogger ()
@@ -125,6 +126,32 @@ static NSMutableDictionary<NSString *, SFSDKLogger *> *loggerList = nil;
     [self.logger addLogger:self.fileLogger withLevel:logLevel];
 }
 
+- (void)e:(Class)class message:(NSString *)message {
+    [self log:class level:DDLogLevelError message:message];
+}
+
+- (void)w:(Class)class message:(NSString *)message {
+    [self log:class level:DDLogLevelWarning message:message];
+}
+
+- (void)i:(Class)class message:(NSString *)message {
+    [self log:class level:DDLogLevelInfo message:message];
+}
+
+- (void)v:(Class)class message:(NSString *)message {
+    [self log:class level:DDLogLevelVerbose message:message];
+}
+
+- (void)d:(Class)class message:(NSString *)message {
+    [self log:class level:DDLogLevelDebug message:message];
+}
+
+- (void)log:(Class)class level:(DDLogLevel)level message:(NSString *)message {
+    NSString *tag = [NSString stringWithFormat:kLogIdentifierFormat, self.componentName, class];
+    DDLogMessage *logMessage = [[DDLogMessage alloc] initWithMessage:message level:level flag:DDLogFlagForLogLevel(level) context:0 file:nil function:nil line:0 tag:tag options:0 timestamp:[NSDate date]];
+    [self.logger log:YES message:logMessage];
+}
+
 - (void)storeFileLoggingPolicy:(BOOL)enabled {
     @synchronized (self) {
         NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
@@ -167,6 +194,22 @@ static NSMutableDictionary<NSString *, SFSDKLogger *> *loggerList = nil;
         [self storeLogLevel:logLevel];
     }
     return logLevel;
+}
+
+static inline DDLogFlag DDLogFlagForLogLevel(DDLogLevel level) {
+    switch (level) {
+        case DDLogLevelError:
+            return DDLogFlagError;
+        case DDLogLevelWarning:
+            return DDLogFlagWarning;
+        case DDLogLevelInfo:
+            return DDLogFlagInfo;
+        case DDLogLevelVerbose:
+            return DDLogFlagVerbose;
+        case DDLogLevelDebug:
+        default:
+            return DDLogFlagDebug;
+    }
 }
 
 @end
