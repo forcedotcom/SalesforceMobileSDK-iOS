@@ -30,7 +30,7 @@
 #import "SFSDKLoginHost.h"
 #import "SFManagedPreferences.h"
 #import "SFSDKResourceUtils.h"
-#import "NSUserDefaults+SFAdditions.h"
+#import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 
 @interface SFSDKLoginHostStorage ()
 

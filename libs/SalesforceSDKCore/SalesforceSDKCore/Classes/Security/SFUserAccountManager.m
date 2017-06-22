@@ -28,16 +28,15 @@
 #import "SFManagedPreferences.h"
 #import "SFUserAccount+Internal.h"
 #import "SFIdentityData+Internal.h"
-
 #import "SFKeyStoreManager.h"
 #import "SFSDKCryptoUtils.h"
 #import "NSString+SFAdditions.h"
-#import "SFSDKDatasharingHelper.h"
 #import "SFFileProtectionHelper.h"
-#import "NSUserDefaults+SFAdditions.h"
 #import "SFSDKAppFeatureMarkers.h"
 #import "SFDefaultUserAccountPersister.h"
 #import "SFOAuthCredentials+Internal.h"
+#import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
+#import <SalesforceAnalytics/SFSDKDatasharingHelper.h>
 
 // Notifications
 NSString * const SFUserAccountManagerDidChangeUserNotification   = @"SFUserAccountManagerDidChangeUserNotification";

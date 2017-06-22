@@ -28,6 +28,7 @@
  */
 
 #import "SFSDKLogger.h"
+#import "NSUserDefaults+SFAdditions.h"
 #import <CocoaLumberjack/DDTTYLogger.h>
 
 static NSString * const kFileLoggerOnOffKey = @"file_logger_enabled";
@@ -154,7 +155,7 @@ static NSMutableDictionary<NSString *, SFSDKLogger *> *loggerList = nil;
 
 - (void)storeFileLoggingPolicy:(BOOL)enabled {
     @synchronized (self) {
-        NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+        NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
         [defs setBool:enabled forKey:kFileLoggerOnOffKey];
         [defs synchronize];
     }
@@ -162,7 +163,7 @@ static NSMutableDictionary<NSString *, SFSDKLogger *> *loggerList = nil;
 
 - (BOOL)readFileLoggingPolicy {
     BOOL fileLoggingEnabled;
-    NSNumber *fileLoggingEnabledNum = [[NSUserDefaults standardUserDefaults] objectForKey:kFileLoggerOnOffKey];
+    NSNumber *fileLoggingEnabledNum = [[NSUserDefaults msdkUserDefaults] objectForKey:kFileLoggerOnOffKey];
     if (fileLoggingEnabledNum == nil) {
 
         // Default is enabled.
@@ -176,7 +177,7 @@ static NSMutableDictionary<NSString *, SFSDKLogger *> *loggerList = nil;
 
 - (void)storeLogLevel:(DDLogLevel)logLevel {
     @synchronized (self) {
-        NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+        NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
         [defs setInteger:logLevel forKey:kLogLevelKey];
         [defs synchronize];
     }
@@ -184,8 +185,8 @@ static NSMutableDictionary<NSString *, SFSDKLogger *> *loggerList = nil;
 
 - (DDLogLevel)readLogLevel {
     DDLogLevel logLevel;
-    if ([[[[NSUserDefaults standardUserDefaults] dictionaryRepresentation] allKeys] containsObject:kLogLevelKey]) {
-        logLevel = [[NSUserDefaults standardUserDefaults] integerForKey:kLogLevelKey];
+    if ([[[[NSUserDefaults msdkUserDefaults] dictionaryRepresentation] allKeys] containsObject:kLogLevelKey]) {
+        logLevel = [[NSUserDefaults msdkUserDefaults] integerForKey:kLogLevelKey];
     } else {
         logLevel = DDLogLevelError;
 #ifdef DEBUG

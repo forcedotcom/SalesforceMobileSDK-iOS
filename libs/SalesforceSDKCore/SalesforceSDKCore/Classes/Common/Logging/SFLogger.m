@@ -32,8 +32,8 @@
 #import "NSString+SFAdditions.h"
 #import <execinfo.h> // backtrace_symbols
 #import "SFCocoaLumberJackCustomFormatter.h"
-#import "NSUserDefaults+SFAdditions.h"
 #import "SFLoggerMacros.h"
+#import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 
 static inline SFLogFlag SFLogFlagForLogLevel(SFLogLevel level) {
     switch (level) {
