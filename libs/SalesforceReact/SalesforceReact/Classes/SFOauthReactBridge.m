@@ -23,9 +23,8 @@
  */
 
 #import "SFOauthReactBridge.h"
-
+#import "SFSDKReactLogger.h"
 #import <React/RCTUtils.h>
-
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
 
@@ -46,13 +45,13 @@ RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(getAuthCredentials:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
 {
-    [self log:SFLogLevelDebug format:@"getAuthCredentials: arguments: %@", args];
+    [self d:[NSString stringWithFormat:@"getAuthCredentials: arguments: %@", args]];
     [self getAuthCredentialsWithCallback:callback];
 }
 
 RCT_EXPORT_METHOD(logoutCurrentUser:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
 {
-    [self log:SFLogLevelDebug format:@"logoutCurrentUser: arguments: %@", args];
+    [self d:[NSString stringWithFormat:@"logoutCurrentUser: arguments: %@", args]];
     dispatch_async(dispatch_get_main_queue(), ^{
         [[SFAuthenticationManager sharedManager] logout];
     });
@@ -60,7 +59,7 @@ RCT_EXPORT_METHOD(logoutCurrentUser:(NSDictionary *)args callback:(RCTResponseSe
 
 RCT_EXPORT_METHOD(authenticate:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
 {
-    [self log:SFLogLevelDebug format:@"authenticate: arguments: %@", args];
+    [self d:[NSString stringWithFormat:@"authenticate: arguments: %@", args]];
     dispatch_async(dispatch_get_main_queue(), ^{
         [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
             [SFUserAccountManager sharedInstance].currentUser  =  userAccount;
@@ -87,8 +86,7 @@ RCT_EXPORT_METHOD(authenticate:(NSDictionary *)args callback:(RCTResponseSenderB
                                           kInstanceUrlCredentialsDictKey: instanceUrl,
                                           kUserAgentCredentialsDictKey: uaString};
         callback(@[[NSNull null], credentialsDict]);
-    }
-    else {
+    } else {
         [self sendNotAuthenticatedError:callback];
     }
 }

@@ -1,9 +1,9 @@
 /*
- SalesforceReact.h
+ SFSDKReactLogger.m
  SalesforceReact
-
- Created by Bharath Hariharan on Thu Jun 22 16:24:22 PDT 2017.
-
+ 
+ Created by Bharath Hariharan on 6/22/17.
+ 
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -27,8 +27,45 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SalesforceReact/SFNetReactBridge.h>
-#import <SalesforceReact/SFOauthReactBridge.h>
-#import <SalesforceReact/SFSDKReactLogger.h>
-#import <SalesforceReact/SFSmartStoreReactBridge.h>
-#import <SalesforceReact/SFSmartSyncReactBridge.h>
+#import "SFSDKReactLogger.h"
+
+static NSString * const kComponentName = @"SalesforceReact";
+
+@implementation NSObject (SFSDKReactLogger)
+
+- (DDLogLevel)getLogLevel {
+    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kComponentName];
+    return logger.logLevel;
+}
+
+- (void)setLogLevel:(DDLogLevel)logLevel {
+    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kComponentName];
+    logger.logLevel = logLevel;
+}
+
+- (void)e:(NSString *)message {
+    [self log:DDLogLevelError message:message];
+}
+
+- (void)w:(NSString *)message {
+    [self log:DDLogLevelWarning message:message];
+}
+
+- (void)i:(NSString *)message {
+    [self log:DDLogLevelInfo message:message];
+}
+
+- (void)v:(NSString *)message {
+    [self log:DDLogLevelVerbose message:message];
+}
+
+- (void)d:(NSString *)message {
+    [self log:DDLogLevelDebug message:message];
+}
+
+- (void)log:(DDLogLevel)level message:(NSString *)message {
+    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kComponentName];
+    [logger log:[self class] level:level message:message];
+}
+
+@end

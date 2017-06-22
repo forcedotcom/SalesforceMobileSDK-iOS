@@ -1,9 +1,9 @@
 /*
- SalesforceReact.h
+ SFSDKReactLogger.h
  SalesforceReact
-
- Created by Bharath Hariharan on Thu Jun 22 16:24:22 PDT 2017.
-
+ 
+ Created by Bharath Hariharan on 6/22/17.
+ 
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -27,8 +27,48 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SalesforceReact/SFNetReactBridge.h>
-#import <SalesforceReact/SFOauthReactBridge.h>
-#import <SalesforceReact/SFSDKReactLogger.h>
-#import <SalesforceReact/SFSmartStoreReactBridge.h>
-#import <SalesforceReact/SFSmartSyncReactBridge.h>
+#import <SalesforceAnalytics/SFSDKLogger.h>
+
+@interface NSObject (SFSDKReactLogger)
+
+/**
+ * Used to get and set the current log level associated with this logger.
+ */
+@property (nonatomic, readwrite, assign, getter=getLogLevel) DDLogLevel logLevel;
+
+/**
+ * Logs an error log line.
+ *
+ * @param message Log message.
+ */
+- (void)e:(nonnull NSString *)message;
+
+/**
+ * Logs a warning log line.
+ *
+ * @param message Log message.
+ */
+- (void)w:(nonnull NSString *)message;
+
+/**
+ * Logs an info log line.
+ *
+ * @param message Log message.
+ */
+- (void)i:(nonnull NSString *)message;
+
+/**
+ * Logs a verbose log line.
+ *
+ * @param message Log message.
+ */
+- (void)v:(nonnull NSString *)message;
+
+/**
+ * Logs a debug log line.
+ *
+ * @param message Log message.
+ */
+- (void)d:(nonnull NSString *)message;
+
+@end
