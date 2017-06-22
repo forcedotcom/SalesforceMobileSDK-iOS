@@ -30,8 +30,8 @@
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SmartStore/SalesforceSDKManagerWithSmartStore.h>
-#import <SalesforceSDKCore/SFSDKDatasharingHelper.h>
-#import <SalesforceSDKCore/NSUserDefaults+SFAdditions.h>
+#import <SalesforceAnalytics/SFSDKDatasharingHelper.h>
+#import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 #import <SmartSyncExplorerCommon/SmartSyncExplorerConfig.h>
 
 @interface AppDelegate ()

@@ -32,7 +32,6 @@
 #import "NSData+SFSDKUtils.h"
 #import "NSString+SFAdditions.h"
 #import "SFApplicationHelper.h"
-#import "NSUserDefaults+SFAdditions.h"
 #import "NSURL+SFStringUtils.h"
 #import "SFUserAccountManager.h"
 #import "SFSDKLoginHostStorage.h"
@@ -42,6 +41,7 @@
 #import "SalesforceSDKManager.h"
 #import "SFSDKWebViewStateManager.h"
 #import "SFNetwork.h"
+#import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 
 // Public constants
 

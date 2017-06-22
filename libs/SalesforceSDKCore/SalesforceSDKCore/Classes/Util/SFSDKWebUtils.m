@@ -25,7 +25,7 @@
 
 #import "SFSDKWebUtils.h"
 #import "SFApplication.h"
-#import "NSUserDefaults+SFAdditions.h"
+#import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 #import <WebKit/WebKit.h>
 
 NSString * const kUserAgentPropKey = @"UserAgent";

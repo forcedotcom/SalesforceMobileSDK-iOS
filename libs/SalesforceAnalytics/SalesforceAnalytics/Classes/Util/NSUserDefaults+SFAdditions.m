@@ -22,14 +22,19 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-/** Salesforce Mobile SDK additions to the NSUserDefaults class
- */
-@interface NSUserDefaults (SFAdditions)
+#import "NSUserDefaults+SFAdditions.h"
+#import "SFSDKDatasharingHelper.h"
 
-/**
- Convenience method that returns either private or shared NSUserDefaults
- @return NSUserdefaults standardUserDefaults or app group specific userDefaults
- */
-+ (NSUserDefaults *)msdkUserDefaults;
+@implementation NSUserDefaults (SFAdditions)
+
++ (NSUserDefaults *)msdkUserDefaults {
+    NSUserDefaults *sharedDefaults = nil;
+    if ([SFSDKDatasharingHelper sharedInstance].appGroupEnabled) {
+        sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[SFSDKDatasharingHelper sharedInstance].appGroupName];
+    } else {
+        sharedDefaults = [NSUserDefaults standardUserDefaults];
+    }
+    return sharedDefaults;
+}
+
 @end

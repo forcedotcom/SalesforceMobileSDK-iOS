@@ -25,8 +25,8 @@
 #import <SmartSyncExplorerCommon/SmartSyncExplorerCommon.h>
 #import <NotificationCenter/NotificationCenter.h>
 #import <SmartStore/SalesforceSDKManagerWithSmartStore.h>
-#import <SalesforceSDKCore/SFSDKDatasharingHelper.h>
-#import <SalesforceSDKCore/NSUserDefaults+SFAdditions.h>
+#import <SalesforceAnalytics/SFSDKDatasharingHelper.h>
+#import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 #import <SalesforceSDKCore/SFRestRequest.h>
 #import <SalesforceSDKCore/SFRestAPI.h>
 #import <SalesforceSDKCore/SFLoggerMacros.h>

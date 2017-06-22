@@ -36,10 +36,10 @@
 #import "SFSDKAILTNPublisher.h"
 #import "UIDevice+SFHardware.h"
 #import "SFIdentityData.h"
-#import "NSUserDefaults+SFAdditions.h"
 #import "SFApplicationHelper.h"
 #import <SalesforceAnalytics/SFSDKAILTNTransform.h>
 #import <SalesforceAnalytics/SFSDKDeviceAppAttributes.h>
+#import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 #import "SFSDKAppFeatureMarkers.h"
 
 static NSString * const kEventStoresDirectory = @"event_stores";
