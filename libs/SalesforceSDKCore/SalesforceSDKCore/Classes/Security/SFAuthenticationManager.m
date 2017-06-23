@@ -23,12 +23,10 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFApplication.h"
 #import "SFAuthenticationManager+Internal.h"
 #import "SalesforceSDKManager+Internal.h"
 #import "SFUserAccount+Internal.h"
 #import "SFUserAccountManager+Internal.h"
-#import "SFUserAccountIdentity.h"
 #import "SFAuthenticationViewHandler.h"
 #import "SFAuthenticationSafariControllerHandler.h"
 #import "SFAuthErrorHandler.h"
@@ -37,11 +35,8 @@
 #import "SFIdentityData.h"
 #import "SFSDKResourceUtils.h"
 #import "SFRootViewManager.h"
-#import "SFPasscodeProviderManager.h"
 #import "SFPushNotificationManager.h"
 #import "SFManagedPreferences.h"
-#import "SFOAuthCredentials+Internal.h"
-#import "SFOAuthInfo.h"
 #import "SFLoginViewController.h"
 #import "SFOAuthCoordinator+Internal.h"
 #import "SFNetwork.h"
@@ -857,9 +852,21 @@ static Class InstanceClass = nil;
     self.idCoordinator.delegate = self;
 }
 
-- (void)restartAuthentication {
+- (void)restartAuthentication:(BOOL)onlyIfAuthenticating {
     @synchronized (self.authBlockList) {
-        [self log:SFLogLevelInfo format:@"%@: Restarting authentication process.", NSStringFromSelector(_cmd)];
+        if (self.authenticating) {
+            [self log:SFLogLevelInfo format:@"%@: Restarting in-progress authentication process.", NSStringFromSelector(_cmd)];
+        }
+        else {
+            if (onlyIfAuthenticating) {
+                [self log:SFLogLevelWarning format:@"%@: Authentication manager is not currently authenticating.  No action taken.", NSStringFromSelector(_cmd)];
+                return;
+            }
+            else {
+                [self log:SFLogLevelInfo format:@"%@: Restarting authentication process.", NSStringFromSelector(_cmd)];
+            }
+        }
+
         [self.coordinator stopAuthentication];
         [self loginWithCredentials:[self createOAuthCredentials]];
     }
@@ -1192,7 +1199,7 @@ static Class InstanceClass = nil;
 
 - (void)hostListViewController:(SFSDKLoginHostListViewController *)hostListViewController didChangeLoginHost:(SFSDKLoginHost *)newLoginHost {
     self.loginHost = newLoginHost.host;
-    [self restartAuthentication];
+    [self restartAuthentication:NO];
 }
 
 
@@ -1200,7 +1207,7 @@ static Class InstanceClass = nil;
 
 - (void)loginViewController:(SFLoginViewController *)loginViewController didChangeLoginHost:(SFSDKLoginHost *)newLoginHost {
     self.loginHost = newLoginHost.host;
-    [self restartAuthentication];
+    [self restartAuthentication:YES];
 }
 
 #pragma mark - SFUserAccountManagerDelegate
