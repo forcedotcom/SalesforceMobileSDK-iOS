@@ -43,29 +43,45 @@ static NSString * const kComponentName = @"SalesforceHybrid";
     logger.logLevel = logLevel;
 }
 
-+ (void)e:(Class)class message:(NSString *)message {
-    [SFSDKHybridLogger log:DDLogLevelError class:class message:message];
++ (void)e:(Class)class format:(NSString *)format, ... {
+    va_list args;
+    va_start(args, format);
+    [SFSDKHybridLogger log:DDLogLevelError class:class message:format args:args];
+    va_end(args);
 }
 
-+ (void)w:(Class)class message:(NSString *)message {
-    [SFSDKHybridLogger log:DDLogLevelWarning class:class message:message];
++ (void)w:(Class)class format:(NSString *)format, ... {
+    va_list args;
+    va_start(args, format);
+    [SFSDKHybridLogger log:DDLogLevelWarning class:class message:format args:args];
+    va_end(args);
 }
 
-+ (void)i:(Class)class message:(NSString *)message {
-    [SFSDKHybridLogger log:DDLogLevelInfo class:class message:message];
++ (void)i:(Class)class format:(NSString *)format, ... {
+    va_list args;
+    va_start(args, format);
+    [SFSDKHybridLogger log:DDLogLevelInfo class:class message:format args:args];
+    va_end(args);
 }
 
-+ (void)v:(Class)class message:(NSString *)message {
-    [SFSDKHybridLogger log:DDLogLevelVerbose class:class message:message];
++ (void)v:(Class)class format:(NSString *)format, ... {
+    va_list args;
+    va_start(args, format);
+    [SFSDKHybridLogger log:DDLogLevelVerbose class:class message:format args:args];
+    va_end(args);
 }
 
-+ (void)d:(Class)class message:(NSString *)message {
-    [SFSDKHybridLogger log:DDLogLevelDebug class:class message:message];
++ (void)d:(Class)class format:(NSString *)format, ... {
+    va_list args;
+    va_start(args, format);
+    [SFSDKHybridLogger log:DDLogLevelDebug class:class message:format args:args];
+    va_end(args);
 }
 
-+ (void)log:(DDLogLevel)level class:(Class)class message:(NSString *)message {
++ (void)log:(DDLogLevel)level class:(Class)class message:(NSString *)message args:(va_list)args {
+    NSString *formattedMessage = [[NSString alloc] initWithFormat:message arguments:args];
     SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kComponentName];
-    [logger log:class level:level message:message];
+    [logger log:class level:level message:formattedMessage];
 }
 
 @end
