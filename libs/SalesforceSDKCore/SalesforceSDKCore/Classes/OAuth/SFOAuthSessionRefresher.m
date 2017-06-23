@@ -120,12 +120,27 @@
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(WKWebView *)view {
     // Shouldn't happen (refreshSessionWithCompletion:error: is guarded by the presence of a refresh token), but....
-    NSString *errorString = [NSString stringWithFormat:@"%@: User Agent flow not supported for token refresh.", NSStringFromClass([self class])];
+    [self finishForUnsupportedFlow:@"User Agent" coordinator:coordinator];
+}
+
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSafariViewController:(SFSafariViewController *)svc {
+    // Shouldn't happen (refreshSessionWithCompletion:error: is guarded by the presence of a refresh token), but....
+    [self finishForUnsupportedFlow:@"Web Server" coordinator:coordinator];
+}
+
+- (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator *)coordinator {
+    // Shouldn't happen (refreshSessionWithCompletion:error: is guarded by the presence of a refresh token), but....
+    [self finishForUnsupportedFlow:@"Web Server" coordinator:coordinator];
+}
+
+- (void)finishForUnsupportedFlow:(NSString *)flow coordinator:(SFOAuthCoordinator *)coordinator {
+    NSString *errorString = [NSString stringWithFormat:@"%@: %@ flow not supported for token refresh.", NSStringFromClass([self class]), flow];
     NSError *error = [NSError errorWithDomain:kSFOAuthErrorDomain
                                          code:SFOAuthSessionRefreshErrorCodeInvalidCredentials
                                      userInfo:@{ NSLocalizedDescriptionKey: errorString }];
     [coordinator stopAuthentication];
     [self completeWithError:error];
 }
+
 
 @end
