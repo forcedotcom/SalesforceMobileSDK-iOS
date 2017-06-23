@@ -29,46 +29,60 @@
 
 #import <SalesforceAnalytics/SFSDKLogger.h>
 
-@interface NSObject (SFSDKReactLogger)
+@interface SFSDKReactLogger : NSObject
 
 /**
- * Used to get and set the current log level associated with this logger.
+ * Returns current log level used by this logger.
+ *
+ * @return Current log level.
  */
-@property (nonatomic, readwrite, assign, getter=getLogLevel) DDLogLevel logLevel;
++ (DDLogLevel)curLogLevel;
+
+/**
+ * Sets log level to be used by this logger.
+ *
+ * @param logLevel Log level.
+ */
++ (void)setLogLevel:(DDLogLevel)logLevel;
 
 /**
  * Logs an error log line.
  *
+ * @param class Class.
  * @param message Log message.
  */
-- (void)e:(nonnull NSString *)message;
++ (void)e:(nonnull Class)class message:(nonnull NSString *)message;
 
 /**
  * Logs a warning log line.
  *
+ * @param class Class.
  * @param message Log message.
  */
-- (void)w:(nonnull NSString *)message;
++ (void)w:(nonnull Class)class message:(nonnull NSString *)message;
 
 /**
  * Logs an info log line.
  *
+ * @param class Class.
  * @param message Log message.
  */
-- (void)i:(nonnull NSString *)message;
++ (void)i:(nonnull Class)class message:(nonnull NSString *)message;
 
 /**
  * Logs a verbose log line.
  *
+ * @param class Class.
  * @param message Log message.
  */
-- (void)v:(nonnull NSString *)message;
++ (void)v:(nonnull Class)class message:(nonnull NSString *)message;
 
 /**
  * Logs a debug log line.
  *
+ * @param class Class.
  * @param message Log message.
  */
-- (void)d:(nonnull NSString *)message;
++ (void)d:(nonnull Class)class message:(nonnull NSString *)message;
 
 @end

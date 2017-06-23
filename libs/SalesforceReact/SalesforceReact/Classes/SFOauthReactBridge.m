@@ -45,13 +45,13 @@ RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(getAuthCredentials:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
 {
-    [self d:[NSString stringWithFormat:@"getAuthCredentials: arguments: %@", args]];
+    [SFSDKReactLogger d:[self class] message:[NSString stringWithFormat:@"getAuthCredentials: arguments: %@", args]];
     [self getAuthCredentialsWithCallback:callback];
 }
 
 RCT_EXPORT_METHOD(logoutCurrentUser:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
 {
-    [self d:[NSString stringWithFormat:@"logoutCurrentUser: arguments: %@", args]];
+    [SFSDKReactLogger d:[self class] message:[NSString stringWithFormat:@"logoutCurrentUser: arguments: %@", args]];
     dispatch_async(dispatch_get_main_queue(), ^{
         [[SFAuthenticationManager sharedManager] logout];
     });
@@ -59,7 +59,7 @@ RCT_EXPORT_METHOD(logoutCurrentUser:(NSDictionary *)args callback:(RCTResponseSe
 
 RCT_EXPORT_METHOD(authenticate:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
 {
-    [self d:[NSString stringWithFormat:@"authenticate: arguments: %@", args]];
+    [SFSDKReactLogger d:[self class] message:[NSString stringWithFormat:@"authenticate: arguments: %@", args]];
     dispatch_async(dispatch_get_main_queue(), ^{
         [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
             [SFUserAccountManager sharedInstance].currentUser  =  userAccount;
