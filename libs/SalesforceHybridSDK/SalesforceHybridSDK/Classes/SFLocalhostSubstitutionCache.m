@@ -25,6 +25,7 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <SalesforceSDKCore/SFSDKAppFeatureMarkers.h>
 #import "SFLocalhostSubstitutionCache.h"
+#import "SFSDKHybridLogger.h"
 
 #define WWW_DIR @"www"
 
@@ -75,13 +76,13 @@ static NSString * const kSFAppFeatureUsesLocalhost = @"LH";
     NSString* mimeType = @"text/plain";
     NSFileManager *manager = [[NSFileManager alloc] init];
     if (![filePath hasPrefix:wwwDirPath]) {
-        [self log:SFLogLevelError format:@"Trying to access files outside www: %@", url];
+        [self e:[NSString stringWithFormat:@"Trying to access files outside www: %@", url]];
     } else if (![manager fileExistsAtPath:filePath]) {
-        [self log:SFLogLevelError format:@"Trying to access non-existent file: %@", url];
+        [self e:[NSString stringWithFormat:@"Trying to access non-existent file: %@", url]];
     } else {
         data = [NSData dataWithContentsOfFile:filePath];
         mimeType = [self mimeTypeForPath:filePath];
-        [self log:SFLogLevelInfo format:@"Loading local file: %@", urlPath];
+        [self i:[NSString stringWithFormat:@"Loading local file: %@", urlPath]];
     }
     NSURLResponse *response = [[NSURLResponse alloc]
                                initWithURL:[request URL]

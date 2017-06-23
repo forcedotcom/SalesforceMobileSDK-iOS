@@ -1,5 +1,10 @@
 /*
- Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
+ SFSDKHybridLogger.m
+ SalesforceHybridSDK
+ 
+ Created by Bharath Hariharan on 6/22/17.
+ 
+ Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,26 +27,45 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFForcePlugin.h"
-#import "CDVPlugin+SFAdditions.h"
 #import "SFSDKHybridLogger.h"
 
-@implementation SFForcePlugin
+static NSString * const kComponentName = @"SalesforceHybrid";
 
-- (void)runCommand:(CDVPluginResult* (^)(NSDictionary *argsDict))block command:(CDVInvokedUrlCommand*)command
-{
-    NSDate *startTime = [NSDate date];
-    NSString* callbackId = command.callbackId;
-    [self getVersion:command.methodName withArguments:command.arguments];
-    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
-    [self d:[NSString stringWithFormat:@"%@ called.", command.methodName]];
-    __weak typeof(self) weakSelf = self;
-    [self.commandDelegate runInBackground:^{
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        CDVPluginResult* result = block(argsDict);
-        [strongSelf d:[NSString stringWithFormat:@"%@ returning after %f secs.", command.methodName, -[startTime timeIntervalSinceNow]]];
-        [strongSelf.commandDelegate sendPluginResult:result callbackId:callbackId];
-    }];
+@implementation NSObject (SFSDKHybridLogger)
+
+- (DDLogLevel)getLogLevel {
+    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kComponentName];
+    return logger.logLevel;
+}
+
+- (void)setLogLevel:(DDLogLevel)logLevel {
+    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kComponentName];
+    logger.logLevel = logLevel;
+}
+
+- (void)e:(NSString *)message {
+    [self log:DDLogLevelError message:message];
+}
+
+- (void)w:(NSString *)message {
+    [self log:DDLogLevelWarning message:message];
+}
+
+- (void)i:(NSString *)message {
+    [self log:DDLogLevelInfo message:message];
+}
+
+- (void)v:(NSString *)message {
+    [self log:DDLogLevelVerbose message:message];
+}
+
+- (void)d:(NSString *)message {
+    [self log:DDLogLevelDebug message:message];
+}
+
+- (void)log:(DDLogLevel)level message:(NSString *)message {
+    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kComponentName];
+    [logger log:[self class] level:level message:message];
 }
 
 @end

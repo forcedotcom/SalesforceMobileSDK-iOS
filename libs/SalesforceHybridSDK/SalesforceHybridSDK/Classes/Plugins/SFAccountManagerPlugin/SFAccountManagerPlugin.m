@@ -24,6 +24,7 @@
 
 #import "SFAccountManagerPlugin.h"
 #import "CDVPlugin+SFAdditions.h"
+#import "SFSDKHybridLogger.h"
 #import <Cordova/CDVPluginResult.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
@@ -59,9 +60,9 @@ NSString * const kUserAccountClientIdDictKey       = @"clientId";
 
 - (void)getUsers:(CDVInvokedUrlCommand *)command
 {
-    [self log:SFLogLevelDebug format:@"getUsers: arguments: %@", command.arguments];
+    [self d:[NSString stringWithFormat:@"getUsers: arguments: %@", command.arguments]];
     NSString* callbackId = command.callbackId;
-    /* NSString* jsVersionStr = */[self getVersion:@"getUsers" withArguments:command.arguments];
+    [self getVersion:@"getUsers" withArguments:command.arguments];
     NSMutableArray *userAccountArray = [NSMutableArray array];
     for (SFUserAccount *account in [SFUserAccountManager sharedInstance].allUserAccounts) {
         [userAccountArray addObject:[self dictionaryFromUserAccount:account]];
@@ -72,7 +73,7 @@ NSString * const kUserAccountClientIdDictKey       = @"clientId";
 
 - (void)getCurrentUser:(CDVInvokedUrlCommand *)command
 {
-    [self log:SFLogLevelDebug format:@"getCurrentUser: arguments: %@", command.arguments];
+    [self d:[NSString stringWithFormat:@"getCurrentUser: arguments: %@", command.arguments]];
     NSString* callbackId = command.callbackId;
     /* NSString* jsVersionStr = */[self getVersion:@"getCurrentUser" withArguments:command.arguments];
     
@@ -87,10 +88,9 @@ NSString * const kUserAccountClientIdDictKey       = @"clientId";
 
 - (void)switchToUser:(CDVInvokedUrlCommand *)command
 {
-    [self log:SFLogLevelDebug format:@"switchToUser: arguments: %@", command.arguments];
-    /* NSString* jsVersionStr = */[self getVersion:@"switchToUser" withArguments:command.arguments];
+    [self d:[NSString stringWithFormat:@"switchToUser: arguments: %@", command.arguments]];
+    [self getVersion:@"switchToUser" withArguments:command.arguments];
     NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
-    
     if (argsDict == nil) {
         // With no user data, assume automatic management of user switching.
         NSArray *userAccounts = [SFUserAccountManager sharedInstance].allUserAccounts;
@@ -113,27 +113,26 @@ NSString * const kUserAccountClientIdDictKey       = @"clientId";
         NSString *orgId = [argsDict nonNullObjectForKey:kUserAccountOrgIdDictKey];
         SFUserAccountIdentity *accountIdentity = [SFUserAccountIdentity identityWithUserId:userId orgId:orgId];
         SFUserAccount *account = [[SFUserAccountManager sharedInstance] userAccountForUserIdentity:accountIdentity];
-        [self log:SFLogLevelDebug format:@"switchToUser: Switching to user account: %@", account];
+        [self d:[NSString stringWithFormat:@"switchToUser: Switching to user account: %@", account]];
         [[SFUserAccountManager sharedInstance] switchToUser:account];
     }
 }
 
 - (void)logout:(CDVInvokedUrlCommand *)command;
 {
-    [self log:SFLogLevelDebug format:@"logout: arguments: %@", command.arguments];
+    [self d:[NSString stringWithFormat:@"logout: arguments: %@", command.arguments]];
     NSString *callbackId = command.callbackId;
-    /* NSString* jsVersionStr = */[self getVersion:@"logout" withArguments:command.arguments];
-    
+    [self getVersion:@"logout" withArguments:command.arguments];
     NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
     NSString *userId = [argsDict nonNullObjectForKey:kUserAccountUserIdDictKey];
     NSString *orgId = [argsDict nonNullObjectForKey:kUserAccountOrgIdDictKey];
     SFUserAccountIdentity *accountIdentity = [SFUserAccountIdentity identityWithUserId:userId orgId:orgId];
     SFUserAccount *account = [[SFUserAccountManager sharedInstance] userAccountForUserIdentity:accountIdentity];
     if (account == nil || account == [SFUserAccountManager sharedInstance].currentUser) {
-        [self log:SFLogLevelDebug msg:@"logout: Logging out current user.  App state will reset."];
+        [self d:[NSString stringWithFormat:@"logout: Logging out current user.  App state will reset."]];
         [[SFAuthenticationManager sharedManager] logout];
     } else {
-        [self log:SFLogLevelDebug format:@"logout: Logging out user account: %@", account];
+        [self d:[NSString stringWithFormat:@"logout: Logging out user account: %@", account]];
         [[SFAuthenticationManager sharedManager] logoutUser:account];
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
