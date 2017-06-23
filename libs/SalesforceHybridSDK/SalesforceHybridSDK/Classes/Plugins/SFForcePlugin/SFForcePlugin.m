@@ -34,12 +34,12 @@
     NSString* callbackId = command.callbackId;
     [self getVersion:command.methodName withArguments:command.arguments];
     NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
-    [self d:[NSString stringWithFormat:@"%@ called.", command.methodName]];
+    [SFSDKHybridLogger d:[self class] message:[NSString stringWithFormat:@"%@ called.", command.methodName]];
     __weak typeof(self) weakSelf = self;
     [self.commandDelegate runInBackground:^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
         CDVPluginResult* result = block(argsDict);
-        [strongSelf d:[NSString stringWithFormat:@"%@ returning after %f secs.", command.methodName, -[startTime timeIntervalSinceNow]]];
+        [SFSDKHybridLogger d:[strongSelf class] message:[NSString stringWithFormat:@"%@ returning after %f secs.", command.methodName, -[startTime timeIntervalSinceNow]]];
         [strongSelf.commandDelegate sendPluginResult:result callbackId:callbackId];
     }];
 }

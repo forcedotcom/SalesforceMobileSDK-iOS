@@ -31,41 +31,41 @@
 
 static NSString * const kComponentName = @"SalesforceHybrid";
 
-@implementation NSObject (SFSDKHybridLogger)
+@implementation SFSDKHybridLogger
 
-- (DDLogLevel)getLogLevel {
++ (DDLogLevel)curLogLevel {
     SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kComponentName];
     return logger.logLevel;
 }
 
-- (void)setLogLevel:(DDLogLevel)logLevel {
++ (void)setLogLevel:(DDLogLevel)logLevel {
     SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kComponentName];
     logger.logLevel = logLevel;
 }
 
-- (void)e:(NSString *)message {
-    [self log:DDLogLevelError message:message];
++ (void)e:(Class)class message:(NSString *)message {
+    [SFSDKHybridLogger log:DDLogLevelError class:class message:message];
 }
 
-- (void)w:(NSString *)message {
-    [self log:DDLogLevelWarning message:message];
++ (void)w:(Class)class message:(NSString *)message {
+    [SFSDKHybridLogger log:DDLogLevelWarning class:class message:message];
 }
 
-- (void)i:(NSString *)message {
-    [self log:DDLogLevelInfo message:message];
++ (void)i:(Class)class message:(NSString *)message {
+    [SFSDKHybridLogger log:DDLogLevelInfo class:class message:message];
 }
 
-- (void)v:(NSString *)message {
-    [self log:DDLogLevelVerbose message:message];
++ (void)v:(Class)class message:(NSString *)message {
+    [SFSDKHybridLogger log:DDLogLevelVerbose class:class message:message];
 }
 
-- (void)d:(NSString *)message {
-    [self log:DDLogLevelDebug message:message];
++ (void)d:(Class)class message:(NSString *)message {
+    [SFSDKHybridLogger log:DDLogLevelDebug class:class message:message];
 }
 
-- (void)log:(DDLogLevel)level message:(NSString *)message {
++ (void)log:(DDLogLevel)level class:(Class)class message:(NSString *)message {
     SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kComponentName];
-    [logger log:[self class] level:level message:message];
+    [logger log:class level:level message:message];
 }
 
 @end
