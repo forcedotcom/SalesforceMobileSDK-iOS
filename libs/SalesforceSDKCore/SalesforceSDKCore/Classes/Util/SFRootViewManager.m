@@ -105,8 +105,11 @@
 // the presentation of an "uber" view easy to implement on the edges.
 //
 - (void)pushViewController:(UIViewController *) viewController {
-    __weak typeof (self) weakSelf = self;
     
+    if (!viewController)
+        return;
+  
+    __weak typeof (self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
         
         __strong typeof (weakSelf) strongSelf = weakSelf;
@@ -137,6 +140,10 @@
 }
 
 - (void)popViewController:(UIViewController *) viewController {
+    
+    if (!viewController)
+        return;
+    
     __weak typeof (self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
         __strong typeof (weakSelf) strongSelf = weakSelf;
@@ -149,7 +156,7 @@
             // if controller is found dismiss the view, invoke delegates && restore Alerts if required.
             if (viewController == currentViewController.presentedViewController) {
                 [strongSelf log:SFLogLevelDebug format:@"popViewController: View controller (%@) is now being dismissed from presentation.", viewController];
-                [strongSelf dismissViewController:viewController using:currentViewController];
+                [strongSelf dismissPresentedViewController:currentViewController];
             }else{
                 [strongSelf log:SFLogLevelDebug format:@"popViewController: View controller (%@) not found in the view controller stack.  No action taken.", viewController];
             }
@@ -207,7 +214,7 @@
     [presentingViewController presentViewController:toBePresented animated:NO completion:nil];
 }
 
-- (void)dismissViewController :(UIViewController *)toBeDismissed using:(UIViewController *)presentingViewController {
+- (void)dismissPresentedViewController :(UIViewController *)presentingViewController {
     __weak typeof (self) weakSelf = self;
     [presentingViewController.presentedViewController dismissViewControllerAnimated:NO completion:^{
         __strong typeof (weakSelf) strongSelf = weakSelf;
@@ -216,7 +223,7 @@
         }
         [strongSelf enumerateDelegates:^(id<SFRootViewManagerDelegate> delegate) {
             if ([delegate respondsToSelector:@selector(rootViewManager:didPopViewControler:)]) {
-                [delegate rootViewManager:strongSelf didPopViewControler:toBeDismissed];
+                [delegate rootViewManager:strongSelf didPopViewControler:presentingViewController.presentedViewController];
             }
         }];
     }];
