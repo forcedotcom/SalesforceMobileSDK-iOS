@@ -852,11 +852,7 @@ static Class InstanceClass = nil;
 
 - (void)restartAuthentication {
     @synchronized (self.authBlockList) {
-        if (!self.authenticating) {
-            [self log:SFLogLevelWarning format:@"%@: Authentication manager is not currently authenticating.  No action taken.", NSStringFromSelector(_cmd)];
-            return;
-        }
-        [self log:SFLogLevelInfo format:@"%@: Restarting in-progress authentication process.", NSStringFromSelector(_cmd)];
+        [self log:SFLogLevelInfo format:@"%@: Restarting authentication process.", NSStringFromSelector(_cmd)];
         [self.coordinator stopAuthentication];
         [self loginWithCredentials:[self createOAuthCredentials]];
     }
@@ -1187,6 +1183,12 @@ static Class InstanceClass = nil;
     [hostListViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void)hostListViewController:(SFSDKLoginHostListViewController *)hostListViewController didChangeLoginHost:(SFSDKLoginHost *)newLoginHost {
+    self.loginHost = newLoginHost.host;
+    [self restartAuthentication];
+}
+
+
 #pragma mark - SFLoginViewControllerDelegate
 
 - (void)loginViewController:(SFLoginViewController *)loginViewController didChangeLoginHost:(SFSDKLoginHost *)newLoginHost {
@@ -1334,9 +1336,19 @@ static Class InstanceClass = nil;
         });
         return;
     }
-
+    
     self.authCoordinatorBrowserBlock = callbackBlock;
-    callbackBlock(YES);
+    NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];;
+    NSString *alertMessage = [NSString stringWithFormat:[SFSDKResourceUtils localizedString:@"authAlertBrowserFlowMessage"], coordinator.credentials.domain, appName];
+    
+    if (self.statusAlert) {
+        self.statusAlert = nil;
+    }
+    [self showAlertWithTitle:[SFSDKResourceUtils localizedString:@"authAlertBrowserFlowTitle"]
+                     message:alertMessage
+            firstButtonTitle:[SFSDKResourceUtils localizedString:@"authAlertOkButton"]
+           secondButtonTitle:[SFSDKResourceUtils localizedString:@"authAlertCancelButton"]
+                         tag:kAdvancedAuthDialogTag];
 }
 
 - (void)oauthCoordinatorDidCancelBrowserFlow:(SFOAuthCoordinator *)coordinator {
@@ -1370,7 +1382,8 @@ static Class InstanceClass = nil;
     [[SFRootViewManager sharedManager] pushViewController:alert];
 }
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator displayConfirmationMessage:(NSString *)message completion:(void (^)(BOOL))completion {
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator displayConfirmationMessage:(NSString *)message completion:(void (^)(BOOL))completion
+{
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:@""
                                                                    message:message
                                                             preferredStyle:UIAlertControllerStyleAlert];
@@ -1388,6 +1401,11 @@ static Class InstanceClass = nil;
     [alert addAction:cancelAction];
 
     [[SFRootViewManager sharedManager] pushViewController:alert];
+}
+
+- (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator*)coordinator
+{
+    [self delegateDidCancelBrowserFlow];
 }
 
 #pragma mark - SFIdentityCoordinatorDelegate

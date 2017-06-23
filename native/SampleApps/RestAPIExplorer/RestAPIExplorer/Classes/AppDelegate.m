@@ -37,9 +37,7 @@
 
 // Fill these in when creating a new Connected Application on Force.com
 static NSString * const RemoteAccessConsumerKey = @"3MVG98dostKihXN53TYStBIiS8NRTXcbDzn9nHPb3piMElfQDD.kTyHeXjKV9JNUbe5sZeSQ4CVY1Onzpq21N";
-// static NSString * const RemoteAccessConsumerKey = 3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa";
-static NSString * const OAuthRedirectURI        = @"com.salesforce.mobilesdk.sample://oauth/success";
-// static NSString * const OAuthRedirectURI        = testsfdc:///mobilesdk/detect/oauth/done";
+static NSString * const OAuthRedirectURI        = @"com.salesforce.mobilesdk.sample.restapiexplorer://oauth/success";
 
 @implementation AppDelegate
 
@@ -129,16 +127,9 @@ static NSString * const OAuthRedirectURI        = @"com.salesforce.mobilesdk.sam
     // Respond to any push notification registration errors here.
 }
 
-- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options{
-    
-    // Uncomment the following line, if Authentication was attempted using handle advanced OAuth flow.
-    // For Advanced Auth functionality to work, edit your apps plist files and add the URL scheme that you have
-    // chosen for your app. The scheme should be the same as used in  the oauthRedirectURI settings of your Connected
-    //  App. You should also set the  delegate(SFAuthenticationManagerDelegate) for SFAuthenticationManager to be
-    // notified  of success & failures. Inorder to be notfied of user's selected action on displayed
-    // alerts implement  authManagerDidProceedWithBrowserFlow: & authManagerDidCancelBrowserFlow:
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
     return [[SFAuthenticationManager sharedManager] handleAdvancedAuthenticationResponse:url];
-//    return NO;
 }
 
 

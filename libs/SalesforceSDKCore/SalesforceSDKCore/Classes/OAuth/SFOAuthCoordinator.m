@@ -22,7 +22,6 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SafariServices/SafariServices.h>
 #import <Security/Security.h>
 #import <WebKit/WebKit.h>
 #import "SFOAuthCredentials+Internal.h"
@@ -511,9 +510,9 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
     // Launch the native browser.
     [self log:SFLogLevelDebug format:@"%@: Initiating native browser flow with URL %@", NSStringFromSelector(_cmd), approvalUrl];
     NSURL *nativeBrowserUrl = [NSURL URLWithString:approvalUrl];
-    
-    
+
     SFSafariViewController *svc = [[SFSafariViewController alloc] initWithURL:nativeBrowserUrl];
+    svc.delegate = self;
     [[SFRootViewManager sharedManager] pushViewController:svc];
     self.advancedAuthState = SFOAuthAdvancedAuthStateBrowserRequestInitiated;
 }
@@ -1017,6 +1016,15 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
         [self.delegate oauthCoordinator:self displayConfirmationMessage:message completion:completionHandler];
     } else {
         [self log:SFLogLevelWarning msg:@"WKWebView did want to display a confirmation alert but no delegate responded to it"];
+    }
+}
+
+#pragma mark - SFSafariViewControllerDelegate
+-(void)safariViewControllerDidFinish:(SFSafariViewController *)controller {
+    if ([self.delegate respondsToSelector:@selector(oauthCoordinatorDidCancelBrowserAuthentication:)]) {
+        [self.delegate oauthCoordinatorDidCancelBrowserAuthentication:self];
+    } else {
+        [self log:SFLogLevelWarning msg:@"User chose Done in SafariViewController"];
     }
 }
 
