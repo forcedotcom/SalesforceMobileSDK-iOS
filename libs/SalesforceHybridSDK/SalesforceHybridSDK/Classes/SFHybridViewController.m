@@ -538,7 +538,7 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
 
 - (void) webView:(WKWebView *) webView decidePolicyForNavigationAction:(WKNavigationAction *) navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy)) decisionHandler
 {
-    [SFSDKHybridLogger d:[self class] message::[NSString stringWithFormat:@"webView:decidePolicyForNavigationAction:decisionHandler: Loading URL '%@'",
+    [SFSDKHybridLogger d:[self class] message:[NSString stringWithFormat:@"webView:decidePolicyForNavigationAction:decisionHandler: Loading URL '%@'",
              [navigationAction.request.URL redactedAbsoluteString:@[@"sid"]]]];
     BOOL shouldAllowRequest = YES;
     if ([webView isEqual:self.vfPingPageHiddenWKWebView]) { // Hidden ping page load.
