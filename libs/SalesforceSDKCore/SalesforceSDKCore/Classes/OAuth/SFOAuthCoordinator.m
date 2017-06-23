@@ -299,24 +299,8 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
     [self.credentials revoke];
 }
 
-- (void)setAdvancedAuthState:(SFOAuthAdvancedAuthState)advancedAuthState {
-    if (_advancedAuthState != advancedAuthState) {
-        _advancedAuthState = advancedAuthState;
-
-        // Re-trigger the native browser flow if the app becomes active on `SFOAuthAdvancedAuthStateBrowserRequestInitiated` state.
-        if (_advancedAuthState == SFOAuthAdvancedAuthStateBrowserRequestInitiated) {
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAppDidBecomeActiveDuringAdvancedAuth:) name:UIApplicationDidBecomeActiveNotification object:nil];
-        } else {
-            [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
-        }
-    }
-}
 
 - (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse {
-    if (self.advancedAuthState != SFOAuthAdvancedAuthStateBrowserRequestInitiated) {
-        [self log:SFLogLevelInfo format:@"%@ Current advanced auth state (%@) not compatible with handling app launch auth response.", NSStringFromSelector(_cmd), [[self class] advancedAuthStateDesc:self.advancedAuthState]];
-        return NO;
-    }
     [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
     NSString *appUrlResponseString = [appUrlResponse absoluteString];
     if (![[appUrlResponseString lowercaseString] hasPrefix:[self.credentials.redirectUri lowercaseString]]) {
@@ -515,17 +499,6 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
     svc.delegate = self;
     self.advancedAuthState = SFOAuthAdvancedAuthStateBrowserRequestInitiated;
     [self.delegate oauthCoordinator:self didBeginAuthenticationWithSafariViewController:svc];
-}
-
-- (void)handleAppDidBecomeActiveDuringAdvancedAuth:(NSNotification*)notification {
-    BOOL retryAuth = YES;
-    if ([self.delegate respondsToSelector:@selector(oauthCoordinatorRetryAuthenticationOnApplicationDidBecomeActive:)]) {
-        retryAuth = [self.delegate oauthCoordinatorRetryAuthenticationOnApplicationDidBecomeActive:self];
-    }
-    
-    if (retryAuth) {
-        [self beginNativeBrowserFlow];
-    }
 }
 
 - (void)beginUserAgentFlow {

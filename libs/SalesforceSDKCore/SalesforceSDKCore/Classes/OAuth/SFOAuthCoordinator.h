@@ -97,12 +97,12 @@ typedef NS_ENUM(NSUInteger, SFOAuthAdvancedAuthState) {
     SFOAuthAdvancedAuthStateNotStarted = 0,
     
     /**
-     The advanced authentication flow has initiated a request through the external browser (Safari).
+     The advanced authentication flow has initiated a request through Safari view controller.
      */
     SFOAuthAdvancedAuthStateBrowserRequestInitiated,
     
     /**
-     The advanced authentication flow has received a response from the external browser, and has
+     The advanced authentication flow has received a response from Safari view controller, and has
      initiated a token exchange request.
      */
     SFOAuthAdvancedAuthStateTokenRequestInitiated
@@ -219,20 +219,6 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  Pass in YES to proceed, NO to cancel the authentication flow.
  */
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginBrowserAuthentication:(SFOAuthBrowserFlowCallbackBlock)callbackBlock;
-
-/**
- Whether or not the coordinator retries browser authentication when the coordinator has not handled the browser response prior
- to application did become active event.
- 
- @discussion
- Ideally the coordinator (via `-handleAdvancedAuthenticationResponse:`) should handle the browser response
- on your app delegate method `-application:openURL:sourceApplication:annotation:`.
- If your coordinator handles the browser response at any point after the application did become active notification is sent,
- this method should be implemented and return NO to disable the browser authentication auto-retry flow.
- 
- The coordinator will auto retry authentication if this method is not implemented.
- */
-- (BOOL)oauthCoordinatorRetryAuthenticationOnApplicationDidBecomeActive:(SFOAuthCoordinator *)coordinator;
 
 /**
  The delegate is expected to display an alert with the specific message and callback the completion block when
