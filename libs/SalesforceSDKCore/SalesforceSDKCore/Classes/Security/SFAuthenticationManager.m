@@ -30,6 +30,7 @@
 #import "SFUserAccountManager+Internal.h"
 #import "SFUserAccountIdentity.h"
 #import "SFAuthenticationViewHandler.h"
+#import "SFAuthenticationSafariControllerHandler.h"
 #import "SFAuthErrorHandler.h"
 #import "SFAuthErrorHandlerList.h"
 #import "SFSecurityLockout.h"
@@ -303,9 +304,9 @@ static Class InstanceClass = nil;
     if (self) {
         self.authBlockList = [NSMutableArray array];
         self.delegates = [NSMutableDictionary new];
-        
-        // Default auth web view handler
+
         __weak typeof(self) weakSelf = self;
+        // Default auth web view handler
         self.authViewHandler = [[SFAuthenticationViewHandler alloc]
                                 initWithDisplayBlock:^(SFAuthenticationManager *authManager, WKWebView *authWebView) {
                                     __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -320,7 +321,13 @@ static Class InstanceClass = nil;
                                     [SFLoginViewController sharedInstance].oauthView = nil;
                                     [strongSelf dismissAuthViewControllerIfPresent];
                                 }];
-        
+
+        // Default auth safari controller handler
+        self.authSafariControllerHandler = [[SFAuthenticationSafariControllerHandler alloc]
+                initWithPresentBlock:^(SFAuthenticationManager *manager, SFSafariViewController *controller) {
+                    [[SFRootViewManager sharedManager] pushViewController:controller];
+                }];
+
         [[SFUserAccountManager sharedInstance] addDelegate:self];
         // Set up default auth error handlers.
         self.authErrorHandlerList = [self populateDefaultAuthErrorHandlerList];
@@ -1257,6 +1264,20 @@ static Class InstanceClass = nil;
         self.authViewHandler.authViewDisplayBlock(self, view);
     }
 }
+
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSafariViewController:(SFSafariViewController *)svc
+{
+    [self log:SFLogLevelDebug msg:@"oauthCoordinator:didBeginAuthenticationWithSafariViewController"];
+
+    [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(authManager:willDisplayAuthSafariViewController:)]) {
+            [delegate authManager:self willDisplayAuthSafariViewController:svc];
+        }
+    }];
+
+    self.authSafariControllerHandler.authSafariControllerPresentBlock(self, svc);
+}
+
 
 - (void)oauthCoordinatorWillBeginAuthentication:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info {
     [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {

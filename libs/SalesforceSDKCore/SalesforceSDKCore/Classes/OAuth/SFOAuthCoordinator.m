@@ -513,8 +513,8 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
 
     SFSafariViewController *svc = [[SFSafariViewController alloc] initWithURL:nativeBrowserUrl];
     svc.delegate = self;
-    [[SFRootViewManager sharedManager] pushViewController:svc];
     self.advancedAuthState = SFOAuthAdvancedAuthStateBrowserRequestInitiated;
+    [self.delegate oauthCoordinator:self didBeginAuthenticationWithSafariViewController:svc];
 }
 
 - (void)handleAppDidBecomeActiveDuringAdvancedAuth:(NSNotification*)notification {
@@ -1021,11 +1021,7 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
 
 #pragma mark - SFSafariViewControllerDelegate
 -(void)safariViewControllerDidFinish:(SFSafariViewController *)controller {
-    if ([self.delegate respondsToSelector:@selector(oauthCoordinatorDidCancelBrowserAuthentication:)]) {
-        [self.delegate oauthCoordinatorDidCancelBrowserAuthentication:self];
-    } else {
-        [self log:SFLogLevelWarning msg:@"User chose Done in SafariViewController"];
-    }
+    [self.delegate oauthCoordinatorDidCancelBrowserAuthentication:self];
 }
 
 #pragma mark - Utilities

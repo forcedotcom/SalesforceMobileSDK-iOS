@@ -221,13 +221,6 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginBrowserAuthentication:(SFOAuthBrowserFlowCallbackBlock)callbackBlock;
 
 /**
- Sent to notify the delegate that a browser authentication flow was cancelled out of by the user.
- 
- @param coordinator   The SFOAuthCoordinator instance processing this message.
- */
-- (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator *)coordinator;
-
-/**
  Whether or not the coordinator retries browser authentication when the coordinator has not handled the browser response prior
  to application did become active event.
  
@@ -276,6 +269,24 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  @see SFOAuthCoordinator
  */
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(WKWebView *)view;
+
+/** Sent after VC has been initialized with authentication URL.
+ 
+ The receiver should present the VC in the implementation of this method.
+ 
+ @param coordinator The SFOAuthCoordinator instance processing this message
+ @param svc         The SFSafariViewController instance that will be used to conduct the authentication workflow
+ 
+ @see SFOAuthCoordinator
+ */
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSafariViewController:(SFSafariViewController *)svc;
+
+/**
+ Sent to notify the delegate that a browser authentication flow was cancelled out of by the user.
+
+ @param coordinator   The SFOAuthCoordinator instance processing this message.
+ */
+- (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator *)coordinator;
 
 @end
 
