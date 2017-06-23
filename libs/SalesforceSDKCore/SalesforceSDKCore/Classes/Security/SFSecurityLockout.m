@@ -37,9 +37,9 @@
 #import "SFIdentityData.h"
 #import "SFApplicationHelper.h"
 #import "SFApplication.h"
-#import "NSUserDefaults+SFAdditions.h"
 #import "SFSDKEventBuilderHelper.h"
 #import "SalesforceSDKManager+Internal.h"
+#import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 
 // Private constants
 

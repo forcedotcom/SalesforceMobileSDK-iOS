@@ -45,13 +45,13 @@
 #import "SFOAuthCoordinator+Internal.h"
 #import "SFNetwork.h"
 #import "SFSDKLoginHostDelegate.h"
-#import "NSUserDefaults+SFAdditions.h"
 #import "SFSDKWebViewStateManager.h"
 #import "SFSDKSalesforceAnalyticsManager.h"
 #import "SFSDKLoginHostListViewController.h"
 #import "SFSDKEventBuilderHelper.h"
 #import "SFSDKLoginHostStorage.h"
 #import "SFSDKLoginHost.h"
+#import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 
 static SFAuthenticationManager *sharedInstance = nil;
 

@@ -1,6 +1,5 @@
 /*
- Copyright (c) 2012-present, salesforce.com, inc. All rights reserved.
- Author: Kevin Hawkins
+ Copyright (c) 2016-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -23,21 +22,18 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSDKWebUtils.h"
-#import "SFApplication.h"
-#import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
-#import <WebKit/WebKit.h>
+#import <Foundation/Foundation.h>
 
-NSString * const kUserAgentPropKey = @"UserAgent";
+/**
+ * Salesforce Mobile SDK additions to the NSUserDefaults class.
+ */
+@interface NSUserDefaults (SFAdditions)
 
-@implementation SFSDKWebUtils
-
-+ (void)configureUserAgent:(NSString *)userAgentString
-{
-    if (userAgentString != nil) {
-        NSDictionary *dictionary = @{kUserAgentPropKey: userAgentString};
-        [[NSUserDefaults msdkUserDefaults] registerDefaults:dictionary];
-    }
-}
+/**
+ * Convenience method that returns either private or shared NSUserDefaults.
+ *
+ * @return Standard user defaults or app group specific user defaults.
+ */
++ (NSUserDefaults *)msdkUserDefaults;
 
 @end

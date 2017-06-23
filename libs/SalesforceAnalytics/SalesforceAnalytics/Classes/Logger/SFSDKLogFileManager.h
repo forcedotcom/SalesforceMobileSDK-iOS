@@ -1,6 +1,10 @@
 /*
- Copyright (c) 2012-present, salesforce.com, inc. All rights reserved.
- Author: Kevin Hawkins
+ SFSDKLogFileManager.h
+ SalesforceAnalytics
+ 
+ Created by Bharath Hariharan on 6/8/17.
+ 
+ Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -23,21 +27,18 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSDKWebUtils.h"
-#import "SFApplication.h"
-#import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
-#import <WebKit/WebKit.h>
+#import <CocoaLumberjack/DDFileLogger.h>
 
-NSString * const kUserAgentPropKey = @"UserAgent";
+@interface SFSDKLogFileManager : DDLogFileManagerDefault
 
-@implementation SFSDKWebUtils
+/**
+ * Component name associated with this log file manager.
+ */
+@property (nonatomic, readonly, strong, nonnull) NSString *componentName;
 
-+ (void)configureUserAgent:(NSString *)userAgentString
-{
-    if (userAgentString != nil) {
-        NSDictionary *dictionary = @{kUserAgentPropKey: userAgentString};
-        [[NSUserDefaults msdkUserDefaults] registerDefaults:dictionary];
-    }
-}
+/**
+ * Initializes a log file manager for the specified component.
+ */
+- (nonnull instancetype)initWithComponent:(nonnull NSString *)componentName;
 
 @end

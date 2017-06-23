@@ -24,7 +24,6 @@
 
 #import "SFRestAPI+Internal.h"
 #import "SFRestRequest+Internal.h"
-#import "SFOAuthCoordinator.h"
 #import "SFUserAccount.h"
 #import "SFAuthenticationManager.h"
 #import "SFSDKWebUtils.h"
@@ -74,9 +73,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     if (self) {
         _activeRequests = [[NSMutableSet alloc] initWithCapacity:4];
         self.apiVersion = kSFRestDefaultAPIVersion;
-        _accountMgr = [SFUserAccountManager sharedInstance];
-        [_accountMgr addDelegate:self];
-        _authMgr = [SFAuthenticationManager sharedManager];
+        [[SFUserAccountManager sharedInstance] addDelegate:self];
         if (!kIsTestRun) {
             [SFSDKWebUtils configureUserAgent:[SFRestAPI userAgentString]];
         }
@@ -144,14 +141,6 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 
 #pragma mark - Properties
 
-- (SFOAuthCoordinator *)coordinator {
-    return _authMgr.coordinator;
-}
-
-- (void)setCoordinator:(SFOAuthCoordinator *)coordinator {
-    _authMgr.coordinator = coordinator;
-}
-
 /**
  Set a user agent string based on the mobile SDK version.
  We are building a user agent of the form:
@@ -197,6 +186,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
         [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [strongSelf enqueueRequest:request delegate:delegate shouldRetry:shouldRetry];
+            [SFUserAccountManager sharedInstance].currentUser = userAccount;
         } failure:^(SFOAuthInfo *authInfo, NSError *error) {
             [self log:SFLogLevelError format:@"Authentication failed in SFRestAPI: %@. Logging out.", error];
             NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];

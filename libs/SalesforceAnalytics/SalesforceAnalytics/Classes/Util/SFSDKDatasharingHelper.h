@@ -51,10 +51,8 @@
  */
 @property (nonatomic, strong) NSString *keychainGroupName;
 
-
 /** Shared singleton
  */
 + (instancetype)sharedInstance;
-
 
 @end
