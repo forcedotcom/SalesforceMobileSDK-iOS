@@ -58,7 +58,7 @@ NSString * const kPluginSDKVersion = @"pluginSDKVersion";
     if ([self hasVersion:arguments]) {
         jsVersionStr = [arguments[0] substringFromIndex:([kPluginSDKVersion length] + 1)];
     }
-    [SFSDKHybridLogger d:[self class] message:[NSString stringWithFormat:@"%@ jsVersion:%@ ", action, jsVersionStr]];
+    [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"%@ jsVersion:%@ ", action, jsVersionStr]];
     return jsVersionStr;
 }
 

@@ -67,7 +67,7 @@ NSString * const kSyncStoreNameArg    = @"storeName";
                                                                  options:0 // non-pretty printing
                                                                    error:&error];
             if (error) {
-                [SFSDKHybridLogger e:[self class] message:[NSString stringWithFormat:@"JSON Parsing Error: %@", error]];
+                [SFSDKHybridLogger e:[self class] format:[NSString stringWithFormat:@"JSON Parsing Error: %@", error]];
             } else {
                 NSString* detailAsString = [[NSString alloc] initWithData:detailData encoding:NSUTF8StringEncoding];
                 NSString* js = [
@@ -83,7 +83,7 @@ NSString * const kSyncStoreNameArg    = @"storeName";
                 [self.commandDelegate evalJs:js];
             }
         } else {
-            [SFSDKHybridLogger d:[self class] message:[NSString stringWithFormat:@"Invalid object passed to JSONDataRepresentation???"]];
+            [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"Invalid object passed to JSONDataRepresentation???"]];
         }
     });
 }
@@ -92,9 +92,9 @@ NSString * const kSyncStoreNameArg    = @"storeName";
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         if (syncStatus == SFSyncStateStatusDone) {
-            [SFSDKHybridLogger d:[self class] message:[NSString stringWithFormat:@"cleanResyncGhosts completed successfully"]];
+            [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"cleanResyncGhosts completed successfully"]];
         } else {
-            [SFSDKHybridLogger e:[self class] message:[NSString stringWithFormat:@"cleanResyncGhosts did not complete successfully"]];
+            [SFSDKHybridLogger e:[self class] format:[NSString stringWithFormat:@"cleanResyncGhosts did not complete successfully"]];
         }
     });
 }
@@ -105,7 +105,7 @@ NSString * const kSyncStoreNameArg    = @"storeName";
 {
     [self runCommand:^(NSDictionary* argsDict) {
         NSNumber* syncId = (NSNumber*) [argsDict nonNullObjectForKey:kSyncIdArg];
-        [SFSDKHybridLogger d:[self class] message:[NSString stringWithFormat:@"getSyncStatus with sync id: %@", syncId]];
+        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"getSyncStatus with sync id: %@", syncId]];
         SFSyncState* sync = [[self getSyncManagerInst:argsDict] getSyncStatus:syncId];
         return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[sync asDict]];
     } command:command];
@@ -121,7 +121,7 @@ NSString * const kSyncStoreNameArg    = @"storeName";
         SFSyncState* sync = [[self getSyncManagerInst:argsDict] syncDownWithTarget:target options:options soupName:soupName updateBlock:^(SFSyncState* sync) {
             [weakSelf handleSyncUpdate:sync withArgs:argsDict];
         }];
-        [SFSDKHybridLogger d:[self class] message:[NSString stringWithFormat:@"syncDown # %ld from soup: %@", sync.syncId, soupName]];
+        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"syncDown # %ld from soup: %@", sync.syncId, soupName]];
         return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[sync asDict]];
     } command:command];
 }
@@ -130,7 +130,7 @@ NSString * const kSyncStoreNameArg    = @"storeName";
 {
     [self runCommand:^(NSDictionary* argsDict) {
         NSNumber* syncId = (NSNumber*) [argsDict nonNullObjectForKey:kSyncIdArg];
-        [SFSDKHybridLogger d:[self class] message:[NSString stringWithFormat:@"reSync with sync id: %@", syncId]];
+        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"reSync with sync id: %@", syncId]];
         __weak typeof(self) weakSelf = self;
         SFSyncState* sync = [[self getSyncManagerInst:argsDict] reSync:syncId updateBlock:^(SFSyncState* sync) {
             [weakSelf handleSyncUpdate:sync withArgs:argsDict];
@@ -147,7 +147,7 @@ NSString * const kSyncStoreNameArg    = @"storeName";
 {
     [self runCommand:^(NSDictionary* argsDict) {
         NSNumber* syncId = (NSNumber*) [argsDict nonNullObjectForKey:kSyncIdArg];
-        [SFSDKHybridLogger d:[self class] message:[NSString stringWithFormat:@"cleanResyncGhosts with sync id: %@", syncId]];
+        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"cleanResyncGhosts with sync id: %@", syncId]];
         __weak typeof(self) weakSelf = self;
         [[self getSyncManagerInst:argsDict] cleanResyncGhosts:syncId completionStatusBlock:^(SFSyncStateStatus syncStatus) {
             [weakSelf handleGhostSyncUpdate:syncStatus];
@@ -166,7 +166,7 @@ NSString * const kSyncStoreNameArg    = @"storeName";
         SFSyncState* sync = [[self getSyncManagerInst:argsDict] syncUpWithTarget:target options:options soupName:soupName updateBlock:^(SFSyncState* sync) {
             [weakSelf handleSyncUpdate:sync withArgs:argsDict];
         }];
-        [SFSDKHybridLogger d:[self class] message:[NSString stringWithFormat:@"syncUp # %ld from soup: %@", sync.syncId, soupName]];
+        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"syncUp # %ld from soup: %@", sync.syncId, soupName]];
         return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[sync asDict]];
     } command:command];
 }

@@ -60,7 +60,7 @@ NSString * const kUserAccountClientIdDictKey       = @"clientId";
 
 - (void)getUsers:(CDVInvokedUrlCommand *)command
 {
-    [SFSDKHybridLogger d:[self class] message:[NSString stringWithFormat:@"getUsers: arguments: %@", command.arguments]];
+    [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"getUsers: arguments: %@", command.arguments]];
     NSString* callbackId = command.callbackId;
     [self getVersion:@"getUsers" withArguments:command.arguments];
     NSMutableArray *userAccountArray = [NSMutableArray array];
@@ -73,7 +73,7 @@ NSString * const kUserAccountClientIdDictKey       = @"clientId";
 
 - (void)getCurrentUser:(CDVInvokedUrlCommand *)command
 {
-    [SFSDKHybridLogger d:[self class] message:[NSString stringWithFormat:@"getCurrentUser: arguments: %@", command.arguments]];
+    [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"getCurrentUser: arguments: %@", command.arguments]];
     NSString* callbackId = command.callbackId;
     /* NSString* jsVersionStr = */[self getVersion:@"getCurrentUser" withArguments:command.arguments];
     
@@ -88,7 +88,7 @@ NSString * const kUserAccountClientIdDictKey       = @"clientId";
 
 - (void)switchToUser:(CDVInvokedUrlCommand *)command
 {
-    [SFSDKHybridLogger d:[self class] message:[NSString stringWithFormat:@"switchToUser: arguments: %@", command.arguments]];
+    [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"switchToUser: arguments: %@", command.arguments]];
     [self getVersion:@"switchToUser" withArguments:command.arguments];
     NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
     if (argsDict == nil) {
@@ -113,14 +113,14 @@ NSString * const kUserAccountClientIdDictKey       = @"clientId";
         NSString *orgId = [argsDict nonNullObjectForKey:kUserAccountOrgIdDictKey];
         SFUserAccountIdentity *accountIdentity = [SFUserAccountIdentity identityWithUserId:userId orgId:orgId];
         SFUserAccount *account = [[SFUserAccountManager sharedInstance] userAccountForUserIdentity:accountIdentity];
-        [SFSDKHybridLogger d:[self class] message:[NSString stringWithFormat:@"switchToUser: Switching to user account: %@", account]];
+        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"switchToUser: Switching to user account: %@", account]];
         [[SFUserAccountManager sharedInstance] switchToUser:account];
     }
 }
 
 - (void)logout:(CDVInvokedUrlCommand *)command;
 {
-    [SFSDKHybridLogger d:[self class] message:[NSString stringWithFormat:@"logout: arguments: %@", command.arguments]];
+    [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"logout: arguments: %@", command.arguments]];
     NSString *callbackId = command.callbackId;
     [self getVersion:@"logout" withArguments:command.arguments];
     NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
@@ -129,10 +129,10 @@ NSString * const kUserAccountClientIdDictKey       = @"clientId";
     SFUserAccountIdentity *accountIdentity = [SFUserAccountIdentity identityWithUserId:userId orgId:orgId];
     SFUserAccount *account = [[SFUserAccountManager sharedInstance] userAccountForUserIdentity:accountIdentity];
     if (account == nil || account == [SFUserAccountManager sharedInstance].currentUser) {
-        [SFSDKHybridLogger d:[self class] message:[NSString stringWithFormat:@"logout: Logging out current user.  App state will reset."]];
+        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"logout: Logging out current user.  App state will reset."]];
         [[SFAuthenticationManager sharedManager] logout];
     } else {
-        [SFSDKHybridLogger d:[self class] message:[NSString stringWithFormat:@"logout: Logging out user account: %@", account]];
+        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"logout: Logging out user account: %@", account]];
         [[SFAuthenticationManager sharedManager] logoutUser:account];
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];

@@ -80,13 +80,13 @@ static NSString * const kAppFeatureKey   = @"feature";
         NSDictionary *pluginsMap = vc.pluginsMap;
         for (__strong NSString *key in [pluginsMap allKeys]) {
             key = [key lowercaseString];
-            [SFSDKHybridLogger d:[self class] message:[NSString stringWithFormat:@"key=%@", key]];
+            [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"key=%@", key]];
             if ([key hasPrefix:kForcePluginPrefix]) {
                 [services addObject:key];
             }
         }
     } else {
-        [SFSDKHybridLogger e:[self class] message:[NSString stringWithFormat:@"??? Expected CDVViewController class for plugin's view controller. Got '%@'.", NSStringFromClass([self.viewController class])]];
+        [SFSDKHybridLogger e:[self class] format:[NSString stringWithFormat:@"??? Expected CDVViewController class for plugin's view controller. Got '%@'.", NSStringFromClass([self.viewController class])]];
     }
     return services;
 }

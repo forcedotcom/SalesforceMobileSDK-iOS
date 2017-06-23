@@ -310,7 +310,7 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
     SFOAuthFlowFailureCallbackBlock authFailureBlock = ^(SFOAuthInfo *authInfo, NSError *error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if ([strongSelf logoutOnInvalidCredentials:error]) {
-            [SFSDKHybridLogger d:[strongSelf class] message:[NSString stringWithFormat:@"OAuth plugin authentication request failed. Logging out."]];
+            [SFSDKHybridLogger d:[strongSelf class] format:[NSString stringWithFormat:@"OAuth plugin authentication request failed. Logging out."]];
             NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
             attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
             attributes[@"errorDescription"] = error.localizedDescription;
@@ -434,7 +434,7 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
         NSRange range = NSMakeRange(r1.location + r1.length, r2.location - r1.location - r1.length);
         NSString *newReturnUrl = [returnUrl substringWithRange: range];
         if(isEncoded) newReturnUrl = [newReturnUrl stringByRemovingPercentEncoding];
-        [SFSDKHybridLogger d:[self class] message:[NSString stringWithFormat:@"%@", newReturnUrl]];
+        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"%@", newReturnUrl]];
         return [self frontDoorUrlWithReturnUrl: newReturnUrl returnUrlIsEncoded:TRUE createAbsUrl: FALSE];
     }
     NSString *encodedUrl = (isEncoded ? fullReturnUrl : [fullReturnUrl stringByURLEncoding]);
@@ -538,13 +538,13 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
 
 - (void) webView:(WKWebView *) webView decidePolicyForNavigationAction:(WKNavigationAction *) navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy)) decisionHandler
 {
-    [SFSDKHybridLogger d:[self class] message:[NSString stringWithFormat:@"webView:decidePolicyForNavigationAction:decisionHandler: Loading URL '%@'",
+    [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"webView:decidePolicyForNavigationAction:decisionHandler: Loading URL '%@'",
              [navigationAction.request.URL redactedAbsoluteString:@[@"sid"]]]];
     BOOL shouldAllowRequest = YES;
     if ([webView isEqual:self.vfPingPageHiddenWKWebView]) { // Hidden ping page load.
-        [SFSDKHybridLogger d:[self class] message:[NSString stringWithFormat:@"Setting up VF web state after plugin-based refresh."]];
+        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"Setting up VF web state after plugin-based refresh."]];
     } else if ([webView isEqual:self.errorPageWKWebView]) { // Local error page load.
-        [SFSDKHybridLogger d:[self class] message:[NSString stringWithFormat:@"Local error page ('%@') is loading.", navigationAction.request.URL.absoluteString]];
+        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"Local error page ('%@') is loading.", navigationAction.request.URL.absoluteString]];
     } else if ([webView isEqual:self.webView]) { // Cordova web view load.
 
         /*
@@ -553,7 +553,7 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
          */
         NSString *refreshUrl = [self isLoginRedirectUrl:navigationAction.request.URL];
         if (refreshUrl != nil) {
-            [SFSDKHybridLogger w:[self class] message:[NSString stringWithFormat:@"Caught login redirect from session timeout. Reauthenticating."]];
+            [SFSDKHybridLogger w:[self class] format:[NSString stringWithFormat:@"Caught login redirect from session timeout. Reauthenticating."]];
             
             /*
              * Reconfigure user agent. Basically this ensures that Cordova whitelisting won't apply to the
@@ -568,7 +568,7 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
                  [self authenticationCompletion:refreshUrl authInfo:authInfo];
              } failure:^(SFOAuthInfo *authInfo, NSError *error) {
                  if ([self logoutOnInvalidCredentials:error]) {
-                     [SFSDKHybridLogger e:[self class] message:[NSString stringWithFormat:@"Could not refresh expired session. Logging out."]];
+                     [SFSDKHybridLogger e:[self class] format:[NSString stringWithFormat:@"Could not refresh expired session. Logging out."]];
                      NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
                      attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
                      attributes[@"errorDescription"] = error.localizedDescription;
@@ -619,17 +619,17 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
 
 - (BOOL) webView:(UIWebView *) webView shouldStartLoadWithRequest:(NSURLRequest *) request navigationType:(UIWebViewNavigationType) navigationType
 {
-    [SFSDKHybridLogger d:[self class] message:[NSString stringWithFormat:@"webView:shouldStartLoadWithRequest:navigationType: Loading URL '%@'", [webView.request.URL redactedAbsoluteString:@[@"sid"]]]];
+    [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"webView:shouldStartLoadWithRequest:navigationType: Loading URL '%@'", [webView.request.URL redactedAbsoluteString:@[@"sid"]]]];
 
     // Hidden ping page load.
     if ([webView isEqual:self.vfPingPageHiddenUIWebView]) {
-        [SFSDKHybridLogger d:[self class] message:[NSString stringWithFormat:@"Setting up VF web state after plugin-based refresh."]];
+        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"Setting up VF web state after plugin-based refresh."]];
         return YES;
     }
 
     // Local error page load.
     if ([webView isEqual:self.errorPageUIWebView]) {
-        [SFSDKHybridLogger d:[self class] message:[NSString stringWithFormat:@"Local error page ('%@') is loading.", webView.request.URL.absoluteString]];
+        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"Local error page ('%@') is loading.", webView.request.URL.absoluteString]];
         return YES;
     }
 
@@ -642,7 +642,7 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
          */
         NSString *refreshUrl = [self isLoginRedirectUrl:webView.request.URL];
         if (refreshUrl != nil) {
-            [SFSDKHybridLogger w:[self class] message:[NSString stringWithFormat:@"Caught login redirect from session timeout. Reauthenticating."]];
+            [SFSDKHybridLogger w:[self class] format:[NSString stringWithFormat:@"Caught login redirect from session timeout. Reauthenticating."]];
             
             /*
              * Reconfigure user agent. Basically this ensures that Cordova whitelisting won't apply to the
@@ -658,7 +658,7 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
                  [self authenticationCompletion:refreshUrl authInfo:authInfo];
              } failure:^(SFOAuthInfo *authInfo, NSError *error) {
                  if ([self logoutOnInvalidCredentials:error]) {
-                    [SFSDKHybridLogger e:[self class] message:[NSString stringWithFormat:@"Could not refresh expired session. Logging out."]];
+                    [SFSDKHybridLogger e:[self class] format:[NSString stringWithFormat:@"Could not refresh expired session. Logging out."]];
                      NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
                      attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
                      attributes[@"errorDescription"] = error.localizedDescription;
@@ -733,9 +733,9 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
     }
     NSArray *redactParams = @[@"sid"];
     NSString *redactedUrl = [requestUrl redactedAbsoluteString:redactParams];
-    [SFSDKHybridLogger d:[self class] message:[NSString stringWithFormat:@"finishLoadActions: Loaded %@", redactedUrl]];
+    [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"finishLoadActions: Loaded %@", redactedUrl]];
     if ([webView isEqual:self.vfPingPageHiddenUIWebView]) {
-        [SFSDKHybridLogger d:[self class] message:[NSString stringWithFormat:@"Finished loading VF ping page '%@'.", redactedUrl]];
+        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"Finished loading VF ping page '%@'.", redactedUrl]];
         return;
     }
     if ([webView isEqual:self.webView]) {
@@ -746,9 +746,9 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
          * be loaded directly in the event that the app is offline.
          */
         if (_foundHomeUrl == NO) {
-            [SFSDKHybridLogger i:[self class] message:[NSString stringWithFormat:@"Checking %@ as a 'home page' URL candidate for this app.", redactedUrl]];
+            [SFSDKHybridLogger i:[self class] format:[NSString stringWithFormat:@"Checking %@ as a 'home page' URL candidate for this app.", redactedUrl]];
             if (![self isReservedUrlValue:requestUrl]) {
-                [SFSDKHybridLogger i:[self class] message:[NSString stringWithFormat:@"Setting %@ as the 'home page' URL for this app.", redactedUrl]];
+                [SFSDKHybridLogger i:[self class] format:[NSString stringWithFormat:@"Setting %@ as the 'home page' URL for this app.", redactedUrl]];
                 self.appHomeUrl = requestUrl;
                 _foundHomeUrl = YES;
             }
@@ -774,7 +774,7 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
 
 - (void) loadErrorPageWithError:(NSError *) error
 {
-    [SFSDKHybridLogger e:[self class] message:[NSString stringWithFormat:@"Error while attempting to load web page: %@", error]];
+    [SFSDKHybridLogger e:[self class] format:[NSString stringWithFormat:@"Error while attempting to load web page: %@", error]];
     if ([[self class] isFatalWebViewError:error]) {
         [self loadErrorPageWithCode:[error code] description:[error localizedDescription] context:kErrorContextAppLoading];
     }
@@ -810,12 +810,12 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
 
 - (void)authenticationCompletion:(NSString *)originalUrl authInfo:(SFOAuthInfo *)authInfo
 {
-    [SFSDKHybridLogger d:[self class] message:[NSString stringWithFormat:@"authenticationCompletion:authInfo: - Initiating post-auth configuration."]];
+    [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"authenticationCompletion:authInfo: - Initiating post-auth configuration."]];
     [SFAuthenticationManager resetSessionCookie];
 
     // If there's an original URL, load it through frontdoor.
     if (originalUrl != nil) {
-        [SFSDKHybridLogger d:[self class] message:[NSString stringWithFormat:@"Authentication complete. Redirecting to '%@' through frontdoor.", [originalUrl stringByURLEncoding]]];
+        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"Authentication complete. Redirecting to '%@' through frontdoor.", [originalUrl stringByURLEncoding]]];
         BOOL createAbsUrl = YES;
         if (authInfo.authType == SFOAuthTypeRefresh) {
             createAbsUrl = NO;
