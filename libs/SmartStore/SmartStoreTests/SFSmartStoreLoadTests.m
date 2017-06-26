@@ -51,7 +51,7 @@
 - (void) setUp
 {
     [super setUp];
-    [SFLogger sharedLogger].logLevel = SFLogLevelDebug;
+    [SFSDKSmartStoreLogger setLogLevel:DDLogLevelDebug];
     self.smartStoreUser = [self setUpSmartStoreUser];
     self.store = [SFSmartStore sharedStoreWithName:TEST_SMARTSTORE];
 }
@@ -141,8 +141,7 @@ numberCharactersPerField:(NSUInteger)numberCharactersPerField
     NSError* error = nil;
     [self.store registerSoup:TEST_SOUP withIndexSpecs:[SFSoupIndex asArraySoupIndexes:indexSpecs] error:&error];
     XCTAssertNil(error, @"There should be no errors.");
-
-    [SFLogger log:SFLogLevelDebug format:@"Creating table with %u %@ indexes", numberIndexes, indexType];
+    [SFSDKSmartStoreLogger d:[self class] format:@"Creating table with %u %@ indexes", numberIndexes, indexType];
 }
     
 -(void) upsertEntries:(NSUInteger)numberBatches numberEntriesPerBatch:(NSUInteger)numberEntriesPerBatch numberFieldsPerEntry:(NSUInteger)numberFieldsPerEntry numberCharactersPerField:(NSUInteger)numberCharactersPerField
@@ -164,7 +163,7 @@ numberCharactersPerField:(NSUInteger)numberCharactersPerField
         [times addObject:[NSNumber numberWithDouble:[end timeIntervalSinceDate:start]*MS_IN_S]];
     }
     double avgMilliseconds = [self average:times];
-    [SFLogger log:SFLogLevelDebug format:@"Upserting %u entries with %u per batch with %u fields with %u characters: average time per batch --> %.3f ms",
+    [SFSDKSmartStoreLogger d:[self class] format:@"Upserting %u entries with %u per batch with %u fields with %u characters: average time per batch --> %.3f ms",
         numberBatches * numberEntriesPerBatch, numberEntriesPerBatch, numberFieldsPerEntry, numberCharactersPerField, avgMilliseconds];
 }
     
@@ -207,7 +206,7 @@ numberCharactersPerField:(NSUInteger)numberCharactersPerField
         countMatches += results.count;
     }
     double avgMilliseconds = [self average:times];
-    [SFLogger log:SFLogLevelDebug format:@"Querying with %@ query matching %u entries and %u page size: average time per page --> %.3f ms",
+    [SFSDKSmartStoreLogger d:[self class] format:@"Querying with %@ query matching %u entries and %u page size: average time per page --> %.3f ms",
         [querySpec asDictionary][kQuerySpecParamQueryType], countMatches, querySpec.pageSize, avgMilliseconds];
 }
     
@@ -232,10 +231,10 @@ numberCharactersPerField:(NSUInteger)numberCharactersPerField
     
 -(void) tryAlterSoup:(NSString*)indexType
 {
-    [SFLogger log:SFLogLevelDebug format:@"Initial database size: %u bytes", [self.store getDatabaseSize]];
+    [SFSDKSmartStoreLogger d:[self class] format:@"Initial database size: %u bytes", [self.store getDatabaseSize]];
     [self setupSoup:TEST_SOUP numberIndexes:1 indexType:indexType];
     [self upsertEntries:NUMBER_ENTRIES / NUMBER_ENTRIES_PER_BATCH numberEntriesPerBatch:NUMBER_ENTRIES_PER_BATCH numberFieldsPerEntry:10 numberCharactersPerField:20];
-    [SFLogger log:SFLogLevelDebug format:@"Database size after: %u bytes", [self.store getDatabaseSize]];
+    [SFSDKSmartStoreLogger d:[self class] format:@"Database size after: %u bytes", [self.store getDatabaseSize]];
     
     // Without indexing for new index specs
     [self alterSoup:@"Adding one index / no re-indexing" reIndexData:NO indexSpecs:[SFSoupIndex asArraySoupIndexes:@[ @{kSoupIndexPath:@"k_0", kSoupIndexType:indexType}, @{kSoupIndexPath:@"k_1", kSoupIndexType:indexType} ]]];
@@ -254,8 +253,7 @@ numberCharactersPerField:(NSUInteger)numberCharactersPerField
     [self.store alterSoup:TEST_SOUP withIndexSpecs:indexSpecs reIndexData:reIndexData];
     NSDate* end = [NSDate date];
     double duration = [end timeIntervalSinceDate:start] * MS_IN_S;
-    
-    [SFLogger log:SFLogLevelDebug format:@"%@ completed in: %.3f ms", msg, duration];
+    [SFSDKSmartStoreLogger d:[self class] format:@"%@ completed in: %.3f ms", msg, duration];
 }
 
 @end

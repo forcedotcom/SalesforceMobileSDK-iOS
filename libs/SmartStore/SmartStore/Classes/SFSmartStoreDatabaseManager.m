@@ -165,9 +165,8 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
         // And therefore you are using sqlcipher 3.1 with 64000 iterations
         unlockedDb = [self unlockDatabase:db key:key kdfIter:64000];
     }
-    
     if (!unlockedDb) {
-        [self log:SFLogLevelDebug format:@"Couldn't open store db at: %@ error: %@", [db databasePath],[db lastErrorMessage]];
+        [SFSDKSmartStoreLogger d:[self class] format:@"Couldn't open store db at: %@ error: %@", [db databasePath],[db lastErrorMessage]];
         if (error != nil)
             *error = [db lastError];
     }
@@ -285,7 +284,7 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     NSString *encDbPath = [storePath stringByAppendingString:@".encrypted"];
     
     BOOL encrypting = ([newKey length] > 0);
-    [self log:SFLogLevelInfo format:@"DB for store '%@' is %@. %@.",
+    [SFSDKSmartStoreLogger i:[self class] format:@"DB for store '%@' is %@. %@.",
      storeName,
      (encrypting ? @"unencrypted" : @"encrypted"),
      (encrypting ? @"Encrypting" : @"Unencrypting")];
@@ -418,9 +417,8 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     if (![manager fileExistsAtPath:storeDir]) {
         // This store has not yet been created; create it.
         result = [SFDirectoryManager ensureDirectoryExists:storeDir error:&error];
-        
         if (error != nil) {
-            [self log:SFLogLevelError format:@"Couldn't create store dir for store: %@ - error:%@", storeName, error];
+            [SFSDKSmartStoreLogger e:[self class] format:@"Couldn't create store dir for store: %@ - error:%@", storeName, error];
         }
     } else {
         return YES;
@@ -435,7 +433,7 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     NSDictionary *attr = [manager attributesOfItemAtPath:dirPath error:&error];
     NSString* result = attr[NSFileProtectionKey];
     if (error != nil) {
-        [self log:SFLogLevelError format:@"Couldn't get protection of dir: %@ - error:%@", dirPath, error];
+        [SFSDKSmartStoreLogger e:[self class] format:@"Couldn't get protection of dir: %@ - error:%@", dirPath, error];
     }
     return result;
 }
@@ -454,11 +452,10 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
             NSFileManager *manager = [[NSFileManager alloc] init];
             BOOL result = [manager setAttributes:attr ofItemAtPath:dirPath error:&error];
             if (error != nil || !result) {
-                [self log:SFLogLevelError format:@"Couldn't protect dir: %@ - error:%@", dirPath, error];
+                [SFSDKSmartStoreLogger e:[self class] format:@"Couldn't protect dir: %@ - error:%@", dirPath, error];
                 return NO;
-            }
-            else {
-                [self log:SFLogLevelDebug format:@"Protecting dir: %@ with %@", dirPath, protection];
+            } else {
+                [SFSDKSmartStoreLogger d:[self class] format:@"Protecting dir: %@ with %@", dirPath, protection];
             }
         }
         // Go to parent directory
@@ -511,7 +508,7 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     NSFileManager *manager = [[NSFileManager alloc] init];
     NSArray *storesDirNames = [manager contentsOfDirectoryAtPath:rootDir error:&getStoresError];
     if (getStoresError) {
-        [self log:SFLogLevelDebug format:@"Warning: Problem retrieving all store names from the root stores folder: %@.", [getStoresError localizedDescription]];
+        [SFSDKSmartStoreLogger d:[self class] format:@"Warning: Problem retrieving all store names from the root stores folder: %@.", [getStoresError localizedDescription]];
         return nil;
     }
     NSMutableArray *allStoreNames = [NSMutableArray array];
