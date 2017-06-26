@@ -26,6 +26,8 @@
 		829DA2BE1C126C700040F5F1 /* SFSmartSyncReactBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FABF0691AA52E7E00D31E3F /* SFSmartSyncReactBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		829DA2C11C126D320040F5F1 /* SalesforceReact.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2C01C126D320040F5F1 /* SalesforceReact.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE2B8D021CE9325E00C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8D011CE9325E00C6FC6A /* SalesforceAnalytics.framework */; };
+		CE4712661EFC668A00D9E059 /* SFSDKReactLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = CE4712641EFC668A00D9E059 /* SFSDKReactLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE4712671EFC668A00D9E059 /* SFSDKReactLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CE4712651EFC668A00D9E059 /* SFSDKReactLogger.m */; };
 		CE4CE4661C0E5B93009F6029 /* SFSmartStoreReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3618A41AA51E9900AE3A65 /* SFSmartStoreReactBridge.m */; };
 		CE4CE4671C0E5B9D009F6029 /* SFSmartSyncReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FABF06A1AA52EC800D31E3F /* SFSmartSyncReactBridge.m */; };
 		CE4CE4681C0E5BBB009F6029 /* SFOauthReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FABF06E1AA6920800D31E3F /* SFOauthReactBridge.m */; };
@@ -66,6 +68,55 @@
 			proxyType = 2;
 			remoteGlobalIDString = 4F06AF2E1C499FD100F70798;
 			remoteInfo = SmartSyncTestApp;
+		};
+		CE47126F1EFC668B00D9E059 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2D2A28131D9B038B00D4039D;
+			remoteInfo = "React-tvOS";
+		};
+		CE4712711EFC668B00D9E059 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D3C059A1DE3340900C268FA;
+			remoteInfo = yoga;
+		};
+		CE4712731EFC668B00D9E059 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D3C06751DE3340C00C268FA;
+			remoteInfo = "yoga-tvOS";
+		};
+		CE4712751EFC668B00D9E059 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D3CD9251DE5FBEC00167DC4;
+			remoteInfo = cxxreact;
+		};
+		CE4712771EFC668B00D9E059 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D3CD9321DE5FBEE00167DC4;
+			remoteInfo = "cxxreact-tvOS";
+		};
+		CE4712791EFC668B00D9E059 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D3CD90B1DE5FBD600167DC4;
+			remoteInfo = jschelpers;
+		};
+		CE47127B1EFC668B00D9E059 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D3CD9181DE5FBD800167DC4;
+			remoteInfo = "jschelpers-tvOS";
 		};
 		CE4CE4B11C0E611A009F6029 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -109,6 +160,8 @@
 		829DA2C01C126D320040F5F1 /* SalesforceReact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceReact.h; sourceTree = "<group>"; };
 		82D0AB401C4980420081F833 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE2B8D011CE9325E00C6FC6A /* SalesforceAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceAnalytics.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-erwysdzugrhbsladkxhwtacrvgws/Build/Products/Debug-iphonesimulator/SalesforceAnalytics.framework"; sourceTree = "<group>"; };
+		CE4712641EFC668A00D9E059 /* SFSDKReactLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSDKReactLogger.h; path = Classes/SFSDKReactLogger.h; sourceTree = "<group>"; };
+		CE4712651EFC668A00D9E059 /* SFSDKReactLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKReactLogger.m; path = Classes/SFSDKReactLogger.m; sourceTree = "<group>"; };
 		CE4CE2F81C0E4673009F6029 /* SalesforceReact.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SalesforceReact.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE65C2401C0FD57200319E68 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.1.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		CE65C2421C0FD58000319E68 /* SmartStore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SmartStore.framework; path = "../SmartStore/build/Debug-iphoneos/SmartStore.framework"; sourceTree = "<group>"; };
@@ -189,6 +242,8 @@
 		4FABF06C1AA52ECF00D31E3F /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				CE4712641EFC668A00D9E059 /* SFSDKReactLogger.h */,
+				CE4712651EFC668A00D9E059 /* SFSDKReactLogger.m */,
 				4FF0BCA11B826D4B00ABC91C /* SFNetReactBridge.h */,
 				4FF0BCA21B826D9400ABC91C /* SFNetReactBridge.m */,
 				4FABF0701AA6921E00D31E3F /* SFOauthReactBridge.h */,
@@ -230,6 +285,13 @@
 			isa = PBXGroup;
 			children = (
 				4FFEE6301BFE932100B7AA8A /* libReact.a */,
+				CE4712701EFC668B00D9E059 /* libReact.a */,
+				CE4712721EFC668B00D9E059 /* libyoga.a */,
+				CE4712741EFC668B00D9E059 /* libyoga.a */,
+				CE4712761EFC668B00D9E059 /* libcxxreact.a */,
+				CE4712781EFC668B00D9E059 /* libcxxreact.a */,
+				CE47127A1EFC668B00D9E059 /* libjschelpers.a */,
+				CE47127C1EFC668B00D9E059 /* libjschelpers.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -245,6 +307,7 @@
 				829DA2BB1C126C610040F5F1 /* SFNetReactBridge.h in Headers */,
 				829DA2BC1C126C670040F5F1 /* SFOauthReactBridge.h in Headers */,
 				829DA2BD1C126C6A0040F5F1 /* SFSmartStoreReactBridge.h in Headers */,
+				CE4712661EFC668A00D9E059 /* SFSDKReactLogger.h in Headers */,
 				829DA2BE1C126C700040F5F1 /* SFSmartSyncReactBridge.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -346,6 +409,55 @@
 			remoteRef = 828917461C52B58D002F9981 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		CE4712701EFC668B00D9E059 /* libReact.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libReact.a;
+			remoteRef = CE47126F1EFC668B00D9E059 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CE4712721EFC668B00D9E059 /* libyoga.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libyoga.a;
+			remoteRef = CE4712711EFC668B00D9E059 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CE4712741EFC668B00D9E059 /* libyoga.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libyoga.a;
+			remoteRef = CE4712731EFC668B00D9E059 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CE4712761EFC668B00D9E059 /* libcxxreact.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libcxxreact.a;
+			remoteRef = CE4712751EFC668B00D9E059 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CE4712781EFC668B00D9E059 /* libcxxreact.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libcxxreact.a;
+			remoteRef = CE4712771EFC668B00D9E059 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CE47127A1EFC668B00D9E059 /* libjschelpers.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libjschelpers.a;
+			remoteRef = CE4712791EFC668B00D9E059 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CE47127C1EFC668B00D9E059 /* libjschelpers.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libjschelpers.a;
+			remoteRef = CE47127B1EFC668B00D9E059 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		CEBA95221C1BA47900C0B2E0 /* libSmartSync.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -389,6 +501,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE4712671EFC668A00D9E059 /* SFSDKReactLogger.m in Sources */,
 				CE4CE4671C0E5B9D009F6029 /* SFSmartSyncReactBridge.m in Sources */,
 				CE4CE4691C0E5BC0009F6029 /* SFNetReactBridge.m in Sources */,
 				CE4CE4661C0E5B93009F6029 /* SFSmartStoreReactBridge.m in Sources */,
