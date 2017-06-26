@@ -24,7 +24,6 @@
 
 #import "SFForcePlugin.h"
 #import "CDVPlugin+SFAdditions.h"
-#import "SFSDKHybridLogger.h"
 
 @implementation SFForcePlugin
 

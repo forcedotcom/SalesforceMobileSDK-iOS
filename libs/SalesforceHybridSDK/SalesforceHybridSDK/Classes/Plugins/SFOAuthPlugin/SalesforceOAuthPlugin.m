@@ -24,7 +24,6 @@
 
 #import "SalesforceOAuthPlugin.h"
 #import "CDVPlugin+SFAdditions.h"
-#import "SFSDKHybridLogger.h"
 #import <SalesforceSDKCore/SFJsonUtils.h>
 #import <SalesforceSDKCore/SFUserActivityMonitor.h>
 #import <SalesforceSDKCore/NSDictionary+SFAdditions.h>

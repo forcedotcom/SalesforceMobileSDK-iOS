@@ -25,7 +25,6 @@
 
 #import "SFHybridViewController.h"
 #import "SFHybridConnectionMonitor.h"
-#import "SFSDKHybridLogger.h"
 #import <SalesforceSDKCore/SFSDKAppFeatureMarkers.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
 #import <SalesforceSDKCore/NSURL+SFStringUtils.h>

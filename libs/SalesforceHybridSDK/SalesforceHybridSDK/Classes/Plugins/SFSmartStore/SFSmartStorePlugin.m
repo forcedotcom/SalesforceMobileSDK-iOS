@@ -24,7 +24,6 @@
 
 #import "SFSmartStorePlugin.h"
 #import "CDVPlugin+SFAdditions.h"
-#import "SFSDKHybridLogger.h"
 #import <SalesforceSDKCore/NSDictionary+SFAdditions.h>
 #import <SmartStore/SFSoupSpec.h>
 #import <SmartStore/SFStoreCursor.h>

@@ -23,7 +23,6 @@
  */
 
 #import "CDVPlugin+SFAdditions.h"
-#import "SFSDKHybridLogger.h"
 
 NSString * const kCallbackIdPrefix = @"com.salesforce.";
 NSString * const kPluginSDKVersion = @"pluginSDKVersion";
