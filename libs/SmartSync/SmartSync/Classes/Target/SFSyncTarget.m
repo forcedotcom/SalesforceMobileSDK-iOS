@@ -76,11 +76,11 @@ NSString * const kSyncTargetLocallyDeleted = @"__locally_deleted__";
 
 - (void) cleanAndSaveInLocalStore:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName record:(NSDictionary*)record {
     LogSyncDebug(@"cleanAndSaveInLocalStore:%@", record);
-    [self cleanAndSaveInSmartStore:syncManager.store soupName:soupName records:@[record]];
+    [self cleanAndSaveInSmartStore:syncManager.store soupName:soupName records:@[record] idFieldName:self.idFieldName];
 }
 
 - (void) saveRecordsToLocalStore:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName records:(NSArray*)records {
-    [self cleanAndSaveInSmartStore:syncManager.store soupName:soupName records:records];
+    [self cleanAndSaveInSmartStore:syncManager.store soupName:soupName records:records idFieldName:self.idFieldName];
 }
 
 - (void) deleteRecordsFromLocalStore:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName ids:(NSArray*)ids idField:(NSString*)idField {
@@ -148,7 +148,7 @@ NSString * const kSyncTargetLocallyDeleted = @"__locally_deleted__";
     return ids;
 }
 
-- (void) cleanAndSaveInSmartStore:(SFSmartStore*)smartStore soupName:(NSString*)soupName records:(NSArray*)records {
+- (void)cleanAndSaveInSmartStore:(SFSmartStore *)smartStore soupName:(NSString *)soupName records:(NSArray *)records idFieldName:(NSString *)idFieldName {
 
     NSMutableArray* recordsFromSmartStore = [NSMutableArray new];
     NSMutableArray* recordsFromServer = [NSMutableArray new];
@@ -167,7 +167,7 @@ NSString * const kSyncTargetLocallyDeleted = @"__locally_deleted__";
 
     // Saving in bulk
     [smartStore upsertEntries:recordsFromSmartStore toSoup:soupName];
-    [smartStore upsertEntries:recordsFromServer toSoup:soupName withExternalIdPath:self.idFieldName error:nil];
+    [smartStore upsertEntries:recordsFromServer toSoup:soupName withExternalIdPath:idFieldName error:nil];
 
 }
 
