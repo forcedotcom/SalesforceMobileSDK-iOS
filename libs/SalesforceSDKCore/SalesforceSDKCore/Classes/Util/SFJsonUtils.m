@@ -44,7 +44,7 @@ static NSError *sLastError = nil;
                   ];
 
         if (nil != err) {
-            [self log:SFLogLevelDebug format:@"WARNING error parsing json: %@", err];
+            [SFSDKCoreLogger d:[self class] format:@"WARNING error parsing json: %@", err];
             sLastError = err;
         }
     }
@@ -90,24 +90,20 @@ static NSError *sLastError = nil;
 +(NSData*)JSONDataRepresentation:(id)obj options:(NSJSONWritingOptions)options {
     NSError *err = nil;
     NSData *jsonData = nil;
-    
     if ([NSJSONSerialization isValidJSONObject:obj]) {
         jsonData = [NSJSONSerialization dataWithJSONObject:obj
                                         options:options 
                                           error:&err
          ];
-        
         if (nil != err) {
-            [self log:SFLogLevelDebug format:@"WARNING error writing json: %@", err];
+            [SFSDKCoreLogger d:[self class] format:@"WARNING error writing json: %@", err];
             sLastError = err;
-        } 
-        
-        if (nil == jsonData) {
-            [self log:SFLogLevelDebug format:@"unexpected nil json rep for: %@",obj];
         }
-        
+        if (nil == jsonData) {
+            [SFSDKCoreLogger d:[self class] format:@"unexpected nil json rep for: %@", obj];
+        }
     } else {
-        [self log:SFLogLevelDebug format:@"invalid object passed to JSONDataRepresentation???"];
+        [SFSDKCoreLogger d:[self class] format:@"invalid object passed to JSONDataRepresentation???"];
     }
     return  jsonData;
 }

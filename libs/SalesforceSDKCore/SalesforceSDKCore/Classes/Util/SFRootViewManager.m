@@ -64,7 +64,7 @@
         // Try to set a sane value for mainWindow, if it hasn't been set already.
         _mainWindow = [SFApplicationHelper sharedApplication].windows[0];
         if (_mainWindow == nil) {
-            [self log:SFLogLevelError format:@"UIApplication has no defined windows."];
+            [SFSDKCoreLogger e:[self class] format:@"UIApplication has no defined windows."];
         }
     }
     return _mainWindow;
@@ -124,8 +124,7 @@
             if (currentViewController != viewController
                 && viewController.presentedViewController != currentViewController
                 ) {
-                [strongSelf log:SFLogLevelDebug format:@"pushViewController: Presenting view controller (%@).", viewController];
-                
+                [SFSDKCoreLogger d:[strongSelf class] format:@"pushViewController: Presenting view controller (%@).", viewController];
                 [strongSelf enumerateDelegates:^(id<SFRootViewManagerDelegate> delegate) {
                     if ([delegate respondsToSelector:@selector(rootViewManager:willPushViewControler:)]) {
                         [delegate rootViewManager:strongSelf willPushViewControler:viewController];
@@ -138,10 +137,10 @@
                 
                 [currentViewController presentViewController:viewController animated:NO completion:NULL];
             } else {
-                [strongSelf log:SFLogLevelDebug format:@"pushViewController: View controller (%@) is already presented.", viewController];
+                [SFSDKCoreLogger d:[strongSelf class] format:@"pushViewController: View controller (%@) is already presented.", viewController];
             }
         } else {
-            [strongSelf log:SFLogLevelDebug format:@"pushViewController: Making view controller (%@) the root view controller.", viewController];
+            [SFSDKCoreLogger d:[strongSelf class] format:@"pushViewController: Making view controller (%@) the root view controller.", viewController];
             strongSelf.mainWindow.rootViewController = viewController;
             [self saveCurrentKeyWindow];
             [strongSelf.mainWindow makeKeyAndVisible];
@@ -158,7 +157,7 @@
         __strong typeof(weakSelf) strongSelf = weakSelf;
         UIViewController *currentViewController = strongSelf.mainWindow.rootViewController;
         if (currentViewController == viewController) {
-            [strongSelf log:SFLogLevelDebug format:@"popViewController: Removing rootViewController (%@).", viewController];
+            [SFSDKCoreLogger d:[strongSelf class] format:@"popViewController: Removing rootViewController (%@).", viewController];
             strongSelf.mainWindow.rootViewController = nil;
             [self restorePreviousKeyWindow];
         } else {
@@ -168,11 +167,10 @@
                     prevController = currentViewController;
                 currentViewController = [currentViewController presentedViewController];
             }
-            
             if (currentViewController == nil) {
-                [strongSelf log:SFLogLevelDebug format:@"popViewController: View controller (%@) not found in the view controller stack.  No action taken.", viewController];
+                [SFSDKCoreLogger d:[strongSelf class] format:@"popViewController: View controller (%@) not found in the view controller stack. No action taken.", viewController];
             } else {
-                [strongSelf log:SFLogLevelDebug format:@"popViewController: View controller (%@) is now being dismissed from presentation.", viewController];
+                [SFSDKCoreLogger d:[strongSelf class] format:@"popViewController: View controller (%@) is now being dismissed from presentation.", viewController];
                 [[currentViewController presentingViewController] dismissViewControllerAnimated:NO completion:^{
                       if(strongSelf->_modalViewController) {
                           [prevController presentViewController:strongSelf->_modalViewController animated:NO completion:^{
