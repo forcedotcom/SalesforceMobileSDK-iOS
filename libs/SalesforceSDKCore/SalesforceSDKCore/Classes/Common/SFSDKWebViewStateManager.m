@@ -107,7 +107,7 @@ static WKProcessPool *_processPool = nil;
 + (void)addSidCookieForDomain:(NSString*)domain withAccessToken:accessToken isSecureProtocol:(BOOL)isSecure
 {
     NSAssert(domain != nil && [domain length] > 0, @"addSidCookieForDomain: domain cannot be empty");
-    [self log:SFLogLevelDebug format:@"addSidCookieForDomain: %@", domain];
+    [SFSDKCoreLogger d:[self class] format:@"addSidCookieForDomain: %@", domain];
 
     // Set the session ID cookie to be used by the web view.
     NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
