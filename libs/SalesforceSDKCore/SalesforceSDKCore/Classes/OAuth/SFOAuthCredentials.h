@@ -25,17 +25,6 @@
 #import <Foundation/Foundation.h>
 
 /**
- @enum Logging levels to control the verbosity of log output based on the severity of the event being logged.
- */
-typedef NS_ENUM(NSUInteger, SFOAuthLogLevel) {
-    kSFOAuthLogLevelDebug,
-    kSFOAuthLogLevelInfo,
-    kSFOAuthLogLevelWarning,
-    kSFOAuthLogLevelError,
-    kSFOAuthLogLevelVerbose
-};
-
-/**
  @enum OAuth credential storage type
  */
 typedef NS_ENUM(NSInteger, SFOAuthCredentialsStorageType){
@@ -204,13 +193,6 @@ typedef NS_ENUM(NSInteger, SFOAuthCredentialsStorageType){
  @warning The setter for this property is exposed publicly only for unit tests. Client code should not set this property.
  */
 @property (nonatomic, copy, nullable) NSString *userId;
-
-/**
- The log level controlling which events are logged based on their severity.
- 
- This property controls the logging level for all components of the SFOAuth library.
- */
-@property (nonatomic, assign) SFOAuthLogLevel logLevel;
 
 /**
  Determines if sensitive data such as the `refreshToken` and `accessToken` are encrypted

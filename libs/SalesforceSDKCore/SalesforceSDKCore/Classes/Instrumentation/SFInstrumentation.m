@@ -115,7 +115,7 @@
         interceptor.enabled = YES;
         [self.interceptors addObject:interceptor];
     } else {
-        [self log:SFLogLevelWarning format:@"Interceptor with class '%@' and %@ selector '%@' is already configured. No action taken.", NSStringFromClass(self.clazz), (isInstanceMethod ? @"instance" : @"class"), NSStringFromSelector(selector)];
+        [SFSDKCoreLogger w:[self class] format:@"Interceptor with class '%@' and %@ selector '%@' is already configured. No action taken.", NSStringFromClass(self.clazz), (isInstanceMethod ? @"instance" : @"class"), NSStringFromSelector(selector)];
     }
 }
 
@@ -131,7 +131,7 @@ replaceWithInvocationBlock:(SFMethodInterceptorInvocationCallback)replace
         interceptor.enabled = YES;
         [self.interceptors addObject:interceptor];
     } else {
-        [self log:SFLogLevelWarning format:@"Interceptor with class '%@' and %@ selector '%@' is already configured. No action taken.", NSStringFromClass(self.clazz), (isInstanceMethod ? @"instance" : @"class"), NSStringFromSelector(selector)];
+        [SFSDKCoreLogger w:[self class] format:@"Interceptor with class '%@' and %@ selector '%@' is already configured. No action taken.", NSStringFromClass(self.clazz), (isInstanceMethod ? @"instance" : @"class"), NSStringFromSelector(selector)];
     }
 }
 
@@ -183,8 +183,7 @@ replaceWithInvocationBlock:(SFMethodInterceptorInvocationCallback)replace
     __weak __typeof(self) weakSelf = self;
     return ^(NSInvocation *invocation, SFSDKInstrumentationPostExecutionData *data) {
         __strong __typeof(self) strongSelf = weakSelf;
-        [SFLogger log:strongSelf.clazz
-                level:SFLogLevelInfo
+        [SFSDKCoreLogger i:[strongSelf class]
                format:@"TIMING %@.%@: %.3f ms", NSStringFromClass(strongSelf.clazz), data.selectorName, data.executionTime*1000];
     };
 }

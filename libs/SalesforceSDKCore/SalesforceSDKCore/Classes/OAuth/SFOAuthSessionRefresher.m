@@ -84,7 +84,7 @@
 #pragma mark - Private methods
 
 - (void)completeWithSuccess:(SFOAuthCredentials *)credentials {
-    [self log:SFLogLevelInfo format:@"%@ Session was successfully refreshed.", NSStringFromSelector(_cmd)];
+    [SFSDKCoreLogger i:[self class] format:@"%@ Session was successfully refreshed.", NSStringFromSelector(_cmd)];
     if (self.completionBlock) {
         dispatch_async(dispatch_get_main_queue(), ^{
             self.completionBlock(credentials);
@@ -93,7 +93,7 @@
 }
 
 - (void)completeWithError:(NSError *)error {
-    [self log:SFLogLevelError format:@"%@ Refresh failed with error: %@", NSStringFromSelector(_cmd), error];
+    [SFSDKCoreLogger e:[self class] format:@"%@ Refresh failed with error: %@", NSStringFromSelector(_cmd), error];
 
     if (self.errorBlock) {
         dispatch_async(dispatch_get_main_queue(), ^{
