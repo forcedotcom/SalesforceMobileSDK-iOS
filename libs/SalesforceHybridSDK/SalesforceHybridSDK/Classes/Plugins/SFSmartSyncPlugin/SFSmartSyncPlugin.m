@@ -24,7 +24,6 @@
 
 #import "SFSmartSyncPlugin.h"
 #import "CDVPlugin+SFAdditions.h"
-#import "SFSDKHybridLogger.h"
 #import <SalesforceSDKCore/NSDictionary+SFAdditions.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SmartStore/SFSmartStore.h>

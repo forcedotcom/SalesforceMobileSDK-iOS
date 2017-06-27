@@ -85,7 +85,7 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
     if (implClassName.length > 0) {
         Class customSyncUpClass = NSClassFromString(implClassName);
         if (![customSyncUpClass isSubclassOfClass:[SFSyncUpTarget class]]) {
-            [SFLogger log:self level:SFLogLevelError format:@"%@ Class '%@' is not a subclass of %@.", NSStringFromSelector(_cmd), implClassName, NSStringFromClass([SFSyncUpTarget class])];
+            [SFSDKSmartSyncLogger e:[self class] format:@"%@ Class '%@' is not a subclass of %@.", NSStringFromSelector(_cmd), implClassName, NSStringFromClass([SFSyncUpTarget class])];
             return nil;
         } else {
             return [[customSyncUpClass alloc] initWithDict:dict];
@@ -98,9 +98,8 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
         switch ([self targetTypeFromString:targetTypeString]) {
             case SFSyncUpTargetTypeRestStandard:
                 return [[SFSyncUpTarget alloc] initWithDict:dict];
-                
             case SFSyncUpTargetTypeCustom:
-                [SFLogger log:self level:SFLogLevelError format:@"%@ Custom class name not specified.", NSStringFromSelector(_cmd)];
+                [SFSDKSmartSyncLogger e:[self class] format:@"%@ Custom class name not specified.", NSStringFromSelector(_cmd)];
                 return nil;
         }
     }

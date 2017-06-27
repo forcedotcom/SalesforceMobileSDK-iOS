@@ -49,7 +49,7 @@ NSString * const kSFSyncTargetQueryTypeCustom = @"custom";
     if (implClassName.length > 0) {
         Class customSyncDownClass = NSClassFromString(implClassName);
         if (![customSyncDownClass isSubclassOfClass:[SFSyncDownTarget class]]) {
-            [SFLogger log:self level:SFLogLevelError format:@"%@ Class '%@' is not a subclass of %@.", NSStringFromSelector(_cmd), implClassName, NSStringFromClass([SFSyncDownTarget class])];
+            [SFSDKSmartSyncLogger e:[self class] format:@"%@ Class '%@' is not a subclass of %@.", NSStringFromSelector(_cmd), implClassName, NSStringFromClass([SFSyncDownTarget class])];
             return nil;
         } else {
             return [[customSyncDownClass alloc] initWithDict:dict];
@@ -69,7 +69,7 @@ NSString * const kSFSyncTargetQueryTypeCustom = @"custom";
             case SFSyncDownTargetQueryTypeParentChildren:
                 return [[SFParentChildrenSyncDownTarget alloc] initWithDict:dict];
             case SFSyncDownTargetQueryTypeCustom:
-                [SFLogger log:self level:SFLogLevelError format:@"%@ Custom class name not specified.", NSStringFromSelector(_cmd)];
+                [SFSDKSmartSyncLogger e:[self class] format:@"%@ Custom class name not specified.", NSStringFromSelector(_cmd)];
                 return nil;
         }
     }

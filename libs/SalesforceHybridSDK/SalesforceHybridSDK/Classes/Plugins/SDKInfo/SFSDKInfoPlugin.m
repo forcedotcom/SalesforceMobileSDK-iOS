@@ -25,7 +25,6 @@
 #import "SFSDKInfoPlugin.h"
 #import "SFHybridViewConfig.h"
 #import "SFHybridViewController.h"
-#import "SFSDKHybridLogger.h"
 #import <Cordova/CDVViewController.h>
 #import "CDVPlugin+SFAdditions.h"
 #import <Cordova/CDVInvokedUrlCommand.h>

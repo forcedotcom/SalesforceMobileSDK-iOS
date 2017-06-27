@@ -38,7 +38,7 @@
 - (void) setUp
 {
     [super setUp];
-    [SFLogger sharedLogger].logLevel = SFLogLevelDebug;
+    [SFSDKSmartStoreLogger setLogLevel:DDLogLevelDebug];
 }
 
 
