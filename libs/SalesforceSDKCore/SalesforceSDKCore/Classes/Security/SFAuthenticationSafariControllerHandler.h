@@ -22,21 +22,30 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSyncManagerLogger.h"
+#import <Foundation/Foundation.h>
 
-NSString * const SyncManagerLogIdentifier = @"SyncManagerLogger";
-static NSInteger kSFSyncManagerLoggerContext;
+@class SFAuthenticationManager;
+@class SFSafariViewController;
 
-@implementation SFSyncManagerLogger
+/**
+ Block definition for presenting the auth safari controller.
+ */
+typedef void (^SFAuthSafariControllerPresentBlock)(SFAuthenticationManager *, SFSafariViewController *);
 
-+ (void)load {
-    if (self == [SFSyncManagerLogger class]) {
-        kSFSyncManagerLoggerContext = [[SFLogger sharedLogger] registerIdentifier:SyncManagerLogIdentifier];
-    }
-}
+/**
+ Class encompassing the custom action to take when presenting an auth safari controller during the auth process.
+ */
+@interface SFAuthenticationSafariControllerHandler : NSObject
 
-+ (void)setLevel:(SFLogLevel)logLevel {
-    [[SFLogger sharedLogger] setLogLevel:logLevel forIdentifier:SyncManagerLogIdentifier];
-}
+/**
+ The block used to present the auth safari controller.
+ */
+@property (nonatomic, copy) SFAuthSafariControllerPresentBlock authSafariControllerPresentBlock;
+
+/**
+ Designated initializer for the class.
+ @param presentBlock The block used to present the auth safari controller.
+ */
+- (id)initWithPresentBlock:(SFAuthSafariControllerPresentBlock)presentBlock;
 
 @end

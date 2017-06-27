@@ -64,40 +64,40 @@
 
 - (void)getAuthCredentials:(CDVInvokedUrlCommand *)command
 {
-    [self log:SFLogLevelDebug format:@"getAuthCredentials: arguments: %@", command.arguments];
-    /* NSString* jsVersionStr = */[self getVersion:@"getAuthCredentials" withArguments:command.arguments];
+    [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"getAuthCredentials: arguments: %@", command.arguments]];
+    [self getVersion:@"getAuthCredentials" withArguments:command.arguments];
     [self authenticate:command getCachedCredentials:YES];
 }
 
 - (void)authenticate:(CDVInvokedUrlCommand*)command
 {
-    [self log:SFLogLevelDebug format:@"authenticate: arguments: %@", command.arguments];
-    /* NSString* jsVersionStr = */[self getVersion:@"authenticate" withArguments:command.arguments];
+    [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"authenticate: arguments: %@", command.arguments]];
+    [self getVersion:@"authenticate" withArguments:command.arguments];
     [self authenticate:command getCachedCredentials:NO];
 }
 
 - (void)logoutCurrentUser:(CDVInvokedUrlCommand *)command
 {
-    [self log:SFLogLevelDebug format:@"logoutCurrentUser: arguments: %@", command.arguments];
-    /* NSString* jsVersionStr = */[self getVersion:@"logoutCurrentUser" withArguments:command.arguments];
+    [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"logoutCurrentUser: arguments: %@", command.arguments]];
+    [self getVersion:@"logoutCurrentUser" withArguments:command.arguments];
     [[SFAuthenticationManager sharedManager] logout];
 }
 
 - (void)getAppHomeUrl:(CDVInvokedUrlCommand *)command
 {
-    [self log:SFLogLevelDebug format:@"getAppHomeUrl: arguments: %@", command.arguments];
+    [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"getAppHomeUrl: arguments: %@", command.arguments]];
     NSString* callbackId = command.callbackId;
-    /* NSString* jsVersionStr = */[self getVersion:@"getAppHomeUrl" withArguments:command.arguments];
+    [self getVersion:@"getAppHomeUrl" withArguments:command.arguments];
     NSURL *url = ((SFHybridViewController *)self.viewController).appHomeUrl;
     NSString *urlString = (url == nil ? @"" : [url absoluteString]);
-    [self log:SFLogLevelDebug format:@"AppHomeURL: %@",urlString];
+    [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"AppHomeURL: %@", urlString]];
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:urlString];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
 }
 
 - (void)authenticate:(CDVInvokedUrlCommand*)command getCachedCredentials:(BOOL)getCachedCredentials
 {
-    [self log:SFLogLevelDebug msg:@"authenticate:getCachedCredentials:"];
+    [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"authenticate:getCachedCredentials:"]];
     NSString* callbackId = command.callbackId;
     SFOAuthPluginAuthSuccessBlock completionBlock = ^(SFOAuthInfo *authInfo, NSDictionary *authDict) {
         [self authenticationCompletion:authDict callbackId:callbackId];
@@ -107,7 +107,6 @@
                                                       messageAsDictionary:[[self class] authErrorDictionaryFromError:error authInfo:authInfo]];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
     };
-    
     SFHybridViewController *hybridVc = (SFHybridViewController *)self.viewController;
     if (getCachedCredentials) {
         [hybridVc getAuthCredentialsWithCompletionBlock:completionBlock failureBlock:failureBlock];
@@ -132,7 +131,8 @@
 
 - (void)authenticationCompletion:(NSDictionary *)authDict callbackId:(NSString *)callbackId
 {
-    [self log:SFLogLevelDebug msg:@"authenticationCompletion: Authentication flow succeeded. Initiating post-auth configuration."];
+    [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"authenticationCompletion: Authentication flow succeeded. Initiating post-auth configuration."]];
+
     // Call back to the client with the authentication credentials.
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:authDict];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];

@@ -67,7 +67,7 @@ static NSString * const kFileName        = @"fileName";
     } else {
         queryParams = queryParamsObj;
     }
-    NSDictionary<NSString*, NSString*>* headerParams = [argsDict nonNullObjectForKey:kHeaderParams];
+    NSMutableDictionary<NSString*, NSString*>* headerParams = [argsDict nonNullObjectForKey:kHeaderParams];
     NSDictionary<NSString*, NSDictionary*>* fileParams = [argsDict nonNullObjectForKey:kfileParams];
     SFRestRequest* request = nil;
 

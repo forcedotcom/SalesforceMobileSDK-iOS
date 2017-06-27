@@ -79,15 +79,13 @@ static NSString * const kAppFeatureKey   = @"feature";
         NSDictionary *pluginsMap = vc.pluginsMap;
         for (__strong NSString *key in [pluginsMap allKeys]) {
             key = [key lowercaseString];
-            [self log:SFLogLevelDebug format:@"key=%@", key];
+            [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"key=%@", key]];
             if ([key hasPrefix:kForcePluginPrefix]) {
                 [services addObject:key];
             }
         }
     } else {
-        [self log:SFLogLevelError
-           format:@"??? Expected CDVViewController class for plugin's view controller. Got '%@'.",
-         NSStringFromClass([self.viewController class])];
+        [SFSDKHybridLogger e:[self class] format:[NSString stringWithFormat:@"??? Expected CDVViewController class for plugin's view controller. Got '%@'.", NSStringFromClass([self.viewController class])]];
     }
     return services;
 }
@@ -98,7 +96,6 @@ static NSString * const kAppFeatureKey   = @"feature";
 {
     NSString* callbackId = command.callbackId;
     [self getVersion:@"getInfo" withArguments:command.arguments];
-
     NSString *appName = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleNameKey];
     NSString *prodAppVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     NSString *buildNumber = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];

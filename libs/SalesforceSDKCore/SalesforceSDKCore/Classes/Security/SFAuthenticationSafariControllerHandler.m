@@ -22,20 +22,18 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+#import "SFAuthenticationSafariControllerHandler.h"
+#import "SFAuthenticationManager.h"
 
-#import <SalesforceSDKCore/SFLogger.h>
+@implementation SFAuthenticationSafariControllerHandler
 
-static NSInteger kSFSyncManagerLoggerContext;
-
-#define LogSyncError(frmt, ...)      SFLogErrorToContext(kSFSyncManagerLoggerContext, nil, frmt, ##__VA_ARGS__)
-#define LogSyncWarn(frmt, ...)       SFLogWarnToContext(kSFSyncManagerLoggerContext, nil, frmt, ##__VA_ARGS__)
-#define LogSyncInfo(frmt, ...)       SFLogInfoToContext(kSFSyncManagerLoggerContext, nil, frmt, ##__VA_ARGS__)
-#define LogSyncDebug(frmt, ...)      SFLogDebugToContext(kSFSyncManagerLoggerContext, nil, frmt, ##__VA_ARGS__)
-#define LogSyncVerbose(frmt, ...)    SFLogVerboseToContext(kSFSyncManagerLoggerContext, nil, frmt, ##__VA_ARGS__)
-
-@interface SFSyncManagerLogger : SFLogger
-
-+ (void)setLevel:(SFLogLevel)logLevel;
+- (id)initWithPresentBlock:(SFAuthSafariControllerPresentBlock)presentBlock
+{
+    self = [super init];
+    if (self) {
+        self.authSafariControllerPresentBlock = presentBlock;
+    }
+    return self;
+}
 
 @end

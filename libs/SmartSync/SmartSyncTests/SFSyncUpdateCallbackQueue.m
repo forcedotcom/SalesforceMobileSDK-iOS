@@ -85,11 +85,10 @@
         }
         NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
         if (elapsed > maxWaitTime) {
-            [self log:SFLogLevelDebug format:@"getNextSyncUpdate took too long (> %f secs) to complete.", elapsed];
+            [SFSDKSmartSyncLogger d:[self class] format:@"getNextSyncUpdate took too long (> %f secs) to complete.", elapsed];
             return nil;
         }
-        
-        [self log:SFLogLevelDebug msg:@"## sleeping..."];
+        [SFSDKSmartSyncLogger d:[self class] format:@"## sleeping..."];
         [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
     };
     return sync;

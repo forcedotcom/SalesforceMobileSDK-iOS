@@ -2,7 +2,7 @@
  SmartSync.h
  SmartSync
 
- Created by Wolfgang Mathurin on Fri May 19 16:10:49 PDT 2017.
+ Created by Bharath Hariharan on Mon Jun 26 14:12:04 PDT 2017.
 
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
@@ -38,6 +38,7 @@
 #import <SmartSync/SFParentChildrenSyncUpTarget.h>
 #import <SmartSync/SFParentInfo.h>
 #import <SmartSync/SFRefreshSyncDownTarget.h>
+#import <SmartSync/SFSDKSmartSyncLogger.h>
 #import <SmartSync/SFSmartSyncCacheManager.h>
 #import <SmartSync/SFSmartSyncConstants.h>
 #import <SmartSync/SFSmartSyncMetadataManager.h>
@@ -48,7 +49,6 @@
 #import <SmartSync/SFSoqlSyncDownTarget.h>
 #import <SmartSync/SFSoslSyncDownTarget.h>
 #import <SmartSync/SFSyncDownTarget.h>
-#import <SmartSync/SFSyncManagerLogger.h>
 #import <SmartSync/SFSyncOptions.h>
 #import <SmartSync/SFSyncState.h>
 #import <SmartSync/SFSyncTarget.h>

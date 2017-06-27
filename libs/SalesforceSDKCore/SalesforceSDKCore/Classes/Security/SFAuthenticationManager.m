@@ -23,24 +23,20 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFApplication.h"
 #import "SFAuthenticationManager+Internal.h"
 #import "SalesforceSDKManager+Internal.h"
 #import "SFUserAccount+Internal.h"
 #import "SFUserAccountManager+Internal.h"
-#import "SFUserAccountIdentity.h"
 #import "SFAuthenticationViewHandler.h"
+#import "SFAuthenticationSafariControllerHandler.h"
 #import "SFAuthErrorHandler.h"
 #import "SFAuthErrorHandlerList.h"
 #import "SFSecurityLockout.h"
 #import "SFIdentityData.h"
 #import "SFSDKResourceUtils.h"
 #import "SFRootViewManager.h"
-#import "SFPasscodeProviderManager.h"
 #import "SFPushNotificationManager.h"
 #import "SFManagedPreferences.h"
-#import "SFOAuthCredentials+Internal.h"
-#import "SFOAuthInfo.h"
 #import "SFLoginViewController.h"
 #import "SFOAuthCoordinator+Internal.h"
 #import "SFNetwork.h"
@@ -303,9 +299,9 @@ static Class InstanceClass = nil;
     if (self) {
         self.authBlockList = [NSMutableArray array];
         self.delegates = [NSMutableDictionary new];
-        
-        // Default auth web view handler
+
         __weak typeof(self) weakSelf = self;
+        // Default auth web view handler
         self.authViewHandler = [[SFAuthenticationViewHandler alloc]
                                 initWithDisplayBlock:^(SFAuthenticationManager *authManager, WKWebView *authWebView) {
                                     __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -320,7 +316,13 @@ static Class InstanceClass = nil;
                                     [SFLoginViewController sharedInstance].oauthView = nil;
                                     [strongSelf dismissAuthViewControllerIfPresent];
                                 }];
-        
+
+        // Default auth safari controller handler
+        self.authSafariControllerHandler = [[SFAuthenticationSafariControllerHandler alloc]
+                initWithPresentBlock:^(SFAuthenticationManager *manager, SFSafariViewController *controller) {
+                    [[SFRootViewManager sharedManager] pushViewController:controller];
+                }];
+
         [[SFUserAccountManager sharedInstance] addDelegate:self];
         // Set up default auth error handlers.
         self.authErrorHandlerList = [self populateDefaultAuthErrorHandlerList];
@@ -851,13 +853,21 @@ static Class InstanceClass = nil;
     self.idCoordinator.delegate = self;
 }
 
-- (void)restartAuthentication {
+- (void)restartAuthentication:(BOOL)onlyIfAuthenticating {
     @synchronized (self.authBlockList) {
-        if (!self.authenticating) {
-            [self log:SFLogLevelWarning format:@"%@: Authentication manager is not currently authenticating.  No action taken.", NSStringFromSelector(_cmd)];
-            return;
+        if (self.authenticating) {
+            [self log:SFLogLevelInfo format:@"%@: Restarting in-progress authentication process.", NSStringFromSelector(_cmd)];
         }
-        [self log:SFLogLevelInfo format:@"%@: Restarting in-progress authentication process.", NSStringFromSelector(_cmd)];
+        else {
+            if (onlyIfAuthenticating) {
+                [self log:SFLogLevelWarning format:@"%@: Authentication manager is not currently authenticating.  No action taken.", NSStringFromSelector(_cmd)];
+                return;
+            }
+            else {
+                [self log:SFLogLevelInfo format:@"%@: Restarting authentication process.", NSStringFromSelector(_cmd)];
+            }
+        }
+
         [self.coordinator stopAuthentication];
         [self loginWithCredentials:[self createOAuthCredentials]];
     }
@@ -1188,11 +1198,17 @@ static Class InstanceClass = nil;
     [hostListViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void)hostListViewController:(SFSDKLoginHostListViewController *)hostListViewController didChangeLoginHost:(SFSDKLoginHost *)newLoginHost {
+    self.loginHost = newLoginHost.host;
+    [self restartAuthentication:NO];
+}
+
+
 #pragma mark - SFLoginViewControllerDelegate
 
 - (void)loginViewController:(SFLoginViewController *)loginViewController didChangeLoginHost:(SFSDKLoginHost *)newLoginHost {
     self.loginHost = newLoginHost.host;
-    [self restartAuthentication];
+    [self restartAuthentication:YES];
 }
 
 #pragma mark - SFUserAccountManagerDelegate
@@ -1256,6 +1272,20 @@ static Class InstanceClass = nil;
         self.authViewHandler.authViewDisplayBlock(self, view);
     }
 }
+
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSafariViewController:(SFSafariViewController *)svc
+{
+    [self log:SFLogLevelDebug msg:@"oauthCoordinator:didBeginAuthenticationWithSafariViewController"];
+
+    [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(authManager:willDisplayAuthSafariViewController:)]) {
+            [delegate authManager:self willDisplayAuthSafariViewController:svc];
+        }
+    }];
+
+    self.authSafariControllerHandler.authSafariControllerPresentBlock(self, svc);
+}
+
 
 - (void)oauthCoordinatorWillBeginAuthentication:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info {
     [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
@@ -1381,7 +1411,8 @@ static Class InstanceClass = nil;
     [[SFRootViewManager sharedManager] pushViewController:alert];
 }
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator displayConfirmationMessage:(NSString *)message completion:(void (^)(BOOL))completion {
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator displayConfirmationMessage:(NSString *)message completion:(void (^)(BOOL))completion
+{
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:@""
                                                                    message:message
                                                             preferredStyle:UIAlertControllerStyleAlert];
@@ -1399,6 +1430,11 @@ static Class InstanceClass = nil;
     [alert addAction:cancelAction];
 
     [[SFRootViewManager sharedManager] pushViewController:alert];
+}
+
+- (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator*)coordinator
+{
+    [self delegateDidCancelBrowserFlow];
 }
 
 #pragma mark - SFIdentityCoordinatorDelegate

@@ -75,13 +75,13 @@ static NSString * const kSFAppFeatureUsesLocalhost = @"LH";
     NSString* mimeType = @"text/plain";
     NSFileManager *manager = [[NSFileManager alloc] init];
     if (![filePath hasPrefix:wwwDirPath]) {
-        [self log:SFLogLevelError format:@"Trying to access files outside www: %@", url];
+        [SFSDKHybridLogger e:[self class] format:[NSString stringWithFormat:@"Trying to access files outside www: %@", url]];
     } else if (![manager fileExistsAtPath:filePath]) {
-        [self log:SFLogLevelError format:@"Trying to access non-existent file: %@", url];
+        [SFSDKHybridLogger e:[self class] format:[NSString stringWithFormat:@"Trying to access non-existent file: %@", url]];
     } else {
         data = [NSData dataWithContentsOfFile:filePath];
         mimeType = [self mimeTypeForPath:filePath];
-        [self log:SFLogLevelInfo format:@"Loading local file: %@", urlPath];
+        [SFSDKHybridLogger i:[self class] format:[NSString stringWithFormat:@"Loading local file: %@", urlPath]];
     }
     NSURLResponse *response = [[NSURLResponse alloc]
                                initWithURL:[request URL]
