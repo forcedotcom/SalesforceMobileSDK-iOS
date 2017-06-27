@@ -370,7 +370,7 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  The brand login path used for the authorize endpoint e.g. /brand in
  https://community.force.com/services/oauth2/authorize/<brand>?response_type=code&...
  */
-@property (nonatomic, copy, nullable) NSString *brandLoginPath;
+@property (nonatomic, copy) NSString *brandLoginPath;
 
 ///---------------------------------------------------------------------------------------
 /// @name Initialization
