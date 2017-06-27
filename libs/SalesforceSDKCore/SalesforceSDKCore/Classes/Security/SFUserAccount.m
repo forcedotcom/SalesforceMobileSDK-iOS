@@ -206,12 +206,12 @@ static NSString * const kGlobalScopingKey = @"-global-";
         NSFileManager *fm = [NSFileManager defaultManager];
         if ([fm fileExistsAtPath:photoPath]) {
             if (![fm removeItemAtPath:photoPath error:&error]) {
-                [self log:SFLogLevelError format:@"Unable to remove previous photo from disk: %@", error];
+                [SFSDKCoreLogger e:[self class] format:@"Unable to remove previous photo from disk: %@", error];
             }
         }
         NSData *data = UIImagePNGRepresentation(photo);
         if (![data writeToFile:photoPath options:NSDataWritingAtomic error:&error]) {
-            [self log:SFLogLevelError format:@"Unable to write photo to disk: %@", error];
+            [SFSDKCoreLogger e:[self class] format:@"Unable to write photo to disk: %@", error];
         }
         
         [self willChangeValueForKey:@"photo"];
@@ -305,7 +305,7 @@ static NSString * const kGlobalScopingKey = @"-global-";
         if (transitionSucceeded) {
             self.loginState = newLoginState;
         } else {
-            [self log:SFLogLevelWarning format:@"%@ Invalid login state transition from '%@' to '%@'. No action taken.", NSStringFromSelector(_cmd), [[self class] loginStateDescriptionFromLoginState:self.loginState], [[self class] loginStateDescriptionFromLoginState:newLoginState]];
+            [SFSDKCoreLogger w:[self class] format:@"%@ Invalid login state transition from '%@' to '%@'. No action taken.", NSStringFromSelector(_cmd), [[self class] loginStateDescriptionFromLoginState:self.loginState], [[self class] loginStateDescriptionFromLoginState:newLoginState]];
         }
     });
     return transitionSucceeded;

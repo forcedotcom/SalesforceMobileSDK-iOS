@@ -99,7 +99,7 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
     while ([self.returnStatus isEqualToString:kTestRequestStatusWaiting]) {
         NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
         if (elapsed > self.maxWaitTime) {
-            [self log:SFLogLevelDebug format:@"'%@' Request took too long (> %f secs) to complete.", [self serviceTypeDescription], elapsed];
+            [SFSDKCoreLogger d:[self class] format:@"'%@' Request took too long (> %f secs) to complete.", [self serviceTypeDescription], elapsed];
             return kTestRequestStatusDidTimeout;
         }
         
@@ -146,13 +146,13 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
 
 - (void)identityCoordinatorRetrievedData:(SFIdentityCoordinator *)coordinator
 {
-    [self log:SFLogLevelInfo format:@"%@", NSStringFromSelector(_cmd)];
+    [SFSDKCoreLogger i:[self class] format:@"%@", NSStringFromSelector(_cmd)];
     self.returnStatus = kTestRequestStatusDidLoad;
 }
 
 - (void)identityCoordinator:(SFIdentityCoordinator *)coordinator didFailWithError:(NSError *)error
 {
-    [self log:SFLogLevelInfo format:@"%@ with error: %@", NSStringFromSelector(_cmd), error];
+    [SFSDKCoreLogger i:[self class] format:@"%@ with error: %@", NSStringFromSelector(_cmd), error];
     self.lastError = error;
     self.returnStatus = kTestRequestStatusDidFail;
 }
@@ -189,13 +189,13 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
 
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info
 {
-    [self log:SFLogLevelInfo format:@"%@ with authInfo: %@", NSStringFromSelector(_cmd), info];
+    [SFSDKCoreLogger i:[self class] format:@"%@ with authInfo: %@", NSStringFromSelector(_cmd), info];
     self.returnStatus = kTestRequestStatusDidLoad;
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info
 {
-    [self log:SFLogLevelInfo format:@"%@ with authInfo: %@, error: %@", NSStringFromSelector(_cmd), info, error];
+    [SFSDKCoreLogger i:[self class] format:@"%@ with authInfo: %@, error: %@", NSStringFromSelector(_cmd), info, error];
     self.lastError = error;
     self.returnStatus = kTestRequestStatusDidFail;
 }
