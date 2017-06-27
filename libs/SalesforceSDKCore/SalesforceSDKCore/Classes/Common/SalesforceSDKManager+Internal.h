@@ -43,5 +43,6 @@
 - (void)presentSnapshot;
 - (BOOL)isSnapshotPresented;
 - (void)dismissSnapshot;
+- (void)cancelLaunch;
 
 @end
