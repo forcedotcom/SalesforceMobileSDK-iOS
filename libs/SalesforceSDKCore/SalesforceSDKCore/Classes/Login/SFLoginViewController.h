@@ -80,6 +80,9 @@
 /** Specifiy the visibility of the settings icon. This property will be used to hide/show the settings icon*/
 @property (nonatomic) BOOL showSettingsIcon;
 
+/** Specifiy the visibility of the cancel button. This property will be used to hide/show the cancel button*/
+@property (nonatomic) BOOL showCancelButton;
+
 /** Applies the view's style attributes to the given navigation bar.
  @param navigationBar The navigation bar that the style is applied to.
  */

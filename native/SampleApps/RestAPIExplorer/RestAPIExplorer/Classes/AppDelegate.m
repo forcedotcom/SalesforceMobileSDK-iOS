@@ -91,6 +91,8 @@ static NSString * const OAuthRedirectURI        = @"com.salesforce.mobilesdk.sam
     //Uncomment the code below to see how you can customize the color, textcolor, font and fontsize of the navigation bar
     //
     //SFLoginViewController *loginViewController = [SFLoginViewController sharedInstance];
+    // Set showCancelButton to YES if you want to display cancel button
+    //loginViewController.showCancelButton = YES;
     //Set showNavBar to NO if you want to hide the top bar
     //loginViewController.showNavbar = YES;
     //Set showSettingsIcon to NO if you want to hide the settings icon on the nav bar
