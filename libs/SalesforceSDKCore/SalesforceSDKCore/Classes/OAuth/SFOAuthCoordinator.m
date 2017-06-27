@@ -340,6 +340,7 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
     return _view;
 }
 
+
 #pragma mark - Private Methods
 
 - (void)notifyDelegateOfFailure:(NSError*)error authInfo:(SFOAuthInfo *)info
@@ -471,7 +472,7 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
     //      ?client_id=<Connected App ID>&redirect_uri=<Connected App Redirect URI>&display=touch
     //      &response_type=code
     NSMutableString *approvalUrl = [[NSMutableString alloc] initWithFormat:@"%@://%@%@?%@=%@&%@=%@&%@=%@&%@=%@",
-                                    self.credentials.protocol, self.credentials.domain, kSFOAuthEndPointAuthorize,
+                                    self.credentials.protocol, self.credentials.domain, [self brandedAuthorizeURL],
                                     kSFOAuthClientId, self.credentials.clientId,
                                     kSFOAuthRedirectUri, self.credentials.redirectUri,
                                     kSFOAuthDisplay, kSFOAuthDisplayTouch,
@@ -775,7 +776,7 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
     NSAssert(nil != self.credentials.clientId, @"credentials.clientId is required");
     NSAssert(nil != self.credentials.redirectUri, @"credentials.redirectUri is required");
     NSMutableString *approvalUrlString = [[NSMutableString alloc] initWithFormat:@"%@://%@%@?%@=%@&%@=%@&%@=%@",
-                                          self.credentials.protocol, self.credentials.domain, kSFOAuthEndPointAuthorize,
+                                          self.credentials.protocol, self.credentials.domain, [self brandedAuthorizeURL],
                                           kSFOAuthClientId, self.credentials.clientId,
                                           kSFOAuthRedirectUri, self.credentials.redirectUri,
                                           kSFOAuthDisplay, kSFOAuthDisplayTouch];
@@ -997,6 +998,21 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
     [self.delegate oauthCoordinatorDidCancelBrowserAuthentication:self];
 }
 
+- (NSString *)brandedAuthorizeURL{
+    NSMutableString *brandedAuthorizeURL = [NSMutableString stringWithFormat:@"%@",kSFOAuthEndPointAuthorize];
+    if (self.brandLoginPath && ![self.brandLoginPath isEmptyOrWhitespaceAndNewlines]) {
+        NSMutableString *urlString = [NSMutableString stringWithString:self.brandLoginPath];
+        // get rid of leading and trailing slash
+        if ([urlString hasPrefix:@"/"])
+            [urlString deleteCharactersInRange:NSMakeRange(0, 1)];
+
+        if ([urlString hasSuffix:@"/"])
+            [urlString deleteCharactersInRange:NSMakeRange(urlString.length - 1, 1)];
+
+        [brandedAuthorizeURL appendFormat:@"/%@",urlString];
+    }
+    return brandedAuthorizeURL;
+}
 #pragma mark - Utilities
 
 + (NSDictionary *)parseQueryString:(NSString *)query {

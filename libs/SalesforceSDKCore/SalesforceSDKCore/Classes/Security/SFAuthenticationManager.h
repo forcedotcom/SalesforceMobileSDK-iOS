@@ -368,6 +368,11 @@ extern  NSString * const kOAuthRedirectUriKey;
 @property (nonatomic, copy, nullable) NSString *oauthCompletionUrl;
 
 /**
+ The Branded Login path configured for this application.
+ */
+@property (nonatomic, nullable, copy) NSString *brandLoginPath;
+
+/**
  The OAuth scopes associated with the app.
  */
 @property (nonatomic, copy) NSSet<NSString*> *scopes;

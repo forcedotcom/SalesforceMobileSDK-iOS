@@ -156,6 +156,10 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
 @property (nonatomic, strong, nullable) NSArray<NSString*> *authScopes;
 
 /**
+ The Branded Login path configured for this application.
+ */
+@property (nonatomic, nullable, copy) NSString *brandLoginPath;
+/**
  Whether or not to attempt authentication as part of the launch process.  Default
  value is YES.
  */
