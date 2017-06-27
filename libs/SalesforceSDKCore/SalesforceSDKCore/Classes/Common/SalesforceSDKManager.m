@@ -196,6 +196,16 @@ static NSString* ailtnAppName = nil;
     [SFAuthenticationManager sharedManager].oauthCompletionUrl = connectedAppCallbackUri;
 }
 
+- (NSString *)brandLoginPath
+{
+    return [SFAuthenticationManager sharedManager].brandLoginPath;
+}
+
+- (void)setBrandLoginPath:(NSString *)brandLoginPath
+{
+    [SFAuthenticationManager sharedManager].brandLoginPath = brandLoginPath;
+}
+
 - (NSArray *)authScopes
 {
     return [[SFAuthenticationManager sharedManager].scopes allObjects];

@@ -839,6 +839,7 @@ static Class InstanceClass = nil;
     // re-create the oauth coordinator using credentials
     self.coordinator.delegate = nil;
     self.coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:credentials];
+    self.coordinator.brandLoginPath = self.brandLoginPath;
     self.coordinator.advancedAuthConfiguration = self.advancedAuthConfiguration;
     self.coordinator.delegate = self;
     self.coordinator.additionalOAuthParameterKeys = self.additionalOAuthParameterKeys;

@@ -361,6 +361,12 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  */
 @property (nonatomic, strong) NSDictionary * additionalTokenRefreshParams;
 
+/** Brand Login Path.
+ The brand login path used for the authorize endpoint e.g. /brand in
+ https://community.force.com/services/oauth2/authorize/<brand>?response_type=code&...
+ */
+@property (nonatomic, copy, nullable) NSString *brandLoginPath;
+
 ///---------------------------------------------------------------------------------------
 /// @name Initialization
 ///---------------------------------------------------------------------------------------
