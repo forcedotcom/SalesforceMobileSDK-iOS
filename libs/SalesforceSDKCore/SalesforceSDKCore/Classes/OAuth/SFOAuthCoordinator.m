@@ -144,7 +144,6 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
 @synthesize oauthCoordinatorFlow        = _oauthCoordinatorFlow;
 @synthesize userAgentForAuth            = _userAgentForAuth;
 @synthesize origWebUserAgent            = _origWebUserAgent;
-@synthesize brandLoginPath              = _brandLoginPath;
 
 
 - (id)init {
