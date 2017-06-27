@@ -25,7 +25,6 @@
 #import "SFSyncTarget.h"
 #import "SFSmartSyncConstants.h"
 #import "SFSmartSyncSyncManager.h"
-#import "SFSyncManagerLogger.h"
 #import <SmartStore/SFQuerySpec.h>
 #import <SmartStore/SFSmartStore.h>
 
@@ -75,7 +74,7 @@ NSString * const kSyncTargetLocallyDeleted = @"__locally_deleted__";
 #pragma mark - Public methods
 
 - (void) cleanAndSaveInLocalStore:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName record:(NSDictionary*)record {
-    LogSyncDebug(@"cleanAndSaveInLocalStore:%@", record);
+    [SFSDKSmartSyncLogger d:[self class] format:@"cleanAndSaveInLocalStore:%@", record];
     [self cleanAndSaveInSmartStore:syncManager.store soupName:soupName records:@[record] idFieldName:self.idFieldName];
 }
 
@@ -122,13 +121,11 @@ NSString * const kSyncTargetLocallyDeleted = @"__locally_deleted__";
 }
 
 - (void) deleteFromLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString*)soupName record:(NSDictionary*)record {
-    LogSyncDebug(@"deleteFromLocalStore:%@", record);
+    [SFSDKSmartSyncLogger d:[self class] format:@"deleteFromLocalStore:%@", record];
     [syncManager.store removeEntries:@[record[SOUP_ENTRY_ID]] fromSoup:soupName];
 }
 
-
 #pragma mark - Helper methods
-
 
 - (NSString*) getDirtyRecordIdsSql:(NSString*)soupName idField:(NSString*)idField {
     return [NSString stringWithFormat:@"SELECT {%@:%@} FROM {%@} WHERE {%@:%@} = '1' ORDER BY {%@:%@} ASC",

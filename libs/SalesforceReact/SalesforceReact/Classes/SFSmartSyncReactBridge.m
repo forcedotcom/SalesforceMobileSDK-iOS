@@ -23,7 +23,6 @@
  */
 
 #import "SFSmartSyncReactBridge.h"
-#import "SFSDKReactLogger.h"
 #import <React/RCTUtils.h>
 #import <SalesforceSDKCore/NSDictionary+SFAdditions.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>

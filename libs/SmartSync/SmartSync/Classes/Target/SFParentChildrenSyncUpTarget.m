@@ -352,7 +352,7 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
 
         // Re-run if required
         if (needReRun) {
-            LogSyncDebug(@"syncUpOneRecord:%@", record);
+            [SFSDKSmartSyncLogger d:[self class] format:@"syncUpOneRecord:%@", record];
             [self syncUpRecord:syncManager record:record children:children fieldlist:fieldlist mergeMode:mergeMode completionBlock:completionBlock failBlock:failBlock];
         } else {
             // Done

@@ -503,7 +503,7 @@
 
 -(void)executeUpdate:(FMDatabase*)db sql:(NSString*)sql context:(NSString*)context
 {
-    [self log:SFLogLevelDebug format:@"%@: %@", context, sql];
+    [SFSDKSmartStoreLogger d:[self class] format:@"%@: %@", context, sql];
     [self.store executeUpdateThrows:sql withDb:db];
 }
 

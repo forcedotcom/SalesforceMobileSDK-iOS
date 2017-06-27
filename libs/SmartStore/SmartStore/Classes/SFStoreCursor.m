@@ -93,12 +93,10 @@
 
 
 - (void)close {
-    [self log:SFLogLevelVerbose format:@"closing cursor id: %@",self.cursorId];
-
+    [SFSDKSmartStoreLogger v:[self class] format:@"closing cursor id: %@",self.cursorId];
      _store = nil;
     self.cursorId = nil;
     self.querySpec = nil;
-    
     self.currentPageOrderedEntries = nil;
     self.currentPageIndex = nil;
     self.pageSize = nil;

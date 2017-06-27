@@ -23,7 +23,6 @@
  */
 
 #import "SFSmartSyncSyncManager.h"
-#import "SFSyncManagerLogger.h"
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SmartStore/SFSmartStore.h>
 #import <SalesforceSDKCore/SFSDKAppFeatureMarkers.h>
@@ -62,7 +61,6 @@ static NSMutableDictionary *syncMgrList = nil;
 + (void)initialize {
     if (self == [SFSmartSyncSyncManager class]) {
         syncMgrList = [NSMutableDictionary new];
-        [SFSyncManagerLogger setLevel:SFLogLevelInfo];
     }
 }
 
@@ -162,7 +160,7 @@ static NSMutableDictionary *syncMgrList = nil;
     SFSyncState* sync = [SFSyncState newById:syncId store:self.store];
     
     if (sync == nil) {
-        LogSyncError(@"Sync %@ not found", syncId);
+        [SFSDKSmartSyncLogger e:[self class] format:@"Sync %@ not found", syncId];
     }
     return sync;
 }
@@ -179,7 +177,7 @@ static NSMutableDictionary *syncMgrList = nil;
         if (totalSize>=0) sync.totalSize = totalSize;
         if (maxTimeStamp>=0) sync.maxTimeStamp = (sync.maxTimeStamp < maxTimeStamp ? maxTimeStamp : sync.maxTimeStamp);
         [sync save:strongSelf.store];
-        LogSyncDebug(@"Sync update:%@", sync);
+        [SFSDKSmartSyncLogger d:[self class] format:@"Sync update:%@", sync];
         NSString *eventName = nil;
         switch (sync.type) {
             case SFSyncStateSyncTypeDown:
@@ -211,7 +209,7 @@ static NSMutableDictionary *syncMgrList = nil;
     };
 
     SyncFailBlock failSync = ^(NSString* failureMessage, NSError* error) {
-        LogSyncError(@"runSync failed:%@ cause:%@ error%@", sync, failureMessage, error);
+        [SFSDKSmartSyncLogger e:[self class] format:@"runSync failed:%@ cause:%@ error%@", sync, failureMessage, error];
         updateSync(kSFSyncStateStatusFailed, kSyncManagerUnchanged, kSyncManagerUnchanged, kSyncManagerUnchanged);
     };
 
@@ -244,7 +242,7 @@ static NSMutableDictionary *syncMgrList = nil;
  */
 - (SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
     SFSyncState* sync = [SFSyncState newSyncDownWithOptions:options target:target soupName:soupName store:self.store];
-    LogSyncDebug(@"syncDown:%@", sync);
+    [SFSDKSmartSyncLogger d:[self class] format:@"syncDown:%@", sync];
     [self runSync:sync updateBlock:updateBlock];
     return [sync copy];
 }
@@ -253,21 +251,21 @@ static NSMutableDictionary *syncMgrList = nil;
  */
 - (SFSyncState*) reSync:(NSNumber*)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
     if ([self.runningSyncIds containsObject:syncId]) {
-        [self log:SFLogLevelError format:@"Cannot run reSync:%@:still running", syncId];
+        [SFSDKSmartSyncLogger e:[self class] format:@"Cannot run reSync:%@:still running", syncId];
         return nil;
     }
     SFSyncState* sync = [self getSyncStatus:(NSNumber *)syncId];
     if (sync == nil) {
-        [self log:SFLogLevelError format:@"Cannot run reSync:%@:no sync found", syncId];
+        [SFSDKSmartSyncLogger e:[self class] format:@"Cannot run reSync:%@:no sync found", syncId];
          return nil;
     }
     if (sync.type != SFSyncStateSyncTypeDown) {
-        [self log:SFLogLevelError format:@"Cannot run reSync:%@:wrong type:%@", syncId, [SFSyncState syncTypeToString:sync.type]];
+        [SFSDKSmartSyncLogger e:[self class] format:@"Cannot run reSync:%@:wrong type:%@", syncId, [SFSyncState syncTypeToString:sync.type]];
         return nil;
     }
     sync.totalSize = -1;
     [sync save:self.store];
-    LogSyncDebug(@"reSync:%@", sync);
+    [SFSDKSmartSyncLogger d:[self class] format:@"reSync:%@", sync];
     [self runSync:sync updateBlock:updateBlock];
     return [sync copy];
 }
@@ -353,7 +351,7 @@ static NSMutableDictionary *syncMgrList = nil;
  */
 - (SFSyncState*) syncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
     SFSyncState *sync = [SFSyncState newSyncUpWithOptions:options soupName:soupName store:self.store];
-    LogSyncDebug(@"syncUp:%@", sync);
+    [SFSDKSmartSyncLogger d:[self class] format:@"syncUp:%@", sync];
     [self runSync:sync updateBlock:updateBlock];
     return [sync copy];
 }
@@ -392,27 +390,24 @@ static NSMutableDictionary *syncMgrList = nil;
 
 - (void) cleanResyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock {
     if ([self.runningSyncIds containsObject:syncId]) {
-        [self log:SFLogLevelError format:@"Cannot run cleanResyncGhosts:%@:still running", syncId];
+        [SFSDKSmartSyncLogger e:[self class] format:@"Cannot run cleanResyncGhosts:%@:still running", syncId];
         return;
     }
     SFSyncState* sync = [self getSyncStatus:(NSNumber *)syncId];
     if (sync == nil) {
-        [self log:SFLogLevelError format:@"Cannot run cleanResyncGhosts:%@:no sync found", syncId];
+        [SFSDKSmartSyncLogger e:[self class] format:@"Cannot run cleanResyncGhosts:%@:no sync found", syncId];
         return;
     }
     if (sync.type != SFSyncStateSyncTypeDown) {
-        [self log:SFLogLevelError format:@"Cannot run cleanResyncGhosts:%@:wrong type:%@", syncId, [SFSyncState syncTypeToString:sync.type]];
+        [SFSDKSmartSyncLogger e:[self class] format:@"Cannot run cleanResyncGhosts:%@:wrong type:%@", syncId, [SFSyncState syncTypeToString:sync.type]];
         return;
     }
-
-    LogSyncDebug(@"cleanResyncGhosts:%@", sync);
-
+    [SFSDKSmartSyncLogger d:[self class] format:@"cleanResyncGhosts:%@", sync];
     NSString* soupName = [sync soupName];
-
     [(SFSyncDownTarget *)sync.target cleanGhosts:self
                                         soupName:soupName
                                       errorBlock:^(NSError* e) {
-                                          LogSyncError(@"Failed to get list of remote IDs, %@", [e localizedDescription]);
+                                          [SFSDKSmartSyncLogger e:[self class] format:@"Failed to get list of remote IDs, %@", [e localizedDescription]];
                                           NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
                                           attributes[@"syncId"] = [NSNumber numberWithInteger:sync.syncId];
                                           attributes[@"syncTarget"] = NSStringFromClass([sync.target class]);
@@ -449,8 +444,7 @@ static NSMutableDictionary *syncMgrList = nil;
     
     NSString* idStr = [(NSNumber*) recordIds[i] stringValue];
     NSMutableDictionary* record = [[target getFromLocalStore:self soupName:soupName storeId:idStr] mutableCopy];
-
-    LogSyncDebug(@"syncUpOneRecord:%@", record);
+    [SFSDKSmartSyncLogger d:[self class] format:@"syncUpOneRecord:%@", record];
 
     // Do we need to do a create, update or delete
     BOOL locallyCreated = [target isLocallyCreated:record];
@@ -487,7 +481,7 @@ static NSMutableDictionary *syncMgrList = nil;
             }
             else {
                 // Server date is newer than the local date.  Skip this update.
-                LogSyncDebug(@"syncUpOneRecord: Record not synced since client does not have the latest from server:%@", record);
+                [SFSDKSmartSyncLogger d:[self class] format:@"syncUpOneRecord: Record not synced since client does not have the latest from server:%@", record];
                 [strongSelf syncUpOneEntry:sync
                                  recordIds:recordIds
                                      index:i+1
@@ -608,7 +602,7 @@ static NSMutableDictionary *syncMgrList = nil;
             break;
         default:
             // Action is unsupported here.  Move on.
-            LogSyncInfo(@"%@ unsupported action with value %lu.  Moving to the next record.", NSStringFromSelector(_cmd), (unsigned long) action);
+            [SFSDKSmartSyncLogger i:[self class] format:@"%@ unsupported action with value %lu.  Moving to the next record.", NSStringFromSelector(_cmd), (unsigned long) action];
             nextBlock();
             return;
     }
