@@ -89,4 +89,12 @@ static NSString * const kWebNotSupportedReasonFormat  = @"%@ WKWebView transacti
     return self.isNetworkAvailable;
 }
 
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSafariViewController:(SFSafariViewController *)svc {
+    [self log:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+}
+
+- (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator *)coordinator {
+    [self log:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+}
+
 @end
