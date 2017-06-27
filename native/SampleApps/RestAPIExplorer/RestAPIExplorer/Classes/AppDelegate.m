@@ -36,8 +36,8 @@
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 
 // Fill these in when creating a new Connected Application on Force.com
-static NSString * const RemoteAccessConsumerKey = @"3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa";
-static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect/oauth/done";
+static NSString * const RemoteAccessConsumerKey = @"3MVG98dostKihXN53TYStBIiS8NRTXcbDzn9nHPb3piMElfQDD.kTyHeXjKV9JNUbe5sZeSQ4CVY1Onzpq21N";
+static NSString * const OAuthRedirectURI        = @"com.salesforce.mobilesdk.sample.restapiexplorer://oauth/success";
 
 @implementation AppDelegate
 
@@ -52,6 +52,8 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
         #else
             [SFLogger sharedLogger].logLevel = SFLogLevelInfo;
         #endif
+        [SFAuthenticationManager sharedManager].advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;
+        
         [SalesforceSDKManager sharedManager].connectedAppId = RemoteAccessConsumerKey;
         [SalesforceSDKManager sharedManager].connectedAppCallbackUri = OAuthRedirectURI;
         [SalesforceSDKManager sharedManager].authScopes = @[ @"web", @"api" ];
@@ -124,6 +126,12 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
 {
     // Respond to any push notification registration errors here.
 }
+
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
+    return [[SFAuthenticationManager sharedManager] handleAdvancedAuthenticationResponse:url];
+}
+
 
 #pragma mark - Private methods
 

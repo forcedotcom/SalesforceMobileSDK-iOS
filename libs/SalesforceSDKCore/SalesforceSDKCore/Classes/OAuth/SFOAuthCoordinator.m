@@ -41,6 +41,7 @@
 #import "SalesforceSDKManager.h"
 #import "SFSDKWebViewStateManager.h"
 #import "SFNetwork.h"
+#import "SFRootViewManager.h"
 #import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 
 // Public constants
@@ -298,24 +299,8 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
     [self.credentials revoke];
 }
 
-- (void)setAdvancedAuthState:(SFOAuthAdvancedAuthState)advancedAuthState {
-    if (_advancedAuthState != advancedAuthState) {
-        _advancedAuthState = advancedAuthState;
-
-        // Re-trigger the native browser flow if the app becomes active on `SFOAuthAdvancedAuthStateBrowserRequestInitiated` state.
-        if (_advancedAuthState == SFOAuthAdvancedAuthStateBrowserRequestInitiated) {
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAppDidBecomeActiveDuringAdvancedAuth:) name:UIApplicationDidBecomeActiveNotification object:nil];
-        } else {
-            [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
-        }
-    }
-}
 
 - (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse {
-    if (self.advancedAuthState != SFOAuthAdvancedAuthStateBrowserRequestInitiated) {
-        [self log:SFLogLevelInfo format:@"%@ Current advanced auth state (%@) not compatible with handling app launch auth response.", NSStringFromSelector(_cmd), [[self class] advancedAuthStateDesc:self.advancedAuthState]];
-        return NO;
-    }
     [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
     NSString *appUrlResponseString = [appUrlResponse absoluteString];
     if (![[appUrlResponseString lowercaseString] hasPrefix:[self.credentials.redirectUri lowercaseString]]) {
@@ -509,28 +494,11 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
     // Launch the native browser.
     [self log:SFLogLevelDebug format:@"%@: Initiating native browser flow with URL %@", NSStringFromSelector(_cmd), approvalUrl];
     NSURL *nativeBrowserUrl = [NSURL URLWithString:approvalUrl];
-    BOOL browserOpenSucceeded = [SFApplicationHelper openURL:nativeBrowserUrl];
-    if (!browserOpenSucceeded) {
-        [self log:SFLogLevelError format:@"%@: Could not launch native browser with URL %@", NSStringFromSelector(_cmd), approvalUrl];
-        NSError *launchError = [[self class] errorWithType:kSFOAuthErrorTypeBrowserLaunchFailed description:@"The native browser failed to launch for advanced authentication."];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self notifyDelegateOfFailure:launchError authInfo:self.authInfo];
-        });
-    } else {
-        self.advancedAuthState = SFOAuthAdvancedAuthStateBrowserRequestInitiated;
-    }
-    
-}
 
-- (void)handleAppDidBecomeActiveDuringAdvancedAuth:(NSNotification*)notification {
-    BOOL retryAuth = YES;
-    if ([self.delegate respondsToSelector:@selector(oauthCoordinatorRetryAuthenticationOnApplicationDidBecomeActive:)]) {
-        retryAuth = [self.delegate oauthCoordinatorRetryAuthenticationOnApplicationDidBecomeActive:self];
-    }
-    
-    if (retryAuth) {
-        [self beginNativeBrowserFlow];
-    }
+    SFSafariViewController *svc = [[SFSafariViewController alloc] initWithURL:nativeBrowserUrl];
+    svc.delegate = self;
+    self.advancedAuthState = SFOAuthAdvancedAuthStateBrowserRequestInitiated;
+    [self.delegate oauthCoordinator:self didBeginAuthenticationWithSafariViewController:svc];
 }
 
 - (void)beginUserAgentFlow {
@@ -1022,6 +990,11 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
     } else {
         [self log:SFLogLevelWarning msg:@"WKWebView did want to display a confirmation alert but no delegate responded to it"];
     }
+}
+
+#pragma mark - SFSafariViewControllerDelegate
+-(void)safariViewControllerDidFinish:(SFSafariViewController *)controller {
+    [self.delegate oauthCoordinatorDidCancelBrowserAuthentication:self];
 }
 
 #pragma mark - Utilities

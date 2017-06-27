@@ -84,6 +84,10 @@
 		4F7EB4AD1BFFCF2300768720 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F7EB4A41BFFCEF600768720 /* ViewController.m */; };
 		4FAD8F981E8490560040FC48 /* SFSObjectTree.h in Headers */ = {isa = PBXBuildFile; fileRef = FDCEC40C4B860474C90D02AF /* SFSObjectTree.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4FAD8FAD1E8490610040FC48 /* SFSObjectTree.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCECBE6688B51C1B9BDC524 /* SFSObjectTree.m */; };
+		4FD235C01EFD7F07004747DD /* SFAuthenticationSafariControllerHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FD235BF1EFD7F07004747DD /* SFAuthenticationSafariControllerHandler.m */; };
+		4FD235C11EFD7F07004747DD /* SFAuthenticationSafariControllerHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FD235BF1EFD7F07004747DD /* SFAuthenticationSafariControllerHandler.m */; };
+		4FD235D91EFD8020004747DD /* SFAuthenticationSafariControllerHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FD235D81EFD7FB8004747DD /* SFAuthenticationSafariControllerHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4FD235DA1EFD8026004747DD /* SFAuthenticationSafariControllerHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FD235D81EFD7FB8004747DD /* SFAuthenticationSafariControllerHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4FE5332A1BFFE70600814D2A /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F7EB4981BFFCEF600768720 /* Main_iPad.storyboard */; };
 		4FE5332B1BFFE70600814D2A /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F7EB49A1BFFCEF600768720 /* Main_iPhone.storyboard */; };
 		6F53B1711CE3A7B100AD81B8 /* SFLoggerMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F53B1701CE3A7B100AD81B8 /* SFLoggerMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1129,6 +1133,8 @@
 		4F96FD471BFD32140022F021 /* SFSDKResourceUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKResourceUtils.m; sourceTree = "<group>"; };
 		4F96FD481BFD32140022F021 /* SFSDKWebUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKWebUtils.h; sourceTree = "<group>"; };
 		4F96FD491BFD32140022F021 /* SFSDKWebUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKWebUtils.m; sourceTree = "<group>"; };
+		4FD235BF1EFD7F07004747DD /* SFAuthenticationSafariControllerHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFAuthenticationSafariControllerHandler.m; sourceTree = "<group>"; };
+		4FD235D81EFD7FB8004747DD /* SFAuthenticationSafariControllerHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFAuthenticationSafariControllerHandler.h; sourceTree = "<group>"; };
 		4FEE438A1BFD488900F09C43 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		4FF945BB1BFFF47D005368C5 /* NSArray+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+SFAdditions.h"; sourceTree = "<group>"; };
 		4FF945BC1BFFF47D005368C5 /* NSArray+SFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+SFAdditions.m"; sourceTree = "<group>"; };
@@ -1618,6 +1624,8 @@
 				4F96FCED1BFD32130022F021 /* SFAuthenticationManager+Internal.h */,
 				4F96FCEE1BFD32130022F021 /* SFAuthenticationManager.h */,
 				4F96FCEF1BFD32130022F021 /* SFAuthenticationManager.m */,
+				4FD235D81EFD7FB8004747DD /* SFAuthenticationSafariControllerHandler.h */,
+				4FD235BF1EFD7F07004747DD /* SFAuthenticationSafariControllerHandler.m */,
 				4F96FCF01BFD32130022F021 /* SFAuthenticationViewHandler.h */,
 				4F96FCF11BFD32130022F021 /* SFAuthenticationViewHandler.m */,
 				4F96FCF21BFD32130022F021 /* SFAuthErrorHandler.h */,
@@ -2216,6 +2224,7 @@
 				CE145A9C1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.h in Headers */,
 				CE8EA2C21D7F67FA00AAC74C /* CSFPNGImageValueTransformer.h in Headers */,
 				CE4CE38C1C0E526A009F6029 /* SFSHA256PasscodeProvider.h in Headers */,
+				4FD235D91EFD8020004747DD /* SFAuthenticationSafariControllerHandler.h in Headers */,
 				829DA2951C1266340040F5F1 /* SalesforceSDKCore.h in Headers */,
 				CE4CE3151C0E523B009F6029 /* SFCrypto.h in Headers */,
 				CE4CE3701C0E526A009F6029 /* SFKeyStore+Internal.h in Headers */,
@@ -2492,6 +2501,7 @@
 				CEA882ED1C18FB8E008D871B /* SFKeyStoreManager+Internal.h in Headers */,
 				CE8EA3341D7F6A7C00AAC74C /* CSFMultipartInputStream.h in Headers */,
 				CEA883231C18FC40008D871B /* SFPreferences.h in Headers */,
+				4FD235DA1EFD8026004747DD /* SFAuthenticationSafariControllerHandler.h in Headers */,
 				CEA882851C18FAAB008D871B /* NSData+SFAdditions.h in Headers */,
 				CED452E51D808D4D009266EB /* SFRestRequest.h in Headers */,
 				CE8EA33F1D7F6AAA00AAC74C /* CSFInternalDefines.h in Headers */,
@@ -3125,6 +3135,7 @@
 				CE4CE35C1C0E526A009F6029 /* SFAuthenticationViewHandler.m in Sources */,
 				CE675A381E0B2CC6002DBF5A /* SFSDKSoslReturningBuilder.m in Sources */,
 				E1C80CF41C5AEE31001B3A21 /* SFSDKNewLoginHostViewController.m in Sources */,
+				4FD235C01EFD7F07004747DD /* SFAuthenticationSafariControllerHandler.m in Sources */,
 				CE4CE3281C0E523B009F6029 /* NSData+SFSDKUtils.m in Sources */,
 				CE8EA2971D7F67FA00AAC74C /* CSFOAuthTokenRefreshInput.m in Sources */,
 				CED452BD1D808D0C009266EB /* SFRestAPI+QueryBuilder.m in Sources */,
@@ -3264,6 +3275,7 @@
 				1098078C1CB8713A002AF771 /* UIColor+SFColors.m in Sources */,
 				CEA8829C1C18FAAB008D871B /* UIDevice+SFHardware.m in Sources */,
 				CE675A3E1E0B2CE2002DBF5A /* SFSDKSoslReturningBuilder.m in Sources */,
+				4FD235C11EFD7F07004747DD /* SFAuthenticationSafariControllerHandler.m in Sources */,
 				CEA882D41C18FB8E008D871B /* SFAuthenticationViewHandler.m in Sources */,
 				CE8EA3131D7F695900AAC74C /* CSFAction.m in Sources */,
 				CEA882A01C18FAAB008D871B /* NSData+SFSDKUtils.m in Sources */,
