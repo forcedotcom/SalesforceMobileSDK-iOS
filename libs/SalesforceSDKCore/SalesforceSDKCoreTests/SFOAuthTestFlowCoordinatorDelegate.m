@@ -27,6 +27,7 @@
 
 static NSString * const kWebNotSupportedExceptionName = @"com.salesforce.oauth.tests.WebNotSupported";
 static NSString * const kWebNotSupportedReasonFormat  = @"%@ WKWebView transactions not supported in unit test framework.";
+static NSString * const kSafariNotSupportedReasonFormat  = @"%@ SFSafariViewController transactions not supported in unit test framework.";
 
 @implementation SFOAuthTestFlowCoordinatorDelegate
 
@@ -91,10 +92,14 @@ static NSString * const kWebNotSupportedReasonFormat  = @"%@ WKWebView transacti
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSafariViewController:(SFSafariViewController *)svc {
     [self log:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+    NSString *reason = [NSString stringWithFormat:kSafariNotSupportedReasonFormat, NSStringFromSelector(_cmd)];
+    @throw [NSException exceptionWithName:kSafariNotSupportedReasonFormat reason:reason userInfo:nil];
 }
 
 - (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator *)coordinator {
     [self log:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+    NSString *reason = [NSString stringWithFormat:kSafariNotSupportedReasonFormat, NSStringFromSelector(_cmd)];
+    @throw [NSException exceptionWithName:kSafariNotSupportedReasonFormat reason:reason userInfo:nil];
 }
 
 @end
