@@ -86,7 +86,7 @@ NSUInteger const kSFPBKDFDefaultSaltByteLength = 32;
 {
     // Ensure the proper key, IV sizes.
     if (key == nil) {
-        [SFLogger log:[self class] level:SFLogLevelError msg:@"aes256EncryptData: encryption key is nil.  Cannot encrypt data."];
+        [SFSDKCoreLogger e:[self class] format:@"aes256EncryptData: encryption key is nil.  Cannot encrypt data."];
         return nil;
     }
     NSMutableData *mutableKey = [key mutableCopy];
@@ -103,7 +103,7 @@ NSUInteger const kSFPBKDFDefaultSaltByteLength = 32;
                                              [mutableIv bytes],
                                              &cryptor);
 	if (status != kCCSuccess) {
-        [SFLogger log:[self class] level:SFLogLevelError format:@"Error creating encryption cryptor with CCCryptorCreate().  Status code: %d", status];
+        [SFSDKCoreLogger e:[self class] format:@"Error creating encryption cryptor with CCCryptorCreate().  Status code: %d", status];
 		return nil;
 	}
 	
@@ -117,7 +117,7 @@ NSUInteger const kSFPBKDFDefaultSaltByteLength = 32;
 {
     // Ensure the proper key, IV sizes.
     if (key == nil) {
-        [SFLogger log:[self class] level:SFLogLevelError msg:@"aes256DecryptData: decryption key is nil.  Cannot decrypt data."];
+        [SFSDKCoreLogger e:[self class] format:@"aes256DecryptData: decryption key is nil.  Cannot decrypt data."];
         return nil;
     }
     NSMutableData *mutableKey = [key mutableCopy];
@@ -134,7 +134,7 @@ NSUInteger const kSFPBKDFDefaultSaltByteLength = 32;
                                              [mutableIv bytes],
                                              &cryptor);
 	if (status != kCCSuccess) {
-        [SFLogger log:[self class] level:SFLogLevelError format:@"Error creating decryption cryptor with CCCryptorCreate().  Status code: %d", status];
+        [SFSDKCoreLogger e:[self class] format:@"Error creating decryption cryptor with CCCryptorCreate().  Status code: %d", status];
 		return nil;
 	}
 	
@@ -154,7 +154,7 @@ NSUInteger const kSFPBKDFDefaultSaltByteLength = 32;
     size_t totalbytes = 0;
 	CCCryptorStatus status = CCCryptorUpdate(cryptor, [inData bytes], (size_t)[inData length], buffer, buffersize, &bufferused);
 	if (status != kCCSuccess) {
-        [SFLogger log:[self class] level:SFLogLevelError format:@"CCCryptorUpdate() failed with status code: %d", status];
+        [SFSDKCoreLogger e:[self class] format:@"CCCryptorUpdate() failed with status code: %d", status];
 		free(buffer);
 		return NO;
 	}
@@ -163,7 +163,7 @@ NSUInteger const kSFPBKDFDefaultSaltByteLength = 32;
 	
 	status = CCCryptorFinal(cryptor, buffer + bufferused, buffersize - bufferused, &bufferused);
 	if (status != kCCSuccess) {
-        [SFLogger log:[self class] level:SFLogLevelError format:@"CCCryptoFinal() failed with status code: %d", status];
+        [SFSDKCoreLogger e:[self class] format:@"CCCryptoFinal() failed with status code: %d", status];
 		free(buffer);
 		return NO;
 	}

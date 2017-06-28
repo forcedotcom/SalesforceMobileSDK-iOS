@@ -33,6 +33,7 @@
 #import "SFOAuthCredentials.h"
 #import "SFUserAccount.h"
 #import "NSURL+SFStringUtils.h"
+#import "SFLogger.h"
 
 NSString * const CSFActionSecurityTokenKey = @"securityToken"; // CSRF security token key
 

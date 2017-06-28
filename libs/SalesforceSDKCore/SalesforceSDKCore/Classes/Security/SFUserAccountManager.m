@@ -75,33 +75,6 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
     return userAccountManager;
 }
 
-+ (void)applyCurrentLogLevel:(SFOAuthCredentials*)credentials {
-    switch ([SFLogger sharedLogger].logLevel) {
-        case SFLogLevelDebug:
-            credentials.logLevel = kSFOAuthLogLevelDebug;
-            break;
-
-        case SFLogLevelInfo:
-            credentials.logLevel = kSFOAuthLogLevelInfo;
-            break;
-
-        case SFLogLevelWarning:
-            credentials.logLevel = kSFOAuthLogLevelWarning;
-            break;
-
-        case SFLogLevelError:
-            credentials.logLevel = kSFOAuthLogLevelError;
-            break;
-
-        case SFLogLevelVerbose:
-            credentials.logLevel = kSFOAuthLogLevelVerbose;
-            break;
-
-        default:
-            break;
-    }
-}
-
 - (id)init {
 	self = [super init];
 	if (self) {
@@ -218,7 +191,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 
         return accounts;
     } else {
-        [self log:SFLogLevelDebug format:@"Error querying for all existing accounts in the keychain: %ld", result];
+        [SFSDKCoreLogger d:[self class] format:@"Error querying for all existing accounts in the keychain: %ld", result];
         return nil;
     }
 }
@@ -480,10 +453,10 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
                 if (result) {
                     _currentUser = [self userAccountForUserIdentity:result];
                 } else {
-                    [self log:SFLogLevelError msg:@"Located current user Identity in NSUserDefaults but was not found in list of accounts managed by SFUserAccountManager."];
+                    [SFSDKCoreLogger e:[self class] format:@"Located current user Identity in NSUserDefaults but was not found in list of accounts managed by SFUserAccountManager."];
                 }
             } @catch (NSException *exception) {
-                [self log:SFLogLevelDebug msg:@"Could not parse current user identity from user defaults. Setting to nil."];
+                [SFSDKCoreLogger d:[self class] format:@"Could not parse current user identity from user defaults. Setting to nil."];
             }
         }
         [_accountsLock unlock];
@@ -513,7 +486,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
                 [self didChangeValueForKey:@"currentUser"];
                 userChanged = YES;
             } else {
-                [self log:SFLogLevelError format:@"Cannot set the currentUser as %@. Add the account to the SFAccountManager before making this call.", [user userName]];
+                [SFSDKCoreLogger e:[self class] format:@"Cannot set the currentUser as %@. Add the account to the SFAccountManager before making this call.", [user userName]];
             }
         }
         [_accountsLock unlock];
@@ -604,7 +577,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 
 - (void)switchToUser:(SFUserAccount *)newCurrentUser {
     if ([self.currentUser.accountIdentity isEqual:newCurrentUser.accountIdentity]) {
-        [self log:SFLogLevelWarning format:@"%@ new user identity is the same as the current user (%@/%@).  No action taken.", NSStringFromSelector(_cmd), newCurrentUser.credentials.organizationId, newCurrentUser.credentials.userId];
+        [SFSDKCoreLogger w:[self class] format:@"%@ new user identity is the same as the current user (%@/%@).  No action taken.", NSStringFromSelector(_cmd), newCurrentUser.credentials.organizationId, newCurrentUser.credentials.userId];
     } else {
         [self enumerateDelegates:^(id<SFUserAccountManagerDelegate> delegate) {
             if ([delegate respondsToSelector:@selector(userAccountManager:willSwitchFromUser:toUser:)]) {

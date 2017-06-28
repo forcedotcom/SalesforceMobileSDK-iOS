@@ -10,13 +10,10 @@
 #include <net/if.h>
 #include <net/if_dl.h>
 #import <mach/mach.h>
-
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #import <CoreTelephony/CTCarrier.h>
-
 #import "UIDevice+SFHardware.h"
 #import "UIScreen+SFAdditions.h"
-#import "SFLogger.h"
 #import "SFApplicationHelper.h"
 
 @implementation UIDevice (SFHardware)
@@ -481,25 +478,25 @@
     if ((mib[5] = if_nametoindex("en0")) == 0) {
         // we've only seen this case when running on Jenkins where the simulator shares the server's ifaces (ifconfig)
         // to fix this, we will try to find en1 which hopefully also exists.
-        [self log:SFLogLevelWarning msg:@"if_nametoindex could not find en0, trying en1"];
+        [SFSDKCoreLogger w:[self class] format:@"if_nametoindex could not find en0, trying en1"];
         if ((mib[5] = if_nametoindex("en1")) == 0) {
-            [self log:SFLogLevelError msg:@"if_nametoindex error"];
+            [SFSDKCoreLogger e:[self class] format:@"if_nametoindex error"];
             return NULL;
         }
     }
     
     if (sysctl(mib, 6, NULL, &len, NULL, 0) < 0) {
-        [self log:SFLogLevelError msg:@"sysctl, take 1"];
+        [SFSDKCoreLogger e:[self class] format:@"sysctl, take 1"];
         return NULL;
     }
     
     if ((buf = malloc(len)) == NULL) {
-        [self log:SFLogLevelError msg:@"Memory allocation error"];
+        [SFSDKCoreLogger e:[self class] format:@"Memory allocation error"];
         return NULL;
     }
     
     if (sysctl(mib, 6, buf, &len, NULL, 0) < 0) {
-        [self log:SFLogLevelError msg:@"sysctl, take 2"];
+        [SFSDKCoreLogger e:[self class] format:@"sysctl, take 2"];
         free(buf); // Thanks, Remy "Psy" Demerest
         return NULL;
     }

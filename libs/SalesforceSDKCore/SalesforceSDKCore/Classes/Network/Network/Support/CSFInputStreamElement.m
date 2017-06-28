@@ -25,6 +25,7 @@
 #import "CSFInputStreamElement.h"
 #import "CSFInternalDefines.h"
 #import "NSValueTransformer+SalesforceNetwork.h"
+#import "SFLogger.h"
 
 static NSString * const kCSFInputStreamHeaderNameFormat = @"--%@\r\nContent-Disposition: form-data; name=\"%@\"\r\n\r\n";
 static NSString * const kCSFInputStreamHeaderMimeFormat = @"--%@\r\nContent-Disposition: form-data; name=\"%@\"\r\nContent-Type: %@\r\n\r\n";

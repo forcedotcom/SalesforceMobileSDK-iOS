@@ -25,6 +25,7 @@
 #import <CocoaLumberjack/CocoaLumberjack.h>
 #import <stdatomic.h>
 #import "SFLogStorage.h"
+#import "SFLogger.h"
 
 extern NSString * SFLogNameForFlag(SFLogFlag flag);
 extern NSString * SFLogNameForLogLevel(SFLogLevel level);

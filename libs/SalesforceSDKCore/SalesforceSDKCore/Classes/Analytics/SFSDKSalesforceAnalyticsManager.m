@@ -231,7 +231,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
 
 - (void) addRemotePublisher:(id<SFSDKTransform>) transformer publisher:(id<SFSDKAnalyticsPublisher>) publisher {
     if (!transformer || !publisher) {
-        [self log:SFLogLevelWarning msg:@"Invalid transformer and/or publisher"];
+        [SFSDKCoreLogger w:[self class] format:@"Invalid transformer and/or publisher"];
         return;
     }
     SFSDKAnalyticsTransformPublisherPair *tpp = [[SFSDKAnalyticsTransformPublisherPair alloc] initWithTransform:transformer publisher:publisher];

@@ -67,13 +67,13 @@
         if (keyStoreDictionary == nil) {
             BOOL resetItemResult = [keychainItem resetKeychainItem];
             if (!resetItemResult) {
-                [self log:SFLogLevelError msg:@"Error removing key store from the keychain."];
+                [SFSDKCoreLogger e:[self class] format:@"Error removing key store from the keychain."];
             }
         } else {
             NSData *keyStoreData = [self encryptDictionary:keyStoreDictionary withKey:theEncryptionKey];
             OSStatus saveKeyResult = [keychainItem setValueData:keyStoreData];
             if (saveKeyResult != noErr) {
-                [self log:SFLogLevelError msg:@"Error saving key store to the keychain."];
+                [SFSDKCoreLogger e:[self class] format:@"Error saving key store to the keychain."];
             }
         }
     }
@@ -115,7 +115,7 @@
         [unarchiver finishDecoding];
     }
     @catch (NSException *exception) {
-        [self log:SFLogLevelError msg:@"Unable to decrypt key store data.  Key store is invalid."];
+        [SFSDKCoreLogger e:[self class] format:@"Unable to decrypt key store data.  Key store is invalid."];
         return nil;
     }
     

@@ -24,7 +24,7 @@
 
 #import "CSFParameterStorage_Internal.h"
 #import "CSFInternalDefines.h"
-
+#import "SFLogger.h"
 #import "CSFMultipartInputStream.h"
 #import "NSValueTransformer+SalesforceNetwork.h"
 #import "CSFActionInput.h"

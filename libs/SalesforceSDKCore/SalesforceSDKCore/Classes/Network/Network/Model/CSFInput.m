@@ -24,6 +24,7 @@
 
 #import "CSFInput_Internal.h"
 #import "CSFActionValue.h"
+#import "SFLogger.h"
 
 static NSString * const kCSFInputCustomAttributes = @"__CSFInput_CustomAttributes";
 

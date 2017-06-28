@@ -58,15 +58,13 @@ static NSTimeInterval const kDefaultWaitTimeout = 5.0;
     while (![self.exectedStatus isEqual:actualStatus]) {
         NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
         if (elapsed > self.timeout) {
-            NSLog(@"%@|%@: Async process took too long (> %f secs) to complete.", NSStringFromClass([self class]), NSStringFromSelector(_cmd), elapsed);
+            [SFSDKCoreLogger d:[self class] format:@"%@|%@: Async process took too long (> %f secs) to complete.", NSStringFromClass([self class]), NSStringFromSelector(_cmd), elapsed];
             return actualStatus;
         }
-        
-        NSLog(@"%@|%@: Expected %@, got %@.  ## sleeping...", NSStringFromClass([self class]), NSStringFromSelector(_cmd), self.exectedStatus, actualStatus);
+        [SFSDKCoreLogger d:[self class] format:@"%@|%@: Expected %@, got %@.  ## sleeping...", NSStringFromClass([self class]), NSStringFromSelector(_cmd), self.exectedStatus, actualStatus];
         [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
         actualStatus = self.actualStatusBlock();
     }
-    
     return actualStatus;
 }
 

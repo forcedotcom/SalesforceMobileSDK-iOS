@@ -149,12 +149,6 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
  */
 + (instancetype)sharedInstance;
 
-/** Applies the current log level to the OAuth credentials that
- control the OAuth library log level.
- @param credentials OAuth credentials whose log level will be updated
- */
-+ (void)applyCurrentLogLevel:(SFOAuthCredentials*)credentials;
-
 /**
  Adds a delegate to this user account manager.
  @param delegate The delegate to add.

@@ -88,7 +88,7 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
     }
     if (self.retrievingData) {
         NSString *alreadyRetrievingErrorMessage = @"Identity data retrieval already in progress.  Call cancelRetrieval to stop the transaction in progress.";
-        [self log:SFLogLevelDebug msg:alreadyRetrievingErrorMessage];
+        [SFSDKCoreLogger d:[self class] format:alreadyRetrievingErrorMessage];
         NSError *alreadyRetrievingError = [self errorWithType:kSFIdentityErrorTypeAlreadyRetrieving description:alreadyRetrievingErrorMessage];
         [self notifyDelegateOfFailure:alreadyRetrievingError];
         return;
@@ -134,14 +134,14 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
     [request setValue:[NSString stringWithFormat:kHttpAuthHeaderFormatString, self.credentials.accessToken] forHTTPHeaderField:kHttpHeaderAuthorization];
     [request setTimeoutInterval:self.timeout];
     [request setHTTPShouldHandleCookies:NO];
-    [self log:SFLogLevelDebug format:@"SFIdentityCoordinator:Starting identity request at %@", self.credentials.identityUrl.absoluteString];
+    [SFSDKCoreLogger d:[self class] format:@"SFIdentityCoordinator:Starting identity request at %@", self.credentials.identityUrl.absoluteString];
     __weak __typeof(self) weakSelf = self;
     SFNetwork *network = [[SFNetwork alloc] init];
     self.session = network.activeSession;
     [network sendRequest:request dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (error) {
-            [strongSelf log:SFLogLevelDebug format:@"SFIdentityCoordinator session failed with error: %@", error];
+            [SFSDKCoreLogger d:[self class] format:@"SFIdentityCoordinator session failed with error: %@", error];
             [strongSelf notifyDelegateOfFailure:error];
             return;
         }
@@ -150,16 +150,16 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
         NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
         if (statusCode == 401 || statusCode == 403) {
             // The session timed out.  Identity service tends to send 403s for session timeouts.  Try to refresh.
-            [strongSelf log:SFLogLevelInfo format:@"%@: Identity request failed due to expired credentials.  Attempting to refresh credentials.", NSStringFromSelector(_cmd)];
+            [SFSDKCoreLogger i:[self class] format:@"%@: Identity request failed due to expired credentials.  Attempting to refresh credentials.", NSStringFromSelector(_cmd)];
             strongSelf.oauthSessionRefresher = [[SFOAuthSessionRefresher alloc] initWithCredentials:strongSelf.credentials];
             [strongSelf.oauthSessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
-                [strongSelf log:SFLogLevelInfo format:@"%@: Credentials refresh successful.  Replaying original identity request.", NSStringFromSelector(_cmd)];
+                [SFSDKCoreLogger d:[strongSelf class] format:@"%@: Credentials refresh successful.  Replaying original identity request.", NSStringFromSelector(_cmd)];
                 strongSelf.credentials = updatedCredentials;
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [strongSelf sendRequest];
                 });
             } error:^(NSError *refreshError) {
-                [strongSelf log:SFLogLevelError format:@"SFIdentityCoordinator failed to refresh expired session. Error: %@", refreshError];
+                [SFSDKCoreLogger e:[strongSelf class] format:@"SFIdentityCoordinator failed to refresh expired session. Error: %@", refreshError];
                 [strongSelf notifyDelegateOfFailure:refreshError];
             }];
         } else if (statusCode != 200) {

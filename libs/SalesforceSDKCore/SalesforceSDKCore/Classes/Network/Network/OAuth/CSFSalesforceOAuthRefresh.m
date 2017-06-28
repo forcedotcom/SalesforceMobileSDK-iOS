@@ -30,6 +30,7 @@
 #import "SFOAuthCoordinator.h"
 #import "SFAuthenticationManager.h"
 #import "SFSDKEventBuilderHelper.h"
+#import "SFLogger.h"
 
 @interface CSFSalesforceOAuthRefresh () <SFOAuthCoordinatorDelegate>
 

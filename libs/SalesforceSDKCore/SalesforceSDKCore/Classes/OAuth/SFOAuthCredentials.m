@@ -61,7 +61,6 @@ NSException * SFOAuthInvalidIdentifierException() {
 @synthesize userId                    = _userId;         // cached user ID derived from identityURL
 @synthesize instanceUrl               = _instanceUrl;
 @synthesize issuedAt                  = _issuedAt;
-@synthesize logLevel                  = _logLevel;
 @synthesize protocol                  = _protocol;
 @synthesize encrypted                 = _encrypted;
 @synthesize legacyIdentityInformation = _legacyIdentityInformation;
@@ -162,7 +161,6 @@ NSException * SFOAuthInvalidIdentifierException() {
             self.identifier           = theIdentifier;
             self.clientId             = theClientId;
             self.domain               = kSFOAuthDefaultDomain;
-            self.logLevel             = kSFOAuthLogLevelInfo;
             self.protocol             = kSFOAuthProtocolHttps;
             _encrypted                = encrypted;
         }
@@ -220,13 +218,13 @@ NSException * SFOAuthInvalidIdentifierException() {
         if (_identityUrl.path) {
             NSArray *pathComps = [_identityUrl.path componentsSeparatedByString:@"/"];
             if (pathComps.count < 2) {
-                [self log:SFLogLevelDebug format:@"%@:setIdentityUrl: invalid identityUrl: %@", [self class], _identityUrl];
+                [SFSDKCoreLogger d:[self class] format:@"%@:setIdentityUrl: invalid identityUrl: %@", [self class], _identityUrl];
                 return;
             }
             self.userId = pathComps[pathComps.count - 1];
             self.organizationId = pathComps[pathComps.count - 2];
         } else {
-            [self log:SFLogLevelDebug format:@"%@:setIdentityUrl: invalid or nil identityUrl: %@", [self class], _identityUrl];
+            [SFSDKCoreLogger d:[self class] format:@"%@:setIdentityUrl: invalid or nil identityUrl: %@", [self class], _identityUrl];
         }
     }
 }
@@ -258,17 +256,13 @@ NSException * SFOAuthInvalidIdentifierException() {
 
 - (void)revokeAccessToken {
     if (!([self.identifier length] > 0)) @throw SFOAuthInvalidIdentifierException();
-    if (self.logLevel < kSFOAuthLogLevelWarning) {
-        [self log:SFLogLevelDebug format:@"%@:revokeAccessToken: access token revoked", [self class]];
-    }
+    [SFSDKCoreLogger d:[self class] format:@"%@:revokeAccessToken: access token revoked", [self class]];
     self.accessToken = nil;
 }
 
 - (void)revokeRefreshToken {
     if (!([self.identifier length] > 0)) @throw SFOAuthInvalidIdentifierException();
-    if (self.logLevel < kSFOAuthLogLevelWarning) {
-        [self log:SFLogLevelDebug format:@"%@:revokeRefreshToken: refresh token revoked. Cleared identityUrl, instanceUrl, issuedAt fields", [self class]];
-    }
+    [SFSDKCoreLogger d:[self class] format:@"%@:revokeRefreshToken: refresh token revoked. Cleared identityUrl, instanceUrl, issuedAt fields", [self class]];
     self.refreshToken = nil;
     self.instanceUrl  = nil;
     self.communityId  = nil;

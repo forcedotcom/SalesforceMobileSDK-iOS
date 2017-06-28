@@ -182,13 +182,13 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
     __weak __typeof(self) weakSelf = self;
     if (user.credentials.accessToken == nil && user.credentials.refreshToken == nil && request.requiresAuthentication) {
-        [self log:SFLogLevelInfo msg:@"No auth credentials found. Authenticating before sending request."];
+        [SFSDKCoreLogger i:[self class] format:@"No auth credentials found. Authenticating before sending request."];
         [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [strongSelf enqueueRequest:request delegate:delegate shouldRetry:shouldRetry];
             [SFUserAccountManager sharedInstance].currentUser = userAccount;
         } failure:^(SFOAuthInfo *authInfo, NSError *error) {
-            [self log:SFLogLevelError format:@"Authentication failed in SFRestAPI: %@. Logging out.", error];
+            [SFSDKCoreLogger e:[self class] format:@"Authentication failed in SFRestAPI: %@. Logging out.", error];
             NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
             attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
             attributes[@"errorDescription"] = error.localizedDescription;
@@ -210,7 +210,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
         NSURLSessionDataTask *dataTask = [network sendRequest:finalRequest dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             if (error) {
-                [strongSelf log:SFLogLevelDebug format:@"REST request failed with error: Error Code: %ld, Description: %@, URL: %@", (long) error.code, error.localizedDescription, finalRequest.URL];
+                [SFSDKCoreLogger d:[strongSelf class] format:@"REST request failed with error: Error Code: %ld, Description: %@, URL: %@", (long) error.code, error.localizedDescription, finalRequest.URL];
 
                 // Checks if the request was canceled.
                 if (error.code == -999) {
@@ -236,18 +236,18 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     if (statusCode == 401 || statusCode == 403) {
         if (shouldRetry) {
             SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
-            [self log:SFLogLevelInfo format:@"%@: REST request failed due to expired credentials. Attempting to refresh credentials.", NSStringFromSelector(_cmd)];
+            [SFSDKCoreLogger i:[self class] format:@"%@: REST request failed due to expired credentials. Attempting to refresh credentials.", NSStringFromSelector(_cmd)];
             self.oauthSessionRefresher = [[SFOAuthSessionRefresher alloc] initWithCredentials:user.credentials];
             __weak __typeof(self) weakSelf = self;
             [self.oauthSessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
                 __strong typeof(weakSelf) strongSelf = weakSelf;
-                [strongSelf log:SFLogLevelInfo format:@"%@: Credentials refresh successful. Replaying original REST request.", NSStringFromSelector(_cmd)];
+                [SFSDKCoreLogger i:[strongSelf class] format:@"%@: Credentials refresh successful. Replaying original REST request.", NSStringFromSelector(_cmd)];
                 [strongSelf send:request delegate:delegate shouldRetry:NO];
             } error:^(NSError *refreshError) {
                 __strong typeof(weakSelf) strongSelf = weakSelf;
-                [strongSelf log:SFLogLevelError format:@"Failed to refresh expired session. Error: %@", refreshError];
+                [SFSDKCoreLogger e:[strongSelf class] format:@"Failed to refresh expired session. Error: %@", refreshError];
                 if ([refreshError.domain isEqualToString:kSFOAuthErrorDomain] && refreshError.code == kSFOAuthErrorInvalidGrant) {
-                    [strongSelf log:SFLogLevelInfo format:@"%@ Invalid grant error received, triggering logout.", NSStringFromSelector(_cmd)];
+                    [SFSDKCoreLogger i:[strongSelf class] format:@"%@ Invalid grant error received, triggering logout.", NSStringFromSelector(_cmd)];
 
                     // Make sure we call logout on the main thread.
                     dispatch_async(dispatch_get_main_queue(), ^{

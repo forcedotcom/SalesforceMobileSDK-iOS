@@ -136,7 +136,7 @@ NSString * const kSFOAuthEncryptionTypeKey = @"com.salesforce.oauth.creds.encryp
     
     BOOL updateSucceeded = [self updateKeychainWithTokenData:tokenData forService:kSFOAuthServiceAccess];
     if (!updateSucceeded) {
-        [self log:SFLogLevelWarning format:@"%@:%@ - Failed to update access token.", [self class], NSStringFromSelector(_cmd)];
+        [SFSDKCoreLogger w:[self class] format:@"%@:%@ - Failed to update access token.", [self class], NSStringFromSelector(_cmd)];
     }
 }
 
@@ -158,7 +158,7 @@ NSString * const kSFOAuthEncryptionTypeKey = @"com.salesforce.oauth.creds.encryp
     
     BOOL updateSucceeded = [self updateKeychainWithTokenData:tokenData forService:kSFOAuthServiceAccess];
     if (!updateSucceeded) {
-        [self log:SFLogLevelWarning format:@"%@:%@ - Failed to update legacy access token.", [self class], NSStringFromSelector(_cmd)];
+        [SFSDKCoreLogger w:[self class] format:@"%@:%@ - Failed to update legacy access token.", [self class], NSStringFromSelector(_cmd)];
     }
 }
 
@@ -210,7 +210,7 @@ NSString * const kSFOAuthEncryptionTypeKey = @"com.salesforce.oauth.creds.encryp
     
     BOOL updateSucceeded = [self updateKeychainWithTokenData:tokenData forService:kSFOAuthServiceRefresh];
     if (!updateSucceeded) {
-        [self log:SFLogLevelWarning format:@"%@:%@ - Failed to update refresh token.", [self class], NSStringFromSelector(_cmd)];
+        [SFSDKCoreLogger w:[self class] format:@"%@:%@ - Failed to update refresh token.", [self class], NSStringFromSelector(_cmd)];
     }
 }
 
@@ -233,7 +233,7 @@ NSString * const kSFOAuthEncryptionTypeKey = @"com.salesforce.oauth.creds.encryp
     
     BOOL updateSucceeded = [self updateKeychainWithTokenData:tokenData forService:kSFOAuthServiceRefresh];
     if (!updateSucceeded) {
-        [self log:SFLogLevelWarning format:@"%@:%@ - Failed to update legacy refresh token.", [self class], NSStringFromSelector(_cmd)];
+        [SFSDKCoreLogger w:[self class] format:@"%@:%@ - Failed to update legacy refresh token.", [self class], NSStringFromSelector(_cmd)];
     }
 }
 
@@ -250,12 +250,12 @@ NSString * const kSFOAuthEncryptionTypeKey = @"com.salesforce.oauth.creds.encryp
         OSStatus result = [keychainItem setValueData:tokenData];
         keychainOperationSuccessful = (result == errSecSuccess || result == errSecItemNotFound);
         if (!keychainOperationSuccessful) { // errSecItemNotFound is an expected condition
-            [self log:SFLogLevelWarning format:@"%@:%@ - Error saving token data to keychain: %@", [self class], NSStringFromSelector(_cmd), [SFKeychainItemWrapper keychainErrorCodeString:result]];
+            [SFSDKCoreLogger w:[self class] format:@"%@:%@ - Error saving token data to keychain: %@", [self class], NSStringFromSelector(_cmd), [SFKeychainItemWrapper keychainErrorCodeString:result]];
         }
     } else {
         keychainOperationSuccessful = [keychainItem resetKeychainItem];
         if (!keychainOperationSuccessful) {
-            [self log:SFLogLevelWarning format:@"%@:%@ - Error resetting keychain data.", [self class], NSStringFromSelector(_cmd)];
+            [SFSDKCoreLogger w:[self class] format:@"%@:%@ - Error resetting keychain data.", [self class], NSStringFromSelector(_cmd)];
         }
     }
     
@@ -318,39 +318,39 @@ NSString * const kSFOAuthEncryptionTypeKey = @"com.salesforce.oauth.creds.encryp
     switch (encType) {
         case kSFOAuthCredsEncryptionTypeNotSet:
         case kSFOAuthCredsEncryptionTypeMac:
-            [self log:SFLogLevelDebug msg:@"Token encryption type either not set, or based on MAC address."];
+            [SFSDKCoreLogger d:[self class] format:@"Token encryption type either not set, or based on MAC address."];
             origAccessToken = [self accessTokenWithKey:[self keyMacForService:kSFOAuthServiceAccess]];
             origRefreshToken = [self refreshTokenWithKey:[self keyMacForService:kSFOAuthServiceRefresh]];
             break;
         case kSFOAuthCredsEncryptionTypeIdForVendor:
-            [self log:SFLogLevelDebug msg:@"Token encryption based on identifier for vendor."];
+            [SFSDKCoreLogger d:[self class] format:@"Token encryption based on identifier for vendor."];
             origAccessToken = [self accessTokenWithKey:[self keyVendorIdForService:kSFOAuthServiceAccess]];
             origRefreshToken = [self refreshTokenWithKey:[self keyVendorIdForService:kSFOAuthServiceRefresh]];
             break;
         case kSFOAuthCredsEncryptionTypeBaseAppId:
-            [self log:SFLogLevelDebug msg:@"Token encryption based on base application identifier."];
+            [SFSDKCoreLogger d:[self class] format:@"Token encryption based on base application identifier."];
             origAccessToken = [self accessTokenWithKey:[self keyBaseAppIdForService:kSFOAuthServiceAccess]];
             origRefreshToken = [self refreshTokenWithKey:[self keyBaseAppIdForService:kSFOAuthServiceRefresh]];
             break;
         default:  // Some undefined enum value?
-            [self log:SFLogLevelDebug format:@"Unknown token encryption.  Enum value '%d'", encType];
+            [SFSDKCoreLogger d:[self class] format:@"Unknown token encryption.  Enum value '%d'", encType];
             origAccessToken = nil;
             origRefreshToken = nil;
     }
     
     if ([origAccessToken length] > 0) {
-        [self log:SFLogLevelDebug msg:@"SFOAuthCredentials: Old access token encryption format detected.  Updating encryption."];
+        [SFSDKCoreLogger d:[self class] format:@"SFOAuthCredentials: Old access token encryption format detected.  Updating encryption."];
         self.accessToken = origAccessToken;  // Default setter automatically uses updated encryption method.
     } else {
-        [self log:SFLogLevelDebug msg:@"SFOAuthCredentials: Either access token does not exist, or could not decrypt access token with old encryption format.  Clearing the credentials."];
+        [SFSDKCoreLogger d:[self class] format:@"SFOAuthCredentials: Either access token does not exist, or could not decrypt access token with old encryption format.  Clearing the credentials."];
         self.accessToken = nil;
     }
     
     if ([origRefreshToken length] > 0) {
-        [self log:SFLogLevelDebug msg:@"SFOAuthCredentials: Old refresh token encryption format detected.  Updating encryption."];
+        [SFSDKCoreLogger d:[self class] format:@"SFOAuthCredentials: Old refresh token encryption format detected.  Updating encryption."];
         self.refreshToken = origRefreshToken;  // Default setter automatically uses updated encryption method.
     } else {
-        [self log:SFLogLevelDebug msg:@"SFOAuthCredentials: Either refresh token does not exist, or could not decrypt refresh token with old encryption format.  Clearing the credentials."];
+        [SFSDKCoreLogger d:[self class] format:@"SFOAuthCredentials: Either refresh token does not exist, or could not decrypt refresh token with old encryption format.  Clearing the credentials."];
         self.refreshToken = nil;
     }
 }
