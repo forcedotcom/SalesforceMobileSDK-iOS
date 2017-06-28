@@ -51,6 +51,10 @@
 		CE4712591EFC426900D9E059 /* SFSDKDatasharingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CE4712571EFC426900D9E059 /* SFSDKDatasharingHelper.m */; };
 		CE47125A1EFC428300D9E059 /* SFSDKDatasharingHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = CE4712561EFC426900D9E059 /* SFSDKDatasharingHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE47125B1EFC428D00D9E059 /* SFSDKDatasharingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CE4712571EFC426900D9E059 /* SFSDKDatasharingHelper.m */; };
+		CE47129B1F04257600D9E059 /* SFSDKAnalyticsLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = CE4712991F04257600D9E059 /* SFSDKAnalyticsLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE47129C1F04257600D9E059 /* SFSDKAnalyticsLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CE47129A1F04257600D9E059 /* SFSDKAnalyticsLogger.m */; };
+		CE4712AB1F04263100D9E059 /* SFSDKAnalyticsLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = CE4712991F04257600D9E059 /* SFSDKAnalyticsLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE4712AC1F04263A00D9E059 /* SFSDKAnalyticsLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CE47129A1F04257600D9E059 /* SFSDKAnalyticsLogger.m */; };
 		CE57B2E41EE9EA97006F560B /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE57B2C31EE9EA5E006F560B /* CocoaLumberjack.framework */; };
 		CE57B2EC1EE9EC64006F560B /* SFSDKFileLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = CE57B2E81EE9EC64006F560B /* SFSDKFileLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE57B2ED1EE9EC64006F560B /* SFSDKFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CE57B2E91EE9EC64006F560B /* SFSDKFileLogger.m */; };
@@ -296,6 +300,8 @@
 		CE4712431EFC41E600D9E059 /* NSUserDefaults+SFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSUserDefaults+SFAdditions.m"; path = "Classes/Util/NSUserDefaults+SFAdditions.m"; sourceTree = "<group>"; };
 		CE4712561EFC426900D9E059 /* SFSDKDatasharingHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSDKDatasharingHelper.h; path = Classes/Util/SFSDKDatasharingHelper.h; sourceTree = "<group>"; };
 		CE4712571EFC426900D9E059 /* SFSDKDatasharingHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKDatasharingHelper.m; path = Classes/Util/SFSDKDatasharingHelper.m; sourceTree = "<group>"; };
+		CE4712991F04257600D9E059 /* SFSDKAnalyticsLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSDKAnalyticsLogger.h; path = Classes/Util/SFSDKAnalyticsLogger.h; sourceTree = "<group>"; };
+		CE47129A1F04257600D9E059 /* SFSDKAnalyticsLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKAnalyticsLogger.m; path = Classes/Util/SFSDKAnalyticsLogger.m; sourceTree = "<group>"; };
 		CE57B2AF1EE9EA5D006F560B /* Lumberjack.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Lumberjack.xcodeproj; path = ../../external/CocoaLumberjack/Lumberjack.xcodeproj; sourceTree = "<group>"; };
 		CE57B2E81EE9EC64006F560B /* SFSDKFileLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSDKFileLogger.h; path = Classes/Logger/SFSDKFileLogger.h; sourceTree = "<group>"; };
 		CE57B2E91EE9EC64006F560B /* SFSDKFileLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKFileLogger.m; path = Classes/Logger/SFSDKFileLogger.m; sourceTree = "<group>"; };
@@ -577,6 +583,8 @@
 		CEFEB8481D0E51F0007D5EAE /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				CE4712991F04257600D9E059 /* SFSDKAnalyticsLogger.h */,
+				CE47129A1F04257600D9E059 /* SFSDKAnalyticsLogger.m */,
 				CE4712561EFC426900D9E059 /* SFSDKDatasharingHelper.h */,
 				CE4712571EFC426900D9E059 /* SFSDKDatasharingHelper.m */,
 				CE4712421EFC41E600D9E059 /* NSUserDefaults+SFAdditions.h */,
@@ -609,6 +617,7 @@
 				CEF372CD1D1324040004A237 /* SFSDKTransform.h in Headers */,
 				CE2B8FF81CF5FF8A00C6FC6A /* SFSDKInstrumentationEvent.h in Headers */,
 				CE4712441EFC41E600D9E059 /* NSUserDefaults+SFAdditions.h in Headers */,
+				CE47129B1F04257600D9E059 /* SFSDKAnalyticsLogger.h in Headers */,
 				CE2B8FED1CF551CC00C6FC6A /* SFSDKDeviceAppAttributes.h in Headers */,
 				CE57B2F81EE9F25C006F560B /* SFSDKLogFileManager.h in Headers */,
 			);
@@ -623,6 +632,7 @@
 				CE2B8FEE1CF551CC00C6FC6A /* SFSDKDeviceAppAttributes.h in Headers */,
 				CE4712541EFC423300D9E059 /* NSUserDefaults+SFAdditions.h in Headers */,
 				CEFEB5631D05E3ED007D5EAE /* SFSDKAnalyticsManager+Internal.h in Headers */,
+				CE4712AB1F04263100D9E059 /* SFSDKAnalyticsLogger.h in Headers */,
 				CE2B8FF91CF5FF8A00C6FC6A /* SFSDKInstrumentationEvent.h in Headers */,
 				CEF372CE1D1324080004A237 /* SFSDKAILTNTransform.h in Headers */,
 				CEF371B51D0F6E710004A237 /* SFSDKInstrumentationEvent+Internal.h in Headers */,
@@ -964,6 +974,7 @@
 				CEFEB5601D050E4C007D5EAE /* SFSDKAnalyticsManager.m in Sources */,
 				CEF372CC1D1324040004A237 /* SFSDKAILTNTransform.m in Sources */,
 				CE57B2F91EE9F25C006F560B /* SFSDKLogFileManager.m in Sources */,
+				CE47129C1F04257600D9E059 /* SFSDKAnalyticsLogger.m in Sources */,
 				CE2B8FF01CF555EF00C6FC6A /* SFSDKDeviceAppAttributes.m in Sources */,
 				CE4712451EFC41E600D9E059 /* NSUserDefaults+SFAdditions.m in Sources */,
 				CEFEB84C1D0E5206007D5EAE /* SFSDKReachability.m in Sources */,
@@ -994,6 +1005,7 @@
 				CEFEB5571D048ABD007D5EAE /* SFSDKInstrumentationEventBuilder.m in Sources */,
 				CEFEB5651D05E3FD007D5EAE /* SFSDKAnalyticsManager.m in Sources */,
 				CE57B2FC1EE9F275006F560B /* SFSDKLogFileManager.m in Sources */,
+				CE4712AC1F04263A00D9E059 /* SFSDKAnalyticsLogger.m in Sources */,
 				CE57B2F31EE9EC7C006F560B /* SFSDKLogger.m in Sources */,
 				CE4712551EFC423900D9E059 /* NSUserDefaults+SFAdditions.m in Sources */,
 				CEF372D01D1324190004A237 /* SFSDKAILTNTransform.m in Sources */,
