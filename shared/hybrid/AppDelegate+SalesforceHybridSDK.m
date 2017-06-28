@@ -23,7 +23,6 @@
  */
 
 #import <objc/runtime.h>
-
 #import "AppDelegate+SalesforceHybridSDK.h"
 #import "UIApplication+SalesforceHybridSDK.h"
 #import "InitialViewController.h"
@@ -33,7 +32,7 @@
 #import <SalesforceSDKCore/SFPushNotificationManager.h>
 #import <SalesforceSDKCore/SFSDKAppConfig.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
-#import <SalesforceSDKCore/SFLogger.h>
+#import <SalesforceAnalytics/SFSDKLogger.h>
 #import <SmartStore/SalesforceSDKManagerWithSmartStore.h>
 
 @implementation AppDelegate (SalesforceHybridSDK)
@@ -50,9 +49,9 @@
 - (AppDelegate *)sfsdk_swizzled_init
 {
 #if defined(DEBUG)
-    [SFLogger sharedLogger].logLevel = SFLogLevelDebug;
+    [SFSDKLogger sharedInstanceWithComponent:@"SalesforceHybridAppDelegate"].logLevel = DDLogLevelDebug;
 #else
-    [SFLogger sharedLogger].logLevel  = SFLogLevelInfo;
+    [SFSDKLogger sharedInstanceWithComponent:@"SalesforceHybridAppDelegate"].logLevel = DDLogLevelInfo;
 #endif
     
     SFHybridViewConfig *appConfig = [SFHybridViewConfig fromDefaultConfigFile];
@@ -72,12 +71,12 @@
     __weak __typeof(self) weakSelf = self;
     [SalesforceSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActionList) {
         __strong __typeof(weakSelf) strongSelf = weakSelf;
-        [strongSelf log:SFLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
+        [strongSelf logWithLevel:DDLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
         [strongSelf setupRootViewController];
     };
     [SalesforceSDKManager sharedManager].launchErrorAction = ^(NSError *error, SFSDKLaunchAction launchActionList) {
         __strong __typeof(weakSelf) strongSelf = weakSelf;
-        [strongSelf log:SFLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
+        [strongSelf logWithLevel:DDLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
         [strongSelf initializeAppViewState];
         [[SalesforceSDKManager sharedManager] launch];
     };
@@ -135,7 +134,7 @@
 - (void)handleSdkManagerLogout
 {
     [self resetViewState:^{
-        [self log:SFLogLevelDebug msg:@"Logout notification received.  Resetting app."];
+        [self logWithLevel:DDLogLevelDebug format:@"Logout notification received. Resetting app."];
         ((SFHybridViewController*)self.viewController).appHomeUrl = nil;
         [self initializeAppViewState];
         
@@ -166,7 +165,7 @@
                   toUser:(SFUserAccount *)toUser
 {
     [self resetViewState:^{
-        [self log:SFLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@.  Resetting app.",
+        [self logWithLevel:DDLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@. Resetting app.",
          fromUser.userName, toUser.userName];
         [self initializeAppViewState];
         [[SalesforceSDKManager sharedManager] launch];
@@ -203,6 +202,15 @@
     } else {
         postResetBlock();
     }
+}
+
+- (void)logWithLevel:(DDLogLevel)level format:(NSString *)format, ... {
+    va_list args;
+    va_start(args, format);
+    NSString *formattedMessage = [[NSString alloc] initWithFormat:format arguments:args];
+    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:@"SalesforceHybridAppDelegate"];
+    [logger log:[self class] level:level message:formattedMessage];
+    va_end(args);
 }
 
 @end

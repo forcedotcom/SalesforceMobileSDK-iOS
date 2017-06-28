@@ -258,7 +258,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 #pragma mark - UISearchBarDelegate methods
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    [self log:SFLogLevelDebug format:@"searching with text: %@", searchText];
+    [self logWithLevel:DDLogLevelDebug format:@"searching with text: %@", searchText];
     self.searchText = searchText;
     [self refreshList];
 }
@@ -624,13 +624,22 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 
 - (void)clearPopovers:(NSNotification *)note
 {
-    [self log:SFLogLevelDebug msg:@"Passcode screen loading.  Clearing popovers."];
+    [self logWithLevel:DDLogLevelDebug format:@"Passcode screen loading. Clearing popovers."];
     if (self.popOverController) {
         [self.popOverController dismissPopoverAnimated:NO];
     }
     if (self.logoutActionSheet) {
         [self.logoutActionSheet dismissViewControllerAnimated:YES completion:nil];
     }
+}
+
+- (void)logWithLevel:(DDLogLevel)level format:(NSString *)format, ... {
+    va_list args;
+    va_start(args, format);
+    NSString *formattedMessage = [[NSString alloc] initWithFormat:format arguments:args];
+    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:@"SmartSyncExplorer"];
+    [logger log:[self class] level:level message:formattedMessage];
+    va_end(args);
 }
 
 @end

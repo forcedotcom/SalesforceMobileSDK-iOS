@@ -22,9 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 #import "RestAPIExplorerViewController.h"
-
 #import "QueryListViewController.h"
 #import "AppDelegate.h"
 #import <SalesforceSDKCore/SFJsonUtils.h>
@@ -449,7 +447,7 @@
 
 - (void)clearPopovers:(NSNotification *)note
 {
-    [self log:SFLogLevelDebug msg:@"Passcode screen loading.  Clearing popovers."];
+    [self logWithLevel:DDLogLevelDebug format:@"Passcode screen loading. Clearing popovers."];
     if (self.popOverController) {
         [self dismissPopoverController];
     }
@@ -499,4 +497,14 @@
         self.tfResult.text =  @"Request timedout";
     });
 }
+
+- (void)logWithLevel:(DDLogLevel)level format:(NSString *)format, ... {
+    va_list args;
+    va_start(args, format);
+    NSString *formattedMessage = [[NSString alloc] initWithFormat:format arguments:args];
+    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:@"RestAPIExplorer"];
+    [logger log:[self class] level:level message:formattedMessage];
+    va_end(args);
+}
+
 @end

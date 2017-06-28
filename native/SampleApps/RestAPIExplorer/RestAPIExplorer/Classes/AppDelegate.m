@@ -48,9 +48,9 @@ static NSString * const OAuthRedirectURI        = @"com.salesforce.mobilesdk.sam
     self = [super init];
     if (self) {
         #if defined(DEBUG)
-            [SFLogger sharedLogger].logLevel = SFLogLevelDebug;
+            [SFSDKLogger sharedInstanceWithComponent:@"RestAPIExplorer"].logLevel = DDLogLevelDebug;
         #else
-            [SFLogger sharedLogger].logLevel = SFLogLevelInfo;
+            [SFSDKLogger sharedInstanceWithComponent:@"RestAPIExplorer"].logLevel = DDLogLevelInfo;
         #endif
         [SFAuthenticationManager sharedManager].advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;
         
@@ -67,12 +67,12 @@ static NSString * const OAuthRedirectURI        = @"com.salesforce.mobilesdk.sam
             //
             //[[SFPushNotificationManager sharedInstance] registerForRemoteNotifications];
             //
-            [strongSelf log:SFLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
+            [strongSelf logWithLevel:DDLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
             [strongSelf setupRootViewController];
         };
         [SalesforceSDKManager sharedManager].launchErrorAction = ^(NSError *error, SFSDKLaunchAction launchActionList) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
-            [strongSelf log:SFLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
+            [strongSelf logWithLevel:DDLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
             [strongSelf initializeAppViewState];
             [[SalesforceSDKManager sharedManager] launch];
         };
@@ -160,7 +160,7 @@ static NSString * const OAuthRedirectURI        = @"com.salesforce.mobilesdk.sam
 
 - (void)handleSdkManagerLogout
 {
-    [self log:SFLogLevelDebug msg:@"SDK Manager logged out.  Resetting app."];
+    [self logWithLevel:DDLogLevelDebug format:@"SDK Manager logged out.  Resetting app."];
     [self resetViewState:^{
         [self initializeAppViewState];
         
@@ -189,7 +189,7 @@ static NSString * const OAuthRedirectURI        = @"com.salesforce.mobilesdk.sam
 
 - (void)handleUserSwitch:(SFUserAccount *)fromUser toUser:(SFUserAccount *)toUser
 {
-    [self log:SFLogLevelInfo format:@"SFUserAccountManager changed from user %@ to %@.  Resetting app.", fromUser.userName, toUser.userName];
+    [self logWithLevel:DDLogLevelInfo format:@"SFUserAccountManager changed from user %@ to %@.  Resetting app.", fromUser.userName, toUser.userName];
     [self resetViewState:^{
         [self initializeAppViewState];
         [[SalesforceSDKManager sharedManager] launch];
@@ -215,6 +215,15 @@ static NSString * const OAuthRedirectURI        = @"com.salesforce.mobilesdk.sam
     NSString *configJSON = [SFJsonUtils JSONRepresentation:configDict];
     UIPasteboard *gpBoard = [UIPasteboard generalPasteboard];
     [gpBoard setValue:configJSON forPasteboardType:(NSString*)kUTTypeUTF8PlainText];
+}
+
+- (void)logWithLevel:(DDLogLevel)level format:(NSString *)format, ... {
+    va_list args;
+    va_start(args, format);
+    NSString *formattedMessage = [[NSString alloc] initWithFormat:format arguments:args];
+    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:@"RestAPIExplorer"];
+    [logger log:[self class] level:level message:formattedMessage];
+    va_end(args);
 }
 
 @end

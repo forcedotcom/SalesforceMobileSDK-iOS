@@ -59,9 +59,9 @@
     self = [super init];
     if (self) {
         #if defined(DEBUG)
-            [SFLogger sharedLogger].logLevel = SFLogLevelDebug;
+            [SFSDKLogger sharedInstanceWithComponent:@"SmartSyncExplorer"].logLevel = DDLogLevelDebug;
         #else
-            [SFLogger sharedLogger].logLevel = SFLogLevelInfo;
+            [SFSDKLogger sharedInstanceWithComponent:@"SmartSyncExplorer"].logLevel = DDLogLevelInfo;
         #endif
         SmartSyncExplorerConfig *config = [SmartSyncExplorerConfig sharedInstance];
         [SFSDKDatasharingHelper sharedInstance].appGroupName = config.appGroupName;
@@ -84,15 +84,13 @@
             //[[SFPushNotificationManager sharedInstance] registerForRemoteNotifications];
             //
             [strongSelf setUserLoginStatus:YES];
-            
-            [strongSelf log:SFLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
+            [strongSelf logWithLevel:DDLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
             [strongSelf setupRootViewController];
 
         };
         [SalesforceSDKManager sharedManager].launchErrorAction = ^(NSError *error, SFSDKLaunchAction launchActionList) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
-
-            [strongSelf log:SFLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
+            [strongSelf logWithLevel:DDLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
             [strongSelf initializeAppViewState];
             [[SalesforceSDKManager sharedManager] launch];
         };
@@ -113,7 +111,7 @@
 - (void)setUserLoginStatus :(BOOL) loggedIn {
     [[NSUserDefaults msdkUserDefaults] setBool:loggedIn forKey:@"userLoggedIn"];
     [[NSUserDefaults msdkUserDefaults] synchronize];
-    [self log:SFLogLevelDebug format:@"%d userLoggedIn", [[NSUserDefaults msdkUserDefaults] boolForKey:@"userLoggedIn"] ];
+    [self logWithLevel:DDLogLevelDebug format:@"%d userLoggedIn", [[NSUserDefaults msdkUserDefaults] boolForKey:@"userLoggedIn"] ];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -169,7 +167,7 @@
 
 - (void)handleSdkManagerLogout
 {
-    [self log:SFLogLevelDebug msg:@"SFAuthenticationManager logged out.  Resetting app."];
+    [self logWithLevel:DDLogLevelDebug format:@"SFAuthenticationManager logged out. Resetting app."];
     [self resetViewState:^{
         [self initializeAppViewState];
         
@@ -200,12 +198,21 @@
 - (void)handleUserSwitch:(SFUserAccount *)fromUser
                   toUser:(SFUserAccount *)toUser
 {
-    [self log:SFLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@.  Resetting app.",
+    [self logWithLevel:DDLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@.  Resetting app.",
      fromUser.userName, toUser.userName];
     [self resetViewState:^{
         [self initializeAppViewState];
         [[SalesforceSDKManager sharedManager] launch];
     }];
+}
+
+- (void)logWithLevel:(DDLogLevel)level format:(NSString *)format, ... {
+    va_list args;
+    va_start(args, format);
+    NSString *formattedMessage = [[NSString alloc] initWithFormat:format arguments:args];
+    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:@"SmartSyncExplorer"];
+    [logger log:[self class] level:level message:formattedMessage];
+    va_end(args);
 }
 
 @end
