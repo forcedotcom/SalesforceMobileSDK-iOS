@@ -188,7 +188,7 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
         [SFSDKCoreLogger d:[self class] format:@"%@ Error: authenticate called while already authenticating. Call stopAuthenticating first.", NSStringFromSelector(_cmd)];
         return;
     }
-    [SFSDKCoreLogger d:[self class] format:@"%@ authenticating as %@ %@ refresh token on '%@://%@' ...",
+    [SFSDKCoreLogger w:[self class] format:@"%@ authenticating as %@ %@ refresh token on '%@://%@' ...",
          NSStringFromSelector(_cmd),
          self.credentials.clientId, (nil == self.credentials.refreshToken ? @"without" : @"with"),
          self.credentials.protocol, self.credentials.domain];
@@ -591,7 +591,7 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:urlToLoad];
     [request setHTTPShouldHandleCookies:enableCookie];
     [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData]; // don't use cache
-    [SFSDKCoreLogger d:[self class] format:@"%@ Loading web view for '%@' auth flow, with URL: %@", NSStringFromSelector(_cmd), self.authInfo.authTypeDescription, [urlToLoad redactedAbsoluteString:@[ @"sid" ]]];
+    [SFSDKCoreLogger i:[self class] format:@"%@ Loading web view for '%@' auth flow, with URL: %@", NSStringFromSelector(_cmd), self.authInfo.authTypeDescription, [urlToLoad redactedAbsoluteString:@[ @"sid" ]]];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.view loadRequest:request];
     });
@@ -647,7 +647,7 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
             [params appendFormat:@"&%@=%@", [key stringByURLEncoding], [self.additionalTokenRefreshParams[key] stringByURLEncoding]];
         }
     }
-    [SFSDKCoreLogger d:[self class] format:@"%@ with %@", NSStringFromSelector(_cmd), logString];
+    [SFSDKCoreLogger i:[self class] format:@"%@ with %@", NSStringFromSelector(_cmd), logString];
     NSData *encodedBody = [params dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:encodedBody];
     [[self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -900,7 +900,7 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
 
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
     NSURL *url = [webView URL];
-    [SFSDKCoreLogger d:[self class] format:@"%@ host=%@ : path=%@", NSStringFromSelector(_cmd), url.host, url.path];
+    [SFSDKCoreLogger w:[self class] format:@"%@ host=%@ : path=%@", NSStringFromSelector(_cmd), url.host, url.path];
     if ([self.delegate respondsToSelector:@selector(oauthCoordinator:didStartLoad:)]) {
         [self.delegate oauthCoordinator:self didStartLoad:webView];
     }
@@ -951,7 +951,7 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
     [self.delegate oauthCoordinator:self didBeginAuthenticationWithView:self.view];
     if (-999 == error.code) {
         // -999 errors (operation couldn't be completed) occur during normal execution, therefore only log for debugging
-        [SFSDKCoreLogger d:[self class] format:@"SFOAuthCoordinator:didFailLoadWithError: error code: %ld, description: %@, URL: %@", (long)error.code, [error localizedDescription], errorUrlString];
+        [SFSDKCoreLogger i:[self class] format:@"SFOAuthCoordinator:didFailLoadWithError: error code: %ld, description: %@, URL: %@", (long)error.code, [error localizedDescription], errorUrlString];
     } else {
         [SFSDKCoreLogger d:[self class] format:@"SFOAuthCoordinator:didFailLoadWithError: error code: %ld, description: %@, URL: %@", (long)error.code, [error localizedDescription], errorUrlString];
         [self notifyDelegateOfFailure:error authInfo:self.authInfo];
