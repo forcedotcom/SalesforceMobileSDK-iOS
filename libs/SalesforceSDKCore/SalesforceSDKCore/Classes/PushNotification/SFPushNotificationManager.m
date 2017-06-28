@@ -193,7 +193,7 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
     SFNetwork *network = [[SFNetwork alloc] init];
     [network sendRequest:request dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error != nil) {
-            [SFSDKCoreLogger e:[self class] format format:@"Registration for notifications with Salesforce failed with error %@", error];
+            [SFSDKCoreLogger e:[self class] format:@"Registration for notifications with Salesforce failed with error %@", error];
         } else {
             [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeaturePushNotifications];
             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) response;

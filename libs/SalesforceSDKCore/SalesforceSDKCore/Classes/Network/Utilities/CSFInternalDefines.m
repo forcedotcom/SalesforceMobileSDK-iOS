@@ -23,6 +23,7 @@
  */
 
 #import "CSFInternalDefines.h"
+#import "SFLogger.h"
 
 #ifdef CSFPlatformiOS
 @import MobileCoreServices;

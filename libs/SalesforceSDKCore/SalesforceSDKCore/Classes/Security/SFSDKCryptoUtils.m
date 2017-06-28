@@ -117,7 +117,7 @@ NSUInteger const kSFPBKDFDefaultSaltByteLength = 32;
 {
     // Ensure the proper key, IV sizes.
     if (key == nil) {
-        [SFSDKCoreLogger e:[self class] msg:@"aes256DecryptData: decryption key is nil.  Cannot decrypt data."];
+        [SFSDKCoreLogger e:[self class] format:@"aes256DecryptData: decryption key is nil.  Cannot decrypt data."];
         return nil;
     }
     NSMutableData *mutableKey = [key mutableCopy];
