@@ -188,7 +188,7 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
         [SFSDKCoreLogger d:[self class] format:@"%@ Error: authenticate called while already authenticating. Call stopAuthenticating first.", NSStringFromSelector(_cmd)];
         return;
     }
-    [SFSDKCoreLogger d:[self class] format:@"%@ authenticating as %@ %@ refresh token on '%@://%@' ...",
+    [SFSDKCoreLogger i:[self class] format:@"%@ authenticating as %@ %@ refresh token on '%@://%@' ...",
          NSStringFromSelector(_cmd),
          self.credentials.clientId, (nil == self.credentials.refreshToken ? @"without" : @"with"),
          self.credentials.protocol, self.credentials.domain];
@@ -900,7 +900,7 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
 
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
     NSURL *url = [webView URL];
-    [SFSDKCoreLogger d:[self class] format:@"%@ host=%@ : path=%@", NSStringFromSelector(_cmd), url.host, url.path];
+    [SFSDKCoreLogger i:[self class] format:@"%@ host=%@ : path=%@", NSStringFromSelector(_cmd), url.host, url.path];
     if ([self.delegate respondsToSelector:@selector(oauthCoordinator:didStartLoad:)]) {
         [self.delegate oauthCoordinator:self didStartLoad:webView];
     }

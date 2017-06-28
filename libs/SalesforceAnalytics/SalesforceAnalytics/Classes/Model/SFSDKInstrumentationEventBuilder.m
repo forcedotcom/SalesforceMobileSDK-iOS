@@ -68,7 +68,7 @@
         errorMessage = @"Mandatory field 'page' not set!";
     }
     if (errorMessage) {
-        NSLog(@"WARNING: Building event failed! REASON: %@", errorMessage);
+        [SFSDKAnalyticsLogger w:[self class] format:@"WARNING: Building event failed! REASON: %@", errorMessage];
         return nil;
     }
     NSInteger sequenceId = self.analyticsManager.globalSequenceId + 1;

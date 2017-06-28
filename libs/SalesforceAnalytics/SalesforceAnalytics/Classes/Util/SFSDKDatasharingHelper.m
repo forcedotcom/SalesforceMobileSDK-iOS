@@ -87,7 +87,7 @@ NSString * const kDidMigrateToAppGroupsKey = @"kAppDefaultsMigratedToAppGroups";
 
 - (void)migrateUserDefaultsToAppContainer:(NSUserDefaults *)sharedDefaults {
     if([self appGroupEnabled] && ![[NSUserDefaults standardUserDefaults] boolForKey:kDidMigrateToAppGroupsKey]) {
-        NSLog(@"Ensure that you have enabled app-groups for your app in the entitlements for your app.");
+        [SFSDKAnalyticsLogger w:[self class] format:@"Ensure that you have enabled app-groups for your app in the entitlements for your app."];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kDidMigrateToAppGroupsKey];
         [self migrateFrom:[NSUserDefaults standardUserDefaults] to:sharedDefaults];
         [[NSUserDefaults standardUserDefaults] synchronize];
@@ -96,7 +96,7 @@ NSString * const kDidMigrateToAppGroupsKey = @"kAppDefaultsMigratedToAppGroups";
 
 - (void)migrateFromAppContainerToUserDefaults:(NSUserDefaults *)sharedDefaults {
     if(![self appGroupEnabled] && [[NSUserDefaults standardUserDefaults] boolForKey:kDidMigrateToAppGroupsKey]) {
-        NSLog(@"Ensure that you have not disabled app-groups for your app in the entitlements. Data will not be migrated from app containers if app-groups are disabled");
+        [SFSDKAnalyticsLogger w:[self class] format:@"Ensure that you have not disabled app-groups for your app in the entitlements. Data will not be migrated from app containers if app-groups are disabled"];
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kDidMigrateToAppGroupsKey];
         [self migrateFrom:sharedDefaults to:[NSUserDefaults standardUserDefaults]];
         [[NSUserDefaults standardUserDefaults] synchronize];

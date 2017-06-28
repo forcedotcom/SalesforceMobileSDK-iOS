@@ -2,7 +2,7 @@
  SalesforceAnalytics.h
  SalesforceAnalytics
 
- Created by Bharath Hariharan on Thu Jun 22 11:33:10 PDT 2017.
+ Created by Bharath Hariharan on Wed Jun 28 11:05:35 PDT 2017.
 
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
@@ -29,6 +29,7 @@
 
 #import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 #import <SalesforceAnalytics/SFSDKAILTNTransform.h>
+#import <SalesforceAnalytics/SFSDKAnalyticsLogger.h>
 #import <SalesforceAnalytics/SFSDKAnalyticsManager.h>
 #import <SalesforceAnalytics/SFSDKDatasharingHelper.h>
 #import <SalesforceAnalytics/SFSDKDeviceAppAttributes.h>
