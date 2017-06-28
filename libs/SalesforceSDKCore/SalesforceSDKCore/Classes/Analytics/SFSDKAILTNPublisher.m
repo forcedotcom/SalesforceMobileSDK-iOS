@@ -30,7 +30,6 @@
 #import "SFSDKAILTNPublisher.h"
 #import "SFUserAccountManager.h"
 #import "SalesforceSDKManager.h"
-#import "SFLogger.h"
 #import "NSData+SFAdditions.h"
 #import "SFRestAPI+Blocks.h"
 
@@ -68,7 +67,7 @@ static NSString* const kRestApiSuffix = @"connect/proxy/app-analytics-logging";
     [request setHeaderValue:[NSString stringWithFormat:@"%lu", (unsigned long)[postData length]] forHeaderName:@"Content-Length"];
     [[SFRestAPI sharedInstance] sendRESTRequest:request failBlock:^(NSError *e) {
         if (e) {
-            [SFLogger log:[self class] level:SFLogLevelError format:@"Upload failed %ld %@", (long)[e code], [e localizedDescription]];
+            [SFSDKCoreLogger e:[self class] format:@"Upload failed %ld %@", (long)[e code], [e localizedDescription]];
         }
         publishCompleteBlock(NO, e);
     } completeBlock:^(id response) {
@@ -107,7 +106,7 @@ static NSString* const kRestApiSuffix = @"connect/proxy/app-analytics-logging";
         jsonString = [jsonString stringByReplacingOccurrencesOfString:@"\\/" withString:@"/"];
         return jsonString;
     } else {
-        [self log:SFLogLevelError format:@"%@ - invalid object passed to JSONDataRepresentation", [self class]];
+        [SFSDKCoreLogger e:[self class] format:@"%@ - invalid object passed to JSONDataRepresentation", [self class]];
         return nil;
     }
 }
