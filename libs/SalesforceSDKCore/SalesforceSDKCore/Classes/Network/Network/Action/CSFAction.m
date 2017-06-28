@@ -35,6 +35,9 @@
 #import "NSURL+SFStringUtils.h"
 #import "SFLogger.h"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
 NSString * const CSFActionSecurityTokenKey = @"securityToken"; // CSRF security token key
 
 NSString * const CSFDefaultLocale = @"en-us";
@@ -933,8 +936,6 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
 
 @end
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 @implementation CSFAction (Timing)
 
 - (NSTimeInterval)intervalForTimingKey:(CSFActionTiming)key {

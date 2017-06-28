@@ -29,8 +29,7 @@
 #import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 #import <SalesforceSDKCore/SFRestRequest.h>
 #import <SalesforceSDKCore/SFRestAPI.h>
-#import <SalesforceSDKCore/SFLoggerMacros.h>
-#import <SalesforceSDKCore/SFLogger.h>
+#import <SalesforceAnalytics/SFSDKLogger.h>
 #import <SmartStore/SFQuerySpec.h>
 
 @interface TodayViewController () <NCWidgetProviding,UITableViewDelegate,UITableViewDataSource>
@@ -49,9 +48,9 @@ static NSString *simpleTableIdentifier = @"SimpleTableItem";
 - (void)viewDidLoad {
     [super viewDidLoad];
     #if defined(DEBUG)
-        [SFLogger sharedLogger].logLevel = SFLogLevelDebug;
+        [SFSDKLogger sharedInstanceWithComponent:@"SmartSyncExplorer"].logLevel = DDLogLevelDebug;
     #else
-        [SFLogger sharedLogger].logLevel = SFLogLevelInfo;
+        [SFSDKLogger sharedInstanceWithComponent:@"SmartSyncExplorer"].logLevel = DDLogLevelInfo;
     #endif
     self.todayTableView.dataSource = self;
     self.todayTableView.delegate = self;
@@ -67,25 +66,21 @@ static NSString *simpleTableIdentifier = @"SimpleTableItem";
 }
 
 - (void)widgetPerformUpdateWithCompletionHandler:(void (^)(NCUpdateResult))completionHandler {
-
     SmartSyncExplorerConfig *config = [SmartSyncExplorerConfig sharedInstance];
-
     [SFSDKDatasharingHelper sharedInstance].appGroupName = config.appGroupName;
     [SFSDKDatasharingHelper sharedInstance].appGroupEnabled = YES;
     if([self userIsLoggedIn] ) {
-        [self log:SFLogLevelError format:@"User has logged in"];
+        [self logWithLevel:DDLogLevelError format:@"User has logged in"];
         [SalesforceSDKManager setInstanceClass:[SalesforceSDKManagerWithSmartStore class]];
         [SalesforceSDKManager sharedManager].connectedAppId = config.remoteAccessConsumerKey;
         [SalesforceSDKManager sharedManager].connectedAppCallbackUri = config.oauthRedirectURI;
         [SalesforceSDKManager sharedManager].authScopes = config.oauthScopes;
         [SalesforceSDKManager sharedManager].authenticateAtLaunch = config.appGroupsEnabled;
         SFUserAccount *currentUser = [SFUserAccountManager sharedInstance].currentUser;
-
         __weak typeof(self) weakSelf = self;
         void (^completionBlock)(void) = ^{
             [weakSelf refreshList];
         };
-
         if(currentUser) {
             if (!self.dataMgr) {
                 self.dataMgr = [[SObjectDataManager alloc] initWithDataSpec:[ContactSObjectData dataSpec]];
@@ -113,6 +108,15 @@ static NSString *simpleTableIdentifier = @"SimpleTableItem";
     ContactSObjectData *contact = [self.dataMgr.dataRows objectAtIndex:indexPath.row] ;
     cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", contact.firstName,contact.lastName];
     return cell;
-
 }
+
+- (void)logWithLevel:(DDLogLevel)level format:(NSString *)format, ... {
+    va_list args;
+    va_start(args, format);
+    NSString *formattedMessage = [[NSString alloc] initWithFormat:format arguments:args];
+    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:@"SmartSyncExplorer"];
+    [logger log:[self class] level:level message:formattedMessage];
+    va_end(args);
+}
+
 @end
