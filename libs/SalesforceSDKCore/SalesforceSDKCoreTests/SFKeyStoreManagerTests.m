@@ -36,8 +36,7 @@
 
 - (void)setUp {
     [super setUp];
-    [SFLogger sharedLogger].logLevel = SFLogLevelDebug;
-    
+
     // initialize passcode mgr
     [[SFPasscodeManager sharedManager] changePasscode: nil];
     
@@ -45,10 +44,8 @@
 }
 
 - (void)tearDown {
-    
     [super tearDown];
 }
-
 
 // ensure we get the same reference back for the shared instance
 - (void)testSingleton {

@@ -38,9 +38,6 @@
 - (void)setUp
 {
     [super setUp];
-    
-    [SFLogger sharedLogger].logLevel = SFLogLevelDebug;
-    
     mgr = [SFKeyStoreManager sharedInstance];
 }
 

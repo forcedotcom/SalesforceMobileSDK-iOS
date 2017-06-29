@@ -61,11 +61,6 @@ static NSString* const kTestAppName = @"OverridenAppName";
 
 @implementation SalesforceSDKManagerTests
 
-+ (void)setUp
-{
-    [SFLogger sharedLogger].logLevel = SFLogLevelDebug;
-}
-
 - (void)setUp
 {
     [super setUp];
