@@ -44,9 +44,7 @@ int class_uid = 0;
         self.request.delegate = self;
         self->uid = class_uid++;
     }
-
-    [self log:SFLogLevelDebug format:@"## created listener %d", self->uid];
-    
+    [self logWithLevel:DDLogLevelDebug format:@"## created listener %d", self->uid];
     return self;
 }
 
@@ -69,20 +67,27 @@ int class_uid = 0;
 }
 
 - (void)request:(SFRestRequest*)request didFailLoadWithError:(NSError*)error {
-    [self log:SFLogLevelDebug format:@"## error for request %d", self->uid];
-    
+    [self logWithLevel:DDLogLevelDebug format:@"## error for request %d", self->uid];
     self.lastError = error;
     self.returnStatus = kTestRequestStatusDidFail;
 }
 
 - (void)requestDidCancelLoad:(SFRestRequest *)request {
-    [self log:SFLogLevelDebug format:@"## cancel for request %d", self->uid];
-
+    [self logWithLevel:DDLogLevelDebug format:@"## cancel for request %d", self->uid];
     self.returnStatus = kTestRequestStatusDidCancel;
 }
 
 - (void)requestDidTimeout:(SFRestRequest *)request {
     self.returnStatus = kTestRequestStatusDidTimeout;
+}
+
+- (void)logWithLevel:(DDLogLevel)level format:(NSString *)format, ... {
+    va_list args;
+    va_start(args, format);
+    NSString *formattedMessage = [[NSString alloc] initWithFormat:format arguments:args];
+    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:@"SFNativeRestRequestListener"];
+    [logger log:[self class] level:level message:formattedMessage];
+    va_end(args);
 }
 
 @end

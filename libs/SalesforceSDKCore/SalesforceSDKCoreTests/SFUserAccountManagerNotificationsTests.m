@@ -25,7 +25,7 @@
 #import <objc/runtime.h>
 #import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
-#import "SFAuthenticationManager+Internal.h"
+#import "SFUserAccountConstants.h"
 #import "SFUserAccountManager+Internal.h"
 #import "SFUserAccountPersisterEphemeral.h"
 #import "SFOAuthCoordinator+Internal.h"
