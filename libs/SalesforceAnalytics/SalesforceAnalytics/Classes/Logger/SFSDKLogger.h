@@ -133,4 +133,14 @@
  */
 - (void)log:(nonnull Class)class level:(DDLogLevel)level message:(nonnull NSString *)message;
 
+/**
+ * Logs a log line of the specified level.
+ *
+ * @param class Class.
+ * @level Log level.
+ * @param format The format message, and optional arguments to expand in the format.
+ * @param ... The arguments to the message format string.
+ */
+- (void)log:(nonnull Class)class level:(DDLogLevel)level format:(nonnull NSString *)format, ...;
+
 @end

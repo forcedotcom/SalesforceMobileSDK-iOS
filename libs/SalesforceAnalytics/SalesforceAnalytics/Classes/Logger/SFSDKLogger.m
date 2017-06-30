@@ -158,6 +158,14 @@ static NSMutableDictionary<NSString *, SFSDKLogger *> *loggerList = nil;
     [self.logger log:YES message:logMessage];
 }
 
+- (void)log:(Class)class level:(DDLogLevel)level format:(NSString *)format, ... {
+    va_list args;
+    va_start(args, format);
+    NSString *formattedMessage = [[NSString alloc] initWithFormat:format arguments:args];
+    [self log:class level:level message:formattedMessage];
+    va_end(args);
+}
+
 - (void)storeFileLoggingPolicy:(BOOL)enabled {
     @synchronized (self) {
         NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
