@@ -31,6 +31,7 @@
 #import "NSUserDefaults+SFAdditions.h"
 #import <CocoaLumberjack/DDTTYLogger.h>
 
+static NSString * const kDefaultComponentName = @"SFSDK";
 static NSString * const kFileLoggerOnOffKey = @"file_logger_enabled";
 static NSString * const kLogLevelKey = @"log_level";
 static NSString * const kLogIdentifierFormat = @"COMPONENT: %@, CLASS: %@";
@@ -45,6 +46,10 @@ static NSMutableDictionary<NSString *, SFSDKLogger *> *loggerList = nil;
 @end
 
 @implementation SFSDKLogger
+
++ (instancetype)sharedDefaultInstance {
+    return [SFSDKLogger sharedInstanceWithComponent:kDefaultComponentName];
+}
 
 + (instancetype)sharedInstanceWithComponent:(NSString *)componentName {
     static dispatch_once_t pred;

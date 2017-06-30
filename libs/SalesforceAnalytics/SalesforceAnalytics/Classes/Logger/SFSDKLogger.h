@@ -58,6 +58,13 @@
 @property (nonatomic, readwrite, assign, getter=isFileLoggingEnabled) BOOL fileLoggingEnabled;
 
 /**
+ * Returns an instance of this class associated with the default component.
+ *
+ * @return Instance of this class.
+ */
++ (nonnull instancetype)sharedDefaultInstance;
+
+/**
  * Returns an instance of this class associated with the specified component.
  *
  * @param componentName Component name.
