@@ -48,11 +48,6 @@ static NSString *simpleTableIdentifier = @"SimpleTableItem";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    #if defined(DEBUG)
-        [SFSDKLogger sharedDefaultInstance].logLevel = DDLogLevelDebug;
-    #else
-        [SFSDKLogger sharedDefaultInstance].logLevel = DDLogLevelInfo;
-    #endif
     self.todayTableView.dataSource = self;
     self.todayTableView.delegate = self;
 }

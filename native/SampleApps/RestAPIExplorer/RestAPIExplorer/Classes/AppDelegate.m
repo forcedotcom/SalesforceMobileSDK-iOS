@@ -47,13 +47,7 @@ static NSString * const OAuthRedirectURI        = @"com.salesforce.mobilesdk.sam
 {
     self = [super init];
     if (self) {
-        #if defined(DEBUG)
-            [SFSDKLogger sharedDefaultInstance].logLevel = DDLogLevelDebug;
-        #else
-            [SFSDKLogger sharedDefaultInstance].logLevel = DDLogLevelInfo;
-        #endif
         [SFAuthenticationManager sharedManager].advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;
-        
         [SalesforceSDKManager sharedManager].connectedAppId = RemoteAccessConsumerKey;
         [SalesforceSDKManager sharedManager].connectedAppCallbackUri = OAuthRedirectURI;
         [SalesforceSDKManager sharedManager].authScopes = @[ @"web", @"api" ];

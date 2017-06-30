@@ -58,11 +58,6 @@
 {
     self = [super init];
     if (self) {
-        #if defined(DEBUG)
-            [SFSDKLogger sharedDefaultInstance].logLevel = DDLogLevelDebug;
-        #else
-            [SFSDKLogger sharedDefaultInstance].logLevel = DDLogLevelInfo;
-        #endif
         SmartSyncExplorerConfig *config = [SmartSyncExplorerConfig sharedInstance];
         [SFSDKDatasharingHelper sharedInstance].appGroupName = config.appGroupName;
         [SFSDKDatasharingHelper sharedInstance].appGroupEnabled = config.appGroupsEnabled;

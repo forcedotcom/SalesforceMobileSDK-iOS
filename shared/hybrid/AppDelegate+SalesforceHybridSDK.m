@@ -48,12 +48,6 @@
 
 - (AppDelegate *)sfsdk_swizzled_init
 {
-#if defined(DEBUG)
-    [SFSDKLogger sharedDefaultInstance].logLevel = DDLogLevelDebug;
-#else
-    [SFSDKLogger sharedDefaultInstance].logLevel = DDLogLevelInfo;
-#endif
-    
     SFHybridViewConfig *appConfig = [SFHybridViewConfig fromDefaultConfigFile];
     // Need to use SalesforceSDKManagerWithSmartStore when using smartstore
     [SalesforceSDKManager setInstanceClass:[SalesforceSDKManagerWithSmartStore class]];
