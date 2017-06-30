@@ -60,7 +60,7 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
 
 - (void) pluginInitialize {
     _readyToStartTests = NO;
-    [self logWithLevel:DDLogLevelDebug format:@"SFTestRunnerPlugin pluginInitialize"];
+    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"SFTestRunnerPlugin pluginInitialize"];
     _testResults = [[NSMutableDictionary alloc] init];
 }
 
@@ -89,9 +89,9 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
     BOOL success = [[argsDict valueForKey:@"success"] boolValue];
     NSString *message = [self stringByStrippingHTML:[argsDict valueForKey:@"message"]];
     NSDictionary *testStatus = [argsDict valueForKey:@"testStatus"];
-    [self logWithLevel:DDLogLevelDebug format:@"testName: %@ success: %d message: %@",testName,success,message];
+    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"testName: %@ success: %d message: %@",testName,success,message];
     if (!success) {
-        [self logWithLevel:DDLogLevelDebug format:@"### TEST FAILED: %@",testName];
+        [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"### TEST FAILED: %@",testName];
     }
     SFTestResult *testResult = [[SFTestResult alloc] initWithName:testName success:success message:message status:testStatus];
     [self.testResults setObject:testResult forKey:testName];
@@ -107,15 +107,6 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
         str = [str stringByReplacingCharactersInRange:r withString:@" "];
     }
     return str;
-}
-
-- (void)logWithLevel:(DDLogLevel)level format:(NSString *)format, ... {
-    va_list args;
-    va_start(args, format);
-    NSString *formattedMessage = [[NSString alloc] initWithFormat:format arguments:args];
-    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:@"SFTestRunnerPlugin"];
-    [logger log:[self class] level:level message:formattedMessage];
-    va_end(args);
 }
 
 @end

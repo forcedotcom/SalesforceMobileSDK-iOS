@@ -32,10 +32,11 @@
 #import <SalesforceAnalytics/SFSDKLogger.h>
 #import <SmartStore/SFQuerySpec.h>
 
-@interface TodayViewController () <NCWidgetProviding,UITableViewDelegate,UITableViewDataSource>
+@interface TodayViewController () <NCWidgetProviding, UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UITableView *todayTableView;
 @property (nonatomic, strong) SObjectDataManager *dataMgr;
+
 - (BOOL)userIsLoggedIn;
 
 @end
@@ -48,15 +49,15 @@ static NSString *simpleTableIdentifier = @"SimpleTableItem";
 - (void)viewDidLoad {
     [super viewDidLoad];
     #if defined(DEBUG)
-        [SFSDKLogger sharedInstanceWithComponent:@"SmartSyncExplorer"].logLevel = DDLogLevelDebug;
+        [SFSDKLogger sharedDefaultInstance].logLevel = DDLogLevelDebug;
     #else
-        [SFSDKLogger sharedInstanceWithComponent:@"SmartSyncExplorer"].logLevel = DDLogLevelInfo;
+        [SFSDKLogger sharedDefaultInstance].logLevel = DDLogLevelInfo;
     #endif
     self.todayTableView.dataSource = self;
     self.todayTableView.delegate = self;
 }
 
-- (void) refreshList {
+- (void)refreshList {
     [self.todayTableView reloadData];
 }
 
@@ -69,8 +70,8 @@ static NSString *simpleTableIdentifier = @"SimpleTableItem";
     SmartSyncExplorerConfig *config = [SmartSyncExplorerConfig sharedInstance];
     [SFSDKDatasharingHelper sharedInstance].appGroupName = config.appGroupName;
     [SFSDKDatasharingHelper sharedInstance].appGroupEnabled = YES;
-    if([self userIsLoggedIn] ) {
-        [self logWithLevel:DDLogLevelError format:@"User has logged in"];
+    if ([self userIsLoggedIn] ) {
+        [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelError format:@"User has logged in"];
         [SalesforceSDKManager setInstanceClass:[SalesforceSDKManagerWithSmartStore class]];
         [SalesforceSDKManager sharedManager].connectedAppId = config.remoteAccessConsumerKey;
         [SalesforceSDKManager sharedManager].connectedAppCallbackUri = config.oauthRedirectURI;
@@ -108,15 +109,6 @@ static NSString *simpleTableIdentifier = @"SimpleTableItem";
     ContactSObjectData *contact = [self.dataMgr.dataRows objectAtIndex:indexPath.row] ;
     cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", contact.firstName,contact.lastName];
     return cell;
-}
-
-- (void)logWithLevel:(DDLogLevel)level format:(NSString *)format, ... {
-    va_list args;
-    va_start(args, format);
-    NSString *formattedMessage = [[NSString alloc] initWithFormat:format arguments:args];
-    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:@"SmartSyncExplorer"];
-    [logger log:[self class] level:level message:formattedMessage];
-    va_end(args);
 }
 
 @end

@@ -447,7 +447,7 @@
 
 - (void)clearPopovers:(NSNotification *)note
 {
-    [self logWithLevel:DDLogLevelDebug format:@"Passcode screen loading. Clearing popovers."];
+    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"Passcode screen loading. Clearing popovers."];
     if (self.popOverController) {
         [self dismissPopoverController];
     }
@@ -496,15 +496,6 @@
         self.tfResponseFor.text = [self formatRequest:request];
         self.tfResult.text =  @"Request timedout";
     });
-}
-
-- (void)logWithLevel:(DDLogLevel)level format:(NSString *)format, ... {
-    va_list args;
-    va_start(args, format);
-    NSString *formattedMessage = [[NSString alloc] initWithFormat:format arguments:args];
-    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:@"RestAPIExplorer"];
-    [logger log:[self class] level:level message:formattedMessage];
-    va_end(args);
 }
 
 @end

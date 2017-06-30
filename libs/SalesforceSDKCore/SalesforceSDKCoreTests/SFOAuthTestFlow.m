@@ -105,7 +105,7 @@
 #pragma mark - SFOAuthCoordinatorFlow
 
 - (void)beginUserAgentFlow {
-    [self logWithLevel:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
     self.beginUserAgentFlowCalled = YES;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.timeBeforeUserAgentCompletion * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         if (self.userAgentFlowIsSuccessful) {
@@ -117,7 +117,7 @@
 }
 
 - (void)beginTokenEndpointFlow:(SFOAuthTokenEndpointFlow)flowType {
-    [self logWithLevel:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
     self.beginTokenEndpointFlowCalled = YES;
     self.tokenEndpointFlowType = flowType;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.timeBeforeRefreshTokenCompletion * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -130,34 +130,25 @@
 }
 
 - (void)beginJwtTokenExchangeFlow {
-    [self logWithLevel:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
     self.beginJwtTokenExchangeFlowCalled = YES;
 }
 
 - (void)beginNativeBrowserFlow {
-    [self logWithLevel:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
     self.beginNativeBrowserFlowCalled = YES;
 }
 
 - (void)retrieveOrgAuthConfiguration:(void (^)(SFOAuthOrgAuthConfiguration *orgAuthConfig, NSError *error))retrievedAuthConfigBlock {
-    [self logWithLevel:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
     if (retrievedAuthConfigBlock) {
         retrievedAuthConfigBlock(self.retrieveOrgConf, self.retrieveOrgConfError);
     }
 }
 
 - (void)handleTokenEndpointResponse:(NSMutableData *) data{
-    [self logWithLevel:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
     self.handleTokenEndpointResponseCalled = YES;
-}
-
-- (void)logWithLevel:(DDLogLevel)level format:(NSString *)format, ... {
-    va_list args;
-    va_start(args, format);
-    NSString *formattedMessage = [[NSString alloc] initWithFormat:format arguments:args];
-    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:@"SFOAuthTestFlow"];
-    [logger log:[self class] level:level message:formattedMessage];
-    va_end(args);
 }
 
 @end

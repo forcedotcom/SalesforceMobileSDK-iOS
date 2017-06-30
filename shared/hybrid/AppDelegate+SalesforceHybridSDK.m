@@ -49,9 +49,9 @@
 - (AppDelegate *)sfsdk_swizzled_init
 {
 #if defined(DEBUG)
-    [SFSDKLogger sharedInstanceWithComponent:@"SalesforceHybridAppDelegate"].logLevel = DDLogLevelDebug;
+    [SFSDKLogger sharedDefaultInstance].logLevel = DDLogLevelDebug;
 #else
-    [SFSDKLogger sharedInstanceWithComponent:@"SalesforceHybridAppDelegate"].logLevel = DDLogLevelInfo;
+    [SFSDKLogger sharedDefaultInstance].logLevel = DDLogLevelInfo;
 #endif
     
     SFHybridViewConfig *appConfig = [SFHybridViewConfig fromDefaultConfigFile];
@@ -71,12 +71,12 @@
     __weak __typeof(self) weakSelf = self;
     [SalesforceSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActionList) {
         __strong __typeof(weakSelf) strongSelf = weakSelf;
-        [strongSelf logWithLevel:DDLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
+        [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
         [strongSelf setupRootViewController];
     };
     [SalesforceSDKManager sharedManager].launchErrorAction = ^(NSError *error, SFSDKLaunchAction launchActionList) {
         __strong __typeof(weakSelf) strongSelf = weakSelf;
-        [strongSelf logWithLevel:DDLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
+        [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
         [strongSelf initializeAppViewState];
         [[SalesforceSDKManager sharedManager] launch];
     };
@@ -134,7 +134,7 @@
 - (void)handleSdkManagerLogout
 {
     [self resetViewState:^{
-        [self logWithLevel:DDLogLevelDebug format:@"Logout notification received. Resetting app."];
+        [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"Logout notification received. Resetting app."];
         ((SFHybridViewController*)self.viewController).appHomeUrl = nil;
         [self initializeAppViewState];
         
@@ -165,7 +165,7 @@
                   toUser:(SFUserAccount *)toUser
 {
     [self resetViewState:^{
-        [self logWithLevel:DDLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@. Resetting app.",
+        [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@. Resetting app.",
          fromUser.userName, toUser.userName];
         [self initializeAppViewState];
         [[SalesforceSDKManager sharedManager] launch];
@@ -202,15 +202,6 @@
     } else {
         postResetBlock();
     }
-}
-
-- (void)logWithLevel:(DDLogLevel)level format:(NSString *)format, ... {
-    va_list args;
-    va_start(args, format);
-    NSString *formattedMessage = [[NSString alloc] initWithFormat:format arguments:args];
-    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:@"SalesforceHybridAppDelegate"];
-    [logger log:[self class] level:level message:formattedMessage];
-    va_end(args);
 }
 
 @end
