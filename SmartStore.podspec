@@ -23,7 +23,7 @@ Pod::Spec.new do |s|
       smartstore.dependency 'SQLCipher/fts', '~> 3.4.0'
       smartstore.source_files = 'libs/SmartStore/SmartStore/Classes/**/*.{h,m}', 'libs/SmartStore/SmartStore/SmartStore.h', 'external/fmdb/src/fmdb/*.{h,m}'
       smartstore.public_header_files = 'libs/SmartStore/SmartStore/Classes/SFAlterSoupLongOperation.h', 'libs/SmartStore/SmartStore/Classes/SFQuerySpec.h', 'libs/SmartStore/SmartStore/Classes/SFSDKSmartStoreLogger.h', 'libs/SmartStore/SmartStore/Classes/SFSmartSqlHelper.h', 'libs/SmartStore/SmartStore/Classes/SFSmartStore.h', 'libs/SmartStore/SmartStore/Classes/SFSmartStoreDatabaseManager.h', 'libs/SmartStore/SmartStore/Classes/SFSmartStoreInspectorViewController.h', 'libs/SmartStore/SmartStore/Classes/SFSmartStoreUpgrade.h', 'libs/SmartStore/SmartStore/Classes/SFSmartStoreUtils.h', 'libs/SmartStore/SmartStore/Classes/SFSoupIndex.h', 'libs/SmartStore/SmartStore/Classes/SFSoupSpec.h', 'libs/SmartStore/SmartStore/Classes/SFStoreCursor.h', 'libs/SmartStore/SmartStore/Classes/SalesforceSDKManagerWithSmartStore.h', 'libs/SmartStore/SmartStore/SmartStore.h'
-      smartstore.prefix_header_contents = '#import "SFSDKSmartStoreLogger.h"', '#import <SalesforceSDKCore/SalesforceSDKConstants.h>'
+      smartstore.prefix_header_contents = '#import "SFSDKSmartStoreLogger.h"'
       smartstore.xcconfig = { 'OTHER_CFLAGS' => '$(inherited) -DSQLITE_HAS_CODEC -DFMDatabase=SF_FMDatabase -DFMStatement=SF_FMStatement -DFMDatabasePool=SF_FMDatabasePool -DFMDatabaseQueue=SF_FMDatabaseQueue -DFMResultSet=SF_FMResultSet -DFMDBBlockSQLiteCallBackFunction=SF_FMDBBlockSQLiteCallBackFunction' }
       smartstore.requires_arc = true
 
