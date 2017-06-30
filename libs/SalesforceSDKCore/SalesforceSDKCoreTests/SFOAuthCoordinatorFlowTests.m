@@ -40,7 +40,6 @@
 
 - (void)setUp {
     [super setUp];
-    [SFLogger sharedLogger].logLevel = SFLogLevelDebug;
     [self setupCoordinatorFlow];
 }
 

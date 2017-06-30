@@ -7,7 +7,7 @@
 #import <Availability.h>
 
 #ifdef __OBJC__
-    #import <SalesforceSDKCore/SFLogger.h>
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
+    #import <SalesforceAnalytics/SFSDKLogger.h>
 #endif

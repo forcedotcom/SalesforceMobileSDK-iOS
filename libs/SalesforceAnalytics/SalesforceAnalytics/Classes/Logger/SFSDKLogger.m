@@ -31,6 +31,7 @@
 #import "NSUserDefaults+SFAdditions.h"
 #import <CocoaLumberjack/DDTTYLogger.h>
 
+static NSString * const kDefaultComponentName = @"SFSDK";
 static NSString * const kFileLoggerOnOffKey = @"file_logger_enabled";
 static NSString * const kLogLevelKey = @"log_level";
 static NSString * const kLogIdentifierFormat = @"COMPONENT: %@, CLASS: %@";
@@ -45,6 +46,10 @@ static NSMutableDictionary<NSString *, SFSDKLogger *> *loggerList = nil;
 @end
 
 @implementation SFSDKLogger
+
++ (instancetype)sharedDefaultInstance {
+    return [SFSDKLogger sharedInstanceWithComponent:kDefaultComponentName];
+}
 
 + (instancetype)sharedInstanceWithComponent:(NSString *)componentName {
     static dispatch_once_t pred;
@@ -151,6 +156,14 @@ static NSMutableDictionary<NSString *, SFSDKLogger *> *loggerList = nil;
     NSString *tag = [NSString stringWithFormat:kLogIdentifierFormat, self.componentName, class];
     DDLogMessage *logMessage = [[DDLogMessage alloc] initWithMessage:message level:level flag:DDLogFlagForLogLevel(level) context:0 file:nil function:nil line:0 tag:tag options:0 timestamp:[NSDate date]];
     [self.logger log:YES message:logMessage];
+}
+
+- (void)log:(Class)class level:(DDLogLevel)level format:(NSString *)format, ... {
+    va_list args;
+    va_start(args, format);
+    NSString *formattedMessage = [[NSString alloc] initWithFormat:format arguments:args];
+    [self log:class level:level message:formattedMessage];
+    va_end(args);
 }
 
 - (void)storeFileLoggingPolicy:(BOOL)enabled {

@@ -54,16 +54,13 @@ static NSException *authException = nil;
 
 + (void)setUp
 {
-    [SFLogger sharedLogger].logLevel = SFLogLevelDebug;
     @try {
         [TestSetupUtils populateAuthCredentialsFromConfigFileForClass:[self class]];
         [TestSetupUtils synchronousAuthRefresh];
     }
     @catch (NSException *exception) {
-        [self log:SFLogLevelError format:@"Populating auth from config failed: %@", exception];
         authException = exception;
     }
-    
     [super setUp];
 }
 

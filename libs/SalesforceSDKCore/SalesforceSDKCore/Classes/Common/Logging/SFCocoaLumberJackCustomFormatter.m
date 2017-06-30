@@ -30,6 +30,9 @@
 #import "SFLogger.h"
 #import "SFLogger_Internal.h"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
 @implementation SFCocoaLumberJackCustomFormatter {
     int loggerCount;
     NSDateFormatter *threadUnsafeDateFormatter;
@@ -106,5 +109,7 @@
 - (void)willRemoveFromLogger:(id <DDLogger>)logger {
     loggerCount--;
 }
+
+#pragma clang diagnostic pop
 
 @end

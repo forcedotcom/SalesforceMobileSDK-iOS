@@ -34,7 +34,7 @@ typedef NS_ENUM(NSUInteger, SFLogFlag) {
     SFLogFlagDebug      = (1 << 3),
     SFLogFlagVerbose    = (1 << 4),
     SFLogFlagNSLog      = (1 << 5)
-};
+} SFSDK_DEPRECATED(5.2, 6.0, "Use SFSDKLogger instead.");
 
 typedef NS_ENUM(NSUInteger, SFLogLevel) {
     /**
@@ -71,11 +71,11 @@ typedef NS_ENUM(NSUInteger, SFLogLevel) {
      *  All logs (1...11111)
      */
     SFLogLevelAll       = NSUIntegerMax
-};
+} SFSDK_DEPRECATED(5.2, 6.0, "Use SFSDKLogger instead.");
 
 #define SF_LOG_MAX_IDENTIFIER_COUNT 100
-extern SFLogLevel SFLoggerContextLogLevels[SF_LOG_MAX_IDENTIFIER_COUNT];
-extern os_log_t SFLoggerOSLog(NSInteger context, NSString *category);
+extern SFLogLevel SFLoggerContextLogLevels[SF_LOG_MAX_IDENTIFIER_COUNT] SFSDK_DEPRECATED(5.2, 6.0, "Use SFSDKLogger instead.");
+extern os_log_t SFLoggerOSLog(NSInteger context, NSString *category) SFSDK_DEPRECATED(5.2, 6.0, "Use SFSDKLogger instead.");
 static NSUInteger SFLoggerDefaultContext = 1;
 static BOOL SFLoggerLogToASL = YES;
 

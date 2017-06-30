@@ -48,19 +48,13 @@
 {
     self = [super init];
     if (self != nil) {
-        #if defined(DEBUG)
-            [SFLogger sharedLogger].logLevel = SFLogLevelDebug;
-        #else
-            [SFLogger sharedLogger].logLevel = SFLogLevelInfo;
-        #endif
-        [self log:SFLogLevelDebug msg:@"Setting up auth credentials."];
+        [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"Setting up auth credentials."];
         self.testAppHybridViewConfig = [self stageTestCredentials];
-       
+
         // Logout and login host change handlers.
         [[SFAuthenticationManager sharedManager] addDelegate:self];
         [[SFUserAccountManager sharedInstance] addDelegate:self];
     }
-    
     return self;
 }
 
@@ -83,9 +77,9 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     SFTestRunnerPlugin *runner =  (SFTestRunnerPlugin*)[self.viewController.commandDelegate getCommandInstance:kSFTestRunnerPluginName];
-    [self log:SFLogLevelDebug format:@"runner: %@",runner];
+    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"runner: %@", runner];
     BOOL runningOctest = [self isRunningOctest];
-    [self log:SFLogLevelDebug format:@"octest running: %d",runningOctest];
+    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"octest running: %d", runningOctest];
 }
 
 - (NSString *) evalJS:(NSString *) js {
@@ -101,7 +95,7 @@
                     resultString = [NSString stringWithFormat:@"%@", result];
                 }
             } else {
-                [self log:SFLogLevelDebug format:@"evaluateJavaScript error : %@", error.localizedDescription];
+                [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"evaluateJavaScript error : %@", error.localizedDescription];
             }
             finished = YES;
         }];
@@ -116,9 +110,9 @@
 
 - (void)authManagerDidLogout:(SFAuthenticationManager *)manager
 {
-    [self log:SFLogLevelDebug msg:@"Logout notification received.  Resetting app."];
+    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"Logout notification received. Resetting app."];
     self.viewController.appHomeUrl = nil;
-    
+
     // Multi-user pattern:
     // - If there are two or more existing accounts after logout, let the user choose the account
     //   to switch to.
@@ -147,7 +141,7 @@
          didSwitchFromUser:(SFUserAccount *)fromUser
                     toUser:(SFUserAccount *)toUser
 {
-    [self log:SFLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@.  Resetting app.",
+    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@. Resetting app.",
      fromUser.userName, toUser.userName];
     [self initializeAppViewState];
 }
@@ -172,15 +166,13 @@
     BOOL result = NO;
     NSDictionary *processEnv = [[NSProcessInfo processInfo] environment];
     NSString *injectBundle = [processEnv valueForKey:@"XCInjectBundle"];
-    [self log:SFLogLevelDebug format:@"XCInjectBundle: %@", injectBundle];
-    
+    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"XCInjectBundle: %@", injectBundle];
     if (nil != injectBundle) {
         NSRange found = [injectBundle rangeOfString:@".octest"];
         if (NSNotFound != found.location) {
             result = YES;
         }
     }
-    
     return result;
 }
 
@@ -197,15 +189,11 @@
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
 }
-                                                            
 
 @end
 
-
 //The following are required for code coverage to work:
 FILE *fopen$UNIX2003(const char *filename, const char *mode) {
-    NSString *covFile = @(filename);
-    [SFLogger log:[AppDelegate class] level:SFLogLevelDebug format:@"saving coverage file: %@", covFile];
     return fopen(filename, mode);
 }
 

@@ -28,6 +28,9 @@
 #import "SFLogger_Internal.h"
 #import "SFCocoaLumberJackCustomFormatter.h"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
 @interface SFLogger (Testing)
 - (int) maxContextForIdentifiers;
 @end
@@ -707,6 +710,6 @@ static NSInteger kMyLogContext;
 
 }
 
-
+#pragma clang diagnostic pop
 
 @end
