@@ -114,7 +114,7 @@
         
         __strong typeof (weakSelf) strongSelf = weakSelf;
         UIViewController *currentViewController = strongSelf.mainWindow.rootViewController;
-        while (currentViewController.presentedViewController != nil) {
+        while (currentViewController.presentedViewController != nil && !currentViewController.presentedViewController.isBeingDismissed) {
             //stop if we find that an alert has been presented
             if ([strongSelf alertIsPresented:currentViewController]) {
                 [strongSelf saveAlert:currentViewController.presentedViewController];
