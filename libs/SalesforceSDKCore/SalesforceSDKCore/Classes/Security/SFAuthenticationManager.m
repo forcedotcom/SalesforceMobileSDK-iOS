@@ -988,7 +988,6 @@ static Class InstanceClass = nil;
                                         handler:^(UIAlertAction *action) {
                                             __strong typeof(weakSelf) strongSelf = weakSelf;
                                             if(tag == kAdvancedAuthDialogTag) {
-                                                [strongSelf cancelAuthentication];
                                                 [strongSelf delegateDidCancelBrowserFlow];
                                            
                                                 // Let the OAuth coordinator know whether to proceed or not.
@@ -1161,6 +1160,7 @@ static Class InstanceClass = nil;
 
 - (void)delegateDidCancelBrowserFlow {
     __block BOOL handledByDelegate = NO;
+    [self cancelAuthentication];
     [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
         if ([delegate respondsToSelector:@selector(authManagerDidCancelBrowserFlow:)]) {
             handledByDelegate = YES;
@@ -1191,6 +1191,7 @@ static Class InstanceClass = nil;
 }
 
 - (void)hostListViewController:(SFSDKLoginHostListViewController *)hostListViewController didChangeLoginHost:(SFSDKLoginHost *)newLoginHost {
+    self.loginHost = newLoginHost.host;
     // NB: We only get here if there was no delegates for authManagerDidCancelBrowserFlow
     // Calling switchToNewUser to reset app state - which up to 5.1, used to be the
     // behavior implemented by SFSDKLoginHostListViewController's applyLoginHostAtIndex
@@ -1376,6 +1377,7 @@ static Class InstanceClass = nil;
         }
     }];
     if (!handledByDelegate) {
+        [self cancelAuthentication];
         SFSDKLoginHostListViewController *hostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
         hostListViewController.delegate = self;
         [[SFRootViewManager sharedManager] pushViewController:hostListViewController];
