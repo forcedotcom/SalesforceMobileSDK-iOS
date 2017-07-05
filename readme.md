@@ -34,29 +34,32 @@ If you have problems building any of the projects, take a look at the online [FA
 Introduction
 ==
 
-### What's New in 5.1
+### What's New in 5.2
 
-**REST API Enhancements**
-- We've added support for batching REST requests together.
-- We've added an API for composite REST requests.
-- We now support:
-	- If-Unmodified-Since conditional requests.
-	- Use of `Id` as the external ID field for upserts, coupled with null for the external ID This pattern is useful if you’re upserting multiple records with different external ID fields.
-	- SObjectTree requests.
+**Login Enhancements**
+- We have added support for branded community login pages by adding methods to configure the brand parameter in your Mobile SDK app.
+- We are now using `SFSafariViewController` instead of `Safari` for the advanced authentication flow in Mobile SDK. This provides a better user experience with no app swizzling.
 
 **SmartSync Enhancements**
-- In Mobile SDK 5.1, we’ve refactored SmartSync classes to decouple the SyncManager class from SyncTarget classes. This new architecture requires API changes that affect all apps that use SmartSync. However, the majority of the changes apply only to SmartSync apps that define custom targets.
+- In Mobile SDK 5.2, we've added new sync targets to allow related records to be synced down or synced up in one call.
+
+**New Logging Framework**
+- We've added a new logging framework in Mobile SDK 5.2 with the following features:
+	- Writes log lines to both console and a rolling log file on the filesystem.
+	- Supports component-specific loggers.
+	- Lets you configure log levels per component.
+	- Lets you configure maximum log file size per component.
 
 **Library Upgrades**
-- We've updated React Native to version 0.43.1.
+- We've updated Cordova to version 4.4.0.
 
 **Other Technical Improvements**
-- Switched from our custom WKWebViewEngine plug-in to Cordova's WKWebViewEngine plug-in.
-- Simplified native network stack to use NSURLSession directly via SFNetwork instead of CSFNetwork and CSFAction classes.
-- Various account lifecycle management improvements.
-- Replaced KVO usage with notifications.
 - Improvements to sample apps.
 - Various bug fixes.
+
+**Deprecations**
+- CSFNetwork, CSFAction and all related network classes are now deprecated and will be removed in Mobile SDK 6.0. Instead, use SFRestAPI and SFNetwork.
+- SFLogger is now deprecated and will be removed in Mobile SDK 6.0. Instead, use SFSDKLogger.
 
 Check http://developer.force.com/mobilesdk for additional articles and tutorials.
 
