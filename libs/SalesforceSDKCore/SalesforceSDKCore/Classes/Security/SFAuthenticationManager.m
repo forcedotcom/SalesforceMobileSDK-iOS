@@ -853,21 +853,13 @@ static Class InstanceClass = nil;
     self.idCoordinator.delegate = self;
 }
 
-- (void)restartAuthentication:(BOOL)onlyIfAuthenticating {
+- (void)restartAuthentication {
     @synchronized (self.authBlockList) {
-        if (self.authenticating) {
-            [SFSDKCoreLogger i:[self class] format:@"%@: Restarting in-progress authentication process.", NSStringFromSelector(_cmd)];
+        if (!self.authenticating) {
+            [SFSDKCoreLogger w:[self class] format:@"%@: Authentication manager is not currently authenticating.  No action taken.", NSStringFromSelector(_cmd)];
+            return;
         }
-        else {
-            if (onlyIfAuthenticating) {
-                [SFSDKCoreLogger w:[self class] format:@"%@: Authentication manager is not currently authenticating.  No action taken.", NSStringFromSelector(_cmd)];
-                return;
-            }
-            else {
-                [SFSDKCoreLogger i:[self class] format:@"%@: Restarting authentication process.", NSStringFromSelector(_cmd)];
-            }
-        }
-
+        [SFSDKCoreLogger i:[self class] format:@"%@: Restarting in-progress authentication process.", NSStringFromSelector(_cmd)];
         [self.coordinator stopAuthentication];
         [self loginWithCredentials:[self createOAuthCredentials]];
     }
@@ -996,7 +988,6 @@ static Class InstanceClass = nil;
                                         handler:^(UIAlertAction *action) {
                                             __strong typeof(weakSelf) strongSelf = weakSelf;
                                             if(tag == kAdvancedAuthDialogTag) {
-                                                [strongSelf cancelAuthentication];
                                                 [strongSelf delegateDidCancelBrowserFlow];
                                            
                                                 // Let the OAuth coordinator know whether to proceed or not.
@@ -1169,6 +1160,7 @@ static Class InstanceClass = nil;
 
 - (void)delegateDidCancelBrowserFlow {
     __block BOOL handledByDelegate = NO;
+    [self cancelAuthentication];
     [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
         if ([delegate respondsToSelector:@selector(authManagerDidCancelBrowserFlow:)]) {
             handledByDelegate = YES;
@@ -1200,7 +1192,10 @@ static Class InstanceClass = nil;
 
 - (void)hostListViewController:(SFSDKLoginHostListViewController *)hostListViewController didChangeLoginHost:(SFSDKLoginHost *)newLoginHost {
     self.loginHost = newLoginHost.host;
-    [self restartAuthentication:NO];
+    // NB: We only get here if there was no delegates for authManagerDidCancelBrowserFlow
+    // Calling switchToNewUser to reset app state - which up to 5.1, used to be the
+    // behavior implemented by SFSDKLoginHostListViewController's applyLoginHostAtIndex
+    [[SFUserAccountManager sharedInstance] switchToNewUser];
 }
 
 
@@ -1208,7 +1203,7 @@ static Class InstanceClass = nil;
 
 - (void)loginViewController:(SFLoginViewController *)loginViewController didChangeLoginHost:(SFSDKLoginHost *)newLoginHost {
     self.loginHost = newLoginHost.host;
-    [self restartAuthentication:YES];
+    [self restartAuthentication];
 }
 
 #pragma mark - SFUserAccountManagerDelegate
@@ -1382,6 +1377,7 @@ static Class InstanceClass = nil;
         }
     }];
     if (!handledByDelegate) {
+        [self cancelAuthentication];
         SFSDKLoginHostListViewController *hostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
         hostListViewController.delegate = self;
         [[SFRootViewManager sharedManager] pushViewController:hostListViewController];
