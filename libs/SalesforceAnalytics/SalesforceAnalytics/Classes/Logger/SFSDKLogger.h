@@ -27,7 +27,8 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <CocoaLumberjack/CocoaLumberjack.h>
+#define DD_LEGACY_MACROS 0
+#import <CocoaLumberjack/DDLog.h>
 #import "SFSDKFileLogger.h"
 
 @interface SFSDKLogger : NSObject
