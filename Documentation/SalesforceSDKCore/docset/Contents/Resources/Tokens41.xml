@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFEncryptStream.html">
+	<File path="Classes/SFDirectoryManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFEncryptStream</TokenIdentifier>
-			<Abstract type="html">SFEncryptStream is an output stream that encrypts data before it is written out.
-SFCryptChunks is used to perform the encryption.</Abstract>
-			<DeclaredIn>SFEncryptStream.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFDirectoryManager</TokenIdentifier>
+			<Abstract type="html">Global directory manager that returns scoped directory. The scoping is enforced
+by taking into account the organizationId, the userId and the communityId.</Abstract>
+			<DeclaredIn>SFDirectoryManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="41"/>
@@ -14,22 +14,171 @@ SFCryptChunks is used to perform the encryption.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptStream/setupWithKey:andInitializationVector:</TokenIdentifier>
-			<Abstract type="html">Setup for encryption. You must call this method before using the stream.</Abstract>
-			<DeclaredIn>SFEncryptStream.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFDirectoryManager/sharedManager</TokenIdentifier>
+			<Abstract type="html">Returns the singleton of this manager</Abstract>
+			<DeclaredIn>SFDirectoryManager.h</DeclaredIn>
 			
-			<Declaration>- (void)setupWithKey:(NSData *)key andInitializationVector:(nullable NSData *)iv</Declaration>
+			<Declaration>+ (instancetype)sharedManager</Declaration>
+			
+			
+			<Anchor>//api/name/sharedManager</Anchor>
+            <NodeRef refid="41"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFDirectoryManager/ensureDirectoryExists:error:</TokenIdentifier>
+			<Abstract type="html">Ensures the specified directory exists on the disk.</Abstract>
+			<DeclaredIn>SFDirectoryManager.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)ensureDirectoryExists:(NSString *)directory error:(NSError **)error</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">the cipher key.</Abstract>
+					<Name>directory</Name>
+					<Abstract type="html">The directory to ensure exists.</Abstract>
 				</Parameter><Parameter>
-					<Name>iv</Name>
-					<Abstract type="html">the initialization vector, must be size of SFCryptChunksCipherBlockSize.</Abstract>
+					<Name>error</Name>
+					<Abstract type="html">The error on output or nil if no error is desired</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the directory exists or has been successfully created, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/ensureDirectoryExists:error:</Anchor>
+            <NodeRef refid="41"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFDirectoryManager/safeStringForDiskRepresentation:</TokenIdentifier>
+			<Abstract type="html">Ensure the specified string contains only characters that can be
+safely used to identify a path on the disk.</Abstract>
+			<DeclaredIn>SFDirectoryManager.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)safeStringForDiskRepresentation:(NSString *)candidate</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>candidate</Name>
+					<Abstract type="html">The string to be checked for compatibility.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/setupWithKey:andInitializationVector:</Anchor>
+			<Anchor>//api/name/safeStringForDiskRepresentation:</Anchor>
+            <NodeRef refid="41"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFDirectoryManager/directoryForOrg:user:community:type:components:</TokenIdentifier>
+			<Abstract type="html">Returns the path to the directory type for the specified org, user and community.</Abstract>
+			<DeclaredIn>SFDirectoryManager.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)directoryForOrg:(NSString *)orgId user:(NSString *)userId community:(NSString *)communityId type:(NSSearchPathDirectory)type components:(NSArray *)components</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>orgId</Name>
+					<Abstract type="html">The organization ID. If nil, this method returns the global directory type requested (eg Library/Caches)</Abstract>
+				</Parameter><Parameter>
+					<Name>userId</Name>
+					<Abstract type="html">The user ID. If nil, this method returns the directory type requested, scoped at the org level (eg Library/Caches/&lt;orgId&gt;/)</Abstract>
+				</Parameter><Parameter>
+					<Name>communityId</Name>
+					<Abstract type="html">The community ID. If nil, this method returns the directory type requested, scoped at the user level (eg Library/Caches/&lt;orgId&gt;/&lt;userId&gt;)</Abstract>
+				</Parameter><Parameter>
+					<Name>type</Name>
+					<Abstract type="html">The type of directory to return (see NSSearchPathDirectory)</Abstract>
+				</Parameter><Parameter>
+					<Name>components</Name>
+					<Abstract type="html">The additional path components to be added at the end of the directory (eg [&apos;mybundle&apos;, &apos;common&apos;])</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The path to the directory</Abstract></ReturnValue>
+			<Anchor>//api/name/directoryForOrg:user:community:type:components:</Anchor>
+            <NodeRef refid="41"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFDirectoryManager/directoryForUser:scope:type:components:</TokenIdentifier>
+			<Abstract type="html">Returns the path to the directory type for the specified user and scope</Abstract>
+			<DeclaredIn>SFDirectoryManager.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)directoryForUser:(SFUserAccount *)user scope:(SFUserAccountScope)scope type:(NSSearchPathDirectory)type components:(NSArray *)components</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>user</Name>
+					<Abstract type="html">The user account to use. If nil, the path returned corresponds to the global path type</Abstract>
+				</Parameter><Parameter>
+					<Name>scope</Name>
+					<Abstract type="html">The scope to use</Abstract>
+				</Parameter><Parameter>
+					<Name>type</Name>
+					<Abstract type="html">The type of directory to return (see NSSearchPathDirectory)</Abstract>
+				</Parameter><Parameter>
+					<Name>components</Name>
+					<Abstract type="html">The additional path components to be added at the end of the directory (eg [&apos;mybundle&apos;, &apos;common&apos;])</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The path to the directory</Abstract></ReturnValue>
+			<Anchor>//api/name/directoryForUser:scope:type:components:</Anchor>
+            <NodeRef refid="41"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFDirectoryManager/directoryForUser:type:components:</TokenIdentifier>
+			<Abstract type="html">Returns the path to the directory type for the specified user.</Abstract>
+			<DeclaredIn>SFDirectoryManager.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)directoryForUser:(SFUserAccount *)account type:(NSSearchPathDirectory)type components:(NSArray *)components</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>account</Name>
+					<Abstract type="html">The user account to use. If nil, the path returned corresponds to the global path type</Abstract>
+				</Parameter><Parameter>
+					<Name>type</Name>
+					<Abstract type="html">The type of directory to return (see NSSearchPathDirectory)</Abstract>
+				</Parameter><Parameter>
+					<Name>components</Name>
+					<Abstract type="html">The additional path components to be added at the end of the directory (eg [&apos;mybundle&apos;, &apos;common&apos;])</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The path to the directory</Abstract></ReturnValue>
+			<Anchor>//api/name/directoryForUser:type:components:</Anchor>
+            <NodeRef refid="41"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFDirectoryManager/directoryOfCurrentUserForType:components:</TokenIdentifier>
+			<Abstract type="html">Returns the path to the directory type for the current user and current community.</Abstract>
+			<DeclaredIn>SFDirectoryManager.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)directoryOfCurrentUserForType:(NSSearchPathDirectory)type components:(NSArray *)components</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>type</Name>
+					<Abstract type="html">The type of directory to return (see NSSearchPathDirectory)</Abstract>
+				</Parameter><Parameter>
+					<Name>components</Name>
+					<Abstract type="html">The additional path components to be added at the end of the directory (eg [&apos;mybundle&apos;, &apos;common&apos;])</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The path to the directory</Abstract></ReturnValue>
+			<Anchor>//api/name/directoryOfCurrentUserForType:components:</Anchor>
+            <NodeRef refid="41"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFDirectoryManager/globalDirectoryOfType:components:</TokenIdentifier>
+			<Abstract type="html">Returns the path to the global directory of the specified type. For example, NSCachesDirectory will
+return &quot;Library/Caches/&lt;bundleIdentifier&gt;/&quot;</Abstract>
+			<DeclaredIn>SFDirectoryManager.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)globalDirectoryOfType:(NSSearchPathDirectory)type components:(NSArray *)components</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>type</Name>
+					<Abstract type="html">The type of directory to return (see NSSearchPathDirectory)</Abstract>
+				</Parameter><Parameter>
+					<Name>components</Name>
+					<Abstract type="html">The additional path components to be added at the end of the directory (eg [&apos;mybundle&apos;, &apos;common&apos;])</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The path to the directory</Abstract></ReturnValue>
+			<Anchor>//api/name/globalDirectoryOfType:components:</Anchor>
             <NodeRef refid="41"/>
 		</Token>
 		

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFRefreshSyncDownTarget.html">
+	<File path="Classes/SFParentChildrenSyncDownTarget.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFRefreshSyncDownTarget</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFParentChildrenSyncDownTarget</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRefreshSyncDownTarget.h</DeclaredIn>
+			<DeclaredIn>SFParentChildrenSyncDownTarget.h</DeclaredIn>
             
 			
 			<NodeRef refid="7"/>
@@ -13,122 +13,26 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRefreshSyncDownTarget/setSoupName:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRefreshSyncDownTarget.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *soupName</Declaration>
-			
-			
-			<Anchor>//api/name/soupName</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRefreshSyncDownTarget/soupName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRefreshSyncDownTarget.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *soupName</Declaration>
-			
-			
-			<Anchor>//api/name/soupName</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRefreshSyncDownTarget/soupName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRefreshSyncDownTarget.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *soupName</Declaration>
-			
-			
-			<Anchor>//api/name/soupName</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRefreshSyncDownTarget/setObjectType:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRefreshSyncDownTarget.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *objectType</Declaration>
-			
-			
-			<Anchor>//api/name/objectType</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRefreshSyncDownTarget/objectType</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRefreshSyncDownTarget.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *objectType</Declaration>
-			
-			
-			<Anchor>//api/name/objectType</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRefreshSyncDownTarget/objectType</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRefreshSyncDownTarget.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *objectType</Declaration>
-			
-			
-			<Anchor>//api/name/objectType</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRefreshSyncDownTarget/setFieldlist:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRefreshSyncDownTarget.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSArray *fieldlist</Declaration>
-			
-			
-			<Anchor>//api/name/fieldlist</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRefreshSyncDownTarget/fieldlist</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRefreshSyncDownTarget.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSArray *fieldlist</Declaration>
-			
-			
-			<Anchor>//api/name/fieldlist</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRefreshSyncDownTarget/fieldlist</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRefreshSyncDownTarget.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSArray *fieldlist</Declaration>
-			
-			
-			<Anchor>//api/name/fieldlist</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFRefreshSyncDownTarget/newSyncTarget:objectType:fieldlist:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncDownTarget/newSyncTargetWithParentInfo:parentFieldlist:parentSoqlFilter:childrenInfo:childrenFieldlist:relationshipType:</TokenIdentifier>
 			<Abstract type="html">Factory methods</Abstract>
-			<DeclaredIn>SFRefreshSyncDownTarget.h</DeclaredIn>
+			<DeclaredIn>SFParentChildrenSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>+ (SFRefreshSyncDownTarget *)newSyncTarget:(NSString *)soupName objectType:(NSString *)objectType fieldlist:(NSArray *)fieldlist</Declaration>
+			<Declaration>+ (instancetype)newSyncTargetWithParentInfo:(SFParentInfo *)parentInfo parentFieldlist:(NSArray&lt;NSString*&gt; *)parentFieldlist parentSoqlFilter:(NSString *)parentSoqlFilter childrenInfo:(SFChildrenInfo *)childrenInfo childrenFieldlist:(NSArray&lt;NSString*&gt; *)childrenFieldlist relationshipType:(SFParentChildrenRelationshipType)relationshipType</Declaration>
 			
 			
-			<Anchor>//api/name/newSyncTarget:objectType:fieldlist:</Anchor>
+			<Anchor>//api/name/newSyncTargetWithParentInfo:parentFieldlist:parentSoqlFilter:childrenInfo:childrenFieldlist:relationshipType:</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncDownTarget/newFromDict:</TokenIdentifier>
+			<Abstract type="html">Methods to translate to/from dictionary</Abstract>
+			<DeclaredIn>SFParentChildrenSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>+ (instancetype)newFromDict:(NSDictionary *)dict</Declaration>
+			
+			
+			<Anchor>//api/name/newFromDict:</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		

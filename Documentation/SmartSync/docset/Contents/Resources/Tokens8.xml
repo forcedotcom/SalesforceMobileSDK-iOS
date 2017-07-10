@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSmartSyncCacheManager.html">
+	<File path="Classes/SFParentChildrenSyncHelper.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSmartSyncCacheManager</TokenIdentifier>
-			<Abstract type="html">This class acts as a simple cache to store and retrieve data.</Abstract>
-			<DeclaredIn>SFSmartSyncCacheManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFParentChildrenSyncHelper</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
             
 			
 			<NodeRef refid="8"/>
@@ -13,160 +13,98 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncCacheManager/sharedInstance:</TokenIdentifier>
-			<Abstract type="html">Singleton method for accessing cache manager instance.</Abstract>
-			<DeclaredIn>SFSmartSyncCacheManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncHelper/registerAppFeature</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
 			
-			<Declaration>+ (id)sharedInstance:(SFUserAccount *)user</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>user</Name>
-					<Abstract type="html">A user that will scope this manager instance data</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>+ (void)registerAppFeature</Declaration>
 			
-			<Anchor>//api/name/sharedInstance:</Anchor>
+			
+			<Anchor>//api/name/registerAppFeature</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncCacheManager/removeSharedInstance:</TokenIdentifier>
-			<Abstract type="html">Removes the shared instance associated with the specified user</Abstract>
-			<DeclaredIn>SFSmartSyncCacheManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncHelper/relationshipTypeFromString:</TokenIdentifier>
+			<Abstract type="html">Enum to/from string helper methods</Abstract>
+			<DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
 			
-			<Declaration>+ (void)removeSharedInstance:(SFUserAccount *)user</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>user</Name>
-					<Abstract type="html">The user</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>+ (SFParentChildrenRelationshipType)relationshipTypeFromString:(NSString *)relationshipType</Declaration>
 			
-			<Anchor>//api/name/removeSharedInstance:</Anchor>
+			
+			<Anchor>//api/name/relationshipTypeFromString:</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncCacheManager/setEnableInMemoryCache:</TokenIdentifier>
-			<Abstract type="html">Enable in memory cache. Default value is YES
-@enableInMemoryCache YES to enable in memory cache</Abstract>
-			<DeclaredIn>SFSmartSyncCacheManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncHelper/relationshipTypeToString:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
 			
-			<Declaration>- (void)setEnableInMemoryCache:(BOOL)enableInMemoryCache</Declaration>
+			<Declaration>+ (NSString *)relationshipTypeToString:(SFParentChildrenRelationshipType)relationshipType</Declaration>
 			
 			
-			<Anchor>//api/name/setEnableInMemoryCache:</Anchor>
+			<Anchor>//api/name/relationshipTypeToString:</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncCacheManager/cleanCache</TokenIdentifier>
-			<Abstract type="html">Clean cache</Abstract>
-			<DeclaredIn>SFSmartSyncCacheManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncHelper/getDirtyRecordIdsSql:childrenInfo:parentFieldToSelect:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
 			
-			<Declaration>- (void)cleanCache</Declaration>
+			<Declaration>+ (NSString *)getDirtyRecordIdsSql:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo parentFieldToSelect:(NSString *)parentFieldToSelect</Declaration>
 			
 			
-			<Anchor>//api/name/cleanCache</Anchor>
+			<Anchor>//api/name/getDirtyRecordIdsSql:childrenInfo:parentFieldToSelect:</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncCacheManager/removeCache:cacheKey:</TokenIdentifier>
-			<Abstract type="html">Remove data from cache</Abstract>
-			<DeclaredIn>SFSmartSyncCacheManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncHelper/getNonDirtyRecordIdsSql:childrenInfo:parentFieldToSelect:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
 			
-			<Declaration>- (void)removeCache:(NSString *)cacheType cacheKey:(NSString *)cacheKey</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>cacheType</Name>
-					<Abstract type="html">Cache type</Abstract>
-				</Parameter><Parameter>
-					<Name>cacheKey</Name>
-					<Abstract type="html">Key to use to retrieve cached data</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>+ (NSString *)getNonDirtyRecordIdsSql:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo parentFieldToSelect:(NSString *)parentFieldToSelect</Declaration>
 			
-			<Anchor>//api/name/removeCache:cacheKey:</Anchor>
+			
+			<Anchor>//api/name/getNonDirtyRecordIdsSql:childrenInfo:parentFieldToSelect:</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncCacheManager/needToReloadCache:cachePolicy:lastCachedTime:refreshIfOlderThan:</TokenIdentifier>
-			<Abstract type="html">Reurn YES if need to reload cache.
-Before calling this method, user should use [SFSmartSyncCacheManager readDataWithCacheType:cacheKey:cachePolicy:encrypted:cachedTime] to find out whether cache exists or not and what is the last time cache is updated</Abstract>
-			<DeclaredIn>SFSmartSyncCacheManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncHelper/saveRecordTreesToLocalStore:target:parentInfo:childrenInfo:recordTrees:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)needToReloadCache:(BOOL)cacheExists cachePolicy:(SFDataCachePolicy)cachePolicy lastCachedTime:(NSDate *)cacheTime refreshIfOlderThan:(NSTimeInterval)refreshIfOlderThan</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>cacheExists</Name>
-					<Abstract type="html">YES if cache already exists.</Abstract>
-				</Parameter><Parameter>
-					<Name>cachePolicy</Name>
-					<Abstract type="html">SFDataCachePolicy used to decide</Abstract>
-				</Parameter><Parameter>
-					<Name>cacheTime</Name>
-					<Abstract type="html">Last time cache is updated</Abstract>
-				</Parameter><Parameter>
-					<Name>refreshIfOlderThan</Name>
-					<Abstract type="html">Number of secconds that has to pass in order to refresh cache. Pass any value that is &lt;=0 if you don&apos;t want cache to be refrefreshed. This value is used together with cachePolicy to determine if cache needs reload or not</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>+ (void)saveRecordTreesToLocalStore:(SFSmartSyncSyncManager *)syncManager target:(SFSyncTarget *)target parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo recordTrees:(NSArray *)recordTrees</Declaration>
 			
-			<Anchor>//api/name/needToReloadCache:cachePolicy:lastCachedTime:refreshIfOlderThan:</Anchor>
+			
+			<Anchor>//api/name/saveRecordTreesToLocalStore:target:parentInfo:childrenInfo:recordTrees:</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncCacheManager/readDataWithCacheType:cacheKey:cachePolicy:objectClass:cachedTime:</TokenIdentifier>
-			<Abstract type="html">Read data from cache.</Abstract>
-			<DeclaredIn>SFSmartSyncCacheManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncHelper/getMutableChildrenFromLocalStore:parentInfo:childrenInfo:parent:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
 			
-			<Declaration>- (NSArray *)readDataWithCacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey cachePolicy:(SFDataCachePolicy)cachePolicy objectClass:(Class)objectClass cachedTime:(out NSDate **)lastCachedTime</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>cacheType</Name>
-					<Abstract type="html">Cache type</Abstract>
-				</Parameter><Parameter>
-					<Name>cacheKey</Name>
-					<Abstract type="html">Key to use to retrieve cached data</Abstract>
-				</Parameter><Parameter>
-					<Name>cachePolicy</Name>
-					<Abstract type="html">See SFDataCachePolicy</Abstract>
-				</Parameter><Parameter>
-					<Name>objectClass</Name>
-					<Abstract type="html">Object class to expect</Abstract>
-				</Parameter><Parameter>
-					<Name>lastCachedTime</Name>
-					<Abstract type="html">Return time the data was last updated in cache</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>+ (NSArray&lt;NSMutableDictionary*&gt; *)getMutableChildrenFromLocalStore:(SFSmartStore *)store parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo parent:(NSDictionary *)parent</Declaration>
 			
-			<Anchor>//api/name/readDataWithCacheType:cacheKey:cachePolicy:objectClass:cachedTime:</Anchor>
+			
+			<Anchor>//api/name/getMutableChildrenFromLocalStore:parentInfo:childrenInfo:parent:</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncCacheManager/writeDataToCache:cacheType:cacheKey:</TokenIdentifier>
-			<Abstract type="html">Write data to cache.</Abstract>
-			<DeclaredIn>SFSmartSyncCacheManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncHelper/deleteChildrenFromLocalStore:parentInfo:childrenInfo:parentIds:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
 			
-			<Declaration>- (void)writeDataToCache:(id)data cacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>data</Name>
-					<Abstract type="html">Data to cache</Abstract>
-				</Parameter><Parameter>
-					<Name>cacheType</Name>
-					<Abstract type="html">Cache type</Abstract>
-				</Parameter><Parameter>
-					<Name>cacheKey</Name>
-					<Abstract type="html">Key to save cached data</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>+ (void)deleteChildrenFromLocalStore:(SFSmartStore *)store parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo parentIds:(NSArray *)parentIds</Declaration>
 			
-			<Anchor>//api/name/writeDataToCache:cacheType:cacheKey:</Anchor>
+			
+			<Anchor>//api/name/deleteChildrenFromLocalStore:parentInfo:childrenInfo:parentIds:</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		

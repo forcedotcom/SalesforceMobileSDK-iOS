@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFInstrumentation.html">
+	<File path="Classes/SFInactivityTimerCenter.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFInstrumentation</TokenIdentifier>
-			<Abstract type="html">This class exposes API that allow to intercept
-method call and introspect the object being intercepted.
-It can be used to record timing &amp;amp; usage information for example.</Abstract>
-			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFInactivityTimerCenter</TokenIdentifier>
+			<Abstract type="html">This class manages manages the inactivity timer. See NSTimer in the Objective-C documentation for more details.</Abstract>
+			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
             
 			
 			<NodeRef refid="48"/>
@@ -15,273 +13,110 @@ It can be used to record timing &amp;amp; usage information for example.</Abstra
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/setEnabled:</TokenIdentifier>
-			<Abstract type="html">Enable or disable this instrumentation instance</Abstract>
-			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFInactivityTimerCenter/registerTimer:target:selector:timerInterval:</TokenIdentifier>
+			<Abstract type="html">* Register the timer.</Abstract>
+			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
-			
-			
-			<Anchor>//api/name/enabled</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/enabled</TokenIdentifier>
-			<Abstract type="html">Enable or disable this instrumentation instance</Abstract>
-			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
-			
-			
-			<Anchor>//api/name/enabled</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFInstrumentation/enabled</TokenIdentifier>
-			<Abstract type="html">Enable or disable this instrumentation instance</Abstract>
-			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
-			
-			
-			<Anchor>//api/name/enabled</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFInstrumentation/instrumentationForClass:</TokenIdentifier>
-			<Abstract type="html">Returns an instrumentation instance for the specified class</Abstract>
-			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
-			
-			<Declaration>+ (instancetype)instrumentationForClass:(Class)clazz</Declaration>
+			<Declaration>+ (void)registerTimer:(NSString *)timerName target:(id)target selector:(SEL)aSelector timerInterval:(NSTimeInterval)interval</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>clazz</Name>
-					<Abstract type="html">The class to be instrumented</Abstract>
+					<Name>timerName</Name>
+					<Abstract type="html">Name to use to register the timer.</Abstract>
+				</Parameter><Parameter>
+					<Name>target</Name>
+					<Abstract type="html">The object to which to send the message specified by aSelector when the timer fires. See NSTimer documentation.</Abstract>
+				</Parameter><Parameter>
+					<Name>aSelector</Name>
+					<Abstract type="html">The message to send to target when the timer fires. See NSTimer documentation.</Abstract>
+				</Parameter><Parameter>
+					<Name>interval</Name>
+					<Abstract type="html">For a repeating timer, this parameter contains the number of seconds between firings of the timer. See NSTimer documentation.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/instrumentationForClass:</Anchor>
+			<Anchor>//api/name/registerTimer:target:selector:timerInterval:</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFInstrumentation/instrumentationForClassWithName:</TokenIdentifier>
-			<Abstract type="html">Returns an instrumentation instance for the class with the specified name.</Abstract>
-			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFInactivityTimerCenter/removeTimer:</TokenIdentifier>
+			<Abstract type="html">* Remove a specific timer.</Abstract>
+			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)instrumentationForClassWithName:(NSString *)className</Declaration>
+			<Declaration>+ (void)removeTimer:(NSString *)timerName</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>className</Name>
-					<Abstract type="html">The name of the class to be instrumented.</Abstract>
+					<Name>timerName</Name>
+					<Abstract type="html">Name of the timer to remove.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/instrumentationForClassWithName:</Anchor>
+			<Anchor>//api/name/removeTimer:</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/interceptorForSelector:isInstanceSelector:</TokenIdentifier>
-			<Abstract type="html">Returns the interceptor configured for the class with the given selector, or nil
-if an interceptor is not configured for the given selector.</Abstract>
-			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFInactivityTimerCenter/removeAllTimers</TokenIdentifier>
+			<Abstract type="html">Remove all timers.</Abstract>
+			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
 			
-			<Declaration>- (SFMethodInterceptor *)interceptorForSelector:(SEL)selector isInstanceSelector:(BOOL)isInstanceSelector</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>selector</Name>
-					<Abstract type="html">The selector to check</Abstract>
-				</Parameter><Parameter>
-					<Name>isInstanceSelector</Name>
-					<Abstract type="html">Whether or not the selector is an instance selector.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The configured SFMethodInterceptor instance, or nil if an interceptor is
-not configured.</Abstract></ReturnValue>
-			<Anchor>//api/name/interceptorForSelector:isInstanceSelector:</Anchor>
+			<Declaration>+ (void)removeAllTimers</Declaration>
+			
+			
+			<Anchor>//api/name/removeAllTimers</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/interceptInstanceMethod:beforeBlock:afterBlock:</TokenIdentifier>
-			<Abstract type="html">Use this method to intercept the instance method specified by selector</Abstract>
-			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFInactivityTimerCenter/updateActivityTimestamp</TokenIdentifier>
+			<Abstract type="html">Update last activity timestamp to current time.</Abstract>
+			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
 			
-			<Declaration>- (void)interceptInstanceMethod:(SEL)selector beforeBlock:(SFMethodInterceptorInvocationCallback)before afterBlock:(SFMethodInterceptorInvocationAfterCallback)after</Declaration>
+			<Declaration>+ (void)updateActivityTimestamp</Declaration>
+			
+			
+			<Anchor>//api/name/updateActivityTimestamp</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFInactivityTimerCenter/updateActivityTimestampTo:</TokenIdentifier>
+			<Abstract type="html">* Update last activity timestamp to specified time.</Abstract>
+			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
+			
+			<Declaration>+ (void)updateActivityTimestampTo:(NSDate *)date</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>selector</Name>
-					<Abstract type="html">The selector to intercept</Abstract>
-				</Parameter><Parameter>
-					<Name>before</Name>
-					<Abstract type="html">An optional block invoked before the selector is executed</Abstract>
-				</Parameter><Parameter>
-					<Name>after</Name>
-					<Abstract type="html">An optional block invoked after the selector is executed</Abstract>
+					<Name>date</Name>
+					<Abstract type="html">The NSDate object that specifies the new timestamp.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/interceptInstanceMethod:beforeBlock:afterBlock:</Anchor>
+			<Anchor>//api/name/updateActivityTimestampTo:</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/interceptInstanceMethod:replaceWithInvocationBlock:</TokenIdentifier>
-			<Abstract type="html">Use this method to intercept the instance method specified by selector
-and provide a block that will be invoked instead of the method.
-Note: the block contains a single argument which is the NSInvocation of the message.</Abstract>
-			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFInactivityTimerCenter/lastActivityTimestamp</TokenIdentifier>
+			<Abstract type="html">Return the timestamp for the latest activity.</Abstract>
+			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
 			
-			<Declaration>- (void)interceptInstanceMethod:(SEL)selector replaceWithInvocationBlock:(SFMethodInterceptorInvocationCallback)replace</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>selector</Name>
-					<Abstract type="html">The instance method to be intercepted</Abstract>
-				</Parameter><Parameter>
-					<Name>replace</Name>
-					<Abstract type="html">The block to be invoked</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>+ (NSDate *)lastActivityTimestamp</Declaration>
 			
-			<Anchor>//api/name/interceptInstanceMethod:replaceWithInvocationBlock:</Anchor>
+			
+			<Anchor>//api/name/lastActivityTimestamp</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/interceptClassMethod:beforeBlock:afterBlock:</TokenIdentifier>
-			<Abstract type="html">Use this method to intercept the class method specified by selector</Abstract>
-			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFInactivityTimerCenter/saveActivityTimestamp</TokenIdentifier>
+			<Abstract type="html">Save the activity timestamp to persistant storage.</Abstract>
+			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
 			
-			<Declaration>- (void)interceptClassMethod:(SEL)selector beforeBlock:(SFMethodInterceptorInvocationCallback)before afterBlock:(SFMethodInterceptorInvocationAfterCallback)after</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>selector</Name>
-					<Abstract type="html">The selector to intercept</Abstract>
-				</Parameter><Parameter>
-					<Name>before</Name>
-					<Abstract type="html">An optional block invoked before the selector is executed</Abstract>
-				</Parameter><Parameter>
-					<Name>after</Name>
-					<Abstract type="html">An optional block invoked after the selector is executed</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/interceptClassMethod:beforeBlock:afterBlock:</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/interceptClassMethod:replaceWithInvocationBlock:</TokenIdentifier>
-			<Abstract type="html">Use this method to intercept the class method specified by selector
-and provide a block that will be invoked instead of the method.
-Note: the block contains a single argument which is the NSInvocation of the message.</Abstract>
-			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
-			
-			<Declaration>- (void)interceptClassMethod:(SEL)selector replaceWithInvocationBlock:(SFMethodInterceptorInvocationCallback)replace</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>selector</Name>
-					<Abstract type="html">The instance method to be intercepted</Abstract>
-				</Parameter><Parameter>
-					<Name>replace</Name>
-					<Abstract type="html">The block to be invoked</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/interceptClassMethod:replaceWithInvocationBlock:</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/instrumentForTiming:afterBlock:</TokenIdentifier>
-			<Abstract type="html">Instrument some selectors of a the target class for performance timing.</Abstract>
-			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
-			
-			<Declaration>- (void)instrumentForTiming:(SFInstrumentationSelectorFilter)selectorFilter afterBlock:(SFMethodInterceptorInvocationAfterCallback)after</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>selectorFilter</Name>
-					<Abstract type="html">A block invoked when to select selectors from the class to instrument</Abstract>
-				</Parameter><Parameter>
-					<Name>after</Name>
-					<Abstract type="html">An optional block invoked after any selector is executed</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/instrumentForTiming:afterBlock:</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/instrumentForTiming:inheritanceLevels:afterBlock:</TokenIdentifier>
-			<Abstract type="html">Instrument some selectors of the target class and its parent class(es)
-for performance timing.</Abstract>
-			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
-			
-			<Declaration>- (void)instrumentForTiming:(SFInstrumentationSelectorFilter)selectorFilter inheritanceLevels:(NSUInteger)numInheritanceLevels afterBlock:(SFMethodInterceptorInvocationAfterCallback)after</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>selectorFilter</Name>
-					<Abstract type="html">A block invoked when to select selectors from the class to instrument</Abstract>
-				</Parameter><Parameter>
-					<Name>numInheritanceLevels</Name>
-					<Abstract type="html">The number of inherited classes whose selectors will be made available.</Abstract>
-				</Parameter><Parameter>
-					<Name>after</Name>
-					<Abstract type="html">An optional block invoked after any selector is executed</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/instrumentForTiming:inheritanceLevels:afterBlock:</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/loadInstructions:completion:</TokenIdentifier>
-			<Abstract type="html">Loads the array of instructions execute them. The instructions usually
-comes from a JSON file.</Abstract>
-			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
-			
-			<Declaration>- (void)loadInstructions:(NSArray *)instructions completion:(dispatch_block_t)completion</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>instructions</Name>
-					<Abstract type="html">The array of instructions</Abstract>
-				</Parameter><Parameter>
-					<Name>completion</Name>
-					<Abstract type="html">Optional completion block</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/loadInstructions:completion:</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/startMeasure</TokenIdentifier>
-			<Abstract type="html">Start the timing measurement</Abstract>
-			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
-			
-			<Declaration>- (void)startMeasure</Declaration>
+			<Declaration>+ (void)saveActivityTimestamp</Declaration>
 			
 			
-			<Anchor>//api/name/startMeasure</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/stopMeasure</TokenIdentifier>
-			<Abstract type="html">Stop the timing measurement</Abstract>
-			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
-			
-			<Declaration>- (void)stopMeasure</Declaration>
-			
-			
-			<Anchor>//api/name/stopMeasure</Anchor>
+			<Anchor>//api/name/saveActivityTimestamp</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		

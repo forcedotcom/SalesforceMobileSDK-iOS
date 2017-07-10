@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFDirectoryManager.html">
+	<File path="Classes/SFDefaultUserManagementViewController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFDirectoryManager</TokenIdentifier>
-			<Abstract type="html">Global directory manager that returns scoped directory. The scoping is enforced
-by taking into account the organizationId, the userId and the communityId.</Abstract>
-			<DeclaredIn>SFDirectoryManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFDefaultUserManagementViewController</TokenIdentifier>
+			<Abstract type="html">View controller for managing the different users of the app.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementViewController.h</DeclaredIn>
             
 			
 			<NodeRef refid="40"/>
@@ -14,171 +13,188 @@ by taking into account the organizationId, the userId and the communityId.</Abst
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFDirectoryManager/sharedManager</TokenIdentifier>
-			<Abstract type="html">Returns the singleton of this manager</Abstract>
-			<DeclaredIn>SFDirectoryManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFDefaultUserManagementViewController/initWithCompletionBlock:</TokenIdentifier>
+			<Abstract type="html">Creates an instance with the given completion block.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementViewController.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)sharedManager</Declaration>
-			
-			
-			<Anchor>//api/name/sharedManager</Anchor>
-            <NodeRef refid="40"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFDirectoryManager/ensureDirectoryExists:error:</TokenIdentifier>
-			<Abstract type="html">Ensures the specified directory exists on the disk.</Abstract>
-			<DeclaredIn>SFDirectoryManager.h</DeclaredIn>
-			
-			<Declaration>+ (BOOL)ensureDirectoryExists:(NSString *)directory error:(NSError **)error</Declaration>
+			<Declaration>- (id)initWithCompletionBlock:(SFUserManagementCompletionBlock)completionBlock</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>directory</Name>
-					<Abstract type="html">The directory to ensure exists.</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">The error on output or nil if no error is desired</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the directory exists or has been successfully created, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/ensureDirectoryExists:error:</Anchor>
-            <NodeRef refid="40"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFDirectoryManager/safeStringForDiskRepresentation:</TokenIdentifier>
-			<Abstract type="html">Ensure the specified string contains only characters that can be
-safely used to identify a path on the disk.</Abstract>
-			<DeclaredIn>SFDirectoryManager.h</DeclaredIn>
-			
-			<Declaration>+ (NSString *)safeStringForDiskRepresentation:(NSString *)candidate</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>candidate</Name>
-					<Abstract type="html">The string to be checked for compatibility.</Abstract>
+					<Name>completionBlock</Name>
+					<Abstract type="html">The (optional) completion block to execute once action has been taken.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/safeStringForDiskRepresentation:</Anchor>
+			<Anchor>//api/name/initWithCompletionBlock:</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFDirectoryManager/directoryForOrg:user:community:type:components:</TokenIdentifier>
-			<Abstract type="html">Returns the path to the directory type for the specified org, user and community.</Abstract>
-			<DeclaredIn>SFDirectoryManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFDefaultUserManagementViewController/setAction:</TokenIdentifier>
+			<Abstract type="html">The action to take, once the user interface has been cleared by the consumer.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementViewController+Internal.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)directoryForOrg:(NSString *)orgId user:(NSString *)userId community:(NSString *)communityId type:(NSSearchPathDirectory)type components:(NSArray *)components</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>orgId</Name>
-					<Abstract type="html">The organization ID. If nil, this method returns the global directory type requested (eg Library/Caches)</Abstract>
-				</Parameter><Parameter>
-					<Name>userId</Name>
-					<Abstract type="html">The user ID. If nil, this method returns the directory type requested, scoped at the org level (eg Library/Caches/&lt;orgId&gt;/)</Abstract>
-				</Parameter><Parameter>
-					<Name>communityId</Name>
-					<Abstract type="html">The community ID. If nil, this method returns the directory type requested, scoped at the user level (eg Library/Caches/&lt;orgId&gt;/&lt;userId&gt;)</Abstract>
-				</Parameter><Parameter>
-					<Name>type</Name>
-					<Abstract type="html">The type of directory to return (see NSSearchPathDirectory)</Abstract>
-				</Parameter><Parameter>
-					<Name>components</Name>
-					<Abstract type="html">The additional path components to be added at the end of the directory (eg [&apos;mybundle&apos;, &apos;common&apos;])</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The path to the directory</Abstract></ReturnValue>
-			<Anchor>//api/name/directoryForOrg:user:community:type:components:</Anchor>
+			<Declaration>@property (nonatomic, assign) SFUserManagementAction action</Declaration>
+			
+			
+			<Anchor>//api/name/action</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFDirectoryManager/directoryForUser:scope:type:components:</TokenIdentifier>
-			<Abstract type="html">Returns the path to the directory type for the specified user and scope</Abstract>
-			<DeclaredIn>SFDirectoryManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFDefaultUserManagementViewController/action</TokenIdentifier>
+			<Abstract type="html">The action to take, once the user interface has been cleared by the consumer.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementViewController+Internal.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)directoryForUser:(SFUserAccount *)user scope:(SFUserAccountScope)scope type:(NSSearchPathDirectory)type components:(NSArray *)components</Declaration>
+			<Declaration>@property (nonatomic, assign) SFUserManagementAction action</Declaration>
+			
+			
+			<Anchor>//api/name/action</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFDefaultUserManagementViewController/action</TokenIdentifier>
+			<Abstract type="html">The action to take, once the user interface has been cleared by the consumer.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) SFUserManagementAction action</Declaration>
+			
+			
+			<Anchor>//api/name/action</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFDefaultUserManagementViewController/setActionAccount:</TokenIdentifier>
+			<Abstract type="html">The optional account associated with the action to take.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFUserAccount *actionAccount</Declaration>
+			
+			
+			<Anchor>//api/name/actionAccount</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFDefaultUserManagementViewController/actionAccount</TokenIdentifier>
+			<Abstract type="html">The optional account associated with the action to take.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFUserAccount *actionAccount</Declaration>
+			
+			
+			<Anchor>//api/name/actionAccount</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFDefaultUserManagementViewController/actionAccount</TokenIdentifier>
+			<Abstract type="html">The optional account associated with the action to take.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFUserAccount *actionAccount</Declaration>
+			
+			
+			<Anchor>//api/name/actionAccount</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFDefaultUserManagementViewController/setCompletionBlock:</TokenIdentifier>
+			<Abstract type="html">Completion block to execute, once a user management action has been selected.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) SFUserManagementCompletionBlock completionBlock</Declaration>
+			
+			
+			<Anchor>//api/name/completionBlock</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFDefaultUserManagementViewController/completionBlock</TokenIdentifier>
+			<Abstract type="html">Completion block to execute, once a user management action has been selected.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) SFUserManagementCompletionBlock completionBlock</Declaration>
+			
+			
+			<Anchor>//api/name/completionBlock</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFDefaultUserManagementViewController/completionBlock</TokenIdentifier>
+			<Abstract type="html">Completion block to execute, once a user management action has been selected.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) SFUserManagementCompletionBlock completionBlock</Declaration>
+			
+			
+			<Anchor>//api/name/completionBlock</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFDefaultUserManagementViewController/actionLogout</TokenIdentifier>
+			<Abstract type="html">Logs out the current user, once the user interface is cleared.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)actionLogout</Declaration>
+			
+			
+			<Anchor>//api/name/actionLogout</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFDefaultUserManagementViewController/actionSwitchUser:</TokenIdentifier>
+			<Abstract type="html">Switches to the given user, once the user interface is cleared.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)actionSwitchUser:(SFUserAccount *)user</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>user</Name>
-					<Abstract type="html">The user account to use. If nil, the path returned corresponds to the global path type</Abstract>
-				</Parameter><Parameter>
-					<Name>scope</Name>
-					<Abstract type="html">The scope to use</Abstract>
-				</Parameter><Parameter>
-					<Name>type</Name>
-					<Abstract type="html">The type of directory to return (see NSSearchPathDirectory)</Abstract>
-				</Parameter><Parameter>
-					<Name>components</Name>
-					<Abstract type="html">The additional path components to be added at the end of the directory (eg [&apos;mybundle&apos;, &apos;common&apos;])</Abstract>
+					<Abstract type="html">The user to switch to.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The path to the directory</Abstract></ReturnValue>
-			<Anchor>//api/name/directoryForUser:scope:type:components:</Anchor>
+			
+			<Anchor>//api/name/actionSwitchUser:</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFDirectoryManager/directoryForUser:type:components:</TokenIdentifier>
-			<Abstract type="html">Returns the path to the directory type for the specified user.</Abstract>
-			<DeclaredIn>SFDirectoryManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFDefaultUserManagementViewController/actionCreateNewUser</TokenIdentifier>
+			<Abstract type="html">Creates a new user and switches to that user, once the user interface is cleared.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementViewController+Internal.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)directoryForUser:(SFUserAccount *)account type:(NSSearchPathDirectory)type components:(NSArray *)components</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>account</Name>
-					<Abstract type="html">The user account to use. If nil, the path returned corresponds to the global path type</Abstract>
-				</Parameter><Parameter>
-					<Name>type</Name>
-					<Abstract type="html">The type of directory to return (see NSSearchPathDirectory)</Abstract>
-				</Parameter><Parameter>
-					<Name>components</Name>
-					<Abstract type="html">The additional path components to be added at the end of the directory (eg [&apos;mybundle&apos;, &apos;common&apos;])</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The path to the directory</Abstract></ReturnValue>
-			<Anchor>//api/name/directoryForUser:type:components:</Anchor>
+			<Declaration>- (void)actionCreateNewUser</Declaration>
+			
+			
+			<Anchor>//api/name/actionCreateNewUser</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFDirectoryManager/directoryOfCurrentUserForType:components:</TokenIdentifier>
-			<Abstract type="html">Returns the path to the directory type for the current user and current community.</Abstract>
-			<DeclaredIn>SFDirectoryManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFDefaultUserManagementViewController/execCompletionBlock:account:</TokenIdentifier>
+			<Abstract type="html">Executes the completion block.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementViewController+Internal.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)directoryOfCurrentUserForType:(NSSearchPathDirectory)type components:(NSArray *)components</Declaration>
+			<Declaration>- (void)execCompletionBlock:(SFUserManagementAction)action account:(SFUserAccount *)actionAccount</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>type</Name>
-					<Abstract type="html">The type of directory to return (see NSSearchPathDirectory)</Abstract>
+					<Name>action</Name>
+					<Abstract type="html">The user management action to pass to the completion block.</Abstract>
 				</Parameter><Parameter>
-					<Name>components</Name>
-					<Abstract type="html">The additional path components to be added at the end of the directory (eg [&apos;mybundle&apos;, &apos;common&apos;])</Abstract>
+					<Name>actionAccount</Name>
+					<Abstract type="html">The optional account on which the action will be taken.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The path to the directory</Abstract></ReturnValue>
-			<Anchor>//api/name/directoryOfCurrentUserForType:components:</Anchor>
-            <NodeRef refid="40"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFDirectoryManager/globalDirectoryOfType:components:</TokenIdentifier>
-			<Abstract type="html">Returns the path to the global directory of the specified type. For example, NSCachesDirectory will
-return &quot;Library/Caches/&lt;bundleIdentifier&gt;/&quot;</Abstract>
-			<DeclaredIn>SFDirectoryManager.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)globalDirectoryOfType:(NSSearchPathDirectory)type components:(NSArray *)components</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>type</Name>
-					<Abstract type="html">The type of directory to return (see NSSearchPathDirectory)</Abstract>
-				</Parameter><Parameter>
-					<Name>components</Name>
-					<Abstract type="html">The additional path components to be added at the end of the directory (eg [&apos;mybundle&apos;, &apos;common&apos;])</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The path to the directory</Abstract></ReturnValue>
-			<Anchor>//api/name/globalDirectoryOfType:components:</Anchor>
+			<Anchor>//api/name/execCompletionBlock:account:</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		

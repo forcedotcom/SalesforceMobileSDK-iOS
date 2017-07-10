@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFNetwork.html">
+	<File path="Classes/SFNativeRestRequestListener.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFNetwork</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFNativeRestRequestListener</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			<DeclaredIn>SFNativeRestRequestListener.h</DeclaredIn>
             
 			
 			<NodeRef refid="60"/>
@@ -13,90 +13,50 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFNetwork/setUseBackground:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNativeRestRequestListener/setRequest:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			<DeclaredIn>SFNativeRestRequestListener.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readwrite, assign) BOOL useBackground</Declaration>
+			<Declaration>@property (nonatomic, strong) SFRestRequest *request</Declaration>
 			
 			
-			<Anchor>//api/name/useBackground</Anchor>
+			<Anchor>//api/name/request</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFNetwork/useBackground</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNativeRestRequestListener/request</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			<DeclaredIn>SFNativeRestRequestListener.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readwrite, assign) BOOL useBackground</Declaration>
+			<Declaration>@property (nonatomic, strong) SFRestRequest *request</Declaration>
 			
 			
-			<Anchor>//api/name/useBackground</Anchor>
+			<Anchor>//api/name/request</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFNetwork/useBackground</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFNativeRestRequestListener/request</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			<DeclaredIn>SFNativeRestRequestListener.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readwrite, assign) BOOL useBackground</Declaration>
+			<Declaration>@property (nonatomic, strong) SFRestRequest *request</Declaration>
 			
 			
-			<Anchor>//api/name/useBackground</Anchor>
+			<Anchor>//api/name/request</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFNetwork/sendRequest:dataResponseBlock:</TokenIdentifier>
-			<Abstract type="html">Sends a REST request and calls the appropriate completion block.</Abstract>
-			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNativeRestRequestListener/initWithRequest:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNativeRestRequestListener.h</DeclaredIn>
 			
-			<Declaration>- (nonnull NSURLSessionDataTask *)sendRequest:(nonnull NSURLRequest *)urlRequest dataResponseBlock:(nullable SFDataResponseBlock)dataResponseBlock</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>urlRequest</Name>
-					<Abstract type="html">NSURLRequest instance.</Abstract>
-				</Parameter><Parameter>
-					<Name>dataResponseBlock</Name>
-					<Abstract type="html">Network response block.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">NSURLSessionDataTask instance.</Abstract></ReturnValue>
-			<Anchor>//api/name/sendRequest:dataResponseBlock:</Anchor>
-            <NodeRef refid="60"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFNetwork/activeSession</TokenIdentifier>
-			<Abstract type="html">Returns the current NSURLSession instance being used.</Abstract>
-			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			<Declaration>- (id)initWithRequest:(SFRestRequest *)request</Declaration>
 			
-			<Declaration>- (nonnull NSURLSession *)activeSession</Declaration>
 			
-			<ReturnValue><Abstract type="html">NSURLSession instance.</Abstract></ReturnValue>
-			<Anchor>//api/name/activeSession</Anchor>
-            <NodeRef refid="60"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/setSessionConfiguration:isBackgroundSession:</TokenIdentifier>
-			<Abstract type="html">Sets a session configuration to be used for network requests in the Mobile SDK.</Abstract>
-			<DeclaredIn>SFNetwork.h</DeclaredIn>
-			
-			<Declaration>+ (void)setSessionConfiguration:(nonnull NSURLSessionConfiguration *)sessionConfig isBackgroundSession:(BOOL)isBackgroundSession</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>sessionConfig</Name>
-					<Abstract type="html">Session configuration to be used.</Abstract>
-				</Parameter><Parameter>
-					<Name>isBackgroundSession</Name>
-					<Abstract type="html">YES - if it is a background session configuration, NO - otherwise.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/setSessionConfiguration:isBackgroundSession:</Anchor>
+			<Anchor>//api/name/initWithRequest:</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		

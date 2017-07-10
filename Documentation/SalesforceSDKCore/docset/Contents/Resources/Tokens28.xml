@@ -270,6 +270,48 @@ to the default, and override the authViewController property with your style cha
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/setAuthSafariControllerHandler:</TokenIdentifier>
+			<Abstract type="html">The property denoting the handler for presenting the authentication controller (for advanced auth flows)
+You can override this handler if you want to have a custom work flow for displaying the authentication
+controller.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFAuthenticationSafariControllerHandler *authSafariControllerHandler</Declaration>
+			
+			
+			<Anchor>//api/name/authSafariControllerHandler</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/authSafariControllerHandler</TokenIdentifier>
+			<Abstract type="html">The property denoting the handler for presenting the authentication controller (for advanced auth flows)
+You can override this handler if you want to have a custom work flow for displaying the authentication
+controller.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFAuthenticationSafariControllerHandler *authSafariControllerHandler</Declaration>
+			
+			
+			<Anchor>//api/name/authSafariControllerHandler</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationManager/authSafariControllerHandler</TokenIdentifier>
+			<Abstract type="html">The property denoting the handler for presenting the authentication controller (for advanced auth flows)
+You can override this handler if you want to have a custom work flow for displaying the authentication
+controller.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFAuthenticationSafariControllerHandler *authSafariControllerHandler</Declaration>
+			
+			
+			<Anchor>//api/name/authSafariControllerHandler</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/setInvalidCredentialsAuthErrorHandler:</TokenIdentifier>
 			<Abstract type="html">The auth handler for invalid credentials.</Abstract>
 			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
@@ -792,6 +834,42 @@ configured via the settings bundle.</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/setBrandLoginPath:</TokenIdentifier>
+			<Abstract type="html">The Branded Login path configured for this application.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, nullable, copy) NSString *brandLoginPath</Declaration>
+			
+			
+			<Anchor>//api/name/brandLoginPath</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/brandLoginPath</TokenIdentifier>
+			<Abstract type="html">The Branded Login path configured for this application.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, nullable, copy) NSString *brandLoginPath</Declaration>
+			
+			
+			<Anchor>//api/name/brandLoginPath</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationManager/brandLoginPath</TokenIdentifier>
+			<Abstract type="html">The Branded Login path configured for this application.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, nullable, copy) NSString *brandLoginPath</Declaration>
+			
+			
+			<Anchor>//api/name/brandLoginPath</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/setScopes:</TokenIdentifier>
 			<Abstract type="html">The OAuth scopes associated with the app.</Abstract>
 			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
@@ -905,26 +983,52 @@ in succession.</Abstract></ReturnValue>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/loginWithCompletion:failure:credentials:</TokenIdentifier>
-			<Abstract type="html">Kick off the login process for the specified credentials.</Abstract>
+			<Abstract type="html">Kick off the refresh process for the specified credentials.
+Note: This method is deprecated.  Use refreshCredentials:completion:failure: to refresh existing credentials.</Abstract>
 			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
 			
 			<Declaration>- (BOOL)loginWithCompletion:(nullable SFOAuthFlowSuccessCallbackBlock)completionBlock failure:(nullable SFOAuthFlowFailureCallbackBlock)failureBlock credentials:(nullable SFOAuthCredentials *)credentials</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>completionBlock</Name>
-					<Abstract type="html">The block of code to execute when the authentication process successfully completes.</Abstract>
+					<Abstract type="html">The block of code to execute when the refresh process successfully completes.</Abstract>
 				</Parameter><Parameter>
 					<Name>failureBlock</Name>
-					<Abstract type="html">The block of code to execute when the authentication process has a fatal failure.</Abstract>
+					<Abstract type="html">The block of code to execute when the refresh process has a fatal failure.</Abstract>
 				</Parameter><Parameter>
 					<Name>credentials</Name>
-					<Abstract type="html">SFOAuthCredentials to be logged in.</Abstract>
+					<Abstract type="html">SFOAuthCredentials to be refreshed.</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">YES if this call kicks off the authentication process.  NO if an authentication process has already
 started, in which case subsequent requests are queued up to have their completion or failure blocks executed
 in succession.</Abstract></ReturnValue>
 			<Anchor>//api/name/loginWithCompletion:failure:credentials:</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/refreshCredentials:completion:failure:</TokenIdentifier>
+			<Abstract type="html">Kick off the refresh process for the specified credentials.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)refreshCredentials:(nonnull SFOAuthCredentials *)credentials completion:(nullable SFOAuthFlowSuccessCallbackBlock)completionBlock failure:(nullable SFOAuthFlowFailureCallbackBlock)failureBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>credentials</Name>
+					<Abstract type="html">SFOAuthCredentials to be refreshed.</Abstract>
+				</Parameter><Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">The block of code to execute when the refresh process successfully completes.</Abstract>
+				</Parameter><Parameter>
+					<Name>failureBlock</Name>
+					<Abstract type="html">The block of code to execute when the refresh process has a fatal failure.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if this call kicks off the authentication process.  NO if an authentication process has already
+started, in which case subsequent requests are queued up to have their completion or failure blocks executed
+in succession.</Abstract></ReturnValue>
+			<Anchor>//api/name/refreshCredentials:completion:failure:</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
@@ -1080,67 +1184,6 @@ OAuth credentials.</Abstract>
 			</Parameters>
 			<ReturnValue><Abstract type="html">YES if the error is due to invalid credentials, NO otherwise.</Abstract></ReturnValue>
 			<Anchor>//api/name/errorIsInvalidAuthCredentials:</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFAuthenticationManager/removeCookies:fromDomains:</TokenIdentifier>
-			<Abstract type="html">Remove any cookies with the given names from the given domains.</Abstract>
-			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
-			
-			<Declaration>+ (void)removeCookies:(NSArray&lt;NSString*&gt; *)cookieNames fromDomains:(NSArray&lt;NSString*&gt; *)domainNames</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>cookieNames</Name>
-					<Abstract type="html">The names of the cookies to remove.</Abstract>
-				</Parameter><Parameter>
-					<Name>domainNames</Name>
-					<Abstract type="html">The names of the domains where the cookies are set.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/removeCookies:fromDomains:</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFAuthenticationManager/removeAllCookies</TokenIdentifier>
-			<Abstract type="html">Remove all cookies from the cookie store.</Abstract>
-			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
-			
-			<Declaration>+ (void)removeAllCookies</Declaration>
-			
-			
-			<Anchor>//api/name/removeAllCookies</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFAuthenticationManager/addSidCookieForDomain:</TokenIdentifier>
-			<Abstract type="html">Adds the access (session) token cookie to the web view, for authentication.</Abstract>
-			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
-			
-			<Declaration>+ (void)addSidCookieForDomain:(NSString *)domain</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>domain</Name>
-					<Abstract type="html">The domain on which to set the cookie.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/addSidCookieForDomain:</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/login</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFAuthenticationManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)login</Declaration>
-			
-			
-			<Anchor>//api/name/login</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		

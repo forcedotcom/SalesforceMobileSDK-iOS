@@ -1,47 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/TestSyncUpTargetModDateCompare.html">
+	<File path="Protocols/SFAdvancedSyncUpTarget.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/TestSyncUpTargetModDateCompare</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>TestSyncUpTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFAdvancedSyncUpTarget</TokenIdentifier>
+			<Abstract type="html">Protocol for advanced sync up target where records are not simply created/updated/deleted
+With advanced sync up target, sync manager simply calls the method: syncUpRecord</Abstract>
+			<DeclaredIn>SFAdvancedSyncUpTarget.h</DeclaredIn>
             
 			
 			<NodeRef refid="31"/>
 		</Token>
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/TestSyncUpTargetRemoteModDateSameAsLocal</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>TestSyncUpTargetRemoteModDateSameAsLocal</Declaration>
-            
-            <DeclaredIn>TestSyncUpTarget.h</DeclaredIn>
-            
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFAdvancedSyncUpTarget/syncUpRecord:record:fieldlist:mergeMode:completionBlock:failBlock:</TokenIdentifier>
+			<Abstract type="html">Sync up locally created/updated or deleted record back to server</Abstract>
+			<DeclaredIn>SFAdvancedSyncUpTarget.h</DeclaredIn>
+			
+			<Declaration>- (void)syncUpRecord:(SFSmartSyncSyncManager *)syncManager record:(NSMutableDictionary *)record fieldlist:(NSArray *)fieldlist mergeMode:(SFSyncStateMergeMode)mergeMode completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock failBlock:(SFSyncUpTargetErrorBlock)failBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>syncManager</Name>
+					<Abstract type="html">The sync manager doing the sync</Abstract>
+				</Parameter><Parameter>
+					<Name>record</Name>
+					<Abstract type="html">The record being synced</Abstract>
+				</Parameter><Parameter>
+					<Name>fieldlist</Name>
+					<Abstract type="html">List of fields to send to server</Abstract>
+				</Parameter><Parameter>
+					<Name>mergeMode</Name>
+					<Abstract type="html">Merge mode (overwrite or leave if changed)</Abstract>
+				</Parameter><Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">The block to execute after the server call completes.</Abstract>
+				</Parameter><Parameter>
+					<Name>failBlock</Name>
+					<Abstract type="html">The block to execute if the server call fails.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/syncUpRecord:record:fieldlist:mergeMode:completionBlock:failBlock:</Anchor>
             <NodeRef refid="31"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/TestSyncUpTargetRemoteModDateGreaterThanLocal</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>TestSyncUpTargetRemoteModDateGreaterThanLocal</Declaration>
-            
-            <DeclaredIn>TestSyncUpTarget.h</DeclaredIn>
-            
-            <NodeRef refid="31"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/TestSyncUpTargetRemoteModDateLessThanLocal</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>TestSyncUpTargetRemoteModDateLessThanLocal</Declaration>
-            
-            <DeclaredIn>TestSyncUpTarget.h</DeclaredIn>
-            
-            <NodeRef refid="31"/>
-        </Token>
+		</Token>
+		
         
         
 	</File>

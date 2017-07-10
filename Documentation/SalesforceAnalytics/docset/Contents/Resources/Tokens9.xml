@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKReachability.html">
+	<File path="Classes/SFSDKFileLogger.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKReachability</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKFileLogger</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKReachability.h</DeclaredIn>
+			<DeclaredIn>SFSDKFileLogger.h</DeclaredIn>
             
 			
 			<NodeRef refid="9"/>
@@ -13,86 +13,74 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKReachability/reachabilityWithHostName:</TokenIdentifier>
-			<Abstract type="html">Use to check the reachability of a given host name.</Abstract>
-			<DeclaredIn>SFSDKReachability.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKFileLogger/setComponentName:</TokenIdentifier>
+			<Abstract type="html">Component name associated with this file logger.</Abstract>
+			<DeclaredIn>SFSDKFileLogger.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)reachabilityWithHostName:(NSString *)hostName</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) NSString *componentName</Declaration>
 			
 			
-			<Anchor>//api/name/reachabilityWithHostName:</Anchor>
+			<Anchor>//api/name/componentName</Anchor>
             <NodeRef refid="9"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKReachability/reachabilityWithAddress:</TokenIdentifier>
-			<Abstract type="html">Use to check the reachability of a given IP address.</Abstract>
-			<DeclaredIn>SFSDKReachability.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKFileLogger/componentName</TokenIdentifier>
+			<Abstract type="html">Component name associated with this file logger.</Abstract>
+			<DeclaredIn>SFSDKFileLogger.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)reachabilityWithAddress:(const struct sockaddr *)hostAddress</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) NSString *componentName</Declaration>
 			
 			
-			<Anchor>//api/name/reachabilityWithAddress:</Anchor>
+			<Anchor>//api/name/componentName</Anchor>
             <NodeRef refid="9"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKReachability/reachabilityForInternetConnection</TokenIdentifier>
-			<Abstract type="html">Checks whether the default route is available. Should be used by applications that do not connect to a particular host.</Abstract>
-			<DeclaredIn>SFSDKReachability.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKFileLogger/componentName</TokenIdentifier>
+			<Abstract type="html">Component name associated with this file logger.</Abstract>
+			<DeclaredIn>SFSDKFileLogger.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)reachabilityForInternetConnection</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) NSString *componentName</Declaration>
 			
 			
-			<Anchor>//api/name/reachabilityForInternetConnection</Anchor>
+			<Anchor>//api/name/componentName</Anchor>
             <NodeRef refid="9"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKReachability/startNotifier</TokenIdentifier>
-			<Abstract type="html">Start listening for reachability notifications on the current run loop.</Abstract>
-			<DeclaredIn>SFSDKReachability.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKFileLogger/initWithComponent:</TokenIdentifier>
+			<Abstract type="html">Initializes a file logger for the specified component.</Abstract>
+			<DeclaredIn>SFSDKFileLogger.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)startNotifier</Declaration>
+			<Declaration>- (nonnull instancetype)initWithComponent:(nonnull NSString *)componentName</Declaration>
 			
 			
-			<Anchor>//api/name/startNotifier</Anchor>
+			<Anchor>//api/name/initWithComponent:</Anchor>
             <NodeRef refid="9"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKReachability/stopNotifier</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKReachability.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKFileLogger/flushLogWithCompletionBlock:</TokenIdentifier>
+			<Abstract type="html">Flushes the log file and resets it to its original state.</Abstract>
+			<DeclaredIn>SFSDKFileLogger.h</DeclaredIn>
 			
-			<Declaration>- (void)stopNotifier</Declaration>
+			<Declaration>- (void)flushLogWithCompletionBlock:(void ( ^ _Nullable ) ( ))completionBlock</Declaration>
 			
 			
-			<Anchor>//api/name/stopNotifier</Anchor>
+			<Anchor>//api/name/flushLogWithCompletionBlock:</Anchor>
             <NodeRef refid="9"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKReachability/currentReachabilityStatus</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKReachability.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKFileLogger/readFile</TokenIdentifier>
+			<Abstract type="html">Returns all log lines stored in this file.</Abstract>
+			<DeclaredIn>SFSDKFileLogger.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKReachabilityNetworkStatus)currentReachabilityStatus</Declaration>
+			<Declaration>- (nullable NSString *)readFile</Declaration>
 			
-			
-			<Anchor>//api/name/currentReachabilityStatus</Anchor>
-            <NodeRef refid="9"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKReachability/connectionRequired</TokenIdentifier>
-			<Abstract type="html">WWAN may be available, but not active until a connection has been established. WiFi may require a connection for VPN on Demand.</Abstract>
-			<DeclaredIn>SFSDKReachability.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)connectionRequired</Declaration>
-			
-			
-			<Anchor>//api/name/connectionRequired</Anchor>
+			<ReturnValue><Abstract type="html">All log lines stored in this file.</Abstract></ReturnValue>
+			<Anchor>//api/name/readFile</Anchor>
             <NodeRef refid="9"/>
 		</Token>
 		

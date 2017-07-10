@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFUserAccountScope.html">
+	<File path="Constants/SFUserAccountDataChange.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountScope</TokenIdentifier>
-			<Abstract type="html">The various scopes related to a user account</Abstract>
+			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountDataChange</TokenIdentifier>
+			<Abstract type="html">The various changes that can affect a user account</Abstract>
 			<DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
 			
@@ -14,10 +14,10 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeGlobal</TokenIdentifier>
-            <Abstract type="html">Global scope (one per application)
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountDataChangeUnknown</TokenIdentifier>
+            <Abstract type="html">Unknown change
      </Abstract>
-            <Declaration>SFUserAccountScopeGlobal</Declaration>
+            <Declaration>SFUserAccountDataChangeUnknown</Declaration>
             
             <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
@@ -25,10 +25,10 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeOrg</TokenIdentifier>
-            <Abstract type="html">Scope by organization
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountDataChangeCommunityId</TokenIdentifier>
+            <Abstract type="html">The community ID changed
      </Abstract>
-            <Declaration>SFUserAccountScopeOrg</Declaration>
+            <Declaration>SFUserAccountDataChangeCommunityId</Declaration>
             
             <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
@@ -36,10 +36,10 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeUser</TokenIdentifier>
-            <Abstract type="html">Scope by user
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountDataChangeIdData</TokenIdentifier>
+            <Abstract type="html">The ID data changed
      </Abstract>
-            <Declaration>SFUserAccountScopeUser</Declaration>
+            <Declaration>SFUserAccountDataChangeIdData</Declaration>
             
             <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
@@ -47,10 +47,21 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeCommunity</TokenIdentifier>
-            <Abstract type="html">Scope by community
-     </Abstract>
-            <Declaration>SFUserAccountScopeCommunity</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountDataChangeInstanceURL</TokenIdentifier>
+            <Abstract type="html">InstanceURL Changed
+    </Abstract>
+            <Declaration>SFUserAccountDataChangeInstanceURL</Declaration>
+            
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            
+            <NodeRef refid="218"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountDataChangeAccessToken</TokenIdentifier>
+            <Abstract type="html">AccessToken Changed
+    </Abstract>
+            <Declaration>SFUserAccountDataChangeAccessToken</Declaration>
             
             <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             

@@ -60,6 +60,8 @@
 	
 	<optgroup label="Instance Methods">
 		
+		<option value="//api/name/oauthCoordinator:didBeginAuthenticationWithSafariViewController:">- oauthCoordinator:didBeginAuthenticationWithSafariViewController:</option>
+		
 		<option value="//api/name/oauthCoordinator:didBeginAuthenticationWithView:">- oauthCoordinator:didBeginAuthenticationWithView:</option>
 		
 		<option value="//api/name/oauthCoordinator:didFailWithError:">- oauthCoordinator:didFailWithError:</option>
@@ -82,9 +84,9 @@
 		
 		<option value="//api/name/oauthCoordinatorDidAuthenticate:authInfo:">- oauthCoordinatorDidAuthenticate:authInfo:</option>
 		
-		<option value="//api/name/oauthCoordinatorIsNetworkAvailable:">- oauthCoordinatorIsNetworkAvailable:</option>
+		<option value="//api/name/oauthCoordinatorDidCancelBrowserAuthentication:">- oauthCoordinatorDidCancelBrowserAuthentication:</option>
 		
-		<option value="//api/name/oauthCoordinatorRetryAuthenticationOnApplicationDidBecomeActive:">- oauthCoordinatorRetryAuthenticationOnApplicationDidBecomeActive:</option>
+		<option value="//api/name/oauthCoordinatorIsNetworkAvailable:">- oauthCoordinatorIsNetworkAvailable:</option>
 		
 		<option value="//api/name/oauthCoordinatorWillBeginAuthentication:authInfo:">- oauthCoordinatorWillBeginAuthentication:authInfo:</option>
 		
@@ -782,59 +784,6 @@ whether it should proceed with the browser flow or not.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/oauthCoordinatorRetryAuthenticationOnApplicationDidBecomeActive:" title="oauthCoordinatorRetryAuthenticationOnApplicationDidBecomeActive:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/oauthCoordinatorRetryAuthenticationOnApplicationDidBecomeActive:">&ndash;&nbsp;oauthCoordinatorRetryAuthenticationOnApplicationDidBecomeActive:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Whether or not the coordinator retries browser authentication when the coordinator has not handled the browser response prior
-to application did become active event.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (BOOL)oauthCoordinatorRetryAuthenticationOnApplicationDidBecomeActive:(SFOAuthCoordinator *)<em>coordinator</em></code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>@discussion
-Ideally the coordinator (via <code>-handleAdvancedAuthenticationResponse:</code>) should handle the browser response
-on your app delegate method <code>-application:openURL:sourceApplication:annotation:</code>.
-If your coordinator handles the browser response at any point after the application did become active notification is sent,
-this method should be implemented and return NO to disable the browser authentication auto-retry flow.</p>
-
-<p>The coordinator will auto retry authentication if this method is not implemented.</p>
-			</div>
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFOAuthCoordinator.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
 	<a name="//api/name/oauthCoordinator:displayAlertMessage:completion:" title="oauthCoordinator:displayAlertMessage:completion:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/oauthCoordinator:displayAlertMessage:completion:">&ndash;&nbsp;oauthCoordinator:displayAlertMessage:completion:</a></code>
 </h3>
@@ -1035,6 +984,131 @@ The receiver should display the view in the implementation of this method.</p><d
 			
 		</div>
 	</div>
+</div><div class="section-method">
+	<a name="//api/name/oauthCoordinator:didBeginAuthenticationWithSafariViewController:" title="oauthCoordinator:didBeginAuthenticationWithSafariViewController:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/oauthCoordinator:didBeginAuthenticationWithSafariViewController:">&ndash;&nbsp;oauthCoordinator:didBeginAuthenticationWithSafariViewController:</a></code>
+<span class="task-item-suffix">required method</span></h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Sent after VC has been initialized with authentication URL.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)oauthCoordinator:(SFOAuthCoordinator *)<em>coordinator</em> didBeginAuthenticationWithSafariViewController:(SFSafariViewController *)<em>svc</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>coordinator</code></th>
+						<td><p>The <a href="../Classes/SFOAuthCoordinator.html">SFOAuthCoordinator</a> instance processing this message</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>svc</code></th>
+						<td><p>The SFSafari<a href="../Classes/ViewController.html">ViewController</a> instance that will be used to conduct the authentication workflow</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>The receiver should present the VC in the implementation of this method.</p>
+			</div>
+			
+
+			
+
+			
+			<div class="method-subsection see-also-section">
+				<h4 class="method-subtitle">See Also</h4>
+				<ul>
+					
+					<li><code><p><a href="../Classes/SFOAuthCoordinator.html">SFOAuthCoordinator</a></p></code></li>
+					
+				</ul>
+			</div>
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFOAuthCoordinator.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/oauthCoordinatorDidCancelBrowserAuthentication:" title="oauthCoordinatorDidCancelBrowserAuthentication:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/oauthCoordinatorDidCancelBrowserAuthentication:">&ndash;&nbsp;oauthCoordinatorDidCancelBrowserAuthentication:</a></code>
+<span class="task-item-suffix">required method</span></h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Sent to notify the delegate that a browser authentication flow was cancelled out of by the user.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator *)<em>coordinator</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>coordinator</code></th>
+						<td><p>The <a href="../Classes/SFOAuthCoordinator.html">SFOAuthCoordinator</a> instance processing this message.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFOAuthCoordinator.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
 </div>
 						</div>
 						
@@ -1050,7 +1124,7 @@ The receiver should display the view in the implementation of this method.</p><d
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-04-26</p>
+						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-07-10</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFUserAccountPersister.html">
+	<File path="Protocols/SFSDKLoginHostDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFUserAccountPersister</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKLoginHostDelegate</TokenIdentifier>
+			<Abstract type="html">Use the SFSDKLoginHostDelegate to be notified of the actions taken by the user on the login host list view controller.</Abstract>
+			<DeclaredIn>SFSDKLoginHostDelegate.h</DeclaredIn>
             
 			
 			<NodeRef refid="168"/>
@@ -13,62 +13,95 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFUserAccountPersister/saveAccountForUser:error:</TokenIdentifier>
-			<Abstract type="html">Called when the Account manager requires to save the state of an account.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginHostDelegate/hostListViewController:willPresentLoginHostViewController:</TokenIdentifier>
+			<Abstract type="html">Notifies the delegate that a new login host viewcontroller will be presented.</Abstract>
+			<DeclaredIn>SFSDKLoginHostDelegate.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)saveAccountForUser:(SFUserAccount *)userAccount error:(NSError **)error</Declaration>
+			<Declaration>- (void)hostListViewController:(SFSDKLoginHostListViewController *)hostListViewController willPresentLoginHostViewController:(UIViewController *)loginHostViewController</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>userAccount</Name>
-					<Abstract type="html">The instance of SFUserAccount making the call.</Abstract>
+					<Name>hostListViewController</Name>
+					<Abstract type="html">The instance sending this message.</Abstract>
 				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">On output, the error if the return value is NO</Abstract>
+					<Name>loginHostViewController</Name>
+					<Abstract type="html">The view controller that will be presented.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the account was saved properly, NO in case of error</Abstract></ReturnValue>
-			<Anchor>//api/name/saveAccountForUser:error:</Anchor>
+			
+			<Anchor>//api/name/hostListViewController:willPresentLoginHostViewController:</Anchor>
             <NodeRef refid="168"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFUserAccountPersister/fetchAllAccounts:</TokenIdentifier>
-			<Abstract type="html">Fetches all the accounts.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginHostDelegate/hostListViewControllerDidSelectLoginHost:</TokenIdentifier>
+			<Abstract type="html">Notifies the delegate that a login host has been selected by the user.
+This will be a good time to dismiss the host list view controller.</Abstract>
+			<DeclaredIn>SFSDKLoginHostDelegate.h</DeclaredIn>
 			
-			<Declaration>- (NSDictionary&lt;SFUserAccountIdentity*,SFUserAccount*&gt; *)fetchAllAccounts:(NSError **)error</Declaration>
+			<Declaration>- (void)hostListViewControllerDidSelectLoginHost:(SFSDKLoginHostListViewController *)hostListViewController</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>error</Name>
-					<Abstract type="html">On output, the error if the return value is NO</Abstract>
+					<Name>hostListViewController</Name>
+					<Abstract type="html">The instance sending this message.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">NSDictionary with SFUserAccountIdentity as keys and SFUserAccount as values
-  </Abstract></ReturnValue>
-			<Anchor>//api/name/fetchAllAccounts:</Anchor>
+			
+			<Anchor>//api/name/hostListViewControllerDidSelectLoginHost:</Anchor>
             <NodeRef refid="168"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFUserAccountPersister/deleteAccountForUser:error:</TokenIdentifier>
-			<Abstract type="html">Allows you to remove the given user account.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginHostDelegate/hostListViewControllerDidAddLoginHost:</TokenIdentifier>
+			<Abstract type="html">Notifies the delegate that a login host has been added to the list of hosts.</Abstract>
+			<DeclaredIn>SFSDKLoginHostDelegate.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)deleteAccountForUser:(SFUserAccount *)user error:(NSError **)error</Declaration>
+			<Declaration>- (void)hostListViewControllerDidAddLoginHost:(SFSDKLoginHostListViewController *)hostListViewController</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>user</Name>
-					<Abstract type="html">The user account to remove.</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">Output error parameter, populated if there was an error deleting
-the account (likely from the filesystem operations).</Abstract>
+					<Name>hostListViewController</Name>
+					<Abstract type="html">The instance sending this message.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the deletion was successful, NO otherwise.  Note: If no persisted account matching
-the user parameter is found, no action will be taken, and deletion will be reported as successful.</Abstract></ReturnValue>
-			<Anchor>//api/name/deleteAccountForUser:error:</Anchor>
+			
+			<Anchor>//api/name/hostListViewControllerDidAddLoginHost:</Anchor>
+            <NodeRef refid="168"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginHostDelegate/hostListViewControllerDidCancelLoginHost:</TokenIdentifier>
+			<Abstract type="html">Notifies the delegate that user cancels out from the login host picking flow</Abstract>
+			<DeclaredIn>SFSDKLoginHostDelegate.h</DeclaredIn>
+			
+			<Declaration>- (void)hostListViewControllerDidCancelLoginHost:(SFSDKLoginHostListViewController *)hostListViewController</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>hostListViewController</Name>
+					<Abstract type="html">The instance sending this message.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/hostListViewControllerDidCancelLoginHost:</Anchor>
+            <NodeRef refid="168"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginHostDelegate/hostListViewController:didChangeLoginHost:</TokenIdentifier>
+			<Abstract type="html">Notifies the delegate that the login host has been changed in some capacity (user-selected, host entry edited,
+custom login host added, previous current login host deleted, etc.).</Abstract>
+			<DeclaredIn>SFSDKLoginHostDelegate.h</DeclaredIn>
+			
+			<Declaration>- (void)hostListViewController:(SFSDKLoginHostListViewController *)hostListViewController didChangeLoginHost:(SFSDKLoginHost *)newLoginHost</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>hostListViewController</Name>
+					<Abstract type="html">The instance sending this message.</Abstract>
+				</Parameter><Parameter>
+					<Name>newLoginHost</Name>
+					<Abstract type="html">The updated login host.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/hostListViewController:didChangeLoginHost:</Anchor>
             <NodeRef refid="168"/>
 		</Token>
 		

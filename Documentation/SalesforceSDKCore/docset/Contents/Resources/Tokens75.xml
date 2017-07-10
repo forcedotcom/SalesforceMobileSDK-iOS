@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFPasscodeViewController.html">
+	<File path="Classes/SFPasscodeProviderManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFPasscodeViewController</TokenIdentifier>
-			<Abstract type="html">The view controller for managing the passcode screen.</Abstract>
-			<DeclaredIn>SFPasscodeViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFPasscodeProviderManager</TokenIdentifier>
+			<Abstract type="html">Class for managing passcode providers.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="75"/>
@@ -13,48 +13,114 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeViewController/initForPasscodeVerification</TokenIdentifier>
-			<Abstract type="html">Initializes the controller for verifying an existing passcode.</Abstract>
-			<DeclaredIn>SFPasscodeViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPasscodeProviderManager/currentPasscodeProviderName</TokenIdentifier>
+			<Abstract type="html">The name of the currently configured passcode provider.  There can only be one &quot;current&quot;
+passcode provider at any given time, though multiple passcode providers can be worked
+with, usign the [SFPasscodeProviderManager passcodeProviderForProviderName:] method.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
 			
-			<Declaration>- (id)initForPasscodeVerification</Declaration>
+			<Declaration>+ (SFPasscodeProviderId)currentPasscodeProviderName</Declaration>
 			
-			
-			<Anchor>//api/name/initForPasscodeVerification</Anchor>
+			<ReturnValue><Abstract type="html">The name of the currently configured passcode provider.</Abstract></ReturnValue>
+			<Anchor>//api/name/currentPasscodeProviderName</Anchor>
             <NodeRef refid="75"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeViewController/initForPasscodeCreation:</TokenIdentifier>
-			<Abstract type="html">Initializes the controller for creating a new passcode.</Abstract>
-			<DeclaredIn>SFPasscodeViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPasscodeProviderManager/setCurrentPasscodeProviderByName:</TokenIdentifier>
+			<Abstract type="html">Sets the current passcode provider.  Note: the passcode provider implementation class itself
+must first be configured through the [SFPasscodeProviderManager addPasscodeProvider:name:]
+method.  The default providers in the SDK will already be configured.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
 			
-			<Declaration>- (id)initForPasscodeCreation:(SFPasscodeConfigurationData)configData</Declaration>
+			<Declaration>+ (void)setCurrentPasscodeProviderByName:(SFPasscodeProviderId)providerName</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>configData</Name>
-					<Abstract type="html">Configuration for the new passcode.</Abstract>
+					<Name>providerName</Name>
+					<Abstract type="html">The name of the passcode provider that will become the current provider.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/initForPasscodeCreation:</Anchor>
+			<Anchor>//api/name/setCurrentPasscodeProviderByName:</Anchor>
             <NodeRef refid="75"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeViewController/initForPasscodeChange:</TokenIdentifier>
-			<Abstract type="html">Initializes the controller for changing the existing passcode.</Abstract>
-			<DeclaredIn>SFPasscodeViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPasscodeProviderManager/currentPasscodeProvider</TokenIdentifier>
+			<Abstract type="html">The provider implementation for the current passcode provider.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
 			
-			<Declaration>- (id)initForPasscodeChange:(SFPasscodeConfigurationData)configData</Declaration>
+			<Declaration>+ (id&lt;SFPasscodeProvider&gt;)currentPasscodeProvider</Declaration>
+			
+			<ReturnValue><Abstract type="html">The provider implementation for the current passcode provider.</Abstract></ReturnValue>
+			<Anchor>//api/name/currentPasscodeProvider</Anchor>
+            <NodeRef refid="75"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPasscodeProviderManager/passcodeProviderForProviderName:</TokenIdentifier>
+			<Abstract type="html">Returns the passcode provider implementation associated with the given provider name, or
+nil if no provider is configured for the given name.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
+			
+			<Declaration>+ (nullable id&lt;SFPasscodeProvider&gt;)passcodeProviderForProviderName:(SFPasscodeProviderId)providerName</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>configData</Name>
-					<Abstract type="html">Configuration for the new passcode.</Abstract>
+					<Name>providerName</Name>
+					<Abstract type="html">The name associated with the requested provider.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The passcode provider implementation.</Abstract></ReturnValue>
+			<Anchor>//api/name/passcodeProviderForProviderName:</Anchor>
+            <NodeRef refid="75"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPasscodeProviderManager/addPasscodeProvider:</TokenIdentifier>
+			<Abstract type="html">Adds a custom passcode provider implementation to the global provider configuration.
+Note: custom providers are not persisted across app restarts.  You should call this method
+to add your provider in your app&apos;s initialization logic.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
+			
+			<Declaration>+ (void)addPasscodeProvider:(id&lt;SFPasscodeProvider&gt;)provider</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>provider</Name>
+					<Abstract type="html">The passcode provider implementation.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/initForPasscodeChange:</Anchor>
+			<Anchor>//api/name/addPasscodeProvider:</Anchor>
+            <NodeRef refid="75"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPasscodeProviderManager/removePasscodeProviderWithName:</TokenIdentifier>
+			<Abstract type="html">Removes a passcode provider from configuration.  If it is designated as the current-configured provider,
+the current provider will be reset to the default value.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
+			
+			<Declaration>+ (void)removePasscodeProviderWithName:(SFPasscodeProviderId)providerName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>providerName</Name>
+					<Abstract type="html">The name of the provider to remove.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/removePasscodeProviderWithName:</Anchor>
+            <NodeRef refid="75"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPasscodeProviderManager/resetCurrentPasscodeProviderName</TokenIdentifier>
+			<Abstract type="html">Clears the persisted value for the passcode provider name.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (void)resetCurrentPasscodeProviderName</Declaration>
+			
+			
+			<Anchor>//api/name/resetCurrentPasscodeProviderName</Anchor>
             <NodeRef refid="75"/>
 		</Token>
 		

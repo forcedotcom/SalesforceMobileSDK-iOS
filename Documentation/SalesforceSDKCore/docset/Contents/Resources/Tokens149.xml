@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/CSFActionValue.html">
+	<File path="Protocols/CSFActionInput.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/CSFActionValue</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intf/CSFActionInput</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFActionValue.h</DeclaredIn>
+			<DeclaredIn>CSFActionInput.h</DeclaredIn>
             
 			
 			<NodeRef refid="149"/>
@@ -13,26 +13,19 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/CSFActionValue/actionValue</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFActionValue.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/CSFActionInput/formatJSONData:</TokenIdentifier>
+			<Abstract type="html">Method used to format the input model as a JSON blob.</Abstract>
+			<DeclaredIn>CSFActionInput.h</DeclaredIn>
 			
-			<Declaration>- (id)actionValue</Declaration>
-			
-			
-			<Anchor>//api/name/actionValue</Anchor>
-            <NodeRef refid="149"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/CSFActionValue/decodedObjectForActionValue:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFActionValue.h</DeclaredIn>
-			
-			<Declaration>+ (id&lt;CSFActionValue&gt;)decodedObjectForActionValue:(id)actionValue</Declaration>
-			
-			
-			<Anchor>//api/name/decodedObjectForActionValue:</Anchor>
+			<Declaration>- (NSData *)formatJSONData:(NSError **)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>error</Name>
+					<Abstract type="html">Error reported, if any.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Formatted JSON data.</Abstract></ReturnValue>
+			<Anchor>//api/name/formatJSONData:</Anchor>
             <NodeRef refid="149"/>
 		</Token>
 		

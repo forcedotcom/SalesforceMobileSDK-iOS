@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/CSFValidationErrorCode.html">
+	<File path="Constants/CSFInteractionContext.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/CSFValidationErrorCode</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/CSFInteractionContext</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>CSFDefines.h</DeclaredIn>
             
@@ -14,9 +14,9 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFValidationDataTypeError</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFInteractionContextUser</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFValidationDataTypeError</Declaration>
+            <Declaration>CSFInteractionContextUser</Declaration>
             
             <DeclaredIn>CSFDefines.h</DeclaredIn>
             
@@ -24,9 +24,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFValidationRangeError</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFValidationRangeError</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/CSFInteractionContextProgrammatic</TokenIdentifier>
+            <Abstract type="html">the event was caused by user interaction</Abstract>
+            <Declaration>CSFInteractionContextProgrammatic</Declaration>
             
             <DeclaredIn>CSFDefines.h</DeclaredIn>
             

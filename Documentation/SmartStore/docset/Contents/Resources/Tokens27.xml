@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSmartStoreFtsExtension.html">
+	<File path="Constants/SFAlterSoupStep.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSmartStoreFtsExtension</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFAlterSoupStep</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
             
 			
 			<NodeRef refid="27"/>
@@ -14,21 +14,81 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSmartStoreFTS4</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFAlterSoupStepStarting</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSmartStoreFTS4</Declaration>
+            <Declaration>SFAlterSoupStepStarting</Declaration>
             
-            <DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+            <DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
             
             <NodeRef refid="27"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSmartStoreFTS5</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFAlterSoupStepRenameOldSoupTable</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSmartStoreFTS5</Declaration>
+            <Declaration>SFAlterSoupStepRenameOldSoupTable</Declaration>
             
-            <DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+            <DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+            
+            <NodeRef refid="27"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFAlterSoupStepDropOldIndexes</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFAlterSoupStepDropOldIndexes</Declaration>
+            
+            <DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+            
+            <NodeRef refid="27"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFAlterSoupStepRegisterSoupUsingTableName</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFAlterSoupStepRegisterSoupUsingTableName</Declaration>
+            
+            <DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+            
+            <NodeRef refid="27"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFAlterSoupStepCopyTable</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFAlterSoupStepCopyTable</Declaration>
+            
+            <DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+            
+            <NodeRef refid="27"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFAlterSoupStepReIndexSoup</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFAlterSoupStepReIndexSoup</Declaration>
+            
+            <DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+            
+            <NodeRef refid="27"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFAlterSoupStepDropOldTable</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFAlterSoupStepDropOldTable</Declaration>
+            
+            <DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+            
+            <NodeRef refid="27"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFAlterSoupStepCleanup</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFAlterSoupStepCleanup</Declaration>
+            
+            <DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
             
             <NodeRef refid="27"/>
         </Token>

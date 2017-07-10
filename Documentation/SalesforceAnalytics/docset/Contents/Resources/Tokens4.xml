@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKAnalyticsManager.html">
+	<File path="Classes/SFSDKAnalyticsLogger.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAnalyticsManager</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAnalyticsLogger</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAnalyticsManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKAnalyticsLogger.h</DeclaredIn>
             
 			
 			<NodeRef refid="4"/>
@@ -13,184 +13,146 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAnalyticsManager/setStoreDirectory:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAnalyticsManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAnalyticsLogger/curLogLevel</TokenIdentifier>
+			<Abstract type="html">Returns current log level used by this logger.</Abstract>
+			<DeclaredIn>SFSDKAnalyticsLogger.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, strong, nonnull) NSString *storeDirectory</Declaration>
+			<Declaration>+ (DDLogLevel)curLogLevel</Declaration>
 			
-			
-			<Anchor>//api/name/storeDirectory</Anchor>
+			<ReturnValue><Abstract type="html">Current log level.</Abstract></ReturnValue>
+			<Anchor>//api/name/curLogLevel</Anchor>
             <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAnalyticsManager/storeDirectory</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAnalyticsManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAnalyticsLogger/setLogLevel:</TokenIdentifier>
+			<Abstract type="html">Sets log level to be used by this logger.</Abstract>
+			<DeclaredIn>SFSDKAnalyticsLogger.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, strong, nonnull) NSString *storeDirectory</Declaration>
-			
-			
-			<Anchor>//api/name/storeDirectory</Anchor>
-            <NodeRef refid="4"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAnalyticsManager/storeDirectory</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAnalyticsManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong, nonnull) NSString *storeDirectory</Declaration>
-			
-			
-			<Anchor>//api/name/storeDirectory</Anchor>
-            <NodeRef refid="4"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAnalyticsManager/setStoreManager:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAnalyticsManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKEventStoreManager *storeManager</Declaration>
-			
-			
-			<Anchor>//api/name/storeManager</Anchor>
-            <NodeRef refid="4"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAnalyticsManager/storeManager</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAnalyticsManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKEventStoreManager *storeManager</Declaration>
-			
-			
-			<Anchor>//api/name/storeManager</Anchor>
-            <NodeRef refid="4"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAnalyticsManager/storeManager</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAnalyticsManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKEventStoreManager *storeManager</Declaration>
-			
-			
-			<Anchor>//api/name/storeManager</Anchor>
-            <NodeRef refid="4"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAnalyticsManager/setDeviceAttributes:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAnalyticsManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKDeviceAppAttributes *deviceAttributes</Declaration>
-			
-			
-			<Anchor>//api/name/deviceAttributes</Anchor>
-            <NodeRef refid="4"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAnalyticsManager/deviceAttributes</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAnalyticsManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKDeviceAppAttributes *deviceAttributes</Declaration>
-			
-			
-			<Anchor>//api/name/deviceAttributes</Anchor>
-            <NodeRef refid="4"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAnalyticsManager/deviceAttributes</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAnalyticsManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKDeviceAppAttributes *deviceAttributes</Declaration>
-			
-			
-			<Anchor>//api/name/deviceAttributes</Anchor>
-            <NodeRef refid="4"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAnalyticsManager/setGlobalSequenceId:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAnalyticsManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, assign) NSInteger globalSequenceId</Declaration>
-			
-			
-			<Anchor>//api/name/globalSequenceId</Anchor>
-            <NodeRef refid="4"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAnalyticsManager/globalSequenceId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAnalyticsManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, assign) NSInteger globalSequenceId</Declaration>
-			
-			
-			<Anchor>//api/name/globalSequenceId</Anchor>
-            <NodeRef refid="4"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAnalyticsManager/globalSequenceId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAnalyticsManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, assign) NSInteger globalSequenceId</Declaration>
-			
-			
-			<Anchor>//api/name/globalSequenceId</Anchor>
-            <NodeRef refid="4"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAnalyticsManager/initWithStoreDirectory:dataEncryptorBlock:dataDecryptorBlock:deviceAttributes:</TokenIdentifier>
-			<Abstract type="html">Parameterized initializer.</Abstract>
-			<DeclaredIn>SFSDKAnalyticsManager.h</DeclaredIn>
-			
-			<Declaration>- (nonnull instancetype)initWithStoreDirectory:(nonnull NSString *)storeDirectory dataEncryptorBlock:(nullable DataEncryptorBlock)dataEncryptorBlock dataDecryptorBlock:(nullable DataDecryptorBlock)dataDecryptorBlock deviceAttributes:(nonnull SFSDKDeviceAppAttributes *)deviceAttributes</Declaration>
+			<Declaration>+ (void)setLogLevel:(DDLogLevel)logLevel</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>storeDirectory</Name>
-					<Abstract type="html">Store directory that is used to determine where the events are stored.</Abstract>
-				</Parameter><Parameter>
-					<Name>dataEncryptorBlock</Name>
-					<Abstract type="html">Block that performs encryption.</Abstract>
-				</Parameter><Parameter>
-					<Name>dataDecryptorBlock</Name>
-					<Abstract type="html">Block that performs decryption.</Abstract>
-				</Parameter><Parameter>
-					<Name>deviceAttributes</Name>
-					<Abstract type="html">Device app attributes.</Abstract>
+					<Name>logLevel</Name>
+					<Abstract type="html">Log level.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
-			<Anchor>//api/name/initWithStoreDirectory:dataEncryptorBlock:dataDecryptorBlock:deviceAttributes:</Anchor>
+			
+			<Anchor>//api/name/setLogLevel:</Anchor>
             <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAnalyticsManager/reset</TokenIdentifier>
-			<Abstract type="html">Resets this instance.</Abstract>
-			<DeclaredIn>SFSDKAnalyticsManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAnalyticsLogger/e:format:</TokenIdentifier>
+			<Abstract type="html">Logs an error log line.</Abstract>
+			<DeclaredIn>SFSDKAnalyticsLogger.h</DeclaredIn>
 			
-			<Declaration>- (void)reset</Declaration>
+			<Declaration>+ (void)e:(nonnull Class)class format:(nonnull NSString *)format, ...</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>class</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>format</Name>
+					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
+				</Parameter><Parameter>
+					<Name>...</Name>
+					<Abstract type="html">The arguments to the message format string.</Abstract>
+				</Parameter>
+			</Parameters>
 			
+			<Anchor>//api/name/e:format:</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAnalyticsLogger/w:format:</TokenIdentifier>
+			<Abstract type="html">Logs a warning log line.</Abstract>
+			<DeclaredIn>SFSDKAnalyticsLogger.h</DeclaredIn>
 			
-			<Anchor>//api/name/reset</Anchor>
+			<Declaration>+ (void)w:(nonnull Class)class format:(nonnull NSString *)format, ...</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>class</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>format</Name>
+					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
+				</Parameter><Parameter>
+					<Name>...</Name>
+					<Abstract type="html">The arguments to the message format string.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/w:format:</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAnalyticsLogger/i:format:</TokenIdentifier>
+			<Abstract type="html">Logs an info log line.</Abstract>
+			<DeclaredIn>SFSDKAnalyticsLogger.h</DeclaredIn>
+			
+			<Declaration>+ (void)i:(nonnull Class)class format:(nonnull NSString *)format, ...</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>class</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>format</Name>
+					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
+				</Parameter><Parameter>
+					<Name>...</Name>
+					<Abstract type="html">The arguments to the message format string.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/i:format:</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAnalyticsLogger/v:format:</TokenIdentifier>
+			<Abstract type="html">Logs a verbose log line.</Abstract>
+			<DeclaredIn>SFSDKAnalyticsLogger.h</DeclaredIn>
+			
+			<Declaration>+ (void)v:(nonnull Class)class format:(nonnull NSString *)format, ...</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>class</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>format</Name>
+					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
+				</Parameter><Parameter>
+					<Name>...</Name>
+					<Abstract type="html">The arguments to the message format string.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/v:format:</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAnalyticsLogger/d:format:</TokenIdentifier>
+			<Abstract type="html">Logs a debug log line.</Abstract>
+			<DeclaredIn>SFSDKAnalyticsLogger.h</DeclaredIn>
+			
+			<Declaration>+ (void)d:(nonnull Class)class format:(nonnull NSString *)format, ...</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>class</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>format</Name>
+					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
+				</Parameter><Parameter>
+					<Name>...</Name>
+					<Abstract type="html">The arguments to the message format string.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/d:format:</Anchor>
             <NodeRef refid="4"/>
 		</Token>
 		

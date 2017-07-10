@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFUserAccountIdentity.html">
+	<File path="Classes/SFTestContext.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFUserAccountIdentity</TokenIdentifier>
-			<Abstract type="html">Represents the unique identity of a given user account.</Abstract>
-			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFTestContext</TokenIdentifier>
+			<Abstract type="html">Helps determine whether we&apos;re currently running tests or not.</Abstract>
+			<DeclaredIn>SFTestContext.h</DeclaredIn>
             
 			
 			<NodeRef refid="111"/>
@@ -13,149 +13,80 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountIdentity/setUserId:</TokenIdentifier>
-			<Abstract type="html">The user ID associated with the account.</Abstract>
-			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFTestContext/isRunningTests</TokenIdentifier>
+			<Abstract type="html">Return YES if is running test</Abstract>
+			<DeclaredIn>SFTestContext.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *userId</Declaration>
+			<Declaration>+ (BOOL)isRunningTests</Declaration>
 			
 			
-			<Anchor>//api/name/userId</Anchor>
+			<Anchor>//api/name/isRunningTests</Anchor>
             <NodeRef refid="111"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountIdentity/userId</TokenIdentifier>
-			<Abstract type="html">The user ID associated with the account.</Abstract>
-			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFTestContext/setIsRunningTests:</TokenIdentifier>
+			<Abstract type="html">Update SFTestContext to indicate whether it is in testing context or live context</Abstract>
+			<DeclaredIn>SFTestContext.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *userId</Declaration>
-			
-			
-			<Anchor>//api/name/userId</Anchor>
-            <NodeRef refid="111"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountIdentity/userId</TokenIdentifier>
-			<Abstract type="html">The user ID associated with the account.</Abstract>
-			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *userId</Declaration>
-			
-			
-			<Anchor>//api/name/userId</Anchor>
-            <NodeRef refid="111"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountIdentity/setOrgId:</TokenIdentifier>
-			<Abstract type="html">The organization ID associated with the account.</Abstract>
-			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *orgId</Declaration>
-			
-			
-			<Anchor>//api/name/orgId</Anchor>
-            <NodeRef refid="111"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountIdentity/orgId</TokenIdentifier>
-			<Abstract type="html">The organization ID associated with the account.</Abstract>
-			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *orgId</Declaration>
-			
-			
-			<Anchor>//api/name/orgId</Anchor>
-            <NodeRef refid="111"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountIdentity/orgId</TokenIdentifier>
-			<Abstract type="html">The organization ID associated with the account.</Abstract>
-			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *orgId</Declaration>
-			
-			
-			<Anchor>//api/name/orgId</Anchor>
-            <NodeRef refid="111"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFUserAccountIdentity/identityWithUserId:orgId:</TokenIdentifier>
-			<Abstract type="html">Convenience method to return a new account identity with the given User ID and Org ID.</Abstract>
-			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
-			
-			<Declaration>+ (SFUserAccountIdentity *)identityWithUserId:(NSString *)userId orgId:(NSString *)orgId</Declaration>
+			<Declaration>+ (void)setIsRunningTests:(BOOL)runningTests</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>userId</Name>
-					<Abstract type="html">The user ID associated with the identity.</Abstract>
+					<Name>runningTests</Name>
+					<Abstract type="html">Yes if code is running under testing context</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setIsRunningTests:</Anchor>
+            <NodeRef refid="111"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFTestContext/setObject:forKey:</TokenIdentifier>
+			<Abstract type="html">Sets an arbitrary object into the test context</Abstract>
+			<DeclaredIn>SFTestContext.h</DeclaredIn>
+			
+			<Declaration>+ (void)setObject:(id)object forKey:(id)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>object</Name>
+					<Abstract type="html">The object or nil to remove the object</Abstract>
 				</Parameter><Parameter>
-					<Name>orgId</Name>
-					<Abstract type="html">The org ID associated with the identity.</Abstract>
+					<Name>key</Name>
+					<Abstract type="html">The key</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">An account identity representing the given User ID and Org ID.</Abstract></ReturnValue>
-			<Anchor>//api/name/identityWithUserId:orgId:</Anchor>
+			
+			<Anchor>//api/name/setObject:forKey:</Anchor>
             <NodeRef refid="111"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountIdentity/initWithUserId:orgId:</TokenIdentifier>
-			<Abstract type="html">Creates a new account identity object with the given user ID and org ID.</Abstract>
-			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFTestContext/objectForKey:</TokenIdentifier>
+			<Abstract type="html">Returns an arbitrary object from the test context</Abstract>
+			<DeclaredIn>SFTestContext.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithUserId:(NSString *)userId orgId:(NSString *)orgId</Declaration>
+			<Declaration>+ (id)objectForKey:(id)key</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>userId</Name>
-					<Abstract type="html">The user ID associated with the identity.</Abstract>
-				</Parameter><Parameter>
-					<Name>orgId</Name>
-					<Abstract type="html">The org ID associated with the identity.</Abstract>
+					<Name>key</Name>
+					<Abstract type="html">The key</Abstract>
 				</Parameter>
 			</Parameters>
-			
-			<Anchor>//api/name/initWithUserId:orgId:</Anchor>
+			<ReturnValue><Abstract type="html">The object</Abstract></ReturnValue>
+			<Anchor>//api/name/objectForKey:</Anchor>
             <NodeRef refid="111"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountIdentity/compare:</TokenIdentifier>
-			<Abstract type="html">Compares this identity with another.  Useful for [NSArray sortedArrayUsingSelector:].</Abstract>
-			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFTestContext/clearObjects</TokenIdentifier>
+			<Abstract type="html">Removes all the stored objects</Abstract>
+			<DeclaredIn>SFTestContext.h</DeclaredIn>
 			
-			<Declaration>- (NSComparisonResult)compare:(SFUserAccountIdentity *)otherIdentity</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>otherIdentity</Name>
-					<Abstract type="html">The other identity to compare to this one.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">NSOrderedAscending if other is greater, NSOrderedDescending if other is less,
-NSOrderedSame if they&apos;re equal.</Abstract></ReturnValue>
-			<Anchor>//api/name/compare:</Anchor>
-            <NodeRef refid="111"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountIdentity/matchesCredentials:</TokenIdentifier>
-			<Abstract type="html">Compares the user identifying information of the account identity with that in the credentials.</Abstract>
-			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
+			<Declaration>+ (void)clearObjects</Declaration>
 			
-			<Declaration>- (BOOL)matchesCredentials:(SFOAuthCredentials *)credentials</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>credentials</Name>
-					<Abstract type="html">The OAuthCredentials to compare against</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">BOOL Whether or not the user contained is the same</Abstract></ReturnValue>
-			<Anchor>//api/name/matchesCredentials:</Anchor>
+			
+			<Anchor>//api/name/clearObjects</Anchor>
             <NodeRef refid="111"/>
 		</Token>
 		

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKAppDelegate.html">
+	<File path="Protocols/SFRestDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKAppDelegate</TokenIdentifier>
-			<Abstract type="html">Protocol defining an SDK-based app delegate.</Abstract>
-			<DeclaredIn>SFSDKAppDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFRestDelegate</TokenIdentifier>
+			<Abstract type="html">Lifecycle events for SFRestRequests.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
             
 			
 			<NodeRef refid="164"/>
@@ -13,63 +13,81 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKAppDelegate/setUserAgentString:</TokenIdentifier>
-			<Abstract type="html">The User-Agent string presented by this application</Abstract>
-			<DeclaredIn>SFSDKAppDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFRestDelegate/request:didLoadResponse:</TokenIdentifier>
+			<Abstract type="html">Sent when a request has finished loading.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *userAgentString</Declaration>
+			<Declaration>- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>request</Name>
+					<Abstract type="html">The request that was loaded.</Abstract>
+				</Parameter><Parameter>
+					<Name>dataResponse</Name>
+					<Abstract type="html">The data from the response.  By default, this will be an object
+containing the parsed JSON response.  However, if the response is not JSON,
+the data will be contained in a binary NSData object.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/userAgentString</Anchor>
+			<Anchor>//api/name/request:didLoadResponse:</Anchor>
             <NodeRef refid="164"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKAppDelegate/userAgentString</TokenIdentifier>
-			<Abstract type="html">The User-Agent string presented by this application</Abstract>
-			<DeclaredIn>SFSDKAppDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFRestDelegate/request:didFailLoadWithError:</TokenIdentifier>
+			<Abstract type="html">Sent when a request has failed due to an error.
+This includes HTTP network errors, as well as Salesforce errors
+(for example, passing an invalid SOQL string when doing a query).</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *userAgentString</Declaration>
+			<Declaration>- (void)request:(SFRestRequest *)request didFailLoadWithError:(NSError *)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>request</Name>
+					<Abstract type="html">The attempted request.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">The error associated with the failed request.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/userAgentString</Anchor>
+			<Anchor>//api/name/request:didFailLoadWithError:</Anchor>
             <NodeRef refid="164"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/SFSDKAppDelegate/userAgentString</TokenIdentifier>
-			<Abstract type="html">The User-Agent string presented by this application</Abstract>
-			<DeclaredIn>SFSDKAppDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFRestDelegate/requestDidCancelLoad:</TokenIdentifier>
+			<Abstract type="html">Sent to the delegate when a request was cancelled.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *userAgentString</Declaration>
+			<Declaration>- (void)requestDidCancelLoad:(SFRestRequest *)request</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>request</Name>
+					<Abstract type="html">The canceled request.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/userAgentString</Anchor>
+			<Anchor>//api/name/requestDidCancelLoad:</Anchor>
             <NodeRef refid="164"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKAppDelegate/logout</TokenIdentifier>
-			<Abstract type="html">Forces a logout from the current account.
-This throws out the OAuth refresh token.</Abstract>
-			<DeclaredIn>SFSDKAppDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFRestDelegate/requestDidTimeout:</TokenIdentifier>
+			<Abstract type="html">Sent to the delegate when a request has timed out. This is sent when a
+backgrounded request expired before completion.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>- (void)logout</Declaration>
+			<Declaration>- (void)requestDidTimeout:(SFRestRequest *)request</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>request</Name>
+					<Abstract type="html">The request that timed out.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/logout</Anchor>
-            <NodeRef refid="164"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKAppDelegate/createSnapshotView</TokenIdentifier>
-			<Abstract type="html">Creates a snapshot view.</Abstract>
-			<DeclaredIn>SFSDKAppDelegate.h</DeclaredIn>
-			
-			<Declaration>- (UIView *)createSnapshotView</Declaration>
-			
-			
-			<Anchor>//api/name/createSnapshotView</Anchor>
+			<Anchor>//api/name/requestDidTimeout:</Anchor>
             <NodeRef refid="164"/>
 		</Token>
 		

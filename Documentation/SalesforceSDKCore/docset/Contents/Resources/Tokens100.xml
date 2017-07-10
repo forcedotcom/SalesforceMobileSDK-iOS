@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKTestRequestListener.html">
+	<File path="Classes/SFSDKSoslReturningBuilder.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKTestRequestListener</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKSoslReturningBuilder</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKSoslReturningBuilder.h</DeclaredIn>
             
 			
 			<NodeRef refid="100"/>
@@ -13,183 +13,152 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/setDataResponse:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslReturningBuilder/setObjectName:</TokenIdentifier>
+			<Abstract type="html">Returns the object name for this builder</Abstract>
+			<DeclaredIn>SFSDKSoslReturningBuilder.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) id dataResponse</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSString *objectName</Declaration>
 			
 			
-			<Anchor>//api/name/dataResponse</Anchor>
+			<Anchor>//api/name/objectName</Anchor>
             <NodeRef refid="100"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/dataResponse</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslReturningBuilder/objectName</TokenIdentifier>
+			<Abstract type="html">Returns the object name for this builder</Abstract>
+			<DeclaredIn>SFSDKSoslReturningBuilder.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) id dataResponse</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSString *objectName</Declaration>
 			
 			
-			<Anchor>//api/name/dataResponse</Anchor>
+			<Anchor>//api/name/objectName</Anchor>
             <NodeRef refid="100"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestRequestListener/dataResponse</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSoslReturningBuilder/objectName</TokenIdentifier>
+			<Abstract type="html">Returns the object name for this builder</Abstract>
+			<DeclaredIn>SFSDKSoslReturningBuilder.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) id dataResponse</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSString *objectName</Declaration>
 			
 			
-			<Anchor>//api/name/dataResponse</Anchor>
+			<Anchor>//api/name/objectName</Anchor>
             <NodeRef refid="100"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/setLastError:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSoslReturningBuilder/withObjectName:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a returning statement.</Abstract>
+			<DeclaredIn>SFSDKSoslReturningBuilder.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) NSError *lastError</Declaration>
-			
-			
-			<Anchor>//api/name/lastError</Anchor>
+			<Declaration>+ (SFSDKSoslReturningBuilder *)withObjectName:(NSString *)name</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>name</Name>
+					<Abstract type="html">the object to return.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/withObjectName:</Anchor>
             <NodeRef refid="100"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/lastError</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslReturningBuilder/fields:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a returning statement.</Abstract>
+			<DeclaredIn>SFSDKSoslReturningBuilder.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) NSError *lastError</Declaration>
-			
-			
-			<Anchor>//api/name/lastError</Anchor>
+			<Declaration>- (SFSDKSoslReturningBuilder *)fields:(NSString *)fields</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>fields</Name>
+					<Abstract type="html">a list of one or more fields to return for a given object, comma separated</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/fields:</Anchor>
             <NodeRef refid="100"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestRequestListener/lastError</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslReturningBuilder/whereClause:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a returning statement.</Abstract>
+			<DeclaredIn>SFSDKSoslReturningBuilder.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) NSError *lastError</Declaration>
-			
-			
-			<Anchor>//api/name/lastError</Anchor>
+			<Declaration>- (SFSDKSoslReturningBuilder *)whereClause:(NSString *)whereClause</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>whereClause</Name>
+					<Abstract type="html">a description of how search results for the given object should be filtered, based on individual field values. If unspecified, the search retrieves all the rows in the object that are visible to the user</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/whereClause:</Anchor>
             <NodeRef refid="100"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/setReturnStatus:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslReturningBuilder/withNetwork:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a returning statement.</Abstract>
+			<DeclaredIn>SFSDKSoslReturningBuilder.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) NSString *returnStatus</Declaration>
-			
-			
-			<Anchor>//api/name/returnStatus</Anchor>
+			<Declaration>- (SFSDKSoslReturningBuilder *)withNetwork:(NSString *)networkId</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>networkId</Name>
+					<Abstract type="html">The network id to scope this returning statement with, if necessary</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/withNetwork:</Anchor>
             <NodeRef refid="100"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/returnStatus</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslReturningBuilder/orderBy:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a returning statement.</Abstract>
+			<DeclaredIn>SFSDKSoslReturningBuilder.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) NSString *returnStatus</Declaration>
-			
-			
-			<Anchor>//api/name/returnStatus</Anchor>
+			<Declaration>- (SFSDKSoslReturningBuilder *)orderBy:(NSString *)orderBy</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>orderBy</Name>
+					<Abstract type="html">a description of how to order the returned result, including ascending and descending order, and how nulls are ordered</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/orderBy:</Anchor>
             <NodeRef refid="100"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestRequestListener/returnStatus</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslReturningBuilder/limit:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a returning statement.</Abstract>
+			<DeclaredIn>SFSDKSoslReturningBuilder.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) NSString *returnStatus</Declaration>
-			
-			
-			<Anchor>//api/name/returnStatus</Anchor>
+			<Declaration>- (SFSDKSoslReturningBuilder *)limit:(NSInteger)limit</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>limit</Name>
+					<Abstract type="html">the maximum number of records returned for the given object. If unspecified, all matching records are returned, up to the limit set for the query as a whole</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/limit:</Anchor>
             <NodeRef refid="100"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/setMaxWaitTime:</TokenIdentifier>
-			<Abstract type="html">Max time to wait for request completion</Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslReturningBuilder/build</TokenIdentifier>
+			<Abstract type="html">Builds a returning statement from the builder.</Abstract>
+			<DeclaredIn>SFSDKSoslReturningBuilder.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSTimeInterval maxWaitTime</Declaration>
+			<Declaration>- (NSString *)build</Declaration>
 			
-			
-			<Anchor>//api/name/maxWaitTime</Anchor>
-            <NodeRef refid="100"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/maxWaitTime</TokenIdentifier>
-			<Abstract type="html">Max time to wait for request completion</Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) NSTimeInterval maxWaitTime</Declaration>
-			
-			
-			<Anchor>//api/name/maxWaitTime</Anchor>
-            <NodeRef refid="100"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestRequestListener/maxWaitTime</TokenIdentifier>
-			<Abstract type="html">Max time to wait for request completion</Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) NSTimeInterval maxWaitTime</Declaration>
-			
-			
-			<Anchor>//api/name/maxWaitTime</Anchor>
-            <NodeRef refid="100"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/initWithServiceType:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
-			
-			<Declaration>- (id)initWithServiceType:(SFAccountManagerServiceType)serviceType</Declaration>
-			
-			
-			<Anchor>//api/name/initWithServiceType:</Anchor>
-            <NodeRef refid="100"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/waitForCompletion</TokenIdentifier>
-			<Abstract type="html">Wait for the request to complete (success or fail)
-Waits for up to maxWaitTime.</Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)waitForCompletion</Declaration>
-			
-			<ReturnValue><Abstract type="html">returnStatus:  kTestRequestStatusDidTimeout if maxWaitTime was exceeded</Abstract></ReturnValue>
-			<Anchor>//api/name/waitForCompletion</Anchor>
-            <NodeRef refid="100"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/serviceTypeDescription</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)serviceTypeDescription</Declaration>
-			
-			
-			<Anchor>//api/name/serviceTypeDescription</Anchor>
+			<ReturnValue><Abstract type="html">the built returning statement</Abstract></ReturnValue>
+			<Anchor>//api/name/build</Anchor>
             <NodeRef refid="100"/>
 		</Token>
 		

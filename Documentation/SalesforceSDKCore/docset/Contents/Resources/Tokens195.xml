@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFEntityIdLength.html">
+	<File path="Constants/SFAuthenticationManagerDelegatePriority.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFEntityIdLength</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFAuthenticationManagerDelegatePriority</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="195"/>
@@ -14,41 +14,51 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFEntityIdLength15</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFAuthenticationManagerDelegatePriorityMax</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFEntityIdLength15</Declaration>
+            <Declaration>SFAuthenticationManagerDelegatePriorityMax</Declaration>
             
-            <DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+            <DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
             
             <NodeRef refid="195"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFEntityIdLength18</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFAuthenticationManagerDelegatePriorityHigh</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFEntityIdLength18</Declaration>
+            <Declaration>SFAuthenticationManagerDelegatePriorityHigh</Declaration>
             
-            <DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+            <DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
             
             <NodeRef refid="195"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFEntityIdLengthMin</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFAuthenticationManagerDelegatePriorityMedium</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFEntityIdLengthMin</Declaration>
+            <Declaration>SFAuthenticationManagerDelegatePriorityMedium</Declaration>
             
-            <DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+            <DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
             
             <NodeRef refid="195"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFEntityIdLengthMax</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFAuthenticationManagerDelegatePriorityLow</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFEntityIdLengthMax</Declaration>
+            <Declaration>SFAuthenticationManagerDelegatePriorityLow</Declaration>
             
-            <DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+            <DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
+            
+            <NodeRef refid="195"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFAuthenticationManagerDelegatePriorityDefault</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFAuthenticationManagerDelegatePriorityDefault</Declaration>
+            
+            <DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
             
             <NodeRef refid="195"/>
         </Token>

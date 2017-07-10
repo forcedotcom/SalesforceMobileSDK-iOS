@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSDictionary+SFAdditions.html">
+	<File path="Categories/NSData+SFSDKUtilsInternal.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSDictionary(SFAdditions)</TokenIdentifier>
-			<Abstract type="html">Extension to NSDictionary object</Abstract>
-			<DeclaredIn>NSDictionary+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFSDKUtilsInternal)</TokenIdentifier>
+			<Abstract type="html">Internal definitions for the Mobile SDK NSData utilities.</Abstract>
+			<DeclaredIn>NSData+SFSDKUtils_Internal.h</DeclaredIn>
             
 			
 			<NodeRef refid="133"/>
@@ -13,48 +13,19 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSDictionary/objectAtPath:</TokenIdentifier>
-			<Abstract type="html">Get object from NSDictionary with &quot;/&quot; separated path.</Abstract>
-			<DeclaredIn>NSDictionary+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/replaceBase64CharsForBase64UrlString:</TokenIdentifier>
+			<Abstract type="html">Replace the base64 characters that are invalid in a base64url string.</Abstract>
+			<DeclaredIn>NSData+SFSDKUtils_Internal.h</DeclaredIn>
 			
-			<Declaration>- (id)objectAtPath:(NSString *)path</Declaration>
+			<Declaration>+ (NSString *)replaceBase64CharsForBase64UrlString:(NSString *)base64String</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>path</Name>
-					<Abstract type="html">Path for the object to retrieve. Use &quot;/&quot; to separate between levels. For example, root/child/valueKey will retrieve value from the root NSDictionary object to its child dictionary&apos;s value with key &quot;valueKey&quot;</Abstract>
+					<Name>base64String</Name>
+					<Abstract type="html">The input string with characters to replace.</Abstract>
 				</Parameter>
 			</Parameters>
-			
-			<Anchor>//api/name/objectAtPath:</Anchor>
-            <NodeRef refid="133"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSDictionary/nonNullObjectForKey:</TokenIdentifier>
-			<Abstract type="html">Returns an object whose ID is key, or nil.</Abstract>
-			<DeclaredIn>NSDictionary+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (id)nonNullObjectForKey:(id)key</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The ID of an object, or a null value</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">An object whose ID is key, or else nil if the key has a value of NSNull or an NSString value of &quot;&lt;nil&gt;&quot; or &quot;&lt;null&gt;&quot;.</Abstract></ReturnValue>
-			<Anchor>//api/name/nonNullObjectForKey:</Anchor>
-            <NodeRef refid="133"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSDictionary/jsonString</TokenIdentifier>
-			<Abstract type="html">Returns the dictionary&apos;s contents reformatted as a JSON string.</Abstract>
-			<DeclaredIn>NSDictionary+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)jsonString</Declaration>
-			
-			
-			<Anchor>//api/name/jsonString</Anchor>
+			<ReturnValue><Abstract type="html">The base64 string with the URL chars replaced (i.e. the base64url string).</Abstract></ReturnValue>
+			<Anchor>//api/name/replaceBase64CharsForBase64UrlString:</Anchor>
             <NodeRef refid="133"/>
 		</Token>
 		

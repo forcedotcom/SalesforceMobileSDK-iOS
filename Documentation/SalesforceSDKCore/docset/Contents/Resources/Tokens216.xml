@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFUserAccountDataChange.html">
+	<File path="Constants/SFUserAccountAccessRestriction.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountDataChange</TokenIdentifier>
-			<Abstract type="html">The various changes that can affect a user account</Abstract>
+			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountAccessRestriction</TokenIdentifier>
+			<Abstract type="html">User account restrictions</Abstract>
 			<DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
 			
@@ -14,10 +14,9 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountDataChangeUnknown</TokenIdentifier>
-            <Abstract type="html">Unknown change
-     </Abstract>
-            <Declaration>SFUserAccountDataChangeUnknown</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionNone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFUserAccountAccessRestrictionNone</Declaration>
             
             <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
@@ -25,10 +24,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountDataChangeCommunityId</TokenIdentifier>
-            <Abstract type="html">The community ID changed
-     </Abstract>
-            <Declaration>SFUserAccountDataChangeCommunityId</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionChatter</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFUserAccountAccessRestrictionChatter</Declaration>
             
             <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
@@ -36,10 +34,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountDataChangeIdData</TokenIdentifier>
-            <Abstract type="html">The ID data changed
-     </Abstract>
-            <Declaration>SFUserAccountDataChangeIdData</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionREST</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFUserAccountAccessRestrictionREST</Declaration>
             
             <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
@@ -47,21 +44,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountDataChangeInstanceURL</TokenIdentifier>
-            <Abstract type="html">InstanceURL Changed
-    </Abstract>
-            <Declaration>SFUserAccountDataChangeInstanceURL</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
-            <NodeRef refid="216"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountDataChangeAccessToken</TokenIdentifier>
-            <Abstract type="html">AccessToken Changed
-    </Abstract>
-            <Declaration>SFUserAccountDataChangeAccessToken</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionOther</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFUserAccountAccessRestrictionOther</Declaration>
             
             <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             

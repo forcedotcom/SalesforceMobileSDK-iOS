@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFDefaultUserAccountPersister.html">
+	<File path="Classes/SFDecryptStream.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFDefaultUserAccountPersister</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFDefaultUserAccountPersister.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFDecryptStream</TokenIdentifier>
+			<Abstract type="html">SFDecryptStream is an input stream that decrypts data right after it is read.
+SFCryptChunks is used to perform the decryption.</Abstract>
+			<DeclaredIn>SFDecryptStream.h</DeclaredIn>
             
 			
 			<NodeRef refid="36"/>
@@ -13,65 +14,22 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFDefaultUserAccountPersister/loadUserAccountFromFile:account:error:</TokenIdentifier>
-			<Abstract type="html">Loads a user account from a specified file</Abstract>
-			<DeclaredIn>SFDefaultUserAccountPersister.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFDecryptStream/setupWithKey:andInitializationVector:</TokenIdentifier>
+			<Abstract type="html">Setup for decryption. You must call this method before using the stream.</Abstract>
+			<DeclaredIn>SFDecryptStream.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)loadUserAccountFromFile:(NSString *)filePath account:(SFUserAccount **)account error:(NSError **)error</Declaration>
+			<Declaration>- (void)setupWithKey:(NSData *)key andInitializationVector:(nullable NSData *)iv</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>filePath</Name>
-					<Abstract type="html">The file to load the user account from</Abstract>
+					<Name>key</Name>
+					<Abstract type="html">the cipher key.</Abstract>
 				</Parameter><Parameter>
-					<Name>account</Name>
-					<Abstract type="html">On output, contains the user account or nil if an error occurred</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">On output, contains the error if the method returned NO</Abstract>
+					<Name>iv</Name>
+					<Abstract type="html">the initialization vector, must be size of SFCryptChunksCipherBlockSize.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the method succeeded, NO otherwise</Abstract></ReturnValue>
-			<Anchor>//api/name/loadUserAccountFromFile:account:error:</Anchor>
-            <NodeRef refid="36"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFDefaultUserAccountPersister/saveUserAccount:toFile:error:</TokenIdentifier>
-			<Abstract type="html">Updates/Saves a user account to a specified filePath</Abstract>
-			<DeclaredIn>SFDefaultUserAccountPersister.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)saveUserAccount:(SFUserAccount *)userAccount toFile:(NSString *)filePath error:(NSError **)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>userAccount</Name>
-					<Abstract type="html">On output, contains the user account or nil if an error occurred</Abstract>
-				</Parameter><Parameter>
-					<Name>filePath</Name>
-					<Abstract type="html">The file to save the user account to</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">On output, contains the error if the method returned NO</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the method succeeded, NO otherwise</Abstract></ReturnValue>
-			<Anchor>//api/name/saveUserAccount:toFile:error:</Anchor>
-            <NodeRef refid="36"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFDefaultUserAccountPersister/userAccountPlistFileForUser:</TokenIdentifier>
-			<Abstract type="html">Returns the path of the user account plist file for the specified user</Abstract>
-			<DeclaredIn>SFDefaultUserAccountPersister.h</DeclaredIn>
-			
-			<Declaration>+ (NSString *)userAccountPlistFileForUser:(SFUserAccount *)user</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>user</Name>
-					<Abstract type="html">The user</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the path to the user account plist of the specified user</Abstract></ReturnValue>
-			<Anchor>//api/name/userAccountPlistFileForUser:</Anchor>
+			<Anchor>//api/name/setupWithKey:andInitializationVector:</Anchor>
             <NodeRef refid="36"/>
 		</Token>
 		

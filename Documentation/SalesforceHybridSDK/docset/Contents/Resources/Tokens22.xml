@@ -1,7 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="">
+	<File path="Categories/CDVPlugin+SFAdditions.html">
 		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cat/CDVPlugin(SFAdditions)</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CDVPlugin+SFAdditions.h</DeclaredIn>
+            
+			
+			<NodeRef refid="22"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CDVPlugin/writeSuccessDictToJsRealm:callbackId:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CDVPlugin+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (void)writeSuccessDictToJsRealm:(NSDictionary *)dict callbackId:(NSString *)callbackId</Declaration>
+			
+			
+			<Anchor>//api/name/writeSuccessDictToJsRealm:callbackId:</Anchor>
+            <NodeRef refid="22"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CDVPlugin/writeSuccessArrayToJsRealm:callbackId:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CDVPlugin+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (void)writeSuccessArrayToJsRealm:(NSArray *)array callbackId:(NSString *)callbackId</Declaration>
+			
+			
+			<Anchor>//api/name/writeSuccessArrayToJsRealm:callbackId:</Anchor>
+            <NodeRef refid="22"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CDVPlugin/writeCommandOKResultToJsRealm:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CDVPlugin+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (void)writeCommandOKResultToJsRealm:(NSString *)callbackId</Declaration>
+			
+			
+			<Anchor>//api/name/writeCommandOKResultToJsRealm:</Anchor>
+            <NodeRef refid="22"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CDVPlugin/hasVersion:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CDVPlugin+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)hasVersion:(NSArray *)arguments</Declaration>
+			
+			
+			<Anchor>//api/name/hasVersion:</Anchor>
+            <NodeRef refid="22"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CDVPlugin/getVersion:withArguments:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CDVPlugin+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)getVersion:(NSString *)action withArguments:(NSArray *)arguments</Declaration>
+			
+			
+			<Anchor>//api/name/getVersion:withArguments:</Anchor>
+            <NodeRef refid="22"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CDVPlugin/getArgument:atIndex:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CDVPlugin+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (NSDictionary *)getArgument:(NSArray *)arguments atIndex:(NSUInteger)argIndex</Declaration>
+			
+			
+			<Anchor>//api/name/getArgument:atIndex:</Anchor>
+            <NodeRef refid="22"/>
+		</Token>
 		
         
         

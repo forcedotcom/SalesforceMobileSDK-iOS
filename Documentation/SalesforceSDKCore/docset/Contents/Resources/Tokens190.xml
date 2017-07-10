@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFAccountManagerServiceType.html">
+	<File path="Constants/CSFNetworkErrorCode.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFAccountManagerServiceType</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/CSFNetworkErrorCode</TokenIdentifier>
+			<Abstract type="html">Enumerator listing the error codes used by CSFNetwork
+   - CSFNetworkAPIError: Server-generated API error
+   - CSFNetworkInternalError: An unknown internal error occurred
+   - CSFNetworkCancelledError: The network operation was cancelled
+   - CSFNetworkNetworkNotReadyError: The network is not initialized or is not ready
+   - CSFNetworkHTTPResponseError: An HTTP error occurred
+   - CSFNetworkURLResponseInvalidError: The URL response type is invalid
+   - CSFNetworkURLCredentialsError: The URL credentials are missing or invalid
+   - CSFNetworkInvalidActionParameterError: The supplied action parameter was invalid
+   - CSFNetworkJSONInvalidError: The returned result could not be parsed as JSON</Abstract>
+			<DeclaredIn>CSFDefines.h</DeclaredIn>
             
 			
 			<NodeRef refid="190"/>
@@ -14,31 +23,101 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFAccountManagerServiceTypeNone</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFNetworkAPIError</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFAccountManagerServiceTypeNone</Declaration>
+            <Declaration>CSFNetworkAPIError</Declaration>
             
-            <DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+            <DeclaredIn>CSFDefines.h</DeclaredIn>
             
             <NodeRef refid="190"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFAccountManagerServiceTypeOAuth</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFNetworkInternalError</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFAccountManagerServiceTypeOAuth</Declaration>
+            <Declaration>CSFNetworkInternalError</Declaration>
             
-            <DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+            <DeclaredIn>CSFDefines.h</DeclaredIn>
             
             <NodeRef refid="190"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFAccountManagerServiceTypeIdentity</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFNetworkCancelledError</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFAccountManagerServiceTypeIdentity</Declaration>
+            <Declaration>CSFNetworkCancelledError</Declaration>
             
-            <DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+            <DeclaredIn>CSFDefines.h</DeclaredIn>
+            
+            <NodeRef refid="190"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFNetworkNetworkNotReadyError</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFNetworkNetworkNotReadyError</Declaration>
+            
+            <DeclaredIn>CSFDefines.h</DeclaredIn>
+            
+            <NodeRef refid="190"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFNetworkHTTPResponseError</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFNetworkHTTPResponseError</Declaration>
+            
+            <DeclaredIn>CSFDefines.h</DeclaredIn>
+            
+            <NodeRef refid="190"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFNetworkURLResponseInvalidError</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFNetworkURLResponseInvalidError</Declaration>
+            
+            <DeclaredIn>CSFDefines.h</DeclaredIn>
+            
+            <NodeRef refid="190"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFNetworkURLCredentialsError</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFNetworkURLCredentialsError</Declaration>
+            
+            <DeclaredIn>CSFDefines.h</DeclaredIn>
+            
+            <NodeRef refid="190"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFNetworkInvalidActionParameterError</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFNetworkInvalidActionParameterError</Declaration>
+            
+            <DeclaredIn>CSFDefines.h</DeclaredIn>
+            
+            <NodeRef refid="190"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFNetworkJSONInvalidError</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFNetworkJSONInvalidError</Declaration>
+            
+            <DeclaredIn>CSFDefines.h</DeclaredIn>
+            
+            <NodeRef refid="190"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFNetworkCacheError</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFNetworkCacheError</Declaration>
+            
+            <DeclaredIn>CSFDefines.h</DeclaredIn>
             
             <NodeRef refid="190"/>
         </Token>

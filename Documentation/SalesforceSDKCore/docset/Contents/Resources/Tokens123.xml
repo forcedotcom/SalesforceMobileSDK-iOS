@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/ViewController.html">
+	<File path="Classes/SnapshotViewController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/ViewController</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SnapshotViewController</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>ViewController.h</DeclaredIn>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
             
 			
 			<NodeRef refid="123"/>

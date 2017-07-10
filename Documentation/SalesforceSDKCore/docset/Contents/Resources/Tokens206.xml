@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFOAuthLogLevel.html">
+	<File path="Constants/SFOAuthCredentialsStorageType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthLogLevel</TokenIdentifier>
-			<Abstract type="html">@enum Logging levels to control the verbosity of log output based on the severity of the event being logged.</Abstract>
+			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthCredentialsStorageType</TokenIdentifier>
+			<Abstract type="html">@enum OAuth credential storage type</Abstract>
 			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
             
 			
@@ -14,9 +14,10 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthLogLevelDebug</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>kSFOAuthLogLevelDebug</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthCredentialsStorageTypeNone</TokenIdentifier>
+            <Abstract type="html">     No storage or persistence of OAuth credentials will be attempted
+     </Abstract>
+            <Declaration>SFOAuthCredentialsStorageTypeNone</Declaration>
             
             <DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
             
@@ -24,39 +25,10 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthLogLevelInfo</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>kSFOAuthLogLevelInfo</Declaration>
-            
-            <DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
-            
-            <NodeRef refid="206"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthLogLevelWarning</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>kSFOAuthLogLevelWarning</Declaration>
-            
-            <DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
-            
-            <NodeRef refid="206"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthLogLevelError</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>kSFOAuthLogLevelError</Declaration>
-            
-            <DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
-            
-            <NodeRef refid="206"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthLogLevelVerbose</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>kSFOAuthLogLevelVerbose</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthCredentialsStorageTypeKeychain</TokenIdentifier>
+            <Abstract type="html">     OAuth credentials will be stored securely within the keychain.
+     </Abstract>
+            <Declaration>SFOAuthCredentialsStorageTypeKeychain</Declaration>
             
             <DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
             

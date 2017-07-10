@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFOAuthSessionRefresher.html">
+	<File path="Classes/SFOAuthOrgAuthConfiguration.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFOAuthSessionRefresher</TokenIdentifier>
-			<Abstract type="html">This class refreshes stale OAuth sessions, if possible.</Abstract>
-			<DeclaredIn>SFOAuthSessionRefresher.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFOAuthOrgAuthConfiguration</TokenIdentifier>
+			<Abstract type="html">Data class representing the org authentication configuration.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
             
 			
 			<NodeRef refid="67"/>
@@ -13,147 +13,91 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthSessionRefresher/initWithCredentials:</TokenIdentifier>
-			<Abstract type="html">Initializes the object with the given credentials.</Abstract>
-			<DeclaredIn>SFOAuthSessionRefresher.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/setUseNativeBrowserForAuth:</TokenIdentifier>
+			<Abstract type="html">Whether to use the native browser for authentication.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)initWithCredentials:(SFOAuthCredentials *)credentials</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL useNativeBrowserForAuth</Declaration>
+			
+			
+			<Anchor>//api/name/useNativeBrowserForAuth</Anchor>
+            <NodeRef refid="67"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/useNativeBrowserForAuth</TokenIdentifier>
+			<Abstract type="html">Whether to use the native browser for authentication.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL useNativeBrowserForAuth</Declaration>
+			
+			
+			<Anchor>//api/name/useNativeBrowserForAuth</Anchor>
+            <NodeRef refid="67"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthOrgAuthConfiguration/useNativeBrowserForAuth</TokenIdentifier>
+			<Abstract type="html">Whether to use the native browser for authentication.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL useNativeBrowserForAuth</Declaration>
+			
+			
+			<Anchor>//api/name/useNativeBrowserForAuth</Anchor>
+            <NodeRef refid="67"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/setAuthConfigDict:</TokenIdentifier>
+			<Abstract type="html">The raw dictionary data representing the org auth configuration.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSDictionary *authConfigDict</Declaration>
+			
+			
+			<Anchor>//api/name/authConfigDict</Anchor>
+            <NodeRef refid="67"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/authConfigDict</TokenIdentifier>
+			<Abstract type="html">The raw dictionary data representing the org auth configuration.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSDictionary *authConfigDict</Declaration>
+			
+			
+			<Anchor>//api/name/authConfigDict</Anchor>
+            <NodeRef refid="67"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthOrgAuthConfiguration/authConfigDict</TokenIdentifier>
+			<Abstract type="html">The raw dictionary data representing the org auth configuration.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSDictionary *authConfigDict</Declaration>
+			
+			
+			<Anchor>//api/name/authConfigDict</Anchor>
+            <NodeRef refid="67"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/initWithConfigDict:</TokenIdentifier>
+			<Abstract type="html">Designated initializer.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithConfigDict:(NSDictionary *)authConfigDict</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>credentials</Name>
-					<Abstract type="html">The OAuth credentials used to refresh the session.</Abstract>
+					<Name>authConfigDict</Name>
+					<Abstract type="html">The NSDictionary containing the org auth configuration.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/initWithCredentials:</Anchor>
-            <NodeRef refid="67"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthSessionRefresher/refreshSessionWithCompletion:error:</TokenIdentifier>
-			<Abstract type="html">Refreshes the expired session, with the given completion and error handler blocks.</Abstract>
-			<DeclaredIn>SFOAuthSessionRefresher.h</DeclaredIn>
-			
-			<Declaration>- (void)refreshSessionWithCompletion:(void ( ^ ) ( SFOAuthCredentials *))completionBlock error:(void ( ^ ) ( NSError *))errorBlock</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>completionBlock</Name>
-					<Abstract type="html">Called once the session has been refreshed.</Abstract>
-				</Parameter><Parameter>
-					<Name>errorBlock</Name>
-					<Abstract type="html">Called if there was an error refreshing the session.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/refreshSessionWithCompletion:error:</Anchor>
-            <NodeRef refid="67"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthSessionRefresher/setCoordinator:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthSessionRefresher+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) SFOAuthCoordinator *coordinator</Declaration>
-			
-			
-			<Anchor>//api/name/coordinator</Anchor>
-            <NodeRef refid="67"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthSessionRefresher/coordinator</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthSessionRefresher+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) SFOAuthCoordinator *coordinator</Declaration>
-			
-			
-			<Anchor>//api/name/coordinator</Anchor>
-            <NodeRef refid="67"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthSessionRefresher/coordinator</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthSessionRefresher+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) SFOAuthCoordinator *coordinator</Declaration>
-			
-			
-			<Anchor>//api/name/coordinator</Anchor>
-            <NodeRef refid="67"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthSessionRefresher/setCompletionBlock:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthSessionRefresher+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) void ( ^ ) ( SFOAuthCredentials *) completionBlock</Declaration>
-			
-			
-			<Anchor>//api/name/completionBlock</Anchor>
-            <NodeRef refid="67"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthSessionRefresher/completionBlock</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthSessionRefresher+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) void ( ^ ) ( SFOAuthCredentials *) completionBlock</Declaration>
-			
-			
-			<Anchor>//api/name/completionBlock</Anchor>
-            <NodeRef refid="67"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthSessionRefresher/completionBlock</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthSessionRefresher+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) void ( ^ ) ( SFOAuthCredentials *) completionBlock</Declaration>
-			
-			
-			<Anchor>//api/name/completionBlock</Anchor>
-            <NodeRef refid="67"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthSessionRefresher/setErrorBlock:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthSessionRefresher+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) void ( ^ ) ( NSError *) errorBlock</Declaration>
-			
-			
-			<Anchor>//api/name/errorBlock</Anchor>
-            <NodeRef refid="67"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthSessionRefresher/errorBlock</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthSessionRefresher+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) void ( ^ ) ( NSError *) errorBlock</Declaration>
-			
-			
-			<Anchor>//api/name/errorBlock</Anchor>
-            <NodeRef refid="67"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthSessionRefresher/errorBlock</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthSessionRefresher+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) void ( ^ ) ( NSError *) errorBlock</Declaration>
-			
-			
-			<Anchor>//api/name/errorBlock</Anchor>
+			<Anchor>//api/name/initWithConfigDict:</Anchor>
             <NodeRef refid="67"/>
 		</Token>
 		

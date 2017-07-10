@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/CSFForceTaskRecurrenceType.html">
+	<File path="Constants/CSFForceTaskPriority.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/CSFForceTaskRecurrenceType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/CSFForceTaskPriority</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -14,9 +14,9 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceTypeUnknown</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskPriorityUnknown</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceTypeUnknown</Declaration>
+            <Declaration>CSFForceTaskPriorityUnknown</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -24,9 +24,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceTypeRecursDaily</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskPriorityHigh</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceTypeRecursDaily</Declaration>
+            <Declaration>CSFForceTaskPriorityHigh</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -34,9 +34,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceTypeRecursEveryWeekday</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskPriorityNormal</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceTypeRecursEveryWeekday</Declaration>
+            <Declaration>CSFForceTaskPriorityNormal</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -44,49 +44,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceTypeRecursMonthly</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskPriorityLow</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceTypeRecursMonthly</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="184"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceTypeRecursMonthyNth</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceTypeRecursMonthyNth</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="184"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceTypeRecursWeekly</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceTypeRecursWeekly</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="184"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceTypeRecursYearly</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceTypeRecursYearly</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="184"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceTypeRecursYearlyNth</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceTypeRecursYearlyNth</Declaration>
+            <Declaration>CSFForceTaskPriorityLow</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             

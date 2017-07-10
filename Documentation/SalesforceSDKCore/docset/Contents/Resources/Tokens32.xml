@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFCryptChunks.html">
+	<File path="Classes/SFCommunityData.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFCryptChunks</TokenIdentifier>
-			<Abstract type="html">SFCryptChunks performs encryption / decryption in chunks, using a fixed size buffer in the stack.
-It does not allocate any memory to perform the encryption / decryption,
-the size of memory used (by SFCryptChunks) is O(1) regardless of the input / output data size.</Abstract>
-			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFCommunityData</TokenIdentifier>
+			<Abstract type="html">Class that groups the data describing a community</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
             
 			
 			<NodeRef refid="32"/>
@@ -15,157 +13,326 @@ the size of memory used (by SFCryptChunks) is O(1) regardless of the input / out
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/initForEncryptionWithKey:initializationVector:</TokenIdentifier>
-			<Abstract type="html">Initializes a SFCryptChunks for encryption that uses algorithm specified in SFCryptChunksCipherAlgorithm
-and options specified in SFCryptChunksCipherOptions.</Abstract>
-			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setEntityId:</TokenIdentifier>
+			<Abstract type="html">The community ID</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)initForEncryptionWithKey:(NSData *)key initializationVector:(nullable NSData *)iv</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">the cipher key.</Abstract>
-				</Parameter><Parameter>
-					<Name>iv</Name>
-					<Abstract type="html">the initialization vector, must be size of SFCryptChunksCipherBlockSize.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">a SFCryptChunks ready for encryption.</Abstract></ReturnValue>
-			<Anchor>//api/name/initForEncryptionWithKey:initializationVector:</Anchor>
+			<Declaration>@property (nonatomic, strong) NSString *entityId</Declaration>
+			
+			
+			<Anchor>//api/name/entityId</Anchor>
             <NodeRef refid="32"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/initForDecryptionWithKey:initializationVector:</TokenIdentifier>
-			<Abstract type="html">Initializes a SFCryptChunks for decryption that uses algorithm specified in SFCryptChunksCipherAlgorithm
-and options specified in SFCryptChunksCipherOptions.</Abstract>
-			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/entityId</TokenIdentifier>
+			<Abstract type="html">The community ID</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)initForDecryptionWithKey:(NSData *)key initializationVector:(nullable NSData *)iv</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">the cipher key.</Abstract>
-				</Parameter><Parameter>
-					<Name>iv</Name>
-					<Abstract type="html">the initialization vector, must be size of SFCryptChunksCipherBlockSize.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">a SFCryptChunks ready for decryption.</Abstract></ReturnValue>
-			<Anchor>//api/name/initForDecryptionWithKey:initializationVector:</Anchor>
+			<Declaration>@property (nonatomic, strong) NSString *entityId</Declaration>
+			
+			
+			<Anchor>//api/name/entityId</Anchor>
             <NodeRef refid="32"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/setDelegate:</TokenIdentifier>
-			<Abstract type="html">The delegate to receive crypt results.</Abstract>
-			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/entityId</TokenIdentifier>
+			<Abstract type="html">The community ID</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFCryptChunksDelegate&gt; delegate</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *entityId</Declaration>
 			
 			
-			<Anchor>//api/name/delegate</Anchor>
+			<Anchor>//api/name/entityId</Anchor>
             <NodeRef refid="32"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/delegate</TokenIdentifier>
-			<Abstract type="html">The delegate to receive crypt results.</Abstract>
-			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setName:</TokenIdentifier>
+			<Abstract type="html">The community name</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFCryptChunksDelegate&gt; delegate</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *name</Declaration>
 			
 			
-			<Anchor>//api/name/delegate</Anchor>
+			<Anchor>//api/name/name</Anchor>
             <NodeRef refid="32"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFCryptChunks/delegate</TokenIdentifier>
-			<Abstract type="html">The delegate to receive crypt results.</Abstract>
-			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/name</TokenIdentifier>
+			<Abstract type="html">The community name</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFCryptChunksDelegate&gt; delegate</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *name</Declaration>
 			
 			
-			<Anchor>//api/name/delegate</Anchor>
+			<Anchor>//api/name/name</Anchor>
             <NodeRef refid="32"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/cryptBuffer:bufferLen:</TokenIdentifier>
-			<Abstract type="html">A data buffer to be encrypted / decrypted. You may pass a buffer of any size here,
-the delegate will then be called with results as many times as needed:
-- the delegate may be called multiple times with chunk results; or
-- the delegate may not be called at all, if there isn&apos;t enough data to produce a result.
-This method utilizes a stack memory buffer the size of 2 cipher blocks.</Abstract>
-			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/name</TokenIdentifier>
+			<Abstract type="html">The community name</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>- (void)cryptBuffer:(const uint8_t *)buffer bufferLen:(size_t)len</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>buffer</Name>
-					<Abstract type="html">the buffer data to be encrypted or decrypted.</Abstract>
-				</Parameter><Parameter>
-					<Name>len</Name>
-					<Abstract type="html">the buffer size.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, strong) NSString *name</Declaration>
 			
-			<Anchor>//api/name/cryptBuffer:bufferLen:</Anchor>
+			
+			<Anchor>//api/name/name</Anchor>
             <NodeRef refid="32"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/setCryptFinalized:</TokenIdentifier>
-			<Abstract type="html">Whether or not the crypt operation completed.
-Once complete, this object must be disposed.</Abstract>
-			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setDescriptionText:</TokenIdentifier>
+			<Abstract type="html">The community description</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readonly) BOOL cryptFinalized</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *descriptionText</Declaration>
 			
 			
-			<Anchor>//api/name/cryptFinalized</Anchor>
+			<Anchor>//api/name/descriptionText</Anchor>
             <NodeRef refid="32"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/cryptFinalized</TokenIdentifier>
-			<Abstract type="html">Whether or not the crypt operation completed.
-Once complete, this object must be disposed.</Abstract>
-			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/descriptionText</TokenIdentifier>
+			<Abstract type="html">The community description</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readonly) BOOL cryptFinalized</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *descriptionText</Declaration>
 			
 			
-			<Anchor>//api/name/cryptFinalized</Anchor>
+			<Anchor>//api/name/descriptionText</Anchor>
             <NodeRef refid="32"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFCryptChunks/cryptFinalized</TokenIdentifier>
-			<Abstract type="html">Whether or not the crypt operation completed.
-Once complete, this object must be disposed.</Abstract>
-			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/descriptionText</TokenIdentifier>
+			<Abstract type="html">The community description</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readonly) BOOL cryptFinalized</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *descriptionText</Declaration>
 			
 			
-			<Anchor>//api/name/cryptFinalized</Anchor>
+			<Anchor>//api/name/descriptionText</Anchor>
             <NodeRef refid="32"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/finalizeCrypt</TokenIdentifier>
-			<Abstract type="html">Finalizes the crypt operation. The delegate may be called with chunk results if the final crypt produced any results.
-The final result is never bigger than the cipher block size.
-This method utilizes a stack memory buffer the size of 1 cipher block.</Abstract>
-			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setSiteUrl:</TokenIdentifier>
+			<Abstract type="html">The community siteUrl</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>- (void)finalizeCrypt</Declaration>
+			<Declaration>@property (nonatomic, strong) NSURL *siteUrl</Declaration>
 			
 			
-			<Anchor>//api/name/finalizeCrypt</Anchor>
+			<Anchor>//api/name/siteUrl</Anchor>
+            <NodeRef refid="32"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/siteUrl</TokenIdentifier>
+			<Abstract type="html">The community siteUrl</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSURL *siteUrl</Declaration>
+			
+			
+			<Anchor>//api/name/siteUrl</Anchor>
+            <NodeRef refid="32"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/siteUrl</TokenIdentifier>
+			<Abstract type="html">The community siteUrl</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSURL *siteUrl</Declaration>
+			
+			
+			<Anchor>//api/name/siteUrl</Anchor>
+            <NodeRef refid="32"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setUrl:</TokenIdentifier>
+			<Abstract type="html">The community URL</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSURL *url</Declaration>
+			
+			
+			<Anchor>//api/name/url</Anchor>
+            <NodeRef refid="32"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/url</TokenIdentifier>
+			<Abstract type="html">The community URL</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSURL *url</Declaration>
+			
+			
+			<Anchor>//api/name/url</Anchor>
+            <NodeRef refid="32"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/url</TokenIdentifier>
+			<Abstract type="html">The community URL</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSURL *url</Declaration>
+			
+			
+			<Anchor>//api/name/url</Anchor>
+            <NodeRef refid="32"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setUrlPathPrefix:</TokenIdentifier>
+			<Abstract type="html">The community URL&apos;s path prefix</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSURL *urlPathPrefix</Declaration>
+			
+			
+			<Anchor>//api/name/urlPathPrefix</Anchor>
+            <NodeRef refid="32"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/urlPathPrefix</TokenIdentifier>
+			<Abstract type="html">The community URL&apos;s path prefix</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSURL *urlPathPrefix</Declaration>
+			
+			
+			<Anchor>//api/name/urlPathPrefix</Anchor>
+            <NodeRef refid="32"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/urlPathPrefix</TokenIdentifier>
+			<Abstract type="html">The community URL&apos;s path prefix</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSURL *urlPathPrefix</Declaration>
+			
+			
+			<Anchor>//api/name/urlPathPrefix</Anchor>
+            <NodeRef refid="32"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setEnabled:</TokenIdentifier>
+			<Abstract type="html">Flag indicating if the community is live or not</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
+			
+			
+			<Anchor>//api/name/enabled</Anchor>
+            <NodeRef refid="32"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/enabled</TokenIdentifier>
+			<Abstract type="html">Flag indicating if the community is live or not</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
+			
+			
+			<Anchor>//api/name/enabled</Anchor>
+            <NodeRef refid="32"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/enabled</TokenIdentifier>
+			<Abstract type="html">Flag indicating if the community is live or not</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
+			
+			
+			<Anchor>//api/name/enabled</Anchor>
+            <NodeRef refid="32"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setInvitationsEnabled:</TokenIdentifier>
+			<Abstract type="html">Flag indicating whether invitations can be sent to potential new members</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL invitationsEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/invitationsEnabled</Anchor>
+            <NodeRef refid="32"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/invitationsEnabled</TokenIdentifier>
+			<Abstract type="html">Flag indicating whether invitations can be sent to potential new members</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL invitationsEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/invitationsEnabled</Anchor>
+            <NodeRef refid="32"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/invitationsEnabled</TokenIdentifier>
+			<Abstract type="html">Flag indicating whether invitations can be sent to potential new members</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL invitationsEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/invitationsEnabled</Anchor>
+            <NodeRef refid="32"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setSendWelcomeEmail:</TokenIdentifier>
+			<Abstract type="html">Flag indicating whether to send a welcome email to new members</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL sendWelcomeEmail</Declaration>
+			
+			
+			<Anchor>//api/name/sendWelcomeEmail</Anchor>
+            <NodeRef refid="32"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/sendWelcomeEmail</TokenIdentifier>
+			<Abstract type="html">Flag indicating whether to send a welcome email to new members</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL sendWelcomeEmail</Declaration>
+			
+			
+			<Anchor>//api/name/sendWelcomeEmail</Anchor>
+            <NodeRef refid="32"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/sendWelcomeEmail</TokenIdentifier>
+			<Abstract type="html">Flag indicating whether to send a welcome email to new members</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL sendWelcomeEmail</Declaration>
+			
+			
+			<Anchor>//api/name/sendWelcomeEmail</Anchor>
             <NodeRef refid="32"/>
 		</Token>
 		

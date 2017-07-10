@@ -60,8 +60,6 @@
 		
 		<option value="//api/name/apiVersion">apiVersion</option>
 		
-		<option value="//api/name/coordinator">coordinator</option>
-		
 	</optgroup>
 	
 
@@ -79,6 +77,10 @@
 		<option value="//api/name/errorWithDescription:">+ errorWithDescription:</option>
 		
 		<option value="//api/name/getIsTestRun">+ getIsTestRun</option>
+		
+		<option value="//api/name/isStatusCodeNotFound:">+ isStatusCodeNotFound:</option>
+		
+		<option value="//api/name/isStatusCodeSuccess:">+ isStatusCodeSuccess:</option>
 		
 		<option value="//api/name/sanitizeSOSLSearchTerm:">+ sanitizeSOSLSearchTerm:</option>
 		
@@ -355,50 +357,6 @@ declared in this file from app code, you&rsquo;re probably doing something wrong
 
 						<div class="task-list">
 							<div class="section-method">
-	<a name="//api/name/coordinator" title="coordinator"></a>
-	<h3 class="method-title"><code><a href="#//api/name/coordinator">&nbsp;&nbsp;coordinator</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Gets or sets the value of the <a href="../Classes/SFOAuthCoordinator.html"><code>SFOAuthCoordinator</code></a> instance associated with SFRestAPI requests.
-Note: If your app inherits from <code>SFNativeRest</code>AppDelegate<code></code>, or you otherwise manage the account
-configuration of your app through <code>SFAccountManager</code>, you should not need to set/configure this
-property, as it&rsquo;s closely aligned with SFAccountManager already.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) SFOAuthCoordinator *coordinator</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
 	<a name="//api/name/apiVersion" title="apiVersion"></a>
 	<h3 class="method-title"><code><a href="#//api/name/apiVersion">&nbsp;&nbsp;apiVersion</a></code>
 </h3>
@@ -1971,6 +1929,38 @@ to return values; for example, &ldquo;Account,Contact&rdquo;.</p></td>
 
 						<div class="task-list">
 							<div class="section-method">
+	<a name="//api/name/isStatusCodeSuccess:" title="isStatusCodeSuccess:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/isStatusCodeSuccess:">+&nbsp;isStatusCodeSuccess:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>+ (BOOL)isStatusCodeSuccess:(NSUInteger)<em>statusCode</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/isStatusCodeNotFound:" title="isStatusCodeNotFound:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/isStatusCodeNotFound:">+&nbsp;isStatusCodeNotFound:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>+ (BOOL)isStatusCodeNotFound:(NSUInteger)<em>statusCode</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/userAgentString" title="userAgentString"></a>
 	<h3 class="method-title"><code><a href="#//api/name/userAgentString">+&nbsp;userAgentString</a></code>
 </h3>
@@ -2062,6 +2052,1273 @@ to return values; for example, &ldquo;Account,Contact&rdquo;.</p></td>
 			<div class="method-subsection declared-in-section">
 				<h4 class="method-subtitle">Declared In</h4>
 				<p><code class="declared-in-ref">SFRestAPI.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="QueryBuilder Methods" name="task_QueryBuilder Methods"></a>
+						<h2 class="task-title">QueryBuilder Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/sanitizeSOSLSearchTerm:" title="sanitizeSOSLSearchTerm:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sanitizeSOSLSearchTerm:">+&nbsp;sanitizeSOSLSearchTerm:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The search term to be sanitized.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (NSString *)sanitizeSOSLSearchTerm:(NSString *)<em>searchTerm</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>searchTerm</code></th>
+						<td><p>The search term to be sanitized.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>SOSL-safe version of search term</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+QueryBuilder.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/SOSLSearchWithSearchTerm:objectScope:" title="SOSLSearchWithSearchTerm:objectScope:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/SOSLSearchWithSearchTerm:objectScope:">+&nbsp;SOSLSearchWithSearchTerm:objectScope:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Generate a SOSL search.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (nullable NSString *)SOSLSearchWithSearchTerm:(NSString *)<em>term</em> objectScope:(nullable NSDictionary&lt;NSString*,NSString*&gt; *)<em>objectScope</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>term</code></th>
+						<td><ul>
+<li>the search term. This is sanitized for proper characters</li>
+</ul>
+</td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>objectScope</code></th>
+						<td><ul>
+<li>nil to search all searchable objects, or a dictionary where each key is an sObject name
+and each value is a string with the fieldlist and (optional) where, order by, and limit clause for that object.
+or NSNull to not specify any fields/clauses for that object</li>
+</ul>
+</td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>query or nil if a query could not be generated</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+QueryBuilder.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:" title="SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:">+&nbsp;SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Generate a SOSL search.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (nullable NSString *)SOSLSearchWithSearchTerm:(NSString *)<em>term</em> fieldScope:(nullable NSString *)<em>fieldScope</em> objectScope:(nullable NSDictionary&lt;NSString*,NSString*&gt; *)<em>objectScope</em> limit:(NSInteger)<em>limit</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>term</code></th>
+						<td><ul>
+<li>the search term. This is sanitized for proper characters</li>
+</ul>
+</td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>fieldScope</code></th>
+						<td><ul>
+<li>nil OR the SOSL scope, e.g. &ldquo;IN ALL FIELDS&rdquo;. if nil, defaults to &ldquo;IN NAME FIELDS&rdquo;</li>
+</ul>
+</td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>objectScope</code></th>
+						<td><ul>
+<li>nil to search all searchable objects, or a dictionary where each key is an sObject name
+and each value is a string with the fieldlist and (optional) where, order by, and limit clause for that object.
+or NSNull to not specify any fields/clauses for that object</li>
+</ul>
+</td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>limit</code></th>
+						<td><ul>
+<li>overall search limit (max 200)</li>
+</ul>
+</td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>query or nil if a query could not be generated</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+QueryBuilder.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/SOQLQueryWithFields:sObject:whereClause:limit:" title="SOQLQueryWithFields:sObject:whereClause:limit:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/SOQLQueryWithFields:sObject:whereClause:limit:">+&nbsp;SOQLQueryWithFields:sObject:whereClause:limit:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Generate a SOQL query.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (nullable NSString *)SOQLQueryWithFields:(NSArray&lt;NSString*&gt; *)<em>fields</em> sObject:(NSString *)<em>sObject</em> whereClause:(nullable NSString *)<em>whereClause</em> limit:(NSInteger)<em>limit</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>fields</code></th>
+						<td><ul>
+<li>NSArray of fields to select</li>
+</ul>
+</td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>sObject</code></th>
+						<td><ul>
+<li>object to query</li>
+</ul>
+</td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>whereClause</code></th>
+						<td><ul>
+<li>nil OR where clause</li>
+</ul>
+</td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>limit</code></th>
+						<td><ul>
+<li>limit count, or 0 for no limit (for use with query locators)</li>
+</ul>
+</td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>query or nil if a query could not be generated</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+QueryBuilder.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/SOQLQueryWithFields:sObject:whereClause:groupBy:having:orderBy:limit:" title="SOQLQueryWithFields:sObject:whereClause:groupBy:having:orderBy:limit:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/SOQLQueryWithFields:sObject:whereClause:groupBy:having:orderBy:limit:">+&nbsp;SOQLQueryWithFields:sObject:whereClause:groupBy:having:orderBy:limit:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Generate a SOQL query.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (nullable NSString *)SOQLQueryWithFields:(NSArray&lt;NSString*&gt; *)<em>fields</em> sObject:(NSString *)<em>sObject</em> whereClause:(nullable NSString *)<em>whereClause</em> groupBy:(nullable NSArray&lt;NSString*&gt; *)<em>groupBy</em> having:(nullable NSString *)<em>having</em> orderBy:(nullable NSArray&lt;NSString*&gt; *)<em>orderBy</em> limit:(NSInteger)<em>limit</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>fields</code></th>
+						<td><ul>
+<li>NSArray of fields to select</li>
+</ul>
+</td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>sObject</code></th>
+						<td><ul>
+<li>object to query</li>
+</ul>
+</td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>whereClause</code></th>
+						<td><ul>
+<li>nil OR where clause</li>
+</ul>
+</td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>groupBy</code></th>
+						<td><ul>
+<li>nil OR NSArray of strings, each string is an individual group by clause</li>
+</ul>
+</td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>having</code></th>
+						<td><ul>
+<li>nil OR having clause</li>
+</ul>
+</td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>orderBy</code></th>
+						<td><ul>
+<li>nil OR NSArray of strings, each string is an individual order by clause</li>
+</ul>
+</td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>limit</code></th>
+						<td><ul>
+<li>limit count, or 0 for no limit (for use with query locators)</li>
+</ul>
+</td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>query or nil if a query could not be generated</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+QueryBuilder.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="Extension Methods" name="task_Extension Methods"></a>
+						<h2 class="task-title">Extension Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/activeRequests" title="activeRequests"></a>
+	<h3 class="method-title"><code><a href="#//api/name/activeRequests">&nbsp;&nbsp;activeRequests</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Active requests property</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, strong) NSMutableSet *activeRequests</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/removeActiveRequestObject:" title="removeActiveRequestObject:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/removeActiveRequestObject:">&ndash;&nbsp;removeActiveRequestObject:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)removeActiveRequestObject:(SFRestRequest *)<em>request</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/forceTimeoutRequest:" title="forceTimeoutRequest:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/forceTimeoutRequest:">&ndash;&nbsp;forceTimeoutRequest:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Force a request to timeout: for testing only!</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)forceTimeoutRequest:(SFRestRequest *)<em>req</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>req</code></th>
+						<td><p>The request to force a timeout on, or nil to grab any active request and force it to timeout</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if we were able to find and timeout the request, NO if the request could not be found</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="Files Methods" name="task_Files Methods"></a>
+						<h2 class="task-title">Files Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/requestForOwnedFilesList:page:" title="requestForOwnedFilesList:page:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requestForOwnedFilesList:page:">&ndash;&nbsp;requestForOwnedFilesList:page:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Build a Request that can fetch a page from the files owned by the
+specified user.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForOwnedFilesList:(nullable NSString *)<em>userId</em> page:(NSUInteger)<em>page</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>userId</code></th>
+						<td><p>if nil the context user is used, otherwise it should be an Id of a user.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>page</code></th>
+						<td><p>if nil fetches the first page, otherwise fetches the specified page.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>A new <a href="../Classes/SFRestRequest.html">SFRestRequest</a> that can be used to fetch this data</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Files.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/requestForFilesInUsersGroups:page:" title="requestForFilesInUsersGroups:page:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requestForFilesInUsersGroups:page:">&ndash;&nbsp;requestForFilesInUsersGroups:page:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Build a Request that can fetch a page from the list of files from groups
+that the user is a member of.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForFilesInUsersGroups:(nullable NSString *)<em>userId</em> page:(NSUInteger)<em>page</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>userId</code></th>
+						<td><p>if nil the context user is used, otherwise it should be an Id of a user.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>page</code></th>
+						<td><p>if nil fetches the first page, otherwise fetches the specified page.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>A new <a href="../Classes/SFRestRequest.html">SFRestRequest</a> that can be used to fetch this data</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Files.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/requestForFilesSharedWithUser:page:" title="requestForFilesSharedWithUser:page:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requestForFilesSharedWithUser:page:">&ndash;&nbsp;requestForFilesSharedWithUser:page:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Build a Request that can fetch a page from the list of files that have
+been shared with the user.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForFilesSharedWithUser:(nullable NSString *)<em>userId</em> page:(NSUInteger)<em>page</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>userId</code></th>
+						<td><p>if nil the context user is used, otherwise it should be an Id of a user.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>page</code></th>
+						<td><p>if nil fetches the first page, otherwise fetches the specified page.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>A new <a href="../Classes/SFRestRequest.html">SFRestRequest</a> that can be used to fetch this data</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Files.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/requestForFileDetails:forVersion:" title="requestForFileDetails:forVersion:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requestForFileDetails:forVersion:">&ndash;&nbsp;requestForFileDetails:forVersion:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Build a Request that can fetch the file details of a particular version
+of a file.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForFileDetails:(NSString *)<em>sfdcId</em> forVersion:(nullable NSString *)<em>version</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>sfdcId</code></th>
+						<td><p>The Id of the file</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>version</code></th>
+						<td><p>if nil fetches the most recent version, otherwise fetches this specific version.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>A new <a href="../Classes/SFRestRequest.html">SFRestRequest</a> that can be used to fetch this data</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Files.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/requestForBatchFileDetails:" title="requestForBatchFileDetails:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requestForBatchFileDetails:">&ndash;&nbsp;requestForBatchFileDetails:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Build a request that can fetch the latest file details of one or more
+files in a single request.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForBatchFileDetails:(NSArray&lt;NSString*&gt; *)<em>sfdcIds</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>sfdcIds</code></th>
+						<td><p>The list of file Ids to fetch.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>A new <a href="../Classes/SFRestRequest.html">SFRestRequest</a> that can be used to fetch this data</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Files.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/requestForFileRendition:version:renditionType:page:" title="requestForFileRendition:version:renditionType:page:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requestForFileRendition:version:renditionType:page:">&ndash;&nbsp;requestForFileRendition:version:renditionType:page:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Build a Request that can fetch the a preview/rendition of a particular
+page of the file (and version)</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForFileRendition:(NSString *)<em>sfdcId</em> version:(nullable NSString *)<em>version</em> renditionType:(NSString *)<em>renditionType</em> page:(NSUInteger)<em>page</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>sfdcId</code></th>
+						<td><p>The Id of the file</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>version</code></th>
+						<td><p>if nil fetches the most recent version, otherwise fetches this specific version</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>renditionType</code></th>
+						<td><p>What format of rendition do you want to get</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>page</code></th>
+						<td><p>which page to fetch, pages start at 0.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>A new <a href="../Classes/SFRestRequest.html">SFRestRequest</a> that can be used to fetch this data</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Files.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/requestForFileContents:version:" title="requestForFileContents:version:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requestForFileContents:version:">&ndash;&nbsp;requestForFileContents:version:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Builds a request that can fetch the actual binary file contents of this
+particular file.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForFileContents:(NSString *)<em>sfdcId</em> version:(nullable NSString *)<em>version</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>sfdcId</code></th>
+						<td><p>The Id of the file</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>version</code></th>
+						<td><p>The version of the file</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>A new <a href="../Classes/SFRestRequest.html">SFRestRequest</a> that can be used to fetch this data</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Files.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/requestForFileShares:page:" title="requestForFileShares:page:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requestForFileShares:page:">&ndash;&nbsp;requestForFileShares:page:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Build a request that can fetch a page from the list of entities that this
+file is shared to.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForFileShares:(NSString *)<em>sfdcId</em> page:(NSUInteger)<em>page</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>sfdcId</code></th>
+						<td><p>The Id of the file.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>page</code></th>
+						<td><p>if nil fetches the first page, otherwise fetches the specified page.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>A new <a href="../Classes/SFRestRequest.html">SFRestRequest</a> that can be used to fetch this data</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Files.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/requestForAddFileShare:entityId:shareType:" title="requestForAddFileShare:entityId:shareType:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requestForAddFileShare:entityId:shareType:">&ndash;&nbsp;requestForAddFileShare:entityId:shareType:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Build a request that will add a file share for the specified fileId to
+the specified entityId</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForAddFileShare:(NSString *)<em>fileId</em> entityId:(NSString *)<em>entityId</em> shareType:(NSString *)<em>shareType</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>fileId</code></th>
+						<td><p>the Id of the file being shared.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>entityId</code></th>
+						<td><p>the Id of the entity to share the file to (e.g. a user or a group)</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>shareType</code></th>
+						<td><p>the type of share (V - View, C - Collaboration)</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>A new <a href="../Classes/SFRestRequest.html">SFRestRequest</a> that be can used to create this share.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Files.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/requestForDeleteFileShare:" title="requestForDeleteFileShare:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requestForDeleteFileShare:">&ndash;&nbsp;requestForDeleteFileShare:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Build a request that will delete the specified file share.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForDeleteFileShare:(NSString *)<em>shareId</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>shareId</code></th>
+						<td><p>The Id of the file share record (aka ContentDocumentLink)</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>A new <a href="../Classes/SFRestRequest.html">SFRestRequest</a> that can be used to delete this share</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Files.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/requestForUploadFile:name:description:mimeType:" title="requestForUploadFile:name:description:mimeType:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requestForUploadFile:name:description:mimeType:">&ndash;&nbsp;requestForUploadFile:name:description:mimeType:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Build a request that can upload a new file to the server, this will
+create a new file at version 1.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForUploadFile:(NSData *)<em>data</em> name:(NSString *)<em>name</em> description:(NSString *)<em>description</em> mimeType:(NSString *)<em>mimeType</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>data</code></th>
+						<td><p>Data to upload to the server.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>name</code></th>
+						<td><p>The name/title of this file.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>description</code></th>
+						<td><p>A description of the file.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>mimeType</code></th>
+						<td><p>The mime-type of the file, if known.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>A <a href="../Classes/SFRestRequest.html">SFRestRequest</a> that can perform this upload.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Files.h</code></p>
 			</div>
 			
 			
@@ -3401,1273 +4658,6 @@ to return values; for example, &ldquo;Account,Contact&rdquo;.</p></td>
 </div>
 						</div>
 						
-
-						<a title="Files Methods" name="task_Files Methods"></a>
-						<h2 class="task-title">Files Methods</h2>
-
-						<div class="task-list">
-							<div class="section-method">
-	<a name="//api/name/requestForOwnedFilesList:page:" title="requestForOwnedFilesList:page:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/requestForOwnedFilesList:page:">&ndash;&nbsp;requestForOwnedFilesList:page:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Build a Request that can fetch a page from the files owned by the
-specified user.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForOwnedFilesList:(nullable NSString *)<em>userId</em> page:(NSUInteger)<em>page</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>userId</code></th>
-						<td><p>if nil the context user is used, otherwise it should be an Id of a user.</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>page</code></th>
-						<td><p>if nil fetches the first page, otherwise fetches the specified page.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>A new <a href="../Classes/SFRestRequest.html">SFRestRequest</a> that can be used to fetch this data</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Files.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/requestForFilesInUsersGroups:page:" title="requestForFilesInUsersGroups:page:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/requestForFilesInUsersGroups:page:">&ndash;&nbsp;requestForFilesInUsersGroups:page:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Build a Request that can fetch a page from the list of files from groups
-that the user is a member of.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForFilesInUsersGroups:(nullable NSString *)<em>userId</em> page:(NSUInteger)<em>page</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>userId</code></th>
-						<td><p>if nil the context user is used, otherwise it should be an Id of a user.</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>page</code></th>
-						<td><p>if nil fetches the first page, otherwise fetches the specified page.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>A new <a href="../Classes/SFRestRequest.html">SFRestRequest</a> that can be used to fetch this data</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Files.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/requestForFilesSharedWithUser:page:" title="requestForFilesSharedWithUser:page:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/requestForFilesSharedWithUser:page:">&ndash;&nbsp;requestForFilesSharedWithUser:page:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Build a Request that can fetch a page from the list of files that have
-been shared with the user.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForFilesSharedWithUser:(nullable NSString *)<em>userId</em> page:(NSUInteger)<em>page</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>userId</code></th>
-						<td><p>if nil the context user is used, otherwise it should be an Id of a user.</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>page</code></th>
-						<td><p>if nil fetches the first page, otherwise fetches the specified page.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>A new <a href="../Classes/SFRestRequest.html">SFRestRequest</a> that can be used to fetch this data</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Files.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/requestForFileDetails:forVersion:" title="requestForFileDetails:forVersion:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/requestForFileDetails:forVersion:">&ndash;&nbsp;requestForFileDetails:forVersion:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Build a Request that can fetch the file details of a particular version
-of a file.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForFileDetails:(NSString *)<em>sfdcId</em> forVersion:(nullable NSString *)<em>version</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>sfdcId</code></th>
-						<td><p>The Id of the file</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>version</code></th>
-						<td><p>if nil fetches the most recent version, otherwise fetches this specific version.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>A new <a href="../Classes/SFRestRequest.html">SFRestRequest</a> that can be used to fetch this data</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Files.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/requestForBatchFileDetails:" title="requestForBatchFileDetails:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/requestForBatchFileDetails:">&ndash;&nbsp;requestForBatchFileDetails:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Build a request that can fetch the latest file details of one or more
-files in a single request.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForBatchFileDetails:(NSArray&lt;NSString*&gt; *)<em>sfdcIds</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>sfdcIds</code></th>
-						<td><p>The list of file Ids to fetch.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>A new <a href="../Classes/SFRestRequest.html">SFRestRequest</a> that can be used to fetch this data</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Files.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/requestForFileRendition:version:renditionType:page:" title="requestForFileRendition:version:renditionType:page:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/requestForFileRendition:version:renditionType:page:">&ndash;&nbsp;requestForFileRendition:version:renditionType:page:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Build a Request that can fetch the a preview/rendition of a particular
-page of the file (and version)</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForFileRendition:(NSString *)<em>sfdcId</em> version:(nullable NSString *)<em>version</em> renditionType:(NSString *)<em>renditionType</em> page:(NSUInteger)<em>page</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>sfdcId</code></th>
-						<td><p>The Id of the file</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>version</code></th>
-						<td><p>if nil fetches the most recent version, otherwise fetches this specific version</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>renditionType</code></th>
-						<td><p>What format of rendition do you want to get</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>page</code></th>
-						<td><p>which page to fetch, pages start at 0.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>A new <a href="../Classes/SFRestRequest.html">SFRestRequest</a> that can be used to fetch this data</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Files.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/requestForFileContents:version:" title="requestForFileContents:version:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/requestForFileContents:version:">&ndash;&nbsp;requestForFileContents:version:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Builds a request that can fetch the actual binary file contents of this
-particular file.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForFileContents:(NSString *)<em>sfdcId</em> version:(nullable NSString *)<em>version</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>sfdcId</code></th>
-						<td><p>The Id of the file</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>version</code></th>
-						<td><p>The version of the file</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>A new <a href="../Classes/SFRestRequest.html">SFRestRequest</a> that can be used to fetch this data</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Files.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/requestForFileShares:page:" title="requestForFileShares:page:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/requestForFileShares:page:">&ndash;&nbsp;requestForFileShares:page:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Build a request that can fetch a page from the list of entities that this
-file is shared to.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForFileShares:(NSString *)<em>sfdcId</em> page:(NSUInteger)<em>page</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>sfdcId</code></th>
-						<td><p>The Id of the file.</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>page</code></th>
-						<td><p>if nil fetches the first page, otherwise fetches the specified page.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>A new <a href="../Classes/SFRestRequest.html">SFRestRequest</a> that can be used to fetch this data</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Files.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/requestForAddFileShare:entityId:shareType:" title="requestForAddFileShare:entityId:shareType:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/requestForAddFileShare:entityId:shareType:">&ndash;&nbsp;requestForAddFileShare:entityId:shareType:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Build a request that will add a file share for the specified fileId to
-the specified entityId</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForAddFileShare:(NSString *)<em>fileId</em> entityId:(NSString *)<em>entityId</em> shareType:(NSString *)<em>shareType</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>fileId</code></th>
-						<td><p>the Id of the file being shared.</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>entityId</code></th>
-						<td><p>the Id of the entity to share the file to (e.g. a user or a group)</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>shareType</code></th>
-						<td><p>the type of share (V - View, C - Collaboration)</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>A new <a href="../Classes/SFRestRequest.html">SFRestRequest</a> that be can used to create this share.</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Files.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/requestForDeleteFileShare:" title="requestForDeleteFileShare:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/requestForDeleteFileShare:">&ndash;&nbsp;requestForDeleteFileShare:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Build a request that will delete the specified file share.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForDeleteFileShare:(NSString *)<em>shareId</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>shareId</code></th>
-						<td><p>The Id of the file share record (aka ContentDocumentLink)</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>A new <a href="../Classes/SFRestRequest.html">SFRestRequest</a> that can be used to delete this share</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Files.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/requestForUploadFile:name:description:mimeType:" title="requestForUploadFile:name:description:mimeType:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/requestForUploadFile:name:description:mimeType:">&ndash;&nbsp;requestForUploadFile:name:description:mimeType:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Build a request that can upload a new file to the server, this will
-create a new file at version 1.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForUploadFile:(NSData *)<em>data</em> name:(NSString *)<em>name</em> description:(NSString *)<em>description</em> mimeType:(NSString *)<em>mimeType</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>data</code></th>
-						<td><p>Data to upload to the server.</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>name</code></th>
-						<td><p>The name/title of this file.</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>description</code></th>
-						<td><p>A description of the file.</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>mimeType</code></th>
-						<td><p>The mime-type of the file, if known.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>A <a href="../Classes/SFRestRequest.html">SFRestRequest</a> that can perform this upload.</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Files.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div>
-						</div>
-						
-
-						<a title="QueryBuilder Methods" name="task_QueryBuilder Methods"></a>
-						<h2 class="task-title">QueryBuilder Methods</h2>
-
-						<div class="task-list">
-							<div class="section-method">
-	<a name="//api/name/sanitizeSOSLSearchTerm:" title="sanitizeSOSLSearchTerm:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/sanitizeSOSLSearchTerm:">+&nbsp;sanitizeSOSLSearchTerm:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>The search term to be sanitized.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (NSString *)sanitizeSOSLSearchTerm:(NSString *)<em>searchTerm</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>searchTerm</code></th>
-						<td><p>The search term to be sanitized.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>SOSL-safe version of search term</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+QueryBuilder.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/SOSLSearchWithSearchTerm:objectScope:" title="SOSLSearchWithSearchTerm:objectScope:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/SOSLSearchWithSearchTerm:objectScope:">+&nbsp;SOSLSearchWithSearchTerm:objectScope:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Generate a SOSL search.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (nullable NSString *)SOSLSearchWithSearchTerm:(NSString *)<em>term</em> objectScope:(nullable NSDictionary&lt;NSString*,NSString*&gt; *)<em>objectScope</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>term</code></th>
-						<td><ul>
-<li>the search term. This is sanitized for proper characters</li>
-</ul>
-</td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>objectScope</code></th>
-						<td><ul>
-<li>nil to search all searchable objects, or a dictionary where each key is an sObject name
-and each value is a string with the fieldlist and (optional) where, order by, and limit clause for that object.
-or NSNull to not specify any fields/clauses for that object</li>
-</ul>
-</td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>query or nil if a query could not be generated</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+QueryBuilder.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:" title="SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:">+&nbsp;SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Generate a SOSL search.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (nullable NSString *)SOSLSearchWithSearchTerm:(NSString *)<em>term</em> fieldScope:(nullable NSString *)<em>fieldScope</em> objectScope:(nullable NSDictionary&lt;NSString*,NSString*&gt; *)<em>objectScope</em> limit:(NSInteger)<em>limit</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>term</code></th>
-						<td><ul>
-<li>the search term. This is sanitized for proper characters</li>
-</ul>
-</td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>fieldScope</code></th>
-						<td><ul>
-<li>nil OR the SOSL scope, e.g. &ldquo;IN ALL FIELDS&rdquo;. if nil, defaults to &ldquo;IN NAME FIELDS&rdquo;</li>
-</ul>
-</td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>objectScope</code></th>
-						<td><ul>
-<li>nil to search all searchable objects, or a dictionary where each key is an sObject name
-and each value is a string with the fieldlist and (optional) where, order by, and limit clause for that object.
-or NSNull to not specify any fields/clauses for that object</li>
-</ul>
-</td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>limit</code></th>
-						<td><ul>
-<li>overall search limit (max 200)</li>
-</ul>
-</td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>query or nil if a query could not be generated</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+QueryBuilder.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/SOQLQueryWithFields:sObject:whereClause:limit:" title="SOQLQueryWithFields:sObject:whereClause:limit:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/SOQLQueryWithFields:sObject:whereClause:limit:">+&nbsp;SOQLQueryWithFields:sObject:whereClause:limit:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Generate a SOQL query.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (nullable NSString *)SOQLQueryWithFields:(NSArray&lt;NSString*&gt; *)<em>fields</em> sObject:(NSString *)<em>sObject</em> whereClause:(nullable NSString *)<em>whereClause</em> limit:(NSInteger)<em>limit</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>fields</code></th>
-						<td><ul>
-<li>NSArray of fields to select</li>
-</ul>
-</td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>sObject</code></th>
-						<td><ul>
-<li>object to query</li>
-</ul>
-</td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>whereClause</code></th>
-						<td><ul>
-<li>nil OR where clause</li>
-</ul>
-</td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>limit</code></th>
-						<td><ul>
-<li>limit count, or 0 for no limit (for use with query locators)</li>
-</ul>
-</td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>query or nil if a query could not be generated</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+QueryBuilder.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/SOQLQueryWithFields:sObject:whereClause:groupBy:having:orderBy:limit:" title="SOQLQueryWithFields:sObject:whereClause:groupBy:having:orderBy:limit:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/SOQLQueryWithFields:sObject:whereClause:groupBy:having:orderBy:limit:">+&nbsp;SOQLQueryWithFields:sObject:whereClause:groupBy:having:orderBy:limit:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Generate a SOQL query.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (nullable NSString *)SOQLQueryWithFields:(NSArray&lt;NSString*&gt; *)<em>fields</em> sObject:(NSString *)<em>sObject</em> whereClause:(nullable NSString *)<em>whereClause</em> groupBy:(nullable NSArray&lt;NSString*&gt; *)<em>groupBy</em> having:(nullable NSString *)<em>having</em> orderBy:(nullable NSArray&lt;NSString*&gt; *)<em>orderBy</em> limit:(NSInteger)<em>limit</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>fields</code></th>
-						<td><ul>
-<li>NSArray of fields to select</li>
-</ul>
-</td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>sObject</code></th>
-						<td><ul>
-<li>object to query</li>
-</ul>
-</td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>whereClause</code></th>
-						<td><ul>
-<li>nil OR where clause</li>
-</ul>
-</td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>groupBy</code></th>
-						<td><ul>
-<li>nil OR NSArray of strings, each string is an individual group by clause</li>
-</ul>
-</td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>having</code></th>
-						<td><ul>
-<li>nil OR having clause</li>
-</ul>
-</td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>orderBy</code></th>
-						<td><ul>
-<li>nil OR NSArray of strings, each string is an individual order by clause</li>
-</ul>
-</td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>limit</code></th>
-						<td><ul>
-<li>limit count, or 0 for no limit (for use with query locators)</li>
-</ul>
-</td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>query or nil if a query could not be generated</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+QueryBuilder.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div>
-						</div>
-						
-
-						<a title="Extension Methods" name="task_Extension Methods"></a>
-						<h2 class="task-title">Extension Methods</h2>
-
-						<div class="task-list">
-							<div class="section-method">
-	<a name="//api/name/activeRequests" title="activeRequests"></a>
-	<h3 class="method-title"><code><a href="#//api/name/activeRequests">&nbsp;&nbsp;activeRequests</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Active requests property</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, strong) NSMutableSet *activeRequests</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Internal.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/removeActiveRequestObject:" title="removeActiveRequestObject:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/removeActiveRequestObject:">&ndash;&nbsp;removeActiveRequestObject:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (void)removeActiveRequestObject:(SFRestRequest *)<em>request</em></code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/forceTimeoutRequest:" title="forceTimeoutRequest:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/forceTimeoutRequest:">&ndash;&nbsp;forceTimeoutRequest:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Force a request to timeout: for testing only!</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (BOOL)forceTimeoutRequest:(SFRestRequest *)<em>req</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>req</code></th>
-						<td><p>The request to force a timeout on, or nil to grab any active request and force it to timeout</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>YES if we were able to find and timeout the request, NO if the request could not be found</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Internal.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div>
-						</div>
-						
 					</div>
 					
 					
@@ -4680,7 +4670,7 @@ or NSNull to not specify any fields/clauses for that object</li>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-04-26</p>
+						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-07-10</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

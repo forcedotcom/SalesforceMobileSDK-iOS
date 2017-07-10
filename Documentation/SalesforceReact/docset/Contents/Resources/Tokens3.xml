@@ -1,16 +1,160 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSmartStoreReactBridge.html">
+	<File path="Classes/SFSDKReactLogger.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSmartStoreReactBridge</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKReactLogger</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreReactBridge.h</DeclaredIn>
+			<DeclaredIn>SFSDKReactLogger.h</DeclaredIn>
             
 			
 			<NodeRef refid="3"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKReactLogger/curLogLevel</TokenIdentifier>
+			<Abstract type="html">Returns current log level used by this logger.</Abstract>
+			<DeclaredIn>SFSDKReactLogger.h</DeclaredIn>
+			
+			<Declaration>+ (DDLogLevel)curLogLevel</Declaration>
+			
+			<ReturnValue><Abstract type="html">Current log level.</Abstract></ReturnValue>
+			<Anchor>//api/name/curLogLevel</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKReactLogger/setLogLevel:</TokenIdentifier>
+			<Abstract type="html">Sets log level to be used by this logger.</Abstract>
+			<DeclaredIn>SFSDKReactLogger.h</DeclaredIn>
+			
+			<Declaration>+ (void)setLogLevel:(DDLogLevel)logLevel</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>logLevel</Name>
+					<Abstract type="html">Log level.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setLogLevel:</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKReactLogger/e:format:</TokenIdentifier>
+			<Abstract type="html">Logs an error log line.</Abstract>
+			<DeclaredIn>SFSDKReactLogger.h</DeclaredIn>
+			
+			<Declaration>+ (void)e:(nonnull Class)class format:(nonnull NSString *)format, ...</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>class</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>format</Name>
+					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
+				</Parameter><Parameter>
+					<Name>...</Name>
+					<Abstract type="html">The arguments to the message format string.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/e:format:</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKReactLogger/w:format:</TokenIdentifier>
+			<Abstract type="html">Logs a warning log line.</Abstract>
+			<DeclaredIn>SFSDKReactLogger.h</DeclaredIn>
+			
+			<Declaration>+ (void)w:(nonnull Class)class format:(nonnull NSString *)format, ...</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>class</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>format</Name>
+					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
+				</Parameter><Parameter>
+					<Name>...</Name>
+					<Abstract type="html">The arguments to the message format string.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/w:format:</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKReactLogger/i:format:</TokenIdentifier>
+			<Abstract type="html">Logs an info log line.</Abstract>
+			<DeclaredIn>SFSDKReactLogger.h</DeclaredIn>
+			
+			<Declaration>+ (void)i:(nonnull Class)class format:(nonnull NSString *)format, ...</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>class</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>format</Name>
+					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
+				</Parameter><Parameter>
+					<Name>...</Name>
+					<Abstract type="html">The arguments to the message format string.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/i:format:</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKReactLogger/v:format:</TokenIdentifier>
+			<Abstract type="html">Logs a verbose log line.</Abstract>
+			<DeclaredIn>SFSDKReactLogger.h</DeclaredIn>
+			
+			<Declaration>+ (void)v:(nonnull Class)class format:(nonnull NSString *)format, ...</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>class</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>format</Name>
+					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
+				</Parameter><Parameter>
+					<Name>...</Name>
+					<Abstract type="html">The arguments to the message format string.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/v:format:</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKReactLogger/d:format:</TokenIdentifier>
+			<Abstract type="html">Logs a debug log line.</Abstract>
+			<DeclaredIn>SFSDKReactLogger.h</DeclaredIn>
+			
+			<Declaration>+ (void)d:(nonnull Class)class format:(nonnull NSString *)format, ...</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>class</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>format</Name>
+					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
+				</Parameter><Parameter>
+					<Name>...</Name>
+					<Abstract type="html">The arguments to the message format string.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/d:format:</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
 		
         
         

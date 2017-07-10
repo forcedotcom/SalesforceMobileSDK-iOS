@@ -64,11 +64,15 @@
 		
 		<option value="//api/name/authErrorHandlerList">authErrorHandlerList</option>
 		
+		<option value="//api/name/authSafariControllerHandler">authSafariControllerHandler</option>
+		
 		<option value="//api/name/authViewController">authViewController</option>
 		
 		<option value="//api/name/authViewHandler">authViewHandler</option>
 		
 		<option value="//api/name/authenticating">authenticating</option>
+		
+		<option value="//api/name/brandLoginPath">brandLoginPath</option>
 		
 		<option value="//api/name/connectedAppVersionAuthErrorHandler">connectedAppVersionAuthErrorHandler</option>
 		
@@ -104,13 +108,7 @@
 	
 	<optgroup label="Class Methods">
 		
-		<option value="//api/name/addSidCookieForDomain:">+ addSidCookieForDomain:</option>
-		
 		<option value="//api/name/errorIsInvalidAuthCredentials:">+ errorIsInvalidAuthCredentials:</option>
-		
-		<option value="//api/name/removeAllCookies">+ removeAllCookies</option>
-		
-		<option value="//api/name/removeCookies:fromDomains:">+ removeCookies:fromDomains:</option>
 		
 		<option value="//api/name/resetSessionCookie">+ resetSessionCookie</option>
 		
@@ -138,8 +136,6 @@
 		
 		<option value="//api/name/handleAdvancedAuthenticationResponse:">- handleAdvancedAuthenticationResponse:</option>
 		
-		<option value="//api/name/login">- login</option>
-		
 		<option value="//api/name/loginWithCompletion:failure:">- loginWithCompletion:failure:</option>
 		
 		<option value="//api/name/loginWithCompletion:failure:credentials:">- loginWithCompletion:failure:credentials:</option>
@@ -153,6 +149,8 @@
 		<option value="//api/name/logoutAllUsers">- logoutAllUsers</option>
 		
 		<option value="//api/name/logoutUser:">- logoutUser:</option>
+		
+		<option value="//api/name/refreshCredentials:completion:failure:">- refreshCredentials:completion:failure:</option>
 		
 		<option value="//api/name/removeDelegate:">- removeDelegate:</option>
 		
@@ -195,7 +193,7 @@
 					<div class="section section-overview">
 						<a title="Overview" name="overview"></a>
 						<h2 class="subtitle subtitle-overview">Overview</h2>
-						<p>This class handles all the authentication related tasks, which includes <a href="#//api/name/login">login</a>, <a href="#//api/name/logout">logout</a> and session refresh</p>
+						<p>This class handles all the authentication related tasks, which includes login, <a href="#//api/name/logout">logout</a> and session refresh</p>
 					</div>
 					
 					
@@ -531,6 +529,49 @@ to the default, and override the <a href="#//api/name/authViewController">authVi
 		    
 
 			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) SFAuthenticationViewHandler *authViewHandler</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFAuthenticationManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/authSafariControllerHandler" title="authSafariControllerHandler"></a>
+	<h3 class="method-title"><code><a href="#//api/name/authSafariControllerHandler">&nbsp;&nbsp;authSafariControllerHandler</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The property denoting the handler for presenting the authentication controller (for advanced auth flows)
+You can override this handler if you want to have a custom work flow for displaying the authentication
+controller.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) SFAuthenticationSafariControllerHandler *authSafariControllerHandler</code></div>
 
 		    
 			
@@ -979,7 +1020,7 @@ service to retrieve org authentication configuration.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>The host that will be used for <a href="#//api/name/login">login</a>.</p>
+				<p>The host that will be used for login.</p>
 			</div>
 			
 		    
@@ -1020,7 +1061,7 @@ service to retrieve org authentication configuration.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Should the <a href="#//api/name/login">login</a> process start again if it fails (default: YES)</p>
+				<p>Should the login process start again if it fails (default: YES)</p>
 			</div>
 			
 		    
@@ -1061,8 +1102,8 @@ service to retrieve org authentication configuration.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>OAuth client ID to use for <a href="#//api/name/login">login</a>.  Apps may customize
-by setting this property before <a href="#//api/name/login">login</a>; otherwise, this
+				<p>OAuth client ID to use for login.  Apps may customize
+by setting this property before login; otherwise, this
 value is determined by the SFDCOAuthClientIdPreference
 configured via the settings bundle.</p>
 			</div>
@@ -1111,6 +1152,47 @@ configured via the settings bundle.</p>
 		    
 
 			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) NSString *oauthCompletionUrl</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFAuthenticationManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/brandLoginPath" title="brandLoginPath"></a>
+	<h3 class="method-title"><code><a href="#//api/name/brandLoginPath">&nbsp;&nbsp;brandLoginPath</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The Branded Login path configured for this application.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, nullable, copy) NSString *brandLoginPath</code></div>
 
 		    
 			
@@ -1351,7 +1433,7 @@ configured via the settings bundle.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Kick off the <a href="#//api/name/login">login</a> process for credentials that&rsquo;s previously configured.</p>
+				<p>Kick off the login process for credentials that&rsquo;s previously configured.</p>
 			</div>
 			
 		    
@@ -1416,7 +1498,8 @@ in succession.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Kick off the <a href="#//api/name/login">login</a> process for the specified credentials.</p>
+				<p>Kick off the refresh process for the specified credentials.
+Note: This method is deprecated.  Use <a href="#//api/name/refreshCredentials:completion:failure:">refreshCredentials:completion:failure:</a> to refresh existing credentials.</p>
 			</div>
 			
 		    
@@ -1431,17 +1514,87 @@ in succession.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>completionBlock</code></th>
-						<td><p>The block of code to execute when the authentication process successfully completes.</p></td>
+						<td><p>The block of code to execute when the refresh process successfully completes.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>failureBlock</code></th>
-						<td><p>The block of code to execute when the authentication process has a fatal failure.</p></td>
+						<td><p>The block of code to execute when the refresh process has a fatal failure.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>credentials</code></th>
-						<td><p><a href="../Classes/SFOAuthCredentials.html">SFOAuthCredentials</a> to be logged in.</p></td>
+						<td><p><a href="../Classes/SFOAuthCredentials.html">SFOAuthCredentials</a> to be refreshed.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if this call kicks off the authentication process.  NO if an authentication process has already
+started, in which case subsequent requests are queued up to have their completion or failure blocks executed
+in succession.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFAuthenticationManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/refreshCredentials:completion:failure:" title="refreshCredentials:completion:failure:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/refreshCredentials:completion:failure:">&ndash;&nbsp;refreshCredentials:completion:failure:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Kick off the refresh process for the specified credentials.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)refreshCredentials:(nonnull SFOAuthCredentials *)<em>credentials</em> completion:(nullable SFOAuthFlowSuccessCallbackBlock)<em>completionBlock</em> failure:(nullable SFOAuthFlowFailureCallbackBlock)<em>failureBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>credentials</code></th>
+						<td><p><a href="../Classes/SFOAuthCredentials.html">SFOAuthCredentials</a> to be refreshed.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completionBlock</code></th>
+						<td><p>The block of code to execute when the refresh process successfully completes.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failureBlock</code></th>
+						<td><p>The block of code to execute when the refresh process has a fatal failure.</p></td>
 					</tr>
 				
 				</table>
@@ -1556,7 +1709,7 @@ in succession.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Forces a logout from the current account, redirecting the user to the <a href="#//api/name/login">login</a> process.
+				<p>Forces a logout from the current account, redirecting the user to the login process.
 This throws out the OAuth refresh token.</p>
 			</div>
 			
@@ -1971,158 +2124,6 @@ OAuth credentials.</p>
 			
 		</div>
 	</div>
-</div><div class="section-method">
-	<a name="//api/name/removeCookies:fromDomains:" title="removeCookies:fromDomains:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/removeCookies:fromDomains:">+&nbsp;removeCookies:fromDomains:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Remove any cookies with the given names from the given domains.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (void)removeCookies:(NSArray&lt;NSString*&gt; *)<em>cookieNames</em> fromDomains:(NSArray&lt;NSString*&gt; *)<em>domainNames</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>cookieNames</code></th>
-						<td><p>The names of the cookies to remove.</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>domainNames</code></th>
-						<td><p>The names of the domains where the cookies are set.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFAuthenticationManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/removeAllCookies" title="removeAllCookies"></a>
-	<h3 class="method-title"><code><a href="#//api/name/removeAllCookies">+&nbsp;removeAllCookies</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Remove all cookies from the cookie store.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (void)removeAllCookies</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFAuthenticationManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/addSidCookieForDomain:" title="addSidCookieForDomain:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/addSidCookieForDomain:">+&nbsp;addSidCookieForDomain:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Adds the access (session) token cookie to the web view, for authentication.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (void)addSidCookieForDomain:(NSString *)<em>domain</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>domain</code></th>
-						<td><p>The domain on which to set the cookie.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFAuthenticationManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
 </div>
 						</div>
 						
@@ -2132,22 +2133,6 @@ OAuth credentials.</p>
 
 						<div class="task-list">
 							<div class="section-method">
-	<a name="//api/name/login" title="login"></a>
-	<h3 class="method-title"><code><a href="#//api/name/login">&ndash;&nbsp;login</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (void)login</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
 	<a name="//api/name/loginWithCredentials:" title="loginWithCredentials:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/loginWithCredentials:">&ndash;&nbsp;loginWithCredentials:</a></code>
 </h3>
@@ -2247,7 +2232,7 @@ OAuth credentials.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-04-26</p>
+						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-07-10</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

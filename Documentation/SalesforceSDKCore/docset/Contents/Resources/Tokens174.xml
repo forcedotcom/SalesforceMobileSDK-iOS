@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/CSFForceLayoutComponentType.html">
+	<File path="Constants/CSFActionExecutionCapType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/CSFForceLayoutComponentType</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFForceDefines.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/CSFActionExecutionCapType</TokenIdentifier>
+			<Abstract type="html">This type defines the execution cap that an action has.
+Notes:
+(1) An action is identified by its actionVerb only.
+(2) A session is defined as lasting from the time the application starts (or resumes) until
+it is backgrounded or killed.</Abstract>
+			<DeclaredIn>CSFDefines.h</DeclaredIn>
             
 			
 			<NodeRef refid="174"/>
@@ -14,51 +18,23 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceLayoutComponentTypeUnknown</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceLayoutComponentTypeUnknown</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/CSFActionExecutionCapTypeUnlimited</TokenIdentifier>
+            <Abstract type="html">Default value which means the action can be executed as many times as it wants
+     </Abstract>
+            <Declaration>CSFActionExecutionCapTypeUnlimited</Declaration>
             
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="174"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceLayoutComponentTypeEmptySpace</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceLayoutComponentTypeEmptySpace</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            <DeclaredIn>CSFDefines.h</DeclaredIn>
             
             <NodeRef refid="174"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceLayoutComponentTypeField</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceLayoutComponentTypeField</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/CSFActionExecutionCapTypeOncePerSession</TokenIdentifier>
+            <Abstract type="html">The action is going to be executed only once per session.
+     </Abstract>
+            <Declaration>CSFActionExecutionCapTypeOncePerSession</Declaration>
             
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="174"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceLayoutComponentTypeSControl</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceLayoutComponentTypeSControl</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="174"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceLayoutComponentTypeSeparator</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceLayoutComponentTypeSeparator</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            <DeclaredIn>CSFDefines.h</DeclaredIn>
             
             <NodeRef refid="174"/>
         </Token>

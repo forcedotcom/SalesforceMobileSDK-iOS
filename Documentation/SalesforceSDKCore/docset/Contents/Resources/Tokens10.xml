@@ -629,6 +629,18 @@ requests that change state (i.e. POST).</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/setupSalesforceObserver</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFNetwork+Salesforce.h</DeclaredIn>
+			
+			<Declaration>- (void)setupSalesforceObserver</Declaration>
+			
+			
+			<Anchor>//api/name/setupSalesforceObserver</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/setCancelling:</TokenIdentifier>
 			<Abstract type="html">Property set to YES when the executer is cancelling execution of actions.
 This prevents new actions from be scheduled.</Abstract>
@@ -991,18 +1003,6 @@ This prevents new action from be scheduled.</Abstract>
 			
 			
 			<Anchor>//api/name/delegate_networkTask:changedState:toState:forAction:</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/setupSalesforceObserver</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFNetwork+Salesforce.h</DeclaredIn>
-			
-			<Declaration>- (void)setupSalesforceObserver</Declaration>
-			
-			
-			<Anchor>//api/name/setupSalesforceObserver</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFLogger.html">
+	<File path="Classes/SFLogIdentifier.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFLogger</TokenIdentifier>
-			<Abstract type="html">Generic logging utility: logs to both console and persistent file.</Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFLogIdentifier</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
             
 			
 			<NodeRef refid="55"/>
@@ -13,132 +13,81 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/sharedLogger</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/setLogger:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)sharedLogger</Declaration>
+			<Declaration>@property (nonatomic, weak) SFLogger *logger</Declaration>
 			
 			
-			<Anchor>//api/name/sharedLogger</Anchor>
+			<Anchor>//api/name/logger</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/setDdLog:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/logger</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) DDLog *ddLog</Declaration>
+			<Declaration>@property (nonatomic, weak) SFLogger *logger</Declaration>
 			
 			
-			<Anchor>//api/name/ddLog</Anchor>
+			<Anchor>//api/name/logger</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/ddLog</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLogIdentifier/logger</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) DDLog *ddLog</Declaration>
+			<Declaration>@property (nonatomic, weak) SFLogger *logger</Declaration>
 			
 			
-			<Anchor>//api/name/ddLog</Anchor>
+			<Anchor>//api/name/logger</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLogger/ddLog</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/setIdentifier:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) DDLog *ddLog</Declaration>
+			<Declaration>@property (nonatomic, copy, readonly) NSString *identifier</Declaration>
 			
 			
-			<Anchor>//api/name/ddLog</Anchor>
+			<Anchor>//api/name/identifier</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/setLogToASL:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/identifier</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, getter=shouldLogToASL) BOOL logToASL</Declaration>
+			<Declaration>@property (nonatomic, copy, readonly) NSString *identifier</Declaration>
 			
 			
-			<Anchor>//api/name/logToASL</Anchor>
+			<Anchor>//api/name/identifier</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/shouldLogToASL</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLogIdentifier/identifier</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, getter=shouldLogToASL) BOOL logToASL</Declaration>
+			<Declaration>@property (nonatomic, copy, readonly) NSString *identifier</Declaration>
 			
 			
-			<Anchor>//api/name/logToASL</Anchor>
+			<Anchor>//api/name/identifier</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLogger/logToASL</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/setLogLevel:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, getter=shouldLogToASL) BOOL logToASL</Declaration>
-			
-			
-			<Anchor>//api/name/logToASL</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/setLogToFile:</TokenIdentifier>
-			<Abstract type="html">Turn on and off for logging to a file
-Set to YES to log to file. Set to NO will turn off logging to file and also remove existing logging file.</Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, getter=shouldLogToFile) BOOL logToFile</Declaration>
-			
-			
-			<Anchor>//api/name/logToFile</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/shouldLogToFile</TokenIdentifier>
-			<Abstract type="html">Turn on and off for logging to a file
-Set to YES to log to file. Set to NO will turn off logging to file and also remove existing logging file.</Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, getter=shouldLogToFile) BOOL logToFile</Declaration>
-			
-			
-			<Anchor>//api/name/logToFile</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLogger/logToFile</TokenIdentifier>
-			<Abstract type="html">Turn on and off for logging to a file
-Set to YES to log to file. Set to NO will turn off logging to file and also remove existing logging file.</Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, getter=shouldLogToFile) BOOL logToFile</Declaration>
-			
-			
-			<Anchor>//api/name/logToFile</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/setLogLevel:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, assign) SFLogLevel logLevel</Declaration>
 			
@@ -148,9 +97,9 @@ Set to YES to log to file. Set to NO will turn off logging to file and also remo
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/logLevel</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/logLevel</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, assign) SFLogLevel logLevel</Declaration>
 			
@@ -160,9 +109,9 @@ Set to YES to log to file. Set to NO will turn off logging to file and also remo
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLogger/logLevel</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLogIdentifier/logLevel</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, assign) SFLogLevel logLevel</Declaration>
 			
@@ -172,518 +121,134 @@ Set to YES to log to file. Set to NO will turn off logging to file and also remo
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/logLevelForIdentifier:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>- (SFLogLevel)logLevelForIdentifier:(nullable NSString *)identifier</Declaration>
-			
-			
-			<Anchor>//api/name/logLevelForIdentifier:</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/setLogLevel:forIdentifier:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>- (void)setLogLevel:(SFLogLevel)logLevel forIdentifier:(nullable NSString *)identifier</Declaration>
-			
-			
-			<Anchor>//api/name/setLogLevel:forIdentifier:</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/setLogLevel:forIdentifiersWithPrefix:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>- (void)setLogLevel:(SFLogLevel)logLevel forIdentifiersWithPrefix:(nonnull NSString *)identifierPrefix</Declaration>
-			
-			
-			<Anchor>//api/name/setLogLevel:forIdentifiersWithPrefix:</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/logFileContents:</TokenIdentifier>
-			<Abstract type="html">Get access to the content of the application log file.</Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>- (nullable NSString *)logFileContents:(NSError *_Nullable *)error</Declaration>
-			
-			
-			<Anchor>//api/name/logFileContents:</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/log:level:msg:</TokenIdentifier>
-			<Abstract type="html">Logs at the Class level.  Should only be used if you don&apos;t have an NSObject instance to
-log from.</Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>+ (void)log:(Class)cls level:(SFLogLevel)level msg:(NSString *)msg</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>cls</Name>
-					<Abstract type="html">The class associated with the log event.</Abstract>
-				</Parameter><Parameter>
-					<Name>level</Name>
-					<Abstract type="html">The level to log at.</Abstract>
-				</Parameter><Parameter>
-					<Name>msg</Name>
-					<Abstract type="html">The message to log.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/log:level:msg:</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/log:level:identifier:msg:</TokenIdentifier>
-			<Abstract type="html">Logs at the Class level.  Should only be used if you don&apos;t have an NSObject instance to
-log from.</Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>+ (void)log:(Class)cls level:(SFLogLevel)level identifier:(NSString *)logIdentifier msg:(NSString *)msg</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>cls</Name>
-					<Abstract type="html">The class associated with the log event.</Abstract>
-				</Parameter><Parameter>
-					<Name>level</Name>
-					<Abstract type="html">The level to log at.</Abstract>
-				</Parameter><Parameter>
-					<Name>logIdentifier</Name>
-					<Abstract type="html">The context of the log</Abstract>
-				</Parameter><Parameter>
-					<Name>msg</Name>
-					<Abstract type="html">The message to log.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/log:level:identifier:msg:</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/logAssertionFailureInMethod:object:file:lineNumber:description:</TokenIdentifier>
-			<Abstract type="html">Logs an assertion failure to a file.</Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>+ (void)logAssertionFailureInMethod:(SEL)method object:(nullable id)obj file:(nullable NSString *)file lineNumber:(NSUInteger)line description:(NSString *)desc, ...</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>method</Name>
-					<Abstract type="html">The method where the assertion failure occurred.</Abstract>
-				</Parameter><Parameter>
-					<Name>obj</Name>
-					<Abstract type="html">The object where the assertion failure occurred.</Abstract>
-				</Parameter><Parameter>
-					<Name>file</Name>
-					<Abstract type="html">The file to log to.</Abstract>
-				</Parameter><Parameter>
-					<Name>line</Name>
-					<Abstract type="html">The line number of the failure.</Abstract>
-				</Parameter><Parameter>
-					<Name>desc</Name>
-					<Abstract type="html">The formatted description to log.</Abstract>
-				</Parameter><Parameter>
-					<Name>...</Name>
-					<Abstract type="html">The format arguments of the description.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/logAssertionFailureInMethod:object:file:lineNumber:description:</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/log:level:format:</TokenIdentifier>
-			<Abstract type="html">Logs a formatted message with the given log level and format parameters.</Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>+ (void)log:(Class)cls level:(SFLogLevel)level format:(NSString *)format, ...</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>cls</Name>
-					<Abstract type="html">The class associated with the log event.</Abstract>
-				</Parameter><Parameter>
-					<Name>level</Name>
-					<Abstract type="html">The minimum log level to log at.</Abstract>
-				</Parameter><Parameter>
-					<Name>format</Name>
-					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
-				</Parameter><Parameter>
-					<Name>...</Name>
-					<Abstract type="html">The arguments to the message format string.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/log:level:format:</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/log:level:identifier:format:</TokenIdentifier>
-			<Abstract type="html">Logs a formatted message with the given log level and format parameters.</Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>+ (void)log:(Class)cls level:(SFLogLevel)level identifier:(NSString *)logIdentifier format:(NSString *)format, ...</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>cls</Name>
-					<Abstract type="html">The class associated with the log event.</Abstract>
-				</Parameter><Parameter>
-					<Name>level</Name>
-					<Abstract type="html">The minimum log level to log at.</Abstract>
-				</Parameter><Parameter>
-					<Name>logIdentifier</Name>
-					<Abstract type="html">The context of the log</Abstract>
-				</Parameter><Parameter>
-					<Name>format</Name>
-					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
-				</Parameter><Parameter>
-					<Name>...</Name>
-					<Abstract type="html">The arguments to the message format string.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/log:level:identifier:format:</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/applyLogLevelFromPreferences</TokenIdentifier>
-			<Abstract type="html">Sets the log level based on the user preferences.</Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>+ (void)applyLogLevelFromPreferences</Declaration>
-			
-			
-			<Anchor>//api/name/applyLogLevelFromPreferences</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/setRecordAssertionEnabled:</TokenIdentifier>
-			<Abstract type="html">Use this method to enable the recording of the assertion instead of aborting the
-program when an assertion is triggered. This is usually used by the
-unit tests.</Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>+ (void)setRecordAssertionEnabled:(BOOL)enabled</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>enabled</Name>
-					<Abstract type="html">Whether or not to enable assertion recording.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/setRecordAssertionEnabled:</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/assertionRecordedAndClear</TokenIdentifier>
-			<Abstract type="html">Returns YES if an assertion was recorded and clear the flag.</Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>+ (BOOL)assertionRecordedAndClear</Declaration>
-			
-			<ReturnValue><Abstract type="html">YES if an assertion was recorded, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/assertionRecordedAndClear</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/registerIdentifier:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>- (NSInteger)registerIdentifier:(NSString *)identifier</Declaration>
-			
-			
-			<Anchor>//api/name/registerIdentifier:</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/log:level:context:msg:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>+ (void)log:(Class)cls level:(SFLogLevel)level context:(SFLogContext)logContext msg:(NSString *)msg</Declaration>
-			
-			
-			<Anchor>//api/name/log:level:context:msg:</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/log:level:context:format:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>+ (void)log:(Class)cls level:(SFLogLevel)level context:(SFLogContext)logContext format:(NSString *)msg, ...</Declaration>
-			
-			
-			<Anchor>//api/name/log:level:context:format:</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/logLevel</TokenIdentifier>
-			<Abstract type="html">The current log level of the app.</Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>+ (SFLogLevel)logLevel</Declaration>
-			
-			
-			<Anchor>//api/name/logLevel</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/setLogLevel:</TokenIdentifier>
-			<Abstract type="html">Sets the log level of the app.</Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>+ (void)setLogLevel:(SFLogLevel)newLevel</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>newLevel</Name>
-					<Abstract type="html">The new log level to configure.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/setLogLevel:</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/logToFile:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>+ (void)logToFile:(BOOL)logToFile</Declaration>
-			
-			
-			<Anchor>//api/name/logToFile:</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/logLevelForString:</TokenIdentifier>
-			<Abstract type="html">Return SFLogLevel for corresponding user readable string. Does
-a case insensitive comparison against &quot;Verbose&quot;, &quot;Debug&quot;, &quot;Info&quot;, &quot;Warning&quot;, &quot;Error&quot;</Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>+ (SFLogLevel)logLevelForString:(NSString *)value</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>value</Name>
-					<Abstract type="html">One of the above strings</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">Corresponding SFLogLevel value</Abstract></ReturnValue>
-			<Anchor>//api/name/logLevelForString:</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/logFileContents</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>+ (nullable NSString *)logFileContents</Declaration>
-			
-			
-			<Anchor>//api/name/logFileContents</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/setBlackListFilter</TokenIdentifier>
-			<Abstract type="html">Sets the log formatter to use the black list filter.</Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>+ (void)setBlackListFilter</Declaration>
-			
-			
-			<Anchor>//api/name/setBlackListFilter</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/setWhiteListFilter</TokenIdentifier>
-			<Abstract type="html">Sets the log formatter to use the white list filter.</Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>+ (void)setWhiteListFilter</Declaration>
-			
-			
-			<Anchor>//api/name/setWhiteListFilter</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/blackListFilterAddContext:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>+ (void)blackListFilterAddContext:(SFLogContext)logContext</Declaration>
-			
-			
-			<Anchor>//api/name/blackListFilterAddContext:</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/blackListFilterRemoveContext:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>+ (void)blackListFilterRemoveContext:(SFLogContext)logContext</Declaration>
-			
-			
-			<Anchor>//api/name/blackListFilterRemoveContext:</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/whiteListFilterAddContext:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>+ (void)whiteListFilterAddContext:(SFLogContext)logContext</Declaration>
-			
-			
-			<Anchor>//api/name/whiteListFilterAddContext:</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/whiteListFilterRemoveContext:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>+ (void)whiteListFilterRemoveContext:(SFLogContext)logContext</Declaration>
-			
-			
-			<Anchor>//api/name/whiteListFilterRemoveContext:</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/filterByContext:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>+ (void)filterByContext:(SFLogContext)logContext</Declaration>
-			
-			
-			<Anchor>//api/name/filterByContext:</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/contextsOnBlackList</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>+ (nullable NSArray *)contextsOnBlackList</Declaration>
-			
-			
-			<Anchor>//api/name/contextsOnBlackList</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/contextsOnWhiteList</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>+ (nullable NSArray *)contextsOnWhiteList</Declaration>
-			
-			
-			<Anchor>//api/name/contextsOnWhiteList</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/isOnContextBlackList:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>+ (BOOL)isOnContextBlackList:(SFLogContext)logContext</Declaration>
-			
-			
-			<Anchor>//api/name/isOnContextBlackList:</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/isOnContextWhiteList:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>+ (BOOL)isOnContextWhiteList:(SFLogContext)logContext</Declaration>
-			
-			
-			<Anchor>//api/name/isOnContextWhiteList:</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/logIdentifierForIdentifier:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/setLogFlag:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
 			
-			<Declaration>- (SFLogIdentifier *)logIdentifierForIdentifier:(NSString *)identifier</Declaration>
+			<Declaration>@property (nonatomic, assign, readonly) SFLogFlag logFlag</Declaration>
 			
 			
-			<Anchor>//api/name/logIdentifierForIdentifier:</Anchor>
+			<Anchor>//api/name/logFlag</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/logIdentifierForContext:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/logFlag</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
 			
-			<Declaration>- (SFLogIdentifier *)logIdentifierForContext:(NSInteger)context</Declaration>
+			<Declaration>@property (nonatomic, assign, readonly) SFLogFlag logFlag</Declaration>
 			
 			
-			<Anchor>//api/name/logIdentifierForContext:</Anchor>
+			<Anchor>//api/name/logFlag</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/resetLoggers</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLogIdentifier/logFlag</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)resetLoggers</Declaration>
+			<Declaration>@property (nonatomic, assign, readonly) SFLogFlag logFlag</Declaration>
 			
 			
-			<Anchor>//api/name/resetLoggers</Anchor>
+			<Anchor>//api/name/logFlag</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/logAsync:level:flag:context:file:function:line:tag:message:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/setContext:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
 			
-			<Declaration>+ (void)logAsync:(BOOL)asynchronous level:(SFLogLevel)level flag:(SFLogFlag)flag context:(NSInteger)context file:(const char *)file function:(const char *)function line:(NSUInteger)line tag:(nullable id)tag message:(NSString *)message</Declaration>
+			<Declaration>@property (nonatomic, assign) NSInteger context</Declaration>
 			
 			
-			<Anchor>//api/name/logAsync:level:flag:context:file:function:line:tag:message:</Anchor>
+			<Anchor>//api/name/context</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/context</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSInteger context</Declaration>
+			
+			
+			<Anchor>//api/name/context</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLogIdentifier/context</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSInteger context</Declaration>
+			
+			
+			<Anchor>//api/name/context</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/setDefaultLog:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) os_log_t defaultLog</Declaration>
+			
+			
+			<Anchor>//api/name/defaultLog</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/defaultLog</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) os_log_t defaultLog</Declaration>
+			
+			
+			<Anchor>//api/name/defaultLog</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLogIdentifier/defaultLog</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) os_log_t defaultLog</Declaration>
+			
+			
+			<Anchor>//api/name/defaultLog</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/initWithIdentifier:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithIdentifier:(NSString *)identifier</Declaration>
+			
+			
+			<Anchor>//api/name/initWithIdentifier:</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogIdentifier/logForCategory:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			
+			<Declaration>- (os_log_t)logForCategory:(NSString *)category</Declaration>
+			
+			
+			<Anchor>//api/name/logForCategory:</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		

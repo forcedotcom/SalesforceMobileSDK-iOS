@@ -1,57 +1,397 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFAEventType.html">
+	<File path="Classes/SFSDKLogger.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFAEventType</TokenIdentifier>
-			<Abstract type="html">Represents the type of event being logged.</Abstract>
-			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKLogger</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLogger.h</DeclaredIn>
             
 			
 			<NodeRef refid="13"/>
 		</Token>
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/EventTypeUser</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>EventTypeUser</Declaration>
-            
-            <DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
-            
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLogger/setComponentName:</TokenIdentifier>
+			<Abstract type="html">Component name associated with this logger.</Abstract>
+			<DeclaredIn>SFSDKLogger.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) NSString *componentName</Declaration>
+			
+			
+			<Anchor>//api/name/componentName</Anchor>
             <NodeRef refid="13"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/EventTypeSystem</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>EventTypeSystem</Declaration>
-            
-            <DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLogger/componentName</TokenIdentifier>
+			<Abstract type="html">Component name associated with this logger.</Abstract>
+			<DeclaredIn>SFSDKLogger.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) NSString *componentName</Declaration>
+			
+			
+			<Anchor>//api/name/componentName</Anchor>
             <NodeRef refid="13"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/EventTypeError</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>EventTypeError</Declaration>
-            
-            <DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLogger/componentName</TokenIdentifier>
+			<Abstract type="html">Component name associated with this logger.</Abstract>
+			<DeclaredIn>SFSDKLogger.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) NSString *componentName</Declaration>
+			
+			
+			<Anchor>//api/name/componentName</Anchor>
             <NodeRef refid="13"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/EventTypeCrud</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>EventTypeCrud</Declaration>
-            
-            <DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLogger/setLogger:</TokenIdentifier>
+			<Abstract type="html">Instance of the underlying logger being used.</Abstract>
+			<DeclaredIn>SFSDKLogger.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) DDLog *logger</Declaration>
+			
+			
+			<Anchor>//api/name/logger</Anchor>
             <NodeRef refid="13"/>
-        </Token>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLogger/logger</TokenIdentifier>
+			<Abstract type="html">Instance of the underlying logger being used.</Abstract>
+			<DeclaredIn>SFSDKLogger.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) DDLog *logger</Declaration>
+			
+			
+			<Anchor>//api/name/logger</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLogger/logger</TokenIdentifier>
+			<Abstract type="html">Instance of the underlying logger being used.</Abstract>
+			<DeclaredIn>SFSDKLogger.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) DDLog *logger</Declaration>
+			
+			
+			<Anchor>//api/name/logger</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLogger/setFileLogger:</TokenIdentifier>
+			<Abstract type="html">Instance of the underlying file logger being used.</Abstract>
+			<DeclaredIn>SFSDKLogger.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKFileLogger *fileLogger</Declaration>
+			
+			
+			<Anchor>//api/name/fileLogger</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLogger/fileLogger</TokenIdentifier>
+			<Abstract type="html">Instance of the underlying file logger being used.</Abstract>
+			<DeclaredIn>SFSDKLogger.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKFileLogger *fileLogger</Declaration>
+			
+			
+			<Anchor>//api/name/fileLogger</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLogger/fileLogger</TokenIdentifier>
+			<Abstract type="html">Instance of the underlying file logger being used.</Abstract>
+			<DeclaredIn>SFSDKLogger.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKFileLogger *fileLogger</Declaration>
+			
+			
+			<Anchor>//api/name/fileLogger</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLogger/setLogLevel:</TokenIdentifier>
+			<Abstract type="html">Used to get and set the current log level associated with this logger.</Abstract>
+			<DeclaredIn>SFSDKLogger.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readwrite, assign, getter=getLogLevel) DDLogLevel logLevel</Declaration>
+			
+			
+			<Anchor>//api/name/logLevel</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLogger/getLogLevel</TokenIdentifier>
+			<Abstract type="html">Used to get and set the current log level associated with this logger.</Abstract>
+			<DeclaredIn>SFSDKLogger.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readwrite, assign, getter=getLogLevel) DDLogLevel logLevel</Declaration>
+			
+			
+			<Anchor>//api/name/logLevel</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLogger/logLevel</TokenIdentifier>
+			<Abstract type="html">Used to get and set the current log level associated with this logger.</Abstract>
+			<DeclaredIn>SFSDKLogger.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readwrite, assign, getter=getLogLevel) DDLogLevel logLevel</Declaration>
+			
+			
+			<Anchor>//api/name/logLevel</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLogger/setFileLoggingEnabled:</TokenIdentifier>
+			<Abstract type="html">Used to disable or enable file logging.</Abstract>
+			<DeclaredIn>SFSDKLogger.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readwrite, assign, getter=isFileLoggingEnabled) BOOL fileLoggingEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/fileLoggingEnabled</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLogger/isFileLoggingEnabled</TokenIdentifier>
+			<Abstract type="html">Used to disable or enable file logging.</Abstract>
+			<DeclaredIn>SFSDKLogger.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readwrite, assign, getter=isFileLoggingEnabled) BOOL fileLoggingEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/fileLoggingEnabled</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLogger/fileLoggingEnabled</TokenIdentifier>
+			<Abstract type="html">Used to disable or enable file logging.</Abstract>
+			<DeclaredIn>SFSDKLogger.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readwrite, assign, getter=isFileLoggingEnabled) BOOL fileLoggingEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/fileLoggingEnabled</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKLogger/sharedDefaultInstance</TokenIdentifier>
+			<Abstract type="html">Returns an instance of this class associated with the default component.</Abstract>
+			<DeclaredIn>SFSDKLogger.h</DeclaredIn>
+			
+			<Declaration>+ (nonnull instancetype)sharedDefaultInstance</Declaration>
+			
+			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedDefaultInstance</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKLogger/sharedInstanceWithComponent:</TokenIdentifier>
+			<Abstract type="html">Returns an instance of this class associated with the specified component.</Abstract>
+			<DeclaredIn>SFSDKLogger.h</DeclaredIn>
+			
+			<Declaration>+ (nonnull instancetype)sharedInstanceWithComponent:(nonnull NSString *)componentName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>componentName</Name>
+					<Abstract type="html">Component name.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedInstanceWithComponent:</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKLogger/flushAllComponents</TokenIdentifier>
+			<Abstract type="html">Resets and removes all components configured. Used only by tests.</Abstract>
+			<DeclaredIn>SFSDKLogger.h</DeclaredIn>
+			
+			<Declaration>+ (void)flushAllComponents</Declaration>
+			
+			
+			<Anchor>//api/name/flushAllComponents</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKLogger/allComponents</TokenIdentifier>
+			<Abstract type="html">Returns an array of components that have loggers initialized.</Abstract>
+			<DeclaredIn>SFSDKLogger.h</DeclaredIn>
+			
+			<Declaration>+ (nonnull NSArray&lt;NSString*&gt; *)allComponents</Declaration>
+			
+			<ReturnValue><Abstract type="html">Array of components.</Abstract></ReturnValue>
+			<Anchor>//api/name/allComponents</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLogger/e:message:</TokenIdentifier>
+			<Abstract type="html">Logs an error log line.</Abstract>
+			<DeclaredIn>SFSDKLogger.h</DeclaredIn>
+			
+			<Declaration>- (void)e:(nonnull Class)class message:(nonnull NSString *)message</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>class</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>message</Name>
+					<Abstract type="html">Log message.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/e:message:</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLogger/w:message:</TokenIdentifier>
+			<Abstract type="html">Logs a warning log line.</Abstract>
+			<DeclaredIn>SFSDKLogger.h</DeclaredIn>
+			
+			<Declaration>- (void)w:(nonnull Class)class message:(nonnull NSString *)message</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>class</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>message</Name>
+					<Abstract type="html">Log message.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/w:message:</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLogger/i:message:</TokenIdentifier>
+			<Abstract type="html">Logs an info log line.</Abstract>
+			<DeclaredIn>SFSDKLogger.h</DeclaredIn>
+			
+			<Declaration>- (void)i:(nonnull Class)class message:(nonnull NSString *)message</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>class</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>message</Name>
+					<Abstract type="html">Log message.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/i:message:</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLogger/v:message:</TokenIdentifier>
+			<Abstract type="html">Logs a verbose log line.</Abstract>
+			<DeclaredIn>SFSDKLogger.h</DeclaredIn>
+			
+			<Declaration>- (void)v:(nonnull Class)class message:(nonnull NSString *)message</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>class</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>message</Name>
+					<Abstract type="html">Log message.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/v:message:</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLogger/d:message:</TokenIdentifier>
+			<Abstract type="html">Logs a debug log line.</Abstract>
+			<DeclaredIn>SFSDKLogger.h</DeclaredIn>
+			
+			<Declaration>- (void)d:(nonnull Class)class message:(nonnull NSString *)message</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>class</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>message</Name>
+					<Abstract type="html">Log message.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/d:message:</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLogger/log:level:message:</TokenIdentifier>
+			<Abstract type="html">Logs a log line of the specified level.</Abstract>
+			<DeclaredIn>SFSDKLogger.h</DeclaredIn>
+			
+			<Declaration>- (void)log:(nonnull Class)class level:(DDLogLevel)level message:(nonnull NSString *)message</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>class</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>level</Name>
+					<Abstract type="html">Log level.</Abstract>
+				</Parameter><Parameter>
+					<Name>message</Name>
+					<Abstract type="html">Log message.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/log:level:message:</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLogger/log:level:format:</TokenIdentifier>
+			<Abstract type="html">Logs a log line of the specified level.</Abstract>
+			<DeclaredIn>SFSDKLogger.h</DeclaredIn>
+			
+			<Declaration>- (void)log:(nonnull Class)class level:(DDLogLevel)level format:(nonnull NSString *)format, ...</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>class</Name>
+					<Abstract type="html">Class.
+@level Log level.</Abstract>
+				</Parameter><Parameter>
+					<Name>format</Name>
+					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
+				</Parameter><Parameter>
+					<Name>...</Name>
+					<Abstract type="html">The arguments to the message format string.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/log:level:format:</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
         
         
 	</File>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSmartSyncObjectUtils.html">
+	<File path="Classes/SFRecordModDate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSmartSyncObjectUtils</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSyncObjectUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFRecordModDate</TokenIdentifier>
+			<Abstract type="html">Helper class for isNewerThanServer</Abstract>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
             
 			
 			<NodeRef refid="11"/>
@@ -13,86 +13,86 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncObjectUtils/formatValue:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRecordModDate/setTimestamp:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSyncObjectUtils.h</DeclaredIn>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)formatValue:(id)value</Declaration>
+			<Declaration>@property (nonatomic, strong) NSDate *timestamp</Declaration>
 			
 			
-			<Anchor>//api/name/formatValue:</Anchor>
+			<Anchor>//api/name/timestamp</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncObjectUtils/formatLocalDateToGMTString:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRecordModDate/timestamp</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSyncObjectUtils.h</DeclaredIn>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)formatLocalDateToGMTString:(NSDate *)localDate</Declaration>
+			<Declaration>@property (nonatomic, strong) NSDate *timestamp</Declaration>
 			
 			
-			<Anchor>//api/name/formatLocalDateToGMTString:</Anchor>
+			<Anchor>//api/name/timestamp</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncObjectUtils/getMillisFromIsoString:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRecordModDate/timestamp</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSyncObjectUtils.h</DeclaredIn>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
 			
-			<Declaration>+ (long long)getMillisFromIsoString:(NSString *)dateStr</Declaration>
+			<Declaration>@property (nonatomic, strong) NSDate *timestamp</Declaration>
 			
 			
-			<Anchor>//api/name/getMillisFromIsoString:</Anchor>
+			<Anchor>//api/name/timestamp</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncObjectUtils/getIsoStringFromMillis:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRecordModDate/setIsDeleted:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSyncObjectUtils.h</DeclaredIn>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)getIsoStringFromMillis:(long long)millis</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL isDeleted</Declaration>
 			
 			
-			<Anchor>//api/name/getIsoStringFromMillis:</Anchor>
+			<Anchor>//api/name/isDeleted</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncObjectUtils/getDateFromIsoDateString:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRecordModDate/isDeleted</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSyncObjectUtils.h</DeclaredIn>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
 			
-			<Declaration>+ (NSDate *)getDateFromIsoDateString:(NSString *)isoDateString</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL isDeleted</Declaration>
 			
 			
-			<Anchor>//api/name/getDateFromIsoDateString:</Anchor>
+			<Anchor>//api/name/isDeleted</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncObjectUtils/getIsoStringFromDate:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRecordModDate/isDeleted</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSyncObjectUtils.h</DeclaredIn>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)getIsoStringFromDate:(NSDate *)date</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL isDeleted</Declaration>
 			
 			
-			<Anchor>//api/name/getIsoStringFromDate:</Anchor>
+			<Anchor>//api/name/isDeleted</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncObjectUtils/isEmpty:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRecordModDate/initWithTimestamp:isDeleted:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSyncObjectUtils.h</DeclaredIn>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
 			
-			<Declaration>+ (BOOL)isEmpty:(NSString *)value</Declaration>
+			<Declaration>- (instancetype)initWithTimestamp:(NSString *)timestamp isDeleted:(BOOL)isDeleted</Declaration>
 			
 			
-			<Anchor>//api/name/isEmpty:</Anchor>
+			<Anchor>//api/name/initWithTimestamp:isDeleted:</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		

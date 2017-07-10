@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFManagedPreferences.html">
+	<File path="Classes/SFLoginViewController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFManagedPreferences</TokenIdentifier>
-			<Abstract type="html">Class to handle preferences set by an MDM provider.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFLoginViewController</TokenIdentifier>
+			<Abstract type="html">The Salesforce login screen view.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
             
 			
 			<NodeRef refid="57"/>
@@ -13,338 +13,283 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFManagedPreferences/sharedPreferences</TokenIdentifier>
-			<Abstract type="html">The shared instance of this class.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFLoginViewController/sharedInstance</TokenIdentifier>
+			<Abstract type="html">Returns a shared singleton of SFLoginViewController class.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)sharedPreferences</Declaration>
+			<Declaration>+ (_Nonnull instancetype)sharedInstance</Declaration>
 			
-			<ReturnValue><Abstract type="html">The shared instance of this class.</Abstract></ReturnValue>
-			<Anchor>//api/name/sharedPreferences</Anchor>
+			
+			<Anchor>//api/name/sharedInstance</Anchor>
             <NodeRef refid="57"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setHasManagedPreferences:</TokenIdentifier>
-			<Abstract type="html">Whether or not any managed preferences have been configured for this app.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setDelegate:</TokenIdentifier>
+			<Abstract type="html">The delegate representing the owner of this object.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL hasManagedPreferences</Declaration>
+			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
 			
 			
-			<Anchor>//api/name/hasManagedPreferences</Anchor>
+			<Anchor>//api/name/delegate</Anchor>
             <NodeRef refid="57"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/hasManagedPreferences</TokenIdentifier>
-			<Abstract type="html">Whether or not any managed preferences have been configured for this app.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/delegate</TokenIdentifier>
+			<Abstract type="html">The delegate representing the owner of this object.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL hasManagedPreferences</Declaration>
+			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
 			
 			
-			<Anchor>//api/name/hasManagedPreferences</Anchor>
+			<Anchor>//api/name/delegate</Anchor>
             <NodeRef refid="57"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/hasManagedPreferences</TokenIdentifier>
-			<Abstract type="html">Whether or not any managed preferences have been configured for this app.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/delegate</TokenIdentifier>
+			<Abstract type="html">The delegate representing the owner of this object.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL hasManagedPreferences</Declaration>
+			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
 			
 			
-			<Anchor>//api/name/hasManagedPreferences</Anchor>
+			<Anchor>//api/name/delegate</Anchor>
             <NodeRef refid="57"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setRequireCertificateAuthentication:</TokenIdentifier>
-			<Abstract type="html">Whether the app is configured to require certificate-based authentication. (RequireCertAuth)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setOauthView:</TokenIdentifier>
+			<Abstract type="html">Outlet to the OAuth web view.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL requireCertificateAuthentication</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) IBOutlet UIView *oauthView</Declaration>
 			
 			
-			<Anchor>//api/name/requireCertificateAuthentication</Anchor>
+			<Anchor>//api/name/oauthView</Anchor>
             <NodeRef refid="57"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/requireCertificateAuthentication</TokenIdentifier>
-			<Abstract type="html">Whether the app is configured to require certificate-based authentication. (RequireCertAuth)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/oauthView</TokenIdentifier>
+			<Abstract type="html">Outlet to the OAuth web view.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL requireCertificateAuthentication</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) IBOutlet UIView *oauthView</Declaration>
 			
 			
-			<Anchor>//api/name/requireCertificateAuthentication</Anchor>
+			<Anchor>//api/name/oauthView</Anchor>
             <NodeRef refid="57"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/requireCertificateAuthentication</TokenIdentifier>
-			<Abstract type="html">Whether the app is configured to require certificate-based authentication. (RequireCertAuth)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/oauthView</TokenIdentifier>
+			<Abstract type="html">Outlet to the OAuth web view.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL requireCertificateAuthentication</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) IBOutlet UIView *oauthView</Declaration>
 			
 			
-			<Anchor>//api/name/requireCertificateAuthentication</Anchor>
+			<Anchor>//api/name/oauthView</Anchor>
             <NodeRef refid="57"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setLoginHosts:</TokenIdentifier>
-			<Abstract type="html">An array of prescribed login hosts from the MDM provider. (AppServiceHosts)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setNavBarFont:</TokenIdentifier>
+			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray *loginHosts</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIFont *navBarFont</Declaration>
 			
 			
-			<Anchor>//api/name/loginHosts</Anchor>
+			<Anchor>//api/name/navBarFont</Anchor>
             <NodeRef refid="57"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/loginHosts</TokenIdentifier>
-			<Abstract type="html">An array of prescribed login hosts from the MDM provider. (AppServiceHosts)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/navBarFont</TokenIdentifier>
+			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray *loginHosts</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIFont *navBarFont</Declaration>
 			
 			
-			<Anchor>//api/name/loginHosts</Anchor>
+			<Anchor>//api/name/navBarFont</Anchor>
             <NodeRef refid="57"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/loginHosts</TokenIdentifier>
-			<Abstract type="html">An array of prescribed login hosts from the MDM provider. (AppServiceHosts)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/navBarFont</TokenIdentifier>
+			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray *loginHosts</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIFont *navBarFont</Declaration>
 			
 			
-			<Anchor>//api/name/loginHosts</Anchor>
+			<Anchor>//api/name/navBarFont</Anchor>
             <NodeRef refid="57"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setLoginHostLabels:</TokenIdentifier>
-			<Abstract type="html">The associated labels for the provided login hosts. (AppServiceHostLabels)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setNavBarTextColor:</TokenIdentifier>
+			<Abstract type="html">Specify the text color to use for navigation bar header text.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray *loginHostLabels</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarTextColor</Declaration>
 			
 			
-			<Anchor>//api/name/loginHostLabels</Anchor>
+			<Anchor>//api/name/navBarTextColor</Anchor>
             <NodeRef refid="57"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/loginHostLabels</TokenIdentifier>
-			<Abstract type="html">The associated labels for the provided login hosts. (AppServiceHostLabels)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/navBarTextColor</TokenIdentifier>
+			<Abstract type="html">Specify the text color to use for navigation bar header text.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray *loginHostLabels</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarTextColor</Declaration>
 			
 			
-			<Anchor>//api/name/loginHostLabels</Anchor>
+			<Anchor>//api/name/navBarTextColor</Anchor>
             <NodeRef refid="57"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/loginHostLabels</TokenIdentifier>
-			<Abstract type="html">The associated labels for the provided login hosts. (AppServiceHostLabels)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/navBarTextColor</TokenIdentifier>
+			<Abstract type="html">Specify the text color to use for navigation bar header text.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray *loginHostLabels</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarTextColor</Declaration>
 			
 			
-			<Anchor>//api/name/loginHostLabels</Anchor>
+			<Anchor>//api/name/navBarTextColor</Anchor>
             <NodeRef refid="57"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setConnectedAppId:</TokenIdentifier>
-			<Abstract type="html">The managed Connected App ID. (ManagedAppOAuthID)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setNavBarColor:</TokenIdentifier>
+			<Abstract type="html">Specify navigation bar color. This color will be used by the login view header.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *connectedAppId</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarColor</Declaration>
 			
 			
-			<Anchor>//api/name/connectedAppId</Anchor>
+			<Anchor>//api/name/navBarColor</Anchor>
             <NodeRef refid="57"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/connectedAppId</TokenIdentifier>
-			<Abstract type="html">The managed Connected App ID. (ManagedAppOAuthID)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/navBarColor</TokenIdentifier>
+			<Abstract type="html">Specify navigation bar color. This color will be used by the login view header.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *connectedAppId</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarColor</Declaration>
 			
 			
-			<Anchor>//api/name/connectedAppId</Anchor>
+			<Anchor>//api/name/navBarColor</Anchor>
             <NodeRef refid="57"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/connectedAppId</TokenIdentifier>
-			<Abstract type="html">The managed Connected App ID. (ManagedAppOAuthID)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/navBarColor</TokenIdentifier>
+			<Abstract type="html">Specify navigation bar color. This color will be used by the login view header.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *connectedAppId</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarColor</Declaration>
 			
 			
-			<Anchor>//api/name/connectedAppId</Anchor>
+			<Anchor>//api/name/navBarColor</Anchor>
             <NodeRef refid="57"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setConnectedAppCallbackUri:</TokenIdentifier>
-			<Abstract type="html">The managed Conneced App Callback URI. (ManagedAppCallbackURL)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setShowNavbar:</TokenIdentifier>
+			<Abstract type="html">Specify visibility of nav bar. This property will be used to hide/show the nav bar</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *connectedAppCallbackUri</Declaration>
+			<Declaration>@property (nonatomic) BOOL showNavbar</Declaration>
 			
 			
-			<Anchor>//api/name/connectedAppCallbackUri</Anchor>
+			<Anchor>//api/name/showNavbar</Anchor>
             <NodeRef refid="57"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/connectedAppCallbackUri</TokenIdentifier>
-			<Abstract type="html">The managed Conneced App Callback URI. (ManagedAppCallbackURL)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/showNavbar</TokenIdentifier>
+			<Abstract type="html">Specify visibility of nav bar. This property will be used to hide/show the nav bar</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *connectedAppCallbackUri</Declaration>
+			<Declaration>@property (nonatomic) BOOL showNavbar</Declaration>
 			
 			
-			<Anchor>//api/name/connectedAppCallbackUri</Anchor>
+			<Anchor>//api/name/showNavbar</Anchor>
             <NodeRef refid="57"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/connectedAppCallbackUri</TokenIdentifier>
-			<Abstract type="html">The managed Conneced App Callback URI. (ManagedAppCallbackURL)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/showNavbar</TokenIdentifier>
+			<Abstract type="html">Specify visibility of nav bar. This property will be used to hide/show the nav bar</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *connectedAppCallbackUri</Declaration>
+			<Declaration>@property (nonatomic) BOOL showNavbar</Declaration>
 			
 			
-			<Anchor>//api/name/connectedAppCallbackUri</Anchor>
+			<Anchor>//api/name/showNavbar</Anchor>
             <NodeRef refid="57"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setClearClipboardOnBackground:</TokenIdentifier>
-			<Abstract type="html">Whether or not to clear the clipboard when the app is backgrounded. (ClearClipboardOnBackground)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setShowSettingsIcon:</TokenIdentifier>
+			<Abstract type="html">Specifiy the visibility of the settings icon. This property will be used to hide/show the settings icon</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL clearClipboardOnBackground</Declaration>
+			<Declaration>@property (nonatomic) BOOL showSettingsIcon</Declaration>
 			
 			
-			<Anchor>//api/name/clearClipboardOnBackground</Anchor>
+			<Anchor>//api/name/showSettingsIcon</Anchor>
             <NodeRef refid="57"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/clearClipboardOnBackground</TokenIdentifier>
-			<Abstract type="html">Whether or not to clear the clipboard when the app is backgrounded. (ClearClipboardOnBackground)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/showSettingsIcon</TokenIdentifier>
+			<Abstract type="html">Specifiy the visibility of the settings icon. This property will be used to hide/show the settings icon</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL clearClipboardOnBackground</Declaration>
+			<Declaration>@property (nonatomic) BOOL showSettingsIcon</Declaration>
 			
 			
-			<Anchor>//api/name/clearClipboardOnBackground</Anchor>
+			<Anchor>//api/name/showSettingsIcon</Anchor>
             <NodeRef refid="57"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/clearClipboardOnBackground</TokenIdentifier>
-			<Abstract type="html">Whether or not to clear the clipboard when the app is backgrounded. (ClearClipboardOnBackground)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/showSettingsIcon</TokenIdentifier>
+			<Abstract type="html">Specifiy the visibility of the settings icon. This property will be used to hide/show the settings icon</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL clearClipboardOnBackground</Declaration>
+			<Declaration>@property (nonatomic) BOOL showSettingsIcon</Declaration>
 			
 			
-			<Anchor>//api/name/clearClipboardOnBackground</Anchor>
+			<Anchor>//api/name/showSettingsIcon</Anchor>
             <NodeRef refid="57"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setOnlyShowAuthorizedHosts:</TokenIdentifier>
-			<Abstract type="html">Whether or not to display only the authorized hosts. (OnlyShowAuthorizedHosts)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/styleNavigationBar:</TokenIdentifier>
+			<Abstract type="html">Applies the view&apos;s style attributes to the given navigation bar.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL onlyShowAuthorizedHosts</Declaration>
+			<Declaration>- (void)styleNavigationBar:(nullable UINavigationBar *)navigationBar</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>navigationBar</Name>
+					<Abstract type="html">The navigation bar that the style is applied to.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/onlyShowAuthorizedHosts</Anchor>
-            <NodeRef refid="57"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/onlyShowAuthorizedHosts</TokenIdentifier>
-			<Abstract type="html">Whether or not to display only the authorized hosts. (OnlyShowAuthorizedHosts)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) BOOL onlyShowAuthorizedHosts</Declaration>
-			
-			
-			<Anchor>//api/name/onlyShowAuthorizedHosts</Anchor>
-            <NodeRef refid="57"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/onlyShowAuthorizedHosts</TokenIdentifier>
-			<Abstract type="html">Whether or not to display only the authorized hosts. (OnlyShowAuthorizedHosts)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) BOOL onlyShowAuthorizedHosts</Declaration>
-			
-			
-			<Anchor>//api/name/onlyShowAuthorizedHosts</Anchor>
-            <NodeRef refid="57"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setRawPreferences:</TokenIdentifier>
-			<Abstract type="html">The raw NSDictionary of managed preferences.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSDictionary *rawPreferences</Declaration>
-			
-			
-			<Anchor>//api/name/rawPreferences</Anchor>
-            <NodeRef refid="57"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/rawPreferences</TokenIdentifier>
-			<Abstract type="html">The raw NSDictionary of managed preferences.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSDictionary *rawPreferences</Declaration>
-			
-			
-			<Anchor>//api/name/rawPreferences</Anchor>
-            <NodeRef refid="57"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/rawPreferences</TokenIdentifier>
-			<Abstract type="html">The raw NSDictionary of managed preferences.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSDictionary *rawPreferences</Declaration>
-			
-			
-			<Anchor>//api/name/rawPreferences</Anchor>
+			<Anchor>//api/name/styleNavigationBar:</Anchor>
             <NodeRef refid="57"/>
 		</Token>
 		

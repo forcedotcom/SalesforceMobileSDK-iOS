@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFUserAccountLoginState.html">
+	<File path="Constants/SFUserAccountChange.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountLoginState</TokenIdentifier>
-			<Abstract type="html">Enumeration of the potential login states of the user account.</Abstract>
-			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountChange</TokenIdentifier>
+			<Abstract type="html">The various changes that can affect a user account</Abstract>
+			<DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
 			
 			<NodeRef refid="217"/>
@@ -14,34 +14,34 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountLoginStateNotLoggedIn</TokenIdentifier>
-            <Abstract type="html">     User account is not logged in.
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeUnknown</TokenIdentifier>
+            <Abstract type="html">Unknown change
      </Abstract>
-            <Declaration>SFUserAccountLoginStateNotLoggedIn</Declaration>
+            <Declaration>SFUserAccountChangeUnknown</Declaration>
             
-            <DeclaredIn>SFUserAccount.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="217"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountLoginStateLoggedIn</TokenIdentifier>
-            <Abstract type="html">     User account is logged in.
-     </Abstract>
-            <Declaration>SFUserAccountLoginStateLoggedIn</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeNewUser</TokenIdentifier>
+            <Abstract type="html">New User
+      </Abstract>
+            <Declaration>SFUserAccountChangeNewUser</Declaration>
             
-            <DeclaredIn>SFUserAccount.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="217"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountLoginStateLoggingOut</TokenIdentifier>
-            <Abstract type="html">     User account is in the process of logging out.
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeCurrentUser</TokenIdentifier>
+            <Abstract type="html">Change of Current User
      </Abstract>
-            <Declaration>SFUserAccountLoginStateLoggingOut</Declaration>
+            <Declaration>SFUserAccountChangeCurrentUser</Declaration>
             
-            <DeclaredIn>SFUserAccount.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="217"/>
         </Token>

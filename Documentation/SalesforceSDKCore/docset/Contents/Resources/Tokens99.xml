@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKTestCredentialsData.html">
+	<File path="Classes/SFSDKSoslBuilder.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKTestCredentialsData</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKSoslBuilder</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
             
 			
 			<NodeRef refid="99"/>
@@ -13,302 +13,162 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/initWithDict:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSoslBuilder/withSearchTerm:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOSL statement.</Abstract>
+			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithDict:(NSDictionary *)credentialsDict</Declaration>
-			
-			
-			<Anchor>//api/name/initWithDict:</Anchor>
+			<Declaration>+ (SFSDKSoslBuilder *)withSearchTerm:(NSString *)searchTerm</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>searchTerm</Name>
+					<Abstract type="html">text or word phrases to search for</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/withSearchTerm:</Anchor>
             <NodeRef refid="99"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setAccessToken:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/searchGroup:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOSL statement.</Abstract>
+			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *accessToken</Declaration>
-			
-			
-			<Anchor>//api/name/accessToken</Anchor>
+			<Declaration>- (SFSDKSoslBuilder *)searchGroup:(NSString *)searchGroup</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>searchGroup</Name>
+					<Abstract type="html">scope of fields to search. Values may be: ALL FIELDS, NAME FIELDS, EMAIL FIELDS, PHONE FIELDS, SIDEBAR FIELDS</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/searchGroup:</Anchor>
             <NodeRef refid="99"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/accessToken</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/returning:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOSL statement.</Abstract>
+			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *accessToken</Declaration>
-			
-			
-			<Anchor>//api/name/accessToken</Anchor>
+			<Declaration>- (SFSDKSoslBuilder *)returning:(SFSDKSoslReturningBuilder *)returningSpec</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>returningSpec</Name>
+					<Abstract type="html">information to return in the search result. List of one or more objects and, within each object, list of one or more fields, with optional values to filter against. If unspecified, then the search results contain the IDs of all objects found</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/returning:</Anchor>
             <NodeRef refid="99"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/accessToken</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/divisionFilter:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOSL statement.</Abstract>
+			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *accessToken</Declaration>
-			
-			
-			<Anchor>//api/name/accessToken</Anchor>
+			<Declaration>- (SFSDKSoslBuilder *)divisionFilter:(NSString *)divisionFilter</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>divisionFilter</Name>
+					<Abstract type="html">if an organization uses divisions, filters all search results based on values for the Division field</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/divisionFilter:</Anchor>
             <NodeRef refid="99"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setRefreshToken:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/dataCategory:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOSL statement.</Abstract>
+			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *refreshToken</Declaration>
-			
-			
-			<Anchor>//api/name/refreshToken</Anchor>
+			<Declaration>- (SFSDKSoslBuilder *)dataCategory:(NSString *)dataCategory</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>dataCategory</Name>
+					<Abstract type="html">if an organization uses Salesforce Knowledge articles or answers, filters all search results based on one or more data categories</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/dataCategory:</Anchor>
             <NodeRef refid="99"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/refreshToken</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/limit:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOSL statement.</Abstract>
+			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *refreshToken</Declaration>
-			
-			
-			<Anchor>//api/name/refreshToken</Anchor>
+			<Declaration>- (SFSDKSoslBuilder *)limit:(NSInteger)limit</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>limit</Name>
+					<Abstract type="html">the maximum number of rows returned in the text query, up to 200. If unspecified, the default is 200, the largest number of rows that can be returned</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/limit:</Anchor>
             <NodeRef refid="99"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/refreshToken</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/encodeAndBuild</TokenIdentifier>
+			<Abstract type="html">Builds an encoded query from the builder.</Abstract>
+			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *refreshToken</Declaration>
+			<Declaration>- (NSString *)encodeAndBuild</Declaration>
 			
-			
-			<Anchor>//api/name/refreshToken</Anchor>
+			<ReturnValue><Abstract type="html">the built query</Abstract></ReturnValue>
+			<Anchor>//api/name/encodeAndBuild</Anchor>
             <NodeRef refid="99"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setIdentityUrl:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/encodeAndBuildWithPath:</TokenIdentifier>
+			<Abstract type="html">Builds an enoded query from the builder.</Abstract>
+			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *identityUrl</Declaration>
-			
-			
-			<Anchor>//api/name/identityUrl</Anchor>
+			<Declaration>- (NSString *)encodeAndBuildWithPath:(NSString *)path</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>path</Name>
+					<Abstract type="html">the path to build the query for</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the built query</Abstract></ReturnValue>
+			<Anchor>//api/name/encodeAndBuildWithPath:</Anchor>
             <NodeRef refid="99"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/identityUrl</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/buildWithPath:</TokenIdentifier>
+			<Abstract type="html">Builds a raw (unencoded) query from the builder.</Abstract>
+			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *identityUrl</Declaration>
-			
-			
-			<Anchor>//api/name/identityUrl</Anchor>
+			<Declaration>- (NSString *)buildWithPath:(NSString *)path</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>path</Name>
+					<Abstract type="html">the path to build the query for</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the built query</Abstract></ReturnValue>
+			<Anchor>//api/name/buildWithPath:</Anchor>
             <NodeRef refid="99"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/identityUrl</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/build</TokenIdentifier>
+			<Abstract type="html">Builds a raw (unencoded) query from the builder.</Abstract>
+			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *identityUrl</Declaration>
+			<Declaration>- (NSString *)build</Declaration>
 			
-			
-			<Anchor>//api/name/identityUrl</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setInstanceUrl:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *instanceUrl</Declaration>
-			
-			
-			<Anchor>//api/name/instanceUrl</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/instanceUrl</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *instanceUrl</Declaration>
-			
-			
-			<Anchor>//api/name/instanceUrl</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/instanceUrl</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *instanceUrl</Declaration>
-			
-			
-			<Anchor>//api/name/instanceUrl</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setClientId:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *clientId</Declaration>
-			
-			
-			<Anchor>//api/name/clientId</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/clientId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *clientId</Declaration>
-			
-			
-			<Anchor>//api/name/clientId</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/clientId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *clientId</Declaration>
-			
-			
-			<Anchor>//api/name/clientId</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setRedirectUri:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *redirectUri</Declaration>
-			
-			
-			<Anchor>//api/name/redirectUri</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/redirectUri</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *redirectUri</Declaration>
-			
-			
-			<Anchor>//api/name/redirectUri</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/redirectUri</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *redirectUri</Declaration>
-			
-			
-			<Anchor>//api/name/redirectUri</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setLoginHost:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *loginHost</Declaration>
-			
-			
-			<Anchor>//api/name/loginHost</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/loginHost</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *loginHost</Declaration>
-			
-			
-			<Anchor>//api/name/loginHost</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/loginHost</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *loginHost</Declaration>
-			
-			
-			<Anchor>//api/name/loginHost</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setCommunityUrl:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *communityUrl</Declaration>
-			
-			
-			<Anchor>//api/name/communityUrl</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/communityUrl</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *communityUrl</Declaration>
-			
-			
-			<Anchor>//api/name/communityUrl</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/communityUrl</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *communityUrl</Declaration>
-			
-			
-			<Anchor>//api/name/communityUrl</Anchor>
+			<ReturnValue><Abstract type="html">the built query</Abstract></ReturnValue>
+			<Anchor>//api/name/build</Anchor>
             <NodeRef refid="99"/>
 		</Token>
 		

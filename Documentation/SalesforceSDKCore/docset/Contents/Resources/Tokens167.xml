@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFUserAccountManagerDelegate.html">
+	<File path="Protocols/SFSDKAppDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFUserAccountManagerDelegate</TokenIdentifier>
-			<Abstract type="html">Protocol for handling callbacks from SFUserAccountManager.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKAppDelegate</TokenIdentifier>
+			<Abstract type="html">Protocol defining an SDK-based app delegate.</Abstract>
+			<DeclaredIn>SFSDKAppDelegate.h</DeclaredIn>
             
 			
 			<NodeRef refid="167"/>
@@ -13,50 +13,63 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFUserAccountManagerDelegate/userAccountManager:willSwitchFromUser:toUser:</TokenIdentifier>
-			<Abstract type="html">Called before the user account manager switches from one user to another.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKAppDelegate/setUserAgentString:</TokenIdentifier>
+			<Abstract type="html">The User-Agent string presented by this application</Abstract>
+			<DeclaredIn>SFSDKAppDelegate.h</DeclaredIn>
 			
-			<Declaration>- (void)userAccountManager:(SFUserAccountManager *)userAccountManager willSwitchFromUser:(SFUserAccount *)fromUser toUser:(nullable SFUserAccount *)toUser</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>userAccountManager</Name>
-					<Abstract type="html">The SFUserAccountManager instance making the switch.</Abstract>
-				</Parameter><Parameter>
-					<Name>fromUser</Name>
-					<Abstract type="html">The user being switched away from.</Abstract>
-				</Parameter><Parameter>
-					<Name>toUser</Name>
-					<Abstract type="html">The user to be switched to.  nil if the user context is being switched back
-to no user.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, readonly) NSString *userAgentString</Declaration>
 			
-			<Anchor>//api/name/userAccountManager:willSwitchFromUser:toUser:</Anchor>
+			
+			<Anchor>//api/name/userAgentString</Anchor>
             <NodeRef refid="167"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFUserAccountManagerDelegate/userAccountManager:didSwitchFromUser:toUser:</TokenIdentifier>
-			<Abstract type="html">Called after the user account manager switches from one user to another.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKAppDelegate/userAgentString</TokenIdentifier>
+			<Abstract type="html">The User-Agent string presented by this application</Abstract>
+			<DeclaredIn>SFSDKAppDelegate.h</DeclaredIn>
 			
-			<Declaration>- (void)userAccountManager:(SFUserAccountManager *)userAccountManager didSwitchFromUser:(SFUserAccount *)fromUser toUser:(nullable SFUserAccount *)toUser</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>userAccountManager</Name>
-					<Abstract type="html">The SFUserAccountManager instance making the switch.</Abstract>
-				</Parameter><Parameter>
-					<Name>fromUser</Name>
-					<Abstract type="html">The user that was switched away from.</Abstract>
-				</Parameter><Parameter>
-					<Name>toUser</Name>
-					<Abstract type="html">The user that was switched to.  nil if the user context is being switched back
-to no user.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, readonly) NSString *userAgentString</Declaration>
 			
-			<Anchor>//api/name/userAccountManager:didSwitchFromUser:toUser:</Anchor>
+			
+			<Anchor>//api/name/userAgentString</Anchor>
+            <NodeRef refid="167"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfp/SFSDKAppDelegate/userAgentString</TokenIdentifier>
+			<Abstract type="html">The User-Agent string presented by this application</Abstract>
+			<DeclaredIn>SFSDKAppDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *userAgentString</Declaration>
+			
+			
+			<Anchor>//api/name/userAgentString</Anchor>
+            <NodeRef refid="167"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKAppDelegate/logout</TokenIdentifier>
+			<Abstract type="html">Forces a logout from the current account.
+This throws out the OAuth refresh token.</Abstract>
+			<DeclaredIn>SFSDKAppDelegate.h</DeclaredIn>
+			
+			<Declaration>- (void)logout</Declaration>
+			
+			
+			<Anchor>//api/name/logout</Anchor>
+            <NodeRef refid="167"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKAppDelegate/createSnapshotView</TokenIdentifier>
+			<Abstract type="html">Creates a snapshot view.</Abstract>
+			<DeclaredIn>SFSDKAppDelegate.h</DeclaredIn>
+			
+			<Declaration>- (UIView *)createSnapshotView</Declaration>
+			
+			
+			<Anchor>//api/name/createSnapshotView</Anchor>
             <NodeRef refid="167"/>
 		</Token>
 		

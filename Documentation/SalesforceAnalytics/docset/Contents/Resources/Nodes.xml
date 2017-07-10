@@ -21,17 +21,31 @@
 						<NodeRef refid="8"/>
 						<NodeRef refid="9"/>
 						<NodeRef refid="10"/>
+						<NodeRef refid="11"/>
+						<NodeRef refid="12"/>
+						<NodeRef refid="13"/>
+						<NodeRef refid="14"/>
+						<NodeRef refid="15"/>
 						
 					</Subnodes>
 				</Node>
 				
+				
+				<Node>
+					<Name>Categories</Name>
+					<Path>index.html</Path>
+					<Subnodes>
+						<NodeRef refid="16"/>
+						
+					</Subnodes>
+				</Node>
 				
                 
 				<Node>
 					<Name>Protocols</Name>
 					<Path>index.html</Path>
 					<Subnodes>
-						<NodeRef refid="11"/>
+						<NodeRef refid="17"/>
 						
 					</Subnodes>
 				</Node>
@@ -41,9 +55,9 @@
 					<Name>Constants</Name>
 					<Path>index.html</Path>
 					<Subnodes>
-						<NodeRef refid="12"/>
-						<NodeRef refid="13"/>
-						<NodeRef refid="14"/>
+						<NodeRef refid="18"/>
+						<NodeRef refid="19"/>
+						<NodeRef refid="20"/>
 						
 					</Subnodes>
 				</Node>
@@ -53,7 +67,7 @@
                     <Name>Blocks</Name>
                     <Path>index.html</Path>
                     <Subnodes>
-                        <NodeRef refid="15"/>
+                        <NodeRef refid="21"/>
                         
                     </Subnodes>
                 </Node>
@@ -123,6 +137,33 @@
             
         </Node>
 		<Node id="4" type="file" documentType="reference">
+            <Name>SFSDKAnalyticsLogger</Name>
+            <Path>Classes/SFSDKAnalyticsLogger.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFSDKAnalyticsLogger.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFSDKAnalyticsLogger.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSDKAnalyticsLogger.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="5" type="file" documentType="reference">
             <Name>SFSDKAnalyticsManager</Name>
             <Path>Classes/SFSDKAnalyticsManager.html</Path>
             
@@ -155,7 +196,40 @@
             </Subnodes>
             
         </Node>
-		<Node id="5" type="file" documentType="reference">
+		<Node id="6" type="file" documentType="reference">
+            <Name>SFSDKDatasharingHelper</Name>
+            <Path>Classes/SFSDKDatasharingHelper.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFSDKDatasharingHelper.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFSDKDatasharingHelper.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFSDKDatasharingHelper.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSDKDatasharingHelper.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="7" type="file" documentType="reference">
             <Name>SFSDKDeviceAppAttributes</Name>
             <Path>Classes/SFSDKDeviceAppAttributes.html</Path>
             
@@ -188,7 +262,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="6" type="file" documentType="reference">
+		<Node id="8" type="file" documentType="reference">
             <Name>SFSDKEventStoreManager</Name>
             <Path>Classes/SFSDKEventStoreManager.html</Path>
             
@@ -221,7 +295,40 @@
             </Subnodes>
             
         </Node>
-		<Node id="7" type="file" documentType="reference">
+		<Node id="9" type="file" documentType="reference">
+            <Name>SFSDKFileLogger</Name>
+            <Path>Classes/SFSDKFileLogger.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFSDKFileLogger.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFSDKFileLogger.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFSDKFileLogger.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSDKFileLogger.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="10" type="file" documentType="reference">
             <Name>SFSDKInstrumentationEvent</Name>
             <Path>Classes/SFSDKInstrumentationEvent.html</Path>
             
@@ -254,7 +361,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="8" type="file" documentType="reference">
+		<Node id="11" type="file" documentType="reference">
             <Name>SFSDKInstrumentationEventBuilder</Name>
             <Path>Classes/SFSDKInstrumentationEventBuilder.html</Path>
             
@@ -287,7 +394,79 @@
             </Subnodes>
             
         </Node>
-		<Node id="9" type="file" documentType="reference">
+		<Node id="12" type="file" documentType="reference">
+            <Name>SFSDKLogFileManager</Name>
+            <Path>Classes/SFSDKLogFileManager.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFSDKLogFileManager.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFSDKLogFileManager.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFSDKLogFileManager.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSDKLogFileManager.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="13" type="file" documentType="reference">
+            <Name>SFSDKLogger</Name>
+            <Path>Classes/SFSDKLogger.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFSDKLogger.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFSDKLogger.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFSDKLogger.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSDKLogger.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSDKLogger.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="14" type="file" documentType="reference">
             <Name>SFSDKReachability</Name>
             <Path>Classes/SFSDKReachability.html</Path>
             
@@ -320,14 +499,41 @@
             </Subnodes>
             
         </Node>
-		<Node id="10" type="file" documentType="reference">
+		<Node id="15" type="file" documentType="reference">
             <Name>ViewController</Name>
             <Path>Classes/ViewController.html</Path>
             
         </Node>
 		
+		<Node id="16" type="file" documentType="reference">
+            <Name>NSUserDefaults(SFAdditions)</Name>
+            <Path>Categories/NSUserDefaults+SFAdditions.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Categories/NSUserDefaults+SFAdditions.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Categories/NSUserDefaults+SFAdditions.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Categories/NSUserDefaults+SFAdditions.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+            </Subnodes>
+            
+        </Node>
 		
-        <Node id="11" type="file" documentType="reference">
+        <Node id="17" type="file" documentType="reference">
             <Name>SFSDKTransform</Name>
             <Path>Protocols/SFSDKTransform.html</Path>
             
@@ -355,23 +561,23 @@
             
         </Node>
 		
-        <Node id="12" type="file" documentType="reference">
+        <Node id="18" type="file" documentType="reference">
             <Name>SFAErrorType</Name>
             <Path>Constants/SFAErrorType.html</Path>
             
         </Node>
-		<Node id="13" type="file" documentType="reference">
+		<Node id="19" type="file" documentType="reference">
             <Name>SFAEventType</Name>
             <Path>Constants/SFAEventType.html</Path>
             
         </Node>
-		<Node id="14" type="file" documentType="reference">
+		<Node id="20" type="file" documentType="reference">
             <Name>SFASchemaType</Name>
             <Path>Constants/SFASchemaType.html</Path>
             
         </Node>
 		
-        <Node id="15" type="file" documentType="reference">
+        <Node id="21" type="file" documentType="reference">
             <Name>_Nonnull</Name>
             <Path>Blocks/_Nonnull.html</Path>
             

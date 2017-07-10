@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKSoslBuilder.html">
+	<File path="Classes/SFSDKSalesforceAnalyticsManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKSoslBuilder</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKSalesforceAnalyticsManager</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="97"/>
@@ -13,162 +13,267 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSoslBuilder/withSearchTerm:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOSL statement.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/setEventStoreManager:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>+ (SFSDKSoslBuilder *)withSearchTerm:(NSString *)searchTerm</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKEventStoreManager *eventStoreManager</Declaration>
+			
+			
+			<Anchor>//api/name/eventStoreManager</Anchor>
+            <NodeRef refid="97"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/eventStoreManager</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKEventStoreManager *eventStoreManager</Declaration>
+			
+			
+			<Anchor>//api/name/eventStoreManager</Anchor>
+            <NodeRef refid="97"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSalesforceAnalyticsManager/eventStoreManager</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKEventStoreManager *eventStoreManager</Declaration>
+			
+			
+			<Anchor>//api/name/eventStoreManager</Anchor>
+            <NodeRef refid="97"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/setAnalyticsManager:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKAnalyticsManager *analyticsManager</Declaration>
+			
+			
+			<Anchor>//api/name/analyticsManager</Anchor>
+            <NodeRef refid="97"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/analyticsManager</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKAnalyticsManager *analyticsManager</Declaration>
+			
+			
+			<Anchor>//api/name/analyticsManager</Anchor>
+            <NodeRef refid="97"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSalesforceAnalyticsManager/analyticsManager</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKAnalyticsManager *analyticsManager</Declaration>
+			
+			
+			<Anchor>//api/name/analyticsManager</Anchor>
+            <NodeRef refid="97"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/setUserAccount:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFUserAccount *userAccount</Declaration>
+			
+			
+			<Anchor>//api/name/userAccount</Anchor>
+            <NodeRef refid="97"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/userAccount</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFUserAccount *userAccount</Declaration>
+			
+			
+			<Anchor>//api/name/userAccount</Anchor>
+            <NodeRef refid="97"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSalesforceAnalyticsManager/userAccount</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFUserAccount *userAccount</Declaration>
+			
+			
+			<Anchor>//api/name/userAccount</Anchor>
+            <NodeRef refid="97"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/setLoggingEnabled:</TokenIdentifier>
+			<Abstract type="html">Disables or enables logging of events.</Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readwrite, assign, getter=isLoggingEnabled) BOOL loggingEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/loggingEnabled</Anchor>
+            <NodeRef refid="97"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/isLoggingEnabled</TokenIdentifier>
+			<Abstract type="html">Disables or enables logging of events.</Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readwrite, assign, getter=isLoggingEnabled) BOOL loggingEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/loggingEnabled</Anchor>
+            <NodeRef refid="97"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSalesforceAnalyticsManager/loggingEnabled</TokenIdentifier>
+			<Abstract type="html">Disables or enables logging of events.</Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readwrite, assign, getter=isLoggingEnabled) BOOL loggingEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/loggingEnabled</Anchor>
+            <NodeRef refid="97"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSalesforceAnalyticsManager/sharedInstanceWithUser:</TokenIdentifier>
+			<Abstract type="html">Returns an instance of this class associated with the specified user account.</Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
+			
+			<Declaration>+ (nonnull instancetype)sharedInstanceWithUser:(nonnull SFUserAccount *)userAccount</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>searchTerm</Name>
-					<Abstract type="html">text or word phrases to search for</Abstract>
+					<Name>userAccount</Name>
+					<Abstract type="html">User account.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/withSearchTerm:</Anchor>
+			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedInstanceWithUser:</Anchor>
             <NodeRef refid="97"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/searchGroup:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOSL statement.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSalesforceAnalyticsManager/removeSharedInstanceWithUser:</TokenIdentifier>
+			<Abstract type="html">Resets and removes the instance associated with the specified user account.</Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoslBuilder *)searchGroup:(NSString *)searchGroup</Declaration>
+			<Declaration>+ (void)removeSharedInstanceWithUser:(nonnull SFUserAccount *)userAccount</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>searchGroup</Name>
-					<Abstract type="html">scope of fields to search. Values may be: ALL FIELDS, NAME FIELDS, EMAIL FIELDS, PHONE FIELDS, SIDEBAR FIELDS</Abstract>
+					<Name>userAccount</Name>
+					<Abstract type="html">User account.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/searchGroup:</Anchor>
+			
+			<Anchor>//api/name/removeSharedInstanceWithUser:</Anchor>
             <NodeRef refid="97"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/returning:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOSL statement.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/publishAllEvents</TokenIdentifier>
+			<Abstract type="html">Publishes all stored events to all registered network endpoints after
+applying the required event format transforms. Stored events will be
+deleted if publishing was successful for all registered endpoints.
+This method should NOT be called from the main thread.</Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoslBuilder *)returning:(SFSDKSoslReturningBuilder *)returningSpec</Declaration>
+			<Declaration>- (void)publishAllEvents</Declaration>
+			
+			
+			<Anchor>//api/name/publishAllEvents</Anchor>
+            <NodeRef refid="97"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/publishEvents:</TokenIdentifier>
+			<Abstract type="html">Publishes a list of events to all registered network endpoints after
+applying the required event format transforms. Stored events will be
+deleted if publishing was successful for all registered endpoints.
+This method should NOT be called from the main thread.</Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
+			
+			<Declaration>- (void)publishEvents:(nonnull NSArray&lt;SFSDKInstrumentationEvent*&gt; *)events</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>returningSpec</Name>
-					<Abstract type="html">information to return in the search result. List of one or more objects and, within each object, list of one or more fields, with optional values to filter against. If unspecified, then the search results contain the IDs of all objects found</Abstract>
+					<Name>events</Name>
+					<Abstract type="html">List of events.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/returning:</Anchor>
+			
+			<Anchor>//api/name/publishEvents:</Anchor>
             <NodeRef refid="97"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/divisionFilter:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOSL statement.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/publishEvent:</TokenIdentifier>
+			<Abstract type="html">Publishes an event to all registered network endpoints after
+applying the required event format transforms. Stored event will be
+deleted if publishing was successful for all registered endpoints.
+This method should NOT be called from the main thread.</Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoslBuilder *)divisionFilter:(NSString *)divisionFilter</Declaration>
+			<Declaration>- (void)publishEvent:(nonnull SFSDKInstrumentationEvent *)event</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>divisionFilter</Name>
-					<Abstract type="html">if an organization uses divisions, filters all search results based on values for the Division field</Abstract>
+					<Name>event</Name>
+					<Abstract type="html">Event.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/divisionFilter:</Anchor>
+			
+			<Anchor>//api/name/publishEvent:</Anchor>
             <NodeRef refid="97"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/dataCategory:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOSL statement.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/addRemotePublisher:publisher:</TokenIdentifier>
+			<Abstract type="html">Adds a remote publisher to publish events to.</Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoslBuilder *)dataCategory:(NSString *)dataCategory</Declaration>
+			<Declaration>- (void)addRemotePublisher:(nonnull id&lt;SFSDKTransform&gt;)transformer publisher:(nonnull id&lt;SFSDKAnalyticsPublisher&gt;)publisher</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>dataCategory</Name>
-					<Abstract type="html">if an organization uses Salesforce Knowledge articles or answers, filters all search results based on one or more data categories</Abstract>
+					<Name>transformer</Name>
+					<Abstract type="html">Transformer class.</Abstract>
+				</Parameter><Parameter>
+					<Name>publisher</Name>
+					<Abstract type="html">Publisher class.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/dataCategory:</Anchor>
+			
+			<Anchor>//api/name/addRemotePublisher:publisher:</Anchor>
             <NodeRef refid="97"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/limit:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOSL statement.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/updateLoggingPrefs</TokenIdentifier>
+			<Abstract type="html">Updates the preferences of this library.</Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoslBuilder *)limit:(NSInteger)limit</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>limit</Name>
-					<Abstract type="html">the maximum number of rows returned in the text query, up to 200. If unspecified, the default is 200, the largest number of rows that can be returned</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/limit:</Anchor>
-            <NodeRef refid="97"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/encodeAndBuild</TokenIdentifier>
-			<Abstract type="html">Builds an encoded query from the builder.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
+			<Declaration>- (void)updateLoggingPrefs</Declaration>
 			
-			<Declaration>- (NSString *)encodeAndBuild</Declaration>
 			
-			<ReturnValue><Abstract type="html">the built query</Abstract></ReturnValue>
-			<Anchor>//api/name/encodeAndBuild</Anchor>
-            <NodeRef refid="97"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/encodeAndBuildWithPath:</TokenIdentifier>
-			<Abstract type="html">Builds an enoded query from the builder.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)encodeAndBuildWithPath:(NSString *)path</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>path</Name>
-					<Abstract type="html">the path to build the query for</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the built query</Abstract></ReturnValue>
-			<Anchor>//api/name/encodeAndBuildWithPath:</Anchor>
-            <NodeRef refid="97"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/buildWithPath:</TokenIdentifier>
-			<Abstract type="html">Builds a raw (unencoded) query from the builder.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)buildWithPath:(NSString *)path</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>path</Name>
-					<Abstract type="html">the path to build the query for</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the built query</Abstract></ReturnValue>
-			<Anchor>//api/name/buildWithPath:</Anchor>
-            <NodeRef refid="97"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/build</TokenIdentifier>
-			<Abstract type="html">Builds a raw (unencoded) query from the builder.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)build</Declaration>
-			
-			<ReturnValue><Abstract type="html">the built query</Abstract></ReturnValue>
-			<Anchor>//api/name/build</Anchor>
+			<Anchor>//api/name/updateLoggingPrefs</Anchor>
             <NodeRef refid="97"/>
 		</Token>
 		

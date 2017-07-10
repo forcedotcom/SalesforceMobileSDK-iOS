@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFCocoaLumberJackCustomFormatter.html">
+	<File path="Classes/SFAuthenticationViewHandler.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFCocoaLumberJackCustomFormatter</TokenIdentifier>
-			<Abstract type="html">This class applies custom formatting to log messages.</Abstract>
-			<DeclaredIn>SFCocoaLumberJackCustomFormatter.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFAuthenticationViewHandler</TokenIdentifier>
+			<Abstract type="html">Class encompassing the custom actions to take when displaying and dismissing an auth view during the auth process.</Abstract>
+			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
             
 			
 			<NodeRef refid="30"/>
@@ -13,50 +13,94 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCocoaLumberJackCustomFormatter/setLogger:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCocoaLumberJackCustomFormatter.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationViewHandler/setAuthViewDisplayBlock:</TokenIdentifier>
+			<Abstract type="html">The block used to display the auth view.</Abstract>
+			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak, readonly) SFLogger *logger</Declaration>
+			<Declaration>@property (nonatomic, copy) SFAuthViewDisplayBlock authViewDisplayBlock</Declaration>
 			
 			
-			<Anchor>//api/name/logger</Anchor>
+			<Anchor>//api/name/authViewDisplayBlock</Anchor>
             <NodeRef refid="30"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCocoaLumberJackCustomFormatter/logger</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCocoaLumberJackCustomFormatter.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationViewHandler/authViewDisplayBlock</TokenIdentifier>
+			<Abstract type="html">The block used to display the auth view.</Abstract>
+			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak, readonly) SFLogger *logger</Declaration>
+			<Declaration>@property (nonatomic, copy) SFAuthViewDisplayBlock authViewDisplayBlock</Declaration>
 			
 			
-			<Anchor>//api/name/logger</Anchor>
+			<Anchor>//api/name/authViewDisplayBlock</Anchor>
             <NodeRef refid="30"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFCocoaLumberJackCustomFormatter/logger</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCocoaLumberJackCustomFormatter.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationViewHandler/authViewDisplayBlock</TokenIdentifier>
+			<Abstract type="html">The block used to display the auth view.</Abstract>
+			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak, readonly) SFLogger *logger</Declaration>
+			<Declaration>@property (nonatomic, copy) SFAuthViewDisplayBlock authViewDisplayBlock</Declaration>
 			
 			
-			<Anchor>//api/name/logger</Anchor>
+			<Anchor>//api/name/authViewDisplayBlock</Anchor>
             <NodeRef refid="30"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCocoaLumberJackCustomFormatter/initWithLogger:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCocoaLumberJackCustomFormatter.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationViewHandler/setAuthViewDismissBlock:</TokenIdentifier>
+			<Abstract type="html">The block used to dismiss the auth view.</Abstract>
+			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)initWithLogger:(SFLogger *)logger</Declaration>
+			<Declaration>@property (nonatomic, copy) SFAuthViewDismissBlock authViewDismissBlock</Declaration>
 			
 			
-			<Anchor>//api/name/initWithLogger:</Anchor>
+			<Anchor>//api/name/authViewDismissBlock</Anchor>
+            <NodeRef refid="30"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationViewHandler/authViewDismissBlock</TokenIdentifier>
+			<Abstract type="html">The block used to dismiss the auth view.</Abstract>
+			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) SFAuthViewDismissBlock authViewDismissBlock</Declaration>
+			
+			
+			<Anchor>//api/name/authViewDismissBlock</Anchor>
+            <NodeRef refid="30"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationViewHandler/authViewDismissBlock</TokenIdentifier>
+			<Abstract type="html">The block used to dismiss the auth view.</Abstract>
+			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) SFAuthViewDismissBlock authViewDismissBlock</Declaration>
+			
+			
+			<Anchor>//api/name/authViewDismissBlock</Anchor>
+            <NodeRef refid="30"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationViewHandler/initWithDisplayBlock:dismissBlock:</TokenIdentifier>
+			<Abstract type="html">Designated initializer for the class.</Abstract>
+			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithDisplayBlock:(SFAuthViewDisplayBlock)displayBlock dismissBlock:(SFAuthViewDismissBlock)dismissBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>displayBlock</Name>
+					<Abstract type="html">The block used to display the auth view.</Abstract>
+				</Parameter><Parameter>
+					<Name>dismissBlock</Name>
+					<Abstract type="html">The block used to dismiss the auth view.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/initWithDisplayBlock:dismissBlock:</Anchor>
             <NodeRef refid="30"/>
 		</Token>
 		

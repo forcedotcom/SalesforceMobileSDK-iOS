@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/CSFNetworkOutputCache.html">
+	<File path="Protocols/CSFIndexedEntity.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/CSFNetworkOutputCache</TokenIdentifier>
-			<Abstract type="html">Protocol description that allows arbitrary classes to define caching behavior for network output.</Abstract>
-			<DeclaredIn>CSFNetworkOutputCache.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/CSFIndexedEntity</TokenIdentifier>
+			<Abstract type="html">The CSFIndexedEntity protocol indicates that an instance of CSFOutput
+has an indexable property bound to it that is capable of being used to uniquely identify
+an instance of the response.  This allows for these objects to be cached and later
+retrieved using the property.</Abstract>
+			<DeclaredIn>CSFIndexedEntity.h</DeclaredIn>
             
 			
 			<NodeRef refid="152"/>
@@ -13,56 +16,36 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/CSFNetworkOutputCache/cacheOutputFromAction:completionBlock:</TokenIdentifier>
-			<Abstract type="html">Caches an action response.</Abstract>
-			<DeclaredIn>CSFNetworkOutputCache.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/CSFIndexedEntity/indexedKey</TokenIdentifier>
+			<Abstract type="html">The key name that represents the property that is indexed.</Abstract>
+			<DeclaredIn>CSFIndexedEntity.h</DeclaredIn>
 			
-			<Declaration>- (void)cacheOutputFromAction:(CSFAction *)action completionBlock:(void ( ^ ) ( NSError *error ))completionBlock</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>action</Name>
-					<Abstract type="html">The completed action to cache</Abstract>
-				</Parameter><Parameter>
-					<Name>completionBlock</Name>
-					<Abstract type="html">Block to be invoked when the cache operation is completed, or nil.</Abstract>
-				</Parameter>
-			</Parameters>
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/intfm/CSFIndexedEntity/indexedValue</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (NSString *)indexedKey</Declaration>
 			
-			<Anchor>//api/name/cacheOutputFromAction:completionBlock:</Anchor>
+			<ReturnValue><Abstract type="html">String that can be used by valueForKey:.</Abstract></ReturnValue>
+			<Anchor>//api/name/indexedKey</Anchor>
             <NodeRef refid="152"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/CSFNetworkOutputCache/shouldCacheOutputFromAction:</TokenIdentifier>
-			<Abstract type="html">Informs the network instance whether or not this cache instance is capable of handling the output from the supplied action.</Abstract>
-			<DeclaredIn>CSFNetworkOutputCache.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/CSFIndexedEntity/indexedValue</TokenIdentifier>
+			<Abstract type="html">The value for the indexed key property.</Abstract>
+			<DeclaredIn>CSFIndexedEntity.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)shouldCacheOutputFromAction:(CSFAction *)action</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>action</Name>
-					<Abstract type="html">The action that is being processed.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the receiver is capable of caching this action, otherwise NO if the receiver should be skipped.</Abstract></ReturnValue>
-			<Anchor>//api/name/shouldCacheOutputFromAction:</Anchor>
-            <NodeRef refid="152"/>
-		</Token>
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/intfm/CSFIndexedEntity/indexedKey</TokenIdentifier>
 		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/CSFNetworkOutputCache/cacheInstanceForNetwork:</TokenIdentifier>
-			<Abstract type="html">Allows classes conforming CSFNetworkOutputCache to auto-generate and return cache instances to network instances as-needed.</Abstract>
-			<DeclaredIn>CSFNetworkOutputCache.h</DeclaredIn>
+	</RelatedTokens>
+	
+			<Declaration>- (id)indexedValue</Declaration>
 			
-			<Declaration>+ (NSObject&lt;CSFNetworkOutputCache&gt; *)cacheInstanceForNetwork:(CSFNetwork *)network</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>network</Name>
-					<Abstract type="html">Network instance configuring its cache output instances.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">Cache instance appropriate for the supplied network, or nil if this class doesn&apos;t have an instance available for the given network.Steps</Abstract></ReturnValue>
-			<Anchor>//api/name/cacheInstanceForNetwork:</Anchor>
+			<ReturnValue><Abstract type="html">Value for the indexed property.</Abstract></ReturnValue>
+			<Anchor>//api/name/indexedValue</Anchor>
             <NodeRef refid="152"/>
 		</Token>
 		

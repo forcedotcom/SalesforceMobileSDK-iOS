@@ -1,4 +1,4 @@
 Documentation set was installed to Xcode!
 
 Path: /Users/bhariharan/Library/Developer/Shared/Documentation/DocSets/com.salesforce.SmartSync.docset
-Time: 2017-04-26 20:37:18 +0000
+Time: 2017-07-10 20:42:31 +0000

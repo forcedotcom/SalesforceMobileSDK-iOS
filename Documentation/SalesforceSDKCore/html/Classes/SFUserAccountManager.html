@@ -58,8 +58,6 @@
 		
 		<option value="//api/name/accountPersister">accountPersister</option>
 		
-		<option value="//api/name/currentCommunityId">currentCommunityId</option>
-		
 		<option value="//api/name/currentUser">currentUser</option>
 		
 		<option value="//api/name/currentUserAnonymous">currentUserAnonymous</option>
@@ -68,14 +66,6 @@
 		
 		<option value="//api/name/delegates">delegates</option>
 		
-		<option value="//api/name/lastChangedCommunityId">lastChangedCommunityId</option>
-		
-		<option value="//api/name/lastChangedOrgId">lastChangedOrgId</option>
-		
-		<option value="//api/name/lastChangedUserId">lastChangedUserId</option>
-		
-		<option value="//api/name/previousCommunityId">previousCommunityId</option>
-		
 		<option value="//api/name/userAccountMap">userAccountMap</option>
 		
 	</optgroup>
@@ -83,8 +73,6 @@
 
 	
 	<optgroup label="Class Methods">
-		
-		<option value="//api/name/applyCurrentLogLevel:">+ applyCurrentLogLevel:</option>
 		
 		<option value="//api/name/sharedInstance">+ sharedInstance</option>
 		
@@ -325,90 +313,6 @@ has never logged in.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/currentCommunityId" title="currentCommunityId"></a>
-	<h3 class="method-title"><code><a href="#//api/name/currentCommunityId">&nbsp;&nbsp;currentCommunityId</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>  Convenience property to retrieve the current user&rsquo;s communityId.
-This property is an alias for <code></code>currentUser<code>.communityId</code></p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, nullable) NSString *currentCommunityId</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/previousCommunityId" title="previousCommunityId"></a>
-	<h3 class="method-title"><code><a href="#//api/name/previousCommunityId">&nbsp;&nbsp;previousCommunityId</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>A convenience property to store the previous community
-id as it may change during early OAuth flow and we want to retain it</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable) NSString *previousCommunityId</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
 	<a name="//api/name/sharedInstance" title="sharedInstance"></a>
 	<h3 class="method-title"><code><a href="#//api/name/sharedInstance">+&nbsp;sharedInstance</a></code>
 </h3>
@@ -428,60 +332,6 @@ id as it may change during early OAuth flow and we want to retain it</p>
 			<div class="method-subsection method-declaration"><code>+ (instancetype)sharedInstance</code></div>
 
 		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/applyCurrentLogLevel:" title="applyCurrentLogLevel:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/applyCurrentLogLevel:">+&nbsp;applyCurrentLogLevel:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Applies the current log level to the OAuth credentials that
-control the OAuth library log level.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (void)applyCurrentLogLevel:(SFOAuthCredentials *)<em>credentials</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>credentials</code></th>
-						<td><p>OAuth credentials whose log level will be updated</p></td>
-					</tr>
-				
-				</table>
-			</div>
 			
 
 			
@@ -1824,54 +1674,6 @@ The NSDictionary should be NSCoder encodeable.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/lastChangedOrgId" title="lastChangedOrgId"></a>
-	<h3 class="method-title"><code><a href="#//api/name/lastChangedOrgId">&nbsp;&nbsp;lastChangedOrgId</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable) NSString *lastChangedOrgId</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/lastChangedUserId" title="lastChangedUserId"></a>
-	<h3 class="method-title"><code><a href="#//api/name/lastChangedUserId">&nbsp;&nbsp;lastChangedUserId</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable) NSString *lastChangedUserId</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/lastChangedCommunityId" title="lastChangedCommunityId"></a>
-	<h3 class="method-title"><code><a href="#//api/name/lastChangedCommunityId">&nbsp;&nbsp;lastChangedCommunityId</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable) NSString *lastChangedCommunityId</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
 	<a name="//api/name/accountPersister" title="accountPersister"></a>
 	<h3 class="method-title"><code><a href="#//api/name/accountPersister">&nbsp;&nbsp;accountPersister</a></code>
 </h3>
@@ -2146,7 +1948,7 @@ The NSDictionary should be NSCoder encodeable.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-04-26</p>
+						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-07-10</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

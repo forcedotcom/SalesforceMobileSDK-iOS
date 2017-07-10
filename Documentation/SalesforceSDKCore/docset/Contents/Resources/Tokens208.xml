@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFOAuthTokenEndpointFlow.html">
+	<File path="Constants/SFOAuthCryptoOperation.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthTokenEndpointFlow</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthCryptoOperation</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCrypto.h</DeclaredIn>
             
 			
 			<NodeRef refid="208"/>
@@ -14,41 +14,21 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTokenEndpointFlowNone</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAEncrypt</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFOAuthTokenEndpointFlowNone</Declaration>
+            <Declaration>SFOAEncrypt</Declaration>
             
-            <DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+            <DeclaredIn>SFOAuthCrypto.h</DeclaredIn>
             
             <NodeRef refid="208"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTokenEndpointFlowRefresh</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFOADecrypt</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFOAuthTokenEndpointFlowRefresh</Declaration>
+            <Declaration>SFOADecrypt</Declaration>
             
-            <DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-            
-            <NodeRef refid="208"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTokenEndpointFlowIPBypass</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFOAuthTokenEndpointFlowIPBypass</Declaration>
-            
-            <DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-            
-            <NodeRef refid="208"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTokenEndpointFlowAdvancedBrowser</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFOAuthTokenEndpointFlowAdvancedBrowser</Declaration>
-            
-            <DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+            <DeclaredIn>SFOAuthCrypto.h</DeclaredIn>
             
             <NodeRef refid="208"/>
         </Token>

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKEventStoreManager.html">
+	<File path="Classes/SFSDKDatasharingHelper.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKEventStoreManager</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKDatasharingHelper</TokenIdentifier>
+			<Abstract type="html">@class SFSDKDatasharingHelper
+Class used to app data sharing settings</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
             
 			
 			<NodeRef refid="6"/>
@@ -13,346 +14,158 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/setStoreDirectory:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/setAppGroupEnabled:</TokenIdentifier>
+			<Abstract type="html">Set to YES to enable app group.</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *storeDirectory</Declaration>
+			<Declaration>@property (nonatomic) BOOL appGroupEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/storeDirectory</Anchor>
+			<Anchor>//api/name/appGroupEnabled</Anchor>
             <NodeRef refid="6"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/storeDirectory</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/appGroupEnabled</TokenIdentifier>
+			<Abstract type="html">Set to YES to enable app group.</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *storeDirectory</Declaration>
+			<Declaration>@property (nonatomic) BOOL appGroupEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/storeDirectory</Anchor>
+			<Anchor>//api/name/appGroupEnabled</Anchor>
             <NodeRef refid="6"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKEventStoreManager/storeDirectory</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDatasharingHelper/appGroupEnabled</TokenIdentifier>
+			<Abstract type="html">Set to YES to enable app group.</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *storeDirectory</Declaration>
+			<Declaration>@property (nonatomic) BOOL appGroupEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/storeDirectory</Anchor>
+			<Anchor>//api/name/appGroupEnabled</Anchor>
             <NodeRef refid="6"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/setDataEncryptorBlock:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/setKeychainSharingEnabled:</TokenIdentifier>
+			<Abstract type="html">Set to YES to enable keychain sharing.</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) DataEncryptorBlock dataEncryptorBlock</Declaration>
+			<Declaration>@property (nonatomic) BOOL keychainSharingEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/dataEncryptorBlock</Anchor>
+			<Anchor>//api/name/keychainSharingEnabled</Anchor>
             <NodeRef refid="6"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/dataEncryptorBlock</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/keychainSharingEnabled</TokenIdentifier>
+			<Abstract type="html">Set to YES to enable keychain sharing.</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) DataEncryptorBlock dataEncryptorBlock</Declaration>
+			<Declaration>@property (nonatomic) BOOL keychainSharingEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/dataEncryptorBlock</Anchor>
+			<Anchor>//api/name/keychainSharingEnabled</Anchor>
             <NodeRef refid="6"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKEventStoreManager/dataEncryptorBlock</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDatasharingHelper/keychainSharingEnabled</TokenIdentifier>
+			<Abstract type="html">Set to YES to enable keychain sharing.</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) DataEncryptorBlock dataEncryptorBlock</Declaration>
+			<Declaration>@property (nonatomic) BOOL keychainSharingEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/dataEncryptorBlock</Anchor>
+			<Anchor>//api/name/keychainSharingEnabled</Anchor>
             <NodeRef refid="6"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/setDataDecryptorBlock:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/setAppGroupName:</TokenIdentifier>
+			<Abstract type="html">Name of the app group to use to share data.</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) DataDecryptorBlock dataDecryptorBlock</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *appGroupName</Declaration>
 			
 			
-			<Anchor>//api/name/dataDecryptorBlock</Anchor>
+			<Anchor>//api/name/appGroupName</Anchor>
             <NodeRef refid="6"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/dataDecryptorBlock</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/appGroupName</TokenIdentifier>
+			<Abstract type="html">Name of the app group to use to share data.</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) DataDecryptorBlock dataDecryptorBlock</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *appGroupName</Declaration>
 			
 			
-			<Anchor>//api/name/dataDecryptorBlock</Anchor>
+			<Anchor>//api/name/appGroupName</Anchor>
             <NodeRef refid="6"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKEventStoreManager/dataDecryptorBlock</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDatasharingHelper/appGroupName</TokenIdentifier>
+			<Abstract type="html">Name of the app group to use to share data.</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) DataDecryptorBlock dataDecryptorBlock</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *appGroupName</Declaration>
 			
 			
-			<Anchor>//api/name/dataDecryptorBlock</Anchor>
+			<Anchor>//api/name/appGroupName</Anchor>
             <NodeRef refid="6"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/setNumStoredEvents:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/setKeychainGroupName:</TokenIdentifier>
+			<Abstract type="html">Name of the keychain group to use</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readonly) NSInteger numStoredEvents</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *keychainGroupName</Declaration>
 			
 			
-			<Anchor>//api/name/numStoredEvents</Anchor>
+			<Anchor>//api/name/keychainGroupName</Anchor>
             <NodeRef refid="6"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/numStoredEvents</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/keychainGroupName</TokenIdentifier>
+			<Abstract type="html">Name of the keychain group to use</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readonly) NSInteger numStoredEvents</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *keychainGroupName</Declaration>
 			
 			
-			<Anchor>//api/name/numStoredEvents</Anchor>
+			<Anchor>//api/name/keychainGroupName</Anchor>
             <NodeRef refid="6"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKEventStoreManager/numStoredEvents</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDatasharingHelper/keychainGroupName</TokenIdentifier>
+			<Abstract type="html">Name of the keychain group to use</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readonly) NSInteger numStoredEvents</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *keychainGroupName</Declaration>
 			
 			
-			<Anchor>//api/name/numStoredEvents</Anchor>
+			<Anchor>//api/name/keychainGroupName</Anchor>
             <NodeRef refid="6"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/setLoggingEnabled:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKDatasharingHelper/sharedInstance</TokenIdentifier>
+			<Abstract type="html">Shared singleton</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readwrite, getter=isLoggingEnabled) BOOL loggingEnabled</Declaration>
-			
-			
-			<Anchor>//api/name/loggingEnabled</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/isLoggingEnabled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readwrite, getter=isLoggingEnabled) BOOL loggingEnabled</Declaration>
+			<Declaration>+ (instancetype)sharedInstance</Declaration>
 			
 			
-			<Anchor>//api/name/loggingEnabled</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKEventStoreManager/loggingEnabled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readwrite, getter=isLoggingEnabled) BOOL loggingEnabled</Declaration>
-			
-			
-			<Anchor>//api/name/loggingEnabled</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/setMaxEvents:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readwrite) NSInteger maxEvents</Declaration>
-			
-			
-			<Anchor>//api/name/maxEvents</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/maxEvents</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readwrite) NSInteger maxEvents</Declaration>
-			
-			
-			<Anchor>//api/name/maxEvents</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKEventStoreManager/maxEvents</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readwrite) NSInteger maxEvents</Declaration>
-			
-			
-			<Anchor>//api/name/maxEvents</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/initWithStoreDirectory:dataEncryptorBlock:dataDecryptorBlock:</TokenIdentifier>
-			<Abstract type="html">Parameterized initializer.</Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
-			
-			<Declaration>- (nonnull instancetype)initWithStoreDirectory:(nonnull NSString *)storeDirectory dataEncryptorBlock:(nullable DataEncryptorBlock)dataEncryptorBlock dataDecryptorBlock:(nullable DataDecryptorBlock)dataDecryptorBlock</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>storeDirectory</Name>
-					<Abstract type="html">Store directory.</Abstract>
-				</Parameter><Parameter>
-					<Name>dataEncryptorBlock</Name>
-					<Abstract type="html">Block that performs encryption.</Abstract>
-				</Parameter><Parameter>
-					<Name>dataDecryptorBlock</Name>
-					<Abstract type="html">Block that performs decryption.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
-			<Anchor>//api/name/initWithStoreDirectory:dataEncryptorBlock:dataDecryptorBlock:</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/storeEvent:</TokenIdentifier>
-			<Abstract type="html">Stores an event to the filesystem. A combination of event&apos;s unique ID and
-filename suffix is used to generate a unique filename per event.</Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
-			
-			<Declaration>- (void)storeEvent:(nullable SFSDKInstrumentationEvent *)event</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>event</Name>
-					<Abstract type="html">Event to be persisted.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/storeEvent:</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/storeEvents:</TokenIdentifier>
-			<Abstract type="html">Stores a list of events to the filesystem.</Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
-			
-			<Declaration>- (void)storeEvents:(nullable NSArray&lt;SFSDKInstrumentationEvent*&gt; *)events</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>events</Name>
-					<Abstract type="html">List of events.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/storeEvents:</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/fetchEvent:</TokenIdentifier>
-			<Abstract type="html">Returns a specific event stored on the filesystem.</Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
-			
-			<Declaration>- (nullable SFSDKInstrumentationEvent *)fetchEvent:(nullable NSString *)eventId</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>eventId</Name>
-					<Abstract type="html">Unique identifier for the event.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">Event.</Abstract></ReturnValue>
-			<Anchor>//api/name/fetchEvent:</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/fetchAllEvents</TokenIdentifier>
-			<Abstract type="html">Returns all the events stored on the filesystem for that unique identifier.</Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
-			
-			<Declaration>- (nullable NSArray&lt;SFSDKInstrumentationEvent*&gt; *)fetchAllEvents</Declaration>
-			
-			<ReturnValue><Abstract type="html">List of events.</Abstract></ReturnValue>
-			<Anchor>//api/name/fetchAllEvents</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/deleteEvent:</TokenIdentifier>
-			<Abstract type="html">Deletes a specific event stored on the filesystem.</Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)deleteEvent:(nullable NSString *)eventId</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>eventId</Name>
-					<Abstract type="html">Unique identifier for the event.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">True - if successful, False - otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/deleteEvent:</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/deleteEvents:</TokenIdentifier>
-			<Abstract type="html">Deletes the events stored on the filesystem for that unique identifier.</Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
-			
-			<Declaration>- (void)deleteEvents:(nullable NSArray&lt;NSString*&gt; *)eventIds</Declaration>
-			
-			
-			<Anchor>//api/name/deleteEvents:</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/deleteAllEvents</TokenIdentifier>
-			<Abstract type="html">Deletes all the events stored on the filesystem for that unique identifier.</Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
-			
-			<Declaration>- (void)deleteAllEvents</Declaration>
-			
-			
-			<Anchor>//api/name/deleteAllEvents</Anchor>
+			<Anchor>//api/name/sharedInstance</Anchor>
             <NodeRef refid="6"/>
 		</Token>
 		

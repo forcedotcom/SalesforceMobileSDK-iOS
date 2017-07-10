@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFCryptoOperation.html">
+	<File path="Constants/SFAppType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFCryptoOperation</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFAppType</TokenIdentifier>
+			<Abstract type="html">Block typedef for creating a custom snapshot view controller.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="194"/>
@@ -14,21 +14,31 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFCryptoOperationEncrypt</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/kSFAppTypeNative</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFCryptoOperationEncrypt</Declaration>
+            <Declaration>kSFAppTypeNative</Declaration>
             
-            <DeclaredIn>SFCrypto.h</DeclaredIn>
+            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
             
             <NodeRef refid="194"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFCryptoOperationDecrypt</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/kSFAppTypeHybrid</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFCryptoOperationDecrypt</Declaration>
+            <Declaration>kSFAppTypeHybrid</Declaration>
             
-            <DeclaredIn>SFCrypto.h</DeclaredIn>
+            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+            
+            <NodeRef refid="194"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/kSFAppTypeReactNative</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>kSFAppTypeReactNative</Declaration>
+            
+            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
             
             <NodeRef refid="194"/>
         </Token>

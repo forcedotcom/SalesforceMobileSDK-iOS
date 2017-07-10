@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSDKLaunchAction.html">
+	<File path="Constants/SFPasscodeControllerMode.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSDKLaunchAction</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFPasscodeControllerMode</TokenIdentifier>
+			<Abstract type="html">Mode constants indicating whether to create or verify an existing passcode.</Abstract>
+			<DeclaredIn>SFPasscodeViewControllerTypes.h</DeclaredIn>
             
 			
 			<NodeRef refid="212"/>
@@ -14,51 +14,31 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKLaunchActionNone</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFPasscodeControllerModeCreate</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKLaunchActionNone</Declaration>
+            <Declaration>SFPasscodeControllerModeCreate</Declaration>
             
-            <DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
+            <DeclaredIn>SFPasscodeViewControllerTypes.h</DeclaredIn>
             
             <NodeRef refid="212"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKLaunchActionAuthenticated</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFPasscodeControllerModeVerify</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKLaunchActionAuthenticated</Declaration>
+            <Declaration>SFPasscodeControllerModeVerify</Declaration>
             
-            <DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
+            <DeclaredIn>SFPasscodeViewControllerTypes.h</DeclaredIn>
             
             <NodeRef refid="212"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKLaunchActionAlreadyAuthenticated</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFPasscodeControllerModeChange</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKLaunchActionAlreadyAuthenticated</Declaration>
+            <Declaration>SFPasscodeControllerModeChange</Declaration>
             
-            <DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
-            
-            <NodeRef refid="212"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKLaunchActionAuthBypassed</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKLaunchActionAuthBypassed</Declaration>
-            
-            <DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
-            
-            <NodeRef refid="212"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKLaunchActionPasscodeVerified</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKLaunchActionPasscodeVerified</Declaration>
-            
-            <DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
+            <DeclaredIn>SFPasscodeViewControllerTypes.h</DeclaredIn>
             
             <NodeRef refid="212"/>
         </Token>

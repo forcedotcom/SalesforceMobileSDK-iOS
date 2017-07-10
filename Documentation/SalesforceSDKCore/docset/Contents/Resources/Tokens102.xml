@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKWebUtils.html">
+	<File path="Classes/SFSDKTestRequestListener.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKWebUtils</TokenIdentifier>
-			<Abstract type="html">Class containing web-based utility/helper functionality for the SDK.</Abstract>
-			<DeclaredIn>SFSDKWebUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKTestRequestListener</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
             
 			
 			<NodeRef refid="102"/>
@@ -13,19 +13,183 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKWebUtils/configureUserAgent:</TokenIdentifier>
-			<Abstract type="html">Configures a user agent for the app.</Abstract>
-			<DeclaredIn>SFSDKWebUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/setDataResponse:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
 			
-			<Declaration>+ (void)configureUserAgent:(NSString *)userAgentString</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>userAgentString</Name>
-					<Abstract type="html">The string to configure as the user agent.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, retain) id dataResponse</Declaration>
 			
-			<Anchor>//api/name/configureUserAgent:</Anchor>
+			
+			<Anchor>//api/name/dataResponse</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/dataResponse</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, retain) id dataResponse</Declaration>
+			
+			
+			<Anchor>//api/name/dataResponse</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestRequestListener/dataResponse</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, retain) id dataResponse</Declaration>
+			
+			
+			<Anchor>//api/name/dataResponse</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/setLastError:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, retain) NSError *lastError</Declaration>
+			
+			
+			<Anchor>//api/name/lastError</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/lastError</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, retain) NSError *lastError</Declaration>
+			
+			
+			<Anchor>//api/name/lastError</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestRequestListener/lastError</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, retain) NSError *lastError</Declaration>
+			
+			
+			<Anchor>//api/name/lastError</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/setReturnStatus:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, retain) NSString *returnStatus</Declaration>
+			
+			
+			<Anchor>//api/name/returnStatus</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/returnStatus</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, retain) NSString *returnStatus</Declaration>
+			
+			
+			<Anchor>//api/name/returnStatus</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestRequestListener/returnStatus</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, retain) NSString *returnStatus</Declaration>
+			
+			
+			<Anchor>//api/name/returnStatus</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/setMaxWaitTime:</TokenIdentifier>
+			<Abstract type="html">Max time to wait for request completion</Abstract>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSTimeInterval maxWaitTime</Declaration>
+			
+			
+			<Anchor>//api/name/maxWaitTime</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/maxWaitTime</TokenIdentifier>
+			<Abstract type="html">Max time to wait for request completion</Abstract>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSTimeInterval maxWaitTime</Declaration>
+			
+			
+			<Anchor>//api/name/maxWaitTime</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestRequestListener/maxWaitTime</TokenIdentifier>
+			<Abstract type="html">Max time to wait for request completion</Abstract>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSTimeInterval maxWaitTime</Declaration>
+			
+			
+			<Anchor>//api/name/maxWaitTime</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/initWithServiceType:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithServiceType:(SFAccountManagerServiceType)serviceType</Declaration>
+			
+			
+			<Anchor>//api/name/initWithServiceType:</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/waitForCompletion</TokenIdentifier>
+			<Abstract type="html">Wait for the request to complete (success or fail)
+Waits for up to maxWaitTime.</Abstract>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)waitForCompletion</Declaration>
+			
+			<ReturnValue><Abstract type="html">returnStatus:  kTestRequestStatusDidTimeout if maxWaitTime was exceeded</Abstract></ReturnValue>
+			<Anchor>//api/name/waitForCompletion</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/serviceTypeDescription</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)serviceTypeDescription</Declaration>
+			
+			
+			<Anchor>//api/name/serviceTypeDescription</Anchor>
             <NodeRef refid="102"/>
 		</Token>
 		

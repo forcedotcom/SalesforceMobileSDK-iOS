@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSmartSyncReactBridge.html">
+	<File path="Classes/SFSmartStoreReactBridge.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSmartSyncReactBridge</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSmartStoreReactBridge</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSyncReactBridge.h</DeclaredIn>
+			<DeclaredIn>SFSmartStoreReactBridge.h</DeclaredIn>
             
 			
 			<NodeRef refid="4"/>

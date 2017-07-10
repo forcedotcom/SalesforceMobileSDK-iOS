@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSArray+SFAdditions.html">
+	<File path="Classes/TestSetupUtils.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSArray(SFAdditions)</TokenIdentifier>
-			<Abstract type="html">Provides Salesforce Mobile SDK filtering for NSArray objects.</Abstract>
-			<DeclaredIn>NSArray+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/TestSetupUtils</TokenIdentifier>
+			<Abstract type="html">This class provides utilities useful to all unit tests based on the Salesforce SDK</Abstract>
+			<DeclaredIn>TestSetupUtils.h</DeclaredIn>
             
 			
 			<NodeRef refid="125"/>
@@ -13,59 +13,55 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSArray/filteredArrayWithElementsOfClass:</TokenIdentifier>
-			<Abstract type="html">Returns an array whose elements are guaranteed to be instances of the given class.</Abstract>
-			<DeclaredIn>NSArray+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/TestSetupUtils/populateUILoginInfoFromConfigFileForClass:</TokenIdentifier>
+			<Abstract type="html">Loads a set of auth credentials from the &apos;uitestcredentials.json&apos; file located in the bundle associated
+with the given class, and return a dictionary of login info</Abstract>
+			<DeclaredIn>TestSetupUtils.h</DeclaredIn>
 			
-			<Declaration>- (NSArray *)filteredArrayWithElementsOfClass:(Class)aClass</Declaration>
+			<Declaration>+ (NSArray *)populateUILoginInfoFromConfigFileForClass:(Class)testClass</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>aClass</Name>
-					<Abstract type="html">The class to filter on.</Abstract>
+					<Name>testClass</Name>
+					<Abstract type="html">The class associated with the bundle where the test credentials file lives.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">An array whose elements are all of the given type (or a subtype).</Abstract></ReturnValue>
-			<Anchor>//api/name/filteredArrayWithElementsOfClass:</Anchor>
+			<ReturnValue><Abstract type="html">a dictionary of login username, password, url</Abstract></ReturnValue>
+			<Anchor>//api/name/populateUILoginInfoFromConfigFileForClass:</Anchor>
             <NodeRef refid="125"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSArray/filteredArrayWithValue:forKeyPath:</TokenIdentifier>
-			<Abstract type="html">Returns an array whose elements have a given value at a given keypath.</Abstract>
-			<DeclaredIn>NSArray+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/TestSetupUtils/populateAuthCredentialsFromConfigFileForClass:</TokenIdentifier>
+			<Abstract type="html">Loads a set of auth credentials from the &apos;test_credentials.json&apos; file located in the bundle associated
+with the given class, and configures SFUserAccountManager and the current account with the data from
+that file.</Abstract>
+			<DeclaredIn>TestSetupUtils.h</DeclaredIn>
 			
-			<Declaration>- (NSArray *)filteredArrayWithValue:(id)value forKeyPath:(NSString *)key</Declaration>
+			<Declaration>+ (SFSDKTestCredentialsData *)populateAuthCredentialsFromConfigFileForClass:(Class)testClass</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>value</Name>
-					<Abstract type="html">The value to filter on.</Abstract>
-				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The key path for the value to filter on.</Abstract>
+					<Name>testClass</Name>
+					<Abstract type="html">The class associated with the bundle where the test credentials file lives.</Abstract>
 				</Parameter>
 			</Parameters>
-			
-			<Anchor>//api/name/filteredArrayWithValue:forKeyPath:</Anchor>
+			<ReturnValue><Abstract type="html">The configuration data used to configure SFUserAccountManager (useful e.g. for hybrid
+apps which need the data to bootstrap SFHybridViewController.</Abstract></ReturnValue>
+			<Anchor>//api/name/populateAuthCredentialsFromConfigFileForClass:</Anchor>
             <NodeRef refid="125"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSArray/filteredArrayExcludingValue:forKeyPath:</TokenIdentifier>
-			<Abstract type="html">Returns an array whose elements exclude a given value at a given keypath.</Abstract>
-			<DeclaredIn>NSArray+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/TestSetupUtils/synchronousAuthRefresh</TokenIdentifier>
+			<Abstract type="html">Performs a synchronous refresh of the OAuth credentials, which will stage the remaining auth
+data (access token, User ID, Org ID, etc.) in SFUserAccountManager.
+populateAuthCredentialsFromConfigFile is required to run once before this method will attempt
+to refresh authentication.</Abstract>
+			<DeclaredIn>TestSetupUtils.h</DeclaredIn>
 			
-			<Declaration>- (NSArray *)filteredArrayExcludingValue:(id)value forKeyPath:(NSString *)key</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>value</Name>
-					<Abstract type="html">The value to filter on.</Abstract>
-				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The key path for the value to filter on.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>+ (void)synchronousAuthRefresh</Declaration>
 			
-			<Anchor>//api/name/filteredArrayExcludingValue:forKeyPath:</Anchor>
+			
+			<Anchor>//api/name/synchronousAuthRefresh</Anchor>
             <NodeRef refid="125"/>
 		</Token>
 		

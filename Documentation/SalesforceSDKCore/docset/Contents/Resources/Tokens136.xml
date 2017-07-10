@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSObject+SFBlocks.html">
+	<File path="Categories/NSDictionary+SFAdditions.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSObject(SFBlocks)</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>NSObject+SFBlocks.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSDictionary(SFAdditions)</TokenIdentifier>
+			<Abstract type="html">Extension to NSDictionary object</Abstract>
+			<DeclaredIn>NSDictionary+SFAdditions.h</DeclaredIn>
             
 			
 			<NodeRef refid="136"/>
@@ -13,138 +13,48 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSObject/performBlock:onThread:waitUntilDone:</TokenIdentifier>
-			<Abstract type="html">Perform a block on a specific thread.</Abstract>
-			<DeclaredIn>NSObject+SFBlocks.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSDictionary/objectAtPath:</TokenIdentifier>
+			<Abstract type="html">Get object from NSDictionary with &quot;/&quot; separated path.</Abstract>
+			<DeclaredIn>NSDictionary+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>- (void)performBlock:(SFThreadBlock)block onThread:(NSThread *)thread waitUntilDone:(BOOL)waitUntilDone</Declaration>
+			<Declaration>- (id)objectAtPath:(NSString *)path</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>block</Name>
-					<Abstract type="html">The block to execute on the thread</Abstract>
-				</Parameter><Parameter>
-					<Name>thread</Name>
-					<Abstract type="html">The thread in which to execute the block</Abstract>
-				</Parameter><Parameter>
-					<Name>waitUntilDone</Name>
-					<Abstract type="html">Flag that indicates if this method should block until the block is done executing</Abstract>
+					<Name>path</Name>
+					<Abstract type="html">Path for the object to retrieve. Use &quot;/&quot; to separate between levels. For example, root/child/valueKey will retrieve value from the root NSDictionary object to its child dictionary&apos;s value with key &quot;valueKey&quot;</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/performBlock:onThread:waitUntilDone:</Anchor>
+			<Anchor>//api/name/objectAtPath:</Anchor>
             <NodeRef refid="136"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSObject/performBlockOnGlobalQueue:afterDelay:</TokenIdentifier>
-			<Abstract type="html">Perform a block on a global queue thread after a delay.</Abstract>
-			<DeclaredIn>NSObject+SFBlocks.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSDictionary/nonNullObjectForKey:</TokenIdentifier>
+			<Abstract type="html">Returns an object whose ID is key, or nil.</Abstract>
+			<DeclaredIn>NSDictionary+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>- (void)performBlockOnGlobalQueue:(SFThreadBlock)block afterDelay:(NSTimeInterval)delay</Declaration>
+			<Declaration>- (id)nonNullObjectForKey:(id)key</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>block</Name>
-					<Abstract type="html">The block to execute</Abstract>
-				</Parameter><Parameter>
-					<Name>delay</Name>
-					<Abstract type="html">The delay before executing the block</Abstract>
+					<Name>key</Name>
+					<Abstract type="html">The ID of an object, or a null value</Abstract>
 				</Parameter>
 			</Parameters>
-			
-			<Anchor>//api/name/performBlockOnGlobalQueue:afterDelay:</Anchor>
+			<ReturnValue><Abstract type="html">An object whose ID is key, or else nil if the key has a value of NSNull or an NSString value of &quot;&lt;nil&gt;&quot; or &quot;&lt;null&gt;&quot;.</Abstract></ReturnValue>
+			<Anchor>//api/name/nonNullObjectForKey:</Anchor>
             <NodeRef refid="136"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSObject/performBlockOnMainThread:afterDelay:</TokenIdentifier>
-			<Abstract type="html">Perform a block on the main thread after a delay.</Abstract>
-			<DeclaredIn>NSObject+SFBlocks.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSDictionary/jsonString</TokenIdentifier>
+			<Abstract type="html">Returns the dictionary&apos;s contents reformatted as a JSON string.</Abstract>
+			<DeclaredIn>NSDictionary+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>- (void)performBlockOnMainThread:(SFThreadBlock)block afterDelay:(NSTimeInterval)delay</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>block</Name>
-					<Abstract type="html">The block to execute</Abstract>
-				</Parameter><Parameter>
-					<Name>delay</Name>
-					<Abstract type="html">The delay before executing the block</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (NSString *)jsonString</Declaration>
 			
-			<Anchor>//api/name/performBlockOnMainThread:afterDelay:</Anchor>
-            <NodeRef refid="136"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSObject/waitForBlockCondition:timeout:</TokenIdentifier>
-			<Abstract type="html">Wait until a block return value is YES or a time-out happens.</Abstract>
-			<DeclaredIn>NSObject+SFBlocks.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)waitForBlockCondition:(BOOL ( ^ ) ( void ))block timeout:(NSTimeInterval)duration</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>block</Name>
-					<Abstract type="html">The block that will be invoked regularily until it returns YES or a time-out happen.</Abstract>
-				</Parameter><Parameter>
-					<Name>duration</Name>
-					<Abstract type="html">Time-out duration.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the block returned YES or NO if a time-out happened</Abstract></ReturnValue>
-			<Anchor>//api/name/waitForBlockCondition:timeout:</Anchor>
-            <NodeRef refid="136"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSObject/synchronouslyExecuteBlockOnMainThread:</TokenIdentifier>
-			<Abstract type="html">Executes the given block directly if called from the main thread. Otherwise the block
-is synchronously dispatched for execution on the main thread.</Abstract>
-			<DeclaredIn>NSObject+SFBlocks.h</DeclaredIn>
-			
-			<Declaration>- (void)synchronouslyExecuteBlockOnMainThread:(void ( ^ ) ( void ))block</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>block</Name>
-					<Abstract type="html">The block to execute</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/synchronouslyExecuteBlockOnMainThread:</Anchor>
-            <NodeRef refid="136"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSObject/asynchronouslyExecuteBlockOnMainThread:</TokenIdentifier>
-			<Abstract type="html">The block is asynchronously dispatched for execution on the main thread.</Abstract>
-			<DeclaredIn>NSObject+SFBlocks.h</DeclaredIn>
-			
-			<Declaration>- (void)asynchronouslyExecuteBlockOnMainThread:(void ( ^ ) ( void ))block</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>block</Name>
-					<Abstract type="html">The block to execute</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/asynchronouslyExecuteBlockOnMainThread:</Anchor>
-            <NodeRef refid="136"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSObject/executeBlockOrDispatchIfNotMainThread:</TokenIdentifier>
-			<Abstract type="html">Executes the given block directly if called from the main thread. Otherwise the block
-is asynchronously dispatched for execution on the main thread.</Abstract>
-			<DeclaredIn>NSObject+SFBlocks.h</DeclaredIn>
-			
-			<Declaration>- (void)executeBlockOrDispatchIfNotMainThread:(void ( ^ ) ( void ))block</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>block</Name>
-					<Abstract type="html">The block to execute</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/executeBlockOrDispatchIfNotMainThread:</Anchor>
+			<Anchor>//api/name/jsonString</Anchor>
             <NodeRef refid="136"/>
 		</Token>
 		

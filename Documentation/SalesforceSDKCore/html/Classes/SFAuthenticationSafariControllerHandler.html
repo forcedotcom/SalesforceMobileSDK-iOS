@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 
-	<title>NSUserDefaults(SFAdditions) Category Reference</title>
+	<title>SFAuthenticationSafariControllerHandler Class Reference</title>
 
 	<link rel="stylesheet" href="../css/style.css">
 	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
@@ -54,15 +54,21 @@
 
 	
 	
-
-	
-	<optgroup label="Class Methods">
+	<optgroup label="Properties">
 		
-		<option value="//api/name/msdkUserDefaults">+ msdkUserDefaults</option>
+		<option value="//api/name/authSafariControllerPresentBlock">authSafariControllerPresentBlock</option>
 		
 	</optgroup>
 	
 
+	
+
+	
+	<optgroup label="Instance Methods">
+		
+		<option value="//api/name/initWithPresentBlock:">- initWithPresentBlock:</option>
+		
+	</optgroup>
 	
 	
 </select>
@@ -77,13 +83,16 @@
 		<div id="overview_contents" class="container">
 			<div id="content">
 				<main role="main">
-					<h1 class="title">NSUserDefaults(SFAdditions) Category Reference</h1>
+					<h1 class="title">SFAuthenticationSafariControllerHandler Class Reference</h1>
 
 					
 					<div class="section section-specification"><table cellspacing="0"><tbody>
 						<tr>
+	<th>Inherits from</th>
+	<td>NSObject</td>
+</tr><tr>
 	<th>Declared in</th>
-	<td>NSUserDefaults+SFAdditions.h</td>
+	<td>SFAuthenticationSafariControllerHandler.h</td>
 </tr>
 						</tbody></table></div>
 					
@@ -93,7 +102,7 @@
 					<div class="section section-overview">
 						<a title="Overview" name="overview"></a>
 						<h2 class="subtitle subtitle-overview">Overview</h2>
-						<p>Salesforce Mobile SDK additions to the NSUserDefaults class</p>
+						<p>Class encompassing the custom action to take when presenting an auth safari controller during the auth process.</p>
 					</div>
 					
 					
@@ -109,8 +118,8 @@
 
 						<div class="task-list">
 							<div class="section-method">
-	<a name="//api/name/msdkUserDefaults" title="msdkUserDefaults"></a>
-	<h3 class="method-title"><code><a href="#//api/name/msdkUserDefaults">+&nbsp;msdkUserDefaults</a></code>
+	<a name="//api/name/authSafariControllerPresentBlock" title="authSafariControllerPresentBlock"></a>
+	<h3 class="method-title"><code><a href="#//api/name/authSafariControllerPresentBlock">&nbsp;&nbsp;authSafariControllerPresentBlock</a></code>
 </h3>
 
 	<div class="method-info">
@@ -120,21 +129,16 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Convenience method that returns either private or shared NSUserDefaults</p>
+				<p>The block used to present the auth safari controller.</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>+ (NSUserDefaults *)msdkUserDefaults</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) SFAuthSafariControllerPresentBlock authSafariControllerPresentBlock</code></div>
 
 		    
 			
 
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>NSUserdefaults standardUserDefaults or app group specific userDefaults</p>
-			</div>
 			
 
 			
@@ -148,7 +152,60 @@
 			
 			<div class="method-subsection declared-in-section">
 				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">NSUserDefaults+SFAdditions.h</code></p>
+				<p><code class="declared-in-ref">SFAuthenticationSafariControllerHandler.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/initWithPresentBlock:" title="initWithPresentBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/initWithPresentBlock:">&ndash;&nbsp;initWithPresentBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Designated initializer for the class.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (id)initWithPresentBlock:(SFAuthSafariControllerPresentBlock)<em>presentBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>presentBlock</code></th>
+						<td><p>The block used to present the auth safari controller.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFAuthenticationSafariControllerHandler.h</code></p>
 			</div>
 			
 			
@@ -169,7 +226,7 @@
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-04-26</p>
+						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-07-10</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>
