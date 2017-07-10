@@ -31,10 +31,11 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 
 @implementation SFRestRequest
 
-- (id)initWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(NSDictionary *)queryParams {
+- (id)initWithMethod:(SFRestMethod)method baseURL:(NSString *)baseURL path:(NSString *)path queryParams:(NSDictionary *)queryParams {
     self = [super init];
     if (self) {
         self.method = method;
+        self.baseURL = baseURL;
         self.path = path;
         self.queryParams = [queryParams mutableCopy];
         self.endpoint = kSFDefaultRestEndpoint;
@@ -46,7 +47,11 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 }
 
 + (instancetype)requestWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(NSDictionary *)queryParams {
-    return [[self alloc] initWithMethod:method path:path queryParams:queryParams];
+    return [[self alloc] initWithMethod:method baseURL:nil path:path queryParams:queryParams];
+}
+
++ (instancetype)requestWithMethod:(SFRestMethod)method baseURL:(NSString *)baseURL path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, id> *)queryParams {
+    return [[self alloc] initWithMethod:method baseURL:baseURL path:path queryParams:queryParams];
 }
 
 - (NSString *)description {
@@ -113,7 +118,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 - (NSURLRequest *)prepareRequestForSend {
     SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
     if (user) {
-        NSString *baseUrl = user.credentials.apiUrl.absoluteString;
+        NSString *baseUrl = self.baseURL ?: user.credentials.apiUrl.absoluteString;
 
         // Performs sanity checks on the path against the endpoint value.
         if (self.endpoint.length > 0 && [self.path hasPrefix:self.endpoint]) {
