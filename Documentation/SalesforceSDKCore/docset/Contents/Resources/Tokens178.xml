@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/CSFForceQuickActionType.html">
+	<File path="Constants/CSFForceNotificationFrequency.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/CSFForceQuickActionType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/CSFForceNotificationFrequency</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -14,9 +14,9 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceQuickActionTypeUnknown</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceNotificationFrequencyUnknown</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceQuickActionTypeUnknown</Declaration>
+            <Declaration>CSFForceNotificationFrequencyUnknown</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -24,9 +24,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceQuickActionTypeCreate</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceNotificationFrequencyEachPost</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceQuickActionTypeCreate</Declaration>
+            <Declaration>CSFForceNotificationFrequencyEachPost</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -34,9 +34,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceQuickActionTypeVisualforce</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceNotificationFrequencyDailyDigest</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceQuickActionTypeVisualforce</Declaration>
+            <Declaration>CSFForceNotificationFrequencyDailyDigest</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -44,9 +44,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceQuickActionTypePost</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceNotificationFrequencyWeeklyDigest</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceQuickActionTypePost</Declaration>
+            <Declaration>CSFForceNotificationFrequencyWeeklyDigest</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -54,39 +54,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceQuickActionTypeFeed</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceNotificationFrequencyNever</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceQuickActionTypeFeed</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="178"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceQuickActionTypePoll</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceQuickActionTypePoll</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="178"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceQuickActionTypeFile</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceQuickActionTypeFile</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="178"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceQuickActionTypeThanks</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceQuickActionTypeThanks</Declaration>
+            <Declaration>CSFForceNotificationFrequencyNever</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             

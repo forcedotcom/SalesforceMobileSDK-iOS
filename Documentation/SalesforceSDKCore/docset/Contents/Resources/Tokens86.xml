@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKCryptoUtils.html">
+	<File path="Classes/SFSDKAsyncProcessListener.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKCryptoUtils</TokenIdentifier>
-			<Abstract type="html">Various utility methods in support of cryptographic operations.</Abstract>
-			<DeclaredIn>SFSDKCryptoUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAsyncProcessListener</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAsyncProcessListener.h</DeclaredIn>
             
 			
 			<NodeRef refid="86"/>
@@ -13,112 +13,38 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKCryptoUtils/randomByteDataWithLength:</TokenIdentifier>
-			<Abstract type="html">Creates a random string of bytes (based on arc4random() generation) and returns
-them as an NSData object.</Abstract>
-			<DeclaredIn>SFSDKCryptoUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAsyncProcessListener/initWithExpectedStatus:actualStatusBlock:timeout:</TokenIdentifier>
+			<Abstract type="html">Designated initializer.  Initialize the process listener with an expected status and a block that
+will return status updates when called.</Abstract>
+			<DeclaredIn>SFSDKAsyncProcessListener.h</DeclaredIn>
 			
-			<Declaration>+ (NSData *)randomByteDataWithLength:(NSUInteger)lengthInBytes</Declaration>
+			<Declaration>- (id)initWithExpectedStatus:(id)expectedStatus actualStatusBlock:(id ( ^ ) ( void ))actualStatusBlock timeout:(NSTimeInterval)timeout</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>lengthInBytes</Name>
-					<Abstract type="html">The number of bytes to generate.</Abstract>
+					<Name>expectedStatus</Name>
+					<Abstract type="html">The expected return status upon completion.</Abstract>
+				</Parameter><Parameter>
+					<Name>actualStatusBlock</Name>
+					<Abstract type="html">The block that will return the actual status when called.</Abstract>
+				</Parameter><Parameter>
+					<Name>timeout</Name>
+					<Abstract type="html">The amount of time before the asynchronous process is considered to time out.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The string of random bytes, as an NSData object.</Abstract></ReturnValue>
-			<Anchor>//api/name/randomByteDataWithLength:</Anchor>
+			
+			<Anchor>//api/name/initWithExpectedStatus:actualStatusBlock:timeout:</Anchor>
             <NodeRef refid="86"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKCryptoUtils/createPBKDF2DerivedKey:</TokenIdentifier>
-			<Abstract type="html">Creates a PBKDF2 derived key from an input key (string), using default values for the
-random-generated salt data and its length, the number of derivation rounds, and the
-derived key length.</Abstract>
-			<DeclaredIn>SFSDKCryptoUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAsyncProcessListener/waitForCompletion</TokenIdentifier>
+			<Abstract type="html">Waits for the asynchronous process to complete.</Abstract>
+			<DeclaredIn>SFSDKAsyncProcessListener.h</DeclaredIn>
 			
-			<Declaration>+ (SFPBKDFData *)createPBKDF2DerivedKey:(NSString *)stringToHash</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>stringToHash</Name>
-					<Abstract type="html">The plaintext string used to generate the key.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">An SFPBKDFData object representing the derived key.</Abstract></ReturnValue>
-			<Anchor>//api/name/createPBKDF2DerivedKey:</Anchor>
-            <NodeRef refid="86"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKCryptoUtils/createPBKDF2DerivedKey:salt:derivationRounds:keyLength:</TokenIdentifier>
-			<Abstract type="html">Creates a PBKDF2 derived key from an input key (string), a salt, number of derivation
-rounds, and desired derived key length.</Abstract>
-			<DeclaredIn>SFSDKCryptoUtils.h</DeclaredIn>
+			<Declaration>- (id)waitForCompletion</Declaration>
 			
-			<Declaration>+ (SFPBKDFData *)createPBKDF2DerivedKey:(NSString *)stringToHash salt:(NSData *)salt derivationRounds:(NSUInteger)numDerivationRounds keyLength:(NSUInteger)derivedKeyLength</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>stringToHash</Name>
-					<Abstract type="html">The base string to use for the derived key.</Abstract>
-				</Parameter><Parameter>
-					<Name>salt</Name>
-					<Abstract type="html">The salt to append to the string.</Abstract>
-				</Parameter><Parameter>
-					<Name>numDerivationRounds</Name>
-					<Abstract type="html">The number of derivation rounds used to generate the key.</Abstract>
-				</Parameter><Parameter>
-					<Name>derivedKeyLength</Name>
-					<Abstract type="html">The desired derived key length.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">An SFPBKDFData object representing the derived key.</Abstract></ReturnValue>
-			<Anchor>//api/name/createPBKDF2DerivedKey:salt:derivationRounds:keyLength:</Anchor>
-            <NodeRef refid="86"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKCryptoUtils/aes256EncryptData:withKey:iv:</TokenIdentifier>
-			<Abstract type="html">Encrypt the given data using the AES-256 algorithm.</Abstract>
-			<DeclaredIn>SFSDKCryptoUtils.h</DeclaredIn>
-			
-			<Declaration>+ (NSData *)aes256EncryptData:(NSData *)data withKey:(NSData *)key iv:(NSData *)iv</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>data</Name>
-					<Abstract type="html">The data to encrypt.</Abstract>
-				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The encryption key used to encrypt the data.</Abstract>
-				</Parameter><Parameter>
-					<Name>iv</Name>
-					<Abstract type="html">The initialization vector data used for the encryption.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The encrypted data, or nil if encryption was not successful.</Abstract></ReturnValue>
-			<Anchor>//api/name/aes256EncryptData:withKey:iv:</Anchor>
-            <NodeRef refid="86"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKCryptoUtils/aes256DecryptData:withKey:iv:</TokenIdentifier>
-			<Abstract type="html">Decrypt the given data using the AES-256 algorithm.</Abstract>
-			<DeclaredIn>SFSDKCryptoUtils.h</DeclaredIn>
-			
-			<Declaration>+ (NSData *)aes256DecryptData:(NSData *)data withKey:(NSData *)key iv:(NSData *)iv</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>data</Name>
-					<Abstract type="html">The data to decrypt.</Abstract>
-				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The decryption key used to decrypt the data.</Abstract>
-				</Parameter><Parameter>
-					<Name>iv</Name>
-					<Abstract type="html">The initialization vector data used for the decryption.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The decrypted data, or nil if decryption was not successful.</Abstract></ReturnValue>
-			<Anchor>//api/name/aes256DecryptData:withKey:iv:</Anchor>
+			<ReturnValue><Abstract type="html">The actual status at the time the process completes, or times out.</Abstract></ReturnValue>
+			<Anchor>//api/name/waitForCompletion</Anchor>
             <NodeRef refid="86"/>
 		</Token>
 		

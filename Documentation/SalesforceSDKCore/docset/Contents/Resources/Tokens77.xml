@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFPreferences.html">
+	<File path="Classes/SFPathUtil.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFPreferences</TokenIdentifier>
-			<Abstract type="html">Preferences class that handles scoped preferences.
-A scope binds the preferences to a specific user,
-org or community.</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFPathUtil</TokenIdentifier>
+			<Abstract type="html">This is a utility class that helps to create sub folder under either Documents directory or cache directory. Any folder or file created by SFPathUtil will be marked with NSFileProtectionComplete attribute and also excluded from iCloud backup</Abstract>
+			<DeclaredIn>SFPathUtil.h</DeclaredIn>
             
 			
 			<NodeRef refid="77"/>
@@ -15,315 +13,237 @@ org or community.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/setPath:</TokenIdentifier>
-			<Abstract type="html">Returns the path in which the preferences file exists</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPathUtil/createFileItemIfNotExist:skipBackup:</TokenIdentifier>
+			<Abstract type="html">Creates the file at the specified path if it doesn&apos;t exist</Abstract>
+			<DeclaredIn>SFPathUtil.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *path</Declaration>
-			
-			
-			<Anchor>//api/name/path</Anchor>
-            <NodeRef refid="77"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/path</TokenIdentifier>
-			<Abstract type="html">Returns the path in which the preferences file exists</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *path</Declaration>
-			
-			
-			<Anchor>//api/name/path</Anchor>
-            <NodeRef refid="77"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPreferences/path</TokenIdentifier>
-			<Abstract type="html">Returns the path in which the preferences file exists</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *path</Declaration>
-			
-			
-			<Anchor>//api/name/path</Anchor>
-            <NodeRef refid="77"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/setDictionaryRepresentation:</TokenIdentifier>
-			<Abstract type="html">Returns the underlying dictionary representation</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, readonly) NSDictionary *dictionaryRepresentation</Declaration>
-			
-			
-			<Anchor>//api/name/dictionaryRepresentation</Anchor>
-            <NodeRef refid="77"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/dictionaryRepresentation</TokenIdentifier>
-			<Abstract type="html">Returns the underlying dictionary representation</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, readonly) NSDictionary *dictionaryRepresentation</Declaration>
-			
-			
-			<Anchor>//api/name/dictionaryRepresentation</Anchor>
-            <NodeRef refid="77"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPreferences/dictionaryRepresentation</TokenIdentifier>
-			<Abstract type="html">Returns the underlying dictionary representation</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, readonly) NSDictionary *dictionaryRepresentation</Declaration>
-			
-			
-			<Anchor>//api/name/dictionaryRepresentation</Anchor>
-            <NodeRef refid="77"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFPreferences/globalPreferences</TokenIdentifier>
-			<Abstract type="html">Returns the global instance of the preferences (one per application)</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>+ (instancetype)globalPreferences</Declaration>
-			
-			
-			<Anchor>//api/name/globalPreferences</Anchor>
-            <NodeRef refid="77"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFPreferences/sharedPreferencesForScope:user:</TokenIdentifier>
-			<Abstract type="html">Returns the preferences instance related to the specified user&apos;s organization
-or nil if there is no specified user or scope.</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>+ (instancetype)sharedPreferencesForScope:(SFUserAccountScope)scope user:(SFUserAccount *)user</Declaration>
+			<Declaration>+ (void)createFileItemIfNotExist:(NSString *)path skipBackup:(BOOL)skipBackup</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>scope</Name>
-					<Abstract type="html">The scope to which the preferences apply: global, user&apos;s org, user&apos;s community, or user&apos;s account.</Abstract>
+					<Name>path</Name>
+					<Abstract type="html">The path where the file should be created</Abstract>
 				</Parameter><Parameter>
-					<Name>user</Name>
-					<Abstract type="html">The account to which the preferences apply. Not used if scope is global.</Abstract>
+					<Name>skipBackup</Name>
+					<Abstract type="html">YES if the file should be marked to not be backed up with iCloud</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/sharedPreferencesForScope:user:</Anchor>
+			<Anchor>//api/name/createFileItemIfNotExist:skipBackup:</Anchor>
             <NodeRef refid="77"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFPreferences/currentOrgLevelPreferences</TokenIdentifier>
-			<Abstract type="html">Returns the preferences instance related to the current user&apos;s organization
-or nil if there is no current user.</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPathUtil/applicationDocumentDirectory</TokenIdentifier>
+			<Abstract type="html">Returns application&apos;s dcoument directory</Abstract>
+			<DeclaredIn>SFPathUtil.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)currentOrgLevelPreferences</Declaration>
+			<Declaration>+ (NSString *)applicationDocumentDirectory</Declaration>
 			
 			
-			<Anchor>//api/name/currentOrgLevelPreferences</Anchor>
+			<Anchor>//api/name/applicationDocumentDirectory</Anchor>
             <NodeRef refid="77"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFPreferences/currentUserLevelPreferences</TokenIdentifier>
-			<Abstract type="html">Returns the preferences instance related to the currrent user
-or nil if there is no current user.</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPathUtil/applicationCacheDirectory</TokenIdentifier>
+			<Abstract type="html">Returns application&apos;s cache directory</Abstract>
+			<DeclaredIn>SFPathUtil.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)currentUserLevelPreferences</Declaration>
+			<Declaration>+ (NSString *)applicationCacheDirectory</Declaration>
 			
 			
-			<Anchor>//api/name/currentUserLevelPreferences</Anchor>
+			<Anchor>//api/name/applicationCacheDirectory</Anchor>
             <NodeRef refid="77"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFPreferences/currentCommunityLevelPreferences</TokenIdentifier>
-			<Abstract type="html">Returns the preferences instance related to the currrent user&apos;s community
-or nil if there is no current user.</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPathUtil/applicationLibraryDirectory</TokenIdentifier>
+			<Abstract type="html">Returns the absolute path for libray folder</Abstract>
+			<DeclaredIn>SFPathUtil.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)currentCommunityLevelPreferences</Declaration>
+			<Declaration>+ (NSString *)applicationLibraryDirectory</Declaration>
 			
 			
-			<Anchor>//api/name/currentCommunityLevelPreferences</Anchor>
+			<Anchor>//api/name/applicationLibraryDirectory</Anchor>
             <NodeRef refid="77"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/objectForKey:</TokenIdentifier>
-			<Abstract type="html">Returns the preferences object for the given key.</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPathUtil/absolutePathForDocumentFolder:</TokenIdentifier>
+			<Abstract type="html">Returns the absolute path for a directory/folder located in the apps document directory.</Abstract>
+			<DeclaredIn>SFPathUtil.h</DeclaredIn>
 			
-			<Declaration>- (id)objectForKey:(NSString *)key</Declaration>
+			<Declaration>+ (NSString *)absolutePathForDocumentFolder:(NSString *)folder</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The key of the requested object.</Abstract>
+					<Name>folder</Name>
+					<Abstract type="html">Folder to create under Document directory</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/objectForKey:</Anchor>
+			<Anchor>//api/name/absolutePathForDocumentFolder:</Anchor>
             <NodeRef refid="77"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/setObject:forKey:</TokenIdentifier>
-			<Abstract type="html">Sets the preference object for the given attribute key. Logs an SFLogLevelError if the key is not found.</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPathUtil/absolutePathForCacheFolder:</TokenIdentifier>
+			<Abstract type="html">Returns the absolute path for a directory/folder located in the apps document directory</Abstract>
+			<DeclaredIn>SFPathUtil.h</DeclaredIn>
 			
-			<Declaration>- (void)setObject:(id)object forKey:(NSString *)key</Declaration>
+			<Declaration>+ (NSString *)absolutePathForCacheFolder:(NSString *)folder</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>object</Name>
-					<Abstract type="html">Object to be set.</Abstract>
+					<Name>folder</Name>
+					<Abstract type="html">Folder to create under Cache directory</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/absolutePathForCacheFolder:</Anchor>
+            <NodeRef refid="77"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPathUtil/absolutePathForLibraryFolder:</TokenIdentifier>
+			<Abstract type="html">Returns the absolute path for libray folder</Abstract>
+			<DeclaredIn>SFPathUtil.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)absolutePathForLibraryFolder:(NSString *)folder</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>folder</Name>
+					<Abstract type="html">Folder to create under Library directory</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/absolutePathForLibraryFolder:</Anchor>
+            <NodeRef refid="77"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPathUtil/secureFilePath:markAsNotBackup:</TokenIdentifier>
+			<Abstract type="html">Add iOS file protection to the specified file path and also mark DO NOT back up by iCloud if notbackupFlag is true
+The file or path that is passed in must already exist</Abstract>
+			<DeclaredIn>SFPathUtil.h</DeclaredIn>
+			
+			<Declaration>+ (void)secureFilePath:(NSString *)filePath markAsNotBackup:(BOOL)notbackupFlag</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>filePath</Name>
+					<Abstract type="html">Path to file or folder</Abstract>
 				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">Key of object to be set.</Abstract>
+					<Name>notbackupFlag</Name>
+					<Abstract type="html">Set to YES if need to mark as do not back up by iCloud</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/setObject:forKey:</Anchor>
+			<Anchor>//api/name/secureFilePath:markAsNotBackup:</Anchor>
             <NodeRef refid="77"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/removeObjectForKey:</TokenIdentifier>
-			<Abstract type="html">Removes the preference object for the given attribute key.</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPathUtil/absolutePathForDocumentFolder:fileProtection:</TokenIdentifier>
+			<Abstract type="html">Returns the absolute path for a directory/folder located in the apps document directory</Abstract>
+			<DeclaredIn>SFPathUtil.h</DeclaredIn>
 			
-			<Declaration>- (void)removeObjectForKey:(NSString *)key</Declaration>
+			<Declaration>+ (NSString *)absolutePathForDocumentFolder:(NSString *)folder fileProtection:(NSString *)fileProtection</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">Key of object to be removed.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/removeObjectForKey:</Anchor>
-            <NodeRef refid="77"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/boolForKey:</TokenIdentifier>
-			<Abstract type="html">Returns the Boolean preference value for the given key.</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)boolForKey:(NSString *)key</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The key of the requested preference value.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/boolForKey:</Anchor>
-            <NodeRef refid="77"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/setBool:forKey:</TokenIdentifier>
-			<Abstract type="html">Assigns the given Boolean preference value to the given key.</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>- (void)setBool:(BOOL)value forKey:(NSString *)key</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>value</Name>
-					<Abstract type="html">The Boolean value.</Abstract>
+					<Name>folder</Name>
+					<Abstract type="html">Folder to create under Document directory</Abstract>
 				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The key of the preference value to be edited.</Abstract>
+					<Name>fileProtection</Name>
+					<Abstract type="html">File protection string. If nil, NSFileProtectionComplete will be used</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/setBool:forKey:</Anchor>
+			<Anchor>//api/name/absolutePathForDocumentFolder:fileProtection:</Anchor>
             <NodeRef refid="77"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/integerForKey:</TokenIdentifier>
-			<Abstract type="html">Returns the integer preference value for the given key.</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPathUtil/absolutePathForCacheFolder:fileProtection:</TokenIdentifier>
+			<Abstract type="html">Returns the absolute path for a directory/folder located in the apps document directory</Abstract>
+			<DeclaredIn>SFPathUtil.h</DeclaredIn>
 			
-			<Declaration>- (NSInteger)integerForKey:(NSString *)key</Declaration>
+			<Declaration>+ (NSString *)absolutePathForCacheFolder:(NSString *)folder fileProtection:(NSString *)fileProtection</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The key of the requested preference value.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/integerForKey:</Anchor>
-            <NodeRef refid="77"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/setInteger:forKey:</TokenIdentifier>
-			<Abstract type="html">Assigns the given integer preference value to the given key.</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>- (void)setInteger:(NSInteger)value forKey:(NSString *)key</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>value</Name>
-					<Abstract type="html">The integer value.</Abstract>
+					<Name>folder</Name>
+					<Abstract type="html">Folder to create under Cache directory</Abstract>
 				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The key of the preference value to be edited.</Abstract>
+					<Name>fileProtection</Name>
+					<Abstract type="html">File protection string. If nil, NSFileProtectionComplete will be used</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/setInteger:forKey:</Anchor>
+			<Anchor>//api/name/absolutePathForCacheFolder:fileProtection:</Anchor>
             <NodeRef refid="77"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/stringForKey:</TokenIdentifier>
-			<Abstract type="html">Returns the string preference value for the given key.</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPathUtil/absolutePathForLibraryFolder:fileProtection:</TokenIdentifier>
+			<Abstract type="html">Returns the absolute path for library folder</Abstract>
+			<DeclaredIn>SFPathUtil.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)stringForKey:(NSString *)key</Declaration>
+			<Declaration>+ (NSString *)absolutePathForLibraryFolder:(NSString *)folder fileProtection:(NSString *)fileProtection</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The key of the requested preference value.</Abstract>
+					<Name>folder</Name>
+					<Abstract type="html">Folder to create under Library directory</Abstract>
+				</Parameter><Parameter>
+					<Name>fileProtection</Name>
+					<Abstract type="html">File protection string. If nil, NSFileProtectionComplete will be used</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/stringForKey:</Anchor>
+			<Anchor>//api/name/absolutePathForLibraryFolder:fileProtection:</Anchor>
             <NodeRef refid="77"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/synchronize</TokenIdentifier>
-			<Abstract type="html">Saves the preferences to the disk</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPathUtil/secureFilePath:markAsNotBackup:fileProtection:</TokenIdentifier>
+			<Abstract type="html">Add iOS file protection to the specified file path and also mark DO NOT back up by iCloud if notbackupFlag is true
+The file or path that is passed in must already exist</Abstract>
+			<DeclaredIn>SFPathUtil.h</DeclaredIn>
 			
-			<Declaration>- (void)synchronize</Declaration>
+			<Declaration>+ (void)secureFilePath:(NSString *)filePath markAsNotBackup:(BOOL)notbackupFlag fileProtection:(NSString *)fileProtection</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>filePath</Name>
+					<Abstract type="html">Path to file or folder</Abstract>
+				</Parameter><Parameter>
+					<Name>notbackupFlag</Name>
+					<Abstract type="html">Set to YES if need to mark as do not back up by iCloud</Abstract>
+				</Parameter><Parameter>
+					<Name>fileProtection</Name>
+					<Abstract type="html">File protection string. If nil, NSFileProtectionComplete will be used</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/synchronize</Anchor>
+			<Anchor>//api/name/secureFilePath:markAsNotBackup:fileProtection:</Anchor>
             <NodeRef refid="77"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/removeAllObjects</TokenIdentifier>
-			<Abstract type="html">Remove all saved objects</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPathUtil/secureFileAtPath:recursive:fileProtection:</TokenIdentifier>
+			<Abstract type="html">Add DO NOT back up flag to the file resource specified by the file path</Abstract>
+			<DeclaredIn>SFPathUtil.h</DeclaredIn>
 			
-			<Declaration>- (void)removeAllObjects</Declaration>
+			<Declaration>+ (void)secureFileAtPath:(NSString *)filePath recursive:(BOOL)recursive fileProtection:(NSString *)fileProtection</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>filePath</Name>
+					<Abstract type="html">file path</Abstract>
+				</Parameter><Parameter>
+					<Name>recursive</Name>
+					<Abstract type="html">If filePath points to a directlory, set to YES to recursively apply skip backup attribute to all files under the directory including sub-directory under the directory</Abstract>
+				</Parameter><Parameter>
+					<Name>fileProtection</Name>
+					<Abstract type="html">File protection string. If nil, NSFileProtectionComplete will be used</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/removeAllObjects</Anchor>
+			<Anchor>//api/name/secureFileAtPath:recursive:fileProtection:</Anchor>
             <NodeRef refid="77"/>
 		</Token>
 		

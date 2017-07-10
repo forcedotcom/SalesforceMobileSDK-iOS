@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFLogLevel.html">
+	<File path="Constants/SFKeychainItemExceptionErrorCode.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFLogLevel</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLoggerMacros.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFKeychainItemExceptionErrorCode</TokenIdentifier>
+			<Abstract type="html">This class is left to remain non-ARC INTENTIONALLY!</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
             
 			
 			<NodeRef refid="200"/>
@@ -14,78 +14,11 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogLevelOff</TokenIdentifier>
-            <Abstract type="html">No logs
-     </Abstract>
-            <Declaration>SFLogLevelOff</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFKeychainItemExceptionKeychainInaccessible</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFKeychainItemExceptionKeychainInaccessible</Declaration>
             
-            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
-            
-            <NodeRef refid="200"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogLevelError</TokenIdentifier>
-            <Abstract type="html">Error logs only
-     </Abstract>
-            <Declaration>SFLogLevelError</Declaration>
-            
-            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
-            
-            <NodeRef refid="200"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogLevelWarning</TokenIdentifier>
-            <Abstract type="html">Error and warning logs
-     </Abstract>
-            <Declaration>SFLogLevelWarning</Declaration>
-            
-            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
-            
-            <NodeRef refid="200"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogLevelInfo</TokenIdentifier>
-            <Abstract type="html">Error, warning and info logs
-     </Abstract>
-            <Declaration>SFLogLevelInfo</Declaration>
-            
-            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
-            
-            <NodeRef refid="200"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogLevelDebug</TokenIdentifier>
-            <Abstract type="html">Error, warning, info and debug logs
-     </Abstract>
-            <Declaration>SFLogLevelDebug</Declaration>
-            
-            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
-            
-            <NodeRef refid="200"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogLevelVerbose</TokenIdentifier>
-            <Abstract type="html">Error, warning, info, debug and verbose logs
-     </Abstract>
-            <Declaration>SFLogLevelVerbose</Declaration>
-            
-            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
-            
-            <NodeRef refid="200"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogLevelAll</TokenIdentifier>
-            <Abstract type="html">All logs (1...11111)
-     </Abstract>
-            <Declaration>SFLogLevelAll</Declaration>
-            
-            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
+            <DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
             
             <NodeRef refid="200"/>
         </Token>

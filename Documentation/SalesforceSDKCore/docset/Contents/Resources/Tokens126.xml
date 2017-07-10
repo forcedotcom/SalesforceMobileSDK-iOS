@@ -1,95 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSData+SFBase64.html">
+	<File path="Classes/ViewController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFBase64)</TokenIdentifier>
-			<Abstract type="html">Extension to NSData class to provide common functions. Added functionality includes:
---base64 encoding of an NSData object
---MD5 version of an NSData object
---Gzip deflated representation of a gzip-compressed NSData object
---Hex version of an NSData object</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/ViewController</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>ViewController.h</DeclaredIn>
             
 			
 			<NodeRef refid="126"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/randomDataOfLength:</TokenIdentifier>
-			<Abstract type="html">Returns a specified number of random bytes.</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSData *)randomDataOfLength:(size_t)length</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>length</Name>
-					<Abstract type="html">The number of bytes of random data to return.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The specified quantity of random bytes or nil if an error occurs.</Abstract></ReturnValue>
-			<Anchor>//api/name/randomDataOfLength:</Anchor>
-            <NodeRef refid="126"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/newBase64Encoding</TokenIdentifier>
-			<Abstract type="html">Creates a base64 encoded string for this NSData object.</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)newBase64Encoding</Declaration>
-			
-			<ReturnValue><Abstract type="html">A base64 encoded version of the data.</Abstract></ReturnValue>
-			<Anchor>//api/name/newBase64Encoding</Anchor>
-            <NodeRef refid="126"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/base64Encode</TokenIdentifier>
-			<Abstract type="html">Returns a base64 encoded string for this NSData object.</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)base64Encode</Declaration>
-			
-			<ReturnValue><Abstract type="html">A base64 encoded version of the data.</Abstract></ReturnValue>
-			<Anchor>//api/name/base64Encode</Anchor>
-            <NodeRef refid="126"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/initWithBase64String:</TokenIdentifier>
-			<Abstract type="html">Creates a base64 encoding of this NSData. Similar to newBase64Encoding.</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (id)initWithBase64String:(NSString *)base64</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>base64</Name>
-					<Abstract type="html">The base64 encoding to use in the new NSData object.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The base64 encoded NSData object.</Abstract></ReturnValue>
-			<Anchor>//api/name/initWithBase64String:</Anchor>
-            <NodeRef refid="126"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/dataFromBase64String:</TokenIdentifier>
-			<Abstract type="html">Creates an NSData object from a base64 encoded string.</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>+ (NSData *)dataFromBase64String:(NSString *)encoding</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>encoding</Name>
-					<Abstract type="html">The string to convert to NSData.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">A base64-encoded string version of this object&apos;s data.</Abstract></ReturnValue>
-			<Anchor>//api/name/dataFromBase64String:</Anchor>
-            <NodeRef refid="126"/>
-		</Token>
 		
         
         

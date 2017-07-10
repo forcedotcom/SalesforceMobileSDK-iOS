@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFPasscodeProviderManager.html">
+	<File path="Classes/SFPasscodeManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFPasscodeProviderManager</TokenIdentifier>
-			<Abstract type="html">Class for managing passcode providers.</Abstract>
-			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFPasscodeManager</TokenIdentifier>
+			<Abstract type="html">Class for managing storage, retrieval, and verification of passcodes.</Abstract>
+			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="74"/>
@@ -13,114 +13,296 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFPasscodeProviderManager/currentPasscodeProviderName</TokenIdentifier>
-			<Abstract type="html">The name of the currently configured passcode provider.  There can only be one &quot;current&quot;
-passcode provider at any given time, though multiple passcode providers can be worked
-with, usign the [SFPasscodeProviderManager passcodeProviderForProviderName:] method.</Abstract>
-			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPasscodeManager/sharedManager</TokenIdentifier>
+			<Abstract type="html">The shared instance of the passcode manager.</Abstract>
+			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
 			
-			<Declaration>+ (SFPasscodeProviderId)currentPasscodeProviderName</Declaration>
+			<Declaration>+ (SFPasscodeManager *)sharedManager</Declaration>
 			
-			<ReturnValue><Abstract type="html">The name of the currently configured passcode provider.</Abstract></ReturnValue>
-			<Anchor>//api/name/currentPasscodeProviderName</Anchor>
+			<ReturnValue><Abstract type="html">The shared instance of the passcode manager.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedManager</Anchor>
             <NodeRef refid="74"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFPasscodeProviderManager/setCurrentPasscodeProviderByName:</TokenIdentifier>
-			<Abstract type="html">Sets the current passcode provider.  Note: the passcode provider implementation class itself
-must first be configured through the [SFPasscodeProviderManager addPasscodeProvider:name:]
-method.  The default providers in the SDK will already be configured.</Abstract>
-			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/setEncryptionKey:</TokenIdentifier>
+			<Abstract type="html">The encryption key associated with the app.</Abstract>
+			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
 			
-			<Declaration>+ (void)setCurrentPasscodeProviderByName:(SFPasscodeProviderId)providerName</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *encryptionKey</Declaration>
+			
+			
+			<Anchor>//api/name/encryptionKey</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/encryptionKey</TokenIdentifier>
+			<Abstract type="html">The encryption key associated with the app.</Abstract>
+			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *encryptionKey</Declaration>
+			
+			
+			<Anchor>//api/name/encryptionKey</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPasscodeManager/encryptionKey</TokenIdentifier>
+			<Abstract type="html">The encryption key associated with the app.</Abstract>
+			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *encryptionKey</Declaration>
+			
+			
+			<Anchor>//api/name/encryptionKey</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/setPreferredPasscodeProvider:</TokenIdentifier>
+			<Abstract type="html">The preferred passcode provider for the app.  If another provider was previously configured,
+the passcode manager will automatically update to the preferred provider at the next passcode
+update or verification.</Abstract>
+			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *preferredPasscodeProvider</Declaration>
+			
+			
+			<Anchor>//api/name/preferredPasscodeProvider</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/preferredPasscodeProvider</TokenIdentifier>
+			<Abstract type="html">The preferred passcode provider for the app.  If another provider was previously configured,
+the passcode manager will automatically update to the preferred provider at the next passcode
+update or verification.</Abstract>
+			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *preferredPasscodeProvider</Declaration>
+			
+			
+			<Anchor>//api/name/preferredPasscodeProvider</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPasscodeManager/preferredPasscodeProvider</TokenIdentifier>
+			<Abstract type="html">The preferred passcode provider for the app.  If another provider was previously configured,
+the passcode manager will automatically update to the preferred provider at the next passcode
+update or verification.</Abstract>
+			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *preferredPasscodeProvider</Declaration>
+			
+			
+			<Anchor>//api/name/preferredPasscodeProvider</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/addDelegate:</TokenIdentifier>
+			<Abstract type="html">Adds a delegate to the list of passcode manager delegates.</Abstract>
+			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
+			
+			<Declaration>- (void)addDelegate:(id&lt;SFPasscodeManagerDelegate&gt;)delegate</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>providerName</Name>
-					<Abstract type="html">The name of the passcode provider that will become the current provider.</Abstract>
+					<Name>delegate</Name>
+					<Abstract type="html">Delegate to add to the list.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/setCurrentPasscodeProviderByName:</Anchor>
+			<Anchor>//api/name/addDelegate:</Anchor>
             <NodeRef refid="74"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFPasscodeProviderManager/currentPasscodeProvider</TokenIdentifier>
-			<Abstract type="html">The provider implementation for the current passcode provider.</Abstract>
-			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/removeDelegate:</TokenIdentifier>
+			<Abstract type="html">Removes a delegate from the delegate list.  No action is taken if the delegate does not exist.</Abstract>
+			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
 			
-			<Declaration>+ (id&lt;SFPasscodeProvider&gt;)currentPasscodeProvider</Declaration>
-			
-			<ReturnValue><Abstract type="html">The provider implementation for the current passcode provider.</Abstract></ReturnValue>
-			<Anchor>//api/name/currentPasscodeProvider</Anchor>
-            <NodeRef refid="74"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFPasscodeProviderManager/passcodeProviderForProviderName:</TokenIdentifier>
-			<Abstract type="html">Returns the passcode provider implementation associated with the given provider name, or
-nil if no provider is configured for the given name.</Abstract>
-			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
-			
-			<Declaration>+ (nullable id&lt;SFPasscodeProvider&gt;)passcodeProviderForProviderName:(SFPasscodeProviderId)providerName</Declaration>
+			<Declaration>- (void)removeDelegate:(id&lt;SFPasscodeManagerDelegate&gt;)delegate</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>providerName</Name>
-					<Abstract type="html">The name associated with the requested provider.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The passcode provider implementation.</Abstract></ReturnValue>
-			<Anchor>//api/name/passcodeProviderForProviderName:</Anchor>
-            <NodeRef refid="74"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFPasscodeProviderManager/addPasscodeProvider:</TokenIdentifier>
-			<Abstract type="html">Adds a custom passcode provider implementation to the global provider configuration.
-Note: custom providers are not persisted across app restarts.  You should call this method
-to add your provider in your app&apos;s initialization logic.</Abstract>
-			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
-			
-			<Declaration>+ (void)addPasscodeProvider:(id&lt;SFPasscodeProvider&gt;)provider</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>provider</Name>
-					<Abstract type="html">The passcode provider implementation.</Abstract>
+					<Name>delegate</Name>
+					<Abstract type="html">Delegate to be removed.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/addPasscodeProvider:</Anchor>
+			<Anchor>//api/name/removeDelegate:</Anchor>
             <NodeRef refid="74"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFPasscodeProviderManager/removePasscodeProviderWithName:</TokenIdentifier>
-			<Abstract type="html">Removes a passcode provider from configuration.  If it is designated as the current-configured provider,
-the current provider will be reset to the default value.</Abstract>
-			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/passcodeIsSet</TokenIdentifier>
+			<Abstract type="html">Whether or not a passcode has been set.</Abstract>
+			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
 			
-			<Declaration>+ (void)removePasscodeProviderWithName:(SFPasscodeProviderId)providerName</Declaration>
+			<Declaration>- (BOOL)passcodeIsSet</Declaration>
+			
+			<ReturnValue><Abstract type="html">Whether or not a passcode has been set.</Abstract></ReturnValue>
+			<Anchor>//api/name/passcodeIsSet</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/resetPasscode</TokenIdentifier>
+			<Abstract type="html">Reset the passcode in the keychain.</Abstract>
+			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
+			
+			<Declaration>- (void)resetPasscode</Declaration>
+			
+			
+			<Anchor>//api/name/resetPasscode</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/verifyPasscode:</TokenIdentifier>
+			<Abstract type="html">Verify the passcode.</Abstract>
+			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)verifyPasscode:(NSString *)passcode</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>providerName</Name>
-					<Abstract type="html">The name of the provider to remove.</Abstract>
+					<Name>passcode</Name>
+					<Abstract type="html">The passcode to verify.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the passcode verifies, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/verifyPasscode:</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/changePasscode:</TokenIdentifier>
+			<Abstract type="html">Change the current passcode.  This method serves as an entry point for managing the change
+or removal of a passcode, notifications of the change, etc.  The setPasscode method, by
+comparison, handles the internals of actually setting a new passcode value.</Abstract>
+			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
+			
+			<Declaration>- (void)changePasscode:(NSString *)newPasscode</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>newPasscode</Name>
+					<Abstract type="html">The new passcode to change to.  If nil or empty, this method will unset the
+existing passcode.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/removePasscodeProviderWithName:</Anchor>
+			<Anchor>//api/name/changePasscode:</Anchor>
             <NodeRef refid="74"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFPasscodeProviderManager/resetCurrentPasscodeProviderName</TokenIdentifier>
-			<Abstract type="html">Clears the persisted value for the passcode provider name.</Abstract>
-			<DeclaredIn>SFPasscodeProviderManager+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/setPasscode:</TokenIdentifier>
+			<Abstract type="html">Set the passcode.</Abstract>
+			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
 			
-			<Declaration>+ (void)resetCurrentPasscodeProviderName</Declaration>
+			<Declaration>- (void)setPasscode:(NSString *)newPasscode</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>newPasscode</Name>
+					<Abstract type="html">The passcode to set.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setPasscode:</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/setDelegates:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFPasscodeManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nonnull) NSHashTable&lt;id&lt;SFPasscodeManagerDelegate&gt; &gt; *delegates</Declaration>
 			
 			
-			<Anchor>//api/name/resetCurrentPasscodeProviderName</Anchor>
+			<Anchor>//api/name/delegates</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/delegates</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFPasscodeManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nonnull) NSHashTable&lt;id&lt;SFPasscodeManagerDelegate&gt; &gt; *delegates</Declaration>
+			
+			
+			<Anchor>//api/name/delegates</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPasscodeManager/delegates</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFPasscodeManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nonnull) NSHashTable&lt;id&lt;SFPasscodeManagerDelegate&gt; &gt; *delegates</Declaration>
+			
+			
+			<Anchor>//api/name/delegates</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/enumerateDelegates:</TokenIdentifier>
+			<Abstract type="html">Executes the given block against the set of delegates.</Abstract>
+			<DeclaredIn>SFPasscodeManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)enumerateDelegates:(nullable void ( ^ ) ( id&lt;SFPasscodeManagerDelegate&gt; _Nonnull ))block</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>block</Name>
+					<Abstract type="html">The block to execute against each delegate.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/enumerateDelegates:</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/setEncryptionKey:</TokenIdentifier>
+			<Abstract type="html">Set a value for the encryption key.  Note: this is just the internal setter for
+the encryptionKey property.  I.e. the value you set should be the end-result
+encryption key value.  Call setEncryptionKeyForPasscode if you want validation
+and encryption based on a plain-text passcode value.</Abstract>
+			<DeclaredIn>SFPasscodeManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)setEncryptionKey:(nullable NSString *)newEncryptionKey</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>newEncryptionKey</Name>
+					<Abstract type="html">The new value for the encryption key.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setEncryptionKey:</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/setEncryptionKeyForPasscode:</TokenIdentifier>
+			<Abstract type="html">Set the value of the encryption key, based on the input passcode.  Note: this method
+will not set the encryption key if a verification passcode is not set and valid, in
+the interests of maintaining a consistent passcode state.</Abstract>
+			<DeclaredIn>SFPasscodeManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)setEncryptionKeyForPasscode:(nonnull NSString *)passcode</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>passcode</Name>
+					<Abstract type="html">The passcode to convert into an encryption key.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setEncryptionKeyForPasscode:</Anchor>
             <NodeRef refid="74"/>
 		</Token>
 		

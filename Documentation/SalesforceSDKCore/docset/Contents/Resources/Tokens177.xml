@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/CSFForcePortalType.html">
+	<File path="Constants/CSFForceLayoutComponentType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/CSFForcePortalType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/CSFForceLayoutComponentType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -14,9 +14,9 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForcePortalTypeUnknown</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceLayoutComponentTypeUnknown</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForcePortalTypeUnknown</Declaration>
+            <Declaration>CSFForceLayoutComponentTypeUnknown</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -24,9 +24,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForcePortalTypeNone</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceLayoutComponentTypeEmptySpace</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForcePortalTypeNone</Declaration>
+            <Declaration>CSFForceLayoutComponentTypeEmptySpace</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -34,9 +34,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForcePortalTypeCustomerPortal</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceLayoutComponentTypeField</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForcePortalTypeCustomerPortal</Declaration>
+            <Declaration>CSFForceLayoutComponentTypeField</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -44,9 +44,19 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForcePortalTypePartner</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceLayoutComponentTypeSControl</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForcePortalTypePartner</Declaration>
+            <Declaration>CSFForceLayoutComponentTypeSControl</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="177"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceLayoutComponentTypeSeparator</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceLayoutComponentTypeSeparator</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             

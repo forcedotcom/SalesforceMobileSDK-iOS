@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKResourceUtils.html">
+	<File path="Classes/SFSDKNewLoginHostViewController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKResourceUtils</TokenIdentifier>
-			<Abstract type="html">Class that handles access to Mobile SDK&apos;s main bundle.</Abstract>
-			<DeclaredIn>SFSDKResourceUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKNewLoginHostViewController</TokenIdentifier>
+			<Abstract type="html">View controller that allows the user to enter a new login host that contains
+a host (the server address) and an optional name.</Abstract>
+			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
             
 			
 			<NodeRef refid="94"/>
@@ -13,48 +14,113 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKResourceUtils/mainSdkBundle</TokenIdentifier>
-			<Abstract type="html">The main bundle associated with the SDK.</Abstract>
-			<DeclaredIn>SFSDKResourceUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/setServer:</TokenIdentifier>
+			<Abstract type="html">The server text field</Abstract>
+			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
 			
-			<Declaration>+ (NSBundle *)mainSdkBundle</Declaration>
+			<Declaration>@property (nonatomic, strong) UITextField *server</Declaration>
 			
-			<ReturnValue><Abstract type="html">The main bundle associated with the SDK.</Abstract></ReturnValue>
-			<Anchor>//api/name/mainSdkBundle</Anchor>
+			
+			<Anchor>//api/name/server</Anchor>
             <NodeRef refid="94"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKResourceUtils/localizedString:</TokenIdentifier>
-			<Abstract type="html">Gets a localized string from the main bundle of the SDK.</Abstract>
-			<DeclaredIn>SFSDKResourceUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/server</TokenIdentifier>
+			<Abstract type="html">The server text field</Abstract>
+			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)localizedString:(NSString *)localizationKey</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>localizationKey</Name>
-					<Abstract type="html">The localization key used to look up the localized string.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The localized string associated with the key.</Abstract></ReturnValue>
-			<Anchor>//api/name/localizedString:</Anchor>
+			<Declaration>@property (nonatomic, strong) UITextField *server</Declaration>
+			
+			
+			<Anchor>//api/name/server</Anchor>
             <NodeRef refid="94"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKResourceUtils/imageNamed:</TokenIdentifier>
-			<Abstract type="html">Gets an image from the Images asset catalog from the framework bundle of the SDK</Abstract>
-			<DeclaredIn>SFSDKResourceUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKNewLoginHostViewController/server</TokenIdentifier>
+			<Abstract type="html">The server text field</Abstract>
+			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
 			
-			<Declaration>+ (UIImage *)imageNamed:(NSString *)name</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>name</Name>
-					<Abstract type="html">The name of the image in the asset catalog.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The image from the asset catalog with the provided name.</Abstract></ReturnValue>
-			<Anchor>//api/name/imageNamed:</Anchor>
+			<Declaration>@property (nonatomic, strong) UITextField *server</Declaration>
+			
+			
+			<Anchor>//api/name/server</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/setName:</TokenIdentifier>
+			<Abstract type="html">The name text field</Abstract>
+			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UITextField *name</Declaration>
+			
+			
+			<Anchor>//api/name/name</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/name</TokenIdentifier>
+			<Abstract type="html">The name text field</Abstract>
+			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UITextField *name</Declaration>
+			
+			
+			<Anchor>//api/name/name</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKNewLoginHostViewController/name</TokenIdentifier>
+			<Abstract type="html">The name text field</Abstract>
+			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UITextField *name</Declaration>
+			
+			
+			<Anchor>//api/name/name</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/setLoginHostListViewController:</TokenIdentifier>
+			<Abstract type="html">A reference to the login host list view controller used to add the host to the list of login hosts
+and to also properly resize the popover controller.</Abstract>
+			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) SFSDKLoginHostListViewController *loginHostListViewController</Declaration>
+			
+			
+			<Anchor>//api/name/loginHostListViewController</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/loginHostListViewController</TokenIdentifier>
+			<Abstract type="html">A reference to the login host list view controller used to add the host to the list of login hosts
+and to also properly resize the popover controller.</Abstract>
+			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) SFSDKLoginHostListViewController *loginHostListViewController</Declaration>
+			
+			
+			<Anchor>//api/name/loginHostListViewController</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKNewLoginHostViewController/loginHostListViewController</TokenIdentifier>
+			<Abstract type="html">A reference to the login host list view controller used to add the host to the list of login hosts
+and to also properly resize the popover controller.</Abstract>
+			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) SFSDKLoginHostListViewController *loginHostListViewController</Declaration>
+			
+			
+			<Anchor>//api/name/loginHostListViewController</Anchor>
             <NodeRef refid="94"/>
 		</Token>
 		

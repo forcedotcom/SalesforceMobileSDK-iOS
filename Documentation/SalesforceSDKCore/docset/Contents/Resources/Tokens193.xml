@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFCryptoMode.html">
+	<File path="Constants/SFAccountManagerServiceType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFCryptoMode</TokenIdentifier>
-			<Abstract type="html">This class is responsible for encrypting and decrypting the content data for chatter.</Abstract>
-			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFAccountManagerServiceType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
             
 			
 			<NodeRef refid="193"/>
@@ -14,21 +14,31 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFCryptoModeInMemory</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFAccountManagerServiceTypeNone</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFCryptoModeInMemory</Declaration>
+            <Declaration>SFAccountManagerServiceTypeNone</Declaration>
             
-            <DeclaredIn>SFCrypto.h</DeclaredIn>
+            <DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
             
             <NodeRef refid="193"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFCryptoModeDisk</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFAccountManagerServiceTypeOAuth</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFCryptoModeDisk</Declaration>
+            <Declaration>SFAccountManagerServiceTypeOAuth</Declaration>
             
-            <DeclaredIn>SFCrypto.h</DeclaredIn>
+            <DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+            
+            <NodeRef refid="193"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFAccountManagerServiceTypeIdentity</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFAccountManagerServiceTypeIdentity</Declaration>
+            
+            <DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
             
             <NodeRef refid="193"/>
         </Token>

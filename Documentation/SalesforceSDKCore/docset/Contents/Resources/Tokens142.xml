@@ -1,28 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSUserDefaults+SFAdditions.html">
+	<File path="Categories/NSURL+ActionValue.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSUserDefaults(SFAdditions)</TokenIdentifier>
-			<Abstract type="html">Salesforce Mobile SDK additions to the NSUserDefaults class</Abstract>
-			<DeclaredIn>NSUserDefaults+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSURL(ActionValue)</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>NSURL+ActionValue.h</DeclaredIn>
             
 			
 			<NodeRef refid="142"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSUserDefaults/msdkUserDefaults</TokenIdentifier>
-			<Abstract type="html">Convenience method that returns either private or shared NSUserDefaults</Abstract>
-			<DeclaredIn>NSUserDefaults+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>+ (NSUserDefaults *)msdkUserDefaults</Declaration>
-			
-			<ReturnValue><Abstract type="html">NSUserdefaults standardUserDefaults or app group specific userDefaults</Abstract></ReturnValue>
-			<Anchor>//api/name/msdkUserDefaults</Anchor>
-            <NodeRef refid="142"/>
-		</Token>
 		
         
         

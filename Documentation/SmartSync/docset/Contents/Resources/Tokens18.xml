@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSyncOptions.html">
+	<File path="Classes/SFSmartSyncPersistableObject.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSyncOptions</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSmartSyncPersistableObject</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
+			<DeclaredIn>SFSmartSyncPersistableObject.h</DeclaredIn>
             
 			
 			<NodeRef refid="18"/>
@@ -13,134 +13,98 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncOptions/setFieldlist:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPersistableObject/setRawData:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
+			<DeclaredIn>SFSmartSyncPersistableObject.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSArray *fieldlist</Declaration>
+			<Declaration>@property (nonatomic, strong) NSDictionary *rawData</Declaration>
 			
 			
-			<Anchor>//api/name/fieldlist</Anchor>
+			<Anchor>//api/name/rawData</Anchor>
             <NodeRef refid="18"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncOptions/fieldlist</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPersistableObject/rawData</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
+			<DeclaredIn>SFSmartSyncPersistableObject.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSArray *fieldlist</Declaration>
+			<Declaration>@property (nonatomic, strong) NSDictionary *rawData</Declaration>
 			
 			
-			<Anchor>//api/name/fieldlist</Anchor>
+			<Anchor>//api/name/rawData</Anchor>
             <NodeRef refid="18"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSyncOptions/fieldlist</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSmartSyncPersistableObject/rawData</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
+			<DeclaredIn>SFSmartSyncPersistableObject.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSArray *fieldlist</Declaration>
+			<Declaration>@property (nonatomic, strong) NSDictionary *rawData</Declaration>
 			
 			
-			<Anchor>//api/name/fieldlist</Anchor>
+			<Anchor>//api/name/rawData</Anchor>
             <NodeRef refid="18"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncOptions/setMergeMode:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPersistableObject/setObjectType:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
+			<DeclaredIn>SFSmartSyncPersistableObject+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) SFSyncStateMergeMode mergeMode</Declaration>
+			<Declaration>@property (nonatomic, readonly, copy) NSString *objectType</Declaration>
 			
 			
-			<Anchor>//api/name/mergeMode</Anchor>
+			<Anchor>//api/name/objectType</Anchor>
             <NodeRef refid="18"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncOptions/mergeMode</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPersistableObject/objectType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
+			<DeclaredIn>SFSmartSyncPersistableObject+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) SFSyncStateMergeMode mergeMode</Declaration>
+			<Declaration>@property (nonatomic, readonly, copy) NSString *objectType</Declaration>
 			
 			
-			<Anchor>//api/name/mergeMode</Anchor>
+			<Anchor>//api/name/objectType</Anchor>
             <NodeRef refid="18"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSyncOptions/mergeMode</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSmartSyncPersistableObject/objectType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
+			<DeclaredIn>SFSmartSyncPersistableObject+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) SFSyncStateMergeMode mergeMode</Declaration>
+			<Declaration>@property (nonatomic, readonly, copy) NSString *objectType</Declaration>
 			
 			
-			<Anchor>//api/name/mergeMode</Anchor>
+			<Anchor>//api/name/objectType</Anchor>
             <NodeRef refid="18"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncOptions/newSyncOptionsForSyncDown:</TokenIdentifier>
-			<Abstract type="html">Factory methods</Abstract>
-			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
-			
-			<Declaration>+ (SFSyncOptions *)newSyncOptionsForSyncDown:(SFSyncStateMergeMode)mergeMode</Declaration>
-			
-			
-			<Anchor>//api/name/newSyncOptionsForSyncDown:</Anchor>
-            <NodeRef refid="18"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncOptions/newSyncOptionsForSyncUp:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPersistableObject/initWithDictionary:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
+			<DeclaredIn>SFSmartSyncPersistableObject.h</DeclaredIn>
 			
-			<Declaration>+ (SFSyncOptions *)newSyncOptionsForSyncUp:(NSArray *)fieldlist</Declaration>
+			<Declaration>- (id)initWithDictionary:(NSDictionary *)data</Declaration>
 			
 			
-			<Anchor>//api/name/newSyncOptionsForSyncUp:</Anchor>
+			<Anchor>//api/name/initWithDictionary:</Anchor>
             <NodeRef refid="18"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncOptions/newSyncOptionsForSyncUp:mergeMode:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPersistableObject/initWithDictionary:forObjectType:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
+			<DeclaredIn>SFSmartSyncPersistableObject.h</DeclaredIn>
 			
-			<Declaration>+ (SFSyncOptions *)newSyncOptionsForSyncUp:(NSArray *)fieldlist mergeMode:(SFSyncStateMergeMode)mergeMode</Declaration>
-			
-			
-			<Anchor>//api/name/newSyncOptionsForSyncUp:mergeMode:</Anchor>
-            <NodeRef refid="18"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncOptions/newFromDict:</TokenIdentifier>
-			<Abstract type="html">Methods to translate to/from dictionary</Abstract>
-			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
-			
-			<Declaration>+ (SFSyncOptions *)newFromDict:(NSDictionary *)dict</Declaration>
+			<Declaration>- (id)initWithDictionary:(NSDictionary *)data forObjectType:(NSString *)objectType</Declaration>
 			
 			
-			<Anchor>//api/name/newFromDict:</Anchor>
-            <NodeRef refid="18"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncOptions/asDict</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
-			
-			<Declaration>- (NSDictionary *)asDict</Declaration>
-			
-			
-			<Anchor>//api/name/asDict</Anchor>
+			<Anchor>//api/name/initWithDictionary:forObjectType:</Anchor>
             <NodeRef refid="18"/>
 		</Token>
 		

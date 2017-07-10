@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSoqlSyncDownTarget.html">
+	<File path="Classes/SFSmartSyncCacheManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSoqlSyncDownTarget</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSoqlSyncDownTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSmartSyncCacheManager</TokenIdentifier>
+			<Abstract type="html">This class acts as a simple cache to store and retrieve data.</Abstract>
+			<DeclaredIn>SFSmartSyncCacheManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="14"/>
@@ -13,67 +13,160 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSoqlSyncDownTarget/setQuery:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSoqlSyncDownTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncCacheManager/sharedInstance:</TokenIdentifier>
+			<Abstract type="html">Singleton method for accessing cache manager instance.</Abstract>
+			<DeclaredIn>SFSmartSyncCacheManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *query</Declaration>
-			
-			
-			<Anchor>//api/name/query</Anchor>
-            <NodeRef refid="14"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSoqlSyncDownTarget/query</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSoqlSyncDownTarget.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *query</Declaration>
-			
-			
-			<Anchor>//api/name/query</Anchor>
-            <NodeRef refid="14"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSoqlSyncDownTarget/query</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSoqlSyncDownTarget.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *query</Declaration>
-			
-			
-			<Anchor>//api/name/query</Anchor>
-            <NodeRef refid="14"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSoqlSyncDownTarget/newSyncTarget:</TokenIdentifier>
-			<Abstract type="html">Factory methods</Abstract>
-			<DeclaredIn>SFSoqlSyncDownTarget.h</DeclaredIn>
-			
-			<Declaration>+ (SFSoqlSyncDownTarget *)newSyncTarget:(NSString *)query</Declaration>
-			
-			
-			<Anchor>//api/name/newSyncTarget:</Anchor>
-            <NodeRef refid="14"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSoqlSyncDownTarget/getQueryToRun:</TokenIdentifier>
-			<Abstract type="html">max time stamp to use in query (can be 0)</Abstract>
-			<DeclaredIn>SFSoqlSyncDownTarget.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)getQueryToRun:(long long)maxTimeStamp</Declaration>
+			<Declaration>+ (id)sharedInstance:(SFUserAccount *)user</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>maxTimeStamp</Name>
-					<Abstract type="html">max time stamp to use in query (can be 0)</Abstract>
+					<Name>user</Name>
+					<Abstract type="html">A user that will scope this manager instance data</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">query to run taking into account max time stamp</Abstract></ReturnValue>
-			<Anchor>//api/name/getQueryToRun:</Anchor>
+			
+			<Anchor>//api/name/sharedInstance:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncCacheManager/removeSharedInstance:</TokenIdentifier>
+			<Abstract type="html">Removes the shared instance associated with the specified user</Abstract>
+			<DeclaredIn>SFSmartSyncCacheManager.h</DeclaredIn>
+			
+			<Declaration>+ (void)removeSharedInstance:(SFUserAccount *)user</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>user</Name>
+					<Abstract type="html">The user</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/removeSharedInstance:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncCacheManager/setEnableInMemoryCache:</TokenIdentifier>
+			<Abstract type="html">Enable in memory cache. Default value is YES
+@enableInMemoryCache YES to enable in memory cache</Abstract>
+			<DeclaredIn>SFSmartSyncCacheManager.h</DeclaredIn>
+			
+			<Declaration>- (void)setEnableInMemoryCache:(BOOL)enableInMemoryCache</Declaration>
+			
+			
+			<Anchor>//api/name/setEnableInMemoryCache:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncCacheManager/cleanCache</TokenIdentifier>
+			<Abstract type="html">Clean cache</Abstract>
+			<DeclaredIn>SFSmartSyncCacheManager.h</DeclaredIn>
+			
+			<Declaration>- (void)cleanCache</Declaration>
+			
+			
+			<Anchor>//api/name/cleanCache</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncCacheManager/removeCache:cacheKey:</TokenIdentifier>
+			<Abstract type="html">Remove data from cache</Abstract>
+			<DeclaredIn>SFSmartSyncCacheManager.h</DeclaredIn>
+			
+			<Declaration>- (void)removeCache:(NSString *)cacheType cacheKey:(NSString *)cacheKey</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cacheType</Name>
+					<Abstract type="html">Cache type</Abstract>
+				</Parameter><Parameter>
+					<Name>cacheKey</Name>
+					<Abstract type="html">Key to use to retrieve cached data</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/removeCache:cacheKey:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncCacheManager/needToReloadCache:cachePolicy:lastCachedTime:refreshIfOlderThan:</TokenIdentifier>
+			<Abstract type="html">Reurn YES if need to reload cache.
+Before calling this method, user should use [SFSmartSyncCacheManager readDataWithCacheType:cacheKey:cachePolicy:encrypted:cachedTime] to find out whether cache exists or not and what is the last time cache is updated</Abstract>
+			<DeclaredIn>SFSmartSyncCacheManager.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)needToReloadCache:(BOOL)cacheExists cachePolicy:(SFDataCachePolicy)cachePolicy lastCachedTime:(NSDate *)cacheTime refreshIfOlderThan:(NSTimeInterval)refreshIfOlderThan</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cacheExists</Name>
+					<Abstract type="html">YES if cache already exists.</Abstract>
+				</Parameter><Parameter>
+					<Name>cachePolicy</Name>
+					<Abstract type="html">SFDataCachePolicy used to decide</Abstract>
+				</Parameter><Parameter>
+					<Name>cacheTime</Name>
+					<Abstract type="html">Last time cache is updated</Abstract>
+				</Parameter><Parameter>
+					<Name>refreshIfOlderThan</Name>
+					<Abstract type="html">Number of secconds that has to pass in order to refresh cache. Pass any value that is &lt;=0 if you don&apos;t want cache to be refrefreshed. This value is used together with cachePolicy to determine if cache needs reload or not</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/needToReloadCache:cachePolicy:lastCachedTime:refreshIfOlderThan:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncCacheManager/readDataWithCacheType:cacheKey:cachePolicy:objectClass:cachedTime:</TokenIdentifier>
+			<Abstract type="html">Read data from cache.</Abstract>
+			<DeclaredIn>SFSmartSyncCacheManager.h</DeclaredIn>
+			
+			<Declaration>- (NSArray *)readDataWithCacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey cachePolicy:(SFDataCachePolicy)cachePolicy objectClass:(Class)objectClass cachedTime:(out NSDate **)lastCachedTime</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cacheType</Name>
+					<Abstract type="html">Cache type</Abstract>
+				</Parameter><Parameter>
+					<Name>cacheKey</Name>
+					<Abstract type="html">Key to use to retrieve cached data</Abstract>
+				</Parameter><Parameter>
+					<Name>cachePolicy</Name>
+					<Abstract type="html">See SFDataCachePolicy</Abstract>
+				</Parameter><Parameter>
+					<Name>objectClass</Name>
+					<Abstract type="html">Object class to expect</Abstract>
+				</Parameter><Parameter>
+					<Name>lastCachedTime</Name>
+					<Abstract type="html">Return time the data was last updated in cache</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/readDataWithCacheType:cacheKey:cachePolicy:objectClass:cachedTime:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncCacheManager/writeDataToCache:cacheType:cacheKey:</TokenIdentifier>
+			<Abstract type="html">Write data to cache.</Abstract>
+			<DeclaredIn>SFSmartSyncCacheManager.h</DeclaredIn>
+			
+			<Declaration>- (void)writeDataToCache:(id)data cacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>data</Name>
+					<Abstract type="html">Data to cache</Abstract>
+				</Parameter><Parameter>
+					<Name>cacheType</Name>
+					<Abstract type="html">Cache type</Abstract>
+				</Parameter><Parameter>
+					<Name>cacheKey</Name>
+					<Abstract type="html">Key to save cached data</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/writeDataToCache:cacheType:cacheKey:</Anchor>
             <NodeRef refid="14"/>
 		</Token>
 		

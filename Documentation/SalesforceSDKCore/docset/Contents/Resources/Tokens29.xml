@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFAuthenticationViewHandler.html">
+	<File path="Classes/SFAuthenticationSafariControllerHandler.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFAuthenticationViewHandler</TokenIdentifier>
-			<Abstract type="html">Class encompassing the custom actions to take when displaying and dismissing an auth view during the auth process.</Abstract>
-			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFAuthenticationSafariControllerHandler</TokenIdentifier>
+			<Abstract type="html">Class encompassing the custom action to take when presenting an auth safari controller during the auth process.</Abstract>
+			<DeclaredIn>SFAuthenticationSafariControllerHandler.h</DeclaredIn>
             
 			
 			<NodeRef refid="29"/>
@@ -13,94 +13,55 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationViewHandler/setAuthViewDisplayBlock:</TokenIdentifier>
-			<Abstract type="html">The block used to display the auth view.</Abstract>
-			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationSafariControllerHandler/setAuthSafariControllerPresentBlock:</TokenIdentifier>
+			<Abstract type="html">The block used to present the auth safari controller.</Abstract>
+			<DeclaredIn>SFAuthenticationSafariControllerHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFAuthViewDisplayBlock authViewDisplayBlock</Declaration>
+			<Declaration>@property (nonatomic, copy) SFAuthSafariControllerPresentBlock authSafariControllerPresentBlock</Declaration>
 			
 			
-			<Anchor>//api/name/authViewDisplayBlock</Anchor>
+			<Anchor>//api/name/authSafariControllerPresentBlock</Anchor>
             <NodeRef refid="29"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationViewHandler/authViewDisplayBlock</TokenIdentifier>
-			<Abstract type="html">The block used to display the auth view.</Abstract>
-			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationSafariControllerHandler/authSafariControllerPresentBlock</TokenIdentifier>
+			<Abstract type="html">The block used to present the auth safari controller.</Abstract>
+			<DeclaredIn>SFAuthenticationSafariControllerHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFAuthViewDisplayBlock authViewDisplayBlock</Declaration>
+			<Declaration>@property (nonatomic, copy) SFAuthSafariControllerPresentBlock authSafariControllerPresentBlock</Declaration>
 			
 			
-			<Anchor>//api/name/authViewDisplayBlock</Anchor>
+			<Anchor>//api/name/authSafariControllerPresentBlock</Anchor>
             <NodeRef refid="29"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationViewHandler/authViewDisplayBlock</TokenIdentifier>
-			<Abstract type="html">The block used to display the auth view.</Abstract>
-			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationSafariControllerHandler/authSafariControllerPresentBlock</TokenIdentifier>
+			<Abstract type="html">The block used to present the auth safari controller.</Abstract>
+			<DeclaredIn>SFAuthenticationSafariControllerHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFAuthViewDisplayBlock authViewDisplayBlock</Declaration>
+			<Declaration>@property (nonatomic, copy) SFAuthSafariControllerPresentBlock authSafariControllerPresentBlock</Declaration>
 			
 			
-			<Anchor>//api/name/authViewDisplayBlock</Anchor>
+			<Anchor>//api/name/authSafariControllerPresentBlock</Anchor>
             <NodeRef refid="29"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationViewHandler/setAuthViewDismissBlock:</TokenIdentifier>
-			<Abstract type="html">The block used to dismiss the auth view.</Abstract>
-			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) SFAuthViewDismissBlock authViewDismissBlock</Declaration>
-			
-			
-			<Anchor>//api/name/authViewDismissBlock</Anchor>
-            <NodeRef refid="29"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationViewHandler/authViewDismissBlock</TokenIdentifier>
-			<Abstract type="html">The block used to dismiss the auth view.</Abstract>
-			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) SFAuthViewDismissBlock authViewDismissBlock</Declaration>
-			
-			
-			<Anchor>//api/name/authViewDismissBlock</Anchor>
-            <NodeRef refid="29"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationViewHandler/authViewDismissBlock</TokenIdentifier>
-			<Abstract type="html">The block used to dismiss the auth view.</Abstract>
-			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) SFAuthViewDismissBlock authViewDismissBlock</Declaration>
-			
-			
-			<Anchor>//api/name/authViewDismissBlock</Anchor>
-            <NodeRef refid="29"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationViewHandler/initWithDisplayBlock:dismissBlock:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationSafariControllerHandler/initWithPresentBlock:</TokenIdentifier>
 			<Abstract type="html">Designated initializer for the class.</Abstract>
-			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
+			<DeclaredIn>SFAuthenticationSafariControllerHandler.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithDisplayBlock:(SFAuthViewDisplayBlock)displayBlock dismissBlock:(SFAuthViewDismissBlock)dismissBlock</Declaration>
+			<Declaration>- (id)initWithPresentBlock:(SFAuthSafariControllerPresentBlock)presentBlock</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>displayBlock</Name>
-					<Abstract type="html">The block used to display the auth view.</Abstract>
-				</Parameter><Parameter>
-					<Name>dismissBlock</Name>
-					<Abstract type="html">The block used to dismiss the auth view.</Abstract>
+					<Name>presentBlock</Name>
+					<Abstract type="html">The block used to present the auth safari controller.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/initWithDisplayBlock:dismissBlock:</Anchor>
+			<Anchor>//api/name/initWithPresentBlock:</Anchor>
             <NodeRef refid="29"/>
 		</Token>
 		

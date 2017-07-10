@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSObject+SFLogging.html">
+	<File path="Categories/NSMutableURLRequest+SalesforceNetwork.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSObject(SFLogging)</TokenIdentifier>
-			<Abstract type="html">Allows your class to log messages specific to that class.
-You should be able to use this 99% of the time.</Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSMutableURLRequest(SalesforceNetwork)</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>NSMutableURLRequest+SalesforceNetwork.h</DeclaredIn>
             
 			
 			<NodeRef refid="137"/>
@@ -14,130 +13,22 @@ You should be able to use this 99% of the time.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSObject/loggingIdentifier</TokenIdentifier>
-			<Abstract type="html">Default logging identifier to use when none is supplied</Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSMutableURLRequest/bindParameters:error:</TokenIdentifier>
+			<Abstract type="html">Binds the supplied parameters to the receiver.</Abstract>
+			<DeclaredIn>NSMutableURLRequest+SalesforceNetwork.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)loggingIdentifier</Declaration>
-			
-			<ReturnValue><Abstract type="html">Logging identifier string, or nil for default.</Abstract></ReturnValue>
-			<Anchor>//api/name/loggingIdentifier</Anchor>
-            <NodeRef refid="137"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSObject/log:msg:</TokenIdentifier>
-			<Abstract type="html">Logs a message with the given level.</Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>- (void)log:(SFLogLevel)level msg:(NSString *)msg</Declaration>
+			<Declaration>- (BOOL)bindParameters:(CSFParameterStorage *)parameterStorage error:(NSError **)error</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>level</Name>
-					<Abstract type="html">The minimum log level to observe.</Abstract>
+					<Name>parameterStorage</Name>
+					<Abstract type="html">Parameter storage to bind.</Abstract>
 				</Parameter><Parameter>
-					<Name>msg</Name>
-					<Abstract type="html">The message to log.</Abstract>
+					<Name>error</Name>
+					<Abstract type="html">Error value if something went wrong.</Abstract>
 				</Parameter>
 			</Parameters>
-			
-			<Anchor>//api/name/log:msg:</Anchor>
-            <NodeRef refid="137"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSObject/log:format:</TokenIdentifier>
-			<Abstract type="html">Logs a formatted message with the given log level and format parameters.</Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>- (void)log:(SFLogLevel)level format:(NSString *)format, ...</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>level</Name>
-					<Abstract type="html">The minimum log level to log at.</Abstract>
-				</Parameter><Parameter>
-					<Name>format</Name>
-					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
-				</Parameter><Parameter>
-					<Name>...</Name>
-					<Abstract type="html">The arguments to the message format string.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/log:format:</Anchor>
-            <NodeRef refid="137"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSObject/log:identifier:msg:</TokenIdentifier>
-			<Abstract type="html">Log method with the addition of context.</Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>- (void)log:(SFLogLevel)level identifier:(NSString *)logIdentifier msg:(NSString *)msg</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>level</Name>
-					<Abstract type="html">The minimum log level to observe.</Abstract>
-				</Parameter><Parameter>
-					<Name>logIdentifier</Name>
-					<Abstract type="html">Identifier to use when scoping the context of this log message.</Abstract>
-				</Parameter><Parameter>
-					<Name>msg</Name>
-					<Abstract type="html">The format message.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/log:identifier:msg:</Anchor>
-            <NodeRef refid="137"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSObject/log:identifier:format:</TokenIdentifier>
-			<Abstract type="html">Log method with the addition of context</Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>- (void)log:(SFLogLevel)level identifier:(NSString *)logIdentifier format:(NSString *)format, ...</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>level</Name>
-					<Abstract type="html">The minimum log level to observe.</Abstract>
-				</Parameter><Parameter>
-					<Name>logIdentifier</Name>
-					<Abstract type="html">Identifier to use when scoping the context of this log message.</Abstract>
-				</Parameter><Parameter>
-					<Name>format</Name>
-					<Abstract type="html">The format message.</Abstract>
-				</Parameter><Parameter>
-					<Name>...</Name>
-					<Abstract type="html">Optional arguments for the message format string.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/log:identifier:format:</Anchor>
-            <NodeRef refid="137"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSObject/log:context:msg:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>- (void)log:(SFLogLevel)level context:(SFLogContext)logContext msg:(NSString *)msg</Declaration>
-			
-			
-			<Anchor>//api/name/log:context:msg:</Anchor>
-            <NodeRef refid="137"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSObject/log:context:format:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogger.h</DeclaredIn>
-			
-			<Declaration>- (void)log:(SFLogLevel)level context:(SFLogContext)logContext format:(NSString *)format, ...</Declaration>
-			
-			
-			<Anchor>//api/name/log:context:format:</Anchor>
+			<ReturnValue><Abstract type="html">YES if binding the parameters was successful, otherwise NO.</Abstract></ReturnValue>
+			<Anchor>//api/name/bindParameters:error:</Anchor>
             <NodeRef refid="137"/>
 		</Token>
 		

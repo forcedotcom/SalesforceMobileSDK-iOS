@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKInfoPlugin.html">
+	<File path="Classes/SFSDKHybridLogger.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKInfoPlugin</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKHybridLogger</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKInfoPlugin.h</DeclaredIn>
+			<DeclaredIn>SFSDKHybridLogger.h</DeclaredIn>
             
 			
 			<NodeRef refid="12"/>
@@ -13,38 +13,146 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInfoPlugin/getInfo:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKInfoPlugin.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKHybridLogger/curLogLevel</TokenIdentifier>
+			<Abstract type="html">Returns current log level used by this logger.</Abstract>
+			<DeclaredIn>SFSDKHybridLogger.h</DeclaredIn>
 			
-			<Declaration>- (void)getInfo:(CDVInvokedUrlCommand *)command</Declaration>
+			<Declaration>+ (DDLogLevel)curLogLevel</Declaration>
 			
-			
-			<Anchor>//api/name/getInfo:</Anchor>
+			<ReturnValue><Abstract type="html">Current log level.</Abstract></ReturnValue>
+			<Anchor>//api/name/curLogLevel</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInfoPlugin/registerAppFeature:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKInfoPlugin.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKHybridLogger/setLogLevel:</TokenIdentifier>
+			<Abstract type="html">Sets log level to be used by this logger.</Abstract>
+			<DeclaredIn>SFSDKHybridLogger.h</DeclaredIn>
 			
-			<Declaration>- (void)registerAppFeature:(CDVInvokedUrlCommand *)command</Declaration>
+			<Declaration>+ (void)setLogLevel:(DDLogLevel)logLevel</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>logLevel</Name>
+					<Abstract type="html">Log level.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/registerAppFeature:</Anchor>
+			<Anchor>//api/name/setLogLevel:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInfoPlugin/unregisterAppFeature:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKInfoPlugin.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKHybridLogger/e:format:</TokenIdentifier>
+			<Abstract type="html">Logs an error log line.</Abstract>
+			<DeclaredIn>SFSDKHybridLogger.h</DeclaredIn>
 			
-			<Declaration>- (void)unregisterAppFeature:(CDVInvokedUrlCommand *)command</Declaration>
+			<Declaration>+ (void)e:(nonnull Class)class format:(nonnull NSString *)format, ...</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>class</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>format</Name>
+					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
+				</Parameter><Parameter>
+					<Name>...</Name>
+					<Abstract type="html">The arguments to the message format string.</Abstract>
+				</Parameter>
+			</Parameters>
 			
+			<Anchor>//api/name/e:format:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKHybridLogger/w:format:</TokenIdentifier>
+			<Abstract type="html">Logs a warning log line.</Abstract>
+			<DeclaredIn>SFSDKHybridLogger.h</DeclaredIn>
 			
-			<Anchor>//api/name/unregisterAppFeature:</Anchor>
+			<Declaration>+ (void)w:(nonnull Class)class format:(nonnull NSString *)format, ...</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>class</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>format</Name>
+					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
+				</Parameter><Parameter>
+					<Name>...</Name>
+					<Abstract type="html">The arguments to the message format string.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/w:format:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKHybridLogger/i:format:</TokenIdentifier>
+			<Abstract type="html">Logs an info log line.</Abstract>
+			<DeclaredIn>SFSDKHybridLogger.h</DeclaredIn>
+			
+			<Declaration>+ (void)i:(nonnull Class)class format:(nonnull NSString *)format, ...</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>class</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>format</Name>
+					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
+				</Parameter><Parameter>
+					<Name>...</Name>
+					<Abstract type="html">The arguments to the message format string.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/i:format:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKHybridLogger/v:format:</TokenIdentifier>
+			<Abstract type="html">Logs a verbose log line.</Abstract>
+			<DeclaredIn>SFSDKHybridLogger.h</DeclaredIn>
+			
+			<Declaration>+ (void)v:(nonnull Class)class format:(nonnull NSString *)format, ...</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>class</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>format</Name>
+					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
+				</Parameter><Parameter>
+					<Name>...</Name>
+					<Abstract type="html">The arguments to the message format string.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/v:format:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKHybridLogger/d:format:</TokenIdentifier>
+			<Abstract type="html">Logs a debug log line.</Abstract>
+			<DeclaredIn>SFSDKHybridLogger.h</DeclaredIn>
+			
+			<Declaration>+ (void)d:(nonnull Class)class format:(nonnull NSString *)format, ...</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>class</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>format</Name>
+					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
+				</Parameter><Parameter>
+					<Name>...</Name>
+					<Abstract type="html">The arguments to the message format string.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/d:format:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		

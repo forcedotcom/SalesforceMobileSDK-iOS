@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSecurityLockoutAction.html">
+	<File path="Constants/SFRestMethod.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSecurityLockoutAction</TokenIdentifier>
-			<Abstract type="html">The action that was taken as the result of calling into the security lockout functionality.
-Note: This value should denote the action actually taken, as opposed to an expected action
-going in.  Callbacks will use this value to determine what action took place.</Abstract>
-			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFRestMethod</TokenIdentifier>
+			<Abstract type="html">HTTP methods for requests</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
             
 			
 			<NodeRef refid="213"/>
@@ -16,56 +14,61 @@ going in.  Callbacks will use this value to determine what action took place.</A
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSecurityLockoutActionNone</TokenIdentifier>
-            <Abstract type="html">     No action taken
-     </Abstract>
-            <Declaration>SFSecurityLockoutActionNone</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodGET</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFRestMethodGET</Declaration>
             
-            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
-            
-            <NodeRef refid="213"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSecurityLockoutActionPasscodeCreated</TokenIdentifier>
-            <Abstract type="html">     Passcode creation functionality was called.
-     </Abstract>
-            <Declaration>SFSecurityLockoutActionPasscodeCreated</Declaration>
-            
-            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
             
             <NodeRef refid="213"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSecurityLockoutActionPasscodeChanged</TokenIdentifier>
-            <Abstract type="html">     Passcode change functionality was called.
-     </Abstract>
-            <Declaration>SFSecurityLockoutActionPasscodeChanged</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodPOST</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFRestMethodPOST</Declaration>
             
-            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
-            
-            <NodeRef refid="213"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSecurityLockoutActionPasscodeVerified</TokenIdentifier>
-            <Abstract type="html">     Passcode verification functionality was called.
-     </Abstract>
-            <Declaration>SFSecurityLockoutActionPasscodeVerified</Declaration>
-            
-            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
             
             <NodeRef refid="213"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSecurityLockoutActionPasscodeRemoved</TokenIdentifier>
-            <Abstract type="html">     Passcode removal functionality was called.
-     </Abstract>
-            <Declaration>SFSecurityLockoutActionPasscodeRemoved</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodPUT</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFRestMethodPUT</Declaration>
             
-            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
+            
+            <NodeRef refid="213"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodDELETE</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFRestMethodDELETE</Declaration>
+            
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
+            
+            <NodeRef refid="213"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodHEAD</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFRestMethodHEAD</Declaration>
+            
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
+            
+            <NodeRef refid="213"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodPATCH</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFRestMethodPATCH</Declaration>
+            
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
             
             <NodeRef refid="213"/>
         </Token>

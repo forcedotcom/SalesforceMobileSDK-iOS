@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFLogStorage.html">
+	<File path="Protocols/SFCryptChunksDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFLogStorage</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogStorage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFCryptChunksDelegate</TokenIdentifier>
+			<Abstract type="html">SFCryptChunksDelegate</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
             
 			
 			<NodeRef refid="156"/>
@@ -13,98 +13,26 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFLogStorage/setAllLoggers:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogStorage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFCryptChunksDelegate/cryptChunk:chunkResult:bufferLen:</TokenIdentifier>
+			<Abstract type="html">Encrypted / Decrypted chunk results.
+This method may be invoked none to multiple times - until all result is informed to delegate.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSArray&lt;id&lt;DDLogger&gt; &gt; *allLoggers</Declaration>
+			<Declaration>- (void)cryptChunk:(SFCryptChunks *)cryptChunks chunkResult:(uint8_t *)buffer bufferLen:(size_t)len</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cryptChunks</Name>
+					<Abstract type="html">the instance sending this message.</Abstract>
+				</Parameter><Parameter>
+					<Name>buffer</Name>
+					<Abstract type="html">the chunk results buffer.</Abstract>
+				</Parameter><Parameter>
+					<Name>len</Name>
+					<Abstract type="html">the chunk results buffer length.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/allLoggers</Anchor>
-            <NodeRef refid="156"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFLogStorage/allLoggers</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogStorage.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSArray&lt;id&lt;DDLogger&gt; &gt; *allLoggers</Declaration>
-			
-			
-			<Anchor>//api/name/allLoggers</Anchor>
-            <NodeRef refid="156"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/SFLogStorage/allLoggers</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogStorage.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSArray&lt;id&lt;DDLogger&gt; &gt; *allLoggers</Declaration>
-			
-			
-			<Anchor>//api/name/allLoggers</Anchor>
-            <NodeRef refid="156"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFLogStorage/flushLog</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogStorage.h</DeclaredIn>
-			
-			<Declaration>- (void)flushLog</Declaration>
-			
-			
-			<Anchor>//api/name/flushLog</Anchor>
-            <NodeRef refid="156"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFLogStorage/addLogger:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogStorage.h</DeclaredIn>
-			
-			<Declaration>- (void)addLogger:(id&lt;DDLogger&gt;)logger</Declaration>
-			
-			
-			<Anchor>//api/name/addLogger:</Anchor>
-            <NodeRef refid="156"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFLogStorage/removeLogger:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogStorage.h</DeclaredIn>
-			
-			<Declaration>- (void)removeLogger:(id&lt;DDLogger&gt;)logger</Declaration>
-			
-			
-			<Anchor>//api/name/removeLogger:</Anchor>
-            <NodeRef refid="156"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFLogStorage/removeAllLoggers</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogStorage.h</DeclaredIn>
-			
-			<Declaration>- (void)removeAllLoggers</Declaration>
-			
-			
-			<Anchor>//api/name/removeAllLoggers</Anchor>
-            <NodeRef refid="156"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFLogStorage/log:message:level:flag:context:file:function:line:tag:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogStorage.h</DeclaredIn>
-			
-			<Declaration>- (void)log:(BOOL)asynchronous message:(NSString *)message level:(DDLogLevel)level flag:(DDLogFlag)flag context:(NSInteger)context file:(const char *)file function:(const char *)function line:(NSUInteger)line tag:(id)tag</Declaration>
-			
-			
-			<Anchor>//api/name/log:message:level:flag:context:file:function:line:tag:</Anchor>
+			<Anchor>//api/name/cryptChunk:chunkResult:bufferLen:</Anchor>
             <NodeRef refid="156"/>
 		</Token>
 		

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFCryptChunksDelegate.html">
+	<File path="Protocols/CSFNetworkOutputCache.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFCryptChunksDelegate</TokenIdentifier>
-			<Abstract type="html">SFCryptChunksDelegate</Abstract>
-			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/CSFNetworkOutputCache</TokenIdentifier>
+			<Abstract type="html">Protocol description that allows arbitrary classes to define caching behavior for network output.</Abstract>
+			<DeclaredIn>CSFNetworkOutputCache.h</DeclaredIn>
             
 			
 			<NodeRef refid="154"/>
@@ -13,26 +13,56 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFCryptChunksDelegate/cryptChunk:chunkResult:bufferLen:</TokenIdentifier>
-			<Abstract type="html">Encrypted / Decrypted chunk results.
-This method may be invoked none to multiple times - until all result is informed to delegate.</Abstract>
-			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/CSFNetworkOutputCache/cacheOutputFromAction:completionBlock:</TokenIdentifier>
+			<Abstract type="html">Caches an action response.</Abstract>
+			<DeclaredIn>CSFNetworkOutputCache.h</DeclaredIn>
 			
-			<Declaration>- (void)cryptChunk:(SFCryptChunks *)cryptChunks chunkResult:(uint8_t *)buffer bufferLen:(size_t)len</Declaration>
+			<Declaration>- (void)cacheOutputFromAction:(CSFAction *)action completionBlock:(void ( ^ ) ( NSError *error ))completionBlock</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>cryptChunks</Name>
-					<Abstract type="html">the instance sending this message.</Abstract>
+					<Name>action</Name>
+					<Abstract type="html">The completed action to cache</Abstract>
 				</Parameter><Parameter>
-					<Name>buffer</Name>
-					<Abstract type="html">the chunk results buffer.</Abstract>
-				</Parameter><Parameter>
-					<Name>len</Name>
-					<Abstract type="html">the chunk results buffer length.</Abstract>
+					<Name>completionBlock</Name>
+					<Abstract type="html">Block to be invoked when the cache operation is completed, or nil.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/cryptChunk:chunkResult:bufferLen:</Anchor>
+			<Anchor>//api/name/cacheOutputFromAction:completionBlock:</Anchor>
+            <NodeRef refid="154"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/CSFNetworkOutputCache/shouldCacheOutputFromAction:</TokenIdentifier>
+			<Abstract type="html">Informs the network instance whether or not this cache instance is capable of handling the output from the supplied action.</Abstract>
+			<DeclaredIn>CSFNetworkOutputCache.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)shouldCacheOutputFromAction:(CSFAction *)action</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>action</Name>
+					<Abstract type="html">The action that is being processed.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the receiver is capable of caching this action, otherwise NO if the receiver should be skipped.</Abstract></ReturnValue>
+			<Anchor>//api/name/shouldCacheOutputFromAction:</Anchor>
+            <NodeRef refid="154"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/CSFNetworkOutputCache/cacheInstanceForNetwork:</TokenIdentifier>
+			<Abstract type="html">Allows classes conforming CSFNetworkOutputCache to auto-generate and return cache instances to network instances as-needed.</Abstract>
+			<DeclaredIn>CSFNetworkOutputCache.h</DeclaredIn>
+			
+			<Declaration>+ (NSObject&lt;CSFNetworkOutputCache&gt; *)cacheInstanceForNetwork:(CSFNetwork *)network</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>network</Name>
+					<Abstract type="html">Network instance configuring its cache output instances.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Cache instance appropriate for the supplied network, or nil if this class doesn&apos;t have an instance available for the given network.Steps</Abstract></ReturnValue>
+			<Anchor>//api/name/cacheInstanceForNetwork:</Anchor>
             <NodeRef refid="154"/>
 		</Token>
 		

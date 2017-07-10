@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFKeychainItemExceptionErrorCode.html">
+	<File path="Constants/SFCryptoOperation.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFKeychainItemExceptionErrorCode</TokenIdentifier>
-			<Abstract type="html">This class is left to remain non-ARC INTENTIONALLY!</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFCryptoOperation</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
             
 			
 			<NodeRef refid="197"/>
@@ -14,11 +14,21 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFKeychainItemExceptionKeychainInaccessible</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFCryptoOperationEncrypt</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFKeychainItemExceptionKeychainInaccessible</Declaration>
+            <Declaration>SFCryptoOperationEncrypt</Declaration>
             
-            <DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+            <DeclaredIn>SFCrypto.h</DeclaredIn>
+            
+            <NodeRef refid="197"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFCryptoOperationDecrypt</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFCryptoOperationDecrypt</Declaration>
+            
+            <DeclaredIn>SFCrypto.h</DeclaredIn>
             
             <NodeRef refid="197"/>
         </Token>

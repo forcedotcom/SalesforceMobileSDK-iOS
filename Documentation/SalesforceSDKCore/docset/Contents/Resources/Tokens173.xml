@@ -1,237 +1,149 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/CSFForceFieldMetadataType.html">
+	<File path="Protocols/SalesforceSDKManagerFlow.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/CSFForceFieldMetadataType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intf/SalesforceSDKManagerFlow</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFForceDefines.h</DeclaredIn>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
             
 			
 			<NodeRef refid="173"/>
 		</Token>
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeUnknown</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeUnknown</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/passcodeValidationAtLaunch</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)passcodeValidationAtLaunch</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeValidationAtLaunch</Anchor>
             <NodeRef refid="173"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeBase64</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeBase64</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/authAtLaunch</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)authAtLaunch</Declaration>
+			
+			
+			<Anchor>//api/name/authAtLaunch</Anchor>
             <NodeRef refid="173"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeBoolean</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeBoolean</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/authBypassAtLaunch</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)authBypassAtLaunch</Declaration>
+			
+			
+			<Anchor>//api/name/authBypassAtLaunch</Anchor>
             <NodeRef refid="173"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeComboBox</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeComboBox</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppForeground:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)handleAppForeground:(nonnull NSNotification *)notification</Declaration>
+			
+			
+			<Anchor>//api/name/handleAppForeground:</Anchor>
             <NodeRef refid="173"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeCurrency</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeCurrency</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppBackground:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)handleAppBackground:(nonnull NSNotification *)notification</Declaration>
+			
+			
+			<Anchor>//api/name/handleAppBackground:</Anchor>
             <NodeRef refid="173"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeDate</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeDate</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppTerminate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)handleAppTerminate:(nonnull NSNotification *)notification</Declaration>
+			
+			
+			<Anchor>//api/name/handleAppTerminate:</Anchor>
             <NodeRef refid="173"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeDateTime</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeDateTime</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppDidBecomeActive:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)handleAppDidBecomeActive:(nonnull NSNotification *)notification</Declaration>
+			
+			
+			<Anchor>//api/name/handleAppDidBecomeActive:</Anchor>
             <NodeRef refid="173"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeDouble</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeDouble</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppWillResignActive:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)handleAppWillResignActive:(nonnull NSNotification *)notification</Declaration>
+			
+			
+			<Anchor>//api/name/handleAppWillResignActive:</Anchor>
             <NodeRef refid="173"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeEmail</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeEmail</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handlePostLogout</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)handlePostLogout</Declaration>
+			
+			
+			<Anchor>//api/name/handlePostLogout</Anchor>
             <NodeRef refid="173"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeEncryptedString</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeEncryptedString</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAuthCompleted:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)handleAuthCompleted:(nonnull NSNotification *)notification</Declaration>
+			
+			
+			<Anchor>//api/name/handleAuthCompleted:</Anchor>
             <NodeRef refid="173"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeId</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeId</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleUserSwitch:toUser:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)handleUserSwitch:(nullable SFUserAccount *)fromUser toUser:(nullable SFUserAccount *)toUser</Declaration>
+			
+			
+			<Anchor>//api/name/handleUserSwitch:toUser:</Anchor>
             <NodeRef refid="173"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeInteger</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeInteger</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="173"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeInt</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeInt</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="173"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeMultiPickList</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeMultiPickList</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="173"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypePercent</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypePercent</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="173"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypePhone</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypePhone</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="173"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypePickList</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypePickList</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="173"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeString</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeString</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="173"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeReference</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeReference</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="173"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeTextArea</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeTextArea</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="173"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeTime</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeTime</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="173"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeUrl</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceFieldMetadataTypeUrl</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="173"/>
-        </Token>
+		</Token>
+		
         
         
 	</File>

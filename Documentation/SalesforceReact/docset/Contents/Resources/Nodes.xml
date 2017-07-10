@@ -15,6 +15,7 @@
 						<NodeRef refid="2"/>
 						<NodeRef refid="3"/>
 						<NodeRef refid="4"/>
+						<NodeRef refid="5"/>
 						
 					</Subnodes>
 				</Node>
@@ -39,11 +40,38 @@
             
         </Node>
 		<Node id="3" type="file" documentType="reference">
+            <Name>SFSDKReactLogger</Name>
+            <Path>Classes/SFSDKReactLogger.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFSDKReactLogger.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFSDKReactLogger.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSDKReactLogger.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="4" type="file" documentType="reference">
             <Name>SFSmartStoreReactBridge</Name>
             <Path>Classes/SFSmartStoreReactBridge.html</Path>
             
         </Node>
-		<Node id="4" type="file" documentType="reference">
+		<Node id="5" type="file" documentType="reference">
             <Name>SFSmartSyncReactBridge</Name>
             <Path>Classes/SFSmartSyncReactBridge.html</Path>
             

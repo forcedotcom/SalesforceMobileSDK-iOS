@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/CSFForceTaskCallType.html">
+	<File path="Constants/CSFForcePortalType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/CSFForceTaskCallType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/CSFForcePortalType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -14,9 +14,9 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskCallTypeUnknown</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForcePortalTypeUnknown</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskCallTypeUnknown</Declaration>
+            <Declaration>CSFForcePortalTypeUnknown</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -24,9 +24,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskCallTypeInternal</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForcePortalTypeNone</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskCallTypeInternal</Declaration>
+            <Declaration>CSFForcePortalTypeNone</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -34,9 +34,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskCallTypeInbound</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForcePortalTypeCustomerPortal</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskCallTypeInbound</Declaration>
+            <Declaration>CSFForcePortalTypeCustomerPortal</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -44,9 +44,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskCallTypeOutbound</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForcePortalTypePartner</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskCallTypeOutbound</Declaration>
+            <Declaration>CSFForcePortalTypePartner</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             

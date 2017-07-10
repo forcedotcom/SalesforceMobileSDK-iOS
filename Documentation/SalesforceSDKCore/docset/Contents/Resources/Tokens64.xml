@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFOAuthInfo.html">
+	<File path="Classes/SFOAuthCrypto.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFOAuthInfo</TokenIdentifier>
-			<Abstract type="html">Data class containing members denoting state information for an OAuth coordinator authentication
-cycle.</Abstract>
-			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCrypto</TokenIdentifier>
+			<Abstract type="html">Provides a wrapper for cryptographic services.</Abstract>
+			<DeclaredIn>SFOAuthCrypto.h</DeclaredIn>
             
 			
 			<NodeRef refid="64"/>
@@ -14,91 +13,69 @@ cycle.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthInfo/setAuthType:</TokenIdentifier>
-			<Abstract type="html">The type of authentication being performed.</Abstract>
-			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCrypto/initWithOperation:key:</TokenIdentifier>
+			<Abstract type="html">Initializes a new SFOAuthCrypto object to perform the specified cryptographic operation.</Abstract>
+			<DeclaredIn>SFOAuthCrypto.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, assign) SFOAuthType authType</Declaration>
-			
-			
-			<Anchor>//api/name/authType</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthInfo/authType</TokenIdentifier>
-			<Abstract type="html">The type of authentication being performed.</Abstract>
-			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, assign) SFOAuthType authType</Declaration>
-			
-			
-			<Anchor>//api/name/authType</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthInfo/authType</TokenIdentifier>
-			<Abstract type="html">The type of authentication being performed.</Abstract>
-			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, assign) SFOAuthType authType</Declaration>
-			
-			
-			<Anchor>//api/name/authType</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthInfo/setAuthTypeDescription:</TokenIdentifier>
-			<Abstract type="html">The string description of the auth type.</Abstract>
-			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *authTypeDescription</Declaration>
-			
-			
-			<Anchor>//api/name/authTypeDescription</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthInfo/authTypeDescription</TokenIdentifier>
-			<Abstract type="html">The string description of the auth type.</Abstract>
-			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *authTypeDescription</Declaration>
-			
-			
-			<Anchor>//api/name/authTypeDescription</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthInfo/authTypeDescription</TokenIdentifier>
-			<Abstract type="html">The string description of the auth type.</Abstract>
-			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *authTypeDescription</Declaration>
-			
-			
-			<Anchor>//api/name/authTypeDescription</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthInfo/initWithAuthType:</TokenIdentifier>
-			<Abstract type="html">Creates a new instance with the given auth type.</Abstract>
-			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>
-			
-			<Declaration>- (id)initWithAuthType:(SFOAuthType)authType</Declaration>
+			<Declaration>- (id)initWithOperation:(SFOAuthCryptoOperation)operation key:(NSData *)key</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>authType</Name>
-					<Abstract type="html">The type of authentication being performed.</Abstract>
+					<Name>operation</Name>
+					<Abstract type="html">Operation to be performed: SFOAuthCryptoEncrypt or SFOAuthCryptoDecrypt</Abstract>
+				</Parameter><Parameter>
+					<Name>key</Name>
+					<Abstract type="html">Key used for encyption/decryption. nil may be specified to use the default key.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/initWithAuthType:</Anchor>
+			<Anchor>//api/name/initWithOperation:key:</Anchor>
+            <NodeRef refid="64"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCrypto/encryptData:</TokenIdentifier>
+			<Abstract type="html">Encrypts the supplied data. To complete the encryption process and retrieve the encrypted data, call finalizeCipher.</Abstract>
+			<DeclaredIn>SFOAuthCrypto.h</DeclaredIn>
+			
+			<Declaration>- (void)encryptData:(NSData *)data</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>data</Name>
+					<Abstract type="html">Unencrypted data to encrypt.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/encryptData:</Anchor>
+            <NodeRef refid="64"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCrypto/decryptData:</TokenIdentifier>
+			<Abstract type="html">Returns a decrypted representation of the supplied data if the data can be decrypted using the current key. Returns nil
+if decryption fails. Decryption is performed on the current thread.</Abstract>
+			<DeclaredIn>SFOAuthCrypto.h</DeclaredIn>
+			
+			<Declaration>- (NSData *)decryptData:(NSData *)data</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>data</Name>
+					<Abstract type="html">Encrypted data to decrypt.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/decryptData:</Anchor>
+            <NodeRef refid="64"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCrypto/finalizeCipher</TokenIdentifier>
+			<Abstract type="html">Finalizes the the data encryption process and returns the encrypted data.</Abstract>
+			<DeclaredIn>SFOAuthCrypto.h</DeclaredIn>
+			
+			<Declaration>- (NSData *)finalizeCipher</Declaration>
+			
+			
+			<Anchor>//api/name/finalizeCipher</Anchor>
             <NodeRef refid="64"/>
 		</Token>
 		

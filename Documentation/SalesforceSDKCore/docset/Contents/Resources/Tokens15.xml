@@ -305,6 +305,30 @@ network request, therefore any value other than NSString, NSNumber, NSDate, NSDa
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFParameterStorage/objectForKeyedSubscript:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFParameterStorage.h</DeclaredIn>
+			
+			<Declaration>- (id)objectForKeyedSubscript:(NSString *)key</Declaration>
+			
+			
+			<Anchor>//api/name/objectForKeyedSubscript:</Anchor>
+            <NodeRef refid="15"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFParameterStorage/setObject:forKeyedSubscript:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFParameterStorage.h</DeclaredIn>
+			
+			<Declaration>- (void)setObject:(id)obj forKeyedSubscript:(NSString *)key</Declaration>
+			
+			
+			<Anchor>//api/name/setObject:forKeyedSubscript:</Anchor>
+            <NodeRef refid="15"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/CSFParameterStorage/setHTTPMethod:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>CSFParameterStorage_Internal.h</DeclaredIn>
@@ -361,30 +385,6 @@ network request, therefore any value other than NSString, NSNumber, NSDate, NSDa
 			
 			
 			<Anchor>//api/name/requiredParameterStyleForObject:forKey:</Anchor>
-            <NodeRef refid="15"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFParameterStorage/objectForKeyedSubscript:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFParameterStorage.h</DeclaredIn>
-			
-			<Declaration>- (id)objectForKeyedSubscript:(NSString *)key</Declaration>
-			
-			
-			<Anchor>//api/name/objectForKeyedSubscript:</Anchor>
-            <NodeRef refid="15"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFParameterStorage/setObject:forKeyedSubscript:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFParameterStorage.h</DeclaredIn>
-			
-			<Declaration>- (void)setObject:(id)obj forKeyedSubscript:(NSString *)key</Declaration>
-			
-			
-			<Anchor>//api/name/setObject:forKeyedSubscript:</Anchor>
             <NodeRef refid="15"/>
 		</Token>
 		

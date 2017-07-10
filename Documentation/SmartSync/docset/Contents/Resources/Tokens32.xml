@@ -1,8 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="">
+	<File path="Constants/SFParentChildrenRelationshipType.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/c/tdef/SFParentChildrenRelationshipType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
+            
+			
+			<NodeRef refid="32"/>
+		</Token>
 		
 		
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFParentChildrenRelationpshipMasterDetail</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFParentChildrenRelationpshipMasterDetail</Declaration>
+            
+            <DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
+            
+            <NodeRef refid="32"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFParentChildrenRelationpshipLookup</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFParentChildrenRelationpshipLookup</Declaration>
+            
+            <DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
+            
+            <NodeRef refid="32"/>
+        </Token>
         
         
 	</File>

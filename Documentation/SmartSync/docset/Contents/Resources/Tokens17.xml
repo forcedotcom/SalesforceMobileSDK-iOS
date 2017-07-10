@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSyncManagerLogger.html">
+	<File path="Classes/SFSmartSyncObjectUtils.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSyncManagerLogger</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSmartSyncObjectUtils</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncManagerLogger.h</DeclaredIn>
+			<DeclaredIn>SFSmartSyncObjectUtils.h</DeclaredIn>
             
 			
 			<NodeRef refid="17"/>
@@ -13,14 +13,86 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncManagerLogger/setLevel:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncObjectUtils/formatValue:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncManagerLogger.h</DeclaredIn>
+			<DeclaredIn>SFSmartSyncObjectUtils.h</DeclaredIn>
 			
-			<Declaration>+ (void)setLevel:(SFLogLevel)logLevel</Declaration>
+			<Declaration>+ (NSString *)formatValue:(id)value</Declaration>
 			
 			
-			<Anchor>//api/name/setLevel:</Anchor>
+			<Anchor>//api/name/formatValue:</Anchor>
+            <NodeRef refid="17"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncObjectUtils/formatLocalDateToGMTString:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartSyncObjectUtils.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)formatLocalDateToGMTString:(NSDate *)localDate</Declaration>
+			
+			
+			<Anchor>//api/name/formatLocalDateToGMTString:</Anchor>
+            <NodeRef refid="17"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncObjectUtils/getMillisFromIsoString:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartSyncObjectUtils.h</DeclaredIn>
+			
+			<Declaration>+ (long long)getMillisFromIsoString:(NSString *)dateStr</Declaration>
+			
+			
+			<Anchor>//api/name/getMillisFromIsoString:</Anchor>
+            <NodeRef refid="17"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncObjectUtils/getIsoStringFromMillis:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartSyncObjectUtils.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)getIsoStringFromMillis:(long long)millis</Declaration>
+			
+			
+			<Anchor>//api/name/getIsoStringFromMillis:</Anchor>
+            <NodeRef refid="17"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncObjectUtils/getDateFromIsoDateString:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartSyncObjectUtils.h</DeclaredIn>
+			
+			<Declaration>+ (NSDate *)getDateFromIsoDateString:(NSString *)isoDateString</Declaration>
+			
+			
+			<Anchor>//api/name/getDateFromIsoDateString:</Anchor>
+            <NodeRef refid="17"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncObjectUtils/getIsoStringFromDate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartSyncObjectUtils.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)getIsoStringFromDate:(NSDate *)date</Declaration>
+			
+			
+			<Anchor>//api/name/getIsoStringFromDate:</Anchor>
+            <NodeRef refid="17"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncObjectUtils/isEmpty:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartSyncObjectUtils.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)isEmpty:(NSString *)value</Declaration>
+			
+			
+			<Anchor>//api/name/isEmpty:</Anchor>
             <NodeRef refid="17"/>
 		</Token>
 		

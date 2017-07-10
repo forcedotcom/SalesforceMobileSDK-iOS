@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 
-	<title>SFSDKDatasharingHelper Class Reference</title>
+	<title>SFSDKFileLogger Class Reference</title>
 
 	<link rel="stylesheet" href="../css/style.css">
 	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
@@ -14,7 +14,7 @@
 		<div class="container" class="hide-in-xcode">
 			
 			<h1 id="library-title">
-				<a href="../index.html">SalesforceSDKCore </a>
+				<a href="../index.html">SalesforceAnalytics </a>
 			</h1>
 
 			<p id="developer-home">
@@ -43,8 +43,6 @@
 							<select id="jump-to">
 	<option value="top">Jump To&#133;</option>
 	
-	<option value="overview">Overview</option>
-	
 
 	
 	
@@ -56,25 +54,23 @@
 	
 	<optgroup label="Properties">
 		
-		<option value="//api/name/appGroupEnabled">appGroupEnabled</option>
-		
-		<option value="//api/name/appGroupName">appGroupName</option>
-		
-		<option value="//api/name/keychainGroupName">keychainGroupName</option>
-		
-		<option value="//api/name/keychainSharingEnabled">keychainSharingEnabled</option>
+		<option value="//api/name/componentName">componentName</option>
 		
 	</optgroup>
 	
 
 	
-	<optgroup label="Class Methods">
+
+	
+	<optgroup label="Instance Methods">
 		
-		<option value="//api/name/sharedInstance">+ sharedInstance</option>
+		<option value="//api/name/flushLogWithCompletionBlock:">- flushLogWithCompletionBlock:</option>
+		
+		<option value="//api/name/initWithComponent:">- initWithComponent:</option>
+		
+		<option value="//api/name/readFile">- readFile</option>
 		
 	</optgroup>
-	
-
 	
 	
 </select>
@@ -89,30 +85,21 @@
 		<div id="overview_contents" class="container">
 			<div id="content">
 				<main role="main">
-					<h1 class="title">SFSDKDatasharingHelper Class Reference</h1>
+					<h1 class="title">SFSDKFileLogger Class Reference</h1>
 
 					
 					<div class="section section-specification"><table cellspacing="0"><tbody>
 						<tr>
 	<th>Inherits from</th>
-	<td>NSObject</td>
+	<td>DDFileLogger</td>
 </tr><tr>
 	<th>Declared in</th>
-	<td>SFSDKDatasharingHelper.h</td>
+	<td>SFSDKFileLogger.h</td>
 </tr>
 						</tbody></table></div>
 					
 
                     
-					
-					<div class="section section-overview">
-						<a title="Overview" name="overview"></a>
-						<h2 class="subtitle subtitle-overview">Overview</h2>
-						<p>@class SFSDKDatasharingHelper
-Class used to app data sharing settings</p>
-					</div>
-					
-					
 
 					
 					
@@ -125,8 +112,8 @@ Class used to app data sharing settings</p>
 
 						<div class="task-list">
 							<div class="section-method">
-	<a name="//api/name/appGroupEnabled" title="appGroupEnabled"></a>
-	<h3 class="method-title"><code><a href="#//api/name/appGroupEnabled">&nbsp;&nbsp;appGroupEnabled</a></code>
+	<a name="//api/name/componentName" title="componentName"></a>
+	<h3 class="method-title"><code><a href="#//api/name/componentName">&nbsp;&nbsp;componentName</a></code>
 </h3>
 
 	<div class="method-info">
@@ -136,12 +123,12 @@ Class used to app data sharing settings</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Set to YES to enable app group.</p>
+				<p>Component name associated with this file logger.</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic) BOOL appGroupEnabled</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, strong, nonnull) NSString *componentName</code></div>
 
 		    
 			
@@ -159,15 +146,15 @@ Class used to app data sharing settings</p>
 			
 			<div class="method-subsection declared-in-section">
 				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSDKDatasharingHelper.h</code></p>
+				<p><code class="declared-in-ref">SFSDKFileLogger.h</code></p>
 			</div>
 			
 			
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/keychainSharingEnabled" title="keychainSharingEnabled"></a>
-	<h3 class="method-title"><code><a href="#//api/name/keychainSharingEnabled">&nbsp;&nbsp;keychainSharingEnabled</a></code>
+	<a name="//api/name/initWithComponent:" title="initWithComponent:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/initWithComponent:">&ndash;&nbsp;initWithComponent:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -177,12 +164,12 @@ Class used to app data sharing settings</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Set to YES to enable keychain sharing.</p>
+				<p>Initializes a file logger for the specified component.</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic) BOOL keychainSharingEnabled</code></div>
+			<div class="method-subsection method-declaration"><code>- (nonnull instancetype)initWithComponent:(nonnull NSString *)<em>componentName</em></code></div>
 
 		    
 			
@@ -200,15 +187,15 @@ Class used to app data sharing settings</p>
 			
 			<div class="method-subsection declared-in-section">
 				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSDKDatasharingHelper.h</code></p>
+				<p><code class="declared-in-ref">SFSDKFileLogger.h</code></p>
 			</div>
 			
 			
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/appGroupName" title="appGroupName"></a>
-	<h3 class="method-title"><code><a href="#//api/name/appGroupName">&nbsp;&nbsp;appGroupName</a></code>
+	<a name="//api/name/flushLogWithCompletionBlock:" title="flushLogWithCompletionBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/flushLogWithCompletionBlock:">&ndash;&nbsp;flushLogWithCompletionBlock:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -218,12 +205,12 @@ Class used to app data sharing settings</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Name of the app group to use to share data.</p>
+				<p>Flushes the log file and resets it to its original state.</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *appGroupName</code></div>
+			<div class="method-subsection method-declaration"><code>- (void)flushLogWithCompletionBlock:(void ( ^ _Nullable ) ( ))<em>completionBlock</em></code></div>
 
 		    
 			
@@ -241,15 +228,15 @@ Class used to app data sharing settings</p>
 			
 			<div class="method-subsection declared-in-section">
 				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSDKDatasharingHelper.h</code></p>
+				<p><code class="declared-in-ref">SFSDKFileLogger.h</code></p>
 			</div>
 			
 			
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/keychainGroupName" title="keychainGroupName"></a>
-	<h3 class="method-title"><code><a href="#//api/name/keychainGroupName">&nbsp;&nbsp;keychainGroupName</a></code>
+	<a name="//api/name/readFile" title="readFile"></a>
+	<h3 class="method-title"><code><a href="#//api/name/readFile">&ndash;&nbsp;readFile</a></code>
 </h3>
 
 	<div class="method-info">
@@ -259,16 +246,21 @@ Class used to app data sharing settings</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Name of the keychain group to use</p>
+				<p>Returns all log lines stored in this file.</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *keychainGroupName</code></div>
+			<div class="method-subsection method-declaration"><code>- (nullable NSString *)readFile</code></div>
 
 		    
 			
 
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>All log lines stored in this file.</p>
+			</div>
 			
 
 			
@@ -282,48 +274,7 @@ Class used to app data sharing settings</p>
 			
 			<div class="method-subsection declared-in-section">
 				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSDKDatasharingHelper.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/sharedInstance" title="sharedInstance"></a>
-	<h3 class="method-title"><code><a href="#//api/name/sharedInstance">+&nbsp;sharedInstance</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Shared singleton</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (instancetype)sharedInstance</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSDKDatasharingHelper.h</code></p>
+				<p><code class="declared-in-ref">SFSDKFileLogger.h</code></p>
 			</div>
 			
 			
@@ -344,7 +295,7 @@ Class used to app data sharing settings</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-04-26</p>
+						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-07-10</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>
