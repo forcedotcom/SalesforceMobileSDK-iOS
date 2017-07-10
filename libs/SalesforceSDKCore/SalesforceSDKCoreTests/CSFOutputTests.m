@@ -26,7 +26,7 @@
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import "CSFOutput_Internal.h"
 
-////////////
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 @interface PersonOutput : CSFOutput
 
 @property (nonatomic, strong, readonly) NSString *name;
@@ -40,6 +40,7 @@
 
 @end
 
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 @interface CourseOutput : CSFOutput
 
 @property (nonatomic, strong, readonly) NSArray *students;
@@ -50,6 +51,8 @@
 
 @end
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 @implementation CourseOutput
 
 + (Class<CSFActionModel>)actionModelForPropertyName:(NSString*)propertyName propertyClass:(Class)originalClass contents:(id)contents {
@@ -152,3 +155,4 @@
 }
 
 @end
+#pragma clang diagnostic pop

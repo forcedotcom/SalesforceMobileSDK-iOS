@@ -24,18 +24,28 @@
 
 #import <Foundation/Foundation.h>
 
-#import <SalesforceSDKCore/SFLogger.h>
+@class SFAuthenticationManager;
+@class SFSafariViewController;
 
-static NSInteger kSFSyncManagerLoggerContext;
+/**
+ Block definition for presenting the auth safari controller.
+ */
+typedef void (^SFAuthSafariControllerPresentBlock)(SFAuthenticationManager *, SFSafariViewController *);
 
-#define LogSyncError(frmt, ...)      SFLogErrorToContext(kSFSyncManagerLoggerContext, nil, frmt, ##__VA_ARGS__)
-#define LogSyncWarn(frmt, ...)       SFLogWarnToContext(kSFSyncManagerLoggerContext, nil, frmt, ##__VA_ARGS__)
-#define LogSyncInfo(frmt, ...)       SFLogInfoToContext(kSFSyncManagerLoggerContext, nil, frmt, ##__VA_ARGS__)
-#define LogSyncDebug(frmt, ...)      SFLogDebugToContext(kSFSyncManagerLoggerContext, nil, frmt, ##__VA_ARGS__)
-#define LogSyncVerbose(frmt, ...)    SFLogVerboseToContext(kSFSyncManagerLoggerContext, nil, frmt, ##__VA_ARGS__)
+/**
+ Class encompassing the custom action to take when presenting an auth safari controller during the auth process.
+ */
+@interface SFAuthenticationSafariControllerHandler : NSObject
 
-@interface SFSyncManagerLogger : SFLogger
+/**
+ The block used to present the auth safari controller.
+ */
+@property (nonatomic, copy) SFAuthSafariControllerPresentBlock authSafariControllerPresentBlock;
 
-+ (void)setLevel:(SFLogLevel)logLevel;
+/**
+ Designated initializer for the class.
+ @param presentBlock The block used to present the auth safari controller.
+ */
+- (id)initWithPresentBlock:(SFAuthSafariControllerPresentBlock)presentBlock;
 
 @end

@@ -31,16 +31,14 @@
 {
     NSDate *startTime = [NSDate date];
     NSString* callbackId = command.callbackId;
-    /* NSString* jsVersionStr = */[self getVersion:command.methodName withArguments:command.arguments];
+    [self getVersion:command.methodName withArguments:command.arguments];
     NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
-    
-    [self log:SFLogLevelDebug format:@"%@ called.", command.methodName];
- 
+    [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"%@ called.", command.methodName]];
     __weak typeof(self) weakSelf = self;
     [self.commandDelegate runInBackground:^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
         CDVPluginResult* result = block(argsDict);
-        [strongSelf log:SFLogLevelDebug format:@"%@ returning after %f secs.", command.methodName, -[startTime timeIntervalSinceNow]];
+        [SFSDKHybridLogger d:[strongSelf class] format:[NSString stringWithFormat:@"%@ returning after %f secs.", command.methodName, -[startTime timeIntervalSinceNow]]];
         [strongSelf.commandDelegate sendPluginResult:result callbackId:callbackId];
     }];
 }

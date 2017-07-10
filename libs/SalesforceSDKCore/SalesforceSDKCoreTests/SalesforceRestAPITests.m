@@ -66,15 +66,12 @@ static NSException *authException = nil;
 + (void)setUp
 {
     @try {
-        [SFLogger sharedLogger].logLevel = SFLogLevelDebug;
         [TestSetupUtils populateAuthCredentialsFromConfigFileForClass:[self class]];
         [TestSetupUtils synchronousAuthRefresh];
     }
     @catch (NSException *exception) {
-        [self log:SFLogLevelDebug format:@"Populating auth from config failed: %@", exception];
         authException = exception;
     }
-    
     [super setUp];
 }
 
@@ -164,7 +161,7 @@ static NSException *authException = nil;
 - (void)testFullRequestPath {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForResources];
     request.path = [NSString stringWithFormat:@"%@%@", kSFDefaultRestEndpoint, request.path];
-    [self log:SFLogLevelDebug format:@"request.path: %@", request.path];
+    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"request.path: %@", request.path];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
@@ -352,6 +349,14 @@ static NSException *authException = nil;
     XCTAssertEqual((int)[records count], 0, @"expected no result");
 }
 
+// Runs a SOQL query which contains +
+// Make sure it succeeds
+-(void) testEscapingWithSOQLQuery {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:@"Select Name from Account where LastModifiedDate > 2017-03-21T12:11:06.000+0000"];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];    listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
 // - create object (requestForCreateWithObjectType)
 // - query new object (requestForQuery) and make sure we just got 1 object
 // - update object
@@ -374,7 +379,7 @@ static NSException *authException = nil;
     // make sure we got an id
     NSString *contactId = ((NSDictionary *)listener.dataResponse)[LID];
     XCTAssertNotNil(contactId, @"id not present");
-    [self log:SFLogLevelDebug format:@"## contact created with id: %@", contactId];
+    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"## contact created with id: %@", contactId];
     
     @try {
         // now query object
@@ -1114,7 +1119,7 @@ static NSException *authException = nil;
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForResources];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-    [self log:SFLogLevelDebug format:@"latest access token: %@", _currentUser.credentials.accessToken];
+    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"latest access token: %@", _currentUser.credentials.accessToken];
     
     // let's make sure we have another access token
     NSString *newAccessToken = _currentUser.credentials.accessToken;
@@ -1135,7 +1140,7 @@ static NSException *authException = nil;
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     NSString *contactId = ((NSDictionary *)listener.dataResponse)[LID];
     XCTAssertNotNil(contactId, @"Contact create result should contain an ID value.");
-    [self log:SFLogLevelDebug format:@"latest access token: %@", _currentUser.credentials.accessToken];
+    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"latest access token: %@", _currentUser.credentials.accessToken];
     
     // let's make sure we have another access token
     NSString *newAccessToken = _currentUser.credentials.accessToken;
@@ -1316,14 +1321,14 @@ static NSException *authException = nil;
 #pragma mark - testing block functions
 
 - (BOOL) waitForExpectation {
-    [self log:SFLogLevelDebug format:@"Waiting for %@ to complete", self.currentExpectation.description];
+    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"Waiting for %@ to complete", self.currentExpectation.description];
     __block BOOL timedout;
     [self waitForExpectationsWithTimeout:15 handler:^(NSError *error) {
         if (error) {
             XCTFail(@"%@ took too long to complete", self.currentExpectation.description);
             timedout = YES;
         } else {
-            [self log:SFLogLevelDebug format:@"Completed %@", self.currentExpectation.description];
+            [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"Completed %@", self.currentExpectation.description];
             timedout = NO;
         }
     }];
@@ -1604,32 +1609,6 @@ static NSException *authException = nil;
     XCTAssertTrue(!completionTimedOut); // when we force timeout the request, its error handler gets invoked right away, so the semaphore-wait should not time out
 }
 
-#pragma mark - SFRestAPI utility tests
-
-- (void)testSFRestAPICoordinatorProperty
-{
-    // [SFRestAPI sharedInstance].coordinator tracks [SFAuthenticationManager sharedManager].coordinator by default.
-    SFOAuthCoordinator *acctMgrCoord = [SFAuthenticationManager sharedManager].coordinator;
-    SFOAuthCoordinator *restApiCoord = [SFRestAPI sharedInstance].coordinator;
-    XCTAssertEqualObjects(acctMgrCoord, restApiCoord, @"Coordinator property on SFRestAPI should track the value in SFAccountManager.");
-    
-    // Updating [SFRestAPI sharedInstance].coordinator updates [SFAuthenticationManager sharedManager].coordinator as well.
-    SFOAuthCredentials *creds = _currentUser.credentials;
-    SFOAuthCoordinator *newRestApiCoord = [[SFOAuthCoordinator alloc] initWithCredentials:creds];
-    XCTAssertFalse(newRestApiCoord == [SFAuthenticationManager sharedManager].coordinator, @"Object references shouldn't be equal with new object.");
-    [SFRestAPI sharedInstance].coordinator = newRestApiCoord;
-    acctMgrCoord = [SFAuthenticationManager sharedManager].coordinator;
-    restApiCoord = [SFRestAPI sharedInstance].coordinator;
-    XCTAssertEqualObjects(acctMgrCoord, restApiCoord, @"Updating SFRestAPI's coordinator property should update SFAccountManager as well.");
-    
-    // After updating [SFRestAPI sharedInstance].coordinator, REST calls still work.
-    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForVersions];
-    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-    XCTAssertEqualObjects(listener.returnStatus,
-                         kTestRequestStatusDidLoad,
-                         @"Request failed with updated value for [SFRestAPI sharedInstance].coordinator");
-}
-
 #pragma mark - queryBuilder tests
 
 - (void) testSOQL {
@@ -1701,7 +1680,7 @@ static NSException *authException = nil;
     // Ensures we get an ID back.
     NSString *contactId = ((NSDictionary *)listener.dataResponse)[LID];
     XCTAssertNotNil(contactId, @"id not present");
-    [self log:SFLogLevelDebug format:@"## contact created with id: %@", contactId];
+    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"## contact created with id: %@", contactId];
 
     // Creates a long SOQL query.
     NSMutableString *queryString = [[NSMutableString alloc] init];
@@ -1711,7 +1690,7 @@ static NSException *authException = nil;
         [queryString appendString:@"', '"];
     }
     [queryString appendString:@"')"];
-    [self log:SFLogLevelDebug format:@"## length of query: %d", [queryString length]];
+    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"## length of query: %d", [queryString length]];
 
     // Runs the query.
     @try {

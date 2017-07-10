@@ -22,6 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <SafariServices/SafariServices.h>
 #import <Security/Security.h>
 #import <UIKit/UIKit.h>
 #import <WebKit/WebKit.h>
@@ -96,12 +97,12 @@ typedef NS_ENUM(NSUInteger, SFOAuthAdvancedAuthState) {
     SFOAuthAdvancedAuthStateNotStarted = 0,
     
     /**
-     The advanced authentication flow has initiated a request through the external browser (Safari).
+     The advanced authentication flow has initiated a request through Safari view controller.
      */
     SFOAuthAdvancedAuthStateBrowserRequestInitiated,
     
     /**
-     The advanced authentication flow has received a response from the external browser, and has
+     The advanced authentication flow has received a response from Safari view controller, and has
      initiated a token exchange request.
      */
     SFOAuthAdvancedAuthStateTokenRequestInitiated
@@ -220,20 +221,6 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginBrowserAuthentication:(SFOAuthBrowserFlowCallbackBlock)callbackBlock;
 
 /**
- Whether or not the coordinator retries browser authentication when the coordinator has not handled the browser response prior
- to application did become active event.
- 
- @discussion
- Ideally the coordinator (via `-handleAdvancedAuthenticationResponse:`) should handle the browser response
- on your app delegate method `-application:openURL:sourceApplication:annotation:`.
- If your coordinator handles the browser response at any point after the application did become active notification is sent,
- this method should be implemented and return NO to disable the browser authentication auto-retry flow.
- 
- The coordinator will auto retry authentication if this method is not implemented.
- */
-- (BOOL)oauthCoordinatorRetryAuthenticationOnApplicationDidBecomeActive:(SFOAuthCoordinator *)coordinator;
-
-/**
  The delegate is expected to display an alert with the specific message and callback the completion block when
  the user dismisses the alert.
  
@@ -269,6 +256,24 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  */
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(WKWebView *)view;
 
+/** Sent after VC has been initialized with authentication URL.
+ 
+ The receiver should present the VC in the implementation of this method.
+ 
+ @param coordinator The SFOAuthCoordinator instance processing this message
+ @param svc         The SFSafariViewController instance that will be used to conduct the authentication workflow
+ 
+ @see SFOAuthCoordinator
+ */
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSafariViewController:(SFSafariViewController *)svc;
+
+/**
+ Sent to notify the delegate that a browser authentication flow was cancelled out of by the user.
+
+ @param coordinator   The SFOAuthCoordinator instance processing this message.
+ */
+- (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator *)coordinator;
+
 @end
 
 /** The `SFOAuthCoordinator` class is the central class of the OAuth2 authentication process.
@@ -282,7 +287,7 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  the Security framework and either the NSJSONSerialization iOS 5.0 SDK class 
  or the third party SBJsonParser class.
  */
-@interface SFOAuthCoordinator : NSObject <WKNavigationDelegate, WKUIDelegate> {
+@interface SFOAuthCoordinator : NSObject <WKNavigationDelegate, WKUIDelegate, SFSafariViewControllerDelegate> {
 }
 
 /** User credentials to use within the authentication process.
@@ -360,6 +365,12 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  A dictionary of additional parameters (key value pairs) to send during token refresh
  */
 @property (nonatomic, strong) NSDictionary * additionalTokenRefreshParams;
+
+/** Brand Login Path.
+ The brand login path used for the authorize endpoint e.g. /brand in
+ https://community.force.com/services/oauth2/authorize/<brand>?response_type=code&...
+ */
+@property (nonatomic, copy) NSString *brandLoginPath;
 
 ///---------------------------------------------------------------------------------------
 /// @name Initialization

@@ -283,7 +283,10 @@ static NSMutableDictionary *SharedInstances = nil;
         [self.queue addOperation:action];
     } else {
         dispatch_async(self.duplicateActionDetectionQueue, ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             CSFAction *duplicateAction = [self duplicateActionInFlight:action];
+#pragma clang diagnostic pop
             if (duplicateAction) {
                 action.duplicateParentAction = duplicateAction;
                 [action addDependency:duplicateAction];
@@ -381,6 +384,8 @@ static NSMutableDictionary *SharedInstances = nil;
     });
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (void)enumerateDelegatesSync:(void(^)(NSObject<CSFNetworkDelegate>*))block {
     dispatch_sync(self.delegatesQueue, ^{
         dispatch_sync(self.delegatesDispatchingQueue, ^{
@@ -445,6 +450,7 @@ static NSMutableDictionary *SharedInstances = nil;
         }
     }];
 }
+#pragma clang diagnostic pop
 
 #pragma mark -
 

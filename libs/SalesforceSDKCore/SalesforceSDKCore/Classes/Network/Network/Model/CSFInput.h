@@ -25,6 +25,7 @@
 #import <Foundation/Foundation.h>
 #import "CSFAvailability.h"
 #import "CSFActionInput.h"
+#import "SalesforceSDKConstants.h"
 
 /**
  Instances of this class can be used as the input model for complex POST or PATCH network requests.
@@ -37,6 +38,7 @@
  to describe real-time user input, and ensures that data can be copied when a network request is
  initiated.
  */
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 @interface CSFInput : NSObject <NSSecureCoding, NSCopying, CSFActionInput>
 
 /** Returns a boolean value that indicates whether a given model object is equal to the receiver.

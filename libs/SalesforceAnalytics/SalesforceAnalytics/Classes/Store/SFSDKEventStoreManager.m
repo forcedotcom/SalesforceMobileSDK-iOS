@@ -69,6 +69,9 @@
 }
 
 - (void) storeEvent:(SFSDKInstrumentationEvent *) event {
+    if (!event) {
+        return;
+    }
 
     // Copies event, to isolate data for I/O.
     SFSDKInstrumentationEvent *eventCopy = [event copy];
@@ -86,7 +89,7 @@
         [[NSFileManager defaultManager] createDirectoryAtPath:parentDir withIntermediateDirectories:YES attributes: @{ NSFileProtectionKey: NSFileProtectionCompleteUntilFirstUserAuthentication } error:&error];
         [encryptedData writeToFile:filename options:NSDataWritingFileProtectionCompleteUntilFirstUserAuthentication error:&error];
         if (error) {
-            NSLog(@"Error occurred while writing to file: %@", error.localizedDescription);
+            [SFSDKAnalyticsLogger w:[self class] format:@"Error occurred while writing to file: %@", error.localizedDescription];
         }
     }
 }

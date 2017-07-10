@@ -39,8 +39,9 @@
 #define __SALESFORCE_SDK_5_0_0 50000
 #define __SALESFORCE_SDK_5_0_1 50001
 #define __SALESFORCE_SDK_5_1_0 50100
+#define __SALESFORCE_SDK_5_2_0 50200
 
-#define SALESFORCE_SDK_VERSION_MIN_REQUIRED __SALESFORCE_SDK_5_1_0
+#define SALESFORCE_SDK_VERSION_MIN_REQUIRED __SALESFORCE_SDK_5_2_0
 
 #define SALESFORCE_SDK_VERSION [NSString stringWithFormat:@"%d.%d.%d%@",              \
                                 (SALESFORCE_SDK_VERSION_MIN_REQUIRED / 10000),        \
@@ -57,9 +58,9 @@ __builtin_unreachable(); \
 }
 
 #ifdef __clang__
-#define SFSDK_DEPRECATED(version, msg) __attribute__((deprecated("Deprecated in Salesforce Mobile SDK " #version ". " msg)))
+#define SFSDK_DEPRECATED(dep_version, rem_version, msg) __attribute__((deprecated("Deprecated in Salesforce Mobile SDK " #dep_version " and will be removed in Salesforce Mobile SDK " #rem_version ". " msg)))
 #else
-#define SFSDK_DEPRECATED(version, msg) __attribute__((deprecated()))
+#define SFSDK_DEPRECATED(dep_version, rem_version, msg) __attribute__((deprecated()))
 #endif
 
 #endif // SalesforceSDKConstants_h

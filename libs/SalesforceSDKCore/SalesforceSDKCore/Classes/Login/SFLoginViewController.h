@@ -26,7 +26,24 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SalesforceSDKCore.h"
+@class SFLoginViewController;
+@class SFSDKLoginHost;
+
+/**
+ * Delegate protocol for the owner of SFLoginViewController.
+ */
+@protocol SFLoginViewControllerDelegate <NSObject>
+
+@optional
+
+/**
+ * Notifies the delegate that the selected login host has been changed.
+ * @param loginViewController The instance sending this message.
+ * @param newLoginHost The updated login host.
+ */
+- (void)loginViewController:(nonnull SFLoginViewController *)loginViewController didChangeLoginHost:(nonnull SFSDKLoginHost *)newLoginHost;
+
+@end
 
 
 /** The Salesforce login screen view.
@@ -36,6 +53,11 @@
 /** Returns a shared singleton of `SFLoginViewController` class.
  */
 +(_Nonnull instancetype)sharedInstance;
+
+/**
+ * The delegate representing the owner of this object.
+ */
+@property (nonatomic, weak, nullable) id<SFLoginViewControllerDelegate> delegate;
 
 /**
  * Outlet to the OAuth web view.

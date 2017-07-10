@@ -23,6 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SalesforceSDKConstants.h"
 
 #ifndef CSF_EXTERN
 #ifdef __cplusplus
@@ -46,8 +47,9 @@ CSF_EXTERN NSString * const CSFNetworkLogIdentifier;
  This block is invoked after the action has completed with or without error.
  This block is defined by the user of the CHAction class.
  */
-typedef void (^CSFActionResponseBlock)(CSFAction *action, NSError *error);
+typedef void (^CSFActionResponseBlock)(CSFAction *action, NSError *error) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
 
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 typedef struct _CSFPrimitivePointer {
     int                *intPtr;
     unsigned int       *unsignedIntPtr;
@@ -66,7 +68,7 @@ typedef struct _CSFPrimitivePointer {
     unsigned long long *unsignedLongLongPtr;
 } CSFPrimitivePointer;
 
-typedef void (*CSFPrimitiveFormatterPtr)(id value, CSFPrimitivePointer outputStruct);
+typedef void (*CSFPrimitiveFormatterPtr)(id value, CSFPrimitivePointer outputStruct) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
 
 /** This type defines the execution cap that an action has.
  Notes:
@@ -74,6 +76,7 @@ typedef void (*CSFPrimitiveFormatterPtr)(id value, CSFPrimitivePointer outputStr
  (2) A session is defined as lasting from the time the application starts (or resumes) until
  it is backgrounded or killed.
  */
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 typedef NS_ENUM(NSUInteger, CSFActionExecutionCapType) {
     /** Default value which means the action can be executed as many times as it wants
      */
@@ -84,11 +87,13 @@ typedef NS_ENUM(NSUInteger, CSFActionExecutionCapType) {
     CSFActionExecutionCapTypeOncePerSession,
 };
 
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 typedef NS_ENUM(NSInteger, CSFInteractionContext) {
     CSFInteractionContextUser = 0,       /// the event was caused by user interaction
     CSFInteractionContextProgrammatic    /// the event was programmatically triggered
 };
 
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 typedef NS_ENUM(NSInteger, CSFChatterCommunityMode)  {
     CSFChatterCommunityOptional = 0,
     CSFChatterCommunityRequired,
@@ -110,6 +115,7 @@ CSF_EXTERN NSString * const CSFNetworkErrorAuthenticationFailureKey;
    - CSFNetworkInvalidActionParameterError: The supplied action parameter was invalid
    - CSFNetworkJSONInvalidError: The returned result could not be parsed as JSON
  */
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 typedef NS_ENUM(NSInteger, CSFNetworkErrorCode) {
     CSFNetworkAPIError = 1000,
     CSFNetworkInternalError,
@@ -124,11 +130,13 @@ typedef NS_ENUM(NSInteger, CSFNetworkErrorCode) {
 };
 
 CSF_EXTERN NSString * const CSFValidationErrorDomain;
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 typedef NS_ENUM(NSInteger, CSFValidationErrorCode) {
     CSFValidationDataTypeError = 1100,
     CSFValidationRangeError,
 };
 
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 typedef NS_ENUM(NSUInteger, CSFParameterStyle) {
     CSFParameterStyleNone = 0,
     CSFParameterStyleQueryString,

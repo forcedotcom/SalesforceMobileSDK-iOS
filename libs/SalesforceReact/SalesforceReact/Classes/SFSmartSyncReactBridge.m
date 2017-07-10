@@ -23,7 +23,6 @@
  */
 
 #import "SFSmartSyncReactBridge.h"
-
 #import <React/RCTUtils.h>
 #import <SalesforceSDKCore/NSDictionary+SFAdditions.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
@@ -54,7 +53,7 @@ RCT_EXPORT_MODULE();
 RCT_EXPORT_METHOD(getSyncStatus:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
 {
     NSNumber* syncId = (NSNumber*) [args nonNullObjectForKey:kSyncIdArg];
-    [self log:SFLogLevelDebug format:@"getSyncStatus with sync id: %@", syncId];
+    [SFSDKReactLogger d:[self class] format:[NSString stringWithFormat:@"getSyncStatus with sync id: %@", syncId]];
     SFSyncState* sync = [[self getSyncManagerInst:args] getSyncStatus:syncId];
     callback(@[[NSNull null], [sync asDict]]);
 }
@@ -68,13 +67,13 @@ RCT_EXPORT_METHOD(syncDown:(NSDictionary *)args callback:(RCTResponseSenderBlock
     SFSyncState* sync = [[self getSyncManagerInst:args]  syncDownWithTarget:target options:options soupName:soupName updateBlock:^(SFSyncState* sync) {
         [weakSelf handleSyncUpdate:sync withArgs:args callback:callback];
     }];
-    [self log:SFLogLevelDebug format:@"syncDown # %d to soup: %@", sync.syncId, soupName];
+    [SFSDKReactLogger d:[self class] format:[NSString stringWithFormat:@"syncDown # %ld to soup: %@", sync.syncId, soupName]];
 }
 
 RCT_EXPORT_METHOD(reSync:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
 {
     NSNumber* syncId = (NSNumber*) [args nonNullObjectForKey:kSyncIdArg];
-    [self log:SFLogLevelDebug format:@"reSync with sync id: %@", syncId];
+    [SFSDKReactLogger d:[self class] format:[NSString stringWithFormat:@"reSync with sync id: %@", syncId]];
     __weak typeof(self) weakSelf = self;
     [[self getSyncManagerInst:args] reSync:syncId updateBlock:^(SFSyncState* sync) {
         [weakSelf handleSyncUpdate:sync withArgs:args callback:callback];
@@ -84,7 +83,7 @@ RCT_EXPORT_METHOD(reSync:(NSDictionary *)args callback:(RCTResponseSenderBlock)c
 RCT_EXPORT_METHOD(cleanResyncGhosts:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
 {
     NSNumber* syncId = (NSNumber*) [args nonNullObjectForKey:kSyncIdArg];
-    [self log:SFLogLevelDebug format:@"cleanResyncGhosts with sync id: %@", syncId];
+    [SFSDKReactLogger d:[self class] format:[NSString stringWithFormat:@"cleanResyncGhosts with sync id: %@", syncId]];
     [[self getSyncManagerInst:args] cleanResyncGhosts:syncId completionStatusBlock:^void(SFSyncStateStatus syncStatus){
         callback(@[[NSNull null], [SFSyncState syncStatusToString:syncStatus]]);
     }];
@@ -99,7 +98,7 @@ RCT_EXPORT_METHOD(syncUp:(NSDictionary *)args callback:(RCTResponseSenderBlock)c
     SFSyncState* sync = [[self getSyncManagerInst:args] syncUpWithTarget:target options:options soupName:soupName updateBlock:^(SFSyncState* sync) {
         [weakSelf handleSyncUpdate:sync withArgs:args callback:callback];
     }];
-    [self log:SFLogLevelDebug format:@"syncUp # %d from soup: %@", sync.syncId, soupName];
+    [SFSDKReactLogger d:[self class] format:[NSString stringWithFormat:@"syncUp # %ld from soup: %@", sync.syncId, soupName]];
 }
 
 #pragma mark - Helper methods

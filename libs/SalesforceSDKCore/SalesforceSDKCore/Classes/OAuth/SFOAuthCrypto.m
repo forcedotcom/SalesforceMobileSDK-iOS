@@ -68,7 +68,7 @@ static const size_t         kCryptoKeySize      = kCCKeySizeAES256;
                                                       &_cryptor);
         
         if (cryptStatus != kCCSuccess) {
-            [self log:SFLogLevelDebug format:@"%@:initWithOperation: CCCryptorCreate failed (%d)", [self class], cryptStatus];
+            [SFSDKCoreLogger d:[self class] format:@"%@:initWithOperation: CCCryptorCreate failed (%d)", [self class], cryptStatus];
             return nil;
         }
         _dataBuffer = [[NSMutableData alloc] init];
@@ -108,7 +108,7 @@ static const size_t         kCryptoKeySize      = kCCKeySizeAES256;
     _totalLength += _dataOutMoved;
     
     if (self.status != kCCSuccess) {
-        [self log:SFLogLevelDebug format:@"%@:finalizeCipher: Failed in cipher finalization (%d)", [self class], self.status];
+        [SFSDKCoreLogger d:[self class] format:@"%@:finalizeCipher: Failed in cipher finalization (%d)", [self class], self.status];
         CCCryptorRelease(_cryptor); _cryptor = NULL;
         free(_dataOut); _dataOut = NULL;
         return nil;
@@ -155,7 +155,7 @@ static const size_t         kCryptoKeySize      = kCCKeySizeAES256;
     CCCryptorStatus cryptStatus = CCCryptorUpdate(_cryptor, dataIn, dataInLength, _dataOut, _dataOutLength, &_dataOutMoved);
     
     if ( cryptStatus != kCCSuccess) {
-        [self log:SFLogLevelDebug format:@"%@:doCipher: CCCryptorUpdate failed (%d)", [self class], cryptStatus];
+        [SFSDKCoreLogger d:[self class] format:@"%@:doCipher: CCCryptorUpdate failed (%d)", [self class], cryptStatus];
     }
     
     // Write the ciphered buffer into the output buffer

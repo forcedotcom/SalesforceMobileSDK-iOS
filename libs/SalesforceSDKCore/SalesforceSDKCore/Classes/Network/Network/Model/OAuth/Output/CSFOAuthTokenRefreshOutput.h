@@ -27,6 +27,7 @@
 
 @class SFOAuthCoordinator;
 
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 @interface CSFOAuthTokenRefreshOutput : CSFOutput<CSFIndexedEntity>
 
 @property (nonatomic, strong, readonly) NSURL *idUrl;

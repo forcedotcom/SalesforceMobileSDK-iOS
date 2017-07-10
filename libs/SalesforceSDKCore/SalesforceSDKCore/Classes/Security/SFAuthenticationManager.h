@@ -28,8 +28,10 @@
 #import "SFOAuthInfo.h"
 #import "SFUserAccountManager.h"
 #import "SFIdentityCoordinator.h"
+#import "SalesforceSDKConstants.h"
 @class SFAuthenticationManager;
 @class SFAuthenticationViewHandler;
+@class SFAuthenticationSafariControllerHandler;
 @class SFAuthErrorHandler;
 @class SFAuthErrorHandlerList;
 @class SFLoginHostUpdateResult;
@@ -173,6 +175,13 @@ typedef void (^SFOAuthFlowFailureCallbackBlock)(SFOAuthInfo *, NSError *);
 - (void)authManagerDidCancelBrowserFlow:(SFAuthenticationManager *)manager;
 
 /**
+ Called when the auth manager is going to present the safari view controller.
+ @param manager The instance of SFAuthenticationManager making the call.
+ @param svc The instance of the safari view controller to be presented.
+ */
+- (void)authManager:(SFAuthenticationManager *)manager willDisplayAuthSafariViewController:(SFSafariViewController *)svc;
+
+/**
  Called when a generic flow authentication is cancelled.
  @param manager The instance of SFAuthenticationManager making the call.
 */
@@ -276,6 +285,13 @@ extern  NSString * const kOAuthRedirectUriKey;
 @property (nonatomic, strong) SFAuthenticationViewHandler *authViewHandler;
 
 /**
+ The property denoting the handler for presenting the authentication controller (for advanced auth flows)
+ You can override this handler if you want to have a custom work flow for displaying the authentication
+ controller.
+ */
+@property (nonatomic, strong) SFAuthenticationSafariControllerHandler *authSafariControllerHandler;
+
+/**
  The auth handler for invalid credentials.
  */
 @property (nonatomic, readonly) SFAuthErrorHandler *invalidCredentialsAuthErrorHandler;
@@ -352,6 +368,11 @@ extern  NSString * const kOAuthRedirectUriKey;
 @property (nonatomic, copy, nullable) NSString *oauthCompletionUrl;
 
 /**
+ The Branded Login path configured for this application.
+ */
+@property (nonatomic, nullable, copy) NSString *brandLoginPath;
+
+/**
  The OAuth scopes associated with the app.
  */
 @property (nonatomic, copy) NSSet<NSString*> *scopes;
@@ -387,17 +408,31 @@ extern  NSString * const kOAuthRedirectUriKey;
                     failure:(nullable SFOAuthFlowFailureCallbackBlock)failureBlock;
 
 /**
- Kick off the login process for the specified credentials.
- @param completionBlock The block of code to execute when the authentication process successfully completes.
- @param failureBlock The block of code to execute when the authentication process has a fatal failure.
- @param credentials SFOAuthCredentials to be logged in.
+ Kick off the refresh process for the specified credentials.
+ Note: This method is deprecated.  Use refreshCredentials:completion:failure: to refresh existing credentials.
+ @param completionBlock The block of code to execute when the refresh process successfully completes.
+ @param failureBlock The block of code to execute when the refresh process has a fatal failure.
+ @param credentials SFOAuthCredentials to be refreshed.
  @return YES if this call kicks off the authentication process.  NO if an authentication process has already
  started, in which case subsequent requests are queued up to have their completion or failure blocks executed
  in succession.
  */
 - (BOOL)loginWithCompletion:(nullable SFOAuthFlowSuccessCallbackBlock)completionBlock
                     failure:(nullable SFOAuthFlowFailureCallbackBlock)failureBlock
-                    credentials:(nullable SFOAuthCredentials *)credentials;
+                credentials:(nullable SFOAuthCredentials *)credentials SFSDK_DEPRECATED(5.2, 6.0, "Use refreshCredentials:completion:failure: to refresh existing credentials.");
+
+/**
+ Kick off the refresh process for the specified credentials.
+ @param credentials SFOAuthCredentials to be refreshed.
+ @param completionBlock The block of code to execute when the refresh process successfully completes.
+ @param failureBlock The block of code to execute when the refresh process has a fatal failure.
+ @return YES if this call kicks off the authentication process.  NO if an authentication process has already
+ started, in which case subsequent requests are queued up to have their completion or failure blocks executed
+ in succession.
+ */
+- (BOOL)refreshCredentials:(nonnull SFOAuthCredentials *)credentials
+                completion:(nullable SFOAuthFlowSuccessCallbackBlock)completionBlock
+                   failure:(nullable SFOAuthFlowFailureCallbackBlock)failureBlock;
 
 /**
  Login using the given JWT token to exchange with the service for credentials.
@@ -468,24 +503,6 @@ extern  NSString * const kOAuthRedirectUriKey;
  @return YES if the error is due to invalid credentials, NO otherwise.
  */
 + (BOOL)errorIsInvalidAuthCredentials:(NSError *)error;
-
-/**
- Remove any cookies with the given names from the given domains.
- @param cookieNames The names of the cookies to remove.
- @param domainNames The names of the domains where the cookies are set.
- */
-+ (void)removeCookies:(NSArray<NSString*> *)cookieNames fromDomains:(NSArray<NSString*> *)domainNames;
-
-/**
- Remove all cookies from the cookie store.
- */
-+ (void)removeAllCookies;
-
-/**
- Adds the access (session) token cookie to the web view, for authentication.
- @param domain The domain on which to set the cookie.
- */
-+ (void)addSidCookieForDomain:(NSString*)domain;
 
 @end
 

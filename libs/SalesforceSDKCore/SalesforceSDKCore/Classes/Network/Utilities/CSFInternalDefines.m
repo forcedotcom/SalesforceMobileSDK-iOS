@@ -23,6 +23,7 @@
  */
 
 #import "CSFInternalDefines.h"
+#import "SFLogger.h"
 
 #ifdef CSFPlatformiOS
 @import MobileCoreServices;
@@ -32,10 +33,15 @@
 
 NSInteger kCSFNetworkLogContext = 0;
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
 __attribute__((constructor))
 static void initialize_logging() {
     kCSFNetworkLogContext = [[SFLogger sharedLogger] registerIdentifier:CSFNetworkLogIdentifier];
 }
+
+#pragma clang diagnostic pop
 
 NSString * CSFMIMETypeForExtension(NSString * extension) {
     NSString *type = @"application/octet-stream";
@@ -76,8 +82,12 @@ CSFParameterStyle CSFRequiredParameterStyleForHTTPMethod(NSString *method) {
 Class CSFClassFromEncoding(NSString *encoding) {
     Class result = nil;
     if ([encoding hasPrefix:@"@"]) {
-        NSString *className = [[encoding substringFromIndex:2] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
-        result = NSClassFromString(className);
+        if (encoding.length > 2) {
+            NSString *className = [[encoding substringFromIndex:2] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+            result = NSClassFromString(className);
+        } else {
+            result = [NSObject class];
+        }
     }
     return result;
 }

@@ -243,7 +243,7 @@ static NSMutableDictionary *cacheMgrList = nil;
     
     // Check SmartStore if in-memory cache not found.
     if (![objectClass isSubclassOfClass:[SFSmartSyncPersistableObject class]]) {
-        [self log:SFLogLevelError format:@"%@: Object type class '%@' should be an instance of SmartSyncPersistableObject.", NSStringFromSelector(_cmd), objectClass];
+        [SFSDKSmartSyncLogger e:[self class] format:@"%@: Object type class '%@' should be an instance of SmartSyncPersistableObject.", NSStringFromSelector(_cmd), objectClass];
         return nil;
     }
     
@@ -267,7 +267,7 @@ static NSMutableDictionary *cacheMgrList = nil;
     NSString *compositeCacheKey = [self compositeCacheKeyForCacheType:cacheType cacheKey:cacheKey];
     if (compositeCacheKey == nil) {
         // Invalid/empty cache key or cache type.
-        [self log:SFLogLevelError msg:@"Cache type and cache key must both have a value. No action taken."];
+        [SFSDKSmartSyncLogger e:[self class] format:@"Cache type and cache key must both have a value. No action taken."];
         return;
     }
     
@@ -281,7 +281,7 @@ static NSMutableDictionary *cacheMgrList = nil;
     // Otherwise, we have data to write to the cache.
     
     if (![self isValidStoreCacheData:data]) {
-        [self log:SFLogLevelError msg:@"Data array is not valid for storage."];
+        [SFSDKSmartSyncLogger e:[self class] format:@"Data array is not valid for storage."];
         return;
     }
 
@@ -310,22 +310,22 @@ static NSMutableDictionary *cacheMgrList = nil;
 - (BOOL)isValidStoreCacheData:(NSArray *)inputData
 {
     if ([inputData count] == 0) {
-        [self log:SFLogLevelError format:@"%@: No entries to cache.", NSStringFromSelector(_cmd)];
+        [SFSDKSmartSyncLogger e:[self class] format:@"%@: No entries to cache.", NSStringFromSelector(_cmd)];
         return NO;
     }
     
     Class inputDataClass = [inputData[0] class];
     for (id arrayItem in inputData) {
         if (![arrayItem isKindOfClass:[SFSmartSyncPersistableObject class]]) {
-            [self log:SFLogLevelError format:@"%@: Data with class '%@' should be an instance of SmartSyncPersistableObject.", NSStringFromSelector(_cmd), NSStringFromClass([arrayItem class])];
+            [SFSDKSmartSyncLogger e:[self class] format:@"%@: Data with class '%@' should be an instance of SmartSyncPersistableObject.", NSStringFromSelector(_cmd), NSStringFromClass([arrayItem class])];
             return NO;
         }
         if ([arrayItem class] != inputDataClass) {
-            [self log:SFLogLevelError format:@"%@: Input data items should all be the same class.  Current mixture of '%@' and '%@'.", NSStringFromSelector(_cmd), NSStringFromClass(inputDataClass), NSStringFromClass([arrayItem class])];
+            [SFSDKSmartSyncLogger e:[self class] format:@"%@: Input data items should all be the same class.  Current mixture of '%@' and '%@'.", NSStringFromSelector(_cmd), NSStringFromClass(inputDataClass), NSStringFromClass([arrayItem class])];
             return NO;
         }
         if (((SFSmartSyncPersistableObject *)arrayItem).rawData == nil) {
-            [self log:SFLogLevelError format:@"%@: Raw data of '%@' item should not be nil.", NSStringFromSelector(_cmd), NSStringFromClass([arrayItem class])];
+            [SFSDKSmartSyncLogger e:[self class] format:@"%@: Raw data of '%@' item should not be nil.", NSStringFromSelector(_cmd), NSStringFromClass([arrayItem class])];
             return NO;
         }
     }
@@ -357,7 +357,7 @@ static NSMutableDictionary *cacheMgrList = nil;
     for (NSDictionary *persistedObjectDict in persistableDataObjects) {
         NSDictionary *rawDataDict = persistedObjectDict[kRawDataKey];
         if (rawDataDict == nil) {
-            [self log:SFLogLevelError format:@"Cache data for '%@' class has no raw data.", NSStringFromClass(objectTypeClass)];
+            [SFSDKSmartSyncLogger e:[self class] format:@"Cache data for '%@' class has no raw data.", NSStringFromClass(objectTypeClass)];
             continue;
         }
         NSString *objectType = persistedObjectDict[kTypeKey];
@@ -378,7 +378,7 @@ static NSMutableDictionary *cacheMgrList = nil;
     NSError *upsertError = nil;
     [self.store upsertEntries:@[ data ] toSoup:soupName withExternalIdPath:kSmartStoreCacheKeyPath error:&upsertError];
     if (upsertError) {
-        [self log:SFLogLevelError format:@"Error upserting cache data to SmartStore: %@", [upsertError localizedDescription]];
+        [SFSDKSmartSyncLogger e:[self class] format:@"Error upserting cache data to SmartStore: %@", [upsertError localizedDescription]];
     }
 }
 
@@ -392,7 +392,7 @@ static NSMutableDictionary *cacheMgrList = nil;
     
     NSArray *results = [self.store queryWithQuerySpec:querySpec pageIndex:0 error:&queryError];
     if (queryError) {
-        [self log:SFLogLevelError format:@"Error querying SmartStore for cached data: %@", [queryError localizedDescription]];
+        [SFSDKSmartSyncLogger e:[self class] format:@"Error querying SmartStore for cached data: %@", [queryError localizedDescription]];
         return nil;
     }
     
@@ -440,7 +440,7 @@ static NSMutableDictionary *cacheMgrList = nil;
     NSError *upsertError = nil;
     [self.store upsertEntries:@[ soupNameEntry ] toSoup:kSmartStoreSoupMappingSoupName withExternalIdPath:kSmartStoreSoupNamesPath error:&upsertError];
     if (upsertError) {
-        [self log:SFLogLevelError format:@"Error adding cache soup '%@' to mapping soup: %@", soupName, [upsertError localizedDescription]];
+        [SFSDKSmartSyncLogger e:[self class] format:@"Error adding cache soup '%@' to mapping soup: %@", soupName, [upsertError localizedDescription]];
     }
 }
 
@@ -470,7 +470,7 @@ static NSMutableDictionary *cacheMgrList = nil;
     do {
         NSArray *results = [self.store queryWithQuerySpec:querySpec pageIndex:pageIndex error:&queryError];
         if (queryError) {
-            [self log:SFLogLevelError format:@"Error querying SmartStore for cache soup names: %@", [queryError localizedDescription]];
+            [SFSDKSmartSyncLogger e:[self class] format:@"Error querying SmartStore for cache soup names: %@", [queryError localizedDescription]];
             return nil;
         }
         

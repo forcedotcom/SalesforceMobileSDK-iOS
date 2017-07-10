@@ -23,9 +23,7 @@
  */
 
 #import "SFNetReactBridge.h"
-
 #import <React/RCTUtils.h>
-
 #import <SalesforceSDKCore/NSDictionary+SFAdditions.h>
 #import <SalesforceSDKCore/SFRestAPI+Blocks.h>
 
@@ -53,10 +51,18 @@ RCT_EXPORT_METHOD(sendRequest:(NSDictionary *)argsDict callback:(RCTResponseSend
     NSString* endPoint = [argsDict nonNullObjectForKey:kEndPointArg];
     NSString* path = [argsDict nonNullObjectForKey:kPathArg];
     NSDictionary* queryParams = [argsDict nonNullObjectForKey:kQueryParams];
-    NSDictionary* headerParams = [argsDict nonNullObjectForKey:kHeaderParams];
+    NSMutableDictionary* headerParams = [argsDict nonNullObjectForKey:kHeaderParams];
     NSDictionary* fileParams = [argsDict nonNullObjectForKey:kfileParams];
-    SFRestRequest* request = [SFRestRequest requestWithMethod:method path:path queryParams:queryParams];
+    SFRestRequest* request = nil;
     
+    // Sets HTTP body explicitly for a POST, PATCH or PUT request.
+    if (method == SFRestMethodPOST || method == SFRestMethodPATCH || method == SFRestMethodPUT) {
+        request = [SFRestRequest requestWithMethod:method path:path queryParams:nil];
+        [request setCustomRequestBodyDictionary:queryParams contentType:@"application/json"];
+    } else {
+        request = [SFRestRequest requestWithMethod:method path:path queryParams:queryParams];
+    }
+
     // Custom headers
     [request setCustomHeaders:headerParams];
     if (endPoint) {

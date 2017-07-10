@@ -36,10 +36,10 @@
 #import "SFSDKAILTNPublisher.h"
 #import "UIDevice+SFHardware.h"
 #import "SFIdentityData.h"
-#import "NSUserDefaults+SFAdditions.h"
 #import "SFApplicationHelper.h"
 #import <SalesforceAnalytics/SFSDKAILTNTransform.h>
 #import <SalesforceAnalytics/SFSDKDeviceAppAttributes.h>
+#import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 #import "SFSDKAppFeatureMarkers.h"
 
 static NSString * const kEventStoresDirectory = @"event_stores";
@@ -231,7 +231,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
 
 - (void) addRemotePublisher:(id<SFSDKTransform>) transformer publisher:(id<SFSDKAnalyticsPublisher>) publisher {
     if (!transformer || !publisher) {
-        [self log:SFLogLevelWarning msg:@"Invalid transformer and/or publisher"];
+        [SFSDKCoreLogger w:[self class] format:@"Invalid transformer and/or publisher"];
         return;
     }
     SFSDKAnalyticsTransformPublisherPair *tpp = [[SFSDKAnalyticsTransformPublisherPair alloc] initWithTransform:transformer publisher:publisher];

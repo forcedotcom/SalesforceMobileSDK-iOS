@@ -189,7 +189,7 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
     } else if ([rawQueryType isEqualToString:kQuerySpecTypeSmart]) {
         self = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:pageSize];
     } else {
-        [self log:SFLogLevelDebug format:@"Invalid queryType: '%@'", rawQueryType];
+        [SFSDKSmartStoreLogger d:[self class] format:@"Invalid queryType: '%@'", rawQueryType];
         self = nil;
     }
     
@@ -387,7 +387,7 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
 
 - (NSString*)computeFieldReference:(NSString*) field {
     NSString* fieldRef = [@[@"{", self.soupName, @":", field, @"}"] componentsJoinedByString:@""];
-    [self log:SFLogLevelVerbose format:@"computeFieldReference: %@ --> %@", field, fieldRef];
+    [SFSDKSmartStoreLogger v:[self class] format:@"computeFieldReference: %@ --> %@", field, fieldRef];
     return fieldRef;
 }
 

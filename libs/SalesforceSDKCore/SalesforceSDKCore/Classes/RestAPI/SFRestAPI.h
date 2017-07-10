@@ -50,8 +50,6 @@ extern NSString* const kSFRestDefaultAPIVersion;
  */
 extern NSString* const kSFRestIfUnmodifiedSince;
 
-@class SFOAuthCoordinator;
-
 /**
  Main class used to issue REST requests to the standard Force.com REST API.
  
@@ -135,14 +133,6 @@ extern NSString* const kSFRestIfUnmodifiedSince;
 
  */
 @interface SFRestAPI : NSObject
-
-/**
- * Gets or sets the value of the `SFOAuthCoordinator` instance associated with SFRestAPI requests.
- * Note: If your app inherits from `SFNativeRestAppDelegate`, or you otherwise manage the account
- * configuration of your app through `SFAccountManager`, you should not need to set/configure this
- * property, as it's closely aligned with SFAccountManager already.
- */
-@property (nonatomic, strong) SFOAuthCoordinator *coordinator;
 
 /**
  * The REST API version used for all the calls. This could be "v21.0", "v22.0"...
@@ -376,6 +366,10 @@ extern NSString* const kSFRestIfUnmodifiedSince;
 ///---------------------------------------------------------------------------------------
 /// @name Other utility methods
 ///---------------------------------------------------------------------------------------
+
++ (BOOL)isStatusCodeSuccess:(NSUInteger)statusCode;
+
++ (BOOL)isStatusCodeNotFound:(NSUInteger)statusCode;
 
 /**
  * Provides the User-Agent string used by the SDK

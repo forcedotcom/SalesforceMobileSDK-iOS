@@ -253,7 +253,7 @@ static NSString * const kSFSDKInstrumentationForwardBlockPrefix = @"__method_for
         
         class_replaceMethod(originalMetaClass, self.originalMethodRenamedSelector, originalMethodIMP, methodTypes);
     }
-    NSLog(@"%@ is ENABLED", self);
+    [SFSDKCoreLogger d:[self class] format:@"%@ is ENABLED", self];
 }
 
 - (void)unswizzle {
@@ -272,7 +272,7 @@ static NSString * const kSFSDKInstrumentationForwardBlockPrefix = @"__method_for
     @synchronized (InterceptorsForClassAndSelector) {
         [InterceptorsForClassAndSelector removeObjectForKey:interceptorKey(self.classToIntercept, self.selectorToIntercept, self.instanceMethod)];
     }
-    NSLog(@"%@ is DISABLED", self);
+    [SFSDKCoreLogger d:[self class] format:@"%@ is DISABLED", self];
 }
 
 - (void)setEnabled:(BOOL)enabled {

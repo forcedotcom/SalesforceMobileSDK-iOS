@@ -114,7 +114,8 @@ static NSTimeInterval const kCSFTokenRefreshTimeout = 60.0;
             [strongSelf finishWithOutput:nil error:error];
             return;
         }
-        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         CSFOutput *refreshOutput = nil;
         if (data) {
             NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
@@ -124,7 +125,7 @@ static NSTimeInterval const kCSFTokenRefreshTimeout = 60.0;
             }
             refreshOutput = [[CSFOAuthTokenRefreshOutput alloc] initWithJSON:jsonData context:nil];
         }
-
+#pragma clang diagnostic pop
         [strongSelf finishWithOutput:refreshOutput error:nil];
     }];
     [task resume];

@@ -23,8 +23,7 @@
  */
 
 #import "SFInactivityTimerCenter.h"
-#import "SFLogger.h"
-#import "NSUserDefaults+SFAdditions.h"
+#import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 
 @implementation SFInactivityTimerCenter
 
@@ -83,9 +82,9 @@ static NSDate *lastActivityTimestamp = nil;
         NSNumber *interval = [allIntervals objectForKey:timerName];
         if (t.valid) {
             [t setFireDate:[[NSDate date] dateByAddingTimeInterval:[interval doubleValue]]];
-            [self log:SFLogLevelDebug format:@"timer %@ updated to +%@ seconds", timerName, interval];
+            [SFSDKCoreLogger d:[self class] format:@"timer %@ updated to +%@ seconds", timerName, interval];
         } else {
-            [self log:SFLogLevelError format:@"timer %@ is invalid. removing...", timerName];
+            [SFSDKCoreLogger e:[self class] format:@"timer %@ is invalid. removing...", timerName];
             [keysToRemove addObject:timerName];
         }
     }

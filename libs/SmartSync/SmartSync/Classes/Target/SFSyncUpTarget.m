@@ -85,7 +85,7 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
     if (implClassName.length > 0) {
         Class customSyncUpClass = NSClassFromString(implClassName);
         if (![customSyncUpClass isSubclassOfClass:[SFSyncUpTarget class]]) {
-            [SFLogger log:self level:SFLogLevelError format:@"%@ Class '%@' is not a subclass of %@.", NSStringFromSelector(_cmd), implClassName, NSStringFromClass([SFSyncUpTarget class])];
+            [SFSDKSmartSyncLogger e:[self class] format:@"%@ Class '%@' is not a subclass of %@.", NSStringFromSelector(_cmd), implClassName, NSStringFromClass([SFSyncUpTarget class])];
             return nil;
         } else {
             return [[customSyncUpClass alloc] initWithDict:dict];
@@ -98,9 +98,8 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
         switch ([self targetTypeFromString:targetTypeString]) {
             case SFSyncUpTargetTypeRestStandard:
                 return [[SFSyncUpTarget alloc] initWithDict:dict];
-                
             case SFSyncUpTargetTypeCustom:
-                [SFLogger log:self level:SFLogLevelError format:@"%@ Custom class name not specified.", NSStringFromSelector(_cmd)];
+                [SFSDKSmartSyncLogger e:[self class] format:@"%@ Custom class name not specified.", NSStringFromSelector(_cmd)];
                 return nil;
         }
     }
@@ -200,10 +199,17 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
 #pragma mark - Helper methods
 
 - (NSDictionary*) buildFieldsMap:(NSDictionary *)record fieldlist:(NSArray *)fieldlist {
-    NSMutableDictionary* fields = [NSMutableDictionary dictionary];
+    return [self buildFieldsMap:record fieldlist:fieldlist idFieldName:self.idFieldName modificationDateFieldName:self.modificationDateFieldName];
+}
+
+- (NSMutableDictionary *)buildFieldsMap:(NSDictionary *)record
+                              fieldlist:(NSArray *)fieldlist
+                            idFieldName:(NSString *)idFieldName
+              modificationDateFieldName:(NSString *)modificationDateFieldName {
+    NSMutableDictionary *fields = [NSMutableDictionary dictionary];
     for (NSString *fieldName in fieldlist) {
-        if (![fieldName isEqualToString:self.idFieldName] && ![fieldName isEqualToString:self.modificationDateFieldName]) {
-            NSObject* fieldValue = [SFJsonUtils projectIntoJson:record path:fieldName];
+        if (![fieldName isEqualToString:idFieldName] && ![fieldName isEqualToString:modificationDateFieldName]) {
+            NSObject *fieldValue = [SFJsonUtils projectIntoJson:record path:fieldName];
             if (fieldValue != nil)
                 fields[fieldName] = fieldValue;
         }

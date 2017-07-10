@@ -33,6 +33,7 @@
 #import "SFAuthenticationManager.h"
 #import "SFSDKResourceUtils.h"
 #import "SFLoginViewController.h"
+#import "SFManagedPreferences.h"
 
 static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCellIdentifier";
 
@@ -47,13 +48,10 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
  */
 - (void)applyLoginHostAtIndex:(NSUInteger)index {
     SFSDKLoginHost *loginHost = [[SFSDKLoginHostStorage sharedInstance] loginHostAtIndex:index];
-    SFAuthenticationManager *m = [SFAuthenticationManager sharedManager];
-    
-    // Change the login host and login again. Don't do any logout as we don't
-    // want to remove anything at this point.
-    m.loginHost = loginHost.host;
-    [[SFAuthenticationManager sharedManager] cancelAuthentication];
-    [[SFUserAccountManager sharedInstance] switchToNewUser];}
+    if ([self.delegate respondsToSelector:@selector(hostListViewController:didChangeLoginHost:)]) {
+        [self.delegate hostListViewController:self didChangeLoginHost:loginHost];
+    }
+}
 
 /**
  * Scroll the table to make sure the host at the specified index is visible.

@@ -29,11 +29,9 @@
 
 @interface SFAuthenticationManager ()
 
-- (void)login;
+- (void)loginWithCredentials:(SFOAuthCredentials *)credentials;
 
-- (void)loginWithCredentials:(SFOAuthCredentials *) credentials;
-
-- (void)setupWithCredentials:(SFOAuthCredentials*) credentials;
+- (void)setupWithCredentials:(SFOAuthCredentials *)credentials;
 
 /**
  Clears the account state associated with the current account.

@@ -23,7 +23,6 @@
  */
 
 #import "SFSmartSyncNetworkUtils.h"
-#import "SFSyncManagerLogger.h"
 #import <SalesforceSDKCore/SFRestRequest.h>
 
 // For user agent
@@ -33,13 +32,13 @@ NSString * const kSmartSync = @"SmartSync";
 @implementation SFSmartSyncNetworkUtils
 
 + (void)sendRequestWithSmartSyncUserAgent:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestResponseBlock)completeBlock {
-    LogSyncDebug(@"sendRequestWithSmartSyncUserAgent:request:%@", request);
+    [SFSDKSmartSyncLogger d:[self class] format:@"sendRequestWithSmartSyncUserAgent:request:%@", request];
     [request setHeaderValue:[SFRestAPI userAgentString:kSmartSync] forHeaderName:kUserAgent];
     [[SFRestAPI sharedInstance] sendRESTRequest:request failBlock:^(NSError *e) {
-        LogSyncError(@"sendRequestWithSmartSyncUserAgent:error:%ld:%@", (long) e.code, e.domain);
+        [SFSDKSmartSyncLogger e:[self class] format:@"sendRequestWithSmartSyncUserAgent:error:%ld:%@", (long) e.code, e.domain];
         failBlock(e);
-    }                             completeBlock:^(id response) {
-        LogSyncDebug(@"sendRequestWithSmartSyncUserAgent:response:%@", response);
+    } completeBlock:^(id response) {
+        [SFSDKSmartSyncLogger d:[self class] format:@"sendRequestWithSmartSyncUserAgent:response:%@", response];
         completeBlock(response);
     }];
 }

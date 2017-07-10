@@ -29,13 +29,14 @@
 #import "SFSoslSyncDownTarget.h"
 #import "SFSmartSyncConstants.h"
 #import "SFSmartSyncObjectUtils.h"
-#import <SalesforceSDKCore/SalesforceSDKConstants.h>
+#import "SFParentChildrenSyncDownTarget.h"
 
 // query types
 NSString * const kSFSyncTargetQueryTypeMru = @"mru";
 NSString * const kSFSyncTargetQueryTypeSoql = @"soql";
 NSString * const kSFSyncTargetQueryTypeSosl = @"sosl";
 NSString * const kSFSyncTargetQueryTypeRefresh = @"refresh";
+NSString * const kSFSyncTargetQueryTypeParentChidlren = @"parentChildren";
 NSString * const kSFSyncTargetQueryTypeCustom = @"custom";
 
 @implementation SFSyncDownTarget
@@ -48,7 +49,7 @@ NSString * const kSFSyncTargetQueryTypeCustom = @"custom";
     if (implClassName.length > 0) {
         Class customSyncDownClass = NSClassFromString(implClassName);
         if (![customSyncDownClass isSubclassOfClass:[SFSyncDownTarget class]]) {
-            [SFLogger log:self level:SFLogLevelError format:@"%@ Class '%@' is not a subclass of %@.", NSStringFromSelector(_cmd), implClassName, NSStringFromClass([SFSyncDownTarget class])];
+            [SFSDKSmartSyncLogger e:[self class] format:@"%@ Class '%@' is not a subclass of %@.", NSStringFromSelector(_cmd), implClassName, NSStringFromClass([SFSyncDownTarget class])];
             return nil;
         } else {
             return [[customSyncDownClass alloc] initWithDict:dict];
@@ -65,8 +66,10 @@ NSString * const kSFSyncTargetQueryTypeCustom = @"custom";
                 return [[SFSoqlSyncDownTarget alloc] initWithDict:dict];
             case SFSyncDownTargetQueryTypeRefresh:
                 return [[SFRefreshSyncDownTarget alloc] initWithDict:dict];
+            case SFSyncDownTargetQueryTypeParentChildren:
+                return [[SFParentChildrenSyncDownTarget alloc] initWithDict:dict];
             case SFSyncDownTargetQueryTypeCustom:
-                [SFLogger log:self level:SFLogLevelError format:@"%@ Custom class name not specified.", NSStringFromSelector(_cmd)];
+                [SFSDKSmartSyncLogger e:[self class] format:@"%@ Custom class name not specified.", NSStringFromSelector(_cmd)];
                 return nil;
         }
     }
@@ -98,16 +101,7 @@ ABSTRACT_METHOD
    completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock ABSTRACT_METHOD
 
 - (long long)getLatestModificationTimeStamp:(NSArray*)records {
-    long long maxTimeStamp = -1L;
-    for(NSDictionary* record in records) {
-        NSString* timeStampStr = record[self.modificationDateFieldName];
-        if (!timeStampStr) {
-            break; // LastModifiedDate field not present
-        }
-        long long timeStamp = [SFSmartSyncObjectUtils getMillisFromIsoString:timeStampStr];
-        maxTimeStamp = (timeStamp > maxTimeStamp ? timeStamp : maxTimeStamp);
-    }
-    return maxTimeStamp;
+    return [self getLatestModificationTimeStamp:records modificationDateFieldName:self.modificationDateFieldName];
 }
 
 - (void)cleanGhosts:(SFSmartSyncSyncManager *)syncManager
@@ -163,11 +157,26 @@ ABSTRACT_METHOD
         case SFSyncDownTargetQueryTypeSosl: return kSFSyncTargetQueryTypeSosl;
         case SFSyncDownTargetQueryTypeSoql: return kSFSyncTargetQueryTypeSoql;
         case SFSyncDownTargetQueryTypeRefresh: return kSFSyncTargetQueryTypeRefresh;
+        case SFSyncDownTargetQueryTypeParentChildren: return kSFSyncTargetQueryTypeParentChidlren;
         case SFSyncDownTargetQueryTypeCustom: return kSFSyncTargetQueryTypeCustom;
     }
 }
 
 #pragma mark - Helper methods
+
+- (long long)getLatestModificationTimeStamp:(NSArray*)records modificationDateFieldName:(NSString*)modificationDateFieldName {
+    long long maxTimeStamp = -1L;
+    for(NSDictionary* record in records) {
+        NSString* timeStampStr = record[modificationDateFieldName];
+        if (!timeStampStr) {
+            break; // LastModifiedDate field not present
+        }
+        long long timeStamp = [SFSmartSyncObjectUtils getMillisFromIsoString:timeStampStr];
+        maxTimeStamp = (timeStamp > maxTimeStamp ? timeStamp : maxTimeStamp);
+    }
+    return maxTimeStamp;
+}
+
 
 - (NSOrderedSet*) getNonDirtyRecordIds:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName idField:(NSString*)idField {
     NSString* nonDirtyRecordsSql = [self getNonDirtyRecordIdsSql:soupName idField:idField];

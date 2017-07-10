@@ -25,7 +25,6 @@
 @import Security;
 
 #import "SFKeychainItemWrapper+Internal.h"
-#import "SFLogger.h"
 #import "NSData+SFAdditions.h"
 #import "NSString+SFAdditions.h"
 
@@ -59,25 +58,25 @@ static CFTypeRef sKeychainAccessibleAttribute;
     [genericPasswordQuery setObject:(id)kCFBooleanTrue forKey:(id)kSecReturnAttributes];
     [genericPasswordQuery setObject:(id)kCFBooleanTrue forKey:(id)kSecReturnData];
     
-    [self log:SFLogLevelDebug format:@"----- Keychain content ----------- "];
+    [SFSDKCoreLogger d:[self class] format:@"----- Keychain content ----------- "];
     
     NSArray *keychainItems = nil;
     OSStatus status = SecItemCopyMatching((CFDictionaryRef)genericPasswordQuery, (CFTypeRef *)&keychainItems);
     if (status == noErr) {
         for (NSDictionary *keychainItem in (NSArray *)keychainItems) {
-            [self log:SFLogLevelDebug format:@"- Keychain item:"];
-            [self log:SFLogLevelDebug format:@"  Service: %@\n", [keychainItem objectForKey:(id)kSecAttrService]];
-            [self log:SFLogLevelDebug format:@"  Account: %@\n", [keychainItem objectForKey:(id)kSecAttrAccount]];
-            [self log:SFLogLevelDebug format:@"  Accessible: %@\n", [keychainItem objectForKey:(id)kSecAttrAccessible]];
-            [self log:SFLogLevelDebug format:@"  Entitlement Group: %@\n", [keychainItem objectForKey:(id)kSecAttrAccessGroup]];
-            [self log:SFLogLevelDebug format:@"  Data: %@\n", [keychainItem objectForKey:(id)kSecValueData]];
+            [SFSDKCoreLogger d:[self class] format:@"- Keychain item:"];
+            [SFSDKCoreLogger d:[self class] format:@"  Service: %@\n", [keychainItem objectForKey:(id)kSecAttrService]];
+            [SFSDKCoreLogger d:[self class] format:@"  Account: %@\n", [keychainItem objectForKey:(id)kSecAttrAccount]];
+            [SFSDKCoreLogger d:[self class] format:@"  Accessible: %@\n", [keychainItem objectForKey:(id)kSecAttrAccessible]];
+            [SFSDKCoreLogger d:[self class] format:@"  Entitlement Group: %@\n", [keychainItem objectForKey:(id)kSecAttrAccessGroup]];
+            [SFSDKCoreLogger d:[self class] format:@"  Data: %@\n", [keychainItem objectForKey:(id)kSecValueData]];
         }
         
     } else {
-        [self log:SFLogLevelDebug format:@"** cannot read keychain: %ld", status];
+        [SFSDKCoreLogger d:[self class] format:@"** cannot read keychain: %ld", status];
     }
     [genericPasswordQuery release];
-    [self log:SFLogLevelDebug format:@"---------------- "];
+    [SFSDKCoreLogger d:[self class] format:@"---------------- "];
 }
 #endif
 
@@ -150,7 +149,7 @@ static CFTypeRef sKeychainAccessibleAttribute;
 }
 
 + (void)logAndThrowKeychainItemExceptionWithCode:(SFKeychainItemExceptionErrorCode)code msg:(NSString *)msg {
-    [SFLogger log:self level:SFLogLevelError msg:msg];
+    [SFSDKCoreLogger e:[self class] format:msg];
     if ([self keychainAccessErrorsAreFatal]) {
         NSException *exception = [NSException exceptionWithName:kSFKeychainItemExceptionType reason:msg userInfo:@{ kSFKeychainItemExceptionErrorCodeKey: @(code) }];
         @throw exception;
@@ -165,7 +164,7 @@ static CFTypeRef sKeychainAccessibleAttribute;
 
 + (void)setAccessibleAttribute:(CFTypeRef)accessibleAttribute {
     if (!CFEqual(sKeychainAccessibleAttribute, accessibleAttribute)) {
-        [self log:SFLogLevelDebug format:@"Updating the keychain accessible attributes to be '%@' instead of '%@'", accessibleAttribute, sKeychainAccessibleAttribute];
+        [SFSDKCoreLogger d:[self class] format:@"Updating the keychain accessible attributes to be '%@' instead of '%@'", accessibleAttribute, sKeychainAccessibleAttribute];
 
         sKeychainAccessibleAttribute = accessibleAttribute;
         
@@ -192,7 +191,7 @@ static CFTypeRef sKeychainAccessibleAttribute;
         for (NSDictionary *keychainItem in (NSArray *)keychainItems) {
             id accessibleAttribute = keychainItem[(id)kSecAttrAccessible];
             if (!accessibleAttribute || ![accessibleAttribute isEqual:sKeychainAccessibleAttribute]) {
-                [self log:SFLogLevelDebug format:@"Updating item '%@-%@' from '%@' to '%@'", keychainItem[(id)kSecAttrService], keychainItem[(id)kSecAttrAccount], keychainItem[(id)kSecAttrAccessible], sKeychainAccessibleAttribute];
+                [SFSDKCoreLogger d:[self class] format:@"Updating item '%@-%@' from '%@' to '%@'", keychainItem[(id)kSecAttrService], keychainItem[(id)kSecAttrAccount], keychainItem[(id)kSecAttrAccessible], sKeychainAccessibleAttribute];
                 
                 NSMutableDictionary *query = [[[NSMutableDictionary alloc] init] autorelease];
                 [query setObject:(id)kSecClassGenericPassword forKey:(id)kSecClass];
@@ -211,7 +210,7 @@ static CFTypeRef sKeychainAccessibleAttribute;
             }
         }
     } else {
-        [self log:SFLogLevelError format:@"cannot read the keychain: %ld", status];
+        [SFSDKCoreLogger e:[self class] format:@"cannot read the keychain: %ld", status];
     }
     [genericPasswordQuery release];
     [keychainItems release];
@@ -273,7 +272,7 @@ static CFTypeRef sKeychainAccessibleAttribute;
             }
             return writeResult;
         } else {
-            [self log:SFLogLevelDebug msg:@"setObject:forKey: Value already stored in the keychain. No action taken."];
+            [SFSDKCoreLogger d:[self class] format:@"setObject:forKey: Value already stored in the keychain. No action taken."];
             return noErr;
         }
     }
@@ -447,12 +446,12 @@ static CFTypeRef sKeychainAccessibleAttribute;
     NSString *passcodeString = [self passcode];
     
     if (!passcodeString) {
-		[self log:SFLogLevelError msg:@"cannot verify password: passcode from keychain is nil"];
+		[SFSDKCoreLogger e:[self class] format:@"cannot verify password: passcode from keychain is nil"];
 	}
     
     BOOL matches = [passcodeString isEqualToString:strBaseEncode];
 	if (!matches) {
-		[self log:SFLogLevelDebug format:@"Passcode does not match!"];
+		[SFSDKCoreLogger d:[self class] format:@"Passcode does not match!"];
 	}       
     return matches;
 }

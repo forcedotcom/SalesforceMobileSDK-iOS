@@ -25,6 +25,8 @@
 #import <XCTest/XCTest.h>
 #import "SFTestSDKManagerFlow.h"
 #import "SalesforceSDKManager+Internal.h"
+#import "SFAuthenticationManager+Internal.h"
+#import "SFOAuthCoordinator+Internal.h"
 #import "SFUserAccountManager+Internal.h"
 #import "SFSDKSalesforceAnalyticsManager.h"
 
@@ -51,16 +53,13 @@ static NSString* const kTestAppName = @"OverridenAppName";
     BOOL _launchErrorBlockCalled;
     NSError *_launchError;
     NSString *_origAppName;
+    WKProcessPool *_origProcessPool;
+    NSString *_origBrandLoginPath;
 }
 
 @end
 
 @implementation SalesforceSDKManagerTests
-
-+ (void)setUp
-{
-    [SFLogger sharedLogger].logLevel = SFLogLevelDebug;
-}
 
 - (void)setUp
 {
@@ -368,6 +367,63 @@ static NSString* const kTestAppName = @"OverridenAppName";
     XCTAssertEqual(customSnapshot, snapshotOnDismissal, @"Custom snapshot view controller was not used on dismissal!");
 }
 
+#pragma mark - Process Pool Tests
+
+- (void)testDefaultProcessPoolIsNotNil
+{
+    XCTAssertNotNil(SFSDKWebViewStateManager.sharedProcessPool);
+}
+
+- (void)testProcessPoolCannotBeNil
+{
+    XCTAssertNotNil(SFSDKWebViewStateManager.sharedProcessPool);
+    SFSDKWebViewStateManager.sharedProcessPool = nil;
+    XCTAssertNotNil(SFSDKWebViewStateManager.sharedProcessPool);
+}
+
+- (void)testProcessPoolIsAssignable
+{
+    WKProcessPool *newPool = [[WKProcessPool alloc] init];
+    SFSDKWebViewStateManager.sharedProcessPool = newPool;
+    XCTAssertEqualObjects(newPool, SFSDKWebViewStateManager.sharedProcessPool);
+}
+
+- (void)testBrandedLoginPath
+{
+    NSString *brandPath = @"/BRAND/";
+    [SalesforceSDKManager sharedManager].brandLoginPath = brandPath;
+    XCTAssertTrue([brandPath isEqualToString:[SalesforceSDKManager sharedManager].brandLoginPath]);
+}
+
+- (void)testBrandedLoginPathInAuthManager
+{
+    NSString *brandPath = @"/BRAND/";
+    [SalesforceSDKManager sharedManager].brandLoginPath = brandPath;
+    XCTAssertTrue([brandPath isEqualToString:[SFAuthenticationManager sharedManager].brandLoginPath]);
+}
+
+- (void)testBrandedLoginPathInAuthManagerAndAuthorizeEndpoint
+{
+    NSString *brandPath = @"/BRAND/SUB-BRAND/";
+    [SalesforceSDKManager sharedManager].brandLoginPath = brandPath;
+    
+    [self createTestAppIdentity];
+    
+    SFOAuthCredentials *credentials = [[SFAuthenticationManager sharedManager] createOAuthCredentials];
+    [[SFAuthenticationManager sharedManager] setupWithCredentials:credentials];
+    
+    NSString *brandedURL = [[SFAuthenticationManager sharedManager].coordinator generateApprovalUrlString];
+    
+    XCTAssertNotNil(brandedURL);
+    
+    XCTAssertTrue([brandPath isEqualToString:[SFAuthenticationManager sharedManager].brandLoginPath]);
+    
+    //Should not have a trailing slash
+    XCTAssertFalse([brandedURL containsString:[brandPath substringToIndex:brandPath.length]]);
+    //should have brand
+    XCTAssertTrue([brandedURL containsString:[brandPath substringToIndex:brandPath.length-1]]);
+}
+
 #pragma mark - Private helpers
 
 - (void)createStandardPostLaunchBlock
@@ -452,6 +508,8 @@ static NSString* const kTestAppName = @"OverridenAppName";
     _launchErrorBlockCalled = NO;
     _launchError = nil;
     _origAppName = SalesforceSDKManager.ailtnAppName;
+    _origProcessPool = SFSDKWebViewStateManager.sharedProcessPool;
+    _origBrandLoginPath = [SalesforceSDKManager sharedManager].brandLoginPath;
 }
 
 - (void)restoreOrigSdkManagerState
@@ -469,6 +527,8 @@ static NSString* const kTestAppName = @"OverridenAppName";
     [SalesforceSDKManager sharedManager].postAppForegroundAction = _origPostAppForegroundAction;
     [SFUserAccountManager sharedInstance].currentUser = _origCurrentUser;
     SalesforceSDKManager.ailtnAppName = _origAppName;
+    SFSDKWebViewStateManager.sharedProcessPool = _origProcessPool;
+    [SalesforceSDKManager sharedManager].brandLoginPath = _origBrandLoginPath;
 }
 
 - (void)compareAiltnAppNames:(NSString *)expectedAppName
