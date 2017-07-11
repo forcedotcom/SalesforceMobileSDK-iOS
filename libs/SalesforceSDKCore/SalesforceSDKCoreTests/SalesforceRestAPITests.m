@@ -235,7 +235,6 @@ static NSException *authException = nil;
 
 // simple: just invoke requestForSearchResultLayout:@"Account"
 - (void)testGetSearchResultLayout {
-     
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSearchResultLayout:ACCOUNT];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
@@ -1709,12 +1708,28 @@ static NSException *authException = nil;
     }
 }
 
+// Tests that stock Mobile SDK user agent is set on the request.
+- (void)testRequestUserAgent {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSearchResultLayout:ACCOUNT];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    NSString *userAgent = self.request.allHTTPHeaderFields[@"User-Agent"];
+    XCTAssertEqualObjects(userAgent, [SFRestAPI userAgentString], @"request failed");
+}
+
+// Tests that overridden user agent is set on the request.
+- (void)testRequestUserAgentWithOverride {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSearchResultLayout:ACCOUNT];
+    [request setValue:[SFRestAPI userAgentString:@"SmartSync"] forHTTPHeaderField:@"User-Agent"];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    NSString *userAgent = self.request.allHTTPHeaderFields[@"User-Agent"];
+    XCTAssertEqualObjects(userAgent, [SFRestAPI userAgentString:@"SmartSync"], @"request failed");
+}
+
 #pragma mark - custom rest requests
 
 - (void)testCustomBaseURLRequest {
     SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodGET baseURL:@"http://www.apple.com" path:@"/test/testing" queryParams:nil];
     XCTAssertEqual(request.baseURL, @"http://www.apple.com", @"Base URL should match");
-    
     NSURLRequest *finalRequest = [request prepareRequestForSend];
     NSString *expectedURL = [NSString stringWithFormat:@"http://www.apple.com%@%@", kSFDefaultRestEndpoint, @"/test/testing"];
     XCTAssertEqualObjects(finalRequest.URL.absoluteString, expectedURL, @"Final URL should utilize base URL that was passed in");

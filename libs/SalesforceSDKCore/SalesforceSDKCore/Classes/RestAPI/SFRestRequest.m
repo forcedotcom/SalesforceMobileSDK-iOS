@@ -165,8 +165,10 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
             [self.request setValue:bearer forHTTPHeaderField:@"Authorization"];
         }
 
-        // Sets Mobile SDK user agent on all REST API requests.
-        [self.request setValue:[SFRestAPI userAgentString] forHTTPHeaderField:@"User-Agent"];
+        // Sets Mobile SDK user agent on REST API requests, if it hasn't been set already by .
+        if (self.request.allHTTPHeaderFields && self.request.allHTTPHeaderFields.allKeys && ![self.request.allHTTPHeaderFields.allKeys containsObject:@"User-Agent"]) {
+            [self.request setValue:[SFRestAPI userAgentString] forHTTPHeaderField:@"User-Agent"];
+        }
 
         // Adds custom headers to the request if any are set.
         if (self.customHeaders) {
