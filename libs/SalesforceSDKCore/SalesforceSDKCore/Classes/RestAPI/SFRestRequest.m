@@ -160,7 +160,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
         [self.request setHTTPMethod:[SFRestRequest httpMethodFromSFRestMethod:self.method]];
 
         // Sets OAuth Bearer token header on the request (if not already present).
-        if (self.requiresAuthentication && self.request.allHTTPHeaderFields && ![self.request.allHTTPHeaderFields.allKeys containsObject:@"Authorization"]) {
+        if (self.requiresAuthentication && ![self.request.allHTTPHeaderFields.allKeys containsObject:@"Authorization"]) {
             NSString *bearer = [NSString stringWithFormat:@"Bearer %@", user.credentials.accessToken];
             [self.request setValue:bearer forHTTPHeaderField:@"Authorization"];
         }
