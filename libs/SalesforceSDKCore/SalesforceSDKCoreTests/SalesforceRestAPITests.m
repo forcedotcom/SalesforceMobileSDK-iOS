@@ -1715,7 +1715,7 @@ static NSException *authException = nil;
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSearchResultLayout:ACCOUNT];
     [self sendSyncRequest:request];
     NSString *userAgent = request.request.allHTTPHeaderFields[@"User-Agent"];
-    XCTAssertEqualObjects(userAgent, [SFRestAPI userAgentString], @"request failed");
+    XCTAssertEqualObjects(userAgent, [SFRestAPI userAgentString], @"Incorrect user agent");
 }
 
 // Tests that overridden user agent is set on the request.
@@ -1724,7 +1724,7 @@ static NSException *authException = nil;
     [request setHeaderValue:[SFRestAPI userAgentString:@"SmartSync"] forHeaderName:@"User-Agent"];
     [self sendSyncRequest:request];
     NSString *userAgent = request.request.allHTTPHeaderFields[@"User-Agent"];
-    XCTAssertEqualObjects(userAgent, [SFRestAPI userAgentString:@"SmartSync"], @"request failed");
+    XCTAssertEqualObjects(userAgent, [SFRestAPI userAgentString:@"SmartSync"], @"Incorrect user agent");
 }
 
 #pragma mark - custom rest requests
