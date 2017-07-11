@@ -166,7 +166,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
         }
 
         // Sets Mobile SDK user agent on REST API requests, if it hasn't been set already elsewhere.
-        if (self.request.allHTTPHeaderFields && ![self.request.allHTTPHeaderFields.allKeys containsObject:@"User-Agent"]) {
+        if (![self.request.allHTTPHeaderFields.allKeys containsObject:@"User-Agent"]) {
             [self.request setValue:[SFRestAPI userAgentString] forHTTPHeaderField:@"User-Agent"];
         }
 
