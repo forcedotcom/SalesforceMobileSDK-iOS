@@ -29,10 +29,6 @@
 
 static NSString * const kSFSoslSyncTargetQuery = @"query";
 
-@interface SFSmartSyncSyncManager ()
-
-@end
-
 @interface SFSoslSyncDownTarget ()
 
 @property (nonatomic, strong, readwrite) NSString* query;

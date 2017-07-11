@@ -23,10 +23,10 @@
  */
 
 #import <XCTest/XCTest.h>
-
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import "CSFInput_Internal.h"
 
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 @interface TestInputWithMutable : CSFInput
 
 @property (nonatomic, strong) NSString *someProperty;
@@ -43,7 +43,7 @@
 
 @end
 
-
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 @interface TestInputWithCustomAttrs : CSFInput
 
 @end
@@ -56,7 +56,7 @@
 
 @end
 
-
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 @interface CSFInputTests : XCTestCase
 
 @end

@@ -24,6 +24,7 @@
 
 #import "CSFInput_Internal.h"
 #import "CSFActionValue.h"
+#import "SFLogger.h"
 
 static NSString * const kCSFInputCustomAttributes = @"__CSFInput_CustomAttributes";
 
@@ -113,6 +114,8 @@ static NSString * const kCSFInputCustomAttributes = @"__CSFInput_CustomAttribute
     return data;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 + (BOOL)dynamicImplementationForProperty:(NSString*)propertyName storageKey:(NSString*)storageKey attributes:(NSDictionary*)attributes getterImplementation:(IMP *)getterIMP setterImplementation:(IMP *)setterIMP {
     BOOL result = YES;
 
@@ -188,6 +191,7 @@ static NSString * const kCSFInputCustomAttributes = @"__CSFInput_CustomAttribute
     
     return result;
 }
+#pragma clang diagnostic pop
 
 #pragma mark NSObject accessors
 
@@ -270,6 +274,8 @@ static NSString * const kCSFInputCustomAttributes = @"__CSFInput_CustomAttribute
 
 #pragma mark Dynamic property handling
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 + (BOOL)resolveInstanceMethod:(SEL)sel {
     NSString *propertyName = CSFPropertyNameFromSelector(sel);
     NSDictionary *info = CSFPropertyAttributes(self, propertyName);
@@ -377,5 +383,6 @@ static NSString * const kCSFInputCustomAttributes = @"__CSFInput_CustomAttribute
     
     return YES;
 }
+#pragma clang diagnostic pop
 
 @end

@@ -36,8 +36,8 @@
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 
 // Fill these in when creating a new Connected Application on Force.com
-static NSString * const RemoteAccessConsumerKey = @"3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa";
-static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect/oauth/done";
+static NSString * const RemoteAccessConsumerKey = @"3MVG98dostKihXN53TYStBIiS8NRTXcbDzn9nHPb3piMElfQDD.kTyHeXjKV9JNUbe5sZeSQ4CVY1Onzpq21N";
+static NSString * const OAuthRedirectURI        = @"com.salesforce.mobilesdk.sample.restapiexplorer://oauth/success";
 
 @implementation AppDelegate
 
@@ -47,11 +47,7 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
 {
     self = [super init];
     if (self) {
-        #if defined(DEBUG)
-            [SFLogger sharedLogger].logLevel = SFLogLevelDebug;
-        #else
-            [SFLogger sharedLogger].logLevel = SFLogLevelInfo;
-        #endif
+        [SFAuthenticationManager sharedManager].advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;
         [SalesforceSDKManager sharedManager].connectedAppId = RemoteAccessConsumerKey;
         [SalesforceSDKManager sharedManager].connectedAppCallbackUri = OAuthRedirectURI;
         [SalesforceSDKManager sharedManager].authScopes = @[ @"web", @"api" ];
@@ -65,12 +61,12 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
             //
             //[[SFPushNotificationManager sharedInstance] registerForRemoteNotifications];
             //
-            [strongSelf log:SFLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
+            [[SFSDKLogger sharedDefaultInstance] log:[strongSelf class] level:DDLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
             [strongSelf setupRootViewController];
         };
         [SalesforceSDKManager sharedManager].launchErrorAction = ^(NSError *error, SFSDKLaunchAction launchActionList) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
-            [strongSelf log:SFLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
+            [[SFSDKLogger sharedDefaultInstance] log:[strongSelf class] level:DDLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
             [strongSelf initializeAppViewState];
             [[SalesforceSDKManager sharedManager] launch];
         };
@@ -125,6 +121,12 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
     // Respond to any push notification registration errors here.
 }
 
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
+    return [[SFAuthenticationManager sharedManager] handleAdvancedAuthenticationResponse:url];
+}
+
+
 #pragma mark - Private methods
 
 - (void)initializeAppViewState
@@ -152,7 +154,7 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
 
 - (void)handleSdkManagerLogout
 {
-    [self log:SFLogLevelDebug msg:@"SDK Manager logged out.  Resetting app."];
+    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"SDK Manager logged out.  Resetting app."];
     [self resetViewState:^{
         [self initializeAppViewState];
         
@@ -181,7 +183,7 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
 
 - (void)handleUserSwitch:(SFUserAccount *)fromUser toUser:(SFUserAccount *)toUser
 {
-    [self log:SFLogLevelInfo format:@"SFUserAccountManager changed from user %@ to %@.  Resetting app.", fromUser.userName, toUser.userName];
+    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelInfo format:@"SFUserAccountManager changed from user %@ to %@.  Resetting app.", fromUser.userName, toUser.userName];
     [self resetViewState:^{
         [self initializeAppViewState];
         [[SalesforceSDKManager sharedManager] launch];

@@ -36,6 +36,7 @@
 #import "SFSwiftDetectUtil.h"
 #import "SFUserAccountManager.h"
 #import "SFSDKAppFeatureMarkers.h"
+#import "SFSDKWebViewStateManager.h"
 
 static NSString * const kSFAppFeatureSwiftApp   = @"SW";
 static NSString * const kSFAppFeatureMultiUser   = @"MU";
@@ -195,6 +196,16 @@ static NSString* ailtnAppName = nil;
     [SFAuthenticationManager sharedManager].oauthCompletionUrl = connectedAppCallbackUri;
 }
 
+- (NSString *)brandLoginPath
+{
+    return [SFAuthenticationManager sharedManager].brandLoginPath;
+}
+
+- (void)setBrandLoginPath:(NSString *)brandLoginPath
+{
+    [SFAuthenticationManager sharedManager].brandLoginPath = brandLoginPath;
+}
+
 - (NSArray *)authScopes
 {
     return [[SFAuthenticationManager sharedManager].scopes allObjects];
@@ -218,11 +229,10 @@ static NSString* ailtnAppName = nil;
 - (BOOL)launch
 {
     if (_isLaunching) {
-        [self log:SFLogLevelError msg:@"Launch already in progress."];
+        [SFSDKCoreLogger e:[self class] format:@"Launch already in progress."];
         return NO;
     }
-    
-    [self log:SFLogLevelInfo msg:@"Launching the Salesforce SDK."];
+    [SFSDKCoreLogger i:[self class] format:@"Launching the Salesforce SDK."];
     _isLaunching = YES;
     self.launchActions = SFSDKLaunchActionNone;
     if ([SFRootViewManager sharedManager].mainWindow == nil) {
@@ -231,7 +241,7 @@ static NSString* ailtnAppName = nil;
     
     NSError *launchStateError = nil;
     if (![self validateLaunchState:&launchStateError]) {
-        [self log:SFLogLevelError msg:@"Please correct errors and try again."];
+        [SFSDKCoreLogger e:[self class] format:@"Please correct errors and try again."];
         [self sendLaunchError:launchStateError];
     } else {
         // If there's a passcode configured, and we haven't validated before (through a previous call to
@@ -290,36 +300,36 @@ static NSString* ailtnAppName = nil;
     
     if ([SFRootViewManager sharedManager].mainWindow == nil) {
         NSString *noWindowError = [NSString stringWithFormat:@"%@ cannot perform launch before the UIApplication main window property has been initialized.  Cannot continue.", [self class]];
-        [self log:SFLogLevelError msg:noWindowError];
+        [SFSDKCoreLogger e:[self class] format:noWindowError];
         [launchStateErrorMessages addObject:noWindowError];
         validInputs = NO;
     }
     if ([self.connectedAppId length] == 0) {
         NSString *noConnectedAppIdError = @"No value for Connected App ID.  Cannot continue.";
-        [self log:SFLogLevelError msg:noConnectedAppIdError];
+        [SFSDKCoreLogger e:[self class] format:noConnectedAppIdError];
         [launchStateErrorMessages addObject:noConnectedAppIdError];
         validInputs = NO;
     }
     if ([self.connectedAppCallbackUri length] == 0) {
         NSString *noCallbackUriError = @"No value for Connected App Callback URI.  Cannot continue.";
-        [self log:SFLogLevelError msg:noCallbackUriError];
+        [SFSDKCoreLogger e:[self class] format:noCallbackUriError];
         [launchStateErrorMessages addObject:noCallbackUriError];
         validInputs = NO;
     }
     if ([self.authScopes count] == 0) {
         NSString *noAuthScopesError = @"No auth scopes set.  Cannot continue.";
-        [self log:SFLogLevelError msg:noAuthScopesError];
+        [SFSDKCoreLogger e:[self class] format:noAuthScopesError];
         [launchStateErrorMessages addObject:noAuthScopesError];
         validInputs = NO;
     }
     if (!self.postLaunchAction) {
-        [self log:SFLogLevelWarning msg:@"No post-launch action set.  Nowhere to go after launch completes."];
+        [SFSDKCoreLogger w:[self class] format:@"No post-launch action set.  Nowhere to go after launch completes."];
     }
     if (!self.launchErrorAction) {
-        [self log:SFLogLevelWarning msg:@"No launch error action set.  Nowhere to go if an error occurs during launch."];
+        [SFSDKCoreLogger w:[self class] format:@"No launch error action set.  Nowhere to go if an error occurs during launch."];
     }
     if (!self.postLogoutAction) {
-        [self log:SFLogLevelWarning msg:@"No post-logout action set.  Nowhere to go when the user is logged out."];
+        [SFSDKCoreLogger w:[self class] format:@"No post-logout action set.  Nowhere to go when the user is logged out."];
     }
     
     if (!validInputs && launchStateError) {
@@ -398,7 +408,7 @@ static NSString* ailtnAppName = nil;
 
 - (void)handleAppForeground:(NSNotification *)notification
 {
-    [self log:SFLogLevelDebug msg:@"App is entering the foreground."];
+    [SFSDKCoreLogger d:[self class] format:@"App is entering the foreground."];
     
     [self enumerateDelegates:^(NSObject<SalesforceSDKManagerDelegate> *delegate) {
         if ([delegate respondsToSelector:@selector(sdkManagerWillEnterForeground)]) {
@@ -407,7 +417,7 @@ static NSString* ailtnAppName = nil;
     }];
         
     if (_isLaunching) {
-        [self log:SFLogLevelDebug format:@"SDK is still launching.  No foreground action taken."];
+        [SFSDKCoreLogger d:[self class] format:@"SDK is still launching.  No foreground action taken."];
     } else {
         
         // Check to display pin code screen.
@@ -416,11 +426,11 @@ static NSString* ailtnAppName = nil;
             // Note: Failed passcode verification automatically logs out users, which the logout
             // delegate handler will catch and pass on.  We just log the error and reset launch
             // state here.
-            [self log:SFLogLevelError msg:@"Passcode validation failed.  Logging the user out."];
+            [SFSDKCoreLogger e:[self class] format:@"Passcode validation failed.  Logging the user out."];
         }];
         
         [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction lockoutAction) {
-            [self log:SFLogLevelInfo msg:@"Passcode validation succeeded, or was not required, on app foreground.  Triggering postAppForeground handler."];
+            [SFSDKCoreLogger i:[self class] format:@"Passcode validation succeeded, or was not required, on app foreground.  Triggering postAppForeground handler."];
             [self sendPostAppForeground];
         }];
         
@@ -430,7 +440,7 @@ static NSString* ailtnAppName = nil;
 
 - (void)handleAppBackground:(NSNotification *)notification
 {
-    [self log:SFLogLevelDebug msg:@"App is entering the background."];
+    [SFSDKCoreLogger d:[self class] format:@"App is entering the background."];
     
     [self enumerateDelegates:^(id<SalesforceSDKManagerDelegate> delegate) {
         if ([delegate respondsToSelector:@selector(sdkManagerDidEnterBackground)]) {
@@ -449,7 +459,7 @@ static NSString* ailtnAppName = nil;
 
 - (void)handleAppDidBecomeActive:(NSNotification *)notification
 {
-    [self log:SFLogLevelDebug msg:@"App is resuming active state."];
+    [SFSDKCoreLogger d:[self class] format:@"App is resuming active state."];
     
     [self enumerateDelegates:^(id<SalesforceSDKManagerDelegate> delegate) {
         if ([delegate respondsToSelector:@selector(sdkManagerDidBecomeActive)]) {
@@ -461,13 +471,13 @@ static NSString* ailtnAppName = nil;
         [self dismissSnapshot];
     }
     @catch (NSException *exception) {
-        [self log:SFLogLevelWarning format:@"Exception thrown while removing security snapshot view: '%@'. Will continue to resume app.", [exception reason]];
+        [SFSDKCoreLogger w:[self class] format:@"Exception thrown while removing security snapshot view: '%@'. Will continue to resume app.", [exception reason]];
     }
 }
 
 - (void)handleAppWillResignActive:(NSNotification *)notification
 {
-    [self log:SFLogLevelDebug msg:@"App is resigning active state."];
+    [SFSDKCoreLogger d:[self class] format:@"App is resigning active state."];
     
     [self enumerateDelegates:^(id<SalesforceSDKManagerDelegate> delegate) {
         if ([delegate respondsToSelector:@selector(sdkManagerWillResignActive)]) {
@@ -480,7 +490,7 @@ static NSString* ailtnAppName = nil;
         [self presentSnapshot];
     }
     @catch (NSException *exception) {
-        [self log:SFLogLevelWarning format:@"Exception thrown while setting up security snapshot view: '%@'. Continuing resign active.", [exception reason]];
+        [SFSDKCoreLogger w:[self class] format:@"Exception thrown while setting up security snapshot view: '%@'. Continuing resign active.", [exception reason]];
     }
 }
 
@@ -570,7 +580,7 @@ static NSString* ailtnAppName = nil;
 - (void)clearClipboard
 {
     if ([SFManagedPreferences sharedPreferences].clearClipboardOnBackground) {
-        [self log:SFLogLevelInfo format:@"%@: Clearing clipboard on app background.", NSStringFromSelector(_cmd)];
+        [SFSDKCoreLogger i:[self class] format:@"%@: Clearing clipboard on app background.", NSStringFromSelector(_cmd)];
         [UIPasteboard generalPasteboard].strings = @[ ];
         [UIPasteboard generalPasteboard].URLs = @[ ];
         [UIPasteboard generalPasteboard].images = @[ ];
@@ -587,7 +597,7 @@ static NSString* ailtnAppName = nil;
         [self authValidationAtLaunch];
     } else {
         [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
-            [self log:SFLogLevelInfo msg:@"Passcode verified, or not configured.  Proceeding with authentication validation."];
+            [SFSDKCoreLogger i:[self class] format:@"Passcode verified, or not configured.  Proceeding with authentication validation."];
             [self passcodeValidatedToAuthValidation];
         }];
         [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
@@ -595,7 +605,7 @@ static NSString* ailtnAppName = nil;
             // Note: Failed passcode verification automatically logs out users, which the logout
             // delegate handler will catch and pass on.  We just log the error and reset launch
             // state here.
-            [self log:SFLogLevelError msg:@"Passcode validation failed.  Logging the user out."];
+            [SFSDKCoreLogger e:[self class] format:@"Passcode validation failed.  Logging the user out."];
         }];
         [SFSecurityLockout lock];
     }
@@ -623,15 +633,15 @@ static NSString* ailtnAppName = nil;
 
 - (void)authAtLaunch
 {
-    [self log:SFLogLevelInfo msg:@"No valid credentials found.  Proceeding with authentication."];
+    [SFSDKCoreLogger i:[self class] format:@"No valid credentials found.  Proceeding with authentication."];
     [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
-        [self log:SFLogLevelInfo format:@"Authentication (%@) succeeded.  Launch completed.", authInfo.authTypeDescription];
+        [SFSDKCoreLogger i:[self class] format:@"Authentication (%@) succeeded.  Launch completed.", authInfo.authTypeDescription];
         [SFUserAccountManager sharedInstance].currentUser = userAccount;
         [SFSecurityLockout setupTimer];
         [SFSecurityLockout startActivityMonitoring];
         [self authValidatedToPostAuth:SFSDKLaunchActionAuthenticated];
     } failure:^(SFOAuthInfo *authInfo, NSError *authError) {
-        [self log:SFLogLevelError format:@"Authentication (%@) failed: %@.", (authInfo.authType == SFOAuthTypeUserAgent ? @"User Agent" : @"Refresh"), [authError localizedDescription]];
+        [SFSDKCoreLogger e:[self class] format:@"Authentication (%@) failed: %@.", (authInfo.authType == SFOAuthTypeUserAgent ? @"User Agent" : @"Refresh"), [authError localizedDescription]];
         [self sendLaunchError:authError];
     }];
 }
@@ -646,10 +656,10 @@ static NSString* ailtnAppName = nil;
     
     SFSDKLaunchAction noAuthLaunchAction;
     if (!self.authenticateAtLaunch) {
-        [self log:SFLogLevelInfo format:@"SDK Manager is configured not to attempt authentication at launch.  Skipping auth."];
+        [SFSDKCoreLogger i:[self class] format:@"SDK Manager is configured not to attempt authentication at launch.  Skipping auth."];
         noAuthLaunchAction = SFSDKLaunchActionAuthBypassed;
     } else {
-        [self log:SFLogLevelInfo msg:@"Credentials already present.  Will not attempt to authenticate."];
+        [SFSDKCoreLogger i:[self class] format:@"Credentials already present.  Will not attempt to authenticate."];
         noAuthLaunchAction = SFSDKLaunchActionAlreadyAuthenticated;
     }
     

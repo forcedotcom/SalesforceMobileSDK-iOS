@@ -23,9 +23,10 @@
  */
 
 #import <XCTest/XCTest.h>
-
+#import "SalesforceSDKConstants.h"
 #import "CSFInputStreamElement.h"
 
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 @interface CSFInputStreamElementTests : XCTestCase
 
 @end

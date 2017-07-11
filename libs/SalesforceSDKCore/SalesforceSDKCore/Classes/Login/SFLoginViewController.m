@@ -32,9 +32,12 @@
 #import "SFSDKLoginHostListViewController.h"
 #import "SFSDKLoginHostDelegate.h"
 #import "UIColor+SFColors.h"
+#import "SFSDKResourceUtils.h"
+#import "SFUserAccountManager.h"
+#import "SFAuthenticationManager.h"
 
 
-@interface SFLoginViewController () <SFSDKLoginHostDelegate, SFUserAccountManagerDelegate, SFAuthenticationManagerDelegate>
+@interface SFLoginViewController () <SFSDKLoginHostDelegate, SFUserAccountManagerDelegate>
 
 @property (nonatomic, strong) UINavigationBar *navBar;
 
@@ -236,6 +239,12 @@
     [self hideHostListView:YES];
 }
 
+- (void)hostListViewController:(SFSDKLoginHostListViewController *)hostListViewController didChangeLoginHost:(SFSDKLoginHost *)newLoginHost {
+    if ([self.delegate respondsToSelector:@selector(loginViewController:didChangeLoginHost:)]) {
+        [self.delegate loginViewController:self didChangeLoginHost:newLoginHost];
+    }
+}
+
 #pragma mark - Login Host
 
 - (void)showHostListView {
@@ -248,7 +257,7 @@
     [self dismissViewControllerAnimated:animated completion:nil];
 }
 
-#pragma mark - SF Authentication Manager
+#pragma mark - SFUserAccountManagerDelegate
 
 - (void)userAccountManager:(SFUserAccountManager *)userAccountManager
         willSwitchFromUser:(SFUserAccount *)fromUser

@@ -30,7 +30,6 @@
 typedef NS_ENUM(NSUInteger, SFOAuthTokenEndpointFlow) {
     SFOAuthTokenEndpointFlowNone = 0,
     SFOAuthTokenEndpointFlowRefresh,
-    SFOAuthTokenEndpointFlowIPBypass,
     SFOAuthTokenEndpointFlowAdvancedBrowser
 };
 
@@ -76,6 +75,11 @@ typedef NS_ENUM(NSUInteger, SFOAuthTokenEndpointFlow) {
  Notify our delegate that login succeeded, and clear authenticating flag
  */
 - (void)notifyDelegateOfSuccess:(SFOAuthInfo *)authInfo;
+/**
+ * Used for testing only.
+ * @return A String representing the prepared authorize url
+ */
+- (NSString *)generateApprovalUrlString;
 
 + (NSDictionary *)parseQueryString:(NSString *)query;
 + (NSError *)errorWithType:(NSString *)type description:(NSString *)description;

@@ -112,7 +112,7 @@ NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetNewPasswordKey"
 {
     id<SFPasscodeProvider> currentProvider = [SFPasscodeProviderManager currentPasscodeProvider];
     if (currentProvider == nil) {
-        [self log:SFLogLevelError msg:@"Current passcode provider is not set.  Cannot set encryption key."];
+        [SFSDKCoreLogger d:[self class] format:@"Current passcode provider is not set.  Cannot set encryption key."];
         return;
     }
     
@@ -131,7 +131,7 @@ NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetNewPasswordKey"
 {
     id<SFPasscodeProvider> currentProvider = [SFPasscodeProviderManager currentPasscodeProvider];
     if (currentProvider == nil) {
-        [self log:SFLogLevelWarning msg:@"Current passcode provider is not set.  Cannot determine passcode status."];
+        [SFSDKCoreLogger w:[self class] format:@"Current passcode provider is not set.  Cannot determine passcode status."];
         return NO;
     }
     return ([currentProvider hashedVerificationPasscode] != nil);
@@ -139,10 +139,10 @@ NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetNewPasswordKey"
 
 - (void)resetPasscode
 {
-    [self log:SFLogLevelInfo msg:@"Resetting passcode upon logout."];
+    [SFSDKCoreLogger i:[self class] format:@"Resetting passcode upon logout."];
     id<SFPasscodeProvider> currentProvider = [SFPasscodeProviderManager currentPasscodeProvider];
     if (currentProvider == nil) {
-        [self log:SFLogLevelWarning msg:@"Current passcode provider is not set.  No reset action taken."];
+        [SFSDKCoreLogger w:[self class] format:@"Current passcode provider is not set.  No reset action taken."];
     } else {
         [currentProvider resetPasscodeData];
     }
@@ -153,10 +153,10 @@ NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetNewPasswordKey"
 {
     id<SFPasscodeProvider> currentProvider = [SFPasscodeProviderManager currentPasscodeProvider];
     if (currentProvider == nil) {
-        [self log:SFLogLevelWarning msg:@"Current passcode provider is not set.  Cannot verify passcode."];
+        [SFSDKCoreLogger w:[self class] format:@"Current passcode provider is not set.  Cannot verify passcode."];
         return NO;
     } else if (![self passcodeIsSet]) {
-        [self log:SFLogLevelWarning msg:@"Verification passcode is not set.  Cannot verify passcode."];
+        [SFSDKCoreLogger w:[self class] format:@"Verification passcode is not set.  Cannot verify passcode."];
         return NO;
     } else {
         return [currentProvider verifyPasscode:passcode];
@@ -199,12 +199,12 @@ NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetNewPasswordKey"
     id<SFPasscodeProvider> currentProvider = [SFPasscodeProviderManager currentPasscodeProvider];
     id<SFPasscodeProvider> preferredProvider = [SFPasscodeProviderManager passcodeProviderForProviderName:self.preferredPasscodeProvider];
     if (currentProvider == nil) {
-        [self log:SFLogLevelError msg:@"Current passcode provider is not set.  Cannot set new passcode."];
+        [SFSDKCoreLogger e:[self class] format:@"Current passcode provider is not set.  Cannot set new passcode."];
         return;
     }
     
     if (preferredProvider == nil) {
-        [self log:SFLogLevelWarning format:@"Could not load preferred passcode provider '%@'.  Defaulting to current provider ('%@') as the preferred provider.", preferredProvider.providerName, currentProvider.providerName];
+        [SFSDKCoreLogger w:[self class] format:@"Could not load preferred passcode provider '%@'.  Defaulting to current provider ('%@') as the preferred provider.", preferredProvider.providerName, currentProvider.providerName];
         preferredProvider = currentProvider;
     }
     

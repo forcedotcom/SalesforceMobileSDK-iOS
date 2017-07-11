@@ -41,7 +41,7 @@
 - (void) setUp
 {
     [super setUp];
-    [SFLogger sharedLogger].logLevel = SFLogLevelDebug;
+    [SFSDKSmartStoreLogger setLogLevel:DDLogLevelDebug];
     _smartStoreUser = [super setUpSmartStoreUser];
     [self setupGlobalStores];
     [self setupUserStores];

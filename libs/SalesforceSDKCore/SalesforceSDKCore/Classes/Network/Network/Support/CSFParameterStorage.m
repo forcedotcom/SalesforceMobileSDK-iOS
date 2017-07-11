@@ -24,7 +24,7 @@
 
 #import "CSFParameterStorage_Internal.h"
 #import "CSFInternalDefines.h"
-
+#import "SFLogger.h"
 #import "CSFMultipartInputStream.h"
 #import "NSValueTransformer+SalesforceNetwork.h"
 #import "CSFActionInput.h"
@@ -38,6 +38,8 @@
 
 @end
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 @implementation CSFParameterStorage
 
 + (NSSet*)keyPathsForValuesAffectingParameterStyle {
@@ -409,3 +411,4 @@
 }
 
 @end
+#pragma clang diagnostic pop

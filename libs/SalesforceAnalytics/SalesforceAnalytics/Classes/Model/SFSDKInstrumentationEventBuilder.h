@@ -50,10 +50,10 @@
 typedef void (^ _Nonnull SFSDKInstrumentationEventBuilderBlock)(SFSDKInstrumentationEventBuilder * _Nonnull eventBuilder);
 
 /**
- * Builds the event.
+ * Builds the event. Returns nil if required fields are missing.
  *
  * @return Event instance.
  */
-+ (nonnull SFSDKInstrumentationEvent *) buildEventWithBuilderBlock:(nonnull SFSDKInstrumentationEventBuilderBlock) builderBlock analyticsManager:(nonnull SFSDKAnalyticsManager *) analyticsManager;
++ (nullable SFSDKInstrumentationEvent *) buildEventWithBuilderBlock:(nonnull SFSDKInstrumentationEventBuilderBlock) builderBlock analyticsManager:(nonnull SFSDKAnalyticsManager *) analyticsManager;
 
 @end

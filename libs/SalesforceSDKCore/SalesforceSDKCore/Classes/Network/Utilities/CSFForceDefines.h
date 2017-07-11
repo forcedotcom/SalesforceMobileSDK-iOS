@@ -28,7 +28,9 @@
 #import <Foundation/Foundation.h>
 #import "CSFAvailability.h"
 #import "CSFDefines.h"
+#import "SalesforceSDKConstants.h"
 
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 typedef NS_ENUM(NSInteger, CSFForceLayoutComponentType) {
     CSFForceLayoutComponentTypeUnknown,
     CSFForceLayoutComponentTypeEmptySpace,
@@ -38,6 +40,7 @@ typedef NS_ENUM(NSInteger, CSFForceLayoutComponentType) {
 
 };
 
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 typedef NS_ENUM(NSInteger, CSFForceQuickActionType) {
     CSFForceQuickActionTypeUnknown,
     CSFForceQuickActionTypeCreate,
@@ -50,6 +53,7 @@ typedef NS_ENUM(NSInteger, CSFForceQuickActionType) {
 
 };
 
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 typedef NS_ENUM(NSInteger, CSFForceNotificationFrequency) {
     CSFForceNotificationFrequencyUnknown,
     CSFForceNotificationFrequencyEachPost,
@@ -59,6 +63,7 @@ typedef NS_ENUM(NSInteger, CSFForceNotificationFrequency) {
 
 };
 
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 typedef NS_ENUM(NSInteger, CSFForcePortalRoleType) {
     CSFForcePortalRoleTypeUnknown,
     CSFForcePortalRoleTypeExecutive,
@@ -68,6 +73,7 @@ typedef NS_ENUM(NSInteger, CSFForcePortalRoleType) {
 
 };
 
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 typedef NS_ENUM(NSInteger, CSFForcePortalType) {
     CSFForcePortalTypeUnknown,
     CSFForcePortalTypeNone,
@@ -76,6 +82,7 @@ typedef NS_ENUM(NSInteger, CSFForcePortalType) {
 
 };
 
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 typedef NS_ENUM(NSInteger, CSFForceFieldMetadataType) {
     CSFForceFieldMetadataTypeUnknown,
     CSFForceFieldMetadataTypeBase64,
@@ -102,6 +109,7 @@ typedef NS_ENUM(NSInteger, CSFForceFieldMetadataType) {
 
 };
 
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 typedef NS_ENUM(NSInteger, CSFForceTaskStatus) {
     CSFForceTaskStatusUnknown,
     CSFForceTaskStatusNotStarted,
@@ -112,6 +120,7 @@ typedef NS_ENUM(NSInteger, CSFForceTaskStatus) {
 
 };
 
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 typedef NS_ENUM(NSInteger, CSFForceTaskPriority) {
     CSFForceTaskPriorityUnknown,
     CSFForceTaskPriorityHigh,
@@ -120,6 +129,7 @@ typedef NS_ENUM(NSInteger, CSFForceTaskPriority) {
 
 };
 
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 typedef NS_ENUM(NSInteger, CSFForceTaskCallType) {
     CSFForceTaskCallTypeUnknown,
     CSFForceTaskCallTypeInternal,
@@ -128,6 +138,7 @@ typedef NS_ENUM(NSInteger, CSFForceTaskCallType) {
 
 };
 
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 typedef NS_ENUM(NSInteger, CSFForceTaskRecurrenceType) {
     CSFForceTaskRecurrenceTypeUnknown,
     CSFForceTaskRecurrenceTypeRecursDaily,
@@ -140,6 +151,7 @@ typedef NS_ENUM(NSInteger, CSFForceTaskRecurrenceType) {
 
 };
 
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 typedef NS_ENUM(NSInteger, CSFForceTaskRecurrenceInstance) {
     CSFForceTaskRecurrenceInstanceUnknown,
     CSFForceTaskRecurrenceInstance1st,
@@ -150,6 +162,7 @@ typedef NS_ENUM(NSInteger, CSFForceTaskRecurrenceInstance) {
 
 };
 
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 typedef NS_ENUM(NSInteger, CSFForceTaskRecurrenceMonthOfYear) {
     CSFForceTaskRecurrenceMonthOfYearUnknown,
     CSFForceTaskRecurrenceMonthOfYearJanuary,
@@ -167,6 +180,7 @@ typedef NS_ENUM(NSInteger, CSFForceTaskRecurrenceMonthOfYear) {
 
 };
 
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 typedef NS_ENUM(NSInteger, CSFForceRecordType) {
     CSFForceRecordTypeOther,
     CSFForceRecordTypeAccount,
@@ -181,57 +195,57 @@ typedef NS_ENUM(NSInteger, CSFForceRecordType) {
 
 };
 
-CSF_EXTERN NSString * CSFForceStringValueForLayoutComponentType(CSFForceLayoutComponentType type);
-CSF_EXTERN CSFForceLayoutComponentType CSFForceTypeForLayoutComponentTypeName(NSString *name);
-CSF_EXTERN void CSFForcePrimitiveLayoutComponentTypeFormatter(id value, CSFPrimitivePointer outputStruct);
+CSF_EXTERN NSString * CSFForceStringValueForLayoutComponentType(CSFForceLayoutComponentType type) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
+CSF_EXTERN CSFForceLayoutComponentType CSFForceTypeForLayoutComponentTypeName(NSString *name) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
+CSF_EXTERN void CSFForcePrimitiveLayoutComponentTypeFormatter(id value, CSFPrimitivePointer outputStruct) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
 
-CSF_EXTERN NSString * CSFForceStringValueForQuickActionType(CSFForceQuickActionType type);
-CSF_EXTERN CSFForceQuickActionType CSFForceTypeForQuickActionTypeName(NSString *name);
-CSF_EXTERN void CSFForcePrimitiveQuickActionTypeFormatter(id value, CSFPrimitivePointer outputStruct);
+CSF_EXTERN NSString * CSFForceStringValueForQuickActionType(CSFForceQuickActionType type) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
+CSF_EXTERN CSFForceQuickActionType CSFForceTypeForQuickActionTypeName(NSString *name) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
+CSF_EXTERN void CSFForcePrimitiveQuickActionTypeFormatter(id value, CSFPrimitivePointer outputStruct) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
 
-CSF_EXTERN NSString * CSFForceStringValueForNotificationFrequency(CSFForceNotificationFrequency type);
-CSF_EXTERN CSFForceNotificationFrequency CSFForceTypeForNotificationFrequencyName(NSString *name);
-CSF_EXTERN void CSFForcePrimitiveNotificationFrequencyFormatter(id value, CSFPrimitivePointer outputStruct);
+CSF_EXTERN NSString * CSFForceStringValueForNotificationFrequency(CSFForceNotificationFrequency type) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
+CSF_EXTERN CSFForceNotificationFrequency CSFForceTypeForNotificationFrequencyName(NSString *name) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
+CSF_EXTERN void CSFForcePrimitiveNotificationFrequencyFormatter(id value, CSFPrimitivePointer outputStruct) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
 
-CSF_EXTERN NSString * CSFForceStringValueForPortalRoleType(CSFForcePortalRoleType type);
-CSF_EXTERN CSFForcePortalRoleType CSFForceTypeForPortalRoleTypeName(NSString *name);
-CSF_EXTERN void CSFForcePrimitivePortalRoleTypeFormatter(id value, CSFPrimitivePointer outputStruct);
+CSF_EXTERN NSString * CSFForceStringValueForPortalRoleType(CSFForcePortalRoleType type) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
+CSF_EXTERN CSFForcePortalRoleType CSFForceTypeForPortalRoleTypeName(NSString *name) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
+CSF_EXTERN void CSFForcePrimitivePortalRoleTypeFormatter(id value, CSFPrimitivePointer outputStruct) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
 
-CSF_EXTERN NSString * CSFForceStringValueForPortalType(CSFForcePortalType type);
-CSF_EXTERN CSFForcePortalType CSFForceTypeForPortalTypeName(NSString *name);
-CSF_EXTERN void CSFForcePrimitivePortalTypeFormatter(id value, CSFPrimitivePointer outputStruct);
+CSF_EXTERN NSString * CSFForceStringValueForPortalType(CSFForcePortalType type) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
+CSF_EXTERN CSFForcePortalType CSFForceTypeForPortalTypeName(NSString *name) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
+CSF_EXTERN void CSFForcePrimitivePortalTypeFormatter(id value, CSFPrimitivePointer outputStruct) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
 
-CSF_EXTERN NSString * CSFForceStringValueForFieldMetadataType(CSFForceFieldMetadataType type);
-CSF_EXTERN CSFForceFieldMetadataType CSFForceTypeForFieldMetadataTypeName(NSString *name);
-CSF_EXTERN void CSFForcePrimitiveFieldMetadataTypeFormatter(id value, CSFPrimitivePointer outputStruct);
+CSF_EXTERN NSString * CSFForceStringValueForFieldMetadataType(CSFForceFieldMetadataType type) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
+CSF_EXTERN CSFForceFieldMetadataType CSFForceTypeForFieldMetadataTypeName(NSString *name) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
+CSF_EXTERN void CSFForcePrimitiveFieldMetadataTypeFormatter(id value, CSFPrimitivePointer outputStruct) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
 
-CSF_EXTERN NSString * CSFForceStringValueForTaskStatus(CSFForceTaskStatus type);
-CSF_EXTERN CSFForceTaskStatus CSFForceTypeForTaskStatusName(NSString *name);
-CSF_EXTERN void CSFForcePrimitiveTaskStatusFormatter(id value, CSFPrimitivePointer outputStruct);
+CSF_EXTERN NSString * CSFForceStringValueForTaskStatus(CSFForceTaskStatus type) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
+CSF_EXTERN CSFForceTaskStatus CSFForceTypeForTaskStatusName(NSString *name) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
+CSF_EXTERN void CSFForcePrimitiveTaskStatusFormatter(id value, CSFPrimitivePointer outputStruct) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
 
-CSF_EXTERN NSString * CSFForceStringValueForTaskPriority(CSFForceTaskPriority type);
-CSF_EXTERN CSFForceTaskPriority CSFForceTypeForTaskPriorityName(NSString *name);
-CSF_EXTERN void CSFForcePrimitiveTaskPriorityFormatter(id value, CSFPrimitivePointer outputStruct);
+CSF_EXTERN NSString * CSFForceStringValueForTaskPriority(CSFForceTaskPriority type) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
+CSF_EXTERN CSFForceTaskPriority CSFForceTypeForTaskPriorityName(NSString *name) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
+CSF_EXTERN void CSFForcePrimitiveTaskPriorityFormatter(id value, CSFPrimitivePointer outputStruct) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
 
-CSF_EXTERN NSString * CSFForceStringValueForTaskCallType(CSFForceTaskCallType type);
-CSF_EXTERN CSFForceTaskCallType CSFForceTypeForTaskCallTypeName(NSString *name);
-CSF_EXTERN void CSFForcePrimitiveTaskCallTypeFormatter(id value, CSFPrimitivePointer outputStruct);
+CSF_EXTERN NSString * CSFForceStringValueForTaskCallType(CSFForceTaskCallType type) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
+CSF_EXTERN CSFForceTaskCallType CSFForceTypeForTaskCallTypeName(NSString *name) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
+CSF_EXTERN void CSFForcePrimitiveTaskCallTypeFormatter(id value, CSFPrimitivePointer outputStruct) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
 
-CSF_EXTERN NSString * CSFForceStringValueForTaskRecurrenceType(CSFForceTaskRecurrenceType type);
-CSF_EXTERN CSFForceTaskRecurrenceType CSFForceTypeForTaskRecurrenceTypeName(NSString *name);
-CSF_EXTERN void CSFForcePrimitiveTaskRecurrenceTypeFormatter(id value, CSFPrimitivePointer outputStruct);
+CSF_EXTERN NSString * CSFForceStringValueForTaskRecurrenceType(CSFForceTaskRecurrenceType type) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
+CSF_EXTERN CSFForceTaskRecurrenceType CSFForceTypeForTaskRecurrenceTypeName(NSString *name) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
+CSF_EXTERN void CSFForcePrimitiveTaskRecurrenceTypeFormatter(id value, CSFPrimitivePointer outputStruct) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
 
-CSF_EXTERN NSString * CSFForceStringValueForTaskRecurrenceInstance(CSFForceTaskRecurrenceInstance type);
-CSF_EXTERN CSFForceTaskRecurrenceInstance CSFForceTypeForTaskRecurrenceInstanceName(NSString *name);
-CSF_EXTERN void CSFForcePrimitiveTaskRecurrenceInstanceFormatter(id value, CSFPrimitivePointer outputStruct);
+CSF_EXTERN NSString * CSFForceStringValueForTaskRecurrenceInstance(CSFForceTaskRecurrenceInstance type) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
+CSF_EXTERN CSFForceTaskRecurrenceInstance CSFForceTypeForTaskRecurrenceInstanceName(NSString *name) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
+CSF_EXTERN void CSFForcePrimitiveTaskRecurrenceInstanceFormatter(id value, CSFPrimitivePointer outputStruct) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
 
-CSF_EXTERN NSString * CSFForceStringValueForTaskRecurrenceMonthOfYear(CSFForceTaskRecurrenceMonthOfYear type);
-CSF_EXTERN CSFForceTaskRecurrenceMonthOfYear CSFForceTypeForTaskRecurrenceMonthOfYearName(NSString *name);
-CSF_EXTERN void CSFForcePrimitiveTaskRecurrenceMonthOfYearFormatter(id value, CSFPrimitivePointer outputStruct);
+CSF_EXTERN NSString * CSFForceStringValueForTaskRecurrenceMonthOfYear(CSFForceTaskRecurrenceMonthOfYear type) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
+CSF_EXTERN CSFForceTaskRecurrenceMonthOfYear CSFForceTypeForTaskRecurrenceMonthOfYearName(NSString *name) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
+CSF_EXTERN void CSFForcePrimitiveTaskRecurrenceMonthOfYearFormatter(id value, CSFPrimitivePointer outputStruct) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
 
-CSF_EXTERN NSString * CSFForceStringValueForRecordType(CSFForceRecordType type);
-CSF_EXTERN CSFForceRecordType CSFForceTypeForRecordTypeName(NSString *name);
-CSF_EXTERN void CSFForcePrimitiveRecordTypeFormatter(id value, CSFPrimitivePointer outputStruct);
+CSF_EXTERN NSString * CSFForceStringValueForRecordType(CSFForceRecordType type) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
+CSF_EXTERN CSFForceRecordType CSFForceTypeForRecordTypeName(NSString *name) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
+CSF_EXTERN void CSFForcePrimitiveRecordTypeFormatter(id value, CSFPrimitivePointer outputStruct) SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.");
 
 #define __CSF_AVAILABLE_INTERNAL_29_0 NS_UNAVAILABLE
 #define __CSF_AVAILABLE_INTERNAL_29_0 NS_UNAVAILABLE

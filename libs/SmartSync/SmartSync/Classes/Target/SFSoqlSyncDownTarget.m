@@ -108,11 +108,11 @@ static NSString * const kSFSoqlSyncTargetQuery = @"query";
     __weak typeof(self) weakSelf = self;
     
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:queryToRun];
-    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSDictionary *d) {
+    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSDictionary *responseJson) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        strongSelf.totalSize = [d[kResponseTotalSize] integerValue];
-        strongSelf.nextRecordsUrl = d[kResponseNextRecordsUrl];
-        completeBlock(d[kResponseRecords]);
+        strongSelf.totalSize = [responseJson[kResponseTotalSize] integerValue];
+        strongSelf.nextRecordsUrl = responseJson[kResponseNextRecordsUrl];
+        completeBlock([strongSelf getRecordsFromResponse:responseJson]);
     }];
 }
 
@@ -122,13 +122,18 @@ static NSString * const kSFSoqlSyncTargetQuery = @"query";
     if (self.nextRecordsUrl) {
         __weak typeof(self) weakSelf = self;
         SFRestRequest* request = [SFRestRequest requestWithMethod:SFRestMethodGET path:self.nextRecordsUrl queryParams:nil];
-        [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSDictionary *d) {
-            weakSelf.nextRecordsUrl = d[kResponseNextRecordsUrl];
-            completeBlock(d[kResponseRecords]);
+        [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSDictionary *responseJson) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            strongSelf.nextRecordsUrl = responseJson[kResponseNextRecordsUrl];
+            completeBlock([strongSelf getRecordsFromResponse:responseJson]);
         }];
     } else {
         completeBlock(nil);
     }
+}
+
+- (NSArray<NSDictionary *> *)getRecordsFromResponse:(NSDictionary *)responseJson {
+    return responseJson[kResponseRecords];
 }
 
 - (void)getRemoteIds:(SFSmartSyncSyncManager *)syncManager
@@ -139,39 +144,40 @@ static NSString * const kSFSoqlSyncTargetQuery = @"query";
         completeBlock(nil);
         return;
     }
-    NSMutableString* soql = [[NSMutableString alloc] initWithString:@"SELECT "];
-    [soql appendString:self.idFieldName];
-    NSRegularExpression* regexp = [NSRegularExpression regularExpressionWithPattern:@" from " options:NSRegularExpressionCaseInsensitive error:nil];
-    NSRange rangeFirst = [regexp rangeOfFirstMatchInString:self.query options:0 range:NSMakeRange(0, self.query.length)];
-    NSString* fromClause = [self.query substringFromIndex:rangeFirst.location];
-    [soql appendString:fromClause];
-    __block NSUInteger countFetched = 0;
-    __block NSMutableArray* remoteIds = [[NSMutableArray alloc] init];
+    NSString* soql = [self getSoqlForRemoteIds];
+    __block NSMutableSet* remoteIds = [NSMutableSet new];
     __block SFSyncDownTargetFetchCompleteBlock fetchBlockRecurse = ^(NSArray *records) {};
     SFSyncDownTargetFetchCompleteBlock fetchBlock = ^(NSArray* records) {
-        // NB with the recursive block, using weakSelf doesn't work (it goes to nil)
-        //    are we leaking memory?
-        if (countFetched == 0) {
-            if (self.totalSize == 0) {
-                completeBlock(nil);
-                return;
-            }
+        if (records == nil) {
+            completeBlock([remoteIds allObjects]);
+            return;
         }
-        countFetched += [records count];
-        for (NSDictionary * record in records) {
-            [remoteIds addObject:record[self.idFieldName]];
-        }
-        if (countFetched < self.totalSize) {
-            [self continueFetch:syncManager errorBlock:errorBlock completeBlock:fetchBlockRecurse];
-        } else {
-            completeBlock(remoteIds);
-        }
+        [remoteIds unionSet:[self parseIdsFromResponse:records]];
+        [self continueFetch:syncManager errorBlock:errorBlock completeBlock:fetchBlockRecurse];
     };
     fetchBlockRecurse = fetchBlock;
     [self startFetch:syncManager queryToRun:soql errorBlock:errorBlock completeBlock:fetchBlock];
 }
 
 #pragma mark - Utility methods
+
+- (NSSet<NSString*>*) parseIdsFromResponse:(NSArray*)records {
+    NSMutableSet<NSString*>* remoteIds = [NSMutableSet new];
+    for (NSDictionary * record in records) {
+        [remoteIds addObject:record[self.idFieldName]];
+    }
+    return remoteIds;
+}
+
+- (NSString *)getSoqlForRemoteIds {
+    NSMutableString* soql = [[NSMutableString alloc] initWithString:@"SELECT "];
+    [soql appendString:self.idFieldName];
+    NSRegularExpression* regexp = [NSRegularExpression regularExpressionWithPattern:@" from " options:NSRegularExpressionCaseInsensitive error:nil];
+    NSRange rangeFirst = [regexp rangeOfFirstMatchInString:self.query options:0 range:NSMakeRange(0, self.query.length)];
+    NSString* fromClause = [self.query substringFromIndex:rangeFirst.location];
+    [soql appendString:fromClause];
+    return soql;
+}
 
 - (NSString*) getQueryToRun {
     return [self getQueryToRun:0];

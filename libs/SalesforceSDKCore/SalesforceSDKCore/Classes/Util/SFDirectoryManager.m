@@ -25,9 +25,8 @@
 #import "SFDirectoryManager.h"
 #import "SFUserAccountManager.h"
 #import "SFUserAccount.h"
-
-#import "SFSDKDatasharingHelper.h"
 #import "SFFileProtectionHelper.h"
+#import <SalesforceAnalytics/SFSDKDatasharingHelper.h>
 
 static NSString * const kDefaultOrgName = @"org";
 static NSString * const kDefaultCommunityName = @"internal";
@@ -118,21 +117,21 @@ static NSString * const kFilesSharedKey = @"filesShared";
             
         case SFUserAccountScopeOrg:
             if (!user.credentials.organizationId) {
-                [self log:SFLogLevelWarning format:@"Credentials missing for user %@ ", user];
+                [SFSDKCoreLogger w:[self class] format:@"Credentials missing for user %@ ", user];
                 return nil;
             }
             return [self directoryForOrg:user.credentials.organizationId user:nil community:nil type:type components:components];
             
         case SFUserAccountScopeUser:
             if (!user.credentials.organizationId || !user.credentials.userId) {
-                [self log:SFLogLevelWarning format:@"Credentials missing for user %@ ", user];
+                [SFSDKCoreLogger w:[self class] format:@"Credentials missing for user %@ ", user];
                 return nil;
             }
             return [self directoryForOrg:user.credentials.organizationId user:user.credentials.userId community:nil type:type components:components];
             
         case SFUserAccountScopeCommunity:
             if (!user.credentials.organizationId || !user.credentials.userId) {
-                [self log:SFLogLevelWarning format:@"Credentials missing for user %@", user];
+                [SFSDKCoreLogger w:[self class] format:@"Credentials missing for user %@ ", user];
                 return nil;
             }
             // Note: if the user communityId is nil, we use the default (internal) name for it.
@@ -143,7 +142,7 @@ static NSString * const kFilesSharedKey = @"filesShared";
 - (NSString*)directoryForUser:(SFUserAccount*)user type:(NSSearchPathDirectory)type components:(NSArray*)components {
     if (user) {
         if (!user.credentials.organizationId || !user.credentials.userId) {
-            [self log:SFLogLevelWarning format:@"Credentials missing for user %@", user];
+                [SFSDKCoreLogger w:[self class] format:@"Credentials missing for user %@ ", user];
             return nil;
         }
         // Note: if the user communityId is nil, we use the default (internal) name for it.
@@ -172,16 +171,17 @@ static NSString * const kFilesSharedKey = @"filesShared";
         NSArray *rootContents = [fileManager contentsOfDirectoryAtPath:sourceDirectory error:&error];
         if (nil == rootContents) {
             if (error) {
-                [self log:SFLogLevelDebug format:@"Unable to enumerate the content at %@: %@", sourceDirectory, error];
+                [SFSDKCoreLogger d:[self class] format:@"Unable to enumerate the content at %@: %@", sourceDirectory, error];
             }
         } else {
             for (NSString *s in rootContents) {
                 NSString *newFilePath = [destinationDirectory stringByAppendingPathComponent:s];
                 NSString *oldFilePath = [sourceDirectory stringByAppendingPathComponent:s];
                 if (![fileManager fileExistsAtPath:newFilePath]) {
-                    //File does not exist, copy it
+
+                    // File does not exist, copy it.
                     if (![fileManager moveItemAtPath:oldFilePath toPath:newFilePath error:&error]) {
-                        [self log:SFLogLevelError format:@"Could not move library directory contents to a shared location for app group access: %@", error];
+                        [SFSDKCoreLogger e:[self class] format:@"Could not move library directory contents to a shared location for app group access: %@", error];
                     }
                 } else {
                     [fileManager removeItemAtPath:newFilePath error:&error];

@@ -25,17 +25,6 @@
 #import <Foundation/Foundation.h>
 
 /**
- @enum Logging levels to control the verbosity of log output based on the severity of the event being logged.
- */
-typedef NS_ENUM(NSUInteger, SFOAuthLogLevel) {
-    kSFOAuthLogLevelDebug,
-    kSFOAuthLogLevelInfo,
-    kSFOAuthLogLevelWarning,
-    kSFOAuthLogLevelError,
-    kSFOAuthLogLevelVerbose
-};
-
-/**
  @enum OAuth credential storage type
  */
 typedef NS_ENUM(NSInteger, SFOAuthCredentialsStorageType){
@@ -108,15 +97,6 @@ typedef NS_ENUM(NSInteger, SFOAuthCredentialsStorageType){
  */
 @property (nonatomic, copy, nullable) NSString *redirectUri;
 
-/** Activation code.
- 
- Activation code used in the client IP/IC bypass flow.
- This property is set by the `SFOAuthCoordinator` after authentication has successfully completed.
- 
- @warning The setter for this property is exposed publicly only for unit tests. Client code should not set this property.
- @exception NSInternalInconsistencyException If accessed while the identifier property is `nil`.
- */
-@property (nonatomic, copy, nullable) NSString *activationCode;
 /** JWT.
  
  JWT code used in the client breeze link flow.
@@ -215,13 +195,6 @@ typedef NS_ENUM(NSInteger, SFOAuthCredentialsStorageType){
 @property (nonatomic, copy, nullable) NSString *userId;
 
 /**
- The log level controlling which events are logged based on their severity.
- 
- This property controls the logging level for all components of the SFOAuth library.
- */
-@property (nonatomic, assign) SFOAuthLogLevel logLevel;
-
-/**
  Determines if sensitive data such as the `refreshToken` and `accessToken` are encrypted
  */
 @property (nonatomic, readonly, getter = isEncrypted) BOOL encrypted;
@@ -278,11 +251,5 @@ typedef NS_ENUM(NSInteger, SFOAuthCredentialsStorageType){
  @exception NSInternalInconsistencyException If called while the identifier property is `nil`.
  */
 - (void)revokeRefreshToken;
-
-/** Revoke the OAuth activation code.
- 
- @exception NSInternalInconsistencyException If called while the identifier property is `nil`.
- */
-- (void)revokeActivationCode;
 
 @end

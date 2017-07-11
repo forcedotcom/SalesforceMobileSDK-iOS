@@ -25,7 +25,6 @@
 #import "SFSyncTarget.h"
 #import "SFSmartSyncConstants.h"
 #import "SFSmartSyncSyncManager.h"
-#import "SFSyncManagerLogger.h"
 #import <SmartStore/SFQuerySpec.h>
 #import <SmartStore/SFSmartStore.h>
 
@@ -75,22 +74,19 @@ NSString * const kSyncTargetLocallyDeleted = @"__locally_deleted__";
 #pragma mark - Public methods
 
 - (void) cleanAndSaveInLocalStore:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName record:(NSDictionary*)record {
-    LogSyncDebug(@"cleanAndSaveInLocalStore:%@", record);
-    [self cleanAndSaveInSmartStore:syncManager.store soupName:soupName record:record];
+    [SFSDKSmartSyncLogger d:[self class] format:@"cleanAndSaveInLocalStore:%@", record];
+    [self cleanAndSaveInSmartStore:syncManager.store soupName:soupName records:@[record] idFieldName:self.idFieldName];
 }
 
 - (void) saveRecordsToLocalStore:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName records:(NSArray*)records {
-    for (NSMutableDictionary * record  in records) {
-        // XXX should be done in one transaction
-        [self cleanAndSaveInSmartStore:syncManager.store soupName:soupName record:record];
-    }
+    [self cleanAndSaveInSmartStore:syncManager.store soupName:soupName records:records idFieldName:self.idFieldName];
 }
 
 - (void) deleteRecordsFromLocalStore:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName ids:(NSArray*)ids idField:(NSString*)idField {
     if (ids.count > 0) {
         NSString *smartSql = [NSString stringWithFormat:@"SELECT {%@:%@} FROM {%@} WHERE {%@:%@} IN ('%@')",
                                                         soupName, SOUP_ENTRY_ID, soupName, soupName, idField,
-                                                        [ids componentsJoinedByString:@", "]];
+                                                        [ids componentsJoinedByString:@"','"]];
 
         SFQuerySpec *querySpec = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:ids.count];
         [syncManager.store removeEntriesByQuery:querySpec fromSoup:soupName];
@@ -125,13 +121,11 @@ NSString * const kSyncTargetLocallyDeleted = @"__locally_deleted__";
 }
 
 - (void) deleteFromLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString*)soupName record:(NSDictionary*)record {
-    LogSyncDebug(@"deleteFromLocalStore:%@", record);
+    [SFSDKSmartSyncLogger d:[self class] format:@"deleteFromLocalStore:%@", record];
     [syncManager.store removeEntries:@[record[SOUP_ENTRY_ID]] fromSoup:soupName];
 }
 
-
 #pragma mark - Helper methods
-
 
 - (NSString*) getDirtyRecordIdsSql:(NSString*)soupName idField:(NSString*)idField {
     return [NSString stringWithFormat:@"SELECT {%@:%@} FROM {%@} WHERE {%@:%@} = '1' ORDER BY {%@:%@} ASC",
@@ -151,17 +145,27 @@ NSString * const kSyncTargetLocallyDeleted = @"__locally_deleted__";
     return ids;
 }
 
-- (void) cleanAndSaveInSmartStore:(SFSmartStore*)smartStore soupName:(NSString*)soupName record:(NSDictionary*)record {
-    NSMutableDictionary* mutableCopy = [NSMutableDictionary dictionaryWithDictionary:record];
-    [self cleanRecord:mutableCopy];
-    if (mutableCopy[SOUP_ENTRY_ID]) {
-        // Record came from smartstore
-        [smartStore upsertEntries:@[mutableCopy] toSoup:soupName];
+- (void)cleanAndSaveInSmartStore:(SFSmartStore *)smartStore soupName:(NSString *)soupName records:(NSArray *)records idFieldName:(NSString *)idFieldName {
+
+    NSMutableArray* recordsFromSmartStore = [NSMutableArray new];
+    NSMutableArray* recordsFromServer = [NSMutableArray new];
+
+    for (NSDictionary * record in records) {
+        NSMutableDictionary *mutableRecord = [record mutableCopy];
+        [self cleanRecord:mutableRecord];
+        if (mutableRecord[SOUP_ENTRY_ID]) {
+            // Record came from smartstore
+            [recordsFromSmartStore addObject:mutableRecord];
+        } else {
+            // Record came from server
+            [recordsFromServer addObject:mutableRecord];
+        }
     }
-    else {
-        // Record came from server
-        [smartStore upsertEntries:@[mutableCopy] toSoup:soupName withExternalIdPath:self.idFieldName error:nil];
-    }
+
+    // Saving in bulk
+    [smartStore upsertEntries:recordsFromSmartStore toSoup:soupName];
+    [smartStore upsertEntries:recordsFromServer toSoup:soupName withExternalIdPath:idFieldName error:nil];
+
 }
 
 - (void) cleanRecord:(NSMutableDictionary*)record {

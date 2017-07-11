@@ -28,16 +28,15 @@
 #import "SFManagedPreferences.h"
 #import "SFUserAccount+Internal.h"
 #import "SFIdentityData+Internal.h"
-
 #import "SFKeyStoreManager.h"
 #import "SFSDKCryptoUtils.h"
 #import "NSString+SFAdditions.h"
-#import "SFSDKDatasharingHelper.h"
 #import "SFFileProtectionHelper.h"
-#import "NSUserDefaults+SFAdditions.h"
 #import "SFSDKAppFeatureMarkers.h"
 #import "SFDefaultUserAccountPersister.h"
 #import "SFOAuthCredentials+Internal.h"
+#import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
+#import <SalesforceAnalytics/SFSDKDatasharingHelper.h>
 
 // Notifications
 NSString * const SFUserAccountManagerDidChangeUserNotification   = @"SFUserAccountManagerDidChangeUserNotification";
@@ -74,33 +73,6 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
         [[NSNotificationCenter defaultCenter] postNotificationName:SFUserAccountManagerDidFinishUserInitNotification object:nil];
     });
     return userAccountManager;
-}
-
-+ (void)applyCurrentLogLevel:(SFOAuthCredentials*)credentials {
-    switch ([SFLogger sharedLogger].logLevel) {
-        case SFLogLevelDebug:
-            credentials.logLevel = kSFOAuthLogLevelDebug;
-            break;
-
-        case SFLogLevelInfo:
-            credentials.logLevel = kSFOAuthLogLevelInfo;
-            break;
-
-        case SFLogLevelWarning:
-            credentials.logLevel = kSFOAuthLogLevelWarning;
-            break;
-
-        case SFLogLevelError:
-            credentials.logLevel = kSFOAuthLogLevelError;
-            break;
-
-        case SFLogLevelVerbose:
-            credentials.logLevel = kSFOAuthLogLevelVerbose;
-            break;
-
-        default:
-            break;
-    }
 }
 
 - (id)init {
@@ -219,7 +191,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 
         return accounts;
     } else {
-        [self log:SFLogLevelDebug format:@"Error querying for all existing accounts in the keychain: %ld", result];
+        [SFSDKCoreLogger d:[self class] format:@"Error querying for all existing accounts in the keychain: %ld", result];
         return nil;
     }
 }
@@ -452,7 +424,6 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
                 currentAccount.communities = @[communityData];
             }
         }
-        [self setCurrentCommunityId:currentAccount.communityId];
     }
 
     [self saveAccountForUser:currentAccount error:nil];
@@ -482,10 +453,10 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
                 if (result) {
                     _currentUser = [self userAccountForUserIdentity:result];
                 } else {
-                    [self log:SFLogLevelError msg:@"Located current user Identity in NSUserDefaults but was not found in list of accounts managed by SFUserAccountManager."];
+                    [SFSDKCoreLogger e:[self class] format:@"Located current user Identity in NSUserDefaults but was not found in list of accounts managed by SFUserAccountManager."];
                 }
             } @catch (NSException *exception) {
-                [self log:SFLogLevelDebug msg:@"Could not parse current user identity from user defaults. Setting to nil."];
+                [SFSDKCoreLogger d:[self class] format:@"Could not parse current user identity from user defaults. Setting to nil."];
             }
         }
         [_accountsLock unlock];
@@ -515,7 +486,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
                 [self didChangeValueForKey:@"currentUser"];
                 userChanged = YES;
             } else {
-                [self log:SFLogLevelError format:@"Cannot set the currentUser as %@. Add the account to the SFAccountManager before making this call.", [user userName]];
+                [SFSDKCoreLogger e:[self class] format:@"Cannot set the currentUser as %@. Add the account to the SFAccountManager before making this call.", [user userName]];
             }
         }
         [_accountsLock unlock];
@@ -554,34 +525,42 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 }
 
 - (void)applyIdData:(SFIdentityData *)idData forUser:(SFUserAccount *)user {
-    [_accountsLock lock];
-    user.idData = idData;
-    [self saveAccountForUser:user error:nil];
-    [_accountsLock unlock];
-    [self notifyUserDataChange:SFUserAccountManagerDidChangeUserDataNotification withUser:user andChange:SFUserAccountDataChangeIdData];
+    if (user) {
+        [_accountsLock lock];
+        user.idData = idData;
+        [self saveAccountForUser:user error:nil];
+        [_accountsLock unlock];
+        [self notifyUserDataChange:SFUserAccountManagerDidChangeUserDataNotification withUser:user andChange:SFUserAccountDataChangeIdData];
+    }
 }
 
 - (void)applyIdDataCustomAttributes:(NSDictionary *)customAttributes forUser:(SFUserAccount *)user {
-    [_accountsLock lock];
-    user.idData.customAttributes = customAttributes;
-    [self saveAccountForUser:user error:nil];
-    [_accountsLock unlock];
-    [self notifyUserDataChange:SFUserAccountManagerDidChangeUserDataNotification withUser:user andChange:SFUserAccountDataChangeIdData];
+    if (user) {
+        [_accountsLock lock];
+        user.idData.customAttributes = customAttributes;
+        [self saveAccountForUser:user error:nil];
+        [_accountsLock unlock];
+        [self notifyUserDataChange:SFUserAccountManagerDidChangeUserDataNotification withUser:user andChange:SFUserAccountDataChangeIdData];
+    }
 }
 
 - (void)applyIdDataCustomPermissions:(NSDictionary *)customPermissions forUser:(SFUserAccount *)user {
-    [_accountsLock lock];
-    user.idData.customPermissions = customPermissions;
-    [self saveAccountForUser:user error:nil];
-    [_accountsLock unlock];
-    [self notifyUserDataChange:SFUserAccountManagerDidChangeUserDataNotification withUser:user andChange:SFUserAccountDataChangeIdData];
+     if (user) {
+        [_accountsLock lock];
+        user.idData.customPermissions = customPermissions;
+        [self saveAccountForUser:user error:nil];
+        [_accountsLock unlock];
+        [self notifyUserDataChange:SFUserAccountManagerDidChangeUserDataNotification withUser:user andChange:SFUserAccountDataChangeIdData];
+     }
 }
 
 - (void)setObjectForUserCustomData:(NSObject <NSCoding> *)object forKey:(NSString *)key andUser:(SFUserAccount *)user {
-    [_accountsLock lock];
-    [user setCustomDataObject:object forKey:key];
-    [self saveAccountForUser:user error:nil];
-    [_accountsLock unlock];
+    if (user) {
+        [_accountsLock lock];
+        [user setCustomDataObject:object forKey:key];
+        [self saveAccountForUser:user error:nil];
+        [_accountsLock unlock];
+    }
 }
 
 - (NSString *)currentCommunityId {
@@ -597,46 +576,40 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 }
 
 - (void)switchToUser:(SFUserAccount *)newCurrentUser {
-    [self enumerateDelegates:^(id<SFUserAccountManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(userAccountManager:willSwitchFromUser:toUser:)]) {
-            [delegate userAccountManager:self willSwitchFromUser:self.currentUser toUser:newCurrentUser];
-        }
-    }];
-
-    SFUserAccount *prevUser = self.currentUser;
-    [self setCurrentUser:newCurrentUser];
-
-    [self enumerateDelegates:^(id<SFUserAccountManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(userAccountManager:didSwitchFromUser:toUser:)]) {
-            [delegate userAccountManager:self didSwitchFromUser:prevUser toUser:newCurrentUser];
-        }
-    }];
-}
-
-#pragma mark -
-#pragma mark User Change Notifications
-- (BOOL)hasCommunityChanged {
-    // If the last changed communityID exists and is inequal or
-    // if there was no previous communityID and now there is
-    if ((self.lastChangedCommunityId && ![self.lastChangedCommunityId isEqualToString:self.currentUser.communityId])
-        || (!self.lastChangedCommunityId && self.currentUser.communityId)) {
-        return YES;
+    if ([self.currentUser.accountIdentity isEqual:newCurrentUser.accountIdentity]) {
+        [SFSDKCoreLogger w:[self class] format:@"%@ new user identity is the same as the current user (%@/%@).  No action taken.", NSStringFromSelector(_cmd), newCurrentUser.credentials.organizationId, newCurrentUser.credentials.userId];
     } else {
-        return NO;
+        [self enumerateDelegates:^(id<SFUserAccountManagerDelegate> delegate) {
+            if ([delegate respondsToSelector:@selector(userAccountManager:willSwitchFromUser:toUser:)]) {
+                [delegate userAccountManager:self willSwitchFromUser:self.currentUser toUser:newCurrentUser];
+            }
+        }];
+        
+        SFUserAccount *prevUser = self.currentUser;
+        [self setCurrentUser:newCurrentUser];
+        
+        [self enumerateDelegates:^(id<SFUserAccountManagerDelegate> delegate) {
+            if ([delegate respondsToSelector:@selector(userAccountManager:didSwitchFromUser:toUser:)]) {
+                [delegate userAccountManager:self didSwitchFromUser:prevUser toUser:newCurrentUser];
+            }
+        }];
     }
 }
 
+
+#pragma mark - User Change Notifications
 - (void)userChanged:(SFUserAccount *)user change:(SFUserAccountDataChange)change {
     [self notifyUserDataChange:SFUserAccountManagerDidChangeUserDataNotification withUser:user andChange:change];
 }
 
 - (void)notifyUserDataChange:(NSString *)notificationName withUser:(SFUserAccount *)user andChange:(SFUserAccountDataChange)change {
-
-    [[NSNotificationCenter defaultCenter] postNotificationName:notificationName
-                                                        object:user
-                                                      userInfo:@{
-                                                            SFUserAccountManagerUserChangeKey: @(change)
-                                                      }];
+    if (user) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:notificationName
+                                                            object:user
+                                                          userInfo:@{
+                                                                SFUserAccountManagerUserChangeKey: @(change)
+                                                          }];
+    }
 
 }
 

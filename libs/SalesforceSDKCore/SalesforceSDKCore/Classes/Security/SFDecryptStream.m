@@ -139,7 +139,7 @@
             [self.cryptChunks finalizeCrypt];
         }
         else {
-            NSLog(@"SFDecryptStream - error on reading stream: %@.", self.streamError);
+            [SFSDKCoreLogger d:[self class] format:@"SFDecryptStream - error on reading stream: %@.", self.streamError];
         }
     }
     

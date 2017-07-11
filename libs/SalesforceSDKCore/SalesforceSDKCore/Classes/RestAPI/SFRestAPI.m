@@ -24,7 +24,6 @@
 
 #import "SFRestAPI+Internal.h"
 #import "SFRestRequest+Internal.h"
-#import "SFOAuthCoordinator.h"
 #import "SFUserAccount.h"
 #import "SFAuthenticationManager.h"
 #import "SFSDKWebUtils.h"
@@ -74,9 +73,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     if (self) {
         _activeRequests = [[NSMutableSet alloc] initWithCapacity:4];
         self.apiVersion = kSFRestDefaultAPIVersion;
-        _accountMgr = [SFUserAccountManager sharedInstance];
-        [_accountMgr addDelegate:self];
-        _authMgr = [SFAuthenticationManager sharedManager];
+        [[SFUserAccountManager sharedInstance] addDelegate:self];
         if (!kIsTestRun) {
             [SFSDKWebUtils configureUserAgent:[SFRestAPI userAgentString]];
         }
@@ -144,14 +141,6 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 
 #pragma mark - Properties
 
-- (SFOAuthCoordinator *)coordinator {
-    return _authMgr.coordinator;
-}
-
-- (void)setCoordinator:(SFOAuthCoordinator *)coordinator {
-    _authMgr.coordinator = coordinator;
-}
-
 /**
  Set a user agent string based on the mobile SDK version.
  We are building a user agent of the form:
@@ -180,6 +169,10 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 #pragma mark - send method
 
 - (void)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate {
+    [self send:request delegate:delegate shouldRetry:YES];
+}
+
+- (void)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate shouldRetry:(BOOL)shouldRetry {
     if (nil != delegate) {
         request.delegate = delegate;
     }
@@ -189,12 +182,13 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
     __weak __typeof(self) weakSelf = self;
     if (user.credentials.accessToken == nil && user.credentials.refreshToken == nil && request.requiresAuthentication) {
-        [self log:SFLogLevelInfo msg:@"No auth credentials found. Authenticating before sending request."];
+        [SFSDKCoreLogger i:[self class] format:@"No auth credentials found. Authenticating before sending request."];
         [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
-            [strongSelf enqueueRequest:request delegate:delegate];
+            [strongSelf enqueueRequest:request delegate:delegate shouldRetry:shouldRetry];
+            [SFUserAccountManager sharedInstance].currentUser = userAccount;
         } failure:^(SFOAuthInfo *authInfo, NSError *error) {
-            [self log:SFLogLevelError format:@"Authentication failed in SFRestAPI: %@. Logging out.", error];
+            [SFSDKCoreLogger e:[self class] format:@"Authentication failed in SFRestAPI: %@. Logging out.", error];
             NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
             attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
             attributes[@"errorDescription"] = error.localizedDescription;
@@ -204,11 +198,11 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     } else {
 
         // Auth credentials exist. Just send the request.
-        [self enqueueRequest:request delegate:delegate];
+        [self enqueueRequest:request delegate:delegate shouldRetry:shouldRetry];
     }
 }
 
-- (void)enqueueRequest:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate {
+- (void)enqueueRequest:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate shouldRetry:(BOOL)shouldRetry {
     __weak __typeof(self) weakSelf = self;
     NSURLRequest *finalRequest = [request prepareRequestForSend];
     if (finalRequest) {
@@ -216,7 +210,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
         NSURLSessionDataTask *dataTask = [network sendRequest:finalRequest dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             if (error) {
-                [strongSelf log:SFLogLevelDebug format:@"REST request failed with error: Error Code: %ld, Description: %@, URL: %@", (long) error.code, error.localizedDescription, finalRequest.URL];
+                [SFSDKCoreLogger d:[strongSelf class] format:@"REST request failed with error: Error Code: %ld, Description: %@, URL: %@", (long) error.code, error.localizedDescription, finalRequest.URL];
 
                 // Checks if the request was canceled.
                 if (error.code == -999) {
@@ -229,47 +223,60 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
             if (!response) {
                 [delegate requestDidTimeout:request];
             }
-            [strongSelf replayRequestIfRequired:data response:response error:error request:request delegate:delegate];
+            [strongSelf replayRequestIfRequired:data response:response error:error request:request delegate:delegate shouldRetry:shouldRetry];
         }];
         request.sessionDataTask = dataTask;
     }
 }
 
-- (void)replayRequestIfRequired:(NSData *)data response:(NSURLResponse *)response error:(NSError *)error request:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate {
+- (void)replayRequestIfRequired:(NSData *)data response:(NSURLResponse *)response error:(NSError *)error request:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate shouldRetry:(BOOL)shouldRetry {
 
     // Checks if the access token has expired.
     NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
     if (statusCode == 401 || statusCode == 403) {
-        SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
-        [self log:SFLogLevelInfo format:@"%@: REST request failed due to expired credentials. Attempting to refresh credentials.", NSStringFromSelector(_cmd)];
-        self.oauthSessionRefresher = [[SFOAuthSessionRefresher alloc] initWithCredentials:user.credentials];
-        __weak __typeof(self) weakSelf = self;
-        [self.oauthSessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            [strongSelf log:SFLogLevelInfo format:@"%@: Credentials refresh successful. Replaying original REST request.", NSStringFromSelector(_cmd)];
-            [strongSelf send:request delegate:delegate];
-        } error:^(NSError *refreshError) {
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            [strongSelf log:SFLogLevelError format:@"Failed to refresh expired session. Error: %@", refreshError];
-            if ([refreshError.domain isEqualToString:kSFOAuthErrorDomain] && refreshError.code == kSFOAuthErrorInvalidGrant) {
-                [strongSelf log:SFLogLevelInfo format:@"%@ Invalid grant error received, triggering logout.", NSStringFromSelector(_cmd)];
-                // make sure we call logoutUser on main thread
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [strongSelf createAndStoreLogoutEvent:error user:user];
-                    [[SFAuthenticationManager sharedManager] logoutUser:user];
-                });
-            }
-        }];
+        if (shouldRetry) {
+            SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
+            [SFSDKCoreLogger i:[self class] format:@"%@: REST request failed due to expired credentials. Attempting to refresh credentials.", NSStringFromSelector(_cmd)];
+            self.oauthSessionRefresher = [[SFOAuthSessionRefresher alloc] initWithCredentials:user.credentials];
+            __weak __typeof(self) weakSelf = self;
+            [self.oauthSessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
+                __strong typeof(weakSelf) strongSelf = weakSelf;
+                [SFSDKCoreLogger i:[strongSelf class] format:@"%@: Credentials refresh successful. Replaying original REST request.", NSStringFromSelector(_cmd)];
+                [strongSelf send:request delegate:delegate shouldRetry:NO];
+            } error:^(NSError *refreshError) {
+                __strong typeof(weakSelf) strongSelf = weakSelf;
+                [SFSDKCoreLogger e:[strongSelf class] format:@"Failed to refresh expired session. Error: %@", refreshError];
+                if ([refreshError.domain isEqualToString:kSFOAuthErrorDomain] && refreshError.code == kSFOAuthErrorInvalidGrant) {
+                    [SFSDKCoreLogger i:[strongSelf class] format:@"%@ Invalid grant error received, triggering logout.", NSStringFromSelector(_cmd)];
+
+                    // Make sure we call logout on the main thread.
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [strongSelf createAndStoreLogoutEvent:error user:user];
+                        [[SFAuthenticationManager sharedManager] logoutUser:user];
+                    });
+                }
+            }];
+        } else {
+            NSError *retryError = [[NSError alloc] initWithDomain:response.URL.absoluteString code:statusCode userInfo:nil];
+            [delegate request:request didFailLoadWithError:retryError];
+        }
     } else {
 
         // 2xx indicates success.
         if (statusCode >= 200 && statusCode <= 299) {
-            NSError *parsingError;
-            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parsingError];
-            if (parsingError) {
-                [delegate request:request didLoadResponse:data];
+            if (request.parseResponse) {
+                NSError *parsingError;
+                NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parsingError];
+                if (parsingError) {
+                    if (data.length == 0) {
+                        data = nil;
+                    }
+                    [delegate request:request didLoadResponse:data];
+                } else {
+                    [delegate request:request didLoadResponse:jsonDict];
+                }
             } else {
-                [delegate request:request didLoadResponse:jsonDict];
+                [delegate request:request didLoadResponse:data];
             }
         } else {
             if (!error) {
@@ -514,6 +521,14 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 - (SFRestRequest *)addBodyForPostRequest:(NSDictionary *)params request:(SFRestRequest *)request {
     [request setCustomRequestBodyDictionary:params contentType:kSFDefaultContentType];
     return request;
+}
+
++ (BOOL) isStatusCodeSuccess:(NSUInteger) statusCode {
+    return statusCode >= 200 && statusCode < 300;
+}
+
++ (BOOL) isStatusCodeNotFound:(NSUInteger) statusCode {
+    return statusCode  == 404;
 }
 
 @end

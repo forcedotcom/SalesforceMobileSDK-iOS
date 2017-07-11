@@ -23,10 +23,11 @@
  */
 
 #import <XCTest/XCTest.h>
-
+#import "SalesforceSDKConstants.h"
 #import "CSFInternalDefines.h"
 #import "TestDataAction.h"
 
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 @interface InternalFunctionTests : XCTestCase
 
 @end

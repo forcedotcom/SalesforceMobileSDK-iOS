@@ -24,6 +24,7 @@
  */
 
 #import "SFHybridViewConfig.h"
+#import <SalesforceAnalytics/SFSDKLogger.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
 
 @interface SFHybridViewConfig ()
@@ -65,10 +66,10 @@ static NSString* const kDefaultErrorPage = @"error.html";
 {
     self = [super initWithDict:configDict];
     if (self) {
+
         // Set defaults for non-existent values.
         [self setConfigDefaults];
     }
-    
     return self;
 }
 
@@ -127,10 +128,9 @@ static NSString* const kDefaultErrorPage = @"error.html";
 {
     NSDictionary *hybridConfigDict = [SFHybridViewConfig loadConfigFromFile:configFilePath];
     if (nil == hybridConfigDict) {
-        [SFLogger log:[SFHybridViewConfig class] level:SFLogLevelInfo msg:[NSString stringWithFormat:@"Hybrid view config at specified path '%@' not found, or data could not be parsed.", configFilePath]];
+        [SFSDKHybridLogger i:[SFHybridViewConfig class] format:[NSString stringWithFormat:@"Hybrid view config at specified path '%@' not found, or data could not be parsed.", configFilePath]];
         return nil;
     }
-    
     SFHybridViewConfig *hybridViewConfig = [[SFHybridViewConfig alloc] initWithDict:hybridConfigDict];
     return hybridViewConfig;
 }
@@ -141,18 +141,17 @@ static NSString* const kDefaultErrorPage = @"error.html";
     NSError *fileReadError = nil;
     NSData *fileContents = [NSData dataWithContentsOfFile:fullPath options:NSDataReadingUncached error:&fileReadError];
     if (fileContents == nil) {
-        [SFLogger log:[SFHybridViewConfig class] level:SFLogLevelError msg:[NSString stringWithFormat:@"Hybrid view config at specified path '%@' could not be read: %@", configFilePath, fileReadError]];
+        [SFSDKHybridLogger i:[SFHybridViewConfig class] format:[NSString stringWithFormat:@"Hybrid view config at specified path '%@' could not be read: %@", configFilePath, fileReadError]];
         return nil;
     }
-    
     NSDictionary *jsonDict = [SFJsonUtils objectFromJSONData:fileContents];
     return jsonDict;
 }
 
 - (void)setConfigDefaults
 {
+
     // Any default values that would not be the implicit defaults of nil values, should be set here.
-    
     if ((self.configDict)[kAttemptOfflineLoad] == nil) {
         self.attemptOfflineLoad = kDefaultAttemptOfflineLoad;
     }

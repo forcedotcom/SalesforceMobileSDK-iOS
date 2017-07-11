@@ -278,7 +278,7 @@ static CGFloat      const kUseTouchIdButtonHeight           = 40.0f;
 {
     [super viewDidLoad];
     [self.view setBackgroundColor:[UIColor blackColor]];
-    [self log:SFLogLevelDebug msg:@"SFPasscodeViewController viewDidLoad"];
+    [SFSDKCoreLogger d:[self class] format:@"SFPasscodeViewController viewDidLoad"];
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         [self setEdgesForExtendedLayout:UIRectEdgeNone];
     }
@@ -312,7 +312,7 @@ static CGFloat      const kUseTouchIdButtonHeight           = 40.0f;
                                handler:^(UIAlertAction *action)
                                {
                                    __strong typeof(weakSelf) strongSelf = weakSelf;
-                                   [strongSelf log:SFLogLevelDebug msg:@"User pressed Yes"];
+                                   [SFSDKCoreLogger d:[strongSelf class] format:@"User pressed Yes"];
                                    [strongSelf validatePasscodeFailed];
                                }];
 
@@ -321,13 +321,13 @@ static CGFloat      const kUseTouchIdButtonHeight           = 40.0f;
                                    style:UIAlertActionStyleDefault
                                    handler:^(UIAlertAction *action)
                                    {
-                                       [weakSelf log:SFLogLevelDebug msg:@"User pressed No"];
+                                       [SFSDKCoreLogger d:[weakSelf class] format:@"User pressed No"];
                                    }];
     
     
     [alert addAction:okAction];
     [alert addAction:cancelAction];
-    [self log:SFLogLevelDebug msg:@"SFPasscodeViewController forgotPassAction"];
+    [SFSDKCoreLogger d:[self class] format:@"SFPasscodeViewController forgotPassAction"];
     [self presentViewController:alert animated:YES completion:nil];
 }
 

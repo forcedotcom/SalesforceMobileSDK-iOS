@@ -43,7 +43,6 @@ NSString * const kPluginSDKVersion = @"pluginSDKVersion";
     [self.commandDelegate sendPluginResult:result callbackId:callbackId];
 }
 
-
 - (void)writeSuccessDictToJsRealm:(NSDictionary*)dict callbackId:(NSString*)callbackId
 {
     CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dict];
@@ -58,8 +57,7 @@ NSString * const kPluginSDKVersion = @"pluginSDKVersion";
     if ([self hasVersion:arguments]) {
         jsVersionStr = [arguments[0] substringFromIndex:([kPluginSDKVersion length] + 1)];
     }
-    
-    [self log:SFLogLevelDebug format:@"%@ jsVersion:%@ ", action, jsVersionStr];
+    [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"%@ jsVersion:%@ ", action, jsVersionStr]];
     return jsVersionStr;
 }
 
@@ -68,7 +66,6 @@ NSString * const kPluginSDKVersion = @"pluginSDKVersion";
     if ([self hasVersion:arguments]) {
         argIndex++;
     }
-    
     if ([arguments count] > argIndex) {
         id arg = arguments[argIndex];
         return (arg == [NSNull null] ? nil : arg);
@@ -86,9 +83,7 @@ NSString * const kPluginSDKVersion = @"pluginSDKVersion";
             versionExists = YES;
         }
     }
-    
     return versionExists;
 }
-
 
 @end

@@ -77,7 +77,7 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
         NSArray *rootContents = [fm contentsOfDirectoryAtPath:rootDirectory error:error];
         if (nil == rootContents) {
             NSString *reason = [NSString stringWithFormat:@"Unable to enumerate the content at %@", rootDirectory];
-            [self log:SFLogLevelWarning format:reason];
+            [SFSDKCoreLogger w:[self class] format:reason];
             if (error) {
                 *error = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
                                              code:SFUserAccountManagerCannotRetrieveUserData
@@ -85,17 +85,28 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
             }
         } else {
             for (NSString *rootContent in rootContents) {
+                
+                // Ignore content that doesn't represent the OrgID-based folder structure of user account persistence.
+                if (![rootContent hasPrefix:kOrgPrefix]) {
+                    continue;
+                }
                 NSString *rootPath = [rootDirectory stringByAppendingPathComponent:rootContent];
+                
                 // Fetch the content of the org directory
                 NSArray *orgContents = [fm contentsOfDirectoryAtPath:rootPath error:error];
                 if (nil == orgContents) {
                     if (error) {
-                        [self log:SFLogLevelDebug format:@"Unable to enumerate the content at %@: %@", rootPath, *error];
+                        [SFSDKCoreLogger d:[self class] format:@"Unable to enumerate the content at %@: %@", rootPath, *error];
                     }
                     continue;
                 }
 
                 for (NSString *orgContent in orgContents) {
+                    
+                    // Ignore content that doesn't represent the UserID-based folder structure of user account persistence.
+                    if (![orgContent hasPrefix:kUserPrefix]) {
+                        continue;
+                    }
                     NSString *orgPath = [rootPath stringByAppendingPathComponent:orgContent];
 
                     // Now let's try to load the user account file in there
@@ -110,7 +121,7 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
                             [fm removeItemAtPath:userAccountPath error:nil];
                         }
                     } else {
-                        [self log:SFLogLevelDebug format:@"There is no user account file in this user directory: %@", orgPath];
+                        [SFSDKCoreLogger d:[self class] format:@"There is no user account file in this user directory: %@", orgPath];
                     }
                 }
             }
@@ -131,7 +142,7 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
             NSError *folderRemovalError = nil;
             success= [manager removeItemAtPath:userDirectory error:&folderRemovalError];
             if (!success) {
-                [self log:SFLogLevelDebug
+                [SFSDKCoreLogger d:[self class]
                    format:@"Error removing the user folder for '%@': %@", user.userName, [folderRemovalError localizedDescription]];
                 if (folderRemovalError && error) {
                     *error = folderRemovalError;
@@ -142,7 +153,7 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
             NSError *ferror = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
                                                   code:SFUserAccountManagerCannotReadDecryptedArchive
                                               userInfo:@{NSLocalizedDescriptionKey: reason}];
-            [self log:SFLogLevelDebug format:@"User folder for user '%@' does not exist on the filesystem.", user.userName];
+            [SFSDKCoreLogger d:[self class] format:@"User folder for user '%@' does not exist on the filesystem.", user.userName];
             if(error)
                 *error = ferror;
         }
@@ -154,7 +165,7 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
 
     if (!userAccount) {
         NSString *reason = @"Could not save an null user account.";
-        [self log:SFLogLevelWarning msg:reason];
+        [SFSDKCoreLogger w:[self class] format:reason];
         if (error)
             *error = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
                                          code:SFUserAccountManagerCannotWriteUserData
@@ -164,7 +175,7 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
 
     if (filePath.length==0) {
         NSString *reason = @"File path cannot be empty. Could not save the user account to file.";
-        [self log:SFLogLevelWarning msg:reason];
+        [SFSDKCoreLogger w:[self class] format:reason];
         if (error)
             *error = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
                                          code:SFUserAccountManagerCannotWriteUserData
@@ -178,7 +189,7 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
         NSError *removeAccountFileError = nil;
         if (![manager removeItemAtPath:filePath error:&removeAccountFileError]) {
             NSString *reason = [NSString stringWithFormat:@"Failed to remove old user account data at path '%@': %@",filePath,[removeAccountFileError localizedDescription]];
-            [self log:SFLogLevelWarning msg:reason];
+            [SFSDKCoreLogger w:[self class] format:reason];
             if (error)
                 *error = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
                                              code:SFUserAccountManagerCannotWriteUserData
@@ -191,7 +202,7 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
     NSData *archiveData = [NSKeyedArchiver archivedDataWithRootObject:userAccount];
     if (!archiveData) {
         NSString *reason = [NSString stringWithFormat:@"Could not archive user account data to save it.  %@",filePath];
-        [self log:SFLogLevelWarning msg:reason];
+        [SFSDKCoreLogger w:[self class] format:reason];
         if (error)
             *error = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
                                          code:SFUserAccountManagerCannotWriteUserData
@@ -204,7 +215,7 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
     NSData *encryptedArchiveData = [SFSDKCryptoUtils aes256EncryptData:archiveData withKey:encKey.key iv:encKey.initializationVector];
     if (!encryptedArchiveData) {
         NSString *reason = [NSString stringWithFormat:@"User account data could not be encrypted.  %@",filePath];
-        [self log:SFLogLevelWarning msg:reason];
+        [SFSDKCoreLogger w:[self class] format:reason];
         if (error)
             *error = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
                                          code:SFUserAccountManagerCannotWriteUserData
@@ -215,7 +226,7 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
     BOOL saveFileSuccess = [manager createFileAtPath:filePath contents:encryptedArchiveData attributes:@{ NSFileProtectionKey : [SFFileProtectionHelper fileProtectionForPath:filePath] }];
     if (!saveFileSuccess) {
         NSString *reason = [NSString stringWithFormat:@"Could not create user account data file at path.  %@",filePath];
-        [self log:SFLogLevelWarning msg:reason];
+        [SFSDKCoreLogger w:[self class] format:reason];
         if (error)
             *error = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
                                          code:SFUserAccountManagerCannotWriteUserData
@@ -225,8 +236,6 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
 
     return YES;
 }
-
-
 
 /** Loads a user account from a specified file
  @param filePath The file to load the user account from
@@ -246,7 +255,7 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
                                              code:SFUserAccountManagerCannotRetrieveUserData
                                          userInfo:@{NSLocalizedDescriptionKey: reason}];
             }
-            [self log:SFLogLevelDebug msg:reason];
+            [SFSDKCoreLogger d:[self class] format:reason];
             return NO;
         }
         SFEncryptionKey *encKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kUserAccountEncryptionKeyLabel keyType:SFKeyStoreKeyTypeGenerated autoCreate:YES];
@@ -257,7 +266,7 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
                                              code:SFUserAccountManagerCannotRetrieveUserData
                                          userInfo:@{NSLocalizedDescriptionKey: reason}];
             }
-            [self log:SFLogLevelWarning msg:reason];
+            [SFSDKCoreLogger w:[self class] format:reason];
             return NO;
         }
 

@@ -25,8 +25,6 @@
 #import "NSData+SFAdditions.h"
 #define COMMON_DIGEST_FOR_OPENSSL
 #import <CommonCrypto/CommonDigest.h>
-
-#import "SFLogger.h"
 #include "zlib.h"
 
 // Map 8-bit character to 6-bit byte
@@ -248,7 +246,7 @@ void bufferDecode64(BYTE *destData, size_t *destLen, const char *srcData, size_t
     NSMutableData *data = [NSMutableData dataWithData:self];
     int result = SecRandomCopyBytes(kSecRandomDefault, length, [data mutableBytes]);
     if (result != 0) {
-        [self log:SFLogLevelWarning format:@"Failed to generate random bytes (errno = %d)", errno];
+        [SFSDKCoreLogger w:[self class] format:@"Failed to generate random bytes (errno = %d)", errno];
         return nil;
     }
     return data;
@@ -348,7 +346,7 @@ void bufferDecode64(BYTE *destData, size_t *destLen, const char *srcData, size_t
     }
     @catch (NSException *exception) {
         data = nil;
-        [self log:SFLogLevelDebug format:@"WARNING: error occured while decoding base 32 string: %@", exception];
+        [SFSDKCoreLogger d:[self class] format:@"WARNING: error occured while decoding base 32 string: %@", exception];
     }
     @finally {
         if( decodedBytes != NULL ) {
@@ -432,7 +430,7 @@ void bufferDecode64(BYTE *destData, size_t *destLen, const char *srcData, size_t
 	
 	int deflateStatus = deflateInit2(&stream, Z_DEFAULT_COMPRESSION, Z_DEFLATED, (15+16), 8, Z_DEFAULT_STRATEGY);
 	if (deflateStatus != Z_OK) {
-		[self log:SFLogLevelError format:@"cannot initialize zlib deflate: %d", deflateStatus];
+		[SFSDKCoreLogger e:[self class] format:@"cannot initialize zlib deflate: %d", deflateStatus];
 		return nil;
 	}
 
@@ -451,19 +449,17 @@ void bufferDecode64(BYTE *destData, size_t *destLen, const char *srcData, size_t
     } while (deflateStatus == Z_OK);
 	if (deflateStatus != Z_STREAM_END) {
 		// there was some error compressing. let's log it.
-		[self log:SFLogLevelError format:@"couldn't compress input: zlib error %d: %s", deflateStatus, stream.msg];
+		[SFSDKCoreLogger e:[self class] format:@"couldn't compress input: zlib error %d: %s", deflateStatus, stream.msg];
 		deflateEnd(&stream);
 		return nil;
 	}
 	deflateEnd(&stream);  
     [compressedData setLength:stream.total_out];
-    [self log:SFLogLevelDebug format:@"%s: Compressed file from %d KB to %d KB", __func__, ([self length]/1024), ([compressedData length]/1024)];
+    [SFSDKCoreLogger d:[self class] format:@"%s: Compressed file from %d KB to %d KB", __func__, ([self length]/1024), ([compressedData length]/1024)];
     return compressedData;  
 }
 
 @end
-
-
 
 @implementation NSData (SFHexSupport)
 
@@ -477,6 +473,5 @@ void bufferDecode64(BYTE *destData, size_t *destLen, const char *srcData, size_t
 	
 	return sb;
 }
-
 
 @end

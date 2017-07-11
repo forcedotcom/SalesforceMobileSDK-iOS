@@ -24,6 +24,7 @@
 
 #import "CSFAuthRefresh+Internal.h"
 #import "CSFInternalDefines.h"
+#import "SFLogger.h"
 
 static NSMutableDictionary *CompletionBlocks = nil;
 static NSMutableDictionary *RefreshingClasses = nil;

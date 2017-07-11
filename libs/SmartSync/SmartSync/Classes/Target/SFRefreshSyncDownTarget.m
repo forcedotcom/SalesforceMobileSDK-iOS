@@ -38,12 +38,6 @@ static NSString * const kSFSyncTargetRefreshFieldlist = @"fieldlist";
 static NSString * const kSFSyncTargetRefreshCountIdsPerSoql = @"coundIdsPerSoql";
 static NSUInteger const kSFSyncTargetRefreshDefaultCountIdsPerSoql = 500;
 
-@interface SFSmartSyncSyncManager ()
-
-@property (nonatomic, strong) SFSmartStore *store;
-
-@end
-
 
 @interface SFRefreshSyncDownTarget ()
 

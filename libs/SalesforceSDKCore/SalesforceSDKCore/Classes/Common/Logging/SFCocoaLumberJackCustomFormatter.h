@@ -27,6 +27,9 @@
 
 @class SFLogger;
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
 /**
  This class applies custom formatting to log messages.
  */
@@ -37,3 +40,5 @@
 - (instancetype)initWithLogger:(SFLogger*)logger NS_DESIGNATED_INITIALIZER;
 
 @end
+
+#pragma clang diagnostic pop

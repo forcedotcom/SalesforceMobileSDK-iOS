@@ -28,6 +28,7 @@
 #import "SFOAuthCredentials.h"
 #import "SFCommunityData.h"
 #import "SFIdentityData.h"
+#import "SFSDKAppFeatureMarkers.h"
 
 static NSString * const kUser_ACCESS_SCOPES       = @"accessScopes";
 static NSString * const kUser_CREDENTIALS         = @"credentials";
@@ -40,9 +41,9 @@ static NSString * const kUser_COMMUNITIES         = @"communities";
 static NSString * const kUser_ID_DATA             = @"idData";
 static NSString * const kUser_CUSTOM_DATA         = @"customData";
 static NSString * const kUser_ACCESS_RESTRICTIONS = @"accessRestrictions";
-
 static NSString * const kCredentialsUserIdPropName = @"userId";
 static NSString * const kCredentialsOrgIdPropName = @"organizationId";
+static NSString * const kSFAppFeatureOAuth = @"UA";
 
 static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccount.syncqueue";
 /** Key that identifies the global scope
@@ -87,12 +88,14 @@ static NSString * const kGlobalScopingKey = @"-global-";
         self.credentials = credentials;
         _loginState = (credentials.refreshToken.length > 0 ? SFUserAccountLoginStateLoggedIn : SFUserAccountLoginStateNotLoggedIn);
         _syncQueue = dispatch_queue_create(kSyncQueue, NULL);
+        if (_loginState == SFUserAccountLoginStateLoggedIn) {
+            [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureOAuth];
+        }
     }
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     if (_observingCredentials) {
         [self.credentials removeObserver:self forKeyPath:kCredentialsUserIdPropName];
         [self.credentials removeObserver:self forKeyPath:kCredentialsOrgIdPropName];
@@ -109,7 +112,6 @@ static NSString * const kGlobalScopingKey = @"-global-";
     [encoder encodeObject:_idData forKey:kUser_ID_DATA];
     [encoder encodeObject:_communityId forKey:kUser_COMMUNITY_ID];
     [encoder encodeObject:_communities forKey:kUser_COMMUNITIES];
-    
     __weak __typeof(self) weakSelf = self;
     dispatch_sync(_syncQueue, ^{
         [encoder encodeObject:weakSelf.customData forKey:kUser_CUSTOM_DATA];
@@ -134,6 +136,9 @@ static NSString * const kGlobalScopingKey = @"-global-";
         _accessRestrictions = [decoder decodeIntegerForKey:kUser_ACCESS_RESTRICTIONS];
         _loginState = (_credentials.refreshToken.length > 0 ? SFUserAccountLoginStateLoggedIn : SFUserAccountLoginStateNotLoggedIn);
         _syncQueue = dispatch_queue_create(kSyncQueue, NULL);
+        if (_loginState == SFUserAccountLoginStateLoggedIn) {
+            [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureOAuth];
+        }
 	}
 	return self;
 }
@@ -201,12 +206,12 @@ static NSString * const kGlobalScopingKey = @"-global-";
         NSFileManager *fm = [NSFileManager defaultManager];
         if ([fm fileExistsAtPath:photoPath]) {
             if (![fm removeItemAtPath:photoPath error:&error]) {
-                [self log:SFLogLevelError format:@"Unable to remove previous photo from disk: %@", error];
+                [SFSDKCoreLogger e:[self class] format:@"Unable to remove previous photo from disk: %@", error];
             }
         }
         NSData *data = UIImagePNGRepresentation(photo);
         if (![data writeToFile:photoPath options:NSDataWritingAtomic error:&error]) {
-            [self log:SFLogLevelError format:@"Unable to write photo to disk: %@", error];
+            [SFSDKCoreLogger e:[self class] format:@"Unable to write photo to disk: %@", error];
         }
         
         [self willChangeValueForKey:@"photo"];
@@ -300,7 +305,7 @@ static NSString * const kGlobalScopingKey = @"-global-";
         if (transitionSucceeded) {
             self.loginState = newLoginState;
         } else {
-            [self log:SFLogLevelWarning format:@"%@ Invalid login state transition from '%@' to '%@'. No action taken.", NSStringFromSelector(_cmd), [[self class] loginStateDescriptionFromLoginState:self.loginState], [[self class] loginStateDescriptionFromLoginState:newLoginState]];
+            [SFSDKCoreLogger w:[self class] format:@"%@ Invalid login state transition from '%@' to '%@'. No action taken.", NSStringFromSelector(_cmd), [[self class] loginStateDescriptionFromLoginState:self.loginState], [[self class] loginStateDescriptionFromLoginState:newLoginState]];
         }
     });
     return transitionSucceeded;

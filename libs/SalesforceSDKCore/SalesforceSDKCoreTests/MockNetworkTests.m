@@ -24,18 +24,22 @@
 
 #import <XCTest/XCTest.h>
 #import "TestDataAction.h"
-
+#import "SalesforceSDKConstants.h"
 #import "CSFNetwork+Internal.h"
 #import "CSFSalesforceAction.h"
 
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 @interface MockAction : CSFAction
 
 @property (nonatomic, strong) NSString *actionName;
 @property (nonatomic, strong) dispatch_semaphore_t semaphore;
 
 - (instancetype) initWithName:(NSString*)actionName;
+
 @end
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 @implementation MockAction
 
 - (instancetype) initWithName:(NSString*)actionName {
@@ -72,11 +76,15 @@
 }
 
 @end
+#pragma clang diagnostic pop
 
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
 @interface MockNetworkTests : XCTestCase
 
 @end
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 @implementation MockNetworkTests
 
 - (void)setUp {
@@ -227,5 +235,5 @@
     [[SFUserAccountManager sharedInstance] deleteAccountForUser:user error:nil];
 }
 
-
 @end
+#pragma clang diagnostic pop

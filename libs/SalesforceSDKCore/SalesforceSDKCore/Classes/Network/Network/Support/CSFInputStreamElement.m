@@ -25,6 +25,7 @@
 #import "CSFInputStreamElement.h"
 #import "CSFInternalDefines.h"
 #import "NSValueTransformer+SalesforceNetwork.h"
+#import "SFLogger.h"
 
 static NSString * const kCSFInputStreamHeaderNameFormat = @"--%@\r\nContent-Disposition: form-data; name=\"%@\"\r\n\r\n";
 static NSString * const kCSFInputStreamHeaderMimeFormat = @"--%@\r\nContent-Disposition: form-data; name=\"%@\"\r\nContent-Type: %@\r\n\r\n";
@@ -156,6 +157,8 @@ static NSString * const kCSFInputStreamHeaderFullFormat = @"--%@\r\nContent-Disp
         NSFileManager *manager = [[NSFileManager alloc] init];
         NSDictionary *attributes = [manager attributesOfItemAtPath:fileUrl.path error:&error];
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         if (error) {
             NetworkWarn(@"Unexpected error while reading filesystem attributes: %@", error);
         } else {
@@ -163,6 +166,7 @@ static NSString * const kCSFInputStreamHeaderFullFormat = @"--%@\r\nContent-Disp
             self.bodyLength = [attributes[NSFileSize] unsignedIntegerValue];
         }
     }
+#pragma clang diagnostic pop
 
     // If we were given a value transformer, try and create output data for it
     else if (_valueTransformer) {

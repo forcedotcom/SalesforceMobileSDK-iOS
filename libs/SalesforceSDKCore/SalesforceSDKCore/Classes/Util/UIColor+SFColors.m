@@ -1,5 +1,5 @@
 /*
- SFLoginViewController.h
+ UIColor+SFColors.m
  SalesforceSDKCore
  
  Created by Kunal Chitalia on 3/28/16.

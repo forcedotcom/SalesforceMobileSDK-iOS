@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,39 +22,11 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+#import "SFSyncDownTarget.h"
 
-/*!
- * @class SFSDKDatasharingHelper
- * Class used to app data sharing settings 
- */
+@interface SFSyncDownTarget ()
 
-@interface SFSDKDatasharingHelper : NSObject
-
-/*!
- * @brief Set to YES to enable app group.
- */
-@property (nonatomic) BOOL appGroupEnabled;
-
-/*!
- * @brief Set to YES to enable keychain sharing.
- */
-@property (nonatomic) BOOL keychainSharingEnabled;
-
-/*!
- * @brief Name of the app group to use to share data.
- */
-@property (nonatomic, strong) NSString *appGroupName;
-
-/*!
- * @brief Name of the keychain group to use
- */
-@property (nonatomic, strong) NSString *keychainGroupName;
-
-
-/** Shared singleton
- */
-+ (instancetype)sharedInstance;
-
+- (NSString*) getNonDirtyRecordIdsSql:(NSString*)soupName idField:(NSString*)idField;
+- (NSOrderedSet *)getNonDirtyRecordIds:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName idField:(NSString *)idField;
 
 @end

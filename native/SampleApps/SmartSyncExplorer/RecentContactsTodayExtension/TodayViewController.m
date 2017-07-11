@@ -25,18 +25,18 @@
 #import <SmartSyncExplorerCommon/SmartSyncExplorerCommon.h>
 #import <NotificationCenter/NotificationCenter.h>
 #import <SmartStore/SalesforceSDKManagerWithSmartStore.h>
-#import <SalesforceSDKCore/SFSDKDatasharingHelper.h>
-#import <SalesforceSDKCore/NSUserDefaults+SFAdditions.h>
+#import <SalesforceAnalytics/SFSDKDatasharingHelper.h>
+#import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 #import <SalesforceSDKCore/SFRestRequest.h>
 #import <SalesforceSDKCore/SFRestAPI.h>
-#import <SalesforceSDKCore/SFLoggerMacros.h>
-#import <SalesforceSDKCore/SFLogger.h>
+#import <SalesforceAnalytics/SFSDKLogger.h>
 #import <SmartStore/SFQuerySpec.h>
 
-@interface TodayViewController () <NCWidgetProviding,UITableViewDelegate,UITableViewDataSource>
+@interface TodayViewController () <NCWidgetProviding, UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UITableView *todayTableView;
 @property (nonatomic, strong) SObjectDataManager *dataMgr;
+
 - (BOOL)userIsLoggedIn;
 
 @end
@@ -48,16 +48,11 @@ static NSString *simpleTableIdentifier = @"SimpleTableItem";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    #if defined(DEBUG)
-        [SFLogger sharedLogger].logLevel = SFLogLevelDebug;
-    #else
-        [SFLogger sharedLogger].logLevel = SFLogLevelInfo;
-    #endif
     self.todayTableView.dataSource = self;
     self.todayTableView.delegate = self;
 }
 
-- (void) refreshList {
+- (void)refreshList {
     [self.todayTableView reloadData];
 }
 
@@ -67,25 +62,21 @@ static NSString *simpleTableIdentifier = @"SimpleTableItem";
 }
 
 - (void)widgetPerformUpdateWithCompletionHandler:(void (^)(NCUpdateResult))completionHandler {
-
     SmartSyncExplorerConfig *config = [SmartSyncExplorerConfig sharedInstance];
-
     [SFSDKDatasharingHelper sharedInstance].appGroupName = config.appGroupName;
     [SFSDKDatasharingHelper sharedInstance].appGroupEnabled = YES;
-    if([self userIsLoggedIn] ) {
-        [self log:SFLogLevelError format:@"User has logged in"];
+    if ([self userIsLoggedIn] ) {
+        [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelError format:@"User has logged in"];
         [SalesforceSDKManager setInstanceClass:[SalesforceSDKManagerWithSmartStore class]];
         [SalesforceSDKManager sharedManager].connectedAppId = config.remoteAccessConsumerKey;
         [SalesforceSDKManager sharedManager].connectedAppCallbackUri = config.oauthRedirectURI;
         [SalesforceSDKManager sharedManager].authScopes = config.oauthScopes;
         [SalesforceSDKManager sharedManager].authenticateAtLaunch = config.appGroupsEnabled;
         SFUserAccount *currentUser = [SFUserAccountManager sharedInstance].currentUser;
-
         __weak typeof(self) weakSelf = self;
         void (^completionBlock)(void) = ^{
             [weakSelf refreshList];
         };
-
         if(currentUser) {
             if (!self.dataMgr) {
                 self.dataMgr = [[SObjectDataManager alloc] initWithDataSpec:[ContactSObjectData dataSpec]];
@@ -113,6 +104,6 @@ static NSString *simpleTableIdentifier = @"SimpleTableItem";
     ContactSObjectData *contact = [self.dataMgr.dataRows objectAtIndex:indexPath.row] ;
     cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", contact.firstName,contact.lastName];
     return cell;
-
 }
+
 @end

@@ -59,7 +59,7 @@ static NSMutableDictionary *instances = nil;
                     prefs = [[SFPreferences alloc] initWithPath:[directory stringByAppendingPathComponent:kPreferencesFileName]];
                     instances[key] = prefs;
                 } else {
-                    [[self class] log:SFLogLevelError format:@"Unable to create scoped directory %@: %@", directory, error];
+                    [SFSDKCoreLogger e:[self class] format:@"Unable to create scoped directory %@: %@", directory, error];
                 }
             }            
         }
@@ -130,7 +130,7 @@ static NSMutableDictionary *instances = nil;
             self.attributes[key] = object;
         }
         @catch (NSException *exception) {
-            [self log:SFLogLevelError format:@"Unable to set preference entry (key:%@, object:%@): %@", key, object, exception];
+            [SFSDKCoreLogger e:[self class] format:@"Unable to set preference entry (key:%@, object:%@): %@", key, object, exception];
         }
     }
 }
@@ -179,7 +179,7 @@ static NSMutableDictionary *instances = nil;
 - (void)synchronize {
     @synchronized (self) {
         if (![self.attributes writeToFile:self.path atomically:YES]) {
-            [self log:SFLogLevelError format:@"Unable to save preferences at %@", self.path];
+            [SFSDKCoreLogger e:[self class] format:@"Unable to save preferences at %@", self.path];
         }
     }
 }
@@ -191,7 +191,7 @@ static NSMutableDictionary *instances = nil;
             NSError *error = nil;
             BOOL success = [manager removeItemAtPath:self.path error:&error];
             if (!success) {
-                [self log:SFLogLevelError format:@"Unable to delete preferences at %@, error %@", self.path, [error localizedDescription]];
+                [SFSDKCoreLogger e:[self class] format:@"Unable to delete preferences at %@, error %@", self.path, [error localizedDescription]];
             }
         }
         [self.attributes removeAllObjects];

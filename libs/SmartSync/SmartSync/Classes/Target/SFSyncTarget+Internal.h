@@ -24,9 +24,15 @@
 
 #import "SFSyncTarget.h"
 
+@class SFSmartStore;
+@class SFSmartSyncSyncManager;
+
 @interface SFSyncTarget ()
 
-- (NSOrderedSet *)getIdsWithQuery:(id)idsSql syncManager:(SFSmartSyncSyncManager *)syncManager;
+- (NSOrderedSet *)getIdsWithQuery:idsSql syncManager:(SFSmartSyncSyncManager *)syncManager;
+- (NSString*) getDirtyRecordIdsSql:(NSString*)soupName idField:(NSString*)idField;
 - (void) deleteRecordsFromLocalStore:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName ids:(NSArray*)ids idField:(NSString*)idField;
+
+- (void)cleanAndSaveInSmartStore:(SFSmartStore *)smartStore soupName:(NSString *)soupName records:(NSArray *)record idFieldName:(NSString *)idFieldName;
 
 @end

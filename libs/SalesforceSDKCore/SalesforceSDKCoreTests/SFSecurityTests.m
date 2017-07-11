@@ -44,9 +44,7 @@ static NSUInteger const kNumThreadsInSafetyTest = 100;
 
 - (void)setUp {
     [super setUp];
-    
-    [SFLogger sharedLogger].logLevel = SFLogLevelDebug;
-    
+
     // No passcode, to start.
     [[SFPasscodeManager sharedManager] changePasscode:nil];
     mgr = [SFKeyStoreManager sharedInstance];
@@ -68,22 +66,18 @@ static NSUInteger const kNumThreadsInSafetyTest = 100;
     for (NSInteger i = 0; i < kNumThreadsInSafetyTest; i++) {
         [self performSelectorInBackground:@selector(keyStoreThreadSafeHelper) withObject:nil];
     }
-    
+
     // randomly change passcodes
-    
     while (!_threadSafetyTestCompleted) {
         // Passcode change chaos.
         NSUInteger randomInt = arc4random() % 10;
         if (randomInt > 4) {
-            [self log:SFLogLevelDebug msg:@"Passcode change chaos: changing passcode."];
             NSString *newPasscode = [[SFSDKCryptoUtils randomByteDataWithLength:32] base64EncodedStringWithOptions: 0];
             [[SFPasscodeManager sharedManager] changePasscode:newPasscode];
         }
-        [self log:SFLogLevelDebug msg:@"## Thread safety test sleeping..."];
         [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
     }
 }
-
 
 #pragma mark - Passcode change tests
 - (void)testNoPasscodeToPasscode

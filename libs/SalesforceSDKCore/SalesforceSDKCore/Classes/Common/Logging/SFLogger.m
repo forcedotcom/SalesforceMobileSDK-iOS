@@ -32,8 +32,11 @@
 #import "NSString+SFAdditions.h"
 #import <execinfo.h> // backtrace_symbols
 #import "SFCocoaLumberJackCustomFormatter.h"
-#import "NSUserDefaults+SFAdditions.h"
 #import "SFLoggerMacros.h"
+#import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
 static inline SFLogFlag SFLogFlagForLogLevel(SFLogLevel level) {
     switch (level) {
@@ -843,7 +846,7 @@ static BOOL assertionRecorded = NO;
                     break;
             }
             
-            os_log_with_type(SFLoggerOSLog(context, tag), osLogType, [message UTF8String]);
+            os_log_with_type(SFLoggerOSLog(context, tag), osLogType, "%@", message);
         }
 
         [_ddLog log:asynchronous
@@ -968,5 +971,7 @@ static BOOL assertionRecorded = NO;
 + (void) resetLoggingFilter
 {
 }
+
+#pragma clang diagnostic pop
 
 @end

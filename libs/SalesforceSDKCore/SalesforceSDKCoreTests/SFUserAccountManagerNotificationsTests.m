@@ -25,7 +25,7 @@
 #import <objc/runtime.h>
 #import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
-#import "SFAuthenticationManager+Internal.h"
+#import "SFUserAccountConstants.h"
 #import "SFUserAccountManager+Internal.h"
 #import "SFUserAccountPersisterEphemeral.h"
 #import "SFOAuthCoordinator+Internal.h"
@@ -39,13 +39,14 @@ static NSString * const kSFOAuthInstanceUrl = @"instance_url";
 static NSString * const kSFOAuthCommunityId = @"sfdc_community_id";
 static NSString * const kSFOAuthCommunityUrl = @"sfdc_community_url";
 
-
 @interface CSFNetwork(SalesforceNetworkMock)
 - (void)setupSalesforceObserver;
 @property (nonatomic) void(^completionBlock)(BOOL) ;
 
 @end
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 @implementation CSFNetwork(SalesforceNetworkMock)
 @dynamic completionBlock;
 NSString const *key = @"completionBlockKey";
@@ -510,3 +511,4 @@ NSString const *key = @"completionBlockKey";
 }
 
 @end
+#pragma clang diagnostic pop

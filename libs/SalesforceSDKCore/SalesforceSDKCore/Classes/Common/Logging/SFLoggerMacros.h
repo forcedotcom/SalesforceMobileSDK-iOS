@@ -34,7 +34,7 @@ typedef NS_ENUM(NSUInteger, SFLogFlag) {
     SFLogFlagDebug      = (1 << 3),
     SFLogFlagVerbose    = (1 << 4),
     SFLogFlagNSLog      = (1 << 5)
-};
+} __deprecated_enum_msg("Deprecated in Salesforce Mobile SDK 5.2 and will be removed in Salesforce Mobile SDK 6.0. Use SFSDKLogger instead.");
 
 typedef NS_ENUM(NSUInteger, SFLogLevel) {
     /**
@@ -71,11 +71,11 @@ typedef NS_ENUM(NSUInteger, SFLogLevel) {
      *  All logs (1...11111)
      */
     SFLogLevelAll       = NSUIntegerMax
-};
+} __deprecated_enum_msg("Deprecated in Salesforce Mobile SDK 5.2 and will be removed in Salesforce Mobile SDK 6.0. Use SFSDKLogger instead.");
 
 #define SF_LOG_MAX_IDENTIFIER_COUNT 100
-extern SFLogLevel SFLoggerContextLogLevels[SF_LOG_MAX_IDENTIFIER_COUNT];
-extern os_log_t SFLoggerOSLog(NSInteger context, NSString *category);
+extern SFLogLevel SFLoggerContextLogLevels[SF_LOG_MAX_IDENTIFIER_COUNT] __deprecated_enum_msg("Deprecated in Salesforce Mobile SDK 5.2 and will be removed in Salesforce Mobile SDK 6.0. Use SFSDKLogger instead.");
+extern os_log_t SFLoggerOSLog(NSInteger context, NSString *category) __deprecated_enum_msg("Deprecated in Salesforce Mobile SDK 5.2 and will be removed in Salesforce Mobile SDK 6.0. Use SFSDKLogger instead.");
 static NSUInteger SFLoggerDefaultContext = 1;
 static BOOL SFLoggerLogToASL = YES;
 
@@ -100,18 +100,16 @@ static BOOL SFLoggerLogToASL = YES;
 #define SF_LOG_TO_OS_LOG(flg) \
     _OS_LOG_##flg
 
-#define SF_LOG_MAYBE(async, flg, ctx, tag, fnct, frmt, ...)                                                           \
-    ({                                                                                                                \
-        SFLogLevel level = SFLoggerContextLogLevels[MAX(1, ctx) - 1];                                                 \
-        if (SFLoggerLogToASL || (flg & level)) {                                                                      \
-            NSString *message = [NSString stringWithFormat:frmt, ##__VA_ARGS__];                                      \
-            if (SFLoggerLogToASL) {                                                                                   \
-                os_log_with_type(SFLoggerOSLog(MAX(1, ctx) - 1, tag), SF_LOG_TO_OS_LOG(flg), [message UTF8String]);   \
-            }                                                                                                         \
-            if (flg & level) {                                                                                        \
-                SF_LOG_MACRO(async, level, flg, ctx, tag, fnct, message);                                             \
-            }                                                                                                         \
-        }                                                                                                             \
+#define SF_LOG_MAYBE(__async, __flg, __ctx, __tag, __fnct, __frmt, ...)                                              \
+    ({                                                                                                               \
+        SFLogLevel __level = SFLoggerContextLogLevels[MAX(1, __ctx) - 1];                                            \
+        if (__flg & __level) {                                                                                       \
+            NSString *__message = [NSString stringWithFormat:__frmt, ##__VA_ARGS__];                                 \
+            if (SFLoggerLogToASL) {                                                                                  \
+                os_log_with_type(SFLoggerOSLog(MAX(1, __ctx) - 1, __tag), SF_LOG_TO_OS_LOG(__flg), "%@", __message); \
+            }                                                                                                        \
+            SF_LOG_MACRO(__async, __level, __flg, __ctx, __tag, __fnct, __message);                                  \
+        }                                                                                                            \
     })
 
 #define SFLogErrorToContext(context, tag, frmt, ...)   SF_LOG_MAYBE(NO,  SFLogFlagError,   context, tag, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)

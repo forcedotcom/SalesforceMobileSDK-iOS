@@ -22,21 +22,26 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSyncManagerLogger.h"
+#import "SFParentInfo.h"
+#import "SFChildrenInfo.h"
+#import "SFParentChildrenSyncHelper.h"
+#import "SFSoqlSyncDownTarget.h"
 
-NSString * const SyncManagerLogIdentifier = @"SyncManagerLogger";
-static NSInteger kSFSyncManagerLoggerContext;
+NS_ASSUME_NONNULL_BEGIN
 
-@implementation SFSyncManagerLogger
+@interface SFParentChildrenSyncDownTarget : SFSoqlSyncDownTarget
 
-+ (void)load {
-    if (self == [SFSyncManagerLogger class]) {
-        kSFSyncManagerLoggerContext = [[SFLogger sharedLogger] registerIdentifier:SyncManagerLogIdentifier];
-    }
-}
+/** Factory methods
+ */
++ (instancetype)newSyncTargetWithParentInfo:(SFParentInfo *)parentInfo
+                            parentFieldlist:(NSArray<NSString *> *)parentFieldlist
+                           parentSoqlFilter:(NSString *)parentSoqlFilter
+                               childrenInfo:(SFChildrenInfo *)childrenInfo
+                          childrenFieldlist:(NSArray<NSString *> *)childrenFieldlist
+                           relationshipType:(SFParentChildrenRelationshipType)relationshipType;
 
-+ (void)setLevel:(SFLogLevel)logLevel {
-    [[SFLogger sharedLogger] setLogLevel:logLevel forIdentifier:SyncManagerLogIdentifier];
-}
++ (instancetype)newFromDict:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

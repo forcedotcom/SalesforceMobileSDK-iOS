@@ -34,7 +34,6 @@
 
 - (void)setUp {
     [super setUp];
-    [SFLogger sharedLogger].logLevel = SFLogLevelDebug;
 }
 
 - (void)tearDown {
