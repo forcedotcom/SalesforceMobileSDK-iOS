@@ -1712,16 +1712,16 @@ static NSException *authException = nil;
 - (void)testRequestUserAgent {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSearchResultLayout:ACCOUNT];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-    NSString *userAgent = self.request.allHTTPHeaderFields[@"User-Agent"];
+    NSString *userAgent = request.request.allHTTPHeaderFields[@"User-Agent"];
     XCTAssertEqualObjects(userAgent, [SFRestAPI userAgentString], @"request failed");
 }
 
 // Tests that overridden user agent is set on the request.
 - (void)testRequestUserAgentWithOverride {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSearchResultLayout:ACCOUNT];
-    [request setValue:[SFRestAPI userAgentString:@"SmartSync"] forHTTPHeaderField:@"User-Agent"];
+    [request setHeaderValue:[SFRestAPI userAgentString:@"SmartSync"] forHeaderName:@"User-Agent"];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-    NSString *userAgent = self.request.allHTTPHeaderFields[@"User-Agent"];
+    NSString *userAgent = request.request.allHTTPHeaderFields[@"User-Agent"];
     XCTAssertEqualObjects(userAgent, [SFRestAPI userAgentString:@"SmartSync"], @"request failed");
 }
 
