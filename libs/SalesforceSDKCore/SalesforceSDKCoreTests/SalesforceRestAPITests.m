@@ -25,6 +25,7 @@
 #import "SalesforceRestAPITests.h"
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import "SFRestAPI+Internal.h"
+#import "SFRestRequest+Internal.h"
 #import "SFNativeRestRequestListener.h"
  
  // Constants only used in the tests below
@@ -235,7 +236,6 @@ static NSException *authException = nil;
 
 // simple: just invoke requestForSearchResultLayout:@"Account"
 - (void)testGetSearchResultLayout {
-     
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSearchResultLayout:ACCOUNT];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
@@ -1657,7 +1657,8 @@ static NSException *authException = nil;
                  @"Simple SOSL search does not match.");
     XCTAssertTrue( [complexSearch isEqualToString:[SFRestAPI SOSLSearchWithSearchTerm:@"blah"
                                                                           fieldScope:nil
-                                                                         objectScope:[NSDictionary dictionaryWithObject:@"id, name order by lastname asc limit 5"                                      forKey:@"User"]
+                                                                         objectScope:[NSDictionary dictionaryWithObject:@"id, name order by lastname asc limit 5"
+                                                                                                                 forKey:@"User"]
                                                                                limit:200]],
                  @"Complex SOSL search does not match.");
 }
@@ -1709,12 +1710,28 @@ static NSException *authException = nil;
     }
 }
 
+// Tests that stock Mobile SDK user agent is set on the request.
+- (void)testRequestUserAgent {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSearchResultLayout:ACCOUNT];
+    [self sendSyncRequest:request];
+    NSString *userAgent = request.request.allHTTPHeaderFields[@"User-Agent"];
+    XCTAssertEqualObjects(userAgent, [SFRestAPI userAgentString], @"Incorrect user agent");
+}
+
+// Tests that overridden user agent is set on the request.
+- (void)testRequestUserAgentWithOverride {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSearchResultLayout:ACCOUNT];
+    [request setHeaderValue:[SFRestAPI userAgentString:@"SmartSync"] forHeaderName:@"User-Agent"];
+    [self sendSyncRequest:request];
+    NSString *userAgent = request.request.allHTTPHeaderFields[@"User-Agent"];
+    XCTAssertEqualObjects(userAgent, [SFRestAPI userAgentString:@"SmartSync"], @"Incorrect user agent");
+}
+
 #pragma mark - custom rest requests
 
 - (void)testCustomBaseURLRequest {
     SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodGET baseURL:@"http://www.apple.com" path:@"/test/testing" queryParams:nil];
     XCTAssertEqual(request.baseURL, @"http://www.apple.com", @"Base URL should match");
-    
     NSURLRequest *finalRequest = [request prepareRequestForSend];
     NSString *expectedURL = [NSString stringWithFormat:@"http://www.apple.com%@%@", kSFDefaultRestEndpoint, @"/test/testing"];
     XCTAssertEqualObjects(finalRequest.URL.absoluteString, expectedURL, @"Final URL should utilize base URL that was passed in");
