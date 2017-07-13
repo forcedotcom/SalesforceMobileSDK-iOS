@@ -26,7 +26,6 @@
 #import <SmartSync/SFSmartSyncSyncManager.h>
 #import <SmartSync/SFSmartSyncConstants.h>
 #import <SmartSync/SFSmartSyncNetworkUtils.h>
-#import <SalesforceSDKCore/CSFNetwork.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 
 // SOAP request
