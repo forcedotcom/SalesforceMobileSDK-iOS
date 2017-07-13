@@ -138,7 +138,6 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
 
 - (void) save:(SFSmartStore*) store {
     NSArray* savedDicts = [store upsertEntries:@[ [self asDict] ] toSoup:kSFSyncStateSyncsSoupName];
-    [self fromDict:savedDicts[0]];
 }
 
 #pragma mark - From/to dictionary
