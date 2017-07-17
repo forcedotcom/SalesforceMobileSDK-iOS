@@ -335,6 +335,13 @@ static NSException *authException = nil;
     } else {
         XCTAssertNil(sync.options);
     }
+    if (sync.status != SFSyncStateStatusNew) {
+        XCTAssertTrue(sync.startTime > 0);
+    }
+    if (sync.status == SFSyncStateStatusDone || sync.status == SFSyncStateStatusFailed) {
+        XCTAssertTrue(sync.endTime > 0);
+        XCTAssertTrue(sync.endTime > sync.startTime);
+    }
 }
 
 - (void)checkStatus:(SFSyncState*)sync
