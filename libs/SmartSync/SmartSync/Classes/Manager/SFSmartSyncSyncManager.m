@@ -191,9 +191,8 @@ static NSMutableDictionary *syncMgrList = nil;
         attributes[@"numRecords"] = [NSNumber numberWithInteger:sync.totalSize];
         attributes[@"syncId"] = [NSNumber numberWithInteger:sync.syncId];
         attributes[@"syncTarget"] = NSStringFromClass([sync.target class]);
-        if (sync.endTime > 0 && sync.startTime > 0) {
-            attributes[@"runTime"] = [NSNumber numberWithDouble:(sync.endTime - sync.startTime)];
-        }
+        attributes[kSFSDKEventBuilderHelperStartTime] = [NSNumber numberWithInteger:sync.startTime];
+        attributes[kSFSDKEventBuilderHelperEndTime] = [NSNumber numberWithInteger:sync.endTime];
         switch (sync.status) {
             case SFSyncStateStatusNew:
                 break; // should not happen

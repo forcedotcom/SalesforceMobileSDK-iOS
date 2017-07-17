@@ -91,8 +91,10 @@ extern NSString * const kSFSyncStateMergeModeLeaveIfChanged;
 @property (nonatomic) NSInteger totalSize;
 @property (nonatomic) SFSyncStateMergeMode mergeMode;
 @property (nonatomic) long long maxTimeStamp;
-@property (nonatomic, readonly) NSTimeInterval startTime;
-@property (nonatomic, readonly) NSTimeInterval endTime;
+
+// Start and end time in milliseconds since 1970
+@property (nonatomic, readonly) NSInteger startTime;
+@property (nonatomic, readonly) NSInteger endTime;
 
 /** Setup soup that keeps track of sync operations
  */

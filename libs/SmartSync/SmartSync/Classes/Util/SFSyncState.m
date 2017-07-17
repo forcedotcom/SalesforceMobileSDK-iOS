@@ -69,8 +69,8 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
 @property (nonatomic, strong, readwrite) NSString* soupName;
 @property (nonatomic, strong, readwrite) SFSyncTarget* target;
 @property (nonatomic, strong, readwrite) SFSyncOptions* options;
-@property (nonatomic, readwrite) NSTimeInterval startTime;
-@property (nonatomic, readwrite) NSTimeInterval endTime;
+@property (nonatomic, readwrite) NSInteger startTime;
+@property (nonatomic, readwrite) NSInteger endTime;
 
 @end
 
@@ -99,8 +99,8 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
                            kSFSyncStateStatus: kSFSyncStateStatusNew,
                            kSFSyncStateProgress: [NSNumber numberWithInteger:0],
                            kSFSyncStateTotalSize: [NSNumber numberWithInteger:-1],
-                           kSFSyncStateStartTime: [NSNumber numberWithInteger:-1],
-                           kSFSyncStateEndTime: [NSNumber numberWithInteger:-1]
+                           kSFSyncStateStartTime: [NSNumber numberWithInteger:0],
+                           kSFSyncStateEndTime: [NSNumber numberWithInteger:0]
                            };
     NSArray* savedDicts = [store upsertEntries:@[ dict ] toSoup:kSFSyncStateSyncsSoupName];
     SFSyncState* sync = [SFSyncState newFromDict:savedDicts[0]];
@@ -124,8 +124,8 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
                            kSFSyncStateStatus: kSFSyncStateStatusNew,
                            kSFSyncStateProgress: [NSNumber numberWithInteger:0],
                            kSFSyncStateTotalSize: [NSNumber numberWithInteger:-1],
-                           kSFSyncStateStartTime: [NSNumber numberWithInteger:-1],
-                           kSFSyncStateEndTime: [NSNumber numberWithInteger:-1]
+                           kSFSyncStateStartTime: [NSNumber numberWithInteger:0],
+                           kSFSyncStateEndTime: [NSNumber numberWithInteger:0]
                            };
     NSArray* savedDicts = [store upsertEntries:@[ dict ] toSoup:kSFSyncStateSyncsSoupName];
     if (savedDicts == nil || savedDicts.count == 0)
@@ -170,8 +170,8 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
     self.progress = [(NSNumber*) dict[kSFSyncStateProgress] integerValue];
     self.totalSize = [(NSNumber*) dict[kSFSyncStateTotalSize] integerValue];
     self.maxTimeStamp = [(NSNumber*) dict[kSFSyncStateMaxTimeStamp] longLongValue];
-    self.startTime = [(NSNumber*) dict[kSFSyncStateStartTime] doubleValue];
-    self.endTime = [(NSNumber*) dict[kSFSyncStateEndTime] doubleValue];
+    self.startTime = [(NSNumber*) dict[kSFSyncStateStartTime] integerValue];
+    self.endTime = [(NSNumber*) dict[kSFSyncStateEndTime] integerValue];
 }
 
 - (NSDictionary*) asDict {
@@ -185,8 +185,8 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
     dict[kSFSyncStateProgress] = [NSNumber numberWithInteger:self.progress];
     dict[kSFSyncStateTotalSize] = [NSNumber numberWithInteger:self.totalSize];
     dict[kSFSyncStateMaxTimeStamp] = [NSNumber numberWithLongLong:self.maxTimeStamp];
-    dict[kSFSyncStateStartTime] = [NSNumber numberWithDouble:self.startTime];
-    dict[kSFSyncStateEndTime] = [NSNumber numberWithDouble:self.endTime];
+    dict[kSFSyncStateStartTime] = [NSNumber numberWithInteger:self.startTime];
+    dict[kSFSyncStateEndTime] = [NSNumber numberWithInteger:self.endTime];
     return dict;
 }
 
@@ -207,11 +207,11 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
 - (void) setStatus: (SFSyncStateStatus) newStatus
 {
     if (_status == SFSyncStateStatusNew && newStatus == SFSyncStateStatusRunning) {
-        self.startTime = [[NSDate date] timeIntervalSince1970];
+        self.startTime = [[NSDate date] timeIntervalSince1970] * 1000; // milliseconds expecteed
     }
     if (_status == SFSyncStateStatusRunning
         && (newStatus == SFSyncStateStatusDone || newStatus == SFSyncStateStatusFailed)) {
-        self.endTime = [[NSDate date] timeIntervalSince1970];
+        self.endTime = [[NSDate date] timeIntervalSince1970] * 1000; // milliseconds expected
     }
     _status = newStatus;
 }
