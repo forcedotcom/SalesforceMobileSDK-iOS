@@ -605,25 +605,18 @@ static NSString* ailtnAppName = nil;
 
 - (void)passcodeValidationAtLaunch
 {
-    if ([SFUserAccountManager sharedInstance].isCurrentUserAnonymous) {
-
-        // Anonymous user doesn't have any passcode associated with it
-        // so bypass this step and go to the next one directly.
-        [self authValidationAtLaunch];
-    } else {
-        [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
-            [SFSDKCoreLogger i:[self class] format:@"Passcode verified, or not configured.  Proceeding with authentication validation."];
-            [self passcodeValidatedToAuthValidation];
-        }];
-        [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
-
-            // Note: Failed passcode verification automatically logs out users, which the logout
-            // delegate handler will catch and pass on.  We just log the error and reset launch
-            // state here.
-            [SFSDKCoreLogger e:[self class] format:@"Passcode validation failed.  Logging the user out."];
-        }];
-        [SFSecurityLockout lock];
-    }
+    [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
+        [SFSDKCoreLogger i:[self class] format:@"Passcode verified, or not configured.  Proceeding with authentication validation."];
+        [self passcodeValidatedToAuthValidation];
+    }];
+    [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
+        
+        // Note: Failed passcode verification automatically logs out users, which the logout
+        // delegate handler will catch and pass on.  We just log the error and reset launch
+        // state here.
+        [SFSDKCoreLogger e:[self class] format:@"Passcode validation failed.  Logging the user out."];
+    }];
+    [SFSecurityLockout lock];
 }
 
 - (void)passcodeValidatedToAuthValidation
