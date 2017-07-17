@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CE65CEE51F1ACF080053D69B"
-               BuildableName = "SalesforceHybridSDKCordovaPlugin.framework"
+               BuildableName = "SalesforceHybridSDK.framework"
                BlueprintName = "SalesforceHybridSDKCordovaPlugin"
                ReferencedContainer = "container:SalesforceHybridSDK.xcodeproj">
             </BuildableReference>
@@ -46,7 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CE65CEE51F1ACF080053D69B"
-            BuildableName = "SalesforceHybridSDKCordovaPlugin.framework"
+            BuildableName = "SalesforceHybridSDK.framework"
             BlueprintName = "SalesforceHybridSDKCordovaPlugin"
             ReferencedContainer = "container:SalesforceHybridSDK.xcodeproj">
          </BuildableReference>
@@ -64,7 +64,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CE65CEE51F1ACF080053D69B"
-            BuildableName = "SalesforceHybridSDKCordovaPlugin.framework"
+            BuildableName = "SalesforceHybridSDK.framework"
             BlueprintName = "SalesforceHybridSDKCordovaPlugin"
             ReferencedContainer = "container:SalesforceHybridSDK.xcodeproj">
          </BuildableReference>
