@@ -160,9 +160,6 @@
 		CE65CEF71F1AD1330053D69B /* SmartSync.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F70CA341C03DF6D00D26B3F /* SmartSync.framework */; };
 		CE65CEF81F1AD1460053D69B /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F0C192B18AAFDF3000FD4E9 /* AssetsLibrary.framework */; };
 		CE65CEF91F1AD14E0053D69B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF2D316E7C57100A63CDF /* Foundation.framework */; };
-		CE65CEFA1F1AD15E0053D69B /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2391C0FD52F00319E68 /* libz.tbd */; };
-		CE65CEFB1F1AD1660053D69B /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB0881C10D4D400BFAEED /* libxml2.tbd */; };
-		CE65CEFC1F1AD16F0053D69B /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFDAD711C06918B009BCD6D /* libCordova.a */; };
 		CE65CF011F1AD1B90053D69B /* SalesforceHybridSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2B01C12677B0040F5F1 /* SalesforceHybridSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE65CF021F1AD1BF0053D69B /* SFSDKHybridLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = CE4712811EFC8CC500D9E059 /* SFSDKHybridLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE65CF031F1AD1C30053D69B /* SFSDKHybridLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CE4712821EFC8CC500D9E059 /* SFSDKHybridLogger.m */; };
@@ -700,9 +697,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE65CEFC1F1AD16F0053D69B /* libCordova.a in Frameworks */,
-				CE65CEFB1F1AD1660053D69B /* libxml2.tbd in Frameworks */,
-				CE65CEFA1F1AD15E0053D69B /* libz.tbd in Frameworks */,
 				CE65CEF91F1AD14E0053D69B /* Foundation.framework in Frameworks */,
 				CE65CEF81F1AD1460053D69B /* AssetsLibrary.framework in Frameworks */,
 				CE65CEF71F1AD1330053D69B /* SmartSync.framework in Frameworks */,
@@ -1377,8 +1371,8 @@
 			buildRules = (
 			);
 			dependencies = (
-				CE65CF001F1AD19E0053D69B /* PBXTargetDependency */,
 				CE65CEFE1F1AD1950053D69B /* PBXTargetDependency */,
+				CE65CF001F1AD19E0053D69B /* PBXTargetDependency */,
 			);
 			name = SalesforceHybridSDKCordovaPlugin;
 			productName = SalesforceHybridSDKCordovaPlugin;
@@ -2198,6 +2192,7 @@
 				CE65CEEC1F1ACF080053D69B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CEA884501C191796008D871B /* Build configuration list for PBXNativeTarget "SalesforceHybridSDKStatic" */ = {
 			isa = XCConfigurationList;
