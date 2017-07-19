@@ -2017,7 +2017,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceHybridSDKCordovaPlugin;
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceHybridSDK;
 				PRODUCT_MODULE_NAME = SalesforceHybridSDK;
 				PRODUCT_NAME = SalesforceHybridSDK;
 				SKIP_INSTALL = YES;
@@ -2062,7 +2062,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceHybridSDKCordovaPlugin;
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceHybridSDK;
 				PRODUCT_MODULE_NAME = SalesforceHybridSDK;
 				PRODUCT_NAME = SalesforceHybridSDK;
 				SKIP_INSTALL = YES;
