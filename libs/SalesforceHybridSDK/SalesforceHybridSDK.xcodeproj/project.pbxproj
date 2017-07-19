@@ -119,6 +119,9 @@
 		CE0AB0B41C10D63A00BFAEED /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA2116ECFA7900BD1EA2 /* QuartzCore.framework */; };
 		CE0AB0B51C10D63A00BFAEED /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA1316EC3AE300BD1EA2 /* Security.framework */; };
 		CE0AB0B71C10D63A00BFAEED /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA1516EC3AF900BD1EA2 /* SystemConfiguration.framework */; };
+		CE1A90891F1EBBD900FA0C26 /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFDAD711C06918B009BCD6D /* libCordova.a */; };
+		CE1A908D1F1ED31500FA0C26 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2391C0FD52F00319E68 /* libz.tbd */; };
+		CE1A908E1F1ED31E00FA0C26 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB0881C10D4D400BFAEED /* libxml2.tbd */; };
 		CE2B8CFC1CE9322D00C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8CFB1CE9322D00C6FC6A /* SalesforceAnalytics.framework */; };
 		CE2B8D001CE9324700C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8CFB1CE9322D00C6FC6A /* SalesforceAnalytics.framework */; };
 		CE4712831EFC8CC500D9E059 /* SFSDKHybridLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = CE4712811EFC8CC500D9E059 /* SFSDKHybridLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -697,6 +700,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE1A908E1F1ED31E00FA0C26 /* libxml2.tbd in Frameworks */,
+				CE1A908D1F1ED31500FA0C26 /* libz.tbd in Frameworks */,
+				CE1A90891F1EBBD900FA0C26 /* libCordova.a in Frameworks */,
 				CE65CEF91F1AD14E0053D69B /* Foundation.framework in Frameworks */,
 				CE65CEF81F1AD1460053D69B /* AssetsLibrary.framework in Frameworks */,
 				CE65CEF71F1AD1330053D69B /* SmartSync.framework in Frameworks */,
@@ -942,7 +948,6 @@
 				82EFF2D516E7C57100A63CDF /* SalesforceHybridSDK */,
 				82EFF30516E8049500A63CDF /* SalesforceHybridSDKTestApp */,
 				822272A219C39F4500FC537E /* SalesforceHybridSDKTests */,
-				CE65CEE71F1ACF080053D69B /* SalesforceHybridSDKCordovaPlugin */,
 				82EFF2D216E7C57100A63CDF /* Frameworks */,
 				82EFF2D116E7C57100A63CDF /* Products */,
 			);
@@ -1170,13 +1175,6 @@
 				CE8F13091AD4A87200233F2F /* SalesforceHybridSDK-Test.xcconfig */,
 			);
 			name = Configuration;
-			sourceTree = "<group>";
-		};
-		CE65CEE71F1ACF080053D69B /* SalesforceHybridSDKCordovaPlugin */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = SalesforceHybridSDKCordovaPlugin;
 			sourceTree = "<group>";
 		};
 		CE77E2F11E8C8B70003E1CD6 /* cordova-plugin-wkwebview-engine */ = {
@@ -1989,6 +1987,7 @@
 		CE65CEEB1F1ACF080053D69B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -2018,7 +2017,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceHybridSDKCordovaPlugin;
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceHybridSDK;
 				PRODUCT_MODULE_NAME = SalesforceHybridSDK;
 				PRODUCT_NAME = SalesforceHybridSDK;
 				SKIP_INSTALL = YES;
@@ -2031,6 +2030,7 @@
 		CE65CEEC1F1ACF080053D69B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -2062,7 +2062,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceHybridSDKCordovaPlugin;
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceHybridSDK;
 				PRODUCT_MODULE_NAME = SalesforceHybridSDK;
 				PRODUCT_NAME = SalesforceHybridSDK;
 				SKIP_INSTALL = YES;
