@@ -948,7 +948,6 @@
 				82EFF2D516E7C57100A63CDF /* SalesforceHybridSDK */,
 				82EFF30516E8049500A63CDF /* SalesforceHybridSDKTestApp */,
 				822272A219C39F4500FC537E /* SalesforceHybridSDKTests */,
-				CE65CEE71F1ACF080053D69B /* SalesforceHybridSDKCordovaPlugin */,
 				82EFF2D216E7C57100A63CDF /* Frameworks */,
 				82EFF2D116E7C57100A63CDF /* Products */,
 			);
@@ -1176,13 +1175,6 @@
 				CE8F13091AD4A87200233F2F /* SalesforceHybridSDK-Test.xcconfig */,
 			);
 			name = Configuration;
-			sourceTree = "<group>";
-		};
-		CE65CEE71F1ACF080053D69B /* SalesforceHybridSDKCordovaPlugin */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = SalesforceHybridSDKCordovaPlugin;
 			sourceTree = "<group>";
 		};
 		CE77E2F11E8C8B70003E1CD6 /* cordova-plugin-wkwebview-engine */ = {
