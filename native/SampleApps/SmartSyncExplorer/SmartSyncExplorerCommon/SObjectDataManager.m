@@ -151,14 +151,14 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     SFQuerySpec *sobjectsQuerySpec = [SFQuerySpec newAllQuerySpec:self.dataSpec.soupName withOrderPath:self.dataSpec.orderByFieldName withOrder:kSFSoupQuerySortOrderAscending withPageSize:kMaxQueryPageSize];
     NSError *queryError = nil;
     NSArray *queryResults = [self.store queryWithQuerySpec:sobjectsQuerySpec pageIndex:0 error:&queryError];
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"Got local query results.  Populating data rows."];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"Got local query results.  Populating data rows."];
     if (queryError) {
-        [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelError format:@"Error retrieving '%@' data from SmartStore: %@", self.dataSpec.objectType, [queryError localizedDescription]];
+        [SFSDKLogger log:[self class] level:DDLogLevelError format:@"Error retrieving '%@' data from SmartStore: %@", self.dataSpec.objectType, [queryError localizedDescription]];
         return;
     }
     
     self.fullDataRowList = [self populateDataRows:queryResults];
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"Finished generating data rows.  Number of rows: %d.  Refreshing view.", [self.fullDataRowList count]];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"Finished generating data rows.  Number of rows: %d.  Refreshing view.", [self.fullDataRowList count]];
     self.dataRows = [self.fullDataRowList copy];
     if (completionBlock) completionBlock();
 }
@@ -215,14 +215,14 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
 - (void)lastModifiedRecords:(int) limit completion:(void (^)(void))completionBlock {
     SFQuerySpec *sobjectsQuerySpec =  [SFQuerySpec newAllQuerySpec:self.dataSpec.soupName withOrderPath:@"_soupLastModifiedDate" withOrder:kSFSoupQuerySortOrderDescending withPageSize:limit];
     NSError *queryError = nil;
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"Got local query results.  Populating data rows."];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"Got local query results.  Populating data rows."];
     NSArray *queryResults = [self.store queryWithQuerySpec:sobjectsQuerySpec pageIndex:0 error:&queryError];
     if (queryError) {
-        [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelError format:@"Error retrieving '%@' data from SmartStore: %@", self.dataSpec.objectType, [queryError localizedDescription]];
+        [SFSDKLogger log:[self class] level:DDLogLevelError format:@"Error retrieving '%@' data from SmartStore: %@", self.dataSpec.objectType, [queryError localizedDescription]];
         return;
     }
     self.fullDataRowList = [self populateDataRows:queryResults];
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"Finished generating data rows.  Number of rows: %d.  Refreshing view.", [self.fullDataRowList count]];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"Finished generating data rows.  Number of rows: %d.  Refreshing view.", [self.fullDataRowList count]];
     self.dataRows = [self.fullDataRowList copy];
     completionBlock();
 }

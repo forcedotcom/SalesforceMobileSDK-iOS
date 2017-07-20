@@ -47,10 +47,6 @@ static NSMutableDictionary<NSString *, SFSDKLogger *> *loggerList = nil;
 
 @implementation SFSDKLogger
 
-+ (instancetype)sharedDefaultInstance {
-    return [SFSDKLogger sharedInstanceWithComponent:kDefaultComponentName];
-}
-
 + (instancetype)sharedInstanceWithComponent:(NSString *)componentName {
     static dispatch_once_t pred;
     dispatch_once(&pred, ^{
@@ -332,6 +328,17 @@ static inline DDLogFlag DDLogFlagForLogLevel(DDLogLevel level) {
 
 + (void)d:(Class)class message:(NSString *)message {
     [[self sharedInstance] log:class level:DDLogLevelDebug message:message];
+}
+
++ (void)log:(Class)class level:(DDLogLevel)level format:(NSString *)format, ... {
+    va_list args;
+    va_start(args, format);
+    [[self sharedInstance] log:class level:level format:format args:args];
+    va_end(args);
+}
+
++ (void)log:(Class)class level:(DDLogLevel)level message:(NSString *)message {
+    [[self sharedInstance] log:class level:level message:message];
 }
 
 @end
