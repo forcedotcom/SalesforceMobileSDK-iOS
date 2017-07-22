@@ -70,7 +70,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 - (id)init {
     self = [super init];
     if (self) {
-        _activeRequests = [[NSMutableDictionary alloc] initWithCapacity:4];
+        _activeRequests = [[NSMutableSet alloc] initWithCapacity:4];
         self.apiVersion = kSFRestDefaultAPIVersion;
         self.sessionRefreshInProgress = NO;
         [[SFUserAccountManager sharedInstance] addDelegate:self];
@@ -95,7 +95,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 
 - (void)cancelAllRequests {
     @synchronized(self) {
-        for (SFRestRequest *request in [_activeRequests allKeys]) {
+        for (SFRestRequest *request in _activeRequests) {
             [request cancel];
         }
         [_activeRequests removeAllObjects];
@@ -123,16 +123,17 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 #pragma mark - Internal
 
 - (void)removeActiveRequestObject:(SFRestRequest *)request {
-    [self.activeRequests removeObjectForKey:request];
+    [self.activeRequests removeObject:request];
 }
 
 - (BOOL)forceTimeoutRequest:(SFRestRequest*)req {
     BOOL found = NO;
-    if (nil != req) {
+    SFRestRequest *toCancel = (nil != req ? req : [self.activeRequests anyObject]);
+    if (nil != toCancel) {
         found = YES;
-        if ([req.delegate respondsToSelector:@selector(requestDidTimeout:)]) {
-            [req.delegate requestDidTimeout:req];
-            [self removeActiveRequestObject:req];
+        if ([toCancel.delegate respondsToSelector:@selector(requestDidTimeout:)]) {
+            [toCancel.delegate requestDidTimeout:toCancel];
+            [self removeActiveRequestObject:toCancel];
         }
     }
     return found;
@@ -204,8 +205,8 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
         }
 
         // Adds this request to the list of active requests if it's not already on the list.
-        if (![[self.activeRequests allKeys] containsObject:request]) {
-            self.activeRequests[request] = delegate;
+        if (![self.activeRequests containsObject:request]) {
+            [self.activeRequests addObject:request];
         }
     }
 }
@@ -324,9 +325,8 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 }
 
 - (void)sendPendingRequests {
-    for (SFRestRequest *request in [self.activeRequests allKeys]) {
-        id<SFRestDelegate> delegate = self.activeRequests[request];
-        [self send:request delegate:delegate shouldRetry:YES];
+    for (SFRestRequest *request in self.activeRequests) {
+        [self send:request delegate:request.delegate shouldRetry:YES];
     }
 }
 
