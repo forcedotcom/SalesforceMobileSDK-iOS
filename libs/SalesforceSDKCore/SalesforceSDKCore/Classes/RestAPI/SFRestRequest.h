@@ -90,7 +90,7 @@ extern NSString * const kSFDefaultRestEndpoint;
  * Request object used to send a REST request to Salesforce.com
  * @see SFRestAPI
  */
-@interface SFRestRequest : NSObject
+@interface SFRestRequest : NSObject<NSCopying>
 
 /**
  * The HTTP method of the request. See SFRestMethod.

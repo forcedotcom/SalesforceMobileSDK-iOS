@@ -46,6 +46,19 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     return self;
 }
 
+- (id)copyWithZone:(NSZone *)zone {
+    SFRestRequest *restRequest = [[[self class] allocWithZone:zone] init];
+    restRequest.method = self.method;
+    restRequest.baseURL = [self.baseURL mutableCopy];
+    restRequest.path = [self.path mutableCopy];
+    restRequest.queryParams = [self.queryParams mutableCopy];
+    restRequest.endpoint = [self.endpoint mutableCopy];
+    restRequest.requiresAuthentication = self.requiresAuthentication;
+    restRequest.parseResponse = self.parseResponse;
+    restRequest.request = [self.request mutableCopy];
+    return restRequest;
+}
+
 + (instancetype)requestWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(NSDictionary *)queryParams {
     return [[self alloc] initWithMethod:method baseURL:nil path:path queryParams:queryParams];
 }
