@@ -29,12 +29,12 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-typedef NS_OPTIONS(NSUInteger, SFSDKWindowType) {
-    SFSDKWindowTypeMain        = 0,
-    SFSDKWindowTypeAuth        = 1 << 0,
-    SFSDKWindowTypePasscode    = 1 << 1,
-    SFSDKWindowTypeSnapshot    = 1 << 2,
-    SFSDKWindowTypeOther       = 1 << 3
+typedef NS_ENUM(NSInteger, SFSDKWindowType) {
+    SFSDKWindowTypeMain,
+    SFSDKWindowTypeAuth,
+    SFSDKWindowTypePasscode,
+    SFSDKWindowTypeSnapshot,
+    SFSDKWindowTypeOther
 };
 @class SFSDKWindowContainer;
 
