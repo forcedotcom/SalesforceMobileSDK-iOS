@@ -48,6 +48,7 @@ static BOOL kIsTestRun;
 @interface SFRestAPI ()
 
 @property (readwrite, assign) BOOL sessionRefreshInProgress;
+@property (nonatomic, strong) SFOAuthSessionRefresher *oauthSessionRefresher;
 
 @end
 
@@ -212,12 +213,16 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 }
 
 - (SFOAuthSessionRefresher *)sessionRefresherForUser:(SFUserAccount *)user {
-    SFOAuthSessionRefresher *sessionRefresher = nil;
     @synchronized (self) {
         self.sessionRefreshInProgress = YES;
-        sessionRefresher = [[SFOAuthSessionRefresher alloc] initWithCredentials:user.credentials];
+
+        /*
+         * Session refresher should be a class level property because it gets de-allocated before
+         * the callback is triggered otherwise, leading to a timeout or cancellation.
+         */
+        self.oauthSessionRefresher = [[SFOAuthSessionRefresher alloc] initWithCredentials:user.credentials];
     }
-    return sessionRefresher;
+    return self.oauthSessionRefresher;
 }
 
 - (void)enqueueRequest:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate shouldRetry:(BOOL)shouldRetry {
