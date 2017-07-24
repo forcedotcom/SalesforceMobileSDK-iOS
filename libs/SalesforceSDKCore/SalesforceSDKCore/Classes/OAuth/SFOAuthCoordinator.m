@@ -41,7 +41,6 @@
 #import "SalesforceSDKManager.h"
 #import "SFSDKWebViewStateManager.h"
 #import "SFNetwork.h"
-#import "SFRootViewManager.h"
 #import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 
 // Public constants

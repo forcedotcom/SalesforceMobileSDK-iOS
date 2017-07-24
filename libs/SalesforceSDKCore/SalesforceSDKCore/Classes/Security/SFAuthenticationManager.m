@@ -34,7 +34,7 @@
 #import "SFSecurityLockout.h"
 #import "SFIdentityData.h"
 #import "SFSDKResourceUtils.h"
-#import "SFRootViewManager.h"
+#import "SFSDKWindowManager.h"
 #import "SFPushNotificationManager.h"
 #import "SFManagedPreferences.h"
 #import "SFLoginViewController.h"
@@ -310,7 +310,7 @@ static Class InstanceClass = nil;
                                         strongSelf.authViewController.delegate = strongSelf;
                                     }
                                     [strongSelf.authViewController setOauthView:authWebView];
-                                    [[SFRootViewManager sharedManager] pushViewController:strongSelf.authViewController];
+                                    [[SFSDKWindowManager sharedManager] pushViewController:strongSelf.authViewController window:SFSDKWindowManager.sharedManager.authWindow withCompletion:nil];
                                 } dismissBlock:^(SFAuthenticationManager *authViewManager) {
                                     __strong typeof(weakSelf) strongSelf = weakSelf;
                                     [SFLoginViewController sharedInstance].oauthView = nil;
@@ -320,7 +320,7 @@ static Class InstanceClass = nil;
         // Default auth safari controller handler
         self.authSafariControllerHandler = [[SFAuthenticationSafariControllerHandler alloc]
                 initWithPresentBlock:^(SFAuthenticationManager *manager, SFSafariViewController *controller) {
-                    [[SFRootViewManager sharedManager] pushViewController:controller];
+                    [[SFSDKWindowManager sharedManager] pushViewController:controller window:SFSDKWindowManager.sharedManager.authWindow withCompletion:nil];
                 }];
 
         [[SFUserAccountManager sharedInstance] addDelegate:self];
@@ -908,7 +908,9 @@ static Class InstanceClass = nil;
         return;
     }
     
-    [[SFRootViewManager sharedManager] popViewController:self.authViewController];
+    [[SFSDKWindowManager sharedManager] popViewController:self.authViewController window:SFSDKWindowManager.sharedManager.authWindow withCompletion:^{
+        [[SFSDKWindowManager sharedManager] bringToFront:SFSDKWindowManager.sharedManager.mainWindow];
+    }];
 }
 
 - (void)retrievedIdentityData
@@ -1002,7 +1004,7 @@ static Class InstanceClass = nil;
         
         [self.statusAlert addAction:cancelAction];
         dispatch_async(dispatch_get_main_queue(), ^{
-            [[SFRootViewManager sharedManager] pushViewController:weakSelf.statusAlert];
+            [[SFSDKWindowManager sharedManager] pushViewController:weakSelf.statusAlert window:SFSDKWindowManager.sharedManager.authWindow withCompletion:nil];
         });
 
     }
@@ -1172,7 +1174,7 @@ static Class InstanceClass = nil;
     if (!handledByDelegate) {
         SFSDKLoginHostListViewController *hostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
         hostListViewController.delegate = self;
-        [[SFRootViewManager sharedManager] pushViewController:hostListViewController];
+        [[SFSDKWindowManager sharedManager] pushViewController:hostListViewController window:SFSDKWindowManager.sharedManager.authWindow withCompletion:nil];
     }
 }
 
@@ -1380,7 +1382,8 @@ static Class InstanceClass = nil;
         [self cancelAuthentication];
         SFSDKLoginHostListViewController *hostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
         hostListViewController.delegate = self;
-        [[SFRootViewManager sharedManager] pushViewController:hostListViewController];
+        [[SFSDKWindowManager sharedManager] pushViewController:hostListViewController window:SFSDKWindowManager.sharedManager.authWindow withCompletion:nil];
+        
     }
 }
 
@@ -1395,7 +1398,7 @@ static Class InstanceClass = nil;
                                                           }];
     
     [alert addAction:defaultAction];
-    [[SFRootViewManager sharedManager] pushViewController:alert];
+    [[SFSDKWindowManager sharedManager] pushViewController:alert window:SFSDKWindowManager.sharedManager.authWindow withCompletion:nil];
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator displayConfirmationMessage:(NSString *)message completion:(void (^)(BOOL))completion
@@ -1416,7 +1419,7 @@ static Class InstanceClass = nil;
                                                           }];
     [alert addAction:cancelAction];
 
-    [[SFRootViewManager sharedManager] pushViewController:alert];
+    [[SFSDKWindowManager sharedManager] pushViewController:alert window:SFSDKWindowManager.sharedManager.authWindow withCompletion:nil];
 }
 
 - (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator*)coordinator

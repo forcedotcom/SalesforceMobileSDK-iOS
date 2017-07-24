@@ -28,7 +28,6 @@
 
 #import "SFSmartStoreInspectorViewController.h"
 #import <SalesforceSDKCore/SFSDKResourceUtils.h>
-#import <SalesforceSDKCore/SFRootViewManager.h>
 #import "SFQuerySpec.h"
 #import <SalesforceSDKCore/SFJsonUtils.h>
 

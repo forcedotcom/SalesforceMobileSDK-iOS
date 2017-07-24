@@ -31,7 +31,7 @@
 #import "SFUserAccountManager.h"
 #import "SFPasscodeManager.h"
 #import "SFAuthenticationManager.h"
-#import "SFRootViewManager.h"
+#import "SFSDKWindowManager.h"
 #import "SFPreferences.h"
 #import "SFUserActivityMonitor.h"
 #import "SFIdentityData.h"
@@ -107,11 +107,13 @@ static BOOL _showPasscode = YES;
         
         [SFSecurityLockout setPresentPasscodeViewControllerBlock:^(UIViewController *pvc) {
             [[SalesforceSDKManager sharedManager] dismissSnapshot];
-            [[SFRootViewManager sharedManager] pushViewController:pvc];
+            [[SFSDKWindowManager sharedManager] pushViewController:pvc window:SFSDKWindowManager.sharedManager.passcodeWindow withCompletion:nil];
         }];
         
         [SFSecurityLockout setDismissPasscodeViewControllerBlock:^(UIViewController *pvc) {
-            [[SFRootViewManager sharedManager] popViewController:pvc];
+            [[SFSDKWindowManager sharedManager] popViewController:pvc window:SFSDKWindowManager.sharedManager.passcodeWindow withCompletion:^{
+                [[SFSDKWindowManager sharedManager] bringToFront:SFSDKWindowManager.sharedManager.mainWindow];
+            }];
         }];
     }
 }
