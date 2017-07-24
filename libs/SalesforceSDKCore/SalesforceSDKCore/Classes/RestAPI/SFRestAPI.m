@@ -179,6 +179,11 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 
     // If there are no demonstrable auth credentials, login before sending.
     SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
+
+    // Adds this request to the list of active requests if it's not already on the list.
+    if (![self.activeRequests containsObject:request]) {
+        [self.activeRequests addObject:request];
+    }
     __weak __typeof(self) weakSelf = self;
     if (user.credentials.accessToken == nil && user.credentials.refreshToken == nil && request.requiresAuthentication) {
         [SFSDKCoreLogger i:[self class] format:@"No auth credentials found. Authenticating before sending request."];
@@ -202,11 +207,6 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
          */
         if (!self.sessionRefreshInProgress) {
             [self enqueueRequest:request delegate:delegate shouldRetry:shouldRetry];
-        }
-
-        // Adds this request to the list of active requests if it's not already on the list.
-        if (![self.activeRequests containsObject:request]) {
-            [self.activeRequests addObject:request];
         }
     }
 }
