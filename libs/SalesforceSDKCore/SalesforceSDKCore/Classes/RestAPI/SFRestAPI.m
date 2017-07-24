@@ -212,7 +212,9 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
          * Session refresher should be a class level property because it gets de-allocated before
          * the callback is triggered otherwise, leading to a timeout or cancellation.
          */
-        self.oauthSessionRefresher = [[SFOAuthSessionRefresher alloc] initWithCredentials:user.credentials];
+        if (!self.oauthSessionRefresher) {
+            self.oauthSessionRefresher = [[SFOAuthSessionRefresher alloc] initWithCredentials:user.credentials];
+        }
     }
     return self.oauthSessionRefresher;
 }
@@ -257,29 +259,32 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
              * Sends the session refresh request if an OAuth session is not being refreshed.
              * Otherwise, wait for the current session refresh call to complete before sending.
              */
-            if (!self.sessionRefreshInProgress) {
-                self.sessionRefreshInProgress = YES;
-                SFOAuthSessionRefresher *sessionRefresher = [self sessionRefresherForUser:user];
-                __weak __typeof(self) weakSelf = self;
-                [sessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
-                    __strong typeof(weakSelf) strongSelf = weakSelf;
-                    [SFSDKCoreLogger i:[strongSelf class] format:@"%@: Credentials refresh successful. Replaying original REST request.", NSStringFromSelector(_cmd)];
-                    self.sessionRefreshInProgress = NO;
-                    [strongSelf send:request delegate:delegate shouldRetry:NO];
-                } error:^(NSError *refreshError) {
-                    __strong typeof(weakSelf) strongSelf = weakSelf;
-                    [SFSDKCoreLogger e:[strongSelf class] format:@"Failed to refresh expired session. Error: %@", refreshError];
-                    self.sessionRefreshInProgress = NO;
-                    if ([refreshError.domain isEqualToString:kSFOAuthErrorDomain] && refreshError.code == kSFOAuthErrorInvalidGrant) {
-                        [SFSDKCoreLogger i:[strongSelf class] format:@"%@ Invalid grant error received, triggering logout.", NSStringFromSelector(_cmd)];
-
-                        // Make sure we call logout on the main thread.
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [strongSelf createAndStoreLogoutEvent:error user:user];
-                            [[SFAuthenticationManager sharedManager] logoutUser:user];
-                        });
-                    }
-                }];
+            @synchronized (self) {
+                if (!self.sessionRefreshInProgress) {
+                    self.sessionRefreshInProgress = YES;
+                    SFOAuthSessionRefresher *sessionRefresher = [self sessionRefresherForUser:user];
+                    __weak __typeof(self) weakSelf = self;
+                    [sessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
+                        __strong typeof(weakSelf) strongSelf = weakSelf;
+                        [SFSDKCoreLogger i:[strongSelf class] format:@"%@: Credentials refresh successful. Replaying original REST request.", NSStringFromSelector(_cmd)];
+                        self.sessionRefreshInProgress = NO;
+                        [strongSelf send:request delegate:delegate shouldRetry:NO];
+                    } error:^(NSError *refreshError) {
+                        __strong typeof(weakSelf) strongSelf = weakSelf;
+                        [SFSDKCoreLogger e:[strongSelf class] format:@"Failed to refresh expired session. Error: %@", refreshError];
+                        self.sessionRefreshInProgress = NO;
+                        if ([refreshError.domain isEqualToString:kSFOAuthErrorDomain] && refreshError.code == kSFOAuthErrorInvalidGrant) {
+                            [SFSDKCoreLogger i:[strongSelf class] format:@"%@ Invalid grant error received, triggering logout.", NSStringFromSelector(_cmd)];
+                            [delegate request:request didFailLoadWithError:refreshError];
+                            
+                            // Make sure we call logout on the main thread.
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [strongSelf createAndStoreLogoutEvent:error user:user];
+                                [[SFAuthenticationManager sharedManager] logoutUser:user];
+                            });
+                        }
+                    }];
+                }
             }
         } else {
             NSError *retryError = [[NSError alloc] initWithDomain:response.URL.absoluteString code:statusCode userInfo:nil];
@@ -325,9 +330,11 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
             [delegate request:request didFailLoadWithError:error];
         }
         [[SFRestAPI sharedInstance] removeActiveRequestObject:request];
-        if (!self.pendingRequestsBeingProcessed) {
-            self.pendingRequestsBeingProcessed = YES;
-            [self sendPendingRequests];
+        @synchronized (self) {
+            if (!self.pendingRequestsBeingProcessed) {
+                self.pendingRequestsBeingProcessed = YES;
+                [self sendPendingRequests];
+            }
         }
     }
 }
