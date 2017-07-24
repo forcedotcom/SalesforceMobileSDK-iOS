@@ -48,6 +48,7 @@ static BOOL kIsTestRun;
 @interface SFRestAPI ()
 
 @property (readwrite, assign) BOOL sessionRefreshInProgress;
+@property (readwrite, assign) BOOL pendingRequestsBeingProcessed;
 @property (nonatomic, strong) SFOAuthSessionRefresher *oauthSessionRefresher;
 
 @end
@@ -71,9 +72,10 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 - (id)init {
     self = [super init];
     if (self) {
-        _activeRequests = [[NSMutableSet alloc] initWithCapacity:4];
+        _activeRequests = [[NSMutableSet alloc] initWithCapacity:10];
         self.apiVersion = kSFRestDefaultAPIVersion;
         self.sessionRefreshInProgress = NO;
+        self.pendingRequestsBeingProcessed = NO;
         [[SFUserAccountManager sharedInstance] addDelegate:self];
         if (!kIsTestRun) {
             [SFSDKWebUtils configureUserAgent:[SFRestAPI userAgentString]];
@@ -325,13 +327,20 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
             [delegate request:request didFailLoadWithError:error];
         }
         [[SFRestAPI sharedInstance] removeActiveRequestObject:request];
-        [self sendPendingRequests];
+        if (!self.pendingRequestsBeingProcessed) {
+            [self sendPendingRequests];
+        }
     }
 }
 
 - (void)sendPendingRequests {
-    for (SFRestRequest *request in self.activeRequests) {
-        [self send:request delegate:request.delegate shouldRetry:YES];
+    @synchronized (self) {
+        NSSet *pendingRequests = [self.activeRequests copy];
+        self.pendingRequestsBeingProcessed = YES;
+        for (SFRestRequest *request in pendingRequests) {
+            [self send:request delegate:request.delegate shouldRetry:YES];
+        }
+        self.pendingRequestsBeingProcessed = NO;
     }
 }
 
