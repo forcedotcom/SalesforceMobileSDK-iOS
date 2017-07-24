@@ -184,9 +184,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
 
     // Adds this request to the list of active requests if it's not already on the list.
-    if (![self.activeRequests containsObject:request]) {
-        [self.activeRequests addObject:request];
-    }
+    [self.activeRequests addObject:request];
     __weak __typeof(self) weakSelf = self;
     if (user.credentials.accessToken == nil && user.credentials.refreshToken == nil && request.requiresAuthentication) {
         [SFSDKCoreLogger i:[self class] format:@"No auth credentials found. Authenticating before sending request."];
@@ -203,20 +201,12 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
             [[SFAuthenticationManager sharedManager] logout];
         }];
     } else {
-
-        /*
-         * Auth credentials exist. Send the request if an OAuth session is not being refreshed.
-         * Otherwise, wait for the current session refresh call to complete before sending.
-         */
-        if (!self.sessionRefreshInProgress) {
-            [self enqueueRequest:request delegate:delegate shouldRetry:shouldRetry];
-        }
+        [self enqueueRequest:request delegate:delegate shouldRetry:shouldRetry];
     }
 }
 
 - (SFOAuthSessionRefresher *)sessionRefresherForUser:(SFUserAccount *)user {
     @synchronized (self) {
-        self.sessionRefreshInProgress = YES;
 
         /*
          * Session refresher should be a class level property because it gets de-allocated before
@@ -262,27 +252,35 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
         if (shouldRetry) {
             [SFSDKCoreLogger i:[self class] format:@"%@: REST request failed due to expired credentials. Attempting to refresh credentials.", NSStringFromSelector(_cmd)];
             SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
-            __weak __typeof(self) weakSelf = self;
-            SFOAuthSessionRefresher *sessionRefresher = [self sessionRefresherForUser:user];
-            [sessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
-                __strong typeof(weakSelf) strongSelf = weakSelf;
-                [SFSDKCoreLogger i:[strongSelf class] format:@"%@: Credentials refresh successful. Replaying original REST request.", NSStringFromSelector(_cmd)];
-                self.sessionRefreshInProgress = NO;
-                [strongSelf send:request delegate:delegate shouldRetry:NO];
-            } error:^(NSError *refreshError) {
-                __strong typeof(weakSelf) strongSelf = weakSelf;
-                [SFSDKCoreLogger e:[strongSelf class] format:@"Failed to refresh expired session. Error: %@", refreshError];
-                self.sessionRefreshInProgress = NO;
-                if ([refreshError.domain isEqualToString:kSFOAuthErrorDomain] && refreshError.code == kSFOAuthErrorInvalidGrant) {
-                    [SFSDKCoreLogger i:[strongSelf class] format:@"%@ Invalid grant error received, triggering logout.", NSStringFromSelector(_cmd)];
 
-                    // Make sure we call logout on the main thread.
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [strongSelf createAndStoreLogoutEvent:error user:user];
-                        [[SFAuthenticationManager sharedManager] logoutUser:user];
-                    });
-                }
-            }];
+            /*
+             * Sends the session refresh request if an OAuth session is not being refreshed.
+             * Otherwise, wait for the current session refresh call to complete before sending.
+             */
+            if (!self.sessionRefreshInProgress) {
+                self.sessionRefreshInProgress = YES;
+                SFOAuthSessionRefresher *sessionRefresher = [self sessionRefresherForUser:user];
+                __weak __typeof(self) weakSelf = self;
+                [sessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
+                    __strong typeof(weakSelf) strongSelf = weakSelf;
+                    [SFSDKCoreLogger i:[strongSelf class] format:@"%@: Credentials refresh successful. Replaying original REST request.", NSStringFromSelector(_cmd)];
+                    self.sessionRefreshInProgress = NO;
+                    [strongSelf send:request delegate:delegate shouldRetry:NO];
+                } error:^(NSError *refreshError) {
+                    __strong typeof(weakSelf) strongSelf = weakSelf;
+                    [SFSDKCoreLogger e:[strongSelf class] format:@"Failed to refresh expired session. Error: %@", refreshError];
+                    self.sessionRefreshInProgress = NO;
+                    if ([refreshError.domain isEqualToString:kSFOAuthErrorDomain] && refreshError.code == kSFOAuthErrorInvalidGrant) {
+                        [SFSDKCoreLogger i:[strongSelf class] format:@"%@ Invalid grant error received, triggering logout.", NSStringFromSelector(_cmd)];
+
+                        // Make sure we call logout on the main thread.
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [strongSelf createAndStoreLogoutEvent:error user:user];
+                            [[SFAuthenticationManager sharedManager] logoutUser:user];
+                        });
+                    }
+                }];
+            }
         } else {
             NSError *retryError = [[NSError alloc] initWithDomain:response.URL.absoluteString code:statusCode userInfo:nil];
             [delegate request:request didFailLoadWithError:retryError];
@@ -328,6 +326,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
         }
         [[SFRestAPI sharedInstance] removeActiveRequestObject:request];
         if (!self.pendingRequestsBeingProcessed) {
+            self.pendingRequestsBeingProcessed = YES;
             [self sendPendingRequests];
         }
     }
@@ -336,7 +335,6 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 - (void)sendPendingRequests {
     @synchronized (self) {
         NSSet *pendingRequests = [self.activeRequests copy];
-        self.pendingRequestsBeingProcessed = YES;
         for (SFRestRequest *request in pendingRequests) {
             [self send:request delegate:request.delegate shouldRetry:YES];
         }
