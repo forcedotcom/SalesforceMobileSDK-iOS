@@ -937,7 +937,7 @@ static Class InstanceClass = nil;
     if (self.statusAlert) {
         self.statusAlert = nil;
     }
-    [[SalesforceSDKManager sharedManager] dismissSnapshot];
+    //[[SalesforceSDKManager sharedManager] dismissSnapshot];
     [SFSDKCoreLogger e:[self class] format:@"Error during authentication: %@", error];
     [self showAlertWithTitle:[SFSDKResourceUtils localizedString:kAlertErrorTitleKey]
                      message:[NSString stringWithFormat:[SFSDKResourceUtils localizedString:kAlertConnectionErrorFormatStringKey], [error localizedDescription]]

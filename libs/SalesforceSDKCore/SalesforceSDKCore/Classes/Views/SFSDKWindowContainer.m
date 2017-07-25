@@ -36,7 +36,6 @@
 
 @implementation SFSDKWindowContainer
 @synthesize window = _window;
-@synthesize windowLevel = _windowLevel;
 
 - (instancetype)initWithWindow:(UIWindow *)window andName:(NSString *) windowName {
     
@@ -49,10 +48,13 @@
     return self;
 }
 
-- (void) setWindowLevel:(UIWindowLevel)windowLevel {
-    if (windowLevel !=_windowLevel){
-        _windowLevel = windowLevel;
-        self.window.windowLevel = _windowLevel;
+- (UIWindowLevel)windowLevel{
+    return self.window.windowLevel;
+}
+
+- (void)setWindowLevel:(UIWindowLevel)windowLevel {
+    if (self.window.windowLevel != windowLevel){
+        self.window.windowLevel = windowLevel;
     }
 }
 
@@ -187,9 +189,9 @@
         }
     }];
     
-    [self.window setWindowLevel:_windowLevel];
+    self.window.windowLevel= fabs(self.window.windowLevel);
     [self.window setHidden:NO];
-    [self.window makeKeyWindow];
+    [self.window makeKeyAndVisible];
     [self enumerateDelegates:^(id<SFSDKWindowContainerDelegate> delegate) {
         if ([delegate respondsToSelector:@selector(windowDidMakeKeyVisible:)]) {
             [delegate windowDidMakeKeyVisible:weakSelf];
@@ -199,7 +201,8 @@
 }
 
 - (void)sendToBack {
-    self.window.windowLevel = -self.windowLevel;
+    if (self.windowLevel > 0)
+        self.windowLevel = -self.windowLevel;
     [self.window setHidden:YES];
 }
 

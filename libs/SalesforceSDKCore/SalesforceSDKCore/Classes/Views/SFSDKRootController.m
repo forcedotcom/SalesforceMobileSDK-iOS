@@ -1,8 +1,8 @@
 /*
- SFSDKWindow.m
+ SFSDKRootController.m
  SalesforceSDKCore
  
- Created by Raj Rao on 7/4/17.
+ Created by Raj Rao on 7/24/17.
  
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
@@ -26,7 +26,11 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#import "SFSDKWindow.h"
+#import "SFSDKRootController.h"
+
+@interface SFSDKRootController ()
+
+@end
 
 @implementation SFSDKRootController
 
@@ -35,7 +39,7 @@
     UIViewController *topViewController = [SFSDKRootController topViewController:self];
     UIStatusBarStyle statusBarStyle = UIStatusBarStyleDefault;
     if (topViewController && topViewController!=self) {
-       statusBarStyle = [topViewController preferredStatusBarStyle];
+        statusBarStyle = [topViewController preferredStatusBarStyle];
     }
     return statusBarStyle;
 }
@@ -60,7 +64,7 @@
 
 -(BOOL)shouldAutorotate
 {
-     UIViewController *topViewController = [SFSDKRootController topViewController:self];
+    UIViewController *topViewController = [SFSDKRootController topViewController:self];
     if (topViewController!=nil && topViewController!=self)
         return [topViewController shouldAutorotate];
     return YES;
@@ -70,7 +74,7 @@
 {
     UIViewController *topViewController = [SFSDKRootController topViewController:self];
     if (topViewController!=nil && topViewController!=self)
-         return [topViewController supportedInterfaceOrientations];
+        return [topViewController supportedInterfaceOrientations];
     
     return UIInterfaceOrientationMaskAll;
 }
@@ -88,22 +92,6 @@
         topViewController = topViewController.presentedViewController;
     }
     return topViewController;
-}
-@end
-
-@interface SFSDKWindow()
-
-@end
-
-@implementation SFSDKWindow
-
-- (instancetype) initWithFrame:(CGRect) frame {
-    self = [super initWithFrame:frame];
-    
-    if (self) {
-        self.hidden = YES;
-    }
-    return self;
 }
 
 @end

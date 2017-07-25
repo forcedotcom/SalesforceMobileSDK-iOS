@@ -106,8 +106,8 @@ static BOOL _showPasscode = YES;
         }];
         
         [SFSecurityLockout setPresentPasscodeViewControllerBlock:^(UIViewController *pvc) {
-            [[SalesforceSDKManager sharedManager] dismissSnapshot];
-            [[SFSDKWindowManager sharedManager] pushViewController:pvc window:SFSDKWindowManager.sharedManager.passcodeWindow withCompletion:nil];
+            if (![SalesforceSDKManager sharedManager].isSnapshotPresented)
+                [[SFSDKWindowManager sharedManager] pushViewController:pvc window:SFSDKWindowManager.sharedManager.passcodeWindow withCompletion:nil];
         }];
         
         [SFSecurityLockout setDismissPasscodeViewControllerBlock:^(UIViewController *pvc) {

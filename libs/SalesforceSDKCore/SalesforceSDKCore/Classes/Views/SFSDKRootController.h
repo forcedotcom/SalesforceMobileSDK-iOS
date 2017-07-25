@@ -1,8 +1,8 @@
 /*
- SFSDKWindow.h
+ SFSDKRootController.h
  SalesforceSDKCore
  
- Created by Raj Rao on 7/4/17.
+ Created by Raj Rao on 7/24/17.
  
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
@@ -29,9 +29,5 @@
 #import <UIKit/UIKit.h>
 
 @interface SFSDKRootController : UIViewController
+
 @end
-
-@interface SFSDKWindow : UIWindow
-@end
-
-
