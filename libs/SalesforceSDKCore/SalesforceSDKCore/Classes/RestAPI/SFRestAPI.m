@@ -267,16 +267,18 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
                     [sessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
                         __strong typeof(weakSelf) strongSelf = weakSelf;
                         [SFSDKCoreLogger i:[strongSelf class] format:@"%@: Credentials refresh successful. Replaying original REST request.", NSStringFromSelector(_cmd)];
-                        self.sessionRefreshInProgress = NO;
+                        strongSelf.sessionRefreshInProgress = NO;
                         [strongSelf send:request delegate:delegate shouldRetry:NO];
                     } error:^(NSError *refreshError) {
                         __strong typeof(weakSelf) strongSelf = weakSelf;
                         [SFSDKCoreLogger e:[strongSelf class] format:@"Failed to refresh expired session. Error: %@", refreshError];
-                        self.sessionRefreshInProgress = NO;
+                        [delegate request:request didFailLoadWithError:refreshError];
+                        strongSelf.pendingRequestsBeingProcessed = YES;
+                        [strongSelf flushPendingRequestQueue:refreshError];
+                        strongSelf.sessionRefreshInProgress = NO;
                         if ([refreshError.domain isEqualToString:kSFOAuthErrorDomain] && refreshError.code == kSFOAuthErrorInvalidGrant) {
                             [SFSDKCoreLogger i:[strongSelf class] format:@"%@ Invalid grant error received, triggering logout.", NSStringFromSelector(_cmd)];
-                            [delegate request:request didFailLoadWithError:refreshError];
-                            
+    
                             // Make sure we call logout on the main thread.
                             dispatch_async(dispatch_get_main_queue(), ^{
                                 [strongSelf createAndStoreLogoutEvent:error user:user];
@@ -336,6 +338,16 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
                 [self sendPendingRequests];
             }
         }
+    }
+}
+
+-(void)flushPendingRequestQueue:(NSError *)error {
+    @synchronized (self) {
+        NSSet *pendingRequests = [self.activeRequests copy];
+        for (SFRestRequest *request in pendingRequests) {
+            [request.delegate request:request didFailLoadWithError:error];
+        }
+        self.pendingRequestsBeingProcessed = NO;
     }
 }
 
