@@ -268,6 +268,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
                         __strong typeof(weakSelf) strongSelf = weakSelf;
                         [SFSDKCoreLogger i:[strongSelf class] format:@"%@: Credentials refresh successful. Replaying original REST request.", NSStringFromSelector(_cmd)];
                         strongSelf.sessionRefreshInProgress = NO;
+                        strongSelf.oauthSessionRefresher = nil;
                         [strongSelf send:request delegate:delegate shouldRetry:NO];
                     } error:^(NSError *refreshError) {
                         __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -276,6 +277,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
                         strongSelf.pendingRequestsBeingProcessed = YES;
                         [strongSelf flushPendingRequestQueue:refreshError];
                         strongSelf.sessionRefreshInProgress = NO;
+                        strongSelf.oauthSessionRefresher = nil;
                         if ([refreshError.domain isEqualToString:kSFOAuthErrorDomain] && refreshError.code == kSFOAuthErrorInvalidGrant) {
                             [SFSDKCoreLogger i:[strongSelf class] format:@"%@ Invalid grant error received, triggering logout.", NSStringFromSelector(_cmd)];
     

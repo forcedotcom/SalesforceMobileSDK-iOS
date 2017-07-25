@@ -1176,12 +1176,12 @@ static NSException *authException = nil;
 // - sets an invalid refreshToken
 // - issue a valid REST request
 // - ensure all requests are failed with the proper error
-- (void)FIXMEtestInvalidAccessAndRefreshToken {
+- (void)testInvalidAccessAndRefreshToken {
 
     // save valid tokens and current user
     NSString *origAccessToken = _currentUser.credentials.accessToken;
     NSString *origRefreshToken = _currentUser.credentials.refreshToken;
-    SFUserAccount *curUser = _currentUser;
+    SFOAuthCredentials *origCreds = [_currentUser.credentials copy];
     
     // set invalid tokens
     NSString *invalidAccessToken = @"xyz";
@@ -1198,8 +1198,11 @@ static NSException *authException = nil;
         XCTAssertNotNil(listener.lastError.userInfo);
     }
     @finally {
-        _currentUser = curUser;
-        [self changeOauthTokens:origAccessToken refreshToken:origRefreshToken];
+        origCreds.accessToken = origAccessToken;
+        origCreds.refreshToken = origRefreshToken;
+        _currentUser.credentials = origCreds;
+        [[SFUserAccountManager sharedInstance] saveAccountForUser:_currentUser error:nil];
+        [SFUserAccountManager sharedInstance].currentUser = _currentUser;
     }
 }
 
@@ -1257,12 +1260,12 @@ static NSException *authException = nil;
 // - issue multiple valid requests
 // - make sure the token exchange failed
 // - ensure all requests are failed with the proper error code
-- (void)FIXMEtestInvalidAccessAndRefreshToken_MultipleRequests {
+- (void)testInvalidAccessAndRefreshToken_MultipleRequests {
 
     // save valid tokens and current user
     NSString *origAccessToken = _currentUser.credentials.accessToken;
     NSString *origRefreshToken = _currentUser.credentials.refreshToken;
-    SFUserAccount *curUser = _currentUser;
+    SFOAuthCredentials *origCreds = [_currentUser.credentials copy];
     
     // set invalid tokens
     NSString *invalidAccessToken = @"xyz";
@@ -1317,8 +1320,11 @@ static NSException *authException = nil;
         XCTAssertNotNil(listener4.lastError.userInfo,@"userInfo should not be nil");
     }
     @finally {
-        _currentUser = curUser;
-        [self changeOauthTokens:origAccessToken refreshToken:origRefreshToken];
+        origCreds.accessToken = origAccessToken;
+        origCreds.refreshToken = origRefreshToken;
+        _currentUser.credentials = origCreds;
+        [[SFUserAccountManager sharedInstance] saveAccountForUser:_currentUser error:nil];
+        [SFUserAccountManager sharedInstance].currentUser = _currentUser;
     }
 }
 
