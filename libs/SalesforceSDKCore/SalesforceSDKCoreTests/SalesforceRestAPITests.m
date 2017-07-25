@@ -1176,7 +1176,7 @@ static NSException *authException = nil;
 // - sets an invalid refreshToken
 // - issue a valid REST request
 // - ensure all requests are failed with the proper error
-- (void)testInvalidAccessAndRefreshToken {
+- (void)FIXMEtestInvalidAccessAndRefreshToken {
 
     // save valid tokens and current user
     NSString *origAccessToken = _currentUser.credentials.accessToken;
@@ -1257,7 +1257,7 @@ static NSException *authException = nil;
 // - issue multiple valid requests
 // - make sure the token exchange failed
 // - ensure all requests are failed with the proper error code
-- (void)testInvalidAccessAndRefreshToken_MultipleRequests {
+- (void)FIXMEtestInvalidAccessAndRefreshToken_MultipleRequests {
 
     // save valid tokens and current user
     NSString *origAccessToken = _currentUser.credentials.accessToken;
