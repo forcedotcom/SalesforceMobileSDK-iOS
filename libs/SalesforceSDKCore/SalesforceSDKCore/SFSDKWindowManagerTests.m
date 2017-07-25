@@ -29,7 +29,7 @@
 
 - (void)testSetMainWindow {
     XCTAssert(_origApplicationWindow!=nil);
-    [[SFSDKWindowManager sharedManager] setMainWindow:_origApplicationWindow];
+    [[SFSDKWindowManager sharedManager] setMainUIWindow:_origApplicationWindow];
     XCTAssert([SFSDKWindowManager sharedManager].mainWindow.window==_origApplicationWindow);
 }
 

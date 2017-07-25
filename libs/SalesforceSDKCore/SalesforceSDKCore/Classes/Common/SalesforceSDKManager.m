@@ -232,7 +232,7 @@ static NSString* ailtnAppName = nil;
     _isLaunching = YES;
     self.launchActions = SFSDKLaunchActionNone;
     if ([SFSDKWindowManager sharedManager].mainWindow == nil) {
-        [[SFSDKWindowManager sharedManager] setMainWindow:[SFApplicationHelper sharedApplication].windows[0]];
+        [[SFSDKWindowManager sharedManager] setMainUIWindow:[SFApplicationHelper sharedApplication].windows[0]];
     }
     
     NSError *launchStateError = nil;

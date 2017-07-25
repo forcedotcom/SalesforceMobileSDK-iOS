@@ -98,6 +98,16 @@
  */
 @property (readonly,nonatomic,strong) SFSDKWindowContainer * _Nonnull passcodeWindow;
 
+/** Returns the SFSDKWindowContainer window representing the mainWindow that has been set
+ */
+@property (readonly,nonatomic,strong) SFSDKWindowContainer * _Nonnull mainWindow;
+
+/** Used to setup the main application window.
+ */
+- (void)setMainUIWindow:(UIWindow *_Nonnull)window;
+
+/** List all managed Windows
+ */
 @property (nonatomic, strong,readonly) NSMapTable<NSString *,SFSDKWindowContainer *> * _Nonnull namedWindows;
 
 /** Api to push viewcontroller into a given window. BringtoFront the window & then push
@@ -107,14 +117,6 @@
 /** Api to pop viewcontroller from a given window.
  */
 - (void)popViewController:(UIViewController *_Nonnull)controller window:(SFSDKWindowContainer *_Nonnull)window withCompletion:(void (^_Nullable)(void))completion;
-
-/** Returns the SFSDKWindowContainer window representing the mainWindow that has been set
- */
-- (SFSDKWindowContainer *_Nonnull)mainWindow;
-
-/** Used to setup the main application window.
- */
-- (void)setMainWindow:(UIWindow *_Nonnull)window;
 
 /** Used to create a new Window keyed by a  specified name
  */

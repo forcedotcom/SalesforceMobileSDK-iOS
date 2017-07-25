@@ -63,12 +63,12 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
 
 - (SFSDKWindowContainer *)mainWindow {
     if (![self.namedWindows objectForKey:kSFMainWindowKey]) {
-        [self setMainWindow:[SFApplicationHelper sharedApplication].windows[0]];
+        [self setMainUIWindow:[SFApplicationHelper sharedApplication].windows[0]];
     }
     return [self.namedWindows objectForKey:kSFMainWindowKey];
 }
 
-- (void)setMainWindow:(UIWindow *) window {
+- (void)setMainUIWindow:(UIWindow *) window {
     SFSDKWindowContainer *container = [[SFSDKWindowContainer alloc] initWithWindow:window andName:kSFMainWindowKey];
     
     container.windowType = SFSDKWindowTypeMain;
