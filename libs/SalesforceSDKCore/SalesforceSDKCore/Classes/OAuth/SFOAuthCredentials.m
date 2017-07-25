@@ -47,7 +47,7 @@ NSException * SFOAuthInvalidIdentifierException() {
 
 //This property is intentionally readonly in the public header files.
 @property (nonatomic, readwrite, strong) NSString *protocol;
-    
+
 @end
 
 @implementation SFOAuthCredentials
@@ -169,6 +169,33 @@ NSException * SFOAuthInvalidIdentifierException() {
     }
     _credentialsChangeSet = [NSMutableDictionary new];
     return self;
+}
+
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(nullable NSZone *)zone {
+    SFOAuthCredentials *copyCreds = [[[self class] allocWithZone:zone] initWithIdentifier:self.identifier clientId:self.clientId encrypted:self.encrypted];
+    copyCreds.protocol = self.protocol;
+    copyCreds.domain = self.domain;
+    copyCreds.redirectUri = self.redirectUri;
+    copyCreds.jwt = self.jwt;
+    copyCreds.refreshToken = self.refreshToken;
+    copyCreds.accessToken = self.accessToken;
+    copyCreds.instanceUrl = self.instanceUrl;
+    copyCreds.communityId = self.communityId;
+    copyCreds.communityUrl = self.communityUrl;
+    copyCreds.issuedAt = self.issuedAt;
+    
+    // NB: Intentionally ordering the copying of these, because setting the identity URL automatically
+    // sets the OrgID and UserID.  This ensures the values stay in sync.
+    copyCreds.identityUrl = self.identityUrl;
+    copyCreds.organizationId = self.organizationId;
+    copyCreds.userId = self.userId;
+    
+    copyCreds.legacyIdentityInformation = [self.legacyIdentityInformation copy];
+    copyCreds.additionalOAuthFields = [self.additionalOAuthFields copy];
+    
+    return copyCreds;
 }
 
 #pragma mark - Public Methods

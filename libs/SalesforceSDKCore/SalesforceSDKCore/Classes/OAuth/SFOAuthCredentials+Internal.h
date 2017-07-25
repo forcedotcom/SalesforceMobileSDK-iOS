@@ -44,6 +44,9 @@ extern NSException * SFOAuthInvalidIdentifierException();
 
 @property (nonatomic, strong) NSDictionary * additionalOAuthFields;
 
+// Facilitates NSCopying implementation.
+@property (nonatomic, readwrite) NSDictionary *legacyIdentityInformation;
+
 /** Holds the attributes that have changed during auth flow.
  */
 @property (nonatomic) NSMutableDictionary * credentialsChangeSet;
