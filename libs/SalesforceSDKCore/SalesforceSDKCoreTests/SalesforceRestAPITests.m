@@ -1178,9 +1178,10 @@ static NSException *authException = nil;
 // - ensure all requests are failed with the proper error
 - (void)FIXMEtestInvalidAccessAndRefreshToken {
 
-    // save valid tokens
+    // save valid tokens and current user
     NSString *origAccessToken = _currentUser.credentials.accessToken;
     NSString *origRefreshToken = _currentUser.credentials.refreshToken;
+    SFUserAccount *curUser = _currentUser;
     
     // set invalid tokens
     NSString *invalidAccessToken = @"xyz";
@@ -1197,6 +1198,7 @@ static NSException *authException = nil;
         XCTAssertNotNil(listener.lastError.userInfo);
     }
     @finally {
+        _currentUser = curUser;
         [self changeOauthTokens:origAccessToken refreshToken:origRefreshToken];
     }
 }
@@ -1207,7 +1209,7 @@ static NSException *authException = nil;
 // - ensure that a new access token is retrieved using refresh token
 // - ensure that all requests eventually succeed
 //
--(void)FIXMEtestInvalidAccessToken_MultipleRequests {
+-(void)testInvalidAccessToken_MultipleRequests {
 
     // save invalid token
     NSString *invalidAccessToken = @"xyz";
@@ -1257,9 +1259,10 @@ static NSException *authException = nil;
 // - ensure all requests are failed with the proper error code
 - (void)FIXMEtestInvalidAccessAndRefreshToken_MultipleRequests {
 
-    // save valid tokens
+    // save valid tokens and current user
     NSString *origAccessToken = _currentUser.credentials.accessToken;
     NSString *origRefreshToken = _currentUser.credentials.refreshToken;
+    SFUserAccount *curUser = _currentUser;
     
     // set invalid tokens
     NSString *invalidAccessToken = @"xyz";
@@ -1314,6 +1317,7 @@ static NSException *authException = nil;
         XCTAssertNotNil(listener4.lastError.userInfo,@"userInfo should not be nil");
     }
     @finally {
+        _currentUser = curUser;
         [self changeOauthTokens:origAccessToken refreshToken:origRefreshToken];
     }
 }
