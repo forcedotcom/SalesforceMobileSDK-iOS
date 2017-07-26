@@ -269,7 +269,12 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
                         [SFSDKCoreLogger i:[strongSelf class] format:@"%@: Credentials refresh successful. Replaying original REST request.", NSStringFromSelector(_cmd)];
                         strongSelf.sessionRefreshInProgress = NO;
                         strongSelf.oauthSessionRefresher = nil;
-                        [strongSelf send:request delegate:delegate shouldRetry:NO];
+                        @synchronized (strongSelf) {
+                            if (!strongSelf.pendingRequestsBeingProcessed) {
+                                strongSelf.pendingRequestsBeingProcessed = YES;
+                                [strongSelf sendPendingRequests];
+                            }
+                        }
                     } error:^(NSError *refreshError) {
                         __strong typeof(weakSelf) strongSelf = weakSelf;
                         [SFSDKCoreLogger e:[strongSelf class] format:@"Failed to refresh expired session. Error: %@", refreshError];
@@ -334,12 +339,6 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
             [delegate request:request didFailLoadWithError:error];
         }
         [[SFRestAPI sharedInstance] removeActiveRequestObject:request];
-        @synchronized (self) {
-            if (!self.pendingRequestsBeingProcessed) {
-                self.pendingRequestsBeingProcessed = YES;
-                [self sendPendingRequests];
-            }
-        }
     }
 }
 
