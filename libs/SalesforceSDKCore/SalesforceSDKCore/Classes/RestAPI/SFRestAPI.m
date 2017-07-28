@@ -356,7 +356,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     @synchronized (self) {
         NSSet *pendingRequests = [self.activeRequests copy];
         for (SFRestRequest *request in pendingRequests) {
-            [self send:request delegate:request.delegate shouldRetry:YES];
+            [self send:request delegate:request.delegate shouldRetry:NO];
         }
         self.pendingRequestsBeingProcessed = NO;
     }
