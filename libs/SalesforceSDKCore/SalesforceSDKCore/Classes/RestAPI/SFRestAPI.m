@@ -235,6 +235,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
                 } else {
                     [delegate request:request didFailLoadWithError:error];
                 }
+                [[SFRestAPI sharedInstance] removeActiveRequestObject:request];
                 return;
             }
             if (!response) {
