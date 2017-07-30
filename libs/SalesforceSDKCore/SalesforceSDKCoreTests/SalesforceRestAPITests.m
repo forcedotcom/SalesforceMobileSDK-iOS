@@ -1172,6 +1172,28 @@ static NSException *authException = nil;
     XCTAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"access token wasn't refreshed");
 }
 
+- (void)testFailedRequestRemovedFromQueue {
+    
+    // Send a request that should fail before getting to the service.
+    NSURL *origInstanceUrl = _currentUser.credentials.instanceUrl;
+    _currentUser.credentials.instanceUrl = [NSURL URLWithString:@"https://some.non-existent-domain-blafhsdfh"];
+    self.currentExpectation = [self expectationWithDescription:@"performRequestToFail"];
+    SFRestFailBlock failWithExpectedFail = ^(NSError *e) {
+        [self.currentExpectation fulfill];
+    };
+    SFRestDictionaryResponseBlock successWithUnexpectedSuccessBlock = ^(NSDictionary *d) {
+        XCTFail(@"Request should not have succeeded.");
+        [self.currentExpectation fulfill];
+    };
+    [[SFRestAPI sharedInstance] performRequestForResourcesWithFailBlock:failWithExpectedFail
+                                   completeBlock:successWithUnexpectedSuccessBlock];
+    
+    BOOL completionTimedOut = [self waitForExpectation];
+    XCTAssertFalse(completionTimedOut);
+    XCTAssertEqual(0, [SFRestAPI sharedInstance].activeRequests.count, @"Active requests queue should be empty.");
+    _currentUser.credentials.instanceUrl = origInstanceUrl;
+}
+
 // - sets an invalid accessToken
 // - sets an invalid refreshToken
 // - issue a valid REST request
