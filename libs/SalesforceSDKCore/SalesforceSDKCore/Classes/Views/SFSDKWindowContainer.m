@@ -28,244 +28,63 @@
  */
 #import "SFSDKWindowContainer.h"
 
-@interface SFSDKWindowContainer() {
-    UIViewController *_modalViewController;
-}
-@property (nonatomic, strong) NSMutableOrderedSet *delegates;
+@interface SFSDKWindowContainer()
+
 @end
 
 @implementation SFSDKWindowContainer
 @synthesize window = _window;
 
-- (instancetype)initWithWindow:(UIWindow *)window andName:(NSString *) windowName {
+- (instancetype)initWithWindow:(UIWindow *)window name:(NSString *) windowName {
     
     self = [super init];
     if (self) {
-        _delegates = [NSMutableOrderedSet orderedSet];
         _window = window;
+        _window.hidden = NO;
         _windowName = windowName;
+        _viewController = window.rootViewController;
     }
     return self;
 }
 
-- (UIWindowLevel)windowLevel{
-    return self.window.windowLevel;
+- (UIWindow *)window {
+    if (_window == nil) {
+        _window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+         _window.hidden = NO;
+        _window.rootViewController = _viewController;
+    }
+    return _window;
 }
 
-- (void)setWindowLevel:(UIWindowLevel)windowLevel {
-    if (self.window.windowLevel != windowLevel){
-        self.window.windowLevel = windowLevel;
-    }
-}
-
-- (void)pushViewController:(UIViewController *)controller {
-    [self pushViewController:controller animated:NO completion:nil];
-}
-
-- (void)popViewController:(UIViewController *)controller {
-    [self popViewController:controller animated:NO completion:nil];
-}
-
-- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)flag completion:(void (^)(void))completion {
-    
-    if (!viewController)
-        return;
-    
-    __weak typeof(self) weakSelf = self;
-    
-    if (![NSThread isMainThread]) {
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            [weakSelf pushViewController:viewController animated:flag completion:completion];
-        });
-        return;
-    }
-    
-    
-    [self enumerateDelegates:^(id<SFSDKWindowContainerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(windowWillPushViewController:controller:)]) {
-            [delegate windowWillPushViewController:weakSelf controller:viewController];
-        }
-    }];
-    
-    if (!self.window.rootViewController) {
-        
-        if ([viewController isKindOfClass:UIAlertController.class]) {
-            UIViewController *blankViewController = [[UIViewController alloc] init];
-            [[blankViewController view] setBackgroundColor:[UIColor clearColor]];
-            self.window.rootViewController = blankViewController;
-            [blankViewController presentViewController:viewController animated:NO completion:^{
-                
-            }];
-        } else {
-            self.window.rootViewController = viewController;
-        }
-        
-        if (completion)
-            completion();
-        
-        return;
-    }
-    
-    UIViewController *currentViewController = self.window.rootViewController;
-    while (currentViewController.presentedViewController != nil
-           && !currentViewController.presentedViewController.isBeingDismissed) {
-        //stop if we find that an alert has been presented
-        if ([self alertIsPresented:currentViewController]) {
-            [self saveAlert:currentViewController.presentedViewController];
-            break;
-        }
-        currentViewController = currentViewController.presentedViewController;
-    }
-    if (currentViewController) {
-        //invoke delegates and then present
-        if (currentViewController!=viewController)
-            [currentViewController presentViewController:viewController animated:NO completion:completion];
-    }
-    else {
+- (void)setViewController:(UIViewController *) viewController {
+    if (_viewController != viewController) {
+        _viewController = viewController;
         self.window.rootViewController = viewController;
-        if (completion)
-            completion();
-    }
-    
-    [self enumerateDelegates:^(id<SFSDKWindowContainerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(windowDidPushViewController:controller:)]) {
-            [delegate windowDidPushViewController:weakSelf controller:viewController];
-        }
-    }];
-    
-}
-
-- (void)popViewController:(UIViewController *)viewController animated:(BOOL)flag completion:(void (^)(void))completion {
-    
-    __weak typeof(self) weakSelf = self;
-    if (![NSThread isMainThread]) {
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            [weakSelf popViewController:viewController animated:flag completion:completion];
-        });
-        return;
-    }
-    
-    [self enumerateDelegates:^(id<SFSDKWindowContainerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(windowWillPopViewController:controller:)]) {
-            [delegate windowWillPushViewController:weakSelf controller:viewController];
-        }
-    }];
-    
-    UIViewController *currentViewController = self.window.rootViewController;
-    if (viewController && currentViewController != viewController) {
-        // look for controller
-        while (currentViewController && currentViewController.presentedViewController!=viewController) {
-            currentViewController = currentViewController.presentedViewController;
-        }
-        // if controller is found dismiss the view, invoke delegates && restore Alerts if required.
-        if (viewController == currentViewController.presentedViewController) {
-            [self dismissPresentedViewController:currentViewController dismissViewControllerAnimated:flag completion:completion];
-        }
-    } else {
-        self.window.rootViewController = nil;
-        if (completion)
-            completion();
-    }
-    
-    [self enumerateDelegates:^(id<SFSDKWindowContainerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(windowDidPopViewController:controller:)]) {
-            [delegate windowWillPushViewController:weakSelf controller:viewController];
-        }
-    }];
-    
-}
-
-- (void)makeKeyVisible {
-    __weak typeof(self) weakSelf = self;
-    if (![NSThread isMainThread]) {
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            [weakSelf makeKeyVisible];
-        });
-        return;
-    }
-    [self enumerateDelegates:^(id<SFSDKWindowContainerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(windowWillMakeKeyVisible:)]) {
-            [delegate windowWillMakeKeyVisible:weakSelf];
-        }
-    }];
-    
-    self.window.windowLevel= fabs(self.window.windowLevel);
-    [self.window setHidden:NO];
-    [self.window makeKeyAndVisible];
-    [self enumerateDelegates:^(id<SFSDKWindowContainerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(windowDidMakeKeyVisible:)]) {
-            [delegate windowDidMakeKeyVisible:weakSelf];
-        }
-    }];
-    
-}
-
-- (void)sendToBack {
-    if (self.windowLevel > 0)
-        self.windowLevel = -self.windowLevel;
-    [self.window setHidden:YES];
-}
-
-// private members
-
-- (BOOL)alertWasPresent{
-    return self->_modalViewController?YES:NO;
-}
-
-- (BOOL)alertIsPresented:(UIViewController *) current {
-    return [current.presentedViewController isKindOfClass:[UIAlertController class]];
-}
-
-- (void)saveAlert:(UIViewController *) alert {
-    self ->_modalViewController = alert;
-    [alert dismissViewControllerAnimated:NO completion:nil];
-}
-
-- (void)restoreAlert:(UIViewController *) presentingViewController {
-    [presentingViewController presentViewController:self->_modalViewController  animated:NO completion:^{
-        self ->_modalViewController = nil;
-    }];
-}
-
-- (void)presentViewController:(UIViewController *)toBePresented using:(UIViewController *)presentingViewController {
-    [presentingViewController presentViewController:toBePresented animated:NO completion:nil];
-}
-
-- (void)dismissPresentedViewController :(UIViewController *)presentingViewController dismissViewControllerAnimated:(BOOL) animate completion:(void(^)(void)) completion {
-    __weak typeof (self) weakSelf = self;
-    [presentingViewController.presentedViewController dismissViewControllerAnimated:NO completion:^{
-        __strong typeof (weakSelf) strongSelf = weakSelf;
-        if ([strongSelf alertWasPresent]) {
-            [strongSelf restoreAlert:presentingViewController];
-        }
-        if (completion)
-            completion();
-    }];
-}
-
-- (void)addDelegate:(id<SFSDKWindowContainerDelegate>)delegate
-{
-    @synchronized (self) {
-        [_delegates addObject:[NSValue valueWithNonretainedObject:delegate]];
     }
 }
 
-- (void)removeDelegate:(id<SFSDKWindowContainerDelegate>)delegate
-{
-    @synchronized (self) {
-        [_delegates removeObject:[NSValue valueWithNonretainedObject:delegate]];
+- (void)enable {
+    [self enable:NO withCompletion:nil];
+}
+
+- (BOOL)isEnabled {
+    return self.window.alpha == 1.0;
+}
+- (void)enable:(BOOL)animated withCompletion:(void (^)(void))completion {
+    if ( [self.windowDelegate respondsToSelector:@selector(windowEnable:animated:withCompletion:)]) {
+        [self.windowDelegate windowEnable:self animated:animated withCompletion:completion];
     }
 }
 
-- (void)enumerateDelegates:(void (^)(id<SFSDKWindowContainerDelegate> delegate))block
-{
-    @synchronized(self) {
-        [_delegates enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            id<SFSDKWindowContainerDelegate> delegate = [obj nonretainedObjectValue];
-            if (delegate) {
-                if (block) block(delegate);
-            }
-        }];
+- (void)disable {
+    [self disable:NO withCompletion:nil];
+}
+
+- (void)disable:(BOOL)animated withCompletion:(void (^)(void))completion {
+    if ([self isEnabled]) {
+        if ( [self.windowDelegate respondsToSelector:@selector(windowDisable:animated:withCompletion:)]) {
+            [self.windowDelegate windowDisable:self animated:animated withCompletion:completion];
+        }
     }
 }
 

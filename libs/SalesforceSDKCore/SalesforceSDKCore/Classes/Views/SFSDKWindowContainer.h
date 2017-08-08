@@ -41,56 +41,23 @@ typedef NS_ENUM(NSInteger, SFSDKWindowType) {
 @protocol SFSDKWindowContainerDelegate<NSObject>
 
 @optional
+/**
+ Called when the window has to be enabled
+ @param window The window
+ */
+- (void)windowEnable:(SFSDKWindowContainer *_Nonnull)window animated:(BOOL)animated withCompletion:(void (^_Nullable)(void))completion;
 
 /**
- Called when the window is going to be made key & visible
- @param window The window that is going to be made key & visible
+ Called when the window has to be disabled
+ @param window The window
  */
-- (void)windowWillMakeKeyVisible:(SFSDKWindowContainer *_Nonnull)window;
-
-/**
- Called when the window was made key & visible
- @param window The window that was made key & visible
- */
-- (void)windowDidMakeKeyVisible:(SFSDKWindowContainer *_Nonnull)window;
-
-/**
- Called when the controller will be pushed
- @param window The window that will be used
- @param controller The controller that will be presented by the window
- */
-- (void)windowWillPushViewController:(SFSDKWindowContainer *_Nonnull)window controller:(UIViewController *_Nullable)controller;
-
-/**
- Called when the controller was pushed
- @param window The window that will be used
- @param controller The controller that was presented by the window
- */
-- (void)windowDidPushViewController:(SFSDKWindowContainer *_Nonnull)window controller:(UIViewController *_Nonnull)controller;
-
-/**
- Called prior to the controller being dimissed
- @param window The window that will be used
- @param controller The controller that will be dismissed from the window
- */
-- (void)windowWillPopViewController:(SFSDKWindowContainer *_Nonnull)window controller:(UIViewController *_Nullable)controller;
-
-/**
- Called after the controller was dimissed
- @param window The window that will be used
- @param controller The controller that was dismissed from the window
- */
-- (void)windowDidPopViewController:(SFSDKWindowContainer *_Nonnull)window controller:(UIViewController *_Nullable)controller;
+- (void)windowDisable:(SFSDKWindowContainer *_Nonnull)window animated:(BOOL)animated withCompletion:(void (^_Nullable)(void))completion;
 @end
 
 @interface SFSDKWindowContainer : NSObject
 /** Underlying Window that is wrapped by this container
  */
 @property (nonatomic, strong) UIWindow * _Nullable window;
-
-/** UIWindowLevel for the window
- */
-@property (nonatomic, assign) UIWindowLevel windowLevel;
 
 /** SFSDKWindowType for the window
  */
@@ -100,57 +67,44 @@ typedef NS_ENUM(NSInteger, SFSDKWindowType) {
  */
 @property (nonatomic, copy, readonly) NSString * _Nonnull windowName;
 
+/** UIViewController viewController
+ */
+@property (nonatomic, strong) UIViewController * _Nullable viewController;
+
+/** SFSDKWindowContainerDelegate window Delegate
+ */
+@property (nonatomic, weak) id <SFSDKWindowContainerDelegate> _Nullable windowDelegate;
 /**
  Create an instance of a Window
  @param window An instance of UIWindow
  @param windowName key for the UIWindow
  @return SFSDKWindowComtainer
  */
-- (instancetype _Nonnull )initWithWindow:(UIWindow *_Nonnull) window andName:(NSString *_Nonnull) windowName;
-
-/** Add a Window Container delegate
- * @param delegate to add
- */
-- (void)addDelegate:(id<SFSDKWindowContainerDelegate>_Nonnull)delegate;
-
-/** Remove a Window Container delegate
- * @param delegate to remove
- */
-- (void)removeDelegate:(id<SFSDKWindowContainerDelegate>_Nonnull)delegate;
-
-/** Push(present) a View Controller
- * @param controller to push
- */
-- (void)pushViewController:(UIViewController *_Nonnull)controller;
-
-/** Pop(dismiss) a View Controller
- * @param controller to pop
- */
-- (void)popViewController:(UIViewController *_Nullable)controller;
-
-/** Push(present) a View Controller and invoke completion block when done
- @param controller to push
- @param animated animate or not
- @param completion to invoke when done
- */
-- (void)pushViewController:(UIViewController *_Nonnull)controller animated:(BOOL)animated completion:(void (^_Nullable)(void))completion;
-
-/** Pop(dismiss) a View Controller and invoke completion block when done
- * @param controller to pop
- * @param animated animate or not
- * @param completion to invoke when done
- */
-- (void)popViewController:(UIViewController *_Nullable)controller animated:(BOOL)animated completion:(void (^_Nullable)(void))completion;
+- (instancetype _Nonnull )initWithWindow:(UIWindow *_Nonnull)window name:(NSString *_Nonnull) windowName;
 
 /**
- * Bring this window to the front (set its Z-Order value) and make key visible
+ * Returns true if window alpha is set to 1.0
  */
-- (void)makeKeyVisible;
+- (BOOL)isEnabled;
 
 /**
- * Bring this window to the front (unset its Z-Order value)
+ * Make window visible, set alpha to 1.0
  */
-- (void)sendToBack;
+- (void)enable;
+/**
+ * Make window visible, set alpha to 1.0 invoke completion block
+ */
+- (void)enable:(BOOL)animated withCompletion:(void (^_Nullable)(void))completion;
+
+/**
+ * Make window visible
+ */
+- (void)disable:(BOOL)animated withCompletion:(void (^_Nullable)(void))completion;
+
+/**
+ * Make window invisible
+ */
+- (void)disable;
 
 /** Convenience API returns true if the SFSDKWindowType is main
  * @return YES if this is the main Window

@@ -538,7 +538,7 @@ static NSString* ailtnAppName = nil;
     
 - (BOOL)isSnapshotPresented
 {
-    return (_snapshotViewController.presentingViewController || _snapshotViewController.view.superview);
+    return [[SFSDKWindowManager sharedManager].snapshotWindow isEnabled];
 }
 
 - (void)presentSnapshot
@@ -566,12 +566,13 @@ static NSString* ailtnAppName = nil;
     else {
         _snapshotViewController =  [[SnapshotViewController alloc] initWithNibName:nil bundle:nil];
     }
+    SFSDKWindowManager.sharedManager.snapshotWindow.viewController = _snapshotViewController;
     
     // Presentation
     if (self.snapshotPresentationAction && self.snapshotDismissalAction) {
         self.snapshotPresentationAction(_snapshotViewController);
     } else {
-        [[SFSDKWindowManager sharedManager] pushViewController:_snapshotViewController window:SFSDKWindowManager.sharedManager.snapshotWindow withCompletion:nil];
+          [[SFSDKWindowManager sharedManager].snapshotWindow enable];
     }
 }
 
@@ -584,9 +585,7 @@ static NSString* ailtnAppName = nil;
     if (self.snapshotPresentationAction && self.snapshotDismissalAction) {
         self.snapshotDismissalAction(_snapshotViewController);
     } else {
-        [[SFSDKWindowManager sharedManager] popViewController:_snapshotViewController window:SFSDKWindowManager.sharedManager.snapshotWindow withCompletion:^{
-            [[SFSDKWindowManager sharedManager] restorePreviousActiveWindow];
-        }];
+        [[SFSDKWindowManager sharedManager].snapshotWindow disable];
     }
 }
 

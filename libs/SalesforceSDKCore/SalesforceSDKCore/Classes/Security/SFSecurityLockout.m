@@ -106,14 +106,14 @@ static BOOL _showPasscode = YES;
         }];
         
         [SFSecurityLockout setPresentPasscodeViewControllerBlock:^(UIViewController *pvc) {
-            if (![SalesforceSDKManager sharedManager].isSnapshotPresented)
-                [[SFSDKWindowManager sharedManager] pushViewController:pvc window:SFSDKWindowManager.sharedManager.passcodeWindow withCompletion:nil];
+            if (![SalesforceSDKManager sharedManager].isSnapshotPresented) {
+                [SFSDKWindowManager sharedManager].passcodeWindow.viewController = pvc;
+                [[SFSDKWindowManager sharedManager].passcodeWindow enable];
+            }
         }];
         
         [SFSecurityLockout setDismissPasscodeViewControllerBlock:^(UIViewController *pvc) {
-            [[SFSDKWindowManager sharedManager] popViewController:pvc window:SFSDKWindowManager.sharedManager.passcodeWindow withCompletion:^{
-                [[SFSDKWindowManager sharedManager] bringToFront:SFSDKWindowManager.sharedManager.mainWindow];
-            }];
+            [[SFSDKWindowManager sharedManager].passcodeWindow disable];
         }];
     }
 }

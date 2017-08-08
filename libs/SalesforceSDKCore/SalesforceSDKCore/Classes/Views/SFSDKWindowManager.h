@@ -34,54 +34,40 @@
 /**
  Delegate of the SFSDKWindowManager
  */
-@protocol SFWindowManagerDelegate <NSObject>
+@protocol SFSDKWindowManagerDelegate <NSObject>
 
 @optional
 /**
- Called when the window is going to be brought to the front
+ Called when the window will be made opague
  @param windowManager The window manager making this call
- @param window The window that is going to be brought to the front
+ @param window The window that will be made opague
  */
-- (void)windowManager:(SFSDKWindowManager *_Nonnull)windowManager willBringToFront:(SFSDKWindowContainer *_Nonnull)window;
+- (void)windowManager:(SFSDKWindowManager *_Nonnull)windowManager
+      willEnableWindow:(SFSDKWindowContainer *_Nonnull)window;
 
 /**
- Called when the window was brought to the front
+ Called when the window has been made opague
  @param windowManager The window manager making this call
- @param window The window that was brought to the front
+ @param window The window that has been made opague
  */
-- (void)windowManager:(SFSDKWindowManager *_Nonnull)windowManager didBringToFront:(SFSDKWindowContainer *_Nonnull)window;
+- (void)windowManager:(SFSDKWindowManager *_Nonnull)windowManager
+    didEnableWindow:(SFSDKWindowContainer *_Nonnull)window;
 
 /**
- Called when the controller will be presented.
+ Called when the window will be made transparent
  @param windowManager The window manager making this call
- @param window The window that will be used to present a controller
- @param controller The controller that will be presented
+ @param window The window will be made transparent
  */
-- (void)windowManager:(SFSDKWindowManager *_Nonnull)windowManager willPushViewController:(SFSDKWindowContainer *_Nonnull)window controller:(UIViewController *_Nonnull)controller;
+- (void)windowManager:(SFSDKWindowManager *_Nonnull)windowManager
+    willDisableWindow:(SFSDKWindowContainer *_Nonnull)window;
 
 /**
- Called when the controller is presented.
+ Called when the window is made transparent
  @param windowManager The window manager making this call
- @param window The window that was used to present a controller
- @param controller The controller that was presented
+ @param window The window that has been made transparent
  */
-- (void)windowManager:(SFSDKWindowManager *_Nonnull)windowManager didPushViewController:(SFSDKWindowContainer *_Nonnull)window controller:(UIViewController *_Nonnull)controller;
-
-/**
- Called when the controller will be be dismissed.
- @param windowManager The window manager making this call
- @param window The window that will be used to dismiss a controller
- @param controller The controller that was presented
- */
-- (void)windowManager:(SFSDKWindowManager *_Nonnull)windowManager willPopViewController:(SFSDKWindowContainer *_Nonnull)window controller:(UIViewController *_Nullable)controller;
-
-/**
- Called when the controller is dismissed
- @param windowManager The window manager making this call
- @param window The window that was used to dismiss a controller
- @param controller The controller that was dismissed
- */
-- (void)windowManager:(SFSDKWindowManager *_Nonnull)windowManager didPopViewController:(SFSDKWindowContainer *_Nonnull)window controller:(UIViewController *_Nullable)controller;
+- (void)windowManager:(SFSDKWindowManager *_Nonnull)windowManager
+   didDisableWindow:(SFSDKWindowContainer *_Nonnull)window;
 @end
 
 @interface SFSDKWindowManager : NSObject
@@ -106,18 +92,6 @@
  */
 - (void)setMainUIWindow:(UIWindow *_Nonnull)window;
 
-/** List all managed Windows
- */
-@property (nonatomic, strong,readonly) NSMapTable<NSString *,SFSDKWindowContainer *> * _Nonnull namedWindows;
-
-/** Api to push viewcontroller into a given window. BringtoFront the window & then push
- */
-- (void)pushViewController:(UIViewController *_Nonnull)controller window:(SFSDKWindowContainer *_Nonnull)window withCompletion:(void (^_Nullable)(void))completion;
-
-/** Api to pop viewcontroller from a given window.
- */
-- (void)popViewController:(UIViewController *_Nonnull)controller window:(SFSDKWindowContainer *_Nonnull)window withCompletion:(void (^_Nullable)(void))completion;
-
 /** Used to create a new Window keyed by a  specified name
  */
 - (SFSDKWindowContainer *_Nonnull)createNewNamedWindow:(NSString *_Nonnull)windowName;
@@ -130,21 +104,13 @@
  */
 - (SFSDKWindowContainer *_Nullable)windowWithName:(NSString *_Nonnull)name;
 
-/** Used to make a window Key and Visible.
- */
-- (void)bringToFront:(SFSDKWindowContainer *_Nonnull)windowContainer;
-
-/** Restore previously active window
- */
-- (void) restorePreviousActiveWindow;
-
 /** Add a Window Manager Delegate
  */
-- (void)addDelegate:(id<SFWindowManagerDelegate>_Nonnull)delegate;
+- (void)addDelegate:(id<SFSDKWindowManagerDelegate>_Nonnull)delegate;
 
 /** Remove a Window Manager Delegate
  */
-- (void)removeDelegate:(id<SFWindowManagerDelegate>_Nonnull)delegate;
+- (void)removeDelegate:(id<SFSDKWindowManagerDelegate>_Nonnull)delegate;
 
 + (instancetype _Nonnull )sharedManager;
 
