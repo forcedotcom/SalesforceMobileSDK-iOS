@@ -280,6 +280,39 @@
     XCTAssertEqualObjects(christineJson[@"_soupLastModifiedDate"], result[0][2], @"Wrong soupLastModifiedDate");
 }
 
+- (void) testSmartQueryMatchingNullField
+{
+    NSDictionary* createdEmployee;
+    
+    // Employee with dept code
+    createdEmployee = [self createEmployeeWithJsonString:@"{\"employeeId\":\"001\",\"deptCode\":\"xyz\"}"];
+    XCTAssertEqualObjects(createdEmployee[@"deptCode"], @"xyz");
+    
+    // Employee with [NSNull null] dept code
+    createdEmployee = [self createEmployeeWithJsonString:@"{\"employeeId\":\"002\",\"deptCode\":null}"];
+    XCTAssertEqual(createdEmployee[@"deptCode"], [NSNull null]);
+    
+    // Employee with @"" dept code
+    createdEmployee = [self createEmployeeWithJsonString:@"{\"employeeId\":\"003\",\"deptCode\":\"\"}"];
+    XCTAssertEqualObjects(createdEmployee[@"deptCode"], @"");
+    
+    // Employee with no dept code
+    createdEmployee = [self createEmployeeWithJsonString:@"{\"employeeId\":\"004\"}"];
+    XCTAssertEqual(createdEmployee[@"deptCode"], nil);
+    
+    SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:employeeId} from {employees} where {employees:deptCode} is not null order by {employees:employeeId}" withPageSize:4];
+    NSArray* result = [self.store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
+    [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[\"001\"],[\"003\"]]"] actual:result message:@"Wrong result"];
+    
+    querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:employeeId} from {employees} where {employees:deptCode} is null order by {employees:employeeId}" withPageSize:4];
+    result = [self.store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
+    [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[\"002\"],[\"004\"]]"] actual:result message:@"Wrong result"];
+    
+    querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:employeeId} from {employees} where {employees:deptCode} = \"\" order by {employees:employeeId}" withPageSize:4];
+    result = [self.store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
+    [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[\"003\"]]"] actual:result message:@"Wrong result"];
+}
+
 #pragma mark - helper methods
 - (void) loadData
 {
@@ -301,6 +334,11 @@
 {
     NSDictionary* employee = @{kFirstName: firstName, kLastName: lastName, kDeptCode: deptCode, kEmployeeId: employeeId, kManagerId: managerId, kSalary: @(salary)};
     [self.store upsertEntries:@[employee] toSoup:kEmployeesSoup];
+}
+
+- (NSDictionary*)createEmployeeWithJsonString:(NSString*)jsonString {
+    NSDictionary* employee = [SFJsonUtils objectFromJSONString:jsonString];
+    return [self.store upsertEntries:@[employee] toSoup:kEmployeesSoup][0];
 }
 	
 - (void) createDepartmentWithCode:(NSString*) deptCode withName:(NSString*)name withBudget:(NSUInteger) budget
