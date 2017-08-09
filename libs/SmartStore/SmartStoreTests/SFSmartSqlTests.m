@@ -300,14 +300,17 @@
     createdEmployee = [self createEmployeeWithJsonString:@"{\"employeeId\":\"004\"}"];
     XCTAssertEqual(createdEmployee[@"deptCode"], nil);
     
+    // Smart sql with is not null
     SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:employeeId} from {employees} where {employees:deptCode} is not null order by {employees:employeeId}" withPageSize:4];
     NSArray* result = [self.store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
     [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[\"001\"],[\"003\"]]"] actual:result message:@"Wrong result"];
-    
+
+    // Smart sql with is null
     querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:employeeId} from {employees} where {employees:deptCode} is null order by {employees:employeeId}" withPageSize:4];
     result = [self.store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
     [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[\"002\"],[\"004\"]]"] actual:result message:@"Wrong result"];
     
+    // Smart sql looking for empty string
     querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:employeeId} from {employees} where {employees:deptCode} = \"\" order by {employees:employeeId}" withPageSize:4];
     result = [self.store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
     [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[\"003\"]]"] actual:result message:@"Wrong result"];
