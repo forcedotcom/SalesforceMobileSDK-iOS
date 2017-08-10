@@ -330,20 +330,6 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
     }
 }
 
-- (void)getAuthCredentialsWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock
-{
-
-    // If authDict does not contain an access token, authenticate first. Otherwise, send current credentials.
-    NSDictionary *authDict = [self credentialsAsDictionary];
-    if ([authDict[kAccessTokenCredentialsDictKey] length] == 0) {
-        [self authenticateWithCompletionBlock:completionBlock failureBlock:failureBlock];
-    } else {
-        if (completionBlock != NULL) {
-            completionBlock(nil, authDict);
-        }
-    }
-}
-
 - (void)loadErrorPageWithCode:(NSInteger)errorCode description:(NSString *)errorDescription context:(NSString *)errorContext
 {
     NSString *errorPage = _hybridViewConfig.errorPage;
