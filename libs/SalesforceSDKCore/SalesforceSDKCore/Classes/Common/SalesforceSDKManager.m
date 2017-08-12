@@ -578,15 +578,21 @@ static NSString* ailtnAppName = nil;
 
 - (void)dismissSnapshot
 {
-    if (![self isSnapshotPresented]) {
-        return;
+    if ([self isSnapshotPresented]) {
+        if (self.snapshotPresentationAction && self.snapshotDismissalAction) {
+            self.snapshotDismissalAction(_snapshotViewController);
+            if ([SFSecurityLockout isPasscodeNeeded]) {
+                [SFSecurityLockout validateTimer];
+            }
+        } else {
+            [[SFSDKWindowManager sharedManager].snapshotWindow disable:NO withCompletion:^{
+                if ([SFSecurityLockout isPasscodeNeeded]) {
+                    [SFSecurityLockout validateTimer];
+                }
+            }];
+        }
     }
     
-    if (self.snapshotPresentationAction && self.snapshotDismissalAction) {
-        self.snapshotDismissalAction(_snapshotViewController);
-    } else {
-        [[SFSDKWindowManager sharedManager].snapshotWindow disable];
-    }
 }
 
 - (void)clearClipboard

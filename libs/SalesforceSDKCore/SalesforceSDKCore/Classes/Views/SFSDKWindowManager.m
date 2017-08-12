@@ -58,7 +58,6 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
         _namedWindows = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory
                                               valueOptions:NSMapTableStrongMemory];
         _delegates = [NSHashTable weakObjectsHashTable];
-
     }
     return self;
 }
@@ -215,6 +214,7 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
 #pragma mark - private methods
 - (void)makeTransparentWithCompletion:(SFSDKWindowContainer *)window completion:(void (^)(void))completion {
     window.window.alpha = 0.0; //make Transparent
+    
     [self updateKeyWindow];
     [self enumerateDelegates:^(id<SFSDKWindowManagerDelegate> delegate) {
         if ([delegate respondsToSelector:@selector(windowManager:didDisableWindow:)]){
@@ -267,7 +267,7 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
 
 -(UIWindow *)createDefaultUIWindow {
     UIWindow *window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
-    [window setAlpha:1.0];
+    [window setAlpha:0.0];
     window.rootViewController = [[SFSDKRootController alloc] init];
     return  window;
 }
@@ -278,6 +278,9 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
 }
 
 - (void)updateKeyWindow {
+    if ([self.snapshotWindow isEnabled])
+        return;
+    
     for (NSInteger i = [SFApplicationHelper sharedApplication].windows.count - 1; i >= 0; i--) {
         UIWindow *win = ([SFApplicationHelper sharedApplication].windows)[i];
         if (win.alpha == 0.0 || [self isKeyboard:win])
