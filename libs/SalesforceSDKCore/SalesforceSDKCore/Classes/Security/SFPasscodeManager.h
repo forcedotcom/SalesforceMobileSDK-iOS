@@ -24,6 +24,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  Notification that will be posted when passcode is reset. This notification will have userInfo
  populated with old passcode stored with `SFPasscodeResetOldPasscodeKey` key and new passcode
@@ -121,7 +123,7 @@ extern NSString *const SFPasscodeResetNewPasscodeKey;
  @param newPasscode The new passcode to change to.  If nil or empty, this method will unset the
  existing passcode.
  */
-- (void)changePasscode:(NSString *)newPasscode;
+- (void)changePasscode:(nullable NSString *)newPasscode;
 
 /**
  Set the passcode.
@@ -130,3 +132,5 @@ extern NSString *const SFPasscodeResetNewPasscodeKey;
 - (void)setPasscode:(NSString *)newPasscode;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -24,6 +24,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  * Protocol defining an SDK-based app delegate.
  */
@@ -46,3 +48,5 @@
 - (UIView*)createSnapshotView;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -42,7 +42,7 @@ static inline BOOL IsValidEntityId(NSString *string) {
 
 @implementation NSString (SFAdditions)
 
-+ (BOOL)isEmpty:(NSString *)string {
++ (BOOL)isEmpty:(nullable NSString *)string {
     if (nil == string){
         return YES;
     }
@@ -179,7 +179,7 @@ static inline BOOL IsValidEntityId(NSString *string) {
     ![self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length;
 }
 
-- (NSString*)entityId18 {
+- (nullable NSString*)entityId18 {
     
     // Look up table of characters which correspond to the bitmap value of uppercase characters for a
     // 5 character chunk of the entity ID (the 15 character entity ID is divided into 3 x 5 char chunks).
