@@ -43,9 +43,9 @@
 
 @implementation SFSDKWindowManager
 
-static const CGFloat SFWindowLevelAuthOffset      = 100;
-static const CGFloat SFWindowLevelPasscodeOffset  = 120;
-static const CGFloat SFWindowLevelSnapshotOffset  = 2000;
+static const CGFloat SFWindowLevelPasscodeOffset  = 100;
+static const CGFloat SFWindowLevelAuthOffset      = 120;
+static const CGFloat SFWindowLevelSnapshotOffset  = 1000;
 static NSString *const kSFMainWindowKey     = @"main";
 static NSString *const kSFLoginWindowKey    = @"auth";
 static NSString *const kSFSnaphotWindowKey  = @"snapshot";
