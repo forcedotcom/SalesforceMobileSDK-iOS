@@ -38,17 +38,17 @@
 
 @optional
 /**
- Called when the window will be made opague
+ Called when the window will be made opaque
  @param windowManager The window manager making this call
- @param window The window that will be made opague
+ @param window The window that will be made opaque
  */
 - (void)windowManager:(SFSDKWindowManager *_Nonnull)windowManager
       willEnableWindow:(SFSDKWindowContainer *_Nonnull)window;
 
 /**
- Called when the window has been made opague
+ Called when the window has been made opaque
  @param windowManager The window manager making this call
- @param window The window that has been made opague
+ @param window The window that has been made opaque
  */
 - (void)windowManager:(SFSDKWindowManager *_Nonnull)windowManager
     didEnableWindow:(SFSDKWindowContainer *_Nonnull)window;

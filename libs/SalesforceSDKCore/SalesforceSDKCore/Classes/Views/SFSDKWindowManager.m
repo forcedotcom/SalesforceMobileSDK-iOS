@@ -38,7 +38,7 @@
 @property (nonatomic, strong,readonly) NSMapTable<NSString *,SFSDKWindowContainer *> * _Nonnull namedWindows;
 
 - (void)makeTransparentWithCompletion:(SFSDKWindowContainer *)window completion:(void (^)(void))completion;
-- (void)makeOpagueWithCompletion:(SFSDKWindowContainer *)window completion:(void (^)(void))completion;
+- (void)makeOpaqueWithCompletion:(SFSDKWindowContainer *)window completion:(void (^)(void))completion;
 @end
 
 @implementation SFSDKWindowManager
@@ -182,11 +182,11 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
     if (animated) {
         __weak typeof (self) weakSelf = self;
         UIViewPropertyAnimator *animator = [[UIViewPropertyAnimator alloc] initWithDuration:0.25 curve:UIViewAnimationCurveEaseInOut animations:^{
-            [weakSelf makeOpagueWithCompletion:window completion:completion];
+            [weakSelf makeOpaqueWithCompletion:window completion:completion];
         }];
         [animator startAnimation];
     } else {
-        [self makeOpagueWithCompletion:window completion:completion];
+        [self makeOpaqueWithCompletion:window completion:completion];
     }
 }
 
@@ -225,8 +225,8 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
         completion();
 }
 
-- (void)makeOpagueWithCompletion:(SFSDKWindowContainer *)window completion:(void (^)(void))completion {
-    window.window.alpha = 1.0; //make Opague
+- (void)makeOpaqueWithCompletion:(SFSDKWindowContainer *)window completion:(void (^)(void))completion {
+    window.window.alpha = 1.0; //make Opaque
     [self updateKeyWindow];
     [self enumerateDelegates:^(id<SFSDKWindowManagerDelegate> delegate) {
         if ([delegate respondsToSelector:@selector(windowManager:didEnableWindow:)]){
