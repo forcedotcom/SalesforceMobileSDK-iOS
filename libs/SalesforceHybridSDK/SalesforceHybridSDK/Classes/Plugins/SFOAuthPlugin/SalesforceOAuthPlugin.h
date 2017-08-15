@@ -26,6 +26,8 @@
 #import <SalesforceSDKCore/SFOAuthCoordinator.h>
 #import <Cordova/CDVPlugin.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class CDVInvokedUrlCommand;
 
 /**
@@ -60,3 +62,5 @@
 - (void)getAppHomeUrl:(CDVInvokedUrlCommand *)command;
 
 @end
+
+NS_ASSUME_NONNULL_END

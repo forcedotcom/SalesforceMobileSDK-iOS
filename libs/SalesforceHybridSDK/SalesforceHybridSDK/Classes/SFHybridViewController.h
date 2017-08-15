@@ -30,6 +30,8 @@
 #import <SalesforceSDKCore/SFOAuthInfo.h>
 #import "SFHybridViewConfig.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  The property key used to designate the "home" URL of the app, to be used if the app is
  offline and supports HTML5 offline caching.
@@ -90,7 +92,7 @@ typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *, NSDictionary *);
  The offline "home page" for the app.  Will be nil if no value has been
  found.
  */
-@property (nonatomic, strong) NSURL *appHomeUrl;
+@property (nonatomic, strong, nullable) NSURL *appHomeUrl;
 
 /**
  Designated initializer. Initializes the view controller with its hybrid view configuration. Uses WKWebView by default.
@@ -167,3 +169,5 @@ typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *, NSDictionary *);
 - (void)configureRemoteStartPage;
 
 @end
+
+NS_ASSUME_NONNULL_END

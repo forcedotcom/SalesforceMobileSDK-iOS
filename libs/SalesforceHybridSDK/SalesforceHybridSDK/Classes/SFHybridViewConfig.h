@@ -25,6 +25,8 @@
 
 #import <SalesforceSDKCore/SFSDKAppConfig.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SFHybridViewConfig : SFSDKAppConfig
 
 /**
@@ -61,3 +63,5 @@
 + (SFHybridViewConfig *)fromConfigFile:(NSString *)configFilePath;
 
 @end
+
+NS_ASSUME_NONNULL_END
