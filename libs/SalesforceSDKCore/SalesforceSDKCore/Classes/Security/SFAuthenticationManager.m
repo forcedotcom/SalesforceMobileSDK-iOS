@@ -1005,9 +1005,7 @@ static Class InstanceClass = nil;
             
             SFSDKWindowManager.sharedManager.authWindow.viewController = [self blankViewController];
             [SFSDKWindowManager.sharedManager.authWindow enable:YES withCompletion:^{
-                [SFSDKWindowManager.sharedManager.authWindow.viewController presentViewController:weakSelf.statusAlert animated:NO completion:^{
-                    
-                }];
+                [SFSDKWindowManager.sharedManager.authWindow.viewController presentViewController:weakSelf.statusAlert animated:NO completion:nil];
             }];
         });
 
@@ -1411,9 +1409,7 @@ static Class InstanceClass = nil;
     __weak typeof(self) weakSelf = self;
     SFSDKWindowManager.sharedManager.authWindow.viewController = [self blankViewController];
     [SFSDKWindowManager.sharedManager.authWindow enable:NO withCompletion:^{
-            [SFSDKWindowManager.sharedManager.authWindow.viewController presentViewController:weakSelf.statusAlert animated:NO completion:^{
-
-            }];
+            [SFSDKWindowManager.sharedManager.authWindow.viewController presentViewController:weakSelf.statusAlert animated:NO completion:nil];
     }];
 }
 
@@ -1437,9 +1433,7 @@ static Class InstanceClass = nil;
 
     SFSDKWindowManager.sharedManager.authWindow.viewController = [self blankViewController];
     [SFSDKWindowManager.sharedManager.authWindow enable:NO withCompletion:^{
-        [SFSDKWindowManager.sharedManager.authWindow.viewController presentViewController:alert animated:NO completion:^{
-            
-        }];
+        [SFSDKWindowManager.sharedManager.authWindow.viewController presentViewController:alert animated:NO completion:nil];
     }];
 
  }
