@@ -287,14 +287,15 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
         if (win.alpha == 0.0 || [self isKeyboard:win]) {
             continue;
         } else if (window!=nil && window.window!=win) {
-            continue;
+            continue; // in case the window is not the keywindow is not the enabled window (applies for enable only)
         } else {
             windowFound = YES;
             [win makeKeyWindow];
             break;
         }
     }
-    //Should not be the case either
+    //Should not be the case but if we do find ourselves in this situation, we can make the mainWindow
+    //the key window as a fallback
     if (!windowFound) {
         [SFSDKCoreLogger e:[self class] format:@"SFSDKWindowManager could not make a window key: %@ will fallback to making mainWindow as Key Window", window.windowName];
         [[self mainWindow].window makeKeyWindow];
