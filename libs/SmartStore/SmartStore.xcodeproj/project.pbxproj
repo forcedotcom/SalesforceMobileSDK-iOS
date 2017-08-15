@@ -1064,6 +1064,7 @@
 			baseConfigurationReference = CECB66231C1BB886008038AE /* SmartStore-Dynamic-iOS-Debug.xcconfig */;
 			buildSettings = {
 				BUILD_VERSION_SUFFIX = "";
+				CLANG_ANALYZER_NONNULL = YES_NONAGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
@@ -1091,6 +1092,7 @@
 			baseConfigurationReference = CECB66241C1BB886008038AE /* SmartStore-Dynamic-iOS-Release.xcconfig */;
 			buildSettings = {
 				BUILD_VERSION_SUFFIX = "";
+				CLANG_ANALYZER_NONNULL = YES_NONAGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
