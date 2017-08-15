@@ -53,7 +53,7 @@ extern NSString * const kUserAgentCredentialsDictKey;
 /**
  Callback block definition for OAuth plugin auth success.
  */
-typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *, NSDictionary *);
+typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *_Nullable, NSDictionary *);
 
 /**
  Base view controller for Salesforce hybrid app components.
@@ -98,7 +98,7 @@ typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *, NSDictionary *);
  Designated initializer. Initializes the view controller with its hybrid view configuration. Uses WKWebView by default.
  @param viewConfig The hybrid view configuration associated with this component.
  */
-- (id) initWithConfig:(SFHybridViewConfig *) viewConfig;
+- (id) initWithConfig:(nullable SFHybridViewConfig *) viewConfig;
 
 /**
  Designated initializer. Initializes the view controller with its hybrid view configuration and which view to use.
@@ -126,7 +126,7 @@ typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *, NSDictionary *);
  @param completionBlock The block to call upon successsful authentication.
  @param failureBlock The block to call in the event of an auth failure.
  */
-- (void)authenticateWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock;
+- (void)authenticateWithCompletionBlock:(nullable SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock;
 
 /**
  Loads an error page, in the event of an otherwise unhandled error.
