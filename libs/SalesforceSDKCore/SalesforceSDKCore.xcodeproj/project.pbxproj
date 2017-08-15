@@ -111,7 +111,6 @@
 		B7A20F881F25850E00D1E4B0 /* SFSDKWindowManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A20F821F25850E00D1E4B0 /* SFSDKWindowManager.m */; };
 		B7A20F9F1F25851A00D1E4B0 /* SFSDKWindowContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = B7A20F7F1F25850E00D1E4B0 /* SFSDKWindowContainer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B7A20FA01F25851A00D1E4B0 /* SFSDKWindowManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B7A20F811F25850E00D1E4B0 /* SFSDKWindowManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B7A20FA21F25C6DA00D1E4B0 /* SFSDKWindowManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A20FA11F25C6DA00D1E4B0 /* SFSDKWindowManagerTests.m */; };
 		B7A20FA51F26B8E700D1E4B0 /* SFSDKWindowContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A20F801F25850E00D1E4B0 /* SFSDKWindowContainer.m */; };
 		B7A20FA61F26B8EB00D1E4B0 /* SFSDKWindowManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A20F821F25850E00D1E4B0 /* SFSDKWindowManager.m */; };
 		B7A20FAD1F26C39700D1E4B0 /* SFSDKRootController.h in Headers */ = {isa = PBXBuildFile; fileRef = B7A20FAB1F26C39700D1E4B0 /* SFSDKRootController.h */; };
@@ -1037,7 +1036,6 @@
 		B7A20F801F25850E00D1E4B0 /* SFSDKWindowContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKWindowContainer.m; sourceTree = "<group>"; };
 		B7A20F811F25850E00D1E4B0 /* SFSDKWindowManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKWindowManager.h; sourceTree = "<group>"; };
 		B7A20F821F25850E00D1E4B0 /* SFSDKWindowManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKWindowManager.m; sourceTree = "<group>"; };
-		B7A20FA11F25C6DA00D1E4B0 /* SFSDKWindowManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKWindowManagerTests.m; sourceTree = "<group>"; };
 		B7A20FAB1F26C39700D1E4B0 /* SFSDKRootController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKRootController.h; sourceTree = "<group>"; };
 		B7A20FAC1F26C39700D1E4B0 /* SFSDKRootController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKRootController.m; sourceTree = "<group>"; };
 		B7E8A2A31E7369DB007C0D92 /* SFDefaultUserAccountPersister.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFDefaultUserAccountPersister.h; sourceTree = "<group>"; };
@@ -1164,7 +1162,6 @@
 		4F7EB3F61BFFC84700768720 /* SalesforceSDKCoreTests */ = {
 			isa = PBXGroup;
 			children = (
-				B7A20FA11F25C6DA00D1E4B0 /* SFSDKWindowManagerTests.m */,
 				44D1FCE21EE9C31D006E2633 /* SFSDKSafeMutableDictionaryTests.m */,
 				CE81A9C61E9C26EF00F3D0AD /* SFUserAccountManagerNotificationsTests.m */,
 				CED452E71D808DEE009266EB /* SalesforceRestAPITests.h */,
@@ -2413,7 +2410,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F06AF911C49A18E00F70798 /* SFOAuthTestFlowCoordinatorDelegate.m in Sources */,
-				B7A20FA21F25C6DA00D1E4B0 /* SFSDKWindowManagerTests.m in Sources */,
 				4F06AF8A1C49A18E00F70798 /* SalesforceOAuthUnitTests.m in Sources */,
 				010A9B5A1CC1A14C002AF4D3 /* SFEncryptDecryptStreamJSONTests.m in Sources */,
 				4F06AF891C49A18E00F70798 /* NSURL+SFStringUtilsTests.m in Sources */,
