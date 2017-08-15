@@ -215,7 +215,7 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
 - (void)makeTransparentWithCompletion:(SFSDKWindowContainer *)window completion:(void (^)(void))completion {
     window.window.alpha = 0.0; //make Transparent
     
-    [self updateKeyWindow];
+    [self updateKeyWindow:nil];
     [self enumerateDelegates:^(id<SFSDKWindowManagerDelegate> delegate) {
         if ([delegate respondsToSelector:@selector(windowManager:didDisableWindow:)]){
             [delegate windowManager:self didDisableWindow:window];
@@ -227,7 +227,7 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
 
 - (void)makeOpaqueWithCompletion:(SFSDKWindowContainer *)window completion:(void (^)(void))completion {
     window.window.alpha = 1.0; //make Opaque
-    [self updateKeyWindow];
+    [self updateKeyWindow:window];
     [self enumerateDelegates:^(id<SFSDKWindowManagerDelegate> delegate) {
         if ([delegate respondsToSelector:@selector(windowManager:didEnableWindow:)]){
             [delegate windowManager:self didEnableWindow:window];
@@ -277,17 +277,29 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
             || [NSStringFromClass([window class])hasPrefix:@"UITextEffectsWindow"]);
 }
 
-- (void)updateKeyWindow {
+- (void)updateKeyWindow:(SFSDKWindowContainer *)window {
+   
     if ([self.snapshotWindow isEnabled])
         return;
-    
+    BOOL windowFound = NO;
     for (NSInteger i = [SFApplicationHelper sharedApplication].windows.count - 1; i >= 0; i--) {
         UIWindow *win = ([SFApplicationHelper sharedApplication].windows)[i];
-        if (win.alpha == 0.0 || [self isKeyboard:win])
+        if (win.alpha == 0.0 || [self isKeyboard:win]) {
             continue;
-        [win makeKeyWindow];
-        break;
+        } else if (window!=nil && window.window!=win) {
+            continue;
+        } else {
+            windowFound = YES;
+            [win makeKeyWindow];
+            break;
+        }
     }
+    //Should not be the case either
+    if (!windowFound) {
+        [SFSDKCoreLogger e:[self class] format:@"SFSDKWindowManager could not make a window key: %@ will fallback to making mainWindow as Key Window", window.windowName];
+        [[self mainWindow].window makeKeyWindow];
+    }
+    
 }
 
 + (instancetype)sharedManager {
