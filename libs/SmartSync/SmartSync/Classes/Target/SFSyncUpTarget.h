@@ -25,6 +25,8 @@
 #import <Foundation/Foundation.h>
 #import "SFSyncTarget.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class SFSmartSyncSyncManager;
 
 /**
@@ -75,7 +77,7 @@ typedef void (^SFSyncUpRecordNewerThanServerBlock)(BOOL isNewerThanServer);
 /**
  Block definition for calling a sync up completion block.
  */
-typedef void (^SFSyncUpTargetCompleteBlock)(NSDictionary *syncUpResult);
+typedef void (^SFSyncUpTargetCompleteBlock)(NSDictionary * _Nullable syncUpResult);
 
 /**
  Block definition for calling a sync up failure block.
@@ -90,7 +92,7 @@ typedef void (^SFSyncUpTargetErrorBlock)(NSError *error);
 @property (nonatomic, strong) NSDate*  timestamp;   // time stamp - can be nil if unknown
 @property (nonatomic, assign) BOOL isDeleted;       // YES if record was deleted
 
-- (instancetype)initWithTimestamp:(NSString*)timestamp isDeleted:(BOOL)isDeleted;
+- (instancetype)initWithTimestamp:(nullable NSString*)timestamp isDeleted:(BOOL)isDeleted;
 @end
 
 /**
@@ -137,8 +139,8 @@ typedef void (^SFSyncUpTargetErrorBlock)(NSError *error);
 /**
  * Constructor
  */
-- (instancetype)initWithCreateFieldlist:(NSArray *)createFieldlist
-                        updateFieldlist:(NSArray *)updateFieldlist;
+- (instancetype)initWithCreateFieldlist:(nullable NSArray *)createFieldlist
+                        updateFieldlist:(nullable NSArray *)updateFieldlist;
 
 /**
  Call resultBlock with YES if record is more recent than corresponding record on server
@@ -201,3 +203,4 @@ typedef void (^SFSyncUpTargetErrorBlock)(NSError *error);
                             soupName:(NSString *)soupName;
 @end
 
+NS_ASSUME_NONNULL_END

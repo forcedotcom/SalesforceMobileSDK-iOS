@@ -118,7 +118,7 @@ static NSString * const kSFSoqlSyncTargetQuery = @"query";
 
 - (void) continueFetch:(SFSmartSyncSyncManager *)syncManager
             errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
-         completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
+         completeBlock:(nullable SFSyncDownTargetFetchCompleteBlock)completeBlock {
     if (self.nextRecordsUrl) {
         __weak typeof(self) weakSelf = self;
         SFRestRequest* request = [SFRestRequest requestWithMethod:SFRestMethodGET path:self.nextRecordsUrl queryParams:nil];
@@ -139,7 +139,7 @@ static NSString * const kSFSoqlSyncTargetQuery = @"query";
 - (void)getRemoteIds:(SFSmartSyncSyncManager *)syncManager
             localIds:(NSArray *)localIds
           errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
-       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
+       completeBlock:(nullable SFSyncDownTargetFetchCompleteBlock)completeBlock {
     if (localIds == nil) {
         completeBlock(nil);
         return;
