@@ -113,15 +113,6 @@ typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *_Nullable, NSDictiona
 - (UIView *)newCordovaViewWithFrameAndEngine:(CGRect)bounds webViewEngine:(NSString *)webViewEngine;
 
 /**
- Method used by the OAuth plugin to obtain the current login credentials, or authenticate if no
- credentials are configured.
- @param completionBlock The OAuth plugin completion block to call upon successful retrieval of
- the credentials.
- @param failureBlock The failure block to call in the event of an authentication failure.
- */
-- (void)getAuthCredentialsWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock;
-
-/**
  Used by the OAuth plugin to authenticate the user.
  @param completionBlock The block to call upon successsful authentication.
  @param failureBlock The block to call in the event of an auth failure.

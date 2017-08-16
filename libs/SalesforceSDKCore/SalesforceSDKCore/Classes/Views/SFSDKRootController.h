@@ -1,8 +1,8 @@
 /*
- SFNetwork.h
+ SFSDKRootController.h
  SalesforceSDKCore
  
- Created by Bharath Hariharan on 2/15/17.
+ Created by Raj Rao on 7/24/17.
  
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
@@ -26,37 +26,8 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#import <UIKit/UIKit.h>
 
-#import <Foundation/Foundation.h>
-
-@interface SFNetwork : NSObject
-
-typedef void (^SFDataResponseBlock) (NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error);
-
-@property (nonatomic, readwrite, assign) BOOL useBackground;
-
-/**
- * Sends a REST request and calls the appropriate completion block.
- *
- * @param urlRequest NSURLRequest instance.
- * @param dataResponseBlock Network response block.
- * @return NSURLSessionDataTask instance.
- */
-- (nonnull NSURLSessionDataTask *)sendRequest:(nonnull NSURLRequest *)urlRequest dataResponseBlock:(nullable SFDataResponseBlock)dataResponseBlock;
-
-/**
- * Returns the current NSURLSession instance being used.
- *
- * @return NSURLSession instance.
- */
-- (nonnull NSURLSession *)activeSession;
-
-/**
- * Sets a session configuration to be used for network requests in the Mobile SDK.
- *
- * @param sessionConfig Session configuration to be used.
- * @param isBackgroundSession YES - if it is a background session configuration, NO - otherwise.
- */
-+ (void)setSessionConfiguration:(nonnull NSURLSessionConfiguration *)sessionConfig isBackgroundSession:(BOOL)isBackgroundSession;
+@interface SFSDKRootController : UIViewController
 
 @end
