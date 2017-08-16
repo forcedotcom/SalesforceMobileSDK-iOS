@@ -206,7 +206,7 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
 
 /**
  The block to execute to present the snapshot viewcontroller.
- If this property is not set, SFRootViewManager will be used to present the snapshot.
+ If this property is not set, SFSDKWindowManager will be used to present the snapshot in the snapshot window.
  @discussion
  This block is only invoked if the dismissal action is also set.
  */
