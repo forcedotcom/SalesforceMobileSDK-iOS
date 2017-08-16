@@ -156,10 +156,6 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
     [super viewDidLoad];
     [self setEdgesForExtendedLayout:UIRectEdgeNone];
     
-    // TODO: Remove the check once we move to iOS 9 as minimum.
-    if ([self.tableView respondsToSelector:@selector(setCellLayoutMarginsFollowReadableWidth:)]) {
-        self.tableView.cellLayoutMarginsFollowReadableWidth = NO;
-    }
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:SFDCLoginHostListCellIdentifier];
 }
 

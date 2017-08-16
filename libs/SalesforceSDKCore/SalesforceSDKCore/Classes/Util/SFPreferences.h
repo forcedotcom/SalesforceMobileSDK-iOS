@@ -25,6 +25,8 @@
 #import <Foundation/Foundation.h>
 #import "SFUserAccountConstants.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class SFUserAccount;
 
 /** Preferences class that handles scoped preferences.
@@ -50,7 +52,7 @@
  @param scope The scope to which the preferences apply: global, user's org, user's community, or user's account.
  @param user The account to which the preferences apply. Not used if scope is global.
  */
-+ (instancetype)sharedPreferencesForScope:(SFUserAccountScope)scope user:(SFUserAccount*)user;
++ (instancetype)sharedPreferencesForScope:(SFUserAccountScope)scope user:(nullable SFUserAccount*)user;
 
 /** Returns the preferences instance related to the current user's organization
  or nil if there is no current user.
@@ -120,3 +122,5 @@
 - (void)removeAllObjects;
 
 @end
+
+NS_ASSUME_NONNULL_END

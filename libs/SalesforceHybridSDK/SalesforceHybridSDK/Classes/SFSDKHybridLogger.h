@@ -29,8 +29,12 @@
 
 #import <SalesforceAnalytics/SFSDKLogger.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 extern NSString * _Nonnull const kSFSDKHybridComponentName;
 
 @interface SFSDKHybridLogger : SFSDKLogger
 
 @end
+
+NS_ASSUME_NONNULL_END

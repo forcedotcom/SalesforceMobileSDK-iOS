@@ -25,6 +25,8 @@
 #import <Foundation/Foundation.h>
 #import "SFSmartSyncPersistableObject.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SFObjectType : SFSmartSyncPersistableObject <NSCoding>
 
 /** Object type key prefix */
@@ -52,3 +54,5 @@
 - (BOOL)isLayoutable;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -24,6 +24,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  Mode constants indicating whether to create or verify an existing passcode.
  */
@@ -33,3 +35,4 @@ typedef NS_ENUM(NSUInteger, SFPasscodeControllerMode) {
     SFPasscodeControllerModeChange
 };
 
+NS_ASSUME_NONNULL_END

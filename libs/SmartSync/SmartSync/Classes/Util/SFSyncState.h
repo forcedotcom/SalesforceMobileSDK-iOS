@@ -24,6 +24,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class SFSyncTarget;
 @class SFSyncDownTarget;
 @class SFSyncUpTarget;
@@ -132,3 +134,5 @@ extern NSString * const kSFSyncStateMergeModeLeaveIfChanged;
 + (NSString*) mergeModeToString:(SFSyncStateMergeMode)mergeMode;
 
 @end
+
+NS_ASSUME_NONNULL_END
