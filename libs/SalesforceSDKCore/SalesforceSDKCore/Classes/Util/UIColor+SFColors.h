@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** Construct a color given hex color, like "#00FF00" (#RRGGBB).
  */
-+ (UIColor *)colorFromHexValue:(NSString *)hexString;
++ (nullable UIColor *)colorFromHexValue:(NSString *)hexString;
 
 /** Returns a CSS hex color representation
  of this color

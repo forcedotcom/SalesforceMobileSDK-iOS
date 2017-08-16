@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
  on platform that doesn't have one (such as extension).
  @return The shared application object.
  */
-+ (UIApplication*)sharedApplication;
++ (nullable UIApplication*)sharedApplication;
 
 /** Opens the specified URL.
  @param url The URL to be opened.

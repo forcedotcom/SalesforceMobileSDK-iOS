@@ -36,12 +36,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  The user ID associated with the account.
  */
-@property (nonatomic, copy) NSString *userId;
+@property (nonatomic, copy, nullable) NSString *userId;
 
 /**
  The organization ID associated with the account.
  */
-@property (nonatomic, copy) NSString *orgId;
+@property (nonatomic, copy, nullable) NSString *orgId;
 
 /**
  Convenience method to return a new account identity with the given User ID and Org ID.

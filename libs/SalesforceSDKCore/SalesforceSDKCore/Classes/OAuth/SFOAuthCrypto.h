@@ -66,7 +66,7 @@ typedef NS_ENUM(NSUInteger, SFOAuthCryptoOperation) {
  
  @warning After this method is called this object must no longer be used.
  */
-- (NSData *)finalizeCipher;
+- (nullable NSData *)finalizeCipher;
 
 @end
 
