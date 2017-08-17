@@ -65,12 +65,12 @@
     __weak __typeof(self) weakSelf = self;
     [SalesforceSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActionList) {
         __strong __typeof(weakSelf) strongSelf = weakSelf;
-        [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
+        [SFSDKLogger log:[self class] level:DDLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
         [strongSelf setupRootViewController];
     };
     [SalesforceSDKManager sharedManager].launchErrorAction = ^(NSError *error, SFSDKLaunchAction launchActionList) {
         __strong __typeof(weakSelf) strongSelf = weakSelf;
-        [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
+        [SFSDKLogger log:[self class] level:DDLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
         [strongSelf initializeAppViewState];
         [[SalesforceSDKManager sharedManager] launch];
     };
@@ -114,13 +114,12 @@
 }
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options{
-    
-    // Uncomment the following line, if Authentication was attempted using handle advanced OAuth flow.
-    // For Advanced Auth functionality to work, edit your apps plist files and add the URL scheme that you have
-    // chosen for your app. The scheme should be the same as used in  the oauthRedirectURI settings of your Connected
-    //  App. You should also set the  delegate(SFAuthenticationManagerDelegate) for SFAuthenticationManager to be
-    // notified  of success & failures. Inorder to be notfied of user's selected action on displayed
-    // alerts implement  authManagerDidProceedWithBrowserFlow: & authManagerDidCancelBrowserFlow:
+
+    // If you're using advanced authentication:
+    // --Configure your app to handle incoming requests to your
+    //   OAuth Redirect URI custom URL scheme.
+    // --Uncomment the following line and delete the original return statement:
+
     // return [[SFAuthenticationManager sharedManager] handleAdvancedAuthenticationResponse:url];
     return NO;
 }
@@ -128,7 +127,7 @@
 - (void)handleSdkManagerLogout
 {
     [self resetViewState:^{
-        [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"Logout notification received. Resetting app."];
+        [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"Logout notification received. Resetting app."];
         ((SFHybridViewController*)self.viewController).appHomeUrl = nil;
         [self initializeAppViewState];
         
@@ -159,7 +158,7 @@
                   toUser:(SFUserAccount *)toUser
 {
     [self resetViewState:^{
-        [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@. Resetting app.",
+        [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@. Resetting app.",
          fromUser.userName, toUser.userName];
         [self initializeAppViewState];
         [[SalesforceSDKManager sharedManager] launch];

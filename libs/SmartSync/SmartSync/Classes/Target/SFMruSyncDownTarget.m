@@ -115,7 +115,7 @@ static NSString * const kSFSyncTargetFieldlist = @"fieldlist";
 - (void) getRemoteIds:(SFSmartSyncSyncManager*)syncManager
              localIds:(NSArray*)localIds
            errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
-        completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
+        completeBlock:(nullable SFSyncDownTargetFetchCompleteBlock)completeBlock {
     if (localIds == nil) {
         completeBlock(nil);
         return;

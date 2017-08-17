@@ -22,6 +22,8 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class SFSmartSyncSyncManager;
 
 @interface SFSyncTarget : NSObject
@@ -121,3 +123,5 @@ extern NSString * const kSyncTargetLocallyDeleted;
 - (void) deleteFromLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString*)soupName record:(NSDictionary*)record;
 
 @end
+
+NS_ASSUME_NONNULL_END

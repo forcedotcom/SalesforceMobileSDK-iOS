@@ -29,59 +29,12 @@
 
 #import "SFSDKSmartSyncLogger.h"
 
-static NSString * const kComponentName = @"SmartSync";
+NSString * const kSFSDKSmartSyncComponentName = @"SmartSync";
 
 @implementation SFSDKSmartSyncLogger
 
-+ (DDLogLevel)curLogLevel {
-    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kComponentName];
-    return logger.logLevel;
-}
-
-+ (void)setLogLevel:(DDLogLevel)logLevel {
-    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kComponentName];
-    logger.logLevel = logLevel;
-}
-
-+ (void)e:(Class)class format:(NSString *)format, ... {
-    va_list args;
-    va_start(args, format);
-    [SFSDKSmartSyncLogger log:DDLogLevelError class:class message:format args:args];
-    va_end(args);
-}
-
-+ (void)w:(Class)class format:(NSString *)format, ... {
-    va_list args;
-    va_start(args, format);
-    [SFSDKSmartSyncLogger log:DDLogLevelWarning class:class message:format args:args];
-    va_end(args);
-}
-
-+ (void)i:(Class)class format:(NSString *)format, ... {
-    va_list args;
-    va_start(args, format);
-    [SFSDKSmartSyncLogger log:DDLogLevelInfo class:class message:format args:args];
-    va_end(args);
-}
-
-+ (void)v:(Class)class format:(NSString *)format, ... {
-    va_list args;
-    va_start(args, format);
-    [SFSDKSmartSyncLogger log:DDLogLevelVerbose class:class message:format args:args];
-    va_end(args);
-}
-
-+ (void)d:(Class)class format:(NSString *)format, ... {
-    va_list args;
-    va_start(args, format);
-    [SFSDKSmartSyncLogger log:DDLogLevelDebug class:class message:format args:args];
-    va_end(args);
-}
-
-+ (void)log:(DDLogLevel)level class:(Class)class message:(NSString *)message args:(va_list)args {
-    NSString *formattedMessage = [[NSString alloc] initWithFormat:message arguments:args];
-    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kComponentName];
-    [logger log:class level:level message:formattedMessage];
++ (instancetype)sharedInstance {
+    return [self sharedInstanceWithComponent:kSFSDKSmartSyncComponentName];
 }
 
 @end

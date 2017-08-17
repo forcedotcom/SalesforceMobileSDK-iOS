@@ -48,13 +48,12 @@ static NSURLSessionConfiguration *kSFBackgroundSessionConfig;
         if (kSFEphemeralSessionConfig) {
             ephemeralSessionConfig = kSFEphemeralSessionConfig;
         }
-        self.ephemeralSession = [NSURLSession sessionWithConfiguration:ephemeralSessionConfig delegate:self delegateQueue:nil];
+        self.ephemeralSession = [NSURLSession sessionWithConfiguration:ephemeralSessionConfig];
         NSURLSessionConfiguration *backgroundSessionConfig = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:@"com.salesforce.network"];
         if (kSFBackgroundSessionConfig) {
             backgroundSessionConfig = kSFBackgroundSessionConfig;
         }
-        self.backgroundSession = [NSURLSession sessionWithConfiguration:backgroundSessionConfig
-            delegate:self delegateQueue:nil];
+        self.backgroundSession = [NSURLSession sessionWithConfiguration:backgroundSessionConfig];
         self.useBackground = NO;
     }
     return self;

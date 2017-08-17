@@ -16,7 +16,7 @@ PRODUCT_NAME = SmartStore
 OTHER_LDFLAGS = -ObjC $(inherited)
 OTHER_CFLAGS = -DSQLITE_HAS_CODEC -DFMDatabase=SF_FMDatabase -DFMStatement=SF_FMStatement -DFMDatabasePool=SF_FMDatabasePool -DFMDatabaseQueue=SF_FMDatabaseQueue -DFMResultSet=SF_FMResultSet -DFMDBBlockSQLiteCallBackFunction=SF_FMDBBlockSQLiteCallBackFunction
 
-HEADER_SEARCH_PATHS = $(BUILT_PRODUCTS_DIR)/Headers $(TARGET_BUILD_DIR)/Headers $(inherited)
+HEADER_SEARCH_PATHS = $(BUILT_PRODUCTS_DIR)/Headers $(TARGET_BUILD_DIR)/Headers $(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher $(inherited) 
 LIBRARY_SEARCH_PATHS = $(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher $(inherited)
 
 // Make sure to use only API that are safe for application extensions

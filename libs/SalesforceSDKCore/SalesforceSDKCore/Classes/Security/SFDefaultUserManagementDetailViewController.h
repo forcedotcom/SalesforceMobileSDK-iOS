@@ -24,6 +24,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class SFUserAccount;
 
 /**
@@ -38,3 +40,5 @@
 - (id)initWithUser:(SFUserAccount *)user;
 
 @end
+
+NS_ASSUME_NONNULL_END

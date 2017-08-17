@@ -24,6 +24,7 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
 
 @class SFSmartStore;
 @class SFQuerySpec;
@@ -77,7 +78,7 @@
  * The current page index among totalPages available: writing this value
  * causes currentPageOrderedEntries to be refetched.
  */
-@property (nonatomic, readwrite, strong) NSNumber *currentPageIndex;
+@property (nonatomic, readwrite, strong, nullable) NSNumber *currentPageIndex;
 
 /**
  * Initializes a new instance of a soup cursor.
@@ -101,3 +102,5 @@
 - (void)close; 
 
 @end
+
+NS_ASSUME_NONNULL_END

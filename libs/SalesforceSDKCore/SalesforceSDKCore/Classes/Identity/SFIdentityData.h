@@ -24,6 +24,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  * The data structure for the identity data that's retrieved from the Salesforce service.
  * @see SFIdentityCoordinator
@@ -239,3 +241,5 @@
 - (nonnull instancetype)initWithJsonDict:(nonnull NSDictionary *)jsonDict;
 
 @end
+
+NS_ASSUME_NONNULL_END

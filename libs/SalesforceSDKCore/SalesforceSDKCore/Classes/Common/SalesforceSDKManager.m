@@ -24,8 +24,7 @@
 
 #import "SalesforceSDKManager+Internal.h"
 #import "SFAuthenticationManager+Internal.h"
-#import "SFSecurityLockout+Internal.h"
-#import "SFRootViewManager.h"
+#import "SFSDKWindowManager.h"
 #import "SFSDKWebUtils.h"
 #import "SFManagedPreferences.h"
 #import "SFOAuthInfo.h"
@@ -64,15 +63,11 @@ static NSString* ailtnAppName = nil;
 }
 
 - (BOOL)shouldAutorotate {
-    return !(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone);
+    return YES;
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-        return UIInterfaceOrientationMaskPortrait;
-    } else {
-        return UIInterfaceOrientationMaskAll;
-    }
+   return UIInterfaceOrientationMaskAll;
 }
 
 @end
@@ -142,6 +137,7 @@ static NSString* ailtnAppName = nil;
         self.delegates = [NSHashTable weakObjectsHashTable];
         [[SFUserAccountManager sharedInstance] addDelegate:self];
         [[SFAuthenticationManager sharedManager] addDelegate:self];
+        [SFSecurityLockout addDelegate:self];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppTerminate:) name:UIApplicationWillTerminateNotification object:nil];
@@ -235,8 +231,8 @@ static NSString* ailtnAppName = nil;
     [SFSDKCoreLogger i:[self class] format:@"Launching the Salesforce SDK."];
     _isLaunching = YES;
     self.launchActions = SFSDKLaunchActionNone;
-    if ([SFRootViewManager sharedManager].mainWindow == nil) {
-        [SFRootViewManager sharedManager].mainWindow = [SFApplicationHelper sharedApplication].windows[0];
+    if ([SFSDKWindowManager sharedManager].mainWindow == nil) {
+        [[SFSDKWindowManager sharedManager] setMainUIWindow:[SFApplicationHelper sharedApplication].windows[0]];
     }
     
     NSError *launchStateError = nil;
@@ -298,7 +294,7 @@ static NSString* ailtnAppName = nil;
     // Managed settings should override any equivalent local app settings.
     [self configureManagedSettings];
     
-    if ([SFRootViewManager sharedManager].mainWindow == nil) {
+    if ([SFSDKWindowManager sharedManager].mainWindow == nil) {
         NSString *noWindowError = [NSString stringWithFormat:@"%@ cannot perform launch before the UIApplication main window property has been initialized.  Cannot continue.", [self class]];
         [SFSDKCoreLogger e:[self class] format:noWindowError];
         [launchStateErrorMessages addObject:noWindowError];
@@ -377,10 +373,17 @@ static NSString* ailtnAppName = nil;
 
 - (void)sendPostLogout
 {
-    _isLaunching = NO;
+    [self logoutCleanup];
     if (self.postLogoutAction) {
         self.postLogoutAction();
     }
+}
+
+- (void)logoutCleanup
+{
+    _isLaunching = NO;
+    self.inManagerForegroundProcess = NO;
+    self.passcodeDisplayed = NO;
 }
 
 - (void)sendPostLaunch
@@ -399,10 +402,13 @@ static NSString* ailtnAppName = nil;
     }
 }
 
-- (void)sendPostAppForeground
+- (void)sendPostAppForegroundIfRequired
 {
-    if (self.postAppForegroundAction) {
-        self.postAppForegroundAction();
+    if (self.isInManagerForegroundProcess) {
+        self.inManagerForegroundProcess = NO;
+        if (self.postAppForegroundAction) {
+            self.postAppForegroundAction();
+        }
     }
 }
 
@@ -415,26 +421,31 @@ static NSString* ailtnAppName = nil;
             [delegate sdkManagerWillEnterForeground];
         }
     }];
-        
+    
     if (_isLaunching) {
         [SFSDKCoreLogger d:[self class] format:@"SDK is still launching.  No foreground action taken."];
     } else {
-        
-        // Check to display pin code screen.
-        
-        [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
-            // Note: Failed passcode verification automatically logs out users, which the logout
-            // delegate handler will catch and pass on.  We just log the error and reset launch
-            // state here.
-            [SFSDKCoreLogger e:[self class] format:@"Passcode validation failed.  Logging the user out."];
-        }];
-        
-        [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction lockoutAction) {
-            [SFSDKCoreLogger i:[self class] format:@"Passcode validation succeeded, or was not required, on app foreground.  Triggering postAppForeground handler."];
-            [self sendPostAppForeground];
-        }];
-        
-        [SFSecurityLockout validateTimer];
+        self.inManagerForegroundProcess = YES;
+        if (self.isPasscodeDisplayed) {
+            // Passcode was already displayed prior to app foreground.  Leverage delegates to manage
+            // post-foreground process.
+            [SFSDKCoreLogger i:[self class] format:@"%@ Passcode screen already displayed. Post-app foreground will continue after passcode challenge completes.", NSStringFromSelector(_cmd)];
+        } else {
+            // Check to display pin code screen.
+            [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
+                // Note: Failed passcode verification automatically logs out users, which the logout
+                // delegate handler will catch and pass on.  We just log the error and reset launch
+                // state here.
+                [SFSDKCoreLogger e:[self class] format:@"Passcode validation failed.  Logging the user out."];
+            }];
+            
+            [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction lockoutAction) {
+                [SFSDKCoreLogger i:[self class] format:@"Passcode validation succeeded, or was not required, on app foreground.  Triggering postAppForeground handler."];
+                [self sendPostAppForegroundIfRequired];
+            }];
+            
+            [SFSecurityLockout validateTimer];
+        }
     }
 }
 
@@ -527,7 +538,7 @@ static NSString* ailtnAppName = nil;
     
 - (BOOL)isSnapshotPresented
 {
-    return (_snapshotViewController.presentingViewController || _snapshotViewController.view.superview);
+    return [[SFSDKWindowManager sharedManager].snapshotWindow isEnabled];
 }
 
 - (void)presentSnapshot
@@ -555,26 +566,33 @@ static NSString* ailtnAppName = nil;
     else {
         _snapshotViewController =  [[SnapshotViewController alloc] initWithNibName:nil bundle:nil];
     }
+    SFSDKWindowManager.sharedManager.snapshotWindow.viewController = _snapshotViewController;
     
     // Presentation
     if (self.snapshotPresentationAction && self.snapshotDismissalAction) {
         self.snapshotPresentationAction(_snapshotViewController);
     } else {
-        [[SFRootViewManager sharedManager] pushViewController:_snapshotViewController];
+          [[SFSDKWindowManager sharedManager].snapshotWindow enable];
     }
 }
 
 - (void)dismissSnapshot
 {
-    if (![self isSnapshotPresented]) {
-        return;
+    if ([self isSnapshotPresented]) {
+        if (self.snapshotPresentationAction && self.snapshotDismissalAction) {
+            self.snapshotDismissalAction(_snapshotViewController);
+            if ([SFSecurityLockout isPasscodeNeeded]) {
+                [SFSecurityLockout validateTimer];
+            }
+        } else {
+            [[SFSDKWindowManager sharedManager].snapshotWindow disable:NO withCompletion:^{
+                if ([SFSecurityLockout isPasscodeNeeded]) {
+                    [SFSecurityLockout validateTimer];
+                }
+            }];
+        }
     }
     
-    if (self.snapshotPresentationAction && self.snapshotDismissalAction) {
-        self.snapshotDismissalAction(_snapshotViewController);
-    } else {
-        [[SFRootViewManager sharedManager] popViewController:_snapshotViewController];
-    }
 }
 
 - (void)clearClipboard
@@ -590,25 +608,18 @@ static NSString* ailtnAppName = nil;
 
 - (void)passcodeValidationAtLaunch
 {
-    if ([SFUserAccountManager sharedInstance].isCurrentUserAnonymous) {
-
-        // Anonymous user doesn't have any passcode associated with it
-        // so bypass this step and go to the next one directly.
-        [self authValidationAtLaunch];
-    } else {
-        [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
-            [SFSDKCoreLogger i:[self class] format:@"Passcode verified, or not configured.  Proceeding with authentication validation."];
-            [self passcodeValidatedToAuthValidation];
-        }];
-        [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
-
-            // Note: Failed passcode verification automatically logs out users, which the logout
-            // delegate handler will catch and pass on.  We just log the error and reset launch
-            // state here.
-            [SFSDKCoreLogger e:[self class] format:@"Passcode validation failed.  Logging the user out."];
-        }];
-        [SFSecurityLockout lock];
-    }
+    [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
+        [SFSDKCoreLogger i:[self class] format:@"Passcode verified, or not configured.  Proceeding with authentication validation."];
+        [self passcodeValidatedToAuthValidation];
+    }];
+    [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
+        
+        // Note: Failed passcode verification automatically logs out users, which the logout
+        // delegate handler will catch and pass on.  We just log the error and reset launch
+        // state here.
+        [SFSDKCoreLogger e:[self class] format:@"Passcode validation failed.  Logging the user out."];
+    }];
+    [SFSecurityLockout lock];
 }
 
 - (void)passcodeValidatedToAuthValidation
@@ -762,6 +773,19 @@ static NSString* ailtnAppName = nil;
                     toUser:(SFUserAccount *)toUser
 {
     [self.sdkManagerFlow handleUserSwitch:fromUser toUser:toUser];
+}
+
+#pragma mark - SFSecurityLockoutDelegate
+
+- (void)passcodeFlowWillBegin:(SFPasscodeControllerMode)mode
+{
+    self.passcodeDisplayed = YES;
+}
+
+- (void)passcodeFlowDidComplete:(BOOL)success
+{
+    self.passcodeDisplayed = NO;
+    [self sendPostAppForegroundIfRequired];
 }
 
 @end

@@ -28,6 +28,8 @@
 #import "SFSyncUpTarget.h"
 #import "SFSyncDownTarget.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class SFUserAccount;
 
 // block type
@@ -56,7 +58,7 @@ typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncSt
  * @param user The user associated with the store.
  * @param storeName The name of the SmartStore associated with the user.
  */
-+ (instancetype)sharedInstanceForUser:(SFUserAccount*)user storeName:(NSString *)storeName;
++ (instancetype)sharedInstanceForUser:(SFUserAccount*)user storeName:(nullable NSString *)storeName;
 
 /**
  * Singleton method for accessing sync manager instance by SmartStore store.
@@ -78,7 +80,7 @@ typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncSt
  * @param user The user associated with the store.
  * @param storeName The name of the store associated with the given user.
  */
-+ (void)removeSharedInstanceForUser:(SFUserAccount*)user storeName:(NSString*)storeName;
++ (void)removeSharedInstanceForUser:(SFUserAccount*)user storeName:(nullable NSString*)storeName;
 
 /**
  * Removes the shared instance associated with the specified store.
@@ -148,3 +150,5 @@ typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncSt
 - (void) cleanResyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock;
 
 @end
+
+NS_ASSUME_NONNULL_END

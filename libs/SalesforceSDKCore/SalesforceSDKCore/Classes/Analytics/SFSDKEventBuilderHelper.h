@@ -29,6 +29,14 @@
 
 #import "SFUserAccount.h"
 
+NS_ASSUME_NONNULL_BEGIN
+/**
+ // Event startTime and endTime can be specified by passing values for attributes START_TIME and END_TIME
+*/
+extern NSString * const kSFSDKEventBuilderHelperStartTime;
+extern NSString * const kSFSDKEventBuilderHelperEndTime;
+
+
 @interface SFSDKEventBuilderHelper : NSObject
 
 /**
@@ -39,6 +47,7 @@
  * @param className Class name or context where the event was generated.
  * @param attributes Addiitonal attributes.
  */
-+ (void) createAndStoreEvent:(nonnull NSString *) name userAccount:(nullable SFUserAccount *) userAccount className:(nonnull NSString *) className attributes:(nullable NSDictionary *) attributes;
++ (void) createAndStoreEvent:(NSString *) name userAccount:(nullable SFUserAccount *) userAccount className:(NSString *) className attributes:(nullable NSDictionary *) attributes;
 
 @end
+NS_ASSUME_NONNULL_END

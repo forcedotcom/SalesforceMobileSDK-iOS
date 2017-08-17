@@ -24,6 +24,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  Class to register and unregister feature markers associated with SDK facilities being used in
  an app.
@@ -48,3 +50,5 @@
 + (nonnull NSSet<NSString *> *)appFeatures;
 
 @end
+
+NS_ASSUME_NONNULL_END

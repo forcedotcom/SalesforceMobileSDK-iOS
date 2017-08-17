@@ -24,6 +24,8 @@
 
 #import "SFOAuthCredentials.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class SFEncryptionKey;
 
 @interface SFOAuthKeychainCredentials : SFOAuthCredentials
@@ -46,3 +48,5 @@
 - (void)setRefreshToken:(NSString *)token withKey:(NSData *)key;
 
 @end
+
+NS_ASSUME_NONNULL_END

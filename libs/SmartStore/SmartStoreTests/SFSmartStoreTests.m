@@ -108,7 +108,7 @@
 - (void) testSqliteVersion
 {
     NSString* version = [NSString stringWithUTF8String:sqlite3_libversion()];
-    XCTAssertEqualObjects(version, @"3.11.0");
+    XCTAssertEqualObjects(version, @"3.15.2");
 }
 
 /**

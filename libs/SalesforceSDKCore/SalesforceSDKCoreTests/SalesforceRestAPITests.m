@@ -162,7 +162,7 @@ static NSException *authException = nil;
 - (void)testFullRequestPath {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForResources];
     request.path = [NSString stringWithFormat:@"%@%@", kSFDefaultRestEndpoint, request.path];
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"request.path: %@", request.path];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"request.path: %@", request.path];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
@@ -236,7 +236,6 @@ static NSException *authException = nil;
 
 // simple: just invoke requestForSearchResultLayout:@"Account"
 - (void)testGetSearchResultLayout {
-     
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSearchResultLayout:ACCOUNT];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
@@ -380,7 +379,7 @@ static NSException *authException = nil;
     // make sure we got an id
     NSString *contactId = ((NSDictionary *)listener.dataResponse)[LID];
     XCTAssertNotNil(contactId, @"id not present");
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"## contact created with id: %@", contactId];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"## contact created with id: %@", contactId];
     
     @try {
         // now query object
@@ -1120,7 +1119,7 @@ static NSException *authException = nil;
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForResources];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"latest access token: %@", _currentUser.credentials.accessToken];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"latest access token: %@", _currentUser.credentials.accessToken];
     
     // let's make sure we have another access token
     NSString *newAccessToken = _currentUser.credentials.accessToken;
@@ -1141,7 +1140,7 @@ static NSException *authException = nil;
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     NSString *contactId = ((NSDictionary *)listener.dataResponse)[LID];
     XCTAssertNotNil(contactId, @"Contact create result should contain an ID value.");
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"latest access token: %@", _currentUser.credentials.accessToken];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"latest access token: %@", _currentUser.credentials.accessToken];
     
     // let's make sure we have another access token
     NSString *newAccessToken = _currentUser.credentials.accessToken;
@@ -1173,15 +1172,38 @@ static NSException *authException = nil;
     XCTAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"access token wasn't refreshed");
 }
 
+- (void)testFailedRequestRemovedFromQueue {
+    
+    // Send a request that should fail before getting to the service.
+    NSURL *origInstanceUrl = _currentUser.credentials.instanceUrl;
+    _currentUser.credentials.instanceUrl = [NSURL URLWithString:@"https://some.non-existent-domain-blafhsdfh"];
+    self.currentExpectation = [self expectationWithDescription:@"performRequestToFail"];
+    SFRestFailBlock failWithExpectedFail = ^(NSError *e) {
+        [self.currentExpectation fulfill];
+    };
+    SFRestDictionaryResponseBlock successWithUnexpectedSuccessBlock = ^(NSDictionary *d) {
+        XCTFail(@"Request should not have succeeded.");
+        [self.currentExpectation fulfill];
+    };
+    [[SFRestAPI sharedInstance] performRequestForResourcesWithFailBlock:failWithExpectedFail
+                                   completeBlock:successWithUnexpectedSuccessBlock];
+    
+    BOOL completionTimedOut = [self waitForExpectation];
+    XCTAssertFalse(completionTimedOut);
+    XCTAssertEqual(0, [SFRestAPI sharedInstance].activeRequests.count, @"Active requests queue should be empty.");
+    _currentUser.credentials.instanceUrl = origInstanceUrl;
+}
+
 // - sets an invalid accessToken
 // - sets an invalid refreshToken
 // - issue a valid REST request
 // - ensure all requests are failed with the proper error
-- (void)FIXMEtestInvalidAccessAndRefreshToken {
+- (void)testInvalidAccessAndRefreshToken {
 
-    // save valid tokens
+    // save valid tokens and current user
     NSString *origAccessToken = _currentUser.credentials.accessToken;
     NSString *origRefreshToken = _currentUser.credentials.refreshToken;
+    SFOAuthCredentials *origCreds = [_currentUser.credentials copy];
     
     // set invalid tokens
     NSString *invalidAccessToken = @"xyz";
@@ -1198,7 +1220,11 @@ static NSException *authException = nil;
         XCTAssertNotNil(listener.lastError.userInfo);
     }
     @finally {
-        [self changeOauthTokens:origAccessToken refreshToken:origRefreshToken];
+        origCreds.accessToken = origAccessToken;
+        origCreds.refreshToken = origRefreshToken;
+        _currentUser.credentials = origCreds;
+        [[SFUserAccountManager sharedInstance] saveAccountForUser:_currentUser error:nil];
+        [SFUserAccountManager sharedInstance].currentUser = _currentUser;
     }
 }
 
@@ -1208,7 +1234,7 @@ static NSException *authException = nil;
 // - ensure that a new access token is retrieved using refresh token
 // - ensure that all requests eventually succeed
 //
--(void)FIXMEtestInvalidAccessToken_MultipleRequests {
+-(void)testInvalidAccessToken_MultipleRequests {
 
     // save invalid token
     NSString *invalidAccessToken = @"xyz";
@@ -1256,11 +1282,12 @@ static NSException *authException = nil;
 // - issue multiple valid requests
 // - make sure the token exchange failed
 // - ensure all requests are failed with the proper error code
-- (void)FIXMEtestInvalidAccessAndRefreshToken_MultipleRequests {
+- (void)testInvalidAccessAndRefreshToken_MultipleRequests {
 
-    // save valid tokens
+    // save valid tokens and current user
     NSString *origAccessToken = _currentUser.credentials.accessToken;
     NSString *origRefreshToken = _currentUser.credentials.refreshToken;
+    SFOAuthCredentials *origCreds = [_currentUser.credentials copy];
     
     // set invalid tokens
     NSString *invalidAccessToken = @"xyz";
@@ -1315,21 +1342,25 @@ static NSException *authException = nil;
         XCTAssertNotNil(listener4.lastError.userInfo,@"userInfo should not be nil");
     }
     @finally {
-        [self changeOauthTokens:origAccessToken refreshToken:origRefreshToken];
+        origCreds.accessToken = origAccessToken;
+        origCreds.refreshToken = origRefreshToken;
+        _currentUser.credentials = origCreds;
+        [[SFUserAccountManager sharedInstance] saveAccountForUser:_currentUser error:nil];
+        [SFUserAccountManager sharedInstance].currentUser = _currentUser;
     }
 }
 
 #pragma mark - testing block functions
 
 - (BOOL) waitForExpectation {
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"Waiting for %@ to complete", self.currentExpectation.description];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"Waiting for %@ to complete", self.currentExpectation.description];
     __block BOOL timedout;
     [self waitForExpectationsWithTimeout:15 handler:^(NSError *error) {
         if (error) {
             XCTFail(@"%@ took too long to complete", self.currentExpectation.description);
             timedout = YES;
         } else {
-            [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"Completed %@", self.currentExpectation.description];
+            [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"Completed %@", self.currentExpectation.description];
             timedout = NO;
         }
     }];
@@ -1682,7 +1713,7 @@ static NSException *authException = nil;
     // Ensures we get an ID back.
     NSString *contactId = ((NSDictionary *)listener.dataResponse)[LID];
     XCTAssertNotNil(contactId, @"id not present");
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"## contact created with id: %@", contactId];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"## contact created with id: %@", contactId];
 
     // Creates a long SOQL query.
     NSMutableString *queryString = [[NSMutableString alloc] init];
@@ -1692,7 +1723,7 @@ static NSException *authException = nil;
         [queryString appendString:@"', '"];
     }
     [queryString appendString:@"')"];
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"## length of query: %d", [queryString length]];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"## length of query: %d", [queryString length]];
 
     // Runs the query.
     @try {
@@ -1726,6 +1757,16 @@ static NSException *authException = nil;
     [self sendSyncRequest:request];
     NSString *userAgent = request.request.allHTTPHeaderFields[@"User-Agent"];
     XCTAssertEqualObjects(userAgent, [SFRestAPI userAgentString:@"SmartSync"], @"Incorrect user agent");
+}
+
+#pragma mark - custom rest requests
+
+- (void)testCustomBaseURLRequest {
+    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodGET baseURL:@"http://www.apple.com" path:@"/test/testing" queryParams:nil];
+    XCTAssertEqual(request.baseURL, @"http://www.apple.com", @"Base URL should match");
+    NSURLRequest *finalRequest = [request prepareRequestForSend];
+    NSString *expectedURL = [NSString stringWithFormat:@"http://www.apple.com%@%@", kSFDefaultRestEndpoint, @"/test/testing"];
+    XCTAssertEqualObjects(finalRequest.URL.absoluteString, expectedURL, @"Final URL should utilize base URL that was passed in");
 }
 
 @end

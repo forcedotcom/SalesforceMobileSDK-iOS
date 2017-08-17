@@ -26,6 +26,8 @@
 #import "SFEncryptionKey.h"
 #import "SFKeyStoreKey.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  Singleton class to manage operations on the key store.
  */
@@ -112,3 +114,5 @@
 - (SFEncryptionKey *)keyWithRandomValue;
 
 @end
+
+NS_ASSUME_NONNULL_END

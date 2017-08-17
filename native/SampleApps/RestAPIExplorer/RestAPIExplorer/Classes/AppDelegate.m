@@ -61,12 +61,12 @@ static NSString * const OAuthRedirectURI        = @"com.salesforce.mobilesdk.sam
             //
             //[[SFPushNotificationManager sharedInstance] registerForRemoteNotifications];
             //
-            [[SFSDKLogger sharedDefaultInstance] log:[strongSelf class] level:DDLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
+            [SFSDKLogger log:[strongSelf class] level:DDLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
             [strongSelf setupRootViewController];
         };
         [SalesforceSDKManager sharedManager].launchErrorAction = ^(NSError *error, SFSDKLaunchAction launchActionList) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
-            [[SFSDKLogger sharedDefaultInstance] log:[strongSelf class] level:DDLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
+            [SFSDKLogger log:[strongSelf class] level:DDLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
             [strongSelf initializeAppViewState];
             [[SalesforceSDKManager sharedManager] launch];
         };
@@ -154,7 +154,7 @@ static NSString * const OAuthRedirectURI        = @"com.salesforce.mobilesdk.sam
 
 - (void)handleSdkManagerLogout
 {
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"SDK Manager logged out.  Resetting app."];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"SDK Manager logged out.  Resetting app."];
     [self resetViewState:^{
         [self initializeAppViewState];
         
@@ -183,7 +183,7 @@ static NSString * const OAuthRedirectURI        = @"com.salesforce.mobilesdk.sam
 
 - (void)handleUserSwitch:(SFUserAccount *)fromUser toUser:(SFUserAccount *)toUser
 {
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelInfo format:@"SFUserAccountManager changed from user %@ to %@.  Resetting app.", fromUser.userName, toUser.userName];
+    [SFSDKLogger log:[self class] level:DDLogLevelInfo format:@"SFUserAccountManager changed from user %@ to %@.  Resetting app.", fromUser.userName, toUser.userName];
     [self resetViewState:^{
         [self initializeAppViewState];
         [[SalesforceSDKManager sharedManager] launch];

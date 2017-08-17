@@ -47,14 +47,16 @@ static BOOL kIsTestRun;
 
 @interface SFRestAPI ()
 
+@property (readwrite, assign) BOOL sessionRefreshInProgress;
+@property (readwrite, assign) BOOL pendingRequestsBeingProcessed;
 @property (nonatomic, strong) SFOAuthSessionRefresher *oauthSessionRefresher;
 
 @end
 
 @implementation SFRestAPI
 
-@synthesize apiVersion=_apiVersion;
-@synthesize activeRequests=_activeRequests;
+@synthesize apiVersion = _apiVersion;
+@synthesize activeRequests = _activeRequests;
 
 __strong static NSDateFormatter *httpDateFormatter = nil;
 
@@ -65,14 +67,15 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     }
 }
 
-
 #pragma mark - init/setup
 
 - (id)init {
     self = [super init];
     if (self) {
-        _activeRequests = [[NSMutableSet alloc] initWithCapacity:4];
+        _activeRequests = [[NSMutableSet alloc] initWithCapacity:10];
         self.apiVersion = kSFRestDefaultAPIVersion;
+        self.sessionRefreshInProgress = NO;
+        self.pendingRequestsBeingProcessed = NO;
         [[SFUserAccountManager sharedInstance] addDelegate:self];
         if (!kIsTestRun) {
             [SFSDKWebUtils configureUserAgent:[SFRestAPI userAgentString]];
@@ -123,7 +126,9 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 #pragma mark - Internal
 
 - (void)removeActiveRequestObject:(SFRestRequest *)request {
-    [self.activeRequests removeObject:request]; //this will typically release the request
+    if (request != nil) {
+        [self.activeRequests removeObject:request];
+    }
 }
 
 - (BOOL)forceTimeoutRequest:(SFRestRequest*)req {
@@ -131,10 +136,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     SFRestRequest *toCancel = (nil != req ? req : [self.activeRequests anyObject]);
     if (nil != toCancel) {
         found = YES;
-        if ([toCancel.delegate respondsToSelector:@selector(requestDidTimeout:)]) {
-            [toCancel.delegate requestDidTimeout:toCancel];
-            [self removeActiveRequestObject:toCancel];
-        }
+        [self notifyDelegateOfTimeout:toCancel.delegate request:toCancel];
     }
     return found;
 }
@@ -176,10 +178,12 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     if (nil != delegate) {
         request.delegate = delegate;
     }
-    [self.activeRequests addObject:request];
 
     // If there are no demonstrable auth credentials, login before sending.
     SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
+
+    // Adds this request to the list of active requests if it's not already on the list.
+    [self.activeRequests addObject:request];
     __weak __typeof(self) weakSelf = self;
     if (user.credentials.accessToken == nil && user.credentials.refreshToken == nil && request.requiresAuthentication) {
         [SFSDKCoreLogger i:[self class] format:@"No auth credentials found. Authenticating before sending request."];
@@ -196,10 +200,22 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
             [[SFAuthenticationManager sharedManager] logout];
         }];
     } else {
-
-        // Auth credentials exist. Just send the request.
         [self enqueueRequest:request delegate:delegate shouldRetry:shouldRetry];
     }
+}
+
+- (SFOAuthSessionRefresher *)sessionRefresherForUser:(SFUserAccount *)user {
+    @synchronized (self) {
+
+        /*
+         * Session refresher should be a class level property because it gets de-allocated before
+         * the callback is triggered otherwise, leading to a timeout or cancellation.
+         */
+        if (!self.oauthSessionRefresher) {
+            self.oauthSessionRefresher = [[SFOAuthSessionRefresher alloc] initWithCredentials:user.credentials];
+        }
+    }
+    return self.oauthSessionRefresher;
 }
 
 - (void)enqueueRequest:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate shouldRetry:(BOOL)shouldRetry {
@@ -214,14 +230,14 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 
                 // Checks if the request was canceled.
                 if (error.code == -999) {
-                    [delegate requestDidCancelLoad:request];
+                    [strongSelf notifyDelegateOfCancel:delegate request:request];
                 } else {
-                    [delegate request:request didFailLoadWithError:error];
+                    [strongSelf notifyDelegateOfFailure:delegate request:request error:error];
                 }
                 return;
             }
             if (!response) {
-                [delegate requestDidTimeout:request];
+                [strongSelf notifyDelegateOfTimeout:delegate request:request];
             }
             [strongSelf replayRequestIfRequired:data response:response error:error request:request delegate:delegate shouldRetry:shouldRetry];
         }];
@@ -235,30 +251,52 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
     if (statusCode == 401 || statusCode == 403) {
         if (shouldRetry) {
-            SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
             [SFSDKCoreLogger i:[self class] format:@"%@: REST request failed due to expired credentials. Attempting to refresh credentials.", NSStringFromSelector(_cmd)];
-            self.oauthSessionRefresher = [[SFOAuthSessionRefresher alloc] initWithCredentials:user.credentials];
-            __weak __typeof(self) weakSelf = self;
-            [self.oauthSessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
-                __strong typeof(weakSelf) strongSelf = weakSelf;
-                [SFSDKCoreLogger i:[strongSelf class] format:@"%@: Credentials refresh successful. Replaying original REST request.", NSStringFromSelector(_cmd)];
-                [strongSelf send:request delegate:delegate shouldRetry:NO];
-            } error:^(NSError *refreshError) {
-                __strong typeof(weakSelf) strongSelf = weakSelf;
-                [SFSDKCoreLogger e:[strongSelf class] format:@"Failed to refresh expired session. Error: %@", refreshError];
-                if ([refreshError.domain isEqualToString:kSFOAuthErrorDomain] && refreshError.code == kSFOAuthErrorInvalidGrant) {
-                    [SFSDKCoreLogger i:[strongSelf class] format:@"%@ Invalid grant error received, triggering logout.", NSStringFromSelector(_cmd)];
+            SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
 
-                    // Make sure we call logout on the main thread.
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [strongSelf createAndStoreLogoutEvent:error user:user];
-                        [[SFAuthenticationManager sharedManager] logoutUser:user];
-                    });
+            /*
+             * Sends the session refresh request if an OAuth session is not being refreshed.
+             * Otherwise, wait for the current session refresh call to complete before sending.
+             */
+            @synchronized (self) {
+                if (!self.sessionRefreshInProgress) {
+                    self.sessionRefreshInProgress = YES;
+                    SFOAuthSessionRefresher *sessionRefresher = [self sessionRefresherForUser:user];
+                    __weak __typeof(self) weakSelf = self;
+                    [sessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
+                        __strong typeof(weakSelf) strongSelf = weakSelf;
+                        [SFSDKCoreLogger i:[strongSelf class] format:@"%@: Credentials refresh successful. Replaying original REST request.", NSStringFromSelector(_cmd)];
+                        strongSelf.sessionRefreshInProgress = NO;
+                        strongSelf.oauthSessionRefresher = nil;
+                        @synchronized (strongSelf) {
+                            if (!strongSelf.pendingRequestsBeingProcessed) {
+                                strongSelf.pendingRequestsBeingProcessed = YES;
+                                [strongSelf sendPendingRequests];
+                            }
+                        }
+                    } error:^(NSError *refreshError) {
+                        __strong typeof(weakSelf) strongSelf = weakSelf;
+                        [SFSDKCoreLogger e:[strongSelf class] format:@"Failed to refresh expired session. Error: %@", refreshError];
+                        [strongSelf notifyDelegateOfFailure:delegate request:request error:refreshError];
+                        strongSelf.pendingRequestsBeingProcessed = YES;
+                        [strongSelf flushPendingRequestQueue:refreshError];
+                        strongSelf.sessionRefreshInProgress = NO;
+                        strongSelf.oauthSessionRefresher = nil;
+                        if ([refreshError.domain isEqualToString:kSFOAuthErrorDomain] && refreshError.code == kSFOAuthErrorInvalidGrant) {
+                            [SFSDKCoreLogger i:[strongSelf class] format:@"%@ Invalid grant error received, triggering logout.", NSStringFromSelector(_cmd)];
+    
+                            // Make sure we call logout on the main thread.
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [strongSelf createAndStoreLogoutEvent:error user:user];
+                                [[SFAuthenticationManager sharedManager] logoutUser:user];
+                            });
+                        }
+                    }];
                 }
-            }];
+            }
         } else {
             NSError *retryError = [[NSError alloc] initWithDomain:response.URL.absoluteString code:statusCode userInfo:nil];
-            [delegate request:request didFailLoadWithError:retryError];
+            [self notifyDelegateOfFailure:delegate request:request error:retryError];
         }
     } else {
 
@@ -271,12 +309,12 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
                     if (data.length == 0) {
                         data = nil;
                     }
-                    [delegate request:request didLoadResponse:data];
+                    [self notifyDelegateOfResponse:delegate request:request data:data];
                 } else {
-                    [delegate request:request didLoadResponse:jsonDict];
+                    [self notifyDelegateOfResponse:delegate request:request data:jsonDict];
                 }
             } else {
-                [delegate request:request didLoadResponse:data];
+                [self notifyDelegateOfResponse:delegate request:request data:data];
             }
         } else {
             if (!error) {
@@ -297,10 +335,57 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
                 }
                 error = [[NSError alloc] initWithDomain:response.URL.absoluteString code:statusCode userInfo:errorDict];
             }
-            [delegate request:request didFailLoadWithError:error];
+            [self notifyDelegateOfFailure:delegate request:request error:error];
         }
-        [[SFRestAPI sharedInstance] removeActiveRequestObject:request];
     }
+}
+
+-(void)flushPendingRequestQueue:(NSError *)error {
+    @synchronized (self) {
+        NSSet *pendingRequests = [self.activeRequests copy];
+        for (SFRestRequest *request in pendingRequests) {
+            [self notifyDelegateOfFailure:request.delegate request:request error:error];
+        }
+        self.pendingRequestsBeingProcessed = NO;
+    }
+}
+
+- (void)sendPendingRequests {
+    @synchronized (self) {
+        NSSet *pendingRequests = [self.activeRequests copy];
+        for (SFRestRequest *request in pendingRequests) {
+            [self send:request delegate:request.delegate shouldRetry:NO];
+        }
+        self.pendingRequestsBeingProcessed = NO;
+    }
+}
+
+- (void)notifyDelegateOfResponse:(id<SFRestDelegate>)delegate request:(SFRestRequest *)request data:(id)data {
+    if ([delegate respondsToSelector:@selector(request:didLoadResponse:)]) {
+        [delegate request:request didLoadResponse:data];
+    }
+    [self removeActiveRequestObject:request];
+}
+
+- (void)notifyDelegateOfFailure:(id<SFRestDelegate>)delegate request:(SFRestRequest *)request error:(NSError *)error {
+    if ([delegate respondsToSelector:@selector(request:didFailLoadWithError:)]) {
+        [delegate request:request didFailLoadWithError:error];
+    }
+    [self removeActiveRequestObject:request];
+}
+
+- (void)notifyDelegateOfCancel:(id<SFRestDelegate>)delegate request:(SFRestRequest *)request {
+    if ([delegate respondsToSelector:@selector(requestDidCancelLoad:)]) {
+        [delegate requestDidCancelLoad:request];
+    }
+    [self removeActiveRequestObject:request];
+}
+
+- (void)notifyDelegateOfTimeout:(id<SFRestDelegate>)delegate request:(SFRestRequest *)request {
+    if ([delegate respondsToSelector:@selector(requestDidTimeout:)]) {
+        [delegate requestDidTimeout:request];
+    }
+    [self removeActiveRequestObject:request];
 }
 
 - (void)createAndStoreLogoutEvent:(NSError *)error user:(SFUserAccount*)user {

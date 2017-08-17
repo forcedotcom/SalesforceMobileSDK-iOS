@@ -25,6 +25,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  * The property key used to designate the user agent, in the app's default properties.
  */
@@ -42,3 +44,5 @@ extern NSString * const kUserAgentPropKey;
 + (void)configureUserAgent:(NSString *)userAgentString;
 
 @end
+
+NS_ASSUME_NONNULL_END

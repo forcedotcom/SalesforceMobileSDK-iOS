@@ -24,6 +24,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class SFPBKDFData;
 
 /**
@@ -96,3 +98,5 @@ extern NSUInteger const kSFPBKDFDefaultSaltByteLength;
 + (NSData *)aes256DecryptData:(NSData *)data withKey:(NSData *)key iv:(NSData *)iv;
 
 @end
+
+NS_ASSUME_NONNULL_END

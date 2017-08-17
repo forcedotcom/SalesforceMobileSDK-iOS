@@ -24,6 +24,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class SFIdentityCoordinator;
 @class SFOAuthCredentials;
 @class SFIdentityData;
@@ -106,12 +108,12 @@ enum {
 /**
  * The OAuth credentials associated with this instance.
  */
-@property (nonatomic, strong) SFOAuthCredentials *credentials;
+@property (nonatomic, strong, nullable) SFOAuthCredentials *credentials;
 
 /**
  * The SFIdentityData that will be populated with the response data from the service.
  */
-@property (nonatomic, strong) SFIdentityData *idData;
+@property (nonatomic, strong, nullable) SFIdentityData *idData;
 
 /**
  * The SFIdentityCoordinatorDelegate property to set for receiving information about the request.
@@ -126,3 +128,5 @@ enum {
 @property (nonatomic, assign) NSTimeInterval timeout;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -35,7 +35,7 @@
 @interface SFRestAPI () <SFUserAccountManagerDelegate>
 
 /**
- * Active requests property
+ * Active requests property.
  */
 @property (nonatomic, readonly, strong) NSMutableSet *activeRequests;
 
