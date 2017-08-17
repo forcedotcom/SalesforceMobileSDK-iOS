@@ -106,16 +106,16 @@ extern NSString * const kSFSyncStateMergeModeLeaveIfChanged;
  */
 + (SFSyncState*) newSyncDownWithOptions:(SFSyncOptions*)options target:(SFSyncDownTarget*)target soupName:(NSString*)soupName store:(SFSmartStore*)store;
 + (SFSyncState*) newSyncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName store:(SFSmartStore*)store;
-+ (SFSyncState*) newSyncUpWithOptions:(SFSyncOptions*)options target:(SFSyncUpTarget*)target soupName:(NSString*)soupName store:(SFSmartStore*)store;
++ (nullable SFSyncState*) newSyncUpWithOptions:(SFSyncOptions*)options target:(SFSyncUpTarget*)target soupName:(NSString*)soupName store:(SFSmartStore*)store;
 
 /** Methods to save/retrieve from smartstore
  */
-+ (SFSyncState*) newById:(NSNumber*)syncId store:(SFSmartStore*)store;
++ (nullable SFSyncState*) newById:(NSNumber*)syncId store:(SFSmartStore*)store;
 - (void) save:(SFSmartStore*)store;
 
 /** Methods to translate to/from dictionary
  */
-+ (SFSyncState*) newFromDict:(NSDictionary *)dict;
++ (nullable SFSyncState*) newFromDict:(NSDictionary *)dict;
 - (NSDictionary*) asDict;
 
 /** Method for easy status check
@@ -128,7 +128,7 @@ extern NSString * const kSFSyncStateMergeModeLeaveIfChanged;
  */
 + (SFSyncStateSyncType) syncTypeFromString:(NSString*)syncType;
 + (NSString*) syncTypeToString:(SFSyncStateSyncType)syncType;
-+ (SFSyncStateStatus) syncStatusFromString:(NSString*)syncStatus;
++ (SFSyncStateStatus) syncStatusFromString:(nullable NSString*)syncStatus;
 + (NSString*) syncStatusToString:(SFSyncStateStatus)syncStatus;
 + (SFSyncStateMergeMode) mergeModeFromString:(NSString*)mergeMode;
 + (NSString*) mergeModeToString:(SFSyncStateMergeMode)mergeMode;

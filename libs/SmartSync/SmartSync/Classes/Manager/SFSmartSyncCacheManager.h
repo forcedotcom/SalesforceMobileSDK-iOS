@@ -81,7 +81,7 @@ typedef  enum {
  @param objectClass Object class to expect
  @param lastCachedTime Return time the data was last updated in cache
  */
-- (NSArray *)readDataWithCacheType:(NSString *)cacheType
+- (nullable NSArray *)readDataWithCacheType:(NSString *)cacheType
                           cacheKey:(NSString *)cacheKey
                        cachePolicy:(SFDataCachePolicy)cachePolicy
                         objectClass:(Class)objectClass

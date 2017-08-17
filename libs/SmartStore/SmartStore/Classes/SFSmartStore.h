@@ -130,7 +130,7 @@ extern NSString *const EXPLAIN_ROWS;
 /**
  The full path to the store database.
  */
-@property (nonatomic, readonly, strong) NSString *storePath;
+@property (nonatomic, readonly, strong, nullable) NSString *storePath;
 
 /**
  User for this store - nil for global stores
@@ -160,7 +160,7 @@ extern NSString *const EXPLAIN_ROWS;
  @param storeName The name of the store.  If in doubt, use kDefaultSmartStoreName.
  @param user The user associated with the store.
  */
-+ (id)sharedStoreWithName:(NSString*)storeName user:(SFUserAccount *)user;
++ (nullable id)sharedStoreWithName:(NSString*)storeName user:(SFUserAccount *)user;
 
 /**
  Use this method to obtain a shared global store instance with the given name.  This store will

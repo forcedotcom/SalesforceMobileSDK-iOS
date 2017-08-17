@@ -105,7 +105,7 @@ typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *_Nullable, NSDictiona
  @param viewConfig The hybrid view configuration associated with this component.
  @param useUIWebView YES - to use UIWebView, NO - to use WKWebView.
  */
-- (id) initWithConfig:(SFHybridViewConfig *) viewConfig useUIWebView:(BOOL) useUIWebView;
+- (id) initWithConfig:(nullable SFHybridViewConfig *) viewConfig useUIWebView:(BOOL) useUIWebView;
 
 /**
  * Initializes a new Cordova view with the specified bounds and engine.
@@ -132,7 +132,7 @@ typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *_Nullable, NSDictiona
  the calling client code.
  @return Dictionary representation of oauth credentials.
  */
-- (NSDictionary *)credentialsAsDictionary;
+- (nullable NSDictionary *)credentialsAsDictionary;
 
 /**
  @return The user agent string for SF hybrid apps.  @see [SalesforceSDKManager sharedManager].userAgentString @/see
