@@ -148,6 +148,8 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
         index = 0; // revert to standard in case there is no current login host
         [self applyLoginHostAtIndex:index];
     }
+    
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:SFDCLoginHostListCellIdentifier];
 
     // Refresh the UI and make sure the size is correct.
     [self.tableView reloadData];
@@ -160,7 +162,6 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
     if ([self.tableView respondsToSelector:@selector(setCellLayoutMarginsFollowReadableWidth:)]) {
         self.tableView.cellLayoutMarginsFollowReadableWidth = NO;
     }
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:SFDCLoginHostListCellIdentifier];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
