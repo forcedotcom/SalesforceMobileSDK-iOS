@@ -94,7 +94,7 @@
 
 /** Used to create a new Window keyed by a  specified name
  */
-- (SFSDKWindowContainer *_Nonnull)createNewNamedWindow:(NSString *_Nonnull)windowName;
+- (SFSDKWindowContainer *_Nullable)createNewNamedWindow:(NSString *_Nonnull)windowName;
 
 /** Used to remove a  Window by a  specified name
  */

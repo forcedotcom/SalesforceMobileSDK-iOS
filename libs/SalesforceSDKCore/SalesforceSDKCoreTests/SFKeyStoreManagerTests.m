@@ -71,11 +71,16 @@
     XCTAssertFalse([mgr keyWithLabelAndKeyTypeExists:@"key" keyType:SFKeyStoreKeyTypeGenerated], @"Key type should no longer exist.");
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
+
 // ensure we handle nil values
 - (void)testRetrieveKeyWithNilValues {
     SFEncryptionKey *key =[[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel: nil autoCreate: NO];
     XCTAssertNil(key, @"Key should be nil with a nil label");
 }
+
+#pragma clang diagnostic pop
 
 // retrieve key with label, do not create one by default.
 - (void)testRetrieveKeyButDontCreateForGeneratedStore {
