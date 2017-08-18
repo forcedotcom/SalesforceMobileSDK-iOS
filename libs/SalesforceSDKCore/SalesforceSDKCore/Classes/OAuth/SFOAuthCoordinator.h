@@ -323,7 +323,7 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  If you do not set this property, the library does not add the "scope" parameter to the initial
  OAuth request, which implicitly sets the scope to include: "id", "api", and "refresh_token".
  */
-@property (nonatomic, copy) NSSet *scopes;
+@property (nonatomic, copy, nullable) NSSet *scopes;
 
 
 /** Timeout interval for OAuth requests.

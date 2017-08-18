@@ -232,7 +232,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The date this record was last modified.
  */
-@property (nonnull, strong, nonatomic, readonly) NSDate *lastModifiedDate;
+@property (nullable, strong, nonatomic, readonly) NSDate *lastModifiedDate;
 
 /**
  * Designated initializer for creating an instance of the SFIdentityData object.

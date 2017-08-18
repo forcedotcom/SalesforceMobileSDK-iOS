@@ -104,6 +104,9 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     [super setUp];
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
+
 - (void)testAccountIdentityEquality {
     NSDictionary *accountIdentityMatrix = @{
                                             @"MatchGroup1": @[
@@ -154,6 +157,8 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
         }
     }
 }
+
+#pragma clang diagnostic pop
 
 - (void)testAccountIdentityUpdateFromCredentialsUpdate {
     NSArray *accounts = [self createAndVerifyUserAccounts:1];

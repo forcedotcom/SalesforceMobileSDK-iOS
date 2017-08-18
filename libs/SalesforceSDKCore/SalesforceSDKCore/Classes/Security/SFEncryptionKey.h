@@ -51,12 +51,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  The base64 representation of the key data.
  */
-@property (nonatomic, readonly) NSString *keyAsString;
+@property (nonatomic, readonly, nullable) NSString *keyAsString;
 
 /**
  The base64 representation of the initialization vector data.
  */
-@property (nonatomic, readonly) NSString *initializationVectorAsString;
+@property (nonatomic, readonly, nullable) NSString *initializationVectorAsString;
 
 @end
 

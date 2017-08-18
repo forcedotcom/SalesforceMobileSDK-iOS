@@ -98,6 +98,9 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
     XCTAssertEqualObjects(event, nil, @"Event should be nil due to missing mandatory field 'page'");
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
+
 /**
  * Test for missing mandatory field 'device app attributes'.
  */
@@ -119,6 +122,8 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
     XCTAssertEqualObjects(event, nil, @"Event should be nil due to missing mandatory field 'device app attributes'");
     [self.analyticsManager reset];
 }
+
+#pragma clang diagnostic pop
 
 /**
  * Test for auto population of mandatory field 'start time'.
