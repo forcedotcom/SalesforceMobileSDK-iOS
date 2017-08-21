@@ -571,9 +571,9 @@ static NSString* ailtnAppName = nil;
     // Presentation
     if (self.snapshotPresentationAction && self.snapshotDismissalAction) {
         self.snapshotPresentationAction(_snapshotViewController);
-    } else {
-          [[SFSDKWindowManager sharedManager].snapshotWindow enable];
     }
+    [[SFSDKWindowManager sharedManager].snapshotWindow enable];
+    
 }
 
 - (void)dismissSnapshot
