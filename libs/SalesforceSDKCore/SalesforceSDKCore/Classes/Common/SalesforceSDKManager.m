@@ -571,8 +571,9 @@ static NSString* ailtnAppName = nil;
     // Presentation
     __weak typeof (self) weakSelf = self;
     [[SFSDKWindowManager sharedManager].snapshotWindow enable:NO withCompletion:^{
-        if (weakSelf.snapshotPresentationAction && weakSelf.snapshotDismissalAction) {
-            weakSelf.snapshotPresentationAction(_snapshotViewController);
+        __strong typeof (weakSelf) strongSelf  = weakSelf;
+        if (strongSelf.snapshotPresentationAction && strongSelf.snapshotDismissalAction) {
+            strongSelf.snapshotPresentationAction(strongSelf->_snapshotViewController);
         }
     }];
     
