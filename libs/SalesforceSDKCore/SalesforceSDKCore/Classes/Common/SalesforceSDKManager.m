@@ -569,10 +569,12 @@ static NSString* ailtnAppName = nil;
     SFSDKWindowManager.sharedManager.snapshotWindow.viewController = _snapshotViewController;
     
     // Presentation
-    if (self.snapshotPresentationAction && self.snapshotDismissalAction) {
-        self.snapshotPresentationAction(_snapshotViewController);
-    }
-    [[SFSDKWindowManager sharedManager].snapshotWindow enable];
+    __weak typeof (self) weakSelf = self;
+    [[SFSDKWindowManager sharedManager].snapshotWindow enable:NO withCompletion:^{
+        if (weakSelf.snapshotPresentationAction && weakSelf.snapshotDismissalAction) {
+            weakSelf.snapshotPresentationAction(_snapshotViewController);
+        }
+    }];
     
 }
 
