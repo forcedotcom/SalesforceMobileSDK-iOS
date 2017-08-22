@@ -28,6 +28,13 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class SFOAuthInfo;
+@class SFSDKOAuthClientContext;
+
+/**
+ Block definition for auth error handling evaluation block.
+ */
+typedef BOOL (^SFAuthErrorHandlerContextEvalBlock)(NSError *, SFSDKOAuthClientContext *);
+
 
 /**
  Block definition for auth error handling evaluation block.
@@ -53,11 +60,25 @@ typedef BOOL (^SFAuthErrorHandlerEvalBlock)(NSError *, SFOAuthInfo *);
 @property (nonatomic, readonly) SFAuthErrorHandlerEvalBlock evalBlock;
 
 /**
+ The block of code that will evaluate the error.  The block should return YES if it can
+ handle the error, and NO if the error should be passed on to the next handler.
+ */
+@property (nonatomic, readonly) SFAuthErrorHandlerContextEvalBlock contextEvalBlock;
+
+
+/**
  Designated initializer for SFAuthErrorHandler.
  @param name The canonical name of the error handler.
  @param evalBlock The block to handle the error evaluation.
  */
 - (id)initWithName:(NSString *)name evalBlock:(SFAuthErrorHandlerEvalBlock)evalBlock;
+
+/**
+ Designated initializer for SFAuthErrorHandler.
+ @param name The canonical name of the error handler.
+ @param evalBlock The block to handle the error evaluation.
+ */
+- (id)initWithName:(NSString *)name contextEvalBlock:(SFAuthErrorHandlerContextEvalBlock)evalBlock;
 
 @end
 

@@ -1,5 +1,10 @@
 /*
- Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
+ SFSDKOAuthViewHandler.m
+ SalesforceSDKCore
+ 
+ Created by Raj Rao on 7/25/17.
+ 
+ Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -21,49 +26,17 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
-#import "SFUserAccountManager.h"
-
-@interface SFUserAccountManager () <SFSDKOAuthClientSafariViewDelegate,SFSDKOAuthClientWebViewDelegate,SFSDKOAuthClientDelegate>
-
-{
-    NSRecursiveLock *_accountsLock;
+#import "SFSDKOAuthViewHandler.h"
+@implementation SFSDKOAuthClientViewHolder
+@end
+@implementation SFSDKOAuthViewHandler
+- (id)initWithDisplayBlock:(SFSDKAuthClientViewDisplayBlock)authViewDisplayBlock  dismissBlock:(SFSDKAuthClientViewDismissBlock)dismissBlock {
+    self = [super init];
+    if (self) {
+        self.authViewDisplayBlock = authViewDisplayBlock ;
+        self.authViewDismissBlock = dismissBlock;
+    }
+    return self;
 }
-
-@property (nonatomic, strong, nonnull) NSHashTable<id<SFUserAccountManagerDelegate>> *delegates;
-
-/** A map of user accounts by user ID
- */
-@property (nonatomic, strong, nonnull) NSMutableDictionary *userAccountMap;
-
-@property (nonatomic, strong, nullable) id<SFUserAccountPersister> accountPersister;
-/**
- Executes the given block for each configured delegate.
- @param block The block to execute for each delegate.
- */
-- (void)enumerateDelegates:(nullable void (^)(id<SFUserAccountManagerDelegate> _Nonnull))block;
-
-/**
- *
- * @return NSSet enumeration of all account Names
- */
-- (nullable NSSet *)allExistingAccountNames;
-
-/** Returns a unique identifier that can be used to create a new Account
- *
- * @param clientId OAuth Client Id
- * @return A unique identifier
- */
-- (nonnull NSString *)uniqueUserAccountIdentifier:(nonnull NSString *)clientId;
-
-/** Reload the accounts and reset the state of SFUserAccountManager. Use for tests only
- *
- */
-- (void)reload;
-
-/** Get the Account Persister being used.
- * @return SFUserAccountPersister that is used.
- */
-- (nullable id<SFUserAccountPersister>)accountPersister;
 
 @end

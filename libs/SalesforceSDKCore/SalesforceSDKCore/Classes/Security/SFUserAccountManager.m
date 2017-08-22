@@ -37,11 +37,17 @@
 #import "SFOAuthCredentials+Internal.h"
 #import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 #import <SalesforceAnalytics/SFSDKDatasharingHelper.h>
+#import "SFSDKOAuthClient.h"
+#import "SFPushNotificationManager.h"
 
 // Notifications
 NSString * const SFUserAccountManagerDidChangeUserNotification   = @"SFUserAccountManagerDidChangeUserNotification";
 NSString * const SFUserAccountManagerDidChangeUserDataNotification   = @"SFUserAccountManagerDidChangeUserDataNotification";
 NSString * const SFUserAccountManagerDidFinishUserInitNotification   = @"SFUserAccountManagerDidFinishUserInitNotification";
+
+NSString * const SFUserAccountManagerWillLogoutNotification = @"SFUserAccountManagerWillLogoutNotification";
+NSString * const SFUserAccountManagerLogoutNotification = @"SFUserAccountManagerLogoutNotification";
+NSString * const SFUserAccountManagerLoggedInNotification = @"SFUserAccountManagerLoggedInNotification";
 
 NSString * const SFUserAccountManagerUserChangeKey      = @"change";
 NSString * const SFUserAccountManagerUserChangeUserKey      = @"user";
@@ -75,6 +81,7 @@ NSString * const kOAuthRedirectUriKey = @"oauth_redirect_uri";
 @synthesize currentUser = _currentUser;
 @synthesize userAccountMap = _userAccountMap;
 @synthesize accountPersister = _accountPersister;
+@synthesize authClient = _authClient;
 
 + (instancetype)sharedInstance {
     static dispatch_once_t pred;
@@ -207,6 +214,165 @@ NSString * const kOAuthRedirectUriKey = @"oauth_redirect_uri";
     NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
     [defs setObject:newClientId forKey:kOAuthClientIdKey];
     [defs synchronize];
+}
+
+#pragma  mark - login & logout
+
+- (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse {
+    [SFSDKCoreLogger i:[self class] format:@"handleAdvancedAuthenticationResponse %@",[appUrlResponse description]];
+    self.authClient.advancedAuthConfiguration = self.advancedAuthConfiguration;
+    self.authClient.delegate = self;
+    self.authClient.safariViewDelegate = self;
+    return [self.authClient handleURLAuthenticationResponse:appUrlResponse];
+}
+
+- (BOOL)authenticateWithCompletion:(SFSDKOAuthClientSuccessCallbackBlock)completionBlock
+                           failure:(SFSDKOAuthClientFailureCallbackBlock)failureBlock {
+    self.authClient.advancedAuthConfiguration = self.advancedAuthConfiguration;
+    self.authClient.delegate = self;
+    self.authClient.webViewDelegate = self;
+    self.authClient.safariViewDelegate = self;
+    return [self.authClient fetchCredentials:completionBlock failure:failureBlock];
+}
+
+- (BOOL)authenticateWithCredentials:(SFOAuthCredentials *)credentials
+                         completion:(SFSDKOAuthClientSuccessCallbackBlock)completionBlock
+                            failure:(SFSDKOAuthClientFailureCallbackBlock)failureBlock {
+    self.authClient.advancedAuthConfiguration = self.advancedAuthConfiguration;
+    self.authClient.delegate = self;
+    self.authClient.webViewDelegate = self;
+    self.authClient.safariViewDelegate = self;
+    return [self.authClient refreshCredentials:credentials success:completionBlock failure:failureBlock];
+}
+
+- (BOOL)loginWithCompletion:(SFSDKOAuthClientSuccessCallbackBlock)completionBlock failure:(SFSDKOAuthClientFailureCallbackBlock)failureBlock {
+    return [self authenticateWithCompletion:completionBlock failure:failureBlock];
+}
+
+- (BOOL)refreshCredentials:(SFOAuthCredentials *)credentials completion:(SFSDKOAuthClientSuccessCallbackBlock)completionBlock failure:(SFSDKOAuthClientFailureCallbackBlock)failureBlock {
+    return [self authenticateWithCredentials:credentials completion:completionBlock failure:failureBlock];
+}
+
+- (BOOL)loginWithJwtToken:(NSString *)jwtToken completion:(SFSDKOAuthClientSuccessCallbackBlock)completionBlock failure:(SFSDKOAuthClientFailureCallbackBlock)failureBlock {
+    NSAssert(jwtToken.length > 0, @"JWT token value required.");
+    SFOAuthCredentials *credentials = [self.authClient retrieveClientCredentials];
+    credentials.jwt = jwtToken;
+    return [self authenticateWithCredentials:credentials
+                                  completion:completionBlock
+                                     failure:failureBlock];
+}
+
+- (void)logout {
+    [self logoutUser:[SFUserAccountManager sharedInstance].currentUser];
+}
+
+- (void)logoutUser:(SFUserAccount *)user {
+    // No-op, if the user is not valid.
+    if (user == nil) {
+        [SFSDKCoreLogger i:[self class] format:@"logoutUser: user is nil.  No action taken."];
+        return;
+    }
+    
+    BOOL loggingOutTransitionSucceeded = [user transitionToLoginState:SFUserAccountLoginStateLoggingOut];
+    if (!loggingOutTransitionSucceeded) {
+        // SFUserAccount already logs the transition failure.
+        return;
+    }
+    BOOL isCurrentUser = [user isEqual:self.currentUser];
+    [SFSDKCoreLogger i:[self class] format:@"Logging out user '%@'.", user.userName];
+    NSDictionary *userInfo = @{ @"account": user };
+    [[NSNotificationCenter defaultCenter] postNotificationName:SFUserAccountManagerWillLogoutNotification
+                                                        object:self
+                                                      userInfo:userInfo];
+    __weak typeof(self) weakSelf = self;
+    [self enumerateDelegates:^(id<SFUserAccountManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(userAccountManager:willLogout:)]) {
+            [delegate userAccountManager:weakSelf willLogout:user];
+        }
+    }];
+    
+    SFUserAccountManager *userAccountManager = [SFUserAccountManager sharedInstance];
+    [[SFSDKOAuthClient sharedInstance] revokeCredentials:user.credentials];
+    
+    if ([SFPushNotificationManager sharedInstance].deviceSalesforceId) {
+        [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotifications:user];
+    }
+    [userAccountManager deleteAccountForUser:user error:nil];
+    
+    if (isCurrentUser) {
+        userAccountManager.currentUser = nil;
+    }
+    userInfo = @{ @"account": user };
+    NSNotification *logoutNotification = [NSNotification notificationWithName:SFUserAccountManagerLogoutNotification object:self userInfo:userInfo];
+    [[NSNotificationCenter defaultCenter] postNotification:logoutNotification];
+    [self enumerateDelegates:^(id<SFUserAccountManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(userAccountManager:didLogout:)]) {
+            [delegate userAccountManager:self didLogout:user];
+        }
+    }];
+    // NB: There's no real action that can be taken if this login state transition fails.  At any rate,
+    // it's an unlikely scenario.
+    [user transitionToLoginState:SFUserAccountLoginStateNotLoggedIn];
+}
+
+- (void)logoutAllUsers {
+    // Log out all other users, then the current user.
+    NSArray *userAccounts = [[SFUserAccountManager sharedInstance] allUserAccounts];
+    for (SFUserAccount *account in userAccounts) {
+        if (account != [SFUserAccountManager sharedInstance].currentUser) {
+            [self logoutUser:account];
+        }
+    }
+    [self logoutUser:[SFUserAccountManager sharedInstance].currentUser];
+}
+
+- (id<SFSDKOAuthClient>)authClient {
+     return _authClient == nil?[SFSDKOAuthClient sharedInstance]:_authClient;
+}
+
+- (void)setOAuthClient:(SFSDKOAuthClient *)authClient {
+    if (_authClient != authClient) {
+        _authClient = authClient;
+    }
+}
+
+#pragma mark - SFSDKOAuthClientDelegate
+- (void)authClientWillBeginAuthentication:(SFSDKOAuthClient *)client context:(SFSDKOAuthClientContext *)context {
+    [self enumerateDelegates:^(id <SFUserAccountManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(userAccountManager:willLogin:)]) {
+            [delegate userAccountManager:self willLogin:context.coordinator.credentials];
+        }
+    }];
+}
+
+
+- (void)authClientDidFail:(SFSDKOAuthClient *)client error:(NSError *_Nullable)error context:(SFSDKOAuthClientContext *)context {
+    [self enumerateDelegates:^(id <SFUserAccountManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(userAccountManager:error:info:)]) {
+            [delegate userAccountManager:self error:error info:context.authInfo];
+        }
+    }];
+}
+
+- (BOOL)authClientIsNetworkAvailable:(SFSDKOAuthClient *)client {
+    return NO;
+}
+
+- (void)authClientDidFinish:(SFSDKOAuthClient *)client context:(SFSDKOAuthClientContext *)context {
+    
+    // fire notification for user logged in
+    SFUserAccount *currentAccount = [self accountForCredentials:context.coordinator.credentials];
+    NSDictionary *userInfo = @{ @"account": currentAccount };
+    
+    NSNotification *loggedInNotification = [NSNotification notificationWithName:SFUserAccountManagerLoggedInNotification object:self  userInfo:userInfo];
+    [[NSNotificationCenter defaultCenter] postNotification:loggedInNotification];
+    
+    [self enumerateDelegates:^(id <SFUserAccountManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(userAccountManager:didLogin:)]) {
+            [delegate userAccountManager:self didLogin:currentAccount];
+        }
+    }];
+    
 }
 
 #pragma mark - SFUserAccountDelegate management

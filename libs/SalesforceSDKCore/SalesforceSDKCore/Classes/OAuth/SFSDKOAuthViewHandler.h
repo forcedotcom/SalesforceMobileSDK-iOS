@@ -1,5 +1,10 @@
 /*
- Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
+ SFSDKOAuthViewHandler.h
+ SalesforceSDKCore
+ 
+ Created by Raj Rao on 7/25/17.
+ 
+ Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -21,49 +26,50 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#import <Foundation/Foundation.h>
 
-#import "SFUserAccountManager.h"
+@class SFSDKOAuthClient;
+@class WKWebView;
+@class SFSafariViewController;
+@class SFSDKOAuthClientViewHolder;
 
-@interface SFUserAccountManager () <SFSDKOAuthClientSafariViewDelegate,SFSDKOAuthClientWebViewDelegate,SFSDKOAuthClientDelegate>
-
-{
-    NSRecursiveLock *_accountsLock;
-}
-
-@property (nonatomic, strong, nonnull) NSHashTable<id<SFUserAccountManagerDelegate>> *delegates;
-
-/** A map of user accounts by user ID
- */
-@property (nonatomic, strong, nonnull) NSMutableDictionary *userAccountMap;
-
-@property (nonatomic, strong, nullable) id<SFUserAccountPersister> accountPersister;
+NS_ASSUME_NONNULL_BEGIN
 /**
- Executes the given block for each configured delegate.
- @param block The block to execute for each delegate.
+ Block definition for displaying the auth view.
  */
-- (void)enumerateDelegates:(nullable void (^)(id<SFUserAccountManagerDelegate> _Nonnull))block;
+typedef void (^SFSDKAuthClientViewDisplayBlock)(SFSDKOAuthClient *,SFSDKOAuthClientViewHolder *);
 
 /**
- *
- * @return NSSet enumeration of all account Names
+ Block definition for dismissing the auth view.
  */
-- (nullable NSSet *)allExistingAccountNames;
+typedef void (^SFSDKAuthClientViewDismissBlock)(SFSDKOAuthClient *);
 
-/** Returns a unique identifier that can be used to create a new Account
- *
- * @param clientId OAuth Client Id
- * @return A unique identifier
- */
-- (nonnull NSString *)uniqueUserAccountIdentifier:(nonnull NSString *)clientId;
+@interface SFSDKOAuthClientViewHolder : NSObject
 
-/** Reload the accounts and reset the state of SFUserAccountManager. Use for tests only
- *
- */
-- (void)reload;
+@property (nonatomic,weak,nullable) WKWebView * wkWebView;
 
-/** Get the Account Persister being used.
- * @return SFUserAccountPersister that is used.
- */
-- (nullable id<SFUserAccountPersister>)accountPersister;
+@property (nonatomic,weak,nullable) SFSafariViewController *safariViewController;
+
+@property (nonatomic,assign) BOOL isAdvancedAuthFlow;
 
 @end
+
+@interface SFSDKOAuthViewHandler : NSObject
+/**
+ The block used to display the auth view.
+ */
+@property (nonatomic, copy) SFSDKAuthClientViewDisplayBlock authViewDisplayBlock;
+
+/**
+ The block used to dismiss the auth view.
+ */
+@property (nonatomic, copy) SFSDKAuthClientViewDismissBlock authViewDismissBlock;
+
+/**
+ Designated initializer for the class.
+ @param displayBlock The block used to display the auth view.
+ @param dismissBlock The block used to dismiss the auth view.
+ */
+- (id)initWithDisplayBlock:(SFSDKAuthClientViewDisplayBlock)displayBlock dismissBlock:(SFSDKAuthClientViewDismissBlock _Nullable)dismissBlock;
+@end
+NS_ASSUME_NONNULL_END
