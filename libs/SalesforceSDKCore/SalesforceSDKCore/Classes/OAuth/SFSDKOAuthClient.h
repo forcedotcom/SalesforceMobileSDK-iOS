@@ -218,12 +218,12 @@ typedef void (^SFSDKOAuthClientFailureCallbackBlock)(SFOAuthInfo *, NSError *_Nu
 /**
  * Set a delegate to listen for all SafariViewController based auth  events
  */
-@property (nonatomic, strong,nullable) id<SFSDKOAuthClientSafariViewDelegate> safariViewDelegate;
+@property (nonatomic, weak,nullable) id<SFSDKOAuthClientSafariViewDelegate> safariViewDelegate;
 
 /**
  * Set a delegate to listen for all WKWebview based auth events
  */
-@property (nonatomic, strong,nullable) id<SFSDKOAuthClientWebViewDelegate> webViewDelegate;
+@property (nonatomic, weak,nullable) id<SFSDKOAuthClientWebViewDelegate> webViewDelegate;
 
 /**
  * Factory implementation. Set this factory to change the implementation of auth client provider
@@ -231,7 +231,7 @@ typedef void (^SFSDKOAuthClientFailureCallbackBlock)(SFOAuthInfo *, NSError *_Nu
 @property (class, nonatomic, strong) id<SFSDKOAuthClientProvider> clientProvider;
 
 
-@property (nonatomic, strong,nullable) id<SFSDKOAuthClientDelegate> delegate;
+@property (nonatomic, weak,nullable) id<SFSDKOAuthClientDelegate> delegate;
 /**
  An array of additional keys (NSString) to parse during OAuth
  */
@@ -353,10 +353,10 @@ typedef void (^SFSDKOAuthClientFailureCallbackBlock)(SFOAuthInfo *, NSError *_Nu
 @property (nonatomic, strong, nullable) SFLoginViewController *authViewController;
 @property (nonatomic, strong) SFSDKOAuthViewHandler * _Nullable authViewHandler;
 @property (nonatomic, assign) SFOAuthAdvancedAuthConfiguration advancedAuthConfiguration;
-@property (nonatomic, strong,nullable) id<SFSDKOAuthClientSafariViewDelegate> safariViewDelegate;
-@property (nonatomic, strong,nullable) id<SFSDKOAuthClientWebViewDelegate> webViewDelegate;
+@property (nonatomic, weak, nullable) id<SFSDKOAuthClientSafariViewDelegate> safariViewDelegate;
+@property (nonatomic, weak, nullable) id<SFSDKOAuthClientWebViewDelegate> webViewDelegate;
 @property (class, nonatomic, strong) id<SFSDKOAuthClientProvider> clientProvider;
-@property (nonatomic, strong,nullable) id<SFSDKOAuthClientDelegate> delegate;
+@property (nonatomic, weak,nullable) id<SFSDKOAuthClientDelegate> delegate;
 @property (nonatomic, strong) NSArray *_Nullable additionalOAuthParameterKeys;
 @property (nonatomic, readonly) SFAuthErrorHandler *invalidCredentialsAuthErrorHandler;
 @property (nonatomic, readonly) SFAuthErrorHandler *connectedAppVersionAuthErrorHandler;
