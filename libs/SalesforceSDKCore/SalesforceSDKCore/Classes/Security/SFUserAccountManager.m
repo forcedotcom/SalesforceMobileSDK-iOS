@@ -345,7 +345,6 @@ NSString * const kOAuthRedirectUriKey = @"oauth_redirect_uri";
     }];
 }
 
-
 - (void)authClientDidFail:(SFSDKOAuthClient *)client error:(NSError *_Nullable)error context:(SFSDKOAuthClientContext *)context {
     [self enumerateDelegates:^(id <SFUserAccountManagerDelegate> delegate) {
         if ([delegate respondsToSelector:@selector(userAccountManager:error:info:)]) {
@@ -355,7 +354,13 @@ NSString * const kOAuthRedirectUriKey = @"oauth_redirect_uri";
 }
 
 - (BOOL)authClientIsNetworkAvailable:(SFSDKOAuthClient *)client {
-    return NO;
+    __block BOOL result = YES;
+    [self enumerateDelegates:^(id<SFUserAccountManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(userAccountManagerIsNetworkAvailable:)]) {
+            result = [delegate userAccountManagerIsNetworkAvailable:self];
+        }
+    }];
+    return result;
 }
 
 - (void)authClientDidFinish:(SFSDKOAuthClient *)client context:(SFSDKOAuthClientContext *)context {

@@ -113,8 +113,14 @@ FOUNDATION_EXTERN NSString * const SFUserAccountManagerLoggedInNotification;
  */
 @protocol SFUserAccountManagerDelegate <NSObject>
 
-@optional
 
+@optional
+/**
+ Called when the account manager wants to determine if the network is available.
+ @param userAccountManager The instance of SFUserAccountManager making the call.
+ @return YES if the network is available, NO otherwise
+ */
+- (BOOL)userAccountManagerIsNetworkAvailable:(SFUserAccountManager *)userAccountManager;
 /**
  *
  * @param userAccountManager The instance of SFUserAccountManager making the call.
