@@ -194,7 +194,7 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
     return self;
 }
 
-- (NSURLRequest *)prepareRequestForSend
+- (NSURLRequest *)prepareRequestForSend:(SFUserAccount *)user
 {
     NSString *sessionId = [SFAuthenticationManager sharedManager].coordinator.credentials.accessToken;
     NSString *body;
@@ -206,7 +206,7 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
     NSString *soapBody = [NSString stringWithFormat:REQUEST_TEMPLATE, sessionId, body];
     [self setCustomRequestBodyString:soapBody contentType:XML_MIME_TYPE];
     [self setHeaderValue:SOAP_ACTION_VALUE forHeaderName:SOAP_ACTION];
-    return [super prepareRequestForSend];
+    return [super prepareRequestForSend:user];
 }
 
 @end
