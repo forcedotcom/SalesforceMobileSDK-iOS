@@ -32,6 +32,7 @@
 #import "SFOAuthSessionRefresher.h"
 #import "NSString+SFAdditions.h"
 #import "SFJsonUtils.h"
+#import "SFSDKSafeMutableDictionary.h"
 
 NSString* const kSFRestDefaultAPIVersion = @"v39.0";
 NSString* const kSFRestIfUnmodifiedSince = @"If-Unmodified-Since";
@@ -40,7 +41,7 @@ NSString* const kSFDefaultContentType = @"application/json";
 NSInteger const kSFRestErrorCode = 999;
 
 static BOOL kIsTestRun;
-static NSMutableDictionary *sfRestApiList = nil;
+static SFSDKSafeMutableDictionary *sfRestApiList = nil;
 
 @interface SFRestAPI () <SFAuthenticationManagerDelegate>
 
@@ -112,7 +113,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 + (SFRestAPI *)sharedInstanceWithUser:(SFUserAccount *)user {
     static dispatch_once_t pred;
     dispatch_once(&pred, ^{
-        sfRestApiList = [[NSMutableDictionary alloc] init];
+        sfRestApiList = [[SFSDKSafeMutableDictionary alloc] init];
     });
     @synchronized ([SFRestAPI class]) {
         if (!user) {
@@ -125,10 +126,10 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
         if (!key) {
             return nil;
         }
-        id sfRestApi = sfRestApiList[key];
+        id sfRestApi = [sfRestApiList objectForKey:key];
         if (!sfRestApi) {
             sfRestApi = [[SFRestAPI alloc] initWithUser:user];
-            sfRestApiList[key] = sfRestApi;
+            [sfRestApiList setObject:sfRestApi forKey:key];
         }
         return sfRestApi;
     }
@@ -143,7 +144,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
             return;
         }
         NSString *key = SFKeyForUserAndScope(user, SFUserAccountScopeCommunity);
-        [sfRestApiList removeObjectForKey:key];
+        [sfRestApiList removeObject:key];
     }
 }
 
@@ -641,7 +642,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 
 - (void)authManager:(SFAuthenticationManager *)manager willLogoutUser:(SFUserAccount *)user {
     NSString *key = SFKeyForUserAndScope(user, SFUserAccountScopeCommunity);
-    id sfRestApi = sfRestApiList[key];
+    id sfRestApi = [sfRestApiList objectForKey:key];
     if (sfRestApi) {
         [sfRestApi cleanup];
     }

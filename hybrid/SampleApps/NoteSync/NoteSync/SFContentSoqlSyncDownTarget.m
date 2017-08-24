@@ -196,7 +196,7 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
 
 - (NSURLRequest *)prepareRequestForSend:(SFUserAccount *)user
 {
-    NSString *sessionId = [SFAuthenticationManager sharedManager].coordinator.credentials.accessToken;
+    NSString *sessionId = user.credentials.accessToken;
     NSString *body;
     if (self.queryLocator) {
         body = [NSString stringWithFormat:QUERY_MORE_TEMPLATE, self.queryLocator];
