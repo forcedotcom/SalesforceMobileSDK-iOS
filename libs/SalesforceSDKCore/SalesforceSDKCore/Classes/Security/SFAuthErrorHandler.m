@@ -39,15 +39,4 @@
     }
     return self;
 }
-
-- (id)initWithName:(NSString *)name contextEvalBlock:(SFAuthErrorHandlerContextEvalBlock)evalBlock;
-{
-    self = [super init];
-    if (self) {
-        _name = [name copy];
-        _contextEvalBlock = [evalBlock copy];
-    }
-    return self;
-}
-
 @end

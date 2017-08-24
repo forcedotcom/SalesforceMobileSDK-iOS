@@ -32,6 +32,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ Callback block definition for OAuth completion callback.
+ */
+typedef void (^SFUserAccountManagerSuccessCallbackBlock)(SFOAuthInfo *, SFUserAccount *);
+
+/**
+ Callback block definition for OAuth failure callback.
+ */
+typedef void (^SFUserAccountManagerFailureCallbackBlock)(SFOAuthInfo *, NSError *);
+
 /**Notification sent when user has been created or is set as current User
  */
 FOUNDATION_EXTERN NSString * const SFUserAccountManagerDidChangeUserNotification;
@@ -437,8 +447,8 @@ FOUNDATION_EXTERN NSString * const SFUserAccountManagerLoggedInNotification;
  started, in which case subsequent requests are queued up to have their completion or failure blocks executed
  in succession.
  */
-- (BOOL)loginWithCompletion:(nullable SFSDKOAuthClientSuccessCallbackBlock)completionBlock
-                    failure:(nullable SFSDKOAuthClientFailureCallbackBlock)failureBlock;
+- (BOOL)loginWithCompletion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
+                    failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock;
 
 /**
  Kick off the refresh process for the specified credentials.
@@ -450,8 +460,8 @@ FOUNDATION_EXTERN NSString * const SFUserAccountManagerLoggedInNotification;
  in succession.
  */
 - (BOOL)refreshCredentials:(nonnull SFOAuthCredentials *)credentials
-                completion:(nullable SFSDKOAuthClientSuccessCallbackBlock)completionBlock
-                   failure:(nullable SFSDKOAuthClientFailureCallbackBlock)failureBlock;
+                completion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
+                   failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock;
 
 /**
  Login using the given JWT token to exchange with the service for credentials.
@@ -463,8 +473,8 @@ FOUNDATION_EXTERN NSString * const SFUserAccountManagerLoggedInNotification;
  in succession.
  */
 - (BOOL)loginWithJwtToken:(NSString *)jwtToken
-               completion:(nullable SFSDKOAuthClientSuccessCallbackBlock)completionBlock
-                  failure:(nullable SFSDKOAuthClientFailureCallbackBlock)failureBlock;
+               completion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
+                  failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock;
 
 /**
  Forces a logout from the current account, redirecting the user to the login process.

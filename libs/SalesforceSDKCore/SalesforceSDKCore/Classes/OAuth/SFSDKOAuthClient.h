@@ -28,12 +28,13 @@
  */
 #import <Foundation/Foundation.h>
 #import "SFOAuthCoordinator.h"
+#import "SFSDKOAuthClientContext.h"
+
 @class SFSDKOAuthClient;
 @class WKWebView;
 @class SFIdentityCoordinator;
 @class SFOAuthCredentials;
 @class SFOAuthInfo;
-@class SFUserAccount;
 @class SFLoginViewController;
 @class SFSDKOAuthViewHandler;
 @class SFSDKWindowContainer;
@@ -42,30 +43,9 @@
 @class SFAuthErrorHandlerList;
 @class SFAuthErrorHandler;
 
+
 NS_ASSUME_NONNULL_BEGIN
-/**
- Callback block definition for OAuth completion callback.
- */
-typedef void (^SFSDKOAuthClientSuccessCallbackBlock)(SFOAuthInfo *, SFUserAccount *_Nullable);
 
-/**
- Callback block definition for OAuth failure callback.
- */
-typedef void (^SFSDKOAuthClientFailureCallbackBlock)(SFOAuthInfo *, NSError *_Nullable);
-
-/** Object representing state of a current authentication context. Provides a means to isolate individual authentication
- * requests
- */
-@interface SFSDKOAuthClientContext : NSObject
-@property (nonatomic, assign) BOOL isAuthenticating;
-@property (nonatomic, copy, nullable) SFSDKOAuthClientSuccessCallbackBlock successCallbackBlock;
-@property (nonatomic, copy, nullable) SFSDKOAuthClientFailureCallbackBlock  failureBlock;
-@property (nonatomic, strong, nullable) SFOAuthCoordinator *coordinator;
-@property (nonatomic, strong, nullable) SFIdentityCoordinator *idCoordinator;
-@property (nonatomic, strong, nullable) SFOAuthInfo *authInfo;
-@property (nonatomic, strong, nullable) NSError *authError;
-@property (nonatomic, copy) SFOAuthBrowserFlowCallbackBlock authCoordinatorBrowserBlock;
-@end
 
 /** Delegate that will be used to notify of all the OAuth Client events.
  */
@@ -75,38 +55,33 @@ typedef void (^SFSDKOAuthClientFailureCallbackBlock)(SFOAuthInfo *, NSError *_Nu
 /**
  * Called when client will begin authentication.
  * @param client  initiating the request
- * @param context of the authentication
  */
-- (void)authClientWillBeginAuthentication:(SFSDKOAuthClient *)client context:(SFSDKOAuthClientContext *)context;
+- (void)authClientWillBeginAuthentication:(SFSDKOAuthClient *)client;
 
 /**
  * Called when client will begin authentication.
  * @param client making the call prior to refresh credentials
- * @param context of the authentication
  */
-- (void)authClientWillRefreshCredentials:(SFSDKOAuthClient *)client context:(SFSDKOAuthClientContext *)context;
+- (void)authClientWillRefreshCredentials:(SFSDKOAuthClient *)client;
 
 /**
  * Called when client will begin authentication.
  * @param client making the call prior to revoke credentials
- * @param context of the authentication
  */
-- (void)authClientWillRevokeCredentials:(SFSDKOAuthClient *)client context:(SFSDKOAuthClientContext *)context;
+- (void)authClientWillRevokeCredentials:(SFSDKOAuthClient *)client;
 
 /**
  * Called when client will begin authentication.
  * @param client making the call prior after the  revoke of credentials
- * @param context of the authentication
  */
-- (void)authClientDidRevokeCredentials:(SFSDKOAuthClient *)client context:(SFSDKOAuthClientContext *)context;
+- (void)authClientDidRevokeCredentials:(SFSDKOAuthClient *)client;
 
 /**
  * Called when client will begin authentication.
  * @param client making the call
  * @param error describes the error that occurred
- * @param context of the call
  */
-- (void)authClientDidFail:(SFSDKOAuthClient *)client error:(NSError *_Nullable)error context:(SFSDKOAuthClientContext *)context;
+- (void)authClientDidFail:(SFSDKOAuthClient *)client error:(NSError *_Nullable)error;
 
 /**
  * Called by the underlying mechanism allow for detection of network state
@@ -117,9 +92,26 @@ typedef void (^SFSDKOAuthClientFailureCallbackBlock)(SFOAuthInfo *, NSError *_Nu
 /**
  * Called when client did finish authentication.
  * @param client making the call
- * @param context of the call
  */
-- (void)authClientDidFinish:(SFSDKOAuthClient *)client context:(SFSDKOAuthClientContext *)context;
+- (void)authClientDidFinish:(SFSDKOAuthClient *)client;
+
+/**
+ Called when error occurs offline.
+ @param client The instance of SFSDKOAuthClient making the call.
+ */
+- (void)authClientContinueOfflineMode:(SFSDKOAuthClient *)client;
+
+/**
+ Called when a generic flow authentication is cancelled.
+ @param client The instance of SFSDKOAuthClient making the call.
+ */
+- (void)authClientDidChangeLoginHost:(SFSDKOAuthClient *)client loginHost:(NSString *)newLoginHost;
+
+/**
+ Called when a generic flow authentication is cancelled.
+ @param client The instance of SFSDKOAuthClient making the call.
+ */
+- (void)authClientRestartAuthentication:(SFSDKOAuthClient *)client;
 @end
 
 /** Delegate that will be used to notify of all the OAuth Client WebView Events.
@@ -183,7 +175,6 @@ typedef void (^SFSDKOAuthClientFailureCallbackBlock)(SFOAuthInfo *, NSError *_Nu
  @param client The instance of SFSDKOAuthClient making the call.
  */
 - (void)authClientDidCancelGenericFlow:(SFSDKOAuthClient *)client;
-
 @end
 
 @protocol SFSDKOAuthClientProvider
@@ -200,6 +191,7 @@ typedef void (^SFSDKOAuthClientFailureCallbackBlock)(SFOAuthInfo *, NSError *_Nu
 
 @protocol SFSDKOAuthClient <NSObject>
 
+@property (nonatomic, strong) SFSDKOAuthClientContext *_Nullable context;
 /**
  The view controller used to present the authentication dialog.
  */
@@ -277,57 +269,53 @@ typedef void (^SFSDKOAuthClientFailureCallbackBlock)(SFOAuthInfo *, NSError *_Nu
  * An Auth window in which the auth flow will be presented
  */
 - (SFSDKWindowContainer *)authWindow;
+//
+///**
+// * Retrieve cached context or create a new context
+// * @param credentials to use retrieve or create context
+// */
+//- (SFSDKOAuthClientContext *_Nullable)contextForCredentials:(SFOAuthCredentials *)credentials;
+//
+///**
+// * Retrieve cached context
+// * @param credentials to use retrieve cached context
+// */
+//- (SFSDKOAuthClientContext *_Nullable)cachedContextForCredentials:(SFOAuthCredentials *)credentials;
+//
+///**
+// * Create new  context
+// * @param credentials to use for cached context
+// */
+//- (SFSDKOAuthClientContext *_Nullable)newContextForCredentials:(SFOAuthCredentials *)credentials;
 
-/**
- * Get the configured client credentials
- */
-- (SFOAuthCredentials *)retrieveClientCredentials;
 
-/**
- * Retrieve cached context
- * @param credentials to use retrieve cached context
- */
-- (SFSDKOAuthClientContext *_Nullable)cachedContextForCredentials:(SFOAuthCredentials *)credentials;
+///**
+// * Clear cached context
+// *  @param credentials for which context will be removed
+// */
+//- (void)clearContextForCredentials:(SFOAuthCredentials *)credentials;
 
-/**
- * Clear cached context
- *  @param credentials for which context will be removed
- */
-- (void)clearContextForCredentials:(SFOAuthCredentials *)credentials;
 
+- (void)retrieveIdentityDataWithCompletion:(SFIdentitySuccessCallbackBlock) successBlock failure:(SFIdentityFailureCallbackBlock)failureBlock;
 /**
  * Cancel authentication for a given authentication context
- * @param context to cancel authentication request.
  */
-- (BOOL)cancelAuthentication:(SFSDKOAuthClientContext *)context;
-
-/**
- * Fetch credentials using configured credentials.
- * @param completionBlock to invoke when done
- * @param failureBlock to invoke when a failure occurs.
- */
-- (BOOL)fetchCredentials:(SFSDKOAuthClientSuccessCallbackBlock _Nullable) completionBlock
-                 failure:(SFSDKOAuthClientFailureCallbackBlock _Nullable) failureBlock;
+- (BOOL)cancelAuthentication;
 
 /**
  * Refresh credentials request.
- * @param credentials to use for refresh flow.
- * @param completionBlock to invoke when done
- * @param failureBlock to invoke when a failure occurs.
  */
-- (BOOL)refreshCredentials:(SFOAuthCredentials *_Nullable)credentials success:(SFSDKOAuthClientSuccessCallbackBlock _Nullable)completionBlock failure:(SFSDKOAuthClientFailureCallbackBlock _Nullable)failureBlock;
+- (BOOL)refreshCredentials;
 
 /**
  * Revoke credentials request.
- * @param credentials to revoke.
  */
-- (void)revokeCredentials:(SFOAuthCredentials *_Nullable)credentials;
+- (void)revokeCredentials;
 
 /**
  * Restart Authentication for a given context.
- * @param context to use.
  */
-- (void)restartAuthentication:(SFSDKOAuthClientContext *) context;
+- (void)restartAuthentication;
 
 /**
  * Dismiss the AuthViewController if presented
@@ -344,6 +332,8 @@ typedef void (^SFSDKOAuthClientFailureCallbackBlock)(SFOAuthInfo *, NSError *_Nu
  * @param appUrlResponse to digest.
  */
 - (BOOL)handleURLAuthenticationResponse:(NSURL *)appUrlResponse;
+
+- (void)setupContext:(SFOAuthCredentials *)credentials;
 
 @end
 
@@ -365,7 +355,7 @@ typedef void (^SFSDKOAuthClientFailureCallbackBlock)(SFOAuthInfo *, NSError *_Nu
 @property (nonatomic, strong) SFAuthErrorHandlerList *authErrorHandlerList;
 @property (nonatomic, strong) NSDictionary * _Nullable additionalTokenRefreshParams;
 @property (nonatomic, strong, nullable) UIAlertController *statusAlert;
-
+@property (nonatomic, strong) SFSDKOAuthClientContext *_Nullable context;
 @end
 
 NS_ASSUME_NONNULL_END
