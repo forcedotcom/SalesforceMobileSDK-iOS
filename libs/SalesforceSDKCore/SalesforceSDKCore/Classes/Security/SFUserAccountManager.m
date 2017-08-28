@@ -45,9 +45,10 @@
 #import "SFSDKLoginHost.h"
 #import "SFSecurityLockout.h"
 #import "SFSDKSalesforceAnalyticsManager.h"
-#import "SFSDKOAuthClientContext.h"
+#import "SFSDKMutableOAuthClientContext.h"
 #import "SFIdentityCoordinator.h"
 #import "SFSDKAuthPreferences.h"
+#import "SFSDKOAuthClientConfig.h"
 // Notifications
 NSString * const SFUserAccountManagerDidChangeUserNotification   = @"SFUserAccountManagerDidChangeUserNotification";
 NSString * const SFUserAccountManagerDidChangeUserDataNotification   = @"SFUserAccountManagerDidChangeUserDataNotification";
@@ -99,8 +100,6 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-
-
 #pragma mark - persistent properties
 
 - (void)setLoginHost:(NSString*)host {
@@ -145,10 +144,8 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 
 - (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse {
     [SFSDKCoreLogger i:[self class] format:@"handleAdvancedAuthenticationResponse %@",[appUrlResponse description]];
-    SFSDKOAuthClient *client = [SFSDKOAuthClient sharedInstance];
-    client.advancedAuthConfiguration = self.advancedAuthConfiguration;
-    client.delegate = self;
-    client.safariViewDelegate = self;
+    
+    SFSDKOAuthClient *client = [SFSDKOAuthClient nativeBrowserAuthInstance:nil];
     return [client handleURLAuthenticationResponse:appUrlResponse];
 }
 
@@ -158,19 +155,17 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 }
 
 - (BOOL)refreshCredentials:(SFOAuthCredentials *)credentials completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
-    SFSDKOAuthClient *client = [SFSDKOAuthClient sharedInstance];
     
-    if (self.advancedAuthConfiguration == SFOAuthAdvancedAuthConfigurationNone)
-        client = [SFSDKOAuthClient newInstance];
+    SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithContextBlock:^(SFSDKOAuthClientConfig *config,SFSDKMutableOAuthClientContext *context) {
+        context.credentials = credentials;
+        config.advancedAuthConfiguration = self.advancedAuthConfiguration;
+        config.delegate = self;
+        config.webViewDelegate = self;
+        config.safariViewDelegate = self;
+        config.successCallbackBlock = completionBlock;
+        config.failureCallbackBlock = failureBlock;
+    }];
     
-    client.advancedAuthConfiguration = self.advancedAuthConfiguration;
-    client.delegate = self;
-    client.webViewDelegate = self;
-    client.safariViewDelegate = self;
-    [client setupContext:credentials];
-    client.context.successCallbackBlock = completionBlock;
-    client.context.failureCallbackBlock = failureBlock;
-
     return [client refreshCredentials];
 }
 
@@ -212,8 +207,12 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
         }
     }];
 
-    SFSDKOAuthClient *client = [SFSDKOAuthClient newInstance];
-    [client setupContext:user.credentials];
+    SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithContextBlock:^(SFSDKOAuthClientConfig *config,SFSDKMutableOAuthClientContext *context) {
+        config.advancedAuthConfiguration = self.advancedAuthConfiguration;
+        config.delegate = self;
+        context.credentials = user.credentials;
+    }];
+  
     [client revokeCredentials];
 
     if ([SFPushNotificationManager sharedInstance].deviceSalesforceId) {
@@ -253,7 +252,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 - (void)authClientWillBeginAuthentication:(SFSDKOAuthClient *)client{
     [self enumerateDelegates:^(id <SFUserAccountManagerDelegate> delegate) {
         if ([delegate respondsToSelector:@selector(userAccountManager:willLogin:)]) {
-            [delegate userAccountManager:self willLogin:client.context.coordinator.credentials];
+            [delegate userAccountManager:self willLogin:client.credentials];
         }
     }];
 }
@@ -286,135 +285,15 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 
 - (void)authClientDidChangeLoginHost:(SFSDKOAuthClient *)client loginHost:(NSString *)newLoginHost {
     self.loginHost = newLoginHost;
-    [self switchToNewUser];
+    [client cancelAuthentication];
+    [client refreshCredentials];
 }
 
 - (void)authClientRestartAuthentication:(SFSDKOAuthClient *)client {
     [client restartAuthentication];
 }
 
-- (void)loggedIn:(BOOL)fromOffline client:(SFSDKOAuthClient* )client
-{
-    if (!fromOffline) {
-        __weak typeof(self) weakSelf = self;
-        [client retrieveIdentityDataWithCompletion:^(SFSDKOAuthClient *client) {
-            [weakSelf retrievedIdentityData:client];
-        } failure:^(SFSDKOAuthClient *client, NSError *error) {
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            [client revokeCredentials];
-            [strongSelf handleFailure:error client:client];
-        }];
-    } else {
-        [self retrievedIdentityData:client];
-    }
-}
 
-- (void)retrievedIdentityData:(SFSDKOAuthClient *)client
-{
-    // NB: This method is assumed to run after identity data has been refreshed from the service, or otherwise
-    // already exists.
-    NSAssert(client.context.idCoordinator.idData != nil, @"Identity data should not be nil/empty at this point.");
-    __weak typeof(self) weakSelf = self;
-    [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
-        [weakSelf finalizeAuthCompletion:client];
-    }];
-    [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
-        [weakSelf handleFailure:client.context.authError client:client];
-    }];
-    // Check to see if a passcode needs to be created or updated, based on passcode policy data from the
-    // identity service.
-    [SFSecurityLockout setPasscodeLength:client.context.idCoordinator.idData.mobileAppPinLength
-                             lockoutTime:(client.context.idCoordinator.idData.mobileAppScreenLockTimeout * 60)];
-}
-
-
-- (void)handleFailure:(NSError *)error  client:(SFSDKOAuthClient *)client{
-    if( client.context.failureCallbackBlock ) {
-        client.context.failureCallbackBlock(client.context.authInfo,error);
-    }
-    __weak typeof(self) weakSelf = self;
-
-    [self enumerateDelegates:^(id <SFUserAccountManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(userAccountManager:error:info:)]) {
-            [delegate userAccountManager:weakSelf error:error info:client.context.authInfo];
-        }
-    }];
-
-    [client cancelAuthentication];
-}
-
-
-- (void)finalizeAuthCompletion:(SFSDKOAuthClient *)client
-{
-    // Apply the credentials that will ensure there is a user and that this
-    // current user as the proper credentials.
-    SFUserAccount *userAccount = [self applyCredentials:client.context.coordinator.credentials withIdData:client.context.idCoordinator.idData];
-    client.context.isAuthenticating = NO;
-    BOOL loginStateTransitionSucceeded = [userAccount transitionToLoginState:SFUserAccountLoginStateLoggedIn];
-    if (!loginStateTransitionSucceeded) {
-        // We're in an unlikely, but nevertheless bad, state.  Fail this authentication.
-        [SFSDKCoreLogger e:[self class] format:@"%@: Unable to transition user to a logged in state.  Login failed.", NSStringFromSelector(_cmd)];
-        NSString *reason = [NSString stringWithFormat:@"Unable to transition user to a logged in state.  Login failed "];
-        [SFSDKCoreLogger w:[self class] format:reason];
-         NSError *error = [NSError errorWithDomain:@"SFUserAccountManager"
-                                         code:1005
-                                     userInfo:@{ NSLocalizedDescriptionKey : reason } ];
-         [self handleFailure:error client:client];
-    } else {
-        // Notify the session is ready
-        [self willChangeValueForKey:@"haveValidSession"];
-        [self didChangeValueForKey:@"haveValidSession"];
-        [self initAnalyticsManager];
-        if (client.context.successCallbackBlock)
-            client.context.successCallbackBlock(client.context.authInfo,userAccount);
-        
-        [self handleAnalyticsAddUserEvent:client account:userAccount];
-    }
-    
-    NSDictionary *userInfo = @{ @"account": userAccount };
-    NSNotification *loggedInNotification = [NSNotification notificationWithName:SFUserAccountManagerLoggedInNotification object:self  userInfo:userInfo];
-    [[NSNotificationCenter defaultCenter] postNotification:loggedInNotification];
-    
-    [self enumerateDelegates:^(id <SFUserAccountManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(userAccountManager:didLogin:)]) {
-            [delegate userAccountManager:self didLogin:userAccount];
-        }
-    }];
-
-    [client dismissAuthViewControllerIfPresent];
-
-}
-
-- (void) handleAnalyticsAddUserEvent:(SFSDKOAuthClient *)client account:(SFUserAccount *) userAccount {
-    if (client.context.authInfo.authType == SFOAuthTypeRefresh) {
-        [SFSDKEventBuilderHelper createAndStoreEvent:@"tokenRefresh" userAccount:userAccount className:NSStringFromClass([self class]) attributes:nil];
-    } else {
-        
-        // Logging events for add user and number of servers.
-        NSArray *accounts = self.allUserAccounts;
-        NSMutableDictionary *userAttributes = [[NSMutableDictionary alloc] init];
-        userAttributes[@"numUsers"] = [NSNumber numberWithInteger:(accounts ? accounts.count : 0)];
-        [SFSDKEventBuilderHelper createAndStoreEvent:@"addUser" userAccount:userAccount  className:NSStringFromClass([self class]) attributes:userAttributes];
-        NSInteger numHosts = [SFSDKLoginHostStorage sharedInstance].numberOfLoginHosts;
-        NSMutableArray<NSString *> *hosts = [[NSMutableArray alloc] init];
-        for (int i = 0; i < numHosts; i++) {
-            SFSDKLoginHost *host = [[SFSDKLoginHostStorage sharedInstance] loginHostAtIndex:i];
-            if (host) {
-                [hosts addObject:host.host];
-            }
-        }
-        NSMutableDictionary *serverAttributes = [[NSMutableDictionary alloc] init];
-        serverAttributes[@"numLoginServers"] = [NSNumber numberWithInteger:numHosts];
-        serverAttributes[@"loginServers"] = hosts;
-        [SFSDKEventBuilderHelper createAndStoreEvent:@"addUser" userAccount:nil className:NSStringFromClass([self class]) attributes:serverAttributes];
-    }
-}
-
-- (void)initAnalyticsManager
-{
-    SFSDKSalesforceAnalyticsManager *analyticsManager = [SFSDKSalesforceAnalyticsManager sharedInstanceWithUser:self.currentUser];
-    [analyticsManager updateLoggingPrefs];
-}
 
 #pragma mark - SFUserAccountDelegate management
 
@@ -905,7 +784,131 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
     return [userDefaults stringForKey:kUserDefaultsLastUserCommunityIdKey];
 }
 
-#pragma mark -
+#pragma mark - private methods
+
+- (void)loggedIn:(BOOL)fromOffline client:(SFSDKOAuthClient* )client
+{
+    if (!fromOffline) {
+        __weak typeof(self) weakSelf = self;
+        [client retrieveIdentityDataWithCompletion:^(SFSDKOAuthClient *client) {
+            [weakSelf retrievedIdentityData:client];
+        } failure:^(SFSDKOAuthClient *client, NSError *error) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            [client revokeCredentials];
+            [strongSelf handleFailure:error client:client];
+        }];
+    } else {
+        [self retrievedIdentityData:client];
+    }
+}
+
+- (void)retrievedIdentityData:(SFSDKOAuthClient *)client
+{
+    // NB: This method is assumed to run after identity data has been refreshed from the service, or otherwise
+    // already exists.
+    NSAssert(client.idData != nil, @"Identity data should not be nil/empty at this point.");
+    __weak typeof(self) weakSelf = self;
+    [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
+        [weakSelf finalizeAuthCompletion:client];
+    }];
+    [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
+        [weakSelf handleFailure:client.context.authError client:client];
+    }];
+    // Check to see if a passcode needs to be created or updated, based on passcode policy data from the
+    // identity service.
+    [SFSecurityLockout setPasscodeLength:client.idData.mobileAppPinLength
+                             lockoutTime:(client.idData.mobileAppScreenLockTimeout * 60)];
+}
+
+
+- (void)handleFailure:(NSError *)error  client:(SFSDKOAuthClient *)client{
+    if( client.config.failureCallbackBlock ) {
+        client.config.failureCallbackBlock(client.context.authInfo,error);
+    }
+    __weak typeof(self) weakSelf = self;
+    
+    [self enumerateDelegates:^(id <SFUserAccountManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(userAccountManager:error:info:)]) {
+            [delegate userAccountManager:weakSelf error:error info:client.context.authInfo];
+        }
+    }];
+    
+    [client cancelAuthentication];
+}
+
+
+- (void)finalizeAuthCompletion:(SFSDKOAuthClient *)client
+{
+    // Apply the credentials that will ensure there is a user and that this
+    // current user as the proper credentials.
+    SFUserAccount *userAccount = [self applyCredentials:client.credentials withIdData:client.idData];
+    client.isAuthenticating = NO;
+    BOOL loginStateTransitionSucceeded = [userAccount transitionToLoginState:SFUserAccountLoginStateLoggedIn];
+    if (!loginStateTransitionSucceeded) {
+        // We're in an unlikely, but nevertheless bad, state.  Fail this authentication.
+        [SFSDKCoreLogger e:[self class] format:@"%@: Unable to transition user to a logged in state.  Login failed.", NSStringFromSelector(_cmd)];
+        NSString *reason = [NSString stringWithFormat:@"Unable to transition user to a logged in state.  Login failed "];
+        [SFSDKCoreLogger w:[self class] format:reason];
+        NSError *error = [NSError errorWithDomain:@"SFUserAccountManager"
+                                             code:1005
+                                         userInfo:@{ NSLocalizedDescriptionKey : reason } ];
+        [self handleFailure:error client:client];
+    } else {
+        // Notify the session is ready
+        [self willChangeValueForKey:@"haveValidSession"];
+        [self didChangeValueForKey:@"haveValidSession"];
+        [self initAnalyticsManager];
+        if (client.config.successCallbackBlock)
+            client.config.successCallbackBlock(client.context.authInfo,userAccount);
+        
+        [self handleAnalyticsAddUserEvent:client account:userAccount];
+    }
+    
+    NSDictionary *userInfo = @{ @"account": userAccount };
+    NSNotification *loggedInNotification = [NSNotification notificationWithName:SFUserAccountManagerLoggedInNotification object:self  userInfo:userInfo];
+    [[NSNotificationCenter defaultCenter] postNotification:loggedInNotification];
+    
+    [self enumerateDelegates:^(id <SFUserAccountManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(userAccountManager:didLogin:)]) {
+            [delegate userAccountManager:self didLogin:userAccount];
+        }
+    }];
+    
+    [client dismissAuthViewControllerIfPresent];
+    
+}
+
+- (void) handleAnalyticsAddUserEvent:(SFSDKOAuthClient *)client account:(SFUserAccount *) userAccount {
+    if (client.context.authInfo.authType == SFOAuthTypeRefresh) {
+        [SFSDKEventBuilderHelper createAndStoreEvent:@"tokenRefresh" userAccount:userAccount className:NSStringFromClass([self class]) attributes:nil];
+    } else {
+        
+        // Logging events for add user and number of servers.
+        NSArray *accounts = self.allUserAccounts;
+        NSMutableDictionary *userAttributes = [[NSMutableDictionary alloc] init];
+        userAttributes[@"numUsers"] = [NSNumber numberWithInteger:(accounts ? accounts.count : 0)];
+        [SFSDKEventBuilderHelper createAndStoreEvent:@"addUser" userAccount:userAccount  className:NSStringFromClass([self class]) attributes:userAttributes];
+        NSInteger numHosts = [SFSDKLoginHostStorage sharedInstance].numberOfLoginHosts;
+        NSMutableArray<NSString *> *hosts = [[NSMutableArray alloc] init];
+        for (int i = 0; i < numHosts; i++) {
+            SFSDKLoginHost *host = [[SFSDKLoginHostStorage sharedInstance] loginHostAtIndex:i];
+            if (host) {
+                [hosts addObject:host.host];
+            }
+        }
+        NSMutableDictionary *serverAttributes = [[NSMutableDictionary alloc] init];
+        serverAttributes[@"numLoginServers"] = [NSNumber numberWithInteger:numHosts];
+        serverAttributes[@"loginServers"] = hosts;
+        [SFSDKEventBuilderHelper createAndStoreEvent:@"addUser" userAccount:nil className:NSStringFromClass([self class]) attributes:serverAttributes];
+    }
+}
+
+- (void)initAnalyticsManager
+{
+    SFSDKSalesforceAnalyticsManager *analyticsManager = [SFSDKSalesforceAnalyticsManager sharedInstanceWithUser:self.currentUser];
+    [analyticsManager updateLoggingPrefs];
+}
+
 #pragma mark Switching Users
 
 - (void)switchToNewUser {
@@ -932,7 +935,6 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
         }];
     }
 }
-
 
 #pragma mark - User Change Notifications
 - (void)userChanged:(SFUserAccount *)user change:(SFUserAccountDataChange)change {

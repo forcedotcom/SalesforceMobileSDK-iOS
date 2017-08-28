@@ -29,8 +29,40 @@
 #import "SFSDKOAuthClientContext.h"
 #import "SFIdentityData.h"
 #import "SFSDKOAuthClient.h"
+#import "SFAuthErrorHandlerList.h"
+#import "SFAuthErrorHandler.h"
+#import "SFSDKOAuthViewHandler.h"
+
+@interface SFSDKOAuthClientContext()
+
+@property (nonatomic, assign) BOOL isAuthenticating;
+@property (nonatomic, weak,readwrite,nullable) SFOAuthCredentials *credentials;
+@property (nonatomic, weak,readwrite,nullable) id<SFSDKOAuthClientSafariViewDelegate> safariViewDelegate;
+@property (nonatomic, weak,readwrite,nullable) id<SFSDKOAuthClientWebViewDelegate> webViewDelegate;
+@property (nonatomic, weak,readwrite,nullable) id<SFSDKOAuthClientDelegate> delegate;
+
+@property (nonatomic, copy, readwrite,nullable) SFAuthenticationSuccessCallbackBlock successCallbackBlock;
+@property (nonatomic, copy, readwrite,nullable) SFAuthenticationFailureCallbackBlock  failureCallbackBlock;
+@property (nonatomic, copy, readwrite,nullable) SFIdentitySuccessCallbackBlock identitySuccessCallbackBlock;
+@property (nonatomic, copy, readwrite,nullable) SFIdentityFailureCallbackBlock  identityFailureCallbackBlock;
+@property (nonatomic, copy,readwrite,nullable)  SFOAuthBrowserFlowCallbackBlock authCoordinatorBrowserBlock;
+
+@property (nonatomic, strong, readwrite,nullable) SFOAuthCoordinator *coordinator;
+@property (nonatomic, strong, readwrite,nullable) SFIdentityCoordinator *idCoordinator;
+@property (nonatomic, strong, readwrite,nullable) SFOAuthInfo *authInfo;
+@property (nonatomic, strong, readwrite,nullable) NSError *authError;
+
+@property (nonatomic,assign) SFOAuthAdvancedAuthConfiguration advancedAuthConfiguration;
+@property (nonatomic, strong, readwrite,nullable) NSArray *additionalOAuthParameterKeys;
+@property (nonatomic, strong, readwrite,nullable) NSDictionary *additionalTokenRefreshParams;
+@property (nonatomic, readwrite,nullable) SFAuthErrorHandler *invalidCredentialsAuthErrorHandler;
+@property (nonatomic, readwrite,nullable) SFAuthErrorHandler *connectedAppVersionAuthErrorHandler;
+@property (nonatomic, readwrite,nullable) SFAuthErrorHandler *networkFailureAuthErrorHandler;
+@property (nonatomic, readwrite,nullable) SFAuthErrorHandler *genericAuthErrorHandler;
+@property (nonatomic, strong, readwrite,nullable) SFAuthErrorHandlerList *authErrorHandlerList;
+@property (nonatomic, strong,readwrite,nullable) UIAlertController *statusAlert;
+@end
 
 @implementation SFSDKOAuthClientContext
-
 
 @end

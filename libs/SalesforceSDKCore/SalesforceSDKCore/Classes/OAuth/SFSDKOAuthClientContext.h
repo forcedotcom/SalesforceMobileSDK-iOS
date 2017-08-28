@@ -38,6 +38,12 @@ NS_ASSUME_NONNULL_BEGIN
 @class SFUserAccount;
 @class SFSDKOAuthClientContext;
 @class SFSDKOAuthClient;
+@protocol SFSDKOAuthClientDelegate;
+@protocol SFSDKOAuthClientWebViewDelegate;
+@protocol SFSDKOAuthClientSafariViewDelegate;
+@class SFAuthErrorHandlerList;
+@class SFAuthErrorHandler;
+@class SFSDKOAuthViewHandler;
 
 /**
  Callback block definition for OAuth completion callback.
@@ -59,21 +65,16 @@ typedef void (^SFIdentitySuccessCallbackBlock)(SFSDKOAuthClient *client);
  */
 typedef void (^SFIdentityFailureCallbackBlock)(SFSDKOAuthClient *,NSError *);
 
-
 /** Object representing state of a current authentication context. Provides a means to isolate individual authentication requests
  */
 @interface SFSDKOAuthClientContext : NSObject
 
-@property (nonatomic, assign) BOOL isAuthenticating;
-@property (nonatomic, copy, nullable) SFAuthenticationSuccessCallbackBlock successCallbackBlock;
-@property (nonatomic, copy, nullable) SFAuthenticationFailureCallbackBlock  failureCallbackBlock;
-@property (nonatomic, copy, nullable) SFIdentitySuccessCallbackBlock identitySuccessCallbackBlock;
-@property (nonatomic, copy, nullable) SFIdentityFailureCallbackBlock  identityFailureCallbackBlock;
-@property (nonatomic, strong, nullable) SFOAuthCoordinator *coordinator;
-@property (nonatomic, strong, nullable) SFIdentityCoordinator *idCoordinator;
-@property (nonatomic, strong, nullable) SFOAuthInfo *authInfo;
-@property (nonatomic, strong, nullable) NSError *authError;
-@property (nonatomic, copy) SFOAuthBrowserFlowCallbackBlock authCoordinatorBrowserBlock;
+@property (nonatomic, weak,readonly) SFOAuthCredentials *credentials;
+@property (nonatomic, strong,readonly) UIAlertController *statusAlert;
+@property (nonatomic, strong, readonly) SFOAuthCoordinator *coordinator;
+@property (nonatomic, strong, readonly) SFIdentityCoordinator *idCoordinator;
+@property (nonatomic, strong, readonly) SFOAuthInfo *authInfo;
+@property (nonatomic, strong, readonly) NSError *authError;
 
 @end
 

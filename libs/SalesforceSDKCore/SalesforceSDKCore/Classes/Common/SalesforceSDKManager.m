@@ -771,6 +771,10 @@ static NSString* ailtnAppName = nil;
 
 #pragma mark - SFUserAccountManagerDelegate
 
+- (void)userAccountManager:(SFUserAccountManager *)userAccountManager didLogout:(SFUserAccount *)userAccount{
+    [self.sdkManagerFlow handlePostLogout];
+}
+
 - (void)userAccountManager:(SFUserAccountManager *)userAccountManager
          didSwitchFromUser:(SFUserAccount *)fromUser
                     toUser:(SFUserAccount *)toUser

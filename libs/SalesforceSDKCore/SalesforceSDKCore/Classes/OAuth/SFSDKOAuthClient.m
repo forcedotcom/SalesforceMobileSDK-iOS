@@ -34,9 +34,11 @@
 #import "SFAuthErrorHandler.h"
 #import "SFSDKOAuthClientContext.h"
 #import "SFSDKAuthPreferences.h"
-
+#import "SFSDKMutableOAuthClientContext.h"
+#import "SFSDKOAuthClientConfig.h"
 static SFSDKOAuthClient *_sharedInstance = nil;
 
+static SFSDKOAuthClient *_idpInstance = nil;
 // Auth error handler name constants
 static NSString * const kSFInvalidCredentialsAuthErrorHandler = @"InvalidCredentialsErrorHandler";
 static NSString * const kSFConnectedAppVersionAuthErrorHandler = @"ConnectedAppVersionErrorHandler";
@@ -59,18 +61,9 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 static id<SFSDKOAuthClientProvider> _clientProvider = nil;
 
 
-@interface SFSDKOAuthClient()<SFOAuthCoordinatorDelegate,SFIdentityCoordinatorDelegate,SFSDKLoginHostDelegate,SFLoginViewControllerDelegate> {
-    SFSDKOAuthClientContext *_lastCodeRequest;
-}
+@interface SFSDKOAuthClient()<SFOAuthCoordinatorDelegate,SFIdentityCoordinatorDelegate,SFSDKLoginHostDelegate,SFLoginViewControllerDelegate>
+@property (nonatomic, strong) SFSDKOAuthClientContext *_Nullable context;
 
-@property (nonatomic,strong) SFSDKSafeMutableDictionary *currentRequestContexts;
-/**
- Making certain read-only properties privately read-write
- */
-@property (nonatomic, readwrite) SFAuthErrorHandler *invalidCredentialsAuthErrorHandler;
-@property (nonatomic, readwrite) SFAuthErrorHandler *genericAuthErrorHandler;
-@property (nonatomic, readwrite) SFAuthErrorHandler *networkFailureAuthErrorHandler;
-@property (nonatomic, readwrite) SFAuthErrorHandler *connectedAppVersionAuthErrorHandler;
 
 - (void)revokeRefreshToken:(SFOAuthCredentials *)user;
 /**
@@ -101,12 +94,11 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
 @end
 
 @implementation SFSDKOAuthClient
-@synthesize authViewHandler = _authViewHandler;
 
-- (instancetype) init {
+- (instancetype) initWithConfig:(SFSDKOAuthClientConfig *)config {
     self = [super init];
     if (self) {
-        //_currentRequestContexts = [SFSDKSafeMutableDictionary new];
+        _config = config;
         [self populateDefaultAuthErrorHandlerList];
     }
     return self;
@@ -121,30 +113,37 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
     }
 }
 
-- (void)setAuthViewHandler:(SFSDKOAuthViewHandler *)authViewHandler {
-    if (authViewHandler!=_authViewHandler) {
-        _authViewHandler = authViewHandler;
-    }
-}
-
 - (SFSDKWindowContainer *) authWindow{
    return [SFSDKWindowManager sharedManager].authWindow;
 }
 
+- (BOOL)isAuthenticating {
+    return _isAuthenticating;
+}
+
+- (SFOAuthCredentials *)credentials {
+    return self.context.credentials;
+}
+
+- (SFIdentityData *)idData {
+    return self.context.idCoordinator.idData;
+}
+
 - (SFSDKOAuthViewHandler *)authViewHandler {
 
-    if (!_authViewHandler) {
+    if (!self.config.authViewHandler) {
         __weak typeof(self) weakSelf = self;
-        if (self.advancedAuthConfiguration == SFOAuthAdvancedAuthConfigurationNone) {
-            _authViewHandler = [[SFSDKOAuthViewHandler alloc]
+
+        if (self.config.advancedAuthConfiguration == SFOAuthAdvancedAuthConfigurationNone) {
+            _config.authViewHandler = [[SFSDKOAuthViewHandler alloc]
                     initWithDisplayBlock:^(SFSDKOAuthClient *client, SFSDKOAuthClientViewHolder *viewHandler) {
                         __strong typeof(weakSelf) strongSelf = weakSelf;
-                        if (strongSelf.authViewController == nil) {
-                            strongSelf.authViewController = [SFLoginViewController sharedInstance];
-                            strongSelf.authViewController.delegate = strongSelf;
+                        if (strongSelf.config.authViewController == nil) {
+                            strongSelf.config.authViewController = [SFLoginViewController sharedInstance];
+                            strongSelf.config.authViewController.delegate = strongSelf;
                         }
-                        [strongSelf.authViewController setOauthView:viewHandler.wkWebView];
-                        strongSelf.authWindow.viewController = strongSelf.authViewController;
+                        [strongSelf.config.authViewController setOauthView:viewHandler.wkWebView];
+                        strongSelf.authWindow.viewController = strongSelf.config.authViewController;
                         [strongSelf.authWindow enable];
                     } dismissBlock:^(SFSDKOAuthClient *client) {
                         __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -152,7 +151,7 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
                         [strongSelf dismissAuthViewControllerIfPresent];
                     }];
         } else {
-            _authViewHandler =[[SFSDKOAuthViewHandler alloc]
+            _config.authViewHandler =[[SFSDKOAuthViewHandler alloc]
                     initWithDisplayBlock:^(SFSDKOAuthClient *client, SFSDKOAuthClientViewHolder *viewHandler) {
                         __strong typeof(weakSelf) strongSelf = weakSelf;
                         strongSelf.authWindow.viewController = viewHandler.safariViewController;
@@ -161,7 +160,7 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
         }
 
     }
-    return _authViewHandler;
+    return _config.authViewHandler;
 }
 
 -(void)dismissAuthViewControllerIfPresent {
@@ -182,59 +181,45 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
 
 - (void)retrieveIdentityDataWithCompletion:(SFIdentitySuccessCallbackBlock)successBlock
                      failure:(SFIdentityFailureCallbackBlock)failureBlock {
-    self.context.identitySuccessCallbackBlock = successBlock;
-    self.context.identityFailureCallbackBlock = failureBlock;
+
+    self.config.identitySuccessCallbackBlock = successBlock;
+    self.config.identityFailureCallbackBlock = failureBlock;
     [self.context.idCoordinator initiateIdentityDataRetrieval];
-}
-
-- (void)setupContext:(SFOAuthCredentials *)credentials{
-    SFSDKOAuthClientContext *request = [[SFSDKOAuthClientContext alloc] init];
-    request.coordinator  = [[SFOAuthCoordinator alloc] initWithCredentials:credentials];
-    request.coordinator.advancedAuthConfiguration = self.advancedAuthConfiguration;
-    request.coordinator.scopes = [SFSDKAuthPreferences sharedPreferences].scopes;
-    request.idCoordinator  = [[SFIdentityCoordinator alloc] initWithCredentials:credentials];
-    request.coordinator.delegate = self;
-    request.idCoordinator.delegate = self;
-    self.context = request;
-  
-
 }
 
 - (BOOL)cancelAuthentication {
     [self.context.coordinator.view removeFromSuperview];
     self.context.idCoordinator.idData = nil;
     [self.context.coordinator stopAuthentication];
-    self.context.isAuthenticating = NO;
+    self.isAuthenticating = NO;
     return YES;
 }
 
 - (BOOL)refreshCredentials {
 
-   if (self.context && self.context.isAuthenticating) {
+   if (self.isAuthenticating) {
         return NO;
     }
-    self.context.isAuthenticating = YES;
-
+    self.isAuthenticating = YES;
     [self.context.coordinator authenticateWithCredentials:self.context.coordinator.credentials];
     return  YES;
 }
 
 -(void)revokeCredentials {
     SFSDKOAuthClientContext *request = self.context;
-    if ([_delegate respondsToSelector:@selector(authClientWillRevokeCredentials:)]) {
-        [_delegate authClientWillRevokeCredentials:self];
+    if ([self.config.delegate respondsToSelector:@selector(authClientWillRevokeCredentials:)]) {
+        [self.config.delegate authClientWillRevokeCredentials:self];
     }
     [self revokeRefreshToken:request.coordinator.credentials];
 
-    if ([_delegate respondsToSelector:@selector(authClientDidRevokeCredentials:)]) {
-        [_delegate authClientDidRevokeCredentials:self];
+    if ([self.config.delegate respondsToSelector:@selector(authClientDidRevokeCredentials:)]) {
+        [self.config.delegate authClientDidRevokeCredentials:self];
     }
 }
 
 - (BOOL)handleURLAuthenticationResponse:(NSURL *)appUrlResponse {
     [SFSDKCoreLogger i:[self class] format:@"handleAdvancedAuthenticationResponse"];
-    [_lastCodeRequest.coordinator handleAdvancedAuthenticationResponse:appUrlResponse];
-    _lastCodeRequest = nil;
+    [self.context.coordinator handleAdvancedAuthenticationResponse:appUrlResponse];
     return YES;
 }
 
@@ -242,8 +227,8 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
 
 - (void)loginViewController:(SFLoginViewController *)loginViewController didChangeLoginHost:(SFSDKLoginHost *)newLoginHost {
 
-    if ([_delegate respondsToSelector:@selector(authClientDidChangeLoginHost:loginHost:)]) {
-        [_delegate authClientDidChangeLoginHost:self loginHost:newLoginHost.host];
+    if ([self.config.delegate respondsToSelector:@selector(authClientDidChangeLoginHost:loginHost:)]) {
+        [self.config.delegate authClientDidChangeLoginHost:self loginHost:newLoginHost.host];
     }
 }
 
@@ -255,41 +240,41 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
 
 - (void)hostListViewController:(SFSDKLoginHostListViewController *)hostListViewController didChangeLoginHost:(SFSDKLoginHost *)newLoginHost {
     [SFSDKAuthPreferences sharedPreferences].loginHost = newLoginHost.host;
-    if ([_delegate respondsToSelector:@selector(authClientDidChangeLoginHost:loginHost:)]) {
-        [_delegate authClientDidChangeLoginHost:self loginHost:newLoginHost.host];
+    if ([self.config.delegate respondsToSelector:@selector(authClientDidChangeLoginHost:loginHost:)]) {
+        [self.config.delegate authClientDidChangeLoginHost:self loginHost:newLoginHost.host];
     }
 }
 
 #pragma mark - SFOAuthCoordinatorDelegate
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginAuthenticationWithView:(WKWebView *)view {
     [SFSDKCoreLogger d:[self class] format:@"oauthCoordinator:willBeginAuthenticationWithView:"];
-    if ([self.webViewDelegate respondsToSelector:@selector(authClientWillBeginAuthWithView:)]) {
-        [self.webViewDelegate authClientWillBeginAuthWithView:self];
+    if ([self.config.webViewDelegate respondsToSelector:@selector(authClientWillBeginAuthWithView:)]) {
+        [self.config.webViewDelegate authClientWillBeginAuthWithView:self];
     }
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didStartLoad:(WKWebView *)view {
-    if ([self.webViewDelegate respondsToSelector:@selector(authClientDidStartAuthWebViewLoad:)]) {
-        [self.webViewDelegate authClientDidStartAuthWebViewLoad:self];
+    if ([self.config.webViewDelegate respondsToSelector:@selector(authClientDidStartAuthWebViewLoad:)]) {
+        [self.config.webViewDelegate authClientDidStartAuthWebViewLoad:self];
     }
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFinishLoad:(WKWebView *)view error:(NSError *)errorOrNil {
-    if ([self.webViewDelegate respondsToSelector:@selector(authClientDidFinishAuthWebViewLoad:)]) {
-        [self.webViewDelegate authClientDidFinishAuthWebViewLoad:self];
+    if ([self.config.webViewDelegate respondsToSelector:@selector(authClientDidFinishAuthWebViewLoad:)]) {
+        [self.config.webViewDelegate authClientDidFinishAuthWebViewLoad:self];
     }
 }
 
 - (void)oauthCoordinatorWillBeginAuthentication:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info {
 
     [SFSDKCoreLogger i:[self class] format:@"oauthCoordinatorWillBeginAuthentication"];
-    if ([self.delegate respondsToSelector:@selector(authClientWillBeginAuthentication:)]) {
-        [self.delegate authClientWillBeginAuthentication:self];
+    if ([self.config.delegate respondsToSelector:@selector(authClientWillBeginAuthentication:)]) {
+        [self.config.delegate authClientWillBeginAuthentication:self];
     }
 
     if (info.authType == SFOAuthTypeRefresh) {
-        if ([self.delegate respondsToSelector:@selector(authClientWillRefreshCredentials:)]) {
-            [self.delegate authClientWillRefreshCredentials:self];
+        if ([self.config.delegate respondsToSelector:@selector(authClientWillRefreshCredentials:)]) {
+            [self.config.delegate authClientWillRefreshCredentials:self];
         }
     }
 
@@ -299,16 +284,18 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
     [SFSDKCoreLogger i:[self class] format:@"oauthCoordinatorDidAuthenticate"];
     [SFSDKCoreLogger d:[self class] format:@"oauthCoordinatorDidAuthenticate for userId: %@, auth info: %@", coordinator.credentials.userId, info];
 
-    if ([_delegate respondsToSelector:@selector(authClientDidFinish:)]) {
-        [_delegate authClientDidFinish:self];
+    if ([self.config.delegate respondsToSelector:@selector(authClientDidFinish:)]) {
+        [self.config.delegate authClientDidFinish:self];
     }
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info {
 
     [SFSDKCoreLogger d:[self class] format:@"oauthCoordinator:didFailWithError: %@, authInfo: %@", error, self.context.authInfo];
-    self.context.authInfo = info;
-    self.context.authError = error;
+    SFSDKMutableOAuthClientContext *mutableOAuthClientContext = [SFSDKMutableOAuthClientContext mutableContext:self.context];
+    mutableOAuthClientContext.authInfo = info;
+    mutableOAuthClientContext.authError = error;
+    self.context = mutableOAuthClientContext;
     [self processAuthError:error];
 }
 
@@ -323,13 +310,15 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
         });
         return;
     }
-    SFSDKOAuthClientContext *currentRequest = self.context;
-    currentRequest.authCoordinatorBrowserBlock = callbackBlock;
+   // SFSDKMutableOAuthClientContext *currentRequest = [SFSDKMutableOAuthClientContext mutableContext:context];
+    self.config.authCoordinatorBrowserBlock = callbackBlock;
     NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];;
     NSString *alertMessage = [NSString stringWithFormat:[SFSDKResourceUtils localizedString:@"authAlertBrowserFlowMessage"], coordinator.credentials.domain, appName];
 
-    if (self.statusAlert) {
-        self.statusAlert = nil;
+    if (self.context.statusAlert) {
+        SFSDKMutableOAuthClientContext *mutableOAuthClientContext = [SFSDKMutableOAuthClientContext mutableContext:self.context];
+        mutableOAuthClientContext.statusAlert = nil;
+        self.context = mutableOAuthClientContext;
     }
 
     [self showAlertWithTitle:[SFSDKResourceUtils localizedString:@"authAlertBrowserFlowTitle"]
@@ -356,7 +345,7 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
     self.authWindow.viewController = [self blankViewController];
     [self.authWindow enable:NO withCompletion:^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        [strongSelf.authWindow.viewController presentViewController:strongSelf.statusAlert animated:NO completion:nil];
+        [strongSelf.authWindow.viewController presentViewController:strongSelf.context.statusAlert animated:NO completion:nil];
     }];
 
 }
@@ -391,8 +380,8 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(WKWebView *)view {
     [SFSDKCoreLogger d:[self class] format:@"oauthCoordinator:didBeginAuthenticationWithView"];
 
-    if ([self.webViewDelegate respondsToSelector:@selector(authClient:willDisplayAuthWebView:)]) {
-        [self.webViewDelegate authClient:self willDisplayAuthWebView:view];
+    if ([self.config.webViewDelegate respondsToSelector:@selector(authClient:willDisplayAuthWebView:)]) {
+        [self.config.webViewDelegate authClient:self willDisplayAuthWebView:view];
     }
     SFSDKOAuthClientViewHolder *viewHolder = [SFSDKOAuthClientViewHolder new];
     viewHolder.wkWebView = view;
@@ -410,10 +399,9 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSafariViewController:(SFSafariViewController *)svc {
-    _lastCodeRequest = self.context;
     [SFSDKCoreLogger d:[self class] format:@"oauthCoordinator:didBeginAuthenticationWithSafariViewController"];
-    if ([self.safariViewDelegate respondsToSelector:@selector(authClient:willDisplayAuthSafariViewController:)]) {
-        [self.safariViewDelegate authClient:self willDisplayAuthSafariViewController:svc];
+    if ([self.config.safariViewDelegate respondsToSelector:@selector(authClient:willDisplayAuthSafariViewController:)]) {
+        [self.config.safariViewDelegate authClient:self willDisplayAuthSafariViewController:svc];
     }
     SFSDKOAuthClientViewHolder *viewHolder = [SFSDKOAuthClientViewHolder new];
     viewHolder.safariViewController = svc;
@@ -424,9 +412,9 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
 - (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator *)coordinator {
     __block BOOL handledByDelegate = NO;
     [SFSDKCoreLogger i:[self class] format:@"oauthCoordinatorDidCancelBrowserAuthentication"];
-    if ([self.safariViewDelegate respondsToSelector:@selector(authClientDidCancelBrowserFlow:)]) {
+    if ([self.config.safariViewDelegate respondsToSelector:@selector(authClientDidCancelBrowserFlow:)]) {
         handledByDelegate = YES;
-        [self.safariViewDelegate authClientDidCancelBrowserFlow:self];
+        [self.config.safariViewDelegate authClientDidCancelBrowserFlow:self];
     }
     // If no delegates implement authManagerDidCancelBrowserFlow, display Login Host List
     if (!handledByDelegate) {
@@ -441,17 +429,16 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
 
 #pragma mark - SFIdentityCoordinatorDelegate
 - (void)identityCoordinatorRetrievedData:(SFIdentityCoordinator *)coordinator {
-    if (self.context.identitySuccessCallbackBlock)
-        self.context.identitySuccessCallbackBlock(self);
+    if (self.config.identitySuccessCallbackBlock)
+        self.config.identitySuccessCallbackBlock(self);
 }
 
 - (void)identityCoordinator:(SFIdentityCoordinator *)coordinator didFailWithError:(NSError *)error {
-    SFSDKOAuthClientContext *currentRequest = self.context;
     if (error.code == kSFIdentityErrorMissingParameters) {
         // No retry, as missing parameters are fatal
         [SFSDKCoreLogger e:[self class] format:@"Missing parameters attempting to retrieve identity data.  Error domain: %@, code: %ld, description: %@", [error domain], [error code], [error localizedDescription]];
-        if (currentRequest.identityFailureCallbackBlock)
-            currentRequest.identityFailureCallbackBlock(self,error);
+        if (self.config.identityFailureCallbackBlock)
+            self.config.identityFailureCallbackBlock(self,error);
     } else {
         [SFSDKCoreLogger e:[self class] format:@"Error retrieving idData:"];
         [self showRetryAlertForAuthError:error alertTag:kIdentityAlertViewTag];
@@ -512,7 +499,8 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
     SFAuthErrorHandlerList *authHandlerList = [[SFAuthErrorHandlerList alloc] init];
 
     // Invalid credentials handler
-    self.invalidCredentialsAuthErrorHandler = [[SFAuthErrorHandler alloc]
+    if (!_config.invalidCredentialsAuthErrorHandler) {
+    _config.invalidCredentialsAuthErrorHandler = [[SFAuthErrorHandler alloc]
             initWithName:kSFInvalidCredentialsAuthErrorHandler
                evalBlock:^BOOL(NSError *error,SFOAuthInfo *info) {
                    __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -523,58 +511,63 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
                    }
                    return NO;
                }];
-    [authHandlerList addAuthErrorHandler:self.invalidCredentialsAuthErrorHandler];
+    }
+    [authHandlerList addAuthErrorHandler:self.config.invalidCredentialsAuthErrorHandler];
 
     // Connected app version mismatch handler
-
-    self.connectedAppVersionAuthErrorHandler = [[SFAuthErrorHandler alloc]
-            initWithName:kSFConnectedAppVersionAuthErrorHandler
-            evalBlock:^BOOL(NSError *error,SFOAuthInfo *info) {
-                   __strong typeof(weakSelf) strongSelf = weakSelf;
-                   if (error.code == kSFOAuthErrorWrongVersion) {
-                       [SFSDKCoreLogger w:[strongSelf class] format:@"OAuth refresh failed due to Connected App version mismatch.  Error code: %ld", (long)error.code];
-                       [strongSelf showAlertForConnectedAppVersionMismatchError:error];
-                       return YES;
-                   }
-                   return NO;
-               }];
-    [authHandlerList addAuthErrorHandler:self.connectedAppVersionAuthErrorHandler];
-
-    // Network failure handler
-
-    self.networkFailureAuthErrorHandler = [[SFAuthErrorHandler alloc]
-            initWithName:kSFNetworkFailureAuthErrorHandler
-            evalBlock:^BOOL(NSError *error,SFOAuthInfo *info){
-                    __strong typeof(self) strongSelf = weakSelf;
-                   if ([[strongSelf class] errorIsNetworkFailure:error]) {
-                       [SFSDKCoreLogger w:[weakSelf class] format:@"Auth token refresh couldn't connect to server: %@", [error localizedDescription]];
-
-                       if (strongSelf.context.authInfo.authType != SFOAuthTypeRefresh) {
-                           [SFSDKCoreLogger e:[weakSelf class] format:@"Network failure for non-Refresh OAuth flow (%@) is a fatal error.", strongSelf.context.authInfo.authTypeDescription];
-                           return NO;  // Default error handler will show the error.
-                       } else if (strongSelf.context.coordinator.credentials.accessToken == nil) {
-                           [SFSDKCoreLogger w:[strongSelf class] format:@"Network unreachable for access token refresh, and no access token is configured.  Cannot continue."];
-                           return NO;
-                       } else {
-                           [SFSDKCoreLogger i:[strongSelf class] format:@"Network failure for OAuth Refresh flow (existing credentials)  Try to continue."];
-                           [strongSelf.delegate authClientContinueOfflineMode:strongSelf];
+    if (!_config.connectedAppVersionAuthErrorHandler) {
+        _config.connectedAppVersionAuthErrorHandler = [[SFAuthErrorHandler alloc]
+                initWithName:kSFConnectedAppVersionAuthErrorHandler
+                evalBlock:^BOOL(NSError *error,SFOAuthInfo *info) {
+                       __strong typeof(weakSelf) strongSelf = weakSelf;
+                       if (error.code == kSFOAuthErrorWrongVersion) {
+                           [SFSDKCoreLogger w:[strongSelf class] format:@"OAuth refresh failed due to Connected App version mismatch.  Error code: %ld", (long)error.code];
+                           [strongSelf showAlertForConnectedAppVersionMismatchError:error];
                            return YES;
                        }
-                   }
-                   return NO;
-               }];
-    [authHandlerList addAuthErrorHandler:self.networkFailureAuthErrorHandler];
+                       return NO;
+                   }];
+    }
+    [authHandlerList addAuthErrorHandler:self.config.connectedAppVersionAuthErrorHandler];
+
+    // Network failure handler
+    if (!_config.networkFailureAuthErrorHandler) {
+        _config.networkFailureAuthErrorHandler = [[SFAuthErrorHandler alloc]
+                initWithName:kSFNetworkFailureAuthErrorHandler
+                evalBlock:^BOOL(NSError *error,SFOAuthInfo *info){
+                        __strong typeof(self) strongSelf = weakSelf;
+                       if ([[strongSelf class] errorIsNetworkFailure:error]) {
+                           [SFSDKCoreLogger w:[weakSelf class] format:@"Auth token refresh couldn't connect to server: %@", [error localizedDescription]];
+
+                           if (strongSelf.context.authInfo.authType != SFOAuthTypeRefresh) {
+                               [SFSDKCoreLogger e:[weakSelf class] format:@"Network failure for non-Refresh OAuth flow (%@) is a fatal error.", strongSelf.context.authInfo.authTypeDescription];
+                               return NO;  // Default error handler will show the error.
+                           } else if (strongSelf.context.coordinator.credentials.accessToken == nil) {
+                               [SFSDKCoreLogger w:[strongSelf class] format:@"Network unreachable for access token refresh, and no access token is configured.  Cannot continue."];
+                               return NO;
+                           } else {
+                               [SFSDKCoreLogger i:[strongSelf class] format:@"Network failure for OAuth Refresh flow (existing credentials)  Try to continue."];
+                               [strongSelf.config.delegate authClientContinueOfflineMode:strongSelf];
+                               return YES;
+                           }
+                       }
+                       return NO;
+                   }];
+    }
+    [authHandlerList addAuthErrorHandler:_config.networkFailureAuthErrorHandler];
 
     // Generic failure handler
-    self.genericAuthErrorHandler = [[SFAuthErrorHandler alloc]
-            initWithName:kSFGenericFailureAuthErrorHandler
-            evalBlock:^BOOL(NSError *error,SFOAuthInfo *info) {
-                   __strong typeof(self) strongSelf = weakSelf;
-                   [strongSelf clearAccountState:NO];
-                   [strongSelf showRetryAlertForAuthError:error alertTag:kOAuthGenericAlertViewTag];
-                   return YES;
-               }];
-    [authHandlerList addAuthErrorHandler:self.genericAuthErrorHandler];
+    if (!_config.genericAuthErrorHandler) {
+        _config.genericAuthErrorHandler = [[SFAuthErrorHandler alloc]
+                initWithName:kSFGenericFailureAuthErrorHandler
+                evalBlock:^BOOL(NSError *error,SFOAuthInfo *info) {
+                       __strong typeof(self) strongSelf = weakSelf;
+                       [strongSelf clearAccountState:NO];
+                       [strongSelf showRetryAlertForAuthError:error alertTag:kOAuthGenericAlertViewTag];
+                       return YES;
+                   }];
+    }
+    [authHandlerList addAuthErrorHandler:_config.genericAuthErrorHandler];
     return authHandlerList;
 }
 
@@ -583,9 +576,9 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
     NSInteger i = 0;
     BOOL errorHandled = NO;
     SFSDKOAuthClientContext *context = self.context;
-    NSArray *authHandlerArray = self.authErrorHandlerList.authHandlerArray;
+    NSArray *authHandlerArray = self.config.authErrorHandlerList.authHandlerArray;
     while (i < [authHandlerArray count] && !errorHandled) {
-        SFAuthErrorHandler *currentHandler = (self.authErrorHandlerList.authHandlerArray)[i];
+        SFAuthErrorHandler *currentHandler = (self.config.authErrorHandlerList.authHandlerArray)[i];
         errorHandled = currentHandler.evalBlock(error, context.authInfo);
         i++;
     }
@@ -594,28 +587,29 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
         // No error handlers could handle the error.  Pass through to the error blocks.
         if (context.authInfo.authType == SFOAuthTypeUserAgent)
             self.authViewHandler.authViewDismissBlock(self);
-        //[self execFailureBlocks];
         [self handleFailure:error];
     }
 }
 
 
 - (void)handleFailure:(NSError *)error{
-    self.context.authError = error;
-    if (self.context.failureCallbackBlock) {
-        self.context.failureCallbackBlock(self.context.authInfo,error);
+
+    if (self.config.failureCallbackBlock) {
+        self.config.failureCallbackBlock(self.context.authInfo,error);
     }
     __weak typeof(self) weakSelf = self;
-    if ([self.delegate respondsToSelector:@selector(authClientDidFail:error:)]) {
-        [self.delegate authClientDidFail:weakSelf error:error];
+    if ([self.config.delegate respondsToSelector:@selector(authClientDidFail:error:)]) {
+        [self.config.delegate authClientDidFail:weakSelf error:error];
     }
     [self cancelAuthentication];
 }
 
 - (void)showRetryAlertForAuthError:(NSError *)error alertTag:(NSInteger)tag
 {
-    if (self.statusAlert) {
-        self.statusAlert = nil;
+    if (self.context.statusAlert) {
+        SFSDKMutableOAuthClientContext *mutableOAuthClientContext = [SFSDKMutableOAuthClientContext mutableContext:self.context];
+        mutableOAuthClientContext.statusAlert = nil;
+        self.context = mutableOAuthClientContext;
     }
     [SFSDKCoreLogger e:[self class] format:@"Error during authentication: %@", error];
     [self showAlertWithTitle:[SFSDKResourceUtils localizedString:kAlertErrorTitleKey]
@@ -638,11 +632,13 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
 
 - (void)showAlertWithTitle:(nullable NSString *)title message:(nullable NSString *)message firstButtonTitle:(nullable NSString *)firstButtonTitle secondButtonTitle:(nullable NSString *)secondButtonTitle tag:(NSInteger)tag  error:(NSError *)error
 {
-    if (nil == self.statusAlert) {
+    if (nil == self.context.statusAlert) {
+        SFSDKMutableOAuthClientContext *mutableOAuthClientContext = [SFSDKMutableOAuthClientContext mutableContext:self.context];
         __weak typeof(self) weakSelf = self;
-        self.statusAlert = [UIAlertController alertControllerWithTitle:title
+        mutableOAuthClientContext.statusAlert = [UIAlertController alertControllerWithTitle:title
                                                                message:message
                                                         preferredStyle:UIAlertControllerStyleAlert];
+        self.context = mutableOAuthClientContext;
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:firstButtonTitle
                                                            style:UIAlertActionStyleDefault
                                                          handler:^(UIAlertAction *action) {
@@ -655,45 +651,45 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
                                                              } else if (tag == kConnectedAppVersionMismatchViewTag) {
                                                                  [weakSelf handleFailure:error];
                                                              } else if (tag == kAdvancedAuthDialogTag) {
-                                                                 if ([strongSelf.safariViewDelegate respondsToSelector:@selector(authClientDidProceedWithBrowserFlow:)]) {
-                                                                     [strongSelf.safariViewDelegate authClientDidProceedWithBrowserFlow:self];
+                                                                 if ([strongSelf.config.safariViewDelegate respondsToSelector:@selector(authClientDidProceedWithBrowserFlow:)]) {
+                                                                     [strongSelf.config.safariViewDelegate authClientDidProceedWithBrowserFlow:self];
                                                                  }
                                                                  // Let the OAuth coordinator know whether to proceed or not.
-                                                                 if (strongSelf.context.authCoordinatorBrowserBlock) {
-                                                                     strongSelf.context.authCoordinatorBrowserBlock(YES);
+                                                                 if (strongSelf.config.authCoordinatorBrowserBlock) {
+                                                                     strongSelf.config.authCoordinatorBrowserBlock(YES);
                                                                  }
                                                              }
                                                          }];
-        [self.statusAlert addAction:okAction];
+        [self.context.statusAlert addAction:okAction];
         UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:secondButtonTitle
                                                                style:UIAlertActionStyleDefault
                                                              handler:^(UIAlertAction *action) {
                                                                  __strong typeof(weakSelf) strongSelf = weakSelf;
                                                                  if(tag == kAdvancedAuthDialogTag) {
-                                                                     if ([strongSelf.safariViewDelegate respondsToSelector:@selector(authClientDidCancelBrowserFlow:)]) {
-                                                                         [strongSelf.safariViewDelegate authClientDidCancelBrowserFlow:self];
+                                                                     if ([strongSelf.config.safariViewDelegate respondsToSelector:@selector(authClientDidCancelBrowserFlow:)]) {
+                                                                         [strongSelf.config.safariViewDelegate authClientDidCancelBrowserFlow:self];
                                                                      }
 
                                                                      // Let the OAuth coordinator know whether to proceed or not.
-                                                                     if (self.context.authCoordinatorBrowserBlock) {
-                                                                         self.context.authCoordinatorBrowserBlock(NO);
+                                                                     if (self.config.authCoordinatorBrowserBlock) {
+                                                                         self.config.authCoordinatorBrowserBlock(NO);
                                                                      }
                                                                  } else if (tag == kOAuthGenericAlertViewTag){
                                                                      // Let the delegate know about the cancellation
-                                                                     if ([strongSelf.safariViewDelegate respondsToSelector:@selector(authClientDidCancelGenericFlow:)]) {
-                                                                         [strongSelf.safariViewDelegate authClientDidCancelGenericFlow:self];
+                                                                     if ([strongSelf.config.safariViewDelegate respondsToSelector:@selector(authClientDidCancelGenericFlow:)]) {
+                                                                         [strongSelf.config.safariViewDelegate authClientDidCancelGenericFlow:self];
                                                                      }
                                                                  }
                                                              }];
 
-        [self.statusAlert addAction:cancelAction];
+        [self.context.statusAlert addAction:cancelAction];
         
         
         dispatch_async(dispatch_get_main_queue(), ^{
             __strong typeof (weakSelf) strongSelf = weakSelf;
             strongSelf.authWindow.viewController = [self blankViewController];
             [strongSelf.authWindow enable:YES withCompletion:^{
-                [strongSelf.authWindow.viewController presentViewController:weakSelf.statusAlert animated:NO completion:nil];
+                [strongSelf.authWindow.viewController presentViewController:weakSelf.context.statusAlert animated:NO completion:nil];
             }];
         });
 
@@ -707,7 +703,7 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
 }
 
 - (void)restartAuthentication{
-    if (!self.context.isAuthenticating) {
+    if (!self.isAuthenticating) {
         [SFSDKCoreLogger w:[self class] format:@"%@: Authentication manager is not currently authenticating.  No action taken.", NSStringFromSelector(_cmd)];
         return;
     }
@@ -767,25 +763,58 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
 }
 
 #pragma mark - SFSDKOAuthClientProvider
-
-+ (SFSDKOAuthClient *)sharedInstance {
++ (SFSDKOAuthClient *)idpAuthInstance:(SFSDKOAuthClientConfig *)config {
     if (self.clientProvider) {
-        return [self.clientProvider sharedInstance];
+        return [self.clientProvider idpAuthInstance:config];
     }
 
     static dispatch_once_t once = 0;
     dispatch_once(&once, ^{
-        _sharedInstance = [[self alloc] init];
+        _idpInstance = [[self alloc] init];
+    });
+    return _idpInstance;
+
+}
+
++ (SFSDKOAuthClient *)nativeBrowserAuthInstance:(SFSDKOAuthClientConfig *)config {
+    if (self.clientProvider) {
+        return [self.clientProvider nativeBrowserAuthInstance:config];
+    }
+
+    static dispatch_once_t once = 0;
+    dispatch_once(&once, ^{
+        _sharedInstance = [[self alloc] initWithConfig:config];
     });
     return _sharedInstance;
 
 }
 
-+ (SFSDKOAuthClient *)newInstance {
++ (SFSDKOAuthClient *)webviewAuthInstance:(SFSDKOAuthClientConfig *)config {
     if (self.clientProvider) {
-        return [self.clientProvider newInstance];
+        return [self.clientProvider webviewAuthInstance:config];
     }
-    return [[self alloc] init];;
+    return [[self alloc] initWithConfig:config];
 }
 
++ (SFSDKOAuthClient *)clientWithContextBlock:(void(^)(SFSDKOAuthClientConfig *,SFSDKMutableOAuthClientContext *))contextBlock {
+    SFSDKMutableOAuthClientContext *context = [SFSDKMutableOAuthClientContext new];
+    SFSDKOAuthClientConfig *config = [SFSDKOAuthClientConfig new];
+    contextBlock(config,context);
+    
+    SFSDKOAuthClient *instance = nil;
+    if (config.advancedAuthConfiguration==SFOAuthAdvancedAuthConfigurationNone)
+        instance = [self webviewAuthInstance:config];
+    else
+        instance = [self nativeBrowserAuthInstance:config];
+    
+    context.coordinator  = [[SFOAuthCoordinator alloc] initWithCredentials:context.credentials];
+    context.coordinator.advancedAuthConfiguration = config.advancedAuthConfiguration;
+    context.coordinator.scopes = [SFSDKAuthPreferences sharedPreferences].scopes;
+    context.idCoordinator  = [[SFIdentityCoordinator alloc] initWithCredentials:context.credentials];
+    context.coordinator.delegate = instance;
+    context.idCoordinator.delegate = instance;
+    instance.context = context;
+    
+    return instance;
+}
 @end

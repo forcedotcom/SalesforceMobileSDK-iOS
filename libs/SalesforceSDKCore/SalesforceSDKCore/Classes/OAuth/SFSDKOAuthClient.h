@@ -30,6 +30,8 @@
 #import "SFOAuthCoordinator.h"
 #import "SFSDKOAuthClientContext.h"
 
+@class SFSDKOAuthClientContext;
+@class SFSDKMutableOAuthClientContext;
 @class SFSDKOAuthClient;
 @class WKWebView;
 @class SFIdentityCoordinator;
@@ -42,10 +44,9 @@
 @class SFSDKOAuthClientIDP;
 @class SFAuthErrorHandlerList;
 @class SFAuthErrorHandler;
-
-
+@class SFSDKOAuthClientConfig;
+@class SFIdentityData;
 NS_ASSUME_NONNULL_BEGIN
-
 
 /** Delegate that will be used to notify of all the OAuth Client events.
  */
@@ -178,123 +179,37 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @protocol SFSDKOAuthClientProvider
+
 /**
  * @return Provide a sharedInstance
  */
-+ (SFSDKOAuthClient *)sharedInstance;
++ (SFSDKOAuthClient *)idpAuthInstance:(SFSDKOAuthClientConfig *_Nullable)config;
+
+/**
+ * @return Provide a sharedInstance
+ */
++ (SFSDKOAuthClient *)nativeBrowserAuthInstance:(SFSDKOAuthClientConfig *_Nullable)config;
 /**
  * @return Provide a newInstance
  */
-+ (SFSDKOAuthClient *)newInstance;
-
++ (SFSDKOAuthClient *)webviewAuthInstance:(SFSDKOAuthClientConfig *_Nullable)config;
 @end
 
 @protocol SFSDKOAuthClient <NSObject>
 
-@property (nonatomic, strong) SFSDKOAuthClientContext *_Nullable context;
-/**
- The view controller used to present the authentication dialog.
- */
-@property (nonatomic, strong, nullable) SFLoginViewController *authViewController;
+@property (nonatomic, assign) BOOL isAuthenticating;
 
-/**
- * The authViewHandler used to present the auth workflow.
- */
-@property (nonatomic, strong) SFSDKOAuthViewHandler * _Nullable authViewHandler;
+@property (nonatomic, readonly) SFOAuthCredentials *credentials;
 
-/**
- * The advancedAuthConfiguration for the client
- */
-@property (nonatomic, assign) SFOAuthAdvancedAuthConfiguration advancedAuthConfiguration;
+@property (nonatomic, readonly) SFIdentityData *idData;
 
-/**
- * Set a delegate to listen for all SafariViewController based auth  events
- */
-@property (nonatomic, weak,nullable) id<SFSDKOAuthClientSafariViewDelegate> safariViewDelegate;
+@property (nonatomic, readonly, strong, nullable) SFSDKOAuthClientContext * context;
 
-/**
- * Set a delegate to listen for all WKWebview based auth events
- */
-@property (nonatomic, weak,nullable) id<SFSDKOAuthClientWebViewDelegate> webViewDelegate;
-
-/**
- * Factory implementation. Set this factory to change the implementation of auth client provider
- */
-@property (class, nonatomic, strong) id<SFSDKOAuthClientProvider> clientProvider;
-
-
-@property (nonatomic, weak,nullable) id<SFSDKOAuthClientDelegate> delegate;
-/**
- An array of additional keys (NSString) to parse during OAuth
- */
-@property (nonatomic, strong) NSArray *_Nullable additionalOAuthParameterKeys;
-
-/**
- The auth handler for invalid credentials.
- */
-@property (nonatomic, readonly) SFAuthErrorHandler *invalidCredentialsAuthErrorHandler;
-
-/**
- The auth handler for Connected App version errors.
- */
-@property (nonatomic, readonly) SFAuthErrorHandler *connectedAppVersionAuthErrorHandler;
-
-/**
- The auth handler for failures due to network connectivity.
- */
-@property (nonatomic, readonly) SFAuthErrorHandler *networkFailureAuthErrorHandler;
-
-/**
- The generic auth handler for any unhandled errors.
- */
-@property (nonatomic, readonly) SFAuthErrorHandler *genericAuthErrorHandler;
-
-/**
- The list of auth error handler filters to pass each authentication error through.  You can add or
- remove items from this list to change the flow of auth error handling.
- */
-@property (nonatomic, strong) SFAuthErrorHandlerList *authErrorHandlerList;
-
-/**
- A dictionary of additional parameters (key value pairs) to send during token refresh
- */
-@property (nonatomic, strong) NSDictionary * _Nullable additionalTokenRefreshParams;
-
-/**
- Alert view for displaying auth-related status messages.
- */
-@property (nonatomic, strong, nullable) UIAlertController *statusAlert;
-
+@property (nonatomic, readonly,nullable) SFSDKOAuthClientConfig *config;
 /**
  * An Auth window in which the auth flow will be presented
  */
 - (SFSDKWindowContainer *)authWindow;
-//
-///**
-// * Retrieve cached context or create a new context
-// * @param credentials to use retrieve or create context
-// */
-//- (SFSDKOAuthClientContext *_Nullable)contextForCredentials:(SFOAuthCredentials *)credentials;
-//
-///**
-// * Retrieve cached context
-// * @param credentials to use retrieve cached context
-// */
-//- (SFSDKOAuthClientContext *_Nullable)cachedContextForCredentials:(SFOAuthCredentials *)credentials;
-//
-///**
-// * Create new  context
-// * @param credentials to use for cached context
-// */
-//- (SFSDKOAuthClientContext *_Nullable)newContextForCredentials:(SFOAuthCredentials *)credentials;
-
-
-///**
-// * Clear cached context
-// *  @param credentials for which context will be removed
-// */
-//- (void)clearContextForCredentials:(SFOAuthCredentials *)credentials;
-
 
 - (void)retrieveIdentityDataWithCompletion:(SFIdentitySuccessCallbackBlock) successBlock failure:(SFIdentityFailureCallbackBlock)failureBlock;
 /**
@@ -333,29 +248,22 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (BOOL)handleURLAuthenticationResponse:(NSURL *)appUrlResponse;
 
-- (void)setupContext:(SFOAuthCredentials *)credentials;
+/**
+ * @return Provide an instance
+ */
++ (SFSDKOAuthClient *)clientWithContextBlock:(void(^)(SFSDKOAuthClientConfig *,SFSDKMutableOAuthClientContext *))contextBlock;
 
 @end
 
 
-@interface SFSDKOAuthClient : NSObject<SFSDKOAuthClient,SFSDKOAuthClientProvider>
+@interface SFSDKOAuthClient : NSObject<SFSDKOAuthClient, SFSDKOAuthClientProvider>
+@property (nonatomic, assign) BOOL isAuthenticating;
+@property (nonatomic, readonly, strong) SFSDKOAuthClientContext *context;
+@property (nonatomic, readonly,nullable) SFSDKOAuthClientConfig *config;
+@property (nonatomic, readonly) SFOAuthCredentials *credentials;
+@property (nonatomic, readonly) SFIdentityData *idData;
+- (instancetype)initWithConfig:(SFSDKOAuthClientConfig *_Nullable)config;
 
-@property (nonatomic, strong, nullable) SFLoginViewController *authViewController;
-@property (nonatomic, strong) SFSDKOAuthViewHandler * _Nullable authViewHandler;
-@property (nonatomic, assign) SFOAuthAdvancedAuthConfiguration advancedAuthConfiguration;
-@property (nonatomic, weak, nullable) id<SFSDKOAuthClientSafariViewDelegate> safariViewDelegate;
-@property (nonatomic, weak, nullable) id<SFSDKOAuthClientWebViewDelegate> webViewDelegate;
-@property (class, nonatomic, strong) id<SFSDKOAuthClientProvider> clientProvider;
-@property (nonatomic, weak,nullable) id<SFSDKOAuthClientDelegate> delegate;
-@property (nonatomic, strong) NSArray *_Nullable additionalOAuthParameterKeys;
-@property (nonatomic, readonly) SFAuthErrorHandler *invalidCredentialsAuthErrorHandler;
-@property (nonatomic, readonly) SFAuthErrorHandler *connectedAppVersionAuthErrorHandler;
-@property (nonatomic, readonly) SFAuthErrorHandler *networkFailureAuthErrorHandler;
-@property (nonatomic, readonly) SFAuthErrorHandler *genericAuthErrorHandler;
-@property (nonatomic, strong) SFAuthErrorHandlerList *authErrorHandlerList;
-@property (nonatomic, strong) NSDictionary * _Nullable additionalTokenRefreshParams;
-@property (nonatomic, strong, nullable) UIAlertController *statusAlert;
-@property (nonatomic, strong) SFSDKOAuthClientContext *_Nullable context;
 @end
 
 NS_ASSUME_NONNULL_END
