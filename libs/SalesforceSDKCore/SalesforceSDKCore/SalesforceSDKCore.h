@@ -108,7 +108,6 @@
 #import <SalesforceSDKCore/SFSDKLoginHostDelegate.h>
 #import <SalesforceSDKCore/SFSDKLoginHostListViewController.h>
 #import <SalesforceSDKCore/SFSDKLoginHostStorage.h>
-#import <SalesforceSDKCore/SFSDKMutableOAuthClientContext.h>
 #import <SalesforceSDKCore/SFSDKOAuthClient.h>
 #import <SalesforceSDKCore/SFSDKOAuthClientContext.h>
 #import <SalesforceSDKCore/SFSDKOAuthViewHandler.h>

@@ -68,7 +68,6 @@ NS_ASSUME_NONNULL_BEGIN
  Apps may customize this by setting this property before login.
  By default this value is picked up from the main
  bundle property SFDCOAuthRedirectUri
- default: @"sfdc:///axm/detect/oauth/done")
  */
 @property (nonatomic, copy, nullable) NSString *oauthCompletionUrl;
 

@@ -101,10 +101,6 @@
 		82D4642519C7C8170006BDFE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74F16D804CA00EC3921 /* Foundation.framework */; };
 		82D4642619C7C8170006BDFE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBCC16E14F7000768DE8 /* CoreGraphics.framework */; };
 		82D4642719C7C8170006BDFE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBB516E14E9F00768DE8 /* UIKit.framework */; };
-		B70985AC1F51E23C00803FDE /* SFSDKMutableOAuthClientContext.h in Headers */ = {isa = PBXBuildFile; fileRef = B70985AA1F51E23C00803FDE /* SFSDKMutableOAuthClientContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B70985AD1F51E23C00803FDE /* SFSDKMutableOAuthClientContext.h in Headers */ = {isa = PBXBuildFile; fileRef = B70985AA1F51E23C00803FDE /* SFSDKMutableOAuthClientContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B70985AE1F51E23C00803FDE /* SFSDKMutableOAuthClientContext.m in Sources */ = {isa = PBXBuildFile; fileRef = B70985AB1F51E23C00803FDE /* SFSDKMutableOAuthClientContext.m */; };
-		B70985AF1F51E23C00803FDE /* SFSDKMutableOAuthClientContext.m in Sources */ = {isa = PBXBuildFile; fileRef = B70985AB1F51E23C00803FDE /* SFSDKMutableOAuthClientContext.m */; };
 		B70986351F5331A600803FDE /* SFSDKOAuthClientConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = B70986331F5331A600803FDE /* SFSDKOAuthClientConfig.h */; };
 		B70986361F5331A600803FDE /* SFSDKOAuthClientConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = B70986331F5331A600803FDE /* SFSDKOAuthClientConfig.h */; };
 		B70986371F5331A600803FDE /* SFSDKOAuthClientConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B70986341F5331A600803FDE /* SFSDKOAuthClientConfig.m */; };
@@ -1054,8 +1050,6 @@
 		82D0AB191C497F410081F833 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		82D4642419C7C8170006BDFE /* SalesforceSDKCoreTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SalesforceSDKCoreTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D4644419C7C8180006BDFE /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		B70985AA1F51E23C00803FDE /* SFSDKMutableOAuthClientContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKMutableOAuthClientContext.h; sourceTree = "<group>"; };
-		B70985AB1F51E23C00803FDE /* SFSDKMutableOAuthClientContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKMutableOAuthClientContext.m; sourceTree = "<group>"; };
 		B70986331F5331A600803FDE /* SFSDKOAuthClientConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKOAuthClientConfig.h; sourceTree = "<group>"; };
 		B70986341F5331A600803FDE /* SFSDKOAuthClientConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKOAuthClientConfig.m; sourceTree = "<group>"; };
 		B7282F3F1D8C70E700475F79 /* SalesforceSDKCoreTestApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SalesforceSDKCoreTestApp.entitlements; sourceTree = "<group>"; };
@@ -1373,8 +1367,6 @@
 				B75233C11F4D390B00040B6E /* SFSDKOAuthClientContext.m */,
 				B75233DC1F4DF0B700040B6E /* SFSDKAuthPreferences.h */,
 				B75233DD1F4DF0B700040B6E /* SFSDKAuthPreferences.m */,
-				B70985AA1F51E23C00803FDE /* SFSDKMutableOAuthClientContext.h */,
-				B70985AB1F51E23C00803FDE /* SFSDKMutableOAuthClientContext.m */,
 				B70986331F5331A600803FDE /* SFSDKOAuthClientConfig.h */,
 				B70986341F5331A600803FDE /* SFSDKOAuthClientConfig.m */,
 			);
@@ -1933,7 +1925,6 @@
 				CE4CE3691C0E526A009F6029 /* SFDefaultUserManagementViewController+Internal.h in Headers */,
 				CE675A351E0B2CC6002DBF5A /* SFSDKSoslBuilder.h in Headers */,
 				CE4CE37E1C0E526A009F6029 /* SFPasscodeProviderManager.h in Headers */,
-				B70985AC1F51E23C00803FDE /* SFSDKMutableOAuthClientContext.h in Headers */,
 				FDCEC95C5AD1CFAD130DDCCF /* SFSObjectTree.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1982,7 +1973,6 @@
 				CEA883271C18FC40008D871B /* SFSDKResourceUtils.h in Headers */,
 				CEA882E61C18FB8E008D871B /* SFGeneratedKeyStore.h in Headers */,
 				CEA882DB1C18FB8E008D871B /* SFCommunityData.h in Headers */,
-				B70985AD1F51E23C00803FDE /* SFSDKMutableOAuthClientContext.h in Headers */,
 				B75233DF1F4DF0B700040B6E /* SFSDKAuthPreferences.h in Headers */,
 				CEA882C81C18FB4D008D871B /* SFOAuthSessionRefresher+Internal.h in Headers */,
 				CEA882F51C18FB8E008D871B /* SFPasscodeProviderManager+Internal.h in Headers */,
@@ -2603,7 +2593,6 @@
 				CE675A381E0B2CC6002DBF5A /* SFSDKSoslReturningBuilder.m in Sources */,
 				E1C80CF41C5AEE31001B3A21 /* SFSDKNewLoginHostViewController.m in Sources */,
 				4FD235C01EFD7F07004747DD /* SFAuthenticationSafariControllerHandler.m in Sources */,
-				B70985AE1F51E23C00803FDE /* SFSDKMutableOAuthClientContext.m in Sources */,
 				CE4CE3281C0E523B009F6029 /* NSData+SFSDKUtils.m in Sources */,
 				CED452BD1D808D0C009266EB /* SFRestAPI+QueryBuilder.m in Sources */,
 				CE4CE3771C0E526A009F6029 /* SFKeyStoreManager.m in Sources */,
@@ -2720,7 +2709,6 @@
 				CEA882A71C18FAAB008D871B /* SFApplication.m in Sources */,
 				1098078C1CB8713A002AF771 /* UIColor+SFColors.m in Sources */,
 				CEA8829C1C18FAAB008D871B /* UIDevice+SFHardware.m in Sources */,
-				B70985AF1F51E23C00803FDE /* SFSDKMutableOAuthClientContext.m in Sources */,
 				CE675A3E1E0B2CE2002DBF5A /* SFSDKSoslReturningBuilder.m in Sources */,
 				4FD235C11EFD7F07004747DD /* SFAuthenticationSafariControllerHandler.m in Sources */,
 				CEA882D41C18FB8E008D871B /* SFAuthenticationViewHandler.m in Sources */,

@@ -45,7 +45,6 @@
 #import "SFSDKLoginHost.h"
 #import "SFSecurityLockout.h"
 #import "SFSDKSalesforceAnalyticsManager.h"
-#import "SFSDKMutableOAuthClientContext.h"
 #import "SFIdentityCoordinator.h"
 #import "SFSDKAuthPreferences.h"
 #import "SFSDKOAuthClientConfig.h"
@@ -145,6 +144,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 - (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse {
     [SFSDKCoreLogger i:[self class] format:@"handleAdvancedAuthenticationResponse %@",[appUrlResponse description]];
     
+    //should return the shared instance for advanced auth
     SFSDKOAuthClient *client = [SFSDKOAuthClient nativeBrowserAuthInstance:nil];
     return [client handleURLAuthenticationResponse:appUrlResponse];
 }
@@ -155,9 +155,8 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 }
 
 - (BOOL)refreshCredentials:(SFOAuthCredentials *)credentials completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
-    
-    SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithContextBlock:^(SFSDKOAuthClientConfig *config,SFSDKMutableOAuthClientContext *context) {
-        context.credentials = credentials;
+
+    SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:credentials configBlock:^(SFSDKOAuthClientConfig *config) {
         config.advancedAuthConfiguration = self.advancedAuthConfiguration;
         config.delegate = self;
         config.webViewDelegate = self;
@@ -194,6 +193,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
         // SFUserAccount already logs the transition failure.
         return;
     }
+    
     BOOL isCurrentUser = [user isEqual:self.currentUser];
     [SFSDKCoreLogger i:[self class] format:@"Logging out user '%@'.", user.userName];
     NSDictionary *userInfo = @{ @"account": user };
@@ -207,12 +207,11 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
         }
     }];
 
-    SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithContextBlock:^(SFSDKOAuthClientConfig *config,SFSDKMutableOAuthClientContext *context) {
+    SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:user.credentials configBlock:^(SFSDKOAuthClientConfig *config) {
         config.advancedAuthConfiguration = self.advancedAuthConfiguration;
         config.delegate = self;
-        context.credentials = user.credentials;
     }];
-  
+   
     [client revokeCredentials];
 
     if ([SFPushNotificationManager sharedInstance].deviceSalesforceId) {
@@ -285,8 +284,9 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 
 - (void)authClientDidChangeLoginHost:(SFSDKOAuthClient *)client loginHost:(NSString *)newLoginHost {
     self.loginHost = newLoginHost;
+    SFOAuthCredentials *credentials = [self retrieveClientCredentials];
     [client cancelAuthentication];
-    [client refreshCredentials];
+    [client refreshCredentials:credentials];
 }
 
 - (void)authClientRestartAuthentication:(SFSDKOAuthClient *)client {

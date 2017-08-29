@@ -38,12 +38,13 @@ NS_ASSUME_NONNULL_BEGIN
 @class SFUserAccount;
 @class SFSDKOAuthClientContext;
 @class SFSDKOAuthClient;
-@protocol SFSDKOAuthClientDelegate;
-@protocol SFSDKOAuthClientWebViewDelegate;
-@protocol SFSDKOAuthClientSafariViewDelegate;
 @class SFAuthErrorHandlerList;
 @class SFAuthErrorHandler;
 @class SFSDKOAuthViewHandler;
+@class SFSDKMutableOAuthClientContext;
+@protocol SFSDKOAuthClientDelegate;
+@protocol SFSDKOAuthClientWebViewDelegate;
+@protocol SFSDKOAuthClientSafariViewDelegate;
 
 /**
  Callback block definition for OAuth completion callback.
@@ -69,13 +70,18 @@ typedef void (^SFIdentityFailureCallbackBlock)(SFSDKOAuthClient *,NSError *);
  */
 @interface SFSDKOAuthClientContext : NSObject
 
-@property (nonatomic, weak,readonly) SFOAuthCredentials *credentials;
-@property (nonatomic, strong,readonly) UIAlertController *statusAlert;
-@property (nonatomic, strong, readonly) SFOAuthCoordinator *coordinator;
-@property (nonatomic, strong, readonly) SFIdentityCoordinator *idCoordinator;
+@property (nonatomic, strong, readonly) SFOAuthCredentials *credentials;
 @property (nonatomic, strong, readonly) SFOAuthInfo *authInfo;
 @property (nonatomic, strong, readonly) NSError *authError;
 
+- (SFSDKMutableOAuthClientContext *)mutableCopy;
+
+@end
+
+@interface SFSDKMutableOAuthClientContext : SFSDKOAuthClientContext
+@property (nonatomic, weak,readwrite,nullable) SFOAuthCredentials *credentials;
+@property (nonatomic, strong, readwrite,nullable) SFOAuthInfo *authInfo;
+@property (nonatomic, strong, readwrite,nullable) NSError *authError;
 @end
 
 NS_ASSUME_NONNULL_END

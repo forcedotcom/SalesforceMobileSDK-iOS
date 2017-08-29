@@ -203,6 +203,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, readonly) SFIdentityData *idData;
 
+@property (nonatomic, strong,readonly) UIAlertController *statusAlert;
+
+@property (nonatomic, strong, readonly) SFOAuthCoordinator *coordinator;
+
+@property (nonatomic, strong, readonly) SFIdentityCoordinator *idCoordinator;
+
 @property (nonatomic, readonly, strong, nullable) SFSDKOAuthClientContext * context;
 
 @property (nonatomic, readonly,nullable) SFSDKOAuthClientConfig *config;
@@ -221,6 +227,11 @@ NS_ASSUME_NONNULL_BEGIN
  * Refresh credentials request.
  */
 - (BOOL)refreshCredentials;
+
+/**
+ * Refresh credentials request.
+ */
+- (BOOL)refreshCredentials:(SFOAuthCredentials *)credentials;
 
 /**
  * Revoke credentials request.
@@ -251,17 +262,21 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * @return Provide an instance
  */
-+ (SFSDKOAuthClient *)clientWithContextBlock:(void(^)(SFSDKOAuthClientConfig *,SFSDKMutableOAuthClientContext *))contextBlock;
-
++ (SFSDKOAuthClient *)clientWithCredentials:(SFOAuthCredentials *_Nullable)credentials configBlock:(void(^)(SFSDKOAuthClientConfig *))configBlock;
 @end
 
 
 @interface SFSDKOAuthClient : NSObject<SFSDKOAuthClient, SFSDKOAuthClientProvider>
+
 @property (nonatomic, assign) BOOL isAuthenticating;
 @property (nonatomic, readonly, strong) SFSDKOAuthClientContext *context;
 @property (nonatomic, readonly,nullable) SFSDKOAuthClientConfig *config;
 @property (nonatomic, readonly) SFOAuthCredentials *credentials;
 @property (nonatomic, readonly) SFIdentityData *idData;
+@property (nonatomic, strong,readonly) UIAlertController *statusAlert;
+@property (nonatomic, strong, readonly) SFOAuthCoordinator *coordinator;
+@property (nonatomic, strong, readonly) SFIdentityCoordinator *idCoordinator;
+
 - (instancetype)initWithConfig:(SFSDKOAuthClientConfig *_Nullable)config;
 
 @end
