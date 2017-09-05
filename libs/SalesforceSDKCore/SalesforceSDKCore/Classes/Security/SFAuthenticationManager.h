@@ -212,6 +212,31 @@ extern NSString * const kSFUserLoggedInNotification;
 extern NSString * const kSFAuthenticationManagerFinishedNotification;
 
 /**
+  Default used as last resort
+ */
+extern NSString * const kSFUserAccountOAuthLoginHostDefault;
+
+/**
+ Key identifying login host
+ */
+extern NSString * const kSFUserAccountOAuthLoginHost;
+
+/**
+ The key for storing the persisted OAuth scopes.
+ */
+extern  NSString * const kOAuthScopesKey;
+
+/**
+The key for storing the persisted OAuth client ID.
+ */
+extern  NSString * const kOAuthClientIdKey;
+
+/**
+The key for storing the persisted OAuth redirect URI.
+ */
+extern  NSString * const kOAuthRedirectUriKey;
+
+/**
  This class handles all the authentication related tasks, which includes login, logout and session refresh
  */
 @interface SFAuthenticationManager : NSObject <SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate, SFUserAccountManagerDelegate>
