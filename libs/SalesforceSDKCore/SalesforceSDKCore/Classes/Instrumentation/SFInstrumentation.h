@@ -25,6 +25,8 @@
 #import <Foundation/Foundation.h>
 #import "SFMethodInterceptor.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef BOOL (^SFInstrumentationSelectorFilter)(SEL selector, BOOL isInstanceSelector);
 
 
@@ -55,14 +57,14 @@ typedef BOOL (^SFInstrumentationSelectorFilter)(SEL selector, BOOL isInstanceSel
  @return The configured `SFMethodInterceptor` instance, or `nil` if an interceptor is
  not configured.
  */
-- (SFMethodInterceptor *)interceptorForSelector:(SEL)selector isInstanceSelector:(BOOL)isInstanceSelector;
+- (nullable SFMethodInterceptor *)interceptorForSelector:(SEL)selector isInstanceSelector:(BOOL)isInstanceSelector;
 
 /** Use this method to intercept the instance method specified by `selector`
  @param selector The selector to intercept
  @param before An optional block invoked before the selector is executed
  @param after An optional block invoked after the selector is executed
  */
-- (void)interceptInstanceMethod:(SEL)selector beforeBlock:(SFMethodInterceptorInvocationCallback)before afterBlock:(SFMethodInterceptorInvocationAfterCallback)after;
+- (void)interceptInstanceMethod:(SEL)selector beforeBlock:(nullable SFMethodInterceptorInvocationCallback)before afterBlock:(nullable SFMethodInterceptorInvocationAfterCallback)after;
 
 /** Use this method to intercept the instance method specified by `selector`
  and provide a block that will be invoked instead of the method.
@@ -70,14 +72,14 @@ typedef BOOL (^SFInstrumentationSelectorFilter)(SEL selector, BOOL isInstanceSel
  @param selector The instance method to be intercepted
  @param replace The block to be invoked
  */
-- (void)interceptInstanceMethod:(SEL)selector replaceWithInvocationBlock:(SFMethodInterceptorInvocationCallback)replace;
+- (void)interceptInstanceMethod:(SEL)selector replaceWithInvocationBlock:(nullable SFMethodInterceptorInvocationCallback)replace;
 
 /** Use this method to intercept the class method specified by `selector`
  @param selector The selector to intercept
  @param before An optional block invoked before the selector is executed
  @param after An optional block invoked after the selector is executed
  */
-- (void)interceptClassMethod:(SEL)selector beforeBlock:(SFMethodInterceptorInvocationCallback)before afterBlock:(SFMethodInterceptorInvocationAfterCallback)after;
+- (void)interceptClassMethod:(SEL)selector beforeBlock:(nullable SFMethodInterceptorInvocationCallback)before afterBlock:(nullable SFMethodInterceptorInvocationAfterCallback)after;
 
 /** Use this method to intercept the class method specified by `selector`
  and provide a block that will be invoked instead of the method.
@@ -125,3 +127,5 @@ typedef BOOL (^SFInstrumentationSelectorFilter)(SEL selector, BOOL isInstanceSel
 
 
 @end
+
+NS_ASSUME_NONNULL_END

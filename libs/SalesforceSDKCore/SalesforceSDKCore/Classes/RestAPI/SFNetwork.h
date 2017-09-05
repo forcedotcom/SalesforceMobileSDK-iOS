@@ -29,7 +29,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface SFNetwork : NSObject <NSURLSessionDataDelegate>
+@interface SFNetwork : NSObject
 
 typedef void (^SFDataResponseBlock) (NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error);
 

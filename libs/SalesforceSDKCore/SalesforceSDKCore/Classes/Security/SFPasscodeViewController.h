@@ -25,6 +25,8 @@
 #import <UIKit/UIKit.h>
 #import "SFAbstractPasscodeViewController.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  * The view controller for managing the passcode screen.
  */
@@ -48,3 +50,5 @@
 - (id)initForPasscodeChange:(SFPasscodeConfigurationData)configData;
 
 @end
+
+NS_ASSUME_NONNULL_END

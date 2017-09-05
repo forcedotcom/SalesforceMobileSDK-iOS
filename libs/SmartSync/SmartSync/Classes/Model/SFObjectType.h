@@ -25,6 +25,8 @@
 #import <Foundation/Foundation.h>
 #import "SFSmartSyncPersistableObject.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SFObjectType : SFSmartSyncPersistableObject <NSCoding>
 
 /** Object type key prefix */
@@ -40,7 +42,7 @@
 @property (nonatomic, strong, readonly) NSString *labelPlural;
 
 /** Object name field */
-@property (nonatomic, strong, readonly) NSString *nameField;
+@property (nonatomic, strong, readonly, nullable) NSString *nameField;
 
 /** Fields, array of NSDictionary objects */
 @property (nonatomic, strong, readonly) NSArray *fields;
@@ -52,3 +54,5 @@
 - (BOOL)isLayoutable;
 
 @end
+
+NS_ASSUME_NONNULL_END

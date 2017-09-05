@@ -25,6 +25,8 @@
 #import <Foundation/Foundation.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  Used internally for upgrading SmartStore.
  */
@@ -57,3 +59,5 @@
 + (void)setUsesKeyStoreEncryption:(BOOL)usesKeyStoreEncryption forUser:(SFUserAccount *)user store:(NSString *)storeName;
 
 @end
+
+NS_ASSUME_NONNULL_END

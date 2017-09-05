@@ -25,6 +25,8 @@
 
 #import <SalesforceSDKCore/SFSDKAppConfig.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SFHybridViewConfig : SFSDKAppConfig
 
 /**
@@ -58,6 +60,8 @@
  * @param configFilePath The file path to the configuration file, relative to the resources root path.
  * @return The hybrid view config from the given file path.
  */
-+ (SFHybridViewConfig *)fromConfigFile:(NSString *)configFilePath;
++ (nullable SFHybridViewConfig *)fromConfigFile:(NSString *)configFilePath;
 
 @end
+
+NS_ASSUME_NONNULL_END

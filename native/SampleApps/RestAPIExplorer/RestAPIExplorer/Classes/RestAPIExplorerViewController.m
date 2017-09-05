@@ -447,7 +447,7 @@
 
 - (void)clearPopovers:(NSNotification *)note
 {
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"Passcode screen loading. Clearing popovers."];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"Passcode screen loading. Clearing popovers."];
     if (self.popOverController) {
         [self dismissPopoverController];
     }

@@ -27,6 +27,8 @@
 #import "SFSmartSyncObjectUtils.h"
 #import "SFObjectType.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 // Constants for creating NSError object
 extern NSString * const SFMetadataManagerErrorDomain;
 extern NSInteger  const SFMetadataManagerErrorCode;
@@ -48,7 +50,7 @@ extern NSString * const kSFAllObjectsCacheKey;
  This property is used internally to scope all the search
  queries toward the server.
  */
-@property (nonatomic, copy) NSString *communityId;
+@property (nullable, nonatomic, copy) NSString *communityId;
 
 /** API version being used.
  */
@@ -83,7 +85,7 @@ extern NSString * const kSFAllObjectsCacheKey;
 
 /** Get a list of recently accessed objects by object type
  
- @param objectTypeName Object type name to get recently accessed objects. If nil, this method will return a list of recently accessed objecs across all object types
+ @param objectTypeName Object type name to get recently accessed objects. If nil, this method will return a list of recently accessed objects across all object types
  @param limit Fetch limit of objects. Set to <=0 to specify no limit
  @param cachePolicy `SFDataCachePolicy` used to decide whether to read data from cache first and if data reload from server is needed when data is found in cache
  @param refreshCacheIfOlderThan Number of secconds that has to pass in order to refresh cache. Pass -1 if you don't want cache to be refrefreshed. This value is used together with `cachePolicy`
@@ -93,8 +95,8 @@ extern NSString * const kSFAllObjectsCacheKey;
  @param errorBlock Block to invoke if failed to load objects
  
  */
-- (void)loadMRUObjects:(NSString *)objectTypeName limit:(NSInteger)limit cachePolicy:(SFDataCachePolicy)cachePolicy
-            refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan networkFieldName:(NSString *)networkFieldName
+- (void)loadMRUObjects:(nullable NSString *)objectTypeName limit:(NSInteger)limit cachePolicy:(SFDataCachePolicy)cachePolicy
+            refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan networkFieldName:(nullable NSString *)networkFieldName
                 inRetry:(BOOL)inRetry completion:(void(^)(NSArray *results, BOOL isDataFromCache, BOOL needToReloadCache))completionBlock
                     error:(void(^)(NSError *error))errorBlock;
 
@@ -156,7 +158,9 @@ extern NSString * const kSFAllObjectsCacheKey;
  @param errorBlock Block to invoke if marking viewed failed
  
  */
-- (void)markObjectAsViewed:(NSString *)objectId objectType:(NSString *)objectType networkFieldName:(NSString *)networkFieldName
+- (void)markObjectAsViewed:(NSString *)objectId objectType:(NSString *)objectType networkFieldName:(nullable NSString *)networkFieldName
            completionBlock:(void(^)())completionBlock error:(void(^)(NSError *error))errorBlock;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -26,6 +26,8 @@
 
 #import "SFForcePlugin.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  * String used with Cordova to uniquely identify this plugin.
  */
@@ -74,3 +76,5 @@ extern NSString * const kSmartSyncPluginIdentifier;
 - (void) cleanResyncGhosts:(CDVInvokedUrlCommand *)command;
 
 @end
+
+NS_ASSUME_NONNULL_END

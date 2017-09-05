@@ -26,6 +26,8 @@
 
 #import "SFSyncState.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 extern NSString * const kSFSyncOptionsFieldlist;
 extern NSString * const kSFSyncOptionsMergeMode;
 
@@ -42,7 +44,9 @@ extern NSString * const kSFSyncOptionsMergeMode;
 
 /** Methods to translate to/from dictionary
  */
-+ (SFSyncOptions*) newFromDict:(NSDictionary *)dict;
++ (nullable SFSyncOptions*) newFromDict:(NSDictionary *)dict;
 - (NSDictionary*) asDict;
 
 @end
+
+NS_ASSUME_NONNULL_END

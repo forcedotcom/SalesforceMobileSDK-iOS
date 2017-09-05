@@ -24,6 +24,7 @@
 
 #import <Cordova/CDVPlugin.h>
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface CDVPlugin (SFAdditions)
 
@@ -36,7 +37,9 @@
 #pragma mark - Versioning support
 
 - (BOOL)hasVersion:(NSArray *)arguments;
-- (NSString *)getVersion:(NSString *)action withArguments:(NSArray *)arguments;
-- (NSDictionary *)getArgument:(NSArray *)arguments atIndex:(NSUInteger)argIndex;
+- (nullable NSString *)getVersion:(NSString *)action withArguments:(NSArray *)arguments;
+- (nullable NSDictionary *)getArgument:(NSArray *)arguments atIndex:(NSUInteger)argIndex;
 
 @end
+
+NS_ASSUME_NONNULL_END

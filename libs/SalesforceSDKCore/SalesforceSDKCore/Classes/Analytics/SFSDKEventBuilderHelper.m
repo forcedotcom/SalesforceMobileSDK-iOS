@@ -32,6 +32,9 @@
 #import "SFSDKSalesforceAnalyticsManager.h"
 #import <SalesforceAnalytics/SFSDKInstrumentationEventBuilder.h>
 
+NSString * const kSFSDKEventBuilderHelperStartTime   = @"startTime";
+NSString * const kSFSDKEventBuilderHelperEndTime   = @"endTime";
+
 @implementation SFSDKEventBuilderHelper
 
 + (void) createAndStoreEvent:(NSString *) name userAccount:(SFUserAccount *) userAccount className:(NSString *) className attributes:(NSDictionary *) attributes {
@@ -45,7 +48,12 @@
     SFSDKSalesforceAnalyticsManager *manager = [SFSDKSalesforceAnalyticsManager sharedInstanceWithUser:account];
     SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^(SFSDKInstrumentationEventBuilder *builder) {
         builder.name = name;
-        builder.startTime = [[NSDate date] timeIntervalSince1970];
+        if (attributes[kSFSDKEventBuilderHelperStartTime]) {
+            builder.startTime = [((NSNumber*) attributes[kSFSDKEventBuilderHelperStartTime]) integerValue];
+        }
+        if (attributes[kSFSDKEventBuilderHelperEndTime]) {
+            builder.endTime = [((NSNumber*) attributes[kSFSDKEventBuilderHelperEndTime]) integerValue];
+        }
         builder.page = @{ @"context" : className };
         if (attributes) {
             builder.attributes = attributes;

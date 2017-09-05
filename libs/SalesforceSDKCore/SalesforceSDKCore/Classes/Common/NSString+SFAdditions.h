@@ -24,6 +24,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef NS_ENUM(NSUInteger, SFEntityIdLength) {
     SFEntityIdLength15 = 15,
     SFEntityIdLength18 = 18,
@@ -39,7 +41,7 @@ typedef NS_ENUM(NSUInteger, SFEntityIdLength) {
  @return A hex string representation of the supplied data; or `nil` if `data` is `nil` or empty.
  @param data NSData to be represented as a base 16 string.
  */
-+ (NSString *)stringWithHexData:(NSData *)data;
++ (nullable NSString *)stringWithHexData:(nullable NSData *)data;
 
 /** Returns an SHA 256 hash of the current string
  */
@@ -49,13 +51,13 @@ typedef NS_ENUM(NSUInteger, SFEntityIdLength) {
  
  @param value String value to escape. If nil is passed, this method will return nil.
  */
-+ (NSString *)escapeXMLCharacter:(NSString *)value;
++ (nullable NSString *)escapeXMLCharacter:(nullable NSString *)value;
 
 /** unescape XML entities
  
 @param value String value to unescape. If nil is passed, this method will return nil.
  */
-+ (NSString *)unescapeXMLCharacter:(NSString *)value;
++ (nullable NSString *)unescapeXMLCharacter:(nullable NSString *)value;
 
 /** Trim string by taking out beginning and ending space.*/
 - (NSString *)trim;
@@ -77,7 +79,7 @@ typedef NS_ENUM(NSUInteger, SFEntityIdLength) {
  
  @param string String to check
  */
-+ (BOOL)isEmpty:(NSString *)string;
++ (BOOL)isEmpty:(nullable NSString *)string;
 
 /** Returns a string after taking out any space
  */
@@ -109,7 +111,7 @@ typedef NS_ENUM(NSUInteger, SFEntityIdLength) {
  @return The 18 character case-insensitive entity ID representing the receiver.
  Returns `nil` if the receiver is not a valid Salesforce entity ID.
  */
-- (NSString*)entityId18;
+- (nullable NSString*)entityId18;
 
 /** Returns a Boolean value that indicates if the given entity ID is equal to the
  receiver. The comparison properly handles comparing 15 character case-sensitive
@@ -123,3 +125,5 @@ typedef NS_ENUM(NSUInteger, SFEntityIdLength) {
 - (BOOL)isEqualToEntityId:(NSString*)entityId;
 
 @end
+
+NS_ASSUME_NONNULL_END

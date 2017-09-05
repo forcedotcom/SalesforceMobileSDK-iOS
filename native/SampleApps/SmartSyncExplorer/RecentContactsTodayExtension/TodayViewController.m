@@ -66,7 +66,7 @@ static NSString *simpleTableIdentifier = @"SimpleTableItem";
     [SFSDKDatasharingHelper sharedInstance].appGroupName = config.appGroupName;
     [SFSDKDatasharingHelper sharedInstance].appGroupEnabled = YES;
     if ([self userIsLoggedIn] ) {
-        [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelError format:@"User has logged in"];
+        [SFSDKLogger log:[self class] level:DDLogLevelError format:@"User has logged in"];
         [SalesforceSDKManager setInstanceClass:[SalesforceSDKManagerWithSmartStore class]];
         [SalesforceSDKManager sharedManager].connectedAppId = config.remoteAccessConsumerKey;
         [SalesforceSDKManager sharedManager].connectedAppCallbackUri = config.oauthRedirectURI;

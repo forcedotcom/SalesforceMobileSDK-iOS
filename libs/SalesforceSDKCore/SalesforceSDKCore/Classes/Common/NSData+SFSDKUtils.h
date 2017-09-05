@@ -24,6 +24,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
  * @category NSData(SFSDKUtils)
  * @abstract Mobile SDK utility additions to NSData.
@@ -40,6 +42,8 @@
  * @brief Creates an SHA256 hash of the given data.
  * @return The SHA256 hash of the given data.
  */
-- (NSData *)msdkSha256Data;
+- (nullable NSData *)msdkSha256Data;
 
 @end
+
+NS_ASSUME_NONNULL_END
