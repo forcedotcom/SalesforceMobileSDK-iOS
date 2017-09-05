@@ -22,32 +22,29 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "NSArray+SFAdditions.h"
-#import "SFLogger.h"
+#import "NSValueTransformer+SalesforceNetwork.h"
+#import "CSFInternalDefines.h"
 
-@implementation NSArray (SFAdditions)
+@implementation NSValueTransformer (SalesforceNetwork)
 
-- (NSArray *)filteredArrayWithElementsOfClass:(Class)aClass {
-    if (!aClass) { return [self copy]; }
++ (NSValueTransformer*)networkDataTransformerForObject:(id)object {
+    NSValueTransformer *result = nil;
     
-    NSPredicate *classPredicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return [evaluatedObject isKindOfClass:aClass];
-    }];
-    return [self filteredArrayUsingPredicate:classPredicate];
-}
+    // Determine if we need to implicitly create a value transformer for our input object
+    if ([object isKindOfClass:[NSString class]]) {
+        result = [NSValueTransformer valueTransformerForName:CSFUTF8StringValueTransformerName];
+    } else if ([object isKindOfClass:[NSDate class]]) {
+        result = [NSValueTransformer valueTransformerForName:CSFDateValueTransformerName];
+    } else if ([object isKindOfClass:[NSURL class]]) {
+        NSURL *url = (NSURL*)object;
+        if (![url isFileURL]) {
+            result = [NSValueTransformer valueTransformerForName:CSFURLValueTransformerName];
+        }
+    } else if ([object isKindOfClass:[NSUIImage class]]) {
+        result = [NSValueTransformer valueTransformerForName:CSFJPEGImageValueTransformerName];
+    }
 
-- (NSArray*)filteredArrayWithValue:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayInclude:YES value:value forKeyPath:key];
-}
-
-- (NSArray*)filteredArrayExcludingValue:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayInclude:NO value:value forKeyPath:key];
-}
-
-- (NSArray*)filteredArrayInclude:(BOOL)include value:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return [[evaluatedObject valueForKeyPath:key] isEqual:value] == include;
-    }]];
+    return result;
 }
 
 @end

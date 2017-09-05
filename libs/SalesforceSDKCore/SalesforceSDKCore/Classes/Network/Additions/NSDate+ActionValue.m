@@ -22,32 +22,21 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "NSArray+SFAdditions.h"
-#import "SFLogger.h"
+#import "NSDate+ActionValue.h"
+#import "CSFInternalDefines.h"
 
-@implementation NSArray (SFAdditions)
+@implementation NSDate (ActionValue)
 
-- (NSArray *)filteredArrayWithElementsOfClass:(Class)aClass {
-    if (!aClass) { return [self copy]; }
-    
-    NSPredicate *classPredicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return [evaluatedObject isKindOfClass:aClass];
-    }];
-    return [self filteredArrayUsingPredicate:classPredicate];
+- (id)actionValue {
+    return [[NSValueTransformer valueTransformerForName:CSFDateValueTransformerName] transformedValue:self];
 }
 
-- (NSArray*)filteredArrayWithValue:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayInclude:YES value:value forKeyPath:key];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
++ (id<CSFActionValue>)decodedObjectForActionValue:(id)actionValue {
+    return [[NSValueTransformer valueTransformerForName:CSFDateValueTransformerName] reverseTransformedValue:actionValue];
 }
+#pragma clang diagnostic pop
 
-- (NSArray*)filteredArrayExcludingValue:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayInclude:NO value:value forKeyPath:key];
-}
-
-- (NSArray*)filteredArrayInclude:(BOOL)include value:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return [[evaluatedObject valueForKeyPath:key] isEqual:value] == include;
-    }]];
-}
 
 @end

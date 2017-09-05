@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2016-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,32 +22,45 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "NSArray+SFAdditions.h"
+#import <CocoaLumberjack/CocoaLumberjack.h>
+#import <stdatomic.h>
+#import "SFLogStorage.h"
 #import "SFLogger.h"
 
-@implementation NSArray (SFAdditions)
+extern NSString * SFLogNameForFlag(SFLogFlag flag) SFSDK_DEPRECATED(5.2, 6.0, "Use SFSDKLogger instead.");
+extern NSString * SFLogNameForLogLevel(SFLogLevel level) SFSDK_DEPRECATED(5.2, 6.0, "Use SFSDKLogger instead.");
 
-- (NSArray *)filteredArrayWithElementsOfClass:(Class)aClass {
-    if (!aClass) { return [self copy]; }
-    
-    NSPredicate *classPredicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return [evaluatedObject isKindOfClass:aClass];
-    }];
-    return [self filteredArrayUsingPredicate:classPredicate];
+@interface DDLog () <SFLogStorage> @end
+
+SFSDK_DEPRECATED(5.2, 6.0, "Use SFSDKLogger instead.")
+@interface SFLogIdentifier : NSObject
+
+@property (nonatomic, weak) SFLogger *logger;
+@property (nonatomic, copy, readonly) NSString *identifier;
+@property (nonatomic, assign) SFLogLevel logLevel;
+@property (nonatomic, assign, readonly) SFLogFlag logFlag;
+@property (nonatomic, assign) NSInteger context;
+@property (nonatomic, strong, readonly) os_log_t defaultLog;
+
+- (instancetype)initWithIdentifier:(NSString*)identifier NS_DESIGNATED_INITIALIZER;
+- (os_log_t)logForCategory:(NSString *)category;
+
+@end
+
+/////////////////
+
+@interface SFLogger () {
+@public
+    atomic_int_least32_t _contextCounter;
+    NSMutableDictionary<NSString*,SFLogIdentifier*> *_logIdentifiers;
+    NSMutableArray<SFLogIdentifier*> *_logIdentifiersByContext;
+    NSObject<SFLogStorage> *_ddLog;
+    DDFileLogger *_fileLogger;
+    DDTTYLogger *_ttyLogger;
 }
 
-- (NSArray*)filteredArrayWithValue:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayInclude:YES value:value forKeyPath:key];
-}
-
-- (NSArray*)filteredArrayExcludingValue:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayInclude:NO value:value forKeyPath:key];
-}
-
-- (NSArray*)filteredArrayInclude:(BOOL)include value:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return [[evaluatedObject valueForKeyPath:key] isEqual:value] == include;
-    }]];
-}
+- (SFLogIdentifier*)logIdentifierForIdentifier:(NSString*)identifier;
+- (SFLogIdentifier*)logIdentifierForContext:(NSInteger)context;
+- (void)resetLoggers;
 
 @end

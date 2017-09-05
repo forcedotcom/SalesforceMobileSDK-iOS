@@ -22,32 +22,14 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "NSArray+SFAdditions.h"
-#import "SFLogger.h"
+#import "CSFInput.h"
 
-@implementation NSArray (SFAdditions)
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
+@interface CSFOAuthTokenRefreshInput : CSFInput
 
-- (NSArray *)filteredArrayWithElementsOfClass:(Class)aClass {
-    if (!aClass) { return [self copy]; }
-    
-    NSPredicate *classPredicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return [evaluatedObject isKindOfClass:aClass];
-    }];
-    return [self filteredArrayUsingPredicate:classPredicate];
-}
-
-- (NSArray*)filteredArrayWithValue:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayInclude:YES value:value forKeyPath:key];
-}
-
-- (NSArray*)filteredArrayExcludingValue:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayInclude:NO value:value forKeyPath:key];
-}
-
-- (NSArray*)filteredArrayInclude:(BOOL)include value:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return [[evaluatedObject valueForKeyPath:key] isEqual:value] == include;
-    }]];
-}
+@property (nonatomic, copy) NSString *redirectUri;
+@property (nonatomic, copy) NSURL *instanceUrl;
+@property (nonatomic, copy) NSString *clientId;
+@property (nonatomic, copy) NSString *refreshToken;
 
 @end

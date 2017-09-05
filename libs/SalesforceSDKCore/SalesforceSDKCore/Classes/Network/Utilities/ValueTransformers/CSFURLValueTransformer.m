@@ -22,32 +22,35 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "NSArray+SFAdditions.h"
-#import "SFLogger.h"
+#import "CSFURLValueTransformer.h"
+#import "NSString+SFAdditions.h"
 
-@implementation NSArray (SFAdditions)
+NSString * const CSFURLValueTransformerName = @"CSFURLValueTransformer";
 
-- (NSArray *)filteredArrayWithElementsOfClass:(Class)aClass {
-    if (!aClass) { return [self copy]; }
-    
-    NSPredicate *classPredicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return [evaluatedObject isKindOfClass:aClass];
-    }];
-    return [self filteredArrayUsingPredicate:classPredicate];
+@implementation CSFURLValueTransformer
+
++ (Class)transformedValueClass {
+    return [NSString class];
 }
 
-- (NSArray*)filteredArrayWithValue:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayInclude:YES value:value forKeyPath:key];
++ (BOOL)allowsReverseTransformation {
+    return YES;
 }
 
-- (NSArray*)filteredArrayExcludingValue:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayInclude:NO value:value forKeyPath:key];
+- (id)transformedValue:(NSURL*)value {
+    return ([value isKindOfClass:[NSURL class]]) ? [value absoluteString] : nil;
 }
 
-- (NSArray*)filteredArrayInclude:(BOOL)include value:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return [[evaluatedObject valueForKeyPath:key] isEqual:value] == include;
-    }]];
+- (id)reverseTransformedValue:(NSString *)value {
+    NSURL *result = nil;
+    if ([value isKindOfClass:[NSString class]]) {
+        result = [NSURL URLWithString:value];
+        if (!result) {
+            value = [value stringByURLEncoding];
+            result = [NSURL URLWithString:value];
+        }
+    }
+    return result;
 }
 
 @end

@@ -22,32 +22,27 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "NSArray+SFAdditions.h"
-#import "SFLogger.h"
+#import <Foundation/Foundation.h>
+#import "SalesforceSDKConstants.h"
 
-@implementation NSArray (SFAdditions)
+/**
+ This protocol represents objects that can be used as the model class for a CSFAction.
 
-- (NSArray *)filteredArrayWithElementsOfClass:(Class)aClass {
-    if (!aClass) { return [self copy]; }
-    
-    NSPredicate *classPredicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return [evaluatedObject isKindOfClass:aClass];
-    }];
-    return [self filteredArrayUsingPredicate:classPredicate];
-}
+ When a network request is performed, if the [CSFAction modelClass] property is set to
+ a class that conforms to this protocol, the action will attempt to construct a model
+ with the result of the network request.
+ */
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
+@protocol CSFActionModel <NSObject>
 
-- (NSArray*)filteredArrayWithValue:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayInclude:YES value:value forKeyPath:key];
-}
+@optional
 
-- (NSArray*)filteredArrayExcludingValue:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayInclude:NO value:value forKeyPath:key];
-}
-
-- (NSArray*)filteredArrayInclude:(BOOL)include value:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return [[evaluatedObject valueForKeyPath:key] isEqual:value] == include;
-    }]];
-}
+/** Designated initializer to construct a model object from its JSON representation.
+ 
+ @param json    Dictionary of structured data from the network.
+ @param context Dictionary of relevant information about the request and the action that performed it.
+ @return Initialized model object.
+ */
+- (id)initWithJSON:(id)json context:(NSDictionary*)context;
 
 @end

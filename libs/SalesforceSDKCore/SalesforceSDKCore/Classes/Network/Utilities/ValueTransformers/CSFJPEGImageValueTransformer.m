@@ -22,32 +22,45 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "NSArray+SFAdditions.h"
-#import "SFLogger.h"
+#import "CSFJPEGImageValueTransformer.h"
+#import "CSFInternalDefines.h"
 
-@implementation NSArray (SFAdditions)
+NSString * const CSFJPEGImageValueTransformerName = @"CSFJPEGImageValueTransformer";
 
-- (NSArray *)filteredArrayWithElementsOfClass:(Class)aClass {
-    if (!aClass) { return [self copy]; }
-    
-    NSPredicate *classPredicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return [evaluatedObject isKindOfClass:aClass];
-    }];
-    return [self filteredArrayUsingPredicate:classPredicate];
+@implementation CSFJPEGImageValueTransformer
+
++ (Class)transformedValueClass {
+    return [NSData class];
 }
 
-- (NSArray*)filteredArrayWithValue:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayInclude:YES value:value forKeyPath:key];
++ (BOOL)allowsReverseTransformation {
+    return YES;
 }
 
-- (NSArray*)filteredArrayExcludingValue:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayInclude:NO value:value forKeyPath:key];
+#ifdef CSFPlatformiOS
+- (id)transformedValue:(UIImage*)value {
+    return ([value isKindOfClass:[UIImage class]]) ? UIImageJPEGRepresentation(value, 1.0) : nil;
+}
+#else
+- (id)transformedValue:(NSImage*)value {
+    NSData *result = nil;
+    if ([value isKindOfClass:[NSImage class]]) {
+        [value lockFocus];
+        NSBitmapImageRep *bitmapRep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:NSMakeRect(0, 0, value.size.width, value.size.height)];
+        [value unlockFocus];
+        result = [bitmapRep representationUsingType:NSJPEGFileType properties:Nil];
+    }
+    return result;
+}
+#endif
+
+- (id)reverseTransformedValue:(NSData *)value {
+    NSUIImage *result = nil;
+    if ([value isKindOfClass:[NSData class]]) {
+        result = [NSUIImage imageWithData:value];
+    }
+    return result;
 }
 
-- (NSArray*)filteredArrayInclude:(BOOL)include value:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return [[evaluatedObject valueForKeyPath:key] isEqual:value] == include;
-    }]];
-}
 
 @end

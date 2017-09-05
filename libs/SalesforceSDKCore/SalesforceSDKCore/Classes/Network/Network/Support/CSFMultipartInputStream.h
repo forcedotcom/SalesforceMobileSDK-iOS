@@ -22,32 +22,19 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "NSArray+SFAdditions.h"
-#import "SFLogger.h"
+#import <Foundation/Foundation.h>
 
-@implementation NSArray (SFAdditions)
+@interface CSFMultipartInputStream : NSInputStream
 
-- (NSArray *)filteredArrayWithElementsOfClass:(Class)aClass {
-    if (!aClass) { return [self copy]; }
-    
-    NSPredicate *classPredicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return [evaluatedObject isKindOfClass:aClass];
-    }];
-    return [self filteredArrayUsingPredicate:classPredicate];
-}
+@property (nonatomic, strong, readonly) NSString *boundary;
+@property (nonatomic, assign, readonly) NSUInteger length;
+@property (nonatomic, assign, readonly) NSUInteger numberOfParts;
 
-- (NSArray*)filteredArrayWithValue:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayInclude:YES value:value forKeyPath:key];
-}
-
-- (NSArray*)filteredArrayExcludingValue:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayInclude:NO value:value forKeyPath:key];
-}
-
-- (NSArray*)filteredArrayInclude:(BOOL)include value:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return [[evaluatedObject valueForKeyPath:key] isEqual:value] == include;
-    }]];
-}
+- (void)addObject:(id)object forKey:(NSString*)key;
+- (void)addObject:(id)object forKey:(NSString*)key withTransformer:(NSValueTransformer*)transformer;
+- (void)addObject:(id)object forKey:(NSString*)key withMimeType:(NSString*)mimeType filename:(NSString*)filename;
+- (void)addObject:(id)object forKey:(NSString*)key withTransformer:(NSValueTransformer*)transformer mimeType:(NSString*)mimeType filename:(NSString*)filename;
+- (void)addInputStream:(NSInputStream*)stream forKey:(NSString*)key withMimeType:(NSString*)mimeType filename:(NSString*)filename streamLength:(NSUInteger)length;
+- (void)addFileAtPath:(NSString*)path forKey:(NSString*)key withMimeType:(NSString*)mimeType filename:(NSString*)filename;
 
 @end

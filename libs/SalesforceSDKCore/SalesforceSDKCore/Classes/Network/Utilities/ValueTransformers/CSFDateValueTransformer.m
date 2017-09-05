@@ -22,32 +22,36 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "NSArray+SFAdditions.h"
-#import "SFLogger.h"
+#import "CSFDateValueTransformer.h"
+#import "CSFISO8601DateFormatter.h"
 
-@implementation NSArray (SFAdditions)
+static CSFISO8601DateFormatter *kSharedDateFormatter = nil;
+NSString * const CSFDateValueTransformerName = @"CSFDateValueTransformer";
 
-- (NSArray *)filteredArrayWithElementsOfClass:(Class)aClass {
-    if (!aClass) { return [self copy]; }
-    
-    NSPredicate *classPredicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return [evaluatedObject isKindOfClass:aClass];
-    }];
-    return [self filteredArrayUsingPredicate:classPredicate];
+@implementation CSFDateValueTransformer
+
++ (void)initialize {
+    if (self == [CSFDateValueTransformer class]) {
+        kSharedDateFormatter = [[CSFISO8601DateFormatter alloc] init];
+        kSharedDateFormatter.defaultTimeZone = [NSTimeZone timeZoneWithAbbreviation:@"UTC"];
+        kSharedDateFormatter.includeTime = YES;
+    }
 }
 
-- (NSArray*)filteredArrayWithValue:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayInclude:YES value:value forKeyPath:key];
++ (Class)transformedValueClass {
+    return [NSString class];
 }
 
-- (NSArray*)filteredArrayExcludingValue:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayInclude:NO value:value forKeyPath:key];
++ (BOOL)allowsReverseTransformation {
+    return YES;
 }
 
-- (NSArray*)filteredArrayInclude:(BOOL)include value:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return [[evaluatedObject valueForKeyPath:key] isEqual:value] == include;
-    }]];
+- (id)transformedValue:(NSDate *)value {
+    return ([value isKindOfClass:[NSDate class]]) ? [kSharedDateFormatter stringFromDate:value] : nil;
+}
+
+- (id)reverseTransformedValue:(id)value {
+    return ([value isKindOfClass:[NSString class]]) ? [kSharedDateFormatter dateFromString:value] : nil;
 }
 
 @end

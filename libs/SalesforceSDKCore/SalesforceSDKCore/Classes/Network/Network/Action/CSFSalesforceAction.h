@@ -22,32 +22,39 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "NSArray+SFAdditions.h"
-#import "SFLogger.h"
+#import "CSFAction.h"
+#import "SalesforceSDKConstants.h"
 
-@implementation NSArray (SFAdditions)
+NS_ASSUME_NONNULL_BEGIN
 
-- (NSArray *)filteredArrayWithElementsOfClass:(Class)aClass {
-    if (!aClass) { return [self copy]; }
-    
-    NSPredicate *classPredicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return [evaluatedObject isKindOfClass:aClass];
-    }];
-    return [self filteredArrayUsingPredicate:classPredicate];
-}
+CSF_EXTERN NSString * const CSFSalesforceActionDefaultPathPrefix;
+CSF_EXTERN NSString * const CSFSalesforceDefaultAPIVersion;
 
-- (NSArray*)filteredArrayWithValue:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayInclude:YES value:value forKeyPath:key];
-}
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
+@interface CSFSalesforceAction : CSFAction
 
-- (NSArray*)filteredArrayExcludingValue:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayInclude:NO value:value forKeyPath:key];
-}
+/**
+ Indicates if the action requires a security token. In this case, this action
+ must be executed only after all the previous actions are completed to ensure
+ it gets the latest security token.
+ */
+@property (nonatomic, readonly) BOOL requiresSecurityToken;
 
-- (NSArray*)filteredArrayInclude:(BOOL)include value:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return [[evaluatedObject valueForKeyPath:key] isEqual:value] == include;
-    }]];
-}
+/**
+ Indicates if the action returns a new security token as part of its response.
+ A security token is returned for all GET requests, except the ones that
+ will return a binary data, such as for images and thumbnails.
+ */
+@property (nonatomic, readonly) BOOL returnsSecurityToken;
+
+@property (nullable, nonatomic, copy) NSString *pathPrefix;
+@property (nullable, nonatomic, copy) NSString *apiVersion;
+
+/**
+ * Returns YES if error is a network error
+ */
++ (BOOL)isNetworkError:(nullable NSError *)error;
 
 @end
+
+NS_ASSUME_NONNULL_END

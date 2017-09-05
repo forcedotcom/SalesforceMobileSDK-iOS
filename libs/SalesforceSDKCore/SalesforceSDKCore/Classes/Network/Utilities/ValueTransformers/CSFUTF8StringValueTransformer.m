@@ -22,32 +22,30 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "NSArray+SFAdditions.h"
-#import "SFLogger.h"
+#import "CSFUTF8StringValueTransformer.h"
 
-@implementation NSArray (SFAdditions)
+NSString * const CSFUTF8StringValueTransformerName = @"CSFUTF8StringValueTransformer";
 
-- (NSArray *)filteredArrayWithElementsOfClass:(Class)aClass {
-    if (!aClass) { return [self copy]; }
-    
-    NSPredicate *classPredicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return [evaluatedObject isKindOfClass:aClass];
-    }];
-    return [self filteredArrayUsingPredicate:classPredicate];
+@implementation CSFUTF8StringValueTransformer
+
++ (Class)transformedValueClass {
+    return [NSData class];
 }
 
-- (NSArray*)filteredArrayWithValue:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayInclude:YES value:value forKeyPath:key];
++ (BOOL)allowsReverseTransformation {
+    return YES;
 }
 
-- (NSArray*)filteredArrayExcludingValue:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayInclude:NO value:value forKeyPath:key];
+- (id)transformedValue:(NSString*)value {
+    return ([value isKindOfClass:[NSString class]]) ? [value dataUsingEncoding:NSUTF8StringEncoding] : nil;
 }
 
-- (NSArray*)filteredArrayInclude:(BOOL)include value:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return [[evaluatedObject valueForKeyPath:key] isEqual:value] == include;
-    }]];
+- (id)reverseTransformedValue:(NSData *)value {
+    NSString *result = nil;
+    if ([value isKindOfClass:[NSData class]]) {
+        result = [[NSString alloc] initWithData:value encoding:NSUTF8StringEncoding];
+    }
+    return result;
 }
 
 @end

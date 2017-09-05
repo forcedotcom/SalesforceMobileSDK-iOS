@@ -22,32 +22,24 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "NSArray+SFAdditions.h"
-#import "SFLogger.h"
+#import <objc/runtime.h>
 
-@implementation NSArray (SFAdditions)
+#import "CSFOutput.h"
+#import "CSFInternalDefines.h"
 
-- (NSArray *)filteredArrayWithElementsOfClass:(Class)aClass {
-    if (!aClass) { return [self copy]; }
-    
-    NSPredicate *classPredicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return [evaluatedObject isKindOfClass:aClass];
-    }];
-    return [self filteredArrayUsingPredicate:classPredicate];
+@interface CSFOutput () {
+@protected
+    NSMutableDictionary *__dictionaryStorage;
+    NSMutableArray *__arrayStorage;
+    NSDictionary *__context;
+    BOOL __allPropertiesImported;
+    NSMutableArray *__remainingProperties;
 }
 
-- (NSArray*)filteredArrayWithValue:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayInclude:YES value:value forKeyPath:key];
-}
+@property (nonatomic, weak, readwrite) NSObject *parentObject;
 
-- (NSArray*)filteredArrayExcludingValue:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayInclude:NO value:value forKeyPath:key];
-}
-
-- (NSArray*)filteredArrayInclude:(BOOL)include value:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return [[evaluatedObject valueForKeyPath:key] isEqual:value] == include;
-    }]];
-}
+- (void)importAllProperties;
+- (void)importSynthesizedProperties;
+- (void)importProperty:(NSString*)propertyName;
 
 @end

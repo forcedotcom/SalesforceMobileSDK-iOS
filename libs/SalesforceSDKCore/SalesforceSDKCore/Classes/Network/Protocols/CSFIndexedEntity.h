@@ -22,32 +22,34 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "NSArray+SFAdditions.h"
-#import "SFLogger.h"
+#import <Foundation/Foundation.h>
+#import "SalesforceSDKConstants.h"
 
-@implementation NSArray (SFAdditions)
+/** The `CSFIndexedEntity` protocol indicates that an instance of `CSFOutput`
+ has an indexable property bound to it that is capable of being used to uniquely identify
+ an instance of the response.  This allows for these objects to be cached and later
+ retrieved using the property.
 
-- (NSArray *)filteredArrayWithElementsOfClass:(Class)aClass {
-    if (!aClass) { return [self copy]; }
-    
-    NSPredicate *classPredicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return [evaluatedObject isKindOfClass:aClass];
-    }];
-    return [self filteredArrayUsingPredicate:classPredicate];
-}
+ The value for the index may be any value, though its use should be restricted to values that
+ are easily indexed by Core Data, or at least that support NSCoding.
+ */
+SFSDK_DEPRECATED(5.2, 6.0, "Use our SFRestAPI library instead to make REST API requests.")
+@protocol CSFIndexedEntity <NSObject>
 
-- (NSArray*)filteredArrayWithValue:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayInclude:YES value:value forKeyPath:key];
-}
+/** The key name that represents the property that is indexed.
 
-- (NSArray*)filteredArrayExcludingValue:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayInclude:NO value:value forKeyPath:key];
-}
+ @see indexedValue
+ @return String that can be used by `valueForKey:`.
+ */
+- (NSString*)indexedKey;
 
-- (NSArray*)filteredArrayInclude:(BOOL)include value:(id)value forKeyPath:(NSString*)key {
-    return [self filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return [[evaluatedObject valueForKeyPath:key] isEqual:value] == include;
-    }]];
-}
+/** The value for the indexed key property.
+
+ This is a shortcut for using `[obj valueForKey:[obj indexedKey]]`.
+
+ @see indexedKey
+ @return Value for the indexed property.
+ */
+- (id)indexedValue;
 
 @end
