@@ -97,7 +97,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return the built query
  */
-- (nullable NSString *) build;
+- (NSString *) build;
 
 @end
 

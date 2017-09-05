@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) NSString *labelPlural;
 
 /** Object name field */
-@property (nonatomic, strong, readonly, nullable) NSString *nameField;
+@property (nonatomic, strong, readonly) NSString *nameField;
 
 /** Fields, array of NSDictionary objects */
 @property (nonatomic, strong, readonly) NSArray *fields;

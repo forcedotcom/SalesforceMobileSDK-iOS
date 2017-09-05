@@ -80,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return the built returning statement
  */
-- (nullable NSString *) build;
+- (NSString *) build;
 
 @end
 

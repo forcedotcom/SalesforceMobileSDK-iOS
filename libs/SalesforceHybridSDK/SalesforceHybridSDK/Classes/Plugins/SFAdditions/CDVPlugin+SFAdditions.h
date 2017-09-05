@@ -37,8 +37,8 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Versioning support
 
 - (BOOL)hasVersion:(NSArray *)arguments;
-- (nullable NSString *)getVersion:(NSString *)action withArguments:(NSArray *)arguments;
-- (nullable NSDictionary *)getArgument:(NSArray *)arguments atIndex:(NSUInteger)argIndex;
+- (NSString *)getVersion:(NSString *)action withArguments:(NSArray *)arguments;
+- (NSDictionary *)getArgument:(NSArray *)arguments atIndex:(NSUInteger)argIndex;
 
 @end
 

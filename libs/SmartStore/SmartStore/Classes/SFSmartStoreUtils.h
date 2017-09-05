@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
  user is configured.
  @return Unique key for the given user
  */
-+ (NSString *)userKeyForUser:(nullable SFUserAccount *)user;
++ (NSString *)userKeyForUser:(SFUserAccount *)user;
 
 @end
 

@@ -65,7 +65,7 @@ typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncSt
  *
  * @param store The store instance to configure.
  */
-+ (nullable instancetype)sharedInstanceForStore:(SFSmartStore*)store;
++ (instancetype)sharedInstanceForStore:(SFSmartStore*)store;
 
 /**
  * Removes the shared instance associated with the specified user.
@@ -99,7 +99,7 @@ typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncSt
  *
  * @param syncId Sync ID.
  */
-- (nullable SFSyncState*)getSyncStatus:(NSNumber*)syncId;
+- (SFSyncState*)getSyncStatus:(NSNumber*)syncId;
 
 /**
  * Creates and runs a sync down that will overwrite any modified records.
@@ -114,7 +114,7 @@ typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncSt
 /**
  * Performs a resync.
  */
-- (nullable SFSyncState*) reSync:(NSNumber*)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
+- (SFSyncState*) reSync:(NSNumber*)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
 
 /**
  * Creates and runs a sync up with the default SFSyncUpTarget.

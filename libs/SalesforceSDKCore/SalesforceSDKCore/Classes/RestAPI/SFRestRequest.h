@@ -156,7 +156,7 @@ extern NSString * const kSFDefaultRestEndpoint;
  *
  * @return NSURLRequest instance.
  */
-- (nullable NSURLRequest *)prepareRequestForSend;
+- (NSURLRequest *)prepareRequestForSend;
 
 /**
  * Sets the value for the specified HTTP header.

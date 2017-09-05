@@ -283,7 +283,7 @@ FOUNDATION_EXTERN  NSString * const kOAuthRedirectUriKey;
 /** Lookup  a user account
  @param credentials used to  up Account matching the credentials
  */
-- (nullable SFUserAccount *)accountForCredentials:(SFOAuthCredentials *) credentials;
+- (SFUserAccount *)accountForCredentials:(SFOAuthCredentials *) credentials;
 
 /**
  Allows you to remove the given user account.
@@ -321,7 +321,7 @@ FOUNDATION_EXTERN  NSString * const kOAuthRedirectUriKey;
  @param identityData The identityData to apply
  @param shouldSendNotification whether to post notifications.
  */
-- (SFUserAccount *)applyCredentials:(SFOAuthCredentials*)credentials withIdData:(nullable SFIdentityData *) identityData andNotification:(BOOL) shouldSendNotification;
+- (SFUserAccount *)applyCredentials:(SFOAuthCredentials*)credentials withIdData:(SFIdentityData *) identityData andNotification:(BOOL) shouldSendNotification;
 
 
 /** Invoke this method to apply the specified id data to the

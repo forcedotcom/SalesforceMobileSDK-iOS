@@ -155,9 +155,6 @@
     return totalInsertTime;
 }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wnonnull"
-
 /**
  * @return avg query time in seconds
  */
@@ -184,8 +181,6 @@
     
     return totalQueryTime / self.animals.count;
 }
-
-#pragma clang diagnostic pop
 
 - (void) validateResults:(int) expectedRows stringToMatch:(NSString*)stringToMatch results:(NSArray*)results
 {

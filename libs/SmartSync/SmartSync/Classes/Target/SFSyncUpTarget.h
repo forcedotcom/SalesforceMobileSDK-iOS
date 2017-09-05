@@ -120,7 +120,7 @@ typedef void (^SFSyncUpTargetErrorBlock)(NSError *error);
  Creates a new instance of a server target from a serialized dictionary.
  @param dict The dictionary with the serialized server target.
  */
-+ (nullable instancetype)newFromDict:(NSDictionary *)dict;
++ (instancetype)newFromDict:(NSDictionary *)dict;
 
 /**
  Converts a string representation of a target type into its target type.

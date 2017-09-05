@@ -66,7 +66,7 @@ extern SFIndexSpecTypeFilterBlock const kValueIndexedWithJSONExtract;
 /**
  * The type of data that will be indexed (string or integer).
  */
-@property (strong, nonatomic, readonly, nullable) NSString *columnType;
+@property (strong, nonatomic, readonly) NSString *columnType;
 
 /**
  * The name of the column that will store the index.

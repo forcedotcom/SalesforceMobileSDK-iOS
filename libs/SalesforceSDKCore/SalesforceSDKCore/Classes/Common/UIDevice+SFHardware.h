@@ -181,7 +181,7 @@ typedef NS_ENUM(NSUInteger, UIDeviceFamily) {
 - (NSNumber *) freeDiskSpace;
 
 /**Mac address*/
-- (nullable NSString *) macaddress;
+- (NSString *) macaddress;
 
 /**Returns whether the device has a retina display*/
 - (BOOL) hasRetinaDisplay;

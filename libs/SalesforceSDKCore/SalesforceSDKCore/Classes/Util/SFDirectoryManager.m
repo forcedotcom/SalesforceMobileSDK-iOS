@@ -54,7 +54,7 @@ static NSString * const kFilesSharedKey = @"filesShared";
 
 + (BOOL)ensureDirectoryExists:(NSString*)directory error:(NSError**)error {
     NSFileManager *manager = [[NSFileManager alloc] init];
-    if (directory && ![manager fileExistsAtPath:directory]) {
+    if (![manager fileExistsAtPath:directory]) {
         return [manager createDirectoryAtPath:directory
                   withIntermediateDirectories:YES
                                    attributes:@{NSFileProtectionKey: [SFFileProtectionHelper fileProtectionForPath:directory]}

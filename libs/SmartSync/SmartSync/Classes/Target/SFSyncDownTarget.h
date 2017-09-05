@@ -51,7 +51,7 @@ typedef NS_ENUM(NSInteger, SFSyncDownTargetQueryType) {
 /**
  * Methods to translate to/from dictionary
  */
-+ (nullable SFSyncDownTarget*) newFromDict:(NSDictionary *)dict;
++ (SFSyncDownTarget*) newFromDict:(NSDictionary *)dict;
 
 /**
  * Start fetching records conforming to target

@@ -166,9 +166,6 @@ numberCharactersPerField:(NSUInteger)numberCharactersPerField
     [SFSDKSmartStoreLogger d:[self class] format:@"Upserting %u entries with %u per batch with %u fields with %u characters: average time per batch --> %.3f ms",
         numberBatches * numberEntriesPerBatch, numberEntriesPerBatch, numberFieldsPerEntry, numberCharactersPerField, avgMilliseconds];
 }
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wnonnull"
     
 -(void) queryEntries
 {
@@ -189,8 +186,7 @@ numberCharactersPerField:(NSUInteger)numberCharactersPerField
     // Should find none
     [self queryEntries:[SFQuerySpec newExactQuerySpec:TEST_SOUP withPath:@"k_0" withMatchKey:@"missing" withOrderPath:nil withOrder:kSFSoupQuerySortOrderAscending withPageSize:1]];
 }
-
-#pragma clang diagnostic pop
+    
     
 -(void) queryEntries:(SFQuerySpec*) querySpec
 {

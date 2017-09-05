@@ -44,7 +44,7 @@ extern NSString * const kSFSyncOptionsMergeMode;
 
 /** Methods to translate to/from dictionary
  */
-+ (nullable SFSyncOptions*) newFromDict:(NSDictionary *)dict;
++ (SFSyncOptions*) newFromDict:(NSDictionary *)dict;
 - (NSDictionary*) asDict;
 
 @end

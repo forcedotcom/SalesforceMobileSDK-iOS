@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param options for json-ization
  * @return a JSON string representation of an Objective-C object
  */
-+ (nullable NSString*)JSONRepresentation:(id)object options:(NSJSONWritingOptions)options;
++ (NSString*)JSONRepresentation:(id)object options:(NSJSONWritingOptions)options;
 
 /**
  * Creates the JSON-as-NSData representation of an object.
@@ -64,14 +64,14 @@ NS_ASSUME_NONNULL_BEGIN
  * @param options for json-ization
  * @return A JSON string in NSData format, UTF8 encoded.
  */
-+(nullable NSData*)JSONDataRepresentation:(id)obj options:(NSJSONWritingOptions)options;
++(NSData*)JSONDataRepresentation:(id)obj options:(NSJSONWritingOptions)options;
 
 /**
  * Creates an object from a string of JSON data.
  * @param jsonString A JSON object string.
  * @return An Objective-C object such as an NSDictionary or NSArray.
  */
-+ (nullable id)objectFromJSONString:(NSString *)jsonString;
++ (id)objectFromJSONString:(NSString *)jsonString;
 
 /**
  * Creates an object from a JSON-as-NSData object.

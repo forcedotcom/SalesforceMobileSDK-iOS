@@ -29,9 +29,6 @@
 
 #pragma mark - NSURL+SFStringUtils tests
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wnonnull"
-
 - (void)testNoQueryString
 {
     NSString *inUrlString = @"https://www.myserver.com/path.html";
@@ -135,5 +132,3 @@
 }
 
 @end
-
-#pragma clang diagnostic pop

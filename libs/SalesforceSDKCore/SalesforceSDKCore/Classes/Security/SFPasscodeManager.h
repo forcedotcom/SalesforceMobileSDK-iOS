@@ -78,7 +78,7 @@ extern NSString *const SFPasscodeResetNewPasscodeKey;
 /**
  The encryption key associated with the app.
  */
-@property (nonatomic, readonly, nullable) NSString *encryptionKey;
+@property (nonatomic, readonly) NSString *encryptionKey;
 
 /**
  The preferred passcode provider for the app.  If another provider was previously configured,
