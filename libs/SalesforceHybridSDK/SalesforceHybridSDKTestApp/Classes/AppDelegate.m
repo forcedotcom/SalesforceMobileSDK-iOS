@@ -142,7 +142,7 @@
                     toUser:(SFUserAccount *)toUser
 {
     [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@. Resetting app.",
-     fromUser.userName, toUser.userName];
+     fromUser.accountIdentity.userId, toUser.accountIdentity.userId];
     [self initializeAppViewState];
 }
 

@@ -360,7 +360,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
             [SFSDKSmartStoreLogger i:[self class] format:@"%@ Cannot remove store with name '%@' for nil user.  Did you mean to call [%@ removeSharedGlobalStoreWithName:]?", NSStringFromSelector(_cmd), storeName, NSStringFromClass(self)];
             return;
         }
-        [SFSDKSmartStoreLogger d:[self class] format:@"removeSharedStoreWithName: %@, user: %@", storeName, user];
+        [SFSDKSmartStoreLogger d:[self class] format:@"removeSharedStoreWithName: %@, user: %@", storeName, user.accountIdentity.userId];
         NSString *userKey = [SFSmartStoreUtils userKeyForUser:user];
         SFSmartStore *existingStore = _allSharedStores[userKey][storeName];
         if (nil != existingStore) {

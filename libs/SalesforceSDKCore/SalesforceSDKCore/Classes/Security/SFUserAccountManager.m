@@ -605,7 +605,7 @@ NSString * const kOAuthRedirectUriKey = @"oauth_redirect_uri";
                 [self didChangeValueForKey:@"currentUser"];
                 userChanged = YES;
             } else {
-                [SFSDKCoreLogger e:[self class] format:@"Cannot set the currentUser as %@. Add the account to the SFAccountManager before making this call.", [user userName]];
+                [SFSDKCoreLogger e:[self class] format:@"Cannot set the currentUser as %@. Add the account to the SFAccountManager before making this call.", user.accountIdentity.userId];
             }
         }
         [_accountsLock unlock];
