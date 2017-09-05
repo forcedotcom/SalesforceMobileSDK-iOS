@@ -109,7 +109,6 @@ static NSMutableDictionary *analyticsManagerList = nil;
 
 - (void) dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
-    [[SFAuthenticationManager sharedManager] removeDelegate:self];
 }
 
 - (instancetype) initWithUser:(SFUserAccount *) userAccount {
@@ -131,7 +130,6 @@ static NSMutableDictionary *analyticsManagerList = nil;
         SFSDKAnalyticsTransformPublisherPair *tpp = [[SFSDKAnalyticsTransformPublisherPair alloc] initWithTransform:[[SFSDKAILTNTransform alloc] init] publisher:[[SFSDKAILTNPublisher alloc] init]];
         [self.remotes addObject:tpp];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(publishOnAppBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
-        [[SFAuthenticationManager sharedManager] addDelegate:self];
     }
     return self;
 }
