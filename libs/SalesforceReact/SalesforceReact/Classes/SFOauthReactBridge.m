@@ -100,11 +100,11 @@ RCT_EXPORT_METHOD(authenticate:(NSDictionary *)args callback:(RCTResponseSenderB
     SFOAuthCredentials *creds = [SFAuthenticationManager sharedManager].coordinator.credentials;
     NSString *accessToken = creds.accessToken;
     
-    // If access token is not present, send error so user can manually authenticate. Otherwise, send current credentials.
+    // If access token is not present, authenticate first. Otherwise, send current credentials.
     if (accessToken) {
         [self sendAuthCredentials:callback];
     } else {
-        [self sendNotAuthenticatedError:callback];
+        [self authenticate:nil callback:callback];
     }
 }
 
