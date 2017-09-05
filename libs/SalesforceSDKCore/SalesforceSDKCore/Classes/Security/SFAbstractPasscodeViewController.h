@@ -28,8 +28,6 @@
 #import "SFSecurityLockout.h"
 #import "SFPasscodeViewControllerTypes.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 /**
  * Key associated with the storage and retrieval of remaining passcode validation attempts.
  */
@@ -114,5 +112,3 @@ extern const NSUInteger kMaxNumberofAttempts;
 - (void) showTouchId;
 
 @end
-
-NS_ASSUME_NONNULL_END

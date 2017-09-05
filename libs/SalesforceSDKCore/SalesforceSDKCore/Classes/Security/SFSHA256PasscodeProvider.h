@@ -25,13 +25,9 @@
 #import <Foundation/Foundation.h>
 #import "SFPasscodeProviderManager.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 /**
  * Passcode provider for passcodes hashed with the SHA-256 algorithm.
  */
 @interface SFSHA256PasscodeProvider : NSObject <SFPasscodeProvider>
 
 @end
-
-NS_ASSUME_NONNULL_END

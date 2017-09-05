@@ -46,7 +46,6 @@ typedef NS_ENUM(NSUInteger, SFAuthenticationManagerDelegatePriority) {
 };
 
 NS_ASSUME_NONNULL_BEGIN
-
 /**
  Callback block definition for OAuth completion callback.
  */

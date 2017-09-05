@@ -30,8 +30,6 @@
 #import <SalesforceSDKCore/SFOAuthInfo.h>
 #import "SFHybridViewConfig.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 /**
  The property key used to designate the "home" URL of the app, to be used if the app is
  offline and supports HTML5 offline caching.
@@ -53,7 +51,7 @@ extern NSString * const kUserAgentCredentialsDictKey;
 /**
  Callback block definition for OAuth plugin auth success.
  */
-typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *_Nullable, NSDictionary *);
+typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *, NSDictionary *);
 
 /**
  Base view controller for Salesforce hybrid app components.
@@ -92,13 +90,13 @@ typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *_Nullable, NSDictiona
  The offline "home page" for the app.  Will be nil if no value has been
  found.
  */
-@property (nonatomic, strong, nullable) NSURL *appHomeUrl;
+@property (nonatomic, strong) NSURL *appHomeUrl;
 
 /**
  Designated initializer. Initializes the view controller with its hybrid view configuration. Uses WKWebView by default.
  @param viewConfig The hybrid view configuration associated with this component.
  */
-- (id) initWithConfig:(nullable SFHybridViewConfig *) viewConfig;
+- (id) initWithConfig:(SFHybridViewConfig *) viewConfig;
 
 /**
  Designated initializer. Initializes the view controller with its hybrid view configuration and which view to use.
@@ -117,7 +115,7 @@ typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *_Nullable, NSDictiona
  @param completionBlock The block to call upon successsful authentication.
  @param failureBlock The block to call in the event of an auth failure.
  */
-- (void)authenticateWithCompletionBlock:(nullable SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock;
+- (void)authenticateWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock;
 
 /**
  Loads an error page, in the event of an otherwise unhandled error.
@@ -160,5 +158,3 @@ typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *_Nullable, NSDictiona
 - (void)configureRemoteStartPage;
 
 @end
-
-NS_ASSUME_NONNULL_END

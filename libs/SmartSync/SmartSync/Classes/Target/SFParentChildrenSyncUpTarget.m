@@ -275,7 +275,7 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
             children:(NSArray<NSMutableDictionary *> *)children
            fieldlist:(NSArray *)fieldlist
            mergeMode:(SFSyncStateMergeMode)mergeMode
-     completionBlock:(nullable SFSyncUpTargetCompleteBlock)completionBlock
+     completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
            failBlock:(SFSyncUpTargetErrorBlock)failBlock {
 
     BOOL isCreate = [self isLocallyCreated:record];

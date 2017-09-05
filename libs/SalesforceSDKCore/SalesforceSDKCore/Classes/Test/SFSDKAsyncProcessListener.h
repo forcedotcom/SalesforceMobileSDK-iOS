@@ -24,8 +24,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface SFSDKAsyncProcessListener : NSObject
 
 /**
@@ -44,5 +42,3 @@ NS_ASSUME_NONNULL_BEGIN
 - (id)waitForCompletion;
 
 @end
-
-NS_ASSUME_NONNULL_END

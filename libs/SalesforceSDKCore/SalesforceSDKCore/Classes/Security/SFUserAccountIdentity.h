@@ -24,8 +24,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @class SFOAuthCredentials;
 
 /**
@@ -74,5 +72,3 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)matchesCredentials:(SFOAuthCredentials *)credentials;
 
 @end
-
-NS_ASSUME_NONNULL_END

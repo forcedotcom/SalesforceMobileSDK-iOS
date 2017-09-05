@@ -25,8 +25,6 @@
 #import <Foundation/Foundation.h>
 #import <SalesforceSDKCore/SFRestAPI+Blocks.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @class SFRestRequest;
 
 /**
@@ -43,5 +41,3 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)sendRequestWithSmartSyncUserAgent:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestResponseBlock)completeBlock;
 
 @end
-
-NS_ASSUME_NONNULL_END

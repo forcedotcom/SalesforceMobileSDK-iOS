@@ -23,11 +23,9 @@
  */
 
 #import <UIKit/UIKit.h>
-
-NS_ASSUME_NONNULL_BEGIN
-
 /** Salesforce Mobile SDK additions to the UIScreen class.
  */
+
 @interface UIScreen (SFAdditions)
 
 /** Returns the rectangle that describes the screen boundaries in portrait orientation.
@@ -36,5 +34,3 @@ NS_ASSUME_NONNULL_BEGIN
 - (CGRect)portraitScreenBounds;
 
 @end
-
-NS_ASSUME_NONNULL_END

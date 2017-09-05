@@ -29,8 +29,6 @@
 #import <UIKit/UIKit.h>
 #import "SFSDKLoginHostDelegate.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 @class SFSDKLoginHost;
 
 /**
@@ -60,5 +58,3 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)showAddLoginHost;
 
 @end
-
-NS_ASSUME_NONNULL_END

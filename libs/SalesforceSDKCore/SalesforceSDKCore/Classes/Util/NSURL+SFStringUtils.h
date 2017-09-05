@@ -25,8 +25,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 /**
  * The value that will be used to replace the redacted querystring value.
  */
@@ -72,5 +70,3 @@ extern NSString * const kSFRedactedQuerystringValue;
 - (NSURL *)slashTerminatedUrl;
 
 @end
-
-NS_ASSUME_NONNULL_END

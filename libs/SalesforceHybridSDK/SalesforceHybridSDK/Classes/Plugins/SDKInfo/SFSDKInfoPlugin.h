@@ -25,8 +25,6 @@
 #import <Foundation/Foundation.h>
 #import <Cordova/CDVPlugin.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @class CDVInvokedUrlCommand;
 
 @interface SFSDKInfoPlugin : CDVPlugin
@@ -36,5 +34,3 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)registerAppFeature:(CDVInvokedUrlCommand *)command;
 - (void)unregisterAppFeature:(CDVInvokedUrlCommand *)command;
 @end
-
-NS_ASSUME_NONNULL_END

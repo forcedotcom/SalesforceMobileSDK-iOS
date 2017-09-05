@@ -91,7 +91,7 @@ ABSTRACT_METHOD
 
 - (void) continueFetch:(SFSmartSyncSyncManager*)syncManager
             errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
-         completeBlock:(nullable SFSyncDownTargetFetchCompleteBlock)completeBlock {
+         completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     completeBlock(nil);
 }
 

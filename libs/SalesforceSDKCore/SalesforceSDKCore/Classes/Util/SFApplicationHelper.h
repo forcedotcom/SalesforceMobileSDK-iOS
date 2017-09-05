@@ -24,8 +24,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 /** This class is abstracting the UIApplication class
  and making it possible to use it when compiling for
  application extension such as with watchOS which
@@ -46,5 +44,3 @@ NS_ASSUME_NONNULL_BEGIN
 + (BOOL)openURL:(NSURL*)url;
 
 @end
-
-NS_ASSUME_NONNULL_END

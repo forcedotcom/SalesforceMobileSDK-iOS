@@ -25,8 +25,6 @@
 #import <Foundation/Foundation.h>
 #import "SFEncryptionKey.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 /**
  The type of key that the keystore uses.
  */
@@ -65,5 +63,3 @@ typedef NS_ENUM(NSUInteger, SFKeyStoreKeyType) {
 @property (nonatomic, assign) SFKeyStoreKeyType keyType;
 
 @end
-
-NS_ASSUME_NONNULL_END

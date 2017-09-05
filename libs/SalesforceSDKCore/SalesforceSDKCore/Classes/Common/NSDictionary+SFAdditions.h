@@ -24,8 +24,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 /**Extension to NSDictionary object
  
  Support retrieval of value use "/" separated hiearchy key
@@ -37,19 +35,17 @@ NS_ASSUME_NONNULL_BEGIN
  This method is similar to the built-in valueForKeyPath function except it handles special value like NSNULL and <nil> in the NSDictonary element value*
  
  @param path Path for the object to retrieve. Use "/" to separate between levels. For example, root/child/valueKey will retrieve value from the root NSDictionary object to its child dictionary's value with key "valueKey"  */
-- (nullable id) objectAtPath:(nullable NSString *) path;
+- (id) objectAtPath:(NSString *) path;
 
 /**Returns an object whose ID is key, or nil.
  @param key The ID of an object, or a null value
  @return An object whose ID is key, or else nil if the key has a value of NSNull or an NSString value of "<nil>" or "<null>".
  */
-- (nullable id)nonNullObjectForKey:(nullable id)key;
+- (id)nonNullObjectForKey:(id)key;
 
 /** Returns the dictionary's contents reformatted as a JSON string.
  */
 
-- (nullable NSString*)jsonString;
+- (NSString*)jsonString;
 
 @end
-
-NS_ASSUME_NONNULL_END

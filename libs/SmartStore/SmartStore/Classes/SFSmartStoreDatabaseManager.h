@@ -24,8 +24,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @class FMDatabase;
 @class FMDatabaseQueue;
 @class SFUserAccount;
@@ -73,7 +71,7 @@ extern NSString * const kSFSmartStoreDbErrorDomain;
  @param error Returned if there's an error with the process.
  @return The FMDatabase instance representing the DB, or nil if the create/open failed.
  */
-- (nullable FMDatabase *)openStoreDatabaseWithName:(NSString *)storeName key:(NSString *)key error:(NSError **)error;
+- (FMDatabase *)openStoreDatabaseWithName:(NSString *)storeName key:(NSString *)key error:(NSError **)error;
 
 /**
  Creates or opens an existing store DB.
@@ -82,7 +80,7 @@ extern NSString * const kSFSmartStoreDbErrorDomain;
  @param error Returned if there's an error with the process.
  @return The FMDatabaseQueue instance to access the DB, or nil if the create/open failed.
  */
-- (nullable FMDatabaseQueue *)openStoreQueueWithName:(NSString *)storeName key:(NSString *)key error:(NSError **)error;
+- (FMDatabaseQueue *)openStoreQueueWithName:(NSString *)storeName key:(NSString *)key error:(NSError **)error;
 
 /**
  Encrypts an existing unencrypted database.
@@ -166,5 +164,3 @@ extern NSString * const kSFSmartStoreDbErrorDomain;
 + (BOOL)verifyDatabaseAccess:(FMDatabase *)dbPath error:(NSError **)error;
 
 @end
-
-NS_ASSUME_NONNULL_END

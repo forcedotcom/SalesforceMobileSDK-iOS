@@ -24,8 +24,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 // Constant for notifying of app exit or abort.
 static NSString * const SFApplicationWillAbortOrExitNotification = @"ApplicationWillAbortOrExit";
 
@@ -39,7 +37,7 @@ static NSString * const SFApplicationWillAbortOrExitNotification = @"Application
  @param object The object for the new notification.
  @param userInfo The user information dictionary for the new notification. May be nil.
  */
-+ (void)postNotificationOnceWithName:(NSString*)notificationName object:(id)object userInfo:(nullable NSDictionary*)userInfo;
++ (void)postNotificationOnceWithName:(NSString*)notificationName object:(id)object userInfo:(NSDictionary*)userInfo;
 
 /**
  Posts a notification on the main thread.
@@ -47,8 +45,6 @@ static NSString * const SFApplicationWillAbortOrExitNotification = @"Application
  @param object The object for the new notificaiton.
  @param userInfo The user information dictionary for the new notification. May be nil.
  */
-- (void)postNotificationOnMainThreadWithName:(NSString *)notificationName object:(id)object userInfo:(nullable NSDictionary *)userInfo;
+- (void)postNotificationOnMainThreadWithName:(NSString *)notificationName object:(id)object userInfo:(NSDictionary *)userInfo;
 
 @end
-
-NS_ASSUME_NONNULL_END

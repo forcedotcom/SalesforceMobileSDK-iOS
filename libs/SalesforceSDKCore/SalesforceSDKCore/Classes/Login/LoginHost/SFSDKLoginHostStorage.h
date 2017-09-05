@@ -28,8 +28,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @class SFSDKLoginHost;
 
 /**
@@ -89,5 +87,3 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)save;
 
 @end
-
-NS_ASSUME_NONNULL_END

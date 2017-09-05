@@ -28,8 +28,6 @@
 #import <WebKit/WebKit.h>
 #import "SFOAuthCredentials.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 @class SFOAuthCoordinator;
 @class SFOAuthInfo;
 
@@ -152,7 +150,7 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  @param view        The WKWebView instance that will be used to conduct the authentication workflow
  @param errorOrNil  Contains the error or `nil` if no error
  */
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFinishLoad:(WKWebView *)view error:(nullable NSError*)errorOrNil;
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFinishLoad:(WKWebView *)view error:(NSError*)errorOrNil;
 
 /**
  Sent when authentication successfully completes. Note: This method is deprecated.  You should use
@@ -202,7 +200,7 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  
  @see SFOAuthCoordinator
  */
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(nullable SFOAuthInfo *)info;
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info;
 
 /**
  The delegate can implement this method to return a BOOL indicating whether the network is available.
@@ -300,7 +298,7 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  
  @see SFOAuthCredentials
  */
-@property (nonatomic, strong, nullable) SFOAuthCredentials *credentials;
+@property (nonatomic, strong) SFOAuthCredentials *credentials;
 
 /** The delegate object for this coordinator. 
 
@@ -349,7 +347,7 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  This is only guaranteed to be non-`nil` after one of the delegate methods returning a web view has been called.
  @see SFOAuthCoordinatorDelegate
  */
-@property (nonatomic, readonly, null_unspecified) WKWebView *view;
+@property (nonatomic, readonly) WKWebView *view;
 
 /**
  The user agent string that will be used for authentication.  While this property will persist throughout
@@ -388,7 +386,7 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  
  @see SFOAuthCredentials
  */
-- (id)initWithCredentials:(null_unspecified SFOAuthCredentials *)credentials;
+- (id)initWithCredentials:(SFOAuthCredentials *)credentials;
 
 ///---------------------------------------------------------------------------------------
 /// @name Authentication control
@@ -431,5 +429,3 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
 - (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse;
 
 @end
-
-NS_ASSUME_NONNULL_END

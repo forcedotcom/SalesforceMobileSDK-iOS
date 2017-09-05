@@ -24,8 +24,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface SFSDKTestCredentialsData : NSObject
 
 - (id)initWithDict:(NSDictionary *)credentialsDict;
@@ -40,5 +38,3 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSString *communityUrl;
 
 @end
-
-NS_ASSUME_NONNULL_END

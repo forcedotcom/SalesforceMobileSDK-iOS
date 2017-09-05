@@ -29,12 +29,8 @@
 
 #import <SalesforceAnalytics/SFSDKLogger.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 extern NSString * _Nonnull const kSFSDKCoreComponentName;
 
 @interface SFSDKCoreLogger : SFSDKLogger
 
 @end
-
-NS_ASSUME_NONNULL_END

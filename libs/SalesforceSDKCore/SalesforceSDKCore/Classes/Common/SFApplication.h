@@ -24,8 +24,6 @@
 
 #import <UIKit/UIKit.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 /**
  * Mobile SDK extension of the UIApplication object.  Currently just gathers
  * date/time information about user events.
@@ -38,5 +36,3 @@ NS_ASSUME_NONNULL_BEGIN
 @property (atomic, readonly) NSDate *lastEventDate;
 
 @end
-
-NS_ASSUME_NONNULL_END

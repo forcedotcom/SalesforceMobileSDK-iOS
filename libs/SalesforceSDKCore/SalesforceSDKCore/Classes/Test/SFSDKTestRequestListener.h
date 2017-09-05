@@ -28,8 +28,6 @@
 #import "SFOAuthCoordinator.h"
 #import "SFOAuthInfo.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 extern NSString* const kTestRequestStatusWaiting;
 extern NSString* const kTestRequestStatusDidLoad;
 extern NSString* const kTestRequestStatusDidFail;
@@ -49,9 +47,9 @@ typedef NS_ENUM(NSUInteger, SFAccountManagerServiceType) {
     NSTimeInterval _maxWaitTime;
 }
 
-@property (nullable, nonatomic, retain) id dataResponse;
-@property (nullable, nonatomic, retain) NSError *lastError;
-@property (nullable, nonatomic, retain) NSString *returnStatus;
+@property (nonatomic, retain) id dataResponse;
+@property (nonatomic, retain) NSError *lastError;
+@property (nonatomic, retain) NSString *returnStatus;
 
 /// Max time to wait for request completion
 @property (nonatomic, assign) NSTimeInterval maxWaitTime;
@@ -69,4 +67,3 @@ typedef NS_ENUM(NSUInteger, SFAccountManagerServiceType) {
 
 @end
 
-NS_ASSUME_NONNULL_END

@@ -25,8 +25,6 @@
 #import <Foundation/Foundation.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 /**Utility methods used by SmartStore.
  */
 @interface SFSmartStoreUtils : NSObject
@@ -38,5 +36,3 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)userKeyForUser:(SFUserAccount *)user;
 
 @end
-
-NS_ASSUME_NONNULL_END

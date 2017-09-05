@@ -22,8 +22,6 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-NS_ASSUME_NONNULL_BEGIN
-
 @class FMDatabaseQueue;
 @class SFSmartStore;
 @class SFSoupSpec;
@@ -123,7 +121,7 @@ static NSInteger  const kLastStep = SFAlterSoupStepCleanup;
  @param reIndexData YES to reindex.
  @return The initialized self.
  */
-- (id) initWithStore:(SFSmartStore*)store soupName:(NSString*)soupName newSoupSpec:(nullable SFSoupSpec*)newSoupSpec newIndexSpecs:(NSArray*)newIndexSpecs reIndexData:(BOOL)reIndexData;
+- (id) initWithStore:(SFSmartStore*)store soupName:(NSString*)soupName newSoupSpec:(SFSoupSpec*)newSoupSpec newIndexSpecs:(NSArray*)newIndexSpecs reIndexData:(BOOL)reIndexData;
 
 /** 
  Initializer for resuming an alter soup operation from the data stored in the long operations status table.
@@ -147,6 +145,4 @@ static NSInteger  const kLastStep = SFAlterSoupStepCleanup;
 - (void) runToStep:(SFAlterSoupStep) toStep;
 
 @end
-
-NS_ASSUME_NONNULL_END
 

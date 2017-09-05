@@ -24,7 +24,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
 
 /**
  This class helps decouple framework code from the underlying JSON implementation.
@@ -99,5 +98,3 @@ NS_ASSUME_NONNULL_BEGIN
 + (id)projectIntoJson:(NSDictionary *)jsonObj path:(NSString *)path;
 
 @end
-
-NS_ASSUME_NONNULL_END

@@ -22,8 +22,6 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-NS_ASSUME_NONNULL_BEGIN
-
 typedef  enum {
     SFDataCachePolicyIgnoreCacheData = 0, // ignore cache and always load from server
     SFDataCachePolicyReloadAndReturnCacheOnFailure, // Always reload and return cache on failure
@@ -85,7 +83,7 @@ typedef  enum {
                           cacheKey:(NSString *)cacheKey
                        cachePolicy:(SFDataCachePolicy)cachePolicy
                         objectClass:(Class)objectClass
-                        cachedTime:(out NSDate *_Nullable*_Nullable)lastCachedTime;
+                        cachedTime:(out NSDate **)lastCachedTime;
 
 /** Write data to cache.
  @param data Data to cache
@@ -95,5 +93,3 @@ typedef  enum {
 - (void)writeDataToCache:(id)data cacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey;
 
 @end
-
-NS_ASSUME_NONNULL_END

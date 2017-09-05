@@ -25,8 +25,6 @@
 #import <Foundation/Foundation.h>
 #import "SFSDKSoslReturningBuilder.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface SFSDKSoslBuilder : NSObject
 
 /** @name Query Builder */
@@ -100,5 +98,3 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *) build;
 
 @end
-
-NS_ASSUME_NONNULL_END

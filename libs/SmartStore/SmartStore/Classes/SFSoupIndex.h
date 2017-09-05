@@ -24,8 +24,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 extern NSString * const kSoupIndexPath;
 extern NSString * const kSoupIndexType;
 extern NSString * const kSoupIndexTypeString;
@@ -80,7 +78,7 @@ extern SFIndexSpecTypeFilterBlock const kValueIndexedWithJSONExtract;
  * @param type An index type, e.g. kSoupIndexTypeString.
  * @param columnName The SQL column name, or nil.
  */
-- (nullable id)initWithPath:(NSString*)path indexType:(NSString*)type columnName:(nullable NSString*)columnName;
+- (id)initWithPath:(NSString*)path indexType:(NSString*)type columnName:(NSString*)columnName;
 
 /**
  * Creates an SFSoupIndex based on the given NSDictionary index spec.
@@ -140,4 +138,4 @@ extern SFIndexSpecTypeFilterBlock const kValueIndexedWithJSONExtract;
 
 @end
 
-NS_ASSUME_NONNULL_END
+

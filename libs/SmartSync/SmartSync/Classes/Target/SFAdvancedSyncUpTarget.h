@@ -25,8 +25,6 @@
 #import "SFSyncUpTarget.h"
 #import "SFSyncState.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 /**
  Protocol for advanced sync up target where records are not simply created/updated/deleted
  With advanced sync up target, sync manager simply calls the method: syncUpRecord
@@ -52,4 +50,3 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END

@@ -23,9 +23,6 @@
  */
 
 #import <Foundation/Foundation.h>
-
-NS_ASSUME_NONNULL_BEGIN
-
 @protocol SFUserAccountPersister;
 
 @interface SFDefaultUserAccountPersister:NSObject<SFUserAccountPersister>
@@ -36,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param error On output, contains the error if the method returned NO
  @return YES if the method succeeded, NO otherwise
  */
-- (BOOL)loadUserAccountFromFile:(NSString *)filePath account:(SFUserAccount*_Nullable*_Nullable)account error:(NSError**)error;
+- (BOOL)loadUserAccountFromFile:(NSString *)filePath account:(SFUserAccount**)account error:(NSError**)error;
 
 /** Updates/Saves a user account to a specified filePath
  * @param userAccount On output, contains the user account or nil if an error occurred
@@ -54,5 +51,3 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString*)userAccountPlistFileForUser:(SFUserAccount*)user;
 
 @end
-
-NS_ASSUME_NONNULL_END

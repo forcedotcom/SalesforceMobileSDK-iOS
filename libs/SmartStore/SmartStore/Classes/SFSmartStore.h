@@ -23,9 +23,6 @@
  */
 
 #import <Foundation/Foundation.h>
-
-NS_ASSUME_NONNULL_BEGIN
-
 @class SFEncryptionKey;
 
 /**
@@ -47,7 +44,7 @@ extern NSString * const kSFSmartStoreEncryptionKeyLabel;
 /**
  Block typedef for generating an encryption key.
  */
-typedef SFEncryptionKey*  _Nullable (^SFSmartStoreEncryptionKeyBlock)(void);
+typedef SFEncryptionKey* (^SFSmartStoreEncryptionKeyBlock)(void);
 
 /**
  The columns of a soup table
@@ -135,7 +132,7 @@ extern NSString *const EXPLAIN_ROWS;
 /**
  User for this store - nil for global stores
  */
-@property (nonatomic, strong, nullable) SFUserAccount *user;
+@property (nonatomic, strong) SFUserAccount *user;
 
 /**
  Flag to cause explain plan to be captured for every query
@@ -497,5 +494,3 @@ extern NSString *const EXPLAIN_ROWS;
 + (NSDate *)dateFromLastModifiedValue:(NSNumber *)lastModifiedValue;
 
 @end
-
-NS_ASSUME_NONNULL_END

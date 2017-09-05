@@ -28,8 +28,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 /**Helps determine whether we're currently running tests or not.
  */
 @interface SFTestContext : NSObject {
@@ -48,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param object The object or nil to remove the object
  @param key The key
  */
-+ (void)setObject:(nullable id)object forKey:(id)key;
++ (void)setObject:(id)object forKey:(id)key;
 
 /** Returns an arbitrary object from the test context
  @param key The key
@@ -61,5 +59,3 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)clearObjects;
 
 @end
-
-NS_ASSUME_NONNULL_END

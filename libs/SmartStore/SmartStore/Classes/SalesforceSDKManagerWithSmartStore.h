@@ -24,8 +24,6 @@
 
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 /**
  * Version of SalesforceSDKManager to be used with all SmartStore-enabled apps. 
  * By default, forceios apps use an instance of this class instead of SalesforceSDKManager.
@@ -35,4 +33,4 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END
+

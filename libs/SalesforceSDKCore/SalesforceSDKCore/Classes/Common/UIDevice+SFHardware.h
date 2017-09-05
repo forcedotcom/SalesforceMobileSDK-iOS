@@ -58,8 +58,6 @@
 #define SIMULATOR_IPAD_NAMESTRING       @"iPad Simulator"
 #define SIMULATOR_APPLETV_NAMESTRING    @"Apple TV Simulator"
 
-NS_ASSUME_NONNULL_BEGIN
-
 typedef NS_ENUM(NSUInteger, UIDevicePlatform) {
     UIDeviceUnknown,
     
@@ -129,10 +127,10 @@ typedef NS_ENUM(NSUInteger, UIDeviceFamily) {
 @interface UIDevice (SFHardware)
 
 /**Platform for the Device*/
-- (nullable NSString *) platform;
+- (NSString *) platform;
 
 /**Hardware model*/
-- (nullable NSString *) hwmodel;
+- (NSString *) hwmodel;
 
 /**Platform type
  See `UIDevicePlatform`
@@ -225,5 +223,3 @@ typedef NS_ENUM(NSUInteger, UIDeviceFamily) {
 + (BOOL)currentDeviceIsIPhone;
 
 @end
-
-NS_ASSUME_NONNULL_END

@@ -25,8 +25,6 @@
 #import <Foundation/Foundation.h>
 #import "SFSmartSyncPersistableObject.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface SFObject : SFSmartSyncPersistableObject <NSCoding>
 
 /** Object Id */
@@ -36,5 +34,3 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) NSString *name;
 
 @end
-
-NS_ASSUME_NONNULL_END

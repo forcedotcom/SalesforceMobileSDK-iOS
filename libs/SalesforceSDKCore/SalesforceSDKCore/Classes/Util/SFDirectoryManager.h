@@ -25,8 +25,6 @@
 #import <Foundation/Foundation.h>
 #import "SFUserAccountConstants.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 @class SFUserAccount;
 
 /** Global directory manager that returns scoped directory. The scoping is enforced
@@ -67,7 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param components The additional path components to be added at the end of the directory (eg ['mybundle', 'common'])
  @return The path to the directory
  */
-- (NSString*)directoryForOrg:(nullable NSString*)orgId user:(nullable NSString*)userId community:(nullable NSString*)communityId type:(NSSearchPathDirectory)type components:(nullable NSArray*)components;
+- (NSString*)directoryForOrg:(NSString*)orgId user:(NSString*)userId community:(NSString*)communityId type:(NSSearchPathDirectory)type components:(NSArray*)components;
 
 /** Returns the path to the directory type for the specified user and scope
  @param user The user account to use. If nil, the path returned corresponds to the global path type
@@ -76,7 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param components The additional path components to be added at the end of the directory (eg ['mybundle', 'common'])
  @return The path to the directory
  */
-- (NSString*)directoryForUser:(SFUserAccount *)user scope:(SFUserAccountScope)scope type:(NSSearchPathDirectory)type components:(nullable NSArray *)components;
+- (NSString*)directoryForUser:(SFUserAccount *)user scope:(SFUserAccountScope)scope type:(NSSearchPathDirectory)type components:(NSArray *)components;
 
 /** Returns the path to the directory type for the specified user.
  @param account The user account to use. If nil, the path returned corresponds to the global path type
@@ -84,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param components The additional path components to be added at the end of the directory (eg ['mybundle', 'common'])
  @return The path to the directory
  */
-- (NSString*)directoryForUser:(nullable SFUserAccount*)account type:(NSSearchPathDirectory)type components:(nullable NSArray*)components;
+- (NSString*)directoryForUser:(SFUserAccount*)account type:(NSSearchPathDirectory)type components:(NSArray*)components;
 
 /** Returns the path to the directory type for the current user and current community.
  @param type The type of directory to return (see NSSearchPathDirectory)
@@ -102,5 +100,3 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString*)globalDirectoryOfType:(NSSearchPathDirectory)type components:(NSArray*)components;
 
 @end
-
-NS_ASSUME_NONNULL_END

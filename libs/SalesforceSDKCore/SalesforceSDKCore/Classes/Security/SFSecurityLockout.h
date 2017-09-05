@@ -27,8 +27,6 @@
 
 #import "SFPasscodeViewControllerTypes.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 /**
  The action that was taken as the result of calling into the security lockout functionality.
  Note: This value should denote the action actually taken, as opposed to an expected action
@@ -98,7 +96,7 @@ typedef void (^SFLockScreenFailureCallbackBlock)(void);
 /**
  Block typedef for creating the passcode view controller.
  */
-typedef UIViewController* _Nullable  (^SFPasscodeViewControllerCreationBlock)(SFPasscodeControllerMode mode, SFPasscodeConfigurationData configData);
+typedef UIViewController* (^SFPasscodeViewControllerCreationBlock)(SFPasscodeControllerMode mode, SFPasscodeConfigurationData configData);
 
 /**
  Block typedef for displaying and dismissing the passcode view controller.
@@ -246,7 +244,7 @@ typedef void (^SFPasscodeViewControllerPresentationBlock)(UIViewController*);
  successfully.  Optional.
  @param block The block to be executed on successful unlock.
  */
-+ (void)setLockScreenSuccessCallbackBlock:(SFLockScreenSuccessCallbackBlock _Nullable)block;
++ (void)setLockScreenSuccessCallbackBlock:(SFLockScreenSuccessCallbackBlock)block;
 
 /**
  Returns the callback block to be executed on successful screen unlock.
@@ -258,7 +256,7 @@ typedef void (^SFPasscodeViewControllerPresentationBlock)(UIViewController*);
  verify the passcode to unlock the screen.  Optional.
  @param block The block to be executed on a failed unlock.
  */
-+ (void)setLockScreenFailureCallbackBlock:(nullable SFLockScreenFailureCallbackBlock)block;
++ (void)setLockScreenFailureCallbackBlock:(SFLockScreenFailureCallbackBlock)block;
 
 /**
  Returns the callback block to be executed on a screen unlock failure.
@@ -302,7 +300,7 @@ typedef void (^SFPasscodeViewControllerPresentationBlock)(UIViewController*);
  * Sets a retained instance of the current passcode view controller that's displayed.
  @param vc The passcode view controller.
  */
-+ (void)setPasscodeViewController:(nullable UIViewController *)vc;
++ (void)setPasscodeViewController:(UIViewController *)vc;
 
 /**
  * Returns the currently displayed passcode view controller, or nil if the passcode view controller
@@ -330,4 +328,4 @@ typedef void (^SFPasscodeViewControllerPresentationBlock)(UIViewController*);
 
 @end
 
-NS_ASSUME_NONNULL_END
+

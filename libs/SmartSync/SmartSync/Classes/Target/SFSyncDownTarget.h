@@ -25,12 +25,10 @@
 #import <Foundation/Foundation.h>
 #import "SFSyncTarget.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 @class SFSmartSyncSyncManager;
 
-typedef void (^SFSyncDownTargetFetchCompleteBlock) (NSArray* _Nullable records);
-typedef void (^SFSyncDownTargetFetchErrorBlock) (NSError * _Nullable e);
+typedef void (^SFSyncDownTargetFetchCompleteBlock) (NSArray* records);
+typedef void (^SFSyncDownTargetFetchErrorBlock) (NSError *e);
 
 typedef NS_ENUM(NSInteger, SFSyncDownTargetQueryType) {
   SFSyncDownTargetQueryTypeMru,
@@ -66,7 +64,7 @@ typedef NS_ENUM(NSInteger, SFSyncDownTargetQueryType) {
  */
 - (void) continueFetch:(SFSmartSyncSyncManager*)syncManager
             errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
-         completeBlock:(nullable SFSyncDownTargetFetchCompleteBlock)completeBlock;
+         completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock;
 
 /**
  * Gets the latest modification timestamp from the array of records. Note: inheriting classes can
@@ -103,5 +101,3 @@ typedef NS_ENUM(NSInteger, SFSyncDownTargetQueryType) {
 + (NSString*) queryTypeToString:(SFSyncDownTargetQueryType)queryType;
 
 @end
-
-NS_ASSUME_NONNULL_END

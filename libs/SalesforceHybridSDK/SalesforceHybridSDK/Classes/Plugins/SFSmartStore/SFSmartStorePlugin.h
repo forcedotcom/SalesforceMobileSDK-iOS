@@ -26,8 +26,6 @@
 #import "SFForcePlugin.h"
 #import <SmartStore/SFStoreCursor.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 /**
  String used with Cordova to uniquely identify this plugin
  */
@@ -188,5 +186,3 @@ extern NSString * const kSmartStorePluginIdentifier;
 -(void)pgRemoveAllStores:(CDVInvokedUrlCommand *)command;
     
 @end
-
-NS_ASSUME_NONNULL_END

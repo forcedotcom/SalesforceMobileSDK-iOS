@@ -25,8 +25,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @class SFOAuthInfo;
 
 /**
@@ -60,5 +58,3 @@ typedef BOOL (^SFAuthErrorHandlerEvalBlock)(NSError *, SFOAuthInfo *);
 - (id)initWithName:(NSString *)name evalBlock:(SFAuthErrorHandlerEvalBlock)evalBlock;
 
 @end
-
-NS_ASSUME_NONNULL_END

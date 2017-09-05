@@ -24,7 +24,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
 
 //kQuerySpecSortOrderFoo constants are used when translating to SFSoupQuerySortOrder from JS (dictionary) values
 extern NSString * const kQuerySpecSortOrderAscending;
@@ -102,7 +101,7 @@ typedef NS_ENUM(NSUInteger, SFSoupQuerySortOrder) {
 /**
  The paths to return in an array. nil means return the entire soup element.
  */
-@property (nonatomic, strong, nullable) NSArray *selectPaths;
+@property (nonatomic, strong) NSArray *selectPaths;
 
 /**
  The indexPath to use for the query. Compound paths must be dot-delimited ie parent.child.grandchild.field .
@@ -157,7 +156,7 @@ typedef NS_ENUM(NSUInteger, SFSoupQuerySortOrder) {
  * @param pageSize The page size.
  * @return A query spec object.
  */
-+ (SFQuerySpec*) newExactQuerySpec:(NSString*)soupName withSelectPaths:(nullable NSArray*)selectPaths withPath:(NSString*)path withMatchKey:(NSString*)matchKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
++ (SFQuerySpec*) newExactQuerySpec:(NSString*)soupName withSelectPaths:(NSArray*)selectPaths withPath:(NSString*)path withMatchKey:(NSString*)matchKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
 + (SFQuerySpec*) newExactQuerySpec:(NSString*)soupName withPath:(NSString*)path withMatchKey:(NSString*)matchKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
 
 /**
@@ -172,7 +171,7 @@ typedef NS_ENUM(NSUInteger, SFSoupQuerySortOrder) {
  * @param pageSize The page size.
  * @return A query spec object.
  */
-+ (SFQuerySpec*) newLikeQuerySpec:(NSString*)soupName withSelectPaths:(nullable NSArray*)selectPaths withPath:(NSString*)path withLikeKey:(NSString*)likeKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
++ (SFQuerySpec*) newLikeQuerySpec:(NSString*)soupName withSelectPaths:(NSArray*)selectPaths withPath:(NSString*)path withLikeKey:(NSString*)likeKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
 + (SFQuerySpec*) newLikeQuerySpec:(NSString*)soupName withPath:(NSString*)path withLikeKey:(NSString*)likeKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
 
 /**
@@ -188,7 +187,7 @@ typedef NS_ENUM(NSUInteger, SFSoupQuerySortOrder) {
  * @param pageSize The page size.
  * @return A query spec object.
  */
-+ (SFQuerySpec*) newRangeQuerySpec:(NSString*)soupName withSelectPaths:(nullable NSArray*)selectPaths withPath:(nullable NSString*)path withBeginKey:(nullable NSString*)beginKey withEndKey:(nullable NSString*)endKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
++ (SFQuerySpec*) newRangeQuerySpec:(NSString*)soupName withSelectPaths:(NSArray*)selectPaths withPath:(NSString*)path withBeginKey:(NSString*)beginKey withEndKey:(NSString*)endKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
 + (SFQuerySpec*) newRangeQuerySpec:(NSString*)soupName withPath:(NSString*)path withBeginKey:(NSString*)beginKey withEndKey:(NSString*)endKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
 
 /**
@@ -199,7 +198,7 @@ typedef NS_ENUM(NSUInteger, SFSoupQuerySortOrder) {
  * @param order The sort order.
  * @param pageSize The page size.
  */
-+ (SFQuerySpec*) newAllQuerySpec:(NSString*)soupName withSelectPaths:(nullable NSArray*)selectPaths withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
++ (SFQuerySpec*) newAllQuerySpec:(NSString*)soupName withSelectPaths:(NSArray*)selectPaths withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
 + (SFQuerySpec*) newAllQuerySpec:(NSString*)soupName withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
 
 /**
@@ -214,7 +213,7 @@ typedef NS_ENUM(NSUInteger, SFSoupQuerySortOrder) {
  * @param pageSize The page size.
  * @return A query spec object.
  */
-+ (SFQuerySpec*) newMatchQuerySpec:(NSString*)soupName withSelectPaths:(nullable NSArray*)selectPaths withPath:(NSString*)path withMatchKey:(NSString*)matchKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
++ (SFQuerySpec*) newMatchQuerySpec:(NSString*)soupName withSelectPaths:(NSArray*)selectPaths withPath:(NSString*)path withMatchKey:(NSString*)matchKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
 + (SFQuerySpec*) newMatchQuerySpec:(NSString*)soupName withPath:(NSString*)path withMatchKey:(NSString*)matchKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
 
 /**
@@ -246,5 +245,3 @@ typedef NS_ENUM(NSUInteger, SFSoupQuerySortOrder) {
 - (NSArray*) bindsForQuerySpec;
 
 @end
-
-NS_ASSUME_NONNULL_END

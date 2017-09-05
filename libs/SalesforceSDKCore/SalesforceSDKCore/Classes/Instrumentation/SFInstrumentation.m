@@ -88,6 +88,7 @@
     [self interceptMethod:selector beforeBlock:before afterBlock:after isInstanceMethod:YES];
 }
 
+
 - (void)interceptInstanceMethod:(SEL)selector replaceWithInvocationBlock:(SFMethodInterceptorInvocationCallback)replace {
     [self interceptMethod:selector replaceWithInvocationBlock:replace isInstanceMethod:YES];
 }

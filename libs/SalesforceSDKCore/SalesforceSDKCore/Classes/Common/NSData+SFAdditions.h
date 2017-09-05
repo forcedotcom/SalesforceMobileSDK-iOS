@@ -24,8 +24,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 /** Extension to NSData class to provide common functions. Added functionality includes:
  --base64 encoding of an NSData object
  --MD5 version of an NSData object
@@ -85,7 +83,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**Converts this data to gzip compressed format.
  @return This data in gzip compressed format.
  */
--(nullable NSData *)gzipDeflate;
+-(NSData *)gzipDeflate;
 @end
 
 /**
@@ -98,5 +96,3 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString*)newHexStringFromBytes;
 
 @end
-
-NS_ASSUME_NONNULL_END

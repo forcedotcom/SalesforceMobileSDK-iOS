@@ -24,8 +24,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 /**
  Data object representing an symmetric encryption key, with a key value and initialization vector.
  */
@@ -41,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  The key component of the object.
  */
-@property (nonatomic, copy, nullable) NSData *key;
+@property (nonatomic, copy) NSData *key;
 
 /**
  The initialization vector component of the object.
@@ -59,5 +57,3 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSString *initializationVectorAsString;
 
 @end
-
-NS_ASSUME_NONNULL_END
