@@ -258,7 +258,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 #pragma mark - UISearchBarDelegate methods
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"searching with text: %@", searchText];
+    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"searching with text: %@", searchText];
     self.searchText = searchText;
     [self refreshList];
 }
@@ -624,7 +624,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 
 - (void)clearPopovers:(NSNotification *)note
 {
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"Passcode screen loading. Clearing popovers."];
+    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"Passcode screen loading. Clearing popovers."];
     if (self.popOverController) {
         [self.popOverController dismissPopoverAnimated:NO];
     }

@@ -45,7 +45,7 @@
     // Block until the javascript has notified the container that it's ready
     BOOL timedOut = [self waitForTestRunnerReady];
     if (timedOut) {
-        [SFSDKLogger log:[self class] level:DDLogLevelDebug message:@"failed to start test runner..."];
+        [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"failed to start test runner..."];
     }
 }
 
@@ -69,11 +69,11 @@
     while (![self isTestRunnerReady]) {
         NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
         if (elapsed > 15.0) {
-            [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"testRunner took too long (%f) to startup", elapsed];
+            [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"testRunner took too long (%f) to startup", elapsed];
             completionTimedOut = YES;
             break;
         }
-        [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"## waiting to start tests... "];
+        [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"## waiting to start tests... "];
         [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
     }
     return completionTimedOut;
@@ -86,11 +86,11 @@
     while (![self isTestResultAvailable:testName]) {
         NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
         if (elapsed > 30.0) {
-            [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"test took too long (%f) to complete", elapsed];
+            [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"test took too long (%f) to complete", elapsed];
             completionTimedOut = YES;
             break;
         }
-        [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"## sleeping on %@...", self.jsTestName];
+        [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"## sleeping on %@...", self.jsTestName];
         [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.3]];
     }
     return completionTimedOut;
@@ -113,14 +113,14 @@
                          ,suiteName,testName];
     AppDelegate *app = (AppDelegate*)[SFApplicationHelper sharedApplication].delegate;
     NSString *cmdResult = [app evalJS:testCmd];
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"cmdResult: '%@'", cmdResult];
+    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"cmdResult: '%@'", cmdResult];
     BOOL timedOut = [self waitForOneCompletion:testName];
     XCTAssertFalse(timedOut, @"timed out waiting for %@ to complete",testName);
     if (!timedOut) {
         AppDelegate *appDelegate = (AppDelegate *)[[SFApplicationHelper sharedApplication] delegate];
         SFTestRunnerPlugin *plugin = (SFTestRunnerPlugin*)[appDelegate.viewController.commandDelegate getCommandInstance:kSFTestRunnerPluginName];
         SFTestResult *testResult = [[plugin testResults] objectForKey:testName];
-        [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"%@ completed in %f",testResult.testName, testResult.duration];
+        [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"%@ completed in %f",testResult.testName, testResult.duration];
         XCTAssertEqualObjects(testResult.testName, testName, @"Wrong test completed");
         XCTAssertTrue(testResult.success, @"%@ failed: %@",testResult.testName,testResult.message);
         [[plugin testResults] removeObjectForKey:testName];

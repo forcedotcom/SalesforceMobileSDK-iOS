@@ -67,6 +67,13 @@
 + (nonnull instancetype)sharedInstance;
 
 /**
+ * Returns an instance of this class associated with the default component.
+ *
+ * @return Instance of this class.
+ */
++ (nonnull instancetype)sharedDefaultInstance;
+
+/**
  * Returns an instance of this class associated with the specified component.
  *
  * @param componentName Component name.
@@ -288,24 +295,5 @@
  * @param message Log message.
  */
 + (void)d:(nonnull Class)class message:(nonnull NSString *)message;
-
-/**
- * Logs a log line of the specified level.
- *
- * @param class Class.
- * @level Log level.
- * @param format The format message, and optional arguments to expand in the format.
- * @param ... The arguments to the message format string.
- */
-+ (void)log:(nonnull Class)class level:(DDLogLevel)level format:(nonnull NSString *)format, ...;
-
-/**
- * Logs a log line of the specified level.
- *
- * @param class Class.
- * @param level Log level.
- * @param message Log message.
- */
-+ (void)log:(nonnull Class)class level:(DDLogLevel)level message:(nonnull NSString *)message;
 
 @end
