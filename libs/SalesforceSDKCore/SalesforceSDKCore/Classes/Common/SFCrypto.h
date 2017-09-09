@@ -24,8 +24,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 /**
  This class is responsible for encrypting and decrypting the content data for chatter.
  */
@@ -60,7 +58,7 @@ typedef NS_ENUM(NSUInteger, SFCryptoOperation) {
  @param key Key used for encyption/decryption. Pass nil to use the default key.
  @param mode Mode which determines whether to perform operation in memory at once or in chunks writing to the disk.
  */
-- (id)initWithOperation:(SFCryptoOperation)operation key:(nullable NSData *)key mode:(SFCryptoMode)mode;
+- (id)initWithOperation:(SFCryptoOperation)operation key:(NSData *)key mode:(SFCryptoMode)mode;
 
 /**
  Designated initializer.
@@ -69,7 +67,7 @@ typedef NS_ENUM(NSUInteger, SFCryptoOperation) {
  @param iv Initialization vector. If set to nil, uses the default initialization vector.
  @param mode Mode which determines whether to perform operation in memory at once or in chunks writing to the disk.
  */
-- (nullable id)initWithOperation:(SFCryptoOperation)operation key:(nullable NSData *)key iv:(nullable NSData*)iv mode:(SFCryptoMode)mode;
+- (id)initWithOperation:(SFCryptoOperation)operation key:(NSData *)key iv:(NSData*)iv mode:(SFCryptoMode)mode;
 
 /**
  Encrypts or decrypts the passed in data. The input data is assumed to be passed in as a chunk.
@@ -139,5 +137,3 @@ typedef NS_ENUM(NSUInteger, SFCryptoOperation) {
 + (BOOL)hasInitializationVector;
 
 @end
-
-NS_ASSUME_NONNULL_END

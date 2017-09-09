@@ -25,8 +25,6 @@
 #import <Foundation/Foundation.h>
 #import "SFSyncDownTarget.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface SFSoslSyncDownTarget : SFSyncDownTarget
 
 @property (nonatomic, strong, readonly) NSString* query;
@@ -36,5 +34,3 @@ NS_ASSUME_NONNULL_BEGIN
 + (SFSoslSyncDownTarget*) newSyncTarget:(NSString*)query;
 
 @end
-
-NS_ASSUME_NONNULL_END

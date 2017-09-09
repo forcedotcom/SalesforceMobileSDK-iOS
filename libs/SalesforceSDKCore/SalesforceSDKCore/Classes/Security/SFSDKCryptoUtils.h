@@ -24,8 +24,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @class SFPBKDFData;
 
 /**
@@ -74,7 +72,7 @@ extern NSUInteger const kSFPBKDFDefaultSaltByteLength;
  * @param derivedKeyLength The desired derived key length.
  * @return An SFPBKDFData object representing the derived key.
  */
-+ (nullable SFPBKDFData *)createPBKDF2DerivedKey:(NSString *)stringToHash
++ (SFPBKDFData *)createPBKDF2DerivedKey:(NSString *)stringToHash
                                    salt:(NSData *)salt
                        derivationRounds:(NSUInteger)numDerivationRounds
                               keyLength:(NSUInteger)derivedKeyLength;
@@ -86,7 +84,7 @@ extern NSUInteger const kSFPBKDFDefaultSaltByteLength;
  * @param iv The initialization vector data used for the encryption.
  * @return The encrypted data, or `nil` if encryption was not successful.
  */
-+ (nullable NSData *)aes256EncryptData:(NSData *)data withKey:(NSData *)key iv:(NSData *)iv;
++ (NSData *)aes256EncryptData:(NSData *)data withKey:(NSData *)key iv:(NSData *)iv;
 
 /**
  * Decrypt the given data using the AES-256 algorithm.
@@ -95,8 +93,6 @@ extern NSUInteger const kSFPBKDFDefaultSaltByteLength;
  * @param iv The initialization vector data used for the decryption.
  * @return The decrypted data, or `nil` if decryption was not successful.
  */
-+ (nullable NSData *)aes256DecryptData:(NSData *)data withKey:(NSData *)key iv:(NSData *)iv;
++ (NSData *)aes256DecryptData:(NSData *)data withKey:(NSData *)key iv:(NSData *)iv;
 
 @end
-
-NS_ASSUME_NONNULL_END

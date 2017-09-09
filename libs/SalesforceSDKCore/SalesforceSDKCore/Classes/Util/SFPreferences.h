@@ -25,8 +25,6 @@
 #import <Foundation/Foundation.h>
 #import "SFUserAccountConstants.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 @class SFUserAccount;
 
 /** Preferences class that handles scoped preferences.
@@ -52,22 +50,22 @@ NS_ASSUME_NONNULL_BEGIN
  @param scope The scope to which the preferences apply: global, user's org, user's community, or user's account.
  @param user The account to which the preferences apply. Not used if scope is global.
  */
-+ (nullable instancetype)sharedPreferencesForScope:(SFUserAccountScope)scope user:(nullable SFUserAccount*)user;
++ (instancetype)sharedPreferencesForScope:(SFUserAccountScope)scope user:(SFUserAccount*)user;
 
 /** Returns the preferences instance related to the current user's organization
  or nil if there is no current user.
  */
-+ (nullable instancetype)currentOrgLevelPreferences;
++ (instancetype)currentOrgLevelPreferences;
 
 /** Returns the preferences instance related to the currrent user
  or nil if there is no current user.
  */
-+ (nullable instancetype)currentUserLevelPreferences;
++ (instancetype)currentUserLevelPreferences;
 
 /** Returns the preferences instance related to the currrent user's community
  or nil if there is no current user.
  */
-+ (nullable instancetype)currentCommunityLevelPreferences;
++ (instancetype)currentCommunityLevelPreferences;
 
 /** Returns the preferences object for the given key.
  @param key The key of the requested object.
@@ -111,7 +109,7 @@ NS_ASSUME_NONNULL_BEGIN
 /** Returns the string preference value for the given key.
  @param key The key of the requested preference value.
  */
-- (nullable NSString*)stringForKey:(NSString*)key;
+- (NSString*)stringForKey:(NSString*)key;
 
 /** Saves the preferences to the disk
  */
@@ -122,5 +120,3 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeAllObjects;
 
 @end
-
-NS_ASSUME_NONNULL_END

@@ -24,8 +24,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @class SFAuthenticationManager;
 @class SFSafariViewController;
 
@@ -51,5 +49,3 @@ typedef void (^SFAuthSafariControllerPresentBlock)(SFAuthenticationManager *, SF
 - (id)initWithPresentBlock:(SFAuthSafariControllerPresentBlock)presentBlock;
 
 @end
-
-NS_ASSUME_NONNULL_END

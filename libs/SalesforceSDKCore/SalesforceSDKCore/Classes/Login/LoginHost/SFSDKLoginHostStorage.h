@@ -28,8 +28,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @class SFSDKLoginHost;
 
 /**
@@ -71,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Returns the login host with a particular host address, if any.
  * @param hostAddress Address to be queried
  */
-- (nullable SFSDKLoginHost *)loginHostForHostAddress:(NSString *)hostAddress;
+- (SFSDKLoginHost *)loginHostForHostAddress:(NSString *)hostAddress;
 
 /**
  * Removes all the login hosts.
@@ -89,5 +87,3 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)save;
 
 @end
-
-NS_ASSUME_NONNULL_END

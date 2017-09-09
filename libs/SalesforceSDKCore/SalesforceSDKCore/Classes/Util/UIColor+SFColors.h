@@ -28,15 +28,13 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface UIColor (SFColors)
 
 +(UIColor *) salesforceBlueColor;
 
 /** Construct a color given hex color, like "#00FF00" (#RRGGBB).
  */
-+ (nullable UIColor *)colorFromHexValue:(NSString *)hexString;
++ (UIColor *)colorFromHexValue:(NSString *)hexString;
 
 /** Returns a CSS hex color representation
  of this color
@@ -44,5 +42,3 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *)hexStringFromColor;
 
 @end
-
-NS_ASSUME_NONNULL_END

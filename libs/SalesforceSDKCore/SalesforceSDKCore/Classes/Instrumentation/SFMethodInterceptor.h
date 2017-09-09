@@ -24,8 +24,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 /** Class containing the perf data associated with a selector execution.
  */
 @interface SFSDKInstrumentationPostExecutionData : NSObject
@@ -94,5 +92,3 @@ typedef void(^SFMethodInterceptorInvocationAfterCallback)(NSInvocation *invocati
 @property (nonatomic) BOOL enabled;
 
 @end
-
-NS_ASSUME_NONNULL_END

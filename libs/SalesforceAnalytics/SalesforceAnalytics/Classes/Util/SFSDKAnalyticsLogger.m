@@ -29,12 +29,59 @@
 
 #import "SFSDKAnalyticsLogger.h"
 
-NSString * const kSFSDKAnalyticsComponentName = @"SalesforceAnalytics";
+static NSString * const kComponentName = @"SalesforceAnalytics";
 
 @implementation SFSDKAnalyticsLogger
 
-+ (instancetype)sharedInstance {
-    return [self sharedInstanceWithComponent:kSFSDKAnalyticsComponentName];
++ (DDLogLevel)curLogLevel {
+    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kComponentName];
+    return logger.logLevel;
+}
+
++ (void)setLogLevel:(DDLogLevel)logLevel {
+    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kComponentName];
+    logger.logLevel = logLevel;
+}
+
++ (void)e:(Class)class format:(NSString *)format, ... {
+    va_list args;
+    va_start(args, format);
+    [SFSDKAnalyticsLogger log:DDLogLevelError class:class message:format args:args];
+    va_end(args);
+}
+
++ (void)w:(Class)class format:(NSString *)format, ... {
+    va_list args;
+    va_start(args, format);
+    [SFSDKAnalyticsLogger log:DDLogLevelWarning class:class message:format args:args];
+    va_end(args);
+}
+
++ (void)i:(Class)class format:(NSString *)format, ... {
+    va_list args;
+    va_start(args, format);
+    [SFSDKAnalyticsLogger log:DDLogLevelInfo class:class message:format args:args];
+    va_end(args);
+}
+
++ (void)v:(Class)class format:(NSString *)format, ... {
+    va_list args;
+    va_start(args, format);
+    [SFSDKAnalyticsLogger log:DDLogLevelVerbose class:class message:format args:args];
+    va_end(args);
+}
+
++ (void)d:(Class)class format:(NSString *)format, ... {
+    va_list args;
+    va_start(args, format);
+    [SFSDKAnalyticsLogger log:DDLogLevelDebug class:class message:format args:args];
+    va_end(args);
+}
+
++ (void)log:(DDLogLevel)level class:(Class)class message:(NSString *)message args:(va_list)args {
+    NSString *formattedMessage = [[NSString alloc] initWithFormat:message arguments:args];
+    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kComponentName];
+    [logger log:class level:level message:formattedMessage];
 }
 
 @end

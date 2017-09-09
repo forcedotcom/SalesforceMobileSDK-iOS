@@ -24,8 +24,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 /** Contains this app's OAuth configuration as defined in the developer's Salesforce connected app.
  */
 @interface SFSDKAppConfig : NSObject
@@ -59,8 +57,6 @@ NS_ASSUME_NONNULL_BEGIN
  * Initializer with a given JSON-based configuration dictionary.
  * @param configDict The dictionary containing the configuration.
  */
-- (nullable instancetype)initWithDict:(nullable NSDictionary *)configDict;
+- (instancetype)initWithDict:(NSDictionary *)configDict;
 
 @end
-
-NS_ASSUME_NONNULL_END

@@ -23,8 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SalesforceSDKConstants.h"
-#import "SFUserAccount.h"
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 /**
  * HTTP methods for requests
@@ -155,10 +154,9 @@ extern NSString * const kSFDefaultRestEndpoint;
 /**
  * Prepares the request before sending it out.
  *
- * @param user User account.
  * @return NSURLRequest instance.
  */
-- (nullable NSURLRequest *)prepareRequestForSend:(nonnull SFUserAccount *)user;
+- (NSURLRequest *)prepareRequestForSend;
 
 /**
  * Sets the value for the specified HTTP header.

@@ -24,8 +24,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 /**
  Block that will be invoked in a thread.
  */
@@ -84,5 +82,3 @@ typedef void (^SFThreadBlock)(void);
 - (void)executeBlockOrDispatchIfNotMainThread:(void(^)(void))block;
 
 @end
-
-NS_ASSUME_NONNULL_END

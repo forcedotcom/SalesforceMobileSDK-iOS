@@ -24,8 +24,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 /** Class that groups the data describing a community
  */
 @interface SFCommunityData : NSObject <NSCoding>
@@ -67,5 +65,3 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) BOOL sendWelcomeEmail;
 
 @end
-
-NS_ASSUME_NONNULL_END

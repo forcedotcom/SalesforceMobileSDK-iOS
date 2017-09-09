@@ -262,9 +262,6 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     delegate = nil;
 }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wnonnull"
-
 /**
  Test the case of instantiating the SFOAuthCoordinator using alloc/init, in which case the credentials property will be nil
  and therefore calling the authenticate method will raise an exception. Calling authenticateWithCredentials with a nil
@@ -280,8 +277,6 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     
     coordinator = nil;
 }
-
-#pragma clang diagnostic pop
 
 /** Test multiple identifiers.
  At this point, the test just ensures that the identifier is different then the client id.
@@ -387,9 +382,6 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     [credentials revoke];
 }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wnonnull"
-
 - (void)testTokenWithKeyNotEncrypted
 {
     SFOAuthKeychainCredentials *credentials = [[SFOAuthKeychainCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:NO];
@@ -400,8 +392,6 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     XCTAssertEqualObjects(kTestAccessToken, retrievedToken);
     [credentials revoke];
 }
-
-#pragma clang diagnostic pop
 
 - (void)testTokenWithKeyEncrypted
 {

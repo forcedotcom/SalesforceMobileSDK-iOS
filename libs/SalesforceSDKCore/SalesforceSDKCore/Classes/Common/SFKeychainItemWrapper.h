@@ -53,8 +53,8 @@ typedef NS_ENUM(NSUInteger, SFKeychainItemExceptionErrorCode) {
     SFKeychainItemExceptionKeychainInaccessible = 1,
 };
 
-extern NSString * _Nullable const kSFKeychainItemExceptionType;
-extern NSString * _Nullable const kSFKeychainItemExceptionErrorCodeKey;
+extern NSString * const kSFKeychainItemExceptionType;
+extern NSString * const kSFKeychainItemExceptionErrorCodeKey;
 
 /**
  This is a wrapper class used to interact with the keychain.
@@ -69,7 +69,7 @@ extern NSString * _Nullable const kSFKeychainItemExceptionErrorCodeKey;
 /**
  Returns the accessible attribute used to store this keychain item
  */
-@property (nonatomic, readonly, nullable) CFTypeRef accessibleAttribute;
+@property (nonatomic, readonly) CFTypeRef accessibleAttribute;
 
 /**
  @return Whether or not keychain access errors cause a fatal exception.  Default is YES.
@@ -88,7 +88,7 @@ extern NSString * _Nullable const kSFKeychainItemExceptionErrorCodeKey;
  an update of all the items in the keychain.
  @param accessibleAttribute The accessible attribute for this keychain item wrapper class.
  */
-+ (void)setAccessibleAttribute:(nullable CFTypeRef)accessibleAttribute;
++ (void)setAccessibleAttribute:(CFTypeRef)accessibleAttribute;
 
 /**
  Factory method to hand out an SFKeychainItemWrapper object with the given identifier and account.
@@ -97,7 +97,7 @@ extern NSString * _Nullable const kSFKeychainItemExceptionErrorCodeKey;
  @param identifier Identifier to use for the SFKeychainItemWrapper object.
  @param account Account to use for the SFKeychainItemWrapper object.
  */
-+ (nullable SFKeychainItemWrapper *)itemWithIdentifier:(nullable NSString *)identifier account:(nullable NSString *)account;
++ (SFKeychainItemWrapper *)itemWithIdentifier:(NSString *)identifier account:(NSString *)account;
 
 /**
  Reset the keychain item.
@@ -110,33 +110,33 @@ extern NSString * _Nullable const kSFKeychainItemExceptionErrorCodeKey;
  Sets the passcode in the keychain.
  @param passcode Plain text passcode
  */
-- (void)setPasscode:(nullable NSString *)passcode;
+- (void)setPasscode:(NSString *)passcode;
 /** The passcode.
  */
-- (nullable NSString *)passcode;
+- (NSString *)passcode;
 /** Performs passcode verification.
  @param passcode The passcode to verify.
  */
-- (BOOL)verifyPasscode:(nullable NSString *)passcode;
+- (BOOL)verifyPasscode:(NSString *)passcode;
 
 /**
  Store arbitrary data to the keychain for the service (identifier) and account specified in the initializer.
  @param data Arbitrary data to store to in the keychain. May be `nil`.
  @return The status of the keychain update request.
  */
-- (OSStatus)setValueData:(nullable NSData *)data;
+- (OSStatus)setValueData:(NSData *)data;
 
 /**
  Read arbitrary data from the keychain for the service (identifier) and account specified in the initializer.
  @return Arbitrary data read from the keychain. May be `nil`.
  */
-- (nullable NSData *)valueData;
+- (NSData *)valueData;
 
 /**
  Return a string value for an OSStatus error code.
  @param errorCode The code to stringify
  @return The string version of the error code.
  */
-+ (nullable NSString *)keychainErrorCodeString:(OSStatus)errorCode;
++ (NSString *)keychainErrorCodeString:(OSStatus)errorCode;
 
 @end

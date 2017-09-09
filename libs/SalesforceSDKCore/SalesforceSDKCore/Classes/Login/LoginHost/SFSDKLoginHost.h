@@ -29,8 +29,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 /**
  * Class that encapsulates the information about a login host.
  */
@@ -57,5 +55,3 @@ NS_ASSUME_NONNULL_BEGIN
 + (SFSDKLoginHost *)hostWithName:(NSString *)name host:(NSString *)host deletable:(BOOL)deletable;
 
 @end
-
-NS_ASSUME_NONNULL_END

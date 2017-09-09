@@ -25,8 +25,6 @@
 #import <Foundation/Foundation.h>
 #import "SFSyncDownTarget.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface SFMruSyncDownTarget : SFSyncDownTarget
 
 @property (nonatomic, strong, readonly) NSString* objectType;
@@ -37,5 +35,3 @@ NS_ASSUME_NONNULL_BEGIN
 + (SFMruSyncDownTarget*) newSyncTarget:(NSString*)objectType fieldlist:(NSArray*)fieldlist;
 
 @end
-
-NS_ASSUME_NONNULL_END

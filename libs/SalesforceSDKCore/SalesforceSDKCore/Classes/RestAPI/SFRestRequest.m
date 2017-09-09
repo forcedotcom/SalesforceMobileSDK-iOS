@@ -115,7 +115,8 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 
 # pragma mark - send and cancel
 
-- (NSURLRequest *)prepareRequestForSend:(SFUserAccount *)user {
+- (NSURLRequest *)prepareRequestForSend {
+    SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
     if (user) {
         NSString *baseUrl = self.baseURL ?: user.credentials.apiUrl.absoluteString;
 

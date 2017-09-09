@@ -24,8 +24,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @class SFOAuthCoordinator;
 @class SFSDKTestCredentialsData;
 
@@ -61,5 +59,3 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)synchronousAuthRefresh;
 
 @end
-
-NS_ASSUME_NONNULL_END

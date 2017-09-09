@@ -24,9 +24,6 @@
  */
 
 #import <Foundation/Foundation.h>
-
-NS_ASSUME_NONNULL_BEGIN
-
 /** 
  * Class that handles access to Mobile SDK's main bundle.
  */
@@ -52,5 +49,3 @@ NS_ASSUME_NONNULL_BEGIN
 + (UIImage *)imageNamed:(NSString*)name;
 
 @end
-
-NS_ASSUME_NONNULL_END

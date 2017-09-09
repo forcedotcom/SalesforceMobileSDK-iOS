@@ -25,8 +25,6 @@
 #import <Foundation/Foundation.h>
 #import "SFSyncTarget.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 @class SFSmartSyncSyncManager;
 
 /**
@@ -77,7 +75,7 @@ typedef void (^SFSyncUpRecordNewerThanServerBlock)(BOOL isNewerThanServer);
 /**
  Block definition for calling a sync up completion block.
  */
-typedef void (^SFSyncUpTargetCompleteBlock)(NSDictionary * _Nullable syncUpResult);
+typedef void (^SFSyncUpTargetCompleteBlock)(NSDictionary *syncUpResult);
 
 /**
  Block definition for calling a sync up failure block.
@@ -92,7 +90,7 @@ typedef void (^SFSyncUpTargetErrorBlock)(NSError *error);
 @property (nonatomic, strong) NSDate*  timestamp;   // time stamp - can be nil if unknown
 @property (nonatomic, assign) BOOL isDeleted;       // YES if record was deleted
 
-- (instancetype)initWithTimestamp:(nullable NSString*)timestamp isDeleted:(BOOL)isDeleted;
+- (instancetype)initWithTimestamp:(NSString*)timestamp isDeleted:(BOOL)isDeleted;
 @end
 
 /**
@@ -120,7 +118,7 @@ typedef void (^SFSyncUpTargetErrorBlock)(NSError *error);
  Creates a new instance of a server target from a serialized dictionary.
  @param dict The dictionary with the serialized server target.
  */
-+ (nullable instancetype)newFromDict:(NSDictionary *)dict;
++ (instancetype)newFromDict:(NSDictionary *)dict;
 
 /**
  Converts a string representation of a target type into its target type.
@@ -139,8 +137,8 @@ typedef void (^SFSyncUpTargetErrorBlock)(NSError *error);
 /**
  * Constructor
  */
-- (instancetype)initWithCreateFieldlist:(nullable NSArray *)createFieldlist
-                        updateFieldlist:(nullable NSArray *)updateFieldlist;
+- (instancetype)initWithCreateFieldlist:(NSArray *)createFieldlist
+                        updateFieldlist:(NSArray *)updateFieldlist;
 
 /**
  Call resultBlock with YES if record is more recent than corresponding record on server
@@ -203,4 +201,3 @@ typedef void (^SFSyncUpTargetErrorBlock)(NSError *error);
                             soupName:(NSString *)soupName;
 @end
 
-NS_ASSUME_NONNULL_END

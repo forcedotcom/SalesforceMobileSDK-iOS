@@ -31,7 +31,7 @@
 #import "SFUserAccountManager.h"
 #import "SFPasscodeManager.h"
 #import "SFAuthenticationManager.h"
-#import "SFSDKWindowManager.h"
+#import "SFRootViewManager.h"
 #import "SFPreferences.h"
 #import "SFUserActivityMonitor.h"
 #import "SFIdentityData.h"
@@ -106,12 +106,12 @@ static BOOL _showPasscode = YES;
         }];
         
         [SFSecurityLockout setPresentPasscodeViewControllerBlock:^(UIViewController *pvc) {
-                [SFSDKWindowManager sharedManager].passcodeWindow.viewController = pvc;
-                [[SFSDKWindowManager sharedManager].passcodeWindow enable];
+            [[SalesforceSDKManager sharedManager] dismissSnapshot];
+            [[SFRootViewManager sharedManager] pushViewController:pvc];
         }];
         
         [SFSecurityLockout setDismissPasscodeViewControllerBlock:^(UIViewController *pvc) {
-            [[SFSDKWindowManager sharedManager].passcodeWindow disable];
+            [[SFRootViewManager sharedManager] popViewController:pvc];
         }];
     }
 }
@@ -449,8 +449,6 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
             return;
         }
     }
-    if ([[SFSDKWindowManager sharedManager].snapshotWindow isEnabled])
-        return;
     
     SFPasscodeConfigurationData configData;
     configData.lockoutTime = [self lockoutTime];

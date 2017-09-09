@@ -24,8 +24,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 /** Extension to NSData class to provide common functions. Added functionality includes:
  --base64 encoding of an NSData object
  --MD5 version of an NSData object
@@ -38,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param length The number of bytes of random data to return.
  @return The specified quantity of random bytes or `nil` if an error occurs.
  */
-- (nullable NSData *)randomDataOfLength:(size_t)length;
+- (NSData *)randomDataOfLength:(size_t)length;
 
 /**Creates a base64 encoded string for this NSData object.
  @return A base64 encoded version of the data.
@@ -80,12 +78,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**Converts this data to gzip uncompressed format.
  @return This data in gzip uncompressed format.
 */
--(nullable NSData *)gzipInflate;
+-(NSData *)gzipInflate;
 
 /**Converts this data to gzip compressed format.
  @return This data in gzip compressed format.
  */
--(nullable NSData *)gzipDeflate;
+-(NSData *)gzipDeflate;
 @end
 
 /**
@@ -98,5 +96,3 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString*)newHexStringFromBytes;
 
 @end
-
-NS_ASSUME_NONNULL_END

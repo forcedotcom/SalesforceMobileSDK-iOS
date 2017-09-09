@@ -1231,9 +1231,6 @@
     }
 }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wnonnull"
-
 /**
  Test that doing resync while corresponding sync is running fails.
  */
@@ -1272,8 +1269,6 @@
     // Waiting for reSync to complete successfully
     while ([queue getNextSyncUpdate].status != SFSyncStateStatusDone);
 }
-
-#pragma clang diagnostic pop
 
 #pragma mark - helper methods
 

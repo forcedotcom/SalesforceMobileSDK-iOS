@@ -24,8 +24,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 /**
  * The data structure for the identity data that's retrieved from the Salesforce service.
  * @see SFIdentityCoordinator
@@ -232,7 +230,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The date this record was last modified.
  */
-@property (nullable, strong, nonatomic, readonly) NSDate *lastModifiedDate;
+@property (nonnull, strong, nonatomic, readonly) NSDate *lastModifiedDate;
 
 /**
  * Designated initializer for creating an instance of the SFIdentityData object.
@@ -241,5 +239,3 @@ NS_ASSUME_NONNULL_BEGIN
 - (nonnull instancetype)initWithJsonDict:(nonnull NSDictionary *)jsonDict;
 
 @end
-
-NS_ASSUME_NONNULL_END

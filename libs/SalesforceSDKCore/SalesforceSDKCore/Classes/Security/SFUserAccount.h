@@ -73,7 +73,7 @@ typedef NS_ENUM(NSUInteger, SFUserAccountLoginState) {
 
 /** The identity data associated with this user
  */
-@property (nonatomic, strong, nullable) SFIdentityData *idData;
+@property (nonatomic, strong) SFIdentityData *idData;
 
 /** The URL that can be used to invoke any API
  on the server-side. This URL takes into account the

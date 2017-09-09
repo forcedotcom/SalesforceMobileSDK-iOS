@@ -24,8 +24,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 extern NSString * const kSoupSpecSoupName;
 extern NSString * const kSoupSpecFeatures;
 
@@ -58,7 +56,7 @@ extern NSString * const kSoupFeatureExternalStorage;
  * @param features The soup features.
  * @return A soup spec object.
  */
-+ (SFSoupSpec *)newSoupSpec:(NSString *)soupName withFeatures:(nullable NSArray *)features;
++ (SFSoupSpec *)newSoupSpec:(NSString *)soupName withFeatures:(NSArray *)features;
 
 /**
  * Factory method to build a soup spec from a dictionary.
@@ -66,7 +64,7 @@ extern NSString * const kSoupFeatureExternalStorage;
  * @param dictionary A dictionary with soup spec info. Keys must match <code>kSoupSpec<i>xxx</i></code> constants defined in this header file.
  * @return A soup spec object.
  */
-+ (nullable SFSoupSpec *)newSoupSpecWithDictionary:(NSDictionary *)dictionary;
++ (SFSoupSpec *)newSoupSpecWithDictionary:(NSDictionary *)dictionary;
 
 /**
  * A dictionary representation for this SFSoupSpec object. 
@@ -76,5 +74,3 @@ extern NSString * const kSoupFeatureExternalStorage;
 - (NSDictionary *)asDictionary;
 
 @end
-
-NS_ASSUME_NONNULL_END

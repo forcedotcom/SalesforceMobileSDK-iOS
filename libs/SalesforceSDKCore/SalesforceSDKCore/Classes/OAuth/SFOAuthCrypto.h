@@ -25,8 +25,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 typedef NS_ENUM(NSUInteger, SFOAuthCryptoOperation) {
     SFOAEncrypt = 0,
     SFOADecrypt
@@ -66,8 +64,6 @@ typedef NS_ENUM(NSUInteger, SFOAuthCryptoOperation) {
  
  @warning After this method is called this object must no longer be used.
  */
-- (nullable NSData *)finalizeCipher;
+- (NSData *)finalizeCipher;
 
 @end
-
-NS_ASSUME_NONNULL_END

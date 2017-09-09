@@ -28,8 +28,6 @@
 
 #import <UIKit/UIKit.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @class SFSDKLoginHostListViewController;
 
 /**
@@ -52,5 +50,3 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak) SFSDKLoginHostListViewController *loginHostListViewController;
 
 @end
-
-NS_ASSUME_NONNULL_END

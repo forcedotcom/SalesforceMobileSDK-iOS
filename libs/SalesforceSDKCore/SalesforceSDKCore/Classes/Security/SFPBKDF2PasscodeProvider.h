@@ -24,9 +24,6 @@
 
 #import <Foundation/Foundation.h>
 #import "SFPasscodeProviderManager.h"
-
-NS_ASSUME_NONNULL_BEGIN
-
 /**
  * Contains configuration values for generating an encryption key.
  */
@@ -58,5 +55,3 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSUInteger derivedKeyLengthInBytes;
 
 @end
-
-NS_ASSUME_NONNULL_END

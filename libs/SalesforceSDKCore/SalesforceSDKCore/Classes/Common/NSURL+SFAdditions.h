@@ -23,9 +23,6 @@
  */
 
 #import <Foundation/Foundation.h>
-
-NS_ASSUME_NONNULL_BEGIN
-
 /** Salesforce Mobile SDK additions to the NSURL class
  */
 @interface NSURL (SFAdditions)
@@ -33,8 +30,6 @@ NS_ASSUME_NONNULL_BEGIN
 /** Get value for a parameter name from the URL
  @param name Name of the parameter
  */
-- (nullable NSString*)valueForParameterName:(NSString*)name;
+- (NSString*)valueForParameterName:(NSString*)name;
 
 @end
-
-NS_ASSUME_NONNULL_END

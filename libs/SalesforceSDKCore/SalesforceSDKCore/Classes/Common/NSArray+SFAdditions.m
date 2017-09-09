@@ -23,6 +23,7 @@
  */
 
 #import "NSArray+SFAdditions.h"
+#import "SFLogger.h"
 
 @implementation NSArray (SFAdditions)
 

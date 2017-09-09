@@ -29,12 +29,59 @@
 
 #import "SFSDKReactLogger.h"
 
-NSString * const kSFSDKReactComponentName = @"SalesforceReact";
+static NSString * const kComponentName = @"SalesforceReact";
 
 @implementation SFSDKReactLogger
 
-+ (instancetype)sharedInstance {
-    return [self sharedInstanceWithComponent:kSFSDKReactComponentName];
++ (DDLogLevel)curLogLevel {
+    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kComponentName];
+    return logger.logLevel;
+}
+
++ (void)setLogLevel:(DDLogLevel)logLevel {
+    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kComponentName];
+    logger.logLevel = logLevel;
+}
+
++ (void)e:(Class)class format:(NSString *)format, ... {
+    va_list args;
+    va_start(args, format);
+    [SFSDKReactLogger log:DDLogLevelError class:class message:format args:args];
+    va_end(args);
+}
+
++ (void)w:(Class)class format:(NSString *)format, ... {
+    va_list args;
+    va_start(args, format);
+    [SFSDKReactLogger log:DDLogLevelWarning class:class message:format args:args];
+    va_end(args);
+}
+
++ (void)i:(Class)class format:(NSString *)format, ... {
+    va_list args;
+    va_start(args, format);
+    [SFSDKReactLogger log:DDLogLevelInfo class:class message:format args:args];
+    va_end(args);
+}
+
++ (void)v:(Class)class format:(NSString *)format, ... {
+    va_list args;
+    va_start(args, format);
+    [SFSDKReactLogger log:DDLogLevelVerbose class:class message:format args:args];
+    va_end(args);
+}
+
++ (void)d:(Class)class format:(NSString *)format, ... {
+    va_list args;
+    va_start(args, format);
+    [SFSDKReactLogger log:DDLogLevelDebug class:class message:format args:args];
+    va_end(args);
+}
+
++ (void)log:(DDLogLevel)level class:(Class)class message:(NSString *)message args:(va_list)args {
+    NSString *formattedMessage = [[NSString alloc] initWithFormat:message arguments:args];
+    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kComponentName];
+    [logger log:class level:level message:formattedMessage];
 }
 
 @end

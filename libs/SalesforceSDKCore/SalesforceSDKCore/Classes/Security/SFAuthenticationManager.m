@@ -34,7 +34,7 @@
 #import "SFSecurityLockout.h"
 #import "SFIdentityData.h"
 #import "SFSDKResourceUtils.h"
-#import "SFSDKWindowManager.h"
+#import "SFRootViewManager.h"
 #import "SFPushNotificationManager.h"
 #import "SFManagedPreferences.h"
 #import "SFLoginViewController.h"
@@ -75,7 +75,22 @@ static NSString * const kAlertRetryButtonKey = @"authAlertRetryButton";
 static NSString * const kAlertDismissButtonKey = @"authAlertDismissButton";
 static NSString * const kAlertConnectionErrorFormatStringKey = @"authAlertConnectionErrorFormatString";
 static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismatchError";
+static NSString * const kUserNameCookieKey = @"sfdc_lv2";
 static NSString * const kSFUserAccountOAuthRedirectUri = @"SFDCOAuthRedirectUri";
+static NSString * const kDeprecatedLoginHostPrefKey = @"login_host_pref";
+
+// Oauth
+NSString * const kSFUserAccountOAuthLoginHostDefault = @"login.salesforce.com"; // last resort
+NSString * const kSFUserAccountOAuthLoginHost = @"SFDCOAuthLoginHost";
+
+// The key for storing the persisted OAuth scopes.
+NSString * const kOAuthScopesKey = @"oauth_scopes";
+
+// The key for storing the persisted OAuth client ID.
+NSString * const kOAuthClientIdKey = @"oauth_client_id";
+
+// The key for storing the persisted OAuth redirect URI.
+NSString * const kOAuthRedirectUriKey = @"oauth_redirect_uri";
 
 #pragma mark - SFAuthBlockPair
 
@@ -295,8 +310,7 @@ static Class InstanceClass = nil;
                                         strongSelf.authViewController.delegate = strongSelf;
                                     }
                                     [strongSelf.authViewController setOauthView:authWebView];
-                                    SFSDKWindowManager.sharedManager.authWindow.viewController = strongSelf.authViewController;
-                                    [SFSDKWindowManager.sharedManager.authWindow enable];
+                                    [[SFRootViewManager sharedManager] pushViewController:strongSelf.authViewController];
                                 } dismissBlock:^(SFAuthenticationManager *authViewManager) {
                                     __strong typeof(weakSelf) strongSelf = weakSelf;
                                     [SFLoginViewController sharedInstance].oauthView = nil;
@@ -306,8 +320,7 @@ static Class InstanceClass = nil;
         // Default auth safari controller handler
         self.authSafariControllerHandler = [[SFAuthenticationSafariControllerHandler alloc]
                 initWithPresentBlock:^(SFAuthenticationManager *manager, SFSafariViewController *controller) {
-                    SFSDKWindowManager.sharedManager.authWindow.viewController = controller;
-                    [SFSDKWindowManager.sharedManager.authWindow enable];
+                    [[SFRootViewManager sharedManager] pushViewController:controller];
                 }];
 
         [[SFUserAccountManager sharedInstance] addDelegate:self];
@@ -475,13 +488,10 @@ static Class InstanceClass = nil;
     return SFUserAccountManager.sharedInstance.currentUser != nil && SFUserAccountManager.sharedInstance.currentUser.isSessionValid;
 }
 
-- (SFOAuthAdvancedAuthConfiguration) advancedAuthConfiguration {
-    return [SFUserAccountManager sharedInstance].advancedAuthConfiguration;
-}
-
 - (void)setAdvancedAuthConfiguration:(SFOAuthAdvancedAuthConfiguration)advancedAuthConfiguration
 {
-    [SFUserAccountManager sharedInstance].advancedAuthConfiguration = advancedAuthConfiguration;
+    _advancedAuthConfiguration = advancedAuthConfiguration;
+    self.coordinator.advancedAuthConfiguration = advancedAuthConfiguration;
 }
 
 - (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse
@@ -492,44 +502,109 @@ static Class InstanceClass = nil;
 #pragma mark - Login Host
 
 - (void)setLoginHost:(NSString*)host {
-    [SFUserAccountManager sharedInstance].loginHost = host;
+    NSString *oldLoginHost = [self loginHost];
+
+    if (nil == host) {
+        [[NSUserDefaults msdkUserDefaults] removeObjectForKey:kSFUserAccountOAuthLoginHost];
+    } else {
+        [[NSUserDefaults msdkUserDefaults] setObject:host forKey:kSFUserAccountOAuthLoginHost];
+    }
+
+    [[NSUserDefaults msdkUserDefaults] synchronize];
+
+    // Only post the login host change notification if the host actually changed.
+    if ((oldLoginHost || host) && ![host isEqualToString:oldLoginHost]) {
+        NSDictionary *userInfoDict = @{ kSFLoginHostChangedNotificationOriginalHostKey: (oldLoginHost ?: [NSNull null]),
+                kSFLoginHostChangedNotificationUpdatedHostKey: (host ?: [NSNull null]) };
+        NSNotification *loginHostUpdateNotification = [NSNotification notificationWithName:kSFLoginHostChangedNotification object:self userInfo:userInfoDict];
+        [[NSNotificationCenter defaultCenter] postNotification:loginHostUpdateNotification];
+    }
 }
 
 - (NSString *)loginHost {
-    return [SFUserAccountManager sharedInstance].loginHost;
+    NSUserDefaults *defaults = [NSUserDefaults msdkUserDefaults];
+
+    // First let's import any previously stored settings, if available.
+    NSString *host = [defaults stringForKey:kDeprecatedLoginHostPrefKey];
+    if (host) {
+        [defaults setObject:host forKey:kSFUserAccountOAuthLoginHost];
+        [defaults removeObjectForKey:kDeprecatedLoginHostPrefKey];
+        [defaults synchronize];
+        return host;
+    }
+
+    // Fetch from the standard defaults or bundle.
+    NSString *loginHost = [defaults stringForKey:kSFUserAccountOAuthLoginHost];
+    if ([loginHost length] > 0) {
+        return loginHost;
+    }
+
+    // Login host not initialized. Set it up.
+    NSString *managedLoginHost = ([SFManagedPreferences sharedPreferences].loginHosts)[0];
+    if (managedLoginHost.length > 0) {
+        loginHost = managedLoginHost;
+    } else {
+
+        /*
+         * Do not fall back to default login host if MDM only permits authorized hosts, even if there are no other hosts.
+         */
+        if (![SFManagedPreferences sharedPreferences].onlyShowAuthorizedHosts) {
+            NSString *bundleLoginHost = [[NSBundle mainBundle] objectForInfoDictionaryKey:kSFUserAccountOAuthLoginHost];
+            if (bundleLoginHost.length > 0) {
+                loginHost = bundleLoginHost;
+            } else {
+                loginHost = kSFUserAccountOAuthLoginHostDefault;
+            }
+        }
+    }
+    [defaults setObject:loginHost forKey:kSFUserAccountOAuthLoginHost];
+    [defaults synchronize];
+    return loginHost;
 }
 
 #pragma mark - Default Values
 
 - (NSSet *)scopes
 {
-    return [SFUserAccountManager sharedInstance].scopes;
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
+    NSArray *scopesArray = [defs objectForKey:kOAuthScopesKey] ?: [NSArray array];
+    return [NSSet setWithArray:scopesArray];
 }
 
 - (void)setScopes:(NSSet *)newScopes
 {
-    [SFUserAccountManager sharedInstance].scopes = newScopes;
+    NSArray *scopesArray = [newScopes allObjects];
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
+    [defs setObject:scopesArray forKey:kOAuthScopesKey];
+    [defs synchronize];
 }
 
 - (NSString *)oauthCompletionUrl
 {
-    return [SFUserAccountManager sharedInstance].oauthCompletionUrl;
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
+    NSString *redirectUri = [defs objectForKey:kOAuthRedirectUriKey];
+    return redirectUri;
 }
 
 - (void)setOauthCompletionUrl:(NSString *)newRedirectUri
 {
-    [SFUserAccountManager sharedInstance].oauthCompletionUrl = newRedirectUri;
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
+    [defs setObject:newRedirectUri forKey:kOAuthRedirectUriKey];
+    [defs synchronize];
 }
 
 - (NSString *)oauthClientId
 {
-    return [SFUserAccountManager sharedInstance].oauthClientId;
-
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
+    NSString *clientId = [defs objectForKey:kOAuthClientIdKey];
+    return clientId;
 }
 
 - (void)setOauthClientId:(NSString *)newClientId
 {
-   [SFUserAccountManager sharedInstance].oauthClientId = newClientId;
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
+    [defs setObject:newClientId forKey:kOAuthClientIdKey];
+    [defs synchronize];
 }
 
 + (void)resetSessionCookie
@@ -832,7 +907,8 @@ static Class InstanceClass = nil;
         });
         return;
     }
-    [SFSDKWindowManager.sharedManager.authWindow disable];
+    
+    [[SFRootViewManager sharedManager] popViewController:self.authViewController];
 }
 
 - (void)retrievedIdentityData
@@ -859,6 +935,7 @@ static Class InstanceClass = nil;
     if (self.statusAlert) {
         self.statusAlert = nil;
     }
+    [[SalesforceSDKManager sharedManager] dismissSnapshot];
     [SFSDKCoreLogger e:[self class] format:@"Error during authentication: %@", error];
     [self showAlertWithTitle:[SFSDKResourceUtils localizedString:kAlertErrorTitleKey]
                      message:[NSString stringWithFormat:[SFSDKResourceUtils localizedString:kAlertConnectionErrorFormatStringKey], [error localizedDescription]]
@@ -925,21 +1002,12 @@ static Class InstanceClass = nil;
         
         [self.statusAlert addAction:cancelAction];
         dispatch_async(dispatch_get_main_queue(), ^{
-            
-            SFSDKWindowManager.sharedManager.authWindow.viewController = [self blankViewController];
-            [SFSDKWindowManager.sharedManager.authWindow enable:YES withCompletion:^{
-                [SFSDKWindowManager.sharedManager.authWindow.viewController presentViewController:weakSelf.statusAlert animated:NO completion:nil];
-            }];
+            [[SFRootViewManager sharedManager] pushViewController:weakSelf.statusAlert];
         });
 
     }
 }
 
--(UIViewController *) blankViewController {
-    UIViewController *blankViewController = [[UIViewController alloc] init];
-    [[blankViewController view] setBackgroundColor:[UIColor clearColor]];
-    return blankViewController;
-}
 #pragma mark - Auth error handler methods
 
 - (SFAuthErrorHandlerList *)populateDefaultAuthErrorHandlerList
@@ -1104,8 +1172,7 @@ static Class InstanceClass = nil;
     if (!handledByDelegate) {
         SFSDKLoginHostListViewController *hostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
         hostListViewController.delegate = self;
-        SFSDKWindowManager.sharedManager.authWindow.viewController = hostListViewController;
-        [SFSDKWindowManager.sharedManager.authWindow enable];
+        [[SFRootViewManager sharedManager] pushViewController:hostListViewController];
     }
 }
 
@@ -1313,8 +1380,7 @@ static Class InstanceClass = nil;
         [self cancelAuthentication];
         SFSDKLoginHostListViewController *hostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
         hostListViewController.delegate = self;
-        SFSDKWindowManager.sharedManager.authWindow.viewController = hostListViewController;
-        [SFSDKWindowManager.sharedManager.authWindow enable];
+        [[SFRootViewManager sharedManager] pushViewController:hostListViewController];
     }
 }
 
@@ -1329,11 +1395,7 @@ static Class InstanceClass = nil;
                                                           }];
     
     [alert addAction:defaultAction];
-    __weak typeof(self) weakSelf = self;
-    SFSDKWindowManager.sharedManager.authWindow.viewController = [self blankViewController];
-    [SFSDKWindowManager.sharedManager.authWindow enable:NO withCompletion:^{
-            [SFSDKWindowManager.sharedManager.authWindow.viewController presentViewController:weakSelf.statusAlert animated:NO completion:nil];
-    }];
+    [[SFRootViewManager sharedManager] pushViewController:alert];
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator displayConfirmationMessage:(NSString *)message completion:(void (^)(BOOL))completion
@@ -1354,12 +1416,8 @@ static Class InstanceClass = nil;
                                                           }];
     [alert addAction:cancelAction];
 
-    SFSDKWindowManager.sharedManager.authWindow.viewController = [self blankViewController];
-    [SFSDKWindowManager.sharedManager.authWindow enable:NO withCompletion:^{
-        [SFSDKWindowManager.sharedManager.authWindow.viewController presentViewController:alert animated:NO completion:nil];
-    }];
-
- }
+    [[SFRootViewManager sharedManager] pushViewController:alert];
+}
 
 - (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator*)coordinator
 {

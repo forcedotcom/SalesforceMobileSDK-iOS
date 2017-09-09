@@ -25,8 +25,6 @@
 #import <UIKit/UIKit.h>
 #import "SFUserAccount.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 /** The various actions that may have been taken for account management.
  */
 typedef NS_ENUM(NSUInteger, SFUserManagementAction) {
@@ -64,5 +62,3 @@ typedef void (^SFUserManagementCompletionBlock)(SFUserManagementAction action);
 - (id)initWithCompletionBlock:(SFUserManagementCompletionBlock)completionBlock;
 
 @end
-
-NS_ASSUME_NONNULL_END

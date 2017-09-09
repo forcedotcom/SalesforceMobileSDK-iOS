@@ -26,7 +26,6 @@
 #import "SFOAuthCredentials.h"
 #import "SFUserAccountIdentity.h"
 #import "SFUserAccountConstants.h"
-#import "SFOAuthCoordinator.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -65,32 +64,6 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationOriginalHostKe
  The key for the updated host in a login host change notification.
  */
 FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
-
-/**
-  Default used as last resort
- */
-FOUNDATION_EXTERN NSString * const kSFUserAccountOAuthLoginHostDefault;
-
-/**
- Key identifying login host
- */
-FOUNDATION_EXTERN NSString * const kSFUserAccountOAuthLoginHost;
-
-/**
- The key for storing the persisted OAuth scopes.
- */
-FOUNDATION_EXTERN  NSString * const kOAuthScopesKey;
-
-/**
-The key for storing the persisted OAuth client ID.
- */
-FOUNDATION_EXTERN  NSString * const kOAuthClientIdKey;
-
-/**
-The key for storing the persisted OAuth redirect URI.
- */
-FOUNDATION_EXTERN  NSString * const kOAuthRedirectUriKey;
-
 
 @class SFUserAccountManager;
 
@@ -168,56 +141,6 @@ FOUNDATION_EXTERN  NSString * const kOAuthRedirectUriKey;
   */
 @property (nonatomic, readonly, getter=isCurrentUserAnonymous) BOOL currentUserAnonymous;
 
-/**
- Advanced authentication configuration.  Default is SFOAuthAdvancedAuthConfigurationNone.  Leave the
- default value unless you need advanced authentication, as it requires an additional round trip to the
- service to retrieve org authentication configuration.
- */
-@property (nonatomic, assign) SFOAuthAdvancedAuthConfiguration advancedAuthConfiguration;
-
-/**
- An array of additional keys (NSString) to parse during OAuth
- */
-@property (nonatomic, strong) NSArray * additionalOAuthParameterKeys;
-
-/**
- A dictionary of additional parameters (key value pairs) to send during token refresh
- */
-@property (nonatomic, strong) NSDictionary * additionalTokenRefreshParams;
-
-/** The host that will be used for login.
- */
-@property (nonatomic, strong, nullable) NSString *loginHost;
-
-/** Should the login process start again if it fails (default: YES)
- */
-@property (nonatomic, assign) BOOL retryLoginAfterFailure;
-
-/** OAuth client ID to use for login.  Apps may customize
- by setting this property before login; otherwise, this
- value is determined by the SFDCOAuthClientIdPreference
- configured via the settings bundle.
- */
-@property (nonatomic, copy, nullable) NSString *oauthClientId;
-
-/** OAuth callback url to use for the OAuth login process.
- Apps may customize this by setting this property before login.
- By default this value is picked up from the main
- bundle property SFDCOAuthRedirectUri
- default: @"sfdc:///axm/detect/oauth/done")
- */
-@property (nonatomic, copy, nullable) NSString *oauthCompletionUrl;
-
-/**
- The Branded Login path configured for this application.
- */
-@property (nonatomic, nullable, copy) NSString *brandLoginPath;
-
-/**
- The OAuth scopes associated with the app.
- */
-@property (nonatomic, copy) NSSet<NSString*> *scopes;
-
 /**  Convenience property to retrieve the current user's identity.
  */
 @property (readonly, nonatomic, nullable) SFUserAccountIdentity *currentUserIdentity;
@@ -283,7 +206,7 @@ FOUNDATION_EXTERN  NSString * const kOAuthRedirectUriKey;
 /** Lookup  a user account
  @param credentials used to  up Account matching the credentials
  */
-- (nullable SFUserAccount *)accountForCredentials:(SFOAuthCredentials *) credentials;
+- (SFUserAccount *)accountForCredentials:(SFOAuthCredentials *) credentials;
 
 /**
  Allows you to remove the given user account.
@@ -321,7 +244,7 @@ FOUNDATION_EXTERN  NSString * const kOAuthRedirectUriKey;
  @param identityData The identityData to apply
  @param shouldSendNotification whether to post notifications.
  */
-- (SFUserAccount *)applyCredentials:(SFOAuthCredentials*)credentials withIdData:(nullable SFIdentityData *) identityData andNotification:(BOOL) shouldSendNotification;
+- (SFUserAccount *)applyCredentials:(SFOAuthCredentials*)credentials withIdData:(SFIdentityData *) identityData andNotification:(BOOL) shouldSendNotification;
 
 
 /** Invoke this method to apply the specified id data to the

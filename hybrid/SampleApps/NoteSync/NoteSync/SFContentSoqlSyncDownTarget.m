@@ -26,6 +26,7 @@
 #import <SmartSync/SFSmartSyncSyncManager.h>
 #import <SmartSync/SFSmartSyncConstants.h>
 #import <SmartSync/SFSmartSyncNetworkUtils.h>
+#import <SalesforceSDKCore/CSFNetwork.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 
 // SOAP request
@@ -194,9 +195,9 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
     return self;
 }
 
-- (NSURLRequest *)prepareRequestForSend:(SFUserAccount *)user
+- (NSURLRequest *)prepareRequestForSend
 {
-    NSString *sessionId = user.credentials.accessToken;
+    NSString *sessionId = [SFAuthenticationManager sharedManager].coordinator.credentials.accessToken;
     NSString *body;
     if (self.queryLocator) {
         body = [NSString stringWithFormat:QUERY_MORE_TEMPLATE, self.queryLocator];
@@ -206,7 +207,7 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
     NSString *soapBody = [NSString stringWithFormat:REQUEST_TEMPLATE, sessionId, body];
     [self setCustomRequestBodyString:soapBody contentType:XML_MIME_TYPE];
     [self setHeaderValue:SOAP_ACTION_VALUE forHeaderName:SOAP_ACTION];
-    return [super prepareRequestForSend:user];
+    return [super prepareRequestForSend];
 }
 
 @end

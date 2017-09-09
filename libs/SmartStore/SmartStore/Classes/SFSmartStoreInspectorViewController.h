@@ -25,8 +25,6 @@
 #import <UIKit/UIKit.h>
 #import "SFSmartStore.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 /**
  * The view controller for managing the SmartStore inspector screen.
  */
@@ -40,5 +38,3 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype) initWithStore:(SFSmartStore*)store;
 
 @end
-
-NS_ASSUME_NONNULL_END

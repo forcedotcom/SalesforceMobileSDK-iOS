@@ -28,8 +28,6 @@
 
 #import <UIKit/UIKit.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 /**
  * A custom UITableViewCell which contains a UITextField for inserting and editing text.
  */
@@ -41,5 +39,3 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) UITextField *textField;
 
 @end
-
-NS_ASSUME_NONNULL_END

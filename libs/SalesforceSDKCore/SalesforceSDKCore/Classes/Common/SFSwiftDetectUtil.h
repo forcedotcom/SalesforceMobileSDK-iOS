@@ -24,10 +24,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface SFSwiftDetectUtil : NSObject
 +(BOOL)isSwiftApp;
 @end
-
-NS_ASSUME_NONNULL_END

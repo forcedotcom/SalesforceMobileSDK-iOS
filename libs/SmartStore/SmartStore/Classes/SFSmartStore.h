@@ -23,9 +23,6 @@
  */
 
 #import <Foundation/Foundation.h>
-
-NS_ASSUME_NONNULL_BEGIN
-
 @class SFEncryptionKey;
 
 /**
@@ -47,7 +44,7 @@ extern NSString * const kSFSmartStoreEncryptionKeyLabel;
 /**
  Block typedef for generating an encryption key.
  */
-typedef SFEncryptionKey*  _Nullable (^SFSmartStoreEncryptionKeyBlock)(void);
+typedef SFEncryptionKey* (^SFSmartStoreEncryptionKeyBlock)(void);
 
 /**
  The columns of a soup table
@@ -130,12 +127,12 @@ extern NSString *const EXPLAIN_ROWS;
 /**
  The full path to the store database.
  */
-@property (nonatomic, readonly, strong, nullable) NSString *storePath;
+@property (nonatomic, readonly, strong) NSString *storePath;
 
 /**
  User for this store - nil for global stores
  */
-@property (nonatomic, strong, nullable) SFUserAccount *user;
+@property (nonatomic, strong) SFUserAccount *user;
 
 /**
  Flag to cause explain plan to be captured for every query
@@ -160,7 +157,7 @@ extern NSString *const EXPLAIN_ROWS;
  @param storeName The name of the store.  If in doubt, use kDefaultSmartStoreName.
  @param user The user associated with the store.
  */
-+ (nullable id)sharedStoreWithName:(NSString*)storeName user:(SFUserAccount *)user;
++ (id)sharedStoreWithName:(NSString*)storeName user:(SFUserAccount *)user;
 
 /**
  Use this method to obtain a shared global store instance with the given name.  This store will
@@ -497,5 +494,3 @@ extern NSString *const EXPLAIN_ROWS;
 + (NSDate *)dateFromLastModifiedValue:(NSNumber *)lastModifiedValue;
 
 @end
-
-NS_ASSUME_NONNULL_END

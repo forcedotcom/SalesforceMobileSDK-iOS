@@ -24,8 +24,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 /**
  The type of authentication being attempted, in a given OAuth coordinator cycle.
  */
@@ -60,5 +58,3 @@ typedef NS_ENUM(NSUInteger, SFOAuthType) {
 - (id)initWithAuthType:(SFOAuthType)authType;
 
 @end
-
-NS_ASSUME_NONNULL_END

@@ -24,24 +24,20 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface SFSmartSyncObjectUtils : NSObject
 
-+ (nullable NSString *)formatValue:(nullable id)value;
++ (NSString *)formatValue:(id)value;
 
 + (NSString *)formatLocalDateToGMTString:(NSDate *)localDate;
 
 + (long long) getMillisFromIsoString:(NSString*) dateStr;
 
-+ (nullable NSString*) getIsoStringFromMillis:(long long) millis;
++ (NSString*) getIsoStringFromMillis:(long long) millis;
 
-+ (nullable NSDate *)getDateFromIsoDateString:(nullable NSString *)isoDateString;
++ (NSDate *)getDateFromIsoDateString:(NSString *)isoDateString;
 
 + (NSString *)getIsoStringFromDate:(NSDate *)date;
 
 + (BOOL)isEmpty:(NSString *)value;
 
 @end
-
-NS_ASSUME_NONNULL_END
