@@ -25,6 +25,7 @@
 #import "SalesforceRestAPITests.h"
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import "SFRestAPI+Internal.h"
+#import "SFRestRequest+Internal.h"
 #import "SFNativeRestRequestListener.h"
  
  // Constants only used in the tests below
@@ -235,7 +236,6 @@ static NSException *authException = nil;
 
 // simple: just invoke requestForSearchResultLayout:@"Account"
 - (void)testGetSearchResultLayout {
-     
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSearchResultLayout:ACCOUNT];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
@@ -1172,15 +1172,38 @@ static NSException *authException = nil;
     XCTAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"access token wasn't refreshed");
 }
 
+- (void)testFailedRequestRemovedFromQueue {
+    
+    // Send a request that should fail before getting to the service.
+    NSURL *origInstanceUrl = _currentUser.credentials.instanceUrl;
+    _currentUser.credentials.instanceUrl = [NSURL URLWithString:@"https://some.non-existent-domain-blafhsdfh"];
+    self.currentExpectation = [self expectationWithDescription:@"performRequestToFail"];
+    SFRestFailBlock failWithExpectedFail = ^(NSError *e) {
+        [self.currentExpectation fulfill];
+    };
+    SFRestDictionaryResponseBlock successWithUnexpectedSuccessBlock = ^(NSDictionary *d) {
+        XCTFail(@"Request should not have succeeded.");
+        [self.currentExpectation fulfill];
+    };
+    [[SFRestAPI sharedInstance] performRequestForResourcesWithFailBlock:failWithExpectedFail
+                                   completeBlock:successWithUnexpectedSuccessBlock];
+    
+    BOOL completionTimedOut = [self waitForExpectation];
+    XCTAssertFalse(completionTimedOut);
+    XCTAssertEqual(0, [SFRestAPI sharedInstance].activeRequests.count, @"Active requests queue should be empty.");
+    _currentUser.credentials.instanceUrl = origInstanceUrl;
+}
+
 // - sets an invalid accessToken
 // - sets an invalid refreshToken
 // - issue a valid REST request
 // - ensure all requests are failed with the proper error
-- (void)FIXMEtestInvalidAccessAndRefreshToken {
+- (void)testInvalidAccessAndRefreshToken {
 
-    // save valid tokens
+    // save valid tokens and current user
     NSString *origAccessToken = _currentUser.credentials.accessToken;
     NSString *origRefreshToken = _currentUser.credentials.refreshToken;
+    SFOAuthCredentials *origCreds = [_currentUser.credentials copy];
     
     // set invalid tokens
     NSString *invalidAccessToken = @"xyz";
@@ -1197,7 +1220,11 @@ static NSException *authException = nil;
         XCTAssertNotNil(listener.lastError.userInfo);
     }
     @finally {
-        [self changeOauthTokens:origAccessToken refreshToken:origRefreshToken];
+        origCreds.accessToken = origAccessToken;
+        origCreds.refreshToken = origRefreshToken;
+        _currentUser.credentials = origCreds;
+        [[SFUserAccountManager sharedInstance] saveAccountForUser:_currentUser error:nil];
+        [SFUserAccountManager sharedInstance].currentUser = _currentUser;
     }
 }
 
@@ -1207,7 +1234,7 @@ static NSException *authException = nil;
 // - ensure that a new access token is retrieved using refresh token
 // - ensure that all requests eventually succeed
 //
--(void)FIXMEtestInvalidAccessToken_MultipleRequests {
+-(void)testInvalidAccessToken_MultipleRequests {
 
     // save invalid token
     NSString *invalidAccessToken = @"xyz";
@@ -1255,11 +1282,12 @@ static NSException *authException = nil;
 // - issue multiple valid requests
 // - make sure the token exchange failed
 // - ensure all requests are failed with the proper error code
-- (void)FIXMEtestInvalidAccessAndRefreshToken_MultipleRequests {
+- (void)testInvalidAccessAndRefreshToken_MultipleRequests {
 
-    // save valid tokens
+    // save valid tokens and current user
     NSString *origAccessToken = _currentUser.credentials.accessToken;
     NSString *origRefreshToken = _currentUser.credentials.refreshToken;
+    SFOAuthCredentials *origCreds = [_currentUser.credentials copy];
     
     // set invalid tokens
     NSString *invalidAccessToken = @"xyz";
@@ -1314,7 +1342,11 @@ static NSException *authException = nil;
         XCTAssertNotNil(listener4.lastError.userInfo,@"userInfo should not be nil");
     }
     @finally {
-        [self changeOauthTokens:origAccessToken refreshToken:origRefreshToken];
+        origCreds.accessToken = origAccessToken;
+        origCreds.refreshToken = origRefreshToken;
+        _currentUser.credentials = origCreds;
+        [[SFUserAccountManager sharedInstance] saveAccountForUser:_currentUser error:nil];
+        [SFUserAccountManager sharedInstance].currentUser = _currentUser;
     }
 }
 
@@ -1657,7 +1689,8 @@ static NSException *authException = nil;
                  @"Simple SOSL search does not match.");
     XCTAssertTrue( [complexSearch isEqualToString:[SFRestAPI SOSLSearchWithSearchTerm:@"blah"
                                                                           fieldScope:nil
-                                                                         objectScope:[NSDictionary dictionaryWithObject:@"id, name order by lastname asc limit 5"                                      forKey:@"User"]
+                                                                         objectScope:[NSDictionary dictionaryWithObject:@"id, name order by lastname asc limit 5"
+                                                                                                                 forKey:@"User"]
                                                                                limit:200]],
                  @"Complex SOSL search does not match.");
 }
@@ -1707,6 +1740,33 @@ static NSException *authException = nil;
         listener = [self sendSyncRequest:request];
         XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     }
+}
+
+// Tests that stock Mobile SDK user agent is set on the request.
+- (void)testRequestUserAgent {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSearchResultLayout:ACCOUNT];
+    [self sendSyncRequest:request];
+    NSString *userAgent = request.request.allHTTPHeaderFields[@"User-Agent"];
+    XCTAssertEqualObjects(userAgent, [SFRestAPI userAgentString], @"Incorrect user agent");
+}
+
+// Tests that overridden user agent is set on the request.
+- (void)testRequestUserAgentWithOverride {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSearchResultLayout:ACCOUNT];
+    [request setHeaderValue:[SFRestAPI userAgentString:@"SmartSync"] forHeaderName:@"User-Agent"];
+    [self sendSyncRequest:request];
+    NSString *userAgent = request.request.allHTTPHeaderFields[@"User-Agent"];
+    XCTAssertEqualObjects(userAgent, [SFRestAPI userAgentString:@"SmartSync"], @"Incorrect user agent");
+}
+
+#pragma mark - custom rest requests
+
+- (void)testCustomBaseURLRequest {
+    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodGET baseURL:@"http://www.apple.com" path:@"/test/testing" queryParams:nil];
+    XCTAssertEqual(request.baseURL, @"http://www.apple.com", @"Base URL should match");
+    NSURLRequest *finalRequest = [request prepareRequestForSend];
+    NSString *expectedURL = [NSString stringWithFormat:@"http://www.apple.com%@%@", kSFDefaultRestEndpoint, @"/test/testing"];
+    XCTAssertEqualObjects(finalRequest.URL.absoluteString, expectedURL, @"Final URL should utilize base URL that was passed in");
 }
 
 @end

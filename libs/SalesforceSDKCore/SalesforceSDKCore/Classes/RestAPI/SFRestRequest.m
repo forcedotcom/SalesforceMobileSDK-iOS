@@ -31,10 +31,11 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 
 @implementation SFRestRequest
 
-- (id)initWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(NSDictionary *)queryParams {
+- (id)initWithMethod:(SFRestMethod)method baseURL:(NSString *)baseURL path:(NSString *)path queryParams:(NSDictionary *)queryParams {
     self = [super init];
     if (self) {
         self.method = method;
+        self.baseURL = baseURL;
         self.path = path;
         self.queryParams = [queryParams mutableCopy];
         self.endpoint = kSFDefaultRestEndpoint;
@@ -46,7 +47,11 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 }
 
 + (instancetype)requestWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(NSDictionary *)queryParams {
-    return [[self alloc] initWithMethod:method path:path queryParams:queryParams];
+    return [[self alloc] initWithMethod:method baseURL:nil path:path queryParams:queryParams];
+}
+
++ (instancetype)requestWithMethod:(SFRestMethod)method baseURL:(NSString *)baseURL path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, id> *)queryParams {
+    return [[self alloc] initWithMethod:method baseURL:baseURL path:path queryParams:queryParams];
 }
 
 - (NSString *)description {
@@ -113,7 +118,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 - (NSURLRequest *)prepareRequestForSend {
     SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
     if (user) {
-        NSString *baseUrl = user.credentials.apiUrl.absoluteString;
+        NSString *baseUrl = self.baseURL ?: user.credentials.apiUrl.absoluteString;
 
         // Performs sanity checks on the path against the endpoint value.
         if (self.endpoint.length > 0 && [self.path hasPrefix:self.endpoint]) {
@@ -145,6 +150,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 
         // Adds query parameters to the request if any are set.
         if (self.queryParams) {
+
             // Not using NSUrlQueryItems because of https://stackoverflow.com/questions/41273994/special-characters-not-being-encoded-properly-inside-urlqueryitems
             [fullUrl appendString:[SFRestRequest toQueryString:self.queryParams]];
         }
@@ -154,9 +160,14 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
         [self.request setHTTPMethod:[SFRestRequest httpMethodFromSFRestMethod:self.method]];
 
         // Sets OAuth Bearer token header on the request (if not already present).
-        if (self.requiresAuthentication && self.request.allHTTPHeaderFields && self.request.allHTTPHeaderFields.allKeys && ![self.request.allHTTPHeaderFields.allKeys containsObject:@"Authorization"]) {
+        if (self.requiresAuthentication && ![self.request.allHTTPHeaderFields.allKeys containsObject:@"Authorization"]) {
             NSString *bearer = [NSString stringWithFormat:@"Bearer %@", user.credentials.accessToken];
             [self.request setValue:bearer forHTTPHeaderField:@"Authorization"];
+        }
+
+        // Sets Mobile SDK user agent on REST API requests, if it hasn't been set already elsewhere.
+        if (![self.request.allHTTPHeaderFields.allKeys containsObject:@"User-Agent"]) {
+            [self.request setValue:[SFRestAPI userAgentString] forHTTPHeaderField:@"User-Agent"];
         }
 
         // Adds custom headers to the request if any are set.

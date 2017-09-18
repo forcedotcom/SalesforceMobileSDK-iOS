@@ -62,6 +62,9 @@ NSString * const kStoreName           = @"storeName";
     if( self ) {
         _dispatchQueue = dispatch_queue_create([@"SFSmartStoreReactBridge CursorCache Queue" UTF8String], DISPATCH_QUEUE_SERIAL);
     }
+  
+    //Fix moveCursorToPageIndex getting nil as cursor bug
+    self.cursorCache = [[NSMutableDictionary alloc] init];
     return self;
 }
 
