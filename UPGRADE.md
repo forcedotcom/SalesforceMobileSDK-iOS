@@ -10,4 +10,4 @@ Note: If you're upgrading from a previous version through CocoaPods, add the fol
 
 pod 'FMDB', :git => 'https://github.com/forcedotcom/fmdb', :branch => '2.7.2_xcode9'
 
-This is a temporary workaround until FMDB fully supports iOS 9 at which point this line will go away.
+This is a temporary workaround until FMDB fully supports Xcode 9 and iOS 11 at which point this line will go away.
