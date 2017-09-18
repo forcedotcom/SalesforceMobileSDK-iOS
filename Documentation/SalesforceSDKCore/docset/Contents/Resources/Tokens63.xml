@@ -543,7 +543,7 @@ that the user belongs to, and userID is the Salesforce user ID.</Abstract>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/setLegacyIdentityInformation:</TokenIdentifier>
 			<Abstract type="html">Contains legacy identity service information from some previous app versions. Not
 applicable to most applications.  See SFIdentityData for current identity management.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, nullable) NSDictionary *legacyIdentityInformation</Declaration>
 			
@@ -556,7 +556,7 @@ applicable to most applications.  See SFIdentityData for current identity manage
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/legacyIdentityInformation</TokenIdentifier>
 			<Abstract type="html">Contains legacy identity service information from some previous app versions. Not
 applicable to most applications.  See SFIdentityData for current identity management.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, nullable) NSDictionary *legacyIdentityInformation</Declaration>
 			
@@ -569,7 +569,7 @@ applicable to most applications.  See SFIdentityData for current identity manage
 			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCredentials/legacyIdentityInformation</TokenIdentifier>
 			<Abstract type="html">Contains legacy identity service information from some previous app versions. Not
 applicable to most applications.  See SFIdentityData for current identity management.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, nullable) NSDictionary *legacyIdentityInformation</Declaration>
 			

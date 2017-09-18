@@ -976,267 +976,6 @@ requests that change state (i.e. POST).</p>
 						</div>
 						
 
-						<a title="Caching Methods" name="task_Caching Methods"></a>
-						<h2 class="task-title">Caching Methods</h2>
-
-						<div class="task-list">
-							<div class="section-method">
-	<a name="//api/name/offlineCacheEnabled" title="offlineCacheEnabled"></a>
-	<h3 class="method-title"><code><a href="#//api/name/offlineCacheEnabled">&nbsp;&nbsp;offlineCacheEnabled</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Indicates if caching the results of network requests through a local cache is enabled.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign, getter=isOfflineCacheEnabled) BOOL offlineCacheEnabled</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>@discussion
-This utilizes the instance supplied to the outputCache property to create a local persistent store
-to serialize the contents of network responses for use in accessing data offline.</p>
-			</div>
-			
-
-			
-
-			
-			<div class="method-subsection see-also-section">
-				<h4 class="method-subtitle">See Also</h4>
-				<ul>
-					
-					<li><code><p><a href="../Protocols/CSFNetworkOutputCache.html">CSFNetworkOutputCache</a></p></code></li>
-					
-					<li><code><p><a href="../Classes/CSFAction.html#//api/name/cacheResponse">[CSFAction cacheResponse]</a></p></code></li>
-					
-				</ul>
-			</div>
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">CSFNetwork.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/outputCaches" title="outputCaches"></a>
-	<h3 class="method-title"><code><a href="#//api/name/outputCaches">&nbsp;&nbsp;outputCaches</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>List of output cache handlers that will be used for storing results retrieved from this network instance.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, readonly) NSArray *outputCaches</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>@discussion
-This array will contain a list of all the cache handlers that should be consulted when results are retrieved.  Each object should conform to the <a href="../Protocols/CSFNetworkOutputCache.html">CSFNetworkOutputCache</a> protocol, and will each be interrogated in turn to determine whether or not they are capable of processing the results of each action.</p>
-			</div>
-			
-
-			
-
-			
-			<div class="method-subsection see-also-section">
-				<h4 class="method-subtitle">See Also</h4>
-				<ul>
-					
-					<li><code><p><a href="#//api/name/addOutputCache:">- addOutputCache:</a></p></code></li>
-					
-					<li><code><p><a href="#//api/name/removeOutputCache:">- removeOutputCache:</a></p></code></li>
-					
-				</ul>
-			</div>
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">CSFNetwork.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/addOutputCache:" title="addOutputCache:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/addOutputCache:">&ndash;&nbsp;addOutputCache:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Explicitly adds an output cache handler to this network instance.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (void)addOutputCache:(NSObject&lt;CSFNetworkOutputCache&gt; *)<em>outputCache</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>outputCache</code></th>
-						<td><p>Output cache instance to add.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>@discussion
-Output caches support a plugin architechture where classes that implement the <a href="../Protocols/CSFNetworkOutputCache.html">CSFNetworkOutputCache</a> method cacheInstanceForNetwork: are automatically asked whether or not they should be supported within the supplied network instance.  If you don&rsquo;t utilize this mechanism, explicit cache instances can be added using this method here.</p>
-			</div>
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">CSFNetwork.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/removeOutputCache:" title="removeOutputCache:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/removeOutputCache:">&ndash;&nbsp;removeOutputCache:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Explicitly removes the indicated output cache handler from this network instance.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (void)removeOutputCache:(NSObject&lt;CSFNetworkOutputCache&gt; *)<em>outputCache</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>outputCache</code></th>
-						<td><p>Output cache instance to remove.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">CSFNetwork.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div>
-						</div>
-						
-
-						<a title="SalesforcePrivate Methods" name="task_SalesforcePrivate Methods"></a>
-						<h2 class="task-title">SalesforcePrivate Methods</h2>
-
-						<div class="task-list">
-							<div class="section-method">
-	<a name="//api/name/setupSalesforceObserver" title="setupSalesforceObserver"></a>
-	<h3 class="method-title"><code><a href="#//api/name/setupSalesforceObserver">&ndash;&nbsp;setupSalesforceObserver</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (void)setupSalesforceObserver</code></div>
-
-		    
-		</div>
-	</div>
-</div>
-						</div>
-						
-
 						<a title="Extension Methods" name="task_Extension Methods"></a>
 						<h2 class="task-title">Extension Methods</h2>
 
@@ -1662,6 +1401,267 @@ the default value that should be used.</p>
 </div>
 						</div>
 						
+
+						<a title="SalesforcePrivate Methods" name="task_SalesforcePrivate Methods"></a>
+						<h2 class="task-title">SalesforcePrivate Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/setupSalesforceObserver" title="setupSalesforceObserver"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setupSalesforceObserver">&ndash;&nbsp;setupSalesforceObserver</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)setupSalesforceObserver</code></div>
+
+		    
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="Caching Methods" name="task_Caching Methods"></a>
+						<h2 class="task-title">Caching Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/offlineCacheEnabled" title="offlineCacheEnabled"></a>
+	<h3 class="method-title"><code><a href="#//api/name/offlineCacheEnabled">&nbsp;&nbsp;offlineCacheEnabled</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Indicates if caching the results of network requests through a local cache is enabled.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign, getter=isOfflineCacheEnabled) BOOL offlineCacheEnabled</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>@discussion
+This utilizes the instance supplied to the outputCache property to create a local persistent store
+to serialize the contents of network responses for use in accessing data offline.</p>
+			</div>
+			
+
+			
+
+			
+			<div class="method-subsection see-also-section">
+				<h4 class="method-subtitle">See Also</h4>
+				<ul>
+					
+					<li><code><p><a href="../Protocols/CSFNetworkOutputCache.html">CSFNetworkOutputCache</a></p></code></li>
+					
+					<li><code><p><a href="../Classes/CSFAction.html#//api/name/cacheResponse">[CSFAction cacheResponse]</a></p></code></li>
+					
+				</ul>
+			</div>
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">CSFNetwork.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/outputCaches" title="outputCaches"></a>
+	<h3 class="method-title"><code><a href="#//api/name/outputCaches">&nbsp;&nbsp;outputCaches</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>List of output cache handlers that will be used for storing results retrieved from this network instance.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, readonly) NSArray *outputCaches</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>@discussion
+This array will contain a list of all the cache handlers that should be consulted when results are retrieved.  Each object should conform to the <a href="../Protocols/CSFNetworkOutputCache.html">CSFNetworkOutputCache</a> protocol, and will each be interrogated in turn to determine whether or not they are capable of processing the results of each action.</p>
+			</div>
+			
+
+			
+
+			
+			<div class="method-subsection see-also-section">
+				<h4 class="method-subtitle">See Also</h4>
+				<ul>
+					
+					<li><code><p><a href="#//api/name/addOutputCache:">- addOutputCache:</a></p></code></li>
+					
+					<li><code><p><a href="#//api/name/removeOutputCache:">- removeOutputCache:</a></p></code></li>
+					
+				</ul>
+			</div>
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">CSFNetwork.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/addOutputCache:" title="addOutputCache:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/addOutputCache:">&ndash;&nbsp;addOutputCache:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Explicitly adds an output cache handler to this network instance.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)addOutputCache:(NSObject&lt;CSFNetworkOutputCache&gt; *)<em>outputCache</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>outputCache</code></th>
+						<td><p>Output cache instance to add.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>@discussion
+Output caches support a plugin architechture where classes that implement the <a href="../Protocols/CSFNetworkOutputCache.html">CSFNetworkOutputCache</a> method cacheInstanceForNetwork: are automatically asked whether or not they should be supported within the supplied network instance.  If you don&rsquo;t utilize this mechanism, explicit cache instances can be added using this method here.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">CSFNetwork.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/removeOutputCache:" title="removeOutputCache:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/removeOutputCache:">&ndash;&nbsp;removeOutputCache:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Explicitly removes the indicated output cache handler from this network instance.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)removeOutputCache:(NSObject&lt;CSFNetworkOutputCache&gt; *)<em>outputCache</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>outputCache</code></th>
+						<td><p>Output cache instance to remove.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">CSFNetwork.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
 					</div>
 					
 					
@@ -1674,7 +1674,7 @@ the default value that should be used.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-07-10</p>
+						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-09-18</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

@@ -93,6 +93,48 @@ once the request is queued and could be &apos;nil&apos; before that happens.</Ab
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setBaseURL:</TokenIdentifier>
+			<Abstract type="html">The base URL of the request, to be prepended to the value of the path property.
+By default, this will be the API URL associated with the current user&apos;s account.
+One use would be when in a community setting and you want to send a request against the base API URL.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong, readwrite) NSString *baseURL</Declaration>
+			
+			
+			<Anchor>//api/name/baseURL</Anchor>
+            <NodeRef refid="81"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/baseURL</TokenIdentifier>
+			<Abstract type="html">The base URL of the request, to be prepended to the value of the path property.
+By default, this will be the API URL associated with the current user&apos;s account.
+One use would be when in a community setting and you want to send a request against the base API URL.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong, readwrite) NSString *baseURL</Declaration>
+			
+			
+			<Anchor>//api/name/baseURL</Anchor>
+            <NodeRef refid="81"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/baseURL</TokenIdentifier>
+			<Abstract type="html">The base URL of the request, to be prepended to the value of the path property.
+By default, this will be the API URL associated with the current user&apos;s account.
+One use would be when in a community setting and you want to send a request against the base API URL.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong, readwrite) NSString *baseURL</Declaration>
+			
+			
+			<Anchor>//api/name/baseURL</Anchor>
+            <NodeRef refid="81"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setPath:</TokenIdentifier>
 			<Abstract type="html">The path of the request.
 For instance, &quot;&quot; (empty string), &quot;v22.0/recent&quot;, &quot;v22.0/query&quot;.
@@ -581,6 +623,32 @@ from the collection of headers.</Abstract>
 			</Parameters>
 			
 			<Anchor>//api/name/requestWithMethod:path:queryParams:</Anchor>
+            <NodeRef refid="81"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestRequest/requestWithMethod:baseURL:path:queryParams:</TokenIdentifier>
+			<Abstract type="html">Creates an SFRestRequest object. See SFRestMethod.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>+ (instancetype)requestWithMethod:(SFRestMethod)method baseURL:(NSString *)baseURL path:(NSString *)path queryParams:(nullable NSDictionary&lt;NSString*,id&gt; *)queryParams</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>method</Name>
+					<Abstract type="html">the HTTP method</Abstract>
+				</Parameter><Parameter>
+					<Name>baseURL</Name>
+					<Abstract type="html">the request URL</Abstract>
+				</Parameter><Parameter>
+					<Name>path</Name>
+					<Abstract type="html">the request path</Abstract>
+				</Parameter><Parameter>
+					<Name>queryParams</Name>
+					<Abstract type="html">the parameters of the request (could be nil)</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/requestWithMethod:baseURL:path:queryParams:</Anchor>
             <NodeRef refid="81"/>
 		</Token>
 		

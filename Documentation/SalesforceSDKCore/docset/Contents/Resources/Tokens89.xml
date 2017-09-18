@@ -4,7 +4,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/cl/SFSDKEventBuilderHelper</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<Abstract type="html">// Event startTime and endTime can be specified by passing values for attributes STARTTIME and ENDTIME</Abstract>
 			<DeclaredIn>SFSDKEventBuilderHelper.h</DeclaredIn>
             
 			
@@ -17,7 +17,7 @@
 			<Abstract type="html">Creates and stores an analytics event with the supplied parameters.</Abstract>
 			<DeclaredIn>SFSDKEventBuilderHelper.h</DeclaredIn>
 			
-			<Declaration>+ (void)createAndStoreEvent:(nonnull NSString *)name userAccount:(nullable SFUserAccount *)userAccount className:(nonnull NSString *)className attributes:(nullable NSDictionary *)attributes</Declaration>
+			<Declaration>+ (void)createAndStoreEvent:(NSString *)name userAccount:(nullable SFUserAccount *)userAccount className:(NSString *)className attributes:(nullable NSDictionary *)attributes</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>name</Name>

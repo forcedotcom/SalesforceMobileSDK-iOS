@@ -30,35 +30,6 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/CSFInput/allowsCustomAttributes</TokenIdentifier>
-			<Abstract type="html">Method indicating whether or not to accept arbitrary key/value properties to be set on input models.</Abstract>
-			<DeclaredIn>CSFInput.h</DeclaredIn>
-			
-			<Declaration>+ (BOOL)allowsCustomAttributes</Declaration>
-			
-			
-			<Anchor>//api/name/allowsCustomAttributes</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/CSFInput/storageKeyForPropertyName:</TokenIdentifier>
-			<Abstract type="html">Returns the storage key used for JSON serialization for the given property name.</Abstract>
-			<DeclaredIn>CSFInput.h</DeclaredIn>
-			
-			<Declaration>+ (NSString *)storageKeyForPropertyName:(NSString *)propertyName</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>propertyName</Name>
-					<Abstract type="html">The name of the Objective-C property.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The storage key to use when serializing JSON.</Abstract></ReturnValue>
-			<Anchor>//api/name/storageKeyForPropertyName:</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/CSFInput/setStorage:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>CSFInput_Internal.h</DeclaredIn>
@@ -139,6 +110,35 @@
 			
 			
 			<Anchor>//api/name/setObject:forKeyedSubscript:</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/CSFInput/allowsCustomAttributes</TokenIdentifier>
+			<Abstract type="html">Method indicating whether or not to accept arbitrary key/value properties to be set on input models.</Abstract>
+			<DeclaredIn>CSFInput.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)allowsCustomAttributes</Declaration>
+			
+			
+			<Anchor>//api/name/allowsCustomAttributes</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/CSFInput/storageKeyForPropertyName:</TokenIdentifier>
+			<Abstract type="html">Returns the storage key used for JSON serialization for the given property name.</Abstract>
+			<DeclaredIn>CSFInput.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)storageKeyForPropertyName:(NSString *)propertyName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>propertyName</Name>
+					<Abstract type="html">The name of the Objective-C property.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The storage key to use when serializing JSON.</Abstract></ReturnValue>
+			<Anchor>//api/name/storageKeyForPropertyName:</Anchor>
             <NodeRef refid="6"/>
 		</Token>
 		
