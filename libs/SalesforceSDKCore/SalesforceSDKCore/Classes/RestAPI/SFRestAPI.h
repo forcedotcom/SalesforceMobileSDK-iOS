@@ -25,6 +25,7 @@
 #import <Foundation/Foundation.h>
 #import "SFRestRequest.h"
 #import "SFSObjectTree.h"
+#import "SFUserAccount.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -141,11 +142,19 @@ extern NSString* const kSFRestIfUnmodifiedSince;
 @property (nonatomic, strong) NSString *apiVersion;
 
 /**
- * Returns the singleton instance of `SFRestAPI`.
- * Dependent on authenticated credentials in SFAccountManager, to properly form up
- * authenticated requests.
+ * The user associated with this instance of SFRestAPI.
+ */
+@property (nonatomic, strong, readonly) SFUserAccount *user;
+
+/**
+ * Returns the singleton instance of `SFRestAPI` associated with the current user.
  */
 + (SFRestAPI *)sharedInstance;
+
+/**
+ * Returns the singleton instance of `SFRestAPI` associated with the specified user.
+ */
++ (SFRestAPI *)sharedInstanceWithUser:(nonnull SFUserAccount *)user;
 
 /**
  * Specifies whether the current execution is a test run or not.

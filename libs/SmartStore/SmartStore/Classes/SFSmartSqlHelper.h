@@ -25,6 +25,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class FMDatabase;
 @class SFSmartStore;
 
@@ -51,3 +53,4 @@
 
 @end
 
+NS_ASSUME_NONNULL_END

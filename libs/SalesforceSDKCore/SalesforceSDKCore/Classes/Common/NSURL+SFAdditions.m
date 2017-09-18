@@ -26,7 +26,7 @@
 
 @implementation NSURL (SFAdditions)
 
-- (NSString *)valueForParameterName:(NSString *)name
+- (nullable NSString *)valueForParameterName:(NSString *)name
 {
     NSString *query = [self query];
     NSArray *queryComponents = [query componentsSeparatedByString:@"&"];

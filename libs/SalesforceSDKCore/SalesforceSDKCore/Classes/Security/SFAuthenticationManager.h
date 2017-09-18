@@ -46,6 +46,7 @@ typedef NS_ENUM(NSUInteger, SFAuthenticationManagerDelegatePriority) {
 };
 
 NS_ASSUME_NONNULL_BEGIN
+
 /**
  Callback block definition for OAuth completion callback.
  */
@@ -209,31 +210,6 @@ extern NSString * const kSFUserLoggedInNotification;
  successfully to authorize the user and fetched the identity information.
  */
 extern NSString * const kSFAuthenticationManagerFinishedNotification;
-
-/**
-  Default used as last resort
- */
-extern NSString * const kSFUserAccountOAuthLoginHostDefault;
-
-/**
- Key identifying login host
- */
-extern NSString * const kSFUserAccountOAuthLoginHost;
-
-/**
- The key for storing the persisted OAuth scopes.
- */
-extern  NSString * const kOAuthScopesKey;
-
-/**
-The key for storing the persisted OAuth client ID.
- */
-extern  NSString * const kOAuthClientIdKey;
-
-/**
-The key for storing the persisted OAuth redirect URI.
- */
-extern  NSString * const kOAuthRedirectUriKey;
 
 /**
  This class handles all the authentication related tasks, which includes login, logout and session refresh

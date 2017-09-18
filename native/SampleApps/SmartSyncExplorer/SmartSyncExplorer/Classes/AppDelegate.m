@@ -79,13 +79,13 @@
             //[[SFPushNotificationManager sharedInstance] registerForRemoteNotifications];
             //
             [strongSelf setUserLoginStatus:YES];
-            [[SFSDKLogger sharedDefaultInstance] log:[strongSelf class] level:DDLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
+            [SFSDKLogger log:[strongSelf class] level:DDLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
             [strongSelf setupRootViewController];
 
         };
         [SalesforceSDKManager sharedManager].launchErrorAction = ^(NSError *error, SFSDKLaunchAction launchActionList) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
-            [[SFSDKLogger sharedDefaultInstance] log:[strongSelf class] level:DDLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
+            [SFSDKLogger log:[strongSelf class] level:DDLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
             [strongSelf initializeAppViewState];
             [[SalesforceSDKManager sharedManager] launch];
         };
@@ -106,7 +106,7 @@
 - (void)setUserLoginStatus :(BOOL) loggedIn {
     [[NSUserDefaults msdkUserDefaults] setBool:loggedIn forKey:@"userLoggedIn"];
     [[NSUserDefaults msdkUserDefaults] synchronize];
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"%d userLoggedIn", [[NSUserDefaults msdkUserDefaults] boolForKey:@"userLoggedIn"] ];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"%d userLoggedIn", [[NSUserDefaults msdkUserDefaults] boolForKey:@"userLoggedIn"] ];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -162,7 +162,7 @@
 
 - (void)handleSdkManagerLogout
 {
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"SFAuthenticationManager logged out. Resetting app."];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"SFAuthenticationManager logged out. Resetting app."];
     [self resetViewState:^{
         [self initializeAppViewState];
         
@@ -193,7 +193,7 @@
 - (void)handleUserSwitch:(SFUserAccount *)fromUser
                   toUser:(SFUserAccount *)toUser
 {
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@.  Resetting app.",
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@.  Resetting app.",
      fromUser.userName, toUser.userName];
     [self resetViewState:^{
         [self initializeAppViewState];

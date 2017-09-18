@@ -162,7 +162,7 @@ static NSException *authException = nil;
 - (void)testFullRequestPath {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForResources];
     request.path = [NSString stringWithFormat:@"%@%@", kSFDefaultRestEndpoint, request.path];
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"request.path: %@", request.path];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"request.path: %@", request.path];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
@@ -379,7 +379,7 @@ static NSException *authException = nil;
     // make sure we got an id
     NSString *contactId = ((NSDictionary *)listener.dataResponse)[LID];
     XCTAssertNotNil(contactId, @"id not present");
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"## contact created with id: %@", contactId];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"## contact created with id: %@", contactId];
     
     @try {
         // now query object
@@ -1119,7 +1119,7 @@ static NSException *authException = nil;
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForResources];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"latest access token: %@", _currentUser.credentials.accessToken];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"latest access token: %@", _currentUser.credentials.accessToken];
     
     // let's make sure we have another access token
     NSString *newAccessToken = _currentUser.credentials.accessToken;
@@ -1140,7 +1140,7 @@ static NSException *authException = nil;
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     NSString *contactId = ((NSDictionary *)listener.dataResponse)[LID];
     XCTAssertNotNil(contactId, @"Contact create result should contain an ID value.");
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"latest access token: %@", _currentUser.credentials.accessToken];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"latest access token: %@", _currentUser.credentials.accessToken];
     
     // let's make sure we have another access token
     NSString *newAccessToken = _currentUser.credentials.accessToken;
@@ -1353,14 +1353,14 @@ static NSException *authException = nil;
 #pragma mark - testing block functions
 
 - (BOOL) waitForExpectation {
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"Waiting for %@ to complete", self.currentExpectation.description];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"Waiting for %@ to complete", self.currentExpectation.description];
     __block BOOL timedout;
     [self waitForExpectationsWithTimeout:15 handler:^(NSError *error) {
         if (error) {
             XCTFail(@"%@ took too long to complete", self.currentExpectation.description);
             timedout = YES;
         } else {
-            [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"Completed %@", self.currentExpectation.description];
+            [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"Completed %@", self.currentExpectation.description];
             timedout = NO;
         }
     }];
@@ -1713,7 +1713,7 @@ static NSException *authException = nil;
     // Ensures we get an ID back.
     NSString *contactId = ((NSDictionary *)listener.dataResponse)[LID];
     XCTAssertNotNil(contactId, @"id not present");
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"## contact created with id: %@", contactId];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"## contact created with id: %@", contactId];
 
     // Creates a long SOQL query.
     NSMutableString *queryString = [[NSMutableString alloc] init];
@@ -1723,7 +1723,7 @@ static NSException *authException = nil;
         [queryString appendString:@"', '"];
     }
     [queryString appendString:@"')"];
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"## length of query: %d", [queryString length]];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"## length of query: %d", [queryString length]];
 
     // Runs the query.
     @try {
@@ -1764,7 +1764,7 @@ static NSException *authException = nil;
 - (void)testCustomBaseURLRequest {
     SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodGET baseURL:@"http://www.apple.com" path:@"/test/testing" queryParams:nil];
     XCTAssertEqual(request.baseURL, @"http://www.apple.com", @"Base URL should match");
-    NSURLRequest *finalRequest = [request prepareRequestForSend];
+    NSURLRequest *finalRequest = [request prepareRequestForSend:_currentUser];
     NSString *expectedURL = [NSString stringWithFormat:@"http://www.apple.com%@%@", kSFDefaultRestEndpoint, @"/test/testing"];
     XCTAssertEqualObjects(finalRequest.URL.absoluteString, expectedURL, @"Final URL should utilize base URL that was passed in");
 }

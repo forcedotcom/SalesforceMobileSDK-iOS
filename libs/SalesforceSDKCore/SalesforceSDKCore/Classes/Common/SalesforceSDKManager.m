@@ -24,7 +24,7 @@
 
 #import "SalesforceSDKManager+Internal.h"
 #import "SFAuthenticationManager+Internal.h"
-#import "SFRootViewManager.h"
+#import "SFSDKWindowManager.h"
 #import "SFSDKWebUtils.h"
 #import "SFManagedPreferences.h"
 #import "SFOAuthInfo.h"
@@ -63,15 +63,11 @@ static NSString* ailtnAppName = nil;
 }
 
 - (BOOL)shouldAutorotate {
-    return !(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone);
+    return YES;
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-        return UIInterfaceOrientationMaskPortrait;
-    } else {
-        return UIInterfaceOrientationMaskAll;
-    }
+   return UIInterfaceOrientationMaskAll;
 }
 
 @end
@@ -235,8 +231,8 @@ static NSString* ailtnAppName = nil;
     [SFSDKCoreLogger i:[self class] format:@"Launching the Salesforce SDK."];
     _isLaunching = YES;
     self.launchActions = SFSDKLaunchActionNone;
-    if ([SFRootViewManager sharedManager].mainWindow == nil) {
-        [SFRootViewManager sharedManager].mainWindow = [SFApplicationHelper sharedApplication].windows[0];
+    if ([SFSDKWindowManager sharedManager].mainWindow == nil) {
+        [[SFSDKWindowManager sharedManager] setMainUIWindow:[SFApplicationHelper sharedApplication].windows[0]];
     }
     
     NSError *launchStateError = nil;
@@ -298,7 +294,7 @@ static NSString* ailtnAppName = nil;
     // Managed settings should override any equivalent local app settings.
     [self configureManagedSettings];
     
-    if ([SFRootViewManager sharedManager].mainWindow == nil) {
+    if ([SFSDKWindowManager sharedManager].mainWindow == nil) {
         NSString *noWindowError = [NSString stringWithFormat:@"%@ cannot perform launch before the UIApplication main window property has been initialized.  Cannot continue.", [self class]];
         [SFSDKCoreLogger e:[self class] format:noWindowError];
         [launchStateErrorMessages addObject:noWindowError];
@@ -542,7 +538,7 @@ static NSString* ailtnAppName = nil;
     
 - (BOOL)isSnapshotPresented
 {
-    return (_snapshotViewController.presentingViewController || _snapshotViewController.view.superview);
+    return [[SFSDKWindowManager sharedManager].snapshotWindow isEnabled];
 }
 
 - (void)presentSnapshot
@@ -570,26 +566,36 @@ static NSString* ailtnAppName = nil;
     else {
         _snapshotViewController =  [[SnapshotViewController alloc] initWithNibName:nil bundle:nil];
     }
+    SFSDKWindowManager.sharedManager.snapshotWindow.viewController = _snapshotViewController;
     
     // Presentation
-    if (self.snapshotPresentationAction && self.snapshotDismissalAction) {
-        self.snapshotPresentationAction(_snapshotViewController);
-    } else {
-        [[SFRootViewManager sharedManager] pushViewController:_snapshotViewController];
-    }
+    __weak typeof (self) weakSelf = self;
+    [[SFSDKWindowManager sharedManager].snapshotWindow enable:NO withCompletion:^{
+        __strong typeof (weakSelf) strongSelf  = weakSelf;
+        if (strongSelf.snapshotPresentationAction && strongSelf.snapshotDismissalAction) {
+            strongSelf.snapshotPresentationAction(strongSelf->_snapshotViewController);
+        }
+    }];
+    
 }
 
 - (void)dismissSnapshot
 {
-    if (![self isSnapshotPresented]) {
-        return;
+    if ([self isSnapshotPresented]) {
+        if (self.snapshotPresentationAction && self.snapshotDismissalAction) {
+            self.snapshotDismissalAction(_snapshotViewController);
+            if ([SFSecurityLockout isPasscodeNeeded]) {
+                [SFSecurityLockout validateTimer];
+            }
+        } else {
+            [[SFSDKWindowManager sharedManager].snapshotWindow disable:NO withCompletion:^{
+                if ([SFSecurityLockout isPasscodeNeeded]) {
+                    [SFSecurityLockout validateTimer];
+                }
+            }];
+        }
     }
     
-    if (self.snapshotPresentationAction && self.snapshotDismissalAction) {
-        self.snapshotDismissalAction(_snapshotViewController);
-    } else {
-        [[SFRootViewManager sharedManager] popViewController:_snapshotViewController];
-    }
 }
 
 - (void)clearClipboard

@@ -1,16 +1,18 @@
 #import "SFSecurityLockout.h"
 #import "SFPasscodeViewController.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 static NSUInteger const kDefaultLockoutTime        = 0;
-static NSString * const kSecurityTimeoutLegacyKey  = @"security.timeout";
-static NSString * const kSecurityIsLockedLegacyKey = @"security.islocked";
+static NSString * _Nullable const kSecurityTimeoutLegacyKey  = @"security.timeout";
+static NSString * _Nullable const kSecurityIsLockedLegacyKey = @"security.islocked";
 
 @interface SFSecurityLockout ()
 
 /**
  * Called when the user activity timer expires.
  */
-+ (void)timerExpired:(NSTimer *)theTimer;
++ (void)timerExpired:(NSTimer *_Nullable)theTimer;
 
 /**
  * Presents the passcode controller when it's time to create or verify the passcode.
@@ -20,13 +22,13 @@ static NSString * const kSecurityIsLockedLegacyKey = @"security.islocked";
 /**
  * Sets a retained instance of the current passcode view controller that's displayed.
  */
-+ (void)setPasscodeViewController:(UIViewController *)vc;
++ (void)setPasscodeViewController:(UIViewController *_Nullable)vc;
 
 /**
  * Returns the currently displayed passcode view controller, or nil if the passcode view controller
  * is not currently displayed.
  */
-+ (UIViewController *)passcodeViewController;
++ (nullable UIViewController *)passcodeViewController;
 
 /**
  * Whether or not the passcode screen is currently displayed.
@@ -76,25 +78,25 @@ static NSString * const kSecurityIsLockedLegacyKey = @"security.islocked";
  * Retrieves the lockout time value from the keychain.
  * @return NSNumber wrapping the NSUInteger value for lockout time, or `nil` if not set.
  */
-+ (NSNumber *)readLockoutTimeFromKeychain;
++ (NSNumber *_Nullable)readLockoutTimeFromKeychain;
 
 /**
  * Writes the lockout time to the keychain.
  * @param lockoutTime The NSNumber wrapping the NSUInteger value to be written to the keychain.
  */
-+ (void)writeLockoutTimeToKeychain:(NSNumber *)lockoutTime;
++ (void)writeLockoutTimeToKeychain:(NSNumber *_Nullable)lockoutTime;
 
 /**
  * Retreives the "is locked" setting from the keychain.
  * @return The NSNumber wrapping the BOOL value for "is locked", or `nil` if not set.
  */
-+ (NSNumber *)readIsLockedFromKeychain;
++ (NSNumber *_Nullable)readIsLockedFromKeychain;
 
 /**
  * Writes the "is locked" value to the keychain.
  * @param locked The NSNumber wrapping the BOOL value for "is locked".
  */
-+ (void)writeIsLockedToKeychain:(NSNumber *)locked;
++ (void)writeIsLockedToKeychain:(NSNumber *_Nullable)locked;
 
 /**
  * Upgrades settings as part of SFSecurityLockout initialization.
@@ -105,6 +107,8 @@ static NSString * const kSecurityIsLockedLegacyKey = @"security.islocked";
  Runs the given block of code against the list of security lockout delegates.
  @param block The block of code to execute for each delegate.
  */
-+ (void)enumerateDelegates:(void(^)(id<SFSecurityLockoutDelegate> delegate))block;
++ (void)enumerateDelegates:(void(^)(id <SFSecurityLockoutDelegate> delegate))block;
 
 @end
+
+NS_ASSUME_NONNULL_END

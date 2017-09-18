@@ -28,6 +28,8 @@
 #import "SFSyncUpTarget.h"
 #import "SFSyncDownTarget.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class SFUserAccount;
 
 // block type
@@ -56,14 +58,14 @@ typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncSt
  * @param user The user associated with the store.
  * @param storeName The name of the SmartStore associated with the user.
  */
-+ (instancetype)sharedInstanceForUser:(SFUserAccount*)user storeName:(NSString *)storeName;
++ (instancetype)sharedInstanceForUser:(SFUserAccount*)user storeName:(nullable NSString *)storeName;
 
 /**
  * Singleton method for accessing sync manager instance by SmartStore store.
  *
  * @param store The store instance to configure.
  */
-+ (instancetype)sharedInstanceForStore:(SFSmartStore*)store;
++ (nullable instancetype)sharedInstanceForStore:(SFSmartStore*)store;
 
 /**
  * Removes the shared instance associated with the specified user.
@@ -78,7 +80,7 @@ typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncSt
  * @param user The user associated with the store.
  * @param storeName The name of the store associated with the given user.
  */
-+ (void)removeSharedInstanceForUser:(SFUserAccount*)user storeName:(NSString*)storeName;
++ (void)removeSharedInstanceForUser:(SFUserAccount*)user storeName:(nullable NSString*)storeName;
 
 /**
  * Removes the shared instance associated with the specified store.
@@ -97,7 +99,7 @@ typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncSt
  *
  * @param syncId Sync ID.
  */
-- (SFSyncState*)getSyncStatus:(NSNumber*)syncId;
+- (nullable SFSyncState*)getSyncStatus:(NSNumber*)syncId;
 
 /**
  * Creates and runs a sync down that will overwrite any modified records.
@@ -112,7 +114,7 @@ typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncSt
 /**
  * Performs a resync.
  */
-- (SFSyncState*) reSync:(NSNumber*)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
+- (nullable SFSyncState*) reSync:(NSNumber*)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
 
 /**
  * Creates and runs a sync up with the default SFSyncUpTarget.
@@ -148,3 +150,5 @@ typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncSt
 - (void) cleanResyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock;
 
 @end
+
+NS_ASSUME_NONNULL_END

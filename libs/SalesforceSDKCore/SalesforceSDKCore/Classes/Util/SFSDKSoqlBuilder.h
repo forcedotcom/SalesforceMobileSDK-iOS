@@ -24,6 +24,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SFSDKSoqlBuilder : NSObject
 
 /** @name Query Builder */
@@ -123,6 +125,8 @@
  *
  * @return the built query
  */
-- (NSString *) build;
+- (nullable NSString *) build;
 
 @end
+
+NS_ASSUME_NONNULL_END

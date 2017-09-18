@@ -1,5 +1,10 @@
 /*
- Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
+ SFSDKRootController.h
+ SalesforceSDKCore
+ 
+ Created by Raj Rao on 7/24/17.
+ 
+ Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -21,25 +26,8 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#import <UIKit/UIKit.h>
 
-#import <objc/runtime.h>
-
-#import "CSFOutput.h"
-#import "CSFInternalDefines.h"
-
-@interface CSFOutput () {
-@protected
-    NSMutableDictionary *__dictionaryStorage;
-    NSMutableArray *__arrayStorage;
-    NSDictionary *__context;
-    BOOL __allPropertiesImported;
-    NSMutableArray *__remainingProperties;
-}
-
-@property (nonatomic, weak, readwrite) NSObject *parentObject;
-
-- (void)importAllProperties;
-- (void)importSynthesizedProperties;
-- (void)importProperty:(NSString*)propertyName;
+@interface SFSDKRootController : UIViewController
 
 @end

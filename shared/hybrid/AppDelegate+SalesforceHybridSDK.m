@@ -65,12 +65,12 @@
     __weak __typeof(self) weakSelf = self;
     [SalesforceSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActionList) {
         __strong __typeof(weakSelf) strongSelf = weakSelf;
-        [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
+        [SFSDKLogger log:[self class] level:DDLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
         [strongSelf setupRootViewController];
     };
     [SalesforceSDKManager sharedManager].launchErrorAction = ^(NSError *error, SFSDKLaunchAction launchActionList) {
         __strong __typeof(weakSelf) strongSelf = weakSelf;
-        [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
+        [SFSDKLogger log:[self class] level:DDLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
         [strongSelf initializeAppViewState];
         [[SalesforceSDKManager sharedManager] launch];
     };
@@ -127,7 +127,7 @@
 - (void)handleSdkManagerLogout
 {
     [self resetViewState:^{
-        [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"Logout notification received. Resetting app."];
+        [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"Logout notification received. Resetting app."];
         ((SFHybridViewController*)self.viewController).appHomeUrl = nil;
         [self initializeAppViewState];
         
@@ -158,7 +158,7 @@
                   toUser:(SFUserAccount *)toUser
 {
     [self resetViewState:^{
-        [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@. Resetting app.",
+        [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@. Resetting app.",
          fromUser.userName, toUser.userName];
         [self initializeAppViewState];
         [[SalesforceSDKManager sharedManager] launch];

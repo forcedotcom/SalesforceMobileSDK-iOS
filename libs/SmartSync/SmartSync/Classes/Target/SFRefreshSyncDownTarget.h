@@ -25,6 +25,7 @@
 #import <Foundation/Foundation.h>
 #import "SFSyncDownTarget.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SFRefreshSyncDownTarget : SFSyncDownTarget
 
@@ -37,3 +38,5 @@
 + (SFRefreshSyncDownTarget*) newSyncTarget:(NSString*)soupName objectType:(NSString*)objectType fieldlist:(NSArray*)fieldlist;
 
 @end
+
+NS_ASSUME_NONNULL_END
