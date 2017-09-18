@@ -44,6 +44,8 @@ extern NSString * const kSFSyncStateStatus;
 extern NSString * const kSFSyncStateProgress;
 extern NSString * const kSFSyncStateTotalSize;
 extern NSString * const kSFSyncStateMaxTimeStamp;
+extern NSString * const kSFSyncStateStartTime;
+extern NSString * const kSFSyncStateEndTime;
 
 // Possible values for sync type
 typedef NS_ENUM(NSInteger, SFSyncStateSyncType) {
@@ -89,6 +91,10 @@ extern NSString * const kSFSyncStateMergeModeLeaveIfChanged;
 @property (nonatomic) NSInteger totalSize;
 @property (nonatomic) SFSyncStateMergeMode mergeMode;
 @property (nonatomic) long long maxTimeStamp;
+
+// Start and end time in milliseconds since 1970
+@property (nonatomic, readonly) NSInteger startTime;
+@property (nonatomic, readonly) NSInteger endTime;
 
 /** Setup soup that keeps track of sync operations
  */

@@ -24,7 +24,6 @@
 
 #import "SalesforceSDKManager+Internal.h"
 #import "SFAuthenticationManager+Internal.h"
-#import "SFSecurityLockout+Internal.h"
 #import "SFRootViewManager.h"
 #import "SFSDKWebUtils.h"
 #import "SFManagedPreferences.h"
@@ -142,6 +141,7 @@ static NSString* ailtnAppName = nil;
         self.delegates = [NSHashTable weakObjectsHashTable];
         [[SFUserAccountManager sharedInstance] addDelegate:self];
         [[SFAuthenticationManager sharedManager] addDelegate:self];
+        [SFSecurityLockout addDelegate:self];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppTerminate:) name:UIApplicationWillTerminateNotification object:nil];
@@ -377,10 +377,17 @@ static NSString* ailtnAppName = nil;
 
 - (void)sendPostLogout
 {
-    _isLaunching = NO;
+    [self logoutCleanup];
     if (self.postLogoutAction) {
         self.postLogoutAction();
     }
+}
+
+- (void)logoutCleanup
+{
+    _isLaunching = NO;
+    self.inManagerForegroundProcess = NO;
+    self.passcodeDisplayed = NO;
 }
 
 - (void)sendPostLaunch
@@ -399,10 +406,13 @@ static NSString* ailtnAppName = nil;
     }
 }
 
-- (void)sendPostAppForeground
+- (void)sendPostAppForegroundIfRequired
 {
-    if (self.postAppForegroundAction) {
-        self.postAppForegroundAction();
+    if (self.isInManagerForegroundProcess) {
+        self.inManagerForegroundProcess = NO;
+        if (self.postAppForegroundAction) {
+            self.postAppForegroundAction();
+        }
     }
 }
 
@@ -415,26 +425,31 @@ static NSString* ailtnAppName = nil;
             [delegate sdkManagerWillEnterForeground];
         }
     }];
-        
+    
     if (_isLaunching) {
         [SFSDKCoreLogger d:[self class] format:@"SDK is still launching.  No foreground action taken."];
     } else {
-        
-        // Check to display pin code screen.
-        
-        [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
-            // Note: Failed passcode verification automatically logs out users, which the logout
-            // delegate handler will catch and pass on.  We just log the error and reset launch
-            // state here.
-            [SFSDKCoreLogger e:[self class] format:@"Passcode validation failed.  Logging the user out."];
-        }];
-        
-        [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction lockoutAction) {
-            [SFSDKCoreLogger i:[self class] format:@"Passcode validation succeeded, or was not required, on app foreground.  Triggering postAppForeground handler."];
-            [self sendPostAppForeground];
-        }];
-        
-        [SFSecurityLockout validateTimer];
+        self.inManagerForegroundProcess = YES;
+        if (self.isPasscodeDisplayed) {
+            // Passcode was already displayed prior to app foreground.  Leverage delegates to manage
+            // post-foreground process.
+            [SFSDKCoreLogger i:[self class] format:@"%@ Passcode screen already displayed. Post-app foreground will continue after passcode challenge completes.", NSStringFromSelector(_cmd)];
+        } else {
+            // Check to display pin code screen.
+            [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
+                // Note: Failed passcode verification automatically logs out users, which the logout
+                // delegate handler will catch and pass on.  We just log the error and reset launch
+                // state here.
+                [SFSDKCoreLogger e:[self class] format:@"Passcode validation failed.  Logging the user out."];
+            }];
+            
+            [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction lockoutAction) {
+                [SFSDKCoreLogger i:[self class] format:@"Passcode validation succeeded, or was not required, on app foreground.  Triggering postAppForeground handler."];
+                [self sendPostAppForegroundIfRequired];
+            }];
+            
+            [SFSecurityLockout validateTimer];
+        }
     }
 }
 
@@ -590,25 +605,18 @@ static NSString* ailtnAppName = nil;
 
 - (void)passcodeValidationAtLaunch
 {
-    if ([SFUserAccountManager sharedInstance].isCurrentUserAnonymous) {
-
-        // Anonymous user doesn't have any passcode associated with it
-        // so bypass this step and go to the next one directly.
-        [self authValidationAtLaunch];
-    } else {
-        [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
-            [SFSDKCoreLogger i:[self class] format:@"Passcode verified, or not configured.  Proceeding with authentication validation."];
-            [self passcodeValidatedToAuthValidation];
-        }];
-        [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
-
-            // Note: Failed passcode verification automatically logs out users, which the logout
-            // delegate handler will catch and pass on.  We just log the error and reset launch
-            // state here.
-            [SFSDKCoreLogger e:[self class] format:@"Passcode validation failed.  Logging the user out."];
-        }];
-        [SFSecurityLockout lock];
-    }
+    [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
+        [SFSDKCoreLogger i:[self class] format:@"Passcode verified, or not configured.  Proceeding with authentication validation."];
+        [self passcodeValidatedToAuthValidation];
+    }];
+    [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
+        
+        // Note: Failed passcode verification automatically logs out users, which the logout
+        // delegate handler will catch and pass on.  We just log the error and reset launch
+        // state here.
+        [SFSDKCoreLogger e:[self class] format:@"Passcode validation failed.  Logging the user out."];
+    }];
+    [SFSecurityLockout lock];
 }
 
 - (void)passcodeValidatedToAuthValidation
@@ -762,6 +770,19 @@ static NSString* ailtnAppName = nil;
                     toUser:(SFUserAccount *)toUser
 {
     [self.sdkManagerFlow handleUserSwitch:fromUser toUser:toUser];
+}
+
+#pragma mark - SFSecurityLockoutDelegate
+
+- (void)passcodeFlowWillBegin:(SFPasscodeControllerMode)mode
+{
+    self.passcodeDisplayed = YES;
+}
+
+- (void)passcodeFlowDidComplete:(BOOL)success
+{
+    self.passcodeDisplayed = NO;
+    [self sendPostAppForegroundIfRequired];
 }
 
 @end

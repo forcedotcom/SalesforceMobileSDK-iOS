@@ -114,13 +114,12 @@
 }
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options{
-    
-    // Uncomment the following line, if Authentication was attempted using handle advanced OAuth flow.
-    // For Advanced Auth functionality to work, edit your apps plist files and add the URL scheme that you have
-    // chosen for your app. The scheme should be the same as used in  the oauthRedirectURI settings of your Connected
-    //  App. You should also set the  delegate(SFAuthenticationManagerDelegate) for SFAuthenticationManager to be
-    // notified  of success & failures. Inorder to be notfied of user's selected action on displayed
-    // alerts implement  authManagerDidProceedWithBrowserFlow: & authManagerDidCancelBrowserFlow:
+
+    // If you're using advanced authentication:
+    // --Configure your app to handle incoming requests to your
+    //   OAuth Redirect URI custom URL scheme.
+    // --Uncomment the following line and delete the original return statement:
+
     // return [[SFAuthenticationManager sharedManager] handleAdvancedAuthenticationResponse:url];
     return NO;
 }

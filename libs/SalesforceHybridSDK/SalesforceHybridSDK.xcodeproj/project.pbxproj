@@ -549,6 +549,9 @@
 		CE65C2311C0FD51400319E68 /* SmartStore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SmartStore.framework; path = "../SmartStore/build/Debug-iphoneos/SmartStore.framework"; sourceTree = "<group>"; };
 		CE65C2331C0FD51A00319E68 /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceSDKCore.framework; path = "../SalesforceSDKCore/build/Debug-iphoneos/SalesforceSDKCore.framework"; sourceTree = "<group>"; };
 		CE65C2391C0FD52F00319E68 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		CE65CEF11F1AD1200053D69B /* SalesforceAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceAnalytics.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-gwabzgkqvuiabqhavyipjwljefxe/Build/Products/Debug-iphonesimulator/SalesforceAnalytics.framework"; sourceTree = "<group>"; };
+		CE65CEF31F1AD1270053D69B /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceSDKCore.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-gwabzgkqvuiabqhavyipjwljefxe/Build/Products/Debug-iphonesimulator/SalesforceSDKCore.framework"; sourceTree = "<group>"; };
+		CE65CEF51F1AD12D0053D69B /* SmartStore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SmartStore.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-gwabzgkqvuiabqhavyipjwljefxe/Build/Products/Debug-iphonesimulator/SmartStore.framework"; sourceTree = "<group>"; };
 		CE77E2F71E8C8BAB003E1CD6 /* CDVWKProcessPoolFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVWKProcessPoolFactory.h; path = "../../../external/cordova-plugin-wkwebview-engine/src/ios/CDVWKProcessPoolFactory.h"; sourceTree = "<group>"; };
 		CE77E2F81E8C8BAB003E1CD6 /* CDVWKProcessPoolFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVWKProcessPoolFactory.m; path = "../../../external/cordova-plugin-wkwebview-engine/src/ios/CDVWKProcessPoolFactory.m"; sourceTree = "<group>"; };
 		CE77E2F91E8C8BAB003E1CD6 /* CDVWKWebViewEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVWKWebViewEngine.h; path = "../../../external/cordova-plugin-wkwebview-engine/src/ios/CDVWKWebViewEngine.h"; sourceTree = "<group>"; };
@@ -897,6 +900,9 @@
 		82EFF2D216E7C57100A63CDF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CE65CEF51F1AD12D0053D69B /* SmartStore.framework */,
+				CE65CEF31F1AD1270053D69B /* SalesforceSDKCore.framework */,
+				CE65CEF11F1AD1200053D69B /* SalesforceAnalytics.framework */,
 				CE2B8CFB1CE9322D00C6FC6A /* SalesforceAnalytics.framework */,
 				CE0AB0881C10D4D400BFAEED /* libxml2.tbd */,
 				CE65C2391C0FD52F00319E68 /* libz.tbd */,

@@ -104,6 +104,13 @@ extern NSString * const kSFDefaultRestEndpoint;
 @property (nullable, nonatomic, strong, readwrite) NSURLSessionDataTask *sessionDataTask;
 
 /**
+ * The base URL of the request, to be prepended to the value of the `path` property.
+ * By default, this will be the API URL associated with the current user's account.
+ * One use would be when in a community setting and you want to send a request against the base API URL.
+ */
+@property (nullable, nonatomic, strong, readwrite) NSString *baseURL;
+
+/**
  * The path of the request.
  * For instance, "" (empty string), "v22.0/recent", "v22.0/query".
  * Note that the path doesn't have to start with a '/'. For instance, passing "v22.0/recent" is the same as passing "/v22.0/recent".
@@ -228,6 +235,15 @@ extern NSString * const kSFDefaultRestEndpoint;
  * @param queryParams the parameters of the request (could be nil)
  */
 + (instancetype)requestWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, id> *)queryParams;
+
+/**
+ * Creates an `SFRestRequest` object. See SFRestMethod.
+ * @param method the HTTP method
+ * @param baseURL the request URL
+ * @param path the request path
+ * @param queryParams the parameters of the request (could be nil)
+ */
++ (instancetype)requestWithMethod:(SFRestMethod)method baseURL:(NSString *)baseURL path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, id> *)queryParams;
 
 @end
 
