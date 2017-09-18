@@ -1027,6 +1027,78 @@ actions.</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setPasscodeDisplayed:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, getter=isPasscodeDisplayed) BOOL passcodeDisplayed</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeDisplayed</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/isPasscodeDisplayed</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, getter=isPasscodeDisplayed) BOOL passcodeDisplayed</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeDisplayed</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SalesforceSDKManager/passcodeDisplayed</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, getter=isPasscodeDisplayed) BOOL passcodeDisplayed</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeDisplayed</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setInManagerForegroundProcess:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, getter=isInManagerForegroundProcess) BOOL inManagerForegroundProcess</Declaration>
+			
+			
+			<Anchor>//api/name/inManagerForegroundProcess</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/isInManagerForegroundProcess</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, getter=isInManagerForegroundProcess) BOOL inManagerForegroundProcess</Declaration>
+			
+			
+			<Anchor>//api/name/inManagerForegroundProcess</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SalesforceSDKManager/inManagerForegroundProcess</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, getter=isInManagerForegroundProcess) BOOL inManagerForegroundProcess</Declaration>
+			
+			
+			<Anchor>//api/name/inManagerForegroundProcess</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/passcodeValidatedToAuthValidation</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>

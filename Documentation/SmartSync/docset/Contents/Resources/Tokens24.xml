@@ -373,6 +373,78 @@
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/setStartTime:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncState.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSInteger startTime</Declaration>
+			
+			
+			<Anchor>//api/name/startTime</Anchor>
+            <NodeRef refid="24"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/startTime</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncState.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSInteger startTime</Declaration>
+			
+			
+			<Anchor>//api/name/startTime</Anchor>
+            <NodeRef refid="24"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSyncState/startTime</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncState.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSInteger startTime</Declaration>
+			
+			
+			<Anchor>//api/name/startTime</Anchor>
+            <NodeRef refid="24"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/setEndTime:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncState.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSInteger endTime</Declaration>
+			
+			
+			<Anchor>//api/name/endTime</Anchor>
+            <NodeRef refid="24"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/endTime</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncState.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSInteger endTime</Declaration>
+			
+			
+			<Anchor>//api/name/endTime</Anchor>
+            <NodeRef refid="24"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSyncState/endTime</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncState.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSInteger endTime</Declaration>
+			
+			
+			<Anchor>//api/name/endTime</Anchor>
+            <NodeRef refid="24"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFSyncState/setupSyncsSoupIfNeeded:</TokenIdentifier>
 			<Abstract type="html">Setup soup that keeps track of sync operations</Abstract>
 			<DeclaredIn>SFSyncState.h</DeclaredIn>
