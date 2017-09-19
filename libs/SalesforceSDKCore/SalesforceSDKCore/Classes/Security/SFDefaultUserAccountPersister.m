@@ -143,17 +143,17 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
             success= [manager removeItemAtPath:userDirectory error:&folderRemovalError];
             if (!success) {
                 [SFSDKCoreLogger d:[self class]
-                   format:@"Error removing the user folder for '%@': %@", user.accountIdentity.userId, [folderRemovalError localizedDescription]];
+                   format:@"Error removing the user folder for %@", [folderRemovalError localizedDescription]];
                 if (folderRemovalError && error) {
                     *error = folderRemovalError;
                 }
             }
         } else {
-            NSString *reason = [NSString stringWithFormat:@"User folder for user '%@' does not exist on the filesystem", user.userName];
+            NSString *reason = [NSString stringWithFormat:@"User folder for user does not exist on the filesystem"];
             NSError *ferror = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
                                                   code:SFUserAccountManagerCannotReadDecryptedArchive
                                               userInfo:@{NSLocalizedDescriptionKey: reason}];
-            [SFSDKCoreLogger d:[self class] format:@"User folder for user '%@' does not exist on the filesystem.", user.accountIdentity.userId];
+            [SFSDKCoreLogger d:[self class] format:@"User folder for user does not exist on the filesystem."];
             if(error)
                 *error = ferror;
         }
