@@ -34,24 +34,13 @@ If you have problems building any of the projects, take a look at the online [FA
 Introduction
 ==
 
-### What's New in 5.2
+### What's New in 5.3
 
-**Login Enhancements**
-- We have added support for branded community login pages by adding methods to configure the brand parameter in your Mobile SDK app.
-- We are now using `SFSafariViewController` instead of `Safari` for the advanced authentication flow in Mobile SDK. This provides a better user experience with no app swizzling.
-
-**SmartSync Enhancements**
-- In Mobile SDK 5.2, we've added new sync targets to allow related records to be synced down or synced up in one call.
-
-**New Logging Framework**
-- We've added a new logging framework in Mobile SDK 5.2 with the following features:
-	- Writes log lines to both console and a rolling log file on the filesystem.
-	- Supports component-specific loggers.
-	- Lets you configure log levels per component.
-	- Lets you configure maximum log file size per component.
+**OS Version Support**
+- iOS 11.0 is fully supported in Mobile SDK 5.3.
 
 **Library Upgrades**
-- We've updated Cordova to version 4.4.0.
+- We've updated SQLCipher to version 3.4.1.
 
 **Other Technical Improvements**
 - Improvements to sample apps.
