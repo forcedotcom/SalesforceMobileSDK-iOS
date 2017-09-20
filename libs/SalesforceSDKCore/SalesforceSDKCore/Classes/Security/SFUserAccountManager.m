@@ -35,6 +35,7 @@
 #import "SFSDKAppFeatureMarkers.h"
 #import "SFDefaultUserAccountPersister.h"
 #import "SFOAuthCredentials+Internal.h"
+#import "SFSDKAuthPreferences.h"
 #import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 #import <SalesforceAnalytics/SFSDKDatasharingHelper.h>
 #import "SFSDKOAuthClient.h"
@@ -91,6 +92,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
         _accountPersister = [SFDefaultUserAccountPersister new];
         [self migrateUserDefaults];
         _accountsLock = [NSRecursiveLock new];
+        _authPreferences = [SFSDKAuthPreferences  new];
      }
 	return self;
 }
@@ -102,41 +104,41 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 #pragma mark - persistent properties
 
 - (void)setLoginHost:(NSString*)host {
-    [SFSDKAuthPreferences sharedPreferences].loginHost = host;
+    self.authPreferences.loginHost = host;
 }
 
 - (NSString *)loginHost {
-    return [SFSDKAuthPreferences sharedPreferences].loginHost;
+    return self.authPreferences.loginHost;
 }
 
 - (NSSet *)scopes
 {
-    return [SFSDKAuthPreferences sharedPreferences].scopes;
+    return self.authPreferences.scopes;
 }
 
 - (void)setScopes:(NSSet *)newScopes
 {
-    [SFSDKAuthPreferences sharedPreferences].scopes = newScopes;
+    self.authPreferences.scopes = newScopes;
 }
 
 - (NSString *)oauthCompletionUrl
 {
-    return [SFSDKAuthPreferences sharedPreferences].oauthCompletionUrl;
+    return self.authPreferences.oauthCompletionUrl;
 }
 
 - (void)setOauthCompletionUrl:(NSString *)newRedirectUri
 {
-    [SFSDKAuthPreferences sharedPreferences].oauthCompletionUrl = newRedirectUri;
+    self.authPreferences.oauthCompletionUrl = newRedirectUri;
 }
 
 - (NSString *)oauthClientId
 {
-    return [SFSDKAuthPreferences sharedPreferences].oauthClientId;
+    return self.authPreferences.oauthClientId;
 }
 
 - (void)setOauthClientId:(NSString *)newClientId
 {
-   [SFSDKAuthPreferences sharedPreferences].oauthClientId = newClientId;
+    self.authPreferences.oauthClientId = newClientId;
 }
 
 #pragma  mark - login & logout
@@ -150,31 +152,38 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 }
 
 - (BOOL)loginWithCompletion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
-    SFOAuthCredentials *clientCredentials = [self retrieveClientCredentials];
-    return [self refreshCredentials:clientCredentials completion:completionBlock failure:failureBlock];
+    SFOAuthCredentials *clientCredentials = [self newClientCredentials];
+    return [self authenticateWithCompletion:completionBlock failure:failureBlock credentials:clientCredentials];
 }
 
 - (BOOL)refreshCredentials:(SFOAuthCredentials *)credentials completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
+    
+    NSAssert(credentials.refreshToken.length > 0, @"Refresh token required to refresh credentials.");
+    return [self authenticateWithCompletion:completionBlock failure:failureBlock credentials:credentials];
+}
 
+- (BOOL)authenticateWithCompletion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock credentials:(SFOAuthCredentials *)credentials{
+    
+     __weak typeof(self) weakSelf = self;
     SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:credentials configBlock:^(SFSDKOAuthClientConfig *config) {
-        config.advancedAuthConfiguration = self.advancedAuthConfiguration;
-        config.delegate = self;
-        config.webViewDelegate = self;
-        config.safariViewDelegate = self;
+         __strong typeof(self) strongSelf = weakSelf;
+        config.loginHost = strongSelf.loginHost;
+        config.scopes = strongSelf.scopes;
+        config.advancedAuthConfiguration = strongSelf.advancedAuthConfiguration;
+        config.delegate = strongSelf;
+        config.webViewDelegate = strongSelf;
+        config.safariViewDelegate = strongSelf;
         config.successCallbackBlock = completionBlock;
         config.failureCallbackBlock = failureBlock;
     }];
-    
     return [client refreshCredentials];
 }
 
 - (BOOL)loginWithJwtToken:(NSString *)jwtToken completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
     NSAssert(jwtToken.length > 0, @"JWT token value required.");
-    SFOAuthCredentials *credentials = [self retrieveClientCredentials];
+    SFOAuthCredentials *credentials = [self newClientCredentials];
     credentials.jwt = jwtToken;
-    return [self refreshCredentials:credentials
-                                  completion:completionBlock
-                                     failure:failureBlock];
+    return [self authenticateWithCompletion:completionBlock failure:failureBlock credentials:credentials];
 }
 
 - (void)logout {
@@ -208,16 +217,19 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
     }];
 
     SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:user.credentials configBlock:^(SFSDKOAuthClientConfig *config) {
-        config.advancedAuthConfiguration = self.advancedAuthConfiguration;
-        config.delegate = self;
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        config.loginHost = strongSelf.loginHost;
+        config.scopes = strongSelf.scopes;
+        config.advancedAuthConfiguration = strongSelf.advancedAuthConfiguration;
+        config.delegate = strongSelf;
     }];
-   
+    [self deleteAccountForUser:user error:nil];
+    [client cancelAuthentication];
     [client revokeCredentials];
 
     if ([SFPushNotificationManager sharedInstance].deviceSalesforceId) {
         [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotifications:user];
     }
-    [self deleteAccountForUser:user error:nil];
 
     if (isCurrentUser) {
         self.currentUser = nil;
@@ -284,7 +296,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 
 - (void)authClientDidChangeLoginHost:(SFSDKOAuthClient *)client loginHost:(NSString *)newLoginHost {
     self.loginHost = newLoginHost;
-    SFOAuthCredentials *credentials = [self retrieveClientCredentials];
+    SFOAuthCredentials *credentials = [self newClientCredentials];
     [client cancelAuthentication];
     [client refreshCredentials:credentials];
 }
@@ -292,8 +304,6 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 - (void)authClientRestartAuthentication:(SFSDKOAuthClient *)client {
     [client restartAuthentication];
 }
-
-
 
 #pragma mark - SFUserAccountDelegate management
 
@@ -345,13 +355,12 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
     }
 }
 
-- (SFOAuthCredentials *)retrieveClientCredentials{
-    NSString *identifier = self.oauthClientId;
+- (SFOAuthCredentials *)newClientCredentials{
+    NSString *identifier = [self uniqueUserAccountIdentifier:self.oauthClientId];
     SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:identifier clientId:self.oauthClientId encrypted:YES];
     creds.redirectUri = self.oauthCompletionUrl;
     creds.domain = self.loginHost;
     creds.accessToken = nil;
-    creds.clientId = self.oauthClientId;
     return creds;
 }
 

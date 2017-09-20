@@ -269,7 +269,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SFSDKOAuthClient : NSObject<SFSDKOAuthClient, SFSDKOAuthClientProvider>
 
 @property (nonatomic, assign) BOOL isAuthenticating;
-@property (nonatomic, readonly, strong) SFSDKOAuthClientContext *context;
+@property (nonatomic, readonly) SFSDKOAuthClientContext *context;
 @property (nonatomic, readonly,nullable) SFSDKOAuthClientConfig *config;
 @property (nonatomic, readonly) SFOAuthCredentials *credentials;
 @property (nonatomic, readonly) SFIdentityData *idData;

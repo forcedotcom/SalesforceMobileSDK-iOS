@@ -26,15 +26,26 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
-#import "SFSDKOAuthClient.h"
-#import "SalesforceSDKCore.h"
 #import "SFSDKOAuthViewHandler.h"
 #import "SFAuthErrorHandlerList.h"
 #import "SFAuthErrorHandler.h"
+#import "SFLoginViewController.h"
+#import "SFSDKLoginHostDelegate.h"
 #import "SFSDKOAuthClientContext.h"
 #import "SFSDKAuthPreferences.h"
 #import "SFSDKOAuthClientConfig.h"
+#import "SFIdentityCoordinator.h"
+#import "SFSDKWindowManager.h"
+#import "SFSDKOAuthClient.h"
+#import "SFSDKLoginHostListViewController.h"
+#import "SFSDKLoginHost.h"
+#import "SFOAuthInfo.h"
+#import "SFSDKResourceUtils.h"
+#import "SFNetwork.h"
+#import "SFSDKWebViewStateManager.h"
+#import "SFSecurityLockout.h"
+
+
 static SFSDKOAuthClient *_sharedInstance = nil;
 
 static SFSDKOAuthClient *_idpInstance = nil;
@@ -60,9 +71,11 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 static id<SFSDKOAuthClientProvider> _clientProvider = nil;
 
 
-@interface SFSDKOAuthClient()<SFOAuthCoordinatorDelegate,SFIdentityCoordinatorDelegate,SFSDKLoginHostDelegate,SFLoginViewControllerDelegate>
+@interface SFSDKOAuthClient()<SFOAuthCoordinatorDelegate,SFIdentityCoordinatorDelegate,SFSDKLoginHostDelegate,SFLoginViewControllerDelegate>{
+    NSRecursiveLock *readWriteLock;
+}
 
-@property (nonatomic, strong) SFSDKOAuthClientContext *context;
+@property (nonatomic, copy)  SFSDKOAuthClientContext *context;
 @property (nonatomic, strong) SFSDKOAuthClientConfig *config;
 @property (nonatomic, strong) SFIdentityData *idData;
 @property (nonatomic, strong) UIAlertController *statusAlert;
@@ -95,6 +108,8 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
  */
 - (void)showAlertForConnectedAppVersionMismatchError:(NSError *)error;
 
++ (BOOL)errorIsInvalidAuthCredentials:(NSError *)error;
+
 @end
 
 @implementation SFSDKOAuthClient
@@ -103,6 +118,7 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
     self = [super init];
     if (self) {
         _config = config;
+        readWriteLock = [[NSRecursiveLock alloc] init];
         [self populateDefaultAuthErrorHandlerList];
     }
     return self;
@@ -136,6 +152,7 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
 - (SFSDKOAuthViewHandler *)authViewHandler {
 
     if (!self.config.authViewHandler) {
+        [readWriteLock lock];
         __weak typeof(self) weakSelf = self;
 
         if (self.config.advancedAuthConfiguration == SFOAuthAdvancedAuthConfigurationNone) {
@@ -161,8 +178,8 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
                         strongSelf.authWindow.viewController = viewHandler.safariViewController;
                         [strongSelf.authWindow enable];
                     } dismissBlock:nil];
-        }
-
+       }
+       [readWriteLock unlock];
     }
     return _config.authViewHandler;
 }
@@ -185,19 +202,28 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
 
 - (void)retrieveIdentityDataWithCompletion:(SFIdentitySuccessCallbackBlock)successBlock
                      failure:(SFIdentityFailureCallbackBlock)failureBlock {
-
+    [readWriteLock lock];
     self.config.identitySuccessCallbackBlock = successBlock;
     self.config.identityFailureCallbackBlock = failureBlock;
     self.idCoordinator.credentials = self.credentials;
     [self.idCoordinator initiateIdentityDataRetrieval];
+    [readWriteLock unlock];
 }
 
 - (BOOL)cancelAuthentication {
-    [self.coordinator.view removeFromSuperview];
-    self.idCoordinator.idData = nil;
-    [self.coordinator stopAuthentication];
-    self.isAuthenticating = NO;
-    return YES;
+    BOOL result = NO;
+    [readWriteLock lock];
+    if (self.isAuthenticating) {
+        [self.coordinator.view removeFromSuperview];
+        self.idCoordinator.idData = nil;
+        [self.coordinator stopAuthentication];
+        self.config.successCallbackBlock = nil;
+        self.config.failureCallbackBlock = nil;
+        self.isAuthenticating = NO;
+        result = YES;
+    }
+    [readWriteLock unlock];
+    return result;
 }
 
 - (BOOL)refreshCredentials {
@@ -205,19 +231,22 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
 }
 
 - (BOOL)refreshCredentials:(SFOAuthCredentials *)credentials {
-    
+    [readWriteLock lock];
     if (self.isAuthenticating) {
         return NO;
     }
+    
     SFSDKMutableOAuthClientContext *ctx = [self.context mutableCopy];
     ctx.credentials = credentials;
     self.context = ctx;
     self.isAuthenticating = YES;
     [self.coordinator authenticateWithCredentials:self.context.credentials];
+    [readWriteLock unlock];
     return  YES;
 }
 
 -(void)revokeCredentials {
+    [readWriteLock lock];
     SFSDKOAuthClientContext *request = self.context;
     if ([self.config.delegate respondsToSelector:@selector(authClientWillRevokeCredentials:)]) {
         [self.config.delegate authClientWillRevokeCredentials:self];
@@ -227,6 +256,7 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
     if ([self.config.delegate respondsToSelector:@selector(authClientDidRevokeCredentials:)]) {
         [self.config.delegate authClientDidRevokeCredentials:self];
     }
+    [readWriteLock unlock];
 }
 
 - (BOOL)handleURLAuthenticationResponse:(NSURL *)appUrlResponse {
@@ -251,7 +281,9 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
 }
 
 - (void)hostListViewController:(SFSDKLoginHostListViewController *)hostListViewController didChangeLoginHost:(SFSDKLoginHost *)newLoginHost {
-    [SFSDKAuthPreferences sharedPreferences].loginHost = newLoginHost.host;
+    [readWriteLock lock];
+    self.config.loginHost = newLoginHost.host;
+    [readWriteLock unlock];
     if ([self.config.delegate respondsToSelector:@selector(authClientDidChangeLoginHost:loginHost:)]) {
         [self.config.delegate authClientDidChangeLoginHost:self loginHost:newLoginHost.host];
     }
@@ -307,7 +339,9 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
     SFSDKMutableOAuthClientContext *mutableOAuthClientContext = [self.context mutableCopy];
     mutableOAuthClientContext.authInfo = info;
     mutableOAuthClientContext.authError = error;
+    [readWriteLock lock];
     self.context = mutableOAuthClientContext;
+    [readWriteLock unlock];
     [self processAuthError:error];
 }
 
@@ -322,7 +356,7 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
         });
         return;
     }
-
+    [readWriteLock lock];
     self.config.authCoordinatorBrowserBlock = callbackBlock;
     NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];;
     NSString *alertMessage = [NSString stringWithFormat:[SFSDKResourceUtils localizedString:@"authAlertBrowserFlowMessage"], coordinator.credentials.domain, appName];
@@ -330,6 +364,7 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
     if (self.statusAlert) {
         _statusAlert = nil;
     }
+    [readWriteLock unlock];
 
     [self showAlertWithTitle:[SFSDKResourceUtils localizedString:@"authAlertBrowserFlowTitle"]
                      message:alertMessage
@@ -487,7 +522,7 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
         });
         return;
     }
-
+    [readWriteLock lock];
     if (clearAccountData) {
         [SFSecurityLockout clearPasscodeState];
     }
@@ -501,13 +536,14 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
         self.idCoordinator.idData = nil;
         self.coordinator.credentials = nil;
     }
+    [readWriteLock unlock];
 }
 
 - (SFAuthErrorHandlerList *)populateDefaultAuthErrorHandlerList
 {
     __weak typeof(self) weakSelf = self;
     SFAuthErrorHandlerList *authHandlerList = [[SFAuthErrorHandlerList alloc] init];
-
+     [readWriteLock lock];
     // Invalid credentials handler
     if (!_config.invalidCredentialsAuthErrorHandler) {
     _config.invalidCredentialsAuthErrorHandler = [[SFAuthErrorHandler alloc]
@@ -578,6 +614,7 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
                    }];
     }
     [authHandlerList addAuthErrorHandler:_config.genericAuthErrorHandler];
+    [readWriteLock unlock];
     return authHandlerList;
 }
 
@@ -804,8 +841,8 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
 
 + (SFSDKOAuthClient *)clientWithCredentials:(SFOAuthCredentials *)credentials configBlock:(void(^)(SFSDKOAuthClientConfig *))configBlock {
 
-    SFSDKOAuthClientConfig *config = [SFSDKOAuthClientConfig new];
-    SFSDKMutableOAuthClientContext *context = [SFSDKMutableOAuthClientContext new];
+    SFSDKOAuthClientConfig *config = [[SFSDKOAuthClientConfig alloc] init];
+    SFSDKMutableOAuthClientContext *context = [[SFSDKMutableOAuthClientContext alloc] init];
     configBlock(config);
     SFSDKOAuthClient *instance = nil;
     
@@ -817,7 +854,7 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
     instance.context = context;
     instance.coordinator  = [[SFOAuthCoordinator alloc] init];
     instance.coordinator.advancedAuthConfiguration = config.advancedAuthConfiguration;
-    instance.coordinator.scopes = [SFSDKAuthPreferences sharedPreferences].scopes;
+    instance.coordinator.scopes = config.scopes;
     instance.idCoordinator  = [[SFIdentityCoordinator alloc] init];
     instance.coordinator.delegate = instance;
     instance.idCoordinator.delegate = instance;

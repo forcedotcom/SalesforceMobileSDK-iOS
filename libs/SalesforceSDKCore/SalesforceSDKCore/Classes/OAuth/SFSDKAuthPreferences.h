@@ -81,9 +81,5 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, copy) NSSet<NSString*> *scopes;
 
-/**
- @return The shared instance of this class.
- */
-+ (instancetype)sharedPreferences;
 @end
 NS_ASSUME_NONNULL_END

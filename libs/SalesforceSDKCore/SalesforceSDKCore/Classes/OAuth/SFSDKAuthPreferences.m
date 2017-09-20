@@ -156,13 +156,4 @@ NSString * const kOAuthRedirectUriKey = @"oauth_redirect_uri";
     [defs setObject:newClientId forKey:kOAuthClientIdKey];
     [defs synchronize];
 }
-
-+ (instancetype)sharedPreferences {
-    static dispatch_once_t pred;
-    static SFSDKAuthPreferences *preferences = nil;
-    dispatch_once(&pred, ^{
-        preferences = [[self alloc] init];
-    });
-    return preferences;
-}
 @end

@@ -68,18 +68,16 @@ typedef void (^SFIdentityFailureCallbackBlock)(SFSDKOAuthClient *,NSError *);
 
 /** Object representing state of a current authentication context. Provides a means to isolate individual authentication requests
  */
-@interface SFSDKOAuthClientContext : NSObject
+@interface SFSDKOAuthClientContext : NSObject <NSCopying, NSMutableCopying>
 
 @property (nonatomic, strong, readonly) SFOAuthCredentials *credentials;
 @property (nonatomic, strong, readonly) SFOAuthInfo *authInfo;
 @property (nonatomic, strong, readonly) NSError *authError;
 
-- (SFSDKMutableOAuthClientContext *)mutableCopy;
-
 @end
 
 @interface SFSDKMutableOAuthClientContext : SFSDKOAuthClientContext
-@property (nonatomic, weak,readwrite,nullable) SFOAuthCredentials *credentials;
+@property (nonatomic, readwrite,nullable) SFOAuthCredentials *credentials;
 @property (nonatomic, strong, readwrite,nullable) SFOAuthInfo *authInfo;
 @property (nonatomic, strong, readwrite,nullable) NSError *authError;
 @end

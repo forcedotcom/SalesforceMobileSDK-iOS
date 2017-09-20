@@ -43,14 +43,19 @@
 
 @interface SFSDKOAuthClientConfig : NSObject
 
+@property (nonatomic, copy, nonnull) NSString *loginHost;
+@property (nonatomic, copy, nonnull) NSSet<NSString*> *scopes;
+
 @property (nonatomic, weak,nullable) id<SFSDKOAuthClientSafariViewDelegate> safariViewDelegate;
 @property (nonatomic, weak,nullable) id<SFSDKOAuthClientWebViewDelegate> webViewDelegate;
 @property (nonatomic, weak,nullable) id<SFSDKOAuthClientDelegate> delegate;
+
 @property (nonatomic, copy,nullable) SFAuthenticationSuccessCallbackBlock successCallbackBlock;
 @property (nonatomic, copy,nullable) SFAuthenticationFailureCallbackBlock  failureCallbackBlock;
 @property (nonatomic, copy,nullable) SFIdentitySuccessCallbackBlock identitySuccessCallbackBlock;
 @property (nonatomic, copy,nullable) SFIdentityFailureCallbackBlock identityFailureCallbackBlock;
 @property (nonatomic, copy,nullable) SFOAuthBrowserFlowCallbackBlock authCoordinatorBrowserBlock;
+
 @property (nonatomic, assign) SFOAuthAdvancedAuthConfiguration advancedAuthConfiguration;
 @property (nonatomic, strong, nullable) NSArray * additionalOAuthParameterKeys;
 @property (nonatomic, strong, nullable) NSDictionary *  additionalTokenRefreshParams;

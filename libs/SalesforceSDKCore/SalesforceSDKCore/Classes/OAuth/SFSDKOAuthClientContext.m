@@ -27,11 +27,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #import "SFSDKOAuthClientContext.h"
-#import "SFIdentityData.h"
-#import "SFSDKOAuthClient.h"
-#import "SFAuthErrorHandlerList.h"
-#import "SFAuthErrorHandler.h"
-#import "SFSDKOAuthViewHandler.h"
+#import "SFOAuthInfo.h"
 
 @interface SFSDKOAuthClientContext()
 @property (nonatomic, strong) SFOAuthCredentials *credentials;
@@ -41,13 +37,20 @@
 
 @implementation SFSDKOAuthClientContext
 
+- (id)copyWithZone:(NSZone *)zone {
+    SFSDKOAuthClientContext *ctx = [[[self class] allocWithZone:zone] init];
+    ctx.authError = [self.authError copyWithZone:zone];
+    ctx.authInfo = [[SFOAuthInfo allocWithZone:zone] initWithAuthType:self.authInfo.authType];
+    ctx.credentials = [self.credentials copyWithZone:zone];
+    return ctx;
+}
 
-- (SFSDKMutableOAuthClientContext *)mutableCopy{
-    SFSDKMutableOAuthClientContext *mutableContext = [SFSDKMutableOAuthClientContext new];
-    mutableContext.authError = self.authError;
-    mutableContext.authInfo = self.authInfo;
-    mutableContext.credentials = self.credentials;
-    return mutableContext;
+- (id)mutableCopyWithZone:(NSZone *)zone {
+    SFSDKMutableOAuthClientContext *ctx = [[[self class] allocWithZone:zone] init];
+    ctx.authError = [self.authError copyWithZone:zone];
+    ctx.authInfo = [[SFOAuthInfo allocWithZone:zone] initWithAuthType:self.authInfo.authType];
+    ctx.credentials = [self.credentials copyWithZone:zone];
+    return ctx;
 }
 
 @end
@@ -58,4 +61,15 @@
 @dynamic authError;
 @dynamic authInfo;
 
+- (id)copyWithZone:(NSZone *)zone {
+    return [self mutableCopyWithZone:zone];
+}
+
+- (id)mutableCopyWithZone:(NSZone *)zone {
+    SFSDKMutableOAuthClientContext *mutableContext = [[SFSDKMutableOAuthClientContext alloc] init];
+    mutableContext.authError = [self.authError copy];
+    mutableContext.authInfo = [self.authInfo copy];
+    mutableContext.credentials = [self.credentials copy];
+    return mutableContext;
+}
 @end
