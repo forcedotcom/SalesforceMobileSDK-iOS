@@ -245,13 +245,13 @@ NSException * SFOAuthInvalidIdentifierException() {
         if (_identityUrl.path) {
             NSArray *pathComps = [_identityUrl.path componentsSeparatedByString:@"/"];
             if (pathComps.count < 2) {
-                [SFSDKCoreLogger d:[self class] format:@"%@:setIdentityUrl: invalid identityUrl: %@", [self class], _identityUrl];
+                [SFSDKCoreLogger d:[self class] format:@"%@:setIdentityUrl: invalid identityUrl", [self class]];
                 return;
             }
             self.userId = pathComps[pathComps.count - 1];
             self.organizationId = pathComps[pathComps.count - 2];
         } else {
-            [SFSDKCoreLogger d:[self class] format:@"%@:setIdentityUrl: invalid or nil identityUrl: %@", [self class], _identityUrl];
+            [SFSDKCoreLogger d:[self class] format:@"%@:setIdentityUrl: invalid or nil identityUrl", [self class]];
         }
     }
 }

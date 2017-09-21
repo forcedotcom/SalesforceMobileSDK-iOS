@@ -112,7 +112,7 @@ NSString * const kUserAccountClientIdDictKey       = @"clientId";
         NSString *orgId = [argsDict nonNullObjectForKey:kUserAccountOrgIdDictKey];
         SFUserAccountIdentity *accountIdentity = [SFUserAccountIdentity identityWithUserId:userId orgId:orgId];
         SFUserAccount *account = [[SFUserAccountManager sharedInstance] userAccountForUserIdentity:accountIdentity];
-        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"switchToUser: Switching to user account: %@", account]];
+        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"switchToUser: Switching to user account"]];
         [[SFUserAccountManager sharedInstance] switchToUser:account];
     }
 }
@@ -131,7 +131,7 @@ NSString * const kUserAccountClientIdDictKey       = @"clientId";
         [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"logout: Logging out current user.  App state will reset."]];
         [[SFAuthenticationManager sharedManager] logout];
     } else {
-        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"logout: Logging out user account: %@", account]];
+        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"logout: Logging out user account"]];
         [[SFAuthenticationManager sharedManager] logoutUser:account];
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];

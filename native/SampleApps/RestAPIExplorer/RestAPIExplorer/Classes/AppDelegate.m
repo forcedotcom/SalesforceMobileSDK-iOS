@@ -183,7 +183,7 @@ static NSString * const OAuthRedirectURI        = @"com.salesforce.mobilesdk.sam
 
 - (void)handleUserSwitch:(SFUserAccount *)fromUser toUser:(SFUserAccount *)toUser
 {
-    [SFSDKLogger log:[self class] level:DDLogLevelInfo format:@"SFUserAccountManager changed from user %@ to %@.  Resetting app.", fromUser.accountIdentity.userId, toUser.accountIdentity.userId];
+    [SFSDKLogger log:[self class] level:DDLogLevelInfo format:@"SFUserAccountManager changed user.  Resetting app."];
     [self resetViewState:^{
         [self initializeAppViewState];
         [[SalesforceSDKManager sharedManager] launch];

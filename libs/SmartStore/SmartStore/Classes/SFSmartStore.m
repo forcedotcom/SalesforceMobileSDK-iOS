@@ -142,7 +142,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
              NSStringFromClass([self class])];
             return nil;
         }
-        [SFSDKSmartStoreLogger d:[self class] format:@"%@ %@, user: %@, isGlobal: %d", NSStringFromSelector(_cmd), name, [SFSmartStoreUtils userKeyForUser:user], isGlobal];
+        [SFSDKSmartStoreLogger d:[self class] format:@"%@ %@, isGlobal: %d", NSStringFromSelector(_cmd), name, isGlobal];
         @synchronized ([SFSmartStore class]) {
             if ([SFUserAccountManager sharedInstance].currentUser != nil && !_storeUpgradeHasRun) {
                 _storeUpgradeHasRun = YES;
@@ -360,7 +360,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
             [SFSDKSmartStoreLogger i:[self class] format:@"%@ Cannot remove store with name '%@' for nil user.  Did you mean to call [%@ removeSharedGlobalStoreWithName:]?", NSStringFromSelector(_cmd), storeName, NSStringFromClass(self)];
             return;
         }
-        [SFSDKSmartStoreLogger d:[self class] format:@"removeSharedStoreWithName: %@, user: %@", storeName, user.accountIdentity.userId];
+        [SFSDKSmartStoreLogger d:[self class] format:@"removeSharedStoreWithName: %@", storeName];
         NSString *userKey = [SFSmartStoreUtils userKeyForUser:user];
         SFSmartStore *existingStore = _allSharedStores[userKey][storeName];
         if (nil != existingStore) {

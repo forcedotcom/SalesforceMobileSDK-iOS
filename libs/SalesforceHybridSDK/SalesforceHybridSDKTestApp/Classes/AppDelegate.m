@@ -141,8 +141,7 @@
          didSwitchFromUser:(SFUserAccount *)fromUser
                     toUser:(SFUserAccount *)toUser
 {
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@. Resetting app.",
-     fromUser.accountIdentity.userId, toUser.accountIdentity.userId];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"SFUserAccountManager changed user."];
     [self initializeAppViewState];
 }
 
