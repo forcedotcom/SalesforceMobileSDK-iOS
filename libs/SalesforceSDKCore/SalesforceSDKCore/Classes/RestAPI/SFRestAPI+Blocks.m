@@ -58,7 +58,6 @@ static char CompleteBlockKey;
     // Copy blocks into the request instance
     objc_setAssociatedObject(request, &FailBlockKey, failBlock, OBJC_ASSOCIATION_COPY);
     objc_setAssociatedObject(request, &CompleteBlockKey, completeBlock, OBJC_ASSOCIATION_COPY);
-    
     [self send:request delegate:self];
 }
 
@@ -69,7 +68,6 @@ static char CompleteBlockKey;
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
-    
     return request;
 }
 
@@ -78,7 +76,6 @@ static char CompleteBlockKey;
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
-    
     return request;
 }
 
@@ -87,7 +84,6 @@ static char CompleteBlockKey;
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
-    
     return request;
 }
 
@@ -96,7 +92,6 @@ static char CompleteBlockKey;
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
-    
     return request;
 }
 
@@ -105,7 +100,6 @@ static char CompleteBlockKey;
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
-    
     return request;
 }
 
@@ -117,7 +111,6 @@ static char CompleteBlockKey;
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
-    
     return request;
 }
 
@@ -126,7 +119,6 @@ static char CompleteBlockKey;
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
-    
     return request;
 }
 
@@ -135,7 +127,6 @@ static char CompleteBlockKey;
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
-    
     return request;
 }
 
@@ -144,7 +135,6 @@ static char CompleteBlockKey;
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
-    
     return request;
 }
 
@@ -153,7 +143,6 @@ static char CompleteBlockKey;
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
-    
     return request;
 }
 
@@ -165,7 +154,6 @@ static char CompleteBlockKey;
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
-    
     return request;
 }
 
@@ -174,7 +162,6 @@ static char CompleteBlockKey;
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
-    
     return request;
 }
 
@@ -183,7 +170,6 @@ static char CompleteBlockKey;
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
-    
     return request;
 }
 
@@ -198,7 +184,6 @@ static char CompleteBlockKey;
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
-    
     return request;
 }
 
@@ -218,8 +203,6 @@ static char CompleteBlockKey;
     return request;
 }
 
-
-
 - (SFRestRequest *) performRequestWithMethod:(SFRestMethod)method path:(NSString*)path queryParams:(NSDictionary*)queryParams failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestDictionaryResponseBlock)completeBlock {
     SFRestRequest *request = [SFRestRequest requestWithMethod:method path:path queryParams:queryParams];
     [self sendRESTRequest:request
@@ -230,19 +213,20 @@ static char CompleteBlockKey;
 
 #pragma mark - response delegate
 
-- (void) sendActionForRequest:(SFRestRequest *)request success:(BOOL)success withObject:(id)object {
+- (void) sendActionForRequest:(SFRestRequest *)request success:(BOOL)success withObject:(id)object rawResponse:(NSURLResponse* )rawResponse {
     if( success ) {
         // This block def basically generalizes the SFRestDictionaryResponseBlock and SFRestArrayResponseBlock
         // block typedefs, so that we can handle either.
-        void (^successBlock)(id);
-        successBlock = (void (^) (id))objc_getAssociatedObject(request, &CompleteBlockKey);
-        if( successBlock )
-            successBlock( object );
+        void (^successBlock)(id, NSURLResponse*);
+        successBlock = (void (^) (id, NSURLResponse*))objc_getAssociatedObject(request, &CompleteBlockKey);
+        if (successBlock) {
+            successBlock(object, rawResponse);    
+        }
     } else {
         SFRestFailBlock failBlock = (SFRestFailBlock)objc_getAssociatedObject(request, &FailBlockKey);
-        
-        if( failBlock )
-            failBlock( object );
+        if (failBlock) {
+            failBlock(object, rawResponse);
+        }
     }
     
     // Remove both blocks from the request
@@ -251,19 +235,19 @@ static char CompleteBlockKey;
 }
 
 - (void)request:(SFRestRequest *)request didFailLoadWithError:(NSError *)error rawResponse:(NSURLResponse *)rawResponse {
-    [self sendActionForRequest:request success:NO withObject:error];
+    [self sendActionForRequest:request success:NO withObject:error rawResponse:rawResponse];
 }
 
 - (void)requestDidCancelLoad:(SFRestRequest *)request {    
-    [self sendActionForRequest:request success:NO withObject:[[self class] errorWithDescription:@"Cancelled Load."]];
+    [self sendActionForRequest:request success:NO withObject:[[self class] errorWithDescription:@"Cancelled Load."] rawResponse:nil];
 }
 
 - (void)requestDidTimeout:(SFRestRequest *)request {    
-    [self sendActionForRequest:request success:NO withObject:[[self class] errorWithDescription:@"Timed out."]];
+    [self sendActionForRequest:request success:NO withObject:[[self class] errorWithDescription:@"Timed out."] rawResponse:nil];
 }
 
 - (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse {
-    [self sendActionForRequest:request success:YES withObject:dataResponse];
+    [self sendActionForRequest:request success:YES withObject:dataResponse rawResponse:rawResponse];
 }
 
 @end

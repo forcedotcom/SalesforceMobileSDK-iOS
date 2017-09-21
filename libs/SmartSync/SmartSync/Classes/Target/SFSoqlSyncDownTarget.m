@@ -108,7 +108,9 @@ static NSString * const kSFSoqlSyncTargetQuery = @"query";
     __weak typeof(self) weakSelf = self;
     
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:queryToRun];
-    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSDictionary *responseJson) {
+    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+        errorBlock(e);
+    } completeBlock:^(NSDictionary *responseJson, NSURLResponse *rawResponse) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         strongSelf.totalSize = [responseJson[kResponseTotalSize] integerValue];
         strongSelf.nextRecordsUrl = responseJson[kResponseNextRecordsUrl];
@@ -122,7 +124,9 @@ static NSString * const kSFSoqlSyncTargetQuery = @"query";
     if (self.nextRecordsUrl) {
         __weak typeof(self) weakSelf = self;
         SFRestRequest* request = [SFRestRequest requestWithMethod:SFRestMethodGET path:self.nextRecordsUrl queryParams:nil];
-        [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSDictionary *responseJson) {
+        [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+            errorBlock(e);
+        } completeBlock:^(NSDictionary *responseJson, NSURLResponse *rawResponse) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             strongSelf.nextRecordsUrl = responseJson[kResponseNextRecordsUrl];
             completeBlock([strongSelf getRecordsFromResponse:responseJson]);

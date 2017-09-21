@@ -84,10 +84,10 @@ RCT_EXPORT_METHOD(sendRequest:(NSDictionary *)argsDict callback:(RCTResponseSend
         }
     }
     [[SFRestAPI sharedInstance] sendRESTRequest:request
-                                      failBlock:^(NSError *e) {
+                                      failBlock:^(NSError *e, NSURLResponse *rawResponse) {
                                           callback(@[RCTMakeError(@"sendRequest failed", e, nil)]);
                                       }
-                                  completeBlock:^(id response) {
+                                  completeBlock:^(id response, NSURLResponse *rawResponse) {
                                       callback(@[[NSNull null], response == nil ? [NSNull null] : response]);
                                   }
      ];
