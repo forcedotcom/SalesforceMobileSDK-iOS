@@ -229,11 +229,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)refreshCredentials;
 
 /**
- * Refresh credentials request.
- */
-- (BOOL)refreshCredentials:(SFOAuthCredentials *)credentials;
-
-/**
  * Revoke credentials request.
  */
 - (void)revokeCredentials;

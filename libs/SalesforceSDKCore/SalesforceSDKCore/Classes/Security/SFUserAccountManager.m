@@ -297,8 +297,19 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 - (void)authClientDidChangeLoginHost:(SFSDKOAuthClient *)client loginHost:(NSString *)newLoginHost {
     self.loginHost = newLoginHost;
     SFOAuthCredentials *credentials = [self newClientCredentials];
-    [client cancelAuthentication];
-    [client refreshCredentials:credentials];
+    SFSDKOAuthClient *newClient = [SFSDKOAuthClient clientWithCredentials:credentials configBlock:^(SFSDKOAuthClientConfig *config) {
+        config.loginHost = newLoginHost;
+        config.scopes = client.config.scopes;
+        config.delegate = client.config.delegate;
+        config.webViewDelegate = client.config.webViewDelegate;
+        config.safariViewDelegate = client.config.safariViewDelegate;
+        config.advancedAuthConfiguration = client.config.advancedAuthConfiguration;
+        config.successCallbackBlock = client.config.successCallbackBlock;
+        config.failureCallbackBlock = client.config.failureCallbackBlock;
+        config.additionalOAuthParameterKeys = client.config.additionalOAuthParameterKeys;
+    }];
+    [newClient cancelAuthentication];
+    [newClient refreshCredentials];
 }
 
 - (void)authClientRestartAuthentication:(SFSDKOAuthClient *)client {

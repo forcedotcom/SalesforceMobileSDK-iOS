@@ -67,6 +67,7 @@ static NSString * const kAlertRetryButtonKey = @"authAlertRetryButton";
 static NSString * const kAlertDismissButtonKey = @"authAlertDismissButton";
 static NSString * const kAlertConnectionErrorFormatStringKey = @"authAlertConnectionErrorFormatString";
 static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismatchError";
+static NSString * const kSFRevokePath = @"/services/oauth2/revoke";
 
 static id<SFSDKOAuthClientProvider> _clientProvider = nil;
 
@@ -154,8 +155,14 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
     if (!self.config.authViewHandler) {
         [readWriteLock lock];
         __weak typeof(self) weakSelf = self;
-
-        if (self.config.advancedAuthConfiguration == SFOAuthAdvancedAuthConfigurationNone) {
+        if (self.config.advancedAuthConfiguration == SFOAuthAdvancedAuthConfigurationRequire) {
+            _config.authViewHandler =[[SFSDKOAuthViewHandler alloc]
+                    initWithDisplayBlock:^(SFSDKOAuthClient *client, SFSDKOAuthClientViewHolder *viewHandler) {
+                        __strong typeof(weakSelf) strongSelf = weakSelf;
+                        strongSelf.authWindow.viewController = viewHandler.safariViewController;
+                        [strongSelf.authWindow enable];
+                    } dismissBlock:nil];
+        } else {
             _config.authViewHandler = [[SFSDKOAuthViewHandler alloc]
                     initWithDisplayBlock:^(SFSDKOAuthClient *client, SFSDKOAuthClientViewHolder *viewHandler) {
                         __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -171,13 +178,6 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
                         [SFLoginViewController sharedInstance].oauthView = nil;
                         [strongSelf dismissAuthViewControllerIfPresent];
                     }];
-        } else {
-            _config.authViewHandler =[[SFSDKOAuthViewHandler alloc]
-                    initWithDisplayBlock:^(SFSDKOAuthClient *client, SFSDKOAuthClientViewHolder *viewHandler) {
-                        __strong typeof(weakSelf) strongSelf = weakSelf;
-                        strongSelf.authWindow.viewController = viewHandler.safariViewController;
-                        [strongSelf.authWindow enable];
-                    } dismissBlock:nil];
        }
        [readWriteLock unlock];
     }
@@ -217,8 +217,6 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
         [self.coordinator.view removeFromSuperview];
         self.idCoordinator.idData = nil;
         [self.coordinator stopAuthentication];
-        self.config.successCallbackBlock = nil;
-        self.config.failureCallbackBlock = nil;
         self.isAuthenticating = NO;
         result = YES;
     }
@@ -235,10 +233,6 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
     if (self.isAuthenticating) {
         return NO;
     }
-    
-    SFSDKMutableOAuthClientContext *ctx = [self.context mutableCopy];
-    ctx.credentials = credentials;
-    self.context = ctx;
     self.isAuthenticating = YES;
     [self.coordinator authenticateWithCredentials:self.context.credentials];
     [readWriteLock unlock];
@@ -495,10 +489,10 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
 - (void)revokeRefreshToken:(SFOAuthCredentials *)credentials
 {
     if (credentials.refreshToken != nil) {
-         NSMutableString *host = [NSMutableString stringWithFormat:@"%@://", credentials.protocol];
-        [host appendString:credentials.domain];
-        [host appendString:@"/services/oauth2/revoke?token="];
-        [host appendString:credentials.refreshToken];
+
+        NSString *host = [NSString stringWithFormat:@"%@://%@%@?token=%@",
+                        credentials.protocol, credentials.domain,
+                        kSFRevokePath, credentials.refreshToken];
         NSURL *url = [NSURL URLWithString:host];
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
         [request setHTTPMethod:@"GET"];
@@ -846,10 +840,11 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
     configBlock(config);
     SFSDKOAuthClient *instance = nil;
     
-    if (config.advancedAuthConfiguration==SFOAuthAdvancedAuthConfigurationNone)
-        instance = [self webviewAuthInstance:config];
+    if (config.advancedAuthConfiguration==SFOAuthAdvancedAuthConfigurationRequire)
+         instance = [self nativeBrowserAuthInstance:config];
     else
-        instance = [self nativeBrowserAuthInstance:config];
+        instance = [self webviewAuthInstance:config];
+
     context.credentials = credentials;
     instance.context = context;
     instance.coordinator  = [[SFOAuthCoordinator alloc] init];
