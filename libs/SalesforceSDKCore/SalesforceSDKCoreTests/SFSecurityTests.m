@@ -85,12 +85,14 @@ static NSUInteger const kNumThreadsInSafetyTest = 100;
     SFPasscodeKeyStore * passcodeKeyStore = [[SFPasscodeKeyStore alloc] init];
     XCTAssertFalse([passcodeKeyStore keyStoreAvailable], @"Passcode key store should not be ready.");
 
-    // set up the passcode key store
+    // set up the passcode key store by setting a passcode
     NSString *passcode = @"passcode";
     [[SFPasscodeManager sharedManager] changePasscode:passcode];
     XCTAssertTrue([passcodeKeyStore keyStoreAvailable], @"Passcode key store is not ready.");
 
     // insert key to passcode key store
+    // there is no method to create passcode keys exposed on SFKeyStoreManager anymore in SDK 6.0
+    // so we have do it "manually"
     SFEncryptionKey *encryptionKey = [mgr keyWithRandomValue];
     SFKeyStoreKey *keyStoreKey = [[SFKeyStoreKey alloc] initWithKey:encryptionKey];
     NSString *originalKeyLabel = [passcodeKeyStore keyLabelForString:@"keyLabel"];
@@ -106,6 +108,8 @@ static NSUInteger const kNumThreadsInSafetyTest = 100;
 
     // when app is first unlocked, migratePasscodeToGenerated gets invoked
     // it will move all the keys found in the passcode keystore (created with pre-6.0 SDK) to the generated keystore
+    // we can't simulate a first unlock here (unsetting the passcode will change the passcode data)
+    // so instead just call the migratePasscodeToGenerated method directly
     [[SFKeyStoreManager sharedInstance] migratePasscodeToGenerated:passcodeKeyStore];
 
     // ensure the key is now in generated dictionary with an updated label

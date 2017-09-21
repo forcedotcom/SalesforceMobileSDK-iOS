@@ -47,7 +47,7 @@
 
 /**
  Migrate keys from passcode key store to generated key store
- @param passcodeKeyStore The passcode key store to migrate keys from.
+ @param passcodeKeyStore The passcode key store to migrate keys from (it needs to the encryption key set).
  */
 - (void)migratePasscodeToGenerated:(SFPasscodeKeyStore*)passcodeKeyStore;
 
