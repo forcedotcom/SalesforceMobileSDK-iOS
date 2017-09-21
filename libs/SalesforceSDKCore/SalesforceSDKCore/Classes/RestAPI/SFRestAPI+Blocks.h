@@ -32,11 +32,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SFRestAPI (Blocks) <SFRestDelegate>
 
 // Block types
-typedef void (^SFRestFailBlock) (NSError * _Nullable e);
-typedef void (^SFRestDictionaryResponseBlock) (NSDictionary * _Nullable dict);
-typedef void (^SFRestArrayResponseBlock) (NSArray * _Nullable arr);
-typedef void (^SFRestDataResponseBlock) (NSData* _Nullable data);
-typedef void (^SFRestResponseBlock) (id _Nullable response);
+typedef void (^SFRestFailBlock) (NSError * _Nullable e, NSURLResponse * _Nullable rawResponse);
+typedef void (^SFRestDictionaryResponseBlock) (NSDictionary * _Nullable dict, NSURLResponse * _Nullable rawResponse);
+typedef void (^SFRestArrayResponseBlock) (NSArray * _Nullable arr, NSURLResponse * _Nullable rawResponse);
+typedef void (^SFRestDataResponseBlock) (NSData* _Nullable data, NSURLResponse * _Nullable rawResponse);
+typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nullable rawResponse);
 /** Creates an error object with the given description.
  @param description Description
  */

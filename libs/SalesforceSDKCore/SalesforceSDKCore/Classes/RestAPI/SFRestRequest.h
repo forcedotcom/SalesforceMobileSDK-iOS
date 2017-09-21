@@ -60,8 +60,9 @@ extern NSString * const kSFDefaultRestEndpoint;
  * @param dataResponse The data from the response.  By default, this will be an object
  * containing the parsed JSON response.  However, if the response is not JSON,
  * the data will be contained in a binary `NSData` object.
+ * @param rawResponse Raw response returned by the server.
  */
-- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse;
+- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse;
 
 /**
  * Sent when a request has failed due to an error.
@@ -69,8 +70,9 @@ extern NSString * const kSFDefaultRestEndpoint;
  * (for example, passing an invalid SOQL string when doing a query).
  * @param request The attempted request.
  * @param error The error associated with the failed request.
+ * @param rawResponse Raw response returned by the server.
  */
-- (void)request:(SFRestRequest *)request didFailLoadWithError:(NSError*)error;
+- (void)request:(SFRestRequest *)request didFailLoadWithError:(NSError*)error rawResponse:(NSURLResponse *)rawResponse;
 
 /**
  * Sent to the delegate when a request was cancelled.

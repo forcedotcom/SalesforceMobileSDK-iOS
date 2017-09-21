@@ -252,7 +252,7 @@ static NSMutableDictionary *metadataMgrList = nil;
 
     // Loads the smart scopes.
     void (^loadSearchScope)(NSArray *searchableObjects) = ^ (NSArray *searchableObjects){
-        SFRestArrayResponseBlock completeBlock = ^(NSArray* returnedItems) {
+        SFRestArrayResponseBlock completeBlock = ^(NSArray* returnedItems, NSURLResponse *rawResponse) {
             NSArray *recentItems = nil;
             if (returnedItems && [returnedItems isKindOfClass:[NSArray class]]) {
                 NSMutableArray *returnList = [NSMutableArray arrayWithCapacity:returnedItems.count];
@@ -266,7 +266,7 @@ static NSMutableDictionary *metadataMgrList = nil;
             processSmartScopes(recentItems, searchableObjects);
         };
         
-        SFRestFailBlock failBlock = ^(NSError *error) {
+        SFRestFailBlock failBlock = ^(NSError *error, NSURLResponse *rawResponse) {
             if ([SFRestRequest isNetworkError:error]) {
                 invokeErrorBlock(error);
             } else {
@@ -405,7 +405,7 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
         }
         NSString * queryString = [queryBuilder build];
         
-        SFRestDictionaryResponseBlock completeBlock = ^(NSDictionary* returnDict) {
+        SFRestDictionaryResponseBlock completeBlock = ^(NSDictionary* returnDict, NSURLResponse *rawResponse) {
             NSArray *returnedItems = returnDict[@"records"];
             if (!returnedItems && [objectTypeName isEqualToString:kContent]) {
                 returnedItems = returnDict[@"recentItems"];
@@ -434,7 +434,7 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
             }
         };
         
-        SFRestFailBlock failBlock = ^(NSError *error) {
+        SFRestFailBlock failBlock = ^(NSError *error, NSURLResponse *rawResponse) {
             if (error.code == 400) {
                 
                 // 400 error could be due to cached search layout, so retry it at least once.
@@ -507,7 +507,7 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
         return;
     }
     
-    SFRestDictionaryResponseBlock completeBlock = ^(NSDictionary* data) {
+    SFRestDictionaryResponseBlock completeBlock = ^(NSDictionary* data, NSURLResponse *rawResponse) {
         NSMutableArray *returnList = nil;
         NSArray *objectTypes = data[@"sobjects"];
         returnList = [NSMutableArray arrayWithCapacity:objectTypes.count];
@@ -527,7 +527,7 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
         }
     };
     
-    SFRestFailBlock failBlock = ^(NSError *error) {
+    SFRestFailBlock failBlock = ^(NSError *error, NSURLResponse *rawResponse) {
         if (error.code != kSFNetworkRequestFailedDueToNoModification) {
             [SFSDKSmartSyncLogger e:[self class] format:@"failed to get get all searchable objects, [%@]", [error localizedDescription]];
         }
@@ -592,7 +592,7 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
         return;
     }
 
-    SFRestDictionaryResponseBlock completeBlock = ^(NSDictionary* data) {
+    SFRestDictionaryResponseBlock completeBlock = ^(NSDictionary* data, NSURLResponse *rawResponse) {
         SFObjectType *objectType = nil;
         objectType = [[SFObjectType alloc] initWithDictionary:data];
 
@@ -605,7 +605,7 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
         }
     };
     
-    SFRestFailBlock failBlock = ^(NSError *error) {
+    SFRestFailBlock failBlock = ^(NSError *error, NSURLResponse *rawResponse) {
         if (error.code != kSFNetworkRequestFailedDueToNoModification) {
             [SFSDKSmartSyncLogger e:[self class] format:@"Failed to get get object information for %@, [%@]", objectTypeName, [error localizedDescription]];
         }
@@ -724,7 +724,7 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
         return;
     }
 
-    SFRestArrayResponseBlock completeBlock = ^(NSArray* data) {
+    SFRestArrayResponseBlock completeBlock = ^(NSArray* data, NSURLResponse *rawResponse) {
         for (NSUInteger idx = 0; idx < data.count; idx++) {
             NSDictionary *layoutDict = data[idx];
             SFObjectType *typeModel = layoutObjectsToLoad[idx];
@@ -742,7 +742,7 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
         }
     };
     
-    SFRestFailBlock failBlock = ^(NSError *error) {
+    SFRestFailBlock failBlock = ^(NSError *error, NSURLResponse *rawResponse) {
         if (error.code != kSFNetworkRequestFailedDueToNoModification) {
             [SFSDKSmartSyncLogger e:[self class] format:@"failed to get get objects layout, [%@]", [error localizedDescription]];
         }
@@ -825,7 +825,7 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
         queryBuilder = [queryBuilder whereClause:whereClause];
         NSString *queryString = [[queryBuilder whereClause:whereClause] build];
         
-        SFRestDictionaryResponseBlock completeBlock = ^(NSDictionary* responseAsJson) {
+        SFRestDictionaryResponseBlock completeBlock = ^(NSDictionary* responseAsJson, NSURLResponse *rawResponse) {
             NSArray *records = responseAsJson[@"records"];
             if (records && [records isKindOfClass:[NSArray class]]) {
                 if (records.count == 0) {
@@ -842,7 +842,7 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
             }
         };
         
-        SFRestFailBlock failBlock = ^(NSError *error) {
+        SFRestFailBlock failBlock = ^(NSError *error, NSURLResponse *rawResponse) {
             [SFSDKSmartSyncLogger e:[self class] format:@"Failed to mark %@ as being viewed, error %@", objectId, [error localizedDescription]];
             callErrorBlock(error);
         };

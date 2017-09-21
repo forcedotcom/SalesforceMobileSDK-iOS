@@ -93,7 +93,7 @@ static NSString* const kCaseOneName = @"00001001";
 
 - (void)sendQuery:(NSString *)query withCompeletionBlock:(void(^)(NSArray *result))completionBlock {
     XCTestExpectation *expect = [self expectationWithDescription:@"get query result"];
-    SFRestDictionaryResponseBlock completeBlock = ^(NSDictionary* responseAsJson) {
+    SFRestDictionaryResponseBlock completeBlock = ^(NSDictionary* responseAsJson, NSURLResponse *rawResponse) {
         NSArray *records = responseAsJson[@"records"];
         if (records && [records isKindOfClass:[NSArray class]]) {
             NSAssert(records.count>0, @"no entity found");
@@ -102,7 +102,7 @@ static NSString* const kCaseOneName = @"00001001";
         }
     };
     
-    SFRestFailBlock failBlock = ^(NSError *error) {
+    SFRestFailBlock failBlock = ^(NSError *error, NSURLResponse *rawResponse) {
         [SFSDKSmartSyncLogger e:[self class] format:@"Failed to get query result, error %@", [error localizedDescription]];
     };
     

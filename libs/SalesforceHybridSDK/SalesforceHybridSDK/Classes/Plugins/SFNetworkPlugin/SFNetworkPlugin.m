@@ -104,12 +104,12 @@ static NSString * const kFileName        = @"fileName";
     }
     __weak typeof(self) weakSelf = self;
     [[SFRestAPI sharedInstance] sendRESTRequest:request
-                                      failBlock:^(NSError *e) {
+                                      failBlock:^(NSError *e, NSURLResponse *rawResponse) {
                                           __strong typeof(self) strongSelf = weakSelf;
                                           CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:e.localizedDescription];
                                           [strongSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
                                       }
-                                  completeBlock:^(id response) {
+                                  completeBlock:^(id response, NSURLResponse *rawResponse) {
                                       __strong typeof(self) strongSelf = weakSelf;
                                       CDVPluginResult *pluginResult = nil;
                                       if ([response isKindOfClass:[NSDictionary class]]) {

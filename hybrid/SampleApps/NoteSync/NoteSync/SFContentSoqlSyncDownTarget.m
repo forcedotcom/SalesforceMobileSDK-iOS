@@ -239,9 +239,13 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
     __weak typeof(self) weakSelf = self;
     
     NSString* queryToRun = [self getQueryToRun:maxTimeStamp];
-    [[SFRestAPI sharedInstance] performRequestForResourcesWithFailBlock:errorBlock completeBlock:^(NSDictionary* d) { // cheap call to refresh session
+    [[SFRestAPI sharedInstance] performRequestForResourcesWithFailBlock:^(NSError *e, NSURLResponse *rawResponse) {
+        errorBlock(e);
+    } completeBlock:^(NSDictionary* d, NSURLResponse *rawResponse) { // cheap call to refresh session
         SFRestRequest* request = [[SFSoapSoqlRequest alloc] initWithQuery:queryToRun];
-        [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSData * response) {
+        [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+            errorBlock(e);
+        } completeBlock:^(NSData * response, NSURLResponse *rawResponse) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [strongSelf parseRestResponse:response parseCompletion:^(SFSoapSoqlResponse *soapSoqlResponse) {
                 strongSelf.queryLocator = soapSoqlResponse.queryLocator;
@@ -260,15 +264,16 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
     if (self.queryLocator) {
         __weak typeof(self) weakSelf = self;
         SFSoapSoqlRequest* request = [[SFSoapSoqlRequest alloc] initWithQueryLocator:self.queryLocator];
-        [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSData *response) {
+        [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+            errorBlock(e);
+        } completeBlock:^(NSData *response, NSURLResponse *rawResponse) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [strongSelf parseRestResponse:response parseCompletion:^(SFSoapSoqlResponse *soapSoqlResponse) {
                 strongSelf.queryLocator = soapSoqlResponse.queryLocator;
                 completeBlock(soapSoqlResponse.records);
             }];
         }];
-    }
-    else {
+    } else {
         completeBlock(nil);
     }
 }

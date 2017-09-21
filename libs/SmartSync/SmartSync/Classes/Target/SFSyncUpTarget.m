@@ -223,7 +223,11 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
              failBlock:(SFSyncUpTargetErrorBlock)failBlock
 {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCreateWithObjectType:objectType fields:fields];
-    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:failBlock completeBlock:completionBlock];
+    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+        failBlock(e);
+    } completeBlock:^(NSDictionary* d, NSURLResponse *rawResponse) {
+        completionBlock(d);
+    }];
 }
 
 - (void)updateOnServer:(NSString*)objectType
@@ -233,7 +237,11 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
              failBlock:(SFSyncUpTargetErrorBlock)failBlock
 {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForUpdateWithObjectType:objectType objectId:objectId fields:fields];
-    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:failBlock completeBlock:completionBlock];
+    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+        failBlock(e);
+    } completeBlock:^(NSDictionary* d, NSURLResponse *rawResponse) {
+        completionBlock(d);
+    }];
 }
 
 - (void)deleteOnServer:(NSString*)objectType
@@ -242,7 +250,11 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
              failBlock:(SFSyncUpTargetErrorBlock)failBlock
 {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:objectType objectId:objectId];
-    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:failBlock completeBlock:completionBlock];
+    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+        failBlock(e);
+    } completeBlock:^(NSDictionary* d, NSURLResponse *rawResponse) {
+        completionBlock(d);
+    }];
 }
 
 - (void)fetchLastModifiedDate:(NSDictionary *)record
@@ -257,10 +269,10 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
 
     [SFSmartSyncNetworkUtils
             sendRequestWithSmartSyncUserAgent:request
-                                    failBlock:^(NSError *e) {
+                                    failBlock:^(NSError *e, NSURLResponse *rawResponse) {
                                         completeBlock([[SFRecordModDate alloc] initWithTimestamp:nil isDeleted:e.code == 404]);
                                     }
-                                completeBlock:^(id response) {
+                                completeBlock:^(id response, NSURLResponse *rawResponse) {
                                     completeBlock([[SFRecordModDate alloc] initWithTimestamp:response[self.modificationDateFieldName] isDeleted:FALSE]);
                                 }
     ];
@@ -276,12 +288,10 @@ if ((localModDate.timestamp != nil && remoteModDate.timestamp != nil
         && [localModDate.timestamp compare:remoteModDate.timestamp] >= 0) // we got a local and remote mod date and the local one is greater
         || (localModDate.isDeleted && remoteModDate.isDeleted)            // or we have a local delete and a remote delete
         || localModDate.timestamp == nil)                                 // or we don't have a local mod date
-{
-    return true;
+    {
+        return true;
+    }
+    return false;
 }
-return false;
-}
-
-
 
 @end

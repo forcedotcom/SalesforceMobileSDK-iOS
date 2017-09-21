@@ -168,12 +168,12 @@ static NSException *authException = nil;
 
 - (NSDictionary*)sendSyncRequest:(SFRestRequest*)request ignoreNotFound:(BOOL)ignoreNotFound {
     SFSDKTestRequestListener *listener = [[SFSDKTestRequestListener alloc] init];
-    SFRestFailBlock failBlock = ^(NSError *error) {
+    SFRestFailBlock failBlock = ^(NSError *error, NSURLResponse *rawResponse) {
         listener.lastError = error;
         listener.returnStatus = kTestRequestStatusDidFail;
 
     };
-    SFRestDictionaryResponseBlock completeBlock = ^(NSDictionary *data) {
+    SFRestDictionaryResponseBlock completeBlock = ^(NSDictionary *data, NSURLResponse *rawResponse) {
         listener.dataResponse = data;
         listener.returnStatus = kTestRequestStatusDidLoad;
     };
