@@ -24,6 +24,7 @@
 
 #import <XCTest/XCTest.h>
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
+#import "SFKeyStoreManager+Internal.h"
 
 static NSUInteger const kNumThreadsInSafetyTest = 100;
 
@@ -79,9 +80,47 @@ static NSUInteger const kNumThreadsInSafetyTest = 100;
 
 #pragma mark - Upgrade tests
 
-//
-// TBD
-// 
+- (void)testUpgradeTo60
+{
+    SFPasscodeKeyStore * passcodeKeyStore = [[SFPasscodeKeyStore alloc] init];
+    XCTAssertFalse([passcodeKeyStore keyStoreAvailable], @"Passcode key store should not be ready.");
+
+    // set up the passcode key  store
+    NSString *passcode = @"passcode";
+    [[SFPasscodeManager sharedManager] changePasscode:passcode];
+    XCTAssertTrue([passcodeKeyStore keyStoreAvailable], @"Passcode key store is not ready.");
+
+    SFEncryptionKey *encryptionKey = [mgr keyWithRandomValue];
+    SFKeyStoreKey *keyStoreKey = [[SFKeyStoreKey alloc] initWithKey:encryptionKey];
+    NSString *typedKeyLabel = [passcodeKeyStore keyLabelForString:@"keyLabel"];
+    NSMutableDictionary *mutableKeyStoreDict = [NSMutableDictionary dictionaryWithDictionary:passcodeKeyStore.keyStoreDictionary];
+    mutableKeyStoreDict[typedKeyLabel] = keyStoreKey;
+    passcodeKeyStore.keyStoreDictionary = mutableKeyStoreDict;
+
+    // make sure it was saved in passcode keystore
+    [self assertKeyForDictionary:passcodeKeyStore.keyStoreDictionary
+                       withLabel:typedKeyLabel
+                hasEncryptionKey:encryptionKey];
+
+    // Migration code is triggered during a verification only (which is a nil->val passcode change)
+    // Going to nil should not affect passcode keystore (like it did before)
+    // In SDK 6.0, in an app, by the time we change passcode to nil, the passcode keystore should already have been migrated
+    [[SFPasscodeManager sharedManager] changePasscode:nil];
+    [self assertKeyForDictionary:passcodeKeyStore.keyStoreDictionary
+                       withLabel:typedKeyLabel
+                hasEncryptionKey:encryptionKey];
+
+    // simulate a verification
+    [[SFPasscodeManager sharedManager] changePasscode:passcode];
+
+    // ensure the key is now in generated dictionary
+    [self assertKeyForDictionary:mgr.generatedKeyStore.keyStoreDictionary
+                       withLabel:typedKeyLabel
+                hasEncryptionKey:encryptionKey];
+
+    // make sure passcode keystore is empty
+    XCTAssertEqual(0, [passcodeKeyStore.keyStoreDictionary count], @"Passcode dictionary should be empty");
+}
 
 #pragma mark - Private methods
 - (void)keyStoreThreadSafeHelper

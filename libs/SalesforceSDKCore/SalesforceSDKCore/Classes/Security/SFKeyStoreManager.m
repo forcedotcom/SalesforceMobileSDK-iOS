@@ -136,6 +136,7 @@ static NSString * const kKeyStoreDecryptionFailedMessage = @"Could not decrypt k
         }
         
         self.generatedKeyStore.keyStoreDictionary = updatedGeneratedDictionary;
+        passcodeKeyStore.keyStoreDictionary = nil;
     }
 }
 
@@ -172,7 +173,7 @@ static NSString * const kKeyStoreDecryptionFailedMessage = @"Could not decrypt k
 {
     // Starting in SDK 6.0, we no longer use SFPasscodeKeyStore.
     // The only reason we are still watching the encryption key of the passcode manager is to handle upgrade from pre-6.0 SDK to 6+.
-    // As soon as we get the passcode, if we still have a passcode key store, we migrate all the keys to a generated key store.
+    // If we still have a non-empty passcode key store, as soon as we get a verified passcode, we migrate all the keys to a generated key store.
 
     if (!(object == [SFPasscodeManager sharedManager] && [keyPath isEqualToString:@"encryptionKey"])) {
         return;
@@ -183,15 +184,12 @@ static NSString * const kKeyStoreDecryptionFailedMessage = @"Could not decrypt k
         NSString *newKey = change[NSKeyValueChangeNewKey];
         if ([oldKey isEqual:[NSNull null]]) oldKey = nil;
         if ([newKey isEqual:[NSNull null]]) newKey = nil;
-        
-        if ([oldKey length] == 0 && [newKey length] > 0) {
-            // Happens either on new passcode creation or first-time passcode verification.
-            // We can infer the operation from the pre-existence of a key store key for the passcode store.
 
-            SFPasscodeKeyStore *passcodeKeyStore = [[SFPasscodeKeyStore alloc] init];
-            if (passcodeKeyStore.keyStoreKey != nil) {
-                // Previous passcode store key.  Assume passcode verification. Migrate to generated key store.
-                [SFSDKCoreLogger i:[self class] format:@"Passcode verified.  Making passcode key store available."];
+        // If we find a non-empty passcode key store, migrate it to a generated key store
+        SFPasscodeKeyStore *passcodeKeyStore = [[SFPasscodeKeyStore alloc] init];
+        if (passcodeKeyStore.keyStoreKey != nil && passcodeKeyStore.keyStoreDictionary.count > 0) {
+            if (oldKey.length == 0 || newKey.length > 0) {
+                // We just verified the passcode
                 passcodeKeyStore.keyStoreKey.encryptionKey.key = [[self class] keyStringToData:newKey];
                 [self migratePasscodeToGenerated];
             }
