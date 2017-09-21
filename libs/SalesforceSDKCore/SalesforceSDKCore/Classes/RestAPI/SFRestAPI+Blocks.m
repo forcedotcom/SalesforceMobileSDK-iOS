@@ -250,7 +250,7 @@ static char CompleteBlockKey;
     objc_setAssociatedObject( request, &CompleteBlockKey, nil, OBJC_ASSOCIATION_ASSIGN);
 }
 
-- (void)request:(SFRestRequest *)request didFailLoadWithError:(NSError *)error {        
+- (void)request:(SFRestRequest *)request didFailLoadWithError:(NSError *)error rawResponse:(NSURLResponse *)rawResponse {
     [self sendActionForRequest:request success:NO withObject:error];
 }
 
@@ -262,7 +262,7 @@ static char CompleteBlockKey;
     [self sendActionForRequest:request success:NO withObject:[[self class] errorWithDescription:@"Timed out."]];
 }
 
-- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse {    
+- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse {
     [self sendActionForRequest:request success:YES withObject:dataResponse];
 }
 

@@ -90,13 +90,13 @@ extern NSString* const kSFRestIfUnmodifiedSince;
  
     #pragma mark - SFRestDelegate
  
-    - (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse {
+    - (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse {
         NSDictionary *dict = (NSDictionary *)dataResponse;
         NSArray *fields = (NSArray *)[dict objectForKey:@"fields"];
         // ...
     }
  
-    - (void)request:(SFRestRequest*)request didFailLoadWithError:(NSError*)error {
+    - (void)request:(SFRestRequest*)request didFailLoadWithError:(NSError *)error rawResponse:(NSURLResponse *)rawResponse {
         // handle error
     }
  
