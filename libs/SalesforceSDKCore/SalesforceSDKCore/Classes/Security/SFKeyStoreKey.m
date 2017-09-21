@@ -26,19 +26,16 @@
 
 // NSCoding constants
 static NSString * const kKeyStoreKeyDataArchiveKey = @"com.salesforce.keystore.keyStoreKeyDataArchive";
-static NSString * const kKeyStoreKeyTypeDataArchiveKey = @"com.salesforce.keystore.keyStoreKeyTypeDataArchive";
 
 @implementation SFKeyStoreKey
 
 @synthesize encryptionKey = _encryptionKey;
-@synthesize keyType = _keyType;
 
-- (id)initWithKey:(SFEncryptionKey *)key type:(SFKeyStoreKeyType)keyType
+- (id)initWithKey:(SFEncryptionKey *)key
 {
     self = [super init];
     if (self) {
         self.encryptionKey = key;
-        self.keyType = keyType;
     }
     return self;
 }
@@ -48,8 +45,6 @@ static NSString * const kKeyStoreKeyTypeDataArchiveKey = @"com.salesforce.keysto
     self = [super init];
     if (self) {
         self.encryptionKey = [aDecoder decodeObjectForKey:kKeyStoreKeyDataArchiveKey];
-        NSNumber *keyTypeNum = [aDecoder decodeObjectForKey:kKeyStoreKeyTypeDataArchiveKey];
-        self.keyType = [keyTypeNum unsignedIntegerValue];
     }
     return self;
 }
@@ -57,15 +52,12 @@ static NSString * const kKeyStoreKeyTypeDataArchiveKey = @"com.salesforce.keysto
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
     [aCoder encodeObject:self.encryptionKey forKey:kKeyStoreKeyDataArchiveKey];
-    NSNumber *keyTypeNum = @(self.keyType);
-    [aCoder encodeObject:keyTypeNum forKey:kKeyStoreKeyTypeDataArchiveKey];
 }
 
 - (id)copyWithZone:(NSZone *)zone
 {
     SFKeyStoreKey *keyCopy = [[[self class] allocWithZone:zone] init];
     keyCopy.encryptionKey = [self.encryptionKey copy];
-    keyCopy.keyType = self.keyType;
     return keyCopy;
 }
 

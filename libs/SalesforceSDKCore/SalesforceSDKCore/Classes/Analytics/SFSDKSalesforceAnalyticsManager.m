@@ -118,7 +118,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
         self.userAccount = userAccount;
         SFSDKDeviceAppAttributes *deviceAttributes = [self buildDeviceAppAttributes];
         NSString *rootStoreDir = [[SFDirectoryManager sharedManager] directoryForUser:userAccount type:NSDocumentDirectory components:@[ kEventStoresDirectory ]];
-        SFEncryptionKey *encKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kEventStoreEncryptionKeyLabel keyType:SFKeyStoreKeyTypePasscode autoCreate:YES];
+        SFEncryptionKey *encKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kEventStoreEncryptionKeyLabel autoCreate:YES];
         DataEncryptorBlock dataEncryptorBlock = ^NSData*(NSData *data) {
             return [SFSDKCryptoUtils aes256EncryptData:data withKey:encKey.key iv:encKey.initializationVector];
         };
