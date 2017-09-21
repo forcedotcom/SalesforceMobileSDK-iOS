@@ -133,6 +133,7 @@ static NSString * const kKeyStoreDecryptionFailedMessage = @"Could not decrypt k
             NSRange suffixRange = [keyToMoveLabel rangeOfString:kPasscodeKeyLabelSuffix options:NSBackwardsSearch];
             NSString* movedKeyLabel = [keyToMoveLabel stringByReplacingCharactersInRange:suffixRange withString:kGeneratedKeyLabelSuffix];
             updatedGeneratedDictionary[movedKeyLabel] = keyToMove;
+            [SFSDKCoreLogger i:[self class] format:@"Migrating key %@ to %@", keyToMoveLabel, movedKeyLabel];
         }
         
         self.generatedKeyStore.keyStoreDictionary = updatedGeneratedDictionary;
