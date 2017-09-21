@@ -123,16 +123,16 @@ static NSString * const kKeyStoreDecryptionFailedMessage = @"Could not decrypt k
     }
 }
 
-- (void)migratePasscodeToGenerated
+- (void)migratePasscodeToGenerated:(SFPasscodeKeyStore*)passcodeKeyStore
 {
     @synchronized (self) {
-        SFPasscodeKeyStore *passcodeKeyStore = [[SFPasscodeKeyStore alloc] init];
-        // Everything moves in this direction.  Passcode store should only have passcode keys.
         NSDictionary *keysToMove = [NSDictionary dictionaryWithDictionary:passcodeKeyStore.keyStoreDictionary];
         NSMutableDictionary *updatedGeneratedDictionary = [NSMutableDictionary dictionaryWithDictionary:self.generatedKeyStore.keyStoreDictionary];
         for (NSString *keyToMoveLabel in [keysToMove allKeys]) {
             SFKeyStoreKey *keyToMove = keysToMove[keyToMoveLabel];
-            updatedGeneratedDictionary[keyToMoveLabel] = keyToMove;
+            NSRange suffixRange = [keyToMoveLabel rangeOfString:kPasscodeKeyLabelSuffix options:NSBackwardsSearch];
+            NSString* movedKeyLabel = [keyToMoveLabel stringByReplacingCharactersInRange:suffixRange withString:kGeneratedKeyLabelSuffix];
+            updatedGeneratedDictionary[movedKeyLabel] = keyToMove;
         }
         
         self.generatedKeyStore.keyStoreDictionary = updatedGeneratedDictionary;
@@ -173,8 +173,8 @@ static NSString * const kKeyStoreDecryptionFailedMessage = @"Could not decrypt k
 {
     // Starting in SDK 6.0, we no longer use SFPasscodeKeyStore.
     // The only reason we are still watching the encryption key of the passcode manager is to handle upgrade from pre-6.0 SDK to 6+.
-    // If we still have a non-empty passcode key store, as soon as we get a verified passcode, we migrate all the keys to a generated key store.
-
+    // As soon as we get the passcode, we migrate all the keys from the passcode key store to the generated key store.
+    
     if (!(object == [SFPasscodeManager sharedManager] && [keyPath isEqualToString:@"encryptionKey"])) {
         return;
     }
@@ -185,13 +185,12 @@ static NSString * const kKeyStoreDecryptionFailedMessage = @"Could not decrypt k
         if ([oldKey isEqual:[NSNull null]]) oldKey = nil;
         if ([newKey isEqual:[NSNull null]]) newKey = nil;
 
-        // If we find a non-empty passcode key store, migrate it to a generated key store
-        SFPasscodeKeyStore *passcodeKeyStore = [[SFPasscodeKeyStore alloc] init];
-        if (passcodeKeyStore.keyStoreKey != nil && passcodeKeyStore.keyStoreDictionary.count > 0) {
-            if (oldKey.length == 0 || newKey.length > 0) {
-                // We just verified the passcode
-                passcodeKeyStore.keyStoreKey.encryptionKey.key = [[self class] keyStringToData:newKey];
-                [self migratePasscodeToGenerated];
+        if ([oldKey length] == 0 && [newKey length] > 0) {
+            // We just got the passcode, migrate keys (if any)
+            SFPasscodeKeyStore *passcodeKeyStore = [[SFPasscodeKeyStore alloc] init];
+            passcodeKeyStore.keyStoreKey.encryptionKey.key = [[self class] keyStringToData:newKey];
+            if (passcodeKeyStore.keyStoreKey != nil && passcodeKeyStore.keyStoreDictionary.count > 0) {
+                [self migratePasscodeToGenerated:passcodeKeyStore];
             }
         }
     }

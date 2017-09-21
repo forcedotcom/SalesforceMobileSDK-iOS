@@ -24,7 +24,6 @@
 
 #import "SFGeneratedKeyStore.h"
 #import "SFKeyStore+Internal.h"
-#import "SFKeyStoreKey.h"
 #import "SFKeychainItemWrapper.h"
 
 // Keychain and NSCoding constants
@@ -32,6 +31,7 @@ static NSString * const kGeneratedKeyStoreKeychainIdentifier = @"com.salesforce.
 static NSString * const kGeneratedKeyStoreDataArchiveKey = @"com.salesforce.keystore.generatedKeystoreDataArchive";
 static NSString * const kGeneratedKeyStoreEncryptionKeyKeychainIdentifier = @"com.salesforce.keystore.generatedKeystoreEncryptionKeyId";
 static NSString * const kGeneratedKeyStoreEncryptionKeyDataArchiveKey = @"com.salesforce.keystore.generatedKeystoreEncryptionKeyDataArchive";
+NSString * const kGeneratedKeyLabelSuffix = @"Generated";
 
 @interface SFGeneratedKeyStore ()
 {
@@ -134,7 +134,7 @@ static NSString * const kGeneratedKeyStoreEncryptionKeyDataArchiveKey = @"com.sa
 
 - (NSString *)keyLabelForString:(NSString *)baseKeyLabel
 {
-    return [NSString stringWithFormat:@"%@__Generated", baseKeyLabel];
+    return [NSString stringWithFormat:@"%@__%@", baseKeyLabel, kGeneratedKeyLabelSuffix];
 }
 
 @end

@@ -85,37 +85,34 @@ static NSUInteger const kNumThreadsInSafetyTest = 100;
     SFPasscodeKeyStore * passcodeKeyStore = [[SFPasscodeKeyStore alloc] init];
     XCTAssertFalse([passcodeKeyStore keyStoreAvailable], @"Passcode key store should not be ready.");
 
-    // set up the passcode key  store
+    // set up the passcode key store
     NSString *passcode = @"passcode";
     [[SFPasscodeManager sharedManager] changePasscode:passcode];
     XCTAssertTrue([passcodeKeyStore keyStoreAvailable], @"Passcode key store is not ready.");
 
+    // insert key to passcode key store
     SFEncryptionKey *encryptionKey = [mgr keyWithRandomValue];
     SFKeyStoreKey *keyStoreKey = [[SFKeyStoreKey alloc] initWithKey:encryptionKey];
-    NSString *typedKeyLabel = [passcodeKeyStore keyLabelForString:@"keyLabel"];
+    NSString *originalKeyLabel = [passcodeKeyStore keyLabelForString:@"keyLabel"];
+    XCTAssertEqualObjects(@"keyLabel__Passcode", originalKeyLabel);
     NSMutableDictionary *mutableKeyStoreDict = [NSMutableDictionary dictionaryWithDictionary:passcodeKeyStore.keyStoreDictionary];
-    mutableKeyStoreDict[typedKeyLabel] = keyStoreKey;
+    mutableKeyStoreDict[originalKeyLabel] = keyStoreKey;
     passcodeKeyStore.keyStoreDictionary = mutableKeyStoreDict;
 
     // make sure it was saved in passcode keystore
     [self assertKeyForDictionary:passcodeKeyStore.keyStoreDictionary
-                       withLabel:typedKeyLabel
+                       withLabel:originalKeyLabel
                 hasEncryptionKey:encryptionKey];
 
-    // Migration code is triggered during a verification only (which is a nil->val passcode change)
-    // Going to nil should not affect passcode keystore (like it did before)
-    // In SDK 6.0, in an app, by the time we change passcode to nil, the passcode keystore should already have been migrated
-    [[SFPasscodeManager sharedManager] changePasscode:nil];
-    [self assertKeyForDictionary:passcodeKeyStore.keyStoreDictionary
-                       withLabel:typedKeyLabel
-                hasEncryptionKey:encryptionKey];
+    // when app is first unlocked, migratePasscodeToGenerated gets invoked
+    // it will move all the keys found in the passcode keystore (created with pre-6.0 SDK) to the generated keystore
+    [[SFKeyStoreManager sharedInstance] migratePasscodeToGenerated:passcodeKeyStore];
 
-    // simulate a verification
-    [[SFPasscodeManager sharedManager] changePasscode:passcode];
-
-    // ensure the key is now in generated dictionary
+    // ensure the key is now in generated dictionary with an updated label
+    NSString *newKeyLabel = [mgr.generatedKeyStore keyLabelForString:@"keyLabel"];
+    XCTAssertEqualObjects(@"keyLabel__Generated", newKeyLabel);
     [self assertKeyForDictionary:mgr.generatedKeyStore.keyStoreDictionary
-                       withLabel:typedKeyLabel
+                       withLabel:newKeyLabel
                 hasEncryptionKey:encryptionKey];
 
     // make sure passcode keystore is empty

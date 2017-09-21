@@ -30,6 +30,7 @@
  *
  */
 
+extern NSString * const kPasscodeKeyLabelSuffix;
 
 @interface SFPasscodeKeyStore : SFKeyStore
 
