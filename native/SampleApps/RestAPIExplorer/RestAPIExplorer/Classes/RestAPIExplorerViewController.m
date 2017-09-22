@@ -465,7 +465,7 @@
 
 #pragma mark - SFRestDelegate
 
-- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse {
+- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse {
     dispatch_async(dispatch_get_main_queue(), ^{
         self.tfResult.backgroundColor = [UIColor colorWithRed:1.0 green:204/255.0 blue:102/255.0 alpha:1.0];
         self.tfResponseFor.text = [self formatRequest:request];
@@ -473,7 +473,7 @@
     });
 }
 
-- (void)request:(SFRestRequest*)request didFailLoadWithError:(NSError*)error rawResponse:(NSURLResponse *)rawResponse {
+- (void)request:(SFRestRequest*)request didFailLoadWithError:(NSError*)error {
     dispatch_async(dispatch_get_main_queue(), ^{
         self.tfResult.backgroundColor = [UIColor redColor];
         self.tfResponseFor.text = [self formatRequest:request];

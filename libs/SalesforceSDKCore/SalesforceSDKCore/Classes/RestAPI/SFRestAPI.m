@@ -385,6 +385,8 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 - (void)notifyDelegateOfResponse:(id<SFRestDelegate>)delegate request:(SFRestRequest *)request data:(id)data rawResponse:(NSURLResponse *)rawResponse {
     if ([delegate respondsToSelector:@selector(request:didLoadResponse:rawResponse:)]) {
         [delegate request:request didLoadResponse:data rawResponse:rawResponse];
+    } else if ([delegate respondsToSelector:@selector(request:didLoadResponse:)]) {
+        [delegate request:request didLoadResponse:data];
     }
     [self removeActiveRequestObject:request];
 }
@@ -392,6 +394,8 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 - (void)notifyDelegateOfFailure:(id<SFRestDelegate>)delegate request:(SFRestRequest *)request error:(NSError *)error rawResponse:(NSURLResponse *)rawResponse {
     if ([delegate respondsToSelector:@selector(request:didFailLoadWithError:rawResponse:)]) {
         [delegate request:request didFailLoadWithError:error rawResponse:rawResponse];
+    } else if ([delegate respondsToSelector:@selector(request:didFailLoadWithError:)]) {
+        [delegate request:request didFailLoadWithError:error];
     }
     [self removeActiveRequestObject:request];
 }
