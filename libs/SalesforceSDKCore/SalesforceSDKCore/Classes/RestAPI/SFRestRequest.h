@@ -65,6 +65,18 @@ extern NSString * const kSFDefaultRestEndpoint;
 - (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse;
 
 /**
+ * Sent when a request has finished loading.
+ * @param request The request that was loaded.
+ * @param dataResponse The data from the response.  By default, this will be an object
+ * containing the parsed JSON response.  However, if the response is not JSON,
+ * the data will be contained in a binary `NSData` object.
+ *
+ * The pre SDK 6.0 signature
+ * Is called only if request:didLoadResponse:rawResponse: is not provided
+ */
+- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse;
+
+/**
  * Sent when a request has failed due to an error.
  * This includes HTTP network errors, as well as Salesforce errors
  * (for example, passing an invalid SOQL string when doing a query).
@@ -73,6 +85,18 @@ extern NSString * const kSFDefaultRestEndpoint;
  * @param rawResponse Raw response returned by the server.
  */
 - (void)request:(SFRestRequest *)request didFailLoadWithError:(NSError*)error rawResponse:(NSURLResponse *)rawResponse;
+
+/**
+ * Sent when a request has failed due to an error.
+ * This includes HTTP network errors, as well as Salesforce errors
+ * (for example, passing an invalid SOQL string when doing a query).
+ * @param request The attempted request.
+ * @param error The error associated with the failed request.
+ *
+ * The pre SDK 6.0 signature
+ * Is called only if request:didFailLoadWithError:rawResponse: is not provided
+ */
+- (void)request:(SFRestRequest *)request didFailLoadWithError:(NSError*)error;
 
 /**
  * Sent to the delegate when a request was cancelled.
