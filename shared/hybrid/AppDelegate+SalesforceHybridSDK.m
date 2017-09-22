@@ -158,8 +158,7 @@
                   toUser:(SFUserAccount *)toUser
 {
     [self resetViewState:^{
-        [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@. Resetting app.",
-         fromUser.userName, toUser.userName];
+        [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"SFUserAccountManager changed user. Resetting app."];
         [self initializeAppViewState];
         [[SalesforceSDKManager sharedManager] launch];
     }];

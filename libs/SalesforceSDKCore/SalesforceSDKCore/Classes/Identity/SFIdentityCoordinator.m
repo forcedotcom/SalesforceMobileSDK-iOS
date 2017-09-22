@@ -134,7 +134,7 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
     [request setValue:[NSString stringWithFormat:kHttpAuthHeaderFormatString, self.credentials.accessToken] forHTTPHeaderField:kHttpHeaderAuthorization];
     [request setTimeoutInterval:self.timeout];
     [request setHTTPShouldHandleCookies:NO];
-    [SFSDKCoreLogger d:[self class] format:@"SFIdentityCoordinator:Starting identity request at %@", self.credentials.identityUrl.absoluteString];
+    [SFSDKCoreLogger d:[self class] format:@"SFIdentityCoordinator:Starting identity request."];
     __weak __typeof(self) weakSelf = self;
     SFNetwork *network = [[SFNetwork alloc] init];
     self.session = network.activeSession;

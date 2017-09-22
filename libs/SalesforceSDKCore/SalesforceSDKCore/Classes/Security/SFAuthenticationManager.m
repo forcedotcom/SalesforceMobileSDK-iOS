@@ -407,7 +407,7 @@ static Class InstanceClass = nil;
         return;
     }
     
-    [SFSDKCoreLogger i:[self class] format:@"Logging out user '%@'.", user.userName];
+    [SFSDKCoreLogger i:[self class] format:@"Logging out user."];
     NSDictionary *userInfo = @{ @"account": user };
     [[NSNotificationCenter defaultCenter] postNotificationName:kSFUserWillLogoutNotification
                                                         object:self
@@ -622,6 +622,7 @@ static Class InstanceClass = nil;
     SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
     SFSDKSalesforceAnalyticsManager *analyticsManager = [SFSDKSalesforceAnalyticsManager sharedInstanceWithUser:user];
     [analyticsManager updateLoggingPrefs];
+    analyticsManager.publishAllEvents;
 }
 
 - (void)execCompletionBlocksWithUser:(SFUserAccount *) user
@@ -687,7 +688,7 @@ static Class InstanceClass = nil;
 - (void)revokeRefreshToken:(SFUserAccount *)user
 {
     if (user.credentials.refreshToken != nil) {
-        [SFSDKCoreLogger i:[self class] format:@"Revoking credentials on the server for '%@'.", user.userName];
+        [SFSDKCoreLogger i:[self class] format:@"Revoking credentials on the server for user."];
         NSMutableString *host = [NSMutableString stringWithFormat:@"%@://", user.credentials.protocol];
         [host appendString:user.credentials.domain];
         [host appendString:@"/services/oauth2/revoke?token="];
@@ -1221,7 +1222,7 @@ static Class InstanceClass = nil;
 
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info
 {
-    [SFSDKCoreLogger d:[self class] format:@"oauthCoordinatorDidAuthenticate for userId: %@, auth info: %@", coordinator.credentials.userId, info];
+    [SFSDKCoreLogger d:[self class] format:@"oauthCoordinatorDidAuthenticate for user, auth info: %@", info];
     self.authInfo = info;
 
     // Logging event for token refresh flow.
