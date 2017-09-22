@@ -1,6 +1,10 @@
 /*
- Copyright (c) 2013-present, salesforce.com, inc. All rights reserved.
- Author: Kevin Hawkins
+ SFSDKOAuthViewHandler.m
+ SalesforceSDKCore
+ 
+ Created by Raj Rao on 7/25/17.
+ 
+ Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,44 +26,17 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
-#import <Foundation/Foundation.h>
-
-NS_ASSUME_NONNULL_BEGIN
-
-@class SFOAuthInfo;
-@class SFSDKOAuthClientContext;
-
-/**
- Block definition for auth error handling evaluation block.
- */
-typedef BOOL (^SFAuthErrorHandlerEvalBlock)(NSError *, SFOAuthInfo *);
-
-/**
- Class to define a handler for authentication errors, which can be used in an
- error handling filter chain.
- @see SFAuthenticationManager
- */
-@interface SFAuthErrorHandler : NSObject
-
-/**
- The canonical name of the error handler.
- */
-@property (nonatomic, readonly) NSString *name;
-
-/**
- The block of code that will evaluate the error.  The block should return YES if it can
- handle the error, and NO if the error should be passed on to the next handler.
- */
-@property (nonatomic, readonly) SFAuthErrorHandlerEvalBlock evalBlock;
-
-/**
- Designated initializer for SFAuthErrorHandler.
- @param name The canonical name of the error handler.
- @param evalBlock The block to handle the error evaluation.
- */
-- (id)initWithName:(NSString *)name evalBlock:(SFAuthErrorHandlerEvalBlock)evalBlock;
+#import "SFSDKOAuthViewHandler.h"
+@implementation SFSDKOAuthClientViewHolder
+@end
+@implementation SFSDKOAuthViewHandler
+- (id)initWithDisplayBlock:(SFSDKAuthClientViewDisplayBlock)authViewDisplayBlock  dismissBlock:(SFSDKAuthClientViewDismissBlock)dismissBlock {
+    self = [super init];
+    if (self) {
+        self.authViewDisplayBlock = authViewDisplayBlock ;
+        self.authViewDismissBlock = dismissBlock;
+    }
+    return self;
+}
 
 @end
-
-NS_ASSUME_NONNULL_END

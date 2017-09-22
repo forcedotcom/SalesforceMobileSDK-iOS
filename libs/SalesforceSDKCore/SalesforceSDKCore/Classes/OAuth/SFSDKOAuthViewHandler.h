@@ -1,6 +1,10 @@
 /*
- Copyright (c) 2013-present, salesforce.com, inc. All rights reserved.
- Author: Kevin Hawkins
+ SFSDKOAuthViewHandler.h
+ SalesforceSDKCore
+ 
+ Created by Raj Rao on 7/25/17.
+ 
+ Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,44 +26,50 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 #import <Foundation/Foundation.h>
 
+@class SFSDKOAuthClient;
+@class WKWebView;
+@class SFSafariViewController;
+@class SFSDKOAuthClientViewHolder;
+
 NS_ASSUME_NONNULL_BEGIN
-
-@class SFOAuthInfo;
-@class SFSDKOAuthClientContext;
+/**
+ Block definition for displaying the auth view.
+ */
+typedef void (^SFSDKAuthClientViewDisplayBlock)(SFSDKOAuthClient *,SFSDKOAuthClientViewHolder *);
 
 /**
- Block definition for auth error handling evaluation block.
+ Block definition for dismissing the auth view.
  */
-typedef BOOL (^SFAuthErrorHandlerEvalBlock)(NSError *, SFOAuthInfo *);
+typedef void (^SFSDKAuthClientViewDismissBlock)(SFSDKOAuthClient *);
 
-/**
- Class to define a handler for authentication errors, which can be used in an
- error handling filter chain.
- @see SFAuthenticationManager
- */
-@interface SFAuthErrorHandler : NSObject
+@interface SFSDKOAuthClientViewHolder : NSObject
 
-/**
- The canonical name of the error handler.
- */
-@property (nonatomic, readonly) NSString *name;
+@property (nonatomic,weak,nullable) WKWebView * wkWebView;
 
-/**
- The block of code that will evaluate the error.  The block should return YES if it can
- handle the error, and NO if the error should be passed on to the next handler.
- */
-@property (nonatomic, readonly) SFAuthErrorHandlerEvalBlock evalBlock;
+@property (nonatomic,weak,nullable) SFSafariViewController *safariViewController;
 
-/**
- Designated initializer for SFAuthErrorHandler.
- @param name The canonical name of the error handler.
- @param evalBlock The block to handle the error evaluation.
- */
-- (id)initWithName:(NSString *)name evalBlock:(SFAuthErrorHandlerEvalBlock)evalBlock;
+@property (nonatomic,assign) BOOL isAdvancedAuthFlow;
 
 @end
 
+@interface SFSDKOAuthViewHandler : NSObject
+/**
+ The block used to display the auth view.
+ */
+@property (nonatomic, copy) SFSDKAuthClientViewDisplayBlock authViewDisplayBlock;
+
+/**
+ The block used to dismiss the auth view.
+ */
+@property (nonatomic, copy) SFSDKAuthClientViewDismissBlock authViewDismissBlock;
+
+/**
+ Designated initializer for the class.
+ @param displayBlock The block used to display the auth view.
+ @param dismissBlock The block used to dismiss the auth view.
+ */
+- (id)initWithDisplayBlock:(SFSDKAuthClientViewDisplayBlock)displayBlock dismissBlock:(SFSDKAuthClientViewDismissBlock _Nullable)dismissBlock;
+@end
 NS_ASSUME_NONNULL_END

@@ -24,7 +24,10 @@
 
 #import "SFUserAccountManager.h"
 
-@interface SFUserAccountManager ()
+@class SFSDKAuthPreferences;
+
+@interface SFUserAccountManager () <SFSDKOAuthClientSafariViewDelegate,SFSDKOAuthClientWebViewDelegate,SFSDKOAuthClientDelegate>
+
 {
     NSRecursiveLock *_accountsLock;
 }
@@ -36,6 +39,8 @@
 @property (nonatomic, strong, nonnull) NSMutableDictionary *userAccountMap;
 
 @property (nonatomic, strong, nullable) id<SFUserAccountPersister> accountPersister;
+
+@property (nonatomic, strong, nonnull) SFSDKAuthPreferences *authPreferences;
 /**
  Executes the given block for each configured delegate.
  @param block The block to execute for each delegate.
