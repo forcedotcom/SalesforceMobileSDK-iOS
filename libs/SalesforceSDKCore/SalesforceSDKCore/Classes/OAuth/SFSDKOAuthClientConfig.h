@@ -57,6 +57,13 @@
 @property (nonatomic, copy,nullable) NSString *idpAppUrl;
 @property (nonatomic, copy, nullable) NSString *oauthCompletionUrl;
 @property (nonatomic, copy, nullable) NSString *oauthClientId;
+@property (nonatomic, assign) BOOL isIDPInitiatedFlow;
+@property (nonatomic,assign) BOOL isIdentityProvider;
+
+@property (nonatomic, copy,nullable) NSString *callingAppIdentifier;
+@property (nonatomic, copy,nullable) NSString *callingAppName;
+@property (nonatomic, copy,nullable) NSString *callingAppDescription;
+@property (nonatomic, copy,nullable) NSString *callingAppState;
 
 
 @property (nonatomic, weak,nullable) id<SFSDKOAuthClientSafariViewDelegate> safariViewDelegate;
@@ -66,18 +73,13 @@
 @property (nonatomic, weak,nullable) id<SFSDKIDPAuthClientDelegate> idpDelegate;
 
 @property (nonatomic, copy,nullable) SFAuthenticationSuccessCallbackBlock successCallbackBlock;
+
 @property (nonatomic, copy,nullable) SFAuthenticationFailureCallbackBlock  failureCallbackBlock;
 
 @property (nonatomic, copy,nullable) SFIdentitySuccessCallbackBlock identitySuccessCallbackBlock;
+
 @property (nonatomic, copy,nullable) SFIdentityFailureCallbackBlock identityFailureCallbackBlock;
 
-@property (nonatomic, assign) BOOL isIDPEnabled;
-@property (nonatomic, assign) BOOL isIDPInitiatedFlow;
-
-@property (nonatomic, copy,nullable) NSString *callingAppIdentifier;
-@property (nonatomic, copy,nullable) NSString *callingAppName;
-@property (nonatomic, copy,nullable) NSString *callingAppDescription;
-@property (nonatomic, copy,nullable) NSString *callingAppState;
 
 @property (nonatomic, copy, nullable) SFIDPLoginFlowSelectionCreationBlock idpLoginFlowSelectionBlock;
 @property (nonatomic, copy, nullable) SFIDPUserSelectionBlock   idpUserSelectionBlock;

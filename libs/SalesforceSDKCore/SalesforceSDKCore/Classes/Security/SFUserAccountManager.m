@@ -941,8 +941,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
         config.oauthClientId = strongSelf.oauthClientId;
         config.idpAppUrl = strongSelf.idpAppUrl;
         config.appDisplayName = strongSelf.appDisplayName;
-        
-        config.isIDPEnabled = YES;
+        config.idpEnabled = strongSelf.idpEnabled;
         config.isIDPInitiatedFlow = YES;
         config.scopes = strongSelf.scopes;
         config.loginHost = strongSelf.loginHost;
@@ -1026,8 +1025,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
             config.oauthClientId = strongSelf.oauthClientId;
             config.idpAppUrl = strongSelf.idpAppUrl;
             config.appDisplayName = strongSelf.appDisplayName;
-            
-            config.isIDPEnabled = strongSelf.idpEnabled;
+            config.idpEnabled = strongSelf.idpEnabled;
             config.advancedAuthConfiguration = strongSelf.advancedAuthConfiguration;
             config.delegate = strongSelf;
             config.webViewDelegate = strongSelf;
@@ -1054,7 +1052,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
             config.oauthClientId = strongSelf.oauthClientId;
             config.appDisplayName = strongSelf.appDisplayName;
             config.isIdentityProvider = strongSelf.isIdentityProvider;
-            config.isIDPEnabled  = YES;
+            config.idpEnabled  = strongSelf.idpEnabled;
             config.advancedAuthConfiguration = strongSelf.advancedAuthConfiguration;
             config.idpDelegate = strongSelf;
             config.delegate = strongSelf;
@@ -1094,7 +1092,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
     
     NSString *instanceType = @"BASIC";
     
-    if (client.config.isIDPEnabled)
+    if (client.config.idpEnabled)
         instanceType = @"IDP";
     
     if (client.config.advancedAuthConfiguration == SFOAuthAdvancedAuthConfigurationRequire)

@@ -867,7 +867,7 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
     configBlock(config);
     SFSDKOAuthClient *instance = nil;
     
-    if (config.isIDPEnabled)
+    if (config.idpEnabled || config.isIdentityProvider)
         instance = [self idpAuthInstance:config];
     else if (config.advancedAuthConfiguration==SFOAuthAdvancedAuthConfigurationRequire)
          instance = [self nativeBrowserAuthInstance:config];
