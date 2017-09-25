@@ -722,7 +722,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
                 [self didChangeValueForKey:@"currentUser"];
                 userChanged = YES;
             } else {
-                [SFSDKCoreLogger e:[self class] format:@"Cannot set the currentUser as %@. Add the account to the SFAccountManager before making this call.", [user userName]];
+                [SFSDKCoreLogger e:[self class] format:@"Cannot set the new user as currentUser. Add the account to the SFAccountManager before making this call."];
             }
         }
         [_accountsLock unlock];
@@ -937,7 +937,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 
 - (void)switchToUser:(SFUserAccount *)newCurrentUser {
     if ([self.currentUser.accountIdentity isEqual:newCurrentUser.accountIdentity]) {
-        [SFSDKCoreLogger w:[self class] format:@"%@ new user identity is the same as the current user (%@/%@).  No action taken.", NSStringFromSelector(_cmd), newCurrentUser.credentials.organizationId, newCurrentUser.credentials.userId];
+        [SFSDKCoreLogger w:[self class] format:@"%@ new user identity is the same as the current user.  No action taken.", NSStringFromSelector(_cmd)];
     } else {
         [self enumerateDelegates:^(id<SFUserAccountManagerDelegate> delegate) {
             if ([delegate respondsToSelector:@selector(userAccountManager:willSwitchFromUser:toUser:)]) {
