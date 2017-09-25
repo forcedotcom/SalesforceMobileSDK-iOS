@@ -1009,7 +1009,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
     
     if (showSelection) {
         UIViewController<SFSDKUserSelectionView> *controller  = authClient.idpUserSelectionBlock();
-        controller.spAppOptions = options;
+        controller.spAppOptions = spAppOptions;
         controller.userSelectionDelegate = self;
         authClient.authWindow.viewController = controller;
         [authClient.authWindow enable];
