@@ -26,6 +26,7 @@
 #import "SFSDKSafeMutableDictionary.h"
 #import "SFSDKIDPAuthClient.h"
 #import "SFSDKUserSelectionView.h"
+#import "SFSDKLoginFlowSelectionView.h"
 
 @class SFSDKAuthPreferences;
 

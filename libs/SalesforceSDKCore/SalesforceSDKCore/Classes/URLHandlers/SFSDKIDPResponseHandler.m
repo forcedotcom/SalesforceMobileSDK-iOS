@@ -40,13 +40,10 @@
     
     BOOL isIDPEnabled = [[SFSDKAuthPreferences alloc] init].idpEnabled;
     
-    NSString *appIdentifier = [NSBundle mainBundle].bundleIdentifier;
-    NSRange rangeAppIdentifier = [url.absoluteString rangeOfString:appIdentifier];
     NSRange rangeErrorCode = [url.absoluteString rangeOfString:@"errorCode="];
     NSRange rangeCode = [url.absoluteString rangeOfString:@"code="];
     
     return isIDPEnabled &&
-    (rangeAppIdentifier.location!=NSNotFound) &&
     (rangeErrorCode.location == NSNotFound) &&
     (rangeCode.location!=NSNotFound);
 }

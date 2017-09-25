@@ -86,12 +86,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, copy, nullable) NSString *appDisplayName;
 
-
 @property (nonatomic,assign) BOOL idpEnabled;
-
 
 @property (nonatomic, copy,nullable) NSString *idpAppUrl;
 
+@property (nonatomic,assign) BOOL isIdentityProvider;
 
 @end
 NS_ASSUME_NONNULL_END

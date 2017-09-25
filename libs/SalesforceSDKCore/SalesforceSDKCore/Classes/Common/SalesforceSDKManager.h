@@ -245,6 +245,8 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
  */
 @property (nonatomic, copy) SFSDKUserAgentCreationBlock userAgentString;
 
+@property (nonatomic,assign) BOOL isIdentityProvider;
+
 @property (nonatomic,assign) BOOL idpEnabled;
 
 @property (nonatomic, copy) NSString *idpAppUrl;

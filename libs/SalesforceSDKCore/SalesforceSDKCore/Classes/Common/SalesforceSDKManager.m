@@ -184,6 +184,13 @@ static NSString* ailtnAppName = nil;
     [SFUserAccountManager sharedInstance].idpUserSelectionAction = idpUserSelectionBlock;
 }
 
+- (BOOL)isIdentityProvider {
+    return [SFUserAccountManager sharedInstance].isIdentityProvider;
+}
+
+- (void)setIsIdentityProvider:(BOOL)isIdentityProvider {
+   [SFUserAccountManager sharedInstance].isIdentityProvider = isIdentityProvider;
+}
 
 - (BOOL)idpEnabled {
     return [SFUserAccountManager sharedInstance].idpEnabled;

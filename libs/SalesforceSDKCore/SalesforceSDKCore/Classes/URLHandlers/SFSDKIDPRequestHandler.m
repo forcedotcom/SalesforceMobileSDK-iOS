@@ -38,12 +38,10 @@
 @implementation SFSDKIDPRequestHandler
 
 - (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options {
-    NSString *appIdentifier = [NSBundle mainBundle].bundleIdentifier;
-    
     NSRange clientIdRange = [url.absoluteString rangeOfString:@"oauth_client_id="];
+    NSRange codeVerifierRange = [url.absoluteString rangeOfString:@"code_verifier="];
     NSRange redirectRange = [url.absoluteString rangeOfString:@"oauth_redirect_uri="];
-    NSRange rangeAppIdentifier = [url.absoluteString rangeOfString:appIdentifier];
-    return (rangeAppIdentifier.location!=NSNotFound) &&
+    return (codeVerifierRange.location!=NSNotFound) &&
     (clientIdRange.location!=NSNotFound)  &&
     (redirectRange.location!=NSNotFound);
 }

@@ -510,6 +510,8 @@ FOUNDATION_EXTERN NSString * const  SFUserAccountManagerIDPInitiatedLoginNotific
 
 @property (nonatomic, copy, nullable) SFIDPUserSelectionBlock idpUserSelectionAction;
 
+@property (nonatomic,assign) BOOL isIdentityProvider;
+
 @property (nonatomic,assign) BOOL idpEnabled;
 
 @property (nonatomic, copy) NSString *idpAppUrl;

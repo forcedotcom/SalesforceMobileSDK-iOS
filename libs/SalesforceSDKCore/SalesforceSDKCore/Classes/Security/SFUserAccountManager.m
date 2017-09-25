@@ -147,6 +147,13 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
     self.authPreferences.oauthClientId = newClientId;
 }
 
+- (BOOL)isIdentityProvider {
+    return self.authPreferences.isIdentityProvider;
+}
+
+- (void)setIsIdentityProvider:(BOOL)isIdentityProvider{
+    self.authPreferences.isIdentityProvider = isIdentityProvider;
+}
 
 - (BOOL)idpEnabled {
     return self.authPreferences.idpEnabled;
@@ -928,9 +935,12 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
     SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:creds  configBlock:^(SFSDKOAuthClientConfig  *config) {
         __strong typeof (self) strongSelf = weakSelf;
         config.loginHost = strongSelf.loginHost;
+        config.isIdentityProvider = strongSelf.isIdentityProvider;
         config.scopes = strongSelf.scopes;
         config.oauthCompletionUrl = strongSelf.oauthCompletionUrl;
         config.oauthClientId = strongSelf.oauthClientId;
+        config.idpAppUrl = strongSelf.idpAppUrl;
+        config.appDisplayName = strongSelf.appDisplayName;
         
         config.isIDPEnabled = YES;
         config.isIDPInitiatedFlow = YES;
@@ -973,10 +983,9 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
         authClient = [self fetchIDPAuthClient:foundUserCredentials completion:nil failure:nil];
     }
 
-    if (self.currentUser==nil) {
+    if (self.currentUser!=nil) {
         showSelection = YES;
     }
-
     authClient.config.callingAppState = [request valueForParameterName:@"state"];
     authClient.config.callingAppName = [request valueForParameterName:@"app_name"];
     authClient.config.callingAppIdentifier = sourceApplication;
@@ -1012,8 +1021,11 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
             __strong typeof(self) strongSelf = weakSelf;
             config.loginHost = strongSelf.loginHost;
             config.scopes = strongSelf.scopes;
+            config.isIdentityProvider = strongSelf.isIdentityProvider;
             config.oauthCompletionUrl = strongSelf.oauthCompletionUrl;
             config.oauthClientId = strongSelf.oauthClientId;
+            config.idpAppUrl = strongSelf.idpAppUrl;
+            config.appDisplayName = strongSelf.appDisplayName;
             
             config.isIDPEnabled = strongSelf.idpEnabled;
             config.advancedAuthConfiguration = strongSelf.advancedAuthConfiguration;
@@ -1040,6 +1052,8 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
             config.scopes = strongSelf.scopes;
             config.oauthCompletionUrl = strongSelf.oauthCompletionUrl;
             config.oauthClientId = strongSelf.oauthClientId;
+            config.appDisplayName = strongSelf.appDisplayName;
+            config.isIdentityProvider = strongSelf.isIdentityProvider;
             config.isIDPEnabled  = YES;
             config.advancedAuthConfiguration = strongSelf.advancedAuthConfiguration;
             config.idpDelegate = strongSelf;

@@ -56,6 +56,9 @@ NSString * const kSFIDPKey = @"SFDCIdp";
 // The key for storing the IDP App Enabled flag
 NSString * const kSFIDPEnabledKey = @"SFDCIdpEnabled";
 
+// The key for storing the IDP App Enabled flag
+NSString * const kSFIDPProviderKey = @"SFIDPProvider";
+
 // The key for storing the persisted OAuth scopes.
 NSString * const kOAuthAppName = @"oauth_app_name";
 
@@ -189,6 +192,19 @@ NSString * const kOAuthAppName = @"oauth_app_name";
 {
     NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
     [defs setBool:idpEnabled forKey:kSFIDPEnabledKey];
+    [defs synchronize];
+}
+
+- (BOOL)isIdentityProvider
+{
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
+    return [defs boolForKey:kSFIDPProviderKey];
+}
+
+- (void)setIsIdentityProvider:(BOOL)isIdentityProvider
+{
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
+    [defs setBool:isIdentityProvider forKey:kSFIDPProviderKey];
     [defs synchronize];
 }
 

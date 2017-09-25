@@ -93,10 +93,10 @@ static NSString * const kSFChallengeParamName          = @"code_challenge";
 
 - (BOOL)refreshCredentials {
     
-    if (!self.config.idpEnabled) {
+    if (self.config.isIdentityProvider) {
         return [super refreshCredentials];
     }
-        
+    
     if (self.credentials.accessToken==nil) {
         if (self.context.userHint==nil) {
             self.authWindow.viewController = self.idpLoginFlowSelectionBlock();
@@ -202,7 +202,7 @@ static NSString * const kSFChallengeParamName          = @"code_challenge";
    
     NSString *codeChallengeString = [[[self.coordinator.codeVerifier dataUsingEncoding:NSUTF8StringEncoding] msdkSha256Data] msdkBase64UrlString];
     
-    if( !self.config.idpAppUrl ) return nil;
+    if (!self.config.idpAppUrl) return nil;
 
     NSString *clientId = self.config.oauthClientId;
     
