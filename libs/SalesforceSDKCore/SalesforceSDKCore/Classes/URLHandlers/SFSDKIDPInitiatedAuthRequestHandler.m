@@ -38,14 +38,11 @@
 
 - (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options {
     NSRange userHintRange = [url.absoluteString rangeOfString:@"user_hint="];
-    NSString *appIdentifier = [NSBundle mainBundle].bundleIdentifier;
     
     NSRange clientIdRange = [url.absoluteString rangeOfString:@"oauth_client_id="];
     NSRange redirectRange = [url.absoluteString rangeOfString:@"oauth_redirect_uri="];
-    NSRange rangeAppIdentifier = [url.absoluteString rangeOfString:appIdentifier];
     
-    return  (rangeAppIdentifier.location!=NSNotFound) &&
-            (userHintRange.location!=NSNotFound) &&
+    return  (userHintRange.location!=NSNotFound) &&
             (redirectRange.location==NSNotFound) &&
             (clientIdRange.location==NSNotFound);
 

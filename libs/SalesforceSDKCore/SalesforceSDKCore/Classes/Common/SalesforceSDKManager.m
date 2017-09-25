@@ -566,6 +566,9 @@ static NSString* ailtnAppName = nil;
     // Will set up the passcode timer for auth that occurs out of band from SDK Manager launch.
     [SFSecurityLockout setupTimer];
     [SFSecurityLockout startActivityMonitoring];
+    NSDictionary *userInfo = notification.userInfo;
+    SFUserAccount *userAccount = userInfo[@"account"];
+    [[SFUserAccountManager sharedInstance] switchToUser:userAccount];
     [self sendPostLaunch];
 }
 

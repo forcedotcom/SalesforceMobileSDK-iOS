@@ -931,6 +931,16 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 
 - (BOOL)handleIdpInitiatedAuth:(NSURL *_Nonnull)url options:(NSDictionary *_Nullable)options {
     
+    NSString *userHint = [url valueForParameterName:@"user_hint"];
+    if (userHint) {
+        SFUserAccountIdentity *identity = [self decodeUserIdentity:userHint];
+        SFUserAccount *userAccount = [self userAccountForUserIdentity:identity];
+        if (userAccount) {
+            [self switchToUser:userAccount];
+            return YES;
+        }
+    }
+    
     SFOAuthCredentials *creds = [[SFUserAccountManager sharedInstance] newClientCredentials];
     NSString *key = [self clientKeyForCredentials:creds];
     __weak typeof (self) weakSelf = self;
@@ -956,7 +966,6 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
     }];
     [self.oauthClientInstances setObject:client forKey:key];
     //TODO : fix setting user hint
-    NSString *userHint = [url valueForParameterName:@"user_hint"];
     client.context.userHint = userHint;
     return [client refreshCredentials];
 }
@@ -964,7 +973,6 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 - (BOOL)handleIdpRequest:(NSURL *_Nonnull)request options:(NSDictionary *_Nullable)options
 {
     SFOAuthCredentials *idpAppsCredentials = [self newClientCredentials];
-    NSString *sourceApplication = [options objectForKey:UIApplicationOpenURLOptionsSourceApplicationKey];
     NSString *userHint = [request valueForParameterName:@"user_hint"];
     SFOAuthCredentials *foundUserCredentials = nil;
     
@@ -985,15 +993,15 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
     } else if (foundUserCredentials) {
         authClient = [self fetchIDPAuthClient:foundUserCredentials completion:nil failure:nil];
     }
-
-    if (self.currentUser!=nil) {
+    
+    if (self.currentUser!=nil && !foundUserCredentials) {
         showSelection = YES;
     }
     
     NSMutableDictionary *spAppOptions = [[NSMutableDictionary alloc] init];
     
     if ([request valueForParameterName:@"state"]) {
-         [spAppOptions setValue:[request valueForParameterName:@"state"] forKey:@"state"];
+        [spAppOptions setValue:[request valueForParameterName:@"state"] forKey:@"state"];
     }
     
     if ([request valueForParameterName:@"app_name"]) {
@@ -1199,10 +1207,13 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
         [self handleAnalyticsAddUserEvent:client account:userAccount];
     }
     
-    if (!self.authPreferences.idpEnabled && [client isKindOfClass:[SFSDKIDPAuthClient class]]) {
+    if (self.authPreferences.isIdentityProvider && [client isKindOfClass:[SFSDKIDPAuthClient class]]) {
         SFSDKIDPAuthClient *idpClient = (SFSDKIDPAuthClient *)client;
+        
+        //if not current user has been set in the app yet then set this user as current.
         if (self.currentUser==nil)
             self.currentUser = userAccount;
+        
         [idpClient continueIDPFlow:userAccount.credentials];
     } else {
         NSDictionary *userInfo = @{ @"account": userAccount };

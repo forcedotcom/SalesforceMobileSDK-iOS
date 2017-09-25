@@ -130,39 +130,10 @@ static NSString * const kSFChallengeParamName          = @"code_challenge";
 #pragma mark - private
 
 - (void)launchIDPApp {
-    
-//    if (self.context.userHint!=nil && self.config.isIDPInitiatedFlow) {
-//        SFUserAccountIdentity *identity = [[SFUserAccountManager sharedInstance] decodeUserIdentity:self.context.userHint];
-//        
-//        SFUserAccount *userAccount = [[SFUserAccountManager sharedInstance] userAccountForUserIdentity:identity];
-//        
-//        if (userAccount != nil && userAccount.credentials.accessToken!=nil) {
-//            [super refreshCredentials:userAccount.credentials];
-//            return;
-//        }
-//    }
-//        } else {
-//            // show an alert for the swizzle back to IDP
-//            //[self showAlertMessage:];
-//            __weak typeof (self) weakSelf = self;
-//            [self showAlertMessage:@"There were no local accounts, Will request initial Authorization from the IDP APP" withSuccess:^{
-//                __strong typeof (weakSelf) strongSelf = weakSelf;
-//                [strongSelf invokeIDPApp];
-//            } failure:^{
-//                __strong typeof (weakSelf) strongSelf = weakSelf;
-//                NSURL *url = [strongSelf idpAppURLWithError:nil reason:@"User Cancelled Authentication"];
-//                [SFApplicationHelper openURL:url];
-//            }];
-//        }
-   // } else {
-      __weak typeof (self) weakSelf = self;
-      dispatch_async(dispatch_get_main_queue(), ^{
-          [weakSelf invokeIDPApp];
-      });
-            
-        
-   // }
-    
+  __weak typeof (self) weakSelf = self;
+  dispatch_async(dispatch_get_main_queue(), ^{
+      [weakSelf invokeIDPApp];
+  });
 }
 
 - (void) invokeIDPApp {
