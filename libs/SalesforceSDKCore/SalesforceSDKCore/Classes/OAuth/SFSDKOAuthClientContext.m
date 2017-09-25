@@ -33,6 +33,7 @@
 @property (nonatomic, strong) SFOAuthCredentials *credentials;
 @property (nonatomic, strong) SFOAuthInfo *authInfo;
 @property (nonatomic, strong) NSError *authError;
+@property (nonatomic, strong) NSURL *callingAppRequestURL;
 @end
 
 @implementation SFSDKOAuthClientContext
@@ -60,10 +61,7 @@
 @dynamic credentials;
 @dynamic authError;
 @dynamic authInfo;
-
-- (id)copyWithZone:(NSZone *)zone {
-    return [self mutableCopyWithZone:zone];
-}
+@dynamic callingAppRequestURL;
 
 - (id)mutableCopyWithZone:(NSZone *)zone {
     SFSDKMutableOAuthClientContext *mutableContext = [[SFSDKMutableOAuthClientContext alloc] init];

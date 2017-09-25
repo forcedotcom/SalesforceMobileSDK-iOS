@@ -197,6 +197,16 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
 @property (nonatomic, assign) BOOL useSnapshotView;
 
 /**
+ The block to provide custom view to use for IDP selection flow. This block will be used if loginFlowSelectionDialogEnabled in SDSDKIDPconfig is set to YES.
+ */
+@property (nonatomic, copy, nullable) SFIDPLoginFlowSelectionCreationBlock idpLoginFlowSelectionAction;
+
+
+/**
+ The block to provide custom view to use for IDP user selection flow.
+ */
+@property (nonatomic, copy, nullable) SFIDPUserSelectionBlock idpUserSelectionBlock;
+/**
  The block to provide custom view to use as the "image" that represents the app display when it is backgrounded.
  @discussion
  This action is called when `useSnapshotView` is YES. If this action is not set or if nil is returned,
@@ -234,6 +244,12 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
  SalesforceMobileSDK/3.0.0 iPhone OS/8.1 (iPad) AppName/AppVersion *Native or Hybrid with optional qualifier* *Web-based user agent string*
  */
 @property (nonatomic, copy) SFSDKUserAgentCreationBlock userAgentString;
+
+@property (nonatomic,assign) BOOL idpEnabled;
+
+@property (nonatomic, copy) NSString *idpAppUrl;
+
+@property (nonatomic,copy) NSString *appDisplayName;
 
 /**
  Launches the SDK.  This will verify an existing passcode the first time it runs, and attempt to

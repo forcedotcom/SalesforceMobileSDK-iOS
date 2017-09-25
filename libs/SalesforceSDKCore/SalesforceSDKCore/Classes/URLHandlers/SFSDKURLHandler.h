@@ -1,5 +1,10 @@
 /*
- Copyright (c) 2012-present, salesforce.com, inc. All rights reserved.
+ SFSDKURLHandler.h
+ SalesforceSDKCore
+ 
+ Created by Raj Rao on 8/28/17.
+ 
+ Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -24,42 +29,10 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
+@protocol SFSDKURLHandler<NSObject>
 
-/**
- The type of authentication being attempted, in a given OAuth coordinator cycle.
- */
-typedef NS_ENUM(NSUInteger, SFOAuthType) {
-    SFOAuthTypeUnknown = 0,
-    SFOAuthTypeUserAgent,
-    SFOAuthTypeRefresh,
-    SFOAuthTypeAdvancedBrowser,
-    SFOAuthTypeJwtTokenExchange,
-    SFOAuthTypeIDP
-};
+- (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options;
 
-/**
- Data class containing members denoting state information for an OAuth coordinator authentication
- cycle.
- */
-@interface SFOAuthInfo : NSObject
-
-/**
- The type of authentication being performed.
- */
-@property (nonatomic, readonly, assign) SFOAuthType authType;
-
-/**
- The string description of the auth type.
- */
-@property (nonatomic, readonly) NSString *authTypeDescription;
-
-/**
- Creates a new instance with the given auth type.
- @param authType The type of authentication being performed.
- */
-- (id)initWithAuthType:(SFOAuthType)authType;
+- (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options;
 
 @end
-
-NS_ASSUME_NONNULL_END

@@ -1,5 +1,10 @@
 /*
- Copyright (c) 2012-present, salesforce.com, inc. All rights reserved.
+ SFSDKIDPRequestHandler.m
+ SalesforceSDKCore
+ 
+ Created by Raj Rao on 8/28/17.
+ 
+ Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -21,45 +26,30 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#import "SFSDKURLHandler.h"
+#import "SFSDKIDPRequestHandler.h"
+#import "SFOAuthCredentials.h"
+#import "SFSDKOAuthClient.h"
+#import "SFSDKOAuthClientConfig.h"
+#import "SFSDKUserSelectionNavViewController.h"
+#import "SFSDKIDPAuthClient.h"
+#import "SFUserAccountManager+Internal.h"
 
-#import <Foundation/Foundation.h>
+@implementation SFSDKIDPRequestHandler
 
-NS_ASSUME_NONNULL_BEGIN
+- (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options {
+    NSString *appIdentifier = [NSBundle mainBundle].bundleIdentifier;
+    
+    NSRange clientIdRange = [url.absoluteString rangeOfString:@"oauth_client_id="];
+    NSRange redirectRange = [url.absoluteString rangeOfString:@"oauth_redirect_uri="];
+    NSRange rangeAppIdentifier = [url.absoluteString rangeOfString:appIdentifier];
+    return (rangeAppIdentifier.location!=NSNotFound) &&
+    (clientIdRange.location!=NSNotFound)  &&
+    (redirectRange.location!=NSNotFound);
+}
 
-/**
- The type of authentication being attempted, in a given OAuth coordinator cycle.
- */
-typedef NS_ENUM(NSUInteger, SFOAuthType) {
-    SFOAuthTypeUnknown = 0,
-    SFOAuthTypeUserAgent,
-    SFOAuthTypeRefresh,
-    SFOAuthTypeAdvancedBrowser,
-    SFOAuthTypeJwtTokenExchange,
-    SFOAuthTypeIDP
-};
-
-/**
- Data class containing members denoting state information for an OAuth coordinator authentication
- cycle.
- */
-@interface SFOAuthInfo : NSObject
-
-/**
- The type of authentication being performed.
- */
-@property (nonatomic, readonly, assign) SFOAuthType authType;
-
-/**
- The string description of the auth type.
- */
-@property (nonatomic, readonly) NSString *authTypeDescription;
-
-/**
- Creates a new instance with the given auth type.
- @param authType The type of authentication being performed.
- */
-- (id)initWithAuthType:(SFOAuthType)authType;
-
+- (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options {
+    [[SFUserAccountManager sharedInstance] handleIdpRequest:url options:options];
+    return NO;
+}
 @end
-
-NS_ASSUME_NONNULL_END

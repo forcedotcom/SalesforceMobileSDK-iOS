@@ -144,6 +144,8 @@ static NSString* ailtnAppName = nil;
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAuthCompleted:) name:kSFAuthenticationManagerFinishedNotification object:nil];
+         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleIDPInitiatedAuthCompleted:) name:SFUserAccountManagerIDPInitiatedLoginNotification object:nil];
+        
         [SFPasscodeManager sharedManager].preferredPasscodeProvider = kSFPasscodeProviderPBKDF2;
         if (NSClassFromString(@"SFHybridViewController") != nil) {
             self.appType = kSFAppTypeHybrid;
@@ -166,6 +168,46 @@ static NSString* ailtnAppName = nil;
 }
 
 #pragma mark - Public methods / properties
+- (SFIDPLoginFlowSelectionCreationBlock)idpLoginFlowSelectionAction {
+    return [SFUserAccountManager sharedInstance].idpLoginFlowSelectionAction;
+}
+
+- (void)setIdpLoginFlowSelectionAction:(SFIDPLoginFlowSelectionCreationBlock)idpLoginFlowSelectionAction {
+    [SFUserAccountManager sharedInstance].idpLoginFlowSelectionAction = idpLoginFlowSelectionAction;
+}
+
+- (SFIDPUserSelectionBlock)idpUserSelectionBlock {
+    return [SFUserAccountManager sharedInstance].idpUserSelectionAction;
+}
+
+- (void)setIdpUserSelectionBlock:(SFIDPUserSelectionBlock)idpUserSelectionBlock {
+    [SFUserAccountManager sharedInstance].idpUserSelectionAction = idpUserSelectionBlock;
+}
+
+
+- (BOOL)idpEnabled {
+    return [SFUserAccountManager sharedInstance].idpEnabled;
+}
+
+- (void)setIdpEnabled:(BOOL)idpEnabled {
+    [SFUserAccountManager sharedInstance].idpEnabled = idpEnabled;
+}
+
+- (NSString *)appDisplayName {
+    return [SFUserAccountManager sharedInstance].appDisplayName;
+}
+
+- (void)setAppDisplayName:(NSString *)appDisplayName {
+    [SFUserAccountManager sharedInstance].appDisplayName = appDisplayName;
+}
+
+- (NSString *)idpAppUrl{
+    return [SFUserAccountManager sharedInstance].idpAppUrl;
+}
+
+- (void)setIdpAppUrl:(NSString *)idpAppUrl {
+    [SFUserAccountManager sharedInstance].idpAppUrl = idpAppUrl;
+}
 
 - (BOOL)isLaunching
 {
@@ -512,6 +554,14 @@ static NSString* ailtnAppName = nil;
     [SFSecurityLockout startActivityMonitoring];
 }
 
+- (void)handleIDPInitiatedAuthCompleted:(NSNotification *)notification
+{
+    // Will set up the passcode timer for auth that occurs out of band from SDK Manager launch.
+    [SFSecurityLockout setupTimer];
+    [SFSecurityLockout startActivityMonitoring];
+    [self sendPostLaunch];
+}
+
 - (void)handlePostLogout
 {
     // Close the passcode screen and reset passcode monitoring.
@@ -648,16 +698,26 @@ static NSString* ailtnAppName = nil;
 - (void)authAtLaunch
 {
     [SFSDKCoreLogger i:[self class] format:@"No valid credentials found.  Proceeding with authentication."];
-    [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
+    
+    SFOAuthFlowSuccessCallbackBlock successBlock = ^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
         [SFSDKCoreLogger i:[self class] format:@"Authentication (%@) succeeded.  Launch completed.", authInfo.authTypeDescription];
         [SFUserAccountManager sharedInstance].currentUser = userAccount;
         [SFSecurityLockout setupTimer];
         [SFSecurityLockout startActivityMonitoring];
         [self authValidatedToPostAuth:SFSDKLaunchActionAuthenticated];
-    } failure:^(SFOAuthInfo *authInfo, NSError *authError) {
+    };
+    
+    SFOAuthFlowFailureCallbackBlock failureBlock = ^(SFOAuthInfo *authInfo, NSError *authError) {
         [SFSDKCoreLogger e:[self class] format:@"Authentication (%@) failed: %@.", (authInfo.authType == SFOAuthTypeUserAgent ? @"User Agent" : @"Refresh"), [authError localizedDescription]];
         [self sendLaunchError:authError];
-    }];
+    };
+    
+    if (!self.idpEnabled) {
+        [[SFAuthenticationManager sharedManager] loginWithCompletion:successBlock failure:failureBlock];
+    }else {
+        [[SFUserAccountManager sharedInstance] loginWithCompletion:successBlock failure:failureBlock];
+    }
+
 }
 
 - (void)authBypassAtLaunch

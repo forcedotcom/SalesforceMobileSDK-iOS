@@ -25,6 +25,9 @@
 #import <Foundation/Foundation.h>
 
 @class SFUserAccount;
+@class UIViewController;
+@protocol SFSDKLoginFlowSelectionView;
+@protocol SFSDKUserSelectionView;
 NS_ASSUME_NONNULL_BEGIN
 // Errors
 extern NSString * const kSalesforceSDKManagerErrorDomain;
@@ -73,4 +76,14 @@ typedef void (^SFSDKAppForegroundCallbackBlock)(void);
  */
 typedef NSString*_Nonnull (^SFSDKUserAgentCreationBlock)(NSString *qualifier);
 
+/**
+ Block typedef for creating a custom login flow selection dialog.
+ */
+typedef UIViewController<SFSDKLoginFlowSelectionView>*_Nonnull (^SFIDPLoginFlowSelectionCreationBlock)(void);
+
+
+/**
+ Block typedef for creating a custom user selection flow for idp provider app.
+ */
+typedef UIViewController<SFSDKUserSelectionView>*_Nonnull (^SFIDPUserSelectionBlock)(void);
 NS_ASSUME_NONNULL_END

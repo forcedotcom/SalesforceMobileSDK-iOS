@@ -1,5 +1,10 @@
 /*
- Copyright (c) 2012-present, salesforce.com, inc. All rights reserved.
+ SFSDKURLHandlerManager.h
+ SalesforceSDKCore
+ 
+ Created by Raj Rao on 8/28/17.
+ 
+ Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,44 +27,20 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+
 #import <Foundation/Foundation.h>
+@protocol SFSDKURLHandler;
 
-NS_ASSUME_NONNULL_BEGIN
+@interface SFSDKURLHandlerManager : NSObject
 
-/**
- The type of authentication being attempted, in a given OAuth coordinator cycle.
- */
-typedef NS_ENUM(NSUInteger, SFOAuthType) {
-    SFOAuthTypeUnknown = 0,
-    SFOAuthTypeUserAgent,
-    SFOAuthTypeRefresh,
-    SFOAuthTypeAdvancedBrowser,
-    SFOAuthTypeJwtTokenExchange,
-    SFOAuthTypeIDP
-};
+- (void)addHandler:(id<SFSDKURLHandler>)handler;
 
-/**
- Data class containing members denoting state information for an OAuth coordinator authentication
- cycle.
- */
-@interface SFOAuthInfo : NSObject
+- (void)removeHandler:(id<SFSDKURLHandler>)handler;
 
-/**
- The type of authentication being performed.
- */
-@property (nonatomic, readonly, assign) SFOAuthType authType;
+- (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options;
 
-/**
- The string description of the auth type.
- */
-@property (nonatomic, readonly) NSString *authTypeDescription;
+- (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options;
 
-/**
- Creates a new instance with the given auth type.
- @param authType The type of authentication being performed.
- */
-- (id)initWithAuthType:(SFOAuthType)authType;
++ (instancetype)sharedInstance;
 
 @end
-
-NS_ASSUME_NONNULL_END

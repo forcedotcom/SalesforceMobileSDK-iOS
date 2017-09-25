@@ -74,12 +74,24 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  The Branded Login path configured for this application.
  */
-@property (nonatomic, nullable, copy) NSString *brandLoginPath;
+@property (nonatomic, copy, nullable) NSString *brandLoginPath;
 
 /**
  The OAuth scopes associated with the app.
  */
 @property (nonatomic, copy) NSSet<NSString*> *scopes;
+
+/**
+ The OAuth scopes associated with the app.
+ */
+@property (nonatomic, copy, nullable) NSString *appDisplayName;
+
+
+@property (nonatomic,assign) BOOL idpEnabled;
+
+
+@property (nonatomic, copy,nullable) NSString *idpAppUrl;
+
 
 @end
 NS_ASSUME_NONNULL_END

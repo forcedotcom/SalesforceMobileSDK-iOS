@@ -21,14 +21,13 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
+#import "SalesforceSDKCoreDefines.h"
 #import "SFUserAccount.h"
 #import "SFOAuthCredentials.h"
 #import "SFUserAccountIdentity.h"
 #import "SFUserAccountConstants.h"
 #import "SFOAuthCoordinator.h"
 #import "SFOAuthCoordinator.h"
-#import "SFSDKOAuthClient.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -115,6 +114,11 @@ FOUNDATION_EXTERN NSString * const SFUserAccountManagerLogoutNotification;
  */
 FOUNDATION_EXTERN NSString * const SFUserAccountManagerLoggedInNotification;
 
+FOUNDATION_EXTERN NSString * const  SFUserAccountManagerIDPInitiatedLoginNotification;
+@protocol SFSDKOAuthClientDelegate;
+@protocol SFSDKOAuthClientSafariViewDelegate;
+@protocol SFSDKOAuthClientWebViewDelegate;
+@protocol SFSDKIDPAuthClientDelegate;
 
 @class SFUserAccountManager;
 
@@ -224,7 +228,6 @@ FOUNDATION_EXTERN NSString * const SFUserAccountManagerLoggedInNotification;
  It supports multiple accounts and their associated credentials.
  */
 @interface SFUserAccountManager : NSObject
-
 /** The current user account.  This property may be nil if the user
  has never logged in.
  */
@@ -287,8 +290,6 @@ FOUNDATION_EXTERN NSString * const SFUserAccountManagerLoggedInNotification;
 /**  Convenience property to retrieve the current user's identity.
  */
 @property (readonly, nonatomic, nullable) SFUserAccountIdentity *currentUserIdentity;
-
-@property (readonly, nonatomic,nullable) id<SFSDKOAuthClient> authClient;
 
 /** Shared singleton
  */
@@ -499,10 +500,21 @@ FOUNDATION_EXTERN NSString * const SFUserAccountManagerLoggedInNotification;
  Handle an advanced authentication response from the external browser, continuing any
  in-progress adavanced authentication flow.
  @param appUrlResponse The URL response returned to the app from the external browser.
+ @options Dictionary of name-value pairs received from open URL
  @return YES if this is a valid URL response from advanced authentication that should
  be handled, NO otherwise.
  */
-- (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse;
+- (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse options:(NSDictionary *)options;
+
+@property (nonatomic, copy, nullable) SFIDPLoginFlowSelectionCreationBlock idpLoginFlowSelectionAction;
+
+@property (nonatomic, copy, nullable) SFIDPUserSelectionBlock idpUserSelectionAction;
+
+@property (nonatomic,assign) BOOL idpEnabled;
+
+@property (nonatomic, copy) NSString *idpAppUrl;
+
+@property (nonatomic,copy) NSString *appDisplayName;
 
 
 @end

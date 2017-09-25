@@ -73,6 +73,8 @@ typedef void (^SFIdentityFailureCallbackBlock)(SFSDKOAuthClient *,NSError *);
 @property (nonatomic, strong, readonly) SFOAuthCredentials *credentials;
 @property (nonatomic, strong, readonly) SFOAuthInfo *authInfo;
 @property (nonatomic, strong, readonly) NSError *authError;
+@property (nonatomic, strong, readonly) NSURL *callingAppRequestURL;
+@property (nonatomic, copy) NSString *userHint;
 
 @end
 
@@ -80,6 +82,7 @@ typedef void (^SFIdentityFailureCallbackBlock)(SFSDKOAuthClient *,NSError *);
 @property (nonatomic, readwrite,nullable) SFOAuthCredentials *credentials;
 @property (nonatomic, strong, readwrite,nullable) SFOAuthInfo *authInfo;
 @property (nonatomic, strong, readwrite,nullable) NSError *authError;
+@property (nonatomic, strong, readwrite,nullable) NSURL *callingAppRequestURL;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -29,6 +29,7 @@
 
 
 #import <Foundation/Foundation.h>
+#import "SalesforceSDKCoreDefines.h"
 #import "SFOAuthCoordinator.h"
 #import "SFSDKOAuthClientContext.h"
 
@@ -40,32 +41,46 @@
 @class SFSDKOAuthClientIDP;
 @class SFAuthErrorHandlerList;
 @class SFAuthErrorHandler;
+@protocol SFSDKIDPAuthClientDelegate;
+@protocol SFSDKOAuthClientWebViewDelegate;
+@protocol SFSDKOAuthClientSafariViewDelegate;
 
 @interface SFSDKOAuthClientConfig : NSObject
 
 @property (nonatomic, copy, nonnull) NSString *loginHost;
 @property (nonatomic, copy, nonnull) NSSet<NSString*> *scopes;
+@property (nonatomic, assign) SFOAuthAdvancedAuthConfiguration advancedAuthConfiguration;
+@property (nonatomic, strong, nullable) NSArray *additionalOAuthParameterKeys;
+@property (nonatomic, strong, nullable) NSDictionary * additionalTokenRefreshParams;
+@property (nonatomic, copy, nullable) NSString *appDisplayName;
+@property (nonatomic,assign) BOOL idpEnabled;
+@property (nonatomic, copy,nullable) NSString *idpAppUrl;
+@property (nonatomic, copy, nullable) NSString *oauthCompletionUrl;
+@property (nonatomic, copy, nullable) NSString *oauthClientId;
+
 
 @property (nonatomic, weak,nullable) id<SFSDKOAuthClientSafariViewDelegate> safariViewDelegate;
 @property (nonatomic, weak,nullable) id<SFSDKOAuthClientWebViewDelegate> webViewDelegate;
+
 @property (nonatomic, weak,nullable) id<SFSDKOAuthClientDelegate> delegate;
+@property (nonatomic, weak,nullable) id<SFSDKIDPAuthClientDelegate> idpDelegate;
 
 @property (nonatomic, copy,nullable) SFAuthenticationSuccessCallbackBlock successCallbackBlock;
 @property (nonatomic, copy,nullable) SFAuthenticationFailureCallbackBlock  failureCallbackBlock;
+
 @property (nonatomic, copy,nullable) SFIdentitySuccessCallbackBlock identitySuccessCallbackBlock;
 @property (nonatomic, copy,nullable) SFIdentityFailureCallbackBlock identityFailureCallbackBlock;
-@property (nonatomic, copy,nullable) SFOAuthBrowserFlowCallbackBlock authCoordinatorBrowserBlock;
 
-@property (nonatomic, assign) SFOAuthAdvancedAuthConfiguration advancedAuthConfiguration;
-@property (nonatomic, strong, nullable) NSArray * additionalOAuthParameterKeys;
-@property (nonatomic, strong, nullable) NSDictionary *  additionalTokenRefreshParams;
-@property (nonatomic, strong, nullable) SFAuthErrorHandler *invalidCredentialsAuthErrorHandler;
-@property (nonatomic, strong, nullable) SFAuthErrorHandler *connectedAppVersionAuthErrorHandler;
-@property (nonatomic, strong, nullable) SFAuthErrorHandler *networkFailureAuthErrorHandler;
-@property (nonatomic, strong, nullable) SFAuthErrorHandler *genericAuthErrorHandler;
-@property (nonatomic, strong, nullable) SFAuthErrorHandlerList *authErrorHandlerList;
-@property (nonatomic, strong, nullable) SFSDKOAuthViewHandler *authViewHandler;
-@property (nonatomic, strong, nullable) UIAlertController *statusAlert;
+@property (nonatomic, assign) BOOL isIDPEnabled;
+@property (nonatomic, assign) BOOL isIDPInitiatedFlow;
+
+@property (nonatomic, copy,nullable) NSString *callingAppIdentifier;
+@property (nonatomic, copy,nullable) NSString *callingAppName;
+@property (nonatomic, copy,nullable) NSString *callingAppDescription;
+@property (nonatomic, copy,nullable) NSString *callingAppState;
+
+@property (nonatomic, copy, nullable) SFIDPLoginFlowSelectionCreationBlock idpLoginFlowSelectionBlock;
+@property (nonatomic, copy, nullable) SFIDPUserSelectionBlock   idpUserSelectionBlock;
 /**
  The view controller used to present the authentication dialog.
  */

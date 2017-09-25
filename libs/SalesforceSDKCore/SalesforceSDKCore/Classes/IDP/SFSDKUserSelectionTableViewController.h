@@ -1,5 +1,10 @@
 /*
- Copyright (c) 2012-present, salesforce.com, inc. All rights reserved.
+ SFSDKUserSelectionTableViewControllerDelegate.h
+ SalesforceSDKCore
+ 
+ Created by Raj Rao on 8/28/17.
+ 
+ Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,44 +27,24 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+@class SFUserAccount;
+@class SFSDKIDPAuthClient;
 
-NS_ASSUME_NONNULL_BEGIN
+@protocol SFSDKUserSelectionTableViewControllerDelegate
 
-/**
- The type of authentication being attempted, in a given OAuth coordinator cycle.
- */
-typedef NS_ENUM(NSUInteger, SFOAuthType) {
-    SFOAuthTypeUnknown = 0,
-    SFOAuthTypeUserAgent,
-    SFOAuthTypeRefresh,
-    SFOAuthTypeAdvancedBrowser,
-    SFOAuthTypeJwtTokenExchange,
-    SFOAuthTypeIDP
-};
-
-/**
- Data class containing members denoting state information for an OAuth coordinator authentication
- cycle.
- */
-@interface SFOAuthInfo : NSObject
-
-/**
- The type of authentication being performed.
- */
-@property (nonatomic, readonly, assign) SFOAuthType authType;
-
-/**
- The string description of the auth type.
- */
-@property (nonatomic, readonly) NSString *authTypeDescription;
-
-/**
- Creates a new instance with the given auth type.
- @param authType The type of authentication being performed.
- */
-- (id)initWithAuthType:(SFOAuthType)authType;
+-(void) createNewuser;
+-(void) selectedUser:(SFUserAccount *) user;
+-(void) cancel;
 
 @end
 
-NS_ASSUME_NONNULL_END
+@interface SFSDKUserSelectionTableViewController : UIViewController
+@property (nonatomic,strong) SFUserAccount *selectedAccount;
+@property (nonatomic,weak) id<SFSDKUserSelectionTableViewControllerDelegate> listViewDelegate;
+@property (nonatomic,copy) NSString *appName;
+@property (nonatomic,copy) NSString *appDescription;
+@property (nonatomic,copy) NSString *appIdentifier;
+@property (nonatomic,copy) NSString *callingAppCurrentUser;
+//+ (instancetype)sharedInstance;
+@end

@@ -181,14 +181,15 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol SFSDKOAuthClientProvider
 
 /**
- * @return Provide a sharedInstance
+ * @return Provide an instance of SFSDKOAuthClient for idp Authentication
  */
 + (SFSDKOAuthClient *)idpAuthInstance:(SFSDKOAuthClientConfig *_Nullable)config;
 
 /**
- * @return Provide a sharedInstance
+ * @return Provide an instance of SFSDKOAuthClient for native browser Authentication
  */
 + (SFSDKOAuthClient *)nativeBrowserAuthInstance:(SFSDKOAuthClientConfig *_Nullable)config;
+
 /**
  * @return Provide a newInstance
  */
@@ -197,25 +198,37 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol SFSDKOAuthClient <NSObject>
 
+/**
+ *
+ */
 @property (nonatomic, assign) BOOL isAuthenticating;
 
+/**
+ *
+ */
 @property (nonatomic, readonly) SFOAuthCredentials *credentials;
 
+/**
+ *
+ */
 @property (nonatomic, readonly) SFIdentityData *idData;
 
-@property (nonatomic, strong,readonly) UIAlertController *statusAlert;
-
-@property (nonatomic, strong, readonly) SFOAuthCoordinator *coordinator;
-
-@property (nonatomic, strong, readonly) SFIdentityCoordinator *idCoordinator;
-
+/**
+ * The context for this client
+ */
 @property (nonatomic, readonly, strong, nullable) SFSDKOAuthClientContext * context;
-
+/**
+ * The Client Config that was configured
+ */
 @property (nonatomic, readonly,nullable) SFSDKOAuthClientConfig *config;
 /**
  * An Auth window in which the auth flow will be presented
  */
 - (SFSDKWindowContainer *)authWindow;
+
+/**
+ * An Auth window in which the auth flow will be presented
+ */
 
 - (void)retrieveIdentityDataWithCompletion:(SFIdentitySuccessCallbackBlock) successBlock failure:(SFIdentityFailureCallbackBlock)failureBlock;
 /**
@@ -268,10 +281,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly,nullable) SFSDKOAuthClientConfig *config;
 @property (nonatomic, readonly) SFOAuthCredentials *credentials;
 @property (nonatomic, readonly) SFIdentityData *idData;
-@property (nonatomic, strong,readonly) UIAlertController *statusAlert;
-@property (nonatomic, strong, readonly) SFOAuthCoordinator *coordinator;
-@property (nonatomic, strong, readonly) SFIdentityCoordinator *idCoordinator;
+@property (nonatomic, strong) SFOAuthCoordinator *coordinator;
+@property (nonatomic, strong) SFIdentityCoordinator *idCoordinator;
 
+- (void)processAuthError:(NSError *)error;
+- (void)showAlertMessage:(NSString *)message withCompletion:(void (^)(void)) completionBlock;
 - (instancetype)initWithConfig:(SFSDKOAuthClientConfig *_Nullable)config;
 
 @end

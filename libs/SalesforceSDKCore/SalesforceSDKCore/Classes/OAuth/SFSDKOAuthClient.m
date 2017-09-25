@@ -26,17 +26,16 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#import "SFSDKOAuthClient.h"
 #import "SFSDKOAuthViewHandler.h"
 #import "SFAuthErrorHandlerList.h"
 #import "SFAuthErrorHandler.h"
 #import "SFLoginViewController.h"
 #import "SFSDKLoginHostDelegate.h"
 #import "SFSDKOAuthClientContext.h"
-#import "SFSDKAuthPreferences.h"
 #import "SFSDKOAuthClientConfig.h"
 #import "SFIdentityCoordinator.h"
 #import "SFSDKWindowManager.h"
-#import "SFSDKOAuthClient.h"
 #import "SFSDKLoginHostListViewController.h"
 #import "SFSDKLoginHost.h"
 #import "SFOAuthInfo.h"
@@ -44,11 +43,7 @@
 #import "SFNetwork.h"
 #import "SFSDKWebViewStateManager.h"
 #import "SFSecurityLockout.h"
-
-
-static SFSDKOAuthClient *_sharedInstance = nil;
-
-static SFSDKOAuthClient *_idpInstance = nil;
+#import "SFSDKIDPAuthClient.h"
 // Auth error handler name constants
 static NSString * const kSFInvalidCredentialsAuthErrorHandler = @"InvalidCredentialsErrorHandler";
 static NSString * const kSFConnectedAppVersionAuthErrorHandler = @"ConnectedAppVersionErrorHandler";
@@ -77,11 +72,18 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
 }
 
 @property (nonatomic, copy)  SFSDKOAuthClientContext *context;
-@property (nonatomic, strong) SFSDKOAuthClientConfig *config;
+@property (nonatomic, copy)  SFSDKOAuthClientConfig *config;
 @property (nonatomic, strong) SFIdentityData *idData;
+
 @property (nonatomic, strong) UIAlertController *statusAlert;
-@property (nonatomic, strong) SFOAuthCoordinator *coordinator;
-@property (nonatomic, strong) SFIdentityCoordinator *idCoordinator;
+
+@property (nonatomic, copy,nullable) SFOAuthBrowserFlowCallbackBlock authCoordinatorBrowserBlock;
+@property (nonatomic, strong, nullable) SFAuthErrorHandler *invalidCredentialsAuthErrorHandler;
+@property (nonatomic, strong, nullable) SFAuthErrorHandler *connectedAppVersionAuthErrorHandler;
+@property (nonatomic, strong, nullable) SFAuthErrorHandler *networkFailureAuthErrorHandler;
+@property (nonatomic, strong, nullable) SFAuthErrorHandler *genericAuthErrorHandler;
+@property (nonatomic, strong, nullable) SFAuthErrorHandlerList *authErrorHandlerList;
+@property (nonatomic, strong, nullable) SFSDKOAuthViewHandler *authViewHandler;
 
 - (void)revokeRefreshToken:(SFOAuthCredentials *)user;
 /**
@@ -152,18 +154,18 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
 
 - (SFSDKOAuthViewHandler *)authViewHandler {
 
-    if (!self.config.authViewHandler) {
+    if (!_authViewHandler) {
         [readWriteLock lock];
         __weak typeof(self) weakSelf = self;
         if (self.config.advancedAuthConfiguration == SFOAuthAdvancedAuthConfigurationRequire) {
-            _config.authViewHandler =[[SFSDKOAuthViewHandler alloc]
+            _authViewHandler =[[SFSDKOAuthViewHandler alloc]
                     initWithDisplayBlock:^(SFSDKOAuthClient *client, SFSDKOAuthClientViewHolder *viewHandler) {
                         __strong typeof(weakSelf) strongSelf = weakSelf;
                         strongSelf.authWindow.viewController = viewHandler.safariViewController;
                         [strongSelf.authWindow enable];
                     } dismissBlock:nil];
         } else {
-            _config.authViewHandler = [[SFSDKOAuthViewHandler alloc]
+            _authViewHandler = [[SFSDKOAuthViewHandler alloc]
                     initWithDisplayBlock:^(SFSDKOAuthClient *client, SFSDKOAuthClientViewHolder *viewHandler) {
                         __strong typeof(weakSelf) strongSelf = weakSelf;
                         if (strongSelf.config.authViewController == nil) {
@@ -181,7 +183,7 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
        }
        [readWriteLock unlock];
     }
-    return _config.authViewHandler;
+    return _authViewHandler;
 }
 
 -(void)dismissAuthViewControllerIfPresent {
@@ -351,7 +353,7 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
         return;
     }
     [readWriteLock lock];
-    self.config.authCoordinatorBrowserBlock = callbackBlock;
+    self.authCoordinatorBrowserBlock = callbackBlock;
     NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];;
     NSString *alertMessage = [NSString stringWithFormat:[SFSDKResourceUtils localizedString:@"authAlertBrowserFlowMessage"], coordinator.credentials.domain, appName];
 
@@ -539,24 +541,24 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
     SFAuthErrorHandlerList *authHandlerList = [[SFAuthErrorHandlerList alloc] init];
      [readWriteLock lock];
     // Invalid credentials handler
-    if (!_config.invalidCredentialsAuthErrorHandler) {
-    _config.invalidCredentialsAuthErrorHandler = [[SFAuthErrorHandler alloc]
+    if (!_invalidCredentialsAuthErrorHandler) {
+        _invalidCredentialsAuthErrorHandler = [[SFAuthErrorHandler alloc]
             initWithName:kSFInvalidCredentialsAuthErrorHandler
                evalBlock:^BOOL(NSError *error,SFOAuthInfo *info) {
                    __strong typeof(weakSelf) strongSelf = weakSelf;
                    if ([[strongSelf class] errorIsInvalidAuthCredentials:error]) {
                        [SFSDKCoreLogger w:[strongSelf class] format:@"OAuth refresh failed due to invalid grant.  Error code: %ld", (long)error.code];
-                       [self handleFailure:error];
+                       [strongSelf handleFailure:error];
                        return YES;
                    }
                    return NO;
                }];
     }
-    [authHandlerList addAuthErrorHandler:self.config.invalidCredentialsAuthErrorHandler];
+    [authHandlerList addAuthErrorHandler:_invalidCredentialsAuthErrorHandler];
 
     // Connected app version mismatch handler
-    if (!_config.connectedAppVersionAuthErrorHandler) {
-        _config.connectedAppVersionAuthErrorHandler = [[SFAuthErrorHandler alloc]
+    if (!_connectedAppVersionAuthErrorHandler) {
+        _connectedAppVersionAuthErrorHandler = [[SFAuthErrorHandler alloc]
                 initWithName:kSFConnectedAppVersionAuthErrorHandler
                 evalBlock:^BOOL(NSError *error,SFOAuthInfo *info) {
                        __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -568,11 +570,11 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
                        return NO;
                    }];
     }
-    [authHandlerList addAuthErrorHandler:self.config.connectedAppVersionAuthErrorHandler];
+    [authHandlerList addAuthErrorHandler:_connectedAppVersionAuthErrorHandler];
 
     // Network failure handler
-    if (!_config.networkFailureAuthErrorHandler) {
-        _config.networkFailureAuthErrorHandler = [[SFAuthErrorHandler alloc]
+    if (!_networkFailureAuthErrorHandler) {
+        _networkFailureAuthErrorHandler = [[SFAuthErrorHandler alloc]
                 initWithName:kSFNetworkFailureAuthErrorHandler
                 evalBlock:^BOOL(NSError *error,SFOAuthInfo *info){
                         __strong typeof(self) strongSelf = weakSelf;
@@ -594,11 +596,11 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
                        return NO;
                    }];
     }
-    [authHandlerList addAuthErrorHandler:_config.networkFailureAuthErrorHandler];
+    [authHandlerList addAuthErrorHandler:_networkFailureAuthErrorHandler];
 
     // Generic failure handler
-    if (!_config.genericAuthErrorHandler) {
-        _config.genericAuthErrorHandler = [[SFAuthErrorHandler alloc]
+    if (!_genericAuthErrorHandler) {
+        _genericAuthErrorHandler = [[SFAuthErrorHandler alloc]
                 initWithName:kSFGenericFailureAuthErrorHandler
                 evalBlock:^BOOL(NSError *error,SFOAuthInfo *info) {
                        __strong typeof(self) strongSelf = weakSelf;
@@ -607,7 +609,7 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
                        return YES;
                    }];
     }
-    [authHandlerList addAuthErrorHandler:_config.genericAuthErrorHandler];
+    [authHandlerList addAuthErrorHandler:_genericAuthErrorHandler];
     [readWriteLock unlock];
     return authHandlerList;
 }
@@ -617,9 +619,9 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
     NSInteger i = 0;
     BOOL errorHandled = NO;
     SFSDKOAuthClientContext *context = self.context;
-    NSArray *authHandlerArray = self.config.authErrorHandlerList.authHandlerArray;
+    NSArray *authHandlerArray = self.authErrorHandlerList.authHandlerArray;
     while (i < [authHandlerArray count] && !errorHandled) {
-        SFAuthErrorHandler *currentHandler = (self.config.authErrorHandlerList.authHandlerArray)[i];
+        SFAuthErrorHandler *currentHandler = (self.authErrorHandlerList.authHandlerArray)[i];
         errorHandled = currentHandler.evalBlock(error, context.authInfo);
         i++;
     }
@@ -692,8 +694,8 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
                                                                      [strongSelf.config.safariViewDelegate authClientDidProceedWithBrowserFlow:self];
                                                                  }
                                                                  // Let the OAuth coordinator know whether to proceed or not.
-                                                                 if (strongSelf.config.authCoordinatorBrowserBlock) {
-                                                                     strongSelf.config.authCoordinatorBrowserBlock(YES);
+                                                                 if (strongSelf.authCoordinatorBrowserBlock) {
+                                                                     strongSelf.authCoordinatorBrowserBlock(YES);
                                                                  }
                                                              }
                                                          }];
@@ -708,8 +710,8 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
                                                                      }
 
                                                                      // Let the OAuth coordinator know whether to proceed or not.
-                                                                     if (self.config.authCoordinatorBrowserBlock) {
-                                                                         self.config.authCoordinatorBrowserBlock(NO);
+                                                                     if (self.authCoordinatorBrowserBlock) {
+                                                                         self.authCoordinatorBrowserBlock(NO);
                                                                      }
                                                                  } else if (tag == kOAuthGenericAlertViewTag){
                                                                      // Let the delegate know about the cancellation
@@ -731,6 +733,39 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
         });
 
     }
+}
+
+- (void)showAlertMessage:(NSString *)message withCompletion:(void (^)(void)) completionBlock{
+    NSString *decodedMessage = [message  stringByReplacingOccurrencesOfString:@"+" withString:@" "];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"IDP Authentication Failure"                                                     message:decodedMessage
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    //We add buttons to the alert controller by creating UIAlertActions:
+    UIAlertAction *actionOk = [UIAlertAction actionWithTitle:@"OK"
+                                                       style:UIAlertActionStyleDefault
+                                                     handler:nil]; //You can use a block here to handle a press on this button
+    [alertController addAction:actionOk];
+    
+    
+    [self.authWindow.viewController presentViewController:alertController animated:YES completion:completionBlock];
+}
+
+- (void)showAlertMessage:(NSString *)message withSuccess:(void (^)(void)) successCompletionBlock failure:(void (^)(void)) cancelCompletionBlock{
+    NSString *decodedMessage = [message  stringByReplacingOccurrencesOfString:@"+" withString:@" "];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"IDP Authentication Failure"                                                     message:decodedMessage
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *actionOk = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        if( successCompletionBlock )
+            successCompletionBlock();
+    }];
+    
+    UIAlertAction *actionCancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        if( cancelCompletionBlock )
+            cancelCompletionBlock();
+    }];
+    [alertController addAction:actionOk];
+    [alertController addAction:actionCancel];
+    
+    [self.authWindow.viewController presentViewController:alertController animated:YES completion:nil];
 }
 
 -(UIViewController *) blankViewController {
@@ -799,17 +834,13 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
     return isNetworkFailure;
 }
 
+
 #pragma mark - SFSDKOAuthClientProvider
 + (SFSDKOAuthClient *)idpAuthInstance:(SFSDKOAuthClientConfig *)config {
     if (self.clientProvider) {
         return [self.clientProvider idpAuthInstance:config];
     }
-
-    static dispatch_once_t once = 0;
-    dispatch_once(&once, ^{
-        _idpInstance = [[self alloc] init];
-    });
-    return _idpInstance;
+    return [[SFSDKIDPAuthClient alloc] initWithConfig:config];
 
 }
 
@@ -818,11 +849,7 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
         return [self.clientProvider nativeBrowserAuthInstance:config];
     }
 
-    static dispatch_once_t once = 0;
-    dispatch_once(&once, ^{
-        _sharedInstance = [[self alloc] initWithConfig:config];
-    });
-    return _sharedInstance;
+   return [[self alloc] initWithConfig:config];
 
 }
 
@@ -840,6 +867,8 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
     configBlock(config);
     SFSDKOAuthClient *instance = nil;
     
+    if (config.isIDPEnabled)
+        instance = [self idpAuthInstance:config];
     if (config.advancedAuthConfiguration==SFOAuthAdvancedAuthConfigurationRequire)
          instance = [self nativeBrowserAuthInstance:config];
     else
