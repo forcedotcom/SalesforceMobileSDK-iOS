@@ -105,8 +105,8 @@
 		B70986361F5331A600803FDE /* SFSDKOAuthClientConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = B70986331F5331A600803FDE /* SFSDKOAuthClientConfig.h */; };
 		B70986371F5331A600803FDE /* SFSDKOAuthClientConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B70986341F5331A600803FDE /* SFSDKOAuthClientConfig.m */; };
 		B70986381F5331A600803FDE /* SFSDKOAuthClientConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B70986341F5331A600803FDE /* SFSDKOAuthClientConfig.m */; };
-		B75233C21F4D390B00040B6E /* SFSDKOAuthClientContext.h in Headers */ = {isa = PBXBuildFile; fileRef = B75233C01F4D390B00040B6E /* SFSDKOAuthClientContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B75233C31F4D390B00040B6E /* SFSDKOAuthClientContext.h in Headers */ = {isa = PBXBuildFile; fileRef = B75233C01F4D390B00040B6E /* SFSDKOAuthClientContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B75233C21F4D390B00040B6E /* SFSDKOAuthClientContext.h in Headers */ = {isa = PBXBuildFile; fileRef = B75233C01F4D390B00040B6E /* SFSDKOAuthClientContext.h */; };
+		B75233C31F4D390B00040B6E /* SFSDKOAuthClientContext.h in Headers */ = {isa = PBXBuildFile; fileRef = B75233C01F4D390B00040B6E /* SFSDKOAuthClientContext.h */; };
 		B75233C41F4D390B00040B6E /* SFSDKOAuthClientContext.m in Sources */ = {isa = PBXBuildFile; fileRef = B75233C11F4D390B00040B6E /* SFSDKOAuthClientContext.m */; };
 		B75233C51F4D390B00040B6E /* SFSDKOAuthClientContext.m in Sources */ = {isa = PBXBuildFile; fileRef = B75233C11F4D390B00040B6E /* SFSDKOAuthClientContext.m */; };
 		B75233DE1F4DF0B700040B6E /* SFSDKAuthPreferences.h in Headers */ = {isa = PBXBuildFile; fileRef = B75233DC1F4DF0B700040B6E /* SFSDKAuthPreferences.h */; };
