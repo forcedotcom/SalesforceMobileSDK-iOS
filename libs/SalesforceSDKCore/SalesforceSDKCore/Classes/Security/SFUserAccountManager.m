@@ -927,8 +927,16 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
     __weak typeof (self) weakSelf = self;
     SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:creds  configBlock:^(SFSDKOAuthClientConfig  *config) {
         __strong typeof (self) strongSelf = weakSelf;
+        config.loginHost = strongSelf.loginHost;
+        config.scopes = strongSelf.scopes;
+        config.oauthCompletionUrl = strongSelf.oauthCompletionUrl;
+        config.oauthClientId = strongSelf.oauthClientId;
+        
         config.isIDPEnabled = YES;
         config.isIDPInitiatedFlow = YES;
+        config.scopes = strongSelf.scopes;
+        config.loginHost = strongSelf.loginHost;
+        config.oauthClientId = strongSelf.oauthClientId;
         config.delegate = strongSelf;
         config.safariViewDelegate = strongSelf;
         config.idpDelegate = strongSelf;
@@ -1004,6 +1012,9 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
             __strong typeof(self) strongSelf = weakSelf;
             config.loginHost = strongSelf.loginHost;
             config.scopes = strongSelf.scopes;
+            config.oauthCompletionUrl = strongSelf.oauthCompletionUrl;
+            config.oauthClientId = strongSelf.oauthClientId;
+            
             config.isIDPEnabled = strongSelf.idpEnabled;
             config.advancedAuthConfiguration = strongSelf.advancedAuthConfiguration;
             config.delegate = strongSelf;
@@ -1027,6 +1038,8 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
             //TODO : Ensure retrieve host & scope from SP App's request
             config.loginHost = strongSelf.loginHost;
             config.scopes = strongSelf.scopes;
+            config.oauthCompletionUrl = strongSelf.oauthCompletionUrl;
+            config.oauthClientId = strongSelf.oauthClientId;
             config.isIDPEnabled  = YES;
             config.advancedAuthConfiguration = strongSelf.advancedAuthConfiguration;
             config.idpDelegate = strongSelf;
