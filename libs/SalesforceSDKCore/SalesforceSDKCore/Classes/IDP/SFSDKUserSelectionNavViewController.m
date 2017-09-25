@@ -62,49 +62,26 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (NSString *)appName {
-    return _selectionView.appName;
+- (NSDictionary *)spAppOptions {
+    return _selectionView.options;
 }
 
-- (void)setAppName:(NSString *)appName {
-    _selectionView.appName = appName;
+- (void)setAppName:(NSDictionary *)spAppOptions {
+    _selectionView.options = spAppOptions;
 }
 
-- (NSString *)appIdentifier {
-    return _selectionView.appIdentifier;
-}
-
-- (void)setAppIdentifier:(NSString *)appIdentifier {
-    _selectionView.appIdentifier = appIdentifier;
-}
-
-- (NSString *)appDescription {
-    return _selectionView.appDescription;
-}
-
-- (void)setAppDescription:(NSString *)appDescription {
-    _selectionView.appDescription = appDescription;
-}
-
-- (NSString *)callingAppCurrentUser {
-     return _selectionView.callingAppCurrentUser;
-}
-
-- (void)setCallingAppCurrentUser:(NSString *)callingAppCurrentUser  {
-    _selectionView.callingAppCurrentUser = callingAppCurrentUser;
-}
 
 #pragma mark - SFSDKUserSelectionTableViewControllerDelegate
-- (void)createNewuser{
-    [self.userSelectionDelegate createNewUser];
+- (void)createNewuser:(NSDictionary *) options{
+    [self.userSelectionDelegate createNewUser:options];
 }
 
-- (void)selectedUser:(SFUserAccount *)user{
-    [self.userSelectionDelegate selectedUser:user];
+- (void)selectedUser:(SFUserAccount *)user options:(NSDictionary *)options{
+    [self.userSelectionDelegate selectedUser:user spAppContext:options];
 }
 
-- (void)cancel{
-    [self.userSelectionDelegate cancel];
+- (void)cancel:(NSDictionary *)options{
+    [self.userSelectionDelegate cancel:options];
 }
 
 @end

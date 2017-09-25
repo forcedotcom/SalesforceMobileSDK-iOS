@@ -33,18 +33,20 @@
 
 @protocol SFSDKUserSelectionTableViewControllerDelegate
 
--(void) createNewuser;
--(void) selectedUser:(SFUserAccount *) user;
--(void) cancel;
+-(void) createNewuser:(NSDictionary *) options;
+-(void) selectedUser:(SFUserAccount *) user options:(NSDictionary *) options;
+-(void) cancel:(NSDictionary *) options;
 
 @end
 
 @interface SFSDKUserSelectionTableViewController : UIViewController
 @property (nonatomic,strong) SFUserAccount *selectedAccount;
 @property (nonatomic,weak) id<SFSDKUserSelectionTableViewControllerDelegate> listViewDelegate;
-@property (nonatomic,copy) NSString *appName;
-@property (nonatomic,copy) NSString *appDescription;
-@property (nonatomic,copy) NSString *appIdentifier;
-@property (nonatomic,copy) NSString *callingAppCurrentUser;
+@property (nonatomic,strong) NSDictionary *options;
+
+//@property (nonatomic,copy) NSString *appName;
+//@property (nonatomic,copy) NSString *appDescription;
+//@property (nonatomic,copy) NSString *appIdentifier;
+//@property (nonatomic,copy) NSString *callingAppCurrentUser;
 //+ (instancetype)sharedInstance;
 @end

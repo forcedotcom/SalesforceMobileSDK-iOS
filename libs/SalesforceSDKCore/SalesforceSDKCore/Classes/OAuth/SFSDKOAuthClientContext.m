@@ -65,9 +65,9 @@
 
 - (id)mutableCopyWithZone:(NSZone *)zone {
     SFSDKMutableOAuthClientContext *mutableContext = [[SFSDKMutableOAuthClientContext alloc] init];
-    mutableContext.authError = [self.authError copy];
-    mutableContext.authInfo = [self.authInfo copy];
-    mutableContext.credentials = [self.credentials copy];
+    mutableContext.authError = [self.authError copyWithZone:zone];
+    mutableContext.authInfo =  [[SFOAuthInfo allocWithZone:zone] initWithAuthType:self.authInfo.authType];
+    mutableContext.credentials =  [self.credentials copyWithZone:zone];
     return mutableContext;
 }
 @end

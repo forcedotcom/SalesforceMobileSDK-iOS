@@ -34,17 +34,17 @@
 @class SFSDKOAuthClient;
 
 @protocol SFSDKUserSelectionViewDelegate
-- (void)createNewUser;
-- (void)selectedUser:(SFUserAccount *)user;
-- (void)cancel;
+- (void)createNewUser:(NSDictionary *)spAppOptions;
+- (void)selectedUser:(SFUserAccount *)user spAppContext:(NSDictionary *)spAppOptions;
+- (void)cancel:(NSDictionary *)spAppOptions;
 @end
 
 @protocol SFSDKUserSelectionView<NSObject>
 @property (nonatomic,weak) id<SFSDKUserSelectionViewDelegate> userSelectionDelegate;
-@property (nonatomic,copy) NSString *appName;
-@property (nonatomic,copy) NSString *appDescription;
-@property (nonatomic,copy) NSString *appIdentifier;
-@property (nonatomic,copy) NSString *callingAppCurrentUser;
+@property (nonatomic,strong) NSDictionary *spAppOptions;
+//@property (nonatomic,copy) NSString *appDescription;
+//@property (nonatomic,copy) NSString *appIdentifier;
+//@property (nonatomic,copy) NSString *callingAppCurrentUser;
 
 @end
 

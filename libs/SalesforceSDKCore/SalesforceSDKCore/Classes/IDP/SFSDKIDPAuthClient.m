@@ -229,9 +229,10 @@ static NSString * const kSFChallengeParamName          = @"code_challenge";
 
 - (NSURL *)spAppURL:(NSString *)code {
     
-    SFOAuthCredentials *spAppCredentials = [self credentialsFromURLForSPAPP:self.context.callingAppRequestURL];
-
-    NSString *urlString = [NSString stringWithFormat:@"%@?%@=%@&%@=%@",spAppCredentials.redirectUri,@"code",code,@"state",self.config.callingAppState];
+    NSString *reqUrl = [self.config.callingAppOptions objectForKey:@"calling_app_url"];
+    SFOAuthCredentials *spAppCredentials = [self credentialsFromURLForSPAPP:[NSURL URLWithString:reqUrl]];
+    NSString *callingAppState = [self.config.callingAppOptions objectForKey:@"state"];
+    NSString *urlString = [NSString stringWithFormat:@"%@?%@=%@&%@=%@",spAppCredentials.redirectUri,@"code",code,@"state",callingAppState];
     
     return [NSURL URLWithString:urlString];
 }
@@ -249,14 +250,14 @@ static NSString * const kSFChallengeParamName          = @"code_challenge";
         reason = errorDesc;
 
     reason = [reason stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
-    
+    NSString *state = [self.config.callingAppOptions objectForKey:@"state"];
     NSString *urlString =
                           [NSString stringWithFormat:@"%@?%@=%@&%@=%@&%@=%@&%@=%@",
                            spAppCredentials.redirectUri,
                            @"errorReason",reason,
                            @"errorCode",errorCode,
                            @"errorDescription",errorDesc,
-                           @"state",self.config.callingAppState];
+                           @"state",state];
     
     return [NSURL URLWithString:urlString];
 }
@@ -276,13 +277,13 @@ static NSString * const kSFChallengeParamName          = @"code_challenge";
     if (!reason)
         reason = errorDesc;
     reason = [reason stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
-    
+    NSString *state = [self.config.callingAppOptions objectForKey:@"state"];
     NSString *urlString = [NSString stringWithFormat:@"%@?%@=%@&%@=%@&%@=%@&%@=%@",
                                                      appUri,
                                                      @"errorReason",reason,
                                                      @"errorCode",errorCode,
                                                      @"errorDescription",errorDesc,
-                                                     @"state",self.config.callingAppState];
+                                                     @"state",state];
     
     return [NSURL URLWithString:urlString];
 }
@@ -387,7 +388,8 @@ static NSString * const kSFChallengeParamName          = @"code_challenge";
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info {
 
     [SFSDKCoreLogger d:[self class] format:@"oauthCoordinator:didFailWithError: %@, authInfo: %@", error, self.context.authInfo];
-    if (self.config.callingAppState!=nil) {
+    NSString *state = [self.config.callingAppOptions objectForKey:@"state"];
+    if (state!=nil) {
         [self launchSPAppWithError:error reason:nil];
     }else {
         SFSDKMutableOAuthClientContext *mutableOAuthClientContext = [self.context mutableCopy];

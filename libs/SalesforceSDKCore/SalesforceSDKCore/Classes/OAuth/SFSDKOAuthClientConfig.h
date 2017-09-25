@@ -60,11 +60,7 @@
 @property (nonatomic, assign) BOOL isIDPInitiatedFlow;
 @property (nonatomic,assign) BOOL isIdentityProvider;
 
-@property (nonatomic, copy,nullable) NSString *callingAppIdentifier;
-@property (nonatomic, copy,nullable) NSString *callingAppName;
-@property (nonatomic, copy,nullable) NSString *callingAppDescription;
-@property (nonatomic, copy,nullable) NSString *callingAppState;
-
+@property (nonatomic,strong,nonnull) NSDictionary *callingAppOptions;
 
 @property (nonatomic, weak,nullable) id<SFSDKOAuthClientSafariViewDelegate> safariViewDelegate;
 @property (nonatomic, weak,nullable) id<SFSDKOAuthClientWebViewDelegate> webViewDelegate;

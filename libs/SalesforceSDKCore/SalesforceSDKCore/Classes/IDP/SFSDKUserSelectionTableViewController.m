@@ -69,8 +69,8 @@
    // infoLabel = 5;
     UIFont *font = [UIFont boldSystemFontOfSize:18.0];
     UIFont *normalFont = [UIFont systemFontOfSize:18.0];
-    
-    NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:self.appName  attributes:@{ NSFontAttributeName : font, NSForegroundColorAttributeName : [UIColor redColor] }];
+    NSString *appName = [self.options objectForKey:@"app_name"];
+    NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:appName  attributes:@{ NSFontAttributeName : font, NSForegroundColorAttributeName : [UIColor redColor] }];
     
     NSMutableAttributedString *attributedNormalText = [[NSMutableAttributedString alloc] initWithString:@" is requesting access to users credentials. Select a user from the list" attributes:@{NSFontAttributeName : normalFont , NSForegroundColorAttributeName : [UIColor grayColor] }];
     
@@ -110,12 +110,12 @@
 #pragma mark - Private methods
 - (void)createNewUser
 {
-    [self.listViewDelegate createNewuser];
+    [self.listViewDelegate createNewuser:self.options];
 }
 
 - (void)cancel
 {
-    [self.listViewDelegate cancel];
+    [self.listViewDelegate cancel:self.options];
 }
 
 #pragma mark - Table view delegate
@@ -140,7 +140,7 @@
 {
     [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
     self.selectedAccount =_userAccountList[indexPath.row];
-    [self.listViewDelegate selectedUser:self.selectedAccount];
+    [self.listViewDelegate selectedUser:self.selectedAccount options:self.options];
 }
 
 #pragma mark - Table view data source
@@ -168,18 +168,12 @@
     
     // Configure the cell to show the data.
     SFUserAccount *displayUser =_userAccountList[indexPath.row];
-    BOOL isCurrentUser = NO;
-    if (self.callingAppCurrentUser)
-        isCurrentUser = [[NSString stringWithFormat:@"%@:%@",displayUser.accountIdentity.userId , displayUser.accountIdentity.orgId] isEqualToString:self.callingAppCurrentUser];
     
     cell.textLabel.text = displayUser.fullName ;
    
-    if (isCurrentUser)
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@  [%@]", displayUser.userName, @" Current User."];
-    else
-        cell.detailTextLabel.text = displayUser.userName;
+
+    cell.detailTextLabel.text = displayUser.userName;
     
-    //cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     return cell;
 }

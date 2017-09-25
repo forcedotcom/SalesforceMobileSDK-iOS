@@ -347,20 +347,22 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 }
 
 #pragma mark - SFSDKUserSelectionNavViewControllerDelegate
-- (void)createNewUser{
+- (void)createNewUser:(NSDictionary *)spAppOptions{
     SFOAuthCredentials *credentials = [self newClientCredentials];
     //[self disposeOAuthClient:client];
     SFSDKOAuthClient *newClient = [self fetchIDPAuthClient:credentials
                                               completion:nil
                                                  failure:nil];
+    newClient.config.callingAppOptions = spAppOptions;
     [newClient refreshCredentials];
 }
 
-- (void)selectedUser:(SFUserAccount *)user{
+- (void)selectedUser:(SFUserAccount *)user spAppContext:(NSDictionary *)spAppOptions{
     // [[SFUserAccountManager sharedInstance] switchToNewUser];
     __weak typeof (self) weakSelf = self;
     SFSDKIDPAuthClient * idpClient = [self fetchIDPAuthClient:user.credentials completion:nil failure:nil];
-
+    idpClient.config.callingAppOptions = spAppOptions;
+    
     [idpClient retrieveIdentityDataWithCompletion:^(SFSDKOAuthClient *idClient) {
         SFSDKIDPAuthClient * idpClient = (SFSDKIDPAuthClient *) idClient;
         [[SFUserAccountManager sharedInstance] applyCredentials:user.credentials];
@@ -368,7 +370,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
     } failure:^(SFSDKOAuthClient * idClient, NSError *error) {
         idClient.config.successCallbackBlock = ^(SFOAuthInfo *authInfo, SFUserAccount *account) {
             __strong typeof (weakSelf) strongSelf = weakSelf;
-            [strongSelf selectedUser:account];
+            [strongSelf selectedUser:account spAppContext:spAppOptions];
         };
         idClient.config.failureCallbackBlock = ^(SFOAuthInfo * authInfo, NSError *error) {
             __strong typeof (weakSelf) strongSelf = weakSelf;
@@ -379,11 +381,11 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
         [idClient refreshCredentials];
         
      }];
-    [idpClient continueIDPFlow:user.credentials];
 }
 
-- (void)cancel {
+- (void)cancel:(NSDictionary *)spAppOptions{
     SFSDKIDPAuthClient * idpClient = [self fetchIDPAuthClient:[self newClientCredentials] completion:nil failure:nil];
+    idpClient.config.callingAppOptions = spAppOptions;
     [idpClient launchSPAppWithError:nil reason:@"User cancelled authentication"];
     [idpClient cancelAuthentication];
     [self disposeOAuthClient:idpClient];
@@ -985,16 +987,29 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
     if (self.currentUser!=nil) {
         showSelection = YES;
     }
-    authClient.config.callingAppState = [request valueForParameterName:@"state"];
-    authClient.config.callingAppName = [request valueForParameterName:@"app_name"];
-    authClient.config.callingAppIdentifier = sourceApplication;
-    authClient.config.callingAppDescription =  [request valueForParameterName:@"app_desc"];
+    
+    NSMutableDictionary *spAppOptions = [[NSMutableDictionary alloc] init];
+    
+    if ([request valueForParameterName:@"state"]) {
+         [spAppOptions setValue:[request valueForParameterName:@"state"] forKey:@"state"];
+    }
+    
+    if ([request valueForParameterName:@"app_name"]) {
+        [spAppOptions setValue:[request valueForParameterName:@"app_name"] forKey:@"app_name"];
+    }
+    
+    if ([request valueForParameterName:@"app_desc"]) {
+        [spAppOptions setValue:[request valueForParameterName:@"app_desc"] forKey:@"app_desc"];
+    }
+    
+    //if ([request valueForParameterName:@"app_desc"]) {
+    [spAppOptions setValue:request.absoluteString forKey:@"calling_app_url"];
+    //}
+    authClient.config.callingAppOptions = spAppOptions;
     
     if (showSelection) {
         UIViewController<SFSDKUserSelectionView> *controller  = authClient.idpUserSelectionBlock();
-        controller.appName = authClient.config.callingAppName;
-        controller.appDescription = authClient.config.callingAppDescription;
-        controller.appIdentifier = authClient.config.callingAppIdentifier;
+        controller.spAppOptions = options;
         controller.userSelectionDelegate = self;
         authClient.authWindow.viewController = controller;
         [authClient.authWindow enable];

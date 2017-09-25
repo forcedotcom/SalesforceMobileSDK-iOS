@@ -28,16 +28,12 @@
  */
 #import <UIKit/UIKit.h>
 #import "SFSDKUserSelectionView.h"
+
 @class SFSDKIDPAuthClient;
 @class SFUserAccount;
 
-
-
 @interface SFSDKUserSelectionNavViewController : UINavigationController<SFSDKUserSelectionView>
 @property (nonatomic,weak) id<SFSDKUserSelectionViewDelegate> userSelectionDelegate;
-//@property (nonatomic,strong) SFSDKOAuthClient *client;
-@property (nonatomic,copy) NSString *appName;
-@property (nonatomic,copy) NSString *appDescription;
-@property (nonatomic,copy) NSString *appIdentifier;
-@property (nonatomic,copy) NSString *callingAppCurrentUser;
+@property (nonatomic,strong) NSDictionary *spAppOptions;
+
 @end
