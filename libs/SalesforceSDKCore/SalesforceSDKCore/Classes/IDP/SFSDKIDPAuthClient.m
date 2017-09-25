@@ -238,8 +238,8 @@ static NSString * const kSFChallengeParamName          = @"code_challenge";
 }
 
 - (NSURL *)spAppURLWithError:(NSError *)error reason:(NSString *)reason {
-    
-    SFOAuthCredentials *spAppCredentials = [self credentialsFromURLForSPAPP:self.context.callingAppRequestURL];
+    NSString *reqUrl = [self.config.callingAppOptions objectForKey:@"calling_app_url"];
+    SFOAuthCredentials *spAppCredentials = [self credentialsFromURLForSPAPP:reqUrl];
     NSString *errorCode = error?[NSString stringWithFormat:@"%d",error.domain.intValue]:@"-999";
     NSString *errorDesc = @"";
 
@@ -337,8 +337,8 @@ static NSString * const kSFChallengeParamName          = @"code_challenge";
     mutableContext.credentials = userCredentials;
     self.context = mutableContext;
     self.coordinator.credentials = userCredentials;
-
-    SFOAuthCredentials *spAppCredentials = [self credentialsFromURLForIDPApp:self.context.callingAppRequestURL];
+    NSString *reqUrl = [self.config.callingAppOptions objectForKey:@"calling_app_url"];
+    SFOAuthCredentials *spAppCredentials = [self credentialsFromURLForIDPApp:reqUrl];
     
     self.coordinator.credentials = mutableContext.credentials;
     [self.coordinator beginIDPFlow:spAppCredentials];
