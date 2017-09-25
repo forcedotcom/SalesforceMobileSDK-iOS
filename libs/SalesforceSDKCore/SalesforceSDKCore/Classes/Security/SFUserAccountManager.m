@@ -365,8 +365,8 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
     
     [idpClient retrieveIdentityDataWithCompletion:^(SFSDKOAuthClient *idClient) {
         SFSDKIDPAuthClient * idpClient = (SFSDKIDPAuthClient *) idClient;
-        [[SFUserAccountManager sharedInstance] applyCredentials:user.credentials];
-        [idpClient continueIDPFlow:user.credentials];
+        [[SFUserAccountManager sharedInstance] applyCredentials:idClient.credentials withIdData:idClient.idData];
+        [idpClient continueIDPFlow:idClient.context.credentials];
     } failure:^(SFSDKOAuthClient * idClient, NSError *error) {
         idClient.config.successCallbackBlock = ^(SFOAuthInfo *authInfo, SFUserAccount *account) {
             __strong typeof (weakSelf) strongSelf = weakSelf;
@@ -951,6 +951,8 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
         config.delegate = strongSelf;
         config.safariViewDelegate = strongSelf;
         config.idpDelegate = strongSelf;
+        config.idpLoginFlowSelectionBlock = strongSelf.idpLoginFlowSelectionAction;
+        config.idpUserSelectionBlock = strongSelf.idpUserSelectionAction;
     }];
     [self.oauthClientInstances setObject:client forKey:key];
     //TODO : fix setting user hint
@@ -1022,7 +1024,8 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 - (BOOL)handleIdpResponse:(NSURL *_Nonnull)url options:(NSDictionary *_Nullable)options{
   
     NSString *param = [url valueForParameterName:@"state"];
-    SFSDKOAuthClient *client = [self.oauthClientInstances objectForKey:param];
+    NSString *key = [NSString stringWithFormat:@"%@-%@",param,@"IDP"];
+    SFSDKOAuthClient *client = [self.oauthClientInstances objectForKey:key];
     return [client handleURLAuthenticationResponse:url];
 }
 
@@ -1047,6 +1050,8 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
             config.safariViewDelegate = strongSelf;
             config.successCallbackBlock = completionBlock;
             config.failureCallbackBlock = failureBlock;
+            config.idpLoginFlowSelectionBlock = strongSelf.idpLoginFlowSelectionAction;
+            config.idpUserSelectionBlock = strongSelf.idpUserSelectionAction;
         }];
         [self.oauthClientInstances setObject:client forKey:key];
      }

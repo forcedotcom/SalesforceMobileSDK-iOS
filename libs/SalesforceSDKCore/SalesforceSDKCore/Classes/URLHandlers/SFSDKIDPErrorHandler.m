@@ -34,13 +34,10 @@
 @implementation SFSDKIDPErrorHandler
 
 - (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options {
-    NSString *appIdentifier = [NSBundle mainBundle].bundleIdentifier;
     NSRange rangeErrorCode = [url.absoluteString rangeOfString:@"errorCode="];
     NSRange rangeErrorReason = [url.absoluteString rangeOfString:@"errorReason="];
-    NSRange rangeAppIdentifier = [url.absoluteString rangeOfString:appIdentifier];
     return ( (rangeErrorCode.location != NSNotFound) &&
-            (rangeErrorReason.location != NSNotFound) &&
-            (rangeAppIdentifier.location==0) );
+            (rangeErrorReason.location != NSNotFound) );
 }
 
 - (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options {

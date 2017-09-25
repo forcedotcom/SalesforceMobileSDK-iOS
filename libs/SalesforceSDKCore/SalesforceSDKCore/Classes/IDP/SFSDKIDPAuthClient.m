@@ -99,8 +99,10 @@ static NSString * const kSFChallengeParamName          = @"code_challenge";
     
     if (self.credentials.accessToken==nil) {
         if (self.context.userHint==nil) {
-            self.authWindow.viewController = self.idpLoginFlowSelectionBlock();
-            [self.authWindow enable:YES withCompletion:nil];
+            UIViewController<SFSDKLoginFlowSelectionView> *controller  = self.idpLoginFlowSelectionBlock();
+            controller.selectionFlowDelegate = self;
+            self.authWindow.viewController = controller;
+             [self.authWindow enable:YES withCompletion:nil];
         } else {
             [self launchIDPApp];
         }
@@ -343,8 +345,6 @@ static NSString * const kSFChallengeParamName          = @"code_challenge";
     self.coordinator.credentials = mutableContext.credentials;
     [self.coordinator beginIDPFlow:spAppCredentials];
 }
-
-
 
 - (SFOAuthCredentials *)credentialsFromURLForIDPApp:(NSURL *)appUrlRequest {
 
