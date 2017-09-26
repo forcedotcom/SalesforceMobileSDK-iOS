@@ -27,7 +27,6 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 #import <Foundation/Foundation.h>
 
 @class SFUserAccount;
@@ -42,9 +41,5 @@
 @protocol SFSDKUserSelectionView<NSObject>
 @property (nonatomic,weak) id<SFSDKUserSelectionViewDelegate> userSelectionDelegate;
 @property (nonatomic,strong) NSDictionary *spAppOptions;
-//@property (nonatomic,copy) NSString *appDescription;
-//@property (nonatomic,copy) NSString *appIdentifier;
-//@property (nonatomic,copy) NSString *callingAppCurrentUser;
-
 @end
 

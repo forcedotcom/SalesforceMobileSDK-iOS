@@ -34,12 +34,6 @@
 
 
 @interface SFSDKLoginFlowSelectionViewController ()
-@property (nonatomic,strong) IBOutlet UIStackView *topStackView;
-@property (nonatomic,strong) IBOutlet UIStackView *bottomStackView;
-@property (nonatomic,strong) IBOutlet UIStackView *buttonStackView;
-@property (nonatomic,strong) IBOutlet UIButton *idpButton;
-@property (nonatomic,strong) IBOutlet UIButton *localLoginButton;
-@property (nonatomic,strong) UITextView *descLabel;
 
 @property (nonatomic, strong) UINavigationBar *navBar;
 
@@ -69,7 +63,6 @@
 @end
 
 @implementation SFSDKLoginFlowSelectionViewController
-//@synthesize subview = _subview;
 
 + (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
@@ -116,14 +109,7 @@
     CGFloat navBarHeight = [self.navBar sizeThatFits:self.view.bounds.size].height;
     // Resize navBar
     self.navBar.frame = CGRectMake(0, self.topLayoutGuide.length, self.view.bounds.size.width, navBarHeight);
-    
-//    // resize oAuth view
-//    if (_subview) {
-//        _subview.frame = CGRectMake(0, CGRectGetMaxY(self.navBar.frame), self.view.bounds.size.width, self.view.bounds.size.height - CGRectGetMaxY(self.navBar.frame));
-//    }
-    //[self setBtnConstraints];
 
- 
 }
 
 
@@ -165,18 +151,6 @@
 
 - (void)setupViews {
     
-    
-    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"https://login.salesforce.com/img/logo198.png"]]];
-    
-    UIImage *newimage = [SFSDKLoginFlowSelectionViewController imageWithImage:image scaledToSize:CGSizeMake(image.size.width/2,image.size.height/2)];
-    
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, image.size.width/2,image.size.height/2)];
-    
-    imageView.translatesAutoresizingMaskIntoConstraints = NO;
-    imageView.image = newimage;
-    [imageView setContentMode:UIViewContentModeCenter];
-    
-    
     UILabel *infoLabel = [[UILabel alloc] init];
     infoLabel.text = @"Select the flow to use for login";
     infoLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -212,45 +186,23 @@
     [localButton.titleLabel setFont:[UIFont systemFontOfSize:20]];
     [localButton addTarget:self action:@selector(useLocalAction:) forControlEvents:UIControlEventTouchUpInside];
     
-    [self.view addSubview:imageView];
     [self.view addSubview:infoLabel];
     [self.view addSubview:descLabel];
     [self.view addSubview:descLabel2];
     [self.view addSubview:idpButton];
     [self.view addSubview:localButton];
     
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.navBar attribute:NSLayoutAttributeBottom multiplier:1.0 constant:40.0]];
-    
-    // align layer and self.view to top
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.navBar attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
-    
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:infoLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:imageView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:20.0]];
-    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:infoLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.navBar attribute:NSLayoutAttributeBottom multiplier:1.0 constant:20.0]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:infoLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.navBar attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
-    
-    
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:descLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:infoLabel attribute:NSLayoutAttributeBottom multiplier:1.0 constant:10.0]];
-    
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:descLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.navBar attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
-    
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:descLabel2 attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:descLabel attribute:NSLayoutAttributeBottom multiplier:1.0 constant:5.0]];
-    
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:descLabel2 attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:descLabel attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0]];
-     
-     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:idpButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:descLabel2 attribute:NSLayoutAttributeBottom multiplier:1.0 constant:55.0]];
-     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:idpButton attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:infoLabel attribute:NSLayoutAttributeLeft multiplier:1.0 constant:20.0]];
-    
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:localButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:descLabel2 attribute:NSLayoutAttributeBottom multiplier:1.0 constant:55.0]];
-    
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:localButton attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:idpButton attribute:NSLayoutAttributeRight multiplier:1.0 constant:20.0]];
   
-}
-
-
-- (BOOL)shouldShowBackButton {
-   return NO;
 }
 
 - (void) styleNavigationBar:(UINavigationBar *)navigationBar {

@@ -71,6 +71,10 @@ static NSString * const kUserDefaultsLastUserIdentityKey = @"LastUserIdentity";
 static NSString * const kUserDefaultsLastUserCommunityIdKey = @"LastUserCommunityId";
 static NSString * const kSFAppFeatureMultiUser   = @"MU";
 
+static NSString *const kSFBasicSuffix = @"BASIC";
+static NSString *const kSFIDPSuffix = @"IDP";
+static NSString *const kSFAdvancedSuffix = @"ADVANCED";
+
 @implementation SFUserAccountManager
 
 @synthesize currentUser = _currentUser;
@@ -924,7 +928,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 
 - (SFSDKIDPAuthClient *)fetchIDPAuthClient:(SFOAuthCredentials *)credentials completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
     
-    SFSDKIDPAuthClient *client = (SFSDKIDPAuthClient *) [self.oauthClientInstances objectForKey:[NSString stringWithFormat:@"%@-%@",credentials.identifier, @"IDP"]];
+    SFSDKIDPAuthClient *client = (SFSDKIDPAuthClient *) [self.oauthClientInstances objectForKey:[NSString stringWithFormat:@"%@-%@", credentials.identifier, kSFIDPSuffix]];
     if (!client) {
         __weak typeof(self) weakSelf = self;
         client = (SFSDKIDPAuthClient *) [SFSDKOAuthClient clientWithCredentials:credentials configBlock:^(SFSDKOAuthClientConfig *config) {
@@ -961,26 +965,26 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 
 - (NSString *)clientKeyForCredentials:(SFOAuthCredentials *)credentials {
     
-    NSString *instanceType = @"BASIC";
+    NSString *instanceType = kSFBasicSuffix;
     
     if (self.authPreferences.idpEnabled)
-        instanceType = @"IDP";
+        instanceType = kSFIDPSuffix;
     
     if (self.advancedAuthConfiguration == SFOAuthAdvancedAuthConfigurationRequire)
-        instanceType = @"ADVANCED";
+        instanceType = kSFAdvancedSuffix;
     
     return [NSString stringWithFormat:@"%@-%@", credentials.identifier,instanceType];
 }
 
 - (NSString *)clientKeyForClient:(SFSDKOAuthClient *)client {
     
-    NSString *instanceType = @"BASIC";
+    NSString *instanceType = kSFBasicSuffix;
     
     if (client.config.idpEnabled)
-        instanceType = @"IDP";
+        instanceType = kSFIDPSuffix;
     
     if (client.config.advancedAuthConfiguration == SFOAuthAdvancedAuthConfigurationRequire)
-        instanceType = @"ADVANCED";
+        instanceType = kSFAdvancedSuffix;
     
     return [NSString stringWithFormat:@"%@-%@", client.credentials.identifier,instanceType];
 }

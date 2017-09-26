@@ -32,11 +32,18 @@
 #import "SFSDKOAuthClientConfig.h"
 #import "SFSDKOAuthClientContext.h"
 
+static NSString *const KSFStateParam = @"state";
+static NSString *const kSFErrorReasonParam = @"errorReason";
+static NSString *const kSFUserHintParam = @"user_hint";
+static NSString *const kSFAppNameParam = @"app_name";
+static NSString *const kSFAppDescParam = @"app_desc";
+static NSString *const kSFCallingAppUrlParam = @"calling_app_url";
+
 @implementation SFUserAccountManager (URLHandlers)
 
 - (BOOL)handleNativeAuthResponse:(NSURL *_Nonnull)appUrlResponse options:(NSDictionary *_Nullable)options {
     //should return the shared instance for advanced auth
-    NSString *state = [appUrlResponse valueForParameterName:@"state"];
+    NSString *state = [appUrlResponse valueForParameterName:KSFStateParam];
     NSString *key = [NSString stringWithFormat:@"%@-ADVANCED", state];
     SFSDKOAuthClient *client = [self.oauthClientInstances objectForKey:key];
     return [client handleURLAuthenticationResponse:appUrlResponse];
@@ -45,14 +52,14 @@
 
 - (BOOL)handleIdpAuthError:(NSURL *_Nonnull)url options:(NSDictionary *_Nullable)options {
     
-    NSString *reason = [url valueForParameterName:@"errorReason"];
+    NSString *reason = [url valueForParameterName:kSFErrorReasonParam];
     if (reason) {
         reason = [reason stringByRemovingPercentEncoding];
     }else {
         reason = @"IDP Authentication failed";
     }
     
-    NSString *param = [url valueForParameterName:@"state"];
+    NSString *param = [url valueForParameterName:KSFStateParam];
     
     SFSDKOAuthClient *client = [self.oauthClientInstances objectForKey:param];
     SFOAuthCredentials *creds = nil;
@@ -72,7 +79,7 @@
 
 - (BOOL)handleIdpInitiatedAuth:(NSURL *_Nonnull)url options:(NSDictionary *_Nullable)options {
     
-    NSString *userHint = [url valueForParameterName:@"user_hint"];
+    NSString *userHint = [url valueForParameterName:kSFUserHintParam];
     if (userHint) {
         SFUserAccountIdentity *identity = [self decodeUserIdentity:userHint];
         SFUserAccount *userAccount = [self userAccountForUserIdentity:identity];
@@ -114,7 +121,7 @@
 - (BOOL)handleIdpRequest:(NSURL *_Nonnull)request options:(NSDictionary *_Nullable)options
 {
     SFOAuthCredentials *idpAppsCredentials = [self newClientCredentials];
-    NSString *userHint = [request valueForParameterName:@"user_hint"];
+    NSString *userHint = [request valueForParameterName:kSFUserHintParam];
     SFOAuthCredentials *foundUserCredentials = nil;
     
     if (userHint) {
@@ -141,20 +148,20 @@
     
     NSMutableDictionary *spAppOptions = [[NSMutableDictionary alloc] init];
     
-    if ([request valueForParameterName:@"state"]) {
-        [spAppOptions setValue:[request valueForParameterName:@"state"] forKey:@"state"];
+    if ([request valueForParameterName:KSFStateParam]) {
+        [spAppOptions setValue:[request valueForParameterName:KSFStateParam] forKey:KSFStateParam];
     }
     
-    if ([request valueForParameterName:@"app_name"]) {
-        [spAppOptions setValue:[request valueForParameterName:@"app_name"] forKey:@"app_name"];
+    if ([request valueForParameterName:kSFAppNameParam]) {
+        [spAppOptions setValue:[request valueForParameterName:kSFAppNameParam] forKey:kSFAppNameParam];
     }
     
-    if ([request valueForParameterName:@"app_desc"]) {
-        [spAppOptions setValue:[request valueForParameterName:@"app_desc"] forKey:@"app_desc"];
+    if ([request valueForParameterName:kSFAppDescParam]) {
+        [spAppOptions setValue:[request valueForParameterName:kSFAppDescParam] forKey:kSFAppDescParam];
     }
     
     //if ([request valueForParameterName:@"app_desc"]) {
-    [spAppOptions setValue:request.absoluteString forKey:@"calling_app_url"];
+    [spAppOptions setValue:request.absoluteString forKey:kSFCallingAppUrlParam];
     //}
     authClient.config.callingAppOptions = spAppOptions;
     
@@ -172,7 +179,7 @@
 
 - (BOOL)handleIdpResponse:(NSURL *_Nonnull)url options:(NSDictionary *_Nullable)options{
     
-    NSString *param = [url valueForParameterName:@"state"];
+    NSString *param = [url valueForParameterName:KSFStateParam];
     NSString *key = [NSString stringWithFormat:@"%@-%@",param,@"IDP"];
     SFSDKOAuthClient *client = [self.oauthClientInstances objectForKey:key];
     return [client handleURLAuthenticationResponse:url];

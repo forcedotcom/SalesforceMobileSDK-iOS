@@ -34,7 +34,16 @@
 
 static NSUInteger const kSFVerifierByteLength          = 128;
 static NSString * const kSFVerifierParamName           = @"code_verifier";
-static NSString * const kSFChallengeParamName          = @"code_challenge";
+
+static NSString *const kSFStateParam = @"state";
+static NSString *const kSFAppNameParam = @"app_name";
+static NSString *const kSFUserHintParam = @"user_hint";
+static NSString *const kSDFLoginHostParam = @"login_host";
+static NSString *const kSFCallingAppUrlParam = @"calling_app_url";
+static NSString *const kSFErrorReasonParam = @"errorReason";
+static NSString *const kSFErrorCodeParam = @"errorCode";
+static NSString *const kSFErrorDescriptionParam = @"errorDescription";
+static NSString *const kSFRefreshTokenParam = @"refresh_token";
 
 @interface SFSDKIDPAuthClient()<SFSDKLoginFlowSelectionViewDelegate>
 
@@ -184,6 +193,7 @@ static NSString * const kSFChallengeParamName          = @"code_challenge";
     NSURLComponents *callingAppComponents = [[NSURLComponents alloc] initWithString:self.config.oauthCompletionUrl];
 
     components.queryItems = @[
+                              
                               [[NSURLQueryItem alloc] initWithName:kOAuthClientIdKey value:clientId],
                               [[NSURLQueryItem alloc] initWithName:kOAuthScopesKey
                                                              value:[self encodeScopes]],
@@ -191,10 +201,10 @@ static NSString * const kSFChallengeParamName          = @"code_challenge";
                                                              value:codeChallengeString],
                               [[NSURLQueryItem alloc] initWithName:kOAuthRedirectUriKey
                                                              value:callingAppComponents.URL.absoluteString],
-                              [[NSURLQueryItem alloc] initWithName:@"state" value:self.credentials.identifier],
-                              [[NSURLQueryItem alloc] initWithName:@"app_name" value:self.config.appDisplayName],
-                              [[NSURLQueryItem alloc] initWithName:@"user_hint" value:self.context.userHint],
-                              [[NSURLQueryItem alloc] initWithName:@"login_host" value:self.config.loginHost]
+                              [[NSURLQueryItem alloc] initWithName:kSFStateParam value:self.credentials.identifier],
+                              [[NSURLQueryItem alloc] initWithName:kSFAppNameParam value:self.config.appDisplayName],
+                              [[NSURLQueryItem alloc] initWithName:kSFUserHintParam value:self.context.userHint],
+                              [[NSURLQueryItem alloc] initWithName:kSDFLoginHostParam value:self.config.loginHost]
                               ];
     return  components.URL;
 }
@@ -202,16 +212,16 @@ static NSString * const kSFChallengeParamName          = @"code_challenge";
 
 - (NSURL *)spAppURL:(NSString *)code {
     
-    NSString *reqUrl = [self.config.callingAppOptions objectForKey:@"calling_app_url"];
+    NSString *reqUrl = [self.config.callingAppOptions objectForKey:kSFCallingAppUrlParam];
     SFOAuthCredentials *spAppCredentials = [self credentialsFromURLForSPAPP:[NSURL URLWithString:reqUrl]];
-    NSString *callingAppState = [self.config.callingAppOptions objectForKey:@"state"];
-    NSString *urlString = [NSString stringWithFormat:@"%@?%@=%@&%@=%@",spAppCredentials.redirectUri,@"code",code,@"state",callingAppState];
+    NSString *callingAppState = [self.config.callingAppOptions objectForKey:kSFStateParam];
+    NSString *urlString = [NSString stringWithFormat:@"%@?%@=%@&%@=%@", spAppCredentials.redirectUri, @"code", code, kSFStateParam, callingAppState];
     
     return [NSURL URLWithString:urlString];
 }
 
 - (NSURL *)spAppURLWithError:(NSError *)error reason:(NSString *)reason {
-    NSString *reqUrl = [self.config.callingAppOptions objectForKey:@"calling_app_url"];
+    NSString *reqUrl = [self.config.callingAppOptions objectForKey:kSFCallingAppUrlParam];
     SFOAuthCredentials *spAppCredentials = [self credentialsFromURLForSPAPP:[NSURL URLWithString:reqUrl]];
     NSString *errorCode = error?[NSString stringWithFormat:@"%d",error.domain.intValue]:@"-999";
     NSString *errorDesc = @"";
@@ -223,14 +233,14 @@ static NSString * const kSFChallengeParamName          = @"code_challenge";
         reason = errorDesc;
 
     reason = [reason stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
-    NSString *state = [self.config.callingAppOptions objectForKey:@"state"];
+    NSString *state = [self.config.callingAppOptions objectForKey:kSFStateParam];
     NSString *urlString =
-                          [NSString stringWithFormat:@"%@?%@=%@&%@=%@&%@=%@&%@=%@",
-                           spAppCredentials.redirectUri,
-                           @"errorReason",reason,
-                           @"errorCode",errorCode,
-                           @"errorDescription",errorDesc,
-                           @"state",state];
+            [NSString stringWithFormat:@"%@?%@=%@&%@=%@&%@=%@&%@=%@",
+                                       spAppCredentials.redirectUri,
+                                       kSFErrorReasonParam, reason,
+                                       kSFErrorCodeParam, errorCode,
+                                       kSFErrorDescriptionParam, errorDesc,
+                                       kSFStateParam, state];
     
     return [NSURL URLWithString:urlString];
 }
@@ -250,13 +260,13 @@ static NSString * const kSFChallengeParamName          = @"code_challenge";
     if (!reason)
         reason = errorDesc;
     reason = [reason stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
-    NSString *state = [self.config.callingAppOptions objectForKey:@"state"];
+    NSString *state = [self.config.callingAppOptions objectForKey:kSFStateParam];
     NSString *urlString = [NSString stringWithFormat:@"%@?%@=%@&%@=%@&%@=%@&%@=%@",
                                                      appUri,
-                                                     @"errorReason",reason,
-                                                     @"errorCode",errorCode,
-                                                     @"errorDescription",errorDesc,
-                                                     @"state",state];
+                                                     kSFErrorReasonParam, reason,
+                                                     kSFErrorCodeParam, errorCode,
+                                                     kSFErrorDescriptionParam, errorDesc,
+                                                     kSFStateParam, state];
     
     return [NSURL URLWithString:urlString];
 }
@@ -310,7 +320,7 @@ static NSString * const kSFChallengeParamName          = @"code_challenge";
     mutableContext.credentials = userCredentials;
     self.context = mutableContext;
     self.coordinator.credentials = userCredentials;
-    NSString *reqUrl = [self.config.callingAppOptions objectForKey:@"calling_app_url"];
+    NSString *reqUrl = [self.config.callingAppOptions objectForKey:kSFCallingAppUrlParam];
     SFOAuthCredentials *spAppCredentials = [self credentialsFromURLForIDPApp:[NSURL URLWithString:reqUrl]];
     
     self.coordinator.credentials = mutableContext.credentials;
@@ -359,7 +369,7 @@ static NSString * const kSFChallengeParamName          = @"code_challenge";
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info {
 
     [SFSDKCoreLogger d:[self class] format:@"oauthCoordinator:didFailWithError: %@, authInfo: %@", error, self.context.authInfo];
-    NSString *state = [self.config.callingAppOptions objectForKey:@"state"];
+    NSString *state = [self.config.callingAppOptions objectForKey:kSFStateParam];
     if (state!=nil) {
         [self launchSPAppWithError:error reason:nil];
     }else {
@@ -382,7 +392,7 @@ static NSString * const kSFChallengeParamName          = @"code_challenge";
 
 - (NSString *)encodeScopes {
     NSMutableSet *scopes = (self.config.scopes.count > 0 ? [NSMutableSet setWithSet:self.config.scopes] : [NSMutableSet set]);
-    [scopes addObject:@"refresh_token"];
+    [scopes addObject:kSFRefreshTokenParam];
     NSString *scopeStr = [[[scopes allObjects] componentsJoinedByString:@","] stringByURLEncoding];
     return [NSString stringWithFormat:@"&%@=%@", kOAuthScopesKey, scopeStr];
 }
@@ -397,7 +407,7 @@ static NSString * const kSFChallengeParamName          = @"code_challenge";
             [scopes addObject:scope];
         }
     }
-    [scopes addObject:@"refresh_token"];
+    [scopes addObject:kSFRefreshTokenParam];
     return scopes;
 }
 
