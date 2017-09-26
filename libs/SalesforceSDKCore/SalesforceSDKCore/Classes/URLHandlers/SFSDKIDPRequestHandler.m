@@ -33,7 +33,7 @@
 #import "SFSDKOAuthClientConfig.h"
 #import "SFSDKUserSelectionNavViewController.h"
 #import "SFSDKIDPAuthClient.h"
-#import "SFUserAccountManager+Internal.h"
+#import "SFUserAccountManager+URLHandlers.h"
 
 @implementation SFSDKIDPRequestHandler
 

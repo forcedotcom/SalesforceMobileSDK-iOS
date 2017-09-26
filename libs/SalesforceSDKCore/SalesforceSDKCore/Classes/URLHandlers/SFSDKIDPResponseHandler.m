@@ -32,7 +32,7 @@
 #import "SFSDKAuthPreferences.h"
 #import "SFSDKOAuthClientConfig.h"
 #import "NSURL+SFAdditions.h"
-#import "SFUserAccountManager+Internal.h"
+#import "SFUserAccountManager+URLHandlers.h"
 #import "SFSDKAuthPreferences.h"
 @implementation SFSDKIDPResponseHandler
 

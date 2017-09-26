@@ -31,7 +31,7 @@
 #import "SFSDKOAuthClient.h"
 #import "NSURL+SFAdditions.h"
 #import "SFSDKOAuthClientConfig.h"
-#import "SFUserAccountManager+Internal.h"
+#import "SFUserAccountManager+URLHandlers.h"
 #import "SalesforceSDKCore.h"
 
 @implementation SFSDKIDPInitiatedAuthRequestHandler

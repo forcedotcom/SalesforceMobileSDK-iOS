@@ -77,49 +77,17 @@
  */
 - (nullable id<SFUserAccountPersister>)accountPersister;
 
+- (SFOAuthCredentials *_Nonnull)newClientCredentials;
+
 - (NSString *_Nonnull)encodeUserIdentity:(SFUserAccountIdentity *_Nonnull)userIdentity;
 
 - ( SFUserAccountIdentity *_Nullable)decodeUserIdentity:(NSString *_Nullable)userIdentity;
 
-/**
- Handle an advanced authentication response from the external browser, continuing any
- in-progress adavanced authentication flow.
- @param  url The URL response returned to the app from the external browser.
- @param  options Dictionary of name-value pairs received from open URL
- @return YES if this is request is handled, NO otherwise.
- */
-- (BOOL)handleNativeAuthResponse:(NSURL *_Nonnull)url options:(NSDictionary *_Nullable)options;
+- (void)disposeOAuthClient:(SFSDKOAuthClient *_Nonnull)client;
 
-/**
- Handle an error situation that occured in the IDP flow.
- @param url The URL request from the idp or SP App.
- @param options Dictionary of name-value pairs received from open URL
- @return YES if this is request is handled, NO otherwise.
- */
-- (BOOL)handleIdpAuthError:(NSURL *_Nonnull)url options:(NSDictionary *_Nullable)options;
+- (NSString *_Nonnull)clientKeyForCredentials:(SFOAuthCredentials *_Nonnull)credentials;
 
-/**
- Handle an IDP initiated auth flow.
- @param url The URL request from the IDP APP.
- @param options Dictionary of name-value pairs received from open URL
- @return YES if this is request is handled, NO otherwise.
- */
-- (BOOL)handleIdpInitiatedAuth:(NSURL *_Nonnull)url options:(NSDictionary *_Nullable)options;
+- (SFSDKIDPAuthClient *_Nonnull)fetchIDPAuthClient:(SFOAuthCredentials *_Nonnull)credentials completion:(SFUserAccountManagerSuccessCallbackBlock _Nullable)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock _Nullable)failureBlock;
 
-/**
- Handle an IDP request initiated from an SP APP.
- @param url The URL request from the SP APP.
- @param options Dictionary of name-value pairs received from open URL
- @return YES if this is request is handled, NO otherwise.
- */
-- (BOOL)handleIdpRequest:(NSURL *_Nonnull)url options:(NSDictionary *_Nullable)options;
-
-
-/**
- Handle an IDP response received from an IDP APP.
- @param  url The URL response from the IDP APP.
- @param  options Dictionary of name-value pairs received from open URL
- @return YES if this is request is handled, NO otherwise.
- */
-- (BOOL)handleIdpResponse:(NSURL *_Nonnull)url options:(NSDictionary *_Nullable)options;
+- (SFSDKOAuthClient *_Nonnull)fetchOAuthClient:(SFOAuthCredentials *_Nonnull)credentials completion:(SFUserAccountManagerSuccessCallbackBlock _Nullable)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock _Nullable)failureBlock;
 @end

@@ -29,7 +29,7 @@
 #import "SFSDKURLHandler.h"
 #import "SFSDKIDPErrorHandler.h"
 #import "NSURL+SFAdditions.h"
-#import "SFUserAccountManager+Internal.h"
+#import "SFUserAccountManager+URLHandlers.h"
 
 @implementation SFSDKIDPErrorHandler
 
