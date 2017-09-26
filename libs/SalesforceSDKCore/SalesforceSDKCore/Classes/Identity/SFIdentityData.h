@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The ID URL.
  */
-@property (nonnull, strong, nonatomic, readonly) NSURL *idUrl;
+@property (nullable, strong, nonatomic, readonly) NSURL *idUrl;
 
 /**
  * Whether or not this is the asserted user for this session.
@@ -50,47 +50,47 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The User ID of the associated user.
  */
-@property (nonnull, strong, nonatomic, readonly) NSString *userId;
+@property (nullable, strong, nonatomic, readonly) NSString *userId;
 
 /**
  * The Organization ID of the associated user.
  */
-@property (nonnull, strong, nonatomic, readonly) NSString *orgId;
+@property (nullable, strong, nonatomic, readonly) NSString *orgId;
 
 /**
  * The username of the associated user.
  */
-@property (nonnull, strong, nonatomic, readonly) NSString *username;
+@property (nullable, strong, nonatomic, readonly) NSString *username;
 
 /**
  * The nickname of the associated user.
  */
-@property (nonnull, strong, nonatomic, readonly) NSString *nickname;
+@property (nullable, strong, nonatomic, readonly) NSString *nickname;
 
 /**
  * The display name of the associated user.
  */
-@property (nonnull, strong, nonatomic, readonly) NSString *displayName;
+@property (nullable, strong, nonatomic, readonly) NSString *displayName;
 
 /**
  * The email address of the associated user.
  */
-@property (nonnull, strong, nonatomic, readonly) NSString *email;
+@property (nullable, strong, nonatomic, readonly) NSString *email;
 
 /**
  * The first name of the user.
  */
-@property (nonnull, strong, nonatomic, readonly) NSString *firstName;
+@property (nullable, strong, nonatomic, readonly) NSString *firstName;
 
 /**
  * The last name of the user.
  */
-@property (nonnull, strong, nonatomic, readonly) NSString *lastName;
+@property (nullable, strong, nonatomic, readonly) NSString *lastName;
 
 /**
  * The URL to retrieve the user's picture.
  */
-@property (nonnull, strong, nonatomic, readonly) NSURL *pictureUrl;
+@property (nullable, strong, nonatomic, readonly) NSURL *pictureUrl;
 
 /**
  * The URL to retrieve a thumbnail picture for the user.
@@ -182,17 +182,17 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The user type.
  */
-@property (nonnull, strong, nonatomic, readonly) NSString *userType;
+@property (nullable, strong, nonatomic, readonly) NSString *userType;
 
 /**
  * The user's configured language.
  */
-@property (nonnull, strong, nonatomic, readonly) NSString *language;
+@property (nullable, strong, nonatomic, readonly) NSString *language;
 
 /**
  * The user's configured locale.
  */
-@property (nonnull, strong, nonatomic, readonly) NSString *locale;
+@property (nullable, strong, nonatomic, readonly) NSString *locale;
 
 /**
  * The UTC offset for this user.

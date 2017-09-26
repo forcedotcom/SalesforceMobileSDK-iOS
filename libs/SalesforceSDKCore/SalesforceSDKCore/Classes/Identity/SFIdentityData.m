@@ -81,6 +81,7 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
     self = [super init];
     if (self) {
         NSAssert(jsonDict != nil, @"Data dictionary must not be nil.");
+        NSAssert([jsonDict isKindOfClass:[NSDictionary class]], @"Data dictionary must be a NSDictionary or sublcass");
         self.dictRepresentation = jsonDict;
     }
     
@@ -96,55 +97,62 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 
 - (NSURL *)idUrl
 {
-    return [NSURL URLWithString:(self.dictRepresentation)[kSFIdentityIdUrlKey]];
+    NSString *value = self.dictRepresentation[kSFIdentityIdUrlKey];
+    return [value isEqual:[NSNull null]] ? nil : [NSURL URLWithString:value];
 }
 
 - (BOOL)assertedUser
 {
-    if ((self.dictRepresentation)[kSFIdentityAssertedUserKey] != nil)
-        return [(self.dictRepresentation)[kSFIdentityAssertedUserKey] boolValue];
-    else
-        return NO;
+    NSNumber* value = self.dictRepresentation[kSFIdentityAssertedUserKey];
+    return [value isEqual:[NSNull null]] ? NO : [value boolValue];
 }
 
 - (NSString *)userId
 {
-    return (self.dictRepresentation)[kSFIdentityUserIdKey];
+    NSString *value = self.dictRepresentation[kSFIdentityUserIdKey];
+    return [value isEqual:[NSNull null]] ? nil : value;
 }
 
 - (NSString *)orgId
 {
-    return (self.dictRepresentation)[kSFIdentityOrgIdKey];
+    NSString *value = self.dictRepresentation[kSFIdentityOrgIdKey];
+    return [value isEqual:[NSNull null]] ? nil : value;
 }
 
 - (NSString *)username
 {
-    return (self.dictRepresentation)[kSFIdentityUsernameKey];
+    NSString *value = self.dictRepresentation[kSFIdentityUsernameKey];
+    return [value isEqual:[NSNull null]] ? nil : value;
 }
 
 - (NSString *)nickname
 {
-    return (self.dictRepresentation)[kSFIdentityNicknameKey];
+    NSString *value = self.dictRepresentation[kSFIdentityNicknameKey];
+    return [value isEqual:[NSNull null]] ? nil : value;
 }
 
 - (NSString *)displayName
 {
-    return (self.dictRepresentation)[kSFIdentityDisplayNameKey];
+    NSString *value = self.dictRepresentation[kSFIdentityDisplayNameKey];
+    return [value isEqual:[NSNull null]] ? nil : value;
 }
 
 - (NSString *)email
 {
-    return (self.dictRepresentation)[kSFIdentityEmailKey];
+    NSString *value = self.dictRepresentation[kSFIdentityEmailKey];
+    return [value isEqual:[NSNull null]] ? nil : value;
 }
 
 - (NSString *)firstName
 {
-    return (self.dictRepresentation)[kSFIdentityFirstNameKey];
+    NSString *value = self.dictRepresentation[kSFIdentityFirstNameKey];
+    return [value isEqual:[NSNull null]] ? nil : value;
 }
 
 - (NSString *)lastName
 {
-    return (self.dictRepresentation)[kSFIdentityLastNameKey];
+    NSString *value = self.dictRepresentation[kSFIdentityLastNameKey];
+    return [value isEqual:[NSNull null]] ? nil : value;
 }
 
 - (NSURL *)pictureUrl
@@ -232,38 +240,51 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 
 - (NSString *)userType
 {
-    return (self.dictRepresentation)[kSFIdentityUserTypeKey];
+    NSString *value = self.dictRepresentation[kSFIdentityUserTypeKey];
+    return [value isEqual:[NSNull null]] ? nil : value;
 }
 
 - (NSString *)language
 {
-    return (self.dictRepresentation)[kSFIdentityLanguageKey];
+    NSString *value = self.dictRepresentation[kSFIdentityLanguageKey];
+    return [value isEqual:[NSNull null]] ? nil : value;
 }
 
 - (NSString *)locale
 {
-    return (self.dictRepresentation)[kSFIdentityLocaleKey];
+    NSString *value = self.dictRepresentation[kSFIdentityLocaleKey];
+    return [value isEqual:[NSNull null]] ? nil : value;
 }
 
 - (int)utcOffset
 {
-    if ((self.dictRepresentation)[kSFIdentityUtcOffsetKey] != nil)
-        return [(self.dictRepresentation)[kSFIdentityUtcOffsetKey] intValue];
-    else
+    NSNumber *value = self.dictRepresentation[kSFIdentityUtcOffsetKey];
+    
+    if (value != nil && ![value isEqual:[NSNull null]]) {
+        return [value intValue];
+    } else {
         return -1;
+    }
 }
 
 - (BOOL)mobilePoliciesConfigured
 {
-    return ((self.dictRepresentation)[kSFIdentityMobilePolicyKey] != nil);
+    NSNumber *value = self.dictRepresentation[kSFIdentityMobilePolicyKey];
+    
+    if (value != nil && ![value isEqual:[NSNull null]]) {
+        return [value boolValue];
+    } else {
+        return NO;
+    }
 }
 
 - (int)mobileAppPinLength
 {
-    NSDictionary *mobilePolicy = (self.dictRepresentation)[kSFIdentityMobilePolicyKey];
-    if (mobilePolicy != nil) {
+    NSDictionary *mobilePolicy = self.dictRepresentation[kSFIdentityMobilePolicyKey];
+    if (mobilePolicy != nil && ![mobilePolicy isEqual:[NSNull null]]) {
         id pinLength = mobilePolicy[kSFIdentityMobileAppPinLengthKey];
-        return (pinLength != nil ? [pinLength intValue] : 0);
+        BOOL valiPinLength = pinLength != nil && ![pinLength isEqual:[NSNull null]];
+        return (valiPinLength ? [pinLength intValue] : 0);
     } else {
         return 0;
     }
@@ -272,9 +293,10 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 - (int)mobileAppScreenLockTimeout
 {
     NSDictionary *mobilePolicy = (self.dictRepresentation)[kSFIdentityMobilePolicyKey];
-    if (mobilePolicy != nil) {
+    if (mobilePolicy != nil && ![mobilePolicy isEqual:[NSNull null]]) {
         id screenLockTimeout = mobilePolicy[kSFIdentityMobileAppScreenLockTimeoutKey];
-        return (screenLockTimeout != nil ? [screenLockTimeout intValue] : 0);
+        BOOL validScreenLockTimeout = screenLockTimeout != nil && ![screenLockTimeout isEqual:[NSNull null]];
+        return (validScreenLockTimeout ? [screenLockTimeout intValue] : 0);
     } else {
         return 0;
     }
@@ -285,7 +307,7 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
     NSDictionary *attributes = (self.dictRepresentation)[kSFIdentityCustomAttributesKey];
 
     // sometimes attributes returned as NSNull
-    if (((NSObject *)attributes) == [NSNull null] || ![attributes isKindOfClass:[NSDictionary class]]) {
+    if ([attributes isEqual:[NSNull null]] || ![attributes isKindOfClass:[NSDictionary class]]) {
         attributes = nil;
     }
     return attributes;
@@ -300,7 +322,8 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 
 - (NSDictionary *)customPermissions
 {
-    return (self.dictRepresentation)[kSFIdentityCustomPermissionsKey];
+    NSDictionary *value = self.dictRepresentation[kSFIdentityCustomPermissionsKey];
+    return [value isEqual:[NSNull null]] ? nil : value;
 }
 
 - (void)setCustomPermissions:(NSDictionary *)customPermissions
@@ -312,8 +335,9 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 
 - (NSDate *)lastModifiedDate
 {
-    if ((self.dictRepresentation)[kSFIdentityLastModifiedDateKey] != nil)
-        return [[self class] dateFromRfc822String:(self.dictRepresentation)[kSFIdentityLastModifiedDateKey]];
+    NSString *value = self.dictRepresentation[kSFIdentityLastModifiedDateKey];
+    if (value != nil && ![value isEqual:[NSNull null]])
+        return [[self class] dateFromRfc822String:value];
     else
         return nil;
 }
@@ -323,8 +347,10 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 - (NSURL *)parentExistsOrNilForUrl:(NSString *)parentKey childKey:(NSString *)childKey
 {
     NSDictionary *parentDict = (self.dictRepresentation)[parentKey];
-    if (parentDict != nil)
-        return [NSURL URLWithString:parentDict[childKey]];
+    if (parentDict != nil && ![parentDict isEqual:[NSNull null]]) {
+        NSString *value = parentDict[childKey];
+        return [value isEqual:[NSNull null]] ? nil : [NSURL URLWithString:value];
+    }
     else
         return nil;
 }
@@ -332,8 +358,10 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 - (NSString *)parentExistsOrNilForString:(NSString *)parentKey childKey:(NSString *)childKey
 {
     NSDictionary *parentDict = (self.dictRepresentation)[parentKey];
-    if (parentDict != nil)
-        return parentDict[childKey];
+    if (parentDict != nil && ![parentDict isEqual:[NSNull null]]) {
+        NSString *value = parentDict[childKey];
+        return [value isEqual:[NSNull null]] ? nil : value;
+    }
     else
         return nil;
 }
