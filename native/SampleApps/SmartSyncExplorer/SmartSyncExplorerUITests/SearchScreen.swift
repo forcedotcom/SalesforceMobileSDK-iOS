@@ -162,6 +162,6 @@ class SearchScreen: PageObject {
     
     
     func openRecord(_ cell :  UInt) {
-        app.tables.cells.element(boundBy: cell).tap()
+        app.tables.cells.element.tap()
     }
 }
