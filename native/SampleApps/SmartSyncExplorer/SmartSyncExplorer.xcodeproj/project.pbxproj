@@ -953,7 +953,7 @@
 				TargetAttributes = {
 					4F1DA68A1C84FD7E0014FAD3 = {
 						CreatedOnToolsVersion = 7.1.1;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0900;
 						TestTargetID = 827C631019E6018C00027484;
 					};
 					827C631019E6018C00027484 = {
@@ -1457,7 +1457,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.SmartSyncExplorerUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = SmartSyncExplorer;
 				USES_XCTRUNNER = YES;
 			};
@@ -1478,7 +1479,8 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.SmartSyncExplorerUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = SmartSyncExplorer;
 				USES_XCTRUNNER = YES;
 			};
