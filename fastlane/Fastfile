@@ -87,7 +87,7 @@ def testScheme(scheme)
       workspace: "SalesforceMobileSDK.xcworkspace",
       scheme: scheme,
       output_directory: "xcov_output",
-      exclude_targets: "CocoaLumberjack.framework,SalesforceSDKCoreTestApp.app,SmartStoreTestApp.app,SmartSyncTestApp.app,SalesforceHybridSDKTestApp.app,SalesforceAnalyticsTestApp.app,RestAPIExplorer.app,AccountEditor.app,NoteSync.app,SmartSyncExplorerHybrid.app,SmartSyncExplorer.app,SmartSyncExplorerCommon.framework,RecentContactsTodayExtension.appex"
+      exclude_targets: "CocoaLumberjack.framework,SalesforceSDKCoreTestApp.app,SmartStoreTestApp.app,SmartSyncTestApp.app,SalesforceHybridSDKTestApp.app,SalesforceAnalyticsTestApp.app,RestAPIExplorer.app,AccountEditor.app,NoteSync.app,SmartSyncExplorerHybrid.app,SmartSyncExplorer.app,SmartSyncExplorerCommon.framework,RecentContactsTodayExtension.appex,Cordova.framework,SalesforceReact.framework"
   )
 
   schemes = [scheme]
