@@ -200,6 +200,14 @@ static NSString* ailtnAppName = nil;
     [SFUserAccountManager sharedInstance].idpEnabled = idpEnabled;
 }
 
+- (BOOL)useLegacyAuthenticationManager{
+    return [SFUserAccountManager sharedInstance].useLegacyAuthenticationManager;
+}
+
+- (void)setUseLegacyAuthenticationManager:(BOOL)enabled {
+    [SFUserAccountManager sharedInstance].useLegacyAuthenticationManager = enabled;
+}
+
 - (NSString *)appDisplayName {
     return [SFUserAccountManager sharedInstance].appDisplayName;
 }
@@ -722,14 +730,18 @@ static NSString* ailtnAppName = nil;
         [self sendLaunchError:authError];
     };
     
-    [[SFUserAccountManager sharedInstance] loginWithCompletion:successBlock failure:failureBlock];
+    if (self.useLegacyAuthenticationManager) {
+        [[SFAuthenticationManager sharedManager] loginWithCompletion:successBlock failure:failureBlock];
+    } else {
+        [[SFUserAccountManager sharedInstance] loginWithCompletion:successBlock failure:failureBlock];
+    }
 }
 
 - (void)authBypassAtLaunch
 {
     // If there is a current user (from a previous authentication), we still need to set up the
     // in-memory auth state of that user.
-    if ([SFUserAccountManager sharedInstance].currentUser != nil) {
+    if ([SFUserAccountManager sharedInstance].currentUser != nil && self.useLegacyAuthenticationManager) {
         [[SFAuthenticationManager sharedManager] setupWithCredentials:[SFUserAccountManager sharedInstance].currentUser.credentials];
     }
     

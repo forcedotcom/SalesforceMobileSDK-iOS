@@ -27,8 +27,6 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #import <Foundation/Foundation.h>
-
-@class SFSDKOAuthClient;
 @class WKWebView;
 @class SFSafariViewController;
 @class SFSDKOAuthClientViewHolder;
@@ -37,12 +35,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Block definition for displaying the auth view.
  */
-typedef void (^SFSDKAuthClientViewDisplayBlock)(SFSDKOAuthClient *,SFSDKOAuthClientViewHolder *);
+typedef void (^SFSDKAuthClientViewDisplayBlock)(SFSDKOAuthClientViewHolder *);
 
 /**
  Block definition for dismissing the auth view.
  */
-typedef void (^SFSDKAuthClientViewDismissBlock)(SFSDKOAuthClient *);
+typedef void (^SFSDKAuthClientViewDismissBlock)();
 
 @interface SFSDKOAuthClientViewHolder : NSObject
 

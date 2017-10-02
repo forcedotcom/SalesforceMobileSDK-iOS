@@ -245,13 +245,26 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
  */
 @property (nonatomic, copy) SFSDKUserAgentCreationBlock userAgentString;
 
+/** Use this flag to indicate if the APP will be an identity provider
+ */
 @property (nonatomic,assign) BOOL isIdentityProvider;
 
+/** Use this flag to indicate if the APP supports using an identity provider app for authentication
+ */
 @property (nonatomic,assign) BOOL idpEnabled;
 
+/** Use this flag to indicate if the scheme for the identity provider app
+ */
 @property (nonatomic, copy) NSString *idpAppScheme;
 
+/** Use this flag to setup a user friendly display name  for your current app. This value will be used by the identity
+ *  provider app on the user selection view.
+ */
 @property (nonatomic,copy) NSString *appDisplayName;
+
+/** Use this flag to indicate if the APP supports using an identity provider app for authentication
+ */
+@property (nonatomic,assign) BOOL useLegacyAuthenticationManager;
 
 /**
  Launches the SDK.  This will verify an existing passcode the first time it runs, and attempt to

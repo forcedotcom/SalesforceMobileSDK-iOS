@@ -48,6 +48,6 @@
     SFSDKAuthRequestCommand *command = [[SFSDKAuthRequestCommand alloc] init];
     [command fromRequestURL:url];
     [[SFUserAccountManager sharedInstance] handleIdpRequest:command];
-    return YES;
+    return NO;
 }
 @end

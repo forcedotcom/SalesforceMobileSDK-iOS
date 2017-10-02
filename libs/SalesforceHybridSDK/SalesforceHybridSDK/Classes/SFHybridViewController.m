@@ -314,17 +314,17 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
             attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
             attributes[@"errorDescription"] = error.localizedDescription;
             [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
-            [[SFAuthenticationManager sharedManager] logout];
+            [strongSelf logout];
         } else if (failureBlock != NULL) {
             failureBlock(authInfo, error);
         }
     };
 
     if (![SFUserAccountManager sharedInstance].currentUser) {
-        [[SFAuthenticationManager sharedManager] loginWithCompletion:authCompletionBlock
+        [self loginWithCompletion:authCompletionBlock
                                                              failure:authFailureBlock];
     } else {
-        [[SFAuthenticationManager sharedManager] refreshCredentials:[SFUserAccountManager sharedInstance].currentUser.credentials
+        [self refreshCredentials:[SFUserAccountManager sharedInstance].currentUser.credentials
                                                          completion:authCompletionBlock
                                                             failure:authFailureBlock];
     }
@@ -370,7 +370,7 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
 - (NSDictionary *)credentialsAsDictionary
 {
     NSDictionary *credentialsDict = nil;
-    SFOAuthCredentials *creds = [SFAuthenticationManager sharedManager].coordinator.credentials;
+    SFOAuthCredentials *creds = [SFUserAccountManager sharedInstance].currentUser.credentials;
     if (nil != creds) {
         NSString *instanceUrl = creds.instanceUrl.absoluteString;
         NSString *loginUrl = [NSString stringWithFormat:@"%@://%@", creds.protocol, creds.domain];
@@ -819,7 +819,7 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
 
 - (void)loadVFPingPage
 {
-    SFOAuthCredentials *creds = [SFAuthenticationManager sharedManager].coordinator.credentials;
+    SFOAuthCredentials *creds = [SFUserAccountManager sharedInstance].currentUser.credentials;
     if (nil != creds.apiUrl) {
         NSMutableString *instanceUrl = [[NSMutableString alloc] initWithString:creds.apiUrl.absoluteString];
         NSString *encodedPingUrlParam = [kVFPingPageUrl stringByURLEncoding];
@@ -843,17 +843,31 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
 - (void)refreshCredentials:(SFOAuthCredentials *)credentials
                  completion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
                   failure:(SFOAuthFlowFailureCallbackBlock)failureBlock {
-   [[SFUserAccountManager sharedInstance] refreshCredentials:credentials completion:completionBlock failure:failureBlock];
+    if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
+        [[SFAuthenticationManager sharedManager] refreshCredentials:credentials completion:completionBlock failure:failureBlock];
+    }else {
+        [[SFUserAccountManager sharedInstance] refreshCredentials:credentials completion:completionBlock failure:failureBlock];
+    }
+
     
 }
 
 - (void)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
                   failure:(SFOAuthFlowFailureCallbackBlock)failureBlock {
-    [[SFUserAccountManager sharedInstance] loginWithCompletion:completionBlock failure:failureBlock];
+    if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
+        [[SFAuthenticationManager sharedManager] loginWithCompletion:completionBlock failure:failureBlock];
+    } else {
+           [[SFUserAccountManager sharedInstance] loginWithCompletion:completionBlock failure:failureBlock];
+    }
+
 }
 
 - (void)logout {
-    [[SFUserAccountManager sharedInstance] logout];
+     if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
+         [[SFAuthenticationManager sharedManager] logout];
+     } else {
+         [[SFUserAccountManager sharedInstance] logout];
+     }
 }
 
 @end

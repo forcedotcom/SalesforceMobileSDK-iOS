@@ -159,14 +159,14 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
         __weak typeof(self) weakSelf = self;
         if (self.config.advancedAuthConfiguration == SFOAuthAdvancedAuthConfigurationRequire) {
             _authViewHandler =[[SFSDKOAuthViewHandler alloc]
-                    initWithDisplayBlock:^(SFSDKOAuthClient *client, SFSDKOAuthClientViewHolder *viewHandler) {
+                    initWithDisplayBlock:^(SFSDKOAuthClientViewHolder *viewHandler) {
                         __strong typeof(weakSelf) strongSelf = weakSelf;
                         strongSelf.authWindow.viewController = viewHandler.safariViewController;
                         [strongSelf.authWindow enable];
                     } dismissBlock:nil];
         } else {
             _authViewHandler = [[SFSDKOAuthViewHandler alloc]
-                    initWithDisplayBlock:^(SFSDKOAuthClient *client, SFSDKOAuthClientViewHolder *viewHandler) {
+                    initWithDisplayBlock:^(SFSDKOAuthClientViewHolder *viewHandler) {
                         __strong typeof(weakSelf) strongSelf = weakSelf;
                         if (strongSelf.config.authViewController == nil) {
                             strongSelf.config.authViewController = [SFLoginViewController sharedInstance];
@@ -431,10 +431,10 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
     // to be added to a superview by the end of this method.
     if (![NSThread isMainThread]) {
         dispatch_sync(dispatch_get_main_queue(), ^{
-            self.authViewHandler.authViewDisplayBlock(self, viewHolder);
+            self.authViewHandler.authViewDisplayBlock(viewHolder);
         });
     } else {
-        self.authViewHandler.authViewDisplayBlock(self, viewHolder);
+        self.authViewHandler.authViewDisplayBlock(viewHolder);
     }
 
 }
@@ -447,7 +447,7 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
     SFSDKOAuthClientViewHolder *viewHolder = [SFSDKOAuthClientViewHolder new];
     viewHolder.safariViewController = svc;
     viewHolder.isAdvancedAuthFlow = YES;
-    self.authViewHandler.authViewDisplayBlock(self, viewHolder);
+    self.authViewHandler.authViewDisplayBlock(viewHolder);
 }
 
 - (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator *)coordinator {

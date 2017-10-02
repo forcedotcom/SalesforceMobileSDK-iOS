@@ -50,7 +50,7 @@
     [command fromRequestURL:url];
 
     [[SFUserAccountManager sharedInstance] handleIdpResponse:command];
-    return YES;
+    return NO;
 
 }
 

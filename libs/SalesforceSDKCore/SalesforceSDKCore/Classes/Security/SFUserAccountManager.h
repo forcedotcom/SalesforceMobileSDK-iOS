@@ -312,6 +312,11 @@ FOUNDATION_EXTERN NSString * const  SFUserAccountManagerIDPInitiatedLoginNotific
  */
 @property (nonatomic,assign) BOOL idpEnabled;
 
+/** Use this property to use SFAuthenticationManager for authentication
+ *
+ */
+@property (nonatomic,assign) BOOL useLegacyAuthenticationManager;
+
 /** Use this property to indicate the url scheme  for the Identity Provider app
  *
  */
@@ -322,6 +327,7 @@ FOUNDATION_EXTERN NSString * const  SFUserAccountManagerIDPInitiatedLoginNotific
  *
  */
 @property (nonatomic,copy) NSString *appDisplayName;
+
 
 
 /** Shared singleton

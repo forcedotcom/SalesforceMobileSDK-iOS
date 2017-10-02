@@ -168,8 +168,8 @@
 		B7E1A7801F4C8844007AC36A /* SFSDKOAuthClient.h in Headers */ = {isa = PBXBuildFile; fileRef = B7E1A77B1F4C8844007AC36A /* SFSDKOAuthClient.h */; };
 		B7E1A7811F4C8844007AC36A /* SFSDKOAuthClient.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E1A77C1F4C8844007AC36A /* SFSDKOAuthClient.m */; };
 		B7E1A7821F4C8844007AC36A /* SFSDKOAuthClient.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E1A77C1F4C8844007AC36A /* SFSDKOAuthClient.m */; };
-		B7E1A7831F4C8844007AC36A /* SFSDKOAuthViewHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = B7E1A77D1F4C8844007AC36A /* SFSDKOAuthViewHandler.h */; };
-		B7E1A7841F4C8844007AC36A /* SFSDKOAuthViewHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = B7E1A77D1F4C8844007AC36A /* SFSDKOAuthViewHandler.h */; };
+		B7E1A7831F4C8844007AC36A /* SFSDKOAuthViewHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = B7E1A77D1F4C8844007AC36A /* SFSDKOAuthViewHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B7E1A7841F4C8844007AC36A /* SFSDKOAuthViewHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = B7E1A77D1F4C8844007AC36A /* SFSDKOAuthViewHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B7E1A7851F4C8844007AC36A /* SFSDKOAuthViewHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E1A77E1F4C8844007AC36A /* SFSDKOAuthViewHandler.m */; };
 		B7E1A7861F4C8844007AC36A /* SFSDKOAuthViewHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E1A77E1F4C8844007AC36A /* SFSDKOAuthViewHandler.m */; };
 		B7E8A2A51E7369DB007C0D92 /* SFDefaultUserAccountPersister.h in Headers */ = {isa = PBXBuildFile; fileRef = B7E8A2A31E7369DB007C0D92 /* SFDefaultUserAccountPersister.h */; };

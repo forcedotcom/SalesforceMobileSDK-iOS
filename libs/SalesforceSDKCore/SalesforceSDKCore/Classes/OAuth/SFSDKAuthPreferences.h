@@ -81,16 +81,31 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, copy) NSSet<NSString*> *scopes;
 
-/**
- The OAuth scopes associated with the app.
+/**  Use this property to enable an app to become and IdentityProvider for other apps
+ *
  */
-@property (nonatomic, copy, nullable) NSString *appDisplayName;
+@property (nonatomic,assign) BOOL isIdentityProvider;
 
+/**  Use this property to enable this app to be able to use another app that is an Identity Provider
+ *
+ */
 @property (nonatomic,assign) BOOL idpEnabled;
 
-@property (nonatomic, copy,nullable) NSString *idpAppScheme;
+/** Use this property to use SFAuthenticationManager for authentication
+ *
+ */
+@property (nonatomic,assign) BOOL useLegacyAuthenticationManager;
 
-@property (nonatomic,assign) BOOL isIdentityProvider;
+/** Use this property to indicate the url scheme  for the Identity Provider app
+ *
+ */
+@property (nonatomic, copy) NSString *idpAppScheme;
+
+/** Use this property to indicate to provide a user-friendly name for your app. This name will be displayed
+ *  in the user selection view of the identity provider app.
+ *
+ */
+@property (nonatomic,copy) NSString *appDisplayName;
 
 @end
 NS_ASSUME_NONNULL_END

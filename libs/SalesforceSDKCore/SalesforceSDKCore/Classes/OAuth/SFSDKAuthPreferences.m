@@ -62,6 +62,8 @@ NSString * const kSFIDPProviderKey = @"SFIDPProvider";
 // The key for storing the persisted OAuth scopes.
 NSString * const kOAuthAppName = @"oauth_app_name";
 
+NSString * const kSFLegacyAuthIndicatorKey = @"SFDCUseLegacyAuth";
+
 @implementation SFSDKAuthPreferences
 
 - (void)setLoginHost:(NSString*)host {
@@ -220,5 +222,18 @@ NSString * const kOAuthAppName = @"oauth_app_name";
     [defs setObject:appDisplayName forKey:kOAuthAppName];
     [defs synchronize];
 }
+
+- (BOOL)useLegacyAuthenticationManager{
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
+    return [defs stringForKey:kSFLegacyAuthIndicatorKey];
+
+}
+
+- (void)setUseLegacyAuthenticationManager:(BOOL)enabled {
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
+    [defs setBool:enabled forKey:kSFLegacyAuthIndicatorKey];
+    [defs synchronize];
+}
+
 
 @end

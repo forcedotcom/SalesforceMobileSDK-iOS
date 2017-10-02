@@ -73,6 +73,8 @@ static NSString * const kUserDefaultsLastUserIdentityKey = @"LastUserIdentity";
 static NSString * const kUserDefaultsLastUserCommunityIdKey = @"LastUserCommunityId";
 static NSString * const kSFAppFeatureMultiUser   = @"MU";
 
+static NSString *const kSFIncompatibleAuthError = @"Cannot use this SFUserAccountManager Auth functions with useLegacyAuthenticationManager enabled";
+
 @implementation SFUserAccountManager
 
 @synthesize currentUser = _currentUser;
@@ -164,6 +166,14 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
     self.authPreferences.idpEnabled = idpEnabled;
 }
 
+- (BOOL)useLegacyAuthenticationManager{
+    return self.authPreferences.useLegacyAuthenticationManager;
+}
+
+- (void)setUseLegacyAuthenticationManager:(BOOL)enabled {
+    self.authPreferences.useLegacyAuthenticationManager = enabled;
+}
+
 - (NSString *)appDisplayName {
     return self.authPreferences.appDisplayName;
 }
@@ -183,6 +193,8 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 #pragma  mark - login & logout
 
 - (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse options:(nonnull NSDictionary *)options{
+     NSAssert(self.useLegacyAuthenticationManager==false, kSFIncompatibleAuthError);
+    
     [SFSDKCoreLogger i:[self class] format:@"handleAdvancedAuthenticationResponse %@",[appUrlResponse description]];
     
     BOOL result = [[SFSDKURLHandlerManager sharedInstance] canHandleRequest:appUrlResponse options:options];
@@ -194,22 +206,27 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 }
 
 - (BOOL)loginWithCompletion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
+    NSAssert(self.useLegacyAuthenticationManager==false, kSFIncompatibleAuthError);
     SFOAuthCredentials *clientCredentials = [self newClientCredentials];
     return [self authenticateWithCompletion:completionBlock failure:failureBlock credentials:clientCredentials];
 }
 
 - (BOOL)refreshCredentials:(SFOAuthCredentials *)credentials completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
-    
+    NSAssert(self.useLegacyAuthenticationManager==false, kSFIncompatibleAuthError);
     NSAssert(credentials.refreshToken.length > 0, @"Refresh token required to refresh credentials.");
     return [self authenticateWithCompletion:completionBlock failure:failureBlock credentials:credentials];
 }
 
 - (BOOL)authenticateWithCompletion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock credentials:(SFOAuthCredentials *)credentials{
+    
+    NSAssert(self.useLegacyAuthenticationManager==false, kSFIncompatibleAuthError);
+    
     SFSDKOAuthClient *client = [self fetchOAuthClient:credentials completion:completionBlock failure:failureBlock];
     return [client refreshCredentials];
 }
 
 - (BOOL)loginWithJwtToken:(NSString *)jwtToken completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
+    NSAssert(self.useLegacyAuthenticationManager==false, kSFIncompatibleAuthError);
     NSAssert(jwtToken.length > 0, @"JWT token value required.");
     SFOAuthCredentials *credentials = [self newClientCredentials];
     credentials.jwt = jwtToken;
@@ -217,10 +234,12 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 }
 
 - (void)logout {
+    NSAssert(self.useLegacyAuthenticationManager==false, kSFIncompatibleAuthError);
     [self logoutUser:[SFUserAccountManager sharedInstance].currentUser];
 }
 
 - (void)logoutUser:(SFUserAccount *)user {
+    NSAssert(self.useLegacyAuthenticationManager==false, kSFIncompatibleAuthError);
     // No-op, if the user is not valid.
     if (user == nil) {
         [SFSDKCoreLogger i:[self class] format:@"logoutUser: user is nil.  No action taken."];
@@ -276,6 +295,7 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
 }
 
 - (void)logoutAllUsers {
+    NSAssert(self.useLegacyAuthenticationManager==false, kSFIncompatibleAuthError);
     // Log out all other users, then the current user.
     NSArray *userAccounts = [self allUserAccounts];
     for (SFUserAccount *account in userAccounts) {

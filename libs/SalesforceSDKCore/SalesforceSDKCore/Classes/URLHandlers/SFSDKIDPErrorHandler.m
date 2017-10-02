@@ -45,7 +45,7 @@
     SFSDKAuthErrorCommand *command = [[SFSDKAuthErrorCommand alloc] init];
     [command fromRequestURL:url];
     [[SFUserAccountManager sharedInstance] handleIdpAuthError:command];
-    return YES;
+    return NO;
 }
 
 
