@@ -543,6 +543,10 @@
     return  CGRectGetHeight([[UIScreen mainScreen] portraitScreenBounds]) == 736.0f && CGRectGetWidth([[UIScreen mainScreen] portraitScreenBounds]) == 414.0f;
 }
 
+- (BOOL)hasIphoneXScreenSize {
+    return  CGRectGetHeight([[UIScreen mainScreen] portraitScreenBounds]) == 812.0f && CGRectGetWidth([[UIScreen mainScreen] portraitScreenBounds]) == 375.0f;
+}
+
 #pragma mark - 
 
 - (BOOL)canDevicePlaceAPhoneCall {

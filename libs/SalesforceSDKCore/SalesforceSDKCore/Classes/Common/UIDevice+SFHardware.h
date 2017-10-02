@@ -216,6 +216,11 @@ typedef NS_ENUM(NSUInteger, UIDeviceFamily) {
  */
 - (BOOL)hasIphone6PlusScreenSize;
 
+/** Determine if the current device has the screen size of an iPhone X.
+ * @return Returns YES if so, NO otherwise.
+ */
+- (BOOL)hasIphoneXScreenSize;
+
 /**Return YES if device is iPad
  */
 + (BOOL)currentDeviceIsIPad;
