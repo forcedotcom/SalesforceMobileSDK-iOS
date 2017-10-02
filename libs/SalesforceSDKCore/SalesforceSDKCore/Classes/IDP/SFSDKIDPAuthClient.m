@@ -26,33 +26,24 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#import "SFSDKIDPConstants.h"
 #import "SFSDKIDPAuthClient.h"
 #import "SFSDKOAuthClientConfig.h"
 #import "SFSDKLoginFlowSelectionViewController.h"
 #import "SFSDKUserSelectionNavViewController.h"
 #import "SFOAuthCoordinator+Internal.h"
-
-static NSUInteger const kSFVerifierByteLength          = 128;
-static NSString * const kSFVerifierParamName           = @"code_verifier";
-
-static NSString *const kSFStateParam = @"state";
-static NSString *const kSFAppNameParam = @"app_name";
-static NSString *const kSFUserHintParam = @"user_hint";
-static NSString *const kSDFLoginHostParam = @"login_host";
-static NSString *const kSFCallingAppUrlParam = @"calling_app_url";
-static NSString *const kSFErrorReasonParam = @"errorReason";
-static NSString *const kSFErrorCodeParam = @"errorCode";
-static NSString *const kSFErrorDescriptionParam = @"errorDescription";
-static NSString *const kSFRefreshTokenParam = @"refresh_token";
+#import "SFSDKAuthRequestCommand.h"
+#import "SFSDKAuthResponseCommand.h"
+#import "SFSDKAuthErrorCommand.h"
+#import "SFSDKIDPInitCommand.h"
 
 @interface SFSDKIDPAuthClient()<SFSDKLoginFlowSelectionViewDelegate>
-
 @property (nonatomic, strong) SFSDKOAuthClientContext *context;
 - (SFIDPLoginFlowSelectionCreationBlock)idpLoginFlowSelectionBlock;
-- (NSURL *)idpAppURLWithError:(NSError *)error reason:(NSString *)reason;
 @end
 
 @implementation SFSDKIDPAuthClient
+
 @dynamic config;
 @dynamic context;
 @dynamic loginFlowSelectionController;
@@ -72,7 +63,7 @@ static NSString *const kSFRefreshTokenParam = @"refresh_token";
             SFSDKLoginFlowSelectionViewController *controller = [[SFSDKLoginFlowSelectionViewController alloc] initWithNibName:nil bundle:nil];
             controller.selectionFlowDelegate = self;
             return controller;
-
+            
         };
     }
     return self.config.idpLoginFlowSelectionBlock;
@@ -82,7 +73,7 @@ static NSString *const kSFRefreshTokenParam = @"refresh_token";
     if (!self.config.idpUserSelectionBlock) {
         return ^SFSDKUserSelectionNavViewController * {
             SFSDKUserSelectionNavViewController *controller = [[SFSDKUserSelectionNavViewController alloc] initWithNibName:nil bundle:nil];
-             return controller;
+            return controller;
         };
     }
     return self.config.idpUserSelectionBlock;
@@ -102,53 +93,88 @@ static NSString *const kSFRefreshTokenParam = @"refresh_token";
 
 - (BOOL)refreshCredentials {
     
-    if (self.config.isIdentityProvider) {
-        return [super refreshCredentials];
-    }
-    
     if (self.credentials.accessToken==nil) {
-        if (self.context.userHint==nil) {
-            UIViewController<SFSDKLoginFlowSelectionView> *controller  = self.idpLoginFlowSelectionBlock();
-            controller.selectionFlowDelegate = self;
-            self.authWindow.viewController = controller;
-             [self.authWindow enable:YES withCompletion:nil];
-        } else {
-            [self launchIDPApp];
-        }
+        UIViewController<SFSDKLoginFlowSelectionView> *controller  = self.idpLoginFlowSelectionBlock();
+        controller.selectionFlowDelegate = self;
+        self.authWindow.viewController = controller;
+        [self.authWindow enable:YES withCompletion:nil];
     } else {
         [super refreshCredentials];
     }
-
+    
     return YES;
+}
+
+- (void)beginIDPInitiatedFlow:(SFSDKIDPInitCommand *)command {
+    // If no userHint then show selection dialog else Launch IDP App with the hint
+    SFSDKMutableOAuthClientContext *context = [self.context mutableCopy];
+    context.currentCommand = command;
+    context.userHint = command.userHint;
+    self.context = context;
+    [self launchIDPApp];
+}
+
+- (void)beginIDPFlow:(SFSDKAuthRequestCommand *)request {
+    // Should begin IDP Flow in the IDP App?
+    SFSDKMutableOAuthClientContext *context = [self.context mutableCopy];
+    context.currentCommand = request;
+    self.context = context;
+    [super refreshCredentials];
+}
+
+- (void)beginIDPFlowForNewUser {
+    [super refreshCredentials];
 }
 
 - (void)launchSPAppWithError:(NSError *)error reason:(NSString *)reason {
     
-    NSURL *url = [self spAppURLWithError:error reason:reason];
+    NSString *spAppUrlStr = self.context.callingAppOptions[kSFOAuthRedirectUrlParam];
+    NSURL *spAppUrl = [NSURL URLWithString:spAppUrlStr];
+    NSURL *url = [self appURLWithError:error reason:reason app:spAppUrl.scheme];
     [self.authWindow disable];
     [[SFSDKWindowManager sharedManager].mainWindow enable];
+    
     BOOL launched  = [SFApplicationHelper openURL:url];
+    
     if (launched) {
         if ( [self.config.idpDelegate respondsToSelector:@selector(authClient:didSendRequestForIDPAuth:)]) {
             [self.config.idpDelegate authClient:self didSendRequestForIDPAuth:url];
         }
     }
-    
+}
+
+- (void)setCallingAppOptionsInContext:(NSDictionary *)values {
+    SFSDKMutableOAuthClientContext *context = [self.context mutableCopy];
+    context.callingAppOptions = [[NSDictionary alloc] initWithDictionary:values copyItems:YES];
+    self.context = context;
 }
 
 #pragma mark - private
 
 - (void)launchIDPApp {
-  __weak typeof (self) weakSelf = self;
-  dispatch_async(dispatch_get_main_queue(), ^{
-      [weakSelf invokeIDPApp];
-  });
+    __weak typeof (self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [weakSelf invokeIDPApp];
+    });
 }
 
 - (void) invokeIDPApp {
     
-    NSURL *url = [self identityProviderURLRequest];
-   
+    self.coordinator.codeVerifier = [[SFSDKCryptoUtils randomByteDataWithLength:kSFVerifierByteLength] msdkBase64UrlString];
+    
+    NSString *codeChallengeString = [[[self.coordinator.codeVerifier dataUsingEncoding:NSUTF8StringEncoding] msdkSha256Data] msdkBase64UrlString];
+    
+    SFSDKAuthRequestCommand *command = [[SFSDKAuthRequestCommand alloc] init];
+    command.scheme = self.config.idpAppScheme;
+    command.spClientId = self.config.oauthClientId;
+    command.spCodeChallenge = codeChallengeString;
+    command.spUserHint = self.context.userHint;
+    command.spLoginHost = self.config.loginHost;
+    command.spRedirectURI = self.config.oauthCompletionUrl;
+    command.spState = self.credentials.identifier;
+    
+    NSURL *url = [command requestURL];
+    
     if ( [self.config.idpDelegate respondsToSelector:@selector(authClient:willSendRequestForIDPAuth:)]) {
         [self.config.idpDelegate authClient:self willSendRequestForIDPAuth:url];
     }
@@ -158,11 +184,27 @@ static NSString *const kSFRefreshTokenParam = @"refresh_token";
             [self.config.idpDelegate authClient:self willSendRequestForIDPAuth:url];
         }
     }
- 
+    
 }
 
 - (void)launchSPApp {
-    NSURL *url = [self spAppURL:self.coordinator.spAppCredentials.authCode];
+    __weak typeof (self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [weakSelf invokeSPApp];
+    });
+}
+
+- (void)invokeSPApp {
+    
+    SFSDKAuthResponseCommand *responseCommand = [[SFSDKAuthResponseCommand alloc] init];
+   
+    NSString *spAppRedirectUrl = self.context.callingAppOptions[kSFOAuthRedirectUrlParam];
+    NSURL *spAppURL = [NSURL URLWithString:spAppRedirectUrl];
+    responseCommand.scheme = spAppURL.scheme;
+    responseCommand.authCode = self.coordinator.spAppCredentials.authCode;
+    responseCommand.state = self.context.callingAppOptions[kSFStateParam];
+    
+    NSURL *url = [responseCommand requestURL];
     if ( [self.config.idpDelegate respondsToSelector:@selector(authClient:willSendResponseForIDPAuth:)]) {
         [self.config.idpDelegate authClient:self willSendResponseForIDPAuth:url];
     }
@@ -178,51 +220,11 @@ static NSString *const kSFRefreshTokenParam = @"refresh_token";
     
 }
 
-- (NSURL *)identityProviderURLRequest{
-    
-    self.coordinator.codeVerifier = [[SFSDKCryptoUtils randomByteDataWithLength:kSFVerifierByteLength] msdkBase64UrlString];
-   
-    NSString *codeChallengeString = [[[self.coordinator.codeVerifier dataUsingEncoding:NSUTF8StringEncoding] msdkSha256Data] msdkBase64UrlString];
-    
-    if (!self.config.idpAppUrl) return nil;
+- (NSURL *)appURLWithError:(NSError *)error reason:(NSString *)reason app:(NSString *)appScheme {
 
-    NSString *clientId = self.config.oauthClientId;
-    
-    NSURLComponents *components = [[NSURLComponents alloc] initWithString:self.config.idpAppUrl];
+    SFSDKAuthErrorCommand *command = [[SFSDKAuthErrorCommand alloc] init];
+    command.scheme = appScheme;
 
-    NSURLComponents *callingAppComponents = [[NSURLComponents alloc] initWithString:self.config.oauthCompletionUrl];
-
-    components.queryItems = @[
-                              
-                              [[NSURLQueryItem alloc] initWithName:kOAuthClientIdKey value:clientId],
-                              [[NSURLQueryItem alloc] initWithName:kOAuthScopesKey
-                                                             value:[self encodeScopes]],
-                              [[NSURLQueryItem alloc] initWithName:kSFVerifierParamName
-                                                             value:codeChallengeString],
-                              [[NSURLQueryItem alloc] initWithName:kOAuthRedirectUriKey
-                                                             value:callingAppComponents.URL.absoluteString],
-                              [[NSURLQueryItem alloc] initWithName:kSFStateParam value:self.credentials.identifier],
-                              [[NSURLQueryItem alloc] initWithName:kSFAppNameParam value:self.config.appDisplayName],
-                              [[NSURLQueryItem alloc] initWithName:kSFUserHintParam value:self.context.userHint],
-                              [[NSURLQueryItem alloc] initWithName:kSDFLoginHostParam value:self.config.loginHost]
-                              ];
-    return  components.URL;
-}
-
-
-- (NSURL *)spAppURL:(NSString *)code {
-    
-    NSString *reqUrl = [self.config.callingAppOptions objectForKey:kSFCallingAppUrlParam];
-    SFOAuthCredentials *spAppCredentials = [self credentialsFromURLForSPAPP:[NSURL URLWithString:reqUrl]];
-    NSString *callingAppState = [self.config.callingAppOptions objectForKey:kSFStateParam];
-    NSString *urlString = [NSString stringWithFormat:@"%@?%@=%@&%@=%@", spAppCredentials.redirectUri, @"code", code, kSFStateParam, callingAppState];
-    
-    return [NSURL URLWithString:urlString];
-}
-
-- (NSURL *)spAppURLWithError:(NSError *)error reason:(NSString *)reason {
-    NSString *reqUrl = [self.config.callingAppOptions objectForKey:kSFCallingAppUrlParam];
-    SFOAuthCredentials *spAppCredentials = [self credentialsFromURLForSPAPP:[NSURL URLWithString:reqUrl]];
     NSString *errorCode = error?[NSString stringWithFormat:@"%d",error.domain.intValue]:@"-999";
     NSString *errorDesc = @"";
 
@@ -231,50 +233,20 @@ static NSString *const kSFRefreshTokenParam = @"refresh_token";
     
     if (!reason)
         reason = errorDesc;
-
     reason = [reason stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
-    NSString *state = [self.config.callingAppOptions objectForKey:kSFStateParam];
-    NSString *urlString =
-            [NSString stringWithFormat:@"%@?%@=%@&%@=%@&%@=%@&%@=%@",
-                                       spAppCredentials.redirectUri,
-                                       kSFErrorReasonParam, reason,
-                                       kSFErrorCodeParam, errorCode,
-                                       kSFErrorDescriptionParam, errorDesc,
-                                       kSFStateParam, state];
-    
-    return [NSURL URLWithString:urlString];
-}
 
+    command.errorCode = errorCode;
+    command.errorReason = reason;
+    command.errorDescription = errorDesc;
+    command.state = [self.context.callingAppOptions objectForKey:kSFStateParam];
 
-- (NSURL *)idpAppURLWithError:(NSError *)error reason:(NSString *)reason {
-    
-//    SFOAuthCredentials *spAppCredentials = [SFSDKIDPAuthClient credentialsFromURL:[SFSDKAuthPreferences id] identifier:@"someid"];
-    NSString *appUri  = self.config.idpAppUrl;
-    NSString *errorCode = error?[NSString stringWithFormat:@"%d",error.domain.intValue]:@"-999";
-    NSString *errorDesc = @"";
-    
-    
-    if (error)
-        errorDesc = [[error localizedDescription] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
-    
-    if (!reason)
-        reason = errorDesc;
-    reason = [reason stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
-    NSString *state = [self.config.callingAppOptions objectForKey:kSFStateParam];
-    NSString *urlString = [NSString stringWithFormat:@"%@?%@=%@&%@=%@&%@=%@&%@=%@",
-                                                     appUri,
-                                                     kSFErrorReasonParam, reason,
-                                                     kSFErrorCodeParam, errorCode,
-                                                     kSFErrorDescriptionParam, errorDesc,
-                                                     kSFStateParam, state];
-    
-    return [NSURL URLWithString:urlString];
+    return [command requestURL];
 }
 
 
 #pragma - mark SFOAuthCoordinatorDelegate
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info {
-
+    
     // We are in the process of adding an account
     [SFSDKCoreLogger i:[self class] format:@"oauthCoordinatorDidAuthenticate"];
     [SFSDKCoreLogger d:[self class] format:@"oauthCoordinatorDidAuthenticate for userId: %@, auth info: %@", coordinator.credentials.userId, info];
@@ -308,8 +280,8 @@ static NSString *const kSFRefreshTokenParam = @"refresh_token";
     NSAssert(type, @"error type can't be nil");
     int code = 999;
     NSDictionary *dict = @{@"error": type,
-            @"descpription": description,
-            NSLocalizedDescriptionKey: description};
+                           @"descpription": description,
+                           NSLocalizedDescriptionKey: description};
     NSError *error = [NSError errorWithDomain:kSFIdentityErrorDomain code:code userInfo:dict];
     return error;
 }
@@ -320,56 +292,53 @@ static NSString *const kSFRefreshTokenParam = @"refresh_token";
     mutableContext.credentials = userCredentials;
     self.context = mutableContext;
     self.coordinator.credentials = userCredentials;
-    NSString *reqUrl = [self.config.callingAppOptions objectForKey:kSFCallingAppUrlParam];
-    SFOAuthCredentials *spAppCredentials = [self credentialsFromURLForIDPApp:[NSURL URLWithString:reqUrl]];
+    SFOAuthCredentials *spAppCredentials = [self spAppCredentials];
     
     self.coordinator.credentials = mutableContext.credentials;
     [self.coordinator beginIDPFlow:spAppCredentials];
 }
 
-- (SFOAuthCredentials *)credentialsFromURLForIDPApp:(NSURL *)appUrlRequest {
-
-    NSString *clientId = [appUrlRequest valueForParameterName:kOAuthClientIdKey];
-    NSString *redirectUri = [appUrlRequest valueForParameterName:kOAuthRedirectUriKey];
-    NSString *verifier = [appUrlRequest valueForParameterName:kSFVerifierParamName];
-    NSString *scopeString = [appUrlRequest valueForParameterName:kOAuthScopesKey];
-    NSString *loginHost = [appUrlRequest valueForParameterName:kSFUserAccountOAuthLoginHost];
+- (SFOAuthCredentials *)spAppCredentials {
     
+    NSString *clientId = self.context.callingAppOptions[kSFOAuthClientIdParam];
     SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:clientId clientId:clientId encrypted:NO];
-    creds.redirectUri = redirectUri;
+    creds.redirectUri = self.context.callingAppOptions[kSFOAuthRedirectUrlParam];
+    creds.challengeString = self.context.callingAppOptions[kSFChallengeParamName];
     creds.accessToken = nil;
-    creds.clientId = clientId;
+    
+    NSString *loginHost = self.context.callingAppOptions[kSFLoginHostParam];
+    
+    if (loginHost==nil || [loginHost isEmptyOrWhitespaceAndNewlines]){
+        loginHost = self.config.loginHost;
+    }
     creds.domain = loginHost;
-    creds.accessToken = nil;
-    creds.challengeString = verifier;
-    self.config.loginHost = loginHost;
-    self.config.scopes = [self decodeScopes:scopeString];
-
+    self.config.scopes = [self decodeScopes:self.context.callingAppOptions[kSFScopesParam]];
     return creds;
 }
 
-
-- (SFOAuthCredentials *)credentialsFromURLForSPAPP:(NSURL *)appUrlRequest {
-
-    NSString *clientId = [appUrlRequest valueForParameterName:kOAuthClientIdKey];
-    NSString *redirectUri = [appUrlRequest valueForParameterName:kOAuthRedirectUriKey];
-    NSString *verifier = [appUrlRequest valueForParameterName:kSFVerifierParamName];
-
+- (SFOAuthCredentials *)idpAppCredentials {
+    
+    NSString *clientId = self.context.callingAppOptions[kSFOAuthClientIdParam];
     SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:clientId clientId:clientId encrypted:NO];
-    creds.redirectUri = redirectUri;
+    creds.redirectUri = self.context.callingAppOptions[kSFOAuthRedirectUrlParam];
+    creds.challengeString = self.context.callingAppOptions[kSFChallengeParamName];
     creds.accessToken = nil;
-    creds.clientId = clientId;
-    creds.domain = self.config.loginHost;
-    creds.accessToken = nil;
-    creds.challengeString = verifier;
+    
+    NSString *loginHost = self.context.callingAppOptions[kSFLoginHostParam];
+    
+    if (loginHost==nil || [loginHost isEmptyOrWhitespaceAndNewlines]){
+        loginHost = self.config.loginHost;
+    }
+    creds.domain = loginHost;
+    self.config.scopes = [self decodeScopes:self.context.callingAppOptions[kSFScopesParam]];
     return creds;
 }
 
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info {
-
+    
     [SFSDKCoreLogger d:[self class] format:@"oauthCoordinator:didFailWithError: %@, authInfo: %@", error, self.context.authInfo];
-    NSString *state = [self.config.callingAppOptions objectForKey:kSFStateParam];
+    NSString *state = [self.context.callingAppOptions objectForKey:kSFStateParam];
     if (state!=nil) {
         [self launchSPAppWithError:error reason:nil];
     }else {
@@ -379,7 +348,7 @@ static NSString *const kSFRefreshTokenParam = @"refresh_token";
         self.context = mutableOAuthClientContext;
         [super processAuthError:error];
     }
-  
+    
 }
 
 - (BOOL)handleURLAuthenticationResponse:(NSURL *)appUrlResponse {
@@ -398,7 +367,7 @@ static NSString *const kSFRefreshTokenParam = @"refresh_token";
 }
 
 - (NSSet<NSString *> *)decodeScopes:(NSString *)scopeString {
-
+    
     NSArray<NSString *> *scopeArray = [scopeString componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@","]];
     
     NSMutableSet *scopes = [NSMutableSet set];

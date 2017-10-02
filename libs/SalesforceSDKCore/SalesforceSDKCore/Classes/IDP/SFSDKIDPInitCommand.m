@@ -1,11 +1,11 @@
 /*
- SFSDKIDPRequestHandler.m
+ SFSDKIDPInitCommand.m
  SalesforceSDKCore
- 
- Created by Raj Rao on 8/28/17.
- 
+
+ Created by Raj Rao on 9/28/17.
+
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
- 
+
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
  * Redistributions of source code must retain the above copyright notice, this list of conditions
@@ -16,7 +16,7 @@
  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
  endorse or promote products derived from this software without specific prior written
  permission of salesforce.com, inc.
- 
+
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -26,28 +26,22 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#import "SFSDKIDPRequestHandler.h"
+
+#import "SFSDKIDPInitCommand.h"
+#import "SFSDKAuthCommand+Internal.h"
 #import "SFSDKIDPConstants.h"
-#import "SFOAuthCredentials.h"
-#import "SFSDKOAuthClient.h"
-#import "SFSDKOAuthClientConfig.h"
-#import "SFSDKUserSelectionNavViewController.h"
-#import "SFSDKIDPAuthClient.h"
-#import "SFUserAccountManager+URLHandlers.h"
-#import "SFSDKAuthRequestCommand.h"
 
-@implementation SFSDKIDPRequestHandler
+@implementation SFSDKIDPInitCommand
 
-- (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options {
-    SFSDKAuthRequestCommand *command = [[SFSDKAuthRequestCommand alloc] init];
-    return [command isAuthCommand:url];
+- (NSString *)userHint {
+    return [self paramForKey:kSFUserHintParam];
 }
 
-- (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options {
+- (void)setUserHint:(NSString *)userHint {
+    return [self setParamForKey:userHint key:kSFUserHintParam];
+}
 
-    SFSDKAuthRequestCommand *command = [[SFSDKAuthRequestCommand alloc] init];
-    [command fromRequestURL:url];
-    [[SFUserAccountManager sharedInstance] handleIdpRequest:command];
-    return YES;
+- (NSString *)command {
+    return @"idpinit";
 }
 @end

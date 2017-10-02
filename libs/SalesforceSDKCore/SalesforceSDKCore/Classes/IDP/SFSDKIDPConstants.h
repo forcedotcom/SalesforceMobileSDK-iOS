@@ -1,8 +1,8 @@
 /*
- SFSDKIDPRequestHandler.m
+ SFSDKIDPConstants.h
  SalesforceSDKCore
  
- Created by Raj Rao on 8/28/17.
+ Created by Raj Rao on 9/28/17.
  
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
@@ -26,28 +26,53 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#import "SFSDKIDPRequestHandler.h"
-#import "SFSDKIDPConstants.h"
-#import "SFOAuthCredentials.h"
-#import "SFSDKOAuthClient.h"
-#import "SFSDKOAuthClientConfig.h"
-#import "SFSDKUserSelectionNavViewController.h"
-#import "SFSDKIDPAuthClient.h"
-#import "SFUserAccountManager+URLHandlers.h"
-#import "SFSDKAuthRequestCommand.h"
 
-@implementation SFSDKIDPRequestHandler
+#import <Foundation/Foundation.h>
 
-- (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options {
-    SFSDKAuthRequestCommand *command = [[SFSDKAuthRequestCommand alloc] init];
-    return [command isAuthCommand:url];
-}
+FOUNDATION_EXPORT NSString *const kSFErrorCodeParam;
 
-- (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options {
+FOUNDATION_EXPORT NSString *const kSFErrorReasonParam;
 
-    SFSDKAuthRequestCommand *command = [[SFSDKAuthRequestCommand alloc] init];
-    [command fromRequestURL:url];
-    [[SFUserAccountManager sharedInstance] handleIdpRequest:command];
-    return YES;
-}
+FOUNDATION_EXPORT NSString *const kSFErrorDescParam;
+
+FOUNDATION_EXPORT NSUInteger const kSFVerifierByteLength;
+
+FOUNDATION_EXPORT NSString *const kSFVerifierParamName;
+
+FOUNDATION_EXPORT NSString *const kSFChallengeParamName;
+
+FOUNDATION_EXPORT NSString *const kSFCodeParam;
+
+FOUNDATION_EXPORT NSString *const kSFStateParam;
+
+FOUNDATION_EXPORT NSString *const kSFAppNameParam;
+
+FOUNDATION_EXPORT NSString *const kSFUserHintParam;
+
+FOUNDATION_EXPORT NSString *const kSFLoginHostParam;
+
+FOUNDATION_EXPORT NSString *const kSFCallingAppUrlParam;
+
+FOUNDATION_EXPORT NSString *const kSFErrorReasonParam;
+
+FOUNDATION_EXPORT NSString *const kSFErrorCodeParam;
+
+FOUNDATION_EXPORT NSString *const kSFErrorDescriptionParam;
+
+FOUNDATION_EXPORT NSString *const kSFRefreshTokenParam;
+
+FOUNDATION_EXPORT NSString *const kSFOAuthClientIdParam;
+
+FOUNDATION_EXPORT NSString *const kSFOAuthRedirectUrlParam;
+
+FOUNDATION_EXPORT NSString *const kSFSpecVersion;
+
+FOUNDATION_EXPORT NSString *const kSFSpecHost;
+
+FOUNDATION_EXPORT NSString *const kSFAppDescParam;
+
+FOUNDATION_EXPORT NSString *const kSFScopesParam;
+
+@interface SFSDKIDPConstants : NSObject
+
 @end

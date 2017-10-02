@@ -249,7 +249,7 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
 
 @property (nonatomic,assign) BOOL idpEnabled;
 
-@property (nonatomic, copy) NSString *idpAppUrl;
+@property (nonatomic, copy) NSString *idpAppScheme;
 
 @property (nonatomic,copy) NSString *appDisplayName;
 

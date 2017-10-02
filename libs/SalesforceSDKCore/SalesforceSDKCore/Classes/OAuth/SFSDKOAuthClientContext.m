@@ -28,12 +28,13 @@
  */
 #import "SFSDKOAuthClientContext.h"
 #import "SFOAuthInfo.h"
+#import "SFSDKAuthCommand.h"
 
 @interface SFSDKOAuthClientContext()
 @property (nonatomic, strong) SFOAuthCredentials *credentials;
 @property (nonatomic, strong) SFOAuthInfo *authInfo;
 @property (nonatomic, strong) NSError *authError;
-@property (nonatomic, strong) NSURL *callingAppRequestURL;
+@property (nonatomic, strong) NSDictionary *callingAppOptions;
 @end
 
 @implementation SFSDKOAuthClientContext
@@ -43,6 +44,8 @@
     ctx.authError = [self.authError copyWithZone:zone];
     ctx.authInfo = [[SFOAuthInfo allocWithZone:zone] initWithAuthType:self.authInfo.authType];
     ctx.credentials = [self.credentials copyWithZone:zone];
+    ctx.callingAppOptions = [[NSDictionary alloc] initWithDictionary:self.callingAppOptions copyItems:YES];
+    
     return ctx;
 }
 
@@ -51,6 +54,8 @@
     ctx.authError = [self.authError copyWithZone:zone];
     ctx.authInfo = [[SFOAuthInfo allocWithZone:zone] initWithAuthType:self.authInfo.authType];
     ctx.credentials = [self.credentials copyWithZone:zone];
+    ctx.currentCommand = [self.currentCommand copy];
+    ctx.callingAppOptions = [[NSDictionary alloc] initWithDictionary:self.callingAppOptions copyItems:YES];
     return ctx;
 }
 
@@ -61,13 +66,16 @@
 @dynamic credentials;
 @dynamic authError;
 @dynamic authInfo;
-@dynamic callingAppRequestURL;
+@dynamic currentCommand;
+@dynamic callingAppOptions;
 
 - (id)mutableCopyWithZone:(NSZone *)zone {
     SFSDKMutableOAuthClientContext *mutableContext = [[SFSDKMutableOAuthClientContext alloc] init];
     mutableContext.authError = [self.authError copyWithZone:zone];
     mutableContext.authInfo =  [[SFOAuthInfo allocWithZone:zone] initWithAuthType:self.authInfo.authType];
     mutableContext.credentials =  [self.credentials copyWithZone:zone];
+    mutableContext.currentCommand = [self.currentCommand copy];
+    mutableContext.callingAppOptions = [[NSDictionary alloc] initWithDictionary:self.callingAppOptions copyItems:YES];
     return mutableContext;
 }
 @end

@@ -28,28 +28,26 @@
  */
 
 #import "SFSDKIDPInitiatedAuthRequestHandler.h"
+#import "SFSDKIDPConstants.h"
 #import "SFSDKOAuthClient.h"
 #import "NSURL+SFAdditions.h"
 #import "SFSDKOAuthClientConfig.h"
 #import "SFUserAccountManager+URLHandlers.h"
 #import "SalesforceSDKCore.h"
+#import "SFSDKIDPInitCommand.h"
 
 @implementation SFSDKIDPInitiatedAuthRequestHandler
 
 - (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options {
-    NSRange userHintRange = [url.absoluteString rangeOfString:@"user_hint="];
-    
-    NSRange clientIdRange = [url.absoluteString rangeOfString:@"oauth_client_id="];
-    NSRange redirectRange = [url.absoluteString rangeOfString:@"oauth_redirect_uri="];
-    
-    return  (userHintRange.location!=NSNotFound) &&
-            (redirectRange.location==NSNotFound) &&
-            (clientIdRange.location==NSNotFound);
+   SFSDKIDPInitCommand *command = [[SFSDKIDPInitCommand alloc] init];
+   return [command isAuthCommand:url];
 
 }
 
 - (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options {
-    [[SFUserAccountManager sharedInstance] handleIdpInitiatedAuth:url options:options];
+    SFSDKIDPInitCommand *command = [[SFSDKIDPInitCommand alloc] init];
+    [command fromRequestURL:url];
+    [[SFUserAccountManager sharedInstance] handleIdpInitiatedAuth:command];
     return NO;
 }
 @end

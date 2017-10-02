@@ -47,11 +47,11 @@
     self = [super init];
     if (self) {
         handlerList = [NSMutableArray new];
-        [handlerList addObject:[SFSDKAdvancedAuthURLHandler  new]];
-        [handlerList addObject:[SFSDKIDPRequestHandler  new]];
-        [handlerList addObject:[SFSDKIDPResponseHandler  new]];
-        [handlerList addObject:[SFSDKIDPErrorHandler  new]];
-        [handlerList addObject:[SFSDKIDPInitiatedAuthRequestHandler new]];
+        [handlerList addObject:[[SFSDKAdvancedAuthURLHandler  alloc] init]];
+        [handlerList addObject:[[SFSDKIDPRequestHandler  alloc] init]];
+        [handlerList addObject:[[SFSDKIDPResponseHandler  alloc] init]];
+        [handlerList addObject:[[SFSDKIDPErrorHandler  alloc] init]];
+        [handlerList addObject:[[SFSDKIDPInitiatedAuthRequestHandler alloc] init]];
     }
     return self;
 }

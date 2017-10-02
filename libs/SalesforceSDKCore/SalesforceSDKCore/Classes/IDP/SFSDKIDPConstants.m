@@ -1,8 +1,8 @@
 /*
- SFSDKIDPRequestHandler.m
+ SFSDKIDPConstants.m
  SalesforceSDKCore
  
- Created by Raj Rao on 8/28/17.
+ Created by Raj Rao on 9/28/17.
  
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
@@ -26,28 +26,47 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#import "SFSDKIDPRequestHandler.h"
+
 #import "SFSDKIDPConstants.h"
-#import "SFOAuthCredentials.h"
-#import "SFSDKOAuthClient.h"
-#import "SFSDKOAuthClientConfig.h"
-#import "SFSDKUserSelectionNavViewController.h"
-#import "SFSDKIDPAuthClient.h"
-#import "SFUserAccountManager+URLHandlers.h"
-#import "SFSDKAuthRequestCommand.h"
 
-@implementation SFSDKIDPRequestHandler
+NSString *const kSFErrorCodeParam = @"errorCode";
 
-- (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options {
-    SFSDKAuthRequestCommand *command = [[SFSDKAuthRequestCommand alloc] init];
-    return [command isAuthCommand:url];
-}
+NSString *const kSFErrorReasonParam = @"errorReason";
 
-- (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options {
+NSUInteger const kSFVerifierByteLength  = 128;
 
-    SFSDKAuthRequestCommand *command = [[SFSDKAuthRequestCommand alloc] init];
-    [command fromRequestURL:url];
-    [[SFUserAccountManager sharedInstance] handleIdpRequest:command];
-    return YES;
-}
+NSString *const kSFVerifierParamName   = @"code_verifier";
+
+NSString *const kSFChallengeParamName   = @"code_challenge";
+
+NSString *const kSFStateParam = @"state";
+
+NSString *const kSFAppNameParam = @"app_name";
+
+NSString *const kSFAppDescParam = @"app_desc";
+
+NSString *const kSFUserHintParam = @"user_hint";
+
+NSString *const kSFLoginHostParam = @"login_host";
+
+NSString *const kSFCallingAppUrlParam = @"calling_app_url";
+
+NSString *const kSFErrorDescriptionParam = @"errorDescription";
+
+NSString *const kSFRefreshTokenParam = @"refresh_token";
+
+NSString *const kSFOAuthClientIdParam = @"oauth_client_id";
+
+NSString *const kSFOAuthRedirectUrlParam = @"oauth_redirect_uri";
+
+NSString *const kSFScopesParam = @"scopes";
+
+NSString *const kSFCodeParam = @"code";
+
+NSString *const kSFSpecVersion = @"v1.0";
+
+NSString *const kSFSpecHost = @"oauth2";
+
+@implementation SFSDKIDPConstants
+
 @end

@@ -834,7 +834,6 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
     return isNetworkFailure;
 }
 
-
 #pragma mark - SFSDKOAuthClientProvider
 + (SFSDKOAuthClient *)idpAuthInstance:(SFSDKOAuthClientConfig *)config {
     if (self.clientProvider) {

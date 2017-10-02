@@ -32,6 +32,8 @@
 NS_ASSUME_NONNULL_BEGIN
 @class SFSDKLoginFlowSelectionViewController;
 @class SFSDKIDPAuthClient;
+@class SFSDKAuthRequestCommand;
+@class SFSDKIDPInitCommand;
 
 @protocol SFSDKIDPAuthClientDelegate <NSObject>
 
@@ -86,11 +88,20 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SFSDKIDPAuthClient : SFSDKOAuthClient
 
 @property (nonatomic,copy,class) SFSDKLoginFlowSelectionViewController *loginFlowSelectionController;
+
 @property (nonatomic,copy) SFIDPUserSelectionBlock idpUserSelectionBlock;
 
+- (void)setCallingAppOptionsInContext:(NSDictionary *)values;
+
 - (void)launchSPAppWithError:(NSError *_Nullable)error reason:(NSString *_Nullable)reason;
+
 - (void)continueIDPFlow:(SFOAuthCredentials *)userCredentials;
 
+- (void)beginIDPFlow:(SFSDKAuthRequestCommand *)request;
+
+- (void)beginIDPFlowForNewUser;
+
+- (void)beginIDPInitiatedFlow:(SFSDKIDPInitCommand *)command;
 
 @end
 

@@ -30,7 +30,7 @@
 #import "SFSDKAdvancedAuthURLHandler.h"
 #import "SFSDKOAuthClient.h"
 #import "SFSDKAuthPreferences.h"
-#import "SFUserAccountManager+Internal.h"
+#import "SFUserAccountManager+URLHandlers.h"
 #import "NSURL+SFAdditions.h"
 #import "SFSDKOAuthClientConfig.h"
 
@@ -48,7 +48,7 @@
 }
 
 - (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options {
-    [[SFUserAccountManager sharedInstance] handleAdvancedAuthenticationResponse:url options:options];
+    [[SFUserAccountManager sharedInstance] handleNativeAuthResponse:url options:options];
     // return NO so that another handler  interested in consuming this event cna also participate.
     return NO;
 

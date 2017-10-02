@@ -1,8 +1,8 @@
 /*
- SFSDKIDPRequestHandler.m
+ SFSDKAuthErrorCommand.m
  SalesforceSDKCore
  
- Created by Raj Rao on 8/28/17.
+ Created by Raj Rao on 9/28/17.
  
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
@@ -26,28 +26,46 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#import "SFSDKIDPRequestHandler.h"
+#import "SFSDKAuthErrorCommand.h"
 #import "SFSDKIDPConstants.h"
-#import "SFOAuthCredentials.h"
-#import "SFSDKOAuthClient.h"
-#import "SFSDKOAuthClientConfig.h"
-#import "SFSDKUserSelectionNavViewController.h"
-#import "SFSDKIDPAuthClient.h"
-#import "SFUserAccountManager+URLHandlers.h"
-#import "SFSDKAuthRequestCommand.h"
+#import "SFSDKAuthCommand+Internal.h"
 
-@implementation SFSDKIDPRequestHandler
+@implementation SFSDKAuthErrorCommand
 
-- (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options {
-    SFSDKAuthRequestCommand *command = [[SFSDKAuthRequestCommand alloc] init];
-    return [command isAuthCommand:url];
+- (NSString *)errorCode {
+    return [self paramForKey:kSFErrorCodeParam];
 }
 
-- (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options {
-
-    SFSDKAuthRequestCommand *command = [[SFSDKAuthRequestCommand alloc] init];
-    [command fromRequestURL:url];
-    [[SFUserAccountManager sharedInstance] handleIdpRequest:command];
-    return YES;
+- (void)setErrorCode:(NSString *)errorCode {
+    [self setParamForKey:errorCode key:kSFErrorCodeParam];
 }
+
+- (NSString *)errorReason {
+    return [self paramForKey:kSFErrorReasonParam];
+}
+
+- (void)setErrorReason:(NSString *)errorReason {
+    [self setParamForKey:errorReason key:kSFErrorReasonParam];
+}
+
+- (NSString *)errorDescription {
+    return [self paramForKey:kSFErrorDescriptionParam];
+}
+
+- (void)setErrorDescription:(NSString *)errorDescription {
+    [self setParamForKey:errorDescription key:kSFErrorDescriptionParam];
+}
+
+- (NSString *)state {
+    return [self paramForKey:kSFStateParam];
+}
+
+- (void)setState:(NSString *)state {
+    [self setParamForKey:state key:kSFStateParam];
+}
+
+- (NSString *)command {
+    return @"error";
+}
+
 @end

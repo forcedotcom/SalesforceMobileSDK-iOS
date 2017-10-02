@@ -160,7 +160,7 @@
 
     UILabel *descLabel = [[UILabel alloc]init];
     descLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    descLabel.text = [NSString stringWithFormat:@"Local - Host App will be used for authentication \n IDP -  %@ will be launched for authentication",[[SFSDKAuthPreferences alloc] init].idpAppUrl];
+    descLabel.text = [NSString stringWithFormat:@"Local - Host App will be used for authentication \n IDP -  %@ will be launched for authentication",[[SFSDKAuthPreferences alloc] init].idpAppScheme];
     [descLabel setFont:[UIFont systemFontOfSize:15]];
     [descLabel setTextColor:[UIColor grayColor]];
     

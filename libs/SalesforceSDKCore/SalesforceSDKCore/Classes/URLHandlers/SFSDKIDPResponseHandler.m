@@ -26,7 +26,8 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#import "SFSDKURLHandler.h"
+
+#import "SFSDKIDPConstants.h"
 #import "SFSDKIDPResponseHandler.h"
 #import "SFSDKOAuthClient.h"
 #import "SFSDKAuthPreferences.h"
@@ -34,24 +35,22 @@
 #import "NSURL+SFAdditions.h"
 #import "SFUserAccountManager+URLHandlers.h"
 #import "SFSDKAuthPreferences.h"
+#import "SFSDKAuthResponseCommand.h"
+
 @implementation SFSDKIDPResponseHandler
 
 - (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options {
-    
-    BOOL isIDPEnabled = [[SFSDKAuthPreferences alloc] init].idpEnabled;
-    
-    NSRange rangeErrorCode = [url.absoluteString rangeOfString:@"errorCode="];
-    NSRange rangeCode = [url.absoluteString rangeOfString:@"code="];
-    
-    return isIDPEnabled &&
-    (rangeErrorCode.location == NSNotFound) &&
-    (rangeCode.location!=NSNotFound);
+    SFSDKAuthResponseCommand *command = [[SFSDKAuthResponseCommand alloc] init];
+    return [command isAuthCommand:url];
 }
 
 - (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options {
 
-    [[SFUserAccountManager sharedInstance] handleIdpResponse:url options:options];
-    return NO;
+    SFSDKAuthResponseCommand *command = [[SFSDKAuthResponseCommand alloc] init];
+    [command fromRequestURL:url];
+
+    [[SFUserAccountManager sharedInstance] handleIdpResponse:command];
+    return YES;
 
 }
 

@@ -88,7 +88,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic,assign) BOOL idpEnabled;
 
-@property (nonatomic, copy,nullable) NSString *idpAppUrl;
+@property (nonatomic, copy,nullable) NSString *idpAppScheme;
 
 @property (nonatomic,assign) BOOL isIdentityProvider;
 

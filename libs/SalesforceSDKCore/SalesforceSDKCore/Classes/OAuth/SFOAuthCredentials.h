@@ -207,7 +207,6 @@ typedef NS_ENUM(NSInteger, SFOAuthCredentialsStorageType){
  */
 @property (nonatomic, readonly, nullable) NSDictionary * additionalOAuthFields;
 
-
 @property (nonatomic, copy, nullable) NSString *challengeString;
 
 @property (nonatomic, copy, nullable) NSString *authCode;

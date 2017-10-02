@@ -169,13 +169,13 @@ NSString * const kOAuthAppName = @"oauth_app_name";
     [defs synchronize];
 }
 
-- (NSString *)idpAppUrl
+- (NSString *)idpAppScheme
 {
     NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
     return [defs stringForKey:kSFIDPKey];
 }
 
-- (void)setIdpAppUrl:(NSString *)appIdentifier
+- (void)setIdpAppScheme:(NSString *)appIdentifier
 {
     NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
     [defs setObject:appIdentifier forKey:kSFIDPKey];

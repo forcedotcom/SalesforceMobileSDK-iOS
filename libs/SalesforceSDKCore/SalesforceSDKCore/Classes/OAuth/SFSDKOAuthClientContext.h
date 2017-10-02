@@ -45,6 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol SFSDKOAuthClientDelegate;
 @protocol SFSDKOAuthClientWebViewDelegate;
 @protocol SFSDKOAuthClientSafariViewDelegate;
+@class SFSDKAuthCommand;
 
 /**
  Callback block definition for OAuth completion callback.
@@ -73,16 +74,18 @@ typedef void (^SFIdentityFailureCallbackBlock)(SFSDKOAuthClient *,NSError *);
 @property (nonatomic, strong, readonly) SFOAuthCredentials *credentials;
 @property (nonatomic, strong, readonly) SFOAuthInfo *authInfo;
 @property (nonatomic, strong, readonly) NSError *authError;
-@property (nonatomic, strong, readonly) NSURL *callingAppRequestURL;
 @property (nonatomic, copy) NSString *userHint;
+@property (nonatomic, strong) SFSDKAuthCommand *currentCommand;
+@property (nonatomic,strong,readonly) NSDictionary *callingAppOptions;
 
 @end
 
 @interface SFSDKMutableOAuthClientContext : SFSDKOAuthClientContext
-@property (nonatomic, readwrite,nullable) SFOAuthCredentials *credentials;
-@property (nonatomic, strong, readwrite,nullable) SFOAuthInfo *authInfo;
-@property (nonatomic, strong, readwrite,nullable) NSError *authError;
-@property (nonatomic, strong, readwrite,nullable) NSURL *callingAppRequestURL;
+@property (nonatomic, readwrite, nullable) SFOAuthCredentials *credentials;
+@property (nonatomic, strong, readwrite, nullable) SFOAuthInfo *authInfo;
+@property (nonatomic, strong, readwrite, nullable) NSError *authError;
+@property (nonatomic, strong, readwrite, nullable) SFSDKAuthCommand *currentCommand;
+@property (nonatomic,strong,nonnull) NSDictionary *callingAppOptions;
 @end
 
 NS_ASSUME_NONNULL_END

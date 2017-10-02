@@ -28,40 +28,32 @@
  */
 
 #import "SFUserAccountManager+Internal.h"
-#import "SFUserAccountManager+URLHandlers.h"
+#import  "SFUserAccountManager+URLHandlers.h"
 #import "SFSDKOAuthClientConfig.h"
 #import "SFSDKOAuthClientContext.h"
-
-static NSString *const KSFStateParam = @"state";
-static NSString *const kSFErrorReasonParam = @"errorReason";
-static NSString *const kSFUserHintParam = @"user_hint";
-static NSString *const kSFAppNameParam = @"app_name";
-static NSString *const kSFAppDescParam = @"app_desc";
-static NSString *const kSFCallingAppUrlParam = @"calling_app_url";
+#import "SFSDKOAuthClientCache.h"
+#import "SFSDKAuthRequestCommand.h"
+#import "SFSDKIDPConstants.h"
+#import "SFSDKAuthResponseCommand.h"
+#import "SFSDKAuthErrorCommand.h"
+#import "SFSDKIDPInitCommand.h"
 
 @implementation SFUserAccountManager (URLHandlers)
 
 - (BOOL)handleNativeAuthResponse:(NSURL *_Nonnull)appUrlResponse options:(NSDictionary *_Nullable)options {
     //should return the shared instance for advanced auth
-    NSString *state = [appUrlResponse valueForParameterName:KSFStateParam];
-    NSString *key = [NSString stringWithFormat:@"%@-ADVANCED", state];
-    SFSDKOAuthClient *client = [self.oauthClientInstances objectForKey:key];
+    NSString *state = [appUrlResponse valueForParameterName:kSFStateParam];
+    NSString *key = [SFSDKOAuthClientCache keyFromIdentifierPrefixWithType:state type:SFOAuthClientKeyTypeAdvanced];
+    SFSDKOAuthClient *client = [[SFSDKOAuthClientCache sharedInstance] clientForKey:key];
     return [client handleURLAuthenticationResponse:appUrlResponse];
     
 }
 
-- (BOOL)handleIdpAuthError:(NSURL *_Nonnull)url options:(NSDictionary *_Nullable)options {
-    
-    NSString *reason = [url valueForParameterName:kSFErrorReasonParam];
-    if (reason) {
-        reason = [reason stringByRemovingPercentEncoding];
-    }else {
-        reason = @"IDP Authentication failed";
-    }
-    
-    NSString *param = [url valueForParameterName:KSFStateParam];
-    
-    SFSDKOAuthClient *client = [self.oauthClientInstances objectForKey:param];
+- (BOOL)handleIdpAuthError:(SFSDKAuthErrorCommand *)command {
+
+    NSString *param = command.state;
+    NSString *key = [SFSDKOAuthClientCache keyFromIdentifierPrefixWithType:param type:SFOAuthClientKeyTypeIDP];
+    SFSDKOAuthClient *client = [[SFSDKOAuthClientCache sharedInstance] clientForKey:key];
     SFOAuthCredentials *creds = nil;
     
     if (!client) {
@@ -70,16 +62,17 @@ static NSString *const kSFCallingAppUrlParam = @"calling_app_url";
         
     }
     __weak typeof (self) weakSelf = self;
-    [client showAlertMessage:reason withCompletion:^{
+    [client showAlertMessage:command.errorReason withCompletion:^{
         [weakSelf disposeOAuthClient:client];
     }];
     
     return YES;
 }
 
-- (BOOL)handleIdpInitiatedAuth:(NSURL *_Nonnull)url options:(NSDictionary *_Nullable)options {
+- (BOOL)handleIdpInitiatedAuth:(SFSDKIDPInitCommand *)command {
     
-    NSString *userHint = [url valueForParameterName:kSFUserHintParam];
+    NSString *userHint = command.userHint;
+    
     if (userHint) {
         SFUserAccountIdentity *identity = [self decodeUserIdentity:userHint];
         SFUserAccount *userAccount = [self userAccountForUserIdentity:identity];
@@ -88,40 +81,16 @@ static NSString *const kSFCallingAppUrlParam = @"calling_app_url";
             return YES;
         }
     }
-    
     SFOAuthCredentials *creds = [[SFUserAccountManager sharedInstance] newClientCredentials];
-    NSString *key = [self clientKeyForCredentials:creds];
-    __weak typeof (self) weakSelf = self;
-    SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:creds  configBlock:^(SFSDKOAuthClientConfig  *config) {
-        __strong typeof (self) strongSelf = weakSelf;
-        config.loginHost = strongSelf.loginHost;
-        config.isIdentityProvider = strongSelf.isIdentityProvider;
-        config.scopes = strongSelf.scopes;
-        config.oauthCompletionUrl = strongSelf.oauthCompletionUrl;
-        config.oauthClientId = strongSelf.oauthClientId;
-        config.idpAppUrl = strongSelf.idpAppUrl;
-        config.appDisplayName = strongSelf.appDisplayName;
-        config.idpEnabled = strongSelf.idpEnabled;
-        config.isIDPInitiatedFlow = YES;
-        config.scopes = strongSelf.scopes;
-        config.loginHost = strongSelf.loginHost;
-        config.oauthClientId = strongSelf.oauthClientId;
-        config.delegate = strongSelf;
-        config.safariViewDelegate = strongSelf;
-        config.idpDelegate = strongSelf;
-        config.idpLoginFlowSelectionBlock = strongSelf.idpLoginFlowSelectionAction;
-        config.idpUserSelectionBlock = strongSelf.idpUserSelectionAction;
-    }];
-    [self.oauthClientInstances setObject:client forKey:key];
-    //TODO : fix setting user hint
-    client.context.userHint = userHint;
-    return [client refreshCredentials];
+    SFSDKIDPAuthClient *client = [self fetchIDPAuthClient:creds completion:nil failure:nil];
+    [client beginIDPInitiatedFlow:command];
+    return YES;
 }
 
-- (BOOL)handleIdpRequest:(NSURL *_Nonnull)request options:(NSDictionary *_Nullable)options
+- (BOOL)handleIdpRequest:(SFSDKAuthRequestCommand *)request
 {
     SFOAuthCredentials *idpAppsCredentials = [self newClientCredentials];
-    NSString *userHint = [request valueForParameterName:kSFUserHintParam];
+    NSString *userHint = request.spUserHint;
     SFOAuthCredentials *foundUserCredentials = nil;
     
     if (userHint) {
@@ -134,55 +103,32 @@ static NSString *const kSFCallingAppUrlParam = @"calling_app_url";
     
     SFSDKIDPAuthClient  *authClient = nil;
     BOOL showSelection = NO;
-    
-    if (!foundUserCredentials) {
-        //kick off login flow
-        authClient = [self fetchIDPAuthClient:idpAppsCredentials completion:nil failure:nil];
-    } else if (foundUserCredentials) {
-        authClient = [self fetchIDPAuthClient:foundUserCredentials completion:nil failure:nil];
-    }
-    
+
+    SFOAuthCredentials *credentials = foundUserCredentials?:idpAppsCredentials;
+    authClient = [self fetchIDPAuthClient:credentials completion:nil failure:nil];
+
     if (self.currentUser!=nil && !foundUserCredentials) {
         showSelection = YES;
     }
-    
-    NSMutableDictionary *spAppOptions = [[NSMutableDictionary alloc] init];
-    
-    if ([request valueForParameterName:KSFStateParam]) {
-        [spAppOptions setValue:[request valueForParameterName:KSFStateParam] forKey:KSFStateParam];
-    }
-    
-    if ([request valueForParameterName:kSFAppNameParam]) {
-        [spAppOptions setValue:[request valueForParameterName:kSFAppNameParam] forKey:kSFAppNameParam];
-    }
-    
-    if ([request valueForParameterName:kSFAppDescParam]) {
-        [spAppOptions setValue:[request valueForParameterName:kSFAppDescParam] forKey:kSFAppDescParam];
-    }
-    
-    //if ([request valueForParameterName:@"app_desc"]) {
-    [spAppOptions setValue:request.absoluteString forKey:kSFCallingAppUrlParam];
-    //}
-    authClient.config.callingAppOptions = spAppOptions;
+
     
     if (showSelection) {
         UIViewController<SFSDKUserSelectionView> *controller  = authClient.idpUserSelectionBlock();
-        controller.spAppOptions = spAppOptions;
+        controller.spAppOptions = request.allParams;
         controller.userSelectionDelegate = self;
         authClient.authWindow.viewController = controller;
         [authClient.authWindow enable];
     } else {
-        [authClient refreshCredentials];
+        [authClient beginIDPFlow:request]; 
     }
     return YES;
 }
 
-- (BOOL)handleIdpResponse:(NSURL *_Nonnull)url options:(NSDictionary *_Nullable)options{
-    
-    NSString *param = [url valueForParameterName:KSFStateParam];
-    NSString *key = [NSString stringWithFormat:@"%@-%@",param,@"IDP"];
-    SFSDKOAuthClient *client = [self.oauthClientInstances objectForKey:key];
-    return [client handleURLAuthenticationResponse:url];
+- (BOOL)handleIdpResponse:(SFSDKAuthResponseCommand *)response
+{
+    NSString *key = [SFSDKOAuthClientCache keyFromIdentifierPrefixWithType:response.state type:SFOAuthClientKeyTypeIDP];
+    SFSDKOAuthClient *client =  [[SFSDKOAuthClientCache sharedInstance] clientForKey:key];
+    return [client handleURLAuthenticationResponse:[response requestURL]];
 }
 
 @end

@@ -51,34 +51,28 @@
 @property (nonatomic, copy, nonnull) NSSet<NSString*> *scopes;
 @property (nonatomic, assign) SFOAuthAdvancedAuthConfiguration advancedAuthConfiguration;
 @property (nonatomic, strong, nullable) NSArray *additionalOAuthParameterKeys;
-@property (nonatomic, strong, nullable) NSDictionary * additionalTokenRefreshParams;
+@property (nonatomic, strong, nullable) NSDictionary *additionalTokenRefreshParams;
 @property (nonatomic, copy, nullable) NSString *appDisplayName;
-@property (nonatomic,assign) BOOL idpEnabled;
-@property (nonatomic, copy,nullable) NSString *idpAppUrl;
+@property (nonatomic, assign) BOOL idpEnabled;
+@property (nonatomic, copy,nullable) NSString *idpAppScheme;
 @property (nonatomic, copy, nullable) NSString *oauthCompletionUrl;
 @property (nonatomic, copy, nullable) NSString *oauthClientId;
 @property (nonatomic, assign) BOOL isIDPInitiatedFlow;
-@property (nonatomic,assign) BOOL isIdentityProvider;
-
-@property (nonatomic,strong,nonnull) NSDictionary *callingAppOptions;
+@property (nonatomic, assign) BOOL isIdentityProvider;
 
 @property (nonatomic, weak,nullable) id<SFSDKOAuthClientSafariViewDelegate> safariViewDelegate;
 @property (nonatomic, weak,nullable) id<SFSDKOAuthClientWebViewDelegate> webViewDelegate;
-
 @property (nonatomic, weak,nullable) id<SFSDKOAuthClientDelegate> delegate;
 @property (nonatomic, weak,nullable) id<SFSDKIDPAuthClientDelegate> idpDelegate;
 
 @property (nonatomic, copy,nullable) SFAuthenticationSuccessCallbackBlock successCallbackBlock;
-
 @property (nonatomic, copy,nullable) SFAuthenticationFailureCallbackBlock  failureCallbackBlock;
-
 @property (nonatomic, copy,nullable) SFIdentitySuccessCallbackBlock identitySuccessCallbackBlock;
-
 @property (nonatomic, copy,nullable) SFIdentityFailureCallbackBlock identityFailureCallbackBlock;
 
 
 @property (nonatomic, copy, nullable) SFIDPLoginFlowSelectionCreationBlock idpLoginFlowSelectionBlock;
-@property (nonatomic, copy, nullable) SFIDPUserSelectionBlock   idpUserSelectionBlock;
+@property (nonatomic, copy, nullable) SFIDPUserSelectionBlock idpUserSelectionBlock;
 /**
  The view controller used to present the authentication dialog.
  */

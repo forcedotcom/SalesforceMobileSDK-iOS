@@ -1,8 +1,8 @@
 /*
- SFSDKIDPRequestHandler.m
+ SFSDKAuthErrorCommand.h
  SalesforceSDKCore
  
- Created by Raj Rao on 8/28/17.
+ Created by Raj Rao on 9/28/17.
  
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
@@ -26,28 +26,11 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#import "SFSDKIDPRequestHandler.h"
-#import "SFSDKIDPConstants.h"
-#import "SFOAuthCredentials.h"
-#import "SFSDKOAuthClient.h"
-#import "SFSDKOAuthClientConfig.h"
-#import "SFSDKUserSelectionNavViewController.h"
-#import "SFSDKIDPAuthClient.h"
-#import "SFUserAccountManager+URLHandlers.h"
-#import "SFSDKAuthRequestCommand.h"
+#import "SFSDKAuthCommand.h"
 
-@implementation SFSDKIDPRequestHandler
-
-- (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options {
-    SFSDKAuthRequestCommand *command = [[SFSDKAuthRequestCommand alloc] init];
-    return [command isAuthCommand:url];
-}
-
-- (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options {
-
-    SFSDKAuthRequestCommand *command = [[SFSDKAuthRequestCommand alloc] init];
-    [command fromRequestURL:url];
-    [[SFUserAccountManager sharedInstance] handleIdpRequest:command];
-    return YES;
-}
+@interface SFSDKAuthErrorCommand : SFSDKAuthCommand
+@property (nonatomic,copy) NSString *errorCode;
+@property (nonatomic,copy) NSString *errorReason;
+@property (nonatomic,copy) NSString *errorDescription;
+@property (nonatomic,copy) NSString *state;
 @end

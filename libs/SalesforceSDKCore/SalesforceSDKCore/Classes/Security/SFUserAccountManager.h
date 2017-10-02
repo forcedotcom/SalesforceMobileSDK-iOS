@@ -228,6 +228,7 @@ FOUNDATION_EXTERN NSString * const  SFUserAccountManagerIDPInitiatedLoginNotific
  It supports multiple accounts and their associated credentials.
  */
 @interface SFUserAccountManager : NSObject
+
 /** The current user account.  This property may be nil if the user
  has never logged in.
  */
@@ -290,6 +291,38 @@ FOUNDATION_EXTERN NSString * const  SFUserAccountManagerIDPInitiatedLoginNotific
 /**  Convenience property to retrieve the current user's identity.
  */
 @property (readonly, nonatomic, nullable) SFUserAccountIdentity *currentUserIdentity;
+
+/** Use this block to replace the Login flow selection dialog
+ *
+ */
+@property (nonatomic, copy, nullable) SFIDPLoginFlowSelectionCreationBlock idpLoginFlowSelectionAction;
+
+/** Use this to replace the default User Selection Screen
+ *
+ */
+@property (nonatomic, copy, nullable) SFIDPUserSelectionBlock idpUserSelectionAction;
+
+/**  Use this property to enable an app to become and IdentityProvider for other apps
+ *
+ */
+@property (nonatomic,assign) BOOL isIdentityProvider;
+
+/**  Use this property to enable this app to be able to use another app that is an Identity Provider
+ *
+ */
+@property (nonatomic,assign) BOOL idpEnabled;
+
+/** Use this property to indicate the url scheme  for the Identity Provider app
+ *
+ */
+@property (nonatomic, copy) NSString *idpAppScheme;
+
+/** Use this property to indicate to provide a user-friendly name for your app. This name will be displayed
+ *  in the user selection view of the identity provider app.
+ *
+ */
+@property (nonatomic,copy) NSString *appDisplayName;
+
 
 /** Shared singleton
  */
@@ -497,6 +530,12 @@ FOUNDATION_EXTERN NSString * const  SFUserAccountManagerIDPInitiatedLoginNotific
 - (void)logoutAllUsers;
 
 /**
+ Dismisses the auth view controller, resetting the UI state back to its original
+ presentation.
+ */
+- (void)dismissAuthViewControllerIfPresent;
+
+/**
  Handle an advanced authentication response from the external browser, continuing any
  in-progress adavanced authentication flow.
  @param appUrlResponse The URL response returned to the app from the external browser.
@@ -505,20 +544,6 @@ FOUNDATION_EXTERN NSString * const  SFUserAccountManagerIDPInitiatedLoginNotific
  be handled, NO otherwise.
  */
 - (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse options:(NSDictionary *)options;
-
-@property (nonatomic, copy, nullable) SFIDPLoginFlowSelectionCreationBlock idpLoginFlowSelectionAction;
-
-@property (nonatomic, copy, nullable) SFIDPUserSelectionBlock idpUserSelectionAction;
-
-@property (nonatomic,assign) BOOL isIdentityProvider;
-
-@property (nonatomic,assign) BOOL idpEnabled;
-
-@property (nonatomic, copy) NSString *idpAppUrl;
-
-@property (nonatomic,copy) NSString *appDisplayName;
-
-
 @end
 
 NS_ASSUME_NONNULL_END

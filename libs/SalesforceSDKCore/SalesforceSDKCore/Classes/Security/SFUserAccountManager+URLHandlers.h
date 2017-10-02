@@ -28,6 +28,11 @@
  */
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
 
+@class SFSDKAuthRequestCommand;
+@class SFSDKAuthResponseCommand;
+@class SFSDKAuthErrorCommand;
+@class SFSDKIDPInitCommand;
+
 @interface SFUserAccountManager (URLHandlers)
 /**
  Handle an advanced authentication response from the external browser, continuing any
@@ -40,34 +45,29 @@
 
 /**
  Handle an error situation that occured in the IDP flow.
- @param url The URL request from the idp or SP App.
- @param options Dictionary of name-value pairs received from open URL
+ @param command The Error URL request from the idp or SP App.
  @return YES if this is request is handled, NO otherwise.
  */
-- (BOOL)handleIdpAuthError:(NSURL *_Nonnull)url options:(NSDictionary *_Nullable)options;
+- (BOOL)handleIdpAuthError:(SFSDKAuthErrorCommand *_Nonnull)command;
 
 /**
  Handle an IDP initiated auth flow.
- @param url The URL request from the IDP APP.
- @param options Dictionary of name-value pairs received from open URL
+ @param command The URL request from the IDP APP.
  @return YES if this is request is handled, NO otherwise.
  */
-- (BOOL)handleIdpInitiatedAuth:(NSURL *_Nonnull)url options:(NSDictionary *_Nullable)options;
+- (BOOL)handleIdpInitiatedAuth:(SFSDKIDPInitCommand *_Nonnull)command;
 
 /**
  Handle an IDP request initiated from an SP APP.
- @param url The URL request from the SP APP.
- @param options Dictionary of name-value pairs received from open URL
- @return YES if this is request is handled, NO otherwise.
+ @param request The  request from the SP APP.
+ @return YES if this request is handled, NO otherwise.
  */
-- (BOOL)handleIdpRequest:(NSURL *_Nonnull)url options:(NSDictionary *_Nullable)options;
-
+- (BOOL)handleIdpRequest:(SFSDKAuthRequestCommand *_Nonnull)request;
 
 /**
  Handle an IDP response received from an IDP APP.
- @param  url The URL response from the IDP APP.
- @param  options Dictionary of name-value pairs received from open URL
+ @param  response The URL response from the IDP APP.
  @return YES if this is request is handled, NO otherwise.
  */
-- (BOOL)handleIdpResponse:(NSURL *_Nonnull)url options:(NSDictionary *_Nullable)options;
+- (BOOL)handleIdpResponse:(SFSDKAuthResponseCommand *_Nonnull)response;
 @end

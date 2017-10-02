@@ -26,23 +26,26 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#import "SFSDKIDPErrorHandler.h"
+#import "SFSDKIDPConstants.h"
 #import "SFSDKURLHandler.h"
 #import "SFSDKIDPErrorHandler.h"
 #import "NSURL+SFAdditions.h"
 #import "SFUserAccountManager+URLHandlers.h"
+#import "SFSDKAuthErrorCommand.h"
 
 @implementation SFSDKIDPErrorHandler
 
 - (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options {
-    NSRange rangeErrorCode = [url.absoluteString rangeOfString:@"errorCode="];
-    NSRange rangeErrorReason = [url.absoluteString rangeOfString:@"errorReason="];
-    return ( (rangeErrorCode.location != NSNotFound) &&
-            (rangeErrorReason.location != NSNotFound) );
+    SFSDKAuthErrorCommand *command = [[SFSDKAuthErrorCommand alloc] init];
+    return [command isAuthCommand:url];
 }
 
 - (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options {
-    [[SFUserAccountManager sharedInstance] handleIdpAuthError:url options:options];
-    return NO;
+    SFSDKAuthErrorCommand *command = [[SFSDKAuthErrorCommand alloc] init];
+    [command fromRequestURL:url];
+    [[SFUserAccountManager sharedInstance] handleIdpAuthError:command];
+    return YES;
 }
 
 

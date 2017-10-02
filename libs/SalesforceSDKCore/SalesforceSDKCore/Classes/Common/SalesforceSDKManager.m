@@ -208,12 +208,12 @@ static NSString* ailtnAppName = nil;
     [SFUserAccountManager sharedInstance].appDisplayName = appDisplayName;
 }
 
-- (NSString *)idpAppUrl{
-    return [SFUserAccountManager sharedInstance].idpAppUrl;
+- (NSString *)idpAppScheme{
+    return [SFUserAccountManager sharedInstance].idpAppScheme;
 }
 
-- (void)setIdpAppUrl:(NSString *)idpAppUrl {
-    [SFUserAccountManager sharedInstance].idpAppUrl = idpAppUrl;
+- (void)setIdpAppScheme:(NSString *)idpAppScheme {
+    [SFUserAccountManager sharedInstance].idpAppScheme = idpAppScheme;
 }
 
 - (BOOL)isLaunching
@@ -223,42 +223,42 @@ static NSString* ailtnAppName = nil;
 
 - (NSString *)connectedAppId
 {
-    return [SFAuthenticationManager sharedManager].oauthClientId;
+    return [SFUserAccountManager sharedInstance].oauthClientId;
 }
 
 - (void)setConnectedAppId:(NSString *)connectedAppId
 {
-    [SFAuthenticationManager sharedManager].oauthClientId = connectedAppId;
+    [SFUserAccountManager sharedInstance].oauthClientId = connectedAppId;
 }
 
 - (NSString *)connectedAppCallbackUri
 {
-    return [SFAuthenticationManager sharedManager].oauthCompletionUrl;
+    return [SFUserAccountManager sharedInstance].oauthCompletionUrl;
 }
 
 - (void)setConnectedAppCallbackUri:(NSString *)connectedAppCallbackUri
 {
-    [SFAuthenticationManager sharedManager].oauthCompletionUrl = connectedAppCallbackUri;
+    [SFUserAccountManager sharedInstance].oauthCompletionUrl = connectedAppCallbackUri;
 }
 
 - (NSString *)brandLoginPath
 {
-    return [SFAuthenticationManager sharedManager].brandLoginPath;
+    return [SFUserAccountManager sharedInstance].brandLoginPath;
 }
 
 - (void)setBrandLoginPath:(NSString *)brandLoginPath
 {
-    [SFAuthenticationManager sharedManager].brandLoginPath = brandLoginPath;
+    [SFUserAccountManager sharedInstance].brandLoginPath = brandLoginPath;
 }
 
 - (NSArray *)authScopes
 {
-    return [[SFAuthenticationManager sharedManager].scopes allObjects];
+    return [[SFUserAccountManager sharedInstance].scopes allObjects];
 }
 
 - (void)setAuthScopes:(NSArray *)authScopes
 {
-    [SFAuthenticationManager sharedManager].scopes = [NSSet setWithArray:authScopes];
+    [SFUserAccountManager sharedInstance].scopes = [NSSet setWithArray:authScopes];
 }
 
 - (NSString *)preferredPasscodeProvider
@@ -400,7 +400,7 @@ static NSString* ailtnAppName = nil;
 - (void)configureManagedSettings
 {
     if ([SFManagedPreferences sharedPreferences].requireCertificateAuthentication) {
-        [SFAuthenticationManager sharedManager].advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;
+        [SFUserAccountManager sharedInstance].advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;
     }
     
     if ([[SFManagedPreferences sharedPreferences].connectedAppId length] > 0) {
@@ -722,12 +722,7 @@ static NSString* ailtnAppName = nil;
         [self sendLaunchError:authError];
     };
     
-    if (!self.idpEnabled) {
-        [[SFAuthenticationManager sharedManager] loginWithCompletion:successBlock failure:failureBlock];
-    }else {
-        [[SFUserAccountManager sharedInstance] loginWithCompletion:successBlock failure:failureBlock];
-    }
-
+    [[SFUserAccountManager sharedInstance] loginWithCompletion:successBlock failure:failureBlock];
 }
 
 - (void)authBypassAtLaunch
@@ -755,7 +750,7 @@ static NSString* ailtnAppName = nil;
     // but decides to "go back" to the existing user and that existing user is
     // the anonymous user - the auth flow never happens and the auth view controller
     // stays on the screen, masking the main UI.
-    [[SFAuthenticationManager sharedManager] dismissAuthViewControllerIfPresent];
+    [[SFUserAccountManager sharedInstance] dismissAuthViewControllerIfPresent];
 
     [SFSecurityLockout setupTimer];
     [SFSecurityLockout startActivityMonitoring];

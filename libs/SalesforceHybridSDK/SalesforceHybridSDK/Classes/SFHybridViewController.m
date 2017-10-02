@@ -843,29 +843,17 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
 - (void)refreshCredentials:(SFOAuthCredentials *)credentials
                  completion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
                   failure:(SFOAuthFlowFailureCallbackBlock)failureBlock {
-    if (![SFUserAccountManager sharedInstance].idpEnabled) {
-        [[SFAuthenticationManager sharedManager] refreshCredentials:credentials completion:completionBlock failure:failureBlock];
-    } else {
-        [[SFUserAccountManager sharedInstance] refreshCredentials:credentials completion:completionBlock failure:failureBlock];
-    }
+   [[SFUserAccountManager sharedInstance] refreshCredentials:credentials completion:completionBlock failure:failureBlock];
     
 }
 
 - (void)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
                   failure:(SFOAuthFlowFailureCallbackBlock)failureBlock {
-    if (![SFUserAccountManager sharedInstance].idpEnabled) {
-        [[SFAuthenticationManager sharedManager] loginWithCompletion:completionBlock failure:failureBlock];
-    }else{
-       [[SFUserAccountManager sharedInstance] loginWithCompletion:completionBlock failure:failureBlock];
-    }
+    [[SFUserAccountManager sharedInstance] loginWithCompletion:completionBlock failure:failureBlock];
 }
 
 - (void)logout {
-    if (![SFUserAccountManager sharedInstance].idpEnabled) {
-        [[SFAuthenticationManager sharedManager] logout];
-    }else{
-        [[SFUserAccountManager sharedInstance] logout];
-    }
+    [[SFUserAccountManager sharedInstance] logout];
 }
 
 @end
