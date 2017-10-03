@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The ID URL.
  */
-@property (nullable, strong, nonatomic, readonly) NSURL *idUrl;
+@property (nonnull, strong, nonatomic, readonly) NSURL *idUrl;
 
 /**
  * Whether or not this is the asserted user for this session.
@@ -50,17 +50,17 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The User ID of the associated user.
  */
-@property (nullable, strong, nonatomic, readonly) NSString *userId;
+@property (nonnull, strong, nonatomic, readonly) NSString *userId;
 
 /**
  * The Organization ID of the associated user.
  */
-@property (nullable, strong, nonatomic, readonly) NSString *orgId;
+@property (nonnull, strong, nonatomic, readonly) NSString *orgId;
 
 /**
  * The username of the associated user.
  */
-@property (nullable, strong, nonatomic, readonly) NSString *username;
+@property (nonnull, strong, nonatomic, readonly) NSString *username;
 
 /**
  * The nickname of the associated user.
@@ -75,7 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The email address of the associated user.
  */
-@property (nullable, strong, nonatomic, readonly) NSString *email;
+@property (nonnull, strong, nonatomic, readonly) NSString *email;
 
 /**
  * The first name of the user.
@@ -85,7 +85,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The last name of the user.
  */
-@property (nullable, strong, nonatomic, readonly) NSString *lastName;
+@property (nonnull, strong, nonatomic, readonly) NSString *lastName;
 
 /**
  * The URL to retrieve the user's picture.
@@ -182,17 +182,17 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The user type.
  */
-@property (nullable, strong, nonatomic, readonly) NSString *userType;
+@property (nonnull, strong, nonatomic, readonly) NSString *userType;
 
 /**
  * The user's configured language.
  */
-@property (nullable, strong, nonatomic, readonly) NSString *language;
+@property (nonnull, strong, nonatomic, readonly) NSString *language;
 
 /**
  * The user's configured locale.
  */
-@property (nullable, strong, nonatomic, readonly) NSString *locale;
+@property (nonnull, strong, nonatomic, readonly) NSString *locale;
 
 /**
  * The UTC offset for this user.

@@ -97,8 +97,7 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 
 - (NSURL *)idUrl
 {
-    NSString *value = self.dictRepresentation[kSFIdentityIdUrlKey];
-    return [value isEqual:[NSNull null]] ? nil : [NSURL URLWithString:value];
+    return [NSURL URLWithString:(self.dictRepresentation)[kSFIdentityIdUrlKey]];
 }
 
 - (BOOL)assertedUser
@@ -109,20 +108,17 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 
 - (NSString *)userId
 {
-    NSString *value = self.dictRepresentation[kSFIdentityUserIdKey];
-    return [value isEqual:[NSNull null]] ? nil : value;
+    return (self.dictRepresentation)[kSFIdentityUserIdKey];
 }
 
 - (NSString *)orgId
 {
-    NSString *value = self.dictRepresentation[kSFIdentityOrgIdKey];
-    return [value isEqual:[NSNull null]] ? nil : value;
+    return (self.dictRepresentation)[kSFIdentityOrgIdKey];
 }
 
 - (NSString *)username
 {
-    NSString *value = self.dictRepresentation[kSFIdentityUsernameKey];
-    return [value isEqual:[NSNull null]] ? nil : value;
+    return (self.dictRepresentation)[kSFIdentityUsernameKey];
 }
 
 - (NSString *)nickname
@@ -139,8 +135,7 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 
 - (NSString *)email
 {
-    NSString *value = self.dictRepresentation[kSFIdentityEmailKey];
-    return [value isEqual:[NSNull null]] ? nil : value;
+    return (self.dictRepresentation)[kSFIdentityEmailKey];
 }
 
 - (NSString *)firstName
@@ -151,8 +146,7 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 
 - (NSString *)lastName
 {
-    NSString *value = self.dictRepresentation[kSFIdentityLastNameKey];
-    return [value isEqual:[NSNull null]] ? nil : value;
+    return (self.dictRepresentation)[kSFIdentityLastNameKey];
 }
 
 - (NSURL *)pictureUrl
@@ -240,20 +234,17 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 
 - (NSString *)userType
 {
-    NSString *value = self.dictRepresentation[kSFIdentityUserTypeKey];
-    return [value isEqual:[NSNull null]] ? nil : value;
+    return (self.dictRepresentation)[kSFIdentityUserTypeKey];
 }
 
 - (NSString *)language
 {
-    NSString *value = self.dictRepresentation[kSFIdentityLanguageKey];
-    return [value isEqual:[NSNull null]] ? nil : value;
+    return (self.dictRepresentation)[kSFIdentityLanguageKey];
 }
 
 - (NSString *)locale
 {
-    NSString *value = self.dictRepresentation[kSFIdentityLocaleKey];
-    return [value isEqual:[NSNull null]] ? nil : value;
+    return (self.dictRepresentation)[kSFIdentityLocaleKey];
 }
 
 - (int)utcOffset
