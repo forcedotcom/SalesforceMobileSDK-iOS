@@ -36,7 +36,6 @@ static WKProcessPool *_processPool = nil;
 + (void)resetSessionWithNewAccessToken:(NSString *)accessToken isSecureProtocol:(BOOL)isSecure {
      //reset UIWebView related state if any
     [self removeUIWebViewCookies:@[SID_COOKIE] fromDomains:self.domains];
-    NSAssert(self.domains != nil && [self.domains count] > 0, ERR_NO_DOMAIN_NAMES);
     for (NSString *domain in self.domains) {
         [self addSidCookieForDomain:domain withAccessToken:accessToken isSecureProtocol:isSecure];
     }
