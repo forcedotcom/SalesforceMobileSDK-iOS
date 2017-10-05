@@ -603,6 +603,7 @@
 		CEB98EE11F86E7D20083AB9C /* SFSDKAuthResponseCommandTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB98ED61F86E76B0083AB9C /* SFSDKAuthResponseCommandTest.m */; };
 		CEB98EE21F86E7D70083AB9C /* SFSDKIDPAuthInitCommandTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB98ED71F86E76B0083AB9C /* SFSDKIDPAuthInitCommandTest.m */; };
 		CEB98EE31F86E7DC0083AB9C /* SFSDKURLHandlerManagerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB98EBC1F86E7690083AB9C /* SFSDKURLHandlerManagerTest.m */; };
+		CEB98EE61F86F0920083AB9C /* SFOAuthClientCacheTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB98EE41F86F08F0083AB9C /* SFOAuthClientCacheTests.m */; };
 		CED452211D7F8495009266EB /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0CDEEB1D7F753D005AAFAB /* libOCMock.a */; };
 		CED452B71D808D0C009266EB /* SFRestAPI+Blocks.h in Headers */ = {isa = PBXBuildFile; fileRef = CED452A91D808D0C009266EB /* SFRestAPI+Blocks.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CED452B81D808D0C009266EB /* SFRestAPI+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = CED452AA1D808D0C009266EB /* SFRestAPI+Blocks.m */; };
@@ -1233,6 +1234,7 @@
 		CEB98ED51F86E76A0083AB9C /* SFSDKAuthClientTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKAuthClientTests.m; path = SalesforceSDKCoreTests/SFSDKAuthClientTests.m; sourceTree = SOURCE_ROOT; };
 		CEB98ED61F86E76B0083AB9C /* SFSDKAuthResponseCommandTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKAuthResponseCommandTest.m; path = SalesforceSDKCoreTests/SFSDKAuthResponseCommandTest.m; sourceTree = SOURCE_ROOT; };
 		CEB98ED71F86E76B0083AB9C /* SFSDKIDPAuthInitCommandTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKIDPAuthInitCommandTest.m; path = SalesforceSDKCoreTests/SFSDKIDPAuthInitCommandTest.m; sourceTree = SOURCE_ROOT; };
+		CEB98EE41F86F08F0083AB9C /* SFOAuthClientCacheTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFOAuthClientCacheTests.m; path = SalesforceSDKCoreTests/SFOAuthClientCacheTests.m; sourceTree = SOURCE_ROOT; };
 		CEBA94EF1C1B5D4C00C0B2E0 /* SalesforceSDKCore-Dynamic-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCore-Dynamic-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
 		CEBA94FE1C1B990A00C0B2E0 /* SalesforceSDKCore-Dynamic-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCore-Dynamic-iOS-Release.xcconfig"; sourceTree = "<group>"; };
 		CEBA94FF1C1B996200C0B2E0 /* SalesforceSDKCore-Common-Dynamic.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCore-Common-Dynamic.xcconfig"; sourceTree = "<group>"; };
@@ -1326,6 +1328,7 @@
 		4F7EB3F61BFFC84700768720 /* SalesforceSDKCoreTests */ = {
 			isa = PBXGroup;
 			children = (
+				CEB98EE41F86F08F0083AB9C /* SFOAuthClientCacheTests.m */,
 				CEB98ED51F86E76A0083AB9C /* SFSDKAuthClientTests.m */,
 				CEB98ED31F86E76A0083AB9C /* SFSDKAuthErrorCommandTest.m */,
 				CEB98ED41F86E76A0083AB9C /* SFSDKAuthRequestCommandTest.m */,
@@ -2721,6 +2724,7 @@
 				444B95D01E83251900908C61 /* UIColor+SFColorsTests.m in Sources */,
 				009D77521CA4A92200D5183A /* SFPushNotificationManagerTests.m in Sources */,
 				B7E8A2AF1E77062E007C0D92 /* SFUserAccountManagerPersisterTests.m in Sources */,
+				CEB98EE61F86F0920083AB9C /* SFOAuthClientCacheTests.m in Sources */,
 				4F7EB4181BFFC8D700768720 /* SFKeyStoreManagerTests.m in Sources */,
 				CEB98EDF1F86E7CA0083AB9C /* SFSDKAuthErrorCommandTest.m in Sources */,
 				8263FED31E7336BF0038F694 /* SFSDKAppFeatureMarkersTests.m in Sources */,
