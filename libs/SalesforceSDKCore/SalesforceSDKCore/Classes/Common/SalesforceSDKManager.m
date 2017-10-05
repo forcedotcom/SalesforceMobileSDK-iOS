@@ -144,6 +144,8 @@ static NSString* ailtnAppName = nil;
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAuthCompleted:) name:kSFAuthenticationManagerFinishedNotification object:nil];
+         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleIDPInitiatedAuthCompleted:) name:SFUserAccountManagerIDPInitiatedLoginNotification object:nil];
+        
         [SFPasscodeManager sharedManager].preferredPasscodeProvider = kSFPasscodeProviderPBKDF2;
         if (NSClassFromString(@"SFHybridViewController") != nil) {
             self.appType = kSFAppTypeHybrid;
@@ -166,6 +168,61 @@ static NSString* ailtnAppName = nil;
 }
 
 #pragma mark - Public methods / properties
+- (SFIDPLoginFlowSelectionBlock)idpLoginFlowSelectionBlock {
+    return [SFUserAccountManager sharedInstance].idpLoginFlowSelectionAction;
+}
+
+- (void)setIdpLoginFlowSelectionBlock:(SFIDPLoginFlowSelectionBlock)idpLoginFlowSelectionBlock {
+    [SFUserAccountManager sharedInstance].idpLoginFlowSelectionAction = idpLoginFlowSelectionBlock;
+}
+
+- (SFIDPUserSelectionBlock)idpUserSelectionBlock {
+    return [SFUserAccountManager sharedInstance].idpUserSelectionAction;
+}
+
+- (void)setIdpUserSelectionBlock:(SFIDPUserSelectionBlock)idpUserSelectionBlock {
+    [SFUserAccountManager sharedInstance].idpUserSelectionAction = idpUserSelectionBlock;
+}
+
+- (BOOL)isIdentityProvider {
+    return [SFUserAccountManager sharedInstance].isIdentityProvider;
+}
+
+- (void)setIsIdentityProvider:(BOOL)isIdentityProvider {
+   [SFUserAccountManager sharedInstance].isIdentityProvider = isIdentityProvider;
+}
+
+- (BOOL)idpEnabled {
+    return [SFUserAccountManager sharedInstance].idpEnabled;
+}
+
+- (void)setIdpEnabled:(BOOL)idpEnabled {
+    [SFUserAccountManager sharedInstance].idpEnabled = idpEnabled;
+}
+
+- (BOOL)useLegacyAuthenticationManager{
+    return [SFUserAccountManager sharedInstance].useLegacyAuthenticationManager;
+}
+
+- (void)setUseLegacyAuthenticationManager:(BOOL)enabled {
+    [SFUserAccountManager sharedInstance].useLegacyAuthenticationManager = enabled;
+}
+
+- (NSString *)appDisplayName {
+    return [SFUserAccountManager sharedInstance].appDisplayName;
+}
+
+- (void)setAppDisplayName:(NSString *)appDisplayName {
+    [SFUserAccountManager sharedInstance].appDisplayName = appDisplayName;
+}
+
+- (NSString *)idpAppScheme{
+    return [SFUserAccountManager sharedInstance].idpAppScheme;
+}
+
+- (void)setIdpAppScheme:(NSString *)idpAppScheme {
+    [SFUserAccountManager sharedInstance].idpAppScheme = idpAppScheme;
+}
 
 - (BOOL)isLaunching
 {
@@ -174,42 +231,42 @@ static NSString* ailtnAppName = nil;
 
 - (NSString *)connectedAppId
 {
-    return [SFAuthenticationManager sharedManager].oauthClientId;
+    return [SFUserAccountManager sharedInstance].oauthClientId;
 }
 
 - (void)setConnectedAppId:(NSString *)connectedAppId
 {
-    [SFAuthenticationManager sharedManager].oauthClientId = connectedAppId;
+    [SFUserAccountManager sharedInstance].oauthClientId = connectedAppId;
 }
 
 - (NSString *)connectedAppCallbackUri
 {
-    return [SFAuthenticationManager sharedManager].oauthCompletionUrl;
+    return [SFUserAccountManager sharedInstance].oauthCompletionUrl;
 }
 
 - (void)setConnectedAppCallbackUri:(NSString *)connectedAppCallbackUri
 {
-    [SFAuthenticationManager sharedManager].oauthCompletionUrl = connectedAppCallbackUri;
+    [SFUserAccountManager sharedInstance].oauthCompletionUrl = connectedAppCallbackUri;
 }
 
 - (NSString *)brandLoginPath
 {
-    return [SFAuthenticationManager sharedManager].brandLoginPath;
+    return [SFUserAccountManager sharedInstance].brandLoginPath;
 }
 
 - (void)setBrandLoginPath:(NSString *)brandLoginPath
 {
-    [SFAuthenticationManager sharedManager].brandLoginPath = brandLoginPath;
+    [SFUserAccountManager sharedInstance].brandLoginPath = brandLoginPath;
 }
 
 - (NSArray *)authScopes
 {
-    return [[SFAuthenticationManager sharedManager].scopes allObjects];
+    return [[SFUserAccountManager sharedInstance].scopes allObjects];
 }
 
 - (void)setAuthScopes:(NSArray *)authScopes
 {
-    [SFAuthenticationManager sharedManager].scopes = [NSSet setWithArray:authScopes];
+    [SFUserAccountManager sharedInstance].scopes = [NSSet setWithArray:authScopes];
 }
 
 - (NSString *)preferredPasscodeProvider
@@ -351,7 +408,7 @@ static NSString* ailtnAppName = nil;
 - (void)configureManagedSettings
 {
     if ([SFManagedPreferences sharedPreferences].requireCertificateAuthentication) {
-        [SFAuthenticationManager sharedManager].advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;
+        [SFUserAccountManager sharedInstance].advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;
     }
     
     if ([[SFManagedPreferences sharedPreferences].connectedAppId length] > 0) {
@@ -512,6 +569,17 @@ static NSString* ailtnAppName = nil;
     [SFSecurityLockout startActivityMonitoring];
 }
 
+- (void)handleIDPInitiatedAuthCompleted:(NSNotification *)notification
+{
+    // Will set up the passcode timer for auth that occurs out of band from SDK Manager launch.
+    [SFSecurityLockout setupTimer];
+    [SFSecurityLockout startActivityMonitoring];
+    NSDictionary *userInfo = notification.userInfo;
+    SFUserAccount *userAccount = userInfo[@"account"];
+    [[SFUserAccountManager sharedInstance] switchToUser:userAccount];
+    [self sendPostLaunch];
+}
+
 - (void)handlePostLogout
 {
     // Close the passcode screen and reset passcode monitoring.
@@ -648,23 +716,32 @@ static NSString* ailtnAppName = nil;
 - (void)authAtLaunch
 {
     [SFSDKCoreLogger i:[self class] format:@"No valid credentials found.  Proceeding with authentication."];
-    [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
+    
+    SFOAuthFlowSuccessCallbackBlock successBlock = ^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
         [SFSDKCoreLogger i:[self class] format:@"Authentication (%@) succeeded.  Launch completed.", authInfo.authTypeDescription];
         [SFUserAccountManager sharedInstance].currentUser = userAccount;
         [SFSecurityLockout setupTimer];
         [SFSecurityLockout startActivityMonitoring];
         [self authValidatedToPostAuth:SFSDKLaunchActionAuthenticated];
-    } failure:^(SFOAuthInfo *authInfo, NSError *authError) {
+    };
+    
+    SFOAuthFlowFailureCallbackBlock failureBlock = ^(SFOAuthInfo *authInfo, NSError *authError) {
         [SFSDKCoreLogger e:[self class] format:@"Authentication (%@) failed: %@.", (authInfo.authType == SFOAuthTypeUserAgent ? @"User Agent" : @"Refresh"), [authError localizedDescription]];
         [self sendLaunchError:authError];
-    }];
+    };
+    
+    if (self.useLegacyAuthenticationManager) {
+        [[SFAuthenticationManager sharedManager] loginWithCompletion:successBlock failure:failureBlock];
+    } else {
+        [[SFUserAccountManager sharedInstance] loginWithCompletion:successBlock failure:failureBlock];
+    }
 }
 
 - (void)authBypassAtLaunch
 {
     // If there is a current user (from a previous authentication), we still need to set up the
     // in-memory auth state of that user.
-    if ([SFUserAccountManager sharedInstance].currentUser != nil) {
+    if ([SFUserAccountManager sharedInstance].currentUser != nil && self.useLegacyAuthenticationManager) {
         [[SFAuthenticationManager sharedManager] setupWithCredentials:[SFUserAccountManager sharedInstance].currentUser.credentials];
     }
     
@@ -685,7 +762,7 @@ static NSString* ailtnAppName = nil;
     // but decides to "go back" to the existing user and that existing user is
     // the anonymous user - the auth flow never happens and the auth view controller
     // stays on the screen, masking the main UI.
-    [[SFAuthenticationManager sharedManager] dismissAuthViewControllerIfPresent];
+    [[SFUserAccountManager sharedInstance] dismissAuthViewControllerIfPresent];
 
     [SFSecurityLockout setupTimer];
     [SFSecurityLockout startActivityMonitoring];

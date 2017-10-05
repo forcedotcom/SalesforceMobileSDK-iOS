@@ -50,6 +50,20 @@ NSString * const kOAuthClientIdKey = @"oauth_client_id";
 // The key for storing the persisted OAuth redirect URI.
 NSString * const kOAuthRedirectUriKey = @"oauth_redirect_uri";
 
+// The key for storing the persisted IDP app identifier
+NSString * const kSFIDPKey = @"SFDCIdp";
+
+// The key for storing the IDP App Enabled flag
+NSString * const kSFIDPEnabledKey = @"SFDCIdpEnabled";
+
+// The key for storing the IDP App Enabled flag
+NSString * const kSFIDPProviderKey = @"SFIDPProvider";
+
+// The key for storing the persisted OAuth scopes.
+NSString * const kOAuthAppName = @"oauth_app_name";
+
+NSString * const kSFLegacyAuthIndicatorKey = @"SFDCUseLegacyAuth";
+
 @implementation SFSDKAuthPreferences
 
 - (void)setLoginHost:(NSString*)host {
@@ -156,4 +170,70 @@ NSString * const kOAuthRedirectUriKey = @"oauth_redirect_uri";
     [defs setObject:newClientId forKey:kOAuthClientIdKey];
     [defs synchronize];
 }
+
+- (NSString *)idpAppScheme
+{
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
+    return [defs stringForKey:kSFIDPKey];
+}
+
+- (void)setIdpAppScheme:(NSString *)appIdentifier
+{
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
+    [defs setObject:appIdentifier forKey:kSFIDPKey];
+    [defs synchronize];
+}
+
+- (BOOL)idpEnabled
+{
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
+    return [defs boolForKey:kSFIDPEnabledKey];
+}
+
+- (void)setIdpEnabled:(BOOL)idpEnabled
+{
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
+    [defs setBool:idpEnabled forKey:kSFIDPEnabledKey];
+    [defs synchronize];
+}
+
+- (BOOL)isIdentityProvider
+{
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
+    return [defs boolForKey:kSFIDPProviderKey];
+}
+
+- (void)setIsIdentityProvider:(BOOL)isIdentityProvider
+{
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
+    [defs setBool:isIdentityProvider forKey:kSFIDPProviderKey];
+    [defs synchronize];
+}
+
+- (NSString *)appDisplayName
+{
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
+    return [defs stringForKey:kOAuthAppName];
+}
+
+- (void)setAppDisplayName:(NSString *)appDisplayName
+{
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
+    [defs setObject:appDisplayName forKey:kOAuthAppName];
+    [defs synchronize];
+}
+
+- (BOOL)useLegacyAuthenticationManager{
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
+    return [defs stringForKey:kSFLegacyAuthIndicatorKey];
+
+}
+
+- (void)setUseLegacyAuthenticationManager:(BOOL)enabled {
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
+    [defs setBool:enabled forKey:kSFLegacyAuthIndicatorKey];
+    [defs synchronize];
+}
+
+
 @end

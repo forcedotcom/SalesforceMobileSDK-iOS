@@ -35,6 +35,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (nullable NSString*)valueForParameterName:(NSString*)name;
 
+/** Get all query params as dictionary
+ */
+- (nullable NSDictionary *)dictionaryFromQuery;
+
 @end
 
 NS_ASSUME_NONNULL_END

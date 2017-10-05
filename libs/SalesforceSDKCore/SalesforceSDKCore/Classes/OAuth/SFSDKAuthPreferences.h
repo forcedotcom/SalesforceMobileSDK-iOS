@@ -74,12 +74,38 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  The Branded Login path configured for this application.
  */
-@property (nonatomic, nullable, copy) NSString *brandLoginPath;
+@property (nonatomic, copy, nullable) NSString *brandLoginPath;
 
 /**
  The OAuth scopes associated with the app.
  */
 @property (nonatomic, copy) NSSet<NSString*> *scopes;
+
+/**  Use this property to enable an app to become and IdentityProvider for other apps
+ *
+ */
+@property (nonatomic,assign) BOOL isIdentityProvider;
+
+/**  Use this property to enable this app to be able to use another app that is an Identity Provider
+ *
+ */
+@property (nonatomic,assign) BOOL idpEnabled;
+
+/** Use this property to use SFAuthenticationManager for authentication
+ *
+ */
+@property (nonatomic,assign) BOOL useLegacyAuthenticationManager;
+
+/** Use this property to indicate the url scheme  for the Identity Provider app
+ *
+ */
+@property (nonatomic, copy) NSString *idpAppScheme;
+
+/** Use this property to indicate to provide a user-friendly name for your app. This name will be displayed
+ *  in the user selection view of the identity provider app.
+ *
+ */
+@property (nonatomic,copy) NSString *appDisplayName;
 
 @end
 NS_ASSUME_NONNULL_END
