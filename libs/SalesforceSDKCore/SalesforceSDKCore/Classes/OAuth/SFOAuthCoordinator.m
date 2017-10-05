@@ -303,10 +303,8 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
         [SFSDKCoreLogger i:[self class] format:@"%@ URL has no query string.", NSStringFromSelector(_cmd)];
         return NO;
     }
-   // NSDictionary *queryDict = [[self class] parseQueryString:query decodeParams:NO];
-    
+
     NSString *codeVal = [appUrlResponse valueForParameterName:@"code"];
-    //queryDict[kSFOAuthResponseTypeCode];
     if ([codeVal length] == 0) {
         [SFSDKCoreLogger i:[self class] format:@"%@ URL has no '%@' parameter value.", NSStringFromSelector(_cmd), kSFOAuthResponseTypeCode];
         return NO;

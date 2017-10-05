@@ -199,17 +199,17 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol SFSDKOAuthClient <NSObject>
 
 /**
- *
+ * Indicates the status of Authentication
  */
 @property (nonatomic, assign) BOOL isAuthenticating;
 
 /**
- *
+ * Credentials used to create this client
  */
 @property (nonatomic, readonly) SFOAuthCredentials *credentials;
 
 /**
- *
+ * Identity data that is populated during authentication.
  */
 @property (nonatomic, readonly) SFIdentityData *idData;
 

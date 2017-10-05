@@ -381,7 +381,6 @@ static NSString *const kSFIncompatibleAuthError = @"Cannot use this SFUserAccoun
 #pragma mark - SFSDKUserSelectionViewDelegate
 - (void)createNewUser:(NSDictionary *)spAppOptions{
     SFOAuthCredentials *credentials = [self newClientCredentials];
-    //[self disposeOAuthClient:client];
     SFSDKIDPAuthClient *newClient = [self fetchIDPAuthClient:credentials
                                                   completion:nil
                                                      failure:nil];
@@ -391,7 +390,6 @@ static NSString *const kSFIncompatibleAuthError = @"Cannot use this SFUserAccoun
 }
 
 - (void)selectedUser:(SFUserAccount *)user spAppContext:(NSDictionary *)spAppOptions{
-    // [[SFUserAccountManager sharedInstance] switchToNewUser];
     __weak typeof (self) weakSelf = self;
     SFSDKIDPAuthClient * idpClient = [self fetchIDPAuthClient:user.credentials completion:nil failure:nil];
     [idpClient setCallingAppOptionsInContext:spAppOptions];
