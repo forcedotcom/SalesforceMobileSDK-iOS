@@ -79,7 +79,7 @@ typedef NSString*_Nonnull (^SFSDKUserAgentCreationBlock)(NSString *qualifier);
 /**
  Block typedef for creating a custom login flow selection dialog.
  */
-typedef UIViewController<SFSDKLoginFlowSelectionView>*_Nonnull (^SFIDPLoginFlowSelectionCreationBlock)(void);
+typedef UIViewController<SFSDKLoginFlowSelectionView>*_Nonnull (^SFIDPLoginFlowSelectionBlock)(void);
 
 
 /**

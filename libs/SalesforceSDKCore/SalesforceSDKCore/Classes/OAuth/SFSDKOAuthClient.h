@@ -221,6 +221,7 @@ NS_ASSUME_NONNULL_BEGIN
  * The Client Config that was configured
  */
 @property (nonatomic, readonly,nullable) SFSDKOAuthClientConfig *config;
+
 /**
  * An Auth window in which the auth flow will be presented
  */
@@ -271,6 +272,11 @@ NS_ASSUME_NONNULL_BEGIN
  * @return Provide an instance
  */
 + (SFSDKOAuthClient *)clientWithCredentials:(SFOAuthCredentials *_Nullable)credentials configBlock:(void(^)(SFSDKOAuthClientConfig *))configBlock;
+
++ (Class<SFSDKOAuthClientProvider>) clientProvider;
+
++ (void)setClientProvider:(Class<SFSDKOAuthClientProvider>)className;
+
 @end
 
 

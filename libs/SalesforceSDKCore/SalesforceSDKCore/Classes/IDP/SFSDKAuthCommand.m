@@ -90,7 +90,7 @@
 }
 
 - (BOOL)isAuthCommand:(NSURL *) url {
-    return [url.pathComponents count] > 2 && [self.command isEqualToString:url.pathComponents[2]];
+    return [url.pathComponents count] > 2 && [self.command.lowercaseString  isEqualToString:url.pathComponents[2].lowercaseString];
 }
 
 - (NSDictionary *)allParams {

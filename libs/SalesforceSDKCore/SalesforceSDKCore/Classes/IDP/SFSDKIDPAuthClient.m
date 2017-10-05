@@ -39,7 +39,7 @@
 
 @interface SFSDKIDPAuthClient()<SFSDKLoginFlowSelectionViewDelegate>
 @property (nonatomic, strong) SFSDKOAuthClientContext *context;
-- (SFIDPLoginFlowSelectionCreationBlock)idpLoginFlowSelectionBlock;
+- (SFIDPLoginFlowSelectionBlock)idpLoginFlowSelectionBlock;
 @end
 
 @implementation SFSDKIDPAuthClient
@@ -57,7 +57,7 @@
     return [SFSDKWindowManager sharedManager].authWindow;
 }
 
-- (SFIDPLoginFlowSelectionCreationBlock)idpLoginFlowSelectionBlock {
+- (SFIDPLoginFlowSelectionBlock)idpLoginFlowSelectionBlock {
     if (!self.config.idpLoginFlowSelectionBlock) {
         return ^SFSDKLoginFlowSelectionViewController * {
             SFSDKLoginFlowSelectionViewController *controller = [[SFSDKLoginFlowSelectionViewController alloc] initWithNibName:nil bundle:nil];

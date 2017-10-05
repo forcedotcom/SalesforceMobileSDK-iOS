@@ -199,7 +199,7 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
 /**
  The block to provide custom view to use for IDP selection flow. This block will be used if loginFlowSelectionDialogEnabled in SDSDKIDPconfig is set to YES.
  */
-@property (nonatomic, copy, nullable) SFIDPLoginFlowSelectionCreationBlock idpLoginFlowSelectionAction;
+@property (nonatomic, copy, nullable) SFIDPLoginFlowSelectionBlock idpLoginFlowSelectionBlock;
 
 
 /**

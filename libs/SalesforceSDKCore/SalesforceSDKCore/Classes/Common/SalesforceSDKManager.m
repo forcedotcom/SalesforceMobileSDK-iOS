@@ -168,12 +168,12 @@ static NSString* ailtnAppName = nil;
 }
 
 #pragma mark - Public methods / properties
-- (SFIDPLoginFlowSelectionCreationBlock)idpLoginFlowSelectionAction {
+- (SFIDPLoginFlowSelectionBlock)idpLoginFlowSelectionBlock {
     return [SFUserAccountManager sharedInstance].idpLoginFlowSelectionAction;
 }
 
-- (void)setIdpLoginFlowSelectionAction:(SFIDPLoginFlowSelectionCreationBlock)idpLoginFlowSelectionAction {
-    [SFUserAccountManager sharedInstance].idpLoginFlowSelectionAction = idpLoginFlowSelectionAction;
+- (void)setIdpLoginFlowSelectionBlock:(SFIDPLoginFlowSelectionBlock)idpLoginFlowSelectionBlock {
+    [SFUserAccountManager sharedInstance].idpLoginFlowSelectionAction = idpLoginFlowSelectionBlock;
 }
 
 - (SFIDPUserSelectionBlock)idpUserSelectionBlock {

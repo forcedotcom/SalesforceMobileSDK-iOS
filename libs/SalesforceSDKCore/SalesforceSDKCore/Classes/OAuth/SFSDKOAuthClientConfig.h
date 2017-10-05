@@ -71,11 +71,16 @@
 @property (nonatomic, copy,nullable) SFIdentityFailureCallbackBlock identityFailureCallbackBlock;
 
 
-@property (nonatomic, copy, nullable) SFIDPLoginFlowSelectionCreationBlock idpLoginFlowSelectionBlock;
+@property (nonatomic, copy, nullable) SFIDPLoginFlowSelectionBlock idpLoginFlowSelectionBlock;
 @property (nonatomic, copy, nullable) SFIDPUserSelectionBlock idpUserSelectionBlock;
 /**
  The view controller used to present the authentication dialog.
  */
 @property (nonatomic, strong, nullable) SFLoginViewController *authViewController;
+/**
+ The authViewHandler for the client.
+ */
+
+@property (nonatomic, strong, nullable) SFSDKOAuthViewHandler *authViewHandler;
 
 @end

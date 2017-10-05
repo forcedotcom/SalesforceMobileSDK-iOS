@@ -295,7 +295,7 @@ FOUNDATION_EXTERN NSString * const  SFUserAccountManagerIDPInitiatedLoginNotific
 /** Use this block to replace the Login flow selection dialog
  *
  */
-@property (nonatomic, copy, nullable) SFIDPLoginFlowSelectionCreationBlock idpLoginFlowSelectionAction;
+@property (nonatomic, copy, nullable) SFIDPLoginFlowSelectionBlock idpLoginFlowSelectionAction;
 
 /** Use this to replace the default User Selection Screen
  *

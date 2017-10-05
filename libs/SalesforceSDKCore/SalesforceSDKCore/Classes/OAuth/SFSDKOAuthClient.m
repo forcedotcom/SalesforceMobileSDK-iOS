@@ -64,7 +64,7 @@ static NSString * const kAlertConnectionErrorFormatStringKey = @"authAlertConnec
 static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismatchError";
 static NSString * const kSFRevokePath = @"/services/oauth2/revoke";
 
-static id<SFSDKOAuthClientProvider> _clientProvider = nil;
+static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
 
 
 @interface SFSDKOAuthClient()<SFOAuthCoordinatorDelegate,SFIdentityCoordinatorDelegate,SFSDKLoginHostDelegate,SFLoginViewControllerDelegate>{
@@ -83,7 +83,7 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
 @property (nonatomic, strong, nullable) SFAuthErrorHandler *networkFailureAuthErrorHandler;
 @property (nonatomic, strong, nullable) SFAuthErrorHandler *genericAuthErrorHandler;
 @property (nonatomic, strong, nullable) SFAuthErrorHandlerList *authErrorHandlerList;
-@property (nonatomic, strong, nullable) SFSDKOAuthViewHandler *authViewHandler;
+
 
 - (void)revokeRefreshToken:(SFOAuthCredentials *)user;
 /**
@@ -126,11 +126,12 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
     }
     return self;
 }
-+ (id<SFSDKOAuthClientProvider>) clientProvider {
+
++ (Class<SFSDKOAuthClientProvider>) clientProvider {
     return _clientProvider;
 }
 
-+ (void)setClientProvider:(id<SFSDKOAuthClientProvider>) clientProvider  {
++ (void)setClientProvider:(Class<SFSDKOAuthClientProvider>) clientProvider  {
     if(_clientProvider!= clientProvider) {
         _clientProvider = clientProvider;
     }
@@ -154,18 +155,18 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
 
 - (SFSDKOAuthViewHandler *)authViewHandler {
 
-    if (!_authViewHandler) {
+    if (!self.config.authViewHandler) {
         [readWriteLock lock];
         __weak typeof(self) weakSelf = self;
         if (self.config.advancedAuthConfiguration == SFOAuthAdvancedAuthConfigurationRequire) {
-            _authViewHandler =[[SFSDKOAuthViewHandler alloc]
+            self.config.authViewHandler = [[SFSDKOAuthViewHandler alloc]
                     initWithDisplayBlock:^(SFSDKOAuthClientViewHolder *viewHandler) {
                         __strong typeof(weakSelf) strongSelf = weakSelf;
                         strongSelf.authWindow.viewController = viewHandler.safariViewController;
                         [strongSelf.authWindow enable];
                     } dismissBlock:nil];
         } else {
-            _authViewHandler = [[SFSDKOAuthViewHandler alloc]
+            self.config.authViewHandler = [[SFSDKOAuthViewHandler alloc]
                     initWithDisplayBlock:^(SFSDKOAuthClientViewHolder *viewHandler) {
                         __strong typeof(weakSelf) strongSelf = weakSelf;
                         if (strongSelf.config.authViewController == nil) {
@@ -183,7 +184,7 @@ static id<SFSDKOAuthClientProvider> _clientProvider = nil;
        }
        [readWriteLock unlock];
     }
-    return _authViewHandler;
+    return self.config.authViewHandler;
 }
 
 -(void)dismissAuthViewControllerIfPresent {
