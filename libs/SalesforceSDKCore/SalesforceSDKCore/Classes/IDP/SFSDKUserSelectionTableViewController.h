@@ -43,10 +43,4 @@
 @property (nonatomic,strong) SFUserAccount *selectedAccount;
 @property (nonatomic,weak) id<SFSDKUserSelectionTableViewControllerDelegate> listViewDelegate;
 @property (nonatomic,strong) NSDictionary *options;
-
-//@property (nonatomic,copy) NSString *appName;
-//@property (nonatomic,copy) NSString *appDescription;
-//@property (nonatomic,copy) NSString *appIdentifier;
-//@property (nonatomic,copy) NSString *callingAppCurrentUser;
-//+ (instancetype)sharedInstance;
 @end
