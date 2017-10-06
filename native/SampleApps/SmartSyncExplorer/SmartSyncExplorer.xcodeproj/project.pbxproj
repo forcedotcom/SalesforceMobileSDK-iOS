@@ -62,6 +62,9 @@
 		B7A135161D99EC6100A4559C /* SObjectData.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A1346D1D99DF8E00A4559C /* SObjectData.m */; };
 		B7A135171D99EC6100A4559C /* SObjectDataFieldSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A134701D99DF8E00A4559C /* SObjectDataFieldSpec.m */; };
 		B7A135181D99EC6100A4559C /* SObjectDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A134721D99DF8E00A4559C /* SObjectDataSpec.m */; };
+		B7A727911F87D5D4006BB9B0 /* IDPLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A7278C1F87D5D3006BB9B0 /* IDPLoginViewController.m */; };
+		B7A727921F87D5D4006BB9B0 /* IDPLoginNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A7278E1F87D5D3006BB9B0 /* IDPLoginNavViewController.m */; };
+		B7A727931F87D5D4006BB9B0 /* IDPLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7A7278F1F87D5D3006BB9B0 /* IDPLoginViewController.xib */; };
 		B7B78FDF1DAEF6ED00FC01EF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7B78FDD1DAEF6ED00FC01EF /* LaunchScreen.storyboard */; };
 		B7DF837A1DAD911D00DC7A8F /* SmartSyncExplorerCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7A134301D99D52600A4559C /* SmartSyncExplorerCommon.framework */; };
 		B7E0CF331D91CECE0050A1F4 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7E0CF321D91CECE0050A1F4 /* NotificationCenter.framework */; };
@@ -478,6 +481,11 @@
 		B7A134701D99DF8E00A4559C /* SObjectDataFieldSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SObjectDataFieldSpec.m; sourceTree = "<group>"; };
 		B7A134711D99DF8E00A4559C /* SObjectDataSpec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SObjectDataSpec.h; sourceTree = "<group>"; };
 		B7A134721D99DF8E00A4559C /* SObjectDataSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SObjectDataSpec.m; sourceTree = "<group>"; };
+		B7A7278C1F87D5D3006BB9B0 /* IDPLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IDPLoginViewController.m; sourceTree = "<group>"; };
+		B7A7278D1F87D5D3006BB9B0 /* IDPLoginNavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDPLoginNavViewController.h; sourceTree = "<group>"; };
+		B7A7278E1F87D5D3006BB9B0 /* IDPLoginNavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IDPLoginNavViewController.m; sourceTree = "<group>"; };
+		B7A7278F1F87D5D3006BB9B0 /* IDPLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IDPLoginViewController.xib; sourceTree = "<group>"; };
+		B7A727901F87D5D4006BB9B0 /* IDPLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDPLoginViewController.h; sourceTree = "<group>"; };
 		B7B78FDE1DAEF6ED00FC01EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B7E0CF311D91CECE0050A1F4 /* RecentContactsTodayExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RecentContactsTodayExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7E0CF321D91CECE0050A1F4 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
@@ -628,6 +636,11 @@
 		820C8B0B19E6054E00E9BE5C /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				B7A7278D1F87D5D3006BB9B0 /* IDPLoginNavViewController.h */,
+				B7A7278E1F87D5D3006BB9B0 /* IDPLoginNavViewController.m */,
+				B7A727901F87D5D4006BB9B0 /* IDPLoginViewController.h */,
+				B7A7278C1F87D5D3006BB9B0 /* IDPLoginViewController.m */,
+				B7A7278F1F87D5D3006BB9B0 /* IDPLoginViewController.xib */,
 				4F60B2261B9A2A2900923174 /* WYPopoverController */,
 				4FEAC2421B97C65C00B08512 /* ActionsPopupController.m */,
 				4FEAC2431B97C65C00B08512 /* ActionsPopupController.h */,
@@ -1270,6 +1283,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8284055A19EAFD9C0079AB60 /* Images.xcassets in Resources */,
+				B7A727931F87D5D4006BB9B0 /* IDPLoginViewController.xib in Resources */,
 				827C631F19E6018C00027484 /* InfoPlist.strings in Resources */,
 				B7B78FDF1DAEF6ED00FC01EF /* LaunchScreen.storyboard in Resources */,
 				4FADBCB51BA0CEDA00D01855 /* ImagesSmartSyncExplorer.xcassets in Resources */,
@@ -1323,7 +1337,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7A727911F87D5D4006BB9B0 /* IDPLoginViewController.m in Sources */,
 				4F60B2291B9A2C2900923174 /* WYPopoverController.m in Sources */,
+				B7A727921F87D5D4006BB9B0 /* IDPLoginNavViewController.m in Sources */,
 				820C8B1119E6059400E9BE5C /* InitialViewController.m in Sources */,
 				820C8B0E19E6054E00E9BE5C /* AppDelegate.m in Sources */,
 				4FEAC2451B97C65C00B08512 /* ActionsPopupController.m in Sources */,
