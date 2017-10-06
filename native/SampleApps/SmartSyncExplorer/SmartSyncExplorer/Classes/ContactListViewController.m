@@ -31,7 +31,7 @@
 #import <SmartSyncExplorerCommon/ContactSObjectData.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
 #import <SmartStore/SFSmartStoreInspectorViewController.h>
-#import <SalesforceSDKCore/SFAuthenticationManager.h>
+#import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFSecurityLockout.h>
 #import <SmartSync/SFSmartSyncSyncManager.h>
 #import <SmartSync/SFSyncState.h>
@@ -456,7 +456,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
                                                            style:UIAlertActionStyleDefault
                                                          handler:^(UIAlertAction * action) {
                                                             self.logoutActionSheet = nil;
-                                                            [[SFAuthenticationManager sharedManager] logout];
+                                                            [[SFUserAccountManager sharedInstance] logout];
                                                         }];
     [alert addAction:logoutAction];
     self.logoutActionSheet = alert;
