@@ -123,7 +123,7 @@ static NSString * const OAuthRedirectURI        = @"com.salesforce.mobilesdk.sam
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
 {
-    return [[SFAuthenticationManager sharedManager] handleAdvancedAuthenticationResponse:url];
+    return [[SFUserAccountManager sharedInstance] handleAdvancedAuthenticationResponse:url options:options];
 }
 
 

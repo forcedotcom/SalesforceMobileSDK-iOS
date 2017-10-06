@@ -30,7 +30,7 @@
 #import <SalesforceSDKCore/SFRestAPI+Files.h>
 #import <SalesforceSDKCore/SFRestRequest.h>
 #import <SalesforceSDKCore/SFSecurityLockout.h>
-#import <SalesforceSDKCore/SFAuthenticationManager.h>
+#import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
 #import <SalesforceSDKCore/SFIdentityData.h>
 #import <SalesforceSDKCore/SFApplicationHelper.h>
@@ -423,7 +423,7 @@
     UIAlertAction *logoutAction = [UIAlertAction actionWithTitle:@"Confirm Logout"
                                                           style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
                                                               self.logoutActionSheet = nil;
-                                                              [[SFAuthenticationManager sharedManager] logout];
+                                                              [[SFUserAccountManager  sharedInstance] logout];
                                                           }];
     [alert addAction:logoutAction];
     self.logoutActionSheet = alert;

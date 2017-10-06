@@ -162,7 +162,7 @@
 
 - (void)handleSdkManagerLogout
 {
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"SFAuthenticationManager logged out. Resetting app."];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"SFUserAccountManager logged out. Resetting app."];
     [self resetViewState:^{
         [self initializeAppViewState];
         
