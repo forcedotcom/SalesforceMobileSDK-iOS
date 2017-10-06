@@ -40,6 +40,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *startPage;
 
 /**
+ * Whether or not the startPage value is an absolute URL.
+ */
+@property (nonatomic, assign, readonly) BOOL startPageIsAbsoluteUrl;
+
+/**
  * The error page to navigate to, in the event of an error during the app load process.
  */
 @property (nonatomic, copy) NSString *errorPage;

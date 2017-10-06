@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -24,52 +24,32 @@
 
 #import <Foundation/Foundation.h>
 
-@class SFSDKAppConfigValidationResult;
-
-NS_ASSUME_NONNULL_BEGIN
-
-/** Contains this app's OAuth configuration as defined in the developer's Salesforce connected app.
+/** Class representing a validation result for an app config.
  */
-@interface SFSDKAppConfig : NSObject
+@interface SFSDKAppConfigValidationResult : NSObject
 
 /**
- * The Connected App key associated with this application.
+ * Initialize with a validation result and no message.
+ * @param validationSucceeded Whether or not the config validated successfully.
  */
-@property (nonatomic, copy) NSString *remoteAccessConsumerKey;
+- (nonnull instancetype)initWithValidationSucceeded:(BOOL)validationSucceeded;
 
 /**
- * The OAuth Redirect URI associated with the configured Connected Application.
+ * Initialize with a validation result and validation message.
+ * @param validationSucceeded Whether or not the config validated successfully.
+ * @param validationMessage A message pretaining to the config validation.
  */
-@property (nonatomic, copy) NSString *oauthRedirectURI;
+- (nonnull instancetype)initWithValidationSucceeded:(BOOL)validationSucceeded
+                                   message:(nullable NSString *)validationMessage;
 
 /**
- * The OAuth Scopes being requested for this app.
+ * Whether or not the config validated successfully.
  */
-@property (nonatomic, strong) NSSet *oauthScopes;
+@property (nonatomic, assign, readonly) BOOL validationSucceeded;
 
 /**
- * Whether or not this app should authenticate when it first starts.
+ * A message pertaining to the config validation.
  */
-@property (nonatomic, assign) BOOL shouldAuthenticate;
-
-/**
- * The config as a dictionary
- */
-@property (nonatomic, strong) NSMutableDictionary *configDict;
-
-/**
- * Initializer with a given JSON-based configuration dictionary.
- * @param configDict The dictionary containing the configuration.
- */
-- (nullable instancetype)initWithDict:(nullable NSDictionary *)configDict;
-
-/**
- * Validate the app config inputs.
- * @return An SFSDKAppConfigValidationResult object representing the validation result, and
- * optional message
- */
-- (nonnull SFSDKAppConfigValidationResult *)validate;
+@property (nullable, copy, readonly) NSString *validationMessage;
 
 @end
-
-NS_ASSUME_NONNULL_END

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,54 +22,22 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+#import "SFSDKAppConfigValidationResult.h"
 
-@class SFSDKAppConfigValidationResult;
+@implementation SFSDKAppConfigValidationResult
 
-NS_ASSUME_NONNULL_BEGIN
+- (instancetype)initWithValidationSucceeded:(BOOL)validationSucceeded {
+    self = [self initWithValidationSucceeded:validationSucceeded message:@""];
+    return self;
+}
 
-/** Contains this app's OAuth configuration as defined in the developer's Salesforce connected app.
- */
-@interface SFSDKAppConfig : NSObject
-
-/**
- * The Connected App key associated with this application.
- */
-@property (nonatomic, copy) NSString *remoteAccessConsumerKey;
-
-/**
- * The OAuth Redirect URI associated with the configured Connected Application.
- */
-@property (nonatomic, copy) NSString *oauthRedirectURI;
-
-/**
- * The OAuth Scopes being requested for this app.
- */
-@property (nonatomic, strong) NSSet *oauthScopes;
-
-/**
- * Whether or not this app should authenticate when it first starts.
- */
-@property (nonatomic, assign) BOOL shouldAuthenticate;
-
-/**
- * The config as a dictionary
- */
-@property (nonatomic, strong) NSMutableDictionary *configDict;
-
-/**
- * Initializer with a given JSON-based configuration dictionary.
- * @param configDict The dictionary containing the configuration.
- */
-- (nullable instancetype)initWithDict:(nullable NSDictionary *)configDict;
-
-/**
- * Validate the app config inputs.
- * @return An SFSDKAppConfigValidationResult object representing the validation result, and
- * optional message
- */
-- (nonnull SFSDKAppConfigValidationResult *)validate;
+- (instancetype)initWithValidationSucceeded:(BOOL)validationSucceeded message:(NSString *)validationMessage {
+    self = [super init];
+    if (self) {
+        _validationSucceeded = validationSucceeded;
+        _validationMessage = [validationMessage copy];
+    }
+    return self;
+}
 
 @end
-
-NS_ASSUME_NONNULL_END

@@ -23,6 +23,7 @@
  */
 
 #import "SFSDKAppConfig.h"
+#import "SFSDKAppConfigValidationResult.h"
 
 static NSString* const kRemoteAccessConsumerKey = @"remoteAccessConsumerKey";
 static NSString* const kOauthRedirectURI = @"oauthRedirectURI";
@@ -57,6 +58,11 @@ static BOOL const kDefaultShouldAuthenticate = YES;
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"<%@:%p data: %@>", NSStringFromClass([self class]), self, [self.configDict description]];
+}
+
+- (SFSDKAppConfigValidationResult *)validate {
+    // Base configuration doesn't currently have any validation.
+    return [[SFSDKAppConfigValidationResult alloc] initWithValidationSucceeded:YES];
 }
 
 #pragma mark - Properties

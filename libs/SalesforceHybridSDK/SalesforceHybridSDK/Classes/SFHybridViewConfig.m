@@ -26,6 +26,7 @@
 #import "SFHybridViewConfig.h"
 #import <SalesforceAnalytics/SFSDKLogger.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
+#import <SalesforceSDKCore/SFSDKAppConfigValidationResult.h>
 
 @interface SFHybridViewConfig ()
 
@@ -96,6 +97,11 @@ static NSString* const kDefaultErrorPage = @"error.html";
     self.configDict[kStartPage] = [startPage copy];
 }
 
+- (BOOL)startPageIsAbsoluteUrl
+{
+    return ([self.startPage hasPrefix:@"http://"] || [self.startPage hasPrefix:@"https://"]);
+}
+
 - (NSString *)errorPage
 {
     return (self.configDict)[kErrorPage];
@@ -118,6 +124,37 @@ static NSString* const kDefaultErrorPage = @"error.html";
 }
 
 #pragma mark - Configuration helpers
+
+- (SFSDKAppConfigValidationResult *)validate {
+    SFSDKAppConfigValidationResult *baseResult = [super validate];
+    if (!baseResult.validationSucceeded) {
+        return baseResult;
+    }
+    
+    if (self.startPage == nil) {
+        return [[SFSDKAppConfigValidationResult alloc] initWithValidationSucceeded:NO message:@"No start page configured."];
+    }
+    
+    // Sanity check local URLs against absolute URL values.
+    if (self.isLocal && self.startPageIsAbsoluteUrl) {
+        return [[SFSDKAppConfigValidationResult alloc] initWithValidationSucceeded:NO message:@"Local start page should not be absolute URL."];
+    }
+    
+    // Start page makeup for remote apps beyond this point is subject to conditional configuration.
+    if (!self.isLocal) {
+        if (self.shouldAuthenticate) {
+            if (self.startPageIsAbsoluteUrl) {
+                return [[SFSDKAppConfigValidationResult alloc] initWithValidationSucceeded:NO message:@"Cannot authenticate using an absolute URL for start page."];
+            }
+        } else {
+            if (!self.startPageIsAbsoluteUrl) {
+                return [[SFSDKAppConfigValidationResult alloc] initWithValidationSucceeded:NO message:@"Cannot configure relative URL start page with deferred authentication."];
+            }
+        }
+    }
+    
+    return [[SFSDKAppConfigValidationResult alloc] initWithValidationSucceeded:YES];
+}
 
 + (SFHybridViewConfig *)fromDefaultConfigFile
 {
