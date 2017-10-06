@@ -25,6 +25,13 @@
 
 #import <SalesforceSDKCore/SFSDKAppConfig.h>
 
+typedef NS_ENUM(NSInteger, SFSDKHybridAppConfigErrorCode) {
+    SFSDKHybridAppConfigErrorCodeNoStartPage = 1066,
+    SFSDKHybridAppConfigErrorCodeLocalPageAbsoluteURL,
+    SFSDKHybridAppConfigErrorCodeAbsoluteURLNoAuth,
+    SFSDKHybridAppConfigErrorCodeRelativeURLAuth
+};
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SFHybridViewConfig : SFSDKAppConfig

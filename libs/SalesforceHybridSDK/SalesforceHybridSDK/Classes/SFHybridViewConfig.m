@@ -26,7 +26,7 @@
 #import "SFHybridViewConfig.h"
 #import <SalesforceAnalytics/SFSDKLogger.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
-#import <SalesforceSDKCore/SFSDKAppConfigValidationResult.h>
+#import <SalesforceSDKCore/SFSDKResourceUtils.h>
 
 @interface SFHybridViewConfig ()
 
@@ -125,35 +125,36 @@ static NSString* const kDefaultErrorPage = @"error.html";
 
 #pragma mark - Configuration helpers
 
-- (SFSDKAppConfigValidationResult *)validate {
-    SFSDKAppConfigValidationResult *baseResult = [super validate];
-    if (!baseResult.validationSucceeded) {
+- (BOOL)validate:(NSError **)error {
+    BOOL baseResult = [super validate:error];
+    if (!baseResult) {
         return baseResult;
     }
     
-    if (self.startPage == nil) {
-        return [[SFSDKAppConfigValidationResult alloc] initWithValidationSucceeded:NO message:@"No start page configured."];
+    if (self.startPage.length == 0) {
+        [[self class] createError:error withCode:SFSDKHybridAppConfigErrorCodeNoStartPage message:[SFSDKResourceUtils localizedString:@"appConfigValidationErrorNoStartPage"]];
+        return NO;
     }
     
     // Sanity check local URLs against absolute URL values.
     if (self.isLocal && self.startPageIsAbsoluteUrl) {
-        return [[SFSDKAppConfigValidationResult alloc] initWithValidationSucceeded:NO message:@"Local start page should not be absolute URL."];
+        [[self class] createError:error withCode:SFSDKHybridAppConfigErrorCodeLocalPageAbsoluteURL message:[SFSDKResourceUtils localizedString:@"appConfigValidationErrorLocalAbsoluteURL"]];
+        return NO;
     }
     
     // Start page makeup for remote apps beyond this point is subject to conditional configuration.
-    if (!self.isLocal) {
-        if (self.shouldAuthenticate) {
-            if (self.startPageIsAbsoluteUrl) {
-                return [[SFSDKAppConfigValidationResult alloc] initWithValidationSucceeded:NO message:@"Cannot authenticate using an absolute URL for start page."];
-            }
-        } else {
-            if (!self.startPageIsAbsoluteUrl) {
-                return [[SFSDKAppConfigValidationResult alloc] initWithValidationSucceeded:NO message:@"Cannot configure relative URL start page with deferred authentication."];
-            }
-        }
+    
+    if (!self.isLocal && self.shouldAuthenticate && self.startPageIsAbsoluteUrl) {
+        [[self class] createError:error withCode:SFSDKHybridAppConfigErrorCodeAbsoluteURLNoAuth message:[SFSDKResourceUtils localizedString:@"appConfigValidationErrorAbsoluteURLNoAuth"]];
+        return NO;
     }
     
-    return [[SFSDKAppConfigValidationResult alloc] initWithValidationSucceeded:YES];
+    if (!self.isLocal && !self.shouldAuthenticate && !self.startPageIsAbsoluteUrl) {
+        [[self class] createError:error withCode:SFSDKHybridAppConfigErrorCodeRelativeURLAuth message:[SFSDKResourceUtils localizedString:@"appConfigValidationErrorRelativeURLAuth"]];
+        return NO;
+    }
+    
+    return YES;
 }
 
 + (SFHybridViewConfig *)fromDefaultConfigFile

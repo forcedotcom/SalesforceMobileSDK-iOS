@@ -37,7 +37,6 @@
 #import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
 #import <SalesforceSDKCore/NSString+SFAdditions.h>
 #import <SalesforceSDKCore/SFSDKWebViewStateManager.h>
-#import <SalesforceSDKCore/SFSDKAppConfigValidationResult.h>
 #import <Cordova/NSDictionary+CordovaPreferences.h>
 #import <Cordova/CDVUserAgentUtil.h>
 #import <objc/message.h>
@@ -59,7 +58,6 @@ static NSString * const kErrorDescriptionParameterName = @"errorDescription";
 static NSString * const kErrorContextParameterName = @"errorContext";
 static NSInteger  const kErrorCodeNetworkOffline = 1;
 static NSInteger  const kErrorCodeNoCredentials = 2;
-static NSInteger  const kErrorCodeInvalidConfig = 3;
 static NSString * const kErrorContextAppLoading = @"AppLoading";
 static NSString * const kErrorContextAuthExpiredSessionRefresh = @"AuthRefreshExpiredSession";
 static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
@@ -218,14 +216,6 @@ SFSDK_USE_DEPRECATED_BEGIN
     NSString *hybridViewUserAgentString = [self sfHybridViewUserAgentString];
     [SFSDKWebUtils configureUserAgent:hybridViewUserAgentString];
     self.baseUserAgent = hybridViewUserAgentString;
-    
-    // Run a basic validation of the app config inputs.
-    SFSDKAppConfigValidationResult *validationResult = [_hybridViewConfig validate];
-    if (!validationResult.validationSucceeded) {
-        NSString *invalidConfig = [NSString stringWithFormat:[SFSDKResourceUtils localizedString:@"hybridBootstrapInvalidConfigFormatString"], validationResult.validationMessage];
-        [self loadErrorPageWithCode:kErrorCodeInvalidConfig description:invalidConfig context:kErrorContextAppLoading];
-        return;
-    }
 
     // If this app requires authentication at startup, and authentication hasn't happened, that's an error.
     NSString *accessToken = [SFUserAccountManager sharedInstance].currentUser.credentials.accessToken;

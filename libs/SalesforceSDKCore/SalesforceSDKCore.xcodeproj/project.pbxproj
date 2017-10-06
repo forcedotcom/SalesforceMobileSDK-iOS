@@ -96,10 +96,6 @@
 		82A195A61E73247F008F5AA8 /* SFSDKAppFeatureMarkers.h in Headers */ = {isa = PBXBuildFile; fileRef = 82A195A31E73247F008F5AA8 /* SFSDKAppFeatureMarkers.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82A195A71E73247F008F5AA8 /* SFSDKAppFeatureMarkers.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A195A41E73247F008F5AA8 /* SFSDKAppFeatureMarkers.m */; };
 		82A195A81E73247F008F5AA8 /* SFSDKAppFeatureMarkers.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A195A41E73247F008F5AA8 /* SFSDKAppFeatureMarkers.m */; };
-		82A79D3B1F87342300D2D93E /* SFSDKAppConfigValidationResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 82A79D391F87342300D2D93E /* SFSDKAppConfigValidationResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		82A79D3C1F87342300D2D93E /* SFSDKAppConfigValidationResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 82A79D391F87342300D2D93E /* SFSDKAppConfigValidationResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		82A79D3D1F87342300D2D93E /* SFSDKAppConfigValidationResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A79D3A1F87342300D2D93E /* SFSDKAppConfigValidationResult.m */; };
-		82A79D3E1F87342300D2D93E /* SFSDKAppConfigValidationResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A79D3A1F87342300D2D93E /* SFSDKAppConfigValidationResult.m */; };
 		82C5E3EE1C1B62AF00376C00 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82C5E3ED1C1B62AF00376C00 /* SalesforceSDKResources.bundle */; };
 		82D0AB891C49A4BD0081F833 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE00216D1C03DBB70079DCA4 /* CocoaLumberjack.framework */; };
 		82D4642519C7C8170006BDFE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74F16D804CA00EC3921 /* Foundation.framework */; };
@@ -1155,8 +1151,6 @@
 		829DA2941C1266340040F5F1 /* SalesforceSDKCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceSDKCore.h; sourceTree = "<group>"; };
 		82A195A31E73247F008F5AA8 /* SFSDKAppFeatureMarkers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKAppFeatureMarkers.h; sourceTree = "<group>"; };
 		82A195A41E73247F008F5AA8 /* SFSDKAppFeatureMarkers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKAppFeatureMarkers.m; sourceTree = "<group>"; };
-		82A79D391F87342300D2D93E /* SFSDKAppConfigValidationResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKAppConfigValidationResult.h; sourceTree = "<group>"; };
-		82A79D3A1F87342300D2D93E /* SFSDKAppConfigValidationResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKAppConfigValidationResult.m; sourceTree = "<group>"; };
 		82C5E3ED1C1B62AF00376C00 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
 		82D0AB191C497F410081F833 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		82D4642419C7C8170006BDFE /* SalesforceSDKCoreTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SalesforceSDKCoreTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1480,8 +1474,6 @@
 				4F96FC5A1BFD32130022F021 /* SFApplication.m */,
 				4F96FC5B1BFD32130022F021 /* SFSDKAppConfig.h */,
 				4F96FC5C1BFD32130022F021 /* SFSDKAppConfig.m */,
-				82A79D391F87342300D2D93E /* SFSDKAppConfigValidationResult.h */,
-				82A79D3A1F87342300D2D93E /* SFSDKAppConfigValidationResult.m */,
 				82A195A31E73247F008F5AA8 /* SFSDKAppFeatureMarkers.h */,
 				82A195A41E73247F008F5AA8 /* SFSDKAppFeatureMarkers.m */,
 				4F96FC611BFD32130022F021 /* SFUserActivityMonitor.h */,
@@ -2135,7 +2127,6 @@
 				CE4CE3181C0E523B009F6029 /* SFFileProtectionHelper.h in Headers */,
 				CE7F662B1E556CA800DC3FBB /* SFNetwork.h in Headers */,
 				CE4CE36C1C0E526A009F6029 /* SFEncryptionKey.h in Headers */,
-				82A79D3B1F87342300D2D93E /* SFSDKAppConfigValidationResult.h in Headers */,
 				CE4CE3561C0E526A009F6029 /* SFAbstractPasscodeViewController.h in Headers */,
 				44EFFA311EE8C63600B30267 /* SFSDKSafeMutableDictionary.h in Headers */,
 				BE2B45BE1DB0037E004DA618 /* UIColor+SFColors.h in Headers */,
@@ -2250,7 +2241,6 @@
 				B71129151F8A789900436CFB /* SFSDKAlertView.h in Headers */,
 				B7CD6D661F79CFC900F99F81 /* SFUserAccountManager+URLHandlers.h in Headers */,
 				B75233DF1F4DF0B700040B6E /* SFSDKAuthPreferences.h in Headers */,
-				82A79D3C1F87342300D2D93E /* SFSDKAppConfigValidationResult.h in Headers */,
 				CEA882C81C18FB4D008D871B /* SFOAuthSessionRefresher+Internal.h in Headers */,
 				CEA882F51C18FB8E008D871B /* SFPasscodeProviderManager+Internal.h in Headers */,
 				CEA882A11C18FAAB008D871B /* NSData+SFSDKUtils_Internal.h in Headers */,
@@ -2932,7 +2922,6 @@
 				CE4CE36F1C0E526A009F6029 /* SFGeneratedKeyStore.m in Sources */,
 				B7E1A7811F4C8844007AC36A /* SFSDKOAuthClient.m in Sources */,
 				CE4CE3961C0E526A009F6029 /* SFUserAccountManager.m in Sources */,
-				82A79D3D1F87342300D2D93E /* SFSDKAppConfigValidationResult.m in Sources */,
 				CE4CE36B1C0E526A009F6029 /* SFDefaultUserManagementViewController.m in Sources */,
 				CE4CE3841C0E526A009F6029 /* SFPBKDF2PasscodeProvider.m in Sources */,
 				CEA8C9711F02F79F00448B51 /* SFSDKCoreLogger.m in Sources */,
@@ -3072,7 +3061,6 @@
 				BE2B46491DB03A1D004DA618 /* NSObject+SFBlocks.m in Sources */,
 				CEA8828A1C18FAAB008D871B /* NSNotificationCenter+SFAdditions.m in Sources */,
 				B7E1A7821F4C8844007AC36A /* SFSDKOAuthClient.m in Sources */,
-				82A79D3E1F87342300D2D93E /* SFSDKAppConfigValidationResult.m in Sources */,
 				CED452E11D808D41009266EB /* SFRestAPI.m in Sources */,
 				CEA882E71C18FB8E008D871B /* SFGeneratedKeyStore.m in Sources */,
 				CEA8830E1C18FB8E008D871B /* SFUserAccountManager.m in Sources */,

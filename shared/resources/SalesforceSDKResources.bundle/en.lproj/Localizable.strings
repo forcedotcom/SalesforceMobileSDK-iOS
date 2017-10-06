@@ -72,10 +72,18 @@
 "LOG_OUT" = "Log Out";
 "ADD_NEW_ACCOUNT" = "Add New Account";
 
+// App config validation
+"appConfigValidationErrorNoConsumerKey" = "Your app config does not specify a Connected App Consumer Key.";
+"appConfigValidationErrorNoRedirectURI" = "Your app config does not specify a Connected App Redirect URI.";
+"appConfigValidationErrorNoOAuthScopes" = "Your app config does not specify any Connected App OAuth Scopes.";
+"appConfigValidationErrorNoStartPage" = "No start page configured.";
+"appConfigValidationErrorLocalAbsoluteURL" = "Local start page should not be absolute URL.";
+"appConfigValidationErrorAbsoluteURLNoAuth" = "Cannot authenticate using an absolute URL for start page.";
+"appConfigValidationErrorRelativeURLAuth" = "Cannot configure relative URL start page with deferred authentication.";
+
 // Hybrid bootstrap
 "hybridBootstrapDeviceOffline" = "Your device is offline. Can't continue.";
 "hybridBootstrapNoCredentialsAtStartup" = "Your app specifies authentication at startup, but there are no credentials.  Did you run [[SalesforceSDKManager sharedManager] launch]?";
-"hybridBootstrapInvalidConfigFormatString" = "Hybrid boot config failed validation with the following error: %@";
 
 // SmartStore Inspector
 "inspectorTitle" = "Inspector";

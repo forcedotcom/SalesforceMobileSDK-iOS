@@ -24,7 +24,13 @@
 
 #import <Foundation/Foundation.h>
 
-@class SFSDKAppConfigValidationResult;
+extern NSString * _Nonnull const SFSDKAppConfigErrorDomain;
+
+typedef NS_ENUM(NSInteger, SFSDKAppConfigErrorCode) {
+    SFSDKAppConfigErrorCodeNoConsumerKey = 966,
+    SFSDKAppConfigErrorCodeNoRedirectURI,
+    SFSDKAppConfigErrorCodeNoOAuthScopes
+};
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -65,11 +71,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Validate the app config inputs.
- * @return An SFSDKAppConfigValidationResult object representing the validation result, and
- * optional message
+ * @param error The error associated with validation, if an error occurs.
+ * @return YES if validation was successful, NO otherwise.
  */
-- (nonnull SFSDKAppConfigValidationResult *)validate;
+- (BOOL)validate:(NSError * _Nullable * _Nullable)error;
+
++ (void)createError:(NSError * _Nullable * _Nullable)error withCode:(NSInteger)errorCode message:(nonnull NSString *)message;
 
 @end
 
 NS_ASSUME_NONNULL_END
+
