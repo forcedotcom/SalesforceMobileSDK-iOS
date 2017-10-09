@@ -23,8 +23,16 @@
  */
 
 #import "SFUserAccountManager.h"
+#import "SFSDKSafeMutableDictionary.h"
+#import "SFSDKIDPAuthClient.h"
+#import "SFSDKUserSelectionView.h"
+#import "SFSDKLoginFlowSelectionView.h"
 
-@interface SFUserAccountManager ()
+@class SFSDKAuthPreferences;
+
+@interface SFUserAccountManager () <SFSDKOAuthClientSafariViewDelegate,SFSDKOAuthClientWebViewDelegate,SFSDKIDPAuthClientDelegate,
+    SFSDKOAuthClientDelegate,SFSDKUserSelectionViewDelegate>
+
 {
     NSRecursiveLock *_accountsLock;
 }
@@ -35,7 +43,17 @@
  */
 @property (nonatomic, strong, nonnull) NSMutableDictionary *userAccountMap;
 
+/** instance of accountPersister
+ *
+ */
 @property (nonatomic, strong, nullable) id<SFUserAccountPersister> accountPersister;
+
+/** instance of authPreferences
+ *
+ */
+@property (nonatomic, strong, nonnull) SFSDKAuthPreferences *authPreferences;
+
+
 /**
  Executes the given block for each configured delegate.
  @param block The block to execute for each delegate.
@@ -65,4 +83,41 @@
  */
 - (nullable id<SFUserAccountPersister>)accountPersister;
 
+/**
+ * @return SFOAuthCredentials
+ */
+- (SFOAuthCredentials *_Nonnull)newClientCredentials;
+
+/**
+ * @param userIdentity to use for encoding to String
+ * @return NSString userid:orgid
+ */
+- (NSString *_Nonnull)encodeUserIdentity:(SFUserAccountIdentity *_Nonnull)userIdentity;
+
+/**
+ * @param userIdentityEncoded encoded string
+ * @return SFUserAccountIdentity decoded from string
+ */
+- (SFUserAccountIdentity *_Nullable)decodeUserIdentity:(NSString *_Nullable)userIdentityEncoded;
+
+/**
+ * @param client to remove from cache.
+ */
+- (void)disposeOAuthClient:(SFSDKOAuthClient *_Nonnull)client;
+
+/**
+ * @param credentials to use to init client
+ * @param completionBlock to use for client
+ * @param failureBlock  to use for client
+ * @return SFSDKIDPAuthClient instance
+ */
+- (SFSDKIDPAuthClient *_Nonnull)fetchIDPAuthClient:(SFOAuthCredentials *_Nonnull)credentials completion:(SFUserAccountManagerSuccessCallbackBlock _Nullable)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock _Nullable)failureBlock;
+
+/**
+ * @param credentials  to use to init client
+ * @param completionBlock to use for the client
+ * @param failureBlock  to use for the client
+ * @return SFSDKOAuthClient instance
+ */
+- (SFSDKOAuthClient *_Nonnull)fetchOAuthClient:(SFOAuthCredentials *_Nonnull)credentials completion:(SFUserAccountManagerSuccessCallbackBlock _Nullable)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock _Nullable)failureBlock;
 @end

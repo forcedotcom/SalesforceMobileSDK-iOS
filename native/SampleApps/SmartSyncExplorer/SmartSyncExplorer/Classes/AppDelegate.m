@@ -33,7 +33,7 @@
 #import <SalesforceAnalytics/SFSDKDatasharingHelper.h>
 #import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 #import <SmartSyncExplorerCommon/SmartSyncExplorerConfig.h>
-
+#import "IDPLoginNavViewController.h"
 @interface AppDelegate ()
 
 /**
@@ -69,6 +69,22 @@
         [SalesforceSDKManager sharedManager].connectedAppCallbackUri = config.oauthRedirectURI;
         [SalesforceSDKManager sharedManager].authScopes = config.oauthScopes;
         __weak typeof(self) weakSelf = self;
+        
+        //Uncomment following block to enable IDP Login flow.
+        /*
+        [SalesforceSDKManager sharedManager].idpEnabled = YES;
+         //scheme of idpAppp
+        [SalesforceSDKManager sharedManager].idpAppScheme = @"sampleidpapp";
+         //user friendly display name
+        [SalesforceSDKManager sharedManager].appDisplayName = @"SampleAppOne";
+         
+        //Use the following code block to replace the login flow selection dialog
+        [SalesforceSDKManager sharedManager].idpLoginFlowSelectionBlock = ^UIViewController<SFSDKLoginFlowSelectionView> * _Nonnull{
+            IDPLoginNavViewController *controller = [[IDPLoginNavViewController alloc] init];
+            return controller;
+        };
+        */
+        
         [SalesforceSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActionList) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             //
@@ -134,6 +150,16 @@
     // Respond to any push notification registration errors here.
 }
 
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
+    
+    //Uncomment following block to enable IDP Login flow
+    /*
+    return [[SFUserAccountManager sharedInstance] handleAdvancedAuthenticationResponse:url options:options];
+    */
+   return NO;
+}
+
 #pragma mark - Private methods
 
 - (void)initializeAppViewState
@@ -162,7 +188,7 @@
 
 - (void)handleSdkManagerLogout
 {
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"SFAuthenticationManager logged out. Resetting app."];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"SFUserAccountManager logged out. Resetting app."];
     [self resetViewState:^{
         [self initializeAppViewState];
         

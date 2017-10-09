@@ -36,7 +36,9 @@ static WKProcessPool *_processPool = nil;
 + (void)resetSessionWithNewAccessToken:(NSString *)accessToken isSecureProtocol:(BOOL)isSecure {
      //reset UIWebView related state if any
     [self removeUIWebViewCookies:@[SID_COOKIE] fromDomains:self.domains];
-    [self addSidCookieForDomain:SID_COOKIE withAccessToken:accessToken isSecureProtocol:isSecure];
+    for (NSString *domain in self.domains) {
+        [self addSidCookieForDomain:domain withAccessToken:accessToken isSecureProtocol:isSecure];
+    }
     [self removeWKWebViewCookies:self.domains withCompletion:nil];
 }
 
@@ -60,8 +62,7 @@ static WKProcessPool *_processPool = nil;
 }
 
 #pragma mark Private helper methods
-+ (void)removeUIWebViewCookies:(NSArray *)cookieNames fromDomains:(NSArray *)domainNames
-{
++ (void)removeUIWebViewCookies:(NSArray *)cookieNames fromDomains:(NSArray *)domainNames {
     NSAssert(cookieNames != nil && [cookieNames count] > 0, ERR_NO_COOKIE_NAMES);
     NSAssert(domainNames != nil && [domainNames count] > 0, ERR_NO_DOMAIN_NAMES);
     NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
@@ -79,14 +80,12 @@ static WKProcessPool *_processPool = nil;
     }
 }
 
-+ (void)removeWKWebViewCookies:(NSArray *)domainNames withCompletion:(nullable void(^)())completionBlock
-{
++ (void)removeWKWebViewCookies:(NSArray *)domainNames withCompletion:(nullable void(^)())completionBlock {
     NSAssert(domainNames != nil && [domainNames count] > 0, ERR_NO_DOMAIN_NAMES);
     WKWebsiteDataStore *dateStore = [WKWebsiteDataStore defaultDataStore];
     NSSet *websiteDataTypes = [NSSet setWithArray:@[ WKWebsiteDataTypeCookies]];
     [dateStore fetchDataRecordsOfTypes:websiteDataTypes
                      completionHandler:^(NSArray<WKWebsiteDataRecord *> *records) {
-
                          NSMutableArray<WKWebsiteDataRecord *> *deletedRecords = [NSMutableArray new];
                          for ( WKWebsiteDataRecord * record in records) {
                              for(NSString *domainName in domainNames) {
@@ -104,15 +103,14 @@ static WKProcessPool *_processPool = nil;
                                                                     }];
                      }];
 }
-+ (void)addSidCookieForDomain:(NSString*)domain withAccessToken:accessToken isSecureProtocol:(BOOL)isSecure
-{
+
++ (void)addSidCookieForDomain:(NSString*)domain withAccessToken:accessToken isSecureProtocol:(BOOL)isSecure {
     NSAssert(domain != nil && [domain length] > 0, @"addSidCookieForDomain: domain cannot be empty");
     [SFSDKCoreLogger d:[self class] format:@"addSidCookieForDomain: %@", domain];
 
     // Set the session ID cookie to be used by the web view.
     NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     [cookieStorage setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
-
     NSMutableDictionary *newSidCookieProperties = [NSMutableDictionary dictionaryWithObjectsAndKeys:
             domain, NSHTTPCookieDomain,
             @"/", NSHTTPCookiePath,
@@ -123,7 +121,6 @@ static WKProcessPool *_processPool = nil;
     if (isSecure) {
         newSidCookieProperties[NSHTTPCookieSecure] = TRUE_STRING;
     }
-
     NSHTTPCookie *sidCookie0 = [NSHTTPCookie cookieWithProperties:newSidCookieProperties];
     [cookieStorage setCookie:sidCookie0];
 }
@@ -131,4 +128,5 @@ static WKProcessPool *_processPool = nil;
 + (NSArray<NSString *> *) domains {
     return @[@".salesforce.com", @".force.com", @".cloudforce.com"];
 }
+
 @end

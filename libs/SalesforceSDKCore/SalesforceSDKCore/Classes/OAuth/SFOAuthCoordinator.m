@@ -41,6 +41,7 @@
 #import "SalesforceSDKManager.h"
 #import "SFSDKWebViewStateManager.h"
 #import "SFNetwork.h"
+#import "NSURL+SFAdditions.h"
 #import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 
 // Public constants
@@ -293,8 +294,32 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
     [self.credentials revoke];
 }
 
+- (BOOL)handleIDPAuthenticationResponse:(NSURL *)appUrlResponse {
+    self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeIDP];
+    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
+    NSString *query = [appUrlResponse query];
+    
+    if ([query length] == 0) {
+        [SFSDKCoreLogger i:[self class] format:@"%@ URL has no query string.", NSStringFromSelector(_cmd)];
+        return NO;
+    }
+
+    NSString *codeVal = [appUrlResponse valueForParameterName:@"code"];
+    if ([codeVal length] == 0) {
+        [SFSDKCoreLogger i:[self class] format:@"%@ URL has no '%@' parameter value.", NSStringFromSelector(_cmd), kSFOAuthResponseTypeCode];
+        return NO;
+    }
+    self.approvalCode = codeVal;
+    [SFSDKCoreLogger i:[self class] format:@"%@ Received advanced authentication response.  Beginning token exchange.", NSStringFromSelector(_cmd)];
+    self.advancedAuthState = SFOAuthAdvancedAuthStateTokenRequestInitiated;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.oauthCoordinatorFlow beginTokenEndpointFlow:SFOAuthTokenEndpointFlowAdvancedBrowser];
+    });
+    return YES;
+}
 
 - (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse {
+     self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
     [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
     NSString *appUrlResponseString = [appUrlResponse absoluteString];
     if (![[appUrlResponseString lowercaseString] hasPrefix:[self.credentials.redirectUri lowercaseString]]) {
@@ -465,12 +490,12 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
     // E.g. https://login.salesforce.com/services/oauth2/authorize
     //      ?client_id=<Connected App ID>&redirect_uri=<Connected App Redirect URI>&display=touch
     //      &response_type=code
-    NSMutableString *approvalUrl = [[NSMutableString alloc] initWithFormat:@"%@://%@%@?%@=%@&%@=%@&%@=%@&%@=%@",
+    NSMutableString *approvalUrl = [[NSMutableString alloc] initWithFormat:@"%@://%@%@?%@=%@&%@=%@&%@=%@&%@=%@&state=%@",
                                     self.credentials.protocol, self.credentials.domain, [self brandedAuthorizeURL],
                                     kSFOAuthClientId, self.credentials.clientId,
                                     kSFOAuthRedirectUri, self.credentials.redirectUri,
                                     kSFOAuthDisplay, kSFOAuthDisplayTouch,
-                                    kSFOAuthResponseType, kSFOAuthResponseTypeCode];
+                                    kSFOAuthResponseType, kSFOAuthResponseTypeCode,self.credentials.identifier];
     
     // OAuth scopes
     NSString *scopeString = [self scopeQueryParamString];
@@ -584,6 +609,23 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
     [[self.session dataTaskWithRequest:request completionHandler:completionHandler] resume];
 }
 
+// IDP related
+- (void)beginIDPFlow:(SFOAuthCredentials *)spAppCredentials {
+    self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeIDP];
+    self.spAppCredentials = spAppCredentials;
+    self.initialRequestLoaded = NO;
+    // notify delegate will be begin authentication in our (web) vew
+    if (self.credentials.accessToken && self.credentials.apiUrl) {
+        NSString *baseUrlString = [self.credentials.apiUrl absoluteString];
+        NSString *approvalUrlString = [self generateCodeApprovalUrlString:spAppCredentials];
+        NSString *codeChallengeString = spAppCredentials.challengeString;
+        approvalUrlString = [NSString stringWithFormat:@"%@&%@=%@&prompt=consent",approvalUrlString,kSFOAuthCodeChallengeParamName,codeChallengeString];
+        NSString *escapedApprovalUrlString = [approvalUrlString stringByURLEncoding];
+        NSString *frontDoorUrlString = [NSString stringWithFormat:@"%@/secur/frontdoor.jsp?sid=%@&retURL=%@", baseUrlString, self.credentials.accessToken, escapedApprovalUrlString];
+        [self loadWebViewWithUrlString:frontDoorUrlString cookie:YES];
+    }
+}
+
 - (void)loadWebViewWithUrlString:(NSString *)urlString cookie:(BOOL)enableCookie {
     NSURL *urlToLoad = [NSURL URLWithString:urlString];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:urlToLoad];
@@ -629,7 +671,8 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
         // If this is the advanced authentication flow, we need to add the code verifier parameter and some form
         // of a client secret as well.
         // TODO: This does not currently work with an anonymous client secret.  WIP from the service side.  Plug in real client secret to test.
-        if (self.authInfo.authType == SFOAuthTypeAdvancedBrowser) {
+        if (self.authInfo.authType == SFOAuthTypeAdvancedBrowser ||
+            self.authInfo.authType == SFOAuthTypeIDP) {
             [params appendFormat:@"&%@=%@", kSFOAuthCodeVerifierParamName, self.codeVerifier];
             [logString appendFormat:@"&%@=REDACTED", kSFOAuthCodeVerifierParamName];
         }
@@ -717,6 +760,48 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
     }
 }
 
+
+- (void)handleIDPAuthCodeResponse:(NSURL *)requestUrl {
+    NSString *response = nil;
+    
+    if ([requestUrl fragment]) {
+        response = [requestUrl fragment];
+    } else if ([requestUrl query]) {
+        response = [requestUrl query];
+    } else {
+        [SFSDKCoreLogger d:[self class] format:@"%@ Error: IDP Authcode response has no payload: %@", NSStringFromSelector(_cmd), requestUrl];
+        NSError *error = [[self class] errorWithType:kSFOAuthErrorTypeMalformedResponse description:@"IDP Authcode redirect response has no payload"];
+        [self notifyDelegateOfFailure:error authInfo:self.authInfo];
+        response = nil;
+    }
+    
+    if (response) {
+        NSDictionary *params = [[self class] parseQueryString:response decodeParams:NO];
+        NSString *error = params[kSFOAuthError];
+        if (nil == error) {
+            self.spAppCredentials.authCode = params[kSFOAuthApprovalCode];
+            if ([self.delegate respondsToSelector:@selector(oauthCoordinatorDidFetchAuthCode:authInfo:)]) {
+                [self.delegate oauthCoordinatorDidFetchAuthCode:self authInfo:self.authInfo];
+            }
+        } else {
+            NSError *finalError;
+            NSError *error = [[self class] errorWithType:params[kSFOAuthError]
+                                             description:params[kSFOAuthErrorDescription]];
+            
+            // add any additional relevant info to the userInfo dictionary
+            if (kSFOAuthErrorInvalidClientId == error.code) {
+                NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:error.userInfo];
+                dict[kSFOAuthClientId] = self.credentials.clientId;
+                finalError = [NSError errorWithDomain:error.domain code:error.code userInfo:dict];
+            } else {
+                finalError = error;
+            }
+            [self notifyDelegateOfFailure:finalError authInfo:self.authInfo];
+        }
+    }
+    
+}
+
 - (void)handleUserAgentResponse:(NSURL *)requestUrl {
     NSString *response = nil;
     
@@ -757,16 +842,40 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
 }
 
 - (NSString *)generateApprovalUrlString {
-    NSAssert(nil != self.credentials.domain, @"credentials.domain is required");
-    NSAssert(nil != self.credentials.clientId, @"credentials.clientId is required");
-    NSAssert(nil != self.credentials.redirectUri, @"credentials.redirectUri is required");
-    NSMutableString *approvalUrlString = [[NSMutableString alloc] initWithFormat:@"%@://%@%@?%@=%@&%@=%@&%@=%@",
-                                          self.credentials.protocol, self.credentials.domain, [self brandedAuthorizeURL],
-                                          kSFOAuthClientId, self.credentials.clientId,
-                                          kSFOAuthRedirectUri, self.credentials.redirectUri,
+    return [self generateApprovalUrlString:self.credentials];
+}
+
+- (NSString *)generateApprovalUrlString:(SFOAuthCredentials *)credentials {
+    NSAssert(nil != credentials.domain, @"credentials.domain is required");
+    NSAssert(nil != credentials.clientId, @"credentials.clientId is required");
+    NSAssert(nil != credentials.redirectUri, @"credentials.redirectUri is required");
+    NSMutableString *approvalUrlString = [[NSMutableString alloc] initWithFormat:@"%@://%@%@?%@=%@&%@=%@&%@=%@", credentials.protocol,
+                                          credentials.domain, [self brandedAuthorizeURL],
+                                          kSFOAuthClientId, credentials.clientId,
+                                          kSFOAuthRedirectUri, credentials.redirectUri,
                                           kSFOAuthDisplay, kSFOAuthDisplayTouch];
     
     [approvalUrlString appendFormat:@"&%@=%@", kSFOAuthResponseType, kSFOAuthResponseTypeToken];
+    NSString *scopeString = [self scopeQueryParamString];
+    if (scopeString != nil) {
+        [approvalUrlString appendString:scopeString];
+    }
+    return approvalUrlString;
+}
+
+- (NSString *)generateCodeApprovalUrlString:(SFOAuthCredentials *)spAppCredentials {
+    NSAssert(nil != self.credentials.domain, @"credentials.domain is required");
+    NSAssert(nil != spAppCredentials.clientId, @"credentials.clientId is required");
+    NSAssert(nil != spAppCredentials.redirectUri, @"credentials.redirectUri is required");
+    NSMutableString *approvalUrlString = [[NSMutableString alloc] initWithFormat:@"%@://%@%@?%@=%@&%@=%@&%@=%@&%@=%@",
+                                          @"https",
+                                          self.credentials.domain,
+                                          kSFOAuthEndPointAuthorize,
+                                          kSFOAuthClientId,spAppCredentials.clientId,
+                                          kSFOAuthRedirectUri,spAppCredentials.redirectUri,
+                                          kSFOAuthDisplay,kSFOAuthDisplayTouch,
+                                          kSFOAuthResponseType,kSFOAuthResponseTypeCode];
+    
     NSString *scopeString = [self scopeQueryParamString];
     if (scopeString != nil) {
         [approvalUrlString appendString:scopeString];
@@ -887,7 +996,10 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
     if ([self isRedirectURL:requestUrl]) {
         [self handleUserAgentResponse:url];
         decisionHandler(WKNavigationActionPolicyCancel);
-    } else {
+    } else if ([self isSPAppRedirectURL:requestUrl]){
+        [self handleIDPAuthCodeResponse:url];
+        decisionHandler(WKNavigationActionPolicyCancel);
+    }else {
         decisionHandler(WKNavigationActionPolicyAllow);
     }
 }
@@ -927,6 +1039,11 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
 - (BOOL) isRedirectURL:(NSString *) requestUrlString
 {
     return (self.credentials.redirectUri && [[requestUrlString lowercaseString] hasPrefix:[self.credentials.redirectUri lowercaseString]]);
+}
+
+- (BOOL) isSPAppRedirectURL:(NSString *)requestUrlString
+{
+    return (self.spAppCredentials.redirectUri && [[requestUrlString lowercaseString] hasPrefix:[self.spAppCredentials.redirectUri lowercaseString]]);
 }
 
 - (void)sfwebView:(WKWebView *)webView didFailLoadWithError:(NSError *)error

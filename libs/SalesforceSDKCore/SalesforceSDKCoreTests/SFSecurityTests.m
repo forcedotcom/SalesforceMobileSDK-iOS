@@ -23,9 +23,9 @@
  */
 
 #import <XCTest/XCTest.h>
+#import <CommonCrypto/CommonCrypto.h>
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import "SFKeyStoreManager+Internal.h"
-#import "SFKeyStore+Internal.h"
 
 static NSUInteger const kNumThreadsInSafetyTest = 100;
 
@@ -36,7 +36,7 @@ static NSUInteger const kNumThreadsInSafetyTest = 100;
     NSMutableArray *_completedThreads;
 }
 - (void)keyStoreThreadSafeHelper;
-- (void)assertKeyForDictionary: (NSDictionary*)dictionary withLabel: (NSString*)label hasKeyType:(SFKeyStoreKeyType)keyType hasEncryptionKey:(SFEncryptionKey*)encKey;
+- (void)assertKeyForDictionary: (NSDictionary*)dictionary withLabel: (NSString*)label hasEncryptionKey:(SFEncryptionKey*)encKey;
 @end
 
 // high level test scenarios (ie, more than a unit test)
@@ -79,90 +79,65 @@ static NSUInteger const kNumThreadsInSafetyTest = 100;
     }
 }
 
-#pragma mark - Passcode change tests
-- (void)testNoPasscodeToPasscode
+#pragma mark - Upgrade tests
+
+- (void)testUpgradeTo60
 {
-    // set up the generated keystore
-    SFEncryptionKey *origEncKey = [mgr keyWithRandomValue];
-    [mgr storeKey:origEncKey withKeyType:SFKeyStoreKeyTypeGenerated label:@"origKey"];
-    XCTAssertFalse([mgr.passcodeKeyStore keyStoreAvailable], @"Passcode key store should not be ready.");
-    
-    // add a passcode key to the dictionary so that it is migrated over
-    SFEncryptionKey *passcodeEncKey = [mgr keyWithRandomValue];
-    [mgr storeKey:passcodeEncKey withKeyType:SFKeyStoreKeyTypePasscode label:@"aPasscodeKey"];
-    
-    // now set a passcode
-    NSString *newPasscode = @"IAddedAPasscode!";
-    [[SFPasscodeManager sharedManager] changePasscode:newPasscode];
-    XCTAssertTrue([mgr.passcodeKeyStore keyStoreAvailable], @"Passcode key store is not ready.");
-    
-    // data should have been migrated to passcode keystore
-    [self assertKeyForDictionary:mgr.passcodeKeyStore.keyStoreDictionary
-                       withLabel:[mgr.passcodeKeyStore keyLabelForString:@"aPasscodeKey"]
-                      hasKeyType:SFKeyStoreKeyTypePasscode
-                hasEncryptionKey:passcodeEncKey];
-    
-    // make sure generated-specific key is still in the generated keystore
+    NSString *keyLabel = @"keyLabel";
+    NSString *passcode = @"passcode";
+
+    SFPasscodeKeyStore * passcodeKeyStore = [[SFPasscodeKeyStore alloc] init];
+    XCTAssertFalse([passcodeKeyStore keyStoreAvailable], @"Passcode key store should not be ready.");
+
+    [[SFPasscodeManager sharedManager] changePasscode:passcode];
+
+    // SFKeyStoreManager no longer deals with passcode key store in SDK 6.0
+    // To simulate pre-6.0 code, we have to create the passcode key store and then insert key into it "manually"
+
+    // Create a new passcode key store key
+    NSString *passcodeEncryptionKey = [SFPasscodeManager sharedManager].encryptionKey;
+    SFEncryptionKey *encKey = [[SFEncryptionKey alloc] initWithData:[SFKeyStoreManager keyStringToData:passcodeEncryptionKey]
+                                               initializationVector:[SFSDKCryptoUtils randomByteDataWithLength:kCCBlockSizeAES128]];
+    passcodeKeyStore.keyStoreKey = [[SFKeyStoreKey alloc] initWithKey:encKey];
+
+    // Insert key to passcode key store
+    SFEncryptionKey *encryptionKey = [mgr keyWithRandomValue];
+    SFKeyStoreKey *keyStoreKey = [[SFKeyStoreKey alloc] initWithKey:encryptionKey];
+    NSString *originalKeyLabel = [passcodeKeyStore keyLabelForString:keyLabel];
+    XCTAssertEqualObjects(@"keyLabel__Passcode", originalKeyLabel);
+    NSMutableDictionary *mutableKeyStoreDict = [NSMutableDictionary dictionaryWithDictionary:passcodeKeyStore.keyStoreDictionary];
+    mutableKeyStoreDict[originalKeyLabel] = keyStoreKey;
+    passcodeKeyStore.keyStoreDictionary = mutableKeyStoreDict;
+
+    // Make sure it was saved in passcode key store
+    [self assertKeyForDictionary:passcodeKeyStore.keyStoreDictionary
+                       withLabel:originalKeyLabel
+                hasEncryptionKey:encryptionKey];
+
+    // We want to simulate an upgrade
+    // We need to put the SFPasscodeManager back into the state it would be in following a restart
+    // NB: We don't want the passcode data reset
+    [[SFPasscodeManager sharedManager] setEncryptionKey:nil];
+    XCTAssertFalse([passcodeKeyStore keyStoreAvailable], @"Passcode key store should not be ready.");
+
+    // Next the user will unlock the app
+    // After verification, the following method gets called
+    // This should cause the encryption key's observer in SFKeyStoreManager to migrate all passcode keys
+    [[SFPasscodeManager sharedManager] setEncryptionKeyForPasscode:passcode];
+
+    // Make sure we can now retrieve the key through the SFKeyStoreManager
+    SFEncryptionKey *retrievedKey = [mgr retrieveKeyWithLabel:keyLabel autoCreate:NO];
+    XCTAssertEqualObjects(retrievedKey.keyAsString, encryptionKey.keyAsString, @"Encryption keys do not match");
+
+    // Ensure the key is now in generated dictionary with an updated label
+    NSString *newKeyLabel = [mgr.generatedKeyStore keyLabelForString:keyLabel];
+    XCTAssertEqualObjects(@"keyLabel__Generated", newKeyLabel);
     [self assertKeyForDictionary:mgr.generatedKeyStore.keyStoreDictionary
-                       withLabel:[mgr.generatedKeyStore keyLabelForString:@"origKey"]
-                      hasKeyType:SFKeyStoreKeyTypeGenerated
-                hasEncryptionKey:origEncKey];
-}
+                       withLabel:newKeyLabel
+                hasEncryptionKey:encryptionKey];
 
-- (void)testPasscodeToNoPasscode
-{
-    // set up the passcode keystore
-    NSString *origPasscode = @"My orig passcode";
-    [[SFPasscodeManager sharedManager] changePasscode:origPasscode];
-    XCTAssertTrue([mgr.passcodeKeyStore keyStoreAvailable], @"Passcode key store is not ready.");
-    
-    SFEncryptionKey *origEncKey = [mgr keyWithRandomValue];
-    [mgr storeKey:origEncKey withKeyType:SFKeyStoreKeyTypePasscode label:@"origKey"];
-    
-    // make sure it was saved in passcode store
-    [self assertKeyForDictionary:mgr.passcodeKeyStore.keyStoreDictionary
-                       withLabel:[mgr.passcodeKeyStore keyLabelForString:@"origKey"]
-                      hasKeyType:SFKeyStoreKeyTypePasscode
-                hasEncryptionKey:origEncKey];
-    
-    [[SFPasscodeManager sharedManager] changePasscode:nil];
-    XCTAssertFalse([mgr.passcodeKeyStore keyStoreAvailable], @"Passcode key store should not be ready.");
-    
-    // ensure the key is now in generated dictionary
-    [self assertKeyForDictionary:mgr.generatedKeyStore.keyStoreDictionary
-                       withLabel:[mgr.passcodeKeyStore keyLabelForString:@"origKey"]
-                      hasKeyType:SFKeyStoreKeyTypePasscode
-                hasEncryptionKey:origEncKey];
-    
-    // make sure passcode store is empty
-    XCTAssertEqual(0, [mgr.passcodeKeyStore.keyStoreDictionary count], @"Passcode dictionary should be empty");
-}
-
-- (void)testPasscodeToPasscode
-{
-    // set up the passcode keystore
-    NSString *origPasscode = @"My orig passcode";
-    [[SFPasscodeManager sharedManager] changePasscode:origPasscode];
-    XCTAssertTrue([mgr.passcodeKeyStore keyStoreAvailable], @"Passcode key store is not ready.");
-    
-    SFEncryptionKey *origEncKey = [mgr keyWithRandomValue];
-    [mgr storeKey:origEncKey withKeyType:SFKeyStoreKeyTypePasscode label:@"origKey"];
-
-    // make sure it was saved in passcode store
-    [self assertKeyForDictionary:mgr.passcodeKeyStore.keyStoreDictionary
-                       withLabel:[mgr.passcodeKeyStore keyLabelForString:@"origKey"]
-                      hasKeyType:SFKeyStoreKeyTypePasscode
-                hasEncryptionKey:origEncKey];
-    
-    // change passcode and ensure all keys are still available
-    [[SFPasscodeManager sharedManager] changePasscode:@"NewPasscode"];
-    XCTAssertTrue([[mgr passcodeKeyStore] keyStoreAvailable], @"Passcode key store should still be ready.");
-    
-    // ensure the key is still available
-    [self assertKeyForDictionary:mgr.passcodeKeyStore.keyStoreDictionary
-                       withLabel:[mgr.passcodeKeyStore keyLabelForString:@"origKey"]
-                      hasKeyType:SFKeyStoreKeyTypePasscode
-                hasEncryptionKey:origEncKey];
+    // Make sure the passcode key store is empty
+    XCTAssertEqual(0, [passcodeKeyStore.keyStoreDictionary count], @"Passcode dictionary should be empty");
 }
 
 #pragma mark - Private methods
@@ -175,15 +150,15 @@ static NSUInteger const kNumThreadsInSafetyTest = 100;
     SFEncryptionKey *origKey = [mgr keyWithRandomValue];
     
     // store it
-    [mgr storeKey:origKey withKeyType:SFKeyStoreKeyTypePasscode label:keyName];
-    XCTAssertTrue([mgr keyWithLabelAndKeyTypeExists:keyName keyType:SFKeyStoreKeyTypePasscode], @"Key '%@' should exist in the key store.", keyName);
+    [mgr storeKey:origKey withLabel:keyName];
+    XCTAssertTrue([mgr keyWithLabelExists:keyName], @"Key '%@' should exist in the key store.", keyName);
     
     // get it back
-    SFEncryptionKey *retrievedKey = [mgr retrieveKeyWithLabel:keyName keyType:SFKeyStoreKeyTypePasscode autoCreate:NO];
+    SFEncryptionKey *retrievedKey = [mgr retrieveKeyWithLabel:keyName autoCreate:NO];
     XCTAssertEqualObjects(origKey, retrievedKey, @"Keys with label '%@' are not equal", keyName);
     
     // remove it
-    [mgr removeKeyWithLabel:keyName keyType:SFKeyStoreKeyTypePasscode];
+    [mgr removeKeyWithLabel:keyName];
     XCTAssertFalse([mgr keyWithLabelExists:keyName], @"Key '%@' should no longer exist in key store after removal.", keyName);
     
     // update state so main loop will know when all threads are done
@@ -196,11 +171,9 @@ static NSUInteger const kNumThreadsInSafetyTest = 100;
 }
 
 // general assertions for the given key
-- (void)assertKeyForDictionary: (NSDictionary*)dictionary withLabel: (NSString*)label hasKeyType:(SFKeyStoreKeyType)keyType hasEncryptionKey:(SFEncryptionKey*)encKey
+- (void)assertKeyForDictionary: (NSDictionary*)dictionary withLabel: (NSString*)label hasEncryptionKey:(SFEncryptionKey*)encKey
 {
     SFKeyStoreKey *key = [dictionary valueForKey:label];
-    
-    XCTAssertEqual(key.keyType, keyType, @"Key type is not correct");
     XCTAssertEqualObjects(key.encryptionKey.keyAsString, encKey.keyAsString, @"Encryption keys do not match");
 }
 

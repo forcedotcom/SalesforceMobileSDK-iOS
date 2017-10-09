@@ -197,6 +197,16 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
 @property (nonatomic, assign) BOOL useSnapshotView;
 
 /**
+ The block to provide custom view to use for IDP selection flow. This block will be used if loginFlowSelectionDialogEnabled in SDSDKIDPconfig is set to YES.
+ */
+@property (nonatomic, copy, nullable) SFIDPLoginFlowSelectionBlock idpLoginFlowSelectionBlock;
+
+
+/**
+ The block to provide custom view to use for IDP user selection flow.
+ */
+@property (nonatomic, copy, nullable) SFIDPUserSelectionBlock idpUserSelectionBlock;
+/**
  The block to provide custom view to use as the "image" that represents the app display when it is backgrounded.
  @discussion
  This action is called when `useSnapshotView` is YES. If this action is not set or if nil is returned,
@@ -234,6 +244,27 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
  SalesforceMobileSDK/3.0.0 iPhone OS/8.1 (iPad) AppName/AppVersion *Native or Hybrid with optional qualifier* *Web-based user agent string*
  */
 @property (nonatomic, copy) SFSDKUserAgentCreationBlock userAgentString;
+
+/** Use this flag to indicate if the APP will be an identity provider
+ */
+@property (nonatomic,assign) BOOL isIdentityProvider;
+
+/** Use this flag to indicate if the APP supports using an identity provider app for authentication
+ */
+@property (nonatomic,assign) BOOL idpEnabled;
+
+/** Use this flag to indicate if the scheme for the identity provider app
+ */
+@property (nonatomic, copy) NSString *idpAppScheme;
+
+/** Use this flag to setup a user friendly display name  for your current app. This value will be used by the identity
+ *  provider app on the user selection view.
+ */
+@property (nonatomic,copy) NSString *appDisplayName;
+
+/** Use this flag to indicate if the APP supports using an identity provider app for authentication
+ */
+@property (nonatomic,assign) BOOL useLegacyAuthenticationManager;
 
 /**
  Launches the SDK.  This will verify an existing passcode the first time it runs, and attempt to

@@ -65,12 +65,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The nickname of the associated user.
  */
-@property (nonnull, strong, nonatomic, readonly) NSString *nickname;
+@property (nullable, strong, nonatomic, readonly) NSString *nickname;
 
 /**
  * The display name of the associated user.
  */
-@property (nonnull, strong, nonatomic, readonly) NSString *displayName;
+@property (nullable, strong, nonatomic, readonly) NSString *displayName;
 
 /**
  * The email address of the associated user.
@@ -80,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The first name of the user.
  */
-@property (nonnull, strong, nonatomic, readonly) NSString *firstName;
+@property (nullable, strong, nonatomic, readonly) NSString *firstName;
 
 /**
  * The last name of the user.
@@ -90,7 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The URL to retrieve the user's picture.
  */
-@property (nonnull, strong, nonatomic, readonly) NSURL *pictureUrl;
+@property (nullable, strong, nonatomic, readonly) NSURL *pictureUrl;
 
 /**
  * The URL to retrieve a thumbnail picture for the user.

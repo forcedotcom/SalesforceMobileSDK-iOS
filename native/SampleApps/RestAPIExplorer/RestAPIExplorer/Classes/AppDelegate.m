@@ -123,7 +123,7 @@ static NSString * const OAuthRedirectURI        = @"com.salesforce.mobilesdk.sam
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
 {
-    return [[SFAuthenticationManager sharedManager] handleAdvancedAuthenticationResponse:url];
+    return [[SFUserAccountManager sharedInstance] handleAdvancedAuthenticationResponse:url options:options];
 }
 
 
@@ -183,7 +183,7 @@ static NSString * const OAuthRedirectURI        = @"com.salesforce.mobilesdk.sam
 
 - (void)handleUserSwitch:(SFUserAccount *)fromUser toUser:(SFUserAccount *)toUser
 {
-    [SFSDKLogger log:[self class] level:DDLogLevelInfo format:@"SFUserAccountManager changed from user %@ to %@.  Resetting app.", fromUser.userName, toUser.userName];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@.  Resetting app.", fromUser.userName, toUser.userName];
     [self resetViewState:^{
         [self initializeAppViewState];
         [[SalesforceSDKManager sharedManager] launch];

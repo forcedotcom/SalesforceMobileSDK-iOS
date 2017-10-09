@@ -407,7 +407,7 @@ static Class InstanceClass = nil;
         return;
     }
     
-    [SFSDKCoreLogger i:[self class] format:@"Logging out user '%@'.", user.userName];
+    [SFSDKCoreLogger d:[self class] format:@"Logging out user '%@'.", user.userName];
     NSDictionary *userInfo = @{ @"account": user };
     [[NSNotificationCenter defaultCenter] postNotificationName:kSFUserWillLogoutNotification
                                                         object:self
@@ -687,7 +687,7 @@ static Class InstanceClass = nil;
 - (void)revokeRefreshToken:(SFUserAccount *)user
 {
     if (user.credentials.refreshToken != nil) {
-        [SFSDKCoreLogger i:[self class] format:@"Revoking credentials on the server for '%@'.", user.userName];
+        [SFSDKCoreLogger d:[self class] format:@"Revoking credentials on the server for '%@'.", user.userName];
         NSMutableString *host = [NSMutableString stringWithFormat:@"%@://", user.credentials.protocol];
         [host appendString:user.credentials.domain];
         [host appendString:@"/services/oauth2/revoke?token="];

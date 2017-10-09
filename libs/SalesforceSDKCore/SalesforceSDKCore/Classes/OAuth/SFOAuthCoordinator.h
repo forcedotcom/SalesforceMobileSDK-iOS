@@ -242,6 +242,12 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  */
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator displayConfirmationMessage:(NSString*)message completion:(void (^)(BOOL result))completion;
 
+/**
+ Sent to notify the delegate that a  authentication code was retrieved during idp flow.
+   @param coordinator The SFOAuthCoordinator instance processing this message.
+ */
+- (void)oauthCoordinatorDidFetchAuthCode:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)authInfo;
+
 @required
 
 /** Sent after authentication has begun and the view parameter is displaying the first page of authentication content.
@@ -429,6 +435,10 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  should handle, NO otherwise.
  */
 - (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse;
+
+- (BOOL)handleIDPAuthenticationResponse:(NSURL *)appUrlResponse;
+
+- (void)beginIDPFlow:(SFOAuthCredentials *)spAppCredentials;
 
 @end
 

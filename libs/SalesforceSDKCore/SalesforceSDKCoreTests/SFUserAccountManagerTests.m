@@ -23,10 +23,10 @@
  */
 
 #import <XCTest/XCTest.h>
+#import <OCMock/OCMock.h>
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import "SFUserAccountManager+Internal.h"
 #import "SFDefaultUserAccountPersister.h"
-
 static NSString * const kUserIdFormatString = @"005R0000000Dsl%lu";
 static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 
@@ -36,6 +36,9 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 @property (nonatomic, strong) SFUserAccount *willSwitchNewUserAccount;
 @property (nonatomic, strong) SFUserAccount *didSwitchOrigUserAccount;
 @property (nonatomic, strong) SFUserAccount *didSwitchNewUserAccount;
+@property (nonatomic,strong) SFOAuthCredentials *willLoginCredentials;
+@property (nonatomic,strong) SFUserAccount *didLoginUserAccount;
+@property (nonatomic,strong) NSError *error;
 
 @end
 
@@ -52,6 +55,26 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 - (void)dealloc {
     [[SFUserAccountManager sharedInstance] removeDelegate:self];
 }
+- (void)userAccountManager:(SFUserAccountManager *)userAccountManager willLogin:(SFOAuthCredentials *)credentials {
+    self.willLoginCredentials = credentials;
+}
+
+- (void)userAccountManager:(SFUserAccountManager *)userAccountManager willLogout:(SFUserAccount *)userAccount {
+    
+}
+
+- (void)userAccountManager:(SFUserAccountManager *)userAccountManager didLogout:(SFUserAccount *)userAccount {
+
+}
+
+- (void)userAccountManager:(SFUserAccountManager *)userAccountManager didLogin:(SFUserAccount *)userAccount {
+    self.didLoginUserAccount = userAccount;
+}
+
+- (void)userAccountManager:(SFUserAccountManager *)userAccountManager error:(NSError *)error info:(SFOAuthInfo *)info {
+    self.error = error;
+}
+
 
 - (void)userAccountManager:(SFUserAccountManager *)userAccountManager
         willSwitchFromUser:(SFUserAccount *)fromUser
@@ -364,7 +387,73 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     XCTAssertEqualObjects([SFUserAccountManager sharedInstance].brandLoginPath, oldBrandLoginPath, @"SFUserAccountManager brandLoginPath should be set back correctly");
 }
 
+- (void)testLogin {
+    
+    SFOAuthCredentials *credentials = [self populateAuthCredentialsFromConfigFileForClass:self.class];
+    
+    TestUserAccountManagerDelegate *acctDelegate = [[TestUserAccountManagerDelegate alloc] init];
+    [[SFUserAccountManager sharedInstance] addDelegate:acctDelegate];
+    
+    __block SFSDKTestRequestListener *authListener = [[SFSDKTestRequestListener alloc] init];
+    __block SFUserAccount *user = nil;
+    [[SFUserAccountManager sharedInstance]
+     refreshCredentials:credentials
+     completion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
+         authListener.returnStatus = kTestRequestStatusDidLoad;
+         user = userAccount;
+     } failure:^(SFOAuthInfo *authInfo, NSError *error) {
+         authListener.lastError = error;
+         authListener.returnStatus = kTestRequestStatusDidFail;
+     }];
+    [authListener waitForCompletion];
+    
+    NSAssert([authListener.returnStatus isEqualToString:kTestRequestStatusDidLoad], @"After auth attempt, expected status '%@', got '%@'",
+             kTestRequestStatusDidLoad,
+             authListener.returnStatus);
+    
+    XCTAssertEqual(acctDelegate.willLoginCredentials, credentials, @"Will login ceredentials should be called");
+    XCTAssertEqual(acctDelegate.didLoginUserAccount,user, @"DidLoginUserAccount should be called.");
 
+    [[SFUserAccountManager sharedInstance] removeDelegate:acctDelegate];
+    
+}
+
+- (void)testLoginNotificationPosted
+{
+    SFOAuthCredentials *credentials = [self populateAuthCredentialsFromConfigFileForClass:self.class];
+    
+    NSString *notificationName = SFUserAccountManagerLoggedInNotification;
+    
+    id observerMock = [OCMockObject observerMock];
+    [[NSNotificationCenter defaultCenter] addMockObserver:observerMock name:notificationName object:[SFUserAccountManager sharedInstance]];
+    
+    
+    
+    __block SFSDKTestRequestListener *authListener = [[SFSDKTestRequestListener alloc] init];
+    __block SFUserAccount *user = nil;
+    
+    [[observerMock expect]
+     notificationWithName:notificationName
+     object:[SFUserAccountManager sharedInstance]
+     userInfo:[OCMArg checkWithBlock:
+               ^BOOL(NSDictionary *userInfo) {
+                   return userInfo[@"account"]!=nil;
+               }]];
+    
+    [[SFUserAccountManager sharedInstance]
+     refreshCredentials:credentials
+     completion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
+         authListener.returnStatus = kTestRequestStatusDidLoad;
+         user = userAccount;
+     } failure:^(SFOAuthInfo *authInfo, NSError *error) {
+         authListener.lastError = error;
+         authListener.returnStatus = kTestRequestStatusDidFail;
+     }];
+    [authListener waitForCompletion];
+    [observerMock verify];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:observerMock];
+}
 
 #pragma mark - Helper methods
 
@@ -477,5 +566,44 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     SFIdentityData *idData = [[SFIdentityData alloc] initWithJsonDict:sampleIdDataDict];
     return idData;
 }
+
+- (SFOAuthCredentials *)populateAuthCredentialsFromConfigFileForClass:(Class)testClass
+{
+    NSString *tokenPath = [[NSBundle bundleForClass:testClass] pathForResource:@"test_credentials" ofType:@"json"];
+    NSAssert(nil != tokenPath, @"Test config file not found!");
+    NSFileManager *fm = [[NSFileManager alloc] init];
+    NSData *tokenJson = [fm contentsAtPath:tokenPath];
+    id jsonResponse = [SFJsonUtils objectFromJSONData:tokenJson];
+    NSAssert(jsonResponse != nil, @"Error parsing JSON from config file: %@", [SFJsonUtils lastError]);
+    NSDictionary *dictResponse = (NSDictionary *)jsonResponse;
+    SFSDKTestCredentialsData *credsData = [[SFSDKTestCredentialsData alloc] initWithDict:dictResponse];
+    NSAssert1(nil != credsData.refreshToken &&
+              nil != credsData.clientId &&
+              nil != credsData.redirectUri &&
+              nil != credsData.loginHost &&
+              nil != credsData.identityUrl &&
+              nil != credsData.instanceUrl, @"config credentials are missing! %@",
+              dictResponse);
+    
+    //check whether the test config file has never been edited
+    NSAssert(![credsData.refreshToken isEqualToString:@"__INSERT_TOKEN_HERE__"],
+             @"You need to obtain credentials for your test org and replace test_credentials.json");
+    [SFUserAccountManager sharedInstance].currentUser = nil;
+    [SFAuthenticationManager sharedManager].oauthClientId = credsData.clientId;
+    [SFAuthenticationManager sharedManager].oauthCompletionUrl = credsData.redirectUri;
+    [SFAuthenticationManager sharedManager].scopes = [NSSet setWithObjects:@"web", @"api", nil];
+    [SFAuthenticationManager sharedManager].loginHost = credsData.loginHost;
+    SFOAuthCredentials *credentials = [[SFAuthenticationManager sharedManager] createOAuthCredentials];
+    credentials.instanceUrl = [NSURL URLWithString:credsData.instanceUrl];
+    credentials.identityUrl = [NSURL URLWithString:credsData.identityUrl];
+    NSString *communityUrlString = credsData.communityUrl;
+    if (communityUrlString.length > 0) {
+        credentials.communityUrl = [NSURL URLWithString:communityUrlString];
+    }
+    credentials.accessToken = credsData.accessToken;
+    credentials.refreshToken = credsData.refreshToken;
+    return credentials;
+}
+
 
 @end

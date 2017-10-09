@@ -21,14 +21,25 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
+#import "SalesforceSDKCoreDefines.h"
 #import "SFUserAccount.h"
 #import "SFOAuthCredentials.h"
 #import "SFUserAccountIdentity.h"
 #import "SFUserAccountConstants.h"
 #import "SFOAuthCoordinator.h"
+#import "SFOAuthCoordinator.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
+/**
+ Callback block definition for OAuth completion callback.
+ */
+typedef void (^SFUserAccountManagerSuccessCallbackBlock)(SFOAuthInfo *, SFUserAccount *);
+
+/**
+ Callback block definition for OAuth failure callback.
+ */
+typedef void (^SFUserAccountManagerFailureCallbackBlock)(SFOAuthInfo *, NSError *);
 
 /**Notification sent when user has been created or is set as current User
  */
@@ -91,6 +102,23 @@ The key for storing the persisted OAuth redirect URI.
  */
 FOUNDATION_EXTERN  NSString * const kOAuthRedirectUriKey;
 
+/** Notification sent user prior to user logout
+ */
+FOUNDATION_EXTERN NSString * const SFUserAccountManagerWillLogoutNotification;
+
+/** Notification sent user after user logout
+ */
+FOUNDATION_EXTERN NSString * const SFUserAccountManagerLogoutNotification;
+
+/** Notification sent user after user login
+ */
+FOUNDATION_EXTERN NSString * const SFUserAccountManagerLoggedInNotification;
+
+FOUNDATION_EXTERN NSString * const  SFUserAccountManagerIDPInitiatedLoginNotification;
+@protocol SFSDKOAuthClientDelegate;
+@protocol SFSDKOAuthClientSafariViewDelegate;
+@protocol SFSDKOAuthClientWebViewDelegate;
+@protocol SFSDKIDPAuthClientDelegate;
 
 @class SFUserAccountManager;
 
@@ -99,7 +127,49 @@ FOUNDATION_EXTERN  NSString * const kOAuthRedirectUriKey;
  */
 @protocol SFUserAccountManagerDelegate <NSObject>
 
+
 @optional
+/**
+ Called when the account manager wants to determine if the network is available.
+ @param userAccountManager The instance of SFUserAccountManager making the call.
+ @return YES if the network is available, NO otherwise
+ */
+- (BOOL)userAccountManagerIsNetworkAvailable:(SFUserAccountManager *)userAccountManager;
+/**
+ *
+ * @param userAccountManager The instance of SFUserAccountManager making the call.
+ * @param credentials The credentials being used
+ */
+- (void)userAccountManager:(SFUserAccountManager *)userAccountManager willLogin:(SFOAuthCredentials *)credentials;
+
+/**
+ *
+ * @param userAccountManager The instance of SFUserAccountManager making the call.
+ * @param userAccount The userAccount being used
+ */
+- (void)userAccountManager:(SFUserAccountManager *)userAccountManager willLogout:(SFUserAccount *)userAccount;
+
+/**
+ *
+ * @param userAccountManager The instance of SFUserAccountManager making the call.
+ * @param userAccount The userAccount being used
+ */
+- (void)userAccountManager:(SFUserAccountManager *)userAccountManager didLogout:(SFUserAccount *)userAccount;
+
+/**
+ *
+ * @param userAccountManager The instance of SFUserAccountManager
+ * @param userAccount The userAccount being used
+ */
+- (void)userAccountManager:(SFUserAccountManager *)userAccountManager didLogin:(SFUserAccount *)userAccount;
+
+/**
+ *
+ * @param userAccountManager The instance of SFUserAccountManager
+ * @param error The Error that occurred
+ * @param info  The info for the auth request
+ */
+- (void)userAccountManager:(SFUserAccountManager *)userAccountManager error:(NSError*)error info:(SFOAuthInfo *)info;
 
 /**
  Called before the user account manager switches from one user to another.
@@ -221,6 +291,44 @@ FOUNDATION_EXTERN  NSString * const kOAuthRedirectUriKey;
 /**  Convenience property to retrieve the current user's identity.
  */
 @property (readonly, nonatomic, nullable) SFUserAccountIdentity *currentUserIdentity;
+
+/** Use this block to replace the Login flow selection dialog
+ *
+ */
+@property (nonatomic, copy, nullable) SFIDPLoginFlowSelectionBlock idpLoginFlowSelectionAction;
+
+/** Use this to replace the default User Selection Screen
+ *
+ */
+@property (nonatomic, copy, nullable) SFIDPUserSelectionBlock idpUserSelectionAction;
+
+/**  Use this property to enable an app to become and IdentityProvider for other apps
+ *
+ */
+@property (nonatomic,assign) BOOL isIdentityProvider;
+
+/**  Use this property to enable this app to be able to use another app that is an Identity Provider
+ *
+ */
+@property (nonatomic,assign) BOOL idpEnabled;
+
+/** Use this property to use SFAuthenticationManager for authentication
+ *
+ */
+@property (nonatomic,assign) BOOL useLegacyAuthenticationManager;
+
+/** Use this property to indicate the url scheme  for the Identity Provider app
+ *
+ */
+@property (nonatomic, copy) NSString *idpAppScheme;
+
+/** Use this property to indicate to provide a user-friendly name for your app. This name will be displayed
+ *  in the user selection view of the identity provider app.
+ *
+ */
+@property (nonatomic,copy) NSString *appDisplayName;
+
+
 
 /** Shared singleton
  */
@@ -371,8 +479,77 @@ FOUNDATION_EXTERN  NSString * const kOAuthRedirectUriKey;
  */
 - (void)userChanged:(SFUserAccount *)user change:(SFUserAccountDataChange)change;
 
+/**
+ Kick off the login process for credentials that's previously configured.
+ @param completionBlock The block of code to execute when the authentication process successfully completes.
+ @param failureBlock The block of code to execute when the authentication process has a fatal failure.
+ @return YES if this call kicks off the authentication process.  NO if an authentication process has already
+ started, in which case subsequent requests are queued up to have their completion or failure blocks executed
+ in succession.
+ */
+- (BOOL)loginWithCompletion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
+                    failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock;
 
+/**
+ Kick off the refresh process for the specified credentials.
+ @param credentials SFOAuthCredentials to be refreshed.
+ @param completionBlock The block of code to execute when the refresh process successfully completes.
+ @param failureBlock The block of code to execute when the refresh process has a fatal failure.
+ @return YES if this call kicks off the authentication process.  NO if an authentication process has already
+ started, in which case subsequent requests are queued up to have their completion or failure blocks executed
+ in succession.
+ */
+- (BOOL)refreshCredentials:(nonnull SFOAuthCredentials *)credentials
+                completion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
+                   failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock;
 
+/**
+ Login using the given JWT token to exchange with the service for credentials.
+ @param jwtToken The JWT token (received out of band) to exchange for credentials.
+ @param completionBlock The block of code to execute when the authentication process successfully completes.
+ @param failureBlock The block of code to execute when the authentication process has a fatal failure.
+ @return YES if this call kicks off the authentication process.  NO if an authentication process has already
+ started, in which case subsequent requests are queued up to have their completion or failure blocks executed
+ in succession.
+ */
+- (BOOL)loginWithJwtToken:(NSString *)jwtToken
+               completion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
+                  failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock;
+
+/**
+ Forces a logout from the current account, redirecting the user to the login process.
+ This throws out the OAuth refresh token.
+ */
+- (void)logout;
+
+/**
+ Performs a logout on the specified user.  Note that if the user is not the current user of the app, the
+ specified user's authenticated state will be removed, but no other action will otherwise interrupt the
+ current app state.
+ @param user The user to log out.
+ */
+- (void)logoutUser:(SFUserAccount *)user;
+
+/**
+ Performs a logout for all users of the app, including the current user.
+ */
+- (void)logoutAllUsers;
+
+/**
+ Dismisses the auth view controller, resetting the UI state back to its original
+ presentation.
+ */
+- (void)dismissAuthViewControllerIfPresent;
+
+/**
+ Handle an advanced authentication response from the external browser, continuing any
+ in-progress adavanced authentication flow.
+ @param appUrlResponse The URL response returned to the app from the external browser.
+ @options Dictionary of name-value pairs received from open URL
+ @return YES if this is a valid URL response from advanced authentication that should
+ be handled, NO otherwise.
+ */
+- (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse options:(NSDictionary *)options;
 @end
 
 NS_ASSUME_NONNULL_END

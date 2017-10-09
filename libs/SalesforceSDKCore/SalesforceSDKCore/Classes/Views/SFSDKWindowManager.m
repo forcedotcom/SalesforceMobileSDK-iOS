@@ -173,6 +173,12 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
 #pragma mark - SFSDKWindowContainerDelegate
 - (void)windowEnable:(SFSDKWindowContainer *_Nonnull)window animated:(BOOL)animated withCompletion:(void (^)(void))completion{
 
+    if (![NSThread isMainThread]) {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [self windowEnable:window animated:animated withCompletion:completion];
+        });
+    }
+
     [self enumerateDelegates:^(id<SFSDKWindowManagerDelegate> delegate) {
         if ([delegate respondsToSelector:@selector(windowManager:willEnableWindow:)]){
             [delegate windowManager:self willEnableWindow:window];
@@ -191,6 +197,12 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
 }
 
 - (void)windowDisable:(SFSDKWindowContainer *)window animated:(BOOL)animated withCompletion:(void (^)(void))completion{
+    if (![NSThread isMainThread]) {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [self windowDisable:window animated:animated withCompletion:completion];
+        });
+    }
+
     [self enumerateDelegates:^(id<SFSDKWindowManagerDelegate> delegate) {
         if ([delegate respondsToSelector:@selector(windowManager:willDisableWindow:)]){
             [delegate windowManager:self willDisableWindow:window];

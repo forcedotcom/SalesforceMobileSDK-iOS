@@ -24,6 +24,8 @@
 
 #import "SFKeyStore.h"
 
+extern NSString * const kGeneratedKeyLabelSuffix;
+
 @interface SFGeneratedKeyStore : SFKeyStore
 
 @end

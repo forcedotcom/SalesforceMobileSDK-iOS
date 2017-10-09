@@ -24,6 +24,14 @@
 
 #import "SFKeyStore.h"
 
+/*
+ * NB: Starting with SDK 6.0, we no longer store key in the passcode key store.
+ * The code is still needed to handle upgrade from pre-6.0 SDK to 6+.
+ *
+ */
+
+extern NSString * const kPasscodeKeyLabelSuffix;
+
 @interface SFPasscodeKeyStore : SFKeyStore
 
 @end

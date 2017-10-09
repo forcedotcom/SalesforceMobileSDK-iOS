@@ -2,7 +2,7 @@
  SalesforceSDKCore.h
  SalesforceSDKCore
 
- Created by Raj Rao on Sun Jul 23 23:09:16 PDT 2017.
+ Created by Raj Rao on Mon Oct  2 16:08:07 PDT 2017.
 
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
@@ -104,10 +104,12 @@
 #import <SalesforceSDKCore/SFSDKCoreLogger.h>
 #import <SalesforceSDKCore/SFSDKCryptoUtils.h>
 #import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
+#import <SalesforceSDKCore/SFSDKLoginFlowSelectionView.h>
 #import <SalesforceSDKCore/SFSDKLoginHost.h>
 #import <SalesforceSDKCore/SFSDKLoginHostDelegate.h>
 #import <SalesforceSDKCore/SFSDKLoginHostListViewController.h>
 #import <SalesforceSDKCore/SFSDKLoginHostStorage.h>
+#import <SalesforceSDKCore/SFSDKOAuthViewHandler.h>
 #import <SalesforceSDKCore/SFSDKResourceUtils.h>
 #import <SalesforceSDKCore/SFSDKSafeMutableDictionary.h>
 #import <SalesforceSDKCore/SFSDKSalesforceAnalyticsManager.h>
@@ -116,6 +118,7 @@
 #import <SalesforceSDKCore/SFSDKSoslReturningBuilder.h>
 #import <SalesforceSDKCore/SFSDKTestCredentialsData.h>
 #import <SalesforceSDKCore/SFSDKTestRequestListener.h>
+#import <SalesforceSDKCore/SFSDKUserSelectionView.h>
 #import <SalesforceSDKCore/SFSDKWebUtils.h>
 #import <SalesforceSDKCore/SFSDKWebViewStateManager.h>
 #import <SalesforceSDKCore/SFSDKWindowContainer.h>
