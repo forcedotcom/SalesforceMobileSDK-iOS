@@ -501,6 +501,16 @@ static Class InstanceClass = nil;
 
 #pragma mark - Default Values
 
+- (NSString *)brandLoginPath
+{
+    return [SFUserAccountManager sharedInstance].brandLoginPath;
+}
+
+- (void)setBrandLoginPath:(NSString *)brandLoginPath
+{
+    [SFUserAccountManager sharedInstance].brandLoginPath = brandLoginPath;
+}
+
 - (NSSet *)scopes
 {
     return [SFUserAccountManager sharedInstance].scopes;

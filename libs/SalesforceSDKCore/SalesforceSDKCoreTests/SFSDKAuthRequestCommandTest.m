@@ -77,6 +77,7 @@
     test.spAppScopes = spAppScopes;
     test.spState = spState;
     test.spAppDescription = spAppDesc;
+    test.scheme = @"app";
     
     XCTAssertNotNil([test requestURL]);
     XCTAssertTrue([test isAuthCommand:[test requestURL]]);
