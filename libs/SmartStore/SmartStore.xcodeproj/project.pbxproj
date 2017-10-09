@@ -146,6 +146,10 @@
 		CEA883E91C1915A8008D871B /* SalesforceSDKManagerWithSmartStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F883C7A1C1627BD007D4BAE /* SalesforceSDKManagerWithSmartStore.m */; };
 		CEAAAE57195911E600CBBFE9 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE56195911E600CBBFE9 /* XCTest.framework */; };
 		CEAAAE58195911E600CBBFE9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
+		FDCEC343F565157E01DA4FCC /* SFSDKStoreConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCEC27040E2DF5A8CEE0449 /* SFSDKStoreConfig.m */; };
+		FDCEC6B90C403AF110F6313E /* SFSDKStoreConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = FDCEC4788224558787F87BD6 /* SFSDKStoreConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FDCEC6DE28140A9E55B3A04E /* SFSDKStoreConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = FDCEC4788224558787F87BD6 /* SFSDKStoreConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FDCECF4A428DEAE8F0E9E092 /* SFSDKStoreConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCEC27040E2DF5A8CEE0449 /* SFSDKStoreConfig.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -327,6 +331,8 @@
 		CEAAAE62195911E600CBBFE9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CECB66231C1BB886008038AE /* SmartStore-Dynamic-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SmartStore-Dynamic-iOS-Debug.xcconfig"; path = "Configuration/SmartStore-Dynamic-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
 		CECB66241C1BB886008038AE /* SmartStore-Dynamic-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SmartStore-Dynamic-iOS-Release.xcconfig"; path = "Configuration/SmartStore-Dynamic-iOS-Release.xcconfig"; sourceTree = "<group>"; };
+		FDCEC27040E2DF5A8CEE0449 /* SFSDKStoreConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKStoreConfig.m; sourceTree = "<group>"; };
+		FDCEC4788224558787F87BD6 /* SFSDKStoreConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKStoreConfig.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -589,6 +595,8 @@
 				C03DE7CD1D1B296400BFA6BD /* SFSoupSpec.h */,
 				C03DE7CE1D1B296400BFA6BD /* SFSoupSpec.m */,
 				C03DE7CF1D1B296400BFA6BD /* SFSoupSpec+Internal.h */,
+				FDCEC27040E2DF5A8CEE0449 /* SFSDKStoreConfig.m */,
+				FDCEC4788224558787F87BD6 /* SFSDKStoreConfig.h */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -624,6 +632,7 @@
 				C03DE7D31D1B296400BFA6BD /* SFSoupSpec+Internal.h in Headers */,
 				CE4CE41C1C0E59DA009F6029 /* SFSmartStoreUtils.h in Headers */,
 				CE4CE4201C0E59DA009F6029 /* SFStoreCursor.h in Headers */,
+				FDCEC6B90C403AF110F6313E /* SFSDKStoreConfig.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -654,6 +663,7 @@
 				CEA883DF1C1915A8008D871B /* SFSmartStoreUpgrade.h in Headers */,
 				CEA883E81C1915A8008D871B /* SalesforceSDKManagerWithSmartStore.h in Headers */,
 				CEA883E41C1915A8008D871B /* SFSoupIndex.h in Headers */,
+				FDCEC6DE28140A9E55B3A04E /* SFSDKStoreConfig.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -918,6 +928,7 @@
 				828917891C52B705002F9981 /* FMDatabasePool.m in Sources */,
 				CE4CE40E1C0E59DA009F6029 /* SFQuerySpec.m in Sources */,
 				CE4CE41D1C0E59DA009F6029 /* SFSmartStoreUtils.m in Sources */,
+				FDCEC343F565157E01DA4FCC /* SFSDKStoreConfig.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -943,6 +954,7 @@
 				828917931C52B715002F9981 /* FMDatabasePool.m in Sources */,
 				CEA883D41C1915A8008D871B /* SFQuerySpec.m in Sources */,
 				CEA883E31C1915A8008D871B /* SFSmartStoreUtils.m in Sources */,
+				FDCECF4A428DEAE8F0E9E092 /* SFSDKStoreConfig.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
