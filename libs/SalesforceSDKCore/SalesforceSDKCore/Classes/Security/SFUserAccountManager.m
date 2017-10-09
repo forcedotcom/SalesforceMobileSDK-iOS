@@ -88,6 +88,8 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 
 static NSString *const kSFIncompatibleAuthError = @"Cannot use SFUserAccountManager Auth functions with useLegacyAuthenticationManager enabled";
 
+static NSString *const kErroredClientKey = @"SFErroredOAuthClientKey";
+
 @implementation SFUserAccountManager
 
 @synthesize currentUser = _currentUser;
@@ -355,7 +357,7 @@ static NSString *const kSFIncompatibleAuthError = @"Cannot use SFUserAccountMana
 
 - (void)authClientDidFail:(SFSDKOAuthClient *)client error:(NSError *_Nullable)error{
     NSMutableDictionary *options = [[NSMutableDictionary alloc] init];
-    [options setObject:client forKey:@"SFErroredOAuthClientKey"];
+    [options setObject:client forKey:kErroredClientKey];
     BOOL errorWasHandled = [self.errorManager processAuthError:error authInfo:client.context.authInfo options:options];
     if (!errorWasHandled) {
         [self enumerateDelegates:^(id <SFUserAccountManagerDelegate> delegate) {
@@ -994,7 +996,7 @@ static NSString *const kSFIncompatibleAuthError = @"Cannot use SFUserAccountMana
     __weak typeof (self) weakSelf = self;
     
     self.errorManager.invalidAuthCredentialsErrorHandlerBlock  = ^(NSError *error, SFOAuthInfo *authInfo,NSDictionary *options) {
-         SFSDKOAuthClient *client = [options objectForKey:@"SFErroredOAuthClientKey"];
+         SFSDKOAuthClient *client = [options objectForKey:kErroredClientKey];
          __strong typeof (weakSelf) strongSelf = weakSelf;
         [SFSDKCoreLogger w:[strongSelf class] format:@"OAuth refresh failed due to invalid grant.  Error code: %ld", (long)error.code];
         [strongSelf handleFailure:error client:client];
@@ -1003,7 +1005,7 @@ static NSString *const kSFIncompatibleAuthError = @"Cannot use SFUserAccountMana
     self.errorManager.networkErrorHandlerBlock = ^(NSError *error, SFOAuthInfo *authInfo,NSDictionary *options) {
         BOOL shouldBubbleUP = NO;
         __strong typeof (weakSelf) strongSelf = weakSelf;
-        SFSDKOAuthClient *client = [options objectForKey:@"SFErroredOAuthClientKey"];
+        SFSDKOAuthClient *client = [options objectForKey:kErroredClientKey];
         if (authInfo.authType != SFOAuthTypeRefresh) {
             [SFSDKCoreLogger e:[weakSelf class] format:@"Network failure for non-Refresh OAuth flow (%@) is a fatal error.", authInfo.authTypeDescription];
             shouldBubbleUP = YES;
@@ -1015,7 +1017,7 @@ static NSString *const kSFIncompatibleAuthError = @"Cannot use SFUserAccountMana
             [strongSelf handleFailure:error client:client];
         } else {
             [SFSDKCoreLogger i:[strongSelf class] format:@"Network failure for OAuth Refresh flow (existing credentials)  Try to continue."];
-            SFSDKOAuthClient *client = [options objectForKey:@"SFErroredOAuthClientKey"];
+            SFSDKOAuthClient *client = [options objectForKey:kErroredClientKey];
             [strongSelf loggedIn:YES client:client];
         }
         
@@ -1023,14 +1025,14 @@ static NSString *const kSFIncompatibleAuthError = @"Cannot use SFUserAccountMana
     
     self.errorManager.genericErrorHandlerBlock = ^(NSError *error, SFOAuthInfo *authInfo,NSDictionary *options) {
         __strong typeof (weakSelf) strongSelf = weakSelf;
-        SFSDKOAuthClient *client = [options objectForKey:@"SFErroredOAuthClientKey"];
+        SFSDKOAuthClient *client = [options objectForKey:kErroredClientKey];
         //[client clearAccountState:NO];
         [strongSelf showRetryAlertForAuthError:(NSError *)error client:client];
     };
     
     self.errorManager.connectedAppVersionMismatchErrorHandlerBlock = ^(NSError *  error, SFOAuthInfo *authInfo,NSDictionary *options) {
          __strong typeof (weakSelf) strongSelf = weakSelf;
-        SFSDKOAuthClient *client = [options objectForKey:@"SFErroredOAuthClientKey"];
+        SFSDKOAuthClient *client = [options objectForKey:kErroredClientKey];
         [SFSDKCoreLogger w:[strongSelf class] format:@"OAuth refresh failed due to Connected App version mismatch.  Error code: %ld", (long)error.code];
         [strongSelf showAlertForConnectedAppVersionMismatchError:error client:client];
     };

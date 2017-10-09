@@ -53,7 +53,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 - (instancetype) init {
     self = [super init];
     if (self) {
-         [self populateDefaultAuthErrorHandlerList];
+         _authErrorHandlerList = [self populateDefaultAuthErrorHandlerList];
     }
     return self;
 }
