@@ -40,7 +40,7 @@ typedef void (^SFSDKAuthClientViewDisplayBlock)(SFSDKOAuthClientViewHolder *);
 /**
  Block definition for dismissing the auth view.
  */
-typedef void (^SFSDKAuthClientViewDismissBlock)();
+typedef void (^SFSDKAuthClientViewDismissBlock)(void);
 
 @interface SFSDKOAuthClientViewHolder : NSObject
 

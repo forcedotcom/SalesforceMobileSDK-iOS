@@ -1,8 +1,8 @@
 /*
- SFSDKLoginFlowSelectionViewController.h
+ SFSDKAlertMessageBuilder.h
  SalesforceSDKCore
  
- Created by Raj Rao on 8/28/17.
+ Created by Raj Rao on 10/01/17.
  
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
@@ -26,15 +26,18 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
-#import <UIKit/UIKit.h>
-#import "SFSDKLoginFlowSelectionView.h"
+#import <Foundation/Foundation.h>
+@class SFSDKAlertMessage;
 NS_ASSUME_NONNULL_BEGIN
 
-
-@interface SFSDKLoginFlowSelectionViewController : UIViewController<SFSDKLoginFlowSelectionView>
-@property (weak,nonatomic) id <SFSDKLoginFlowSelectionViewDelegate> selectionFlowDelegate;
-@property (nonatomic,strong) NSDictionary *appOptions;
+@interface SFSDKAlertMessageBuilder : NSObject
+@property (nonatomic,copy) NSString *alertTitle;
+@property (nonatomic,copy) NSString *alertMessage;
+@property (nonatomic,copy) NSString *actionOneTitle;
+@property (nonatomic,copy) NSString *actionTwoTitle;
+@property (nonatomic, copy, nonnull) void (^actionOneCompletion)(void);
+@property (nonatomic, copy, nonnull) void (^actionTwoCompletion)(void);
+- (SFSDKAlertMessage *)build;
 @end
 
 NS_ASSUME_NONNULL_END

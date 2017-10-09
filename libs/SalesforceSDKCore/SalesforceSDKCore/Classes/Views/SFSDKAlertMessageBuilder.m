@@ -1,8 +1,8 @@
 /*
- SFSDKLoginFlowSelectionViewController.h
+ SFSDKAlertMessageBuilder.m
  SalesforceSDKCore
  
- Created by Raj Rao on 8/28/17.
+ Created by Raj Rao on 10/01/17.
  
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
@@ -27,14 +27,16 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
-#import "SFSDKLoginFlowSelectionView.h"
-NS_ASSUME_NONNULL_BEGIN
+#import "SFSDKAlertMessageBuilder.h"
+#import "SFSDKAlertMessage.h"
 
-
-@interface SFSDKLoginFlowSelectionViewController : UIViewController<SFSDKLoginFlowSelectionView>
-@property (weak,nonatomic) id <SFSDKLoginFlowSelectionViewDelegate> selectionFlowDelegate;
-@property (nonatomic,strong) NSDictionary *appOptions;
+@interface SFSDKAlertMessageBuilder()
 @end
 
-NS_ASSUME_NONNULL_END
+@implementation SFSDKAlertMessageBuilder
+
+- (SFSDKAlertMessage *)build {
+    SFSDKAlertMessage *message = [[SFSDKAlertMessage alloc] initWithBuilder:self];
+    return message;
+}
+@end

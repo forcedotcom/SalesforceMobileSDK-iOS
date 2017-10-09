@@ -50,8 +50,6 @@
 
 - (NSURL *)requestURL {
     
-    
-    
     NSAssert([self.scheme isEmptyOrWhitespaceAndNewlines]==false, @"Scheme cannot be nil");
     NSAssert([self.path isEmptyOrWhitespaceAndNewlines]==false, @"Path cannot be nil");
     NSAssert([self.version isEmptyOrWhitespaceAndNewlines]==false, @"Version cannot be nil");

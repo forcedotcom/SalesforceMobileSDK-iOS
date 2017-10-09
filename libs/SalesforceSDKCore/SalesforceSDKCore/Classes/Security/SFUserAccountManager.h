@@ -115,12 +115,15 @@ FOUNDATION_EXTERN NSString * const SFUserAccountManagerLogoutNotification;
 FOUNDATION_EXTERN NSString * const SFUserAccountManagerLoggedInNotification;
 
 FOUNDATION_EXTERN NSString * const  SFUserAccountManagerIDPInitiatedLoginNotification;
+static NSString *const kOptionsClientKey = @"clientIdentifier";
 @protocol SFSDKOAuthClientDelegate;
 @protocol SFSDKOAuthClientSafariViewDelegate;
 @protocol SFSDKOAuthClientWebViewDelegate;
 @protocol SFSDKIDPAuthClientDelegate;
 
 @class SFUserAccountManager;
+@class SFSDKAlertMessage;
+@class SFSDKWindowContainer;
 
 /**
  Protocol for handling callbacks from SFUserAccountManager.
@@ -550,6 +553,19 @@ FOUNDATION_EXTERN NSString * const  SFUserAccountManagerIDPInitiatedLoginNotific
  be handled, NO otherwise.
  */
 - (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse options:(NSDictionary *)options;
+
+/**
+ Change this block to handle all alerts  required by the SFUSerAccountManager.
+ */
+@property (nonatomic, copy, nonnull) void (^alertDisplayBlock)(SFSDKAlertMessage *,SFSDKWindowContainer *);
+
+/**
+ Determines whether an error is due to invalid auth credentials.
+ @param error The error to check against an invalid credentials error.
+ @return YES if the error is due to invalid credentials, NO otherwise.
+ */
++ (BOOL)errorIsInvalidAuthCredentials:(NSError *)error;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -32,5 +32,5 @@
 @interface IDPLoginNavViewController : UINavigationController <SFSDKLoginFlowSelectionView>
 
 @property (weak,nonatomic) id <SFSDKLoginFlowSelectionViewDelegate> selectionFlowDelegate;
-
+@property (nonatomic,strong) NSDictionary *appOptions;
 @end

@@ -28,7 +28,7 @@
  */
 
 #import "SFUserAccountManager+Internal.h"
-#import  "SFUserAccountManager+URLHandlers.h"
+#import "SFUserAccountManager+URLHandlers.h"
 #import "SFSDKOAuthClientConfig.h"
 #import "SFSDKOAuthClientContext.h"
 #import "SFSDKOAuthClientCache.h"
@@ -37,6 +37,8 @@
 #import "SFSDKAuthResponseCommand.h"
 #import "SFSDKAuthErrorCommand.h"
 #import "SFSDKIDPInitCommand.h"
+#import "SFSDKAlertMessage.h"
+#import "SFSDKAlertMessageBuilder.h"
 
 @implementation SFUserAccountManager (URLHandlers)
 
@@ -62,10 +64,15 @@
         
     }
     __weak typeof (self) weakSelf = self;
-    [client showAlertMessage:command.errorReason withCompletion:^{
-        [weakSelf disposeOAuthClient:client];
+    SFSDKAlertMessage *messageObject = [SFSDKAlertMessage messageWithBlock:^(SFSDKAlertMessageBuilder *builder) {
+        builder.actionOneTitle = [SFSDKResourceUtils localizedString:@"authAlertOkButton"];
+        builder.alertTitle = @"";
+        builder.alertMessage = command.errorReason;
+        builder.actionOneCompletion = ^{
+            [weakSelf disposeOAuthClient:client];
+        };
     }];
-    
+    self.alertDisplayBlock(messageObject,client.authWindow);
     return YES;
 }
 
@@ -111,7 +118,6 @@
         showSelection = YES;
     }
 
-    
     if (showSelection) {
         UIViewController<SFSDKUserSelectionView> *controller  = authClient.idpUserSelectionBlock();
         controller.spAppOptions = request.allParams;

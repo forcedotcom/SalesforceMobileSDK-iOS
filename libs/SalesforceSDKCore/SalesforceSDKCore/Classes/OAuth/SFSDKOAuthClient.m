@@ -44,24 +44,13 @@
 #import "SFSDKWebViewStateManager.h"
 #import "SFSecurityLockout.h"
 #import "SFSDKIDPAuthClient.h"
+#import "SFSDKAlertMessage.h"
+#import "SFSDKAlertMessageBuilder.h"
 // Auth error handler name constants
 static NSString * const kSFInvalidCredentialsAuthErrorHandler = @"InvalidCredentialsErrorHandler";
 static NSString * const kSFConnectedAppVersionAuthErrorHandler = @"ConnectedAppVersionErrorHandler";
 static NSString * const kSFNetworkFailureAuthErrorHandler = @"NetworkFailureErrorHandler";
 static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErrorHandler";
-
-// Private constants
-static NSInteger const kOAuthGenericAlertViewTag           = 444;
-static NSInteger const kIdentityAlertViewTag               = 555;
-static NSInteger const kConnectedAppVersionMismatchViewTag = 666;
-static NSInteger const kAdvancedAuthDialogTag              = 777;
-
-static NSString * const kAlertErrorTitleKey = @"authAlertErrorTitle";
-static NSString * const kAlertOkButtonKey = @"authAlertOkButton";
-static NSString * const kAlertRetryButtonKey = @"authAlertRetryButton";
-static NSString * const kAlertDismissButtonKey = @"authAlertDismissButton";
-static NSString * const kAlertConnectionErrorFormatStringKey = @"authAlertConnectionErrorFormatString";
-static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismatchError";
 static NSString * const kSFRevokePath = @"/services/oauth2/revoke";
 
 static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
@@ -75,43 +64,8 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
 @property (nonatomic, copy)  SFSDKOAuthClientConfig *config;
 @property (nonatomic, strong) SFIdentityData *idData;
 
-@property (nonatomic, strong) UIAlertController *statusAlert;
-
 @property (nonatomic, copy,nullable) SFOAuthBrowserFlowCallbackBlock authCoordinatorBrowserBlock;
-@property (nonatomic, strong, nullable) SFAuthErrorHandler *invalidCredentialsAuthErrorHandler;
-@property (nonatomic, strong, nullable) SFAuthErrorHandler *connectedAppVersionAuthErrorHandler;
-@property (nonatomic, strong, nullable) SFAuthErrorHandler *networkFailureAuthErrorHandler;
-@property (nonatomic, strong, nullable) SFAuthErrorHandler *genericAuthErrorHandler;
-@property (nonatomic, strong, nullable) SFAuthErrorHandlerList *authErrorHandlerList;
-
-
 - (void)revokeRefreshToken:(SFOAuthCredentials *)user;
-/**
- Sets up the default error handling chain.
- @return The SFAuthErrorHandlerList instance containing the chain of error handler filters.
- */
-- (SFAuthErrorHandlerList *)populateDefaultAuthErrorHandlerList;
-
-/**
- Processes an auth error by sending it through the chain of error handlers.
- @param error The auth error object.
- */
-- (void)processAuthError:(NSError *)error;
-
-/**
- Displays an alert in the event of an unknown failure for OAuth or Identity requests, allowing the user
- to retry the process.
- @param tag The tag that identifies the process (OAuth or Identity).
- */
-- (void)showRetryAlertForAuthError:(NSError *)error alertTag:(NSInteger)tag;
-
-/**
- Displays an alert if the Connected App version on the server does not match the credentials of the client
- app.
- */
-- (void)showAlertForConnectedAppVersionMismatchError:(NSError *)error;
-
-+ (BOOL)errorIsInvalidAuthCredentials:(NSError *)error;
 
 @end
 
@@ -122,7 +76,6 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
     if (self) {
         _config = config;
         readWriteLock = [[NSRecursiveLock alloc] init];
-        [self populateDefaultAuthErrorHandlerList];
     }
     return self;
 }
@@ -176,7 +129,7 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
                         [strongSelf.config.authViewController setOauthView:viewHandler.wkWebView];
                         strongSelf.authWindow.viewController = strongSelf.config.authViewController;
                         [strongSelf.authWindow enable];
-                    } dismissBlock:^(SFSDKOAuthClient *client) {
+                    } dismissBlock:^() {
                         __strong typeof(weakSelf) strongSelf = weakSelf;
                         [SFLoginViewController sharedInstance].oauthView = nil;
                         [strongSelf dismissAuthViewControllerIfPresent];
@@ -213,7 +166,7 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
     [readWriteLock unlock];
 }
 
-- (BOOL)cancelAuthentication {
+- (BOOL)cancelAuthentication:(BOOL)authenticationCanceledByUser {
     BOOL result = NO;
     [readWriteLock lock];
     if (self.isAuthenticating) {
@@ -222,6 +175,12 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
         [self.coordinator stopAuthentication];
         self.isAuthenticating = NO;
         result = YES;
+    }
+    
+    if (authenticationCanceledByUser) {
+        if ([self.config.delegate respondsToSelector:@selector(authClientDidCancelGenericFlow:)]) {
+            [self.config.delegate authClientDidCancelGenericFlow:self];
+        }
     }
     [readWriteLock unlock];
     return result;
@@ -339,7 +298,7 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
     [readWriteLock lock];
     self.context = mutableOAuthClientContext;
     [readWriteLock unlock];
-    [self processAuthError:error];
+    [self notifyDelegateOfFailure:error];
 }
 
 - (BOOL)oauthCoordinatorIsNetworkAvailable:(SFOAuthCoordinator *)coordinator {
@@ -347,6 +306,7 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginBrowserAuthentication:(SFOAuthBrowserFlowCallbackBlock)callbackBlock {
+    
     if (![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self oauthCoordinator:coordinator willBeginBrowserAuthentication:callbackBlock];
@@ -355,68 +315,82 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
     }
     [readWriteLock lock];
     self.authCoordinatorBrowserBlock = callbackBlock;
+    [readWriteLock unlock];
+    
+    if ([self.config.safariViewDelegate respondsToSelector:@selector(authClient:willBeginBrowserAuthentication:)]) {
+        [self.config.safariViewDelegate authClient:self willBeginBrowserAuthentication:callbackBlock];
+    }
+    
     NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];;
     NSString *alertMessage = [NSString stringWithFormat:[SFSDKResourceUtils localizedString:@"authAlertBrowserFlowMessage"], coordinator.credentials.domain, appName];
+    
+     __weak typeof(self) weakSelf = self;
+    
+    
+    SFSDKAlertMessage *messageObject = [SFSDKAlertMessage messageWithBlock:^(SFSDKAlertMessageBuilder *builder) {
+        builder.actionOneTitle = [SFSDKResourceUtils localizedString:@"authAlertOkButton"];
+        builder.actionTwoTitle = [SFSDKResourceUtils localizedString:@"authAlertCancelButton"];
+        builder.alertTitle = [SFSDKResourceUtils localizedString:@"authAlertBrowserFlowTitle"];
+        builder.alertMessage = alertMessage;
+        builder.actionOneCompletion = ^{
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            if ([strongSelf.config.safariViewDelegate respondsToSelector:@selector(authClientDidProceedWithBrowserFlow:)]) {
+                [strongSelf.config.safariViewDelegate authClientDidProceedWithBrowserFlow:strongSelf];
+            }
+            // Let the OAuth coordinator know whether to proceed or not.
+            if (strongSelf.authCoordinatorBrowserBlock) {
+                strongSelf.authCoordinatorBrowserBlock(YES);
+            }
+        };
+        builder.actionTwoCompletion = ^{
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            if ([strongSelf.config.safariViewDelegate respondsToSelector:@selector(authClientDidCancelBrowserFlow:)]) {
+                [strongSelf.config.safariViewDelegate authClientDidCancelBrowserFlow:strongSelf];
+            }
 
-    if (self.statusAlert) {
-        _statusAlert = nil;
+            // Let the OAuth coordinator know whether to proceed or not.
+            if (strongSelf.authCoordinatorBrowserBlock) {
+                strongSelf.authCoordinatorBrowserBlock(NO);
+            }
+        };
+    }];
+    if ([self.config.delegate respondsToSelector:@selector(authClient:displayMessage:)]){
+        [self.config.delegate authClient:self displayMessage:messageObject];
     }
-    [readWriteLock unlock];
-
-    [self showAlertWithTitle:[SFSDKResourceUtils localizedString:@"authAlertBrowserFlowTitle"]
-                     message:alertMessage
-            firstButtonTitle:[SFSDKResourceUtils localizedString:@"authAlertOkButton"]
-           secondButtonTitle:[SFSDKResourceUtils localizedString:@"authAlertCancelButton"]
-                         tag:kAdvancedAuthDialogTag
-                         error: nil ];
-
+    
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator displayAlertMessage:(NSString *)message completion:(dispatch_block_t)completion {
-    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@""
-                                                                   message:message
-                                                            preferredStyle:UIAlertControllerStyleAlert];
-
-    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:[SFSDKResourceUtils localizedString:@"authAlertOkButton"] style:UIAlertActionStyleDefault
-                                                          handler:^(UIAlertAction * action) {
-                                                              if (completion) completion();
-                                                          }];
-
-    [alert addAction:defaultAction];
-    __weak typeof(self) weakSelf = self;
-    self.authWindow.viewController = [self blankViewController];
-    [self.authWindow enable:NO withCompletion:^{
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        [strongSelf.authWindow.viewController presentViewController:strongSelf.statusAlert animated:NO completion:nil];
+    
+    SFSDKAlertMessage *messageObject = [SFSDKAlertMessage messageWithBlock:^(SFSDKAlertMessageBuilder *builder) {
+        builder.actionOneTitle = [SFSDKResourceUtils localizedString:@"authAlertOkButton"];
+        builder.alertTitle = @"";
+        builder.actionOneCompletion = completion;
     }];
-
+    
+    if ([self.config.delegate respondsToSelector:@selector(authClient:displayMessage:)]){
+        [self.config.delegate authClient:self displayMessage:messageObject];
+    }
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator displayConfirmationMessage:(NSString *)message completion:(void (^)(BOOL result))completion {
-    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@""
-                                                                   message:message
-                                                            preferredStyle:UIAlertControllerStyleAlert];
-
-    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:[SFSDKResourceUtils localizedString:@"authAlertOkButton"] style:UIAlertActionStyleDefault
-                                                          handler:^(UIAlertAction * action) {
-                                                              if (completion) completion(YES);
-                                                          }];
-    [alert addAction:defaultAction];
-
-    UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:[SFSDKResourceUtils localizedString:@"authAlertCancelButton"] style:UIAlertActionStyleDefault
-                                                         handler:^(UIAlertAction * action) {
-                                                             if (completion) completion(NO);
-                                                         }];
-    [alert addAction:cancelAction];
-
-    self.authWindow.viewController = [self blankViewController];
-    __weak typeof (self) weakSelf = self;
     
-    [self.authWindow enable:NO withCompletion:^{
-        __strong typeof (weakSelf) strongSelf = weakSelf;
-        [strongSelf.authWindow.viewController presentViewController:alert animated:NO completion:nil];
+    SFSDKAlertMessage *messageObject = [SFSDKAlertMessage messageWithBlock:^(SFSDKAlertMessageBuilder *builder) {
+        builder.actionOneTitle = [SFSDKResourceUtils localizedString:@"authAlertOkButton"];
+        builder.actionTwoTitle = [SFSDKResourceUtils localizedString:@"authAlertCancelButton"];
+        builder.alertTitle = @"";
+        builder.alertMessage = message;
+        builder.actionOneCompletion = ^{
+            if (completion) completion(YES);
+        };
+        builder.actionTwoCompletion = ^{
+            if (completion) completion(NO);
+        };
     }];
-
+    
+    if ([self.config.delegate respondsToSelector:@selector(authClient:displayMessage:)]){
+        [self.config.delegate authClient:self displayMessage:messageObject];
+    }
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(WKWebView *)view {
@@ -476,14 +450,30 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
 }
 
 - (void)identityCoordinator:(SFIdentityCoordinator *)coordinator didFailWithError:(NSError *)error {
+    
     if (error.code == kSFIdentityErrorMissingParameters) {
         // No retry, as missing parameters are fatal
         [SFSDKCoreLogger e:[self class] format:@"Missing parameters attempting to retrieve identity data.  Error domain: %@, code: %ld, description: %@", [error domain], [error code], [error localizedDescription]];
         if (self.config.identityFailureCallbackBlock)
             self.config.identityFailureCallbackBlock(self,error);
     } else {
-        [SFSDKCoreLogger e:[self class] format:@"Error retrieving idData:"];
-        [self showRetryAlertForAuthError:error alertTag:kIdentityAlertViewTag];
+        [SFSDKCoreLogger e:[self class] format:@"Error retrieving idData:%@", error];
+        __weak typeof (self) weakSelf = self;
+        SFSDKAlertMessage *message = [SFSDKAlertMessage messageWithBlock:^(SFSDKAlertMessageBuilder *builder) {
+            __strong typeof (weakSelf) strongSelf = weakSelf;
+            builder.actionOneTitle = [SFSDKResourceUtils localizedString:@"authAlertRetryButton"];
+            builder.actionTwoTitle = [SFSDKResourceUtils localizedString:@"authAlertDismissButton"];
+            builder.alertTitle = [SFSDKResourceUtils localizedString:@"authAlertErrorTitle"];
+            builder.alertMessage = [NSString stringWithFormat:[SFSDKResourceUtils localizedString:@"authAlertConnectionErrorFormatString"], [error localizedDescription]];
+            
+            builder.actionOneCompletion = ^{
+                 [strongSelf.idCoordinator initiateIdentityDataRetrieval];
+            };
+        }];
+        
+        if ([self.config.delegate respondsToSelector:@selector(authClient:displayMessage:)]){
+            [self.config.delegate authClient:self displayMessage:message];
+        }
     }
 }
 
@@ -536,238 +526,21 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
     [readWriteLock unlock];
 }
 
-- (SFAuthErrorHandlerList *)populateDefaultAuthErrorHandlerList
-{
-    __weak typeof(self) weakSelf = self;
-    SFAuthErrorHandlerList *authHandlerList = [[SFAuthErrorHandlerList alloc] init];
-     [readWriteLock lock];
-    // Invalid credentials handler
-    if (!_invalidCredentialsAuthErrorHandler) {
-        _invalidCredentialsAuthErrorHandler = [[SFAuthErrorHandler alloc]
-            initWithName:kSFInvalidCredentialsAuthErrorHandler
-               evalBlock:^BOOL(NSError *error,SFOAuthInfo *info) {
-                   __strong typeof(weakSelf) strongSelf = weakSelf;
-                   if ([[strongSelf class] errorIsInvalidAuthCredentials:error]) {
-                       [SFSDKCoreLogger w:[strongSelf class] format:@"OAuth refresh failed due to invalid grant.  Error code: %ld", (long)error.code];
-                       [strongSelf handleFailure:error];
-                       return YES;
-                   }
-                   return NO;
-               }];
-    }
-    [authHandlerList addAuthErrorHandler:_invalidCredentialsAuthErrorHandler];
-
-    // Connected app version mismatch handler
-    if (!_connectedAppVersionAuthErrorHandler) {
-        _connectedAppVersionAuthErrorHandler = [[SFAuthErrorHandler alloc]
-                initWithName:kSFConnectedAppVersionAuthErrorHandler
-                evalBlock:^BOOL(NSError *error,SFOAuthInfo *info) {
-                       __strong typeof(weakSelf) strongSelf = weakSelf;
-                       if (error.code == kSFOAuthErrorWrongVersion) {
-                           [SFSDKCoreLogger w:[strongSelf class] format:@"OAuth refresh failed due to Connected App version mismatch.  Error code: %ld", (long)error.code];
-                           [strongSelf showAlertForConnectedAppVersionMismatchError:error];
-                           return YES;
-                       }
-                       return NO;
-                   }];
-    }
-    [authHandlerList addAuthErrorHandler:_connectedAppVersionAuthErrorHandler];
-
-    // Network failure handler
-    if (!_networkFailureAuthErrorHandler) {
-        _networkFailureAuthErrorHandler = [[SFAuthErrorHandler alloc]
-                initWithName:kSFNetworkFailureAuthErrorHandler
-                evalBlock:^BOOL(NSError *error,SFOAuthInfo *info){
-                        __strong typeof(self) strongSelf = weakSelf;
-                       if ([[strongSelf class] errorIsNetworkFailure:error]) {
-                           [SFSDKCoreLogger w:[weakSelf class] format:@"Auth token refresh couldn't connect to server: %@", [error localizedDescription]];
-
-                           if (strongSelf.context.authInfo.authType != SFOAuthTypeRefresh) {
-                               [SFSDKCoreLogger e:[weakSelf class] format:@"Network failure for non-Refresh OAuth flow (%@) is a fatal error.", strongSelf.context.authInfo.authTypeDescription];
-                               return NO;  // Default error handler will show the error.
-                           } else if (strongSelf.coordinator.credentials.accessToken == nil) {
-                               [SFSDKCoreLogger w:[strongSelf class] format:@"Network unreachable for access token refresh, and no access token is configured.  Cannot continue."];
-                               return NO;
-                           } else {
-                               [SFSDKCoreLogger i:[strongSelf class] format:@"Network failure for OAuth Refresh flow (existing credentials)  Try to continue."];
-                               [strongSelf.config.delegate authClientContinueOfflineMode:strongSelf];
-                               return YES;
-                           }
-                       }
-                       return NO;
-                   }];
-    }
-    [authHandlerList addAuthErrorHandler:_networkFailureAuthErrorHandler];
-
-    // Generic failure handler
-    if (!_genericAuthErrorHandler) {
-        _genericAuthErrorHandler = [[SFAuthErrorHandler alloc]
-                initWithName:kSFGenericFailureAuthErrorHandler
-                evalBlock:^BOOL(NSError *error,SFOAuthInfo *info) {
-                       __strong typeof(self) strongSelf = weakSelf;
-                       [strongSelf clearAccountState:NO];
-                       [strongSelf showRetryAlertForAuthError:error alertTag:kOAuthGenericAlertViewTag];
-                       return YES;
-                   }];
-    }
-    [authHandlerList addAuthErrorHandler:_genericAuthErrorHandler];
-    [readWriteLock unlock];
-    return authHandlerList;
-}
-
-- (void)processAuthError:(NSError *)error
-{
-    NSInteger i = 0;
-    BOOL errorHandled = NO;
-    SFSDKOAuthClientContext *context = self.context;
-    NSArray *authHandlerArray = self.authErrorHandlerList.authHandlerArray;
-    while (i < [authHandlerArray count] && !errorHandled) {
-        SFAuthErrorHandler *currentHandler = (self.authErrorHandlerList.authHandlerArray)[i];
-        errorHandled = currentHandler.evalBlock(error, context.authInfo);
-        i++;
-    }
-
-    if (!errorHandled) {
-        // No error handlers could handle the error.  Pass through to the error blocks.
-        if (context.authInfo.authType == SFOAuthTypeUserAgent)
-            self.authViewHandler.authViewDismissBlock(self);
-        [self handleFailure:error];
-    }
-}
-
-
-- (void)handleFailure:(NSError *)error{
-
-    if (self.config.failureCallbackBlock) {
-        self.config.failureCallbackBlock(self.context.authInfo,error);
-    }
+- (void)notifyDelegateOfFailure:(NSError *)error {
     __weak typeof(self) weakSelf = self;
     if ([self.config.delegate respondsToSelector:@selector(authClientDidFail:error:)]) {
         [self.config.delegate authClientDidFail:weakSelf error:error];
     }
-    [self cancelAuthentication];
 }
-
-- (void)showRetryAlertForAuthError:(NSError *)error alertTag:(NSInteger)tag
-{
-    if (self.statusAlert) {
-        self.statusAlert = nil;
-    }
-    [SFSDKCoreLogger e:[self class] format:@"Error during authentication: %@", error];
-    [self showAlertWithTitle:[SFSDKResourceUtils localizedString:kAlertErrorTitleKey]
-                     message:[NSString stringWithFormat:[SFSDKResourceUtils localizedString:kAlertConnectionErrorFormatStringKey], [error localizedDescription]]
-            firstButtonTitle:[SFSDKResourceUtils localizedString:kAlertRetryButtonKey]
-           secondButtonTitle:[SFSDKResourceUtils localizedString:kAlertDismissButtonKey]
-                         tag:tag
-                       error:error];
-}
-
-- (void)showAlertForConnectedAppVersionMismatchError:(NSError *)error
-{
-    [self showAlertWithTitle:[SFSDKResourceUtils localizedString:kAlertErrorTitleKey]
-                     message:[SFSDKResourceUtils localizedString:kAlertVersionMismatchErrorKey]
-            firstButtonTitle:[SFSDKResourceUtils localizedString:kAlertOkButtonKey]
-           secondButtonTitle:[SFSDKResourceUtils localizedString:kAlertDismissButtonKey]
-                         tag:kConnectedAppVersionMismatchViewTag
-                       error:error];
-}
-
-- (void)showAlertWithTitle:(nullable NSString *)title message:(nullable NSString *)message firstButtonTitle:(nullable NSString *)firstButtonTitle secondButtonTitle:(nullable NSString *)secondButtonTitle tag:(NSInteger)tag  error:(NSError *)error
-{
-    if (nil == self.statusAlert) {
-        __weak typeof(self) weakSelf = self;
-        self.statusAlert = [UIAlertController alertControllerWithTitle:title
-                                                               message:message
-                                                        preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:firstButtonTitle
-                                                           style:UIAlertActionStyleDefault
-                                                         handler:^(UIAlertAction *action) {
-                                                             __strong typeof(weakSelf) strongSelf = weakSelf;
-                                                             if (tag == kOAuthGenericAlertViewTag) {
-                                                                 [strongSelf dismissAuthViewControllerIfPresent];
-                                                                 [strongSelf refreshCredentials];
-                                                             } else if (tag == kIdentityAlertViewTag) {
-                                                                 [strongSelf.idCoordinator initiateIdentityDataRetrieval];
-                                                             } else if (tag == kConnectedAppVersionMismatchViewTag) {
-                                                                 [weakSelf handleFailure:error];
-                                                             } else if (tag == kAdvancedAuthDialogTag) {
-                                                                 if ([strongSelf.config.safariViewDelegate respondsToSelector:@selector(authClientDidProceedWithBrowserFlow:)]) {
-                                                                     [strongSelf.config.safariViewDelegate authClientDidProceedWithBrowserFlow:self];
-                                                                 }
-                                                                 // Let the OAuth coordinator know whether to proceed or not.
-                                                                 if (strongSelf.authCoordinatorBrowserBlock) {
-                                                                     strongSelf.authCoordinatorBrowserBlock(YES);
-                                                                 }
-                                                             }
-                                                         }];
-        [self.statusAlert addAction:okAction];
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:secondButtonTitle
-                                                               style:UIAlertActionStyleDefault
-                                                             handler:^(UIAlertAction *action) {
-                                                                 __strong typeof(weakSelf) strongSelf = weakSelf;
-                                                                 if(tag == kAdvancedAuthDialogTag) {
-                                                                     if ([strongSelf.config.safariViewDelegate respondsToSelector:@selector(authClientDidCancelBrowserFlow:)]) {
-                                                                         [strongSelf.config.safariViewDelegate authClientDidCancelBrowserFlow:self];
-                                                                     }
-
-                                                                     // Let the OAuth coordinator know whether to proceed or not.
-                                                                     if (self.authCoordinatorBrowserBlock) {
-                                                                         self.authCoordinatorBrowserBlock(NO);
-                                                                     }
-                                                                 } else if (tag == kOAuthGenericAlertViewTag){
-                                                                     // Let the delegate know about the cancellation
-                                                                     if ([strongSelf.config.safariViewDelegate respondsToSelector:@selector(authClientDidCancelGenericFlow:)]) {
-                                                                         [strongSelf.config.safariViewDelegate authClientDidCancelGenericFlow:self];
-                                                                     }
-                                                                 }
-                                                             }];
-
-        [self.statusAlert addAction:cancelAction];
-        
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            __strong typeof (weakSelf) strongSelf = weakSelf;
-            strongSelf.authWindow.viewController = [self blankViewController];
-            [strongSelf.authWindow enable:YES withCompletion:^{
-                [strongSelf.authWindow.viewController presentViewController:weakSelf.statusAlert animated:NO completion:nil];
-            }];
-        });
-
-    }
-}
-
-- (void)showAlertMessage:(NSString *)message withCompletion:(void (^)(void)) completionBlock{
-    NSString *decodedMessage = [message  stringByReplacingOccurrencesOfString:@"+" withString:@" "];
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"IDP Authentication Failure"                                                     message:decodedMessage
-                                                                      preferredStyle:UIAlertControllerStyleAlert];
-    //We add buttons to the alert controller by creating UIAlertActions:
-    UIAlertAction *actionOk = [UIAlertAction actionWithTitle:@"OK"
-                                                       style:UIAlertActionStyleDefault
-                                                     handler:nil]; //You can use a block here to handle a press on this button
-    [alertController addAction:actionOk];
-    
-    
-    [self.authWindow.viewController presentViewController:alertController animated:YES completion:completionBlock];
-}
-
-- (void)showAlertMessage:(NSString *)message withSuccess:(void (^)(void)) successCompletionBlock failure:(void (^)(void)) cancelCompletionBlock{
-    NSString *decodedMessage = [message  stringByReplacingOccurrencesOfString:@"+" withString:@" "];
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"IDP Authentication Failure"                                                     message:decodedMessage
-                                                                      preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *actionOk = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        if( successCompletionBlock )
-            successCompletionBlock();
-    }];
-    
-    UIAlertAction *actionCancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        if( cancelCompletionBlock )
-            cancelCompletionBlock();
-    }];
-    [alertController addAction:actionOk];
-    [alertController addAction:actionCancel];
-    
-    [self.authWindow.viewController presentViewController:alertController animated:YES completion:nil];
-}
+//
+//- (void)handleFailure:(NSError *)error{
+//
+//    if (self.config.failureCallbackBlock) {
+//        self.config.failureCallbackBlock(self.context.authInfo,error);
+//    }
+//    [self notifyDelegateOfFailure:error];
+//    [self cancelAuthentication];
+//}
 
 -(UIViewController *) blankViewController {
     UIViewController *blankViewController = [[UIViewController alloc] init];
@@ -783,56 +556,6 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
     [SFSDKCoreLogger i:[self class] format:@"%@: Restarting in-progress authentication process.", NSStringFromSelector(_cmd)];
     [self.coordinator stopAuthentication];
     [self refreshCredentials];
-}
-
-#pragma mark - private class members
-+ (BOOL)errorIsInvalidAuthCredentials:(NSError *)error
-{
-    BOOL errorIsInvalidCreds = NO;
-    if (error.domain == kSFOAuthErrorDomain) {
-        if (error.code == kSFOAuthErrorInvalidGrant) {
-            errorIsInvalidCreds = YES;
-        }
-    }
-    return errorIsInvalidCreds;
-}
-
-/**
- * Evaluates an NSError object to see if it represents a network failure during
- * an attempted connection.
- * @param error The NSError to evaluate.
- * @return YES if the error represents a network failure, NO otherwise.
- */
-+ (BOOL)errorIsNetworkFailure:(NSError *)error
-{
-    BOOL isNetworkFailure = NO;
-
-    if (error == nil || error.domain == nil)
-        return isNetworkFailure;
-
-    if ([error.domain isEqualToString:NSURLErrorDomain]) {
-        switch (error.code) {
-            case NSURLErrorTimedOut:
-            case NSURLErrorCannotConnectToHost:
-            case NSURLErrorNetworkConnectionLost:
-            case NSURLErrorNotConnectedToInternet:
-            case NSURLErrorInternationalRoamingOff:
-                isNetworkFailure = YES;
-                break;
-            default:
-                break;
-        }
-    } else if ([error.domain isEqualToString:kSFOAuthErrorDomain]) {
-        switch (error.code) {
-            case kSFOAuthErrorTimeout:
-                isNetworkFailure = YES;
-                break;
-            default:
-                break;
-        }
-    }
-
-    return isNetworkFailure;
 }
 
 #pragma mark - SFSDKOAuthClientProvider

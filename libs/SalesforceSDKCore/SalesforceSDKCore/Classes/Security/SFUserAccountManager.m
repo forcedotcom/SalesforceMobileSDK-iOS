@@ -55,6 +55,11 @@
 #import "SFSDKURLHandlerManager.h"
 #import "SFSDKOAuthClientCache.h"
 #import "SFSDKWebViewStateManager.h"
+#import "SFSDKAlertMessage.h"
+#import "SFSDKAlertMessageBuilder.h"
+#import "SFSDKAlertMessage.h"
+#import "SFSDKWindowContainer.h"
+
 // Notifications
 NSString * const SFUserAccountManagerDidChangeUserNotification   = @"SFUserAccountManagerDidChangeUserNotification";
 NSString * const SFUserAccountManagerDidChangeUserDataNotification   = @"SFUserAccountManagerDidChangeUserDataNotification";
@@ -73,7 +78,15 @@ static NSString * const kUserDefaultsLastUserIdentityKey = @"LastUserIdentity";
 static NSString * const kUserDefaultsLastUserCommunityIdKey = @"LastUserCommunityId";
 static NSString * const kSFAppFeatureMultiUser   = @"MU";
 
-static NSString *const kSFIncompatibleAuthError = @"Cannot use this SFUserAccountManager Auth functions with useLegacyAuthenticationManager enabled";
+static NSString * const kAlertErrorTitleKey = @"authAlertErrorTitle";
+static NSString * const kAlertOkButtonKey = @"authAlertOkButton";
+static NSString * const kAlertRetryButtonKey = @"authAlertRetryButton";
+static NSString * const kAlertDismissButtonKey = @"authAlertDismissButton";
+static NSString * const kAlertConnectionErrorFormatStringKey = @"authAlertConnectionErrorFormatString";
+static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismatchError";
+
+
+static NSString *const kSFIncompatibleAuthError = @"Cannot use SFUserAccountManager Auth functions with useLegacyAuthenticationManager enabled";
 
 @implementation SFUserAccountManager
 
@@ -102,6 +115,14 @@ static NSString *const kSFIncompatibleAuthError = @"Cannot use this SFUserAccoun
         [self migrateUserDefaults];
         _accountsLock = [NSRecursiveLock new];
         _authPreferences = [SFSDKAuthPreferences  new];
+        _errorManager = [[SFSDKAuthErrorManager alloc] init];
+        __weak typeof (self) weakSelf = self;
+        self.alertDisplayBlock = ^(SFSDKAlertMessage * message, SFSDKWindowContainer *window) {
+            __strong typeof (weakSelf) strongSelf = weakSelf;
+            strongSelf.alertView = [[SFSDKAlertView alloc] initWithMessage:message window:window];
+            [strongSelf.alertView presentViewController:NO completion:nil];
+        };
+        [self populateErrorHandlers];
      }
 	return self;
 }
@@ -222,6 +243,7 @@ static NSString *const kSFIncompatibleAuthError = @"Cannot use this SFUserAccoun
     NSAssert(self.useLegacyAuthenticationManager==false, kSFIncompatibleAuthError);
     
     SFSDKOAuthClient *client = [self fetchOAuthClient:credentials completion:completionBlock failure:failureBlock];
+    [[SFSDKOAuthClientCache sharedInstance] addClient:client];
     return [client refreshCredentials];
 }
 
@@ -268,7 +290,7 @@ static NSString *const kSFIncompatibleAuthError = @"Cannot use this SFUserAccoun
     SFSDKOAuthClient *client = [self fetchOAuthClient:user.credentials completion:nil failure:nil];
     
     [self deleteAccountForUser:user error:nil];
-    [client cancelAuthentication];
+    [client cancelAuthentication:NO];
     [client revokeCredentials];
 
     if ([SFPushNotificationManager sharedInstance].deviceSalesforceId) {
@@ -318,6 +340,10 @@ static NSString *const kSFIncompatibleAuthError = @"Cannot use this SFUserAccoun
     [SFSDKWindowManager.sharedManager.authWindow disable];
 }
 
++ (BOOL)errorIsInvalidAuthCredentials:(NSError *)error {
+    return [SFSDKAuthErrorManager errorIsInvalidAuthCredentials:error];
+}
+
 #pragma mark - SFSDKOAuthClientDelegate
 - (void)authClientWillBeginAuthentication:(SFSDKOAuthClient *)client{
     [self enumerateDelegates:^(id <SFUserAccountManagerDelegate> delegate) {
@@ -328,11 +354,16 @@ static NSString *const kSFIncompatibleAuthError = @"Cannot use this SFUserAccoun
 }
 
 - (void)authClientDidFail:(SFSDKOAuthClient *)client error:(NSError *_Nullable)error{
-    [self enumerateDelegates:^(id <SFUserAccountManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(userAccountManager:error:info:)]) {
-            [delegate userAccountManager:self error:error info:client.context.authInfo];
-        }
-    }];
+    NSMutableDictionary *options = [[NSMutableDictionary alloc] init];
+    [options setObject:client forKey:@"SFErroredOAuthClientKey"];
+    BOOL errorWasHandled = [self.errorManager processAuthError:error authInfo:client.context.authInfo options:options];
+    if (!errorWasHandled) {
+        [self enumerateDelegates:^(id <SFUserAccountManagerDelegate> delegate) {
+            if ([delegate respondsToSelector:@selector(userAccountManager:error:info:)]) {
+                [delegate userAccountManager:self error:error info:client.context.authInfo];
+            }
+        }];
+    }
 }
 
 - (BOOL)authClientIsNetworkAvailable:(SFSDKOAuthClient *)client {
@@ -367,6 +398,15 @@ static NSString *const kSFIncompatibleAuthError = @"Cannot use this SFUserAccoun
     [client restartAuthentication];
 }
 
+- (void)authClient:(SFSDKOAuthClient *)client displayMessage:(SFSDKAlertMessage *)message {
+    self.alertDisplayBlock(message,client.authWindow);
+}
+
+#pragma mark - SFSDKOAuthClientSafariViewDelegate
+- (void)authClientWillBeginBrowserAuthentication:(SFSDKOAuthClient *)client completion:(SFOAuthBrowserFlowCallbackBlock)callbackBlock {
+}
+
+
 #pragma mark - SFSDKIDPAuthClientDelegate
 - (void)authClient:(SFSDKOAuthClient *)client error:(NSError *)error {
     SFSDKIDPAuthClient *idpClient = (SFSDKIDPAuthClient *) [SFSDKOAuthClient idpAuthInstance:nil];
@@ -374,8 +414,34 @@ static NSString *const kSFIncompatibleAuthError = @"Cannot use this SFUserAccoun
     [self disposeOAuthClient:idpClient];
 }
 
-- (void)authClient:(SFSDKOAuthClient *_Nonnull)client willSendResponseForIDPAuth:(NSURL *)response {
+- (void)authClient:(SFSDKOAuthClient *)client willSendResponseForIDPAuth:(NSURL *)response {
     [client dismissAuthViewControllerIfPresent];
+}
+
+- (void)authClientDisplayIDPLoginFlowSelection:(SFSDKIDPAuthClient *)client  {
+    UIViewController<SFSDKLoginFlowSelectionView> *controller  = self.idpLoginFlowSelectionAction();
+    controller.selectionFlowDelegate = self;
+    NSMutableDictionary *options = [[NSMutableDictionary alloc] init];
+    NSString *key = [SFSDKOAuthClientCache keyFromClient:client];
+    [options setObject:key forKey:kOptionsClientKey];
+    controller.appOptions = options;
+    client.authWindow.viewController = controller;
+    
+    [[SFSDKOAuthClientCache sharedInstance] addClient:client];
+    [client.authWindow enable:YES withCompletion:nil];
+}
+
+#pragma mark - SFSDKLoginFlowSelectionViewControllerDelegate
+-(void)loginFlowSelectionIDPSelected:(UIViewController *)controller options:(NSDictionary *)appOptions {
+    NSString *key = [appOptions objectForKey:kOptionsClientKey];
+    SFSDKIDPAuthClient *client = (SFSDKIDPAuthClient *)[[SFSDKOAuthClientCache sharedInstance] clientForKey:key];
+    [client initiateIDPFlowInSPApp];
+}
+
+-(void)loginFlowSelectionLocalLoginSelected:(UIViewController *)controller options:(NSDictionary *)appOptions  {
+    NSString *key = [appOptions objectForKey:kOptionsClientKey];
+    SFSDKIDPAuthClient *client = (SFSDKIDPAuthClient *)[[SFSDKOAuthClientCache sharedInstance] clientForKey:key];
+    [client initiateLocalLoginInSPApp];
 }
 
 #pragma mark - SFSDKUserSelectionViewDelegate
@@ -419,7 +485,7 @@ static NSString *const kSFIncompatibleAuthError = @"Cannot use this SFUserAccoun
     SFSDKIDPAuthClient * idpClient = [self fetchIDPAuthClient:[self newClientCredentials] completion:nil failure:nil];
     [idpClient setCallingAppOptionsInContext:spAppOptions];
     [idpClient launchSPAppWithError:nil reason:@"User cancelled authentication"];
-    [idpClient cancelAuthentication];
+    [idpClient cancelAuthentication:YES];
     [self disposeOAuthClient:idpClient];
 }
 
@@ -923,6 +989,94 @@ static NSString *const kSFIncompatibleAuthError = @"Cannot use this SFUserAccoun
 }
 
 #pragma mark - private methods
+- (void)populateErrorHandlers
+{
+    __weak typeof (self) weakSelf = self;
+    
+    self.errorManager.invalidAuthCredentialsErrorHandlerBlock  = ^(NSError *error, SFOAuthInfo *authInfo,NSDictionary *options) {
+         SFSDKOAuthClient *client = [options objectForKey:@"SFErroredOAuthClientKey"];
+         __strong typeof (weakSelf) strongSelf = weakSelf;
+        [SFSDKCoreLogger w:[strongSelf class] format:@"OAuth refresh failed due to invalid grant.  Error code: %ld", (long)error.code];
+        [strongSelf handleFailure:error client:client];
+    };
+    
+    self.errorManager.networkErrorHandlerBlock = ^(NSError *error, SFOAuthInfo *authInfo,NSDictionary *options) {
+        BOOL shouldBubbleUP = NO;
+        __strong typeof (weakSelf) strongSelf = weakSelf;
+        SFSDKOAuthClient *client = [options objectForKey:@"SFErroredOAuthClientKey"];
+        if (authInfo.authType != SFOAuthTypeRefresh) {
+            [SFSDKCoreLogger e:[weakSelf class] format:@"Network failure for non-Refresh OAuth flow (%@) is a fatal error.", authInfo.authTypeDescription];
+            shouldBubbleUP = YES;
+        } else if ([SFUserAccountManager sharedInstance].currentUser.credentials.accessToken == nil) {
+            [SFSDKCoreLogger w:[weakSelf class] format:@"Network unreachable for access token refresh, and no access token is configured.  Cannot continue."];
+            shouldBubbleUP = YES;
+        }
+        if (shouldBubbleUP) {
+            [strongSelf handleFailure:error client:client];
+        } else {
+            [SFSDKCoreLogger i:[strongSelf class] format:@"Network failure for OAuth Refresh flow (existing credentials)  Try to continue."];
+            SFSDKOAuthClient *client = [options objectForKey:@"SFErroredOAuthClientKey"];
+            [strongSelf loggedIn:YES client:client];
+        }
+        
+    };
+    
+    self.errorManager.genericErrorHandlerBlock = ^(NSError *error, SFOAuthInfo *authInfo,NSDictionary *options) {
+        __strong typeof (weakSelf) strongSelf = weakSelf;
+        SFSDKOAuthClient *client = [options objectForKey:@"SFErroredOAuthClientKey"];
+        //[client clearAccountState:NO];
+        [strongSelf showRetryAlertForAuthError:(NSError *)error client:client];
+    };
+    
+    self.errorManager.connectedAppVersionMismatchErrorHandlerBlock = ^(NSError *  error, SFOAuthInfo *authInfo,NSDictionary *options) {
+         __strong typeof (weakSelf) strongSelf = weakSelf;
+        SFSDKOAuthClient *client = [options objectForKey:@"SFErroredOAuthClientKey"];
+        [SFSDKCoreLogger w:[strongSelf class] format:@"OAuth refresh failed due to Connected App version mismatch.  Error code: %ld", (long)error.code];
+        [strongSelf showAlertForConnectedAppVersionMismatchError:error client:client];
+    };
+}
+
+- (void)showRetryAlertForAuthError:(NSError *)error client:(SFSDKOAuthClient *)client
+{
+    NSString *alertMessage = [NSString stringWithFormat:[SFSDKResourceUtils localizedString:kAlertConnectionErrorFormatStringKey], [error localizedDescription]];
+   
+    __weak typeof (self) weakSelf = self;
+    SFSDKAlertMessage *message = [SFSDKAlertMessage messageWithBlock:^(SFSDKAlertMessageBuilder *builder) {
+         __strong typeof (weakSelf) strongSelf = weakSelf;
+        builder.alertTitle = [SFSDKResourceUtils localizedString:kAlertErrorTitleKey];
+        builder.alertMessage = alertMessage;
+        builder.actionOneTitle = [SFSDKResourceUtils localizedString:kAlertErrorTitleKey];
+        builder.actionTwoTitle = [SFSDKResourceUtils localizedString:kAlertDismissButtonKey];
+        builder.actionOneCompletion = ^{
+            [strongSelf disposeOAuthClient:client];
+            SFOAuthCredentials *credentials = [strongSelf newClientCredentials];
+            [strongSelf dismissAuthViewControllerIfPresent];
+            SFSDKOAuthClient *newClient = [strongSelf fetchOAuthClient:credentials completion:client.config.successCallbackBlock failure:client.config.failureCallbackBlock];
+            [newClient refreshCredentials];
+        };
+        builder.actionTwoCompletion = ^{
+            [client cancelAuthentication:YES];
+            [strongSelf disposeOAuthClient:client];
+        };
+    }];
+    self.alertDisplayBlock(message, SFSDKWindowManager.sharedManager.authWindow);
+}
+
+- (void)showAlertForConnectedAppVersionMismatchError:(NSError *)error client:(SFSDKOAuthClient *)client
+{
+     __weak typeof (self) weakSelf = self;
+    SFSDKAlertMessage *message = [SFSDKAlertMessage messageWithBlock:^(SFSDKAlertMessageBuilder *builder) {
+        __strong typeof (weakSelf) strongSelf = weakSelf;
+        builder.alertTitle = [SFSDKResourceUtils localizedString:kAlertErrorTitleKey];
+        builder.alertMessage = [SFSDKResourceUtils localizedString:kAlertVersionMismatchErrorKey];
+        builder.actionOneTitle = [SFSDKResourceUtils localizedString:kAlertErrorTitleKey];
+        builder.actionTwoTitle = [SFSDKResourceUtils localizedString:kAlertDismissButtonKey];
+        builder.actionOneCompletion = ^{
+            [strongSelf handleFailure:error client:client];
+        };
+    }];
+   self.alertDisplayBlock(message, SFSDKWindowManager.sharedManager.authWindow);
+}
 
 - (SFSDKOAuthClient *)fetchOAuthClient:(SFOAuthCredentials *)credentials completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
     
@@ -944,6 +1098,7 @@ static NSString *const kSFIncompatibleAuthError = @"Cannot use this SFUserAccoun
             config.delegate = strongSelf;
             config.webViewDelegate = strongSelf;
             config.safariViewDelegate = strongSelf;
+            config.idpDelegate = strongSelf;
             config.successCallbackBlock = completionBlock;
             config.failureCallbackBlock = failureBlock;
             config.idpLoginFlowSelectionBlock = strongSelf.idpLoginFlowSelectionAction;
@@ -1038,7 +1193,7 @@ static NSString *const kSFIncompatibleAuthError = @"Cannot use this SFUserAccoun
         }
     }];
     
-    [client cancelAuthentication];
+    [client cancelAuthentication:NO];
 }
 
 
@@ -1069,7 +1224,8 @@ static NSString *const kSFIncompatibleAuthError = @"Cannot use this SFUserAccoun
         [self handleAnalyticsAddUserEvent:client account:userAccount];
     }
     
-    if (self.authPreferences.isIdentityProvider && [client isKindOfClass:[SFSDKIDPAuthClient class]]) {
+   if (self.authPreferences.isIdentityProvider &&
+       ([client.context.callingAppOptions count] >0)) {
         SFSDKIDPAuthClient *idpClient = (SFSDKIDPAuthClient *)client;
         
         //if not current user has been set in the app yet then set this user as current.
@@ -1128,7 +1284,6 @@ static NSString *const kSFIncompatibleAuthError = @"Cannot use this SFUserAccoun
 }
 
 #pragma mark Switching Users
-
 - (void)switchToNewUser {
     [self switchToUser:nil];
 }
@@ -1201,4 +1356,5 @@ static NSString *const kSFIncompatibleAuthError = @"Cannot use this SFUserAccoun
     [self loadAccounts:nil];
     [_accountsLock unlock];
 }
+
 @end

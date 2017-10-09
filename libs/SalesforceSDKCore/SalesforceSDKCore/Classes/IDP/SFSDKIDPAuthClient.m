@@ -37,9 +37,8 @@
 #import "SFSDKAuthErrorCommand.h"
 #import "SFSDKIDPInitCommand.h"
 
-@interface SFSDKIDPAuthClient()<SFSDKLoginFlowSelectionViewDelegate>
+@interface SFSDKIDPAuthClient()
 @property (nonatomic, strong) SFSDKOAuthClientContext *context;
-- (SFIDPLoginFlowSelectionBlock)idpLoginFlowSelectionBlock;
 @end
 
 @implementation SFSDKIDPAuthClient
@@ -61,12 +60,17 @@
     if (!self.config.idpLoginFlowSelectionBlock) {
         return ^SFSDKLoginFlowSelectionViewController * {
             SFSDKLoginFlowSelectionViewController *controller = [[SFSDKLoginFlowSelectionViewController alloc] initWithNibName:nil bundle:nil];
-            controller.selectionFlowDelegate = self;
             return controller;
             
         };
     }
     return self.config.idpLoginFlowSelectionBlock;
+}
+
+- (void)setIdpLoginFlowSelectionBlock:(SFIDPLoginFlowSelectionBlock)idpLoginFlowSelectionBlock {
+    if (idpLoginFlowSelectionBlock) {
+        self.config.idpLoginFlowSelectionBlock = idpLoginFlowSelectionBlock;
+    }
 }
 
 - (SFIDPUserSelectionBlock)idpUserSelectionBlock {
@@ -92,17 +96,24 @@
 }
 
 - (BOOL)refreshCredentials {
-    
-    if (self.credentials.accessToken==nil) {
-        UIViewController<SFSDKLoginFlowSelectionView> *controller  = self.idpLoginFlowSelectionBlock();
-        controller.selectionFlowDelegate = self;
-        self.authWindow.viewController = controller;
-        [self.authWindow enable:YES withCompletion:nil];
+    BOOL result = NO;
+    if (self.credentials.accessToken==nil && self.config.idpEnabled) {
+        if ([self.config.idpDelegate respondsToSelector:@selector(authClientDisplayIDPLoginFlowSelection:)]) {
+           [self.config.idpDelegate authClientDisplayIDPLoginFlowSelection:self];
+        }
     } else {
-        [super refreshCredentials];
+        result = [super refreshCredentials];
     }
-    
-    return YES;
+    return result;
+}
+
+- (BOOL)initiateLocalLoginInSPApp {
+    return [super refreshCredentials];
+}
+
+- (void)initiateIDPFlowInSPApp {
+    // within SP App triggering the flow to IDP App.
+    [self launchIDPApp];
 }
 
 - (void)beginIDPInitiatedFlow:(SFSDKIDPInitCommand *)command {
@@ -111,7 +122,7 @@
     context.currentCommand = command;
     context.userHint = command.userHint;
     self.context = context;
-    [self launchIDPApp];
+    [self initiateIDPFlowInSPApp];
 }
 
 - (void)beginIDPFlow:(SFSDKAuthRequestCommand *)request {
@@ -121,6 +132,7 @@
     self.context = context;
     [super refreshCredentials];
 }
+
 
 - (void)beginIDPFlowForNewUser {
     [super refreshCredentials];
@@ -263,18 +275,7 @@
 }
 
 
-#pragma mark - SFSDKLoginFlowSelectionViewControllerDelegate
--(void)loginFlowSelectionIDPSelected:(SFSDKLoginFlowSelectionViewController *)controller {
-    [self launchIDPApp];
-}
 
--(void)loginFlowSelectionLocalLoginSelected:(SFSDKLoginFlowSelectionViewController *)controller {
-    [super refreshCredentials];
-}
-
--(void)loginFlowSelectionCancelSelected:(SFSDKLoginFlowSelectionViewController *)controller {
-    [super cancelAuthentication];
-}
 
 - (NSError *)errorWithType:(NSString *)type description:(NSString *)description {
     NSAssert(type, @"error type can't be nil");
@@ -346,9 +347,8 @@
         mutableOAuthClientContext.authInfo = info;
         mutableOAuthClientContext.authError = error;
         self.context = mutableOAuthClientContext;
-        [super processAuthError:error];
+        [self notifyDelegateOfFailure:error];
     }
-    
 }
 
 - (BOOL)handleURLAuthenticationResponse:(NSURL *)appUrlResponse {

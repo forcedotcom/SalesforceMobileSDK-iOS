@@ -459,8 +459,13 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
 
 - (BOOL)logoutOnInvalidCredentials:(NSError *)error
 {
-    return ([SFAuthenticationManager errorIsInvalidAuthCredentials:error]
-            && [[SFAuthenticationManager sharedManager].authErrorHandlerList authErrorHandlerInList:[SFAuthenticationManager sharedManager].invalidCredentialsAuthErrorHandler]);
+    if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
+        return ([SFAuthenticationManager errorIsInvalidAuthCredentials:error]
+                && [[SFAuthenticationManager sharedManager].authErrorHandlerList authErrorHandlerInList:[SFAuthenticationManager sharedManager].invalidCredentialsAuthErrorHandler]);
+    }
+   else {
+       return [SFUserAccountManager errorIsInvalidAuthCredentials:error];
+   }
 }
 
 - (NSURL *)fullFileUrlForPage:(NSString *)page

@@ -36,6 +36,10 @@ NS_ASSUME_NONNULL_BEGIN
 typedef BOOL (^SFAuthErrorHandlerEvalBlock)(NSError *, SFOAuthInfo *);
 
 /**
+ Block definition for auth error handling evaluation block with Options.
+ */
+typedef BOOL (^SFAuthErrorHandlerOptionsEvalBlock)(NSError *, SFOAuthInfo *, NSDictionary *);
+/**
  Class to define a handler for authentication errors, which can be used in an
  error handling filter chain.
  @see SFAuthenticationManager
@@ -54,12 +58,24 @@ typedef BOOL (^SFAuthErrorHandlerEvalBlock)(NSError *, SFOAuthInfo *);
 @property (nonatomic, readonly) SFAuthErrorHandlerEvalBlock evalBlock;
 
 /**
+ The block of code that will evaluate the error.  The block should return YES if it can
+ handle the error, and NO if the error should be passed on to the next handler.
+ */
+@property (nonatomic, readonly) SFAuthErrorHandlerOptionsEvalBlock evalOptionsBlock;
+
+/**
  Designated initializer for SFAuthErrorHandler.
  @param name The canonical name of the error handler.
  @param evalBlock The block to handle the error evaluation.
  */
 - (id)initWithName:(NSString *)name evalBlock:(SFAuthErrorHandlerEvalBlock)evalBlock;
 
+/**
+ Designated initializer for SFAuthErrorHandler.
+ @param name The canonical name of the error handler.
+ @param evalOptionsBlock The block to handle the error evaluation.
+ */
+- (id)initWithName:(NSString *)name evalOptionsBlock:(SFAuthErrorHandlerOptionsEvalBlock)evalOptionsBlock;
 @end
 
 NS_ASSUME_NONNULL_END

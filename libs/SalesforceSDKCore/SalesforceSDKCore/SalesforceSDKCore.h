@@ -2,7 +2,7 @@
  SalesforceSDKCore.h
  SalesforceSDKCore
 
- Created by Raj Rao on Mon Oct  2 16:08:07 PDT 2017.
+ Created by Raj Rao on Sun Oct  8 16:39:40 PDT 2017.
 
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
@@ -96,6 +96,8 @@
 #import <SalesforceSDKCore/SFRestAPI.h>
 #import <SalesforceSDKCore/SFRestRequest.h>
 #import <SalesforceSDKCore/SFSDKAILTNPublisher.h>
+#import <SalesforceSDKCore/SFSDKAlertMessage.h>
+#import <SalesforceSDKCore/SFSDKAlertMessageBuilder.h>
 #import <SalesforceSDKCore/SFSDKAnalyticsPublisher.h>
 #import <SalesforceSDKCore/SFSDKAppConfig.h>
 #import <SalesforceSDKCore/SFSDKAppDelegate.h>

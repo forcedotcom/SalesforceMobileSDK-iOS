@@ -410,8 +410,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     NSAssert([authListener.returnStatus isEqualToString:kTestRequestStatusDidLoad], @"After auth attempt, expected status '%@', got '%@'",
              kTestRequestStatusDidLoad,
              authListener.returnStatus);
-    
-    XCTAssertEqual(acctDelegate.willLoginCredentials, credentials, @"Will login ceredentials should be called");
+    XCTAssertNotNil(acctDelegate.willLoginCredentials, @"Will login credentials should be called");
     XCTAssertEqual(acctDelegate.didLoginUserAccount,user, @"DidLoginUserAccount should be called.");
 
     [[SFUserAccountManager sharedInstance] removeDelegate:acctDelegate];

@@ -27,11 +27,13 @@
 #import "SFSDKIDPAuthClient.h"
 #import "SFSDKUserSelectionView.h"
 #import "SFSDKLoginFlowSelectionView.h"
+#import "SFSDKAlertView.h"
+#import "SFSDKAuthErrorManager.h"
 
 @class SFSDKAuthPreferences;
 
 @interface SFUserAccountManager () <SFSDKOAuthClientSafariViewDelegate,SFSDKOAuthClientWebViewDelegate,SFSDKIDPAuthClientDelegate,
-    SFSDKOAuthClientDelegate,SFSDKUserSelectionViewDelegate>
+    SFSDKOAuthClientDelegate,SFSDKUserSelectionViewDelegate,SFSDKLoginFlowSelectionViewDelegate>
 
 {
     NSRecursiveLock *_accountsLock;
@@ -53,6 +55,15 @@
  */
 @property (nonatomic, strong, nonnull) SFSDKAuthPreferences *authPreferences;
 
+/** SFSDKAlertView used to wrap display of SFSDKMessage using an AlertController.
+ *
+ */
+@property (nonatomic, strong, nullable) SFSDKAlertView *alertView;
+
+/** SFSDKAlertView used to wrap display of SFSDKMessage using an AlertController.
+ *
+ */
+@property (nonatomic, strong, nullable) SFSDKAuthErrorManager *errorManager;
 
 /**
  Executes the given block for each configured delegate.

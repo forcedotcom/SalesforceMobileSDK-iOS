@@ -31,16 +31,13 @@
 
 @protocol SFSDKLoginFlowSelectionViewDelegate<NSObject>
 
--(void)loginFlowSelectionIDPSelected:(UIViewController *)controller;
+-(void)loginFlowSelectionIDPSelected:(UIViewController *)controller options:(NSDictionary *)appOptions;
 
--(void)loginFlowSelectionLocalLoginSelected:(UIViewController *)controller;
-
--(void)loginFlowSelectionCancelSelected:(UIViewController *)controller;
+-(void)loginFlowSelectionLocalLoginSelected:(UIViewController *)controller options:(NSDictionary *)appOptions;
 
 @end
 
 @protocol SFSDKLoginFlowSelectionView<NSObject>
-
 @property (weak,nonatomic) id <SFSDKLoginFlowSelectionViewDelegate> selectionFlowDelegate;
-
+@property (nonatomic,strong) NSDictionary *appOptions;
 @end
