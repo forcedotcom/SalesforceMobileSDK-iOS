@@ -26,6 +26,7 @@
 #import <SmartSync/SFSmartSyncSyncManager.h>
 #import <SmartSync/SFSmartSyncConstants.h>
 #import <SmartSync/SFSmartSyncNetworkUtils.h>
+#import <SalesforceSDKCore/SFOAuthCredentials.h>
 
 // SOAP request
 #define REQUEST_TEMPLATE @"<?xml version=\"1.0\"?>"\
