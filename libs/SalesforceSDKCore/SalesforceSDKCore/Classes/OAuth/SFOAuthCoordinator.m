@@ -121,9 +121,6 @@ static NSString * const kHttpPostContentType                    = @"application/
 static NSString * const kHttpHeaderUserAgent                    = @"User-Agent";
 static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
 
-static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
-static NSString * const kSFAppFeatureIDPLogin   = @"IW";
-
 @implementation SFOAuthCoordinator
 
 @synthesize credentials          = _credentials;
@@ -297,7 +294,7 @@ static NSString * const kSFAppFeatureIDPLogin   = @"IW";
 
 - (BOOL)handleIDPAuthenticationResponse:(NSURL *)appUrlResponse {
     self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeIDP];
-    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureIDPLogin];
+   
     NSString *query = [appUrlResponse query];
     
     if ([query length] == 0) {
@@ -321,7 +318,6 @@ static NSString * const kSFAppFeatureIDPLogin   = @"IW";
 
 - (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse {
      self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
-    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
     NSString *appUrlResponseString = [appUrlResponse absoluteString];
     if (![[appUrlResponseString lowercaseString] hasPrefix:[self.credentials.redirectUri lowercaseString]]) {
         [SFSDKCoreLogger i:[self class] format:@"%@ URL does not match redirect URI.", NSStringFromSelector(_cmd)];

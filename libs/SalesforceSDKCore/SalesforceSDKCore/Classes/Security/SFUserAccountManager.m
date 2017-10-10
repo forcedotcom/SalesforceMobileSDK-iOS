@@ -89,6 +89,9 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 static NSString *const kSFIncompatibleAuthError = @"Cannot use SFUserAccountManager Auth functions with useLegacyAuthenticationManager enabled";
 
 static NSString *const kErroredClientKey = @"SFErroredOAuthClientKey";
+static NSString * const kSFSPAppFeatureIDPLogin   = @"SP";
+static NSString * const kSFIDPAppFeatureIDPLogin   = @"IP";
+static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
 
 @implementation SFUserAccountManager
 
@@ -178,6 +181,9 @@ static NSString *const kErroredClientKey = @"SFErroredOAuthClientKey";
 }
 
 - (void)setIsIdentityProvider:(BOOL)isIdentityProvider{
+    if (isIdentityProvider) {
+        [SFSDKAppFeatureMarkers registerAppFeature:kSFIDPAppFeatureIDPLogin];
+    }
     self.authPreferences.isIdentityProvider = isIdentityProvider;
 }
 
@@ -186,8 +192,23 @@ static NSString *const kErroredClientKey = @"SFErroredOAuthClientKey";
 }
 
 - (void)setIdpEnabled:(BOOL)idpEnabled {
+    if (idpEnabled) {
+        [SFSDKAppFeatureMarkers registerAppFeature:kSFSPAppFeatureIDPLogin];
+    }
     self.authPreferences.idpEnabled = idpEnabled;
 }
+
+- (SFOAuthAdvancedAuthConfiguration)advancedAuthConfiguration {
+   return self.authPreferences.advancedAuthConfiguration;
+}
+
+- (void)setAdvancedAuthConfiguration:(SFOAuthAdvancedAuthConfiguration)advancedAuthConfiguration {
+    if (advancedAuthConfiguration == SFOAuthAdvancedAuthConfigurationRequire)
+        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
+
+    self.authPreferences.advancedAuthConfiguration = advancedAuthConfiguration;
+}
+
 
 - (BOOL)useLegacyAuthenticationManager{
     return self.authPreferences.useLegacyAuthenticationManager;
