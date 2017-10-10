@@ -34,7 +34,6 @@ extern NSString * const kSObjectIdField;
 
 @property (nonatomic, copy) NSString *objectType;
 @property (nonatomic, strong) NSArray *objectFieldSpecs;
-@property (nonatomic, strong) NSArray *indexSpecs;
 @property (nonatomic, copy) NSString *soupName;
 @property (nonatomic, copy) NSString *orderByFieldName;
 
@@ -43,7 +42,6 @@ extern NSString * const kSObjectIdField;
 
 - (id)initWithObjectType:(NSString *)objectType
         objectFieldSpecs:(NSArray *)objectFieldSpecs
-              indexSpecs:(NSArray *)indexSpecs
                 soupName:(NSString *)soupName
         orderByFieldName:(NSString *)orderByFieldName;
 
