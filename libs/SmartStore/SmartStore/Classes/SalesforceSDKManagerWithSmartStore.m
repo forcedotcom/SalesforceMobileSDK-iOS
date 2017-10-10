@@ -37,12 +37,12 @@
 
 - (void) setupGlobalStoreFromDefaultConfig {
     [SFSDKSmartStoreLogger d:[self class] format:@"Setting up global store using config found in globalstore.json"];
-    [self setupStoreFromConfig:@"globalstore.json" store:[SFSmartStore sharedGlobalStoreWithName:kDefaultSmartStoreName]];
+    [self setupStoreFromConfig:@"globalstore" store:[SFSmartStore sharedGlobalStoreWithName:kDefaultSmartStoreName]];
 }
 
 - (void) setupUserStoreFromDefaultConfig {
     [SFSDKSmartStoreLogger d:[self class] format:@"Setting up user store using config found in userstore.json"];
-    [self setupStoreFromConfig:@"userstore.json" store:[SFSmartStore sharedStoreWithName:kDefaultSmartStoreName]];
+    [self setupStoreFromConfig:@"userstore" store:[SFSmartStore sharedStoreWithName:kDefaultSmartStoreName]];
 }
 
 - (void) setupStoreFromConfig:(NSString*)path store:(SFSmartStore *)store {

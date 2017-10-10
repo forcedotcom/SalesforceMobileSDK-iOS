@@ -55,7 +55,7 @@
         NSString *soupName = [soupConfig nonNullObjectForKey:@"soupName"];
         NSArray *indexSpecs = [SFSoupIndex asArraySoupIndexes:[soupConfig nonNullObjectForKey:@"indexes"]];
         NSError * error = nil;
-        BOOL result = [store registerSoup:soupName withIndexSpecs:indexSpecs error:&error];
+        [store registerSoup:soupName withIndexSpecs:indexSpecs error:&error];
         if (error) {
             [SFSDKSmartStoreLogger e:[self class] format:@"Error registering soup: %@", soupName, error];
         }
@@ -65,7 +65,7 @@
 + (NSString*) getRawResourceAsString:(NSString *)path ofType:(NSString*)type {
     NSString *fullPath = [[NSBundle mainBundle] pathForResource:path ofType:type];
     NSError *error = nil;
-    NSString *content = [NSString stringWithContentsOfFile:path
+    NSString *content = [NSString stringWithContentsOfFile:fullPath
                                                   encoding:NSUTF8StringEncoding
                                                      error:&error];
 
