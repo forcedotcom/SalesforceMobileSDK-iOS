@@ -167,7 +167,14 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
 }
 
 - (BOOL)cancelAuthentication:(BOOL)authenticationCanceledByUser {
-    BOOL result = NO;
+    __block BOOL result = NO;
+    if (![NSThread isMainThread]) {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            result = [self cancelAuthentication:authenticationCanceledByUser];
+        });
+        return result;
+    }
+    
     [readWriteLock lock];
     if (self.isAuthenticating) {
         [self.coordinator.view removeFromSuperview];
@@ -354,9 +361,7 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
             }
         };
     }];
-    if ([self.config.delegate respondsToSelector:@selector(authClient:displayMessage:)]){
-        [self.config.delegate authClient:self displayMessage:messageObject];
-    }
+    [self.config.delegate authClient:self displayMessage:messageObject];
     
 }
 
@@ -368,9 +373,8 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
         builder.actionOneCompletion = completion;
     }];
     
-    if ([self.config.delegate respondsToSelector:@selector(authClient:displayMessage:)]){
-        [self.config.delegate authClient:self displayMessage:messageObject];
-    }
+    [self.config.delegate authClient:self displayMessage:messageObject];
+    
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator displayConfirmationMessage:(NSString *)message completion:(void (^)(BOOL result))completion {
@@ -388,9 +392,8 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
         };
     }];
     
-    if ([self.config.delegate respondsToSelector:@selector(authClient:displayMessage:)]){
-        [self.config.delegate authClient:self displayMessage:messageObject];
-    }
+    [self.config.delegate authClient:self displayMessage:messageObject];
+    
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(WKWebView *)view {
@@ -471,9 +474,7 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
             };
         }];
         
-        if ([self.config.delegate respondsToSelector:@selector(authClient:displayMessage:)]){
-            [self.config.delegate authClient:self displayMessage:message];
-        }
+        [self.config.delegate authClient:self displayMessage:message];
     }
 }
 
@@ -532,23 +533,8 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
         [self.config.delegate authClientDidFail:weakSelf error:error];
     }
 }
-//
-//- (void)handleFailure:(NSError *)error{
-//
-//    if (self.config.failureCallbackBlock) {
-//        self.config.failureCallbackBlock(self.context.authInfo,error);
-//    }
-//    [self notifyDelegateOfFailure:error];
-//    [self cancelAuthentication];
-//}
 
--(UIViewController *) blankViewController {
-    UIViewController *blankViewController = [[UIViewController alloc] init];
-    [[blankViewController view] setBackgroundColor:[UIColor clearColor]];
-    return blankViewController;
-}
-
-- (void)restartAuthentication{
+- (void)restartAuthentication {
     if (!self.isAuthenticating) {
         [SFSDKCoreLogger w:[self class] format:@"%@: Authentication manager is not currently authenticating.  No action taken.", NSStringFromSelector(_cmd)];
         return;

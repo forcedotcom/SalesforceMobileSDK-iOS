@@ -122,6 +122,7 @@ static NSString * const kHttpHeaderUserAgent                    = @"User-Agent";
 static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
 
 static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
+static NSString * const kSFAppFeatureIDPLogin   = @"IW";
 
 @implementation SFOAuthCoordinator
 
@@ -296,7 +297,7 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
 
 - (BOOL)handleIDPAuthenticationResponse:(NSURL *)appUrlResponse {
     self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeIDP];
-    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
+    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureIDPLogin];
     NSString *query = [appUrlResponse query];
     
     if ([query length] == 0) {
@@ -763,7 +764,6 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
 
 - (void)handleIDPAuthCodeResponse:(NSURL *)requestUrl {
     NSString *response = nil;
-    
     if ([requestUrl fragment]) {
         response = [requestUrl fragment];
     } else if ([requestUrl query]) {

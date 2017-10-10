@@ -98,9 +98,7 @@
 - (BOOL)refreshCredentials {
     BOOL result = NO;
     if (self.credentials.accessToken==nil && self.config.idpEnabled) {
-        if ([self.config.idpDelegate respondsToSelector:@selector(authClientDisplayIDPLoginFlowSelection:)]) {
-           [self.config.idpDelegate authClientDisplayIDPLoginFlowSelection:self];
-        }
+        [self.config.idpDelegate authClientDisplayIDPLoginFlowSelection:self];
     } else {
         result = [super refreshCredentials];
     }
@@ -273,9 +271,6 @@
     }
     [self launchSPApp];
 }
-
-
-
 
 - (NSError *)errorWithType:(NSString *)type description:(NSString *)description {
     NSAssert(type, @"error type can't be nil");

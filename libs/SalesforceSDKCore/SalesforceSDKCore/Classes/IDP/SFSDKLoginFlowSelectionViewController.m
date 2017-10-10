@@ -231,15 +231,11 @@
 }
 
 - (IBAction)useIDPAction:(id)sender {
-    if ([self.selectionFlowDelegate respondsToSelector:@selector(loginFlowSelectionIDPSelected:options:)]) {
-        [self.selectionFlowDelegate loginFlowSelectionIDPSelected:self options:self.appOptions];
-    }
+   [self.selectionFlowDelegate loginFlowSelectionIDPSelected:self options:self.appOptions];
 }
 
 - (IBAction)useLocalAction:(id)sender {
-    if ([self.selectionFlowDelegate respondsToSelector:@selector(loginFlowSelectionLocalLoginSelected:options:)]) {
-        [self.selectionFlowDelegate loginFlowSelectionLocalLoginSelected:self options:self.appOptions];
-    }
+   [self.selectionFlowDelegate loginFlowSelectionLocalLoginSelected:self options:self.appOptions];
 }
 
 + (UIImage *)imageFromColor:(UIColor *)color {

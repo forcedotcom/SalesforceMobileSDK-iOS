@@ -1112,36 +1112,9 @@ static NSString *const kErroredClientKey = @"SFErroredOAuthClientKey";
 }
 
 - (SFSDKIDPAuthClient *)fetchIDPAuthClient:(SFOAuthCredentials *)credentials completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
-    
-    NSString *key = [SFSDKOAuthClientCache keyFromCredentials:credentials  type:SFOAuthClientKeyTypeIDP];
-    
-    SFSDKIDPAuthClient *client = (SFSDKIDPAuthClient *)[[SFSDKOAuthClientCache sharedInstance] clientForKey:key];
-    if (!client) {
-        __weak typeof(self) weakSelf = self;
-        client = (SFSDKIDPAuthClient *) [SFSDKOAuthClient clientWithCredentials:credentials configBlock:^(SFSDKOAuthClientConfig *config) {
-            __strong typeof(self) strongSelf = weakSelf;
-            //TODO : Ensure retrieve host & scope from SP App's request
-            config.loginHost = strongSelf.loginHost;
-            config.idpAppScheme = strongSelf.idpAppScheme;
-            config.scopes = strongSelf.scopes;
-            config.oauthCompletionUrl = strongSelf.oauthCompletionUrl;
-            config.oauthClientId = strongSelf.oauthClientId;
-            config.appDisplayName = strongSelf.appDisplayName;
-            config.isIdentityProvider = strongSelf.isIdentityProvider;
-            config.idpEnabled  = strongSelf.idpEnabled;
-            config.advancedAuthConfiguration = strongSelf.advancedAuthConfiguration;
-            config.idpDelegate = strongSelf;
-            config.delegate = strongSelf;
-            config.webViewDelegate = strongSelf;
-            config.safariViewDelegate = strongSelf;
-            config.successCallbackBlock = completionBlock;
-            config.failureCallbackBlock = failureBlock;
-            config.idpUserSelectionBlock = strongSelf.idpUserSelectionAction;
-            config.idpLoginFlowSelectionBlock = strongSelf.idpLoginFlowSelectionAction;
-        }];
-        [[SFSDKOAuthClientCache sharedInstance] addClient:client];
-    }
-    return client;
+    NSAssert(self.idpEnabled || self.isIdentityProvider, @"SDK must be enabled to be an identity provider or enabled for idp flow");
+    SFSDKIDPAuthClient *idpAuthClient = (SFSDKIDPAuthClient *) [self fetchOAuthClient:credentials completion:completionBlock failure:failureBlock];
+    return idpAuthClient;
 }
 
 - (void)disposeOAuthClient:(SFSDKOAuthClient *)client {

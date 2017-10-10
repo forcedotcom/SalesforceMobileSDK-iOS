@@ -30,9 +30,18 @@
 #import <Foundation/Foundation.h>
 
 @protocol SFSDKLoginFlowSelectionViewDelegate<NSObject>
-
+/**
+ * Used to notify the SDK of user selection on the login flow selection view
+ * @param controller instance invoking this delegate
+ * @param appOptions addl. name value pairs sent from the sdk for the SFSDKLoginFlowSelectionView
+ */
 -(void)loginFlowSelectionIDPSelected:(UIViewController *)controller options:(NSDictionary *)appOptions;
 
+/**
+ * Used to notify the SDK of user selection on the login flow selection view
+ * @param controller instance invoking this delegate
+ * @param appOptions addl. name value pairs sent from the sdk for the SFSDKLoginFlowSelectionVie
+ */
 -(void)loginFlowSelectionLocalLoginSelected:(UIViewController *)controller options:(NSDictionary *)appOptions;
 
 @end
