@@ -1,8 +1,8 @@
 /*
- SFSDKLoginFlowSelectionViewController.h
+ SFSDKAuthErrorManager.h
  SalesforceSDKCore
  
- Created by Raj Rao on 8/28/17.
+ Created by Raj Rao on 10/01/17.
  
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
@@ -26,15 +26,41 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
-#import <UIKit/UIKit.h>
-#import "SFSDKLoginFlowSelectionView.h"
+#import <Foundation/Foundation.h>
+@class SFAuthErrorHandler;
+@class SFAuthErrorHandlerList;
+@class SFOAuthInfo;
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void (^SFSDKFailureNotificationBlock)(void);
+typedef void (^SFSDKErrorHandlerBlock)(NSError *error,SFOAuthInfo *authInfo,NSDictionary *options);
 
-@interface SFSDKLoginFlowSelectionViewController : UIViewController<SFSDKLoginFlowSelectionView>
-@property (weak,nonatomic) id <SFSDKLoginFlowSelectionViewDelegate> selectionFlowDelegate;
-@property (nonatomic,strong) NSDictionary *appOptions;
+@interface SFSDKAuthErrorManager : NSObject
+
+@property (nonatomic,copy) SFSDKErrorHandlerBlock networkErrorHandlerBlock;
+
+@property (nonatomic,copy) SFSDKErrorHandlerBlock connectedAppVersionMismatchErrorHandlerBlock;
+
+@property (nonatomic,copy) SFSDKErrorHandlerBlock invalidAuthCredentialsErrorHandlerBlock;
+
+@property (nonatomic,copy) SFSDKErrorHandlerBlock genericErrorHandlerBlock;
+
+/**
+ Determines whether an error is due to invalid auth credentials.
+ @param error The error to process.
+ @param info  type of auth.
+ @param options addl. execution context related params
+ @return YES if the error is handled, NO otherwise.
+ */
+- (BOOL)processAuthError:(NSError *)error authInfo:(SFOAuthInfo *)info options:(NSDictionary *)options;
+
+/**
+ Determines whether an error is due to invalid auth credentials.
+ @param error The error to check against an invalid credentials error.
+ @return YES if the error is due to invalid credentials, NO otherwise.
+ */
++ (BOOL)errorIsInvalidAuthCredentials:(NSError *)error;
+
 @end
 
 NS_ASSUME_NONNULL_END

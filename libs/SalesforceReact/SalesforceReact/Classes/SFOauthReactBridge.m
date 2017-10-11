@@ -50,21 +50,25 @@ RCT_EXPORT_METHOD(getAuthCredentials:(NSDictionary *)args callback:(RCTResponseS
 
 RCT_EXPORT_METHOD(logoutCurrentUser:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
 {
+    __weak typeof(self) weakSelf = self;
     [SFSDKReactLogger d:[self class] format:[NSString stringWithFormat:@"logoutCurrentUser: arguments: %@", args]];
     dispatch_async(dispatch_get_main_queue(), ^{
-        [[SFAuthenticationManager sharedManager] logout];
+         __strong typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf logout];
     });
 }
 
 RCT_EXPORT_METHOD(authenticate:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
 {
+    __weak typeof(self) weakSelf = self;
     [SFSDKReactLogger d:[self class] format:[NSString stringWithFormat:@"authenticate: arguments: %@", args]];
     dispatch_async(dispatch_get_main_queue(), ^{
-        [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf loginWithCompletion:^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
             [SFUserAccountManager sharedInstance].currentUser  =  userAccount;
-            [self sendAuthCredentials:callback];
+            [strongSelf sendAuthCredentials:callback];
         } failure:^(SFOAuthInfo *authInfo, NSError *error) {
-            [self sendNotAuthenticatedError:callback];
+            [strongSelf sendNotAuthenticatedError:callback];
         }];
     });
 }
@@ -97,7 +101,7 @@ RCT_EXPORT_METHOD(authenticate:(NSDictionary *)args callback:(RCTResponseSenderB
 
 - (void)getAuthCredentialsWithCallback:(RCTResponseSenderBlock) callback
 {
-    SFOAuthCredentials *creds = [SFAuthenticationManager sharedManager].coordinator.credentials;
+    SFOAuthCredentials *creds = [SFUserAccountManager sharedInstance].currentUser.credentials;
     NSString *accessToken = creds.accessToken;
     
     // If access token is not present, send error so user can manually authenticate. Otherwise, send current credentials.
@@ -105,6 +109,24 @@ RCT_EXPORT_METHOD(authenticate:(NSDictionary *)args callback:(RCTResponseSenderB
         [self sendAuthCredentials:callback];
     } else {
         [self sendNotAuthenticatedError:callback];
+    }
+}
+
+- (void)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
+                    failure:(SFOAuthFlowFailureCallbackBlock)failureBlock {
+    if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
+        [[SFAuthenticationManager sharedManager] loginWithCompletion:completionBlock failure:failureBlock];
+    } else {
+        [[SFUserAccountManager sharedInstance] loginWithCompletion:completionBlock failure:failureBlock];
+    }
+    
+}
+
+- (void)logout {
+    if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
+        [[SFAuthenticationManager sharedManager] logout];
+    } else {
+        [[SFUserAccountManager sharedInstance] logout];
     }
 }
 

@@ -36,6 +36,11 @@ NS_ASSUME_NONNULL_BEGIN
 @class SFSDKIDPInitCommand;
 
 @protocol SFSDKIDPAuthClientDelegate <NSObject>
+/**
+ Called when the Oauth Client requires Delegate to choose the login flow.
+ @param client The instance of SFSDKOAuthClient making the call.
+ */
+- (void)authClientDisplayIDPLoginFlowSelection:(SFSDKIDPAuthClient *)client;
 
 @optional
 /**
@@ -89,7 +94,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic,copy,class) SFSDKLoginFlowSelectionViewController *loginFlowSelectionController;
 
-@property (nonatomic,copy) SFIDPUserSelectionBlock idpUserSelectionBlock;
+@property (nonatomic, readonly) SFIDPUserSelectionBlock idpUserSelectionBlock;
+
+@property (nonatomic, readonly) SFIDPLoginFlowSelectionBlock idpLoginFlowSelectionBlock;
 
 - (void)setCallingAppOptionsInContext:(NSDictionary *)values;
 
@@ -102,6 +109,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)beginIDPFlowForNewUser;
 
 - (void)beginIDPInitiatedFlow:(SFSDKIDPInitCommand *)command;
+
+- (void)initiateIDPFlowInSPApp;
+
+- (BOOL)initiateLocalLoginInSPApp;
 
 @end
 

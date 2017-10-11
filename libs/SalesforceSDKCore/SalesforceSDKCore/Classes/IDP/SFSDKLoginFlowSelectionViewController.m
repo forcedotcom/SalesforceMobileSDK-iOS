@@ -32,7 +32,6 @@
 #import "SFSDKResourceUtils.h"
 #import "SFSDKAuthPreferences.h"
 
-
 @interface SFSDKLoginFlowSelectionViewController ()
 
 @property (nonatomic, strong) UINavigationBar *navBar;
@@ -59,7 +58,6 @@
 - (void)styleNavigationBar:(nullable UINavigationBar *)navigationBar;
 - (IBAction)useIDPAction:(id)sender;
 - (IBAction)useLocalAction:(id)sender;
-- (IBAction)cancelAction:(id)sender;
 @end
 
 @implementation SFSDKLoginFlowSelectionViewController
@@ -233,21 +231,11 @@
 }
 
 - (IBAction)useIDPAction:(id)sender {
-    if ([self.selectionFlowDelegate respondsToSelector:@selector(loginFlowSelectionIDPSelected:)]) {
-        [self.selectionFlowDelegate loginFlowSelectionIDPSelected:self];
-    }
+   [self.selectionFlowDelegate loginFlowSelectionIDPSelected:self options:self.appOptions];
 }
 
 - (IBAction)useLocalAction:(id)sender {
-    if ([self.selectionFlowDelegate respondsToSelector:@selector(loginFlowSelectionLocalLoginSelected:)]) {
-        [self.selectionFlowDelegate loginFlowSelectionLocalLoginSelected:self];
-    }
-}
-
-- (IBAction)cancelAction:(id)sender {
-    if ([self.selectionFlowDelegate respondsToSelector:@selector(loginFlowSelectionCancelSelected:)]) {
-        [self.selectionFlowDelegate loginFlowSelectionCancelSelected:self];
-    }
+   [self.selectionFlowDelegate loginFlowSelectionLocalLoginSelected:self options:self.appOptions];
 }
 
 + (UIImage *)imageFromColor:(UIColor *)color {

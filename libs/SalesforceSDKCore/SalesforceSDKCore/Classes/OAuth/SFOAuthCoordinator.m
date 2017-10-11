@@ -120,8 +120,7 @@ static NSString * const kHttpHeaderContentType                  = @"Content-Type
 static NSString * const kHttpPostContentType                    = @"application/x-www-form-urlencoded";
 static NSString * const kHttpHeaderUserAgent                    = @"User-Agent";
 static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
-
-static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
+static NSString * const kSFAppFeatureSafariBrowserForLogin      = @"BW";
 
 @implementation SFOAuthCoordinator
 
@@ -241,6 +240,7 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
                         [strongSelf notifyDelegateOfBeginAuthentication];
                         [strongSelf.oauthCoordinatorFlow beginNativeBrowserFlow];
                     } else {
+                        [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureSafariBrowserForLogin];
                         __strong typeof(weakSelf) strongSelf = weakSelf;
                         [strongSelf notifyDelegateOfBeginAuthentication];
                         [strongSelf.oauthCoordinatorFlow beginUserAgentFlow];
@@ -296,7 +296,7 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
 
 - (BOOL)handleIDPAuthenticationResponse:(NSURL *)appUrlResponse {
     self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeIDP];
-    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
+   
     NSString *query = [appUrlResponse query];
     
     if ([query length] == 0) {
@@ -320,7 +320,6 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
 
 - (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse {
      self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
-    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
     NSString *appUrlResponseString = [appUrlResponse absoluteString];
     if (![[appUrlResponseString lowercaseString] hasPrefix:[self.credentials.redirectUri lowercaseString]]) {
         [SFSDKCoreLogger i:[self class] format:@"%@ URL does not match redirect URI.", NSStringFromSelector(_cmd)];
@@ -514,7 +513,7 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
     // Launch the native browser.
     [SFSDKCoreLogger d:[self class] format:@"%@: Initiating native browser flow with URL %@", NSStringFromSelector(_cmd), approvalUrl];
     NSURL *nativeBrowserUrl = [NSURL URLWithString:approvalUrl];
-
+    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
     SFSafariViewController *svc = [[SFSafariViewController alloc] initWithURL:nativeBrowserUrl];
     svc.delegate = self;
     self.advancedAuthState = SFOAuthAdvancedAuthStateBrowserRequestInitiated;
@@ -763,7 +762,6 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
 
 - (void)handleIDPAuthCodeResponse:(NSURL *)requestUrl {
     NSString *response = nil;
-    
     if ([requestUrl fragment]) {
         response = [requestUrl fragment];
     } else if ([requestUrl query]) {

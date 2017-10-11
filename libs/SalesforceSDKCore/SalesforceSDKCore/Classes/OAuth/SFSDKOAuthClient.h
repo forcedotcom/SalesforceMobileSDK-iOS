@@ -46,11 +46,17 @@
 @class SFAuthErrorHandler;
 @class SFSDKOAuthClientConfig;
 @class SFIdentityData;
+@class SFSDKAlertMessage;
 NS_ASSUME_NONNULL_BEGIN
 
 /** Delegate that will be used to notify of all the OAuth Client events.
  */
 @protocol SFSDKOAuthClientDelegate <NSObject>
+
+/**
+ Alert Messaging. The consumer of OAuthClient controls the visual display of messages in a form suited best for the consumer.
+ */
+- (void)authClient:(SFSDKOAuthClient *_Nonnull)client displayMessage:(SFSDKAlertMessage *) message;
 
 @optional
 /**
@@ -113,6 +119,12 @@ NS_ASSUME_NONNULL_BEGIN
  @param client The instance of SFSDKOAuthClient making the call.
  */
 - (void)authClientRestartAuthentication:(SFSDKOAuthClient *)client;
+
+/**
+ Called when a generic flow authentication is cancelled.
+ @param client The instance of SFSDKOAuthClient making the call.
+ */
+- (void)authClientDidCancelGenericFlow:(SFSDKOAuthClient *)client;
 @end
 
 /** Delegate that will be used to notify of all the OAuth Client WebView Events.
@@ -152,6 +164,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @optional
 
+- (void)authClient:(SFSDKOAuthClient *)client willBeginBrowserAuthentication:(SFOAuthBrowserFlowCallbackBlock)callbackBlock;
 /**
  Called when a browser flow authentication is proceeded.
  @param client The instance of SFSDKOAuthClient making the call.
@@ -171,11 +184,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)authClient:(SFSDKOAuthClient *)client willDisplayAuthSafariViewController:(SFSafariViewController *_Nonnull)svc;
 
-/**
- Called when a generic flow authentication is cancelled.
- @param client The instance of SFSDKOAuthClient making the call.
- */
-- (void)authClientDidCancelGenericFlow:(SFSDKOAuthClient *)client;
 @end
 
 @protocol SFSDKOAuthClientProvider
@@ -235,7 +243,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Cancel authentication for a given authentication context
  */
-- (BOOL)cancelAuthentication;
+- (BOOL)cancelAuthentication:(BOOL)authenticationCanceledByUser;
+
 
 /**
  * Refresh credentials request.
@@ -279,9 +288,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-
 @interface SFSDKOAuthClient : NSObject<SFSDKOAuthClient, SFSDKOAuthClientProvider>
-
 @property (nonatomic, assign) BOOL isAuthenticating;
 @property (nonatomic, readonly) SFSDKOAuthClientContext *context;
 @property (nonatomic, readonly,nullable) SFSDKOAuthClientConfig *config;
@@ -289,11 +296,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) SFIdentityData *idData;
 @property (nonatomic, strong) SFOAuthCoordinator *coordinator;
 @property (nonatomic, strong) SFIdentityCoordinator *idCoordinator;
-
-- (void)processAuthError:(NSError *)error;
-- (void)showAlertMessage:(NSString *)message withCompletion:(void (^)(void)) completionBlock;
 - (instancetype)initWithConfig:(SFSDKOAuthClientConfig *_Nullable)config;
-
+- (void)notifyDelegateOfFailure:(NSError *)error;
 @end
 
 NS_ASSUME_NONNULL_END

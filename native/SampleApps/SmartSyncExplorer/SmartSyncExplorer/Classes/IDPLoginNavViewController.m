@@ -50,12 +50,12 @@
 
 - (void)loginUsingIDP {
     if (self.selectionFlowDelegate) {
-        [self.selectionFlowDelegate loginFlowSelectionIDPSelected:self];
+        [self.selectionFlowDelegate loginFlowSelectionIDPSelected:self options:self.appOptions];
     }
 }
 - (void)loginUsingApp {
     if (self.selectionFlowDelegate) {
-        [self.selectionFlowDelegate loginFlowSelectionLocalLoginSelected:self];
+        [self.selectionFlowDelegate loginFlowSelectionLocalLoginSelected:self options:self.appOptions];
     }
 }
 @end
