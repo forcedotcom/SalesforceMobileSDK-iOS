@@ -33,6 +33,9 @@
 		4F883C761C16279F007D4BAE /* SalesforceSDKManagerWithSmartStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F883C751C16279F007D4BAE /* SalesforceSDKManagerWithSmartStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4F883C7B1C1627BD007D4BAE /* SalesforceSDKManagerWithSmartStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F883C7A1C1627BD007D4BAE /* SalesforceSDKManagerWithSmartStore.m */; };
 		4F99B53C1CEA81A6007BC4D2 /* SFSmartStoreLoadTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F99B53B1CEA81A6007BC4D2 /* SFSmartStoreLoadTests.m */; };
+		4FAB7D791F8D888400226249 /* userstore.json in Resources */ = {isa = PBXBuildFile; fileRef = 4FAB7D781F8D888400226249 /* userstore.json */; };
+		4FAB7D7E1F8D88C100226249 /* globalstore.json in Resources */ = {isa = PBXBuildFile; fileRef = 4FAB7D7D1F8D88C100226249 /* globalstore.json */; };
+		4FAB7D811F8D8C3C00226249 /* SFSDKStoreConfigTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FAB7D801F8D8C3C00226249 /* SFSDKStoreConfigTests.m */; };
 		4FEE44851BFD5CCC00F09C43 /* SFSmartSqlWithExternalStorageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9601541BFD33B30022F021 /* SFSmartSqlWithExternalStorageTests.m */; };
 		4FEE44861BFD5CD200F09C43 /* SFSmartStoreAlterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9601561BFD33B30022F021 /* SFSmartStoreAlterTests.m */; };
 		4FEE44871BFD5CD500F09C43 /* SFSmartStoreFullTextSearchSpeedTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9601581BFD33B30022F021 /* SFSmartStoreFullTextSearchSpeedTests.m */; };
@@ -282,6 +285,10 @@
 		4F96FC501BFD31EF0022F021 /* SmartStore-Test.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SmartStore-Test.xcconfig"; path = "Configuration/SmartStore-Test.xcconfig"; sourceTree = "<group>"; };
 		4F99B53B1CEA81A6007BC4D2 /* SFSmartStoreLoadTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartStoreLoadTests.m; sourceTree = "<group>"; };
 		4F99B5401CEA81C6007BC4D2 /* SFSmartStoreLoadTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSmartStoreLoadTests.h; sourceTree = "<group>"; };
+		4FAB7D781F8D888400226249 /* userstore.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = userstore.json; sourceTree = "<group>"; };
+		4FAB7D7D1F8D88C100226249 /* globalstore.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = globalstore.json; sourceTree = "<group>"; };
+		4FAB7D7F1F8D8BB500226249 /* SFSDKStoreConfigTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKStoreConfigTests.h; sourceTree = "<group>"; };
+		4FAB7D801F8D8C3C00226249 /* SFSDKStoreConfigTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKStoreConfigTests.m; sourceTree = "<group>"; };
 		4FF4DC651CF51D9300385C2C /* SFQuerySpecTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFQuerySpecTests.h; sourceTree = "<group>"; };
 		4FF4DC661CF51D9300385C2C /* SFQuerySpecTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFQuerySpecTests.m; sourceTree = "<group>"; };
 		4FFEE6341BFE98B600B7AA8A /* SmartStoreTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "SmartStoreTests-Info.plist"; path = "SmartStoreTests/SmartStoreTests-Info.plist"; sourceTree = SOURCE_ROOT; };
@@ -402,6 +409,8 @@
 				4F06AF191C499EB600F70798 /* LaunchScreen.storyboard */,
 				4F06AF1C1C499EB600F70798 /* Info.plist */,
 				4F06AF0B1C499EB600F70798 /* Supporting Files */,
+				4FAB7D781F8D888400226249 /* userstore.json */,
+				4FAB7D7D1F8D88C100226249 /* globalstore.json */,
 			);
 			path = SmartStoreTestApp;
 			sourceTree = "<group>";
@@ -528,20 +537,22 @@
 				B7DD6CE51DC178D0004C04F4 /* SFMultipleSmartStoresTests.m */,
 				4FF4DC651CF51D9300385C2C /* SFQuerySpecTests.h */,
 				4FF4DC661CF51D9300385C2C /* SFQuerySpecTests.m */,
-				4F99B5401CEA81C6007BC4D2 /* SFSmartStoreLoadTests.h */,
+				4FAB7D7F1F8D8BB500226249 /* SFSDKStoreConfigTests.h */,
+				4FAB7D801F8D8C3C00226249 /* SFSDKStoreConfigTests.m */,
 				C03DE7DF1D1B6B8E00BFA6BD /* SFSmartSqlTests.h */,
 				C03DE7E01D1B6B8E00BFA6BD /* SFSmartSqlTests.m */,
 				4F9601531BFD33B30022F021 /* SFSmartSqlWithExternalStorageTests.h */,
 				4F9601541BFD33B30022F021 /* SFSmartSqlWithExternalStorageTests.m */,
 				4F9601551BFD33B30022F021 /* SFSmartStoreAlterTests.h */,
 				4F9601561BFD33B30022F021 /* SFSmartStoreAlterTests.m */,
-				4F99B53B1CEA81A6007BC4D2 /* SFSmartStoreLoadTests.m */,
-				4F9601571BFD33B30022F021 /* SFSmartStoreFullTextSearchSpeedTests.h */,
-				4F9601581BFD33B30022F021 /* SFSmartStoreFullTextSearchSpeedTests.m */,
 				4F51C9EC1D35AC4100100D66 /* SFSmartStoreFTSWithExternalStorageTests.h */,
 				4F51C9F01D35ACE500100D66 /* SFSmartStoreFTSWithExternalStorageTests.m */,
+				4F9601571BFD33B30022F021 /* SFSmartStoreFullTextSearchSpeedTests.h */,
+				4F9601581BFD33B30022F021 /* SFSmartStoreFullTextSearchSpeedTests.m */,
 				4F9601591BFD33B30022F021 /* SFSmartStoreFullTextSearchTests.h */,
 				4F96015A1BFD33B30022F021 /* SFSmartStoreFullTextSearchTests.m */,
+				4F99B5401CEA81C6007BC4D2 /* SFSmartStoreLoadTests.h */,
+				4F99B53B1CEA81A6007BC4D2 /* SFSmartStoreLoadTests.m */,
 				4F96015B1BFD33B30022F021 /* SFSmartStoreTestCase.h */,
 				4F96015C1BFD33B30022F021 /* SFSmartStoreTestCase.m */,
 				4F96015D1BFD33B30022F021 /* SFSmartStoreTests.h */,
@@ -837,8 +848,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4FAB7D7E1F8D88C100226249 /* globalstore.json in Resources */,
 				4F06AF1B1C499EB600F70798 /* LaunchScreen.storyboard in Resources */,
 				4F06AF181C499EB600F70798 /* Assets.xcassets in Resources */,
+				4FAB7D791F8D888400226249 /* userstore.json in Resources */,
 				4F06AF161C499EB600F70798 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -963,6 +976,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4FEE44891BFD5CDC00F09C43 /* SFSmartStoreTestCase.m in Sources */,
+				4FAB7D811F8D8C3C00226249 /* SFSDKStoreConfigTests.m in Sources */,
 				4FEE44851BFD5CCC00F09C43 /* SFSmartSqlWithExternalStorageTests.m in Sources */,
 				B7DD6CE61DC178D0004C04F4 /* SFMultipleSmartStoresTests.m in Sources */,
 				4FF4DC671CF51D9300385C2C /* SFQuerySpecTests.m in Sources */,

@@ -1,0 +1,24 @@
+{
+  "soups": [
+    {
+      "soupName": "globalSoup1",
+      "indexes": [
+        { "path": "stringField1", "type": "string"},
+        { "path": "integerField1", "type": "integer"},
+        { "path": "floatingField1", "type": "floating"},
+        { "path": "json1Field1", "type": "json1"},
+        { "path": "ftsField1", "type": "full_text"}
+      ]
+    },
+    {
+      "soupName": "globalSoup2",
+      "indexes": [
+        { "path": "stringField2", "type": "string"},
+        { "path": "integerField2", "type": "integer"},
+        { "path": "floatingField2", "type": "floating"},
+        { "path": "json1Field2", "type": "json1"},
+        { "path": "ftsField2", "type": "full_text"}
+      ]
+    }
+  ]
+}

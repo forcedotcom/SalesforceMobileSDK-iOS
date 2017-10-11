@@ -36,9 +36,7 @@
 
 @end
 
-@implementation SFSDKStoreConfig {
-
-}
+@implementation SFSDKStoreConfig
 
 - (nullable id)initWithResourceAtPath:(NSString *)path {
     self = [super init];
