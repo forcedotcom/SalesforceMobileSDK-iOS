@@ -1047,7 +1047,6 @@ static NSString * const kSFIDPAppFeatureIDPLogin   = @"IP";
     self.errorManager.genericErrorHandlerBlock = ^(NSError *error, SFOAuthInfo *authInfo,NSDictionary *options) {
         __strong typeof (weakSelf) strongSelf = weakSelf;
         SFSDKOAuthClient *client = [options objectForKey:kErroredClientKey];
-        //[client clearAccountState:NO];
         [strongSelf showRetryAlertForAuthError:(NSError *)error client:client];
     };
     
