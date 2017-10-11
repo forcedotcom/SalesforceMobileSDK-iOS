@@ -91,7 +91,6 @@ static NSString *const kSFIncompatibleAuthError = @"Cannot use SFUserAccountMana
 static NSString *const kErroredClientKey = @"SFErroredOAuthClientKey";
 static NSString * const kSFSPAppFeatureIDPLogin   = @"SP";
 static NSString * const kSFIDPAppFeatureIDPLogin   = @"IP";
-static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
 
 @implementation SFUserAccountManager
 
@@ -183,6 +182,8 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
 - (void)setIsIdentityProvider:(BOOL)isIdentityProvider{
     if (isIdentityProvider) {
         [SFSDKAppFeatureMarkers registerAppFeature:kSFIDPAppFeatureIDPLogin];
+    }else {
+        [SFSDKAppFeatureMarkers unregisterAppFeature:kSFIDPAppFeatureIDPLogin];
     }
     self.authPreferences.isIdentityProvider = isIdentityProvider;
 }
@@ -194,6 +195,8 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
 - (void)setIdpEnabled:(BOOL)idpEnabled {
     if (idpEnabled) {
         [SFSDKAppFeatureMarkers registerAppFeature:kSFSPAppFeatureIDPLogin];
+    }else {
+        [SFSDKAppFeatureMarkers unregisterAppFeature:kSFSPAppFeatureIDPLogin];
     }
     self.authPreferences.idpEnabled = idpEnabled;
 }
@@ -203,9 +206,6 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
 }
 
 - (void)setAdvancedAuthConfiguration:(SFOAuthAdvancedAuthConfiguration)advancedAuthConfiguration {
-    if (advancedAuthConfiguration == SFOAuthAdvancedAuthConfigurationRequire)
-        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
-
     self.authPreferences.advancedAuthConfiguration = advancedAuthConfiguration;
 }
 
