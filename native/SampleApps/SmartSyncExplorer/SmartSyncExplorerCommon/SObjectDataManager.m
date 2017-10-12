@@ -30,6 +30,8 @@
 
 // Will go away once we are done refactoring SFSyncTarget
 #import <SmartSync/SFSoqlSyncDownTarget.h>
+#import <SalesforceSDKCore/SalesforceSDKManager.h>
+#import <SmartStore/SalesforceSDKManagerWithSmartStore.h>
 
 static NSUInteger kMaxQueryPageSize = 1000;
 static NSUInteger kSyncLimit = 10000;
@@ -56,6 +58,8 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
         self.syncMgr = [SFSmartSyncSyncManager sharedInstance:[SFUserAccountManager sharedInstance].currentUser];
         self.dataSpec = dataSpec;
         _searchFilterQueue = dispatch_queue_create(kSearchFilterQueueName, NULL);
+        // Setup schema if needed
+        [[SalesforceSDKManagerWithSmartStore sharedManager] setupUserStoreFromDefaultConfig];
     }
     return self;
 }
@@ -68,9 +72,6 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
 }
 
 - (void)refreshRemoteData:(void (^)(void))completionBlock {
-    if (![self.store soupExists:self.dataSpec.soupName]) {
-        [self registerSoup];
-    }
     __weak SObjectDataManager *weakSelf = self;
     SFSyncSyncManagerUpdateBlock updateBlock = ^(SFSyncState* sync) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -137,17 +138,7 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
 
 #pragma mark - Private methods
 
-- (void)registerSoup {
-    NSString *soupName = self.dataSpec.soupName;
-    NSArray *indexSpecs = self.dataSpec.indexSpecs;
-    [self.store registerSoup:soupName withIndexSpecs:indexSpecs error:nil];
-}
-
 - (void)refreshLocalData:(void (^)(void))completionBlock {
-    if (![self.store soupExists:self.dataSpec.soupName]) {
-        [self registerSoup];
-    }
-    
     SFQuerySpec *sobjectsQuerySpec = [SFQuerySpec newAllQuerySpec:self.dataSpec.soupName withOrderPath:self.dataSpec.orderByFieldName withOrder:kSFSoupQuerySortOrderAscending withPageSize:kMaxQueryPageSize];
     NSError *queryError = nil;
     NSArray *queryResults = [self.store queryWithQuerySpec:sobjectsQuerySpec pageIndex:0 error:&queryError];

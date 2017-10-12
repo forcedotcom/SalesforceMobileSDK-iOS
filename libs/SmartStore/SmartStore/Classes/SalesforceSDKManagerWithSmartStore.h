@@ -33,6 +33,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SalesforceSDKManagerWithSmartStore : SalesforceSDKManager
 
+
+/**
+ * Setup global store using config found globalstore.json
+ */
+- (void) setupGlobalStoreFromDefaultConfig;
+
+/**
+ * Setup user store using config found in userstore.json
+ */
+- (void) setupUserStoreFromDefaultConfig;
+
 @end
 
 NS_ASSUME_NONNULL_END

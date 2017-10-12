@@ -1,6 +1,6 @@
 /*
- Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
- 
+ Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
+
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
  * Redistributions of source code must retain the above copyright notice, this list of conditions
@@ -11,7 +11,7 @@
  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
  endorse or promote products derived from this software without specific prior written
  permission of salesforce.com, inc.
- 
+
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,28 +23,46 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <SmartStore/SFSoupIndex.h>
-#import "SObjectDataFieldSpec.h"
 
-extern NSString * const kSObjectIdField;
+@class SFSmartStore;
 
-@class SObjectData;
+NS_ASSUME_NONNULL_BEGIN
 
-@interface SObjectDataSpec : NSObject
+/**
+ * Class encapsulating a SmartStore schema (soups).
+ *
+ * Config expected JSON in a resource file in JSON with the following:
+ * {
+ *     soups: [
+ *          {
+ *              soupName: xxx
+ *              indexes: [
+ *                  {
+ *                      path: xxx
+ *                      type: xxx
+ *                  }
+ *              ]
+ *          }
+ *     ]
+ * }
+ */
+@interface SFSDKStoreConfig : NSObject
 
-@property (nonatomic, copy) NSString *objectType;
-@property (nonatomic, strong) NSArray *objectFieldSpecs;
-@property (nonatomic, copy) NSString *soupName;
-@property (nonatomic, copy) NSString *orderByFieldName;
+/**
+ * Constructor
+ * @param path
+ * @return
+ */
+- (nullable id)initWithResourceAtPath:(NSString*)path;
 
-@property (nonatomic, readonly) NSArray *fieldNames;
-@property (nonatomic, readonly) NSArray *soupFieldNames;
-
-- (id)initWithObjectType:(NSString *)objectType
-        objectFieldSpecs:(NSArray *)objectFieldSpecs
-                soupName:(NSString *)soupName
-        orderByFieldName:(NSString *)orderByFieldName;
-
-+ (SObjectData *)createSObjectData:(NSDictionary *)soupDict;
+/**
+ * Register the soup from the config in the given store
+ * NB: only feedback is through the logs - the config is static so getting it right is something the developer should do while writing the app
+ *
+ * @param store
+ */
+- (void) registerSoups:(SFSmartStore*) store;
 
 @end
+
+NS_ASSUME_NONNULL_END

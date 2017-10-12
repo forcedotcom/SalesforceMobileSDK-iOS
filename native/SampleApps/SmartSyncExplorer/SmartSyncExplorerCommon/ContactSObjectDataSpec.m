@@ -46,14 +46,9 @@ NSString * const kContactHomePhoneField    = @"HomePhone";
                                    [[SObjectDataFieldSpec alloc] initWithFieldName:kContactHomePhoneField searchable:NO]
                                    ];
 
-    // Any searchable fields would likely require index specs, if you're searching directly against SmartStore.
-    NSArray *indexSpecs = @[ [[SFSoupIndex alloc] initWithPath:kContactFirstNameField indexType:kSoupIndexTypeString columnName:kContactFirstNameField],
-                             [[SFSoupIndex alloc] initWithPath:kContactLastNameField indexType:kSoupIndexTypeString columnName:kContactLastNameField],
-                             [[SFSoupIndex alloc] initWithPath:kContactTitleField indexType:kSoupIndexTypeString columnName:kContactTitleField]
-                             ];
     NSString *soupName = @"contacts";
     NSString *orderByFieldName = kContactLastNameField;
-    return [self initWithObjectType:objectType objectFieldSpecs:objectFieldSpecs indexSpecs:indexSpecs soupName:soupName orderByFieldName:orderByFieldName];
+    return [self initWithObjectType:objectType objectFieldSpecs:objectFieldSpecs soupName:soupName orderByFieldName:orderByFieldName];
 }
 
 #pragma mark - Abstract overrides

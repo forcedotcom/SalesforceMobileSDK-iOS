@@ -22,11 +22,10 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import "SFSmartStore.h"
 #import "SalesforceSDKManagerWithSmartStore.h"
+#import "SFSDKStoreConfig.h"
 
 @implementation SalesforceSDKManagerWithSmartStore
 
@@ -34,6 +33,21 @@
 {
     [super authManager:manager willLogoutUser:user];
     [SFSmartStore removeAllStoresForUser:user];
+}
+
+- (void) setupGlobalStoreFromDefaultConfig {
+    [SFSDKSmartStoreLogger d:[self class] format:@"Setting up global store using config found in globalstore.json"];
+    [self setupStoreFromConfig:@"globalstore" store:[SFSmartStore sharedGlobalStoreWithName:kDefaultSmartStoreName]];
+}
+
+- (void) setupUserStoreFromDefaultConfig {
+    [SFSDKSmartStoreLogger d:[self class] format:@"Setting up user store using config found in userstore.json"];
+    [self setupStoreFromConfig:@"userstore" store:[SFSmartStore sharedStoreWithName:kDefaultSmartStoreName]];
+}
+
+- (void) setupStoreFromConfig:(NSString*)path store:(SFSmartStore *)store {
+    SFSDKStoreConfig* storeConfig = [[SFSDKStoreConfig alloc] initWithResourceAtPath:path];
+    [storeConfig registerSoups:store];
 }
 
 @end
