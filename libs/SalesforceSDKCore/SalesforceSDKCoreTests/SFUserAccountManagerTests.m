@@ -390,38 +390,24 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 - (void)testLogin {
     
     SFOAuthCredentials *credentials = [self populateAuthCredentialsFromConfigFileForClass:self.class];
-    
-    TestUserAccountManagerDelegate *acctDelegate = [[TestUserAccountManagerDelegate alloc] init];
-    [[SFUserAccountManager sharedInstance] addDelegate:acctDelegate];
-    
-    __block SFSDKTestRequestListener *authListener = [[SFSDKTestRequestListener alloc] init];
+    XCTestExpectation *refreshExpectation = [self expectationWithDescription:@"refresh"];
     __block SFUserAccount *user = nil;
     [[SFUserAccountManager sharedInstance]
      refreshCredentials:credentials
      completion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
-         authListener.returnStatus = kTestRequestStatusDidLoad;
+         [refreshExpectation fulfill];
          user = userAccount;
      } failure:^(SFOAuthInfo *authInfo, NSError *error) {
-         authListener.lastError = error;
-         authListener.returnStatus = kTestRequestStatusDidFail;
      }];
-    [authListener waitForCompletion];
-    
-    NSAssert([authListener.returnStatus isEqualToString:kTestRequestStatusDidLoad], @"After auth attempt, expected status '%@', got '%@'",
-             kTestRequestStatusDidLoad,
-             authListener.returnStatus);
-    XCTAssertNotNil(acctDelegate.willLoginCredentials, @"Will login credentials should be called");
-    XCTAssertEqual(acctDelegate.didLoginUserAccount,user, @"DidLoginUserAccount should be called.");
-
-    [[SFUserAccountManager sharedInstance] removeDelegate:acctDelegate];
+   
+    [self waitForExpectations:@[refreshExpectation] timeout:20];
     
 }
-
-- (void)testLoginNotificationPosted
+- (void)testWillLoginNotificationPosted
 {
     SFOAuthCredentials *credentials = [self populateAuthCredentialsFromConfigFileForClass:self.class];
     
-    NSString *notificationName = SFUserAccountManagerLoggedInNotification;
+    NSString *notificationName = kSFNotificationUserWillLogIn;
     
     id observerMock = [OCMockObject observerMock];
     [[NSNotificationCenter defaultCenter] addMockObserver:observerMock name:notificationName object:[SFUserAccountManager sharedInstance]];
@@ -436,7 +422,44 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
      object:[SFUserAccountManager sharedInstance]
      userInfo:[OCMArg checkWithBlock:
                ^BOOL(NSDictionary *userInfo) {
-                   return userInfo[@"account"]!=nil;
+                   return userInfo[kSFNotificationUserInfoCredentialsKey]!=nil;
+               }]];
+    
+    [[SFUserAccountManager sharedInstance]
+     refreshCredentials:credentials
+     completion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
+         authListener.returnStatus = kTestRequestStatusDidLoad;
+         user = userAccount;
+     } failure:^(SFOAuthInfo *authInfo, NSError *error) {
+         authListener.lastError = error;
+         authListener.returnStatus = kTestRequestStatusDidFail;
+     }];
+    [authListener waitForCompletion];
+    [observerMock verify];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:observerMock];
+}
+
+- (void)testLoginNotificationPosted
+{
+    SFOAuthCredentials *credentials = [self populateAuthCredentialsFromConfigFileForClass:self.class];
+    
+    NSString *notificationName = kSFNotificationUserDidLogIn;
+    
+    id observerMock = [OCMockObject observerMock];
+    [[NSNotificationCenter defaultCenter] addMockObserver:observerMock name:notificationName object:[SFUserAccountManager sharedInstance]];
+    
+    
+    
+    __block SFSDKTestRequestListener *authListener = [[SFSDKTestRequestListener alloc] init];
+    __block SFUserAccount *user = nil;
+    
+    [[observerMock expect]
+     notificationWithName:notificationName
+     object:[SFUserAccountManager sharedInstance]
+     userInfo:[OCMArg checkWithBlock:
+               ^BOOL(NSDictionary *userInfo) {
+                   return userInfo[kSFNotificationUserInfoAccountKey]!=nil;
                }]];
     
     [[SFUserAccountManager sharedInstance]

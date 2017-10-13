@@ -132,6 +132,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
         [self.remotes addObject:tpp];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(publishOnAppBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
         [[SFAuthenticationManager sharedManager] addDelegate:self];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserWillLogout:)  name:kSFNotificationUserWillLogout object:nil];
     }
     return self;
 }
@@ -324,12 +325,20 @@ static NSMutableDictionary *analyticsManagerList = nil;
 }
 
 #pragma mark - SFAuthenticationManagerDelegate
+- (void)handleUserWillLogout:(NSNotification *)notification {
+    SFUserAccount *user = notification.userInfo[kSFNotificationUserInfoAccountKey];
+    [self handleLogoutForUser:user];
+}
 
-- (void) authManager:(SFAuthenticationManager *) manager willLogoutUser:(SFUserAccount *) user {
+- (void)handleLogoutForUser:(SFUserAccount *)user {
     [self.analyticsManager reset];
     NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
     [defs removeObjectForKey:kAnalyticsOnOffKey];
     [[self class] removeSharedInstanceWithUser:user];
+}
+
+- (void) authManager:(SFAuthenticationManager *) manager willLogoutUser:(SFUserAccount *) user {
+    [self handleLogoutForUser:user];
 }
 
 @end

@@ -16,6 +16,8 @@
 - (void)handleAppWillResignActive:(nonnull NSNotification *)notification;
 - (void)handlePostLogout;
 - (void)handleAuthCompleted:(nonnull NSNotification *)notification;
+- (void)handleIDPInitiatedAuthCompleted:(nonnull NSNotification *)notification;
+- (void)handleUserDidLogout:(nonnull NSNotification *)notification;
 - (void)handleUserSwitch:(nullable SFUserAccount *)fromUser toUser:(nullable SFUserAccount *)toUser;
 
 @end

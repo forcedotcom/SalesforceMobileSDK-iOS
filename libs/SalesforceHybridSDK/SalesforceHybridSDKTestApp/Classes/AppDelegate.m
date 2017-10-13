@@ -54,6 +54,7 @@
         // Logout and login host change handlers.
         [[SFAuthenticationManager sharedManager] addDelegate:self];
         [[SFUserAccountManager sharedInstance] addDelegate:self];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserDidLogout:)  name:kSFNotificationUserDidLogout object:nil];
     }
     return self;
 }
@@ -110,9 +111,13 @@
 
 - (void)authManagerDidLogout:(SFAuthenticationManager *)manager
 {
+    [self userDidLogout];
+}
+
+- (void)userDidLogout {
     [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"Logout notification received. Resetting app."];
     self.viewController.appHomeUrl = nil;
-
+    
     // Multi-user pattern:
     // - If there are two or more existing accounts after logout, let the user choose the account
     //   to switch to.
@@ -135,6 +140,9 @@
     }
 }
 
+- (void)handleUserDidLogout:(NSNotification *)notification {
+    [self userDidLogout];
+}
 #pragma mark - SFUserAccountManagerDelegate
 
 - (void)userAccountManager:(SFUserAccountManager *)userAccountManager

@@ -61,15 +61,30 @@
 #import "SFSDKWindowContainer.h"
 
 // Notifications
-NSString * const SFUserAccountManagerDidChangeUserNotification   = @"SFUserAccountManagerDidChangeUserNotification";
+NSString * const SFUserAccountManagerDidChangeUserNotification       = @"SFUserAccountManagerDidChangeUserNotification";
 NSString * const SFUserAccountManagerDidChangeUserDataNotification   = @"SFUserAccountManagerDidChangeUserDataNotification";
 NSString * const SFUserAccountManagerDidFinishUserInitNotification   = @"SFUserAccountManagerDidFinishUserInitNotification";
 
-NSString * const SFUserAccountManagerWillLogoutNotification = @"SFUserAccountManagerWillLogoutNotification";
-NSString * const SFUserAccountManagerLogoutNotification = @"SFUserAccountManagerLogoutNotification";
-NSString * const SFUserAccountManagerLoggedInNotification = @"SFUserAccountManagerLoggedInNotification";
+//login & logout notifications
+NSString * const kSFNotificationUserWillLogIn  = @"SFNotificationUserWillLogIn";
+NSString * const kSFNotificationUserDidLogIn   = @"SFNotificationUserDidLogIn";
+NSString * const kSFNotificationUserWillLogout = @"SFNotificationUserWillLogout";
+NSString * const kSFNotificationUserDidLogout  = @"SFNotificationUserDidLogout";
 
-NSString * const SFUserAccountManagerIDPInitiatedLoginNotification = @"SFUserAccountManagerIDPInitiatedLoginNotification";
+//Auth Display Notification
+NSString * const kSFNotificationUserWillShowAuthView = @"SFNotificationUserWillShowAuthView";
+
+//IDP-SP flow Notifications
+NSString * const kSFNotificationUserWillSendIDPRequest      = @"SFNotificationUserWillSendIDPRequest";
+NSString * const kSFNotificationUserDidReceiveIDPRequest    = @"SFNotificationUserDidReceiveIDPRequest";
+NSString * const kSFNotificationUserDidReceiveIDPResponse   = @"SFNotificationUserDidReceiveIDPResponse";
+NSString * const kSFNotificationUserIDPInitDidLogIn       = @"SFNotificationUserIDPInitDidLogIn";
+
+//keys used in notifications
+NSString * const kSFNotificationUserInfoAccountKey      = @"account";
+NSString * const kSFNotificationUserInfoCredentialsKey  = @"credentials";
+NSString * const kSFNotificationUserInfoAuthTypeKey     = @"authType";
+NSString * const kSFUserInfoAddlOptionsKey     = @"options";
 
 NSString * const SFUserAccountManagerUserChangeKey      = @"change";
 NSString * const SFUserAccountManagerUserChangeUserKey      = @"user";
@@ -91,6 +106,8 @@ static NSString *const kSFIncompatibleAuthError = @"Cannot use SFUserAccountMana
 static NSString *const kErroredClientKey = @"SFErroredOAuthClientKey";
 static NSString * const kSFSPAppFeatureIDPLogin   = @"SP";
 static NSString * const kSFIDPAppFeatureIDPLogin   = @"IP";
+static NSString *const  kOptionsClientKey          = @"clientIdentifier";
+
 
 @implementation SFUserAccountManager
 
@@ -299,17 +316,10 @@ static NSString * const kSFIDPAppFeatureIDPLogin   = @"IP";
     
     BOOL isCurrentUser = [user isEqual:self.currentUser];
     [SFSDKCoreLogger i:[self class] format:@"Logging out user '%@'.", user.userName];
-    NSDictionary *userInfo = @{ @"account": user };
-    [[NSNotificationCenter defaultCenter] postNotificationName:SFUserAccountManagerWillLogoutNotification
+    NSDictionary *userInfo = @{ kSFNotificationUserInfoAccountKey : user };
+    [[NSNotificationCenter defaultCenter]  postNotificationName:kSFNotificationUserWillLogout
                                                         object:self
                                                       userInfo:userInfo];
-    __weak typeof(self) weakSelf = self;
-    [self enumerateDelegates:^(id<SFUserAccountManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(userAccountManager:willLogout:)]) {
-            [delegate userAccountManager:weakSelf willLogout:user];
-        }
-    }];
-
     SFSDKOAuthClient *client = [self fetchOAuthClient:user.credentials completion:nil failure:nil];
     
     [self deleteAccountForUser:user error:nil];
@@ -324,14 +334,10 @@ static NSString * const kSFIDPAppFeatureIDPLogin   = @"IP";
         self.currentUser = nil;
     }
    
-    NSNotification *logoutNotification = [NSNotification notificationWithName:SFUserAccountManagerLogoutNotification object:self userInfo:userInfo];
+    NSNotification *logoutNotification = [NSNotification notificationWithName:kSFNotificationUserDidLogout object:self userInfo:userInfo];
+    
     [[NSNotificationCenter defaultCenter] postNotification:logoutNotification];
     
-    [self enumerateDelegates:^(id<SFUserAccountManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(userAccountManager:didLogout:)]) {
-            [delegate userAccountManager:self didLogout:user];
-        }
-    }];
     // NB: There's no real action that can be taken if this login state transition fails.  At any rate,
     // it's an unlikely scenario.
     [user transitionToLoginState:SFUserAccountLoginStateNotLoggedIn];
@@ -369,11 +375,12 @@ static NSString * const kSFIDPAppFeatureIDPLogin   = @"IP";
 
 #pragma mark - SFSDKOAuthClientDelegate
 - (void)authClientWillBeginAuthentication:(SFSDKOAuthClient *)client{
-    [self enumerateDelegates:^(id <SFUserAccountManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(userAccountManager:willLogin:)]) {
-            [delegate userAccountManager:self willLogin:client.credentials];
-        }
-    }];
+    
+    NSDictionary *userInfo = @{ kSFNotificationUserInfoCredentialsKey: client.credentials,
+                                kSFNotificationUserInfoAuthTypeKey: client.context.authInfo };
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserWillLogIn
+                                                        object:self
+                                                      userInfo:userInfo];
 }
 
 - (void)authClientDidFail:(SFSDKOAuthClient *)client error:(NSError *_Nullable)error{
@@ -425,20 +432,39 @@ static NSString * const kSFIDPAppFeatureIDPLogin   = @"IP";
     self.alertDisplayBlock(message,client.authWindow);
 }
 
-#pragma mark - SFSDKOAuthClientSafariViewDelegate
-- (void)authClientWillBeginBrowserAuthentication:(SFSDKOAuthClient *)client completion:(SFOAuthBrowserFlowCallbackBlock)callbackBlock {
+#pragma mark - SFSDKOAuthClientWebViewDelegate
+- (void)authClient:(SFSDKOAuthClient *_Nonnull)client willDisplayAuthWebView:(WKWebView *_Nonnull)view {
+    NSDictionary *userInfo = @{ kSFNotificationUserInfoCredentialsKey: client.credentials,
+                                kSFNotificationUserInfoAuthTypeKey: client.context.authInfo };
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserWillShowAuthView
+                                                        object:self userInfo:userInfo];
 }
 
+#pragma mark - SFSDKOAuthClientSafariViewDelegate
+- (void)authClientWillBeginBrowserAuthentication:(SFSDKOAuthClient *)client completion:(SFOAuthBrowserFlowCallbackBlock)callbackBlock {
+    NSDictionary *userInfo = @{ kSFNotificationUserInfoCredentialsKey: client.credentials,
+                                kSFNotificationUserInfoAuthTypeKey: client.context.authInfo };
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserWillShowAuthView
+                                                        object:self userInfo:userInfo];
+}
 
 #pragma mark - SFSDKIDPAuthClientDelegate
 - (void)authClient:(SFSDKOAuthClient *)client error:(NSError *)error {
     SFSDKIDPAuthClient *idpClient = (SFSDKIDPAuthClient *) [SFSDKOAuthClient idpAuthInstance:nil];
-    [idpClient launchSPAppWithError:nil reason:@"User cancelled authentication"];
+    [idpClient launchSPAppWithError:error reason:nil];
     [self disposeOAuthClient:idpClient];
 }
 
-- (void)authClient:(SFSDKOAuthClient *)client willSendResponseForIDPAuth:(NSURL *)response {
+- (void)authClient:(SFSDKOAuthClient *)client willSendResponseForIDPAuth:(NSDictionary *)options {
     [client dismissAuthViewControllerIfPresent];
+}
+
+- (void)authClient:(SFSDKIDPAuthClient *)client willSendRequestForIDPAuth:(NSDictionary *)options {
+    NSDictionary *userInfo = @{kSFUserInfoAddlOptionsKey:options};
+    [[NSNotificationCenter defaultCenter]  postNotificationName:kSFNotificationUserWillSendIDPRequest
+                                                         object:self
+                                                         userInfo:userInfo
+     ];
 }
 
 - (void)authClientDisplayIDPLoginFlowSelection:(SFSDKIDPAuthClient *)client  {
@@ -1229,20 +1255,17 @@ static NSString * const kSFIDPAppFeatureIDPLogin   = @"IP";
         
         [idpClient continueIDPFlow:userAccount.credentials];
     } else {
-        NSDictionary *userInfo = @{ @"account": userAccount };
+        NSDictionary *userInfo = @{kSFNotificationUserInfoAccountKey: userAccount,
+                                   kSFNotificationUserInfoAuthTypeKey: client.context.authInfo};
         if (client.config.isIDPInitiatedFlow) {
-            NSNotification *loggedInNotification = [NSNotification notificationWithName:SFUserAccountManagerIDPInitiatedLoginNotification object:self  userInfo:userInfo];
+            NSNotification *loggedInNotification = [NSNotification notificationWithName:kSFNotificationUserIDPInitDidLogIn object:self  userInfo:userInfo];
             [[NSNotificationCenter defaultCenter] postNotification:loggedInNotification];
         } else {
-            NSNotification *loggedInNotification = [NSNotification notificationWithName:SFUserAccountManagerLoggedInNotification object:self  userInfo:userInfo];
-            [[NSNotificationCenter defaultCenter] postNotification:loggedInNotification];
+         [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidLogIn
+                                                                object:self
+                                                              userInfo:userInfo];
         }
-        
-        [self enumerateDelegates:^(id <SFUserAccountManagerDelegate> delegate) {
-            if ([delegate respondsToSelector:@selector(userAccountManager:didLogin:)]) {
-                [delegate userAccountManager:self didLogin:userAccount];
-            }
-        }];
+       
         [client dismissAuthViewControllerIfPresent];
     }
 }

@@ -172,7 +172,6 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin      = @"BW";
     _credentials = nil;
     _responseData = nil;
     _scopes = nil;
-    [_view setNavigationDelegate:nil];
     _view = nil;
 }
 

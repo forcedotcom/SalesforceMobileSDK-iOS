@@ -108,6 +108,10 @@
         }
     }
     
+    NSDictionary *userInfo = @{kSFUserInfoAddlOptionsKey : request.allParams};
+    [[NSNotificationCenter defaultCenter]  postNotificationName:kSFNotificationUserDidReceiveIDPRequest
+                                                         object:self
+                                                       userInfo:userInfo];
     SFSDKIDPAuthClient  *authClient = nil;
     BOOL showSelection = NO;
 
@@ -134,6 +138,15 @@
 {
     NSString *key = [SFSDKOAuthClientCache keyFromIdentifierPrefixWithType:response.state type:SFOAuthClientKeyTypeIDP];
     SFSDKOAuthClient *client =  [[SFSDKOAuthClientCache sharedInstance] clientForKey:key];
+    
+    NSDictionary *userInfo = @{
+                               kSFNotificationUserInfoCredentialsKey : client.credentials,
+                               kSFUserInfoAddlOptionsKey : response.allParams
+                                };
+    [[NSNotificationCenter defaultCenter]  postNotificationName:kSFNotificationUserDidReceiveIDPResponse
+                                                         object:self
+                                                       userInfo:userInfo];
+    
     return [client handleURLAuthenticationResponse:[response requestURL]];
 }
 

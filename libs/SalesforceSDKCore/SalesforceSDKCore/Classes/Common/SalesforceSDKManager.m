@@ -144,7 +144,14 @@ static NSString* ailtnAppName = nil;
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAuthCompleted:) name:kSFAuthenticationManagerFinishedNotification object:nil];
-         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleIDPInitiatedAuthCompleted:) name:SFUserAccountManagerIDPInitiatedLoginNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow
+                                                selector:@selector(handleAuthCompleted:)
+                                                     name:kSFNotificationUserDidLogIn object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow  selector:@selector(handleIDPInitiatedAuthCompleted:)
+                                                     name:kSFNotificationUserIDPInitDidLogIn object:nil];
+        
+       [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleUserDidLogout:)  name:kSFNotificationUserDidLogout object:nil];
         
         [SFPasscodeManager sharedManager].preferredPasscodeProvider = kSFPasscodeProviderPBKDF2;
         if (NSClassFromString(@"SFHybridViewController") != nil) {
@@ -575,7 +582,7 @@ static NSString* ailtnAppName = nil;
     [SFSecurityLockout setupTimer];
     [SFSecurityLockout startActivityMonitoring];
     NSDictionary *userInfo = notification.userInfo;
-    SFUserAccount *userAccount = userInfo[@"account"];
+    SFUserAccount *userAccount = userInfo[kSFNotificationUserInfoAccountKey];
     [[SFUserAccountManager sharedInstance] switchToUser:userAccount];
     [self sendPostLaunch];
 }
@@ -848,7 +855,7 @@ static NSString* ailtnAppName = nil;
 
 #pragma mark - SFUserAccountManagerDelegate
 
-- (void)userAccountManager:(SFUserAccountManager *)userAccountManager didLogout:(SFUserAccount *)userAccount{
+- (void)handleUserDidLogout:(NSNotification *)notification{
     [self.sdkManagerFlow handlePostLogout];
 }
 
