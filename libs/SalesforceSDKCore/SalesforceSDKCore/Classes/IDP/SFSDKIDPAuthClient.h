@@ -47,13 +47,13 @@ NS_ASSUME_NONNULL_BEGIN
  Called when the Oauth Client is starting the auth process using IDP APP
  @param client The instance of SFSDKOAuthClient making the call.
  */
-- (void)authClient:(SFSDKIDPAuthClient *_Nonnull)client willSendRequestForIDPAuth:(NSURL *) request;
+- (void)authClient:(SFSDKIDPAuthClient *_Nonnull)client willSendRequestForIDPAuth:(NSDictionary *)options;
 
 /**
  Called when the Oauth Client is starting the auth process using IDP APP
  @param client The instance of SFSDKOAuthClient making the call.
  */
-- (void)authClient:(SFSDKIDPAuthClient *_Nonnull)client didSendRequestForIDPAuth:(NSURL *) request;
+- (void)authClient:(SFSDKIDPAuthClient *_Nonnull)client didSendRequestForIDPAuth:(NSDictionary *)options;
 
 
 /**
@@ -80,13 +80,13 @@ NS_ASSUME_NONNULL_BEGIN
  Called when the Oauth Client is starting the auth process with an auth view.
  @param client The instance of SFSDKOAuthClient making the call.
  */
-- (void)authClient:(SFSDKIDPAuthClient *_Nonnull)client didReceiveResponseForIDPAuth:(NSURL *) request;
+- (void)authClient:(SFSDKIDPAuthClient *_Nonnull)client didReceiveResponseForIDPAuth:(NSDictionary *)options;
 
 /**
  Called when the Oauth Client is starting the auth process with an auth view.
  @param client The instance of SFSDKOAuthClient making the call.
  */
-- (void)authClient:(SFSDKIDPAuthClient *_Nonnull)client willSendResponseForIDPAuth:(NSURL *) response;
+- (void)authClient:(SFSDKIDPAuthClient *_Nonnull)client willSendResponseForIDPAuth:(NSDictionary *)options;
 
 @end
 

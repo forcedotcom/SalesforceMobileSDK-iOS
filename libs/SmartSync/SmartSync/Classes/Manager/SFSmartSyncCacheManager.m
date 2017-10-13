@@ -101,6 +101,8 @@ static NSMutableDictionary *cacheMgrList = nil;
         self.enableInMemoryCache = YES;
         self.user = user;
         [[SFAuthenticationManager sharedManager] addDelegate:self];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserWillLogout:)  name:kSFUserAccountManagerUserWillLogoutNotification object:nil];
+
     }
     return self;
 }
@@ -302,6 +304,10 @@ static NSMutableDictionary *cacheMgrList = nil;
 #pragma mark - SFAuthenticationManagerDelegate
 
 - (void)authManager:(SFAuthenticationManager *)manager willLogoutUser:(SFUserAccount *)user {
+    [[self class] removeSharedInstance:user];
+}
+- (void)handleUserWillLogout:(NSNotification *)notification {
+    SFUserAccount *user = notification.userInfo[kSFUserAccountManagerNotificationsUserInfoAccountKey];
     [[self class] removeSharedInstance:user];
 }
 

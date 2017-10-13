@@ -131,7 +131,6 @@
     [super refreshCredentials];
 }
 
-
 - (void)beginIDPFlowForNewUser {
     [super refreshCredentials];
 }
@@ -146,10 +145,8 @@
     
     BOOL launched  = [SFApplicationHelper openURL:url];
     
-    if (launched) {
-        if ( [self.config.idpDelegate respondsToSelector:@selector(authClient:didSendRequestForIDPAuth:)]) {
-            [self.config.idpDelegate authClient:self didSendRequestForIDPAuth:url];
-        }
+    if (!launched) {
+        [SFSDKCoreLogger e:[self class] format:@"Could not launch spAPP to handle error %@",[error description]];
     }
 }
 
@@ -186,12 +183,12 @@
     NSURL *url = [command requestURL];
     
     if ( [self.config.idpDelegate respondsToSelector:@selector(authClient:willSendRequestForIDPAuth:)]) {
-        [self.config.idpDelegate authClient:self willSendRequestForIDPAuth:url];
+        [self.config.idpDelegate authClient:self willSendRequestForIDPAuth:command.allParams];
     }
     BOOL launched  = [SFApplicationHelper openURL:url];
     if (launched) {
         if ( [self.config.idpDelegate respondsToSelector:@selector(authClient:didSendRequestForIDPAuth:)]) {
-            [self.config.idpDelegate authClient:self willSendRequestForIDPAuth:url];
+            [self.config.idpDelegate authClient:self willSendRequestForIDPAuth:command.allParams];
         }
     }
     
@@ -216,7 +213,7 @@
     
     NSURL *url = [responseCommand requestURL];
     if ( [self.config.idpDelegate respondsToSelector:@selector(authClient:willSendResponseForIDPAuth:)]) {
-        [self.config.idpDelegate authClient:self willSendResponseForIDPAuth:url];
+        [self.config.idpDelegate authClient:self willSendResponseForIDPAuth:responseCommand.allParams];
     }
     
     [self.authWindow disable];
@@ -224,7 +221,7 @@
     BOOL launched  = [SFApplicationHelper openURL:url];
     if (launched) {
         if ( [self.config.idpDelegate respondsToSelector:@selector(authClient:didSendRequestForIDPAuth:)]) {
-            [self.config.idpDelegate authClient:self didSendRequestForIDPAuth:url];
+            [self.config.idpDelegate authClient:self didSendRequestForIDPAuth:responseCommand.allParams];
         }
     }
     

@@ -140,6 +140,7 @@ static NSMutableDictionary *syncMgrList = nil;
         self.store = store;
         self.queue = dispatch_queue_create(kSyncManagerQueue,  DISPATCH_QUEUE_SERIAL);
         [[SFAuthenticationManager sharedManager] addDelegate:self];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserWillLogout:)  name:kSFUserAccountManagerUserWillLogoutNotification object:nil];
         [SFSyncState setupSyncsSoupIfNeeded:self.store];
     }
     return self;
@@ -614,6 +615,11 @@ static NSMutableDictionary *syncMgrList = nil;
 
 - (void)authManager:(SFAuthenticationManager *)manager willLogoutUser:(SFUserAccount *)user {
     [[self class] removeSharedInstance:user];
+}
+
+- (void)handleUserWillLogout:(NSNotification *)notification {
+    SFUserAccount *user = notification.userInfo[kSFUserAccountManagerNotificationsUserInfoAccountKey];
+     [[self class] removeSharedInstance:user];
 }
 
 @end
