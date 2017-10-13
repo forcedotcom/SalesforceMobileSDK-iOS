@@ -407,7 +407,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 {
     SFOAuthCredentials *credentials = [self populateAuthCredentialsFromConfigFileForClass:self.class];
     
-    NSString *notificationName = kSFUserAccountManagerUserWillLogInNotification;
+    NSString *notificationName = kSFNotificationUserWillLogIn;
     
     id observerMock = [OCMockObject observerMock];
     [[NSNotificationCenter defaultCenter] addMockObserver:observerMock name:notificationName object:[SFUserAccountManager sharedInstance]];
@@ -422,7 +422,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
      object:[SFUserAccountManager sharedInstance]
      userInfo:[OCMArg checkWithBlock:
                ^BOOL(NSDictionary *userInfo) {
-                   return userInfo[kSFUserAccountManagerNotificationsUserInfoCredentialsKey]!=nil;
+                   return userInfo[kSFNotificationUserInfoCredentialsKey]!=nil;
                }]];
     
     [[SFUserAccountManager sharedInstance]
@@ -444,7 +444,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 {
     SFOAuthCredentials *credentials = [self populateAuthCredentialsFromConfigFileForClass:self.class];
     
-    NSString *notificationName = kSFUserAccountManagerUserDidLogInNotification;
+    NSString *notificationName = kSFNotificationUserDidLogIn;
     
     id observerMock = [OCMockObject observerMock];
     [[NSNotificationCenter defaultCenter] addMockObserver:observerMock name:notificationName object:[SFUserAccountManager sharedInstance]];
@@ -459,7 +459,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
      object:[SFUserAccountManager sharedInstance]
      userInfo:[OCMArg checkWithBlock:
                ^BOOL(NSDictionary *userInfo) {
-                   return userInfo[kSFUserAccountManagerNotificationsUserInfoAccountKey]!=nil;
+                   return userInfo[kSFNotificationUserInfoAccountKey]!=nil;
                }]];
     
     [[SFUserAccountManager sharedInstance]

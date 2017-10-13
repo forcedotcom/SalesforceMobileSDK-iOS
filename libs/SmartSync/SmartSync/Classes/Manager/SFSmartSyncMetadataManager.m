@@ -131,7 +131,7 @@ static NSMutableDictionary *metadataMgrList = nil;
         self.cacheEnabled = YES;
         self.encryptCache = YES;
         [[SFAuthenticationManager sharedManager] addDelegate:self];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserWillLogout:)  name:kSFUserAccountManagerUserWillLogoutNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserWillLogout:)  name:kSFNotificationUserWillLogout object:nil];
     }
     return self;
 }
@@ -1027,7 +1027,7 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
 }
 
 - (void)handleUserWillLogout:(NSNotification *)notification {
-    SFUserAccount *user = notification.userInfo[kSFUserAccountManagerNotificationsUserInfoAccountKey];
+    SFUserAccount *user = notification.userInfo[kSFNotificationUserInfoAccountKey];
     [[self class] removeSharedInstance:user];
 }
 

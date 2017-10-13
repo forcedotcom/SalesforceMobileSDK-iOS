@@ -54,7 +54,7 @@
         // Logout and login host change handlers.
         [[SFAuthenticationManager sharedManager] addDelegate:self];
         [[SFUserAccountManager sharedInstance] addDelegate:self];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserDidLogout:)  name:kSFUserAccountManagerUserDidLogoutNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserDidLogout:)  name:kSFNotificationUserDidLogout object:nil];
     }
     return self;
 }

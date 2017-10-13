@@ -408,7 +408,7 @@ static Class InstanceClass = nil;
     }
     
     [SFSDKCoreLogger d:[self class] format:@"Logging out user '%@'.", user.userName];
-    NSDictionary *userInfo = @{ kSFUserAccountManagerNotificationsUserInfoAccountKey : user };
+    NSDictionary *userInfo = @{ @"account" : user };
     [[NSNotificationCenter defaultCenter] postNotificationName:kSFUserWillLogoutNotification
                                                         object:self
                                                       userInfo:userInfo];

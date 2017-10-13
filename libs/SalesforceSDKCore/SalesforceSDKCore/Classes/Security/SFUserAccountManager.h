@@ -104,55 +104,55 @@ FOUNDATION_EXTERN  NSString * const kOAuthRedirectUriKey;
 
 /** Notification sent prior to user logout
  */
-FOUNDATION_EXTERN NSString * const kSFUserAccountManagerUserWillLogoutNotification;
+FOUNDATION_EXTERN NSString * const kSFNotificationUserWillLogout;
 
 /** Notification sent after user logout
  */
-FOUNDATION_EXTERN NSString * const kSFUserAccountManagerUserDidLogoutNotification;
+FOUNDATION_EXTERN NSString * const kSFNotificationUserDidLogout;
 
 /** Notification sent prior to display of Auth View
  */
-FOUNDATION_EXTERN NSString * const kSFUserAccountManagerWillDisplayAuthViewNotification;
+FOUNDATION_EXTERN NSString * const kSFNotificationUserWillShowAuthView;
 
 /** Notification sent prior to user log in
  */
-FOUNDATION_EXTERN NSString * const kSFUserAccountManagerUserWillLogInNotification;
+FOUNDATION_EXTERN NSString * const kSFNotificationUserWillLogIn;
 
 /** Notification sent after user log in
  */
-FOUNDATION_EXTERN NSString * const kSFUserAccountManagerUserDidLogInNotification;
+FOUNDATION_EXTERN NSString * const kSFNotificationUserDidLogIn;
 
 /**  Notification sent before SP APP invokes IDP APP for authentication
  */
-FOUNDATION_EXTERN NSString * const kSFUserAccountManagerWillSendRequestForIDPAuthNotification;
+FOUNDATION_EXTERN NSString * const kSFNotificationUserWillSendIDPRequest;
 
 /**  Notification sent when  IDP APP receives request for authentication from SP APP
  */
-FOUNDATION_EXTERN NSString * const kSFUserAccountManagerDidReceiveRequestForIDPAuthNotification;
+FOUNDATION_EXTERN NSString * const kSFNotificationUserDidReceiveIDPRequest;
 
 /**  Notification sent when  SP APP receives successful response of authentication from IDP APP
  */
-FOUNDATION_EXTERN NSString * const kSFUserAccountManagerDidReceiveResponseForIDPAuthNotification;
+FOUNDATION_EXTERN NSString * const kSFNotificationUserDidReceiveIDPResponse;
 
 /**  Notification sent when  SP APP has log in  is successful when initiated from IDP APP
  */
-FOUNDATION_EXTERN NSString * const kSFUserAccountManagerIDPInitiatedLoginNotification;
+FOUNDATION_EXTERN NSString * const kSFNotificationUserIDPInitDidLogIn;
 
 /**  Key to use to lookup userAccount associated with  NSNotification userInfo
  */
-FOUNDATION_EXTERN NSString * const kSFUserAccountManagerNotificationsUserInfoAccountKey;
+FOUNDATION_EXTERN NSString * const kSFNotificationUserInfoAccountKey;
 
 /**  Key to use to lookup credentials associated with  NSNotification userInfo
  */
-FOUNDATION_EXTERN NSString * const kSFUserAccountManagerNotificationsUserInfoCredentialsKey;
+FOUNDATION_EXTERN NSString * const kSFNotificationUserInfoCredentialsKey;
 
 /**  Key to use to lookup authinfo type associated with  NSNotification userInfo
  */
-FOUNDATION_EXTERN NSString * const kSFUserAccountManagerNotificationsUserInfoAuthTypeKey;
+FOUNDATION_EXTERN NSString * const kSFNotificationUserInfoAuthTypeKey;
 
 /**  Key to use to lookup dictionary of nv-pairs type associated with NSNotification userInfo
  */
-FOUNDATION_EXTERN NSString * const kSFUserAccountManagerNotificationsUserInfoAddlOptionsTypeKey;
+FOUNDATION_EXTERN NSString * const kSFUserInfoAddlOptionsKey;
 
 @protocol SFSDKOAuthClientDelegate;
 @protocol SFSDKOAuthClientSafariViewDelegate;

@@ -146,12 +146,12 @@ static NSString* ailtnAppName = nil;
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAuthCompleted:) name:kSFAuthenticationManagerFinishedNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow
                                                 selector:@selector(handleAuthCompleted:)
-                                                     name:kSFUserAccountManagerUserDidLogInNotification object:nil];
+                                                     name:kSFNotificationUserDidLogIn object:nil];
         
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow  selector:@selector(handleIDPInitiatedAuthCompleted:)
-                                                     name:kSFUserAccountManagerIDPInitiatedLoginNotification object:nil];
+                                                     name:kSFNotificationUserIDPInitDidLogIn object:nil];
         
-       [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleUserDidLogout:)  name:kSFUserAccountManagerUserDidLogoutNotification object:nil];
+       [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleUserDidLogout:)  name:kSFNotificationUserDidLogout object:nil];
         
         [SFPasscodeManager sharedManager].preferredPasscodeProvider = kSFPasscodeProviderPBKDF2;
         if (NSClassFromString(@"SFHybridViewController") != nil) {
@@ -582,7 +582,7 @@ static NSString* ailtnAppName = nil;
     [SFSecurityLockout setupTimer];
     [SFSecurityLockout startActivityMonitoring];
     NSDictionary *userInfo = notification.userInfo;
-    SFUserAccount *userAccount = userInfo[kSFUserAccountManagerNotificationsUserInfoAccountKey];
+    SFUserAccount *userAccount = userInfo[kSFNotificationUserInfoAccountKey];
     [[SFUserAccountManager sharedInstance] switchToUser:userAccount];
     [self sendPostLaunch];
 }
