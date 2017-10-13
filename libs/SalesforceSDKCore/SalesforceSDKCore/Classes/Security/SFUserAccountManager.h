@@ -110,6 +110,10 @@ FOUNDATION_EXTERN NSString * const kSFUserAccountManagerUserWillLogoutNotificati
  */
 FOUNDATION_EXTERN NSString * const kSFUserAccountManagerUserDidLogoutNotification;
 
+/** Notification sent prior to display of Auth View
+ */
+FOUNDATION_EXTERN NSString * const kSFUserAccountManagerWillDisplayAuthViewNotification;
+
 /** Notification sent prior to user log in
  */
 FOUNDATION_EXTERN NSString * const kSFUserAccountManagerUserWillLogInNotification;
