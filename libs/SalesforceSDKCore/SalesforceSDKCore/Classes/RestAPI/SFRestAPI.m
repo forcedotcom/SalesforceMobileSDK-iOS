@@ -80,6 +80,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
             [SFSDKWebUtils configureUserAgent:[SFRestAPI userAgentString]];
         }
         [[SFAuthenticationManager sharedManager] addDelegate:self];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserWillLogout:)  name:kSFNotificationUserWillLogout object:nil];
     }
     return self;
 }
@@ -209,18 +210,19 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     __weak __typeof(self) weakSelf = self;
     if (self.user.credentials.accessToken == nil && self.user.credentials.refreshToken == nil && request.requiresAuthentication) {
         [SFSDKCoreLogger i:[self class] format:@"No auth credentials found. Authenticating before sending request."];
-        [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
+        [weakSelf loginWithCompletion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [strongSelf enqueueRequest:request delegate:delegate shouldRetry:shouldRetry];
             [SFUserAccountManager sharedInstance].currentUser = userAccount;
             strongSelf.user = userAccount;
         } failure:^(SFOAuthInfo *authInfo, NSError *error) {
-            [SFSDKCoreLogger e:[self class] format:@"Authentication failed in SFRestAPI: %@. Logging out.", error];
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            [SFSDKCoreLogger e:[strongSelf class] format:@"Authentication failed in SFRestAPI: %@. Logging out.", error];
             NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
             attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
             attributes[@"errorDescription"] = error.localizedDescription;
-            [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
-            [[SFAuthenticationManager sharedManager] logout];
+            [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:nil className:NSStringFromClass([strongSelf class]) attributes:attributes];
+            [strongSelf logout];
         }];
     } else {
         [self enqueueRequest:request delegate:delegate shouldRetry:shouldRetry];
@@ -310,7 +312,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
                             // Make sure we call logout on the main thread.
                             dispatch_async(dispatch_get_main_queue(), ^{
                                 [strongSelf createAndStoreLogoutEvent:error user:strongSelf.user];
-                                [[SFAuthenticationManager sharedManager] logoutUser:strongSelf.user];
+                                [strongSelf logoutUser:strongSelf.user];
                             });
                         }
                     }];
@@ -644,13 +646,43 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 
 #pragma mark - SFAuthenticationManagerDelegate
 
-- (void)authManager:(SFAuthenticationManager *)manager willLogoutUser:(SFUserAccount *)user {
+- (void)handleUserWillLogout:(NSNotification *)notification {
+    SFUserAccount *user = notification.userInfo[kSFNotificationUserInfoAccountKey];
+    [self handleLogoutForUser:user];
+}
+- (void)handleLogoutForUser:(SFUserAccount *)user {
     NSString *key = SFKeyForUserAndScope(user, SFUserAccountScopeCommunity);
     id sfRestApi = [sfRestApiList objectForKey:key];
     if (sfRestApi) {
         [sfRestApi cleanup];
     }
     [[self class] removeSharedInstanceWithUser:user];
+}
+
+- (void)authManager:(SFAuthenticationManager *)manager willLogoutUser:(SFUserAccount *)user {
+    [self handleLogoutForUser:user];
+}
+
+- (void)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
+                    failure:(SFOAuthFlowFailureCallbackBlock)failureBlock {
+    if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
+        [[SFAuthenticationManager sharedManager] loginWithCompletion:completionBlock failure:failureBlock];
+    } else {
+        [[SFUserAccountManager sharedInstance] loginWithCompletion:completionBlock failure:failureBlock];
+    }
+    
+}
+
+- (void)logout {
+    [self logoutUser:[SFUserAccountManager sharedInstance].currentUser];
+}
+
+- (void)logoutUser:(SFUserAccount *)user {
+    if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
+        [[SFAuthenticationManager sharedManager] logout];
+    } else {
+        [[SFUserAccountManager sharedInstance] logout];
+    }
 }
 
 @end
