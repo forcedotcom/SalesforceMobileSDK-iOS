@@ -26,11 +26,11 @@
 #import "SFSDKTestRequestListener.h"
 #import "TestSetupUtils.h"
 #import "SFOAuthCoordinator.h"
-#import "SFAuthenticationManager.h"
+#import "SFAuthenticationManager+Internal.h"
 #import "SFIdentityCoordinator.h"
 #import "SFUserAccountManager.h"
 #import "SFIdentityData.h"
-
+SFSDK_USE_DEPRECATED_BEGIN
 /**
  * Private interface for this tests module.
  */
@@ -167,3 +167,4 @@ static NSException *authException = nil;
 }
 
 @end
+SFSDK_USE_DEPRECATED_END

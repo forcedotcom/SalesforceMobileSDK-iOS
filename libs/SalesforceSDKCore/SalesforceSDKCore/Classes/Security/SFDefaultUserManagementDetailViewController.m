@@ -32,7 +32,7 @@ static CGFloat const kButtonWidth = 150.0f;
 static CGFloat const kButtonHeight = 40.0f;
 static CGFloat const kButtonPadding = 10.0f;
 static CGFloat const kControlVerticalPadding = 5.0f;
-
+SFSDK_USE_DEPRECATED_BEGIN
 @interface SFDefaultUserManagementDetailViewController ()
 {
     SFUserAccount *_user;
@@ -155,9 +155,14 @@ static CGFloat const kControlVerticalPadding = 5.0f;
     } else {
         // Logging out a different user than the current user.  Clear the account state and go
         // back to the user list.
-        [[SFAuthenticationManager sharedManager] logoutUser:_user];
+        if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
+            [[SFAuthenticationManager sharedManager] logoutUser:_user];
+        } else {
+           [[SFUserAccountManager sharedInstance] logoutUser:_user];
+        }
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
 
 @end
+SFSDK_USE_DEPRECATED_END

@@ -57,6 +57,7 @@ typedef void (^SFOAuthFlowSuccessCallbackBlock)(SFOAuthInfo *, SFUserAccount *);
  */
 typedef void (^SFOAuthFlowFailureCallbackBlock)(SFOAuthInfo *, NSError *);
 
+SFSDK_DEPRECATED(6.0, 7.0, "Use SFUserAccountManagerDelegate, SFUserAccountManager & its  Notifications instead.")
 /**
  Delegate protocol for SFAuthenticationManager events and callbacks.
  */
@@ -214,6 +215,7 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
 /**
  This class handles all the authentication related tasks, which includes login, logout and session refresh
  */
+SFSDK_DEPRECATED(6.0, 7.0, "Use SFUserAccountManager Login/Logout apis instead.")
 @interface SFAuthenticationManager : NSObject <SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate, SFUserAccountManagerDelegate>
 
 /**

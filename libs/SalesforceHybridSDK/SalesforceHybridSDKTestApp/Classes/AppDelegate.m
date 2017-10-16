@@ -26,7 +26,7 @@
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import <SalesforceHybridSDK/SalesforceHybridSDK.h>
 #import "SFTestRunnerPlugin.h"
-
+SFSDK_USE_DEPRECATED_BEGIN
 @interface AppDelegate () <SFAuthenticationManagerDelegate, SFUserAccountManagerDelegate>
 
 @property (nonatomic, strong) SFHybridViewConfig *testAppHybridViewConfig;
@@ -208,3 +208,4 @@ FILE *fopen$UNIX2003(const char *filename, const char *mode) {
 size_t fwrite$UNIX2003(const void *a, size_t b, size_t c, FILE *d) {
     return fwrite(a, b, c, d);
 }
+SFSDK_USE_DEPRECATED_END

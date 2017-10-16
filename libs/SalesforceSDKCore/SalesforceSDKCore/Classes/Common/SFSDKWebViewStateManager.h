@@ -45,6 +45,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (class, strong, nonatomic, nullable) WKProcessPool *sharedProcessPool;
 
+/**
+ Clears session cookie data from the cookie store, and sets a new session cookie based on the
+ OAuth credentials.
+ */
++ (void)resetSessionCookie;
 @end
 
 NS_ASSUME_NONNULL_END

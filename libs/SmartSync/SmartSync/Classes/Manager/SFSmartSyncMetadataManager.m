@@ -59,7 +59,7 @@ NSString * const kSFObjectLayoutByType = @"object_layout_%@";
 
 // REST request constants.
 static NSString *const kSFMetadataRestApiPath = @"services/data";
-
+SFSDK_USE_DEPRECATED_BEGIN
 @interface SFSmartSyncMetadataManager () <SFAuthenticationManagerDelegate>
 
 @property (nonatomic, strong) SFUserAccount *user;
@@ -1032,3 +1032,4 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
 }
 
 @end
+SFSDK_USE_DEPRECATED_END

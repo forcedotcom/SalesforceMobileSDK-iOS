@@ -24,8 +24,6 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-
-#import "SFAuthenticationManager.h"
 #import "SalesforceSDKCoreDefines.h"
 
 @class SFUserAccount, SFSDKAppConfig;
@@ -92,7 +90,7 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
  including the orchestration of authentication, passcode displaying, and management of app
  backgrounding and foregrounding state.
  */
-@interface SalesforceSDKManager : NSObject <SFAuthenticationManagerDelegate>
+@interface SalesforceSDKManager : NSObject
 
 /**
  Class instance to be used to instantiate the singleton.

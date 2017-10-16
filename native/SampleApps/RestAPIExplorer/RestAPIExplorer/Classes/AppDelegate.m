@@ -48,6 +48,7 @@ static NSString * const OAuthRedirectURI        = @"com.salesforce.mobilesdk.sam
     self = [super init];
     if (self) {
         [SFAuthenticationManager sharedManager].advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;
+        [SFUserAccountManager sharedInstance].advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;
         [SalesforceSDKManager sharedManager].connectedAppId = RemoteAccessConsumerKey;
         [SalesforceSDKManager sharedManager].connectedAppCallbackUri = OAuthRedirectURI;
         [SalesforceSDKManager sharedManager].authScopes = @[ @"web", @"api" ];
@@ -197,6 +198,7 @@ static NSString * const OAuthRedirectURI        = @"com.salesforce.mobilesdk.sam
     SFOAuthCredentials *creds = [SFUserAccountManager sharedInstance].currentUser.credentials;
     NSMutableDictionary *configDict = [NSMutableDictionary dictionaryWithDictionary:@{@"test_client_id": RemoteAccessConsumerKey,
                                                                                       @"test_login_domain": [SFAuthenticationManager sharedManager].loginHost,
+                                                                                      @"test_login_domain": [SFUserAccountManager  sharedInstance].loginHost,
                                                                                       @"test_redirect_uri": OAuthRedirectURI,
                                                                                       @"refresh_token": creds.refreshToken,
                                                                                       @"instance_url": [creds.instanceUrl absoluteString],

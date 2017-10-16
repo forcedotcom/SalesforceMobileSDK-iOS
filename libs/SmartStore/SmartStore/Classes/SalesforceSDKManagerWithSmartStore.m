@@ -26,12 +26,29 @@
 #import "SFSmartStore.h"
 #import "SalesforceSDKManagerWithSmartStore.h"
 #import "SFSDKStoreConfig.h"
+SFSDK_USE_DEPRECATED_BEGIN
+@interface SalesforceSDKManager()<SFAuthenticationManagerDelegate>
+@end
 
 @implementation SalesforceSDKManagerWithSmartStore
+
+-(instancetype)init {
+    if (self = [super init]) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserWillLogout:)  name:kSFNotificationUserWillLogout object:nil];
+    }
+    return self;
+}
+
 
 - (void)authManager:(SFAuthenticationManager *)manager willLogoutUser:(SFUserAccount *)user
 {
     [super authManager:manager willLogoutUser:user];
+    [SFSmartStore removeAllStoresForUser:user];
+}
+
+
+- (void)handleUserWillLogout:(NSNotification *)notification {
+    SFUserAccount *user = notification.userInfo[kSFNotificationUserInfoAccountKey];
     [SFSmartStore removeAllStoresForUser:user];
 }
 
@@ -51,3 +68,4 @@
 }
 
 @end
+SFSDK_USE_DEPRECATED_END

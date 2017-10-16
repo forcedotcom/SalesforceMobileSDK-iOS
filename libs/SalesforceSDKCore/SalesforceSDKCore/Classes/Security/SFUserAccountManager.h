@@ -253,6 +253,11 @@ FOUNDATION_EXTERN NSString * const kSFUserInfoAddlOptionsKey;
 @property (nonatomic, readonly, getter=isCurrentUserAnonymous) BOOL currentUserAnonymous;
 
 /**
+ Returns YES if the logout is requested by the app settings.
+ */
+@property (nonatomic, readonly) BOOL logoutSettingEnabled;
+
+/**
  Advanced authentication configuration.  Default is SFOAuthAdvancedAuthConfigurationNone.  Leave the
  default value unless you need advanced authentication, as it requires an additional round trip to the
  service to retrieve org authentication configuration.

@@ -41,7 +41,7 @@ NSString * const kUserAccountOrgIdDictKey          = @"orgId";
 NSString * const kUserAccountUserIdDictKey         = @"userId";
 NSString * const kUserAccountUsernameDictKey       = @"username";
 NSString * const kUserAccountClientIdDictKey       = @"clientId";
-
+SFSDK_USE_DEPRECATED_BEGIN
 @interface SFAccountManagerPlugin ()
 
 /**
@@ -104,7 +104,7 @@ NSString * const kUserAccountClientIdDictKey       = @"clientId";
             [self.viewController presentViewController:umvc animated:YES completion:NULL];
         } else {
             // Zero accounts configured?  Logout, I guess.
-            [[SFAuthenticationManager sharedManager] logout];
+            [self logout];
         }
     } else {
         // User data was passed in.  Assume API-level user switching.
@@ -129,10 +129,10 @@ NSString * const kUserAccountClientIdDictKey       = @"clientId";
     SFUserAccount *account = [[SFUserAccountManager sharedInstance] userAccountForUserIdentity:accountIdentity];
     if (account == nil || account == [SFUserAccountManager sharedInstance].currentUser) {
         [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"logout: Logging out current user.  App state will reset."]];
-        [[SFAuthenticationManager sharedManager] logout];
+        [self logout];
     } else {
         [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"logout: Logging out user account: %@", account]];
-        [[SFAuthenticationManager sharedManager] logoutUser:account];
+        [self logoutUser:account];
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
     }
@@ -155,4 +155,17 @@ NSString * const kUserAccountClientIdDictKey       = @"clientId";
     return accountDict;
 }
 
+- (void)logout {
+    [self logoutUser:[SFUserAccountManager sharedInstance].currentUser];
+}
+
+- (void)logoutUser:(SFUserAccount *)user {
+    if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
+        [[SFAuthenticationManager sharedManager] logout];
+    } else {
+        [[SFUserAccountManager sharedInstance] logout];
+    }
+}
+
 @end
+SFSDK_USE_DEPRECATED_END

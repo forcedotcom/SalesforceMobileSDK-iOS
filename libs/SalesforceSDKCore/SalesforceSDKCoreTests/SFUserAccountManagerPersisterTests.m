@@ -231,7 +231,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 
 - (SFUserAccount*)createNewUserWithIndex:(NSUInteger)index {
     XCTAssertTrue(index < 10, @"Supports only index up to 9");
-    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:[NSString stringWithFormat:@"identifier-%lu", (unsigned long)index] clientId:[SFAuthenticationManager sharedManager].oauthClientId encrypted:YES];
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:[NSString stringWithFormat:@"identifier-%lu", (unsigned long)index] clientId:[SFUserAccountManager  sharedInstance].oauthClientId encrypted:YES];
     SFUserAccount *user =[[SFUserAccount alloc] initWithCredentials:credentials];
     NSString *userId = [NSString stringWithFormat:kUserIdFormatString, (unsigned long)index];
     NSString *orgId = [NSString stringWithFormat:kOrgIdFormatString, (unsigned long)index];

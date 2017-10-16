@@ -46,7 +46,7 @@ static NSString * const kSmartStoreCacheDataPath       = @"cache_data";
 // Store data keys
 static NSString * const kRawDataKey = @"rawData";
 static NSString * const kTypeKey    = @"type";
-
+SFSDK_USE_DEPRECATED_BEGIN
 @interface SFSmartSyncCacheManager () <SFAuthenticationManagerDelegate>
 
 @property (nonatomic, strong) SFUserAccount *user;
@@ -491,3 +491,4 @@ static NSMutableDictionary *cacheMgrList = nil;
 }
 
 @end
+SFSDK_USE_DEPRECATED_END

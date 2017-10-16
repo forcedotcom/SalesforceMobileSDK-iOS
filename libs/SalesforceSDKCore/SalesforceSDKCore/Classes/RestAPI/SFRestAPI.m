@@ -42,7 +42,7 @@ NSInteger const kSFRestErrorCode = 999;
 
 static BOOL kIsTestRun;
 static SFSDKSafeMutableDictionary *sfRestApiList = nil;
-
+SFSDK_USE_DEPRECATED_BEGIN
 @interface SFRestAPI () <SFAuthenticationManagerDelegate>
 
 @property (readwrite, assign) BOOL sessionRefreshInProgress;
@@ -686,3 +686,4 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 }
 
 @end
+SFSDK_USE_DEPRECATED_END

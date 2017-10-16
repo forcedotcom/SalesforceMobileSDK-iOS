@@ -36,7 +36,7 @@
 #import "SFUserAccountManager.h"
 #import "SFAuthenticationManager.h"
 
-
+SFSDK_USE_DEPRECATED_BEGIN
 @interface SFLoginViewController () <SFSDKLoginHostDelegate, SFUserAccountManagerDelegate>
 
 @property (nonatomic, strong) UINavigationBar *navBar;
@@ -282,4 +282,4 @@
 }
 
 @end
-
+SFSDK_USE_DEPRECATED_END

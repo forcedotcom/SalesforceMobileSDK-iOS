@@ -52,7 +52,7 @@ static Class InstanceClass = nil;
 
 // AILTN app name
 static NSString* ailtnAppName = nil;
-
+SFSDK_USE_DEPRECATED_BEGIN
 @implementation SnapshotViewController
 
 - (void)viewDidLoad {
@@ -842,7 +842,6 @@ static NSString* ailtnAppName = nil;
 }
 
 #pragma mark - SFAuthenticationManagerDelegate
-
 - (void)authManagerDidLogout:(SFAuthenticationManager *)manager
 {
     [self.sdkManagerFlow handlePostLogout];
@@ -855,7 +854,7 @@ static NSString* ailtnAppName = nil;
 
 #pragma mark - SFUserAccountManagerDelegate
 
-- (void)handleUserDidLogout:(NSNotification *)notification{
+- (void)handleUserDidLogout:(NSNotification *)notification {
     [self.sdkManagerFlow handlePostLogout];
 }
 
@@ -880,3 +879,4 @@ static NSString* ailtnAppName = nil;
 }
 
 @end
+SFSDK_USE_DEPRECATED_END

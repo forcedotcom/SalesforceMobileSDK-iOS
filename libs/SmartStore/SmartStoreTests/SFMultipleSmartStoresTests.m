@@ -27,7 +27,7 @@
  */
 
 #import "SFMultipleSmartStoresTest.h"
-
+#import <SalesforceSDKCore/SFAuthenticationmanager.h>
 @interface SFMultipleSmartStoresTests()
 
 @property (nonatomic, strong) SFUserAccount *smartStoreUser;
@@ -96,7 +96,7 @@
 - (SFUserAccount*)setUpSmartStoreUser
 {
     u_int32_t userIdentifier = arc4random();
-    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:[NSString stringWithFormat:@"identifier-%u", userIdentifier] clientId:[SFAuthenticationManager sharedManager].oauthClientId encrypted:YES];
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:[NSString stringWithFormat:@"identifier-%u", userIdentifier] clientId:[SFUserAccountManager  sharedInstance].oauthClientId encrypted:YES];
     SFUserAccount *user =[[SFUserAccount alloc] initWithCredentials:credentials];
     NSString *userId = [NSString stringWithFormat:@"user_%u", userIdentifier];
     NSString *orgId = [NSString stringWithFormat:@"org_%u", userIdentifier];

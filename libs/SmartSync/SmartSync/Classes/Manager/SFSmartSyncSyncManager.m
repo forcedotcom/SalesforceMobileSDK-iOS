@@ -42,7 +42,7 @@ char * const kSyncManagerQueue = "com.salesforce.smartsync.manager.syncmanager.Q
 // block type
 typedef void (^SyncUpdateBlock) (NSString* status, NSInteger progress, NSInteger totalSize, long long maxTimeStamp);
 typedef void (^SyncFailBlock) (NSString* message, NSError* error);
-
+SFSDK_USE_DEPRECATED_BEGIN
 @interface SFSmartSyncSyncManager () <SFAuthenticationManagerDelegate>
 
 @property (nonatomic, strong) SFSmartStore *store;
@@ -623,3 +623,4 @@ static NSMutableDictionary *syncMgrList = nil;
 }
 
 @end
+SFSDK_USE_DEPRECATED_END

@@ -37,6 +37,7 @@
 #import "UIDevice+SFHardware.h"
 #import "SFIdentityData.h"
 #import "SFApplicationHelper.h"
+#import "SFAuthenticationManager.h"
 #import <SalesforceAnalytics/SFSDKAILTNTransform.h>
 #import <SalesforceAnalytics/SFSDKDeviceAppAttributes.h>
 #import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
@@ -57,7 +58,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
 - (instancetype)initWithTransform:(id<SFSDKTransform>)transform publisher:(id<SFSDKAnalyticsPublisher>)publisher;
 
 @end
-
+SFSDK_USE_DEPRECATED_BEGIN
 @interface SFSDKSalesforceAnalyticsManager () <SFAuthenticationManagerDelegate>
 
 @property (nonatomic, readwrite, strong) SFSDKAnalyticsManager *analyticsManager;
@@ -355,3 +356,4 @@ static NSMutableDictionary *analyticsManagerList = nil;
 }
 
 @end
+SFSDK_USE_DEPRECATED_END

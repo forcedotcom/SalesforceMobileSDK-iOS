@@ -73,7 +73,7 @@ static BOOL sValidatePasscodeAtStartup = NO;
 // Flag used to prevent the display of the passcode view controller.
 // Note: it is used by the unit tests only.
 static BOOL _showPasscode = YES;
-
+SFSDK_USE_DEPRECATED_BEGIN
 @implementation SFSecurityLockout
 
 + (void)initialize
@@ -316,7 +316,7 @@ static BOOL _showPasscode = YES;
 
 + (BOOL)hasValidSession
 {
-    return [[SFAuthenticationManager sharedManager] haveValidSession];
+    return [SFUserAccountManager sharedInstance].currentUser != nil && [SFUserAccountManager sharedInstance].currentUser.isSessionValid;
 }
 
 // For unit tests.
@@ -394,7 +394,11 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     } else {
         // Clear the SFSecurityLockout passcode state, as it's no longer valid.
         [SFSecurityLockout clearAllPasscodeState];
-        [[SFAuthenticationManager sharedManager] logoutAllUsers];
+        if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
+            [[SFAuthenticationManager sharedManager] logoutAllUsers];
+        }else {
+            [[SFUserAccountManager sharedInstance] logoutAllUsers];
+        }
         [SFSecurityLockout unlockFailurePostProcessing];
     }
     
@@ -408,7 +412,11 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 + (void)timerExpired:(NSTimer*)theTimer
 {
     [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
-        [[SFAuthenticationManager sharedManager] logout];
+        if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
+            [[SFAuthenticationManager sharedManager] logout];
+        }else {
+             [[SFUserAccountManager sharedInstance] logout];
+        }
     }];
     
     [SFSDKCoreLogger i:[self class] format:@"NSTimer expired, but checking lastUserEvent before locking!"];
@@ -738,3 +746,4 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 }
 
 @end
+SFSDK_USE_DEPRECATED_END
