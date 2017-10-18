@@ -244,7 +244,7 @@ static NSMutableDictionary *syncMgrList = nil;
 /** Create and run a sync down
  */
 - (SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
-    SFSyncState* sync = [SFSyncState newSyncDownWithOptions:options target:target soupName:soupName store:self.store];
+    SFSyncState* sync = [SFSyncState newSyncDownWithOptions:options target:target soupName:soupName name:nil store:self.store];
     [SFSDKSmartSyncLogger d:[self class] format:@"syncDown:%@", sync];
     [self runSync:sync updateBlock:updateBlock];
     return [sync copy];
@@ -363,7 +363,7 @@ static NSMutableDictionary *syncMgrList = nil;
                          options:(SFSyncOptions *)options
                         soupName:(NSString *)soupName
                      updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
-    SFSyncState *sync = [SFSyncState newSyncUpWithOptions:options target:target soupName:soupName store:self.store];
+    SFSyncState *sync = [SFSyncState newSyncUpWithOptions:options target:target soupName:soupName name:nil store:self.store];
     [self runSync:sync updateBlock:updateBlock];
     return [sync copy];
 }
