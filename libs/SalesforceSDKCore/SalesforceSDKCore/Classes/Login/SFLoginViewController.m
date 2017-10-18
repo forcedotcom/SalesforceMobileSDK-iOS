@@ -37,8 +37,10 @@
 #import "SFAuthenticationManager.h"
 
 SFSDK_USE_DEPRECATED_BEGIN
+
 @interface SFLoginViewController () <SFSDKLoginHostDelegate, SFUserAccountManagerDelegate>
 
+SFSDK_USE_DEPRECATED_END
 @property (nonatomic, strong) UINavigationBar *navBar;
 
 // Reference to the login host list view controller
@@ -155,7 +157,9 @@ SFSDK_USE_DEPRECATED_BEGIN
 }
 
 - (IBAction)backToPreviousHost:(id)sender {
+    SFSDK_USE_DEPRECATED_BEGIN
     [[SFAuthenticationManager sharedManager] cancelAuthentication];
+    SFSDK_USE_DEPRECATED_END
     if (self.previousUserAccount) {
         [[SFUserAccountManager sharedInstance] switchToUser:self.previousUserAccount];
     }
@@ -282,4 +286,4 @@ SFSDK_USE_DEPRECATED_BEGIN
 }
 
 @end
-SFSDK_USE_DEPRECATED_END
+

@@ -59,8 +59,10 @@ static NSMutableDictionary *analyticsManagerList = nil;
 
 @end
 SFSDK_USE_DEPRECATED_BEGIN
+
 @interface SFSDKSalesforceAnalyticsManager () <SFAuthenticationManagerDelegate>
 
+SFSDK_USE_DEPRECATED_END
 @property (nonatomic, readwrite, strong) SFSDKAnalyticsManager *analyticsManager;
 @property (nonatomic, readwrite, strong) SFSDKEventStoreManager *eventStoreManager;
 @property (nonatomic, readwrite, strong) SFUserAccount *userAccount;
@@ -110,7 +112,9 @@ SFSDK_USE_DEPRECATED_BEGIN
 
 - (void) dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
+    SFSDK_USE_DEPRECATED_BEGIN
     [[SFAuthenticationManager sharedManager] removeDelegate:self];
+    SFSDK_USE_DEPRECATED_END
 }
 
 - (instancetype) initWithUser:(SFUserAccount *) userAccount {
@@ -132,7 +136,9 @@ SFSDK_USE_DEPRECATED_BEGIN
         SFSDKAnalyticsTransformPublisherPair *tpp = [[SFSDKAnalyticsTransformPublisherPair alloc] initWithTransform:[[SFSDKAILTNTransform alloc] init] publisher:[[SFSDKAILTNPublisher alloc] init]];
         [self.remotes addObject:tpp];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(publishOnAppBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
+        SFSDK_USE_DEPRECATED_BEGIN
         [[SFAuthenticationManager sharedManager] addDelegate:self];
+        SFSDK_USE_DEPRECATED_END
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserWillLogout:)  name:kSFNotificationUserWillLogout object:nil];
     }
     return self;
@@ -338,11 +344,15 @@ SFSDK_USE_DEPRECATED_BEGIN
     [[self class] removeSharedInstanceWithUser:user];
 }
 
+SFSDK_USE_DEPRECATED_BEGIN
+
 - (void) authManager:(SFAuthenticationManager *) manager willLogoutUser:(SFUserAccount *) user {
     [self handleLogoutForUser:user];
 }
 
 @end
+
+SFSDK_USE_DEPRECATED_END
 
 @implementation SFSDKAnalyticsTransformPublisherPair
 
@@ -356,4 +366,4 @@ SFSDK_USE_DEPRECATED_BEGIN
 }
 
 @end
-SFSDK_USE_DEPRECATED_END
+

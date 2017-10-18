@@ -52,7 +52,6 @@ static Class InstanceClass = nil;
 
 // AILTN app name
 static NSString* ailtnAppName = nil;
-SFSDK_USE_DEPRECATED_BEGIN
 @implementation SnapshotViewController
 
 - (void)viewDidLoad {
@@ -136,7 +135,11 @@ SFSDK_USE_DEPRECATED_BEGIN
         self.sdkManagerFlow = self;
         self.delegates = [NSHashTable weakObjectsHashTable];
         [[SFUserAccountManager sharedInstance] addDelegate:self];
+        
+        SFSDK_USE_DEPRECATED_BEGIN
         [[SFAuthenticationManager sharedManager] addDelegate:self];
+        SFSDK_USE_DEPRECATED_END
+
         [SFSecurityLockout addDelegate:self];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
@@ -738,7 +741,12 @@ SFSDK_USE_DEPRECATED_BEGIN
     };
     
     if (self.useLegacyAuthenticationManager) {
+        SFSDK_USE_DEPRECATED_BEGIN
+
         [[SFAuthenticationManager sharedManager] loginWithCompletion:successBlock failure:failureBlock];
+        
+        SFSDK_USE_DEPRECATED_END
+
     } else {
         [[SFUserAccountManager sharedInstance] loginWithCompletion:successBlock failure:failureBlock];
     }
@@ -749,7 +757,12 @@ SFSDK_USE_DEPRECATED_BEGIN
     // If there is a current user (from a previous authentication), we still need to set up the
     // in-memory auth state of that user.
     if ([SFUserAccountManager sharedInstance].currentUser != nil && self.useLegacyAuthenticationManager) {
+        SFSDK_USE_DEPRECATED_BEGIN
+
         [[SFAuthenticationManager sharedManager] setupWithCredentials:[SFUserAccountManager sharedInstance].currentUser.credentials];
+        
+        SFSDK_USE_DEPRECATED_END
+
     }
     
     SFSDKLaunchAction noAuthLaunchAction;
@@ -840,6 +853,7 @@ SFSDK_USE_DEPRECATED_BEGIN
         }
     }
 }
+SFSDK_USE_DEPRECATED_BEGIN
 
 #pragma mark - SFAuthenticationManagerDelegate
 - (void)authManagerDidLogout:(SFAuthenticationManager *)manager
@@ -851,6 +865,7 @@ SFSDK_USE_DEPRECATED_BEGIN
 {
 
 }
+SFSDK_USE_DEPRECATED_END
 
 #pragma mark - SFUserAccountManagerDelegate
 
@@ -879,4 +894,4 @@ SFSDK_USE_DEPRECATED_BEGIN
 }
 
 @end
-SFSDK_USE_DEPRECATED_END
+

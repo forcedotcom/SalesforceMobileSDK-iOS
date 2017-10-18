@@ -62,6 +62,7 @@ static NSString *const kSFMetadataRestApiPath = @"services/data";
 SFSDK_USE_DEPRECATED_BEGIN
 @interface SFSmartSyncMetadataManager () <SFAuthenticationManagerDelegate>
 
+SFSDK_USE_DEPRECATED_END
 @property (nonatomic, strong) SFUserAccount *user;
 @property (nonatomic, readonly) SFRestAPI *restClient;
 @property (nonatomic, assign) BOOL cacheEnabled;
@@ -130,14 +131,18 @@ static NSMutableDictionary *metadataMgrList = nil;
         self.apiVersion = kDefaultApiVersion;
         self.cacheEnabled = YES;
         self.encryptCache = YES;
+        SFSDK_USE_DEPRECATED_BEGIN
         [[SFAuthenticationManager sharedManager] addDelegate:self];
+        SFSDK_USE_DEPRECATED_END
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserWillLogout:)  name:kSFNotificationUserWillLogout object:nil];
     }
     return self;
 }
 
 - (void)dealloc {
+    SFSDK_USE_DEPRECATED_BEGIN
     [[SFAuthenticationManager sharedManager] removeDelegate:self];
+    SFSDK_USE_DEPRECATED_END
 }
 
 - (SFRestAPI *) restClient {
@@ -1021,10 +1026,13 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
 }
 
 #pragma mark - SFAuthenticationManagerDelegate
+SFSDK_USE_DEPRECATED_BEGIN
 
 - (void)authManager:(SFAuthenticationManager *)manager willLogoutUser:(SFUserAccount *)user {
     [[self class] removeSharedInstance:user];
 }
+
+SFSDK_USE_DEPRECATED_END
 
 - (void)handleUserWillLogout:(NSNotification *)notification {
     SFUserAccount *user = notification.userInfo[kSFNotificationUserInfoAccountKey];

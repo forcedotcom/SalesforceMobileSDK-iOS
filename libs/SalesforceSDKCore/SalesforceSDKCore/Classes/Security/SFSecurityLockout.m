@@ -73,7 +73,7 @@ static BOOL sValidatePasscodeAtStartup = NO;
 // Flag used to prevent the display of the passcode view controller.
 // Note: it is used by the unit tests only.
 static BOOL _showPasscode = YES;
-SFSDK_USE_DEPRECATED_BEGIN
+
 @implementation SFSecurityLockout
 
 + (void)initialize
@@ -395,7 +395,9 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         // Clear the SFSecurityLockout passcode state, as it's no longer valid.
         [SFSecurityLockout clearAllPasscodeState];
         if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
+            SFSDK_USE_DEPRECATED_BEGIN
             [[SFAuthenticationManager sharedManager] logoutAllUsers];
+            SFSDK_USE_DEPRECATED_END
         }else {
             [[SFUserAccountManager sharedInstance] logoutAllUsers];
         }
@@ -413,7 +415,9 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 {
     [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
         if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
+            SFSDK_USE_DEPRECATED_BEGIN
             [[SFAuthenticationManager sharedManager] logout];
+            SFSDK_USE_DEPRECATED_END
         }else {
              [[SFUserAccountManager sharedInstance] logout];
         }
@@ -746,4 +750,4 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 }
 
 @end
-SFSDK_USE_DEPRECATED_END
+
