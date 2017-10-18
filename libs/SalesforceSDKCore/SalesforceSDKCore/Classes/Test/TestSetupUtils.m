@@ -89,8 +89,9 @@ static SFOAuthCredentials *credentials = nil;
     credentials.refreshToken = credsData.refreshToken;
     return credsData;
 }
+
 SFSDK_USE_DEPRECATED_BEGIN
-+ (void)synchronousAuthRefresh
++ (void)synchronousAuthRefreshLegacy
 {
     // All of the setup and validation of prerequisite auth state is done in populateAuthCredentialsFromConfigFile.
     // Make sure that method has run before this one.
@@ -116,5 +117,28 @@ SFSDK_USE_DEPRECATED_BEGIN
 }
 SFSDK_USE_DEPRECATED_END
 
-
++ (void)synchronousAuthRefresh
+{
+    // All of the setup and validation of prerequisite auth state is done in populateAuthCredentialsFromConfigFile.
+    // Make sure that method has run before this one.
+    NSAssert(credentials!=nil, @"You must call populateAuthCredentialsFromConfigFileForClass before synchronousAuthRefresh");
+    __block SFSDKTestRequestListener *authListener = [[SFSDKTestRequestListener alloc] init];
+    __block SFUserAccount *user = nil;
+    
+    [[SFUserAccountManager sharedInstance]
+     refreshCredentials:credentials
+     completion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
+         authListener.returnStatus = kTestRequestStatusDidLoad;
+         user = userAccount;
+     } failure:^(SFOAuthInfo *authInfo, NSError *error) {
+         authListener.lastError = error;
+         authListener.returnStatus = kTestRequestStatusDidFail;
+     }];
+    [authListener waitForCompletion];
+    [[SFUserAccountManager sharedInstance] setCurrentUser:user];
+    
+    NSAssert([authListener.returnStatus isEqualToString:kTestRequestStatusDidLoad], @"After auth attempt, expected status '%@', got '%@'",
+             kTestRequestStatusDidLoad,
+             authListener.returnStatus);
+}
 @end

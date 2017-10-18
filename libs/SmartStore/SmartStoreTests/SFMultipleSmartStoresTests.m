@@ -27,7 +27,6 @@
  */
 
 #import "SFMultipleSmartStoresTest.h"
-#import <SalesforceSDKCore/SFAuthenticationmanager.h>
 @interface SFMultipleSmartStoresTests()
 
 @property (nonatomic, strong) SFUserAccount *smartStoreUser;

@@ -56,7 +56,7 @@ static NSException *authException = nil;
 {
     @try {
         [TestSetupUtils populateAuthCredentialsFromConfigFileForClass:[self class]];
-        [TestSetupUtils synchronousAuthRefresh];
+        [TestSetupUtils synchronousAuthRefreshLegacy];
     }
     @catch (NSException *exception) {
         authException = exception;
@@ -107,7 +107,7 @@ static NSException *authException = nil;
     NSURL *instanceURL = sharedManager.coordinator.credentials.instanceUrl;
     sharedManager.coordinator.credentials.instanceUrl = [NSURL URLWithString:@"https://www.example.com"]; //set to an invalid url
     sharedManager.idCoordinator.credentials.instanceUrl = [NSURL URLWithString:@"https://www.example.com"]; //set to an invalid url
-    [TestSetupUtils synchronousAuthRefresh];
+    [TestSetupUtils synchronousAuthRefreshLegacy];
     XCTAssertEqualObjects(sharedManager.coordinator.credentials.instanceUrl, instanceURL, @"Expect instance URL is also updated");
     XCTAssertEqualObjects(sharedManager.idCoordinator.credentials.instanceUrl, instanceURL, @"Expect instance URL is also updated");
     [self validateIdentityData];
