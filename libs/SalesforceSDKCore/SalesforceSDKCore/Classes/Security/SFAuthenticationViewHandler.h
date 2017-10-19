@@ -26,7 +26,7 @@
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
-
+SFSDK_USE_DEPRECATED_BEGIN
 @class SFAuthenticationManager;
 @class WKWebView;
 
@@ -63,5 +63,5 @@ typedef void (^SFAuthViewDismissBlock)(SFAuthenticationManager *);
 - (id)initWithDisplayBlock:(SFAuthViewDisplayBlock)displayBlock dismissBlock:(SFAuthViewDismissBlock)dismissBlock;
 
 @end
-
+SFSDK_USE_DEPRECATED_END
 NS_ASSUME_NONNULL_END

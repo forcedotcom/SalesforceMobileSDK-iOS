@@ -30,7 +30,7 @@
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFSDKWebUtils.h>
 #import "SFHybridViewController.h"
-
+SFSDK_USE_DEPRECATED_BEGIN
 @implementation SalesforceOAuthPlugin
 
 #pragma mark - Cordova plugin methods
@@ -111,3 +111,4 @@
 }
 
 @end
+SFSDK_USE_DEPRECATED_END

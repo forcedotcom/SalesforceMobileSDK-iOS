@@ -42,9 +42,10 @@ char * const kSyncManagerQueue = "com.salesforce.smartsync.manager.syncmanager.Q
 // block type
 typedef void (^SyncUpdateBlock) (NSString* status, NSInteger progress, NSInteger totalSize, long long maxTimeStamp);
 typedef void (^SyncFailBlock) (NSString* message, NSError* error);
-
+SFSDK_USE_DEPRECATED_BEGIN
 @interface SFSmartSyncSyncManager () <SFAuthenticationManagerDelegate>
 
+SFSDK_USE_DEPRECATED_END
 @property (nonatomic, strong) SFSmartStore *store;
 @property (nonatomic, strong) dispatch_queue_t queue;
 @property (nonatomic, strong) NSMutableSet *runningSyncIds;
@@ -139,7 +140,9 @@ static NSMutableDictionary *syncMgrList = nil;
         self.runningSyncIds = [NSMutableSet new];
         self.store = store;
         self.queue = dispatch_queue_create(kSyncManagerQueue,  DISPATCH_QUEUE_SERIAL);
+        SFSDK_USE_DEPRECATED_BEGIN
         [[SFAuthenticationManager sharedManager] addDelegate:self];
+        SFSDK_USE_DEPRECATED_END
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserWillLogout:)  name:kSFNotificationUserWillLogout object:nil];
         [SFSyncState setupSyncsSoupIfNeeded:self.store];
     }
@@ -149,7 +152,9 @@ static NSMutableDictionary *syncMgrList = nil;
 
 
 - (void)dealloc {
+    SFSDK_USE_DEPRECATED_BEGIN
     [[SFAuthenticationManager sharedManager] removeDelegate:self];
+    SFSDK_USE_DEPRECATED_END
 }
 
 #pragma mark - get sync methods
@@ -650,14 +655,15 @@ static NSMutableDictionary *syncMgrList = nil;
 }
 
 #pragma mark - SFAuthenticationManagerDelegate
-
+SFSDK_USE_DEPRECATED_BEGIN
 - (void)authManager:(SFAuthenticationManager *)manager willLogoutUser:(SFUserAccount *)user {
     [[self class] removeSharedInstance:user];
 }
-
+SFSDK_USE_DEPRECATED_END
 - (void)handleUserWillLogout:(NSNotification *)notification {
     SFUserAccount *user = notification.userInfo[kSFNotificationUserInfoAccountKey];
      [[self class] removeSharedInstance:user];
 }
 
 @end
+

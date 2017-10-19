@@ -47,7 +47,7 @@ static NSString * const kSFOAuthCommunityUrl = @"sfdc_community_url";
 @property (nonatomic, strong) SFUserAccountManager *uam;
 
 @end
-
+SFSDK_USE_DEPRECATED_BEGIN
 @implementation SFUserAccountManagerNotificationsTests
 
 - (void)setUp
@@ -83,12 +83,14 @@ static NSString * const kSFOAuthCommunityUrl = @"sfdc_community_url";
     [[NSNotificationCenter defaultCenter] removeObserver:observerMock];
 }
 
+
 - (void)testCommunityIdNotificationPosted
 {
     NSString *notificationName = SFUserAccountManagerDidChangeUserDataNotification;
     id observerMock = [OCMockObject observerMock];
     [[NSNotificationCenter defaultCenter] addMockObserver:observerMock name:notificationName object:nil];
     SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:_user.credentials];
+    
     SFAuthenticationManager * authenticationManager = [SFAuthenticationManager sharedManager];
     authenticationManager.coordinator = coordinator;
     NSDictionary *expectedUserInfo = @{
@@ -104,6 +106,7 @@ static NSString * const kSFOAuthCommunityUrl = @"sfdc_community_url";
     [observerMock verify];
     [[NSNotificationCenter defaultCenter] removeObserver:observerMock];
 }
+
 
 - (void)testInstanceUrlChangeNotificationPosted
 {
@@ -228,3 +231,4 @@ static NSString * const kSFOAuthCommunityUrl = @"sfdc_community_url";
 }
 
 @end
+SFSDK_USE_DEPRECATED_END

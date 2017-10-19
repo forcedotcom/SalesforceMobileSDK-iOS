@@ -3,7 +3,7 @@
 #import "SFUserAccountManager.h"
 #import "SFUserAccount.h"
 #import "SFSDKAppConfig.h"
-
+#import "SFAuthenticationManager.h"
 @protocol SalesforceSDKManagerFlow <NSObject>
 
 - (void)passcodeValidationAtLaunch;
@@ -26,11 +26,13 @@
 
 @end
 
-@interface SalesforceSDKManager () <SalesforceSDKManagerFlow, SFUserAccountManagerDelegate, SFSecurityLockoutDelegate>
+SFSDK_USE_DEPRECATED_BEGIN
+@interface SalesforceSDKManager () <SalesforceSDKManagerFlow, SFUserAccountManagerDelegate, SFSecurityLockoutDelegate,SFAuthenticationManagerDelegate>
 {
     BOOL _isLaunching;
     UIViewController* _snapshotViewController;
 }
+SFSDK_USE_DEPRECATED_END
 
 @property (nonatomic, assign) SFAppType appType;
 @property (nonatomic, weak, nullable) id<SalesforceSDKManagerFlow> sdkManagerFlow;

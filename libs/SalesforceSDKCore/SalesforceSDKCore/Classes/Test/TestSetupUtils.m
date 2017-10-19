@@ -30,7 +30,7 @@
 #import "SFJsonUtils.h"
 
 #import "SFAuthenticationManager.h"
-#import "SFUserAccountManager.h"
+#import "SFUserAccountManager+Internal.h"
 #import "SFUserAccount.h"
 #import "SFSDKTestRequestListener.h"
 #import "SFSDKTestCredentialsData.h"
@@ -74,11 +74,11 @@ static SFOAuthCredentials *credentials = nil;
     NSAssert(![credsData.refreshToken isEqualToString:@"__INSERT_TOKEN_HERE__"],
              @"You need to obtain credentials for your test org and replace test_credentials.json");
     [SFUserAccountManager sharedInstance].currentUser = nil;
-    [SFAuthenticationManager sharedManager].oauthClientId = credsData.clientId;
-    [SFAuthenticationManager sharedManager].oauthCompletionUrl = credsData.redirectUri;
-    [SFAuthenticationManager sharedManager].scopes = [NSSet setWithObjects:@"web", @"api", nil];
-    [SFAuthenticationManager sharedManager].loginHost = credsData.loginHost;
-    credentials = [[SFAuthenticationManager sharedManager] createOAuthCredentials];
+    [SFUserAccountManager sharedInstance].oauthClientId = credsData.clientId;
+    [SFUserAccountManager sharedInstance].oauthCompletionUrl = credsData.redirectUri;
+    [SFUserAccountManager sharedInstance].scopes = [NSSet setWithObjects:@"web", @"api", nil];
+    [SFUserAccountManager sharedInstance].loginHost = credsData.loginHost;
+    credentials = [[SFUserAccountManager sharedInstance] newClientCredentials];
     credentials.instanceUrl = [NSURL URLWithString:credsData.instanceUrl];
     credentials.identityUrl = [NSURL URLWithString:credsData.identityUrl];
     NSString *communityUrlString = credsData.communityUrl;
@@ -90,13 +90,15 @@ static SFOAuthCredentials *credentials = nil;
     return credsData;
 }
 
-+ (void)synchronousAuthRefresh
+SFSDK_USE_DEPRECATED_BEGIN
++ (void)synchronousAuthRefreshLegacy
 {
     // All of the setup and validation of prerequisite auth state is done in populateAuthCredentialsFromConfigFile.
     // Make sure that method has run before this one.
     NSAssert(credentials!=nil, @"You must call populateAuthCredentialsFromConfigFileForClass before synchronousAuthRefresh");
     __block SFSDKTestRequestListener *authListener = [[SFSDKTestRequestListener alloc] init];
     __block SFUserAccount *user = nil;
+
     [[SFAuthenticationManager sharedManager]
      refreshCredentials:credentials
      completion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
@@ -113,8 +115,30 @@ static SFOAuthCredentials *credentials = nil;
              kTestRequestStatusDidLoad,
              authListener.returnStatus);
 }
+SFSDK_USE_DEPRECATED_END
 
-
-
-
++ (void)synchronousAuthRefresh
+{
+    // All of the setup and validation of prerequisite auth state is done in populateAuthCredentialsFromConfigFile.
+    // Make sure that method has run before this one.
+    NSAssert(credentials!=nil, @"You must call populateAuthCredentialsFromConfigFileForClass before synchronousAuthRefresh");
+    __block SFSDKTestRequestListener *authListener = [[SFSDKTestRequestListener alloc] init];
+    __block SFUserAccount *user = nil;
+    
+    [[SFUserAccountManager sharedInstance]
+     refreshCredentials:credentials
+     completion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
+         authListener.returnStatus = kTestRequestStatusDidLoad;
+         user = userAccount;
+     } failure:^(SFOAuthInfo *authInfo, NSError *error) {
+         authListener.lastError = error;
+         authListener.returnStatus = kTestRequestStatusDidFail;
+     }];
+    [authListener waitForCompletion];
+    [[SFUserAccountManager sharedInstance] setCurrentUser:user];
+    
+    NSAssert([authListener.returnStatus isEqualToString:kTestRequestStatusDidLoad], @"After auth attempt, expected status '%@', got '%@'",
+             kTestRequestStatusDidLoad,
+             authListener.returnStatus);
+}
 @end
