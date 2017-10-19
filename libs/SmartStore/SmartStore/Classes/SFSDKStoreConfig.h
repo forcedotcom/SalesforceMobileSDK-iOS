@@ -50,8 +50,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Constructor
- * @param path
- * @return
+ * @param path to the config file
+ * @return instance of SFSDKStoreConfig
  */
 - (nullable id)initWithResourceAtPath:(NSString*)path;
 
@@ -59,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Register the soup from the config in the given store
  * NB: only feedback is through the logs - the config is static so getting it right is something the developer should do while writing the app
  *
- * @param store
+ * @param store to register soups in.
  */
 - (void) registerSoups:(SFSmartStore*) store;
 

@@ -51,7 +51,7 @@
     return self;
 }
 
-- (void)flushLogWithCompletionBlock:(void (^)())completionBlock {
+- (void)flushLogWithCompletionBlock:(void (^)(void))completionBlock {
     NSFileManager *fileManager = [[NSFileManager alloc] init];
     [self rollLogFileWithCompletionBlock: ^{
         for (NSString *filename in self->_logFileManager.sortedLogFilePaths) {

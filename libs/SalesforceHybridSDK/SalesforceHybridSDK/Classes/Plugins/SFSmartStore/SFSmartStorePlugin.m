@@ -414,21 +414,21 @@ NSString * const kStoreName           = @"storeName";
         }else {
             [SFSmartStore removeSharedStoreWithName:storeName];
         }
-        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:@YES];
+        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:YES];
     } command:command];
 }
 
 - (void)pgRemoveAllGlobalStores:(CDVInvokedUrlCommand *)command {
     [self runCommand:^(NSDictionary* argsDict) {
         [SFSmartStore removeAllGlobalStores];
-        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:@YES];
+        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:YES];
     } command:command];
 }
 
 - (void)pgRemoveAllStores:(CDVInvokedUrlCommand *)command {
     [self runCommand:^(NSDictionary* argsDict) {
         [SFSmartStore removeAllStores];
-        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:@YES];
+        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:YES];
     } command:command];
 
 }

@@ -516,7 +516,7 @@ static NSMutableDictionary *syncMgrList = nil;
     NSString* soupName = sync.soupName;
 
     // Next
-    void (^nextBlock)()=^() {
+    void (^nextBlock)(void)=^() {
         [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failBlock:failBlock];
     };
 

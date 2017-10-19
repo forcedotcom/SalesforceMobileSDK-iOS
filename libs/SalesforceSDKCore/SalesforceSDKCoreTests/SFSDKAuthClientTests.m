@@ -74,6 +74,7 @@
 
 @implementation TestIDPLoginNavViewController
 @dynamic selectionFlowDelegate;
+@synthesize appOptions;
 
 @end
 
@@ -526,6 +527,10 @@
 
 - (void)authClientDidCancelGenericFlow:(SFSDKOAuthClient *)client {
  [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+}
+
+- (void)authClient:(SFSDKOAuthClient * _Nonnull)client displayMessage:(nonnull SFSDKAlertMessage *)message { 
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
 }
 
 #pragma mark SFOAuthCoordinatorFlow

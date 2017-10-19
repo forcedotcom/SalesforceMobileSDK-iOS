@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		B71F8B531F98FA1D00D7B2E6 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B71F8B521F98FA1D00D7B2E6 /* Default-568h@2x.png */; };
 		CE2B8BD31CE900F500C6FC6A /* SalesforceAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2B8BD21CE900F500C6FC6A /* SalesforceAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE2B8C2E1CE9218900C6FC6A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2B8C2D1CE9218900C6FC6A /* main.m */; };
 		CE2B8C311CE9218900C6FC6A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2B8C301CE9218900C6FC6A /* AppDelegate.m */; };
@@ -264,6 +265,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B71F8B521F98FA1D00D7B2E6 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		B7282F401D8C711100475F79 /* SalesforceAnalyticsTestApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SalesforceAnalyticsTestApp.entitlements; sourceTree = "<group>"; };
 		CE2B8BCF1CE900F500C6FC6A /* SalesforceAnalytics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SalesforceAnalytics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE2B8BD21CE900F500C6FC6A /* SalesforceAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SalesforceAnalytics.h; sourceTree = "<group>"; };
@@ -376,6 +378,7 @@
 		CE2B8BC51CE900F500C6FC6A = {
 			isa = PBXGroup;
 			children = (
+				B71F8B521F98FA1D00D7B2E6 /* Default-568h@2x.png */,
 				CEF4A2EA1D9339250025EDF0 /* Resources */,
 				CEF371A61D0E55C70004A237 /* Frameworks */,
 				CE2B8CA61CE9281300C6FC6A /* Configuration */,
@@ -915,6 +918,7 @@
 				CEF371E51D10D7E60004A237 /* Main_iPad.storyboard in Resources */,
 				CEF371E61D10D7E60004A237 /* Main_iPhone.storyboard in Resources */,
 				CE2B8E111CE9352B00C6FC6A /* en.lproj in Resources */,
+				B71F8B531F98FA1D00D7B2E6 /* Default-568h@2x.png in Resources */,
 				CE2B8E131CE9352B00C6FC6A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1055,6 +1059,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_NOTICES = NO;
+				ASSETCATALOG_WARNINGS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -1111,6 +1117,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_NOTICES = NO;
+				ASSETCATALOG_WARNINGS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";

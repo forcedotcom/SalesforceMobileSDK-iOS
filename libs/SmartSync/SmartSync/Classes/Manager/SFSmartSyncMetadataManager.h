@@ -159,7 +159,7 @@ extern NSString * const kSFAllObjectsCacheKey;
  
  */
 - (void)markObjectAsViewed:(NSString *)objectId objectType:(NSString *)objectType networkFieldName:(nullable NSString *)networkFieldName
-           completionBlock:(void(^)())completionBlock error:(void(^)(NSError *error))errorBlock;
+           completionBlock:(void(^)(void))completionBlock error:(void(^)(NSError *error))errorBlock;
 
 @end
 
