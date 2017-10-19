@@ -23,25 +23,23 @@
  */
 
 #import "SFSmartSyncPlugin.h"
-#import "CDVPlugin+SFAdditions.h"
 #import <SalesforceSDKCore/NSDictionary+SFAdditions.h>
-#import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SmartStore/SFSmartStore.h>
 #import <SmartSync/SFSmartSyncSyncManager.h>
-#import <SmartSync/SFSyncState.h>
 
 // NOTE: must match value in Cordova's config.xml file.
 NSString * const kSmartSyncPluginIdentifier = @"com.salesforce.smartsync";
 
 // Private constants.
-NSString * const kSyncSoupNameArg = @"soupName";
-NSString * const kSyncTargetArg = @"target";
-NSString * const kSyncOptionsArg = @"options";
-NSString * const kSyncIdArg = @"syncId";
-NSString * const kSyncEventType = @"sync";
-NSString * const kSyncDetail = @"detail";
-NSString * const kSyncIsGlobalStoreArg    = @"isGlobalStore";
-NSString * const kSyncStoreNameArg    = @"storeName";
+NSString *const kSyncSoupNameArg = @"soupName";
+NSString *const kSyncTargetArg = @"target";
+NSString *const kSyncOptionsArg = @"options";
+NSString *const kSyncIdArg = @"syncId";
+NSString *const kSyncNameArg = @"syncName";
+NSString *const kSyncEventType = @"sync";
+NSString *const kSyncDetail = @"detail";
+NSString *const kSyncIsGlobalStoreArg = @"isGlobalStore";
+NSString *const kSyncStoreNameArg = @"storeName";
 
 @interface SFSmartSyncPlugin ()
 
@@ -103,21 +101,63 @@ NSString * const kSyncStoreNameArg    = @"storeName";
 - (void) getSyncStatus:(CDVInvokedUrlCommand *)command
 {
     [self runCommand:^(NSDictionary* argsDict) {
-        NSNumber* syncId = (NSNumber*) [argsDict nonNullObjectForKey:kSyncIdArg];
-        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"getSyncStatus with sync id: %@", syncId]];
-        SFSyncState* sync = [[self getSyncManagerInst:argsDict] getSyncStatus:syncId];
-        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[sync asDict]];
+        NSNumber *syncId = (NSNumber *) [argsDict nonNullObjectForKey:kSyncIdArg];
+        NSString *syncName = (NSString *) [argsDict nonNullObjectForKey:kSyncNameArg];
+
+        SFSyncState *sync;
+        if (syncId) {
+            [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"getSyncStatus with sync id: %@", syncId]];
+            sync = [[self getSyncManagerInst:argsDict] getSyncStatus:syncId];
+        }
+        else if (syncName) {
+            [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"getSyncStatus with sync name: %@", syncName]];
+            sync = [[self getSyncManagerInst:argsDict] getSyncStatusByName:syncName];
+        }
+        else {
+            NSString *errorMessage = @"Neither syncId nor syncName were specified";
+            return [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
+        }
+
+        // cordova can't return null, so returning {} when sync is not found
+        // cordova.force.js turns it back into a null
+        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:(sync?[sync asDict]:@{})];
+
+    } command:command];
+}
+
+- (void) deleteSync:(CDVInvokedUrlCommand *)command
+{
+    [self runCommand:^(NSDictionary* argsDict) {
+        NSNumber *syncId = (NSNumber *) [argsDict nonNullObjectForKey:kSyncIdArg];
+        NSString *syncName = (NSString *) [argsDict nonNullObjectForKey:kSyncNameArg];
+
+        if (syncId) {
+            [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"getSyncStatus with sync id: %@", syncId]];
+            [[self getSyncManagerInst:argsDict] deleteSyncById:syncId];
+        }
+        else if (syncName) {
+            [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"getSyncStatus with sync name: %@", syncName]];
+            [[self getSyncManagerInst:argsDict] deleteSyncByName:syncName];
+        }
+        else {
+            NSString *errorMessage = @"Neither syncId nor syncName were specified";
+            return [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
+        }
+
+        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+
     } command:command];
 }
 
 - (void) syncDown:(CDVInvokedUrlCommand *)command
 {
     [self runCommand:^(NSDictionary* argsDict) {
+        NSString *syncName = [argsDict nonNullObjectForKey:kSyncNameArg];
         NSString *soupName = [argsDict nonNullObjectForKey:kSyncSoupNameArg];
         SFSyncOptions *options = [SFSyncOptions newFromDict:[argsDict nonNullObjectForKey:kSyncOptionsArg]];
         SFSyncDownTarget *target = [SFSyncDownTarget newFromDict:[argsDict nonNullObjectForKey:kSyncTargetArg]];
         __weak typeof(self) weakSelf = self;
-        SFSyncState* sync = [[self getSyncManagerInst:argsDict] syncDownWithTarget:target options:options soupName:soupName updateBlock:^(SFSyncState* sync) {
+        SFSyncState* sync = [[self getSyncManagerInst:argsDict] syncDownWithTarget:target options:options soupName:soupName syncName:syncName updateBlock:^(SFSyncState* sync) {
             [weakSelf handleSyncUpdate:sync withArgs:argsDict];
         }];
         [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"syncDown # %ld from soup: %@", sync.syncId, soupName]];
@@ -128,12 +168,27 @@ NSString * const kSyncStoreNameArg    = @"storeName";
 - (void) reSync:(CDVInvokedUrlCommand *)command
 {
     [self runCommand:^(NSDictionary* argsDict) {
-        NSNumber* syncId = (NSNumber*) [argsDict nonNullObjectForKey:kSyncIdArg];
-        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"reSync with sync id: %@", syncId]];
-        __weak typeof(self) weakSelf = self;
-        SFSyncState* sync = [[self getSyncManagerInst:argsDict] reSync:syncId updateBlock:^(SFSyncState* sync) {
-            [weakSelf handleSyncUpdate:sync withArgs:argsDict];
-        }];
+        NSNumber *syncId = (NSNumber *) [argsDict nonNullObjectForKey:kSyncIdArg];
+        NSString *syncName = (NSString *) [argsDict nonNullObjectForKey:kSyncNameArg];
+
+        SFSyncState *sync;
+        if (syncId) {
+            [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"reSync with sync id: %@", syncId]];
+            __weak typeof(self) weakSelf = self;
+            sync = [[self getSyncManagerInst:argsDict] reSync:syncId updateBlock:^(SFSyncState* sync) {
+                [weakSelf handleSyncUpdate:sync withArgs:argsDict];
+            }];
+        } else if (syncName) {
+            [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"reSync with sync name: %@", syncName]];
+            __weak typeof(self) weakSelf = self;
+            sync = [[self getSyncManagerInst:argsDict] reSyncByName:syncName updateBlock:^(SFSyncState* sync) {
+                [weakSelf handleSyncUpdate:sync withArgs:argsDict];
+            }];
+        } else {
+            NSString *errorMessage = @"Neither syncId nor syncName were specified";
+            return [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
+        }
+
         if (sync) {
             return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[sync asDict]];
         } else {
@@ -158,11 +213,12 @@ NSString * const kSyncStoreNameArg    = @"storeName";
 - (void) syncUp:(CDVInvokedUrlCommand *)command
 {
     [self runCommand:^(NSDictionary* argsDict) {
+        NSString *syncName = [argsDict nonNullObjectForKey:kSyncNameArg];
         NSString *soupName = [argsDict nonNullObjectForKey:kSyncSoupNameArg];
         SFSyncOptions *options = [SFSyncOptions newFromDict:[argsDict nonNullObjectForKey:kSyncOptionsArg]];
         SFSyncUpTarget *target = [SFSyncUpTarget newFromDict:[argsDict nonNullObjectForKey:kSyncTargetArg]];
         __weak typeof(self) weakSelf = self;
-        SFSyncState* sync = [[self getSyncManagerInst:argsDict] syncUpWithTarget:target options:options soupName:soupName updateBlock:^(SFSyncState* sync) {
+        SFSyncState* sync = [[self getSyncManagerInst:argsDict] syncUpWithTarget:target options:options soupName:soupName syncName:syncName updateBlock:^(SFSyncState* sync) {
             [weakSelf handleSyncUpdate:sync withArgs:argsDict];
         }];
         [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"syncUp # %ld from soup: %@", sync.syncId, soupName]];
