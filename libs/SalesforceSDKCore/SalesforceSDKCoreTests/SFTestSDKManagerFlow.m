@@ -55,7 +55,7 @@ static NSTimeInterval const kMaxLaunchWaitTime = 30.0;
 
 - (void)resumeAuthBypass
 {
-    SFSDKLaunchAction launchAction = ([SalesforceSDKManager sharedManager].authenticateAtLaunch
+    SFSDKLaunchAction launchAction = ([SalesforceSDKManager sharedManager].appConfig.shouldAuthenticate
                                       ? SFSDKLaunchActionAlreadyAuthenticated
                                       : SFSDKLaunchActionAuthBypassed);
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, self.stepTimeDelaySecs * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
@@ -146,5 +146,15 @@ static NSTimeInterval const kMaxLaunchWaitTime = 30.0;
 {
     
 }
+
+- (void)handleIDPInitiatedAuthCompleted:(nonnull NSNotification *)notification {
+    
+}
+
+
+- (void)handleUserDidLogout:(nonnull NSNotification *)notification {
+    
+}
+
 
 @end
