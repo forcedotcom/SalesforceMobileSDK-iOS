@@ -384,7 +384,7 @@ static NSString* ailtnAppName = nil;
     if (!appConfigValidated) {
         NSString *errorMessage = [NSString stringWithFormat:@"App config did not validate: %@. Cannot continue.", appConfigError.localizedDescription];
         [SFSDKCoreLogger e:[self class] message:errorMessage];
-        [launchStateErrorMessages addObject:appConfigError];
+        [launchStateErrorMessages addObject:errorMessage];
         validInputs = NO;
     }
     if (!self.postLaunchAction) {
