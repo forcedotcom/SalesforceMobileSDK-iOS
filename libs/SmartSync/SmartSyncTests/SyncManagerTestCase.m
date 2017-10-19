@@ -282,14 +282,10 @@ static NSException *authException = nil;
     return syncId;
 }
 
-- (void)checkStatus:(SFSyncState*)sync
-       expectedType:(SFSyncStateSyncType)expectedType
-         expectedId:(NSInteger)expectedId
-     expectedTarget:(SFSyncTarget*)expectedTarget
-    expectedOptions:(SFSyncOptions*)expectedOptions
-     expectedStatus:(SFSyncStateStatus)expectedStatus
-   expectedProgress:(NSInteger)expectedProgress
-  expectedTotalSize:(NSInteger)expectedTotalSize {
+- (void)checkStatus:(SFSyncState *)sync expectedType:(SFSyncStateSyncType)expectedType expectedId:(NSInteger)expectedId expectedTarget:(SFSyncTarget *)expectedTarget expectedOptions:(SFSyncOptions *)expectedOptions expectedStatus:(SFSyncStateStatus)expectedStatus expectedProgress:(NSInteger)expectedProgress expectedTotalSize:(NSInteger)expectedTotalSize {
+    [self checkStatus:sync expectedType:expectedType expectedId:expectedId expectedName:nil expectedTarget:expectedTarget expectedOptions:expectedOptions expectedStatus:expectedStatus expectedProgress:expectedProgress expectedTotalSize:expectedTotalSize];
+}
+- (void)checkStatus:(SFSyncState *)sync expectedType:(SFSyncStateSyncType)expectedType expectedId:(NSInteger)expectedId expectedName:(NSString *)expectedName expectedTarget:(SFSyncTarget *)expectedTarget expectedOptions:(SFSyncOptions *)expectedOptions expectedStatus:(SFSyncStateStatus)expectedStatus expectedProgress:(NSInteger)expectedProgress expectedTotalSize:(NSInteger)expectedTotalSize {
     XCTAssertNotNil(sync);
     if (!sync) {
         return;
