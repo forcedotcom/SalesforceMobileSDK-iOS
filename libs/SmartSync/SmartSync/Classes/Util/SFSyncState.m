@@ -28,9 +28,7 @@
 #import "SFSyncUpTarget.h"
 #import <SmartStore/SFSmartStore.h>
 #import <SmartStore/SFSoupIndex.h>
-#import <SmartStore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
-#import <Foundation/Foundation.h>
 
 // soups and soup fields
 NSString * const kSFSyncStateSyncsSoupName = @"syncs_soup";
@@ -167,11 +165,11 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
     [store upsertEntries:@[ [self asDict] ] toSoup:kSFSyncStateSyncsSoupName];
 }
 
-- (void) deleteById:(NSNumber*)syncId store:(SFSmartStore*)store {
++ (void) deleteById:(NSNumber*)syncId store:(SFSmartStore*)store {
     [store removeEntries:@[syncId] fromSoup:kSFSyncStateSyncsSoupName];
 }
 
-- (void) deleteByName:(NSString*)name store:(SFSmartStore*)store {
++ (void) deleteByName:(NSString*)name store:(SFSmartStore*)store {
     NSNumber *syncId = [store lookupSoupEntryIdForSoupName:kSFSyncStateSyncsSoupName forFieldPath:kSFSyncStateSyncsSoupSyncName fieldValue:name error:nil];
     if (syncId) {
         [self deleteById:syncId store:store];

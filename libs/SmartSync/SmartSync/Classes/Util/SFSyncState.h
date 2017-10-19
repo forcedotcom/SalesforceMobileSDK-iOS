@@ -115,8 +115,8 @@ extern NSString * const kSFSyncStateMergeModeLeaveIfChanged;
 + (nullable SFSyncState*) newById:(NSNumber*)syncId store:(SFSmartStore*)store;
 + (nullable SFSyncState*) newByName:(NSString *)name store:(SFSmartStore*)store;
 - (void) save:(SFSmartStore*)store;
-- (void) deleteById:(NSNumber*)syncId store:(SFSmartStore*)store;
-- (void) deleteByName:(NSString*)name store:(SFSmartStore*)store;
++ (void) deleteById:(NSNumber*)syncId store:(SFSmartStore*)store;
++ (void) deleteByName:(NSString*)name store:(SFSmartStore*)store;
 
 /** Methods to translate to/from dictionary
  */
