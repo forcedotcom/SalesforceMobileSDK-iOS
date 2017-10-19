@@ -115,6 +115,12 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
             kSFSyncStateEndTime: [NSNumber numberWithInteger:0]
     }];
     if (name) dict[kSFSyncStateName] = name;
+    
+    if (name && [SFSyncState newByName:name store:store]) {
+        [SFSDKSmartSyncLogger e:[self class] format:@"Failed to create sync down: there is already a sync with name:%@", name];
+        return nil;
+    }
+    
     NSArray* savedDicts = [store upsertEntries:@[ dict ] toSoup:kSFSyncStateSyncsSoupName];
     SFSyncState* sync = [SFSyncState newFromDict:savedDicts[0]];
     return sync;
@@ -138,6 +144,12 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
             kSFSyncStateEndTime: [NSNumber numberWithInteger:0]
     }];
     if (name) dict[kSFSyncStateName] = name;
+    
+    if (name && [SFSyncState newByName:name store:store]) {
+        [SFSDKSmartSyncLogger e:[self class] format:@"Failed to create sync up: there is already a sync with name:%@", name];
+        return nil;
+    }
+    
     NSArray* savedDicts = [store upsertEntries:@[ dict ] toSoup:kSFSyncStateSyncsSoupName];
     if (savedDicts == nil || savedDicts.count == 0)
         return nil;

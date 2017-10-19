@@ -163,7 +163,7 @@ static NSMutableDictionary *syncMgrList = nil;
     SFSyncState* sync = [SFSyncState newById:syncId store:self.store];
     
     if (sync == nil) {
-        [SFSDKSmartSyncLogger e:[self class] format:@"Sync %@ not found", syncId];
+        [SFSDKSmartSyncLogger d:[self class] format:@"Sync %@ not found", syncId];
     }
     return sync;
 }
@@ -172,7 +172,7 @@ static NSMutableDictionary *syncMgrList = nil;
     SFSyncState* sync = [SFSyncState newByName:syncName store:self.store];
 
     if (sync == nil) {
-        [SFSDKSmartSyncLogger e:[self class] format:@"Sync %@ not found", syncName];
+        [SFSDKSmartSyncLogger d:[self class] format:@"Sync %@ not found", syncName];
     }
     return sync;
 }
