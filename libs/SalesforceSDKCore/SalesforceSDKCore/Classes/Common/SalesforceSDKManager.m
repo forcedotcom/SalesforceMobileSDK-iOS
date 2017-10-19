@@ -167,7 +167,6 @@ static NSString* ailtnAppName = nil;
             }            
         }
         self.useSnapshotView = YES;
-        self.authenticateAtLaunch = YES;
         self.userAgentString = [self defaultUserAgentString];
     }
     return self;
@@ -178,6 +177,14 @@ static NSString* ailtnAppName = nil;
 }
 
 #pragma mark - Public methods / properties
+
+- (SFSDKAppConfig *)appConfig {
+    if (_appConfig == nil) {
+        _appConfig = [[SFSDKAppConfig alloc] init];
+    }
+    return _appConfig;
+}
+
 - (SFIDPLoginFlowSelectionBlock)idpLoginFlowSelectionBlock {
     return [SFUserAccountManager sharedInstance].idpLoginFlowSelectionAction;
 }
@@ -241,22 +248,22 @@ static NSString* ailtnAppName = nil;
 
 - (NSString *)connectedAppId
 {
-    return [SFUserAccountManager sharedInstance].oauthClientId;
+    return self.appConfig.remoteAccessConsumerKey;
 }
 
 - (void)setConnectedAppId:(NSString *)connectedAppId
 {
-    [SFUserAccountManager sharedInstance].oauthClientId = connectedAppId;
+    self.appConfig.remoteAccessConsumerKey = connectedAppId;
 }
 
 - (NSString *)connectedAppCallbackUri
 {
-    return [SFUserAccountManager sharedInstance].oauthCompletionUrl;
+    return self.appConfig.oauthRedirectURI;
 }
 
 - (void)setConnectedAppCallbackUri:(NSString *)connectedAppCallbackUri
 {
-    [SFUserAccountManager sharedInstance].oauthCompletionUrl = connectedAppCallbackUri;
+    self.appConfig.oauthRedirectURI = connectedAppCallbackUri;
 }
 
 - (NSString *)brandLoginPath
@@ -271,12 +278,12 @@ static NSString* ailtnAppName = nil;
 
 - (NSArray *)authScopes
 {
-    return [[SFUserAccountManager sharedInstance].scopes allObjects];
+    return [self.appConfig.oauthScopes allObjects];
 }
 
-- (void)setAuthScopes:(NSArray *)authScopes
+- (void)setAuthScopes:(NSArray<NSString *> *)authScopes
 {
-    [SFUserAccountManager sharedInstance].scopes = [NSSet setWithArray:authScopes];
+    self.appConfig.oauthScopes = [NSSet setWithArray:authScopes];
 }
 
 - (NSString *)preferredPasscodeProvider
@@ -307,6 +314,9 @@ static NSString* ailtnAppName = nil;
         [SFSDKCoreLogger e:[self class] format:@"Please correct errors and try again."];
         [self sendLaunchError:launchStateError];
     } else {
+        // Set service configuration values, based on app config.
+        [self setupServiceConfiguration];
+        
         // If there's a passcode configured, and we haven't validated before (through a previous call to
         // launch), we validate that first.
         if (!self.hasVerifiedPasscodeAtStartup) {
@@ -353,9 +363,10 @@ static NSString* ailtnAppName = nil;
     BOOL validInputs = YES;
     NSMutableArray *launchStateErrorMessages = [NSMutableArray array];
     
-    // If an app config has been specified, set values from that first.
-    if (self.appConfig != nil) {
-        [self configureWithAppConfig];
+    // Attempt to load a default configuration, if one has not been configured.
+    if (_appConfig == nil) {
+        Class appConfigClass = (self.appType == kSFAppTypeHybrid ? NSClassFromString(@"SFHybridViewConfig") : [SFSDKAppConfig class]);
+        self.appConfig = [appConfigClass fromDefaultConfigFile];
     }
     
     // Managed settings should override any equivalent local app settings.
@@ -367,22 +378,12 @@ static NSString* ailtnAppName = nil;
         [launchStateErrorMessages addObject:noWindowError];
         validInputs = NO;
     }
-    if ([self.connectedAppId length] == 0) {
-        NSString *noConnectedAppIdError = @"No value for Connected App ID.  Cannot continue.";
-        [SFSDKCoreLogger e:[self class] format:noConnectedAppIdError];
-        [launchStateErrorMessages addObject:noConnectedAppIdError];
-        validInputs = NO;
-    }
-    if ([self.connectedAppCallbackUri length] == 0) {
-        NSString *noCallbackUriError = @"No value for Connected App Callback URI.  Cannot continue.";
-        [SFSDKCoreLogger e:[self class] format:noCallbackUriError];
-        [launchStateErrorMessages addObject:noCallbackUriError];
-        validInputs = NO;
-    }
-    if ([self.authScopes count] == 0) {
-        NSString *noAuthScopesError = @"No auth scopes set.  Cannot continue.";
-        [SFSDKCoreLogger e:[self class] format:noAuthScopesError];
-        [launchStateErrorMessages addObject:noAuthScopesError];
+    
+    NSError *appConfigError = nil;
+    BOOL appConfigValidated = [self.appConfig validate:&appConfigError];
+    if (!appConfigValidated) {
+        NSString *errorMessage = [NSString stringWithFormat:@"App config did not validate: %@. Cannot continue.", appConfigError.localizedDescription];
+        [SFSDKCoreLogger e:[self class] message:errorMessage];
         validInputs = NO;
     }
     if (!self.postLaunchAction) {
@@ -407,27 +408,26 @@ static NSString* ailtnAppName = nil;
     return validInputs;
 }
 
-- (void)configureWithAppConfig
-{
-    self.connectedAppId = self.appConfig.remoteAccessConsumerKey;
-    self.connectedAppCallbackUri = self.appConfig.oauthRedirectURI;
-    self.authScopes = [self.appConfig.oauthScopes allObjects];
-    self.authenticateAtLaunch = self.appConfig.shouldAuthenticate;
-}
-
 - (void)configureManagedSettings
 {
     if ([SFManagedPreferences sharedPreferences].requireCertificateAuthentication) {
         [SFUserAccountManager sharedInstance].advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;
     }
     
-    if ([[SFManagedPreferences sharedPreferences].connectedAppId length] > 0) {
-        self.connectedAppId = [SFManagedPreferences sharedPreferences].connectedAppId;
+    if ([SFManagedPreferences sharedPreferences].connectedAppId.length > 0) {
+        self.appConfig.remoteAccessConsumerKey = [SFManagedPreferences sharedPreferences].connectedAppId;
     }
     
-    if ([[SFManagedPreferences sharedPreferences].connectedAppCallbackUri length] > 0) {
-        self.connectedAppCallbackUri = [SFManagedPreferences sharedPreferences].connectedAppCallbackUri;
+    if ([SFManagedPreferences sharedPreferences].connectedAppCallbackUri.length > 0) {
+        self.appConfig.oauthRedirectURI = [SFManagedPreferences sharedPreferences].connectedAppCallbackUri;
     }
+}
+
+- (void)setupServiceConfiguration
+{
+    [SFUserAccountManager sharedInstance].oauthClientId = self.appConfig.remoteAccessConsumerKey;
+    [SFUserAccountManager sharedInstance].oauthCompletionUrl = self.appConfig.oauthRedirectURI;
+    [SFUserAccountManager sharedInstance].scopes = self.appConfig.oauthScopes;
 }
 
 - (void)sendLaunchError:(NSError *)theLaunchError
@@ -712,7 +712,7 @@ static NSString* ailtnAppName = nil;
 
 - (void)authValidationAtLaunch
 {
-    if (self.authenticateAtLaunch &&  [SFUserAccountManager sharedInstance].currentUser.credentials.accessToken==nil) {
+    if (self.appConfig.shouldAuthenticate &&  [SFUserAccountManager sharedInstance].currentUser.credentials.accessToken==nil) {
         // Access token check works equally well for any of the members being nil, which are all conditions to
         // (re-)authenticate.
         [self.sdkManagerFlow authAtLaunch];
@@ -766,7 +766,7 @@ static NSString* ailtnAppName = nil;
     }
     
     SFSDKLaunchAction noAuthLaunchAction;
-    if (!self.authenticateAtLaunch) {
+    if (!self.appConfig.shouldAuthenticate) {
         [SFSDKCoreLogger i:[self class] format:@"SDK Manager is configured not to attempt authentication at launch.  Skipping auth."];
         noAuthLaunchAction = SFSDKLaunchActionAuthBypassed;
     } else {

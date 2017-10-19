@@ -34,6 +34,8 @@ typedef NS_ENUM(NSInteger, SFSDKAppConfigErrorCode) {
 
 NS_ASSUME_NONNULL_BEGIN
 
+static NSString *const SFSDKDefaultNativeAppConfigFilePath = @"/MobileSDKAppConfig.plist";
+
 /** Contains this app's OAuth configuration as defined in the developer's Salesforce connected app.
  */
 @interface SFSDKAppConfig : NSObject
@@ -75,6 +77,18 @@ NS_ASSUME_NONNULL_BEGIN
  * @return YES if validation was successful, NO otherwise.
  */
 - (BOOL)validate:(NSError * _Nullable * _Nullable)error;
+
+/**
+ * @return The app config from the default configuration file location.
+ */
++ (nullable instancetype)fromDefaultConfigFile;
+
+/**
+ * Create an app config from the config file at the specified file path.
+ * @param configFilePath The file path to the configuration file, relative to the resources root path.
+ * @return The app config from the given file path.
+ */
++ (nullable instancetype)fromConfigFile:(NSString *)configFilePath;
 
 + (void)createError:(NSError * _Nullable * _Nullable)error withCode:(NSInteger)errorCode message:(nonnull NSString *)message;
 

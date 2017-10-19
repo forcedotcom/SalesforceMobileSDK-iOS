@@ -48,10 +48,8 @@
 
 - (AppDelegate *)sfsdk_swizzled_init
 {
-    SFHybridViewConfig *appConfig = [SFHybridViewConfig fromDefaultConfigFile];
     // Need to use SalesforceSDKManagerWithSmartStore when using smartstore
     [SalesforceSDKManager setInstanceClass:[SalesforceSDKManagerWithSmartStore class]];
-    [SalesforceSDKManager sharedManager].appConfig = appConfig;
     
     //Uncomment the following line inorder to enable/force the use of advanced authentication flow.
     //[SFUserAcountManager sharedInstance].advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;

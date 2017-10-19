@@ -141,17 +141,17 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
 /**
  The Connected App ID configured for this application.
  */
-@property (nonatomic, copy, nullable) NSString *connectedAppId;
+@property (nonatomic, copy, nullable) NSString *connectedAppId SFSDK_DEPRECATED(6.0, 7.0, "Use appConfig.remoteAccessConsumerKey to specify the consumer key.");
 
 /**
  The Connected App Callback URI configured for this application.
  */
-@property (nonatomic, copy, nullable) NSString *connectedAppCallbackUri;
+@property (nonatomic, copy, nullable) NSString *connectedAppCallbackUri SFSDK_DEPRECATED(6.0, 7.0, "Use appConfig.oauthRedirectURI to specify the redirect URI.");
 
 /**
  The OAuth scopes configured for this application.
  */
-@property (nonatomic, strong, nullable) NSArray<NSString*> *authScopes;
+@property (nonatomic, strong, nullable) NSArray<NSString*> *authScopes SFSDK_DEPRECATED(6.0, 7.0, "Use appConfig.oauthScopes to specify the OAuth scopes.");
 
 /**
  The Branded Login path configured for this application.
@@ -161,7 +161,7 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
  Whether or not to attempt authentication as part of the launch process.  Default
  value is YES.
  */
-@property (nonatomic, assign) BOOL authenticateAtLaunch;
+@property (nonatomic, assign) BOOL authenticateAtLaunch SFSDK_DEPRECATED(6.0, 7.0, "Use appConfig.shouldAuthenticate to specify whether the app should authenticate at launch.");
 
 /**
  The configured post launch action block to execute when launch completes.

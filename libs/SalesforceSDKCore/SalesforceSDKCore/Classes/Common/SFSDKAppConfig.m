@@ -123,6 +123,32 @@ static BOOL const kDefaultShouldAuthenticate = YES;
     self.configDict[kShouldAuthenticate] = shouldAuthenticateNum;
 }
 
+#pragma mark - Load config methods
+
++ (instancetype)fromDefaultConfigFile
+{
+    return [self fromConfigFile:SFSDKDefaultNativeAppConfigFilePath];
+}
+
++ (instancetype)fromConfigFile:(NSString *)configFilePath
+{
+    NSAssert(configFilePath.length > 0, @"Must specify a config file path.");
+    
+    NSString *fullPath = [[NSBundle mainBundle].resourcePath stringByAppendingPathComponent:configFilePath];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath]) {
+        [SFSDKCoreLogger i:self format:@"%@ Config file does not exist at path '%@'", NSStringFromSelector(_cmd), fullPath];
+        return nil;
+    }
+    NSDictionary *configDict = [NSDictionary dictionaryWithContentsOfFile:fullPath];
+    if (configDict == nil) {
+        [SFSDKCoreLogger i:self format:@"%@ Could not parse the config file at path '%@'.  Config file is not in a valid plist format.", NSStringFromSelector(_cmd), fullPath];
+        return nil;
+    }
+    
+    SFSDKAppConfig *config = [[SFSDKAppConfig alloc] initWithDict:configDict];
+    return config;
+}
+
 #pragma mark - Helper Methods
 
 + (void)createError:(NSError **)error withCode:(NSInteger)errorCode message:(NSString *)message {

@@ -48,9 +48,6 @@ static NSString * const OAuthRedirectURI        = @"com.salesforce.mobilesdk.sam
     self = [super init];
     if (self) {
         [SFUserAccountManager sharedInstance].advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;
-        [SalesforceSDKManager sharedManager].connectedAppId = RemoteAccessConsumerKey;
-        [SalesforceSDKManager sharedManager].connectedAppCallbackUri = OAuthRedirectURI;
-        [SalesforceSDKManager sharedManager].authScopes = @[ @"web", @"api" ];
         __weak typeof(self) weakSelf = self;
         [SalesforceSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActionList) {
             __strong typeof(weakSelf) strongSelf = weakSelf;

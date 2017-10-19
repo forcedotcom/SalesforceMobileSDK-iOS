@@ -50,9 +50,6 @@ static NSString* const kStartPage = @"startPage";
 static NSString* const kErrorPage = @"errorPage";
 static NSString* const kAttemptOfflineLoad = @"attemptOfflineLoad";
 
-// Default path to bootconfig.json on the filesystem.
-static NSString* const kDefaultHybridViewConfigFilePath = @"/www/bootconfig.json";
-
 // Default values for optional configs.
 static BOOL const kDefaultAttemptOfflineLoad = YES;
 static NSString* const kDefaultStartPage = @"index.html";
@@ -157,12 +154,12 @@ static NSString* const kDefaultErrorPage = @"error.html";
     return YES;
 }
 
-+ (SFHybridViewConfig *)fromDefaultConfigFile
++ (instancetype)fromDefaultConfigFile
 {
-    return [SFHybridViewConfig fromConfigFile:kDefaultHybridViewConfigFilePath];
+    return [self fromConfigFile:SFSDKDefaultHybridAppConfigFilePath];
 }
 
-+ (SFHybridViewConfig *)fromConfigFile:(NSString *)configFilePath
++ (instancetype)fromConfigFile:(NSString *)configFilePath
 {
     NSDictionary *hybridConfigDict = [SFHybridViewConfig loadConfigFromFile:configFilePath];
     if (nil == hybridConfigDict) {
