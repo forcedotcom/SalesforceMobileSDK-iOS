@@ -25,7 +25,17 @@
 
 #import <SalesforceSDKCore/SFSDKAppConfig.h>
 
+typedef NS_ENUM(NSInteger, SFSDKHybridAppConfigErrorCode) {
+    SFSDKHybridAppConfigErrorCodeNoStartPage = 1066,
+    SFSDKHybridAppConfigErrorCodeLocalPageAbsoluteURL,
+    SFSDKHybridAppConfigErrorCodeAbsoluteURLNoAuth,
+    SFSDKHybridAppConfigErrorCodeRelativeURLAuth
+};
+
 NS_ASSUME_NONNULL_BEGIN
+
+// Default path to bootconfig.json on the filesystem.
+static NSString *const SFSDKDefaultHybridAppConfigFilePath = @"/www/bootconfig.json";
 
 @interface SFHybridViewConfig : SFSDKAppConfig
 
@@ -40,6 +50,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *startPage;
 
 /**
+ * Whether or not the startPage value is an absolute URL.
+ */
+@property (nonatomic, assign, readonly) BOOL startPageIsAbsoluteUrl;
+
+/**
  * The error page to navigate to, in the event of an error during the app load process.
  */
 @property (nonatomic, copy) NSString *errorPage;
@@ -49,18 +64,6 @@ NS_ASSUME_NONNULL_BEGIN
  * connectivity.
  */
 @property (nonatomic, assign) BOOL attemptOfflineLoad;
-
-/**
- * @return The hybrid view config from the default configuration file location (/www/bootconfig.json).
- */
-+ (SFHybridViewConfig *)fromDefaultConfigFile;
-
-/**
- * Create a hybrid view config from the config file at the specified file path.
- * @param configFilePath The file path to the configuration file, relative to the resources root path.
- * @return The hybrid view config from the given file path.
- */
-+ (nullable SFHybridViewConfig *)fromConfigFile:(NSString *)configFilePath;
 
 @end
 
