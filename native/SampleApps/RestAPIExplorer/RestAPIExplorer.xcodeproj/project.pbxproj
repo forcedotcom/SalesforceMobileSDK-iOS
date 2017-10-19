@@ -27,7 +27,7 @@
 		7DF4D3CD1472E3E0005CE144 /* RestAPIExplorerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF4D3C71472E3DF005CE144 /* RestAPIExplorerViewController.m */; };
 		7DF4D3CF1472E3E0005CE144 /* QueryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF4D3CA1472E3E0005CE144 /* QueryListViewController.m */; };
 		820275F21651787D00DB814C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820275F11651787D00DB814C /* MessageUI.framework */; };
-		822F516C1F97136C00EA0728 /* MobileSDKAppConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 822F516B1F97136C00EA0728 /* MobileSDKAppConfig.plist */; };
+		822F516C1F97136C00EA0728 /* bootconfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 822F516B1F97136C00EA0728 /* bootconfig.plist */; };
 		8236AC171C4D9B55004B69B8 /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8236ABDD1C4D9AD5004B69B8 /* SalesforceSDKCore.framework */; };
 		8236AC181C4D9B55004B69B8 /* SalesforceSDKCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8236ABDD1C4D9AD5004B69B8 /* SalesforceSDKCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8236AC1C1C4D9B68004B69B8 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8236ABFC1C4D9AF4004B69B8 /* CocoaLumberjack.framework */; };
@@ -276,7 +276,7 @@
 		7DF4D3CA1472E3E0005CE144 /* QueryListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QueryListViewController.m; path = Classes/QueryListViewController.m; sourceTree = "<group>"; };
 		7DF4D3CB1472E3E0005CE144 /* QueryListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QueryListViewController.h; path = Classes/QueryListViewController.h; sourceTree = "<group>"; };
 		820275F11651787D00DB814C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		822F516B1F97136C00EA0728 /* MobileSDKAppConfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = MobileSDKAppConfig.plist; sourceTree = "<group>"; };
+		822F516B1F97136C00EA0728 /* bootconfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = bootconfig.plist; sourceTree = "<group>"; };
 		8236ABD41C4D9AD5004B69B8 /* SalesforceSDKCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceSDKCore.xcodeproj; path = ../../../libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj; sourceTree = "<group>"; };
 		8236ABE41C4D9AF4004B69B8 /* Lumberjack.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Lumberjack.xcodeproj; path = ../../../external/CocoaLumberjack/Lumberjack.xcodeproj; sourceTree = "<group>"; };
 		8236AC5A1C4D9C66004B69B8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -378,7 +378,7 @@
 				7DF4D2F11472E238005CE144 /* InfoPlist.strings */,
 				7DF4D2F41472E238005CE144 /* main.m */,
 				7DF4D2F61472E238005CE144 /* RestAPIExplorer-Prefix.pch */,
-				822F516B1F97136C00EA0728 /* MobileSDKAppConfig.plist */,
+				822F516B1F97136C00EA0728 /* bootconfig.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -718,7 +718,7 @@
 				7DF4D3CC1472E3E0005CE144 /* RestAPIExplorerViewController.xib in Resources */,
 				4F84FDFE18DD07D0006A7699 /* Images.xcassets in Resources */,
 				82E7F5B017147BC400AC4E27 /* InitialViewController.xib in Resources */,
-				822F516C1F97136C00EA0728 /* MobileSDKAppConfig.plist in Resources */,
+				822F516C1F97136C00EA0728 /* bootconfig.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
