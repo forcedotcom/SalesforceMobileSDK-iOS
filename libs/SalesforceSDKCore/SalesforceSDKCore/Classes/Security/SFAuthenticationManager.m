@@ -48,9 +48,9 @@
 #import "SFSDKLoginHostStorage.h"
 #import "SFSDKLoginHost.h"
 #import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
-
+SFSDK_USE_DEPRECATED_BEGIN
 static SFAuthenticationManager *sharedInstance = nil;
-
+SFSDK_USE_DEPRECATED_END
 // Public notification name constants
 NSString * const kSFUserWillLogoutNotification = @"kSFUserWillLogoutNotification";
 NSString * const kSFUserLogoutNotification = @"kSFUserLogoutOccurred";

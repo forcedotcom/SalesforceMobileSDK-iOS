@@ -32,8 +32,11 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Block definition for presenting the auth safari controller.
  */
+SFSDK_USE_DEPRECATED_BEGIN
+
 typedef void (^SFAuthSafariControllerPresentBlock)(SFAuthenticationManager *, SFSafariViewController *);
 
+SFSDK_USE_DEPRECATED_END
 /**
  Class encompassing the custom action to take when presenting an auth safari controller during the auth process.
  */

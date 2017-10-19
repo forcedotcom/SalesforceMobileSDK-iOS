@@ -23,7 +23,7 @@
  */
 #import <WebKit/WebKit.h>
 #import "SFSDKWebViewStateManager.h"
-
+#import "SFUserAccountManager.h"
 static NSString *const SID_COOKIE = @"sid";
 static NSString *const TRUE_STRING = @"TRUE";
 static NSString *const ERR_NO_DOMAIN_NAMES = @"No domain names given for deleting cookies.";
@@ -127,6 +127,13 @@ static WKProcessPool *_processPool = nil;
 
 + (NSArray<NSString *> *) domains {
     return @[@".salesforce.com", @".force.com", @".cloudforce.com"];
+}
+
++ (void)resetSessionCookie
+{
+    BOOL isSecure = [[SFUserAccountManager   sharedInstance].currentUser.credentials.protocol isEqualToString:@"https"];
+    [SFSDKWebViewStateManager resetSessionWithNewAccessToken:[SFUserAccountManager   sharedInstance].currentUser.credentials.accessToken
+                                            isSecureProtocol:isSecure];
 }
 
 @end

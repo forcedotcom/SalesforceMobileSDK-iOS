@@ -52,7 +52,6 @@ static Class InstanceClass = nil;
 
 // AILTN app name
 static NSString* ailtnAppName = nil;
-
 @implementation SnapshotViewController
 
 - (void)viewDidLoad {
@@ -136,7 +135,11 @@ static NSString* ailtnAppName = nil;
         self.sdkManagerFlow = self;
         self.delegates = [NSHashTable weakObjectsHashTable];
         [[SFUserAccountManager sharedInstance] addDelegate:self];
+        
+        SFSDK_USE_DEPRECATED_BEGIN
         [[SFAuthenticationManager sharedManager] addDelegate:self];
+        SFSDK_USE_DEPRECATED_END
+
         [SFSecurityLockout addDelegate:self];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
@@ -738,7 +741,12 @@ static NSString* ailtnAppName = nil;
     };
     
     if (self.useLegacyAuthenticationManager) {
+        SFSDK_USE_DEPRECATED_BEGIN
+
         [[SFAuthenticationManager sharedManager] loginWithCompletion:successBlock failure:failureBlock];
+        
+        SFSDK_USE_DEPRECATED_END
+
     } else {
         [[SFUserAccountManager sharedInstance] loginWithCompletion:successBlock failure:failureBlock];
     }
@@ -749,7 +757,12 @@ static NSString* ailtnAppName = nil;
     // If there is a current user (from a previous authentication), we still need to set up the
     // in-memory auth state of that user.
     if ([SFUserAccountManager sharedInstance].currentUser != nil && self.useLegacyAuthenticationManager) {
+        SFSDK_USE_DEPRECATED_BEGIN
+
         [[SFAuthenticationManager sharedManager] setupWithCredentials:[SFUserAccountManager sharedInstance].currentUser.credentials];
+        
+        SFSDK_USE_DEPRECATED_END
+
     }
     
     SFSDKLaunchAction noAuthLaunchAction;
@@ -840,9 +853,9 @@ static NSString* ailtnAppName = nil;
         }
     }
 }
+SFSDK_USE_DEPRECATED_BEGIN
 
 #pragma mark - SFAuthenticationManagerDelegate
-
 - (void)authManagerDidLogout:(SFAuthenticationManager *)manager
 {
     [self.sdkManagerFlow handlePostLogout];
@@ -852,10 +865,11 @@ static NSString* ailtnAppName = nil;
 {
 
 }
+SFSDK_USE_DEPRECATED_END
 
 #pragma mark - SFUserAccountManagerDelegate
 
-- (void)handleUserDidLogout:(NSNotification *)notification{
+- (void)handleUserDidLogout:(NSNotification *)notification {
     [self.sdkManagerFlow handlePostLogout];
 }
 
@@ -880,3 +894,4 @@ static NSString* ailtnAppName = nil;
 }
 
 @end
+

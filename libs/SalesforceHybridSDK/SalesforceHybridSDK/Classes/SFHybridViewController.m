@@ -64,7 +64,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
 // App feature constant.
 static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
-
+SFSDK_USE_DEPRECATED_BEGIN
 @interface SFHybridViewController()
 {
     BOOL _foundHomeUrl;
@@ -249,7 +249,7 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
     }
 
     // Remote app. Device is online.
-    [SFAuthenticationManager resetSessionCookie];
+    [SFSDKWebViewStateManager resetSessionCookie];
     [self configureRemoteStartPage];
     [super viewDidLoad];
 }
@@ -803,7 +803,7 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
 - (void)authenticationCompletion:(NSString *)originalUrl authInfo:(SFOAuthInfo *)authInfo
 {
     [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"authenticationCompletion:authInfo: - Initiating post-auth configuration."]];
-    [SFAuthenticationManager resetSessionCookie];
+    [SFSDKWebViewStateManager resetSessionCookie];
 
     // If there's an original URL, load it through frontdoor.
     if (originalUrl != nil) {
@@ -876,3 +876,4 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
 }
 
 @end
+SFSDK_USE_DEPRECATED_END

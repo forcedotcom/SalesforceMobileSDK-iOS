@@ -399,9 +399,9 @@ static NSString* const kTestAppName = @"OverridenAppName";
 {
     NSString *brandPath = @"/BRAND/";
     [SalesforceSDKManager sharedManager].brandLoginPath = brandPath;
-    XCTAssertTrue([brandPath isEqualToString:[SFAuthenticationManager sharedManager].brandLoginPath]);
+    XCTAssertTrue([brandPath isEqualToString:[SFUserAccountManager  sharedInstance].brandLoginPath]);
 }
-
+SFSDK_USE_DEPRECATED_BEGIN
 - (void)testBrandedLoginPathInAuthManagerAndAuthorizeEndpoint
 {
     NSString *brandPath = @"/BRAND/SUB-BRAND/";
@@ -423,7 +423,7 @@ static NSString* const kTestAppName = @"OverridenAppName";
     //should have brand
     XCTAssertTrue([brandedURL containsString:[brandPath substringToIndex:brandPath.length-1]]);
 }
-
+SFSDK_USE_DEPRECATED_END
 #pragma mark - Private helpers
 
 - (void)createStandardPostLaunchBlock
@@ -477,7 +477,7 @@ static NSString* const kTestAppName = @"OverridenAppName";
 - (SFUserAccount *)createUserAccount
 {
     u_int32_t userIdentifier = arc4random();
-    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:[NSString stringWithFormat:@"identifier-%u", userIdentifier] clientId:[SFAuthenticationManager sharedManager].oauthClientId encrypted:YES];
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:[NSString stringWithFormat:@"identifier-%u", userIdentifier]  clientId:SFUserAccountManager .sharedInstance.oauthClientId encrypted:YES];
     SFUserAccount *user =[[SFUserAccount alloc] initWithCredentials:credentials];
     NSString *userId = [NSString stringWithFormat:@"user_%u", userIdentifier];
     NSString *orgId = [NSString stringWithFormat:@"org_%u", userIdentifier];

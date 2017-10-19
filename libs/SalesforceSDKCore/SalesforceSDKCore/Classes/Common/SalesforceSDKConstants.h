@@ -65,4 +65,11 @@ __builtin_unreachable(); \
 #define SFSDK_DEPRECATED(dep_version, rem_version, msg) __attribute__((deprecated()))
 #endif
 
+#define SFSDK_USE_DEPRECATED_BEGIN \
+_Pragma("clang diagnostic push") \
+_Pragma("clang diagnostic ignored \"-Wdeprecated-declarations\"")
+
+#define SFSDK_USE_DEPRECATED_END \
+_Pragma("clang diagnostic pop")
+
 #endif // SalesforceSDKConstants_h

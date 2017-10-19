@@ -38,7 +38,9 @@ static NSString * const kTestLogLine3 = @"This is test log line 3!";
 static NSString * const kTestLogLine4 = @"This is test log line 4!";
 unsigned long long const kDefaultMaxFileSize = 1024 * 1024; // 1 MB.
 
-@interface SFSDKLoggerTests : XCTestCase
+@interface SFSDKLoggerTests : XCTestCase {
+    DDLogLevel _origLogLevel;
+}
 
 @end
 
@@ -47,13 +49,15 @@ unsigned long long const kDefaultMaxFileSize = 1024 * 1024; // 1 MB.
 - (void)setUp {
     [super setUp];
     [SFSDKLogger flushAllComponents];
+    _origLogLevel = [SFSDKLogger sharedInstanceWithComponent:kTestComponent1].logLevel;
+    [[SFSDKLogger sharedInstanceWithComponent:kTestComponent1] setLogLevel:DDLogLevelInfo];
     [NSThread sleepForTimeInterval:1.0]; // Flushing the log file is asynchronous.
-    
 }
 
 - (void)tearDown {
     [SFSDKLogger flushAllComponents];
     [NSThread sleepForTimeInterval:1.0]; // Flushing the log file is asynchronous.
+    [[SFSDKLogger sharedInstanceWithComponent:kTestComponent1] setLogLevel:_origLogLevel];
     [super tearDown];
 }
 

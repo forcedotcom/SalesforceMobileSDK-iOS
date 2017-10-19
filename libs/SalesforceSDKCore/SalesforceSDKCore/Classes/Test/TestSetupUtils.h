@@ -60,6 +60,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (void)synchronousAuthRefresh;
 
+/**
+ Performs a synchronous refresh of the OAuth credentials, which will stage the remaining auth
+ data (access token, User ID, Org ID, etc.) in SFUserAccountManager.
+ `populateAuthCredentialsFromConfigFile` is required to run once before this method will attempt
+ to refresh authentication using SFAuthenticationManager.
+ */
++ (void)synchronousAuthRefreshLegacy;
+
 @end
 
 NS_ASSUME_NONNULL_END

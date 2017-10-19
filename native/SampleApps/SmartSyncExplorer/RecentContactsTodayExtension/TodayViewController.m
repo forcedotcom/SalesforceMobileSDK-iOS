@@ -31,6 +31,7 @@
 #import <SalesforceSDKCore/SFRestAPI.h>
 #import <SalesforceAnalytics/SFSDKLogger.h>
 #import <SmartStore/SFQuerySpec.h>
+#import <SalesforceSDKCore/SFUserAccountManager.h>
 
 @interface TodayViewController () <NCWidgetProviding, UITableViewDelegate, UITableViewDataSource>
 

@@ -35,7 +35,7 @@ NSString * const kOrgIdCredentialsDictKey = @"orgId";
 NSString * const kLoginUrlCredentialsDictKey = @"loginUrl";
 NSString * const kInstanceUrlCredentialsDictKey = @"instanceUrl";
 NSString * const kUserAgentCredentialsDictKey = @"userAgent";
-
+SFSDK_USE_DEPRECATED_BEGIN
 @implementation SFOauthReactBridge
 
 RCT_EXPORT_MODULE();
@@ -75,7 +75,7 @@ RCT_EXPORT_METHOD(authenticate:(NSDictionary *)args callback:(RCTResponseSenderB
 
 - (void)sendAuthCredentials:(RCTResponseSenderBlock) callback
 {
-    SFOAuthCredentials *creds = [SFAuthenticationManager sharedManager].coordinator.credentials;
+    SFOAuthCredentials *creds = [SFUserAccountManager sharedInstance].currentUser.credentials;
     if (nil != creds) {
         NSString *instanceUrl = creds.instanceUrl.absoluteString;
         NSString *loginUrl = [NSString stringWithFormat:@"%@://%@", creds.protocol, creds.domain];
@@ -131,3 +131,4 @@ RCT_EXPORT_METHOD(authenticate:(NSDictionary *)args callback:(RCTResponseSenderB
 }
 
 @end
+SFSDK_USE_DEPRECATED_END

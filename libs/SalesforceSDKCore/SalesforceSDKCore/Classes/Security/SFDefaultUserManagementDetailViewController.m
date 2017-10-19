@@ -155,7 +155,14 @@ static CGFloat const kControlVerticalPadding = 5.0f;
     } else {
         // Logging out a different user than the current user.  Clear the account state and go
         // back to the user list.
-        [[SFAuthenticationManager sharedManager] logoutUser:_user];
+        
+        if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
+            SFSDK_USE_DEPRECATED_BEGIN
+            [[SFAuthenticationManager sharedManager] logoutUser:_user];
+            SFSDK_USE_DEPRECATED_END
+        } else {
+           [[SFUserAccountManager sharedInstance] logoutUser:_user];
+        }
         [self.navigationController popViewControllerAnimated:YES];
     }
 }

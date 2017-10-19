@@ -37,7 +37,7 @@ typedef NS_ENUM(NSUInteger, SFSmartStoreFtsExtension) {
 };
 
 
-@interface SFSmartStore () <SFAuthenticationManagerDelegate>
+@interface SFSmartStore ()
 
 @property (nonatomic, strong) FMDatabaseQueue *storeQueue;
 @property (nonatomic, strong) SFSmartStoreDatabaseManager *dbMgr;
