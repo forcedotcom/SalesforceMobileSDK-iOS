@@ -152,11 +152,8 @@ static NSMutableDictionary *syncMgrList = nil;
     [[SFAuthenticationManager sharedManager] removeDelegate:self];
 }
 
-#pragma mark - get sync / run sync methods
+#pragma mark - get sync methods
 
-/** Return details about a sync
- @param syncId Sync ID.
- */
 - (SFSyncState*)getSyncStatus:(NSNumber*)syncId {
     SFSyncState* sync = [SFSyncState newById:syncId store:self.store];
     
@@ -165,6 +162,27 @@ static NSMutableDictionary *syncMgrList = nil;
     }
     return sync;
 }
+
+- (SFSyncState*)getSyncStatusByName:(NSString*)syncName {
+    SFSyncState* sync = [SFSyncState newByName:syncName store:self.store];
+
+    if (sync == nil) {
+        [SFSDKSmartSyncLogger e:[self class] format:@"Sync %@ not found", syncName];
+    }
+    return sync;
+}
+
+#pragma mark - delete sync methods
+
+- (void)deleteSyncById:(NSNumber *)syncId {
+    [SFSyncState deleteById:syncId store:self.store];
+}
+
+- (void)deleteSyncByName:(NSString*)syncName {
+    [SFSyncState deleteByName:syncName store:self.store];
+}
+
+#pragma mark - run sync methods
 
 /** Run a previously created sync
  */
@@ -240,11 +258,12 @@ static NSMutableDictionary *syncMgrList = nil;
     return [self syncDownWithTarget:target options:options soupName:soupName updateBlock:updateBlock];
 }
 
-
-/** Create and run a sync down
- */
 - (SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
-    SFSyncState* sync = [SFSyncState newSyncDownWithOptions:options target:target soupName:soupName name:nil store:self.store];
+   return [self syncDownWithTarget:target options:options soupName:soupName syncName:nil updateBlock:updateBlock];
+}
+
+- (SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName syncName:(NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
+    SFSyncState* sync = [SFSyncState newSyncDownWithOptions:options target:target soupName:soupName name:syncName store:self.store];
     [SFSDKSmartSyncLogger d:[self class] format:@"syncDown:%@", sync];
     [self runSync:sync updateBlock:updateBlock];
     return [sync copy];
@@ -271,6 +290,17 @@ static NSMutableDictionary *syncMgrList = nil;
     [SFSDKSmartSyncLogger d:[self class] format:@"reSync:%@", sync];
     [self runSync:sync updateBlock:updateBlock];
     return [sync copy];
+}
+
+- (SFSyncState*) reSyncByName:(NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
+    SFSyncState *sync = [self getSyncStatusByName:syncName];
+    if (sync == nil) {
+        [SFSDKSmartSyncLogger e:[self class] format:@"Cannot run reSync:%@:no sync found", syncName];
+        return nil;
+    }
+    else {
+        return [self reSync:[NSNumber numberWithInteger:sync.syncId] updateBlock:updateBlock];
+    }
 }
 
 
@@ -359,11 +389,19 @@ static NSMutableDictionary *syncMgrList = nil;
     return [sync copy];
 }
 
-- (SFSyncState*)syncUpWithTarget:(SFSyncUpTarget *)target
+- (SFSyncState*) syncUpWithTarget:(SFSyncUpTarget *)target
                          options:(SFSyncOptions *)options
                         soupName:(NSString *)soupName
                      updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
-    SFSyncState *sync = [SFSyncState newSyncUpWithOptions:options target:target soupName:soupName name:nil store:self.store];
+    return [self syncUpWithTarget:target options:options soupName:soupName syncName:nil updateBlock:updateBlock];
+}
+
+- (SFSyncState*) syncUpWithTarget:(SFSyncUpTarget *)target
+                         options:(SFSyncOptions *)options
+                        soupName:(NSString *)soupName
+                        syncName:(NSString*)syncName
+                     updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
+    SFSyncState *sync = [SFSyncState newSyncUpWithOptions:options target:target soupName:soupName name:syncName store:self.store];
     [self runSync:sync updateBlock:updateBlock];
     return [sync copy];
 }
