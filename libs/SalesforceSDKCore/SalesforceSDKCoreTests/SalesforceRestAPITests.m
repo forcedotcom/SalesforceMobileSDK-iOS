@@ -622,7 +622,7 @@ static NSException *authException = nil;
      // Build batch request
      SFRestRequest *batchRequest = [[SFRestAPI sharedInstance]
              batchRequest:@[createAccountRequest, createContactRequest, queryForAccount, queryForContact]
-              haltOnError:@YES
+              haltOnError:YES
      ];
 
      // Send request

@@ -1647,7 +1647,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_WARNINGS = YES;
+				ASSETCATALOG_WARNINGS = NO;
 				CODE_SIGN_ENTITLEMENTS = SmartSyncExplorer/SmartSyncExplorer.entitlements;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartSyncExplorer/SmartSyncExplorer-Prefix.pch";
