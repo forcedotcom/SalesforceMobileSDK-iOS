@@ -29,6 +29,7 @@
 #import "SFOAuthCoordinator+Internal.h"
 #import "SFUserAccountManager+Internal.h"
 #import "SFSDKSalesforceAnalyticsManager.h"
+#import "SFSDKAppConfig.h"
 
 static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
 static NSString* const kTestAppName = @"OverridenAppName";
@@ -37,7 +38,7 @@ static NSString* const kTestAppName = @"OverridenAppName";
 {
     NSString *_origConnectedAppId;
     NSString *_origConnectedAppCallbackUri;
-    NSArray *_origAuthScopes;
+    NSSet *_origAuthScopes;
     BOOL _origAuthenticateAtLaunch;
     BOOL _origHasVerifiedPasscodeAtStartup;
     SFSDKPostLaunchCallbackBlock _origPostLaunchAction;
@@ -88,18 +89,18 @@ static NSString* const kTestAppName = @"OverridenAppName";
     [self verifyLaunchErrorState:YES];
     XCTAssertEqual([_launchError domain], kSalesforceSDKManagerErrorDomain, @"Wrong error domain.");
     XCTAssertEqual([_launchError code], kSalesforceSDKManagerErrorInvalidLaunchParameters, @"Wrong error code.");
-    XCTAssertEqual([[_launchError userInfo][kSalesforceSDKManagerErrorDetailsKey] count], 3UL, @"There should have been three fatal validation errors.");
+    XCTAssertEqual([[_launchError userInfo][kSalesforceSDKManagerErrorDetailsKey] count], 1UL, @"There should have been one fatal validation error.");
     
     // Set Connected App ID
-    [SalesforceSDKManager sharedManager].connectedAppId = @"test_connected_app_id";
+    [SalesforceSDKManager sharedManager].appConfig.remoteAccessConsumerKey = @"test_connected_app_id";
     [self launchAndVerify:YES failMessage:@"Failed to start launch."];
     [self verifyLaunchErrorState:YES];
     XCTAssertEqual([_launchError domain], kSalesforceSDKManagerErrorDomain, @"Wrong error domain.");
     XCTAssertEqual([_launchError code], kSalesforceSDKManagerErrorInvalidLaunchParameters, @"Wrong error code.");
-    XCTAssertEqual([[_launchError userInfo][kSalesforceSDKManagerErrorDetailsKey] count], 2UL, @"There should have been two fatal validation errors.");
+    XCTAssertEqual([[_launchError userInfo][kSalesforceSDKManagerErrorDetailsKey] count], 1UL, @"There should have been one fatal validation error.");
     
     // Set Callback URI
-    [SalesforceSDKManager sharedManager].connectedAppCallbackUri = @"test_connected_app_callback_uri";
+    [SalesforceSDKManager sharedManager].appConfig.oauthRedirectURI = @"test_connected_app_callback_uri";
     [self launchAndVerify:YES failMessage:@"Failed to start launch."];
     [self verifyLaunchErrorState:YES];
     XCTAssertEqual([_launchError domain], kSalesforceSDKManagerErrorDomain, @"Wrong error domain.");
@@ -107,7 +108,7 @@ static NSString* const kTestAppName = @"OverridenAppName";
     XCTAssertEqual([[_launchError userInfo][kSalesforceSDKManagerErrorDetailsKey] count], 1UL, @"There should have been one fatal validation error.");
     
     // Set auth scopes
-    [SalesforceSDKManager sharedManager].authScopes = @[ @"web", @"api" ];
+    [SalesforceSDKManager sharedManager].appConfig.oauthScopes = [NSSet setWithArray:@[ @"web", @"api" ]];
     [self launchAndVerify:YES failMessage:@"Failed to start launch."];
     [self verifyLaunchErrorState:NO];
 }
@@ -211,7 +212,7 @@ static NSString* const kTestAppName = @"OverridenAppName";
 - (void)testAuthBypass
 {
     XCTAssertNil([SFUserAccountManager sharedInstance].currentUser, @"Current user should be nil.");
-    [SalesforceSDKManager sharedManager].authenticateAtLaunch = NO;
+    [SalesforceSDKManager sharedManager].appConfig.shouldAuthenticate = NO;
     [self createStandardPostLaunchBlock];
     [self createTestAppIdentity];
     [SFUserAccountManager sharedInstance].currentUser = [self createUserAccount];
@@ -469,9 +470,9 @@ SFSDK_USE_DEPRECATED_END
 
 - (void)createTestAppIdentity
 {
-    [SalesforceSDKManager sharedManager].connectedAppId = @"test_connected_app_id";
-    [SalesforceSDKManager sharedManager].connectedAppCallbackUri = @"test_connected_app_callback_uri";
-    [SalesforceSDKManager sharedManager].authScopes = @[ @"web", @"api" ];
+    [SalesforceSDKManager sharedManager].appConfig.remoteAccessConsumerKey = @"test_connected_app_id";
+    [SalesforceSDKManager sharedManager].appConfig.oauthRedirectURI = @"test_connected_app_callback_uri";
+    [SalesforceSDKManager sharedManager].appConfig.oauthScopes = [NSSet setWithArray:@[ @"web", @"api" ]];
 }
 
 - (SFUserAccount *)createUserAccount
@@ -492,10 +493,10 @@ SFSDK_USE_DEPRECATED_END
 {
     _currentSdkManagerFlow = [[SFTestSDKManagerFlow alloc] initWithStepTimeDelaySecs:kTimeDelaySecsBetweenLaunchSteps];
     _origSdkManagerFlow = [SalesforceSDKManager sharedManager].sdkManagerFlow; [SalesforceSDKManager sharedManager].sdkManagerFlow = _currentSdkManagerFlow;
-    _origConnectedAppId = [SalesforceSDKManager sharedManager].connectedAppId; [SalesforceSDKManager sharedManager].connectedAppId = nil;
-    _origConnectedAppCallbackUri = [SalesforceSDKManager sharedManager].connectedAppCallbackUri; [SalesforceSDKManager sharedManager].connectedAppCallbackUri = nil;
-    _origAuthScopes = [SalesforceSDKManager sharedManager].authScopes; [SalesforceSDKManager sharedManager].authScopes = nil;
-    _origAuthenticateAtLaunch = [SalesforceSDKManager sharedManager].authenticateAtLaunch; [SalesforceSDKManager sharedManager].authenticateAtLaunch = YES;
+    _origConnectedAppId = [SalesforceSDKManager sharedManager].appConfig.remoteAccessConsumerKey; [SalesforceSDKManager sharedManager].appConfig.remoteAccessConsumerKey = @"";
+    _origConnectedAppCallbackUri = [SalesforceSDKManager sharedManager].appConfig.oauthRedirectURI; [SalesforceSDKManager sharedManager].appConfig.oauthRedirectURI = @"";
+    _origAuthScopes = [SalesforceSDKManager sharedManager].appConfig.oauthScopes; [SalesforceSDKManager sharedManager].appConfig.oauthScopes = [NSSet set];
+    _origAuthenticateAtLaunch = [SalesforceSDKManager sharedManager].appConfig.shouldAuthenticate; [SalesforceSDKManager sharedManager].appConfig.shouldAuthenticate = YES;
     _origHasVerifiedPasscodeAtStartup = [SalesforceSDKManager sharedManager].hasVerifiedPasscodeAtStartup; [SalesforceSDKManager sharedManager].hasVerifiedPasscodeAtStartup = NO;
     _origPostLaunchAction = [SalesforceSDKManager sharedManager].postLaunchAction; [SalesforceSDKManager sharedManager].postLaunchAction = NULL;
     _origLaunchErrorAction = [SalesforceSDKManager sharedManager].launchErrorAction; [SalesforceSDKManager sharedManager].launchErrorAction = NULL;
@@ -515,10 +516,10 @@ SFSDK_USE_DEPRECATED_END
 - (void)restoreOrigSdkManagerState
 {
     [SalesforceSDKManager sharedManager].sdkManagerFlow = _origSdkManagerFlow;
-    [SalesforceSDKManager sharedManager].connectedAppId = _origConnectedAppId;
-    [SalesforceSDKManager sharedManager].connectedAppCallbackUri = _origConnectedAppCallbackUri;
-    [SalesforceSDKManager sharedManager].authScopes = _origAuthScopes;
-    [SalesforceSDKManager sharedManager].authenticateAtLaunch = _origAuthenticateAtLaunch;
+    [SalesforceSDKManager sharedManager].appConfig.remoteAccessConsumerKey = _origConnectedAppId;
+    [SalesforceSDKManager sharedManager].appConfig.oauthRedirectURI = _origConnectedAppCallbackUri;
+    [SalesforceSDKManager sharedManager].appConfig.oauthScopes = _origAuthScopes;
+    [SalesforceSDKManager sharedManager].appConfig.shouldAuthenticate = _origAuthenticateAtLaunch;
     [SalesforceSDKManager sharedManager].hasVerifiedPasscodeAtStartup = _origHasVerifiedPasscodeAtStartup;
     [SalesforceSDKManager sharedManager].postLaunchAction = _origPostLaunchAction;
     [SalesforceSDKManager sharedManager].launchErrorAction = _origLaunchErrorAction;

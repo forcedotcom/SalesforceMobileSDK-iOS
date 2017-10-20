@@ -2,7 +2,7 @@
  SalesforceSDKCore.h
  SalesforceSDKCore
 
- Created by Raj Rao on Sun Oct  8 16:39:40 PDT 2017.
+ Created by Kevin Hawkins on Thu Oct  5 20:59:03 PDT 2017.
 
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  

@@ -42,6 +42,7 @@
 #import <SalesforceAnalytics/SFSDKDeviceAppAttributes.h>
 #import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 #import "SFSDKAppFeatureMarkers.h"
+#import "SFSDKAppConfig.h"
 
 static NSString * const kEventStoresDirectory = @"event_stores";
 static NSString * const kEventStoreEncryptionKeyLabel = @"com.salesforce.eventStore.encryptionKey";
@@ -272,7 +273,7 @@ SFSDK_USE_DEPRECATED_END
     NSString *mobileSdkVersion = SALESFORCE_SDK_VERSION;
     NSString *deviceModel = [curDevice platform];
     NSString *deviceId = [sdkManager deviceId];
-    NSString *clientId = sdkManager.connectedAppId;
+    NSString *clientId = sdkManager.appConfig.remoteAccessConsumerKey;
     return [[SFSDKDeviceAppAttributes alloc] initWithAppVersion:appVersion appName:appName osVersion:osVersion osName:osName nativeAppType:appTypeStr mobileSdkVersion:mobileSdkVersion deviceModel:deviceModel deviceId:deviceId clientId:clientId];
 }
 

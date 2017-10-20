@@ -29,6 +29,7 @@
 #import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 #import <SalesforceSDKCore/SFRestRequest.h>
 #import <SalesforceSDKCore/SFRestAPI.h>
+#import <SalesforceSDKCore/SFSDKAppConfig.h>
 #import <SalesforceAnalytics/SFSDKLogger.h>
 #import <SmartStore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
@@ -69,10 +70,10 @@ static NSString *simpleTableIdentifier = @"SimpleTableItem";
     if ([self userIsLoggedIn] ) {
         [SFSDKLogger log:[self class] level:DDLogLevelError format:@"User has logged in"];
         [SalesforceSDKManager setInstanceClass:[SalesforceSDKManagerWithSmartStore class]];
-        [SalesforceSDKManager sharedManager].connectedAppId = config.remoteAccessConsumerKey;
-        [SalesforceSDKManager sharedManager].connectedAppCallbackUri = config.oauthRedirectURI;
-        [SalesforceSDKManager sharedManager].authScopes = config.oauthScopes;
-        [SalesforceSDKManager sharedManager].authenticateAtLaunch = config.appGroupsEnabled;
+        [SalesforceSDKManager sharedManager].appConfig.remoteAccessConsumerKey = config.remoteAccessConsumerKey;
+        [SalesforceSDKManager sharedManager].appConfig.oauthRedirectURI = config.oauthRedirectURI;
+        [SalesforceSDKManager sharedManager].appConfig.oauthScopes = [NSSet setWithArray:config.oauthScopes];
+        [SalesforceSDKManager sharedManager].appConfig.shouldAuthenticate = config.appGroupsEnabled;
         SFUserAccount *currentUser = [SFUserAccountManager sharedInstance].currentUser;
         __weak typeof(self) weakSelf = self;
         void (^completionBlock)(void) = ^{

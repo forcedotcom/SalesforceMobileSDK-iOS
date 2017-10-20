@@ -23,6 +23,10 @@
  */
 
 #import "SFSDKAppConfig.h"
+#import "SFSDKResourceUtils.h"
+
+// Config error constants
+NSString * const SFSDKAppConfigErrorDomain = @"com.salesforce.mobilesdk.AppConfigErrorDomain";
 
 static NSString* const kRemoteAccessConsumerKey = @"remoteAccessConsumerKey";
 static NSString* const kOauthRedirectURI = @"oauthRedirectURI";
@@ -57,6 +61,23 @@ static BOOL const kDefaultShouldAuthenticate = YES;
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"<%@:%p data: %@>", NSStringFromClass([self class]), self, [self.configDict description]];
+}
+
+- (BOOL)validate:(NSError **)error {
+    if (self.remoteAccessConsumerKey.length == 0) {
+        [[self class] createError:error withCode:SFSDKAppConfigErrorCodeNoConsumerKey message:[SFSDKResourceUtils localizedString:@"appConfigValidationErrorNoConsumerKey"]];
+        return NO;
+    }
+    if (self.oauthRedirectURI.length == 0) {
+        [[self class] createError:error withCode:SFSDKAppConfigErrorCodeNoRedirectURI message:[SFSDKResourceUtils localizedString:@"appConfigValidationErrorNoRedirectURI"]];
+        return NO;
+    }
+    if (self.oauthScopes.count == 0) {
+        [[self class] createError:error withCode:SFSDKAppConfigErrorCodeNoOAuthScopes message:[SFSDKResourceUtils localizedString:@"appConfigValidationErrorNoOAuthScopes"]];
+        return NO;
+    }
+    
+    return YES;
 }
 
 #pragma mark - Properties
@@ -100,6 +121,41 @@ static BOOL const kDefaultShouldAuthenticate = YES;
 {
     NSNumber *shouldAuthenticateNum = @(shouldAuthenticate);
     self.configDict[kShouldAuthenticate] = shouldAuthenticateNum;
+}
+
+#pragma mark - Load config methods
+
++ (instancetype)fromDefaultConfigFile
+{
+    return [self fromConfigFile:SFSDKDefaultNativeAppConfigFilePath];
+}
+
++ (instancetype)fromConfigFile:(NSString *)configFilePath
+{
+    NSAssert(configFilePath.length > 0, @"Must specify a config file path.");
+    
+    NSString *fullPath = [[NSBundle mainBundle].resourcePath stringByAppendingPathComponent:configFilePath];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath]) {
+        [SFSDKCoreLogger i:self format:@"%@ Config file does not exist at path '%@'", NSStringFromSelector(_cmd), fullPath];
+        return nil;
+    }
+    NSDictionary *configDict = [NSDictionary dictionaryWithContentsOfFile:fullPath];
+    if (configDict == nil) {
+        [SFSDKCoreLogger i:self format:@"%@ Could not parse the config file at path '%@'.  Config file is not in a valid plist format.", NSStringFromSelector(_cmd), fullPath];
+        return nil;
+    }
+    
+    SFSDKAppConfig *config = [[SFSDKAppConfig alloc] initWithDict:configDict];
+    return config;
+}
+
+#pragma mark - Helper Methods
+
++ (void)createError:(NSError **)error withCode:(NSInteger)errorCode message:(NSString *)message {
+    if (error != nil) {
+        NSDictionary *userInfo = @{ NSLocalizedDescriptionKey: message };
+        *error = [NSError errorWithDomain:SFSDKAppConfigErrorDomain code:errorCode userInfo:userInfo];
+    }
 }
 
 @end

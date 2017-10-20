@@ -508,10 +508,12 @@ SFSDK_USE_DEPRECATED_BEGIN
 
 - (void)configureRemoteStartPage
 {
-
+    
     // Note: You only want this to ever run once in the view controller's lifetime.
     static BOOL startPageConfigured = NO;
-    self.startPage = [[self frontDoorUrlWithReturnUrl:self.startPage returnUrlIsEncoded:NO createAbsUrl:YES] absoluteString];
+    if (!_hybridViewConfig.startPageIsAbsoluteUrl && _hybridViewConfig.shouldAuthenticate) {
+        self.startPage = [[self frontDoorUrlWithReturnUrl:self.startPage returnUrlIsEncoded:NO createAbsUrl:YES] absoluteString];
+    }
     startPageConfigured = YES;
 }
 

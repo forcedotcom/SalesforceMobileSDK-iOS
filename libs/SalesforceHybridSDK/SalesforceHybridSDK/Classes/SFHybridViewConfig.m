@@ -26,6 +26,7 @@
 #import "SFHybridViewConfig.h"
 #import <SalesforceAnalytics/SFSDKLogger.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
+#import <SalesforceSDKCore/SFSDKResourceUtils.h>
 
 @interface SFHybridViewConfig ()
 
@@ -48,9 +49,6 @@ static NSString* const kIsLocal = @"isLocal";
 static NSString* const kStartPage = @"startPage";
 static NSString* const kErrorPage = @"errorPage";
 static NSString* const kAttemptOfflineLoad = @"attemptOfflineLoad";
-
-// Default path to bootconfig.json on the filesystem.
-static NSString* const kDefaultHybridViewConfigFilePath = @"/www/bootconfig.json";
 
 // Default values for optional configs.
 static BOOL const kDefaultAttemptOfflineLoad = YES;
@@ -96,6 +94,11 @@ static NSString* const kDefaultErrorPage = @"error.html";
     self.configDict[kStartPage] = [startPage copy];
 }
 
+- (BOOL)startPageIsAbsoluteUrl
+{
+    return ([self.startPage hasPrefix:@"http://"] || [self.startPage hasPrefix:@"https://"]);
+}
+
 - (NSString *)errorPage
 {
     return (self.configDict)[kErrorPage];
@@ -119,12 +122,44 @@ static NSString* const kDefaultErrorPage = @"error.html";
 
 #pragma mark - Configuration helpers
 
-+ (SFHybridViewConfig *)fromDefaultConfigFile
-{
-    return [SFHybridViewConfig fromConfigFile:kDefaultHybridViewConfigFilePath];
+- (BOOL)validate:(NSError **)error {
+    BOOL baseResult = [super validate:error];
+    if (!baseResult) {
+        return baseResult;
+    }
+    
+    if (self.startPage.length == 0) {
+        [[self class] createError:error withCode:SFSDKHybridAppConfigErrorCodeNoStartPage message:[SFSDKResourceUtils localizedString:@"appConfigValidationErrorNoStartPage"]];
+        return NO;
+    }
+    
+    // Sanity check local URLs against absolute URL values.
+    if (self.isLocal && self.startPageIsAbsoluteUrl) {
+        [[self class] createError:error withCode:SFSDKHybridAppConfigErrorCodeLocalPageAbsoluteURL message:[SFSDKResourceUtils localizedString:@"appConfigValidationErrorLocalAbsoluteURL"]];
+        return NO;
+    }
+    
+    // Start page makeup for remote apps beyond this point is subject to conditional configuration.
+    
+    if (!self.isLocal && self.shouldAuthenticate && self.startPageIsAbsoluteUrl) {
+        [[self class] createError:error withCode:SFSDKHybridAppConfigErrorCodeAbsoluteURLNoAuth message:[SFSDKResourceUtils localizedString:@"appConfigValidationErrorAbsoluteURLNoAuth"]];
+        return NO;
+    }
+    
+    if (!self.isLocal && !self.shouldAuthenticate && !self.startPageIsAbsoluteUrl) {
+        [[self class] createError:error withCode:SFSDKHybridAppConfigErrorCodeRelativeURLAuth message:[SFSDKResourceUtils localizedString:@"appConfigValidationErrorRelativeURLAuth"]];
+        return NO;
+    }
+    
+    return YES;
 }
 
-+ (SFHybridViewConfig *)fromConfigFile:(NSString *)configFilePath
++ (instancetype)fromDefaultConfigFile
+{
+    return [self fromConfigFile:SFSDKDefaultHybridAppConfigFilePath];
+}
+
++ (instancetype)fromConfigFile:(NSString *)configFilePath
 {
     NSDictionary *hybridConfigDict = [SFHybridViewConfig loadConfigFromFile:configFilePath];
     if (nil == hybridConfigDict) {
