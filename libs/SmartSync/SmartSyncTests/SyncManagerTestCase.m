@@ -259,7 +259,7 @@ static NSException *authException = nil;
 
     // Creates sync.
     SFSyncOptions* options = [SFSyncOptions newSyncOptionsForSyncDown:mergeMode];
-    SFSyncState* sync = [SFSyncState newSyncDownWithOptions:options target:target soupName:soupName store:self.store];
+    SFSyncState* sync = [SFSyncState newSyncDownWithOptions:options target:target soupName:soupName name:nil store:self.store];
     NSInteger syncId = sync.syncId;
     [self checkStatus:sync expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusNew expectedProgress:0 expectedTotalSize:-1];
 
@@ -282,14 +282,10 @@ static NSException *authException = nil;
     return syncId;
 }
 
-- (void)checkStatus:(SFSyncState*)sync
-       expectedType:(SFSyncStateSyncType)expectedType
-         expectedId:(NSInteger)expectedId
-     expectedTarget:(SFSyncTarget*)expectedTarget
-    expectedOptions:(SFSyncOptions*)expectedOptions
-     expectedStatus:(SFSyncStateStatus)expectedStatus
-   expectedProgress:(NSInteger)expectedProgress
-  expectedTotalSize:(NSInteger)expectedTotalSize {
+- (void)checkStatus:(SFSyncState *)sync expectedType:(SFSyncStateSyncType)expectedType expectedId:(NSInteger)expectedId expectedTarget:(SFSyncTarget *)expectedTarget expectedOptions:(SFSyncOptions *)expectedOptions expectedStatus:(SFSyncStateStatus)expectedStatus expectedProgress:(NSInteger)expectedProgress expectedTotalSize:(NSInteger)expectedTotalSize {
+    [self checkStatus:sync expectedType:expectedType expectedId:expectedId expectedName:nil expectedTarget:expectedTarget expectedOptions:expectedOptions expectedStatus:expectedStatus expectedProgress:expectedProgress expectedTotalSize:expectedTotalSize];
+}
+- (void)checkStatus:(SFSyncState *)sync expectedType:(SFSyncStateSyncType)expectedType expectedId:(NSInteger)expectedId expectedName:(NSString *)expectedName expectedTarget:(SFSyncTarget *)expectedTarget expectedOptions:(SFSyncOptions *)expectedOptions expectedStatus:(SFSyncStateStatus)expectedStatus expectedProgress:(NSInteger)expectedProgress expectedTotalSize:(NSInteger)expectedTotalSize {
     XCTAssertNotNil(sync);
     if (!sync) {
         return;
@@ -501,7 +497,7 @@ static NSException *authException = nil;
  completionStatus:(SFSyncStateStatus)completionStatus {
 
     // Creates sync.
-    SFSyncState *sync = [SFSyncState newSyncUpWithOptions:options target:target soupName:ACCOUNTS_SOUP store:self.store];
+    SFSyncState *sync = [SFSyncState newSyncUpWithOptions:options target:target soupName:ACCOUNTS_SOUP name:nil store:self.store];
     NSInteger syncId = sync.syncId;
     [self checkStatus:sync expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusNew expectedProgress:0 expectedTotalSize:-1];
 

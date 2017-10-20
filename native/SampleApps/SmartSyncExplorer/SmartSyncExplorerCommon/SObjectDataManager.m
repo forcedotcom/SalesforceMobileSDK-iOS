@@ -36,6 +36,7 @@
 static NSUInteger kMaxQueryPageSize = 1000;
 static NSUInteger kSyncLimit = 10000;
 static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.searchFilterQueue";
+static NSString* const kSyncDownName = @"smartSyncExplorerSyncDown";
 
 @interface SObjectDataManager ()
 {
@@ -46,7 +47,6 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
 @property (nonatomic, strong) SObjectDataSpec *dataSpec;
 @property (nonatomic, strong) NSArray *fullDataRowList;
 @property (nonatomic, copy) SFSyncSyncManagerUpdateBlock syncCompletionBlock;
-@property (nonatomic) NSInteger syncDownId;
 
 @end
 
@@ -76,21 +76,20 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     SFSyncSyncManagerUpdateBlock updateBlock = ^(SFSyncState* sync) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if ([sync isDone] || [sync hasFailed]) {
-            strongSelf.syncDownId = sync.syncId;
             [strongSelf refreshLocalData:completionBlock];
         }
     };
-    if (self.syncDownId == 0) {
+    if ([self.syncMgr getSyncStatusByName:kSyncDownName] == nil) {
 
         // First time.
         NSString *soqlQuery = [NSString stringWithFormat:@"SELECT %@ FROM %@ LIMIT %lu", [self.dataSpec.fieldNames componentsJoinedByString:@","], self.dataSpec.objectType, (unsigned long)kSyncLimit];
         SFSyncOptions *syncOptions = [SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged];
         SFSyncDownTarget *syncTarget = [SFSoqlSyncDownTarget newSyncTarget:soqlQuery];
-        [self.syncMgr syncDownWithTarget:syncTarget options:syncOptions soupName:self.dataSpec.soupName updateBlock:updateBlock];
+        [self.syncMgr syncDownWithTarget:syncTarget options:syncOptions soupName:self.dataSpec.soupName syncName:kSyncDownName updateBlock:updateBlock];
     } else {
 
         // Subsequent times.
-        [self.syncMgr reSync:[NSNumber numberWithInteger:self.syncDownId] updateBlock:updateBlock];
+        [self.syncMgr reSyncByName:kSyncDownName updateBlock:updateBlock];
     }
 }
 

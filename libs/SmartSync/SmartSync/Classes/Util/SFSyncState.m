@@ -28,15 +28,16 @@
 #import "SFSyncUpTarget.h"
 #import <SmartStore/SFSmartStore.h>
 #import <SmartStore/SFSoupIndex.h>
-#import <SmartStore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
 
 // soups and soup fields
 NSString * const kSFSyncStateSyncsSoupName = @"syncs_soup";
 NSString * const kSFSyncStateSyncsSoupSyncType = @"type";
+NSString * const kSFSyncStateSyncsSoupSyncName = @"name";
 
 // Fields in dict representation
 NSString * const kSFSyncStateId = @"_soupEntryId";
+NSString * const kSFSyncStateName = @"name";
 NSString * const kSFSyncStateType = @"type";
 NSString * const kSFSyncStateTarget = @"target";
 NSString * const kSFSyncStateSoupName = @"soupName";
@@ -65,6 +66,7 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
 @interface SFSyncState ()
 
 @property (nonatomic, readwrite) NSInteger syncId;
+@property (nonatomic, readwrite) NSString* name;
 @property (nonatomic, readwrite) SFSyncStateSyncType type;
 @property (nonatomic, strong, readwrite) NSString* soupName;
 @property (nonatomic, strong, readwrite) SFSyncTarget* target;
@@ -79,29 +81,46 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
 # pragma mark - Setup
 
 + (void) setupSyncsSoupIfNeeded:(SFSmartStore*)store {
-    if ([store soupExists:kSFSyncStateSyncsSoupName])
+
+    if ([store soupExists:kSFSyncStateSyncsSoupName] && [store indicesForSoup:kSFSyncStateSyncsSoupName].count == 2) {
         return;
+    }
     NSArray* indexSpecs = @[
-                            [[SFSoupIndex alloc] initWithPath:kSFSyncStateSyncsSoupSyncType indexType:kSoupIndexTypeString columnName:nil]
-                            ];
-    
-    [store registerSoup:kSFSyncStateSyncsSoupName withIndexSpecs:indexSpecs error:nil];
+            [[SFSoupIndex alloc] initWithPath:kSFSyncStateSyncsSoupSyncType indexType:kSoupIndexTypeString columnName:nil],
+            [[SFSoupIndex alloc] initWithPath:kSFSyncStateSyncsSoupSyncName indexType:kSoupIndexTypeString columnName:nil]
+    ];
+
+    // Syncs soup exists but doesn't have all the required indexes
+    if ([store soupExists:kSFSyncStateSyncsSoupName]) {
+        [store alterSoup:kSFSyncStateSyncsSoupName withIndexSpecs:indexSpecs reIndexData:NO];
+    }
+    // Syncs soup does not exist
+    else {
+        [store registerSoup:kSFSyncStateSyncsSoupName withIndexSpecs:indexSpecs error:nil];
+    }
 }
 
 #pragma mark - Factory methods
 
-+ (SFSyncState*) newSyncDownWithOptions:(SFSyncOptions*)options target:(SFSyncDownTarget*)target soupName:(NSString*)soupName store:(SFSmartStore*)store {
-    NSDictionary* dict = @{
-                           kSFSyncStateType: kSFSyncStateTypeDown,
-                           kSFSyncStateTarget: [target asDict],
-                           kSFSyncStateSoupName: soupName,
-                           kSFSyncStateOptions: [options asDict],
-                           kSFSyncStateStatus: kSFSyncStateStatusNew,
-                           kSFSyncStateProgress: [NSNumber numberWithInteger:0],
-                           kSFSyncStateTotalSize: [NSNumber numberWithInteger:-1],
-                           kSFSyncStateStartTime: [NSNumber numberWithInteger:0],
-                           kSFSyncStateEndTime: [NSNumber numberWithInteger:0]
-                           };
++ (SFSyncState *)newSyncDownWithOptions:(SFSyncOptions *)options target:(SFSyncDownTarget *)target soupName:(NSString *)soupName name:(NSString *)name store:(SFSmartStore *)store {
+    NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithDictionary:@{
+            kSFSyncStateType: kSFSyncStateTypeDown,
+            kSFSyncStateTarget: [target asDict],
+            kSFSyncStateSoupName: soupName,
+            kSFSyncStateOptions: [options asDict],
+            kSFSyncStateStatus: kSFSyncStateStatusNew,
+            kSFSyncStateProgress: [NSNumber numberWithInteger:0],
+            kSFSyncStateTotalSize: [NSNumber numberWithInteger:-1],
+            kSFSyncStateStartTime: [NSNumber numberWithInteger:0],
+            kSFSyncStateEndTime: [NSNumber numberWithInteger:0]
+    }];
+    if (name) dict[kSFSyncStateName] = name;
+    
+    if (name && [SFSyncState newByName:name store:store]) {
+        [SFSDKSmartSyncLogger e:[self class] format:@"Failed to create sync down: there is already a sync with name:%@", name];
+        return nil;
+    }
+    
     NSArray* savedDicts = [store upsertEntries:@[ dict ] toSoup:kSFSyncStateSyncsSoupName];
     SFSyncState* sync = [SFSyncState newFromDict:savedDicts[0]];
     return sync;
@@ -109,24 +128,28 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
 
 + (SFSyncState*)newSyncUpWithOptions:(SFSyncOptions *)options soupName:(NSString *)soupName store:(SFSmartStore *)store {
     SFSyncUpTarget *target = [[SFSyncUpTarget alloc] init];
-    return [self newSyncUpWithOptions:options target:target soupName:soupName store:store];
+    return [self newSyncUpWithOptions:options target:target soupName:soupName name:nil store:store];
 }
 
-+ (SFSyncState*) newSyncUpWithOptions:(SFSyncOptions*)options
-                               target:(SFSyncUpTarget*)target
-                             soupName:(NSString*)soupName
-                                store:(SFSmartStore*)store {
-    NSDictionary* dict = @{
-                           kSFSyncStateType: kSFSyncStateTypeUp,
-                           kSFSyncStateTarget: [target asDict],
-                           kSFSyncStateSoupName: soupName,
-                           kSFSyncStateOptions: [options asDict],
-                           kSFSyncStateStatus: kSFSyncStateStatusNew,
-                           kSFSyncStateProgress: [NSNumber numberWithInteger:0],
-                           kSFSyncStateTotalSize: [NSNumber numberWithInteger:-1],
-                           kSFSyncStateStartTime: [NSNumber numberWithInteger:0],
-                           kSFSyncStateEndTime: [NSNumber numberWithInteger:0]
-                           };
++ (SFSyncState *)newSyncUpWithOptions:(SFSyncOptions *)options target:(SFSyncUpTarget *)target soupName:(NSString *)soupName name:(NSString *)name store:(SFSmartStore *)store {
+    NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithDictionary:@{
+            kSFSyncStateType: kSFSyncStateTypeUp,
+            kSFSyncStateTarget: [target asDict],
+            kSFSyncStateSoupName: soupName,
+            kSFSyncStateOptions: [options asDict],
+            kSFSyncStateStatus: kSFSyncStateStatusNew,
+            kSFSyncStateProgress: [NSNumber numberWithInteger:0],
+            kSFSyncStateTotalSize: [NSNumber numberWithInteger:-1],
+            kSFSyncStateStartTime: [NSNumber numberWithInteger:0],
+            kSFSyncStateEndTime: [NSNumber numberWithInteger:0]
+    }];
+    if (name) dict[kSFSyncStateName] = name;
+    
+    if (name && [SFSyncState newByName:name store:store]) {
+        [SFSDKSmartSyncLogger e:[self class] format:@"Failed to create sync up: there is already a sync with name:%@", name];
+        return nil;
+    }
+    
     NSArray* savedDicts = [store upsertEntries:@[ dict ] toSoup:kSFSyncStateSyncsSoupName];
     if (savedDicts == nil || savedDicts.count == 0)
         return nil;
@@ -134,7 +157,7 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
     return sync;
 }
 
-#pragma mark - Save/retrieve to/from smartstore
+#pragma mark - Save/retrieve/delete to/from smartstore
 
 + (SFSyncState*) newById:(NSNumber*)syncId store:(SFSmartStore*)store {
     NSArray* retrievedDicts = [store retrieveEntries:@ [ syncId ] fromSoup:kSFSyncStateSyncsSoupName];
@@ -144,9 +167,27 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
     return sync;
 }
 
++ (SFSyncState*) newByName:(NSString *)name store:(SFSmartStore*)store {
+    NSNumber *syncId = [store lookupSoupEntryIdForSoupName:kSFSyncStateSyncsSoupName forFieldPath:kSFSyncStateSyncsSoupSyncName fieldValue:name error:nil];
+    return syncId == nil ? nil : [self newById:syncId store:store];
+}
+
+
 - (void) save:(SFSmartStore*) store {
     [store upsertEntries:@[ [self asDict] ] toSoup:kSFSyncStateSyncsSoupName];
 }
+
++ (void) deleteById:(NSNumber*)syncId store:(SFSmartStore*)store {
+    [store removeEntries:@[syncId] fromSoup:kSFSyncStateSyncsSoupName];
+}
+
++ (void) deleteByName:(NSString*)name store:(SFSmartStore*)store {
+    NSNumber *syncId = [store lookupSoupEntryIdForSoupName:kSFSyncStateSyncsSoupName forFieldPath:kSFSyncStateSyncsSoupSyncName fieldValue:name error:nil];
+    if (syncId) {
+        [self deleteById:syncId store:store];
+    }
+}
+
 
 #pragma mark - From/to dictionary
 
@@ -161,6 +202,7 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
 - (void) fromDict:(NSDictionary*) dict {
     self.syncId = [(NSNumber*) dict[kSFSyncStateId] integerValue];
     self.type = [SFSyncState syncTypeFromString:dict[kSFSyncStateType]];
+    self.name = dict[kSFSyncStateName];
     self.target = (self.type == SFSyncStateSyncTypeDown
                    ? [SFSyncDownTarget newFromDict:dict[kSFSyncStateTarget]]
                    : [SFSyncUpTarget newFromDict:dict[kSFSyncStateTarget]]);
@@ -178,6 +220,7 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
     NSMutableDictionary* dict = [NSMutableDictionary new];
     dict[SOUP_ENTRY_ID] = [NSNumber numberWithInteger:self.syncId];
     dict[kSFSyncStateType] = [SFSyncState syncTypeToString:self.type];
+    if (self.name) dict[kSFSyncStateName] = self.name;
     if (self.target) dict[kSFSyncStateTarget] = [self.target asDict];
     if (self.options) dict[kSFSyncStateOptions] = [self.options asDict];
     dict[kSFSyncStateSoupName] = self.soupName;
