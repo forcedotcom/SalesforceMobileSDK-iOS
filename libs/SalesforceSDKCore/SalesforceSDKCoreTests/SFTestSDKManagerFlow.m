@@ -151,7 +151,6 @@ static NSTimeInterval const kMaxLaunchWaitTime = 30.0;
     
 }
 
-
 - (void)handleUserDidLogout:(nonnull NSNotification *)notification {
     
 }

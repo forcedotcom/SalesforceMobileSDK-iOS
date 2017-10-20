@@ -44,7 +44,7 @@
 /**
  * Flushes the log file and resets it to its original state.
  */
-- (void)flushLogWithCompletionBlock:(void (^ _Nullable)())completionBlock;
+- (void)flushLogWithCompletionBlock:(void (^ _Nullable)(void))completionBlock;
 
 /**
  * Returns all log lines stored in this file.

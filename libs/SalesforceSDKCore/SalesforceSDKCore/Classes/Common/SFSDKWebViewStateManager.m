@@ -80,7 +80,7 @@ static WKProcessPool *_processPool = nil;
     }
 }
 
-+ (void)removeWKWebViewCookies:(NSArray *)domainNames withCompletion:(nullable void(^)())completionBlock {
++ (void)removeWKWebViewCookies:(NSArray *)domainNames withCompletion:(nullable void(^)(void))completionBlock {
     NSAssert(domainNames != nil && [domainNames count] > 0, ERR_NO_DOMAIN_NAMES);
     WKWebsiteDataStore *dateStore = [WKWebsiteDataStore defaultDataStore];
     NSSet *websiteDataTypes = [NSSet setWithArray:@[ WKWebsiteDataTypeCookies]];

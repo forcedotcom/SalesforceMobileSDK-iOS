@@ -804,7 +804,7 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
 }
 
 - (void)markObjectAsViewed:(NSString *)objectId objectType:(NSString *)objectType
-          networkFieldName:(NSString *)networkFieldName completionBlock:(void(^)())completionBlock
+          networkFieldName:(NSString *)networkFieldName completionBlock:(void(^)(void))completionBlock
                      error:(void(^)(NSError *error))errorBlock {
     if (nil == objectType || nil == objectId || [objectType isEqualToString:kContentVersion] || [objectType isEqualToString:kContent]) {
         if (completionBlock) {
