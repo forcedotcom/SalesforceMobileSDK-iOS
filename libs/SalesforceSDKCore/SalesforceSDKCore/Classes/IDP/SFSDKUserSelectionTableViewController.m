@@ -28,6 +28,7 @@
  */
 
 #import "SFSDKUserSelectionTableViewController.h"
+#import "SFSDKIDPConstants.h"
 #import "SFUserAccountManager.h"
 #import "UIColor+SFColors.h"
 #import "SFIdentityData.h"
@@ -49,13 +50,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    _userAccountList = [SFUserAccountManager sharedInstance].allUserAccounts;
+    [self reloadUsers];
     [self setupViews];
-    
-}
-
-- (void)viewDidAppear:(BOOL)animated{
-    _userAccountList = [SFUserAccountManager sharedInstance].allUserAccounts;
     [self.tableView reloadData];
 }
 
@@ -69,7 +65,12 @@
    // infoLabel = 5;
     UIFont *font = [UIFont boldSystemFontOfSize:18.0];
     UIFont *normalFont = [UIFont systemFontOfSize:18.0];
-    NSString *appName = [self.options objectForKey:@"app_name"];
+    NSString *appName = [self.options objectForKey:kSFAppNameParam];
+    
+    if (!appName) {
+        appName = kSFAppNameDefault;
+    }
+    
     NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:appName  attributes:@{ NSFontAttributeName : font, NSForegroundColorAttributeName : [UIColor redColor] }];
     
     NSMutableAttributedString *attributedNormalText = [[NSMutableAttributedString alloc] initWithString:@" is requesting access to users credentials. Select a user from the list" attributes:@{NSFontAttributeName : normalFont , NSForegroundColorAttributeName : [UIColor grayColor] }];
@@ -119,23 +120,6 @@
 }
 
 #pragma mark - Table view delegate
-
-- (UIView *)tableView:(UITableView *)theTableView viewForHeaderInSection:(NSInteger)section
-{
-    static NSString *HeaderIdentifier = @"HeaderIdentifier";
-    
-    UITableViewHeaderFooterView *headerView = [theTableView dequeueReusableHeaderFooterViewWithIdentifier:HeaderIdentifier];
-    if (headerView == nil) {
-        headerView = [[UITableViewHeaderFooterView alloc] initWithReuseIdentifier:HeaderIdentifier];
-    }
-    if (section == 0) {
-        headerView.textLabel.text = @"Current User";
-    } else {
-        headerView.textLabel.text = @"Other Users";
-    }
-    return headerView;
-}
-
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
@@ -172,10 +156,19 @@
     cell.textLabel.text = displayUser.fullName ;
    
 
-    cell.detailTextLabel.text = displayUser.userName;
+    cell.detailTextLabel.text = displayUser.credentials.domain;
     
     
     return cell;
+}
+
+- (void)reloadUsers {
+    NSString *loginHost = [self.options objectForKey:kSFLoginHostParam];
+    if (loginHost) {
+        _userAccountList = [[SFUserAccountManager sharedInstance] userAccountsForDomain:loginHost];
+    } else {
+        _userAccountList = [SFUserAccountManager sharedInstance].allUserAccounts;
+    }
 }
 
 + (UIImage *)imageFromColor:(UIColor *)color {

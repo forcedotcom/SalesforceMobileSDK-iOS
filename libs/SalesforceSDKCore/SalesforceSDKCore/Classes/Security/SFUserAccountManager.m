@@ -468,7 +468,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 }
 
 - (void)authClientDisplayIDPLoginFlowSelection:(SFSDKIDPAuthClient *)client  {
-    UIViewController<SFSDKLoginFlowSelectionView> *controller  = self.idpLoginFlowSelectionAction();
+    UIViewController<SFSDKLoginFlowSelectionView> *controller  = client.idpLoginFlowSelectionBlock();
     controller.selectionFlowDelegate = self;
     NSMutableDictionary *options = [[NSMutableDictionary alloc] init];
     NSString *key = [SFSDKOAuthClientCache keyFromClient:client];
@@ -747,6 +747,20 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     result = (self.userAccountMap)[userIdentity];
     [_accountsLock unlock];
     return result;
+}
+
+- (NSArray *)userAccountsForDomain:(NSString *)domain {
+    NSMutableArray *responseArray = [NSMutableArray array];
+    [_accountsLock lock];
+    for (SFUserAccountIdentity *key in self.userAccountMap) {
+        SFUserAccount *account = (self.userAccountMap)[key];
+        NSString *accountDomain = account.credentials.domain;
+        if ([[accountDomain lowercaseString] isEqualToString:[domain lowercaseString]]) {
+            [responseArray addObject:account];
+        }
+    }
+    [_accountsLock unlock];
+    return responseArray;
 }
 
 - (NSArray *)accountsForOrgId:(NSString *)orgId {

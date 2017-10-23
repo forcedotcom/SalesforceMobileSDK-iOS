@@ -123,9 +123,10 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
                     initWithDisplayBlock:^(SFSDKOAuthClientViewHolder *viewHandler) {
                         __strong typeof(weakSelf) strongSelf = weakSelf;
                         if (strongSelf.config.authViewController == nil) {
-                            strongSelf.config.authViewController = [SFLoginViewController sharedInstance];
+                            strongSelf.config.authViewController = [[SFLoginViewController alloc] initWithNibName:nil bundle:nil];
                             strongSelf.config.authViewController.delegate = strongSelf;
                         }
+                        strongSelf.config.authViewController.showSettingsIcon = !(strongSelf.config.hideSettingsIcon);
                         [strongSelf.config.authViewController setOauthView:viewHandler.wkWebView];
                         strongSelf.authWindow.viewController = strongSelf.config.authViewController;
                         [strongSelf.authWindow enable];

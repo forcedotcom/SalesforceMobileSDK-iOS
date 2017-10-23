@@ -119,7 +119,8 @@
     authClient = [self fetchIDPAuthClient:credentials completion:nil failure:nil];
 
     if (self.currentUser!=nil && !foundUserCredentials) {
-        showSelection = YES;
+        NSArray *domainUsers = [self userAccountsForDomain:request.spLoginHost];
+        showSelection = ([domainUsers count] > 0);
     }
 
     if (showSelection) {
@@ -129,6 +130,7 @@
         authClient.authWindow.viewController = controller;
         [authClient.authWindow enable];
     } else {
+        [authClient setCallingAppOptionsInContext:request.allParams];
         [authClient beginIDPFlow:request]; 
     }
     return YES;

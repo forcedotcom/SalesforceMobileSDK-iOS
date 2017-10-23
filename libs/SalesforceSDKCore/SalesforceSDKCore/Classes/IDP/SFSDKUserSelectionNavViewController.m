@@ -66,7 +66,7 @@
     return _selectionView.options;
 }
 
-- (void)setAppName:(NSDictionary *)spAppOptions {
+- (void)setSpAppOptions:(NSDictionary *)spAppOptions {
     _selectionView.options = spAppOptions;
 }
 
