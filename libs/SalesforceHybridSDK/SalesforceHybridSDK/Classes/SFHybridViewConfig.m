@@ -136,13 +136,13 @@ static NSString* const kDefaultErrorPage = @"error.html";
     }
     
     if (self.startPage.length == 0) {
-        [[self class] createError:error withCode:SFSDKHybridAppConfigErrorCodeNoStartPage message:[SFSDKResourceUtils localizedString:@"appConfigValidationErrorNoStartPage"]];
+        [SFSDKAppConfig createError:error withCode:SFSDKHybridAppConfigErrorCodeNoStartPage message:[SFSDKResourceUtils localizedString:@"appConfigValidationErrorNoStartPage"]];
         return NO;
     }
     
     // startPage must be a relative URL.
-    if ([[self class] urlStringIsAbsolute:self.startPage]) {
-        [[self class] createError:error withCode:SFSDKHybridAppConfigErrorCodeStartPageAbsoluteURL message:[SFSDKResourceUtils localizedString:@"appConfigValidationErrorStartPageAbsoluteURL"]];
+    if ([SFHybridViewConfig urlStringIsAbsolute:self.startPage]) {
+        [SFSDKAppConfig createError:error withCode:SFSDKHybridAppConfigErrorCodeStartPageAbsoluteURL message:[SFSDKResourceUtils localizedString:@"appConfigValidationErrorStartPageAbsoluteURL"]];
         return NO;
     }
     
@@ -158,13 +158,13 @@ static NSString* const kDefaultErrorPage = @"error.html";
     
     // Lack of unauthenticatedStartPage with remote deferred authentication is an error.
     if (!self.isLocal && !self.shouldAuthenticate && self.unauthenticatedStartPage.length == 0) {
-        [[self class] createError:error withCode:SFSDKHybridAppConfigErrorCodeNoUnauthenticatedStartPage message:[SFSDKResourceUtils localizedString:@"appConfigValidationErrorNoUnauthenticatedStartPage"]];
+        [SFSDKAppConfig createError:error withCode:SFSDKHybridAppConfigErrorCodeNoUnauthenticatedStartPage message:[SFSDKResourceUtils localizedString:@"appConfigValidationErrorNoUnauthenticatedStartPage"]];
         return NO;
     }
     
     // unauthenticatedStartPage, if present, must be an absolute URL.
-    if (self.unauthenticatedStartPage.length > 0 && ![[self class] urlStringIsAbsolute:self.unauthenticatedStartPage]) {
-        [[self class] createError:error withCode:SFSDKHybridAppConfigErrorCodeUnauthenticatedStartPageNotAbsoluteURL message:[SFSDKResourceUtils localizedString:@"appConfigValidationErrorUnauthenticatedStartPageNotAbsoluteURL"]];
+    if (self.unauthenticatedStartPage.length > 0 && ![SFHybridViewConfig urlStringIsAbsolute:self.unauthenticatedStartPage]) {
+        [SFSDKAppConfig createError:error withCode:SFSDKHybridAppConfigErrorCodeUnauthenticatedStartPageNotAbsoluteURL message:[SFSDKResourceUtils localizedString:@"appConfigValidationErrorUnauthenticatedStartPageNotAbsoluteURL"]];
         return NO;
     }
     
