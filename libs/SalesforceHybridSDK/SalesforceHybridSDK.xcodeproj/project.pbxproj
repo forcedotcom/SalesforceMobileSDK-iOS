@@ -425,18 +425,18 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		4F06AFA51C49A77200F70798 /* ForceJSTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ForceJSTestSuite.h; path = SalesforceHybridSDKTests/ForceJSTestSuite.h; sourceTree = SOURCE_ROOT; };
-		4F06AFA61C49A77200F70798 /* ForceJSTestSuite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ForceJSTestSuite.m; path = SalesforceHybridSDKTests/ForceJSTestSuite.m; sourceTree = SOURCE_ROOT; };
-		4F06AFA71C49A77200F70798 /* SDKInfoTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDKInfoTestSuite.h; path = SalesforceHybridSDKTests/SDKInfoTestSuite.h; sourceTree = SOURCE_ROOT; };
-		4F06AFA81C49A77200F70798 /* SDKInfoTestSuite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDKInfoTestSuite.m; path = SalesforceHybridSDKTests/SDKInfoTestSuite.m; sourceTree = SOURCE_ROOT; };
-		4F06AFA91C49A77200F70798 /* SFPluginTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFPluginTestSuite.h; path = SalesforceHybridSDKTests/SFPluginTestSuite.h; sourceTree = SOURCE_ROOT; };
-		4F06AFAA1C49A77200F70798 /* SFPluginTestSuite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFPluginTestSuite.m; path = SalesforceHybridSDKTests/SFPluginTestSuite.m; sourceTree = SOURCE_ROOT; };
-		4F06AFAB1C49A77200F70798 /* SmartStoreLoadTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SmartStoreLoadTestSuite.h; path = SalesforceHybridSDKTests/SmartStoreLoadTestSuite.h; sourceTree = SOURCE_ROOT; };
-		4F06AFAC1C49A77200F70798 /* SmartStoreLoadTestSuite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SmartStoreLoadTestSuite.m; path = SalesforceHybridSDKTests/SmartStoreLoadTestSuite.m; sourceTree = SOURCE_ROOT; };
-		4F06AFAD1C49A77200F70798 /* SmartStoreTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SmartStoreTestSuite.h; path = SalesforceHybridSDKTests/SmartStoreTestSuite.h; sourceTree = SOURCE_ROOT; };
-		4F06AFAE1C49A77200F70798 /* SmartStoreTestSuite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SmartStoreTestSuite.m; path = SalesforceHybridSDKTests/SmartStoreTestSuite.m; sourceTree = SOURCE_ROOT; };
-		4F06AFAF1C49A77200F70798 /* SmartSyncTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SmartSyncTestSuite.h; path = SalesforceHybridSDKTests/SmartSyncTestSuite.h; sourceTree = SOURCE_ROOT; };
-		4F06AFB01C49A77200F70798 /* SmartSyncTestSuite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SmartSyncTestSuite.m; path = SalesforceHybridSDKTests/SmartSyncTestSuite.m; sourceTree = SOURCE_ROOT; };
+		4F06AFA51C49A77200F70798 /* ForceJSTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForceJSTestSuite.h; sourceTree = "<group>"; };
+		4F06AFA61C49A77200F70798 /* ForceJSTestSuite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForceJSTestSuite.m; sourceTree = "<group>"; };
+		4F06AFA71C49A77200F70798 /* SDKInfoTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDKInfoTestSuite.h; sourceTree = "<group>"; };
+		4F06AFA81C49A77200F70798 /* SDKInfoTestSuite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDKInfoTestSuite.m; sourceTree = "<group>"; };
+		4F06AFA91C49A77200F70798 /* SFPluginTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPluginTestSuite.h; sourceTree = "<group>"; };
+		4F06AFAA1C49A77200F70798 /* SFPluginTestSuite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFPluginTestSuite.m; sourceTree = "<group>"; };
+		4F06AFAB1C49A77200F70798 /* SmartStoreLoadTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartStoreLoadTestSuite.h; sourceTree = "<group>"; };
+		4F06AFAC1C49A77200F70798 /* SmartStoreLoadTestSuite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartStoreLoadTestSuite.m; sourceTree = "<group>"; };
+		4F06AFAD1C49A77200F70798 /* SmartStoreTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartStoreTestSuite.h; sourceTree = "<group>"; };
+		4F06AFAE1C49A77200F70798 /* SmartStoreTestSuite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartStoreTestSuite.m; sourceTree = "<group>"; };
+		4F06AFAF1C49A77200F70798 /* SmartSyncTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartSyncTestSuite.h; sourceTree = "<group>"; };
+		4F06AFB01C49A77200F70798 /* SmartSyncTestSuite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartSyncTestSuite.m; sourceTree = "<group>"; };
 		4F06AFC41C49A88B00F70798 /* SalesforceHybridSDKTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "SalesforceHybridSDKTests-Info.plist"; path = "SalesforceHybridSDKTests/SalesforceHybridSDKTests-Info.plist"; sourceTree = SOURCE_ROOT; };
 		4F06AFC51C49A89900F70798 /* SalesforceHybridSDKTests-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SalesforceHybridSDKTests-Prefix.pch"; path = "SalesforceHybridSDKTests/SalesforceHybridSDKTests-Prefix.pch"; sourceTree = SOURCE_ROOT; };
 		4F0C192B18AAFDF3000FD4E9 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
@@ -492,7 +492,7 @@
 		8251CA3816ED008200BD1EA2 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		8251CA3A16ED009700BD1EA2 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		829DA2B01C12677B0040F5F1 /* SalesforceHybridSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceHybridSDK.h; sourceTree = "<group>"; };
-		82AB22641F9EB9C100A754C8 /* SFHybridViewConfigTestSuite.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFHybridViewConfigTestSuite.m; path = SalesforceHybridSDKTests/SFHybridViewConfigTestSuite.m; sourceTree = SOURCE_ROOT; };
+		82AB22641F9EB9C100A754C8 /* SFHybridViewConfigTestSuite.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFHybridViewConfigTestSuite.m; sourceTree = "<group>"; };
 		82AF5A641A0D911D006C7A4B /* CDVLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVLogger.h; sourceTree = "<group>"; };
 		82AF5A651A0D911D006C7A4B /* CDVLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVLogger.m; sourceTree = "<group>"; };
 		82AF5A691A0D911D006C7A4B /* console-via-logger.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "console-via-logger.js"; sourceTree = "<group>"; };
@@ -790,8 +790,7 @@
 				4F06AFB01C49A77200F70798 /* SmartSyncTestSuite.m */,
 				4F06AFC31C49A87F00F70798 /* Supporting Files */,
 			);
-			name = SalesforceHybridSDKTests;
-			path = SalesforceHybridSDKTestAppTests;
+			path = SalesforceHybridSDKTests;
 			sourceTree = "<group>";
 		};
 		82AF5A621A0D911D006C7A4B /* cordova-plugin-console */ = {

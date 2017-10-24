@@ -159,7 +159,7 @@ NSString * const kStoreName           = @"storeName";
         NSString *soupName = argsDict[kSoupNameArg];
         NSDictionary *querySpecDict = [argsDict nonNullObjectForKey:kQuerySpecArg];
         SFQuerySpec* querySpec = [[SFQuerySpec alloc] initWithDictionary:querySpecDict withSoupName:soupName];
-        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"pgQuerySoup with name: %@, querySpec: %@", soupName, querySpecDict]];
+        [SFSDKHybridLogger d:[self class] format:@"pgQuerySoup with name: %@, querySpec: %@", soupName, querySpecDict];
         NSError* error = nil;
         SFStoreCursor* cursor = [self runQuery:querySpec error:&error argsDict:argsDict];
         if (cursor.cursorId) {
