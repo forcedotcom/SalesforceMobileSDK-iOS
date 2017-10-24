@@ -72,7 +72,11 @@
             [weakSelf disposeOAuthClient:client];
         };
     }];
-    self.alertDisplayBlock(messageObject,client.authWindow);
+   
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.alertDisplayBlock(messageObject,client.authWindow);
+    });
+    
     return YES;
 }
 

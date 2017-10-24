@@ -429,7 +429,11 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 }
 
 - (void)authClient:(SFSDKOAuthClient *)client displayMessage:(SFSDKAlertMessage *)message {
-    self.alertDisplayBlock(message,client.authWindow);
+    __weak typeof (self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+       weakSelf.alertDisplayBlock(message,client.authWindow);
+    });
+    
 }
 
 #pragma mark - SFSDKOAuthClientWebViewDelegate
