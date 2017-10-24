@@ -114,8 +114,9 @@
                                                        userInfo:userInfo];
     SFSDKIDPAuthClient  *authClient = nil;
     BOOL showSelection = NO;
-
+    NSString *domain = request.allParams[kSFLoginHostParam]?:idpAppsCredentials.domain;
     SFOAuthCredentials *credentials = foundUserCredentials?:idpAppsCredentials;
+    credentials.domain = domain;
     authClient = [self fetchIDPAuthClient:credentials completion:nil failure:nil];
 
     if (self.currentUser!=nil && !foundUserCredentials) {

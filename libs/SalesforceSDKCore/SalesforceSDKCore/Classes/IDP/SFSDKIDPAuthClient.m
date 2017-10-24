@@ -182,6 +182,7 @@
     command.spLoginHost = self.config.loginHost;
     command.spRedirectURI = self.config.oauthCompletionUrl;
     command.spState = self.credentials.identifier;
+    command.spAppName = self.config.appDisplayName;
     
     NSURL *url = [command requestURL];
     
