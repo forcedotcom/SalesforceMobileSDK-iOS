@@ -46,6 +46,7 @@
 @protocol SFSDKOAuthClientSafariViewDelegate;
 
 @interface SFSDKOAuthClientConfig : NSObject
+@property (nonatomic, copy, nullable) NSString *brandLoginPath;
 @property (nonatomic, assign) BOOL hideSettingsIcon;
 @property (nonatomic, copy, nonnull) NSString *loginHost;
 @property (nonatomic, copy, nonnull) NSSet<NSString*> *scopes;
