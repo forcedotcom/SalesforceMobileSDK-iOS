@@ -77,7 +77,9 @@
 "appConfigValidationErrorNoRedirectURI" = "Your app config does not specify a Connected App Redirect URI.";
 "appConfigValidationErrorNoOAuthScopes" = "Your app config does not specify any Connected App OAuth Scopes.";
 "appConfigValidationErrorNoStartPage" = "No start page configured.";
-"appConfigValidationErrorLocalAbsoluteURL" = "Local start page should not be absolute URL.";
+"appConfigValidationErrorStartPageAbsoluteURL" = "Start page should not be absolute URL.";
+"appConfigValidationErrorUnauthenticatedStartPageNotAbsoluteURL" = "Unauthenticated start page should be absolute URL.";
+"appConfigValidationErrorNoUnauthenticatedStartPage" = "Unauthenticated start page required for remote app with deferred authentication.";
 "appConfigValidationErrorAbsoluteURLNoAuth" = "Cannot authenticate using an absolute URL for start page.";
 "appConfigValidationErrorRelativeURLAuth" = "Cannot configure relative URL start page with deferred authentication.";
 

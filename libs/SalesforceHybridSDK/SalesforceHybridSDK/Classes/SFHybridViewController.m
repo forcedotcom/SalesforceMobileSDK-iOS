@@ -249,7 +249,9 @@ SFSDK_USE_DEPRECATED_BEGIN
     }
 
     // Remote app. Device is online.
-    [SFSDKWebViewStateManager resetSessionCookie];
+    if ([self userIsAuthenticated]) {
+        [SFSDKWebViewStateManager resetSessionCookie];
+    }
     [self configureRemoteStartPage];
     [super viewDidLoad];
 }
@@ -511,10 +513,17 @@ SFSDK_USE_DEPRECATED_BEGIN
     
     // Note: You only want this to ever run once in the view controller's lifetime.
     static BOOL startPageConfigured = NO;
-    if (!_hybridViewConfig.startPageIsAbsoluteUrl && _hybridViewConfig.shouldAuthenticate) {
-        self.startPage = [[self frontDoorUrlWithReturnUrl:self.startPage returnUrlIsEncoded:NO createAbsUrl:YES] absoluteString];
+    if ([self userIsAuthenticated]) {
+        self.startPage = [[self frontDoorUrlWithReturnUrl:_hybridViewConfig.startPage returnUrlIsEncoded:NO createAbsUrl:YES] absoluteString];
+    } else {
+        self.startPage = _hybridViewConfig.unauthenticatedStartPage;
     }
     startPageConfigured = YES;
+}
+
+- (BOOL)userIsAuthenticated
+{
+    return ([SFUserAccountManager sharedInstance].currentUser.credentials.accessToken.length > 0);
 }
 
 - (void) webView:(WKWebView *) webView didStartProvisionalNavigation:(WKNavigation *) navigation

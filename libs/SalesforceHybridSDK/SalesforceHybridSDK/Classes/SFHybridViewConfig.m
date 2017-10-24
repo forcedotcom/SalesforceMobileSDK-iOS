@@ -27,6 +27,7 @@
 #import <SalesforceAnalytics/SFSDKLogger.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
 #import <SalesforceSDKCore/SFSDKResourceUtils.h>
+#import "SFSDKHybridLogger.h"
 
 @interface SFHybridViewConfig ()
 
@@ -47,6 +48,7 @@
 // Keys used in bootconfig.json.
 static NSString* const kIsLocal = @"isLocal";
 static NSString* const kStartPage = @"startPage";
+static NSString* const kUnauthenticatedStartPage = @"unauthenticatedStartPage";
 static NSString* const kErrorPage = @"errorPage";
 static NSString* const kAttemptOfflineLoad = @"attemptOfflineLoad";
 
@@ -94,9 +96,14 @@ static NSString* const kDefaultErrorPage = @"error.html";
     self.configDict[kStartPage] = [startPage copy];
 }
 
-- (BOOL)startPageIsAbsoluteUrl
+- (NSString *)unauthenticatedStartPage
 {
-    return ([self.startPage hasPrefix:@"http://"] || [self.startPage hasPrefix:@"https://"]);
+    return (self.configDict)[kUnauthenticatedStartPage];
+}
+
+- (void)setUnauthenticatedStartPage:(NSString *)unauthenticatedStartPage
+{
+    self.configDict[kUnauthenticatedStartPage] = [unauthenticatedStartPage copy];
 }
 
 - (NSString *)errorPage
@@ -133,21 +140,31 @@ static NSString* const kDefaultErrorPage = @"error.html";
         return NO;
     }
     
-    // Sanity check local URLs against absolute URL values.
-    if (self.isLocal && self.startPageIsAbsoluteUrl) {
-        [[self class] createError:error withCode:SFSDKHybridAppConfigErrorCodeLocalPageAbsoluteURL message:[SFSDKResourceUtils localizedString:@"appConfigValidationErrorLocalAbsoluteURL"]];
+    // startPage must be a relative URL.
+    if ([[self class] urlStringIsAbsolute:self.startPage]) {
+        [[self class] createError:error withCode:SFSDKHybridAppConfigErrorCodeStartPageAbsoluteURL message:[SFSDKResourceUtils localizedString:@"appConfigValidationErrorStartPageAbsoluteURL"]];
         return NO;
     }
     
-    // Start page makeup for remote apps beyond this point is subject to conditional configuration.
+    // unauthenticatedStartPage doesn't make sense in a local setup.  Warn accordingly.
+    if (self.isLocal && self.unauthenticatedStartPage.length > 0) {
+        [SFSDKHybridLogger w:[self class] format:@"%@ %@ set for local app, but it will never be used.", NSStringFromSelector(_cmd), kUnauthenticatedStartPage];
+    }
     
-    if (!self.isLocal && self.shouldAuthenticate && self.startPageIsAbsoluteUrl) {
-        [[self class] createError:error withCode:SFSDKHybridAppConfigErrorCodeAbsoluteURLNoAuth message:[SFSDKResourceUtils localizedString:@"appConfigValidationErrorAbsoluteURLNoAuth"]];
+    // unauthenticatedStartPage doesn't make sense in a remote setup with authentication.  Warn accordingly.
+    if (!self.isLocal && self.shouldAuthenticate && self.unauthenticatedStartPage.length > 0) {
+        [SFSDKHybridLogger w:[self class] format:@"%@ %@ set for remote app with authentication, but it will never be used.", NSStringFromSelector(_cmd), kUnauthenticatedStartPage];
+    }
+    
+    // Lack of unauthenticatedStartPage with remote deferred authentication is an error.
+    if (!self.isLocal && !self.shouldAuthenticate && self.unauthenticatedStartPage.length == 0) {
+        [[self class] createError:error withCode:SFSDKHybridAppConfigErrorCodeNoUnauthenticatedStartPage message:[SFSDKResourceUtils localizedString:@"appConfigValidationErrorNoUnauthenticatedStartPage"]];
         return NO;
     }
     
-    if (!self.isLocal && !self.shouldAuthenticate && !self.startPageIsAbsoluteUrl) {
-        [[self class] createError:error withCode:SFSDKHybridAppConfigErrorCodeRelativeURLAuth message:[SFSDKResourceUtils localizedString:@"appConfigValidationErrorRelativeURLAuth"]];
+    // unauthenticatedStartPage, if present, must be an absolute URL.
+    if (self.unauthenticatedStartPage.length > 0 && ![[self class] urlStringIsAbsolute:self.unauthenticatedStartPage]) {
+        [[self class] createError:error withCode:SFSDKHybridAppConfigErrorCodeUnauthenticatedStartPageNotAbsoluteURL message:[SFSDKResourceUtils localizedString:@"appConfigValidationErrorUnauthenticatedStartPageNotAbsoluteURL"]];
         return NO;
     }
     
@@ -181,6 +198,12 @@ static NSString* const kDefaultErrorPage = @"error.html";
     }
     NSDictionary *jsonDict = [SFJsonUtils objectFromJSONData:fileContents];
     return jsonDict;
+}
+
++ (BOOL)urlStringIsAbsolute:(NSString *)urlString
+{
+    NSAssert(urlString.length > 0, @"urlString parameter is required.");
+    return ([urlString hasPrefix:@"http://"] || [urlString hasPrefix:@"https://"]);
 }
 
 - (void)setConfigDefaults

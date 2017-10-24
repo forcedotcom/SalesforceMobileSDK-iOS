@@ -70,6 +70,7 @@
 		822272CE19C3A3E500FC537E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA1516EC3AF900BD1EA2 /* SystemConfiguration.framework */; };
 		822272CF19C3A3FC00FC537E /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA1116EC3AC100BD1EA2 /* MobileCoreServices.framework */; };
 		829DA2B11C12677B0040F5F1 /* SalesforceHybridSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2B01C12677B0040F5F1 /* SalesforceHybridSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82AB22651F9EB9C100A754C8 /* SFHybridViewConfigTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AB22641F9EB9C100A754C8 /* SFHybridViewConfigTestSuite.m */; };
 		82AF5A6B1A0D911D006C7A4B /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AF5A651A0D911D006C7A4B /* CDVLogger.m */; };
 		82AF5A6F1A0D9277006C7A4B /* console-via-logger.js in Copy cordova-plugin-console plugin */ = {isa = PBXBuildFile; fileRef = 82AF5A691A0D911D006C7A4B /* console-via-logger.js */; };
 		82AF5A701A0D9277006C7A4B /* logger.js in Copy cordova-plugin-console plugin */ = {isa = PBXBuildFile; fileRef = 82AF5A6A1A0D911D006C7A4B /* logger.js */; };
@@ -491,6 +492,7 @@
 		8251CA3816ED008200BD1EA2 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		8251CA3A16ED009700BD1EA2 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		829DA2B01C12677B0040F5F1 /* SalesforceHybridSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceHybridSDK.h; sourceTree = "<group>"; };
+		82AB22641F9EB9C100A754C8 /* SFHybridViewConfigTestSuite.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFHybridViewConfigTestSuite.m; path = SalesforceHybridSDKTests/SFHybridViewConfigTestSuite.m; sourceTree = SOURCE_ROOT; };
 		82AF5A641A0D911D006C7A4B /* CDVLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVLogger.h; sourceTree = "<group>"; };
 		82AF5A651A0D911D006C7A4B /* CDVLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVLogger.m; sourceTree = "<group>"; };
 		82AF5A691A0D911D006C7A4B /* console-via-logger.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "console-via-logger.js"; sourceTree = "<group>"; };
@@ -777,6 +779,7 @@
 				4F06AFA61C49A77200F70798 /* ForceJSTestSuite.m */,
 				4F06AFA71C49A77200F70798 /* SDKInfoTestSuite.h */,
 				4F06AFA81C49A77200F70798 /* SDKInfoTestSuite.m */,
+				82AB22641F9EB9C100A754C8 /* SFHybridViewConfigTestSuite.m */,
 				4F06AFA91C49A77200F70798 /* SFPluginTestSuite.h */,
 				4F06AFAA1C49A77200F70798 /* SFPluginTestSuite.m */,
 				4F06AFAB1C49A77200F70798 /* SmartStoreLoadTestSuite.h */,
@@ -1453,6 +1456,7 @@
 				4F06AFC11C49A7BF00F70798 /* SmartStoreTestSuite.m in Sources */,
 				4F06AFBD1C49A7BF00F70798 /* ForceJSTestSuite.m in Sources */,
 				4F06AFC21C49A7BF00F70798 /* SmartSyncTestSuite.m in Sources */,
+				82AB22651F9EB9C100A754C8 /* SFHybridViewConfigTestSuite.m in Sources */,
 				4F06AFC01C49A7BF00F70798 /* SmartStoreLoadTestSuite.m in Sources */,
 				4F06AFBE1C49A7BF00F70798 /* SDKInfoTestSuite.m in Sources */,
 				4F06AFBF1C49A7BF00F70798 /* SFPluginTestSuite.m in Sources */,
