@@ -41,6 +41,14 @@
     return [self setParamForKey:userHint key:kSFUserHintParam];
 }
 
+- (NSString *)domain {
+    return [self paramForKey:kSFLoginHostParam];
+}
+
+- (void)setDomain:(NSString *)domain {
+    return [self setParamForKey:domain key:kSFLoginHostParam];
+}
+
 - (NSString *)command {
     return @"idpinit";
 }

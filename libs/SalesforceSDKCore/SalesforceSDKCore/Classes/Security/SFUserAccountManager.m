@@ -429,7 +429,11 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 }
 
 - (void)authClient:(SFSDKOAuthClient *)client displayMessage:(SFSDKAlertMessage *)message {
-    self.alertDisplayBlock(message,client.authWindow);
+    __weak typeof (self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+       weakSelf.alertDisplayBlock(message,client.authWindow);
+    });
+    
 }
 
 #pragma mark - SFSDKOAuthClientWebViewDelegate
@@ -468,7 +472,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 }
 
 - (void)authClientDisplayIDPLoginFlowSelection:(SFSDKIDPAuthClient *)client  {
-    UIViewController<SFSDKLoginFlowSelectionView> *controller  = self.idpLoginFlowSelectionAction();
+    UIViewController<SFSDKLoginFlowSelectionView> *controller  = client.idpLoginFlowSelectionBlock();
     controller.selectionFlowDelegate = self;
     NSMutableDictionary *options = [[NSMutableDictionary alloc] init];
     NSString *key = [SFSDKOAuthClientCache keyFromClient:client];
@@ -747,6 +751,20 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     result = (self.userAccountMap)[userIdentity];
     [_accountsLock unlock];
     return result;
+}
+
+- (NSArray *)userAccountsForDomain:(NSString *)domain {
+    NSMutableArray *responseArray = [NSMutableArray array];
+    [_accountsLock lock];
+    for (SFUserAccountIdentity *key in self.userAccountMap) {
+        SFUserAccount *account = (self.userAccountMap)[key];
+        NSString *accountDomain = account.credentials.domain;
+        if ([[accountDomain lowercaseString] isEqualToString:[domain lowercaseString]]) {
+            [responseArray addObject:account];
+        }
+    }
+    [_accountsLock unlock];
+    return responseArray;
 }
 
 - (NSArray *)accountsForOrgId:(NSString *)orgId {
@@ -1135,6 +1153,9 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
         client = [SFSDKOAuthClient clientWithCredentials:credentials configBlock:^(SFSDKOAuthClientConfig *config) {
             __strong typeof(self) strongSelf = weakSelf;
             config.loginHost = strongSelf.loginHost;
+            config.brandLoginPath = strongSelf.brandLoginPath;
+            config.additionalTokenRefreshParams = strongSelf.additionalTokenRefreshParams;
+            config.additionalOAuthParameterKeys = strongSelf.additionalOAuthParameterKeys;
             config.scopes = strongSelf.scopes;
             config.isIdentityProvider = strongSelf.isIdentityProvider;
             config.oauthCompletionUrl = strongSelf.oauthCompletionUrl;

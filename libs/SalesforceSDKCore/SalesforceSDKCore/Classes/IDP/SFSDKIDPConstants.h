@@ -47,6 +47,8 @@ FOUNDATION_EXPORT NSString *const kSFStateParam;
 
 FOUNDATION_EXPORT NSString *const kSFAppNameParam;
 
+FOUNDATION_EXPORT NSString *const kSFAppNameDefault;
+
 FOUNDATION_EXPORT NSString *const kSFUserHintParam;
 
 FOUNDATION_EXPORT NSString *const kSFLoginHostParam;

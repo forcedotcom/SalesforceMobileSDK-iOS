@@ -402,6 +402,12 @@ FOUNDATION_EXTERN NSString * const kSFUserInfoAddlOptionsKey;
  */
 - (NSArray<SFUserAccount*> *)accountsForInstanceURL:(NSURL *)instanceURL;
 
+/** Returns all accounts that match a domain
+ @param domain The domain.
+ @return An array of accounts that match that instance URL
+ */
+- (NSArray *)userAccountsForDomain:(NSString *)domain;
+
 /** Adds/Updates a user account
  @param userAccount The account to be added
  */

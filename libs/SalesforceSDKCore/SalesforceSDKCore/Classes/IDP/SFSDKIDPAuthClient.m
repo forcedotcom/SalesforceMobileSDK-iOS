@@ -106,6 +106,7 @@
 }
 
 - (BOOL)initiateLocalLoginInSPApp {
+    self.config.hideSettingsIcon = NO;
     return [super refreshCredentials];
 }
 
@@ -125,6 +126,7 @@
 
 - (void)beginIDPFlow:(SFSDKAuthRequestCommand *)request {
     // Should begin IDP Flow in the IDP App?
+    self.config.hideSettingsIcon = YES;
     SFSDKMutableOAuthClientContext *context = [self.context mutableCopy];
     context.currentCommand = request;
     self.context = context;
@@ -132,6 +134,7 @@
 }
 
 - (void)beginIDPFlowForNewUser {
+    self.config.hideSettingsIcon = YES;
     [super refreshCredentials];
 }
 
@@ -179,6 +182,7 @@
     command.spLoginHost = self.config.loginHost;
     command.spRedirectURI = self.config.oauthCompletionUrl;
     command.spState = self.credentials.identifier;
+    command.spAppName = self.config.appDisplayName;
     
     NSURL *url = [command requestURL];
     

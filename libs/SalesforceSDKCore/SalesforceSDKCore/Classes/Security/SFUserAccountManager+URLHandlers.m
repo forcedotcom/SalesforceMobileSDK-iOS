@@ -72,7 +72,11 @@
             [weakSelf disposeOAuthClient:client];
         };
     }];
-    self.alertDisplayBlock(messageObject,client.authWindow);
+   
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.alertDisplayBlock(messageObject,client.authWindow);
+    });
+    
     return YES;
 }
 
@@ -114,12 +118,14 @@
                                                        userInfo:userInfo];
     SFSDKIDPAuthClient  *authClient = nil;
     BOOL showSelection = NO;
-
+    NSString *domain = request.allParams[kSFLoginHostParam]?:idpAppsCredentials.domain;
     SFOAuthCredentials *credentials = foundUserCredentials?:idpAppsCredentials;
+    credentials.domain = domain;
     authClient = [self fetchIDPAuthClient:credentials completion:nil failure:nil];
 
     if (self.currentUser!=nil && !foundUserCredentials) {
-        showSelection = YES;
+        NSArray *domainUsers = [self userAccountsForDomain:request.spLoginHost];
+        showSelection = ([domainUsers count] > 0);
     }
 
     if (showSelection) {
@@ -129,6 +135,7 @@
         authClient.authWindow.viewController = controller;
         [authClient.authWindow enable];
     } else {
+        [authClient setCallingAppOptionsInContext:request.allParams];
         [authClient beginIDPFlow:request]; 
     }
     return YES;
