@@ -27,7 +27,9 @@
 
 typedef NS_ENUM(NSInteger, SFSDKHybridAppConfigErrorCode) {
     SFSDKHybridAppConfigErrorCodeNoStartPage = 1066,
-    SFSDKHybridAppConfigErrorCodeLocalPageAbsoluteURL,
+    SFSDKHybridAppConfigErrorCodeStartPageAbsoluteURL,
+    SFSDKHybridAppConfigErrorCodeUnauthenticatedStartPageNotAbsoluteURL,
+    SFSDKHybridAppConfigErrorCodeNoUnauthenticatedStartPage,
     SFSDKHybridAppConfigErrorCodeAbsoluteURLNoAuth,
     SFSDKHybridAppConfigErrorCodeRelativeURLAuth
 };
@@ -50,9 +52,10 @@ static NSString *const SFSDKDefaultHybridAppConfigFilePath = @"/www/bootconfig.j
 @property (nonatomic, copy) NSString *startPage;
 
 /**
- * Whether or not the startPage value is an absolute URL.
+ * In a deferred authentication configuration for remote apps, the page/URL that should
+ * be loaded in an unauthenticated context.
  */
-@property (nonatomic, assign, readonly) BOOL startPageIsAbsoluteUrl;
+@property (nullable, nonatomic, copy) NSString *unauthenticatedStartPage;
 
 /**
  * The error page to navigate to, in the event of an error during the app load process.
@@ -64,6 +67,13 @@ static NSString *const SFSDKDefaultHybridAppConfigFilePath = @"/www/bootconfig.j
  * connectivity.
  */
 @property (nonatomic, assign) BOOL attemptOfflineLoad;
+
+/**
+ * Determines whether an input URL string is an absolute URL or not.
+ * @param urlString The URL string to evaluate.
+ * @return YES if the URL string is absolute, no otherwise.
+ */
++ (BOOL)urlStringIsAbsolute:(nonnull NSString *)urlString;
 
 @end
 
