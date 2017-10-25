@@ -26,9 +26,10 @@ if has_dnm_label || has_dnm_title
   warn("At the authors request please DO NOT MERGE this PR")
 end
 
+fail "Please re-submit this PR to dev, we may have already fixed your issue." if github.branch_for_base != "dev"
+
 xcov.report(
    scheme: 'UnitTests',
    workspace: 'SalesforceMobileSDK.xcworkspace', 
-   exclude_targets:'CocoaLumberjack.framework,SalesforceSDKCoreTestApp.app,SmartStoreTestApp.app,SmartSyncTestApp.app,SalesforceHybridSDKTestApp.app,SalesforceAnalyticsTestApp.app,RestAPIExplorer.app,AccountEditor.app,NoteSync.app,SmartSyncExplorerHybrid.app,SmartSyncExplorer.app,SmartSyncExplorerCommon.framework,RecentContactsTodayExtension.appex,Cordova.framework,SalesforceReact.framework',
-   minimum_coverage_percentage: 55.0
+   exclude_targets:'CocoaLumberjack.framework,SalesforceSDKCoreTestApp.app,SmartStoreTestApp.app,SmartSyncTestApp.app,SalesforceHybridSDKTestApp.app,SalesforceAnalyticsTestApp.app,RestAPIExplorer.app,AccountEditor.app,NoteSync.app,SmartSyncExplorerHybrid.app,SmartSyncExplorer.app,SmartSyncExplorerCommon.framework,RecentContactsTodayExtension.appex,Cordova.framework,SalesforceReact.framework'
 )

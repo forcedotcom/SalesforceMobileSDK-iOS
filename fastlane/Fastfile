@@ -149,7 +149,7 @@ lane :PR do
     schemes = ENV["scheme"].split(',')
   end
 
-  if schemes.size >= 3 || schemes.include?("UnitTests")
+  if schemes.include?("SalesforceSDKCore") || schemes.include?("UnitTests")
     testScheme("UnitTests")
     doDanger
   else
