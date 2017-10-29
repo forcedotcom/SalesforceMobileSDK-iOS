@@ -1210,6 +1210,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     // already exists.
     NSAssert(client.idData != nil, @"Identity data should not be nil/empty at this point.");
     __weak typeof(self) weakSelf = self;
+    [client dismissAuthViewControllerIfPresent];
     [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
         [weakSelf finalizeAuthCompletion:client];
     }];
@@ -1287,7 +1288,6 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
                                                               userInfo:userInfo];
         }
        
-        [client dismissAuthViewControllerIfPresent];
     }
 }
 
