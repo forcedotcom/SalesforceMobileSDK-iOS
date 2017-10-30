@@ -30,9 +30,12 @@
 #import <SalesforceSDKCore/SFSDKResourceUtils.h>
 #import "SFQuerySpec.h"
 #import <SalesforceSDKCore/SFJsonUtils.h>
+#import <SalesforceSDKCore/SFUserAccountManager.h>
 
 // Nav bar
 static CGFloat      const kNavBarHeight          = 44.0;
+// Nav bar
+static CGFloat      const kStorePickerHeight     = 44.0;
 // Text fields
 static NSString *   const kTextFieldFontName     = @"Courier";
 static CGFloat      const kTextFieldFontSize     = 12.0;
@@ -54,6 +57,7 @@ static NSString *   const kCellIndentifier       = @"cellIdentifier";
 static NSUInteger   const kLabelTag              = 99;
 // Resource keys
 static NSString * const kInspectorNoRowsReturnedKey = @"inspectorNoRowsReturned";
+static NSString * const kInspectorNoSoupsFoundKey = @"inspectorNoSoupsFound";
 static NSString * const kInspectorQueryFailedKey = @"inspectorQueryFailed";
 static NSString * const kInspectorOKKey = @"inspectorOK";
 static NSString * const kInspectorPageSizeHintKey = @"inspectorPageSizeHint";
@@ -65,11 +69,18 @@ static NSString * const kInspectorTitleKey = @"inspectorTitle";
 static NSString * const kInspectorBackButtonTitleKey = @"inspectorBackButtonTitle";
 static NSString * const kInspectorRunButtonTitleKey = @"inspectorRunButtonTitle";
 
+// Other constants
+static NSString * const kInspectorPickerUserStore= @" (user store)";
+static NSString * const kInspectorPickerGlobalStore = @" (global store)";
+static NSString * const kInspectorPickerDefault = @"default";
 
-@interface SFSmartStoreInspectorViewController () <UINavigationBarDelegate>
+
+@interface SFSmartStoreInspectorViewController () <UINavigationBarDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
 
 @property (nonatomic, strong) SFSmartStore *store;
+@property (nonatomic, strong) NSArray *storeDisplayNames;
 @property (nonatomic, strong) UINavigationBar *navBar;
+@property (nonatomic, strong) UIPickerView *storePickerView;
 @property (nonatomic, strong) UITextView *queryField;
 @property (nonatomic, strong) UITextField *pageSizeField;
 @property (nonatomic, strong) UITextField *pageIndexField;
@@ -92,6 +103,7 @@ static NSString * const kInspectorRunButtonTitleKey = @"inspectorRunButtonTitle"
     self = [super init];
     if (self) {
         self.store = store;
+        self.storeDisplayNames = [self getStoreNamesForPicker];
     }
     return self;
 }
@@ -110,6 +122,70 @@ static NSString * const kInspectorRunButtonTitleKey = @"inspectorRunButtonTitle"
                            [self.resultGrid reloadData];
                        });
     }
+}
+
+#pragma mark - Store picker
+- (NSArray*) getStoreNamesForPicker
+{
+    NSMutableArray* pickerStoreNames = [NSMutableArray new];
+    for (NSString* storeName in [SFSmartStore allStoreNames]) [pickerStoreNames addObject:[self getDisplayNameForStore:NO dbName:storeName]];
+    for (NSString* storeName in [SFSmartStore allGlobalStoreNames]) [pickerStoreNames addObject:[self getDisplayNameForStore:YES dbName:storeName]];
+    return pickerStoreNames;
+}
+
+- (NSString*) getDisplayNameForStore:(BOOL)isGlobal dbName:(NSString*)dbName
+{
+    return [@[
+              [dbName isEqualToString:kDefaultSmartStoreName] ? kInspectorPickerDefault : dbName,
+              isGlobal ? kInspectorPickerGlobalStore : kInspectorPickerUserStore
+              ] componentsJoinedByString:@""];
+}
+
+- (NSArray*) getStoreFromDisplayName:(NSString*) storeDisplayName
+{
+    BOOL isGlobal;
+    NSString* dbName;
+    if ([storeDisplayName containsString:kInspectorPickerGlobalStore]) {
+        isGlobal = YES;
+        dbName = [storeDisplayName substringToIndex:storeDisplayName.length - kInspectorPickerGlobalStore.length];
+    }
+    else {
+        isGlobal = NO;
+        dbName = [storeDisplayName substringToIndex:storeDisplayName.length - kInspectorPickerUserStore.length];
+    }
+    dbName =  [dbName isEqualToString:kInspectorPickerDefault] ? kDefaultSmartStoreName : dbName;
+    return @[isGlobal ? @YES : @NO, dbName];
+}
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    return self.storeDisplayNames.count;
+}
+
+- (NSString *)pickerView:(UIPickerView *)thePickerView
+             titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    return self.storeDisplayNames[row];
+}
+
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    NSArray *selectedStore = [self getStoreFromDisplayName:self.storeDisplayNames[row]];
+    BOOL isGlobal = [selectedStore[0] boolValue];
+    NSString* dbName = selectedStore[1];
+    self.store = isGlobal ? [SFSmartStore sharedGlobalStoreWithName:dbName] : [SFSmartStore sharedStoreWithName:dbName];
+}
+
+- (void)selectCurrentStoreInPicker
+{
+    NSString* userId = [SFUserAccountManager sharedInstance].currentUser.credentials.userId;
+    BOOL isGlobal = userId == nil || ![self.store.storePath containsString:userId];
+    NSString* dbName = [self.store storeName];
+    NSString* storeDisplayName = [self getDisplayNameForStore:isGlobal dbName:dbName];
+    NSUInteger row = [self.storeDisplayNames indexOfObject:storeDisplayName];
+    [self.storePickerView selectRow:row inComponent:0 animated:NO];
 }
 
 #pragma mark - Actions handlers
@@ -157,8 +233,12 @@ static NSString * const kInspectorRunButtonTitleKey = @"inspectorRunButtonTitle"
 - (void) soupsButtonClicked
 {
     NSArray* names = [self.store allSoupNames];
+    if ([names count] == 0) {
+        NSString* errorAlertTitle = [SFSDKResourceUtils localizedString:kInspectorQueryFailedKey];
+        [self showAlert:[SFSDKResourceUtils localizedString:kInspectorNoSoupsFoundKey] title:errorAlertTitle];
+    }
     if ([names count] > 10) {
-        self.queryField.text = @"SELECT soupName from soup_nameSFs";
+        self.queryField.text = @"SELECT soupName from soup_names";
     } else {
         NSMutableString* q = [NSMutableString string];
         BOOL first = YES;
@@ -210,6 +290,9 @@ static NSString * const kInspectorRunButtonTitleKey = @"inspectorRunButtonTitle"
     // Nav bar
     self.navBar = [self createNavBar];
     
+    // Store picker
+    self.storePickerView = [self createStorePicker];
+    
     // Query field
     self.queryField = [self createTextView];
     
@@ -244,6 +327,18 @@ static NSString * const kInspectorRunButtonTitleKey = @"inspectorRunButtonTitle"
     [navBar setItems:@[navItem] animated:YES];
     [self.view addSubview:navBar];
     return navBar;
+}
+
+- (UIPickerView*) createStorePicker
+{
+    UIPickerView* storePicker = [[UIPickerView alloc] initWithFrame:CGRectZero];
+    storePicker.delegate = self;
+    storePicker.backgroundColor = [UIColor whiteColor];
+    storePicker.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    storePicker.layer.borderWidth = kTextFieldBorderWidth;
+    storePicker.dataSource = self;
+    [self.view addSubview:storePicker];
+    return storePicker;
 }
 
 - (UITextView *) createTextView
@@ -312,6 +407,11 @@ static NSString * const kInspectorRunButtonTitleKey = @"inspectorRunButtonTitle"
     [self layoutSubviews];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [self selectCurrentStoreInPicker];
+}
+
 - (void)viewWillLayoutSubviews
 {
     [self layoutSubviews];
@@ -326,6 +426,7 @@ static NSString * const kInspectorRunButtonTitleKey = @"inspectorRunButtonTitle"
 - (void)layoutSubviews
 {
     [self layoutNavBar];
+    [self layoutStorePicker];
     [self layoutQueryField];
     [self layoutPageFields];
     [self layoutButtons];
@@ -351,10 +452,19 @@ static NSString * const kInspectorRunButtonTitleKey = @"inspectorRunButtonTitle"
     self.navBar.frame = CGRectMake(x, y, w, h);
 }
 
-- (void)layoutQueryField
+- (void) layoutStorePicker
 {
     CGFloat x = 0;
     CGFloat y = [self belowFrame:self.navBar.frame];
+    CGFloat w = self.view.bounds.size.width;
+    CGFloat h = kStorePickerHeight;
+    self.storePickerView.frame = CGRectMake(x, y, w, h);
+}
+
+- (void)layoutQueryField
+{
+    CGFloat x = 0;
+    CGFloat y = [self belowFrame:self.storePickerView.frame];
     CGFloat w = self.view.bounds.size.width;
     CGFloat h = kQueryFieldHeight;
     self.queryField.frame = CGRectMake(x, y, w, h);

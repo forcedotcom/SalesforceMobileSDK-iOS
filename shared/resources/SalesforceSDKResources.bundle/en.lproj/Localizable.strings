@@ -99,3 +99,4 @@
 "inspectorQueryFailed" = "Query failed";
 "inspectorOK" = "OK";
 "inspectorNoRowsReturned" = "No rows returned";
+"inspectorNoSoupsFound" = "No soups found";
