@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The view controller for managing the SmartStore inspector screen.
  */
-@interface SFSmartStoreInspectorViewController : UIViewController <UICollectionViewDataSource,UICollectionViewDelegateFlowLayout, UITextViewDelegate>
+@interface SFSmartStoreInspectorViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITextViewDelegate>
 
 
 /**

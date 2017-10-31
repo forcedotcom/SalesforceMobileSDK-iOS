@@ -100,3 +100,8 @@
 "inspectorOK" = "OK";
 "inspectorNoRowsReturned" = "No rows returned";
 "inspectorNoSoupsFound" = "No soups found";
+
+// SmartStore Inspector
+"devInfoTitle" = "Mobile SDK Dev Support";
+"devInfoBackButtonTitle" = "Back";
+"devInfoOKKey" = "OK";
