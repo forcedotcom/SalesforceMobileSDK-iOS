@@ -32,6 +32,8 @@
 #import "SFApplicationHelper.h"
 #import "SFSwiftDetectUtil.h"
 #import "SFSDKAppFeatureMarkers.h"
+#import "SFSDKDevInfoController.h"
+#import "SFDefaultUserManagementViewController.h"
 
 static NSString * const kSFAppFeatureSwiftApp   = @"SW";
 static NSString * const kSFAppFeatureMultiUser   = @"MU";
@@ -64,6 +66,12 @@ static NSString* ailtnAppName = nil;
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
    return UIInterfaceOrientationMaskAll;
 }
+
+@end
+
+@interface SalesforceSDKManager ()
+
+@property(nonatomic, strong) UIAlertController *actionSheet;
 
 @end
 
@@ -128,6 +136,9 @@ static NSString* ailtnAppName = nil;
 - (instancetype)init {
     self = [super init];
     if (self) {
+#ifdef DEBUG
+        self.isDevSupportEnabled = YES;
+#endif
         self.sdkManagerFlow = self;
         self.delegates = [NSHashTable weakObjectsHashTable];
         [[SFUserAccountManager sharedInstance] addDelegate:self];
@@ -350,6 +361,58 @@ static NSString* ailtnAppName = nil;
     }
     
     return launchActionString;
+}
+
+#pragma mark - Dev support methods
+
+- (void) showDevSupportDialog:(UIViewController *)presentedViewController
+{
+    // Do nothing if dev support is not enabled or dialog is already being shown
+    if (!self.isDevSupportEnabled || self.actionSheet) {
+        return;
+    }
+
+    // On larger devices we don't have an anchor point for the action sheet
+    UIAlertControllerStyle style = [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone ? UIAlertControllerStyleActionSheet : UIAlertControllerStyleAlert;
+    self.actionSheet = [UIAlertController alertControllerWithTitle:@"Mobile SDK Dev Support"
+                                                       message:@""
+                                                preferredStyle:style];
+
+    NSArray* devActions = [self getDevActions:presentedViewController];
+    for (int i=0; i<devActions.count; i+=2) {
+        [self.actionSheet addAction:[UIAlertAction actionWithTitle:devActions[i]
+                                                             style:UIAlertActionStyleDefault
+                                                           handler:^(__unused UIAlertAction *action) {
+                                                               ((dispatch_block_t) devActions[i+1])();
+                                                               self.actionSheet = nil;
+                                                           }]];
+    }
+    [self.actionSheet addAction:[UIAlertAction actionWithTitle:@"Cancel"
+                                                         style:UIAlertActionStyleCancel
+                                                       handler:^(__unused UIAlertAction *action) {
+                                                           self.actionSheet = nil;
+                                                       }]];
+
+    [presentedViewController presentViewController:self.actionSheet animated:YES completion:nil];
+}
+
+-(NSArray*) getDevActions:(UIViewController *)presentedViewController
+{
+    return @[
+            @"Show dev info", ^{
+                SFSDKDevInfoController *devInfo = [[SFSDKDevInfoController alloc] init];
+                [presentedViewController presentViewController:devInfo animated:NO completion:nil];
+            },
+            @"Logout", ^{
+                [[SFUserAccountManager  sharedInstance] logout];
+            },
+            @"Switch user", ^{
+                SFDefaultUserManagementViewController *umvc = [[SFDefaultUserManagementViewController alloc] initWithCompletionBlock:^(SFUserManagementAction action) {
+                    [presentedViewController dismissViewControllerAnimated:YES completion:nil];
+                }];
+                [presentedViewController presentViewController:umvc animated:YES completion:nil];
+            }
+    ];
 }
 
 - (NSArray*) getDevSupportInfos
