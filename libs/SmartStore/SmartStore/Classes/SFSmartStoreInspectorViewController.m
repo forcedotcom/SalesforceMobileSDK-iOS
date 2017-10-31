@@ -34,7 +34,7 @@
 
 // Nav bar
 static CGFloat      const kNavBarHeight          = 44.0;
-// Nav bar
+// Store picker
 static CGFloat      const kStorePickerHeight     = 44.0;
 // Text fields
 static NSString *   const kTextFieldFontName     = @"Courier";

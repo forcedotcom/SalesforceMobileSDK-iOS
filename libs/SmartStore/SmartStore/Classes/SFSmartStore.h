@@ -463,6 +463,18 @@ extern NSString *const EXPLAIN_ROWS;
  */
 - (BOOL) reIndexSoup:(NSString*)soupName withIndexPaths:(NSArray*)indexPaths;
 
+/**
+ * Return compile options
+ * @return
+ */
+- (NSArray *)getCompileOptions;
+
+/**
+ * Return sqlcipher version
+ * @return
+ */
+- (NSString *)getSQLCipherVersion;
+
 #pragma mark - Long operations recovery methods
 
 /**

@@ -258,18 +258,7 @@ SFSDK_USE_DEPRECATED_END
     UIDevice *curDevice = [UIDevice currentDevice];
     NSString *osVersion = [curDevice systemVersion];
     NSString *osName = [curDevice systemName];
-    NSString *appTypeStr = @"";
-    switch ([sdkManager appType]) {
-        case kSFAppTypeNative:
-            appTypeStr = kSFMobileSDKNativeDesignator;
-            break;
-        case kSFAppTypeHybrid:
-            appTypeStr = kSFMobileSDKHybridDesignator;
-            break;
-        case kSFAppTypeReactNative:
-            appTypeStr = kSFMobileSDKReactNativeDesignator;
-            break;
-    }
+    NSString *appTypeStr = [sdkManager getAppTypeAsString];
     NSString *mobileSdkVersion = SALESFORCE_SDK_VERSION;
     NSString *deviceModel = [curDevice platform];
     NSString *deviceId = [sdkManager deviceId];

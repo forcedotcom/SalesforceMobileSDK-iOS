@@ -86,18 +86,7 @@
  */
 - (void) testCompileOptions
 {
-    __block NSMutableArray* options = [NSMutableArray new];
-
-    [self.store.storeQueue inDatabase:^(FMDatabase *db) {
-        
-        FMResultSet *rs = [db executeQuery:@"pragma compile_options"];
-        
-        while ([rs next]) {
-            [options addObject:[rs stringForColumnIndex:0]];
-        }
-        
-        [rs close];
-    }];
+    NSArray* options = [self.store getCompileOptions];
 
     XCTAssertTrue([options containsObject:@"ENABLE_FTS4"]);
     XCTAssertTrue([options containsObject:@"ENABLE_FTS3_PARENTHESIS"]);
@@ -109,6 +98,12 @@
 {
     NSString* version = [NSString stringWithUTF8String:sqlite3_libversion()];
     XCTAssertEqualObjects(version, @"3.15.2");
+}
+
+- (void) testSqlCipherVersion
+{
+    NSString* version = [self.store getSQLCipherVersion];
+    XCTAssertEqualObjects(version, @"3.4.1");
 }
 
 /**

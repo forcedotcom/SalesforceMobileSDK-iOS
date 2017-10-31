@@ -2,7 +2,7 @@
  SalesforceSDKCore.h
  SalesforceSDKCore
 
- Created by Kevin Hawkins on Thu Oct  5 20:59:03 PDT 2017.
+ Created by Wolfgang Mathurin on Mon Oct 30 16:35:24 PDT 2017.
 
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
@@ -105,6 +105,7 @@
 #import <SalesforceSDKCore/SFSDKAsyncProcessListener.h>
 #import <SalesforceSDKCore/SFSDKCoreLogger.h>
 #import <SalesforceSDKCore/SFSDKCryptoUtils.h>
+#import <SalesforceSDKCore/SFSDKDevInfoController.h>
 #import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
 #import <SalesforceSDKCore/SFSDKLoginFlowSelectionView.h>
 #import <SalesforceSDKCore/SFSDKLoginHost.h>

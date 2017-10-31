@@ -274,6 +274,11 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
 - (BOOL)launch;
 
 /**
+ @return app type as a string
+ */
+- (NSString *)getAppTypeAsString;
+
+/**
  Adds an SDK Manager delegate to the list of delegates.
  @param delegate The delegate to add.
  */
@@ -290,6 +295,11 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
  @return A log-friendly string of the launch actions that were taken, given in postLaunchAction.
  */
 + (NSString *)launchActionsStringRepresentation:(SFSDKLaunchAction)launchActions;
+
+/**
+ * @return Dev info (list of name1, value1, name2, value2 etc) to show in SFSDKDevInfoController
+ */
+- (NSArray*) getDevSupportInfos;
 
 @end
 

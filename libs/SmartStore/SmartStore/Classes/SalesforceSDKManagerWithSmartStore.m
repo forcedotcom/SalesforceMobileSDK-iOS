@@ -67,5 +67,19 @@ SFSDK_USE_DEPRECATED_BEGIN
     [storeConfig registerSoups:store];
 }
 
+- (NSArray*) getDevSupportInfos
+{
+    SFSmartStore *store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
+    NSMutableArray * devInfos = [NSMutableArray arrayWithArray:[super getDevSupportInfos]];
+    [devInfos addObjectsFromArray:@[
+            @"SQLCipher version", [store getSQLCipherVersion],
+            @"SQLCipher Compile Options", [[store getCompileOptions] componentsJoinedByString:@", "],
+            @"User Stores", [[SFSmartStore allStoreNames] componentsJoinedByString:@", "],
+            @"Global Stores", [[SFSmartStore allGlobalStoreNames] componentsJoinedByString:@", "]
+    ]];
+    return devInfos;
+}
+
+
 @end
 SFSDK_USE_DEPRECATED_END

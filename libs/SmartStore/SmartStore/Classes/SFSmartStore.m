@@ -2228,4 +2228,33 @@ NSString *const EXPLAIN_ROWS = @"rows";
     } error:nil];
 }
 
+#pragma mark - Misc info methods
+- (NSArray*) getCompileOptions
+{
+    return [self queryPragma:@"compile_options"];
+}
+
+- (NSString*) getSQLCipherVersion
+{
+    return [[self queryPragma:@"cipher_version"] componentsJoinedByString:@""];
+}
+
+- (NSArray*) queryPragma:(NSString*) pragma
+{
+    __block NSMutableArray* result = [NSMutableArray new];
+
+    [self.storeQueue inDatabase:^(FMDatabase *db) {
+
+        FMResultSet *rs = [db executeQuery:[NSString stringWithFormat:@"pragma %@", pragma]];
+
+        while ([rs next]) {
+            [result addObject:[rs stringForColumnIndex:0]];
+        }
+
+        [rs close];
+    }];
+
+    return result;
+}
+
 @end

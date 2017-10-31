@@ -25,17 +25,13 @@
 #import "SalesforceSDKManager+Internal.h"
 #import "SFAuthenticationManager+Internal.h"
 #import "SFSDKWindowManager.h"
-#import "SFSDKWebUtils.h"
 #import "SFManagedPreferences.h"
-#import "SFOAuthInfo.h"
 #import "SFPasscodeManager.h"
 #import "SFPasscodeProviderManager.h"
 #import "SFInactivityTimerCenter.h"
 #import "SFApplicationHelper.h"
 #import "SFSwiftDetectUtil.h"
-#import "SFUserAccountManager.h"
 #import "SFSDKAppFeatureMarkers.h"
-#import "SFSDKWebViewStateManager.h"
 
 static NSString * const kSFAppFeatureSwiftApp   = @"SW";
 static NSString * const kSFAppFeatureMultiUser   = @"MU";
@@ -355,6 +351,27 @@ static NSString* ailtnAppName = nil;
     
     return launchActionString;
 }
+
+- (NSArray*) getDevSupportInfos
+{
+    return @[
+            @"SDK Version", SALESFORCE_SDK_VERSION,
+            @"App Type", [self getAppTypeAsString],
+            @"User Agent", self.userAgentString(@""),
+            @"Browser Login Enabled", [SFUserAccountManager sharedInstance].advancedAuthConfiguration != SFOAuthAdvancedAuthConfigurationNone ? @"true" : @"false",
+            @"Current User", [self usersToString:@[[SFUserAccountManager sharedInstance].currentUser]],
+            @"Authenticated Users", [self usersToString:[SFUserAccountManager sharedInstance].allUserAccounts]
+    ];
+}
+
+- (NSString*) usersToString:(NSArray*)userAccounts {
+    NSMutableArray* usernames = [NSMutableArray new];
+    for (SFUserAccount *userAccount in userAccounts) {
+        [usernames addObject:userAccount.email];
+    }
+    return [usernames componentsJoinedByString:@", "];
+}
+
 
 #pragma mark - Private methods
 
@@ -805,12 +822,7 @@ static NSString* ailtnAppName = nil;
         NSString *appVersion = [NSString stringWithFormat:@"%@(%@)", prodAppVersion, buildNumber];
 
         // App type.
-        NSString* appTypeStr;
-        switch (self.appType) {
-            case kSFAppTypeNative: appTypeStr = kSFMobileSDKNativeDesignator; break;
-            case kSFAppTypeHybrid: appTypeStr = kSFMobileSDKHybridDesignator; break;
-            case kSFAppTypeReactNative: appTypeStr = kSFMobileSDKReactNativeDesignator; break;
-        }
+        NSString *appTypeStr = [self getAppTypeAsString];
         NSString *myUserAgent = [NSString stringWithFormat:
                                  @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@%@ uid_%@ ftr_%@",
                                  SALESFORCE_SDK_VERSION,
@@ -826,6 +838,16 @@ static NSString* ailtnAppName = nil;
                                  ];
         return myUserAgent;
     };
+}
+
+- (NSString *)getAppTypeAsString {
+    NSString* appTypeStr;
+    switch (self.appType) {
+            case kSFAppTypeNative: appTypeStr = kSFMobileSDKNativeDesignator; break;
+            case kSFAppTypeHybrid: appTypeStr = kSFMobileSDKHybridDesignator; break;
+            case kSFAppTypeReactNative: appTypeStr = kSFMobileSDKReactNativeDesignator; break;
+        }
+    return appTypeStr;
 }
 
 - (void)addDelegate:(id<SalesforceSDKManagerDelegate>)delegate
