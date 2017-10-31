@@ -199,7 +199,18 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
 }
 
 - (BOOL)refreshCredentials:(SFOAuthCredentials *)credentials {
+    __block BOOL result = NO;
+    if (![NSThread isMainThread]) {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            result =  [self refreshCredentials:credentials];
+            return;
+        });
+    }
     [readWriteLock lock];
+    
+    if (self.config.loginHost)
+        credentials.domain = self.config.loginHost;
+    
     if (self.isAuthenticating) {
         return NO;
     }
@@ -547,43 +558,53 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
 
 #pragma mark - SFSDKOAuthClientProvider
 + (SFSDKOAuthClient *)idpAuthInstance:(SFSDKOAuthClientConfig *)config {
+    SFSDKOAuthClient * instance = nil;
     if (self.clientProvider) {
-        return [self.clientProvider idpAuthInstance:config];
+        instance = [self.clientProvider idpAuthInstance:config];
     }
-    return [[SFSDKIDPAuthClient alloc] initWithConfig:config];
-
+    instance = [[SFSDKIDPAuthClient alloc] initWithConfig:config];
+    SFSDKMutableOAuthClientContext *context = [[SFSDKMutableOAuthClientContext alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
+    instance.context = context;
+    return instance;
+    
 }
 
 + (SFSDKOAuthClient *)nativeBrowserAuthInstance:(SFSDKOAuthClientConfig *)config {
+    SFSDKOAuthClient *instance = nil;
     if (self.clientProvider) {
-        return [self.clientProvider nativeBrowserAuthInstance:config];
+        instance = [self.clientProvider nativeBrowserAuthInstance:config];
     }
-
-   return [[self alloc] initWithConfig:config];
-
+    instance= [[self alloc] initWithConfig:config];
+    SFSDKMutableOAuthClientContext *context = [[SFSDKMutableOAuthClientContext alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
+    instance.context = context;
+    return instance;
+    
 }
 
 + (SFSDKOAuthClient *)webviewAuthInstance:(SFSDKOAuthClientConfig *)config {
+    SFSDKOAuthClient *instance = nil;
     if (self.clientProvider) {
-        return [self.clientProvider webviewAuthInstance:config];
+        instance =  [self.clientProvider webviewAuthInstance:config];
     }
-    return [[self alloc] initWithConfig:config];
+    instance= [[self alloc] initWithConfig:config];
+    SFSDKMutableOAuthClientContext *context = [[SFSDKMutableOAuthClientContext alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
+    instance.context = context;
+    return instance;
 }
 
 + (SFSDKOAuthClient *)clientWithCredentials:(SFOAuthCredentials *)credentials configBlock:(void(^)(SFSDKOAuthClientConfig *))configBlock {
-
+    
     SFSDKOAuthClientConfig *config = [[SFSDKOAuthClientConfig alloc] init];
-    SFSDKMutableOAuthClientContext *context = [[SFSDKMutableOAuthClientContext alloc] init];
     configBlock(config);
     SFSDKOAuthClient *instance = nil;
     
     if (config.idpEnabled || config.isIdentityProvider)
         instance = [self idpAuthInstance:config];
     else if (config.advancedAuthConfiguration==SFOAuthAdvancedAuthConfigurationRequire)
-         instance = [self nativeBrowserAuthInstance:config];
+        instance = [self nativeBrowserAuthInstance:config];
     else
         instance = [self webviewAuthInstance:config];
-
+    SFSDKMutableOAuthClientContext *context = [instance.context mutableCopy];
     context.credentials = credentials;
     instance.context = context;
     instance.coordinator  = [[SFOAuthCoordinator alloc] init];
