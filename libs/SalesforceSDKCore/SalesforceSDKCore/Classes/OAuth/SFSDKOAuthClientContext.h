@@ -28,6 +28,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SFOAuthInfo.h"
 #import "SFOAuthCoordinator.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -70,22 +71,22 @@ typedef void (^SFIdentityFailureCallbackBlock)(SFSDKOAuthClient *,NSError *);
 /** Object representing state of a current authentication context. Provides a means to isolate individual authentication requests
  */
 @interface SFSDKOAuthClientContext : NSObject <NSCopying, NSMutableCopying>
-
 @property (nonatomic, strong, readonly) SFOAuthCredentials *credentials;
 @property (nonatomic, strong, readonly) SFOAuthInfo *authInfo;
 @property (nonatomic, strong, readonly) NSError *authError;
-@property (nonatomic, copy) NSString *userHint;
-@property (nonatomic, strong) SFSDKAuthCommand *currentCommand;
+@property (nonatomic, copy,readonly) NSString *userHint;
 @property (nonatomic,strong,readonly) NSDictionary *callingAppOptions;
-
+- (instancetype)initWithAuthType:(SFOAuthType)oauthType;
 @end
 
 @interface SFSDKMutableOAuthClientContext : SFSDKOAuthClientContext
+
 @property (nonatomic, readwrite, nullable) SFOAuthCredentials *credentials;
 @property (nonatomic, strong, readwrite, nullable) SFOAuthInfo *authInfo;
 @property (nonatomic, strong, readwrite, nullable) NSError *authError;
-@property (nonatomic, strong, readwrite, nullable) SFSDKAuthCommand *currentCommand;
-@property (nonatomic,strong,nonnull) NSDictionary *callingAppOptions;
+@property (nonatomic, copy,readwrite) NSString *userHint;
+@property (nonatomic,strong,readwrite,nonnull) NSDictionary *callingAppOptions;
+
 @end
 
 NS_ASSUME_NONNULL_END

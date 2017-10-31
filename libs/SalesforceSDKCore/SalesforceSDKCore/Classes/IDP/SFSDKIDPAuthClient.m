@@ -118,7 +118,6 @@
 - (void)beginIDPInitiatedFlow:(SFSDKIDPInitCommand *)command {
     // If no userHint then show selection dialog else Launch IDP App with the hint
     SFSDKMutableOAuthClientContext *context = [self.context mutableCopy];
-    context.currentCommand = command;
     context.userHint = command.userHint;
     self.context = context;
     [self initiateIDPFlowInSPApp];
@@ -128,7 +127,6 @@
     // Should begin IDP Flow in the IDP App?
     self.config.hideSettingsIcon = YES;
     SFSDKMutableOAuthClientContext *context = [self.context mutableCopy];
-    context.currentCommand = request;
     self.context = context;
     [super refreshCredentials];
 }
