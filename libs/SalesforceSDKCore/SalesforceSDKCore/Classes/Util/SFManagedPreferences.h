@@ -77,6 +77,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) BOOL onlyShowAuthorizedHosts;
 
 /**
+ The idp App's URL Scheme
+ */
+@property (nonatomic,readonly) NSString *idpAppURLScheme;
+/**
  The raw NSDictionary of managed preferences.
  */
 @property (nonatomic, strong, readonly) NSDictionary *rawPreferences;

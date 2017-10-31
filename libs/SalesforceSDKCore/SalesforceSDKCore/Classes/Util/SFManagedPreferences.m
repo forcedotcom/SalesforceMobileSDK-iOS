@@ -42,7 +42,7 @@ static NSString * const kManagedKeyConnectedAppId             = @"ManagedAppOAut
 static NSString * const kManagedKeyConnectedAppCallbackUri    = @"ManagedAppCallbackURL";
 static NSString * const kManagedKeyClearClipboardOnBackground = @"ClearClipboardOnBackground";
 static NSString * const kManagedKeyOnlyShowAuthorizedHosts    = @"OnlyShowAuthorizedHosts";
-
+static NSString * const kManagedKeyIDPAppURLScheme = @"IDPAppURLScheme";
 static NSString * const kSFAppFeatureManagedByMDM   = @"MM";
 static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
 
@@ -109,6 +109,10 @@ static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
 
 - (BOOL)onlyShowAuthorizedHosts {
     return [self.rawPreferences[kManagedKeyOnlyShowAuthorizedHosts] boolValue];
+}
+
+- (NSString *)idpAppURLScheme {
+    return self.rawPreferences[kManagedKeyIDPAppURLScheme];
 }
 
 - (NSArray *)loginHosts {

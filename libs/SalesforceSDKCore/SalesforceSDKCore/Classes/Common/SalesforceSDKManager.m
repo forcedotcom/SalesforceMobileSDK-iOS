@@ -422,6 +422,11 @@ static NSString* ailtnAppName = nil;
     if ([SFManagedPreferences sharedPreferences].connectedAppCallbackUri.length > 0) {
         self.appConfig.oauthRedirectURI = [SFManagedPreferences sharedPreferences].connectedAppCallbackUri;
     }
+    
+    if ([SFManagedPreferences sharedPreferences].idpAppURLScheme) {
+        self.idpEnabled = YES;
+        self.idpAppScheme = [SFManagedPreferences sharedPreferences].idpAppURLScheme;
+    }
 }
 
 - (void)setupServiceConfiguration
