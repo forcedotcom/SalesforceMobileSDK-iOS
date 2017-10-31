@@ -31,22 +31,26 @@
 #import "SFSDKAuthCommand.h"
 
 @interface SFSDKOAuthClientContext()
-@property (nonatomic, strong) SFOAuthCredentials *credentials;
-@property (nonatomic, strong) SFOAuthInfo *authInfo;
-@property (nonatomic, strong) NSError *authError;
-@property (nonatomic, strong) NSDictionary *callingAppOptions;
+@property (nonatomic, strong,readwrite) SFOAuthCredentials *credentials;
+@property (nonatomic, strong,readwrite) SFOAuthInfo *authInfo;
+@property (nonatomic, strong,readwrite) NSError *authError;
+@property (nonatomic, strong,readwrite) NSDictionary *callingAppOptions;
+@property (nonatomic,copy,readwrite) NSString *userHint;
+@property (nonatomic,strong,readwrite) SFSDKAuthCommand *currentCommand;
 @end
 
 @implementation SFSDKOAuthClientContext
 
+- (instancetype)initWithAuthType:(SFOAuthType)oauthType {
+    if (self = [super init]) {
+        self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:oauthType];
+        self.callingAppOptions = [[NSDictionary alloc] initWithDictionary:self.callingAppOptions copyItems:YES];
+    }
+    return self;
+}
+
 - (id)copyWithZone:(NSZone *)zone {
-    SFSDKOAuthClientContext *ctx = [[[self class] allocWithZone:zone] init];
-    ctx.authError = [self.authError copyWithZone:zone];
-    ctx.authInfo = [[SFOAuthInfo allocWithZone:zone] initWithAuthType:self.authInfo.authType];
-    ctx.credentials = [self.credentials copyWithZone:zone];
-    ctx.callingAppOptions = [[NSDictionary alloc] initWithDictionary:self.callingAppOptions copyItems:YES];
-    
-    return ctx;
+    return self;
 }
 
 - (id)mutableCopyWithZone:(NSZone *)zone {
@@ -54,7 +58,7 @@
     ctx.authError = [self.authError copyWithZone:zone];
     ctx.authInfo = [[SFOAuthInfo allocWithZone:zone] initWithAuthType:self.authInfo.authType];
     ctx.credentials = [self.credentials copyWithZone:zone];
-    ctx.currentCommand = [self.currentCommand copy];
+    ctx.userHint = self.userHint;
     ctx.callingAppOptions = [[NSDictionary alloc] initWithDictionary:self.callingAppOptions copyItems:YES];
     return ctx;
 }
@@ -62,20 +66,9 @@
 @end
 
 @implementation SFSDKMutableOAuthClientContext
-
 @dynamic credentials;
 @dynamic authError;
 @dynamic authInfo;
-@dynamic currentCommand;
 @dynamic callingAppOptions;
-
-- (id)mutableCopyWithZone:(NSZone *)zone {
-    SFSDKMutableOAuthClientContext *mutableContext = [[SFSDKMutableOAuthClientContext alloc] init];
-    mutableContext.authError = [self.authError copyWithZone:zone];
-    mutableContext.authInfo =  [[SFOAuthInfo allocWithZone:zone] initWithAuthType:self.authInfo.authType];
-    mutableContext.credentials =  [self.credentials copyWithZone:zone];
-    mutableContext.currentCommand = [self.currentCommand copy];
-    mutableContext.callingAppOptions = [[NSDictionary alloc] initWithDictionary:self.callingAppOptions copyItems:YES];
-    return mutableContext;
-}
+@dynamic userHint;
 @end
