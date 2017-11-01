@@ -31,6 +31,7 @@
 // Nav bar
 static CGFloat      const kStatusBarHeight       = 20.0;
 static CGFloat      const kNavBarHeight          = 44.0;
+static CGFloat      const kNavBarTitleFontSize   = 27.0;
 // Resource keys
 static NSString * const kDevInfoTitleKey = @"devInfoTitle";
 static NSString * const kDevInfoBackButtonTitleKey = @"devInfoBackButtonTitle";
@@ -89,6 +90,9 @@ static NSString * const kDevInfoOKKey = @"devInfoOKKey";
 {
     [super loadView];
 
+    // Background color
+    self.view.backgroundColor = [UIColor salesforceBlueColor];
+
     // Nav bar
     self.navBar = [self createNavBar];
 
@@ -105,9 +109,10 @@ static NSString * const kDevInfoOKKey = @"devInfoOKKey";
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:[SFSDKResourceUtils localizedString:kDevInfoBackButtonTitleKey] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonClicked)];
     [navItem setLeftBarButtonItem:backItem];
     [navBar setItems:@[navItem] animated:YES];
+    navBar.translucent = NO;
     navBar.barTintColor = [UIColor salesforceBlueColor];
     navBar.tintColor = [UIColor whiteColor];
-    navBar.titleTextAttributes = [NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
+    navBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName:[UIFont systemFontOfSize:kNavBarTitleFontSize]};
     [self.view addSubview:navBar];
     return navBar;
 }
