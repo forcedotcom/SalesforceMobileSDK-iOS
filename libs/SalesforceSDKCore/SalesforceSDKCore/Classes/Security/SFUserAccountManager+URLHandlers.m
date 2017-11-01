@@ -63,14 +63,10 @@
         client = [self fetchOAuthClient:creds completion:nil failure:nil];
         
     }
-    __weak typeof (self) weakSelf = self;
     SFSDKAlertMessage *messageObject = [SFSDKAlertMessage messageWithBlock:^(SFSDKAlertMessageBuilder *builder) {
         builder.actionOneTitle = [SFSDKResourceUtils localizedString:@"authAlertOkButton"];
         builder.alertTitle = @"";
         builder.alertMessage = command.errorReason;
-        builder.actionOneCompletion = ^{
-            [weakSelf disposeOAuthClient:client];
-        };
     }];
    
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -94,6 +90,10 @@
     }
     SFOAuthCredentials *creds = [[SFUserAccountManager sharedInstance] newClientCredentials];
     SFSDKIDPAuthClient *client = [self fetchIDPAuthClient:creds completion:nil failure:nil];
+    client.config.isIDPInitiatedFlow = YES;
+    if (command.domain) {
+        client.config.loginHost = command.domain;
+    }
     [client beginIDPInitiatedFlow:command];
     return YES;
 }
@@ -145,6 +145,9 @@
 {
     NSString *key = [SFSDKOAuthClientCache keyFromIdentifierPrefixWithType:response.state type:SFOAuthClientKeyTypeIDP];
     SFSDKOAuthClient *client =  [[SFSDKOAuthClientCache sharedInstance] clientForKey:key];
+    
+    if (response.domain)
+        client.credentials.domain = response.domain;
     
     NSDictionary *userInfo = @{
                                kSFNotificationUserInfoCredentialsKey : client.credentials,

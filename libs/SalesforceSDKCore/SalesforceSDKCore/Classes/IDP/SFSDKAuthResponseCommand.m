@@ -48,6 +48,14 @@
     [self setParamForKey:authCode key:kSFCodeParam];
 }
 
+- (NSString *)domain {
+    return [self paramForKey:kSFLoginHostParam];
+}
+
+- (void)setDomain:(NSString *)domain {
+    [self setParamForKey:domain key:kSFLoginHostParam];
+}
+
 - (NSString *)command {
     return @"authresponse";
 }

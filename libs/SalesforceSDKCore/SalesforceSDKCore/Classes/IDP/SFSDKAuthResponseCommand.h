@@ -34,4 +34,6 @@
 
 @property (nonatomic,copy) NSString *authCode;
 
+@property (nonatomic,copy) NSString *domain;
+
 @end

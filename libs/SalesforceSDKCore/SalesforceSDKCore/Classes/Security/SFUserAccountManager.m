@@ -59,7 +59,7 @@
 #import "SFSDKAlertMessageBuilder.h"
 #import "SFSDKAlertMessage.h"
 #import "SFSDKWindowContainer.h"
-
+#import "SFSDKIDPConstants.h"
 // Notifications
 NSString * const SFUserAccountManagerDidChangeUserNotification       = @"SFUserAccountManagerDidChangeUserNotification";
 NSString * const SFUserAccountManagerDidChangeUserDataNotification   = @"SFUserAccountManagerDidChangeUserDataNotification";
@@ -488,6 +488,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 -(void)loginFlowSelectionIDPSelected:(UIViewController *)controller options:(NSDictionary *)appOptions {
     NSString *key = [appOptions objectForKey:kOptionsClientKey];
     SFSDKIDPAuthClient *client = (SFSDKIDPAuthClient *)[[SFSDKOAuthClientCache sharedInstance] clientForKey:key];
+    client.config.loginHost = self.loginHost;
     [client initiateIDPFlowInSPApp];
 }
 
@@ -499,10 +500,14 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 
 #pragma mark - SFSDKUserSelectionViewDelegate
 - (void)createNewUser:(NSDictionary *)spAppOptions{
+    // bootstrap idp apps credentials
     SFOAuthCredentials *credentials = [self newClientCredentials];
     SFSDKIDPAuthClient *newClient = [self fetchIDPAuthClient:credentials
                                                   completion:nil
                                                      failure:nil];
+    if (spAppOptions[kSFLoginHostParam]) {
+        newClient.config.loginHost = spAppOptions[kSFLoginHostParam];
+    }
     
     [newClient setCallingAppOptionsInContext:spAppOptions];
     [newClient beginIDPFlowForNewUser];
