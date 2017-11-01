@@ -25,7 +25,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "SalesforceSDKCoreDefines.h"
-
+#import "SalesforceSDKConstants.h"
 @class SFUserAccount, SFSDKAppConfig;
 
 /**
