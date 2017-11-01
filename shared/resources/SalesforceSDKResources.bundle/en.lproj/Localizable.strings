@@ -88,7 +88,7 @@
 "hybridBootstrapNoCredentialsAtStartup" = "Your app specifies authentication at startup, but there are no credentials.  Did you run [[SalesforceSDKManager sharedManager] launch]?";
 
 // SmartStore Inspector
-"inspectorTitle" = "Inspector";
+"inspectorTitle" = "Inspect SmartStore";
 "inspectorBackButtonTitle" = "Back";
 "inspectorRunButtonTitle" = "Run";
 "inspectorPageSizeHint" = "Page size (default: 10)";

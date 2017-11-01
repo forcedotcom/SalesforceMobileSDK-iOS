@@ -26,15 +26,17 @@
 #import "SFSDKDevInfoViewController.h"
 #import "SalesforceSDKManager.h"
 #import "SFSDKResourceUtils.h"
+#import "UIColor+SFColors.h"
 
 // Nav bar
+static CGFloat      const kStatusBarHeight       = 20.0;
 static CGFloat      const kNavBarHeight          = 44.0;
 // Results
-static CGFloat      const kResultGridBorderWidth = 1.0;
 static NSString *   const kResultTextFontName    = @"Courier";
 static CGFloat      const kResultTextFontSize    = 18.0;
 static CGFloat      const kResultCellHeight      = 44.0;
-static CGFloat      const kResultCellBorderWidth = 1.0;
+static CGFloat      const kResultLineSpacing     = 1.0;
+static CGFloat      const kResultCellPadding     = 2.0;
 static NSString *   const kCellIndentifier       = @"cellIdentifier";
 static NSUInteger   const kLabelTag              = 99;
 // Resource keys
@@ -97,11 +99,6 @@ static NSString * const kDevInfoOKKey = @"devInfoOKKey";
 
 #pragma mark - View layout
 
-- (BOOL)prefersStatusBarHidden
-{
-    return YES;
-}
-
 - (void)loadView
 {
     [super loadView];
@@ -122,6 +119,9 @@ static NSString * const kDevInfoOKKey = @"devInfoOKKey";
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:[SFSDKResourceUtils localizedString:kDevInfoBackButtonTitleKey] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonClicked)];
     [navItem setLeftBarButtonItem:backItem];
     [navBar setItems:@[navItem] animated:YES];
+    navBar.barTintColor = [UIColor salesforceBlueColor];
+    navBar.tintColor = [UIColor whiteColor];
+    navBar.titleTextAttributes = [NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
     [self.view addSubview:navBar];
     return navBar;
 }
@@ -131,12 +131,10 @@ static NSString * const kDevInfoOKKey = @"devInfoOKKey";
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     UICollectionView* gridView= [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
     layout.minimumInteritemSpacing = 0;
-    layout.minimumLineSpacing = 0;
+    layout.minimumLineSpacing = 8;
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-    gridView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    gridView.layer.borderWidth = kResultGridBorderWidth;
+    gridView.backgroundColor = [UIColor lightGrayColor];
     [gridView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:kCellIndentifier];
-    [gridView setBackgroundColor:[UIColor whiteColor]];
     [gridView setDataSource:self];
     [gridView setDelegate:self];
     [self.view addSubview:gridView];
@@ -174,7 +172,7 @@ static NSString * const kDevInfoOKKey = @"devInfoOKKey";
 - (void) layoutNavBar
 {
     CGFloat x = 0;
-    CGFloat y = 0;
+    CGFloat y = kStatusBarHeight;
     CGFloat w = self.view.bounds.size.width;
     CGFloat h = kNavBarHeight;
     self.navBar.frame = CGRectMake(x, y, w, h);
@@ -226,12 +224,13 @@ static NSString * const kDevInfoOKKey = @"devInfoOKKey";
 
 -(UILabel *)cellViewWithIndexPath:(NSIndexPath*) indexPath
 {
+    CGFloat x = kResultCellPadding;
+    CGFloat y = 0;
     CGFloat w = [self cellWidthWithIndexPath:indexPath];
-    CGFloat h = [self cellHeightWithIndexPath:indexPath];
-    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(0,0,w,h)];
+    CGFloat h = [self cellHeightWithIndexPath:indexPath] - kResultLineSpacing;
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(x,y,w,h)];
     title.textColor = [UIColor blackColor];
-    title.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    title.layer.borderWidth = kResultCellBorderWidth;
+    title.backgroundColor = [UIColor whiteColor];
     title.font = [UIFont fontWithName:kResultTextFontName size:kResultTextFontSize];
     title.textAlignment = NSTextAlignmentLeft;
     title.numberOfLines = 0;

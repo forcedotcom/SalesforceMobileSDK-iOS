@@ -31,8 +31,10 @@
 #import "SFQuerySpec.h"
 #import <SalesforceSDKCore/SFJsonUtils.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
+#import <SalesforceSDKCore/UIColor+SFColors.h>
 
 // Nav bar
+static CGFloat      const kStatusBarHeight          = 20.0;
 static CGFloat      const kNavBarHeight          = 44.0;
 // Store picker
 static CGFloat      const kStorePickerHeight     = 44.0;
@@ -278,11 +280,6 @@ static NSString * const kInspectorPickerDefault = @"default";
 
 #pragma mark - View layout
 
-- (BOOL)prefersStatusBarHidden
-{
-    return YES;
-}
-
 - (void)loadView
 {
     [super loadView];
@@ -325,6 +322,9 @@ static NSString * const kInspectorPickerDefault = @"default";
     [navItem setLeftBarButtonItem:backItem];
     [navItem setRightBarButtonItem:runItem];
     [navBar setItems:@[navItem] animated:YES];
+    navBar.barTintColor = [UIColor salesforceBlueColor];
+    navBar.tintColor = [UIColor whiteColor];
+    navBar.titleTextAttributes = [NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
     [self.view addSubview:navBar];
     return navBar;
 }
@@ -446,7 +446,7 @@ static NSString * const kInspectorPickerDefault = @"default";
 - (void) layoutNavBar
 {
     CGFloat x = 0;
-    CGFloat y = 0;
+    CGFloat y = kStatusBarHeight;
     CGFloat w = self.view.bounds.size.width;
     CGFloat h = kNavBarHeight;
     self.navBar.frame = CGRectMake(x, y, w, h);
