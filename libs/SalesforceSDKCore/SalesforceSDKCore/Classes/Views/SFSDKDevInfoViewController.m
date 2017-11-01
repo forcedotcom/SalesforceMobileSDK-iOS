@@ -23,7 +23,7 @@
  */
 
 
-#import "SFSDKDevInfoController.h"
+#import "SFSDKDevInfoViewController.h"
 #import "SalesforceSDKManager.h"
 #import "SFSDKResourceUtils.h"
 
@@ -42,14 +42,14 @@ static NSString * const kDevInfoTitleKey = @"devInfoTitle";
 static NSString * const kDevInfoBackButtonTitleKey = @"devInfoBackButtonTitle";
 static NSString * const kDevInfoOKKey = @"devInfoOKKey";
 
-@interface SFSDKDevInfoController () <UINavigationBarDelegate>
+@interface SFSDKDevInfoViewController () <UINavigationBarDelegate>
 
 @property (nonatomic, strong) UINavigationBar *navBar;
 @property (nonatomic, strong) UICollectionView *resultGrid;
 
 @end
 
-@implementation SFSDKDevInfoController
+@implementation SFSDKDevInfoViewController
 
 #pragma mark - Constructor
 

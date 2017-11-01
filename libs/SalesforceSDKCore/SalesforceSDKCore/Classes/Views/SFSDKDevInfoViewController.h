@@ -25,7 +25,7 @@
 
 #import <Foundation/Foundation.h>
 NS_ASSUME_NONNULL_BEGIN
-@interface SFSDKDevInfoController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITextViewDelegate>
+@interface SFSDKDevInfoViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITextViewDelegate>
 
 @property (nonatomic, strong) NSArray *infoRows;
 

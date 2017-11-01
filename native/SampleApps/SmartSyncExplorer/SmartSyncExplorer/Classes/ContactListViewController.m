@@ -26,16 +26,9 @@
 #import "ActionsPopupController.h"
 #import "ContactDetailViewController.h"
 #import "WYPopoverController.h"
-#import <SmartSyncExplorerCommon/SObjectDataManager.h>
-#import <SmartSyncExplorerCommon/ContactSObjectDataSpec.h>
-#import <SmartSyncExplorerCommon/ContactSObjectData.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
-#import <SmartStore/SFSmartStoreInspectorViewController.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFSecurityLockout.h>
-#import <SmartSync/SFSmartSyncSyncManager.h>
-#import <SmartSync/SFSyncState.h>
-#import <SalesforceSDKCore/SFSDKDevInfoController.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
 
 static NSString * const kNavBarTitleText                = @"Contacts";

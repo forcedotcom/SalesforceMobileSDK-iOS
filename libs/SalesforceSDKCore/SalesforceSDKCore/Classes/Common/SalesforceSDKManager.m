@@ -32,7 +32,7 @@
 #import "SFApplicationHelper.h"
 #import "SFSwiftDetectUtil.h"
 #import "SFSDKAppFeatureMarkers.h"
-#import "SFSDKDevInfoController.h"
+#import "SFSDKDevInfoViewController.h"
 #import "SFDefaultUserManagementViewController.h"
 
 static NSString * const kSFAppFeatureSwiftApp   = @"SW";
@@ -400,7 +400,7 @@ static NSString* ailtnAppName = nil;
 {
     return @[
             @"Show dev info", ^{
-                SFSDKDevInfoController *devInfo = [[SFSDKDevInfoController alloc] init];
+                SFSDKDevInfoViewController *devInfo = [[SFSDKDevInfoViewController alloc] init];
                 [presentedViewController presentViewController:devInfo animated:NO completion:nil];
             },
             @"Logout", ^{
