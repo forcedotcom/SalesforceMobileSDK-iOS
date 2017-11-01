@@ -415,7 +415,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     }
 
     ActionsPopupController *popoverContent = [[ActionsPopupController alloc] initWithAppViewController:self];
-    popoverContent.preferredContentSize = CGSizeMake(260,130);
+    popoverContent.preferredContentSize = CGSizeMake(260,180);
     self.popOverController = [[WYPopoverController alloc] initWithContentViewController:popoverContent];
 
 
