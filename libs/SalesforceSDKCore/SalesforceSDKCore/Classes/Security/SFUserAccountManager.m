@@ -59,7 +59,7 @@
 #import "SFSDKAlertMessageBuilder.h"
 #import "SFSDKAlertMessage.h"
 #import "SFSDKWindowContainer.h"
-
+#import "SFSDKIDPConstants.h"
 // Notifications
 NSString * const SFUserAccountManagerDidChangeUserNotification       = @"SFUserAccountManagerDidChangeUserNotification";
 NSString * const SFUserAccountManagerDidChangeUserDataNotification   = @"SFUserAccountManagerDidChangeUserDataNotification";
