@@ -26,16 +26,9 @@
 #import "ActionsPopupController.h"
 #import "ContactDetailViewController.h"
 #import "WYPopoverController.h"
-#import <SmartSyncExplorerCommon/SObjectDataManager.h>
-#import <SmartSyncExplorerCommon/ContactSObjectDataSpec.h>
-#import <SmartSyncExplorerCommon/ContactSObjectData.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
-#import <SmartStore/SFSmartStoreInspectorViewController.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFSecurityLockout.h>
-#import <SmartSync/SFSmartSyncSyncManager.h>
-#import <SmartSync/SFSyncState.h>
-#import <SalesforceSDKCore/SFSDKDevInfoController.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
 
 static NSString * const kNavBarTitleText                = @"Contacts";
@@ -422,7 +415,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     }
 
     ActionsPopupController *popoverContent = [[ActionsPopupController alloc] initWithAppViewController:self];
-    popoverContent.preferredContentSize = CGSizeMake(260,130);
+    popoverContent.preferredContentSize = CGSizeMake(260,180);
     self.popOverController = [[WYPopoverController alloc] initWithContentViewController:popoverContent];
 
 

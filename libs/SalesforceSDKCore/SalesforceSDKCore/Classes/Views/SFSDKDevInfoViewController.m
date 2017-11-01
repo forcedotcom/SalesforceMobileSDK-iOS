@@ -23,33 +23,30 @@
  */
 
 
-#import "SFSDKDevInfoController.h"
+#import "SFSDKDevInfoViewController.h"
 #import "SalesforceSDKManager.h"
 #import "SFSDKResourceUtils.h"
+#import "UIColor+SFColors.h"
 
 // Nav bar
+static CGFloat      const kStatusBarHeight       = 20.0;
 static CGFloat      const kNavBarHeight          = 44.0;
-// Results
-static CGFloat      const kResultGridBorderWidth = 1.0;
-static NSString *   const kResultTextFontName    = @"Courier";
-static CGFloat      const kResultTextFontSize    = 18.0;
-static CGFloat      const kResultCellHeight      = 44.0;
-static CGFloat      const kResultCellBorderWidth = 1.0;
-static NSString *   const kCellIndentifier       = @"cellIdentifier";
-static NSUInteger   const kLabelTag              = 99;
+static CGFloat      const kNavBarTitleFontSize   = 27.0;
 // Resource keys
 static NSString * const kDevInfoTitleKey = @"devInfoTitle";
 static NSString * const kDevInfoBackButtonTitleKey = @"devInfoBackButtonTitle";
 static NSString * const kDevInfoOKKey = @"devInfoOKKey";
 
-@interface SFSDKDevInfoController () <UINavigationBarDelegate>
+@interface SFSDKDevInfoViewController () <UINavigationBarDelegate>
 
 @property (nonatomic, strong) UINavigationBar *navBar;
-@property (nonatomic, strong) UICollectionView *resultGrid;
+@property (nonatomic, strong) UITableView *infoTable;
+@property (nonatomic, strong) NSArray *infoData;
+
 
 @end
 
-@implementation SFSDKDevInfoController
+@implementation SFSDKDevInfoViewController
 
 #pragma mark - Constructor
 
@@ -57,20 +54,12 @@ static NSString * const kDevInfoOKKey = @"devInfoOKKey";
 {
     self = [super init];
     if (self) {
-        self.infoRows = [self prepareListData:[[SalesforceSDKManager sharedManager] getDevSupportInfos]];
+        self.infoData = [[SalesforceSDKManager sharedManager] getDevSupportInfos];
     }
     return self;
 }
 
 #pragma mark - View lifecycle
-
-- (NSArray *)prepareListData:(NSArray *)rawData {
-    NSMutableArray* listData = [NSMutableArray new];
-    for (int i=0; i<rawData.count; i+=2) {
-        [listData addObject:@[rawData[i],rawData[i+1]]];
-    }
-    return listData;
-}
 
 #pragma mark - Actions handlers
 
@@ -97,20 +86,18 @@ static NSString * const kDevInfoOKKey = @"devInfoOKKey";
 
 #pragma mark - View layout
 
-- (BOOL)prefersStatusBarHidden
-{
-    return YES;
-}
-
 - (void)loadView
 {
     [super loadView];
+
+    // Background color
+    self.view.backgroundColor = [UIColor salesforceBlueColor];
 
     // Nav bar
     self.navBar = [self createNavBar];
 
     // Table view
-    self.resultGrid = [self createGridView];
+    self.infoTable = [self createTableView];
 
 }
 
@@ -122,25 +109,22 @@ static NSString * const kDevInfoOKKey = @"devInfoOKKey";
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:[SFSDKResourceUtils localizedString:kDevInfoBackButtonTitleKey] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonClicked)];
     [navItem setLeftBarButtonItem:backItem];
     [navBar setItems:@[navItem] animated:YES];
+    navBar.translucent = NO;
+    navBar.barTintColor = [UIColor salesforceBlueColor];
+    navBar.tintColor = [UIColor whiteColor];
+    navBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName:[UIFont systemFontOfSize:kNavBarTitleFontSize]};
     [self.view addSubview:navBar];
     return navBar;
 }
 
-- (UICollectionView*) createGridView
+- (UICollectionView*) createTableView
 {
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    UICollectionView* gridView= [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
-    layout.minimumInteritemSpacing = 0;
-    layout.minimumLineSpacing = 0;
-    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-    gridView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    gridView.layer.borderWidth = kResultGridBorderWidth;
-    [gridView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:kCellIndentifier];
-    [gridView setBackgroundColor:[UIColor whiteColor]];
-    [gridView setDataSource:self];
-    [gridView setDelegate:self];
-    [self.view addSubview:gridView];
-    return gridView;
+    UITableView *infoTable = [[UITableView alloc] initWithFrame:CGRectZero];
+    infoTable.backgroundColor = [UIColor lightGrayColor];
+    [infoTable setDataSource:self];
+    [infoTable setDelegate:self];
+    [self.view addSubview:infoTable];
+    return infoTable;
 }
 
 - (void)viewDidLoad
@@ -158,8 +142,7 @@ static NSString * const kDevInfoOKKey = @"devInfoOKKey";
 - (void)layoutSubviews
 {
     [self layoutNavBar];
-    [self layoutResultGrid];
-    [self.resultGrid reloadData];
+    [self layoutTableView];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -174,79 +157,53 @@ static NSString * const kDevInfoOKKey = @"devInfoOKKey";
 - (void) layoutNavBar
 {
     CGFloat x = 0;
-    CGFloat y = 0;
+    CGFloat y = kStatusBarHeight;
     CGFloat w = self.view.bounds.size.width;
     CGFloat h = kNavBarHeight;
     self.navBar.frame = CGRectMake(x, y, w, h);
 }
 
-- (void) layoutResultGrid
+- (void) layoutTableView
 {
     CGFloat x = 0;
     CGFloat y = [self belowFrame:self.navBar.frame];
     CGFloat w = self.view.bounds.size.width;
     CGFloat h = self.view.bounds.size.height - y;
-    self.resultGrid.frame = CGRectMake(x, y, w, h);
+    self.infoTable.frame = CGRectMake(x, y, w, h);
 }
 
-#pragma mark - Collection view delegate
+#pragma mark - Table view data source
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    [self showAlert:self.infoRows[indexPath.section][indexPath.item] title:nil];
+    return 1;
 }
 
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    UICollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:kCellIndentifier forIndexPath:indexPath];
-    UILabel* labelView = [self cellViewWithIndexPath:indexPath];
-    labelView.tag = kLabelTag;
-    [[cell.contentView viewWithTag:kLabelTag] removeFromSuperview];
-    [cell.contentView addSubview:labelView];
+    return self.infoData.count / 2;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"Cell";
+
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+    }
+
+    cell.textLabel.text = self.infoData[indexPath.row * 2];
+    cell.detailTextLabel.text = self.infoData[indexPath.row * 2 + 1];
     return cell;
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+#pragma mark - Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGFloat w = [self cellWidthWithIndexPath:indexPath];
-    CGFloat h = [self cellHeightWithIndexPath:indexPath];
-    return CGSizeMake(w, h);
+    [self showAlert:self.infoData[indexPath.row * 2 + 1] title:nil];
 }
 
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
-{
-    return self.infoRows.count;
-}
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-{
-    return 2;
-}
-
--(UILabel *)cellViewWithIndexPath:(NSIndexPath*) indexPath
-{
-    CGFloat w = [self cellWidthWithIndexPath:indexPath];
-    CGFloat h = [self cellHeightWithIndexPath:indexPath];
-    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(0,0,w,h)];
-    title.textColor = [UIColor blackColor];
-    title.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    title.layer.borderWidth = kResultCellBorderWidth;
-    title.font = [UIFont fontWithName:kResultTextFontName size:kResultTextFontSize];
-    title.textAlignment = NSTextAlignmentLeft;
-    title.numberOfLines = 0;
-    title.text = self.infoRows[indexPath.section][indexPath.item];
-    return title;
-}
-
-- (CGFloat) cellWidthWithIndexPath:(NSIndexPath*) indexPath
-{
-    return self.resultGrid.frame.size.width * (indexPath.item == 0 ? 1 : 3) / 4;
-}
-
-- (CGFloat) cellHeightWithIndexPath:(NSIndexPath*) indexPath
-{
-    return kResultCellHeight;
-}
 
 @end
