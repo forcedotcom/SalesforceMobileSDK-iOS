@@ -264,6 +264,10 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
  */
 @property (nonatomic,assign) BOOL useLegacyAuthenticationManager;
 
+/** Use this flag to indicate if the dev support dialog should be enabled in the APP
+ */
+@property (nonatomic, assign) BOOL isDevSupportEnabled;
+
 /**
  Launches the SDK.  This will verify an existing passcode the first time it runs, and attempt to
  authenticate if the current user is not already authenticated.  @see postLaunchAction, launchErrorAction,
@@ -295,6 +299,18 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
  @return A log-friendly string of the launch actions that were taken, given in postLaunchAction.
  */
 + (NSString *)launchActionsStringRepresentation:(SFSDKLaunchAction)launchActions;
+
+/**
+ * Show dev support dialog
+ * @param presentedViewController
+ */
+- (void)showDevSupportDialog:(UIViewController *)presentedViewController;
+
+/**
+ * @param presentedViewController
+ * @return Dev actions (list of title1, handler1, title2, handler2 etc) to show in dev support dialog
+ */
+- (NSArray *)getDevActions:(UIViewController *)presentedViewController;
 
 /**
  * @return Dev info (list of name1, value1, name2, value2 etc) to show in SFSDKDevInfoController

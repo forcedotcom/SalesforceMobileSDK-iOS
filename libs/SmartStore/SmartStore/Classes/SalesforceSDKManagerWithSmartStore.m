@@ -26,6 +26,8 @@
 #import "SFSmartStore.h"
 #import "SalesforceSDKManagerWithSmartStore.h"
 #import "SFSDKStoreConfig.h"
+#import "SFSmartStoreInspectorViewController.h"
+
 SFSDK_USE_DEPRECATED_BEGIN
 @interface SalesforceSDKManager()<SFAuthenticationManagerDelegate>
 @end
@@ -65,6 +67,21 @@ SFSDK_USE_DEPRECATED_BEGIN
 - (void) setupStoreFromConfig:(NSString*)path store:(SFSmartStore *)store {
     SFSDKStoreConfig* storeConfig = [[SFSDKStoreConfig alloc] initWithResourceAtPath:path];
     [storeConfig registerSoups:store];
+}
+
+#pragma mark - Dev support methods
+
+-(NSArray*) getDevActions:(UIViewController *)presentedViewController
+{
+    NSMutableArray * devActions = [NSMutableArray arrayWithArray:[super getDevActions:presentedViewController]];
+    [devActions addObjectsFromArray:@[
+            @"Inspect SmartStore", ^{
+                SFSmartStore* store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName user:[SFUserAccountManager sharedInstance].currentUser];
+                SFSmartStoreInspectorViewController *devInfo = [[SFSmartStoreInspectorViewController alloc] initWithStore:store];
+                [presentedViewController presentViewController:devInfo animated:NO completion:nil];
+            }
+    ]];
+    return devActions;
 }
 
 - (NSArray*) getDevSupportInfos
