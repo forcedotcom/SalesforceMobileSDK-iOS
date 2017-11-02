@@ -22,6 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <objc/runtime.h>
 #import "SalesforceSDKManager+Internal.h"
 #import "SFAuthenticationManager+Internal.h"
 #import "SFSDKWindowManager.h"
@@ -50,6 +51,21 @@ static Class InstanceClass = nil;
 
 // AILTN app name
 static NSString* ailtnAppName = nil;
+
+// Dev support
+static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNotification";
+
+@implementation UIWindow (SalesforceSDKManager)
+
+- (void)sfsdk_motionEnded:(__unused UIEventSubtype)motion withEvent:(UIEvent *)event
+{
+    if (event.subtype == UIEventSubtypeMotionShake) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:SFSDKShowDevDialogNotification object:nil];
+    }
+}
+
+@end
+
 @implementation SnapshotViewController
 
 - (void)viewDidLoad {
@@ -96,6 +112,10 @@ static NSString* ailtnAppName = nil;
 + (void)initialize {
     if (self == [SalesforceSDKManager class]) {
 
+        // For dev support
+#ifdef DEBUG
+        method_exchangeImplementations(class_getInstanceMethod([UIWindow class], @selector(motionEnded:withEvent:)), class_getInstanceMethod([UIWindow class], @selector(sfsdk_motionEnded:withEvent:)));
+#endif
         /*
          * Checks if an analytics app name has already been set by the app.
          * If not, fetches the default app name to be used and sets it.
@@ -365,6 +385,27 @@ static NSString* ailtnAppName = nil;
 
 #pragma mark - Dev support methods
 
+- (void)setIsDevSupportEnabled:(BOOL)isDevSupportEnabled {
+    _isDevSupportEnabled = isDevSupportEnabled;
+    if (self.isDevSupportEnabled) {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(showDevSupportDialog)
+                                                     name:SFSDKShowDevDialogNotification
+                                                   object:nil];
+    }
+    else {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:SFSDKShowDevDialogNotification object:nil];
+    }
+}
+
+- (void)showDevSupportDialog
+{
+    if ([self isDevSupportEnabled]) {
+        [self showDevSupportDialog:[self topViewController]];
+    }
+}
+
+
 - (void) showDevSupportDialog:(UIViewController *)presentedViewController
 {
     // Do nothing if dev support is not enabled or dialog is already being shown
@@ -435,6 +476,35 @@ static NSString* ailtnAppName = nil;
     return [usernames componentsJoinedByString:@", "];
 }
 
+- (UIViewController*)topViewController {
+    return [self topViewControllerWithRootViewController:[SFSDKWindowManager sharedManager].mainWindow.window.rootViewController];
+}
+
+- (UIViewController*)topViewControllerWithRootViewController:(UIViewController*)viewController {
+    if ([viewController isKindOfClass:[UITabBarController class]]) {
+        UITabBarController* tabBarController = (UITabBarController*)viewController;
+        return [self topViewControllerWithRootViewController:tabBarController.selectedViewController];
+    } else if ([viewController isKindOfClass:[UINavigationController class]]) {
+        UINavigationController* navContObj = (UINavigationController*)viewController;
+        return [self topViewControllerWithRootViewController:navContObj.visibleViewController];
+    } else if (viewController.presentedViewController && !viewController.presentedViewController.isBeingDismissed) {
+        UIViewController* presentedViewController = viewController.presentedViewController;
+        return [self topViewControllerWithRootViewController:presentedViewController];
+    }
+    else {
+        for (UIView *view in [viewController.view subviews])
+        {
+            id subViewController = [view nextResponder];
+            if ( subViewController && [subViewController isKindOfClass:[UIViewController class]])
+            {
+                if ([(UIViewController *)subViewController presentedViewController]  && ![subViewController presentedViewController].isBeingDismissed) {
+                    return [self topViewControllerWithRootViewController:[(UIViewController *)subViewController presentedViewController]];
+                }
+            }
+        }
+        return viewController;
+    }
+}
 
 #pragma mark - Private methods
 
