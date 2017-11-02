@@ -132,77 +132,77 @@ static NSMutableDictionary<NSString *, SFSDKLogger *> *loggerList = nil;
     [self.logger addLogger:self.fileLogger withLevel:logLevel];
 }
 
-- (void)e:(Class)class format:(NSString *)format, ... {
+- (void)e:(Class)cls format:(NSString *)format, ... {
     va_list args;
     va_start(args, format);
-    [self log:class level:DDLogLevelError format:format args:args];
+    [self log:cls level:DDLogLevelError format:format args:args];
     va_end(args);
 }
 
-- (void)e:(Class)class message:(NSString *)message {
-    [self log:class level:DDLogLevelError message:message];
+- (void)e:(Class)cls message:(NSString *)message {
+    [self log:cls level:DDLogLevelError message:message];
 }
 
-- (void)w:(Class)class format:(NSString *)format, ... {
+- (void)w:(Class)cls format:(NSString *)format, ... {
     va_list args;
     va_start(args, format);
-    [self log:class level:DDLogLevelWarning format:format args:args];
+    [self log:cls level:DDLogLevelWarning format:format args:args];
     va_end(args);
 }
 
-- (void)w:(Class)class message:(NSString *)message {
+- (void)w:(Class)cls message:(NSString *)message {
     [self log:class level:DDLogLevelWarning message:message];
 }
 
-- (void)i:(Class)class format:(NSString *)format, ... {
+- (void)i:(Class)cls format:(NSString *)format, ... {
     va_list args;
     va_start(args, format);
-    [self log:class level:DDLogLevelInfo format:format args:args];
+    [self log:cls level:DDLogLevelInfo format:format args:args];
     va_end(args);
 }
 
-- (void)i:(Class)class message:(NSString *)message {
-    [self log:class level:DDLogLevelInfo message:message];
+- (void)i:(Class)cls message:(NSString *)message {
+    [self log:cls level:DDLogLevelInfo message:message];
 }
 
-- (void)v:(Class)class format:(NSString *)format, ... {
+- (void)v:(Class)cls format:(NSString *)format, ... {
     va_list args;
     va_start(args, format);
-    [self log:class level:DDLogLevelVerbose format:format args:args];
+    [self log:cls level:DDLogLevelVerbose format:format args:args];
     va_end(args);
 }
 
-- (void)v:(Class)class message:(NSString *)message {
-    [self log:class level:DDLogLevelVerbose message:message];
+- (void)v:(Class)cls message:(NSString *)message {
+    [self log:cls level:DDLogLevelVerbose message:message];
 }
 
-- (void)d:(Class)class format:(NSString *)format, ... {
+- (void)d:(Class)cls format:(NSString *)format, ... {
     va_list args;
     va_start(args, format);
-    [self log:class level:DDLogLevelDebug format:format args:args];
+    [self log:cls level:DDLogLevelDebug format:format args:args];
     va_end(args);
 }
 
-- (void)d:(Class)class message:(NSString *)message {
-    [self log:class level:DDLogLevelDebug message:message];
+- (void)d:(Class)cls message:(NSString *)message {
+    [self log:cls level:DDLogLevelDebug message:message];
 }
 
-- (void)log:(Class)class level:(DDLogLevel)level message:(NSString *)message {
-    NSString *tag = [NSString stringWithFormat:kLogIdentifierFormat, self.componentName, class];
+- (void)log:(Class)cls level:(DDLogLevel)level message:(NSString *)message {
+    NSString *tag = [NSString stringWithFormat:kLogIdentifierFormat, self.componentName, cls];
     DDLogMessage *logMessage = [[DDLogMessage alloc] initWithMessage:message level:level flag:DDLogFlagForLogLevel(level) context:0 file:nil function:nil line:0 tag:tag options:0 timestamp:[NSDate date]];
     [self.logger log:YES message:logMessage];
 }
 
-- (void)log:(Class)class level:(DDLogLevel)level format:(NSString *)format, ... {
+- (void)log:(Class)cls level:(DDLogLevel)level format:(NSString *)format, ... {
     va_list args;
     va_start(args, format);
-    [self log:class level:level format:format args:args];
+    [self log:cls level:level format:format args:args];
     va_end(args);
 }
 
-- (void)log:(Class)class level:(DDLogLevel)level format:(NSString *)format args:(va_list)args {
+- (void)log:(Class)cls level:(DDLogLevel)level format:(NSString *)format args:(va_list)args {
     NSString *formattedMessage = [[NSString alloc] initWithFormat:format arguments:args];
-    [self log:class level:level message:formattedMessage];
+    [self log:cls level:level message:formattedMessage];
 }
 
 - (void)storeFileLoggingPolicy:(BOOL)enabled {
@@ -275,70 +275,70 @@ static inline DDLogFlag DDLogFlagForLogLevel(DDLogLevel level) {
     ((SFSDKLogger *)[self sharedInstance]).logLevel = logLevel;
 }
 
-+ (void)e:(Class)class format:(NSString *)format, ... {
++ (void)e:(Class)cls format:(NSString *)format, ... {
     va_list args;
     va_start(args, format);
-    [[self sharedInstance] log:class level:DDLogLevelError format:format args:args];
+    [[self sharedInstance] log:cls level:DDLogLevelError format:format args:args];
     va_end(args);
 }
 
-+ (void)e:(Class)class message:(NSString *)message {
++ (void)e:(Class)cls message:(NSString *)message {
     [[self sharedInstance] log:class level:DDLogLevelError message:message];
 }
 
-+ (void)w:(Class)class format:(NSString *)format, ... {
++ (void)w:(Class)cls format:(NSString *)format, ... {
     va_list args;
     va_start(args, format);
-    [[self sharedInstance] log:class level:DDLogLevelWarning format:format args:args];
+    [[self sharedInstance] log:cls level:DDLogLevelWarning format:format args:args];
     va_end(args);
 }
 
-+ (void)w:(Class)class message:(NSString *)message {
-    [[self sharedInstance] log:class level:DDLogLevelWarning message:message];
++ (void)w:(Class)cls message:(NSString *)message {
+    [[self sharedInstance] log:cls level:DDLogLevelWarning message:message];
 }
 
-+ (void)i:(Class)class format:(NSString *)format, ... {
++ (void)i:(Class)cls format:(NSString *)format, ... {
     va_list args;
     va_start(args, format);
-    [[self sharedInstance] log:class level:DDLogLevelInfo format:format args:args];
+    [[self sharedInstance] log:cls level:DDLogLevelInfo format:format args:args];
     va_end(args);
 }
 
-+ (void)i:(Class)class message:(NSString *)message {
-    [[self sharedInstance] log:class level:DDLogLevelInfo message:message];
++ (void)i:(Class)cls message:(NSString *)message {
+    [[self sharedInstance] log:cls level:DDLogLevelInfo message:message];
 }
 
-+ (void)v:(Class)class format:(NSString *)format, ... {
++ (void)v:(Class)cls format:(NSString *)format, ... {
     va_list args;
     va_start(args, format);
-    [[self sharedInstance] log:class level:DDLogLevelVerbose format:format args:args];
+    [[self sharedInstance] log:cls level:DDLogLevelVerbose format:format args:args];
     va_end(args);
 }
 
-+ (void)v:(Class)class message:(NSString *)message {
-    [[self sharedInstance] log:class level:DDLogLevelVerbose message:message];
++ (void)v:(Class)cls message:(NSString *)message {
+    [[self sharedInstance] log:cls level:DDLogLevelVerbose message:message];
 }
 
-+ (void)d:(Class)class format:(NSString *)format, ... {
++ (void)d:(Class)cls format:(NSString *)format, ... {
     va_list args;
     va_start(args, format);
-    [[self sharedInstance] log:class level:DDLogLevelDebug format:format args:args];
+    [[self sharedInstance] log:cls level:DDLogLevelDebug format:format args:args];
     va_end(args);
 }
 
-+ (void)d:(Class)class message:(NSString *)message {
-    [[self sharedInstance] log:class level:DDLogLevelDebug message:message];
++ (void)d:(Class)cls message:(NSString *)message {
+    [[self sharedInstance] log:cls level:DDLogLevelDebug message:message];
 }
 
-+ (void)log:(Class)class level:(DDLogLevel)level format:(NSString *)format, ... {
++ (void)log:(Class)cls level:(DDLogLevel)level format:(NSString *)format, ... {
     va_list args;
     va_start(args, format);
-    [[self sharedInstance] log:class level:level format:format args:args];
+    [[self sharedInstance] log:cls level:level format:format args:args];
     va_end(args);
 }
 
-+ (void)log:(Class)class level:(DDLogLevel)level message:(NSString *)message {
-    [[self sharedInstance] log:class level:level message:message];
++ (void)log:(Class)cls level:(DDLogLevel)level message:(NSString *)message {
+    [[self sharedInstance] log:cls level:level message:message];
 }
 
 @end
