@@ -28,7 +28,7 @@
 //action constants
 NSString *const kActionLogout = @"Logout";
 NSString *const kActionSwitchUser = @"Switch user";
-NSString *const kActionDevSupport = @"Dev support";
+NSString *const kActionDbInspector = @"Inspect db";
 
 @implementation ActionsPopupController
 
@@ -39,7 +39,7 @@ NSString *const kActionDevSupport = @"Dev support";
         self.actions = @[
                 kActionLogout, @"Logout current user",
                 kActionSwitchUser, @"Bring up user switching screen",
-                kActionDevSupport, @"Bring up dev support"
+                kActionDbInspector, @"Bring up db inspector"
         ];
     }
     return self;

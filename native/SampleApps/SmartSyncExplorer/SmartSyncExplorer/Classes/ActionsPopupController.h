@@ -30,7 +30,7 @@
 //action constants
 extern NSString *const kActionLogout;
 extern NSString *const kActionSwitchUser;
-extern NSString *const kActionDevSupport;
+extern NSString *const kActionDbInspector;
 
 @interface ActionsPopupController : UITableViewController
 

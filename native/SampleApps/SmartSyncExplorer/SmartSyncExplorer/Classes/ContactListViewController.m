@@ -30,6 +30,7 @@
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFSecurityLockout.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
+#import <SmartStore/SFSmartStoreInspectorViewController.h>
 
 static NSString * const kNavBarTitleText                = @"Contacts";
 static NSUInteger const kNavBarTintColor                = 0xf10000;
@@ -435,8 +436,9 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
             [self dismissViewControllerAnimated:YES completion:NULL];
         }];
         [self presentViewController:umvc animated:YES completion:NULL];
-    } else if ([text isEqualToString:kActionDevSupport]) {
-        [[SalesforceSDKManager sharedManager] showDevSupportDialog:self];
+    } else if ([text isEqualToString:kActionDbInspector]) {
+        SFSmartStoreInspectorViewController *inspector = [[SFSmartStoreInspectorViewController alloc] initWithStore:self.dataMgr.store];
+        [self presentViewController:inspector animated:NO completion:nil];
     }
 }
 
