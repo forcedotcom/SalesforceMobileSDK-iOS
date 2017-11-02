@@ -33,7 +33,7 @@
 #import <SalesforceSDKCore/SFSDKAppConfig.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
 #import <SalesforceAnalytics/SFSDKLogger.h>
-#import <SmartStore/SalesforceSDKManagerWithSmartStore.h>
+#import <SalesforceHybridSDK/SalesforceHybridSDKManager.h>
 
 @implementation AppDelegate (SalesforceHybridSDK)
 
@@ -49,7 +49,7 @@
 - (AppDelegate *)sfsdk_swizzled_init
 {
     // Need to use SalesforceSDKManagerWithSmartStore when using smartstore
-    [SalesforceSDKManager setInstanceClass:[SalesforceSDKManagerWithSmartStore class]];
+    [SalesforceSDKManager setInstanceClass:[SalesforceHybridSDKManager class]];
     
     //Uncomment the following line inorder to enable/force the use of advanced authentication flow.
     //[SFUserAcountManager sharedInstance].advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;

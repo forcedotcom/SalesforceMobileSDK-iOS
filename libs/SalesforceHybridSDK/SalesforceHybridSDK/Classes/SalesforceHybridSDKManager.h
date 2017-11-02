@@ -1,11 +1,6 @@
 /*
- SalesforceHybridSDK.h
- SalesforceHybridSDK
-
- Created by Wolfgang Mathurin on Thu Nov  2 15:52:46 PDT 2017.
-
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
- 
+
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
  * Redistributions of source code must retain the above copyright notice, this list of conditions
@@ -16,7 +11,7 @@
  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
  endorse or promote products derived from this software without specific prior written
  permission of salesforce.com, inc.
- 
+
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -27,16 +22,16 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SalesforceHybridSDK/CDVPlugin+SFAdditions.h>
-#import <SalesforceHybridSDK/SalesforceHybridSDKManager.h>
-#import <SalesforceHybridSDK/SalesforceOAuthPlugin.h>
-#import <SalesforceHybridSDK/SFAccountManagerPlugin.h>
-#import <SalesforceHybridSDK/SFForcePlugin.h>
-#import <SalesforceHybridSDK/SFHybridViewConfig.h>
-#import <SalesforceHybridSDK/SFHybridViewController.h>
-#import <SalesforceHybridSDK/SFLocalhostSubstitutionCache.h>
-#import <SalesforceHybridSDK/SFNetworkPlugin.h>
-#import <SalesforceHybridSDK/SFSDKHybridLogger.h>
-#import <SalesforceHybridSDK/SFSDKInfoPlugin.h>
-#import <SalesforceHybridSDK/SFSmartStorePlugin.h>
-#import <SalesforceHybridSDK/SFSmartSyncPlugin.h>
+#import <SmartSync/SalesforceSDKManagerWithSmartSync.h>
+
+NS_ASSUME_NONNULL_BEGIN
+
+/**
+ * Version of SalesforceSDKManager to be used with all hybrid apps.
+ */
+
+@interface SalesforceHybridSDKManager : SalesforceSDKManagerWithSmartSync
+
+@end
+
+NS_ASSUME_NONNULL_END

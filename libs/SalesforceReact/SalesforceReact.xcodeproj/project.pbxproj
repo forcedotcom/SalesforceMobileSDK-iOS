@@ -38,6 +38,8 @@
 		CE65C2451C0FD58800319E68 /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2441C0FD58800319E68 /* SalesforceSDKCore.framework */; };
 		CE65C24B1C0FD59800319E68 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C24A1C0FD59800319E68 /* libz.tbd */; };
 		CE6AB3DF1C10CEF90012125E /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFEE6301BFE932100B7AA8A /* libReact.a */; };
+		FDCECBC6D61B39AC948CF0EC /* SalesforceReactSDKManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FDCECA026A7650CEBD674735 /* SalesforceReactSDKManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FDCECD467E719BF14D34E80D /* SalesforceReactSDKManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCECE47B345156461C6A30D /* SalesforceReactSDKManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -169,6 +171,8 @@
 		CE65C24A1C0FD59800319E68 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.1.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
 		CECB66341C1BB8F3008038AE /* SalesforceReact-Dynamic-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceReact-Dynamic-iOS-Debug.xcconfig"; path = "Configuration/SalesforceReact-Dynamic-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
 		CECB66351C1BB8F3008038AE /* SalesforceReact-Dynamic-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceReact-Dynamic-iOS-Release.xcconfig"; path = "Configuration/SalesforceReact-Dynamic-iOS-Release.xcconfig"; sourceTree = "<group>"; };
+		FDCECA026A7650CEBD674735 /* SalesforceReactSDKManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceReactSDKManager.h; sourceTree = "<group>"; };
+		FDCECE47B345156461C6A30D /* SalesforceReactSDKManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SalesforceReactSDKManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -252,6 +256,8 @@
 				4F3618A41AA51E9900AE3A65 /* SFSmartStoreReactBridge.m */,
 				4FABF0691AA52E7E00D31E3F /* SFSmartSyncReactBridge.h */,
 				4FABF06A1AA52EC800D31E3F /* SFSmartSyncReactBridge.m */,
+				FDCECE47B345156461C6A30D /* SalesforceReactSDKManager.m */,
+				FDCECA026A7650CEBD674735 /* SalesforceReactSDKManager.h */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -309,6 +315,7 @@
 				829DA2BD1C126C6A0040F5F1 /* SFSmartStoreReactBridge.h in Headers */,
 				CE4712661EFC668A00D9E059 /* SFSDKReactLogger.h in Headers */,
 				829DA2BE1C126C700040F5F1 /* SFSmartSyncReactBridge.h in Headers */,
+				FDCECBC6D61B39AC948CF0EC /* SalesforceReactSDKManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -506,6 +513,7 @@
 				CE4CE4691C0E5BC0009F6029 /* SFNetReactBridge.m in Sources */,
 				CE4CE4661C0E5B93009F6029 /* SFSmartStoreReactBridge.m in Sources */,
 				CE4CE4681C0E5BBB009F6029 /* SFOauthReactBridge.m in Sources */,
+				FDCECD467E719BF14D34E80D /* SalesforceReactSDKManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

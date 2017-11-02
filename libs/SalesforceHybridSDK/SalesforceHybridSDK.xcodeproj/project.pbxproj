@@ -194,6 +194,10 @@
 		CEEF96721EB7CC190059CA79 /* Cordova.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEF966C1EB7CBF50059CA79 /* Cordova.framework */; };
 		CEEF96731EB7CD050059CA79 /* Cordova.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEF966C1EB7CBF50059CA79 /* Cordova.framework */; };
 		CEEF97041EB7D1BC0059CA79 /* Cordova.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEF966C1EB7CBF50059CA79 /* Cordova.framework */; };
+		FDCEC160E6659D74841F456D /* SalesforceHybridSDKManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FDCEC934C681C14971B0C5E3 /* SalesforceHybridSDKManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FDCEC28E410DD8D98D826A33 /* SalesforceHybridSDKManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCEC47AE59418FFDB4C61C2 /* SalesforceHybridSDKManager.m */; };
+		FDCEC41913E5F7292AC61200 /* SalesforceHybridSDKManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCEC47AE59418FFDB4C61C2 /* SalesforceHybridSDKManager.m */; };
+		FDCECEB8C12C6043E1BD488B /* SalesforceHybridSDKManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FDCEC934C681C14971B0C5E3 /* SalesforceHybridSDKManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -573,6 +577,8 @@
 		CECB662F1C1BB8CB008038AE /* SalesforceHybridSDK-Dynamic-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceHybridSDK-Dynamic-iOS-Release.xcconfig"; path = "Configuration/SalesforceHybridSDK-Dynamic-iOS-Release.xcconfig"; sourceTree = "<group>"; };
 		CEF4FFAE170CC748001AA255 /* SFHybridViewConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHybridViewConfig.h; sourceTree = "<group>"; };
 		CEF4FFAF170CC748001AA255 /* SFHybridViewConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHybridViewConfig.m; sourceTree = "<group>"; };
+		FDCEC47AE59418FFDB4C61C2 /* SalesforceHybridSDKManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SalesforceHybridSDKManager.m; sourceTree = "<group>"; };
+		FDCEC934C681C14971B0C5E3 /* SalesforceHybridSDKManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceHybridSDKManager.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -972,6 +978,8 @@
 				82EFF2F216E7C84900A63CDF /* SFHybridViewController.m */,
 				CEF4FFAE170CC748001AA255 /* SFHybridViewConfig.h */,
 				CEF4FFAF170CC748001AA255 /* SFHybridViewConfig.m */,
+				FDCEC47AE59418FFDB4C61C2 /* SalesforceHybridSDKManager.m */,
+				FDCEC934C681C14971B0C5E3 /* SalesforceHybridSDKManager.h */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -1178,6 +1186,7 @@
 				CE4CE45E1C0E5B2A009F6029 /* SFLocalhostSubstitutionCache.h in Headers */,
 				4F06AFBB1C49A77200F70798 /* SmartSyncTestSuite.h in Headers */,
 				4F06AFB91C49A77200F70798 /* SmartStoreTestSuite.h in Headers */,
+				FDCECEB8C12C6043E1BD488B /* SalesforceHybridSDKManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1199,6 +1208,7 @@
 				CEA884771C1918E0008D871B /* CDVPlugin+SFAdditions.h in Headers */,
 				CEA8847B1C1918F3008D871B /* SFSmartStorePlugin.h in Headers */,
 				CEA884671C1918A4008D871B /* SFLocalhostSubstitutionCache.h in Headers */,
+				FDCEC160E6659D74841F456D /* SalesforceHybridSDKManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1493,6 +1503,7 @@
 				CE4CE4571C0E5AF9009F6029 /* SFAccountManagerPlugin.m in Sources */,
 				CE7BA1581D89F9EE000B91D7 /* SFNetworkPlugin.m in Sources */,
 				CE4CE45B1C0E5B14009F6029 /* SalesforceOAuthPlugin.m in Sources */,
+				FDCEC28E410DD8D98D826A33 /* SalesforceHybridSDKManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1513,6 +1524,7 @@
 				CEA8846E1C1918A4008D871B /* SFHybridViewConfig.m in Sources */,
 				CE7BA15E1D8A3577000B91D7 /* SFNetworkPlugin.m in Sources */,
 				CEA8847A1C1918EA008D871B /* SalesforceOAuthPlugin.m in Sources */,
+				FDCEC41913E5F7292AC61200 /* SalesforceHybridSDKManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
