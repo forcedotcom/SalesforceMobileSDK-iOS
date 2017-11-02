@@ -893,7 +893,7 @@ static NSString* ailtnAppName = nil;
         // App type.
         NSString *appTypeStr = [self getAppTypeAsString];
         NSString *myUserAgent = [NSString stringWithFormat:
-                                 @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@%@ uid_%@ ftr_%@",
+                                 @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@%@ uid_%@ ftr_%@ %@",
                                  SALESFORCE_SDK_VERSION,
                                  [curDevice systemName],
                                  [curDevice systemVersion],
@@ -904,7 +904,7 @@ static NSString* ailtnAppName = nil;
                                  (qualifier != nil ? qualifier : @""),
                                  uid,
                                  [[[SFSDKAppFeatureMarkers appFeatures].allObjects sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] componentsJoinedByString:@"."],
-                                 webViewUserAgent,
+                                 webViewUserAgent
                                  ];
         return myUserAgent;
     };
