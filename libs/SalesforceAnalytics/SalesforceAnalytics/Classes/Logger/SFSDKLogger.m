@@ -151,7 +151,7 @@ static NSMutableDictionary<NSString *, SFSDKLogger *> *loggerList = nil;
 }
 
 - (void)w:(Class)cls message:(NSString *)message {
-    [self log:class level:DDLogLevelWarning message:message];
+    [self log:cls level:DDLogLevelWarning message:message];
 }
 
 - (void)i:(Class)cls format:(NSString *)format, ... {
@@ -283,7 +283,7 @@ static inline DDLogFlag DDLogFlagForLogLevel(DDLogLevel level) {
 }
 
 + (void)e:(Class)cls message:(NSString *)message {
-    [[self sharedInstance] log:class level:DDLogLevelError message:message];
+    [[self sharedInstance] log:cls level:DDLogLevelError message:message];
 }
 
 + (void)w:(Class)cls format:(NSString *)format, ... {
