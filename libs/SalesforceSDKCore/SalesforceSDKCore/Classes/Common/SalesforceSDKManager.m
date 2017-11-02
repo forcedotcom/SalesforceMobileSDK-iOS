@@ -113,9 +113,8 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
     if (self == [SalesforceSDKManager class]) {
 
         // For dev support
-#ifdef DEBUG
         method_exchangeImplementations(class_getInstanceMethod([UIWindow class], @selector(motionEnded:withEvent:)), class_getInstanceMethod([UIWindow class], @selector(sfsdk_motionEnded:withEvent:)));
-#endif
+
         /*
          * Checks if an analytics app name has already been set by the app.
          * If not, fetches the default app name to be used and sets it.
@@ -400,8 +399,12 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
 
 - (void)showDevSupportDialog
 {
-    if ([self isDevSupportEnabled]) {
-        [self showDevSupportDialog:[self topViewController]];
+    SFSDKWindowContainer * mainWindow = [SFSDKWindowManager sharedManager].mainWindow;
+    if ([self isDevSupportEnabled] && mainWindow.isEnabled) {
+        UIViewController * topViewController = mainWindow.topViewController;
+        if (topViewController) {
+            [self showDevSupportDialog:topViewController];
+        }
     }
 }
 
@@ -474,36 +477,6 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
         [usernames addObject:userAccount.email];
     }
     return [usernames componentsJoinedByString:@", "];
-}
-
-- (UIViewController*)topViewController {
-    return [self topViewControllerWithRootViewController:[SFSDKWindowManager sharedManager].mainWindow.window.rootViewController];
-}
-
-- (UIViewController*)topViewControllerWithRootViewController:(UIViewController*)viewController {
-    if ([viewController isKindOfClass:[UITabBarController class]]) {
-        UITabBarController* tabBarController = (UITabBarController*)viewController;
-        return [self topViewControllerWithRootViewController:tabBarController.selectedViewController];
-    } else if ([viewController isKindOfClass:[UINavigationController class]]) {
-        UINavigationController* navContObj = (UINavigationController*)viewController;
-        return [self topViewControllerWithRootViewController:navContObj.visibleViewController];
-    } else if (viewController.presentedViewController && !viewController.presentedViewController.isBeingDismissed) {
-        UIViewController* presentedViewController = viewController.presentedViewController;
-        return [self topViewControllerWithRootViewController:presentedViewController];
-    }
-    else {
-        for (UIView *view in [viewController.view subviews])
-        {
-            id subViewController = [view nextResponder];
-            if ( subViewController && [subViewController isKindOfClass:[UIViewController class]])
-            {
-                if ([(UIViewController *)subViewController presentedViewController]  && ![subViewController presentedViewController].isBeingDismissed) {
-                    return [self topViewControllerWithRootViewController:[(UIViewController *)subViewController presentedViewController]];
-                }
-            }
-        }
-        return viewController;
-    }
 }
 
 #pragma mark - Private methods

@@ -126,5 +126,8 @@ typedef NS_ENUM(NSInteger, SFSDKWindowType) {
  */
 - (BOOL)isPasscodeWindow;
 
-
+/**
+ * Tries to return top view controller of this window
+ */
+- (UIViewController *)topViewController;
 @end
