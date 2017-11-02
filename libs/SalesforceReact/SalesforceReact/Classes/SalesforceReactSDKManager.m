@@ -22,7 +22,6 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <React/RCTDevMenu.h>
 #import "SalesforceReactSDKManager.h"
 
 @implementation SalesforceReactSDKManager
@@ -32,7 +31,7 @@
     NSMutableArray * devActions = [NSMutableArray arrayWithArray:[super getDevActions:presentedViewController]];
     [devActions addObjectsFromArray:@[
             @"React Native Dev Support", ^{
-                [[[RCTDevMenu alloc] init] show];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"RCTShowDevMenuNotification" object:nil];
             }
     ]];
     return devActions;
