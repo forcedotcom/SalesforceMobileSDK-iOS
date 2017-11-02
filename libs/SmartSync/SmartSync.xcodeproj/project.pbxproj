@@ -374,8 +374,8 @@
 		CEF50A81196B3EB60076264C /* SFObjectTypeLayout+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFObjectTypeLayout+Internal.h"; sourceTree = "<group>"; };
 		CEF50A82196B3EB60076264C /* SFObjectTypeLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFObjectTypeLayout.h; sourceTree = "<group>"; };
 		CEF50A83196B3EB60076264C /* SFObjectTypeLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFObjectTypeLayout.m; sourceTree = "<group>"; };
-		FDCEC1FBF745182967AD6BA9 /* SalesforceSDKManagerWithSmartSync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SalesforceSDKManagerWithSmartSync.m; sourceTree = "<group>"; };
-		FDCECA332FB12607AF78D737 /* SalesforceSDKManagerWithSmartSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceSDKManagerWithSmartSync.h; sourceTree = "<group>"; };
+		FDCEC1FBF745182967AD6BA9 /* SalesforceSDKManagerWithSmartSync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SalesforceSDKManagerWithSmartSync.m; path = Manager/SalesforceSDKManagerWithSmartSync.m; sourceTree = "<group>"; };
+		FDCECA332FB12607AF78D737 /* SalesforceSDKManagerWithSmartSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SalesforceSDKManagerWithSmartSync.h; path = Manager/SalesforceSDKManagerWithSmartSync.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
