@@ -117,7 +117,7 @@ static NSString * const kDevInfoOKKey = @"devInfoOKKey";
     return navBar;
 }
 
-- (UICollectionView*) createTableView
+- (UITableView*) createTableView
 {
     UITableView *infoTable = [[UITableView alloc] initWithFrame:CGRectZero];
     infoTable.backgroundColor = [UIColor lightGrayColor];
