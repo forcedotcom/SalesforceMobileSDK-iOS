@@ -32,6 +32,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SFSmartStoreInspectorViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITextViewDelegate>
 
+/**
+ Constructor.
+ */
+- (instancetype) init;
 
 /**
  Constructor.
