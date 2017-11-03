@@ -24,7 +24,7 @@
 
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import "SFSmartStore.h"
-#import "SalesforceSDKManagerWithSmartStore.h"
+#import "SmartStoreSDKManager.h"
 #import "SFSDKStoreConfig.h"
 #import "SFSmartStoreInspectorViewController.h"
 
@@ -32,7 +32,7 @@ SFSDK_USE_DEPRECATED_BEGIN
 @interface SalesforceSDKManager()<SFAuthenticationManagerDelegate>
 @end
 
-@implementation SalesforceSDKManagerWithSmartStore
+@implementation SmartStoreSDKManager
 
 -(instancetype)init {
     if (self = [super init]) {

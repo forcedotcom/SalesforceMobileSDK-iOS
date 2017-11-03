@@ -30,7 +30,7 @@
 @property (nonatomic, strong) SFUserAccount *smartStoreUser;
 @property (nonatomic, strong) SFSmartStore *store;
 @property (nonatomic, strong) SFSmartStore *globalStore;
-@property (nonatomic, strong) SalesforceSDKManagerWithSmartStore* sdkManager;
+@property (nonatomic, strong) SmartStoreSDKManager* sdkManager;
 
 @end
 
@@ -42,7 +42,7 @@
 {
     [super setUp];
     [SFSDKSmartStoreLogger setLogLevel:DDLogLevelDebug];
-    self.sdkManager = [[SalesforceSDKManagerWithSmartStore alloc] init];
+    self.sdkManager = [[SmartStoreSDKManager alloc] init];
     self.smartStoreUser = [self setUpSmartStoreUser];
     self.store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
     self.globalStore = [SFSmartStore sharedGlobalStoreWithName:kDefaultSmartStoreName];

@@ -29,6 +29,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef NS_ENUM(NSInteger, SFSDKWindowType) {
     SFSDKWindowTypeMain,
     SFSDKWindowTypeAuth,
@@ -45,13 +47,13 @@ typedef NS_ENUM(NSInteger, SFSDKWindowType) {
  Called when the window has to be enabled
  @param window The window
  */
-- (void)windowEnable:(SFSDKWindowContainer *_Nonnull)window animated:(BOOL)animated withCompletion:(void (^_Nullable)(void))completion;
+- (void)windowEnable:(SFSDKWindowContainer *)window animated:(BOOL)animated withCompletion:(void (^_Nullable)(void))completion;
 
 /**
  Called when the window has to be disabled
  @param window The window
  */
-- (void)windowDisable:(SFSDKWindowContainer *_Nonnull)window animated:(BOOL)animated withCompletion:(void (^_Nullable)(void))completion;
+- (void)windowDisable:(SFSDKWindowContainer *)window animated:(BOOL)animated withCompletion:(void (^_Nullable)(void))completion;
 @end
 
 @interface SFSDKWindowContainer : NSObject
@@ -65,7 +67,7 @@ typedef NS_ENUM(NSInteger, SFSDKWindowType) {
 
 /** SFSDKWindowType windowName
  */
-@property (nonatomic, copy, readonly) NSString * _Nonnull windowName;
+@property (nonatomic, copy, readonly) NSString * windowName;
 
 /** UIViewController viewController
  */
@@ -80,7 +82,7 @@ typedef NS_ENUM(NSInteger, SFSDKWindowType) {
  @param windowName key for the UIWindow
  @return SFSDKWindowComtainer
  */
-- (instancetype _Nonnull )initWithWindow:(UIWindow *_Nonnull)window name:(NSString *_Nonnull) windowName;
+- (instancetype)initWithWindow:(UIWindow *)window name:(NSString *) windowName;
 
 /**
  * Returns true if window alpha is set to 1.0
@@ -129,5 +131,7 @@ typedef NS_ENUM(NSInteger, SFSDKWindowType) {
 /**
  * Tries to return top view controller of this window
  */
-- (UIViewController *)topViewController;
+- (UIViewController*) topViewController;
 @end
+
+NS_ASSUME_NONNULL_END

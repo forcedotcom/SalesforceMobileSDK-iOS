@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SmartSync/SalesforceSDKManagerWithSmartSync.h>
+#import <SmartSync/SmartSyncSDKManager.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Version of SalesforceSDKManager to be used with all React Native enabled apps.
  */
 
-@interface SalesforceReactSDKManager: SalesforceSDKManagerWithSmartSync
+@interface SalesforceReactSDKManager: SmartSyncSDKManager
 
 @end
 

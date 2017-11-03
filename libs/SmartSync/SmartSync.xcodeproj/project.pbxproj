@@ -178,10 +178,10 @@
 		CEAAAE58195911E600CBBFE9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
 		CEAAAE63195911E600CBBFE9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEAAAE61195911E600CBBFE9 /* InfoPlist.strings */; };
 		CECDF84419ABE009007A29E5 /* MetadataManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CECDF84319ABE009007A29E5 /* MetadataManagerTests.m */; };
-		FDCEC0C25636E0D2262599C8 /* SalesforceSDKManagerWithSmartSync.h in Headers */ = {isa = PBXBuildFile; fileRef = FDCECA332FB12607AF78D737 /* SalesforceSDKManagerWithSmartSync.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FDCEC3CBF6FA262ACF305285 /* SalesforceSDKManagerWithSmartSync.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCEC1FBF745182967AD6BA9 /* SalesforceSDKManagerWithSmartSync.m */; };
-		FDCEC5B586778F6C6CD11059 /* SalesforceSDKManagerWithSmartSync.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCEC1FBF745182967AD6BA9 /* SalesforceSDKManagerWithSmartSync.m */; };
-		FDCEC5C628B4AC7488492DFE /* SalesforceSDKManagerWithSmartSync.h in Headers */ = {isa = PBXBuildFile; fileRef = FDCECA332FB12607AF78D737 /* SalesforceSDKManagerWithSmartSync.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FDCEC0C25636E0D2262599C8 /* SmartSyncSDKManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FDCECA332FB12607AF78D737 /* SmartSyncSDKManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FDCEC3CBF6FA262ACF305285 /* SmartSyncSDKManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCEC1FBF745182967AD6BA9 /* SmartSyncSDKManager.m */; };
+		FDCEC5B586778F6C6CD11059 /* SmartSyncSDKManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCEC1FBF745182967AD6BA9 /* SmartSyncSDKManager.m */; };
+		FDCEC5C628B4AC7488492DFE /* SmartSyncSDKManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FDCECA332FB12607AF78D737 /* SmartSyncSDKManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -374,8 +374,8 @@
 		CEF50A81196B3EB60076264C /* SFObjectTypeLayout+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFObjectTypeLayout+Internal.h"; sourceTree = "<group>"; };
 		CEF50A82196B3EB60076264C /* SFObjectTypeLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFObjectTypeLayout.h; sourceTree = "<group>"; };
 		CEF50A83196B3EB60076264C /* SFObjectTypeLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFObjectTypeLayout.m; sourceTree = "<group>"; };
-		FDCEC1FBF745182967AD6BA9 /* SalesforceSDKManagerWithSmartSync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SalesforceSDKManagerWithSmartSync.m; path = Manager/SalesforceSDKManagerWithSmartSync.m; sourceTree = "<group>"; };
-		FDCECA332FB12607AF78D737 /* SalesforceSDKManagerWithSmartSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SalesforceSDKManagerWithSmartSync.h; path = Manager/SalesforceSDKManagerWithSmartSync.h; sourceTree = "<group>"; };
+		FDCEC1FBF745182967AD6BA9 /* SmartSyncSDKManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SmartSyncSDKManager.m; path = Manager/SmartSyncSDKManager.m; sourceTree = "<group>"; };
+		FDCECA332FB12607AF78D737 /* SmartSyncSDKManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SmartSyncSDKManager.h; path = Manager/SmartSyncSDKManager.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -626,8 +626,8 @@
 				CEB808B7199AFD1900EF2F9D /* SFSmartSyncMetadataManager.m */,
 				4F22155A19DF4BAD00FF2D26 /* SFSmartSyncSyncManager.h */,
 				4F22155B19DF4BAD00FF2D26 /* SFSmartSyncSyncManager.m */,
-				FDCEC1FBF745182967AD6BA9 /* SalesforceSDKManagerWithSmartSync.m */,
-				FDCECA332FB12607AF78D737 /* SalesforceSDKManagerWithSmartSync.h */,
+				FDCEC1FBF745182967AD6BA9 /* SmartSyncSDKManager.m */,
+				FDCECA332FB12607AF78D737 /* SmartSyncSDKManager.h */,
 			);
 			name = Manager;
 			sourceTree = "<group>";
@@ -729,7 +729,7 @@
 				4FDCBD5C1E8DDC5C008F8FCE /* SFSoqlSyncDownTarget.h in Headers */,
 				CE4CE42C1C0E5A49009F6029 /* SFObjectType.h in Headers */,
 				4F2E178F1ED4F0A200C62497 /* SFSyncUpTarget+Internal.h in Headers */,
-				FDCEC0C25636E0D2262599C8 /* SalesforceSDKManagerWithSmartSync.h in Headers */,
+				FDCEC0C25636E0D2262599C8 /* SmartSyncSDKManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -772,7 +772,7 @@
 				4FDCBD6D1E8DDC82008F8FCE /* SFRefreshSyncDownTarget.h in Headers */,
 				CEA8841A1C1916FA008D871B /* SFObjectType+Internal.h in Headers */,
 				4F2E17931ED4F0AF00C62497 /* SFSyncUpTarget+Internal.h in Headers */,
-				FDCEC5C628B4AC7488492DFE /* SalesforceSDKManagerWithSmartSync.h in Headers */,
+				FDCEC5C628B4AC7488492DFE /* SmartSyncSDKManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1045,7 +1045,7 @@
 				CE4CE4231C0E5A35009F6029 /* SFSmartSyncSyncManager.m in Sources */,
 				4F307E2A1EBA92450040CFC4 /* SFParentInfo.m in Sources */,
 				4FDCBD571E8DDC5C008F8FCE /* SFSyncDownTarget.m in Sources */,
-				FDCEC3CBF6FA262ACF305285 /* SalesforceSDKManagerWithSmartSync.m in Sources */,
+				FDCEC3CBF6FA262ACF305285 /* SmartSyncSDKManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1078,7 +1078,7 @@
 				CEA884281C191719008D871B /* SFSmartSyncNetworkUtils.m in Sources */,
 				CEA884121C1916E8008D871B /* SFSmartSyncSyncManager.m in Sources */,
 				4FDCBD631E8DDC67008F8FCE /* SFSyncDownTarget.m in Sources */,
-				FDCEC5B586778F6C6CD11059 /* SalesforceSDKManagerWithSmartSync.m in Sources */,
+				FDCEC5B586778F6C6CD11059 /* SmartSyncSDKManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

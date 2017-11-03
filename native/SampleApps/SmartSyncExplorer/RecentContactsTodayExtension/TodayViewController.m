@@ -24,7 +24,7 @@
 #import "TodayViewController.h"
 #import <SmartSyncExplorerCommon/SmartSyncExplorerCommon.h>
 #import <NotificationCenter/NotificationCenter.h>
-#import <SmartStore/SalesforceSDKManagerWithSmartStore.h>
+#import <SmartStore/SmartStoreSDKManager.h>
 #import <SalesforceAnalytics/SFSDKDatasharingHelper.h>
 #import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 #import <SalesforceSDKCore/SFRestRequest.h>
@@ -69,7 +69,7 @@ static NSString *simpleTableIdentifier = @"SimpleTableItem";
     [SFSDKDatasharingHelper sharedInstance].appGroupEnabled = YES;
     if ([self userIsLoggedIn] ) {
         [SFSDKLogger log:[self class] level:DDLogLevelError format:@"User has logged in"];
-        [SalesforceSDKManager setInstanceClass:[SalesforceSDKManagerWithSmartStore class]];
+        [SalesforceSDKManager setInstanceClass:[SmartStoreSDKManager class]];
         [SalesforceSDKManager sharedManager].appConfig.remoteAccessConsumerKey = config.remoteAccessConsumerKey;
         [SalesforceSDKManager sharedManager].appConfig.oauthRedirectURI = config.oauthRedirectURI;
         [SalesforceSDKManager sharedManager].appConfig.oauthScopes = [NSSet setWithArray:config.oauthScopes];

@@ -465,13 +465,13 @@ extern NSString *const EXPLAIN_ROWS;
 
 /**
  * Return compile options
- * @return
+ * @return An array with all the compile options used to build SQL Cipher.
  */
 - (NSArray *)getCompileOptions;
 
 /**
  * Return sqlcipher version
- * @return
+ * @return The version of SQL Cipher in use.
  */
 - (NSString *)getSQLCipherVersion;
 

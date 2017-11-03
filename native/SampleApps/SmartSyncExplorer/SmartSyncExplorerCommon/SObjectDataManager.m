@@ -31,7 +31,7 @@
 // Will go away once we are done refactoring SFSyncTarget
 #import <SmartSync/SFSoqlSyncDownTarget.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
-#import <SmartSync/SalesforceSDKManagerWithSmartSync.h>
+#import <SmartSync/SmartSyncSDKManager.h>
 
 static NSUInteger kMaxQueryPageSize = 1000;
 static NSUInteger kSyncLimit = 10000;
@@ -59,7 +59,7 @@ static NSString* const kSyncDownName = @"smartSyncExplorerSyncDown";
         self.dataSpec = dataSpec;
         _searchFilterQueue = dispatch_queue_create(kSearchFilterQueueName, NULL);
         // Setup schema if needed
-        [[SalesforceSDKManagerWithSmartSync sharedManager] setupUserStoreFromDefaultConfig];
+        [[SmartSyncSDKManager sharedManager] setupUserStoreFromDefaultConfig];
     }
     return self;
 }

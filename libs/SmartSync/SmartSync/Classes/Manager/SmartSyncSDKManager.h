@@ -22,9 +22,16 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SalesforceSDKManagerWithSmartSync.h"
+#import <SmartStore/SmartStoreSDKManager.h>
 
-@implementation SalesforceSDKManagerWithSmartSync
+NS_ASSUME_NONNULL_BEGIN
+
+/**
+ * Version of SalesforceSDKManager to be used with all SmartSync-enabled apps.
+ */
+
+@interface SmartSyncSDKManager : SmartStoreSDKManager
 
 @end
 
+NS_ASSUME_NONNULL_END

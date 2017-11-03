@@ -2,7 +2,7 @@
  SmartSync.h
  SmartSync
 
- Created by Wolfgang Mathurin on Thu Nov  2 15:45:34 PDT 2017.
+ Created by Wolfgang Mathurin on Fri Nov  3 14:30:28 PDT 2017.
 
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
@@ -27,7 +27,6 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SmartSync/SalesforceSDKManagerWithSmartSync.h>
 #import <SmartSync/SFAdvancedSyncUpTarget.h>
 #import <SmartSync/SFChildrenInfo.h>
 #import <SmartSync/SFMruSyncDownTarget.h>
@@ -54,3 +53,4 @@
 #import <SmartSync/SFSyncState.h>
 #import <SmartSync/SFSyncTarget.h>
 #import <SmartSync/SFSyncUpTarget.h>
+#import <SmartSync/SmartSyncSDKManager.h>

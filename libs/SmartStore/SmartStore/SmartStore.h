@@ -2,7 +2,7 @@
  SmartStore.h
  SmartStore
 
- Created by Wolfgang Mathurin on Mon Oct  9 16:20:07 PDT 2017.
+ Created by Wolfgang Mathurin on Fri Nov  3 13:03:50 PDT 2017.
 
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
@@ -27,7 +27,6 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SmartStore/SalesforceSDKManagerWithSmartStore.h>
 #import <SmartStore/SFAlterSoupLongOperation.h>
 #import <SmartStore/SFQuerySpec.h>
 #import <SmartStore/SFSDKSmartStoreLogger.h>
@@ -41,3 +40,4 @@
 #import <SmartStore/SFSoupIndex.h>
 #import <SmartStore/SFSoupSpec.h>
 #import <SmartStore/SFStoreCursor.h>
+#import <SmartStore/SmartStoreSDKManager.h>
