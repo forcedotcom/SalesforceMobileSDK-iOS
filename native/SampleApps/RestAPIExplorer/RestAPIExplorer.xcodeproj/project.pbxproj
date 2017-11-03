@@ -32,10 +32,10 @@
 		8236AC181C4D9B55004B69B8 /* SalesforceSDKCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8236ABDD1C4D9AD5004B69B8 /* SalesforceSDKCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8236AC1C1C4D9B68004B69B8 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8236ABFC1C4D9AF4004B69B8 /* CocoaLumberjack.framework */; };
 		8236AC1D1C4D9B68004B69B8 /* CocoaLumberjack.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8236ABFC1C4D9AF4004B69B8 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		8236AC5B1C4D9C66004B69B8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8236AC591C4D9C66004B69B8 /* LaunchScreen.storyboard */; };
 		8242E0CA15AB823400E9E6AF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8242E0C915AB823400E9E6AF /* QuartzCore.framework */; };
 		82E7F5AF17147BC400AC4E27 /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E7F5AD17147BC400AC4E27 /* InitialViewController.m */; };
 		82E7F5B017147BC400AC4E27 /* InitialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82E7F5AE17147BC400AC4E27 /* InitialViewController.xib */; };
+		B7168F461FACC25000A48DB5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7168F451FACC25000A48DB5 /* LaunchScreen.storyboard */; };
 		BCAE01A21D7F77CE00944153 /* SalesforceAnalytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8D201CE9329300C6FC6A /* SalesforceAnalytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CE2B8D331CE932A600C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8D201CE9329300C6FC6A /* SalesforceAnalytics.framework */; };
 		CE6AB38C1C10C4880012125E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6AB38B1C10C4880012125E /* libz.tbd */; };
@@ -279,12 +279,12 @@
 		822F516B1F97136C00EA0728 /* bootconfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = bootconfig.plist; sourceTree = "<group>"; };
 		8236ABD41C4D9AD5004B69B8 /* SalesforceSDKCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceSDKCore.xcodeproj; path = ../../../libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj; sourceTree = "<group>"; };
 		8236ABE41C4D9AF4004B69B8 /* Lumberjack.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Lumberjack.xcodeproj; path = ../../../external/CocoaLumberjack/Lumberjack.xcodeproj; sourceTree = "<group>"; };
-		8236AC5A1C4D9C66004B69B8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8242E0C915AB823400E9E6AF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		82E7F5AC17147BC400AC4E27 /* InitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InitialViewController.h; path = Classes/InitialViewController.h; sourceTree = "<group>"; };
 		82E7F5AD17147BC400AC4E27 /* InitialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InitialViewController.m; path = Classes/InitialViewController.m; sourceTree = "<group>"; };
 		82E7F5AE17147BC400AC4E27 /* InitialViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = InitialViewController.xib; path = Classes/InitialViewController.xib; sourceTree = "<group>"; };
 		82E856521D88ACE60000EECB /* RestAPIExplorer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RestAPIExplorer.entitlements; sourceTree = "<group>"; };
+		B7168F451FACC25000A48DB5 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ../../../../shared/resources/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CE2B8D081CE9329300C6FC6A /* SalesforceAnalytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceAnalytics.xcodeproj; path = ../../../libs/SalesforceAnalytics/SalesforceAnalytics.xcodeproj; sourceTree = "<group>"; };
 		CE6AB38B1C10C4880012125E /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		CE6AB38D1C10C4940012125E /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
@@ -373,7 +373,6 @@
 		7DF4D2EF1472E238005CE144 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				8236AC591C4D9C66004B69B8 /* LaunchScreen.storyboard */,
 				7DF4D2F01472E238005CE144 /* RestAPIExplorer-Info.plist */,
 				7DF4D2F11472E238005CE144 /* InfoPlist.strings */,
 				7DF4D2F41472E238005CE144 /* main.m */,
@@ -386,6 +385,7 @@
 		7DF4D3941472E23A005CE144 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B7168F451FACC25000A48DB5 /* LaunchScreen.storyboard */,
 				4F84FDFD18DD07D0006A7699 /* Images.xcassets */,
 			);
 			name = Resources;
@@ -710,7 +710,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8236AC5B1C4D9C66004B69B8 /* LaunchScreen.storyboard in Resources */,
+				B7168F461FACC25000A48DB5 /* LaunchScreen.storyboard in Resources */,
 				7DF4D2F31472E238005CE144 /* InfoPlist.strings in Resources */,
 				7DF4D2F71472E238005CE144 /* RestAPIExplorer-Prefix.pch in Resources */,
 				7DF4D3A81472E23A005CE144 /* readme.txt in Resources */,
@@ -764,14 +764,6 @@
 				7DF4D2F21472E238005CE144 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		8236AC591C4D9C66004B69B8 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8236AC5A1C4D9C66004B69B8 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

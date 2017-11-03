@@ -72,6 +72,7 @@
 		82AF5AB71A0DAA8D006C7A4B /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AF5AB11A0DAA8D006C7A4B /* CDVLogger.m */; };
 		82AF5ABB1A0DAAD6006C7A4B /* console-via-logger.js in Copy cordova-plugin-console plugin */ = {isa = PBXBuildFile; fileRef = 82AF5AB51A0DAA8D006C7A4B /* console-via-logger.js */; };
 		82AF5ABC1A0DAAD6006C7A4B /* logger.js in Copy cordova-plugin-console plugin */ = {isa = PBXBuildFile; fileRef = 82AF5AB61A0DAA8D006C7A4B /* logger.js */; };
+		B7168F6C1FACC29800A48DB5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7168F6B1FACC29800A48DB5 /* LaunchScreen.storyboard */; };
 		B7DF84341DADAD6300DC7A8F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B7DF84331DADAD6300DC7A8F /* Images.xcassets */; };
 		BCAE022B1D7F7D4B00944153 /* SalesforceAnalytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8D801CE932E800C6FC6A /* SalesforceAnalytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CE2B8D9F1CE9330200C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8D801CE932E800C6FC6A /* SalesforceAnalytics.framework */; };
@@ -91,7 +92,6 @@
 		CED747481E8C86EB0019AA9D /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CED747471E8C86EB0019AA9D /* WebKit.framework */; };
 		CEEF96A21EB7CE750059CA79 /* Cordova.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEF967C1EB7CE5A0059CA79 /* Cordova.framework */; };
 		CEEF96A31EB7CE8C0059CA79 /* Cordova.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CEEF967C1EB7CE5A0059CA79 /* Cordova.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		CEF4A3101D9493BB0025EDF0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEF4A30E1D9493BB0025EDF0 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -602,6 +602,7 @@
 		82AF5AB51A0DAA8D006C7A4B /* console-via-logger.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "console-via-logger.js"; sourceTree = "<group>"; };
 		82AF5AB61A0DAA8D006C7A4B /* logger.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = logger.js; sourceTree = "<group>"; };
 		82E855E01D88AA6B0000EECB /* AccountEditor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AccountEditor.entitlements; sourceTree = "<group>"; };
+		B7168F6B1FACC29800A48DB5 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ../../../../shared/resources/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B7DF84331DADAD6300DC7A8F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../../../../shared/resources/Images.xcassets; sourceTree = "<group>"; };
 		CE2B8D681CE932E800C6FC6A /* SalesforceAnalytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceAnalytics.xcodeproj; path = ../../../libs/SalesforceAnalytics/SalesforceAnalytics.xcodeproj; sourceTree = "<group>"; };
 		CE6AB3AD1C10C5B60012125E /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -623,7 +624,6 @@
 		CED747371E8C82BC0019AA9D /* ios-wkwebview-exec.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "ios-wkwebview-exec.js"; path = "../../../external/cordova-plugin-wkwebview-engine/src/www/ios/ios-wkwebview-exec.js"; sourceTree = "<group>"; };
 		CED747471E8C86EB0019AA9D /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		CEEF96741EB7CE5A0059CA79 /* CordovaLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CordovaLib.xcodeproj; path = "../../../external/cordova-ios/cordova-ios/CordovaLib/CordovaLib.xcodeproj"; sourceTree = "<group>"; };
-		CEF4A30F1D9493BB0025EDF0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -861,7 +861,6 @@
 		824A9BD81721FCA400C9BD79 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				CEF4A30E1D9493BB0025EDF0 /* LaunchScreen.storyboard */,
 				824A9DC01724CE4600C9BD79 /* config.xml */,
 				824A9BD91721FCA400C9BD79 /* AccountEditor-Info.plist */,
 				824A9BDA1721FCA400C9BD79 /* InfoPlist.strings */,
@@ -888,6 +887,7 @@
 		824A9C5B1722018E00C9BD79 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B7168F6B1FACC29800A48DB5 /* LaunchScreen.storyboard */,
 				B7DF84331DADAD6300DC7A8F /* Images.xcassets */,
 			);
 			name = Resources;
@@ -1383,9 +1383,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7DF84341DADAD6300DC7A8F /* Images.xcassets in Resources */,
-				CEF4A3101D9493BB0025EDF0 /* LaunchScreen.storyboard in Resources */,
 				824A9BDC1721FCA400C9BD79 /* InfoPlist.strings in Resources */,
 				CED747381E8C82BC0019AA9D /* ios-wkwebview-exec.js in Resources */,
+				B7168F6C1FACC29800A48DB5 /* LaunchScreen.storyboard in Resources */,
 				824A9DC11724CE4600C9BD79 /* config.xml in Resources */,
 				CEBDA0B31D3C059900DBDBD0 /* MainViewController.xib in Resources */,
 			);
@@ -1464,14 +1464,6 @@
 				824A9BDB1721FCA400C9BD79 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		CEF4A30E1D9493BB0025EDF0 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				CEF4A30F1D9493BB0025EDF0 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
