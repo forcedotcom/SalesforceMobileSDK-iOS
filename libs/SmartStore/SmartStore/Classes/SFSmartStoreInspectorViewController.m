@@ -36,7 +36,7 @@
 // Nav bar
 static CGFloat      const kStatusBarHeight       = 20.0;
 static CGFloat      const kNavBarHeight          = 44.0;
-static CGFloat      const kNavBarTitleFontSize   = 27.0;
+static CGFloat      const kNavBarTitleFontSize   = 18.0;
 // Store picker
 static CGFloat      const kStorePickerHeight     = 44.0;
 // Text fields
