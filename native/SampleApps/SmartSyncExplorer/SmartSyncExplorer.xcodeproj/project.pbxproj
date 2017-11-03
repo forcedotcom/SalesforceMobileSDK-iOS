@@ -46,6 +46,7 @@
 		82D0AC131C49A7F60081F833 /* SmartStore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 82D0AB9A1C49A6FB0081F833 /* SmartStore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		82D0AC161C49A8120081F833 /* SmartSync.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 829DA25D1C1260960040F5F1 /* SmartSync.framework */; };
 		82D0AC171C49A8120081F833 /* SmartSync.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 829DA25D1C1260960040F5F1 /* SmartSync.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B7168F2D1FACC1F100A48DB5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7168F2C1FACC1F100A48DB5 /* LaunchScreen.storyboard */; };
 		B71E61B51D9AD4990065FD4E /* SmartSyncExplorerConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = B71E61B31D9AD4990065FD4E /* SmartSyncExplorerConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B71E61B61D9AD4990065FD4E /* SmartSyncExplorerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B71E61B41D9AD4990065FD4E /* SmartSyncExplorerConfig.m */; };
 		B7A134341D99D52600A4559C /* SmartSyncExplorerCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = B7A134321D99D52600A4559C /* SmartSyncExplorerCommon.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -67,7 +68,6 @@
 		B7A727911F87D5D4006BB9B0 /* IDPLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A7278C1F87D5D3006BB9B0 /* IDPLoginViewController.m */; };
 		B7A727921F87D5D4006BB9B0 /* IDPLoginNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A7278E1F87D5D3006BB9B0 /* IDPLoginNavViewController.m */; };
 		B7A727931F87D5D4006BB9B0 /* IDPLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7A7278F1F87D5D3006BB9B0 /* IDPLoginViewController.xib */; };
-		B7B78FDF1DAEF6ED00FC01EF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7B78FDD1DAEF6ED00FC01EF /* LaunchScreen.storyboard */; };
 		B7DF837A1DAD911D00DC7A8F /* SmartSyncExplorerCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7A134301D99D52600A4559C /* SmartSyncExplorerCommon.framework */; };
 		B7E0CF331D91CECE0050A1F4 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7E0CF321D91CECE0050A1F4 /* NotificationCenter.framework */; };
 		B7E0CF371D91CECE0050A1F4 /* TodayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E0CF361D91CECE0050A1F4 /* TodayViewController.m */; };
@@ -466,6 +466,7 @@
 		82D0AB921C49A6FB0081F833 /* SmartStore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SmartStore.xcodeproj; path = ../../../libs/SmartStore/SmartStore.xcodeproj; sourceTree = "<group>"; };
 		82D0ABBB1C49A7540081F833 /* SalesforceSDKCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceSDKCore.xcodeproj; path = ../../../libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj; sourceTree = "<group>"; };
 		82D0ABCE1C49A7710081F833 /* Lumberjack.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Lumberjack.xcodeproj; path = ../../../external/CocoaLumberjack/Lumberjack.xcodeproj; sourceTree = "<group>"; };
+		B7168F2C1FACC1F100A48DB5 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ../../../../shared/resources/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B71E61B31D9AD4990065FD4E /* SmartSyncExplorerConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartSyncExplorerConfig.h; sourceTree = "<group>"; };
 		B71E61B41D9AD4990065FD4E /* SmartSyncExplorerConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartSyncExplorerConfig.m; sourceTree = "<group>"; };
 		B7A134301D99D52600A4559C /* SmartSyncExplorerCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartSyncExplorerCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -489,7 +490,6 @@
 		B7A7278E1F87D5D3006BB9B0 /* IDPLoginNavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IDPLoginNavViewController.m; sourceTree = "<group>"; };
 		B7A7278F1F87D5D3006BB9B0 /* IDPLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IDPLoginViewController.xib; sourceTree = "<group>"; };
 		B7A727901F87D5D4006BB9B0 /* IDPLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDPLoginViewController.h; sourceTree = "<group>"; };
-		B7B78FDE1DAEF6ED00FC01EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B7E0CF311D91CECE0050A1F4 /* RecentContactsTodayExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RecentContactsTodayExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7E0CF321D91CECE0050A1F4 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		B7E0CF351D91CECE0050A1F4 /* TodayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayViewController.h; sourceTree = "<group>"; };
@@ -662,6 +662,7 @@
 		820C8B3319E639D500E9BE5C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B7168F2C1FACC1F100A48DB5 /* LaunchScreen.storyboard */,
 				8284055919EAFD9C0079AB60 /* Images.xcassets */,
 				4FADBCB41BA0CEDA00D01855 /* ImagesSmartSyncExplorer.xcassets */,
 				4F941E941F8C43370035EB03 /* userstore.json */,
@@ -727,7 +728,6 @@
 		827C631B19E6018C00027484 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				B7B78FDD1DAEF6ED00FC01EF /* LaunchScreen.storyboard */,
 				827C631C19E6018C00027484 /* SmartSyncExplorer-Info.plist */,
 				827C631D19E6018C00027484 /* InfoPlist.strings */,
 				827C632019E6018C00027484 /* main.m */,
@@ -1290,7 +1290,7 @@
 				8284055A19EAFD9C0079AB60 /* Images.xcassets in Resources */,
 				B7A727931F87D5D4006BB9B0 /* IDPLoginViewController.xib in Resources */,
 				827C631F19E6018C00027484 /* InfoPlist.strings in Resources */,
-				B7B78FDF1DAEF6ED00FC01EF /* LaunchScreen.storyboard in Resources */,
+				B7168F2D1FACC1F100A48DB5 /* LaunchScreen.storyboard in Resources */,
 				4F941E951F8C43370035EB03 /* userstore.json in Resources */,
 				4FADBCB51BA0CEDA00D01855 /* ImagesSmartSyncExplorer.xcassets in Resources */,
 			);
@@ -1444,14 +1444,6 @@
 				827C631E19E6018C00027484 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		B7B78FDD1DAEF6ED00FC01EF /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B7B78FDE1DAEF6ED00FC01EF /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 		B7E0CF381D91CECE0050A1F4 /* MainInterface.storyboard */ = {
