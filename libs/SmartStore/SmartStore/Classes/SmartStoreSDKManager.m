@@ -24,7 +24,7 @@
 
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import "SFSmartStore.h"
-#import "SalesforceSDKManagerWithSmartStore.h"
+#import "SmartStoreSDKManager.h"
 #import "SFSDKStoreConfig.h"
 #import "SFSmartStoreInspectorViewController.h"
 
@@ -32,7 +32,7 @@ SFSDK_USE_DEPRECATED_BEGIN
 @interface SalesforceSDKManager()<SFAuthenticationManagerDelegate>
 @end
 
-@implementation SalesforceSDKManagerWithSmartStore
+@implementation SmartStoreSDKManager
 
 -(instancetype)init {
     if (self = [super init]) {
@@ -76,8 +76,7 @@ SFSDK_USE_DEPRECATED_BEGIN
     NSMutableArray * devActions = [NSMutableArray arrayWithArray:[super getDevActions:presentedViewController]];
     [devActions addObjectsFromArray:@[
             @"Inspect SmartStore", ^{
-                SFSmartStore* store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName user:[SFUserAccountManager sharedInstance].currentUser];
-                SFSmartStoreInspectorViewController *devInfo = [[SFSmartStoreInspectorViewController alloc] initWithStore:store];
+                SFSmartStoreInspectorViewController *devInfo = [[SFSmartStoreInspectorViewController alloc] init];
                 [presentedViewController presentViewController:devInfo animated:NO completion:nil];
             }
     ]];
@@ -91,10 +90,14 @@ SFSDK_USE_DEPRECATED_BEGIN
     [devInfos addObjectsFromArray:@[
             @"SQLCipher version", [store getSQLCipherVersion],
             @"SQLCipher Compile Options", [[store getCompileOptions] componentsJoinedByString:@", "],
-            @"User Stores", [[SFSmartStore allStoreNames] componentsJoinedByString:@", "],
-            @"Global Stores", [[SFSmartStore allGlobalStoreNames] componentsJoinedByString:@", "]
+            @"User Stores", [self safeJoin:[SFSmartStore allStoreNames] separator:@", "],
+            @"Global Stores", [self safeJoin:[SFSmartStore allGlobalStoreNames] separator:@", "]
     ]];
     return devInfos;
+}
+
+- (NSString*) safeJoin:(NSArray*)array separator:(NSString*)separator {
+    return array ? [array componentsJoinedByString:separator] : @"";
 }
 
 

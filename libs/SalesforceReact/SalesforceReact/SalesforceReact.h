@@ -2,7 +2,7 @@
  SalesforceReact.h
  SalesforceReact
 
- Created by Bharath Hariharan on Thu Jun 22 16:24:22 PDT 2017.
+ Created by Wolfgang Mathurin on Thu Nov  2 16:05:16 PDT 2017.
 
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
@@ -27,6 +27,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <SalesforceReact/SalesforceReactSDKManager.h>
 #import <SalesforceReact/SFNetReactBridge.h>
 #import <SalesforceReact/SFOauthReactBridge.h>
 #import <SalesforceReact/SFSDKReactLogger.h>

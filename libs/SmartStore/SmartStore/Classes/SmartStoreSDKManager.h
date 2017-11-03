@@ -1,10 +1,5 @@
 /*
- SmartSync.h
- SmartSync
-
- Created by Wolfgang Mathurin on Fri Nov  3 14:30:28 PDT 2017.
-
- Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -27,30 +22,28 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SmartSync/SFAdvancedSyncUpTarget.h>
-#import <SmartSync/SFChildrenInfo.h>
-#import <SmartSync/SFMruSyncDownTarget.h>
-#import <SmartSync/SFObject.h>
-#import <SmartSync/SFObjectType.h>
-#import <SmartSync/SFObjectTypeLayout.h>
-#import <SmartSync/SFParentChildrenSyncDownTarget.h>
-#import <SmartSync/SFParentChildrenSyncHelper.h>
-#import <SmartSync/SFParentChildrenSyncUpTarget.h>
-#import <SmartSync/SFParentInfo.h>
-#import <SmartSync/SFRefreshSyncDownTarget.h>
-#import <SmartSync/SFSDKSmartSyncLogger.h>
-#import <SmartSync/SFSmartSyncCacheManager.h>
-#import <SmartSync/SFSmartSyncConstants.h>
-#import <SmartSync/SFSmartSyncMetadataManager.h>
-#import <SmartSync/SFSmartSyncNetworkUtils.h>
-#import <SmartSync/SFSmartSyncObjectUtils.h>
-#import <SmartSync/SFSmartSyncPersistableObject.h>
-#import <SmartSync/SFSmartSyncSyncManager.h>
-#import <SmartSync/SFSoqlSyncDownTarget.h>
-#import <SmartSync/SFSoslSyncDownTarget.h>
-#import <SmartSync/SFSyncDownTarget.h>
-#import <SmartSync/SFSyncOptions.h>
-#import <SmartSync/SFSyncState.h>
-#import <SmartSync/SFSyncTarget.h>
-#import <SmartSync/SFSyncUpTarget.h>
-#import <SmartSync/SmartSyncSDKManager.h>
+#import <SalesforceSDKCore/SalesforceSDKManager.h>
+
+NS_ASSUME_NONNULL_BEGIN
+
+/**
+ * Version of SalesforceSDKManager to be used with all SmartStore-enabled apps. 
+ * By default, forceios apps use an instance of this class instead of SalesforceSDKManager.
+ */
+
+@interface SmartStoreSDKManager : SalesforceSDKManager
+
+
+/**
+ * Setup global store using config found globalstore.json
+ */
+- (void) setupGlobalStoreFromDefaultConfig;
+
+/**
+ * Setup user store using config found in userstore.json
+ */
+- (void) setupUserStoreFromDefaultConfig;
+
+@end
+
+NS_ASSUME_NONNULL_END

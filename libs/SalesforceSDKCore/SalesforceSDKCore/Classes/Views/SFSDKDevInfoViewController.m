@@ -31,7 +31,7 @@
 // Nav bar
 static CGFloat      const kStatusBarHeight       = 20.0;
 static CGFloat      const kNavBarHeight          = 44.0;
-static CGFloat      const kNavBarTitleFontSize   = 27.0;
+static CGFloat      const kNavBarTitleFontSize   = 18.0;
 // Resource keys
 static NSString * const kDevInfoTitleKey = @"devInfoTitle";
 static NSString * const kDevInfoBackButtonTitleKey = @"devInfoBackButtonTitle";
@@ -117,7 +117,7 @@ static NSString * const kDevInfoOKKey = @"devInfoOKKey";
     return navBar;
 }
 
-- (UICollectionView*) createTableView
+- (UITableView*) createTableView
 {
     UITableView *infoTable = [[UITableView alloc] initWithFrame:CGRectZero];
     infoTable.backgroundColor = [UIColor lightGrayColor];

@@ -302,12 +302,12 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
 
 /**
  * Show dev support dialog
- * @param presentedViewController
+ * @param presentedViewController The view controller currently presented.
  */
 - (void)showDevSupportDialog:(UIViewController *)presentedViewController;
 
 /**
- * @param presentedViewController
+ * @param presentedViewController The view controller currently presented.
  * @return Dev actions (list of title1, handler1, title2, handler2 etc) to show in dev support dialog
  */
 - (NSArray *)getDevActions:(UIViewController *)presentedViewController;

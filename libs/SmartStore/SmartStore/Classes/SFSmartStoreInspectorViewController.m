@@ -36,7 +36,7 @@
 // Nav bar
 static CGFloat      const kStatusBarHeight       = 20.0;
 static CGFloat      const kNavBarHeight          = 44.0;
-static CGFloat      const kNavBarTitleFontSize   = 27.0;
+static CGFloat      const kNavBarTitleFontSize   = 18.0;
 // Store picker
 static CGFloat      const kStorePickerHeight     = 44.0;
 // Text fields
@@ -101,16 +101,33 @@ static NSString * const kInspectorPickerDefault = @"default";
 
 #pragma mark - Constructor
 
+- (instancetype) init
+{
+    self = [super init];
+    if (self) {
+        SFUserAccount* user = [SFUserAccountManager sharedInstance].currentUser;
+        self.store = user ? [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName] : [SFSmartStore sharedGlobalStoreWithName:kDefaultSmartStoreName];
+    }
+    return self;
+}
+
+
 - (instancetype) initWithStore:(SFSmartStore*)store
 {
     self = [super init];
     if (self) {
         self.store = store;
-        self.storeDisplayNames = [self getStoreNamesForPicker];
     }
     return self;
 }
 
+#pragma mark - Store setter
+
+- (void) setStore:(SFSmartStore*) store
+{
+    _store = store;
+    self.storeDisplayNames = [self getStoreNamesForPicker];
+}
 
 #pragma mark - Results setter
 
