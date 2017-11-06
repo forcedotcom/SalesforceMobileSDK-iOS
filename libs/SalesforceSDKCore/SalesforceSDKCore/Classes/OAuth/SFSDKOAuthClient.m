@@ -561,8 +561,9 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
     SFSDKOAuthClient * instance = nil;
     if (self.clientProvider) {
         instance = [self.clientProvider idpAuthInstance:config];
+    } else {
+        instance = [[SFSDKIDPAuthClient alloc] initWithConfig:config];
     }
-    instance = [[SFSDKIDPAuthClient alloc] initWithConfig:config];
     SFSDKMutableOAuthClientContext *context = [[SFSDKMutableOAuthClientContext alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
     instance.context = context;
     return instance;
@@ -573,8 +574,9 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
     SFSDKOAuthClient *instance = nil;
     if (self.clientProvider) {
         instance = [self.clientProvider nativeBrowserAuthInstance:config];
+    }  else {
+        instance = [[self alloc] initWithConfig:config];
     }
-    instance= [[self alloc] initWithConfig:config];
     SFSDKMutableOAuthClientContext *context = [[SFSDKMutableOAuthClientContext alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
     instance.context = context;
     return instance;
@@ -585,8 +587,9 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
     SFSDKOAuthClient *instance = nil;
     if (self.clientProvider) {
         instance =  [self.clientProvider webviewAuthInstance:config];
+    } else {
+         instance = [[self alloc] initWithConfig:config];
     }
-    instance= [[self alloc] initWithConfig:config];
     SFSDKMutableOAuthClientContext *context = [[SFSDKMutableOAuthClientContext alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
     instance.context = context;
     return instance;
