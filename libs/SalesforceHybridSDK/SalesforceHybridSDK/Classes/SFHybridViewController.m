@@ -402,36 +402,34 @@ SFSDK_USE_DEPRECATED_BEGIN
     return userAgentString;
 }
 
-- (NSURL *)frontDoorUrlWithReturnUrl:(NSString *)returnUrl returnUrlIsEncoded:(BOOL)isEncoded createAbsUrl:(BOOL)createAbsUrl
+- (NSURL *)frontDoorUrlWithReturnUrl:(NSString *)returnUrlString returnUrlIsEncoded:(BOOL)isEncoded createAbsUrl:(BOOL)createAbsUrl
 {
     SFOAuthCredentials *creds = [SFUserAccountManager sharedInstance].currentUser.credentials;
-    NSString *instUrl = creds.apiUrl.absoluteString;
-    NSString *fullReturnUrl = returnUrl;
-
+    NSURL *instUrl = creds.apiUrl;
+    NSString *fullReturnUrlString = returnUrlString;
+    
     /*
      * We need to use the absolute URL in some cases and relative URL in some
      * other cases, because of differences between instance URL and community URL.
      */
-    if (createAbsUrl && ![returnUrl hasPrefix:@"http"]) {
-        fullReturnUrl = [NSString stringWithFormat:@"%@/%@", instUrl, returnUrl];
+    if (createAbsUrl && ![returnUrlString hasPrefix:@"http"]) {
+        fullReturnUrlString = [instUrl URLByAppendingPathComponent:returnUrlString].absoluteString;
     }
-    if([returnUrl containsString:@"frontdoor.jsp"]) {
-        NSRange r1 = [returnUrl rangeOfString: isEncoded ? @"retURL%3D" : @"retURL="];
-        NSRange r2 = [returnUrl rangeOfString: isEncoded ? @"%26display" : @"&display"];
+    if ([returnUrlString containsString:@"frontdoor.jsp"]) {
+        NSRange r1 = [returnUrlString rangeOfString: isEncoded ? @"retURL%3D" : @"retURL="];
+        NSRange r2 = [returnUrlString rangeOfString: isEncoded ? @"%26display" : @"&display"];
         NSRange range = NSMakeRange(r1.location + r1.length, r2.location - r1.location - r1.length);
-        NSString *newReturnUrl = [returnUrl substringWithRange: range];
-        if(isEncoded) newReturnUrl = [newReturnUrl stringByRemovingPercentEncoding];
-        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"%@", newReturnUrl]];
-        return [self frontDoorUrlWithReturnUrl: newReturnUrl returnUrlIsEncoded:TRUE createAbsUrl: FALSE];
+        NSString *newReturnUrlString = [returnUrlString substringWithRange: range];
+        if(isEncoded) newReturnUrlString = [newReturnUrlString stringByRemovingPercentEncoding];
+        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"%@", newReturnUrlString]];
+        return [self frontDoorUrlWithReturnUrl:newReturnUrlString returnUrlIsEncoded:YES createAbsUrl:NO];
     }
-    NSString *encodedUrl = (isEncoded ? fullReturnUrl : [fullReturnUrl stringByURLEncoding]);
-    NSMutableString *frontDoorUrl = [NSMutableString stringWithString:instUrl];
-    if (![frontDoorUrl hasSuffix:@"/"]) {
-        [frontDoorUrl appendString:@"/"];
-    }
+    NSString *encodedUrlString = (isEncoded ? fullReturnUrlString : [fullReturnUrlString stringByURLEncoding]);
     NSString *encodedSidValue = [creds.accessToken stringByURLEncoding];
-    [frontDoorUrl appendFormat:@"secur/frontdoor.jsp?sid=%@&retURL=%@&display=touch", encodedSidValue, encodedUrl];
-    return [NSURL URLWithString:frontDoorUrl];
+    NSURL *frontDoorUrl = [instUrl URLByAppendingPathComponent:@"/secur/frontdoor.jsp"];
+    NSMutableString *frontDoorUrlString = [NSMutableString stringWithString:frontDoorUrl.absoluteString];
+    [frontDoorUrlString appendFormat:@"?sid=%@&retURL=%@&display=touch", encodedSidValue, encodedUrlString];
+    return [NSURL URLWithString:frontDoorUrlString];
 }
 
 - (NSString *)isLoginRedirectUrl:(NSURL *)url
