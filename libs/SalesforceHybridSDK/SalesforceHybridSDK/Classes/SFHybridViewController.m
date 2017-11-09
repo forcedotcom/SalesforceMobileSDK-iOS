@@ -404,6 +404,11 @@ SFSDK_USE_DEPRECATED_BEGIN
 
 - (NSURL *)frontDoorUrlWithReturnUrl:(NSString *)returnUrlString returnUrlIsEncoded:(BOOL)isEncoded createAbsUrl:(BOOL)createAbsUrl
 {
+    // Special case: if returnUrlString itself is a frontdoor.jsp URL, parse its parameters and rebuild.
+    if ([returnUrlString containsString:@"frontdoor.jsp"]) {
+        return [self parseFrontDoorReturnUrlString:returnUrlString encoded:isEncoded];
+    }
+    
     SFOAuthCredentials *creds = [SFUserAccountManager sharedInstance].currentUser.credentials;
     NSURL *instUrl = creds.apiUrl;
     NSString *fullReturnUrlString = returnUrlString;
@@ -413,23 +418,34 @@ SFSDK_USE_DEPRECATED_BEGIN
      * other cases, because of differences between instance URL and community URL.
      */
     if (createAbsUrl && ![returnUrlString hasPrefix:@"http"]) {
-        fullReturnUrlString = [instUrl URLByAppendingPathComponent:returnUrlString].absoluteString;
+        NSURLComponents *retUrlComponents = [NSURLComponents componentsWithURL:instUrl resolvingAgainstBaseURL:NO];
+        retUrlComponents.path = [retUrlComponents.path stringByAppendingPathComponent:returnUrlString];
+        fullReturnUrlString = retUrlComponents.string;
     }
-    if ([returnUrlString containsString:@"frontdoor.jsp"]) {
-        NSRange r1 = [returnUrlString rangeOfString: isEncoded ? @"retURL%3D" : @"retURL="];
-        NSRange r2 = [returnUrlString rangeOfString: isEncoded ? @"%26display" : @"&display"];
-        NSRange range = NSMakeRange(r1.location + r1.length, r2.location - r1.location - r1.length);
-        NSString *newReturnUrlString = [returnUrlString substringWithRange: range];
-        if(isEncoded) newReturnUrlString = [newReturnUrlString stringByRemovingPercentEncoding];
-        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"%@", newReturnUrlString]];
-        return [self frontDoorUrlWithReturnUrl:newReturnUrlString returnUrlIsEncoded:YES createAbsUrl:NO];
-    }
-    NSString *encodedUrlString = (isEncoded ? fullReturnUrlString : [fullReturnUrlString stringByURLEncoding]);
+    
+    // Create frontDoor path based on credentials API URL.
+    NSURLComponents *frontDoorUrlComponents = [NSURLComponents componentsWithURL:instUrl resolvingAgainstBaseURL:NO];
+    frontDoorUrlComponents.path = [frontDoorUrlComponents.path stringByAppendingPathComponent:@"/secur/frontdoor.jsp"];
+    
+    // NB: We're not using NSURLComponents.queryItems here, because it unsufficiently encodes query params.
+    NSMutableString *frontDoorUrlString = [NSMutableString stringWithString:frontDoorUrlComponents.string];
+    NSString *encodedRetUrlValue = (isEncoded ? fullReturnUrlString : [fullReturnUrlString stringByURLEncoding]);
     NSString *encodedSidValue = [creds.accessToken stringByURLEncoding];
-    NSURL *frontDoorUrl = [instUrl URLByAppendingPathComponent:@"/secur/frontdoor.jsp"];
-    NSMutableString *frontDoorUrlString = [NSMutableString stringWithString:frontDoorUrl.absoluteString];
-    [frontDoorUrlString appendFormat:@"?sid=%@&retURL=%@&display=touch", encodedSidValue, encodedUrlString];
+    [frontDoorUrlString appendFormat:@"?sid=%@&retURL=%@&display=touch", encodedSidValue, encodedRetUrlValue];
+    
     return [NSURL URLWithString:frontDoorUrlString];
+}
+
+- (NSURL *)parseFrontDoorReturnUrlString:(NSString *)frontDoorUrlString encoded:(BOOL)encoded {
+    NSRange r1 = [frontDoorUrlString rangeOfString: encoded ? @"retURL%3D" : @"retURL="];
+    NSRange r2 = [frontDoorUrlString rangeOfString: encoded ? @"%26display" : @"&display"];
+    NSRange range = NSMakeRange(r1.location + r1.length, r2.location - r1.location - r1.length);
+    NSString *returnUrlString = [frontDoorUrlString substringWithRange: range];
+    if (encoded) {
+        returnUrlString = [returnUrlString stringByRemovingPercentEncoding];
+    }
+    [SFSDKHybridLogger d:[self class] format:@"%@ Extracted return URL string '%@' from original frontDoor URL '%@'", NSStringFromSelector(_cmd), returnUrlString, frontDoorUrlString];
+    return [self frontDoorUrlWithReturnUrl:returnUrlString returnUrlIsEncoded:YES createAbsUrl:NO];
 }
 
 - (NSString *)isLoginRedirectUrl:(NSURL *)url
