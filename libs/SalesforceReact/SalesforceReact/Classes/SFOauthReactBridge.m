@@ -44,14 +44,14 @@ RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(getAuthCredentials:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
 {
-    [SFSDKReactLogger d:[self class] format:[NSString stringWithFormat:@"getAuthCredentials: arguments: %@", args]];
+    [SFSDKReactLogger d:[self class] format:@"getAuthCredentials: arguments: %@", args];
     [self getAuthCredentialsWithCallback:callback];
 }
 
 RCT_EXPORT_METHOD(logoutCurrentUser:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
 {
     __weak typeof(self) weakSelf = self;
-    [SFSDKReactLogger d:[self class] format:[NSString stringWithFormat:@"logoutCurrentUser: arguments: %@", args]];
+    [SFSDKReactLogger d:[self class] format:@"logoutCurrentUser: arguments: %@", args];
     dispatch_async(dispatch_get_main_queue(), ^{
          __strong typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf logout];
@@ -61,7 +61,7 @@ RCT_EXPORT_METHOD(logoutCurrentUser:(NSDictionary *)args callback:(RCTResponseSe
 RCT_EXPORT_METHOD(authenticate:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
 {
     __weak typeof(self) weakSelf = self;
-    [SFSDKReactLogger d:[self class] format:[NSString stringWithFormat:@"authenticate: arguments: %@", args]];
+    [SFSDKReactLogger d:[self class] format:@"authenticate: arguments: %@", args];
     dispatch_async(dispatch_get_main_queue(), ^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf loginWithCompletion:^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {

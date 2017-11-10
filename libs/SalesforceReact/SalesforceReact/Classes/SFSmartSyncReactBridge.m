@@ -54,11 +54,11 @@ RCT_EXPORT_METHOD(getSyncStatus:(NSDictionary *)args callback:(RCTResponseSender
 
     SFSyncState *sync;
     if (syncId) {
-        [SFSDKReactLogger d:[self class] format:[NSString stringWithFormat:@"getSyncStatus with sync id: %@", syncId]];
+        [SFSDKReactLogger d:[self class] format:@"getSyncStatus with sync id: %@", syncId];
         sync = [[self getSyncManagerInst:args] getSyncStatus:syncId];
     }
     else if (syncName) {
-        [SFSDKReactLogger d:[self class] format:[NSString stringWithFormat:@"getSyncStatus with sync name: %@", syncName]];
+        [SFSDKReactLogger d:[self class] format:@"getSyncStatus with sync name: %@", syncName];
         sync = [[self getSyncManagerInst:args] getSyncStatusByName:syncName];
     }
     else {
@@ -73,11 +73,11 @@ RCT_EXPORT_METHOD(deleteSync:(NSDictionary *)args callback:(RCTResponseSenderBlo
     NSString *syncName = (NSString *) [args nonNullObjectForKey:kSyncNameArg];
 
     if (syncId) {
-        [SFSDKReactLogger d:[self class] format:[NSString stringWithFormat:@"deleteSync with sync id: %@", syncId]];
+        [SFSDKReactLogger d:[self class] format:@"deleteSync with sync id: %@", syncId];
         [[self getSyncManagerInst:args] deleteSyncById:syncId];
     }
     else if (syncName) {
-        [SFSDKReactLogger d:[self class] format:[NSString stringWithFormat:@"deleteSync with sync name: %@", syncName]];
+        [SFSDKReactLogger d:[self class] format:@"deleteSync with sync name: %@", syncName];
         [[self getSyncManagerInst:args] deleteSyncByName:syncName];
     }
     else {
@@ -97,7 +97,7 @@ RCT_EXPORT_METHOD(syncDown:(NSDictionary *)args callback:(RCTResponseSenderBlock
         [weakSelf handleSyncUpdate:sync withArgs:args callback:callback];
     }];
     if (sync) {
-        [SFSDKReactLogger d:[self class] format:[NSString stringWithFormat:@"syncDown # %ld to soup: %@", sync.syncId, soupName]];
+        [SFSDKReactLogger d:[self class] format:@"syncDown # %ld to soup: %@", sync.syncId, soupName];
     }
     else {
         callback(@[RCTMakeError(@"Failed to create sync down", nil, nil)]);
@@ -109,14 +109,14 @@ RCT_EXPORT_METHOD(reSync:(NSDictionary *)args callback:(RCTResponseSenderBlock)c
     NSNumber *syncId = (NSNumber *) [args nonNullObjectForKey:kSyncIdArg];
     SFSyncState* sync;
     if (syncId) {
-        [SFSDKReactLogger d:[self class] format:[NSString stringWithFormat:@"reSync with sync id: %@", syncId]];
+        [SFSDKReactLogger d:[self class] format:@"reSync with sync id: %@", syncId];
         __weak typeof(self) weakSelf = self;
         sync = [[self getSyncManagerInst:args] reSync:syncId updateBlock:^(SFSyncState *sync) {
             [weakSelf handleSyncUpdate:sync withArgs:args callback:callback];
         }];
     }
     else if (syncName) {
-        [SFSDKReactLogger d:[self class] format:[NSString stringWithFormat:@"reSync with sync name: %@", syncName]];
+        [SFSDKReactLogger d:[self class] format:@"reSync with sync name: %@", syncName];
         __weak typeof(self) weakSelf = self;
         sync = [[self getSyncManagerInst:args] reSyncByName:syncName updateBlock:^(SFSyncState *sync) {
             [weakSelf handleSyncUpdate:sync withArgs:args callback:callback];
@@ -134,7 +134,7 @@ RCT_EXPORT_METHOD(reSync:(NSDictionary *)args callback:(RCTResponseSenderBlock)c
 RCT_EXPORT_METHOD(cleanResyncGhosts:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
 {
     NSNumber* syncId = (NSNumber*) [args nonNullObjectForKey:kSyncIdArg];
-    [SFSDKReactLogger d:[self class] format:[NSString stringWithFormat:@"cleanResyncGhosts with sync id: %@", syncId]];
+    [SFSDKReactLogger d:[self class] format:@"cleanResyncGhosts with sync id: %@", syncId];
     [[self getSyncManagerInst:args] cleanResyncGhosts:syncId completionStatusBlock:^void(SFSyncStateStatus syncStatus){
         callback(@[[NSNull null], [SFSyncState syncStatusToString:syncStatus]]);
     }];
@@ -152,7 +152,7 @@ RCT_EXPORT_METHOD(syncUp:(NSDictionary *)args callback:(RCTResponseSenderBlock)c
     }];
 
     if (sync) {
-        [SFSDKReactLogger d:[self class] format:[NSString stringWithFormat:@"syncUp # %ld from soup: %@", sync.syncId, soupName]];
+        [SFSDKReactLogger d:[self class] format:@"syncUp # %ld from soup: %@", sync.syncId, soupName];
     }
     else {
         callback(@[RCTMakeError(@"Failed to create sync up", nil, nil)]);
