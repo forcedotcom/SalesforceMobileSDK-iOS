@@ -360,7 +360,7 @@
 				};
 			};
 			buildConfigurationList = 4F3618A11AA51E3900AE3A65 /* Build configuration list for PBXProject "SalesforceReact" */;
-			compatibilityVersion = "Xcode 8.0";
+			compatibilityVersion = "Xcode 9.0";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (

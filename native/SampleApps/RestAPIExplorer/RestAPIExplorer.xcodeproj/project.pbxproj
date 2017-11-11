@@ -503,7 +503,7 @@
 				};
 			};
 			buildConfigurationList = 7DF4D2D31472E238005CE144 /* Build configuration list for PBXProject "RestAPIExplorer" */;
-			compatibilityVersion = "Xcode 8.0";
+			compatibilityVersion = "Xcode 9.0";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (

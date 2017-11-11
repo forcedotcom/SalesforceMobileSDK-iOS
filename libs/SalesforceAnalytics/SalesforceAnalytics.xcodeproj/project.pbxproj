@@ -758,7 +758,7 @@
 				};
 			};
 			buildConfigurationList = CE2B8BC91CE900F500C6FC6A /* Build configuration list for PBXProject "SalesforceAnalytics" */;
-			compatibilityVersion = "Xcode 8.0";
+			compatibilityVersion = "Xcode 9.0";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
