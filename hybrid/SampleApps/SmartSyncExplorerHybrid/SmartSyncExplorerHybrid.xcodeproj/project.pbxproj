@@ -1061,7 +1061,7 @@
 				};
 			};
 			buildConfigurationList = 824A9BC91721FCA400C9BD79 /* Build configuration list for PBXProject "SmartSyncExplorerHybrid" */;
-			compatibilityVersion = "Xcode 8.0";
+			compatibilityVersion = "Xcode 9.0";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (

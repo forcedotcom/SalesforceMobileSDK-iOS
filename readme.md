@@ -27,7 +27,7 @@ This script pulls the submodule dependencies from GitHub, to finalize setup of t
 
 See [build.md](build.md) for information on generating binary distributions and app templates.
 
-The Salesforce Mobile SDK for iOS requires iOS 9.0 or greater.  The install.sh script checks for this, and aborts if the configured SDK version is incorrect.  Building from the command line has been tested using ant 1.8.  Older versions might work, but we recommend using the latest version of ant.
+The Salesforce Mobile SDK for iOS requires iOS 10.0 or greater.  The install.sh script checks for this, and aborts if the configured SDK version is incorrect.  Building from the command line has been tested using ant 1.8.  Older versions might work, but we recommend using the latest version of ant.
 
 If you have problems building any of the projects, take a look at the online [FAQ](https://github.com/forcedotcom/SalesforceMobileSDK-iOS/wiki/FAQ) for troubleshooting tips.
 
