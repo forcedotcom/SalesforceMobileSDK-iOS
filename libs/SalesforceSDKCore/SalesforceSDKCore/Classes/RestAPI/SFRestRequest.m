@@ -207,14 +207,11 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 #pragma mark - Upload
 
 - (void)addPostFileData:(NSData *)fileData description:(NSString *)description fileName:(NSString *)fileName mimeType:(NSString *)mimeType {
-    NSString *mpeBoundary = @"************************";
+    NSString *mpeBoundary = [[NSUUID UUID] UUIDString];
     NSString *mpeSeparator = @"--";
     NSString *newline = @"\r\n";
-    NSString *bodyContentDisposition = [NSString stringWithFormat:@"Content-Disposition: form-data; name=fileData; filename=\"%@\"", fileName];
     NSMutableData *body = [NSMutableData data];
-    [body appendData:[[NSString stringWithFormat:@"%@%@%@", mpeSeparator, mpeBoundary, newline] dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[[NSString stringWithFormat:@"Content-Type: application/json; charset=UTF-8%@", newline] dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"json\"%@", newline] dataUsingEncoding:NSUTF8StringEncoding]];
+    
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     if (fileName) {
         params[@"title"] = fileName;
@@ -227,19 +224,44 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
                                                        options:NSJSONWritingPrettyPrinted
                                                          error:&parsingError];
     if (jsonData && !parsingError) {
+        // create multipart request fragment
+        [body appendData:[[NSString stringWithFormat:@"%@%@%@", mpeSeparator, mpeBoundary, newline] dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:[[NSString stringWithFormat:@"Content-Type: application/json; charset=UTF-8%@", newline] dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"json\"%@", newline] dataUsingEncoding:NSUTF8StringEncoding]];
+        
+        // append json data
+        [body appendData:[newline dataUsingEncoding:NSUTF8StringEncoding]];
         [body appendData:jsonData];
+        [body appendData:[newline dataUsingEncoding:NSUTF8StringEncoding]];
+        
+        // terminate multipart request fragment
+        [body appendData:[[NSString stringWithFormat:@"%@%@%@", mpeSeparator, mpeBoundary, newline] dataUsingEncoding:NSUTF8StringEncoding]];
     }
-    [body appendData:[[NSString stringWithFormat:@"%@%@%@", mpeSeparator, mpeBoundary, newline] dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[bodyContentDisposition dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[newline dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[newline dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:fileData];
-    [body appendData:[newline dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[[NSString stringWithFormat:@"%@%@%@%@", mpeSeparator, mpeBoundary, mpeSeparator, newline] dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    if (!mimeType) {
+        mimeType = @"application/octet-stream";
+    }
+    
+    if (fileData) {
+        // create multipart request fragment
+        [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=fileData; filename=\"%@\"", fileName] dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:[[NSString stringWithFormat:@"Content-Type: %@%@",mimeType, newline] dataUsingEncoding:NSUTF8StringEncoding]];
+        
+        // append file data
+        [body appendData:[newline dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:[newline dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:fileData];
+        [body appendData:[newline dataUsingEncoding:NSUTF8StringEncoding]];
+        
+        // terminate multipart request after setting fragment boundary
+        [body appendData:[[NSString stringWithFormat:@"%@%@%@%@", mpeSeparator, mpeBoundary, mpeSeparator, newline] dataUsingEncoding:NSUTF8StringEncoding]];
+    }
+    
     [self setCustomRequestBodyData:body contentType:[NSString stringWithFormat:@"multipart/form-data; boundary=%@", mpeBoundary]];
     [self.request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
     [self.request setHTTPShouldHandleCookies:NO];
     [self setHeaderValue:@"Keep-Alive" forHeaderName:@"Connection"];
+    [self setHeaderValue:[NSString stringWithFormat:@"multipart/form-data; boundary=%@", mpeBoundary] forHeaderName:@"Content-Type"];
 }
 
 + (BOOL)isNetworkError:(NSError *)error {
