@@ -493,9 +493,9 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
         [expectation fulfill];
     }];
     [[SFUserAccountManager sharedInstance] setAuthViewHandler:authViewHandler];
-    XCTAssertTrue(authViewHandler!=nil);
-    XCTAssertTrue(authViewHandler.authViewDismissBlock !=nil );
-    XCTAssertTrue(authViewHandler.authViewDisplayBlock !=nil );
+    XCTAssertNotNil(authViewHandler);
+    XCTAssertNotNil(authViewHandler.authViewDismissBlock);
+    XCTAssertNotNil(authViewHandler.authViewDisplayBlock);
     [[SFUserAccountManager sharedInstance] loginWithCompletion:^(SFOAuthInfo *info, SFUserAccount *account) {
 
     } failure:^(SFOAuthInfo *info, NSError *error) {
