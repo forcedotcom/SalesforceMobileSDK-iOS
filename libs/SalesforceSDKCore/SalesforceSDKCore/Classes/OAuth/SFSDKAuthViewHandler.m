@@ -26,11 +26,11 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#import "SFSDKOAuthViewHandler.h"
-@implementation SFSDKOAuthClientViewHolder
+#import "SFSDKAuthViewHandler.h"
+@implementation SFSDKAuthViewHolder
 @end
-@implementation SFSDKOAuthViewHandler
-- (id)initWithDisplayBlock:(SFSDKAuthClientViewDisplayBlock)authViewDisplayBlock  dismissBlock:(SFSDKAuthClientViewDismissBlock)dismissBlock {
+@implementation SFSDKAuthViewHandler
+- (id)initWithDisplayBlock:(SFSDKAuthViewDisplayBlock)authViewDisplayBlock  dismissBlock:(SFSDKAuthViewDismissBlock)dismissBlock {
     self = [super init];
     if (self) {
         self.authViewDisplayBlock = authViewDisplayBlock ;

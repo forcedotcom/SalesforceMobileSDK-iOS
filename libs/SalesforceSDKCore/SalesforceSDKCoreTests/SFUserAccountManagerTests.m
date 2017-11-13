@@ -97,6 +97,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 @interface SFUserAccountManagerTests : XCTestCase
 
 @property (nonatomic, strong) SFUserAccountManager *uam;
+@property (nonatomic, strong) SFSDKAuthViewHandler *authViewHandler;
 
 - (SFUserAccount *)createNewUserWithIndex:(NSUInteger)index;
 - (NSArray *)createAndVerifyUserAccounts:(NSUInteger)numAccounts;
@@ -106,7 +107,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 @implementation SFUserAccountManagerTests
 
 - (void)setUp {
-
+    [super setUp];
     // Delete the content of the global library directory
     NSString *globalLibraryDirectory = [[SFDirectoryManager sharedManager] directoryForUser:nil type:NSLibraryDirectory components:nil];
     [[[NSFileManager alloc] init] removeItemAtPath:globalLibraryDirectory error:nil];
@@ -124,8 +125,14 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     }
     [self.uam clearAllAccountState];
     self.uam.currentUser = nil;
-    [super setUp];
+    self.authViewHandler = [SFUserAccountManager sharedInstance].authViewHandler;
 }
+
+- (void)tearDown {
+    [SFUserAccountManager sharedInstance].authViewHandler = self.authViewHandler;
+    [super tearDown];
+}
+
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wnonnull"
@@ -475,6 +482,26 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     [observerMock verify];
     
     [[NSNotificationCenter defaultCenter] removeObserver:observerMock];
+}
+
+- (void)testAuthHandler {
+
+    XCTestExpectation *expectation = [self expectationWithDescription:@"willShowView"];
+    SFSDKAuthViewHandler *authViewHandler = [[SFSDKAuthViewHandler alloc] initWithDisplayBlock:^(SFSDKAuthViewHolder *holder) {
+        [expectation fulfill];
+    } dismissBlock:^{
+        [expectation fulfill];
+    }];
+    [[SFUserAccountManager sharedInstance] setAuthViewHandler:authViewHandler];
+    XCTAssertTrue(authViewHandler!=nil);
+    XCTAssertTrue(authViewHandler.authViewDismissBlock !=nil );
+    XCTAssertTrue(authViewHandler.authViewDisplayBlock !=nil );
+    [[SFUserAccountManager sharedInstance] loginWithCompletion:^(SFOAuthInfo *info, SFUserAccount *account) {
+
+    } failure:^(SFOAuthInfo *info, NSError *error) {
+
+    }];
+    [self waitForExpectationsWithTimeout:20.0 handler:nil];
 }
 
 #pragma mark - Helper methods

@@ -38,7 +38,7 @@
 @class SFOAuthCredentials;
 @class SFOAuthInfo;
 @class SFLoginViewController;
-@class SFSDKOAuthViewHandler;
+@class SFSDKAuthViewHandler;
 @class SFSDKWindowContainer;
 @class SFSDKOAuthClientAdvanced;
 @class SFSDKOAuthClientIDP;
