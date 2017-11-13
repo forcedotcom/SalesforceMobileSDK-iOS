@@ -29,20 +29,20 @@
 #import <Foundation/Foundation.h>
 @class WKWebView;
 @class SFSafariViewController;
-@class SFSDKOAuthClientViewHolder;
+@class SFSDKAuthViewHolder;
 
 NS_ASSUME_NONNULL_BEGIN
 /**
  Block definition for displaying the auth view.
  */
-typedef void (^SFSDKAuthClientViewDisplayBlock)(SFSDKOAuthClientViewHolder *);
+typedef void (^SFSDKAuthViewDisplayBlock)(SFSDKAuthViewHolder *);
 
 /**
  Block definition for dismissing the auth view.
  */
-typedef void (^SFSDKAuthClientViewDismissBlock)(void);
+typedef void (^SFSDKAuthViewDismissBlock)(void);
 
-@interface SFSDKOAuthClientViewHolder : NSObject
+@interface SFSDKAuthViewHolder : NSObject
 
 @property (nonatomic,weak,nullable) WKWebView * wkWebView;
 
@@ -52,22 +52,22 @@ typedef void (^SFSDKAuthClientViewDismissBlock)(void);
 
 @end
 
-@interface SFSDKOAuthViewHandler : NSObject
+@interface SFSDKAuthViewHandler : NSObject
 /**
  The block used to display the auth view.
  */
-@property (nonatomic, copy) SFSDKAuthClientViewDisplayBlock authViewDisplayBlock;
+@property (nonatomic, copy) SFSDKAuthViewDisplayBlock authViewDisplayBlock;
 
 /**
  The block used to dismiss the auth view.
  */
-@property (nonatomic, copy) SFSDKAuthClientViewDismissBlock authViewDismissBlock;
+@property (nonatomic, copy) SFSDKAuthViewDismissBlock authViewDismissBlock;
 
 /**
  Designated initializer for the class.
  @param displayBlock The block used to display the auth view.
  @param dismissBlock The block used to dismiss the auth view.
  */
-- (id)initWithDisplayBlock:(SFSDKAuthClientViewDisplayBlock)displayBlock dismissBlock:(SFSDKAuthClientViewDismissBlock _Nullable)dismissBlock;
+- (id)initWithDisplayBlock:(SFSDKAuthViewDisplayBlock)displayBlock dismissBlock:(SFSDKAuthViewDismissBlock _Nullable)dismissBlock;
 @end
 NS_ASSUME_NONNULL_END

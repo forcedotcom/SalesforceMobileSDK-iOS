@@ -35,7 +35,7 @@
 
 @class SFOAuthInfo;
 @class SFLoginViewController;
-@class SFSDKOAuthViewHandler;
+@class SFSDKAuthViewHandler;
 @class SFSDKWindowContainer;
 @class SFSDKOAuthClientAdvanced;
 @class SFSDKOAuthClientIDP;
@@ -82,6 +82,6 @@
  The authViewHandler for the client.
  */
 
-@property (nonatomic, strong, nullable) SFSDKOAuthViewHandler *authViewHandler;
+@property (nonatomic, strong, nullable) SFSDKAuthViewHandler *authViewHandler;
 
 @end

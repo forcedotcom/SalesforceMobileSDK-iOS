@@ -60,6 +60,8 @@
 #import "SFSDKAlertMessage.h"
 #import "SFSDKWindowContainer.h"
 #import "SFSDKIDPConstants.h"
+#import "SFSDKAuthViewHandler.h"
+
 // Notifications
 NSString * const SFUserAccountManagerDidChangeUserNotification       = @"SFUserAccountManagerDidChangeUserNotification";
 NSString * const SFUserAccountManagerDidChangeUserDataNotification   = @"SFUserAccountManagerDidChangeUserDataNotification";
@@ -1177,6 +1179,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
             config.failureCallbackBlock = failureBlock;
             config.idpLoginFlowSelectionBlock = strongSelf.idpLoginFlowSelectionAction;
             config.idpUserSelectionBlock = strongSelf.idpUserSelectionAction;
+            config.authViewHandler = strongSelf.authViewHandler;
         }];
         [[SFSDKOAuthClientCache sharedInstance] addClient:client];
     }

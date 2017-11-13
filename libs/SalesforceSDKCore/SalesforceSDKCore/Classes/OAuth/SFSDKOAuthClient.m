@@ -27,7 +27,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #import "SFSDKOAuthClient.h"
-#import "SFSDKOAuthViewHandler.h"
+#import "SFSDKAuthViewHandler.h"
 #import "SFAuthErrorHandlerList.h"
 #import "SFAuthErrorHandler.h"
 #import "SFLoginViewController.h"
@@ -106,21 +106,21 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
     return self.idCoordinator.idData;
 }
 
-- (SFSDKOAuthViewHandler *)authViewHandler {
+- (SFSDKAuthViewHandler *)authViewHandler {
 
     if (!self.config.authViewHandler) {
         [readWriteLock lock];
         __weak typeof(self) weakSelf = self;
         if (self.config.advancedAuthConfiguration == SFOAuthAdvancedAuthConfigurationRequire) {
-            self.config.authViewHandler = [[SFSDKOAuthViewHandler alloc]
-                    initWithDisplayBlock:^(SFSDKOAuthClientViewHolder *viewHandler) {
+            self.config.authViewHandler = [[SFSDKAuthViewHandler alloc]
+                    initWithDisplayBlock:^(SFSDKAuthViewHolder *viewHandler) {
                         __strong typeof(weakSelf) strongSelf = weakSelf;
                         strongSelf.authWindow.viewController = viewHandler.safariViewController;
                         [strongSelf.authWindow enable];
                     } dismissBlock:nil];
         } else {
-            self.config.authViewHandler = [[SFSDKOAuthViewHandler alloc]
-                    initWithDisplayBlock:^(SFSDKOAuthClientViewHolder *viewHandler) {
+            self.config.authViewHandler = [[SFSDKAuthViewHandler alloc]
+                    initWithDisplayBlock:^(SFSDKAuthViewHolder *viewHandler) {
                         __strong typeof(weakSelf) strongSelf = weakSelf;
                         if (strongSelf.config.authViewController == nil) {
                             strongSelf.config.authViewController = [[SFLoginViewController alloc] initWithNibName:nil bundle:nil];
@@ -414,7 +414,7 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
     if ([self.config.webViewDelegate respondsToSelector:@selector(authClient:willDisplayAuthWebView:)]) {
         [self.config.webViewDelegate authClient:self willDisplayAuthWebView:view];
     }
-    SFSDKOAuthClientViewHolder *viewHolder = [SFSDKOAuthClientViewHolder new];
+    SFSDKAuthViewHolder *viewHolder = [SFSDKAuthViewHolder new];
     viewHolder.wkWebView = view;
     viewHolder.isAdvancedAuthFlow = NO;
     // Ensure this runs on the main thread.  Has to be sync, because the coordinator expects the auth view
@@ -434,7 +434,7 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
     if ([self.config.safariViewDelegate respondsToSelector:@selector(authClient:willDisplayAuthSafariViewController:)]) {
         [self.config.safariViewDelegate authClient:self willDisplayAuthSafariViewController:svc];
     }
-    SFSDKOAuthClientViewHolder *viewHolder = [SFSDKOAuthClientViewHolder new];
+    SFSDKAuthViewHolder *viewHolder = [SFSDKAuthViewHolder new];
     viewHolder.safariViewController = svc;
     viewHolder.isAdvancedAuthFlow = YES;
     self.authViewHandler.authViewDisplayBlock(viewHolder);

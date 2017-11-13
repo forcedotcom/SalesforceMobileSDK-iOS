@@ -162,6 +162,7 @@ FOUNDATION_EXTERN NSString * const kSFUserInfoAddlOptionsKey;
 @class SFUserAccountManager;
 @class SFSDKAlertMessage;
 @class SFSDKWindowContainer;
+@class SFSDKAuthViewHandler;
 
 /**
  Protocol for handling callbacks from SFUserAccountManager.
@@ -575,6 +576,11 @@ FOUNDATION_EXTERN NSString * const kSFUserInfoAddlOptionsKey;
  be handled, NO otherwise.
  */
 - (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse options:(NSDictionary *)options;
+
+/**
+ Set this block to handle presentation of the Authentication View Controller.
+ */
+@property (nonatomic, strong) SFSDKAuthViewHandler *authViewHandler;
 
 /**
  Change this block to handle all alerts  required by the SFUSerAccountManager.

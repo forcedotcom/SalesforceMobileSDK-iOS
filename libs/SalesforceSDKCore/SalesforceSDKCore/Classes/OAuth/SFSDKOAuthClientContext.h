@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class SFSDKOAuthClient;
 @class SFAuthErrorHandlerList;
 @class SFAuthErrorHandler;
-@class SFSDKOAuthViewHandler;
+@class SFSDKAuthViewHandler;
 @class SFSDKMutableOAuthClientContext;
 @protocol SFSDKOAuthClientDelegate;
 @protocol SFSDKOAuthClientWebViewDelegate;
