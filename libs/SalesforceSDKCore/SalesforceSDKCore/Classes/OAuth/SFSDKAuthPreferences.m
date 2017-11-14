@@ -168,13 +168,13 @@ NSString * const kSFLegacyAuthIndicatorKey = @"SFDCUseLegacyAuth";
     [defs synchronize];
 }
 
-- (NSString *)idpAppScheme
+- (NSString *)idpAppURIScheme
 {
     NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
     return [defs stringForKey:kSFIDPKey];
 }
 
-- (void)setIdpAppScheme:(NSString *)appIdentifier
+- (void)setIdpAppURIScheme:(NSString *)appIdentifier
 {
     NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
     [defs setObject:appIdentifier forKey:kSFIDPKey];
@@ -183,7 +183,7 @@ NSString * const kSFLegacyAuthIndicatorKey = @"SFDCUseLegacyAuth";
 
 - (BOOL)idpEnabled
 {
-    return self.idpAppScheme && self.idpAppScheme.length > 0;
+    return self.idpAppURIScheme && self.idpAppURIScheme.length > 0;
 }
 
 - (BOOL)isIdentityProvider

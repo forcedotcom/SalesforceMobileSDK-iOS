@@ -60,6 +60,20 @@
     // NOTE: If advanced authentication is configured or forced,  it will launch Safari to handle authentication
     // instead of a webview. You must implement application:openURL:options: to handle the callback.
     
+    
+    //Or uncomment following block to enable IDP Login flow.
+    /*
+     //scheme of idpAppp
+     [SalesforceSDKManager sharedManager].idpAppURIScheme = @"sampleidpapp";
+     //user friendly display name
+     [SalesforceSDKManager sharedManager].appDisplayName = @"SampleAppOne";
+     
+     //Use the following code block to replace the login flow selection dialog
+     [SalesforceSDKManager sharedManager].idpLoginFlowSelectionBlock = ^UIViewController<SFSDKLoginFlowSelectionView> * _Nonnull{
+     IDPLoginNavViewController *controller = [[IDPLoginNavViewController alloc] init];
+     return controller;
+     };
+     */
     __weak __typeof(self) weakSelf = self;
     [SalesforceSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActionList) {
         __strong __typeof(weakSelf) strongSelf = weakSelf;
@@ -111,15 +125,17 @@
     [self sfsdk_swizzled_application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
-- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options{
-
-    // If you're using advanced authentication:
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
+    
+    //Uncomment following block to enable IDP Login flow or If you're using advanced authentication:
     // --Configure your app to handle incoming requests to your
     //   OAuth Redirect URI custom URL scheme.
     // --Uncomment the following line and delete the original return statement:
-
-    // return [[SFUserAcountManager sharedInstance] handleAdvancedAuthenticationResponse:url options:options];
-    return NO;
+    /*
+     return [[SFUserAccountManager sharedInstance] handleAdvancedAuthenticationResponse:url options:options];
+     // */ return NO;
+    
 }
 
 - (void)handleSdkManagerLogout

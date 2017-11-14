@@ -236,12 +236,17 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     self.authPreferences.appDisplayName = appDisplayName;
 }
 
-- (NSString *)idpAppScheme{
-    return self.authPreferences.idpAppScheme;
+- (NSString *)idpAppURIScheme{
+    return self.authPreferences.idpAppURIScheme;
 }
 
-- (void)setIdpAppScheme:(NSString *)idpAppScheme {
-    self.authPreferences.idpAppScheme = idpAppScheme;
+- (void)setIdpAppURIScheme:(NSString *)idpAppURIScheme {
+    if (idpAppURIScheme && [idpAppURIScheme trim].length > 0) {
+        [SFSDKAppFeatureMarkers registerAppFeature:kSFSPAppFeatureIDPLogin];
+    } else {
+        [SFSDKAppFeatureMarkers unregisterAppFeature:kSFSPAppFeatureIDPLogin];
+    }
+    self.authPreferences.idpAppURIScheme = idpAppURIScheme;
 }
 
 #pragma  mark - login & logout
@@ -1158,7 +1163,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
             config.isIdentityProvider = strongSelf.isIdentityProvider;
             config.oauthCompletionUrl = strongSelf.oauthCompletionUrl;
             config.oauthClientId = strongSelf.oauthClientId;
-            config.idpAppURIScheme = strongSelf.idpAppScheme;
+            config.idpAppURIScheme = strongSelf.idpAppURIScheme;
             config.appDisplayName = strongSelf.appDisplayName;
             config.advancedAuthConfiguration = strongSelf.advancedAuthConfiguration;
             config.delegate = strongSelf;

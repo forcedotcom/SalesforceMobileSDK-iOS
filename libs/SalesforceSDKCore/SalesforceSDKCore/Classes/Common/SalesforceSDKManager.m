@@ -236,7 +236,7 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
 }
 
 - (BOOL)idpEnabled {
-    return [SFUserAccountManager sharedInstance].idpAppScheme!=nil;
+    return [SFUserAccountManager sharedInstance].idpAppURIScheme!=nil;
 }
 
 - (BOOL)useLegacyAuthenticationManager{
@@ -256,11 +256,11 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
 }
 
 - (NSString *)idpAppURIScheme{
-    return [SFUserAccountManager sharedInstance].idpAppScheme;
+    return [SFUserAccountManager sharedInstance].idpAppURIScheme;
 }
 
 - (void)setIdpAppURIScheme:(NSString *)idpAppURIScheme {
-    [SFUserAccountManager sharedInstance].idpAppScheme = idpAppURIScheme;
+    [SFUserAccountManager sharedInstance].idpAppURIScheme = idpAppURIScheme;
 }
 
 - (BOOL)isLaunching

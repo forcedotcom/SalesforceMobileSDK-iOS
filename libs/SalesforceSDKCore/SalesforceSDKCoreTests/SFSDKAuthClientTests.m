@@ -150,7 +150,7 @@
 - (void)tearDown {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     [SFSDKOAuthClient setClientProvider:_originalProvider];
-    [SFUserAccountManager sharedInstance].idpAppScheme = nil;
+    [SFUserAccountManager sharedInstance].idpAppURIScheme = nil;
     [SFUserAccountManager sharedInstance].isIdentityProvider = NO;
     [SFUserAccountManager sharedInstance].advancedAuthConfiguration = SFOAuthTypeUserAgent;
     [super tearDown];
@@ -245,7 +245,7 @@
     [SalesforceSDKManager sharedManager].idpAppURIScheme = @"idpApp";
     [SalesforceSDKManager sharedManager].isIdentityProvider = NO;
     SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig * config) {
-         config.idpAppURIScheme = prefs.idpAppScheme;
+         config.idpAppURIScheme = prefs.idpAppURIScheme;
     }];
     XCTAssertNotNil(client);
     XCTAssertTrue([client isKindOfClass:[SFSDKTestOAuthClient class]]);
