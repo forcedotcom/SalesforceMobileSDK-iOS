@@ -223,37 +223,20 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:params
                                                        options:NSJSONWritingPrettyPrinted
                                                          error:&parsingError];
-    if (jsonData && !parsingError) {
-        // create multipart request fragment
+    // PART 1
+    if (jsonData) {
         [body appendData:[[NSString stringWithFormat:@"%@%@%@", mpeSeparator, mpeBoundary, newline] dataUsingEncoding:NSUTF8StringEncoding]];
-        [body appendData:[[NSString stringWithFormat:@"Content-Type: application/json; charset=UTF-8%@", newline] dataUsingEncoding:NSUTF8StringEncoding]];
-        [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"json\"%@", newline] dataUsingEncoding:NSUTF8StringEncoding]];
-        
-        // append json data
-        [body appendData:[newline dataUsingEncoding:NSUTF8StringEncoding]];
-        [body appendData:jsonData];
-        [body appendData:[newline dataUsingEncoding:NSUTF8StringEncoding]];
-        
-        // terminate multipart request fragment
-        [body appendData:[[NSString stringWithFormat:@"%@%@%@", mpeSeparator, mpeBoundary, newline] dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:[self multiPartRequestBodyForkey:@"json" mimeType:@"application/json" fileName:nil file:jsonData]];
     }
+
+    [body appendData:[[NSString stringWithFormat:@"%@%@%@", mpeSeparator, mpeBoundary, newline] dataUsingEncoding:NSUTF8StringEncoding]];
     
-    if (!mimeType) {
-        mimeType = @"application/octet-stream";
-    }
-    
+    //PART 2
     if (fileData) {
-        // create multipart request fragment
-        [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=fileData; filename=\"%@\"", fileName] dataUsingEncoding:NSUTF8StringEncoding]];
-        [body appendData:[[NSString stringWithFormat:@"Content-Type: %@%@",mimeType, newline] dataUsingEncoding:NSUTF8StringEncoding]];
-        
-        // append file data
-        [body appendData:[newline dataUsingEncoding:NSUTF8StringEncoding]];
-        [body appendData:[newline dataUsingEncoding:NSUTF8StringEncoding]];
-        [body appendData:fileData];
-        [body appendData:[newline dataUsingEncoding:NSUTF8StringEncoding]];
-        
-        // terminate multipart request after setting fragment boundary
+        if (!mimeType) {
+            mimeType = @"application/octet-stream";
+        }
+        [body appendData:[self multiPartRequestBodyForkey:@"fileData" mimeType:mimeType fileName:fileName file:fileData]];
         [body appendData:[[NSString stringWithFormat:@"%@%@%@%@", mpeSeparator, mpeBoundary, mpeSeparator, newline] dataUsingEncoding:NSUTF8StringEncoding]];
     }
     
@@ -262,6 +245,25 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     [self.request setHTTPShouldHandleCookies:NO];
     [self setHeaderValue:@"Keep-Alive" forHeaderName:@"Connection"];
     [self setHeaderValue:[NSString stringWithFormat:@"multipart/form-data; boundary=%@", mpeBoundary] forHeaderName:@"Content-Type"];
+}
+
+- (NSData *)multiPartRequestBodyForkey:(NSString *)key mimeType:(NSString*)mimeType fileName:(NSString*)fileName file:(NSData *)fileData {
+    NSMutableData *body = [NSMutableData data];
+    NSString *newline = @"\r\n";
+    NSString *bodyContentDisposition = [NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\";",key];
+    
+    if (fileName) {
+        bodyContentDisposition = [bodyContentDisposition stringByAppendingFormat:@" filename=\"%@\"%@",fileName, newline];
+    }
+    
+    [body appendData:[bodyContentDisposition dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"Content-Type: %@; charset=UTF-8%@",mimeType, newline] dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    [body appendData:[newline dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:fileData];
+    [body appendData:[newline dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    return body;
 }
 
 + (BOOL)isNetworkError:(NSError *)error {
