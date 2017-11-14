@@ -47,5 +47,6 @@ SFSDK_USE_DEPRECATED_END
 - (void)presentSnapshot;
 - (BOOL)isSnapshotPresented;
 - (void)dismissSnapshot;
+- (void)cancelLaunch;
 
 @end

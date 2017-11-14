@@ -35,6 +35,7 @@
 #import "SFSDKResourceUtils.h"
 #import "SFUserAccountManager.h"
 #import "SFAuthenticationManager.h"
+#import "SalesforceSDKManager+Internal.h"
 
 SFSDK_USE_DEPRECATED_BEGIN
 
@@ -101,6 +102,7 @@ SFSDK_USE_DEPRECATED_END
         [self styleNavigationBar:self.navBar];
     }
     [self setupBackButton];
+    [self setupCancelButton];
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -148,6 +150,18 @@ SFSDK_USE_DEPRECATED_END
 - (BOOL)shouldShowBackButton {
     NSInteger totalAccounts = [SFUserAccountManager sharedInstance].allUserAccounts.count;
     return  (totalAccounts > 0);
+}
+
+- (void)setupCancelButton {
+    if (self.showCancelButton) {
+        self.navBar.topItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonPressed)];
+    }
+}
+
+- (void)cancelButtonPressed {
+    [[SalesforceSDKManager sharedManager] cancelLaunch];
+    [[SFAuthenticationManager sharedManager] cancelAuthentication];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Action Methods

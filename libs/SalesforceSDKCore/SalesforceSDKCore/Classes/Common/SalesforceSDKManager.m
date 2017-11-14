@@ -355,6 +355,12 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
     return YES;
 }
 
+- (void)cancelLaunch
+{
+    [self logoutCleanup];
+    [self authValidatedToPostAuth: SFSDKLaunchActionNone];
+}
+
 + (NSString *)launchActionsStringRepresentation:(SFSDKLaunchAction)launchActions
 {
     if (launchActions == SFSDKLaunchActionNone)
