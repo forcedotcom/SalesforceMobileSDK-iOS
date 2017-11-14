@@ -486,7 +486,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 
 - (void)testAuthHandler {
 
-    XCTestExpectation *expectation = [self expectationWithDescription:@"willShowView"];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"testAuthHandler"];
     SFSDKAuthViewHandler *authViewHandler = [[SFSDKAuthViewHandler alloc] initWithDisplayBlock:^(SFSDKAuthViewHolder *holder) {
         [expectation fulfill];
     } dismissBlock:^{
@@ -496,12 +496,12 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     XCTAssertNotNil(authViewHandler);
     XCTAssertNotNil(authViewHandler.authViewDismissBlock);
     XCTAssertNotNil(authViewHandler.authViewDisplayBlock);
-    [[SFUserAccountManager sharedInstance] loginWithCompletion:^(SFOAuthInfo *info, SFUserAccount *account) {
-
-    } failure:^(SFOAuthInfo *info, NSError *error) {
-
-    }];
-    [self waitForExpectationsWithTimeout:20.0 handler:nil];
+    XCTAssertTrue([SFUserAccountManager sharedInstance].authViewHandler == authViewHandler);
+    
+    [[SFUserAccountManager sharedInstance] loginWithCompletion:nil failure:nil];
+    
+    [self waitForExpectations:[NSArray arrayWithObject:expectation] timeout:20];
+    
 }
 
 #pragma mark - Helper methods

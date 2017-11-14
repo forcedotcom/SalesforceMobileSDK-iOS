@@ -1,8 +1,8 @@
 /*
- SFSDKIDPConstants.h
+ SFSDKStartURLHandler.m
  SalesforceSDKCore
  
- Created by Raj Rao on 9/28/17.
+ Created by Raj Rao on 11/13/17.
  
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
@@ -27,56 +27,23 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+#import "SFSDKStartURLHandler.h"
+#import "SFApplicationHelper.h"
+@implementation SFSDKStartURLHandler
 
-FOUNDATION_EXPORT NSString *const kSFErrorCodeParam;
+- (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options {
+    return YES;
+}
 
-FOUNDATION_EXPORT NSString *const kSFErrorReasonParam;
-
-FOUNDATION_EXPORT NSString *const kSFErrorDescParam;
-
-FOUNDATION_EXPORT NSUInteger const kSFVerifierByteLength;
-
-FOUNDATION_EXPORT NSString *const kSFVerifierParamName;
-
-FOUNDATION_EXPORT NSString *const kSFChallengeParamName;
-
-FOUNDATION_EXPORT NSString *const kSFCodeParam;
-
-FOUNDATION_EXPORT NSString *const kSFStateParam;
-
-FOUNDATION_EXPORT NSString *const kSFAppNameParam;
-
-FOUNDATION_EXPORT NSString *const kSFAppNameDefault;
-
-FOUNDATION_EXPORT NSString *const kSFUserHintParam;
-
-FOUNDATION_EXPORT NSString *const kSFLoginHostParam;
-
-FOUNDATION_EXPORT NSString *const kSFCallingAppUrlParam;
-
-FOUNDATION_EXPORT NSString *const kSFErrorReasonParam;
-
-FOUNDATION_EXPORT NSString *const kSFErrorCodeParam;
-
-FOUNDATION_EXPORT NSString *const kSFErrorDescriptionParam;
-
-FOUNDATION_EXPORT NSString *const kSFRefreshTokenParam;
-
-FOUNDATION_EXPORT NSString *const kSFOAuthClientIdParam;
-
-FOUNDATION_EXPORT NSString *const kSFOAuthRedirectUrlParam;
-
-FOUNDATION_EXPORT NSString *const kSFSpecVersion;
-
-FOUNDATION_EXPORT NSString *const kSFSpecHost;
-
-FOUNDATION_EXPORT NSString *const kSFAppDescParam;
-
-FOUNDATION_EXPORT NSString *const kSFScopesParam;
-
-FOUNDATION_EXPORT NSString *const kSFStartURLParam;
-
-@interface SFSDKIDPConstants : NSObject
-
+- (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options {
+    if (url) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            BOOL success = [SFApplicationHelper openURL:url];
+            if (!success) {
+                 [SFSDKCoreLogger d:[self class] format:@"Could not launch  %@", url];
+            }
+        });
+    }
+    return NO;
+}
 @end

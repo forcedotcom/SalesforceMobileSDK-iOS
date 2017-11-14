@@ -73,9 +73,8 @@
         
         //Uncomment following block to enable IDP Login flow.
         /*
-        [SalesforceSDKManager sharedManager].idpEnabled = YES;
          //scheme of idpAppp
-        [SalesforceSDKManager sharedManager].idpAppScheme = @"sampleidpapp";
+        [SalesforceSDKManager sharedManager].idpAppURIScheme = @"sampleidpapp";
          //user friendly display name
         [SalesforceSDKManager sharedManager].appDisplayName = @"SampleAppOne";
          

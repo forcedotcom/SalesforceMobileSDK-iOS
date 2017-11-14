@@ -806,6 +806,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     [_accountsLock lock];
     _currentUser = nil;
     [self.userAccountMap removeAllObjects];
+    [[SFSDKOAuthClientCache sharedInstance] removeAllClients];
     [_accountsLock unlock];
 }
 
@@ -1167,9 +1168,8 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
             config.isIdentityProvider = strongSelf.isIdentityProvider;
             config.oauthCompletionUrl = strongSelf.oauthCompletionUrl;
             config.oauthClientId = strongSelf.oauthClientId;
-            config.idpAppScheme = strongSelf.idpAppScheme;
+            config.idpAppURIScheme = strongSelf.idpAppScheme;
             config.appDisplayName = strongSelf.appDisplayName;
-            config.idpEnabled = strongSelf.idpEnabled;
             config.advancedAuthConfiguration = strongSelf.advancedAuthConfiguration;
             config.delegate = strongSelf;
             config.webViewDelegate = strongSelf;

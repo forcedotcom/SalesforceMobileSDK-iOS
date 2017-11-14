@@ -121,6 +121,7 @@ static NSString * const kHttpPostContentType                    = @"application/
 static NSString * const kHttpHeaderUserAgent                    = @"User-Agent";
 static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
 static NSString * const kSFAppFeatureSafariBrowserForLogin      = @"BW";
+static NSString * const kSFECParameter = @"ec";
 
 @implementation SFOAuthCoordinator
 
@@ -758,45 +759,50 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin      = @"BW";
     }
 }
 
+- (NSError *)checkFrontdoorResponseForErrors:(NSURL *)requestUrl {
+    NSError *error = nil;
+    NSString *ecValue = [requestUrl valueForParameterName:kSFECParameter];
+    BOOL foundValidEcValue = ([ecValue isEqualToString:@"301"] || [ecValue isEqualToString:@"302"]);
+    NSString *errorCode = [requestUrl valueForParameterName:kSFOAuthError];
+    NSString *errorDescription = [requestUrl valueForParameterName:kSFOAuthErrorDescription];
+    if (foundValidEcValue) {
+        [SFSDKCoreLogger d:[self class] format:@"%@ IDP Authcode redirect response encountered an ec=301 or 302 redirect: %@", NSStringFromSelector(_cmd), requestUrl];
+        error = [[self class] errorWithType:kSFOAuthErrorTypeMalformedResponse description:@"IDP Authcode redirect response encountered an ec=301 or 302 redirect"];
+    } else if (errorCode) {
+        error = [[self class] errorWithType:errorCode
+                                description:errorDescription];
+    } else if (![requestUrl fragment] && ![requestUrl query]){
+        [SFSDKCoreLogger d:[self class] format:@"%@ Error: IDP Authcode response has no payload: %@", NSStringFromSelector(_cmd), requestUrl];
+        error = [[self class] errorWithType:kSFOAuthErrorTypeMalformedResponse description:@"IDP Authcode redirect response has no payload"];
+    }
+    return error;
+}
 
 - (void)handleIDPAuthCodeResponse:(NSURL *)requestUrl {
     NSString *response = nil;
-    if ([requestUrl fragment]) {
-        response = [requestUrl fragment];
-    } else if ([requestUrl query]) {
-        response = [requestUrl query];
-    } else {
-        [SFSDKCoreLogger d:[self class] format:@"%@ Error: IDP Authcode response has no payload: %@", NSStringFromSelector(_cmd), requestUrl];
-        NSError *error = [[self class] errorWithType:kSFOAuthErrorTypeMalformedResponse description:@"IDP Authcode redirect response has no payload"];
-        [self notifyDelegateOfFailure:error authInfo:self.authInfo];
-        response = nil;
-    }
-    
-    if (response) {
-        NSDictionary *params = [[self class] parseQueryString:response decodeParams:NO];
-        NSString *error = params[kSFOAuthError];
-        if (nil == error) {
-            self.spAppCredentials.authCode = params[kSFOAuthApprovalCode];
-            if ([self.delegate respondsToSelector:@selector(oauthCoordinatorDidFetchAuthCode:authInfo:)]) {
-                [self.delegate oauthCoordinatorDidFetchAuthCode:self authInfo:self.authInfo];
-            }
+    NSError *error = [self checkFrontdoorResponseForErrors:requestUrl];
+    // all error cases should be handled by the above call
+    if (error) {
+        NSError *finalError;
+        // add any additional relevant info to the userInfo dictionary
+        if (kSFOAuthErrorInvalidClientId == error.code) {
+            NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:error.userInfo];
+            dict[kSFOAuthClientId] = self.credentials.clientId;
+            finalError = [NSError errorWithDomain:error.domain code:error.code userInfo:dict];
         } else {
-            NSError *finalError;
-            NSError *error = [[self class] errorWithType:params[kSFOAuthError]
-                                             description:params[kSFOAuthErrorDescription]];
-            
-            // add any additional relevant info to the userInfo dictionary
-            if (kSFOAuthErrorInvalidClientId == error.code) {
-                NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:error.userInfo];
-                dict[kSFOAuthClientId] = self.credentials.clientId;
-                finalError = [NSError errorWithDomain:error.domain code:error.code userInfo:dict];
-            } else {
-                finalError = error;
-            }
-            [self notifyDelegateOfFailure:finalError authInfo:self.authInfo];
+            finalError = error;
         }
+        [self notifyDelegateOfFailure:finalError authInfo:self.authInfo];
+    } else {
+        // Should have a valid reponse here.Must be a fragment or query. No Errors in response,no ec=*
+        response = [requestUrl fragment]?:[requestUrl query];
+        NSDictionary *params = [[self class] parseQueryString:response decodeParams:NO];
+        self.spAppCredentials.authCode = params[kSFOAuthApprovalCode];
+        if ([self.delegate respondsToSelector:@selector(oauthCoordinatorDidFetchAuthCode:authInfo:)]) {
+            [self.delegate oauthCoordinatorDidFetchAuthCode:self authInfo:self.authInfo];
+        }
+        
     }
-    
 }
 
 - (void)handleUserAgentResponse:(NSURL *)requestUrl {

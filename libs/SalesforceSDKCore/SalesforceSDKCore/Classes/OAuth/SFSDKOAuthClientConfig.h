@@ -54,8 +54,8 @@
 @property (nonatomic, strong, nullable) NSArray *additionalOAuthParameterKeys;
 @property (nonatomic, strong, nullable) NSDictionary *additionalTokenRefreshParams;
 @property (nonatomic, copy, nullable) NSString *appDisplayName;
-@property (nonatomic, assign) BOOL idpEnabled;
-@property (nonatomic, copy,nullable) NSString *idpAppScheme;
+@property (nonatomic, readonly) BOOL idpEnabled;
+@property (nonatomic, copy,nullable) NSString *idpAppURIScheme;
 @property (nonatomic, copy, nullable) NSString *oauthCompletionUrl;
 @property (nonatomic, copy, nullable) NSString *oauthClientId;
 @property (nonatomic, assign) BOOL isIDPInitiatedFlow;

@@ -32,4 +32,6 @@
 @interface SFSDKIDPInitCommand : SFSDKAuthCommand
 @property (nonatomic,copy) NSString *userHint;
 @property (nonatomic,copy) NSString *domain;
+@property (nonatomic,copy) NSString *startURL;
+
 @end
