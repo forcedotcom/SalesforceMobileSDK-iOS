@@ -86,11 +86,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic,assign) BOOL isIdentityProvider;
 
-/**  Use this property to enable this app to be able to use another app that is an Identity Provider
+/** Check if the idp apps URI scheme  has been set.
  *
  */
-@property (nonatomic,assign) BOOL idpEnabled;
-
+@property (nonatomic,assign,readonly) BOOL idpEnabled;
 /** Use this property to use SFAuthenticationManager for authentication
  *
  */

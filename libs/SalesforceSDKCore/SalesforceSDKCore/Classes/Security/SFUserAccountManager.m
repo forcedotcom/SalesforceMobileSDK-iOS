@@ -211,15 +211,6 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     return self.authPreferences.idpEnabled;
 }
 
-- (void)setIdpEnabled:(BOOL)idpEnabled {
-    if (idpEnabled) {
-        [SFSDKAppFeatureMarkers registerAppFeature:kSFSPAppFeatureIDPLogin];
-    }else {
-        [SFSDKAppFeatureMarkers unregisterAppFeature:kSFSPAppFeatureIDPLogin];
-    }
-    self.authPreferences.idpEnabled = idpEnabled;
-}
-
 - (SFOAuthAdvancedAuthConfiguration)advancedAuthConfiguration {
    return self.authPreferences.advancedAuthConfiguration;
 }
@@ -607,7 +598,6 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     creds.accessToken = nil;
     return creds;
 }
-
 
 #pragma mark Account management
 - (NSArray *)allUserAccounts

@@ -252,9 +252,6 @@
     XCTAssertTrue([client isKindOfClass:[SFSDKTestOAuthClient class]]);
     SFSDKTestOAuthClient *testClient = (SFSDKTestOAuthClient *)client;
     XCTAssertTrue(testClient.isIDPClient,@"Client should be a an IDP client when enabled through SDKManager");
-    prefs.idpEnabled = NO;
-    XCTAssertFalse(prefs.idpEnabled,@"Preferences for idpEnabled should be set to false");
-    
 }
 
 - (void)testPreferencesProvider {

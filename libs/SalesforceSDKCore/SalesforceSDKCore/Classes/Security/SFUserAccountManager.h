@@ -330,7 +330,7 @@ FOUNDATION_EXTERN NSString * const kSFUserInfoAddlOptionsKey;
 /**  Use this property to enable this app to be able to use another app that is an Identity Provider
  *
  */
-@property (nonatomic,assign) BOOL idpEnabled;
+@property (nonatomic,assign, readonly) BOOL idpEnabled;
 
 /** Use this property to use SFAuthenticationManager for authentication
  *
