@@ -134,7 +134,8 @@
     // --Uncomment the following line and delete the original return statement:
     /*
      return [[SFUserAccountManager sharedInstance] handleAdvancedAuthenticationResponse:url options:options];
-     // */ return NO;
+     */
+    return NO;
     
 }
 

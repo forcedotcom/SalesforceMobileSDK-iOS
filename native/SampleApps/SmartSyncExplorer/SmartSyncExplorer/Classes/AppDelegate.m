@@ -156,7 +156,8 @@
     //Uncomment following block to enable IDP Login flow
     /*
     return [[SFUserAccountManager sharedInstance] handleAdvancedAuthenticationResponse:url options:options];
-    // */ return NO;
+    */
+    return NO;
 
 }
 
