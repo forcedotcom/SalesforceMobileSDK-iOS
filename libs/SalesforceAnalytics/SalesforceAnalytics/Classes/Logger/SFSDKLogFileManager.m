@@ -53,7 +53,7 @@ static NSString * const kLogSuffix = @"_log";
 }
 
 - (BOOL)isLogFile:(NSString *)fileName {
-    if (fileName && [fileName isEqualToString:[NSString stringWithFormat:@"%@%@", self.componentName, kLogSuffix]]) {
+    if (fileName && [fileName hasPrefix:[NSString stringWithFormat:@"%@%@", self.componentName, kLogSuffix]]) {
         return YES;
     }
     return NO;
