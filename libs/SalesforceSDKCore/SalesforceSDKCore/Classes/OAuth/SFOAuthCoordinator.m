@@ -618,7 +618,7 @@ static NSString * const kSFECParameter = @"ec";
         NSString *baseUrlString = [self.credentials.apiUrl absoluteString];
         NSString *approvalUrlString = [self generateCodeApprovalUrlString:spAppCredentials];
         NSString *codeChallengeString = spAppCredentials.challengeString;
-        approvalUrlString = [NSString stringWithFormat:@"%@&%@=%@&prompt=consent",approvalUrlString,kSFOAuthCodeChallengeParamName,codeChallengeString];
+        approvalUrlString = [NSString stringWithFormat:@"%@&%@=%@",approvalUrlString, kSFOAuthCodeChallengeParamName, codeChallengeString];
         NSString *escapedApprovalUrlString = [approvalUrlString stringByURLEncoding];
         NSString *frontDoorUrlString = [NSString stringWithFormat:@"%@/secur/frontdoor.jsp?sid=%@&retURL=%@", baseUrlString, self.credentials.accessToken, escapedApprovalUrlString];
         [self loadWebViewWithUrlString:frontDoorUrlString cookie:YES];
