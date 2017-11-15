@@ -43,7 +43,7 @@ static NSString * const kLogSuffix = @"_log";
     self = [super init];
     if (self) {
         self.componentName = componentName;
-        self.maximumNumberOfLogFiles = 0; // Disables archiving of log files and re-uses a single file that's rolled when the log file size limit is reached.
+        self.maximumNumberOfLogFiles = 1; // Disables archiving of log files and re-uses a single file that's rolled when the log file size limit is reached.
     }
     return self;
 }
@@ -53,7 +53,7 @@ static NSString * const kLogSuffix = @"_log";
 }
 
 - (BOOL)isLogFile:(NSString *)fileName {
-    if (fileName && [fileName isEqualToString:[NSString stringWithFormat:@"%@%@", self.componentName, kLogSuffix]]) {
+    if (fileName && [fileName hasPrefix:[NSString stringWithFormat:@"%@%@", self.componentName, kLogSuffix]]) {
         return YES;
     }
     return NO;
