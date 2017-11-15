@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.license      = { :type => "Salesforce.com Mobile SDK License", :file => "LICENSE.md" }
   s.author       = { "Bharath Hariharan" => "bhariharan@salesforce.com" }
 
-  s.platform     = :ios, "9.0"
+  s.platform     = :ios, "10.0"
 
   s.source       = { :git => "https://github.com/forcedotcom/SalesforceMobileSDK-iOS.git",
                      :tag => "v#{s.version}",

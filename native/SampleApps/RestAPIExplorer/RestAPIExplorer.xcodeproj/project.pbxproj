@@ -832,7 +832,7 @@
 					"$(BUILT_PRODUCTS_DIR)/Headers",
 					"$(OBJROOT)/UninstalledProducts/Headers",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher\"";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "";
@@ -880,7 +880,7 @@
 					"$(BUILT_PRODUCTS_DIR)/Headers",
 					"$(OBJROOT)/UninstalledProducts/Headers",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher\"";
 				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
@@ -902,7 +902,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RestAPIExplorer/RestAPIExplorer-Prefix.pch";
 				INFOPLIST_FILE = "RestAPIExplorer/RestAPIExplorer-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "${BUNDLE_PREFIX}.${PRODUCT_NAME:rfc1034identifier}";
@@ -927,7 +927,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RestAPIExplorer/RestAPIExplorer-Prefix.pch";
 				INFOPLIST_FILE = "RestAPIExplorer/RestAPIExplorer-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "${BUNDLE_PREFIX}.${PRODUCT_NAME:rfc1034identifier}";

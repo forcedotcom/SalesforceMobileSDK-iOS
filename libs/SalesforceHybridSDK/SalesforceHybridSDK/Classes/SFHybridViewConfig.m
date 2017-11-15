@@ -180,7 +180,7 @@ static NSString* const kDefaultErrorPage = @"error.html";
 {
     NSDictionary *hybridConfigDict = [SFHybridViewConfig loadConfigFromFile:configFilePath];
     if (nil == hybridConfigDict) {
-        [SFSDKHybridLogger i:[SFHybridViewConfig class] format:[NSString stringWithFormat:@"Hybrid view config at specified path '%@' not found, or data could not be parsed.", configFilePath]];
+        [SFSDKHybridLogger i:[SFHybridViewConfig class] format:@"Hybrid view config at specified path '%@' not found, or data could not be parsed.", configFilePath];
         return nil;
     }
     SFHybridViewConfig *hybridViewConfig = [[SFHybridViewConfig alloc] initWithDict:hybridConfigDict];
@@ -193,7 +193,7 @@ static NSString* const kDefaultErrorPage = @"error.html";
     NSError *fileReadError = nil;
     NSData *fileContents = [NSData dataWithContentsOfFile:fullPath options:NSDataReadingUncached error:&fileReadError];
     if (fileContents == nil) {
-        [SFSDKHybridLogger i:[SFHybridViewConfig class] format:[NSString stringWithFormat:@"Hybrid view config at specified path '%@' could not be read: %@", configFilePath, fileReadError]];
+        [SFSDKHybridLogger i:[SFHybridViewConfig class] format:@"Hybrid view config at specified path '%@' could not be read: %@", configFilePath, fileReadError];
         return nil;
     }
     NSDictionary *jsonDict = [SFJsonUtils objectFromJSONData:fileContents];

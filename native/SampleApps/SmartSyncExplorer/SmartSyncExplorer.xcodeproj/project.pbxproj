@@ -1552,7 +1552,7 @@
 					"$(BUILT_PRODUCTS_DIR)/Headers",
 					"$(OBJROOT)/UninstalledProducts/Headers",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher";
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1605,7 +1605,7 @@
 					"$(BUILT_PRODUCTS_DIR)/Headers",
 					"$(OBJROOT)/UninstalledProducts/Headers",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher";
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "../../../shared/test/XCUITest-Bridging-Header.h";
@@ -1625,6 +1625,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartSyncExplorer/SmartSyncExplorer-Prefix.pch";
 				INFOPLIST_FILE = "SmartSyncExplorer/SmartSyncExplorer-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SmartSyncExplorer;
@@ -1644,6 +1645,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartSyncExplorer/SmartSyncExplorer-Prefix.pch";
 				INFOPLIST_FILE = "SmartSyncExplorer/SmartSyncExplorer-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SmartSyncExplorer;
@@ -1668,7 +1670,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = SmartSyncExplorerCommon/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SmartSyncExplorerCommon;
@@ -1695,7 +1697,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = SmartSyncExplorerCommon/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SmartSyncExplorerCommon;
@@ -1715,7 +1717,7 @@
 				CODE_SIGN_ENTITLEMENTS = RecentContactsTodayExtension/RecentContactsTodayExtension.entitlements;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				INFOPLIST_FILE = RecentContactsTodayExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SmartSyncExplorer.RecentContactsTodayExtension;
@@ -1734,7 +1736,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				INFOPLIST_FILE = RecentContactsTodayExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SmartSyncExplorer.RecentContactsTodayExtension;
