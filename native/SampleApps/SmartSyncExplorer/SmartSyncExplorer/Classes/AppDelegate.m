@@ -73,9 +73,8 @@
         
         //Uncomment following block to enable IDP Login flow.
         /*
-        [SalesforceSDKManager sharedManager].idpEnabled = YES;
-         //scheme of idpAppp
-        [SalesforceSDKManager sharedManager].idpAppScheme = @"sampleidpapp";
+        //scheme of idpAppp
+        [SalesforceSDKManager sharedManager].idpAppURIScheme = @"sampleidpapp";
          //user friendly display name
         [SalesforceSDKManager sharedManager].appDisplayName = @"SampleAppOne";
          
@@ -158,7 +157,8 @@
     /*
     return [[SFUserAccountManager sharedInstance] handleAdvancedAuthenticationResponse:url options:options];
     */
-   return NO;
+    return NO;
+
 }
 
 #pragma mark - Private methods

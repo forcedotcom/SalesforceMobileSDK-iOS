@@ -173,7 +173,7 @@
     NSString *codeChallengeString = [[[self.coordinator.codeVerifier dataUsingEncoding:NSUTF8StringEncoding] msdkSha256Data] msdkBase64UrlString];
     
     SFSDKAuthRequestCommand *command = [[SFSDKAuthRequestCommand alloc] init];
-    command.scheme = self.config.idpAppScheme;
+    command.scheme = self.config.idpAppURIScheme;
     command.spClientId = self.config.oauthClientId;
     command.spCodeChallenge = codeChallengeString;
     command.spUserHint = self.context.userHint;
@@ -187,10 +187,17 @@
     if ( [self.config.idpDelegate respondsToSelector:@selector(authClient:willSendRequestForIDPAuth:)]) {
         [self.config.idpDelegate authClient:self willSendRequestForIDPAuth:command.allParams];
     }
+    [SFSDKCoreLogger d:[self class] format:@"attempting to launch IDP app %@", url];
     BOOL launched  = [SFApplicationHelper openURL:url];
     if (launched) {
         if ( [self.config.idpDelegate respondsToSelector:@selector(authClient:didSendRequestForIDPAuth:)]) {
             [self.config.idpDelegate authClient:self willSendRequestForIDPAuth:command.allParams];
+        }
+    } else {
+        [SFSDKCoreLogger e:[self class] format:@"attempting to launch IDP app %@ failed", url];
+        if ( [self.config.idpDelegate  respondsToSelector:@selector(authClient:error:)]) {
+            NSError *error = [self errorWithType:@"IDPAppLaunchFailed" description:@"Could not launch the IDP app"];
+            [self.config.idpDelegate authClient:self error:error];
         }
     }
     
@@ -224,6 +231,12 @@
     if (launched) {
         if ( [self.config.idpDelegate respondsToSelector:@selector(authClient:didSendRequestForIDPAuth:)]) {
             [self.config.idpDelegate authClient:self didSendRequestForIDPAuth:responseCommand.allParams];
+        }
+    } else {
+        [SFSDKCoreLogger e:[self class] format:@"attempting to launch SP app %@ failed", url];
+        if ( [self.config.idpDelegate respondsToSelector:@selector(authClient:error:)]) {
+            NSError *error = [self errorWithType:@"SPAppLaunchFailed" description:@"Could not launch the SP app"];
+            [self.config.idpDelegate authClient:self error:error];
         }
     }
     
@@ -346,8 +359,7 @@
 }
 
 - (BOOL)handleURLAuthenticationResponse:(NSURL *)appUrlResponse {
-    
-    [SFSDKCoreLogger i:[self class] format:@"handleAdvancedAuthenticationResponse"];
+    [SFSDKCoreLogger d:[self class] format:@"handleAdvancedAuthenticationResponse called"];
     self.coordinator.credentials = self.context.credentials;
     [self.coordinator handleIDPAuthenticationResponse:appUrlResponse];
     return YES;

@@ -75,6 +75,9 @@
 		82AF5AEA1A0DAE72006C7A4B /* console-via-logger.js in Copy cordova-plugin-console plugin */ = {isa = PBXBuildFile; fileRef = 82AF5AE41A0DADA4006C7A4B /* console-via-logger.js */; };
 		82AF5AEB1A0DAE72006C7A4B /* logger.js in Copy cordova-plugin-console plugin */ = {isa = PBXBuildFile; fileRef = 82AF5AE51A0DADA4006C7A4B /* logger.js */; };
 		B7168FB81FACC31100A48DB5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7168FB71FACC31100A48DB5 /* LaunchScreen.storyboard */; };
+		B7BAD78D1FBB7EE50046629F /* IDPLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BAD78A1FBB7EE40046629F /* IDPLoginViewController.m */; };
+		B7BAD78E1FBB7EE50046629F /* IDPLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7BAD78B1FBB7EE40046629F /* IDPLoginViewController.xib */; };
+		B7BAD78F1FBB7EE50046629F /* IDPLoginNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BAD78C1FBB7EE40046629F /* IDPLoginNavViewController.m */; };
 		BCAE027F1D7F7DAE00944153 /* SalesforceAnalytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8DF01CE9333A00C6FC6A /* SalesforceAnalytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CE2B8E0F1CE9334F00C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8DF01CE9333A00C6FC6A /* SalesforceAnalytics.framework */; };
 		CE6AB3DA1C10CE2A0012125E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6AB3D91C10CE2A0012125E /* libz.tbd */; };
@@ -605,6 +608,11 @@
 		82AF5AE51A0DADA4006C7A4B /* logger.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = logger.js; sourceTree = "<group>"; };
 		82E856341D88AC570000EECB /* SmartSyncExplorerHybrid.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartSyncExplorerHybrid.entitlements; sourceTree = "<group>"; };
 		B7168FB71FACC31100A48DB5 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ../../../../shared/resources/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		B7BAD7641FBB7EE40046629F /* IDPLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IDPLoginViewController.h; path = ../../../../shared/classes/IDPLoginViewController.h; sourceTree = "<group>"; };
+		B7BAD7891FBB7EE40046629F /* IDPLoginNavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IDPLoginNavViewController.h; path = ../../../../shared/classes/IDPLoginNavViewController.h; sourceTree = "<group>"; };
+		B7BAD78A1FBB7EE40046629F /* IDPLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IDPLoginViewController.m; path = ../../../../shared/classes/IDPLoginViewController.m; sourceTree = "<group>"; };
+		B7BAD78B1FBB7EE40046629F /* IDPLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = IDPLoginViewController.xib; path = ../../../../shared/classes/IDPLoginViewController.xib; sourceTree = "<group>"; };
+		B7BAD78C1FBB7EE40046629F /* IDPLoginNavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IDPLoginNavViewController.m; path = ../../../../shared/classes/IDPLoginNavViewController.m; sourceTree = "<group>"; };
 		CE2B8DD81CE9333A00C6FC6A /* SalesforceAnalytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceAnalytics.xcodeproj; path = ../../../libs/SalesforceAnalytics/SalesforceAnalytics.xcodeproj; sourceTree = "<group>"; };
 		CE6AB3D91C10CE2A0012125E /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		CE6AB3DB1C10CE340012125E /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
@@ -885,6 +893,11 @@
 		824A9C5E1722021D00C9BD79 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				B7BAD7891FBB7EE40046629F /* IDPLoginNavViewController.h */,
+				B7BAD78C1FBB7EE40046629F /* IDPLoginNavViewController.m */,
+				B7BAD7641FBB7EE40046629F /* IDPLoginViewController.h */,
+				B7BAD78A1FBB7EE40046629F /* IDPLoginViewController.m */,
+				B7BAD78B1FBB7EE40046629F /* IDPLoginViewController.xib */,
 				CEBDA0B91D3C05F500DBDBD0 /* MainViewController.h */,
 				CEBDA0BA1D3C05F500DBDBD0 /* MainViewController.m */,
 				CEBDA0BB1D3C05F500DBDBD0 /* MainViewController.xib */,
@@ -1386,6 +1399,7 @@
 				4FC276B019DCBC6E008F4AA6 /* config.xml in Resources */,
 				4FC276B119DCBC6E008F4AA6 /* InfoPlist.strings in Resources */,
 				B7168FB81FACC31100A48DB5 /* LaunchScreen.storyboard in Resources */,
+				B7BAD78E1FBB7EE50046629F /* IDPLoginViewController.xib in Resources */,
 				CED7473C1E8C82F00019AA9D /* ios-wkwebview-exec.js in Resources */,
 				CEBDA0BD1D3C05F500DBDBD0 /* MainViewController.xib in Resources */,
 			);
@@ -1400,12 +1414,14 @@
 			files = (
 				8272301C19D764160066A350 /* InitialViewController.m in Sources */,
 				82AF5AE61A0DADA4006C7A4B /* CDVLogger.m in Sources */,
+				B7BAD78F1FBB7EE50046629F /* IDPLoginNavViewController.m in Sources */,
 				CED747361E8C824D0019AA9D /* CDVWKWebViewUIDelegate.m in Sources */,
 				4F6D839A19525B66003EBB16 /* AppDelegate+SalesforceHybridSDK.m in Sources */,
 				CED747351E8C824D0019AA9D /* CDVWKWebViewEngine.m in Sources */,
 				CEBDA0BC1D3C05F500DBDBD0 /* MainViewController.m in Sources */,
 				CEBDA0391D3C04A500DBDBD0 /* CDVAppDelegate.m in Sources */,
 				824A9BDE1721FCA400C9BD79 /* main.m in Sources */,
+				B7BAD78D1FBB7EE50046629F /* IDPLoginViewController.m in Sources */,
 				CED747341E8C824D0019AA9D /* CDVWKProcessPoolFactory.m in Sources */,
 				82638F0C19B8E1FD00FBB3C9 /* UIApplication+SalesforceHybridSDK.m in Sources */,
 				4F6D839B19525B66003EBB16 /* AppDelegate.m in Sources */,

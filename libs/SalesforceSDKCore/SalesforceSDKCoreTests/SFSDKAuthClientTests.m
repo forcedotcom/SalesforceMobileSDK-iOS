@@ -32,6 +32,7 @@
 #import "SFSDKAuthPreferences.h"
 #import "SalesforceSDKCore.h"
 #import "SFOAuthCoordinator+Internal.h"
+#import "SFSDKOAuthClientCache.h"
 @class SFSDKTestOAuthClient;
 
 @interface SFSDKTestOAuthClient : SFSDKOAuthClient
@@ -149,6 +150,9 @@
 - (void)tearDown {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     [SFSDKOAuthClient setClientProvider:_originalProvider];
+    [SFUserAccountManager sharedInstance].idpAppURIScheme = nil;
+    [SFUserAccountManager sharedInstance].isIdentityProvider = NO;
+    [SFUserAccountManager sharedInstance].advancedAuthConfiguration = SFOAuthTypeUserAgent;
     [super tearDown];
 }
 
@@ -160,7 +164,7 @@
 
     
    SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig * config) {
-       config.idpEnabled = YES;
+       config.idpAppURIScheme = @"idpApp";
    }];
     
    XCTAssertNotNil(client);
@@ -238,20 +242,16 @@
     credentials.refreshToken = nil;
 
     SFSDKAuthPreferences *prefs = [[SFSDKAuthPreferences alloc] init];
-    [SalesforceSDKManager sharedManager].idpEnabled = YES;
+    [SalesforceSDKManager sharedManager].idpAppURIScheme = @"idpApp";
     [SalesforceSDKManager sharedManager].isIdentityProvider = NO;
     SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig * config) {
-        config.idpEnabled = prefs.idpEnabled;
+         config.idpAppURIScheme = prefs.idpAppURIScheme;
     }];
-    
     XCTAssertNotNil(client);
     XCTAssertTrue([client isKindOfClass:[SFSDKTestOAuthClient class]]);
     XCTAssertTrue([client isKindOfClass:[SFSDKTestOAuthClient class]]);
     SFSDKTestOAuthClient *testClient = (SFSDKTestOAuthClient *)client;
     XCTAssertTrue(testClient.isIDPClient,@"Client should be a an IDP client when enabled through SDKManager");
-    prefs.idpEnabled = NO;
-    XCTAssertFalse(prefs.idpEnabled,@"Preferences for idpEnabled should be set to false");
-    
 }
 
 - (void)testPreferencesProvider {
@@ -261,7 +261,7 @@
     credentials.refreshToken = nil;
 
     [SalesforceSDKManager sharedManager].isIdentityProvider = YES;
-    [SalesforceSDKManager sharedManager].idpEnabled = NO;
+    [SalesforceSDKManager sharedManager].idpAppURIScheme = @"idpApp";
     SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig * config) {
         config.isIdentityProvider = prefs.isIdentityProvider;
     }];
@@ -283,7 +283,7 @@
     credentials.refreshToken = nil;
 
     [SalesforceSDKManager sharedManager].isIdentityProvider = YES;
-    [SalesforceSDKManager sharedManager].idpEnabled = NO;
+    [SalesforceSDKManager sharedManager].idpAppURIScheme = @"idpApp";
     
     [SalesforceSDKManager sharedManager].idpUserSelectionBlock = ^UIViewController<SFSDKUserSelectionView> * {
          TestUserSelectionNavViewController *userSelectionNavViewController = [[TestUserSelectionNavViewController alloc] init];
@@ -319,7 +319,7 @@
     credentials.refreshToken = nil;
 
     [SalesforceSDKManager sharedManager].isIdentityProvider = YES;
-    [SalesforceSDKManager sharedManager].idpEnabled = NO;
+    [SalesforceSDKManager sharedManager].idpAppURIScheme = @"idpApp";
 
     [SalesforceSDKManager sharedManager].idpLoginFlowSelectionBlock = ^UIViewController<SFSDKLoginFlowSelectionView> * {
         TestIDPLoginNavViewController *idpLoginViewController = [[TestIDPLoginNavViewController alloc] init];

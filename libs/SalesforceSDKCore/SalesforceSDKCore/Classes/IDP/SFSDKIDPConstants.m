@@ -69,6 +69,8 @@ NSString *const kSFSpecVersion = @"v1.0";
 
 NSString *const kSFSpecHost = @"oauth2";
 
+NSString *const kSFStartURLParam = @"start_url";
+
 @implementation SFSDKIDPConstants
 
 @end

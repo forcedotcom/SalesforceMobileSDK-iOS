@@ -53,10 +53,7 @@ NSString * const kOAuthRedirectUriKey = @"oauth_redirect_uri";
 // The key for storing the persisted IDP app identifier
 NSString * const kSFIDPKey = @"SFDCIdp";
 
-// The key for storing the IDP App Enabled flag
-NSString * const kSFIDPEnabledKey = @"SFDCIdpEnabled";
-
-// The key for storing the IDP App Enabled flag
+// The key for storing the IDP Provider Enabled flag
 NSString * const kSFIDPProviderKey = @"SFIDPProvider";
 
 // The key for storing the persisted OAuth scopes.
@@ -171,13 +168,13 @@ NSString * const kSFLegacyAuthIndicatorKey = @"SFDCUseLegacyAuth";
     [defs synchronize];
 }
 
-- (NSString *)idpAppScheme
+- (NSString *)idpAppURIScheme
 {
     NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
     return [defs stringForKey:kSFIDPKey];
 }
 
-- (void)setIdpAppScheme:(NSString *)appIdentifier
+- (void)setIdpAppURIScheme:(NSString *)appIdentifier
 {
     NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
     [defs setObject:appIdentifier forKey:kSFIDPKey];
@@ -186,15 +183,7 @@ NSString * const kSFLegacyAuthIndicatorKey = @"SFDCUseLegacyAuth";
 
 - (BOOL)idpEnabled
 {
-    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
-    return [defs boolForKey:kSFIDPEnabledKey];
-}
-
-- (void)setIdpEnabled:(BOOL)idpEnabled
-{
-    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
-    [defs setBool:idpEnabled forKey:kSFIDPEnabledKey];
-    [defs synchronize];
+    return self.idpAppURIScheme && self.idpAppURIScheme.length > 0;
 }
 
 - (BOOL)isIdentityProvider

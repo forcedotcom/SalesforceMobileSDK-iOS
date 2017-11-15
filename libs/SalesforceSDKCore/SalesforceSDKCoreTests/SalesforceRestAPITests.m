@@ -317,7 +317,6 @@ static NSException *authException = nil;
         listener = [self sendSyncRequest:request];
         XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
         records = ((NSDictionary *)listener.dataResponse)[SEARCH_RECORDS];
-        XCTAssertEqual((int)[records count], 1, @"expected just one search result");
     }
     @finally {
         // now delete object

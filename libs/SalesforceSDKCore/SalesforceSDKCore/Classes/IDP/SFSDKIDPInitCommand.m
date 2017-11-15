@@ -49,6 +49,15 @@
     return [self setParamForKey:domain key:kSFLoginHostParam];
 }
 
+- (NSString *)startURL {
+    return [self paramForKey:kSFStartURLParam];
+}
+
+- (void)setStartURL:(NSString *)userHint {
+    return [self setParamForKey:userHint key:kSFStartURLParam];
+}
+
+
 - (NSString *)command {
     return @"idpinit";
 }
