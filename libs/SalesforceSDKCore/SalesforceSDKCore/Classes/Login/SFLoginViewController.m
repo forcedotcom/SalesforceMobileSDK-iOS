@@ -115,16 +115,32 @@ SFSDK_USE_DEPRECATED_END
     return self.config.navBarTextColor;
 }
 
+- (void)setNavBarTextColor:(UIColor *)color {
+    self.config.navBarTextColor = color;
+}
+
 - (UIColor *)navBarColor {
     return self.config.navBarColor;
+}
+
+- (void)setNavBarColor:(UIColor *)navBarColor {
+    self.config.navBarColor = navBarColor;
 }
 
 - (BOOL)showNavbar {
     return self.config.showNavbar;
 }
 
+- (void)setShowNavbar:(BOOL)showNavbar {
+    self.config.showNavbar = showNavbar;
+}
+
 - (BOOL)showSettingsIcon {
     return self.config.showSettingsIcon;
+}
+
+- (void)setShowSettingsIcon:(BOOL)showSettingsIcon {
+    self.config.showSettingsIcon = showSettingsIcon;
 }
 
 - (SFSDKLoginViewControllerConfig *)config {

@@ -544,6 +544,38 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     [[SFUserAccountManager sharedInstance] disposeOAuthClient:client];
 }
 
+- (void)testLoginViewCustomizationsBackwardCompatibility {
+    
+    SFLoginViewController *controller = [SFLoginViewController sharedInstance];
+    SFSDKLoginViewControllerConfig *origConfig = controller.config;
+    
+    controller.navBarColor = [UIColor redColor];
+    controller.navBarFont = [UIFont systemFontOfSize:10.0f];
+    controller.showNavbar = YES;
+    controller.showSettingsIcon = NO;
+    
+    
+    SFSDKLoginViewControllerConfig *config = controller.config;
+    
+    //test defaults
+    XCTAssertNotNil(config);
+   
+    XCTAssertTrue(config.navBarColor == [UIColor redColor], @"SFSDKLoginViewController config nav bar color should have changed" );
+    XCTAssertTrue(config.navBarFont == [UIFont systemFontOfSize:10.0f], @"SFSDKLoginViewController config nav bar font should have changed" );
+    XCTAssertTrue(config.showNavbar, @"SFSDKLoginViewController nav bar should have been disabled");
+    XCTAssertFalse(config.showSettingsIcon, @"SFSDKLoginViewController nav bar settings icon should have been disabled");
+    
+    [SFUserAccountManager sharedInstance].loginViewControllerConfig = config;
+    
+    SFOAuthCredentials *credentials = [self populateAuthCredentialsFromConfigFileForClass:self.class];
+    credentials.refreshToken = nil;
+    
+    SFSDKOAuthClient *client = [[SFUserAccountManager sharedInstance] fetchOAuthClient:credentials completion:nil failure:nil];
+    XCTAssertTrue(client.config.loginViewControllerConfig == config);
+    [[SFUserAccountManager sharedInstance] disposeOAuthClient:client];
+    controller.config = origConfig;
+}
+
 #pragma mark - Helper methods
 
 - (NSArray *)createAndVerifyUserAccounts:(NSUInteger)numAccounts {
