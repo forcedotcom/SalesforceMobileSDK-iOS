@@ -1175,8 +1175,11 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
             config.idpLoginFlowSelectionBlock = strongSelf.idpLoginFlowSelectionAction;
             config.idpUserSelectionBlock = strongSelf.idpUserSelectionAction;
             config.authViewHandler = strongSelf.authViewHandler;
-            if ([strongSelf loginViewControllerConfig])
+            if ([strongSelf loginViewControllerConfig]) {
                 config.loginViewControllerConfig = [strongSelf loginViewControllerConfig];
+            } else {
+                config.loginViewControllerConfig = [[SFSDKLoginViewControllerConfig alloc] init];
+            }
         }];
         [[SFSDKOAuthClientCache sharedInstance] addClient:client];
     }

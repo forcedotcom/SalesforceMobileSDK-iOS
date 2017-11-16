@@ -89,7 +89,7 @@
             if (command.startURL) {
                 [SFSDKCoreLogger d:[self class] format:@"Attempting to launch %@", command.startURL];
                 SFSDKStartURLHandler *handler = [[SFSDKStartURLHandler alloc] init];
-                [handler processRequest:command.startURL options:nil];
+                [handler processRequest:[NSURL URLWithString:command.startURL]  options:nil];
             }
             return YES;
         }

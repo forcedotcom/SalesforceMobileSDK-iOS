@@ -226,6 +226,7 @@ NS_ASSUME_NONNULL_BEGIN
  * The context for this client
  */
 @property (nonatomic, readonly, strong, nullable) SFSDKOAuthClientContext * context;
+
 /**
  * The Client Config that was configured
  */

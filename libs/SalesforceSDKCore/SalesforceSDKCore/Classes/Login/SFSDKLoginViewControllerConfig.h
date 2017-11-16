@@ -27,5 +27,4 @@
 @property (nonatomic) BOOL showSettingsIcon;
 
 
-
 @end
