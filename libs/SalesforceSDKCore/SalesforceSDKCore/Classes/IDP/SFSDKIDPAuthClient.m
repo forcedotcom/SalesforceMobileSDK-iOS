@@ -106,7 +106,6 @@
 }
 
 - (BOOL)initiateLocalLoginInSPApp {
-    self.config.hideSettingsIcon = NO;
     return [super refreshCredentials];
 }
 
@@ -125,14 +124,14 @@
 
 - (void)beginIDPFlow:(SFSDKAuthRequestCommand *)request {
     // Should begin IDP Flow in the IDP App?
-    self.config.hideSettingsIcon = YES;
+    self.config.loginViewControllerConfig.showSettingsIcon = NO;
     SFSDKMutableOAuthClientContext *context = [self.context mutableCopy];
     self.context = context;
     [super refreshCredentials];
 }
 
 - (void)beginIDPFlowForNewUser {
-    self.config.hideSettingsIcon = YES;
+    self.config.loginViewControllerConfig.showSettingsIcon = NO;
     [super refreshCredentials];
 }
 

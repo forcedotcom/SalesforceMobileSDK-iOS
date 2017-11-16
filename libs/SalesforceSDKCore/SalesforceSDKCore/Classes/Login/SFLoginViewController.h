@@ -28,6 +28,7 @@
 
 @class SFLoginViewController;
 @class SFSDKLoginHost;
+@class SFSDKLoginViewControllerConfig;
 
 /**
  * Delegate protocol for the owner of SFLoginViewController.
@@ -65,20 +66,22 @@
 @property (nonatomic, strong, nullable) IBOutlet UIView *oauthView;
 
 /** Specify the font to use for navigation bar header text.*/
-@property (nonatomic, strong, nullable) UIFont * navBarFont;
+@property (nonatomic, strong,readonly, nullable) UIFont * navBarFont;
 
 /** Specify the text color to use for navigation bar header text. */
-@property (nonatomic, strong, nullable) UIColor * navBarTextColor;
+@property (nonatomic, strong, readonly, nullable) UIColor * navBarTextColor;
 
 /** Specify navigation bar color. This color will be used by the login view header.
  */
-@property (nonatomic, strong, nullable) UIColor *navBarColor;
+@property (nonatomic, strong,readonly, nullable) UIColor *navBarColor;
 
 /** Specify visibility of nav bar. This property will be used to hide/show the nav bar*/
-@property (nonatomic) BOOL showNavbar;
+@property (nonatomic,readonly) BOOL showNavbar;
 
 /** Specifiy the visibility of the settings icon. This property will be used to hide/show the settings icon*/
-@property (nonatomic) BOOL showSettingsIcon;
+@property (nonatomic,readonly) BOOL showSettingsIcon;
+
+@property (nonatomic, strong, nullable) SFSDKLoginViewControllerConfig *config;
 
 /** Applies the view's style attributes to the given navigation bar.
  @param navigationBar The navigation bar that the style is applied to.

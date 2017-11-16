@@ -137,6 +137,10 @@
 		B773CCF71F8200BD00D2D1B2 /* SFSDKIDPInitCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = B773CCF41F8200BD00D2D1B2 /* SFSDKIDPInitCommand.h */; };
 		B773CCF81F8200BD00D2D1B2 /* SFSDKIDPInitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B773CCF51F8200BD00D2D1B2 /* SFSDKIDPInitCommand.m */; };
 		B773CCF91F8200BD00D2D1B2 /* SFSDKIDPInitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B773CCF51F8200BD00D2D1B2 /* SFSDKIDPInitCommand.m */; };
+		B78C27B91FBCFFCB00742CD5 /* SFSDKLoginViewControllerConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = B78C27B71FBCFFCB00742CD5 /* SFSDKLoginViewControllerConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B78C27BA1FBCFFCB00742CD5 /* SFSDKLoginViewControllerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B78C27B81FBCFFCB00742CD5 /* SFSDKLoginViewControllerConfig.m */; };
+		B78C27D11FBD081C00742CD5 /* SFSDKLoginViewControllerConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = B78C27B71FBCFFCB00742CD5 /* SFSDKLoginViewControllerConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B78C27D21FBD082500742CD5 /* SFSDKLoginViewControllerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B78C27B81FBCFFCB00742CD5 /* SFSDKLoginViewControllerConfig.m */; };
 		B791409C1EC11ADE0051492F /* SFSDKWebViewStateManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B791409A1EC11ADE0051492F /* SFSDKWebViewStateManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B791409D1EC11ADE0051492F /* SFSDKWebViewStateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B791409B1EC11ADE0051492F /* SFSDKWebViewStateManager.m */; };
 		B79140B21EC12BF40051492F /* SFSDKWebViewStateManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B791409A1EC11ADE0051492F /* SFSDKWebViewStateManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1182,6 +1186,8 @@
 		B759CD8A1F8C10DC0081AA87 /* SFSDKErrorManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFSDKErrorManagerTests.m; path = SalesforceSDKCoreTests/SFSDKErrorManagerTests.m; sourceTree = SOURCE_ROOT; };
 		B773CCF41F8200BD00D2D1B2 /* SFSDKIDPInitCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKIDPInitCommand.h; sourceTree = "<group>"; };
 		B773CCF51F8200BD00D2D1B2 /* SFSDKIDPInitCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKIDPInitCommand.m; sourceTree = "<group>"; };
+		B78C27B71FBCFFCB00742CD5 /* SFSDKLoginViewControllerConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFSDKLoginViewControllerConfig.h; path = Login/SFSDKLoginViewControllerConfig.h; sourceTree = "<group>"; };
+		B78C27B81FBCFFCB00742CD5 /* SFSDKLoginViewControllerConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFSDKLoginViewControllerConfig.m; path = Login/SFSDKLoginViewControllerConfig.m; sourceTree = "<group>"; };
 		B791409A1EC11ADE0051492F /* SFSDKWebViewStateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKWebViewStateManager.h; sourceTree = "<group>"; };
 		B791409B1EC11ADE0051492F /* SFSDKWebViewStateManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKWebViewStateManager.m; sourceTree = "<group>"; };
 		B7A20F7F1F25850E00D1E4B0 /* SFSDKWindowContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKWindowContainer.h; sourceTree = "<group>"; };
@@ -2001,6 +2007,8 @@
 				E1C80CDD1C5AEBFA001B3A21 /* SFLoginViewController.h */,
 				E1C80CDE1C5AEBFA001B3A21 /* SFLoginViewController.m */,
 				E13950A21C53620B00575C03 /* LoginHost */,
+				B78C27B71FBCFFCB00742CD5 /* SFSDKLoginViewControllerConfig.h */,
+				B78C27B81FBCFFCB00742CD5 /* SFSDKLoginViewControllerConfig.m */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -2124,6 +2132,7 @@
 				CE4CE3461C0E5252009F6029 /* SFOAuthCredentials.h in Headers */,
 				CE4CE3511C0E5252009F6029 /* SFOAuthSessionRefresher.h in Headers */,
 				B70986351F5331A600803FDE /* SFSDKOAuthClientConfig.h in Headers */,
+				B78C27B91FBCFFCB00742CD5 /* SFSDKLoginViewControllerConfig.h in Headers */,
 				CE4CE3731C0E526A009F6029 /* SFKeyStoreKey.h in Headers */,
 				CE50CE911DD3DD1F00F1297B /* SFSDKEventBuilderHelper.h in Headers */,
 				CE4CE33C1C0E5245009F6029 /* SFIdentityData.h in Headers */,
@@ -2317,6 +2326,7 @@
 				B7C2745B1F8151E300CE539D /* SFSDKAuthErrorCommand.h in Headers */,
 				B70986361F5331A600803FDE /* SFSDKOAuthClientConfig.h in Headers */,
 				CEA882B81C18FB3D008D871B /* SFMethodInterceptor.h in Headers */,
+				B78C27D11FBD081C00742CD5 /* SFSDKLoginViewControllerConfig.h in Headers */,
 				CEA883151C18FC2C008D871B /* SFSDKTestRequestListener.h in Headers */,
 				B7BAD70D1FBAB8AA0046629F /* SFSDKStartURLHandler.h in Headers */,
 				B7FB26EB1F78097D00FB25A2 /* SFSDKURLHandlerManager.h in Headers */,
@@ -2911,6 +2921,7 @@
 				CE4CE3811C0E526A009F6029 /* SFPasscodeViewController.m in Sources */,
 				B7C274561F81507100CE539D /* SFSDKAuthResponseCommand.m in Sources */,
 				B7FB26C81F78094A00FB25A2 /* SFSDKUserSelectionTableViewController.m in Sources */,
+				B78C27BA1FBCFFCB00742CD5 /* SFSDKLoginViewControllerConfig.m in Sources */,
 				010A9AE71CC176DD002AF4D3 /* SFDecryptStream.m in Sources */,
 				B7FB26E41F78096300FB25A2 /* SFSDKURLHandlerManager.m in Sources */,
 				CE4CE3661C0E526A009F6029 /* SFDefaultUserManagementDetailViewController.m in Sources */,
@@ -3051,6 +3062,7 @@
 				CEA8831E1C18FC40008D871B /* SFDirectoryManager.m in Sources */,
 				010A9B401CC19E0D002AF4D3 /* SFDecryptStream.m in Sources */,
 				B7C274571F81507100CE539D /* SFSDKAuthResponseCommand.m in Sources */,
+				B78C27D21FBD082500742CD5 /* SFSDKLoginViewControllerConfig.m in Sources */,
 				CEA882F91C18FB8E008D871B /* SFPasscodeViewController.m in Sources */,
 				CEA882DE1C18FB8E008D871B /* SFDefaultUserManagementDetailViewController.m in Sources */,
 				CEA882F11C18FB8E008D871B /* SFPasscodeKeyStore.m in Sources */,

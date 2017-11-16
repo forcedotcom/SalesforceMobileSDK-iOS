@@ -47,6 +47,7 @@
 @class SFSDKOAuthClientConfig;
 @class SFIdentityData;
 @class SFSDKAlertMessage;
+@class SFSDKLoginViewControllerConfig;
 NS_ASSUME_NONNULL_BEGIN
 
 /** Delegate that will be used to notify of all the OAuth Client events.

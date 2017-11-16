@@ -41,13 +41,13 @@
 @class SFSDKOAuthClientIDP;
 @class SFAuthErrorHandlerList;
 @class SFAuthErrorHandler;
+@class SFSDKLoginViewControllerConfig;
 @protocol SFSDKIDPAuthClientDelegate;
 @protocol SFSDKOAuthClientWebViewDelegate;
 @protocol SFSDKOAuthClientSafariViewDelegate;
 
 @interface SFSDKOAuthClientConfig : NSObject
 @property (nonatomic, copy, nullable) NSString *brandLoginPath;
-@property (nonatomic, assign) BOOL hideSettingsIcon;
 @property (nonatomic, copy, nonnull) NSString *loginHost;
 @property (nonatomic, copy, nonnull) NSSet<NSString*> *scopes;
 @property (nonatomic, assign) SFOAuthAdvancedAuthConfiguration advancedAuthConfiguration;
@@ -81,7 +81,11 @@
 /**
  The authViewHandler for the client.
  */
-
 @property (nonatomic, strong, nullable) SFSDKAuthViewHandler *authViewHandler;
+
+/**
+ The SFSDKLoginViewControllerConfig for the client.
+ */
+@property (nonatomic, strong, nullable) SFSDKLoginViewControllerConfig  *loginViewControllerConfig;
 
 @end
