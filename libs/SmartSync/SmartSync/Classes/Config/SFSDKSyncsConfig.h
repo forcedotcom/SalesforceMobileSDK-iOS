@@ -22,26 +22,46 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SmartStore/SFSmartStore.h>
-#import "SmartSyncSDKManager.h"
-#import "SFSDKSyncsConfig.h"
+#import <Foundation/Foundation.h>
 
-@implementation SmartSyncSDKManager
+@class SFSmartStore;
 
-- (void) setupGlobalStoreFromDefaultConfig {
-    [SFSDKSmartSyncLogger d:[self class] format:@"Setting up global syncs using config found in globalsyncs.json"];
-    [self setupSyncsFromConfig:@"globalsyncs" store:[SFSmartStore sharedGlobalStoreWithName:kDefaultSmartStoreName]];
-}
+NS_ASSUME_NONNULL_BEGIN
 
-- (void) setupUserStoreFromDefaultConfig {
-    [SFSDKSmartSyncLogger d:[self class] format:@"Setting up user syncs using config found in usersyncs.json"];
-    [self setupSyncsFromConfig:@"usersyncs" store:[SFSmartStore sharedStoreWithName:kDefaultSmartStoreName]];
-}
+/**
+ * Class encapsulating syncs definition.
+ *
+ * Config expected in a resource file in JSON with the following:
+ * {
+ *     syncs: [
+ *          {
+ *              syncType: syncUp | syncDown
+ *              syncName: xxx
+ *              soupName: yyy
+ *              target: { depends on target - see SFSyncTarget  }
+ *              options: { also depends on target - see SFSyncOptions }
+ *          }
+ *     ]
+ * }
+ */
 
-- (void) setupSyncsFromConfig:(NSString*)path store:(SFSmartStore *)store {
-    SFSDKSyncsConfig* syncsConfig = [[SFSDKSyncsConfig alloc] initWithResourceAtPath:path];
-    [syncsConfig createSyncs:store];
-}
+@interface SFSDKSyncsConfig : NSObject
+
+/**
+ * Constructor for config stored in resource file
+ * @param path to the config file
+ * @return instance of SFSDKSyncsConfig
+ */
+- (nullable id)initWithResourceAtPath:(NSString*)path;
+
+/**
+ * Create the syncs from the config in the given store
+ * NB: only feedback is through the logs - the config is static so getting it right is something the developer should do while writing the app
+ *
+ * @param store to create syncs in.
+ */
+- (void) createSyncs:(SFSmartStore*) store;
 
 @end
 
+NS_ASSUME_NONNULL_END

@@ -71,4 +71,18 @@
     return image;
 }
 
++ (NSString*) getRawResourceAsString:(NSString *)path ofType:(NSString*)type {
+    NSString *fullPath = [[NSBundle mainBundle] pathForResource:path ofType:type];
+    NSError *error = nil;
+    NSString *content = [NSString stringWithContentsOfFile:fullPath
+                                                  encoding:NSUTF8StringEncoding
+                                                     error:&error];
+    
+    if (error) {
+        [SFSDKCoreLogger e:[self class] format:@"Error getting resource from %@: %@", fullPath, error];
+        return nil;
+    }
+    return content;
+}
+
 @end

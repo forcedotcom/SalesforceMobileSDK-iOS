@@ -25,50 +25,58 @@
 
 #import <SalesforceSDKCore/SFJsonUtils.h>
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
-#import "SFSDKStoreConfig.h"
-#import "SFSoupIndex.h"
-#import "SFSmartStore.h"
+#import <SmartStore/SmartStore.h>
+#import "SFSDKSyncsConfig.h"
+#import "SFSmartSyncSyncManager.h"
 
 
-@interface SFSDKStoreConfig ()
+@interface SFSDKSyncsConfig ()
 
-@property (nonatomic, nullable) NSArray* soupsConfig;
+@property (nonatomic, nullable) NSArray* syncsConfig;
 
 @end
 
-@implementation SFSDKStoreConfig
+@implementation SFSDKSyncsConfig
 
 - (nullable id)initWithResourceAtPath:(NSString *)path {
     self = [super init];
     if (self) {
         NSString *str = [SFSDKResourceUtils getRawResourceAsString:path ofType:@"json"];
         NSDictionary *config = [SFJsonUtils objectFromJSONString:str];
-        self.soupsConfig = config[@"soups"];
+        self.syncsConfig = config[@"syncs"];
     }
     return self;
 }
 
-- (void)registerSoups:(SFSmartStore *)store {
-    if (self.soupsConfig == nil) {
-        [SFSDKSmartStoreLogger d:[self class] format:@"No store config available"];
+- (void)createSyncs:(SFSmartStore *)store {
+    if (self.syncsConfig == nil) {
+        [SFSDKSmartSyncLogger d:[self class] format:@"No store config available"];
         return;
     }
 
-    for (NSDictionary * soupConfig in self.soupsConfig) {
-        NSString *soupName = [soupConfig nonNullObjectForKey:@"soupName"];
+    SFSmartSyncSyncManager * syncManager = [SFSmartSyncSyncManager sharedInstanceForStore:store];
 
-        // Leaving soup alone if it already exists
-        if ([store soupExists:soupName]) {
-            [SFSDKSmartStoreLogger d:[self class] format:@"Soup already exists:%@ - skipping", soupName];
+    for (NSDictionary * syncConfig in self.syncsConfig) {
+        NSString *syncName = [syncConfig nonNullObjectForKey:@"syncName"];
+
+        // Leaving sync alone if it already exists
+        if ([syncManager hasSyncWithName:syncName]) {
+            [SFSDKSmartSyncLogger d:[self class] format:@"Sync already exists:%@ - skipping", syncName];
             continue;
         }
 
+        SFSyncStateSyncType syncType = [SFSyncState syncTypeFromString:syncConfig[@"syncType"]];
+        SFSyncOptions * syncOptions = [SFSyncOptions newFromDict:syncConfig[@"options"]];
+        NSString* soupName = syncConfig[@"soupName"];
+        [SFSDKSmartSyncLogger d:[self class] format:@"Creating sync: %@", syncName];
 
-        NSArray *indexSpecs = [SFSoupIndex asArraySoupIndexes:[soupConfig nonNullObjectForKey:@"indexes"]];
-        NSError * error = nil;
-        [store registerSoup:soupName withIndexSpecs:indexSpecs error:&error];
-        if (error) {
-            [SFSDKSmartStoreLogger e:[self class] format:@"Error registering soup: %@", soupName, error];
+        switch (syncType) {
+            case SFSyncStateSyncTypeDown:
+                [syncManager createSyncDown:[SFSyncDownTarget newFromDict:syncConfig[@"target"]] options:syncOptions soupName:soupName syncName:syncName];
+                break;
+            case SFSyncStateSyncTypeUp:
+                [syncManager createSyncUp:[SFSyncUpTarget newFromDict:syncConfig[@"target"]] options:syncOptions soupName:soupName syncName:syncName];
+                break;
         }
     }
 }

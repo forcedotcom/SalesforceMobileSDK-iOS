@@ -52,6 +52,15 @@ NS_ASSUME_NONNULL_BEGIN
 */
 + (UIImage *)imageNamed:(NSString*)name;
 
+
+/**
+ * Get content of resource file as a NSString
+ * @param path Path of resource file.
+ * @param type Type (extension).
+ * @return NSString containing content of file.
+ */
++ (NSString*) getRawResourceAsString:(NSString *)path ofType:(NSString*)type;
+
 @end
 
 NS_ASSUME_NONNULL_END
