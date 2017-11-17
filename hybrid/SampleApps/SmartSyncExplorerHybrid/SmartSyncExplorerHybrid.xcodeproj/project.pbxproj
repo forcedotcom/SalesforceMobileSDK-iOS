@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 49;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -28,6 +28,10 @@
 		4FC276C319DCBC93008F4AA6 /* underscore-min.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769C19DCBB1B008F4AA6 /* underscore-min.js */; };
 		4FC276C419DCBCA5008F4AA6 /* com.salesforce.plugin.smartsync.js in Copy plugins Files */ = {isa = PBXBuildFile; fileRef = 4FC2768519DCBAA3008F4AA6 /* com.salesforce.plugin.smartsync.js */; };
 		4FC276C719DCC9CD008F4AA6 /* ratchet-theme-ios.css in Copy css Files */ = {isa = PBXBuildFile; fileRef = 4FC276C519DCC9BD008F4AA6 /* ratchet-theme-ios.css */; };
+		4FCA4AE31FBE78BA00F081B3 /* userstore.json in Resources */ = {isa = PBXBuildFile; fileRef = 4FCA4ABD1FBE78B900F081B3 /* userstore.json */; };
+		4FCA4AE41FBE78BA00F081B3 /* usersyncs.json in Resources */ = {isa = PBXBuildFile; fileRef = 4FCA4AE21FBE78BA00F081B3 /* usersyncs.json */; };
+		4FCA4AE51FBE7A8700F081B3 /* userstore.json in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4FCA4ABD1FBE78B900F081B3 /* userstore.json */; };
+		4FCA4AE61FBE7A8700F081B3 /* usersyncs.json in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4FCA4AE21FBE78BA00F081B3 /* usersyncs.json */; };
 		4FD3FC901DB05B7F00646D6D /* force+promise.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FD3FC6B1DB05B6A00646D6D /* force+promise.js */; };
 		4FF15E26190884C600705FE0 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FF15E25190884C600705FE0 /* AssetsLibrary.framework */; };
 		4FF15E94190885CC00705FE0 /* com.salesforce.plugin.oauth.js in Copy plugins Files */ = {isa = PBXBuildFile; fileRef = 4FF15E611908852E00705FE0 /* com.salesforce.plugin.oauth.js */; };
@@ -443,6 +447,8 @@
 			dstPath = www;
 			dstSubfolderSpec = 7;
 			files = (
+				4FCA4AE51FBE7A8700F081B3 /* userstore.json in Copy Shared www Files */,
+				4FCA4AE61FBE7A8700F081B3 /* usersyncs.json in Copy Shared www Files */,
 				82AF5AA71A0DA9AD006C7A4B /* cordova_plugins.js in Copy Shared www Files */,
 				4FC276B219DCBC80008F4AA6 /* bootconfig.json in Copy Shared www Files */,
 				4FC276B319DCBC80008F4AA6 /* SmartSyncExplorer.html in Copy Shared www Files */,
@@ -553,6 +559,8 @@
 		4FC2769B19DCBB1B008F4AA6 /* stackrouter.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = stackrouter.js; sourceTree = "<group>"; };
 		4FC2769C19DCBB1B008F4AA6 /* underscore-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "underscore-min.js"; sourceTree = "<group>"; };
 		4FC276C519DCC9BD008F4AA6 /* ratchet-theme-ios.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = "ratchet-theme-ios.css"; path = "../../../dependencies/ratchet2/ratchet-theme-ios.css"; sourceTree = "<group>"; };
+		4FCA4ABD1FBE78B900F081B3 /* userstore.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = userstore.json; path = ../../../../external/shared/samples/smartsyncexplorer/userstore.json; sourceTree = "<group>"; };
+		4FCA4AE21FBE78BA00F081B3 /* usersyncs.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = usersyncs.json; path = ../../../../external/shared/samples/smartsyncexplorer/usersyncs.json; sourceTree = "<group>"; };
 		4FD3FC6B1DB05B6A00646D6D /* force+promise.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "force+promise.js"; path = "../../../libs/force+promise.js"; sourceTree = "<group>"; };
 		4FF15E25190884C600705FE0 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		4FF15E611908852E00705FE0 /* com.salesforce.plugin.oauth.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.plugin.oauth.js; sourceTree = "<group>"; };
@@ -862,6 +870,8 @@
 		824A9BFB1721FE7E00C9BD79 /* shared-www */ = {
 			isa = PBXGroup;
 			children = (
+				4FCA4ABD1FBE78B900F081B3 /* userstore.json */,
+				4FCA4AE21FBE78BA00F081B3 /* usersyncs.json */,
 				4FC2768719DCBAD5008F4AA6 /* bootconfig.json */,
 				4FF15E9C1908860100705FE0 /* cordova.js */,
 				82AF5AA51A0DA996006C7A4B /* cordova_plugins.js */,
@@ -1387,6 +1397,8 @@
 				4FC276B119DCBC6E008F4AA6 /* InfoPlist.strings in Resources */,
 				B7168FB81FACC31100A48DB5 /* LaunchScreen.storyboard in Resources */,
 				CED7473C1E8C82F00019AA9D /* ios-wkwebview-exec.js in Resources */,
+				4FCA4AE41FBE78BA00F081B3 /* usersyncs.json in Resources */,
+				4FCA4AE31FBE78BA00F081B3 /* userstore.json in Resources */,
 				CEBDA0BD1D3C05F500DBDBD0 /* MainViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
