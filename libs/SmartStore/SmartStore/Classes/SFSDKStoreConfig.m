@@ -30,6 +30,10 @@
 #import "SFSmartStore.h"
 
 
+static NSString *const kStoreConfigSoups = @"soups";
+static NSString *const kStoreConfigSoupName = @"soupName";
+static NSString *const kStoreConfigIndexes = @"indexes";
+
 @interface SFSDKStoreConfig ()
 
 @property (nonatomic, nullable) NSArray* soupsConfig;
@@ -43,7 +47,7 @@
     if (self) {
         NSString *str = [SFSDKResourceUtils getRawResourceAsString:path ofType:@"json"];
         NSDictionary *config = [SFJsonUtils objectFromJSONString:str];
-        self.soupsConfig = config[@"soups"];
+        self.soupsConfig = config[kStoreConfigSoups];
     }
     return self;
 }
@@ -55,7 +59,7 @@
     }
 
     for (NSDictionary * soupConfig in self.soupsConfig) {
-        NSString *soupName = [soupConfig nonNullObjectForKey:@"soupName"];
+        NSString *soupName = [soupConfig nonNullObjectForKey:kStoreConfigSoupName];
 
         // Leaving soup alone if it already exists
         if ([store soupExists:soupName]) {
@@ -64,7 +68,7 @@
         }
 
 
-        NSArray *indexSpecs = [SFSoupIndex asArraySoupIndexes:[soupConfig nonNullObjectForKey:@"indexes"]];
+        NSArray *indexSpecs = [SFSoupIndex asArraySoupIndexes:[soupConfig nonNullObjectForKey:kStoreConfigIndexes]];
         NSError * error = nil;
         [store registerSoup:soupName withIndexSpecs:indexSpecs error:&error];
         if (error) {

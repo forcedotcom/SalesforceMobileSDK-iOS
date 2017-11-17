@@ -29,10 +29,16 @@
 #import "SFSDKSyncsConfig.h"
 #import "SFSmartSyncSyncManager.h"
 
+static NSString *const kSyncsConfigSyncs = @"syncs";
+static NSString *const kSyncsConfigSyncName = @"syncName";
+static NSString *const kSyncsConfigSyncType = @"syncType";
+static NSString *const kSyncsConfigOptions = @"options";
+static NSString *const kSyncsConfigSoupName = @"soupName";
+static NSString *const kSyncsConfigTarget = @"target";
 
 @interface SFSDKSyncsConfig ()
 
-@property (nonatomic, nullable) NSArray* syncsConfig;
+@property (nonatomic, nullable) NSArray* syncConfigs;
 
 @end
 
@@ -43,21 +49,21 @@
     if (self) {
         NSString *str = [SFSDKResourceUtils getRawResourceAsString:path ofType:@"json"];
         NSDictionary *config = [SFJsonUtils objectFromJSONString:str];
-        self.syncsConfig = config[@"syncs"];
+        self.syncConfigs = config[kSyncsConfigSyncs];
     }
     return self;
 }
 
 - (void)createSyncs:(SFSmartStore *)store {
-    if (self.syncsConfig == nil) {
+    if (self.syncConfigs == nil) {
         [SFSDKSmartSyncLogger d:[self class] format:@"No store config available"];
         return;
     }
 
     SFSmartSyncSyncManager * syncManager = [SFSmartSyncSyncManager sharedInstanceForStore:store];
 
-    for (NSDictionary * syncConfig in self.syncsConfig) {
-        NSString *syncName = [syncConfig nonNullObjectForKey:@"syncName"];
+    for (NSDictionary * syncConfig in self.syncConfigs) {
+        NSString *syncName = [syncConfig nonNullObjectForKey:kSyncsConfigSyncName];
 
         // Leaving sync alone if it already exists
         if ([syncManager hasSyncWithName:syncName]) {
@@ -65,17 +71,17 @@
             continue;
         }
 
-        SFSyncStateSyncType syncType = [SFSyncState syncTypeFromString:syncConfig[@"syncType"]];
-        SFSyncOptions * syncOptions = [SFSyncOptions newFromDict:syncConfig[@"options"]];
-        NSString* soupName = syncConfig[@"soupName"];
+        SFSyncStateSyncType syncType = [SFSyncState syncTypeFromString:syncConfig[kSyncsConfigSyncType]];
+        SFSyncOptions * syncOptions = [SFSyncOptions newFromDict:syncConfig[kSyncsConfigOptions]];
+        NSString* soupName = syncConfig[kSyncsConfigSoupName];
         [SFSDKSmartSyncLogger d:[self class] format:@"Creating sync: %@", syncName];
 
         switch (syncType) {
             case SFSyncStateSyncTypeDown:
-                [syncManager createSyncDown:[SFSyncDownTarget newFromDict:syncConfig[@"target"]] options:syncOptions soupName:soupName syncName:syncName];
+                [syncManager createSyncDown:[SFSyncDownTarget newFromDict:syncConfig[kSyncsConfigTarget]] options:syncOptions soupName:soupName syncName:syncName];
                 break;
             case SFSyncStateSyncTypeUp:
-                [syncManager createSyncUp:[SFSyncUpTarget newFromDict:syncConfig[@"target"]] options:syncOptions soupName:soupName syncName:syncName];
+                [syncManager createSyncUp:[SFSyncUpTarget newFromDict:syncConfig[kSyncsConfigTarget]] options:syncOptions soupName:soupName syncName:syncName];
                 break;
         }
     }
