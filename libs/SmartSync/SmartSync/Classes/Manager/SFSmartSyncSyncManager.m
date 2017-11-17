@@ -295,10 +295,6 @@ static NSMutableDictionary *syncMgrList = nil;
         [SFSDKSmartSyncLogger e:[self class] format:@"Cannot run reSync:%@:no sync found", syncId];
          return nil;
     }
-    if (sync.type != SFSyncStateSyncTypeDown) {
-        [SFSDKSmartSyncLogger e:[self class] format:@"Cannot run reSync:%@:wrong type:%@", syncId, [SFSyncState syncTypeToString:sync.type]];
-        return nil;
-    }
     sync.totalSize = -1;
     [sync save:self.store];
     [SFSDKSmartSyncLogger d:[self class] format:@"reSync:%@", sync];
