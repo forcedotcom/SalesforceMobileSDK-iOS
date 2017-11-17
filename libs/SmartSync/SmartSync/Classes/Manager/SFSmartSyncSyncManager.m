@@ -160,7 +160,7 @@ static NSMutableDictionary *syncMgrList = nil;
 #pragma mark - has / get sync methods
 
 - (SFSyncState*)getSyncStatus:(NSNumber*)syncId {
-    SFSyncState* sync = [SFSyncState newById:syncId store:self.store];
+    SFSyncState* sync = [SFSyncState byId:syncId store:self.store];
     
     if (sync == nil) {
         [SFSDKSmartSyncLogger d:[self class] format:@"Sync %@ not found", syncId];
@@ -169,7 +169,7 @@ static NSMutableDictionary *syncMgrList = nil;
 }
 
 - (SFSyncState*)getSyncStatusByName:(NSString*)syncName {
-    SFSyncState* sync = [SFSyncState newByName:syncName store:self.store];
+    SFSyncState* sync = [SFSyncState byName:syncName store:self.store];
 
     if (sync == nil) {
         [SFSDKSmartSyncLogger d:[self class] format:@"Sync %@ not found", syncName];
@@ -178,7 +178,7 @@ static NSMutableDictionary *syncMgrList = nil;
 }
 
 - (BOOL)hasSyncWithName:(NSString*)syncName {
-    return [SFSyncState newByName:syncName store:self.store] != nil;
+    return [SFSyncState byName:syncName store:self.store] != nil;
 }
 
 #pragma mark - delete sync methods

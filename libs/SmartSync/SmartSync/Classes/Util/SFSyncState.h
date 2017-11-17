@@ -112,8 +112,8 @@ extern NSString * const kSFSyncStateMergeModeLeaveIfChanged;
 
 /** Methods to save/retrieve/delete from smartstore
  */
-+ (nullable SFSyncState*) newById:(NSNumber*)syncId store:(SFSmartStore*)store;
-+ (nullable SFSyncState*) newByName:(NSString *)name store:(SFSmartStore*)store;
++ (nullable SFSyncState*)byId:(NSNumber *)syncId store:(SFSmartStore*)store;
++ (nullable SFSyncState*)byName:(NSString *)name store:(SFSmartStore*)store;
 - (void) save:(SFSmartStore*)store;
 + (void) deleteById:(NSNumber*)syncId store:(SFSmartStore*)store;
 + (void) deleteByName:(NSString*)name store:(SFSmartStore*)store;

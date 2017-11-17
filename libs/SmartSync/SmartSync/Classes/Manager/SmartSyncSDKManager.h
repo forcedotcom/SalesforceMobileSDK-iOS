@@ -32,9 +32,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SmartSyncSDKManager : SmartStoreSDKManager
 
-- (void)setupGlobalStoreFromDefaultConfig;
+/**
+ * Setup global syncs using config found globalsyncs.json
+ */
+- (void) setupGlobalSyncsFromDefaultConfig;
 
-- (void)setupUserStoreFromDefaultConfig;
+/**
+ * Setup user syncs using config found in usersyncs.json
+ */
+- (void) setupUserSyncsFromDefaultConfig;
+
 @end
 
 NS_ASSUME_NONNULL_END

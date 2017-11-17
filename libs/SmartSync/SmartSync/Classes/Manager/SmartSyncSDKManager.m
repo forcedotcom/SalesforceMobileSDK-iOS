@@ -28,12 +28,12 @@
 
 @implementation SmartSyncSDKManager
 
-- (void) setupGlobalStoreFromDefaultConfig {
+- (void) setupGlobalSyncsFromDefaultConfig {
     [SFSDKSmartSyncLogger d:[self class] format:@"Setting up global syncs using config found in globalsyncs.json"];
     [self setupSyncsFromConfig:@"globalsyncs" store:[SFSmartStore sharedGlobalStoreWithName:kDefaultSmartStoreName]];
 }
 
-- (void) setupUserStoreFromDefaultConfig {
+- (void) setupUserSyncsFromDefaultConfig {
     [SFSDKSmartSyncLogger d:[self class] format:@"Setting up user syncs using config found in usersyncs.json"];
     [self setupSyncsFromConfig:@"usersyncs" store:[SFSmartStore sharedStoreWithName:kDefaultSmartStoreName]];
 }

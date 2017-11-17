@@ -1281,11 +1281,11 @@
     SFSyncState* sync = [SFSyncState newSyncDownWithOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged] target:[SFSoqlSyncDownTarget newSyncTarget:@"SELECT Id, Name from Account"] soupName:ACCOUNTS_SOUP name:nil store:self.store];
     NSNumber* syncId = [NSNumber numberWithInteger:sync.syncId];
     // Get by id
-    SFSyncState* fetchedSync = [SFSyncState newById:syncId store:self.store];
+    SFSyncState* fetchedSync = [SFSyncState byId:syncId store:self.store];
     [self checkStatus:fetchedSync expectedType:sync.type expectedId:sync.syncId expectedName:nil expectedTarget:sync.target expectedOptions:sync.options expectedStatus:sync.status expectedProgress:sync.progress expectedTotalSize:sync.totalSize];
     // Delete by id
     [SFSyncState deleteById:syncId store:self.store];
-    XCTAssertNil([SFSyncState newById:syncId store:self.store], "Sync should be gone");
+    XCTAssertNil([SFSyncState byId:syncId store:self.store], "Sync should be gone");
 }
 
 /**
@@ -1297,12 +1297,12 @@
     SFSyncState* sync = [SFSyncState newSyncDownWithOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged] target:[SFSoqlSyncDownTarget newSyncTarget:@"SELECT Id, Name from Account"] soupName:ACCOUNTS_SOUP name:syncName store:self.store];
     NSNumber* syncId = [NSNumber numberWithInteger:sync.syncId];
     // Get by name
-    SFSyncState* fetchedSync = [SFSyncState newByName:syncName store:self.store];
+    SFSyncState* fetchedSync = [SFSyncState byName:syncName store:self.store];
     [self checkStatus:fetchedSync expectedType:sync.type expectedId:sync.syncId expectedName:syncName expectedTarget:sync.target expectedOptions:sync.options expectedStatus:sync.status expectedProgress:sync.progress expectedTotalSize:sync.totalSize];
     // Delete by name
     [SFSyncState deleteByName:syncName store:self.store];
-    XCTAssertNil([SFSyncState newById:syncId store:self.store], "Sync should be gone");
-    XCTAssertNil([SFSyncState newByName:syncName store:self.store], "Sync should be gone");
+    XCTAssertNil([SFSyncState byId:syncId store:self.store], "Sync should be gone");
+    XCTAssertNil([SFSyncState byName:syncName store:self.store], "Sync should be gone");
 }
 
 /**
@@ -1313,11 +1313,11 @@
     SFSyncState* sync = [SFSyncState newSyncUpWithOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged] target:[SFSyncUpTarget new] soupName:ACCOUNTS_SOUP name:nil store:self.store];
     NSNumber* syncId = [NSNumber numberWithInteger:sync.syncId];
     // Get by id
-    SFSyncState* fetchedSync = [SFSyncState newById:syncId store:self.store];
+    SFSyncState* fetchedSync = [SFSyncState byId:syncId store:self.store];
     [self checkStatus:fetchedSync expectedType:sync.type expectedId:sync.syncId expectedName:nil expectedTarget:sync.target expectedOptions:sync.options expectedStatus:sync.status expectedProgress:sync.progress expectedTotalSize:sync.totalSize];
     // Delete by id
     [SFSyncState deleteById:syncId store:self.store];
-    XCTAssertNil([SFSyncState newById:syncId store:self.store], "Sync should be gone");
+    XCTAssertNil([SFSyncState byId:syncId store:self.store], "Sync should be gone");
 }
 
 /**
@@ -1329,12 +1329,12 @@
     SFSyncState* sync = [SFSyncState newSyncUpWithOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged] target:[SFSyncUpTarget new] soupName:ACCOUNTS_SOUP name:syncName store:self.store];
     NSNumber* syncId = [NSNumber numberWithInteger:sync.syncId];
     // Get by name
-    SFSyncState* fetchedSync = [SFSyncState newByName:syncName store:self.store];
+    SFSyncState* fetchedSync = [SFSyncState byName:syncName store:self.store];
     [self checkStatus:fetchedSync expectedType:sync.type expectedId:sync.syncId expectedName:syncName expectedTarget:sync.target expectedOptions:sync.options expectedStatus:sync.status expectedProgress:sync.progress expectedTotalSize:sync.totalSize];
     // Delete by name
     [SFSyncState deleteByName:syncName store:self.store];
-    XCTAssertNil([SFSyncState newById:syncId store:self.store], "Sync should be gone");
-    XCTAssertNil([SFSyncState newByName:syncName store:self.store], "Sync should be gone");
+    XCTAssertNil([SFSyncState byId:syncId store:self.store], "Sync should be gone");
+    XCTAssertNil([SFSyncState byName:syncName store:self.store], "Sync should be gone");
 }
 
 /**
@@ -1350,7 +1350,7 @@
 
     // Delete by name
     [SFSyncState deleteByName:syncName store:self.store];
-    XCTAssertNil([SFSyncState newByName:syncName store:self.store], "Sync should be gone");
+    XCTAssertNil([SFSyncState byName:syncName store:self.store], "Sync should be gone");
 }
 
 /**
@@ -1366,7 +1366,7 @@
 
     // Delete by name
     [SFSyncState deleteByName:syncName store:self.store];
-    XCTAssertNil([SFSyncState newByName:syncName store:self.store], "Sync should be gone");
+    XCTAssertNil([SFSyncState byName:syncName store:self.store], "Sync should be gone");
 }
 
 #pragma clang diagnostic pop
