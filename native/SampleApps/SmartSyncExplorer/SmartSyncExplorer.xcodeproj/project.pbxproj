@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 49;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -23,6 +23,7 @@
 		4F941E951F8C43370035EB03 /* userstore.json in Resources */ = {isa = PBXBuildFile; fileRef = 4F941E941F8C43370035EB03 /* userstore.json */; };
 		4F941E961F8C43370035EB03 /* userstore.json in Resources */ = {isa = PBXBuildFile; fileRef = 4F941E941F8C43370035EB03 /* userstore.json */; };
 		4FADBCB51BA0CEDA00D01855 /* ImagesSmartSyncExplorer.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FADBCB41BA0CEDA00D01855 /* ImagesSmartSyncExplorer.xcassets */; };
+		4FCA4A9D1FBE61C300F081B3 /* usersyncs.json in Resources */ = {isa = PBXBuildFile; fileRef = 4FCA4A9C1FBE61C300F081B3 /* usersyncs.json */; };
 		4FEAC2451B97C65C00B08512 /* ActionsPopupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FEAC2421B97C65C00B08512 /* ActionsPopupController.m */; };
 		820C8B0E19E6054E00E9BE5C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B0D19E6054E00E9BE5C /* AppDelegate.m */; };
 		820C8B1119E6059400E9BE5C /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B1019E6059400E9BE5C /* InitialViewController.m */; };
@@ -438,6 +439,7 @@
 		4F60B2281B9A2C2900923174 /* WYPopoverController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WYPopoverController.m; path = ../../../../../external/wypopovercontroller/WYPopoverController/WYPopoverController.m; sourceTree = "<group>"; };
 		4F941E941F8C43370035EB03 /* userstore.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = userstore.json; sourceTree = "<group>"; };
 		4FADBCB41BA0CEDA00D01855 /* ImagesSmartSyncExplorer.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ImagesSmartSyncExplorer.xcassets; sourceTree = "<group>"; };
+		4FCA4A9C1FBE61C300F081B3 /* usersyncs.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = usersyncs.json; sourceTree = "<group>"; };
 		4FEAC2421B97C65C00B08512 /* ActionsPopupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionsPopupController.m; sourceTree = "<group>"; };
 		4FEAC2431B97C65C00B08512 /* ActionsPopupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionsPopupController.h; sourceTree = "<group>"; };
 		820C8B0C19E6054E00E9BE5C /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -666,6 +668,7 @@
 				8284055919EAFD9C0079AB60 /* Images.xcassets */,
 				4FADBCB41BA0CEDA00D01855 /* ImagesSmartSyncExplorer.xcassets */,
 				4F941E941F8C43370035EB03 /* userstore.json */,
+				4FCA4A9C1FBE61C300F081B3 /* usersyncs.json */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1289,6 +1292,7 @@
 			files = (
 				8284055A19EAFD9C0079AB60 /* Images.xcassets in Resources */,
 				B7A727931F87D5D4006BB9B0 /* IDPLoginViewController.xib in Resources */,
+				4FCA4A9D1FBE61C300F081B3 /* usersyncs.json in Resources */,
 				827C631F19E6018C00027484 /* InfoPlist.strings in Resources */,
 				B7168F2D1FACC1F100A48DB5 /* LaunchScreen.storyboard in Resources */,
 				4F941E951F8C43370035EB03 /* userstore.json in Resources */,

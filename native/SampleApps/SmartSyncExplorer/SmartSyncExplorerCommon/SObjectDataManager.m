@@ -29,14 +29,13 @@
 #import <SalesforceAnalytics/SFSDKLogger.h>
 
 // Will go away once we are done refactoring SFSyncTarget
-#import <SmartSync/SFSoqlSyncDownTarget.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
 #import <SmartSync/SmartSyncSDKManager.h>
 
 static NSUInteger kMaxQueryPageSize = 1000;
-static NSUInteger kSyncLimit = 10000;
 static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.searchFilterQueue";
-static NSString* const kSyncDownName = @"smartSyncExplorerSyncDown";
+static NSString* const kSyncDownName = @"syncDownContacts";
+static NSString* const kSyncUpName = @"syncUpContacts";
 
 @interface SObjectDataManager ()
 {
@@ -46,7 +45,6 @@ static NSString* const kSyncDownName = @"smartSyncExplorerSyncDown";
 @property (nonatomic, strong) SFSmartSyncSyncManager *syncMgr;
 @property (nonatomic, strong) SObjectDataSpec *dataSpec;
 @property (nonatomic, strong) NSArray *fullDataRowList;
-@property (nonatomic, copy) SFSyncSyncManagerUpdateBlock syncCompletionBlock;
 
 @end
 
@@ -58,8 +56,9 @@ static NSString* const kSyncDownName = @"smartSyncExplorerSyncDown";
         self.syncMgr = [SFSmartSyncSyncManager sharedInstance:[SFUserAccountManager sharedInstance].currentUser];
         self.dataSpec = dataSpec;
         _searchFilterQueue = dispatch_queue_create(kSearchFilterQueueName, NULL);
-        // Setup schema if needed
+        // Setup store and syncs if needed
         [[SmartSyncSDKManager sharedManager] setupUserStoreFromDefaultConfig];
+        [[SmartSyncSDKManager sharedManager] setupUserSyncsFromDefaultConfig];
     }
     return self;
 }
@@ -73,29 +72,18 @@ static NSString* const kSyncDownName = @"smartSyncExplorerSyncDown";
 
 - (void)refreshRemoteData:(void (^)(void))completionBlock {
     __weak SObjectDataManager *weakSelf = self;
-    SFSyncSyncManagerUpdateBlock updateBlock = ^(SFSyncState* sync) {
+    // See usersyncs.json
+    [self.syncMgr reSyncByName:kSyncDownName updateBlock:^(SFSyncState *sync) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if ([sync isDone] || [sync hasFailed]) {
             [strongSelf refreshLocalData:completionBlock];
         }
-    };
-    if ([self.syncMgr getSyncStatusByName:kSyncDownName] == nil) {
-
-        // First time.
-        NSString *soqlQuery = [NSString stringWithFormat:@"SELECT %@ FROM %@ LIMIT %lu", [self.dataSpec.fieldNames componentsJoinedByString:@","], self.dataSpec.objectType, (unsigned long)kSyncLimit];
-        SFSyncOptions *syncOptions = [SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged];
-        SFSyncDownTarget *syncTarget = [SFSoqlSyncDownTarget newSyncTarget:soqlQuery];
-        [self.syncMgr syncDownWithTarget:syncTarget options:syncOptions soupName:self.dataSpec.soupName syncName:kSyncDownName updateBlock:updateBlock];
-    } else {
-
-        // Subsequent times.
-        [self.syncMgr reSyncByName:kSyncDownName updateBlock:updateBlock];
-    }
+    }];
 }
 
 - (void)updateRemoteData:(SFSyncSyncManagerUpdateBlock)completionBlock {
-    SFSyncOptions *syncOptions = [SFSyncOptions newSyncOptionsForSyncUp:self.dataSpec.fieldNames mergeMode:SFSyncStateMergeModeLeaveIfChanged];
-    [self.syncMgr syncUpWithOptions:syncOptions soupName:self.dataSpec.soupName updateBlock:^(SFSyncState* sync) {
+    // See usersyncs.json
+    [self.syncMgr reSyncByName:kSyncUpName updateBlock:^(SFSyncState* sync) {
         if ([sync isDone] || [sync hasFailed]) {
             completionBlock(sync);
         }
