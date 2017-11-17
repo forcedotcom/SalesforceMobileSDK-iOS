@@ -1,10 +1,11 @@
 /*
- SFLoginViewController.h
+ SFSDKLoginViewControllerConfig.h
  SalesforceSDKCore
- 
- Created by Kunal Chitalia on 1/22/16.
- Copyright (c) 2016-present, salesforce.com, inc. All rights reserved.
- 
+
+ Created by Raj Rao on 11/15/17.
+
+ Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
+
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
  * Redistributions of source code must retain the above copyright notice, this list of conditions
@@ -15,7 +16,7 @@
  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
  endorse or promote products derived from this software without specific prior written
  permission of salesforce.com, inc.
- 
+
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -26,44 +27,9 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@class SFLoginViewController;
-@class SFSDKLoginHost;
-@class SFSDKLoginViewControllerConfig;
+#import <Foundation/Foundation.h>
 
-/**
- * Delegate protocol for the owner of SFLoginViewController.
- */
-@protocol SFLoginViewControllerDelegate <NSObject>
-
-@optional
-
-/**
- * Notifies the delegate that the selected login host has been changed.
- * @param loginViewController The instance sending this message.
- * @param newLoginHost The updated login host.
- */
-- (void)loginViewController:(nonnull SFLoginViewController *)loginViewController didChangeLoginHost:(nonnull SFSDKLoginHost *)newLoginHost;
-
-@end
-
-
-/** The Salesforce login screen view.
- */
-@interface SFLoginViewController : UIViewController
-
-/** Returns a shared singleton of `SFLoginViewController` class.
- */
-+(_Nonnull instancetype)sharedInstance;
-
-/**
- * The delegate representing the owner of this object.
- */
-@property (nonatomic, weak, nullable) id<SFLoginViewControllerDelegate> delegate;
-
-/**
- * Outlet to the OAuth web view.
- */
-@property (nonatomic, strong, nullable) IBOutlet UIView *oauthView;
+@interface SFSDKLoginViewControllerConfig : NSObject
 
 /** Specify the font to use for navigation bar header text.*/
 @property (nonatomic, strong, nullable) UIFont * navBarFont;
@@ -81,12 +47,5 @@
 /** Specifiy the visibility of the settings icon. This property will be used to hide/show the settings icon*/
 @property (nonatomic) BOOL showSettingsIcon;
 
-/** Specify all display properties in a config. All the above properties are backed by
- a config object */
-@property (nonatomic, strong, nonnull) SFSDKLoginViewControllerConfig *config;
 
-/** Applies the view's style attributes to the given navigation bar.
- @param navigationBar The navigation bar that the style is applied to.
- */
-- (void)styleNavigationBar:(nullable UINavigationBar *)navigationBar;
 @end

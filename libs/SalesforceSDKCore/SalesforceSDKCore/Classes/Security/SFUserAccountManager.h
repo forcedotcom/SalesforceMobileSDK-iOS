@@ -28,7 +28,7 @@
 #import "SFUserAccountConstants.h"
 #import "SFOAuthCoordinator.h"
 #import "SFOAuthCoordinator.h"
-
+#import "SFSDKLoginViewControllerConfig.h"
 NS_ASSUME_NONNULL_BEGIN
 
 /**
@@ -348,7 +348,10 @@ FOUNDATION_EXTERN NSString * const kSFUserInfoAddlOptionsKey;
  */
 @property (nonatomic,copy) NSString *appDisplayName;
 
-
+/** Use this property to indicate to provide LoginViewController customizations for themes,navbar and settigs icon.
+ *
+ */
+@property (nonatomic,strong) SFSDKLoginViewControllerConfig *loginViewControllerConfig;
 
 /** Shared singleton
  */

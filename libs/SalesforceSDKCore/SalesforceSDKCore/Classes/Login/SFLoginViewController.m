@@ -35,6 +35,7 @@
 #import "SFSDKResourceUtils.h"
 #import "SFUserAccountManager.h"
 #import "SFAuthenticationManager.h"
+#import "SFSDKLoginViewControllerConfig.h"
 
 SFSDK_USE_DEPRECATED_BEGIN
 
@@ -53,8 +54,7 @@ SFSDK_USE_DEPRECATED_END
 @end
 
 @implementation SFLoginViewController
-
-
+@synthesize config = _config;
 @synthesize oauthView = _oauthView;
 
 
@@ -70,11 +70,7 @@ SFSDK_USE_DEPRECATED_END
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        _navBarColor = [UIColor salesforceBlueColor];
-        _navBarFont = nil;
-        _navBarTextColor = [UIColor whiteColor];
-        _showNavbar = YES;
-        _showSettingsIcon = YES;
+        _config = [[SFSDKLoginViewControllerConfig  alloc] init];
         [[SFUserAccountManager sharedInstance] addDelegate:self];
     }
     return self;
@@ -107,6 +103,56 @@ SFSDK_USE_DEPRECATED_END
     return NO;
 }
 
+- (UIFont *)navBarFont {
+    return self.config.navBarFont;
+}
+
+- (void)setNavBarFont:(UIFont *)navBarFont {
+    self.config.navBarFont = navBarFont;
+}
+
+- (UIColor *)navBarTextColor {
+    return self.config.navBarTextColor;
+}
+
+- (void)setNavBarTextColor:(UIColor *)color {
+    self.config.navBarTextColor = color;
+}
+
+- (UIColor *)navBarColor {
+    return self.config.navBarColor;
+}
+
+- (void)setNavBarColor:(UIColor *)navBarColor {
+    self.config.navBarColor = navBarColor;
+}
+
+- (BOOL)showNavbar {
+    return self.config.showNavbar;
+}
+
+- (void)setShowNavbar:(BOOL)showNavbar {
+    self.config.showNavbar = showNavbar;
+}
+
+- (BOOL)showSettingsIcon {
+    return self.config.showSettingsIcon;
+}
+
+- (void)setShowSettingsIcon:(BOOL)showSettingsIcon {
+    self.config.showSettingsIcon = showSettingsIcon;
+}
+
+- (SFSDKLoginViewControllerConfig *)config {
+    return _config;
+}
+
+- (void)setConfig:(SFSDKLoginViewControllerConfig *)config {
+    if (_config!=config) {
+        _config = config;
+    }
+}
+
 #pragma mark - Setup Navigation bar
 
 - (void)setupNavigationBar {
@@ -120,7 +166,7 @@ SFSDK_USE_DEPRECATED_END
     // Hides the gear icon if there are no hosts to switch to.
     SFManagedPreferences *managedPreferences = [SFManagedPreferences sharedPreferences];
     if (managedPreferences.onlyShowAuthorizedHosts && managedPreferences.loginHosts.count == 0) {
-        self.showSettingsIcon = NO;
+        self.config.showSettingsIcon = NO;
     }
     if(self.showSettingsIcon) {
 
