@@ -66,6 +66,7 @@
 		4FCA4A991FBE4E0A00F081B3 /* SFSDKSyncsConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FCA4A971FBE4E0900F081B3 /* SFSDKSyncsConfig.m */; };
 		4FCA4A9A1FBE4E1100F081B3 /* SFSDKSyncsConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FCA4A961FBE4E0900F081B3 /* SFSDKSyncsConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4FCA4A9B1FBE4E1B00F081B3 /* SFSDKSyncsConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FCA4A971FBE4E0900F081B3 /* SFSDKSyncsConfig.m */; };
+		4FCA4AE91FBE7D6200F081B3 /* SFSDKSyncsConfigTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FCA4AE81FBE7D6200F081B3 /* SFSDKSyncsConfigTests.m */; };
 		4FDCBD521E8DDC5C008F8FCE /* SFSyncUpTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDCBD431E8DDC5C008F8FCE /* SFSyncUpTarget.m */; };
 		4FDCBD531E8DDC5C008F8FCE /* SFSyncUpTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FDCBD441E8DDC5C008F8FCE /* SFSyncUpTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4FDCBD551E8DDC5C008F8FCE /* SFSyncTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDCBD461E8DDC5C008F8FCE /* SFSyncTarget.m */; };
@@ -301,6 +302,8 @@
 		4FAF87D91EBBE7BF007A46F8 /* SFParentChildrenSyncDownTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFParentChildrenSyncDownTarget.h; path = Target/SFParentChildrenSyncDownTarget.h; sourceTree = "<group>"; };
 		4FCA4A961FBE4E0900F081B3 /* SFSDKSyncsConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSDKSyncsConfig.h; path = SmartSync/Classes/Config/SFSDKSyncsConfig.h; sourceTree = SOURCE_ROOT; };
 		4FCA4A971FBE4E0900F081B3 /* SFSDKSyncsConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKSyncsConfig.m; path = SmartSync/Classes/Config/SFSDKSyncsConfig.m; sourceTree = SOURCE_ROOT; };
+		4FCA4AE71FBE7D4E00F081B3 /* SFSDKSyncsConfigTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKSyncsConfigTests.h; sourceTree = "<group>"; };
+		4FCA4AE81FBE7D6200F081B3 /* SFSDKSyncsConfigTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKSyncsConfigTests.m; sourceTree = "<group>"; };
 		4FDCBD431E8DDC5C008F8FCE /* SFSyncUpTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSyncUpTarget.m; path = Target/SFSyncUpTarget.m; sourceTree = "<group>"; };
 		4FDCBD441E8DDC5C008F8FCE /* SFSyncUpTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSyncUpTarget.h; path = Target/SFSyncUpTarget.h; sourceTree = "<group>"; };
 		4FDCBD461E8DDC5C008F8FCE /* SFSyncTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSyncTarget.m; path = Target/SFSyncTarget.m; sourceTree = "<group>"; };
@@ -619,6 +622,8 @@
 				4F307E3E1EC273780040CFC4 /* SyncManagerTestCase.m */,
 				4F307E401EC273AB0040CFC4 /* SyncManagerTestCase.h */,
 				4F307E411EC2750C0040CFC4 /* ParentChildrenSyncTests.m */,
+				4FCA4AE71FBE7D4E00F081B3 /* SFSDKSyncsConfigTests.h */,
+				4FCA4AE81FBE7D6200F081B3 /* SFSDKSyncsConfigTests.m */,
 			);
 			path = SmartSyncTests;
 			sourceTree = "<group>";
@@ -1113,6 +1118,7 @@
 				4F307E421EC2750C0040CFC4 /* ParentChildrenSyncTests.m in Sources */,
 				4F307E3F1EC273780040CFC4 /* SyncManagerTestCase.m in Sources */,
 				4F9079811A82EDF600E32659 /* SFSyncUpdateCallbackQueue.m in Sources */,
+				4FCA4AE91FBE7D6200F081B3 /* SFSDKSyncsConfigTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
