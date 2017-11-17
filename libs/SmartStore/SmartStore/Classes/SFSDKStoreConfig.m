@@ -23,7 +23,6 @@
  */
 
 
-#import <SalesforceSDKCore/SFJsonUtils.h>
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import "SFSDKStoreConfig.h"
 #import "SFSoupIndex.h"
@@ -45,9 +44,8 @@ static NSString *const kStoreConfigIndexes = @"indexes";
 - (nullable id)initWithResourceAtPath:(NSString *)path {
     self = [super init];
     if (self) {
-        NSString *str = [SFSDKResourceUtils getRawResourceAsString:path ofType:@"json"];
-        NSDictionary *config = [SFJsonUtils objectFromJSONString:str];
-        self.soupsConfig = config[kStoreConfigSoups];
+        NSDictionary *config = [SFSDKResourceUtils loadConfigFromFile:path];
+        self.soupsConfig = config == nil ? nil : config[kStoreConfigSoups];
     }
     return self;
 }

@@ -25,6 +25,7 @@
 
 #import "SFHybridViewController.h"
 #import "SFHybridConnectionMonitor.h"
+#import "SalesforceHybridSDKManager.h"
 #import <SalesforceSDKCore/SFSDKAppFeatureMarkers.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
 #import <SalesforceSDKCore/NSURL+SFStringUtils.h>
@@ -184,6 +185,10 @@ SFSDK_USE_DEPRECATED_BEGIN
         _hybridViewConfig = (viewConfig == nil ? [SFHybridViewConfig fromDefaultConfigFile] : viewConfig);
         NSAssert(_hybridViewConfig != nil, @"_hybridViewConfig was not properly initialized. See output log for errors.");
         self.startPage = _hybridViewConfig.startPage;
+        
+        // Setup global stores and syncs defined in static configs
+        [[SalesforceHybridSDKManager sharedManager] setupGlobalStoreFromDefaultConfig];
+        [[SalesforceHybridSDKManager sharedManager] setupGlobalSyncsFromDefaultConfig];
     }
     return self;
 }
@@ -223,6 +228,12 @@ SFSDK_USE_DEPRECATED_BEGIN
         NSString *noCredentials = [SFSDKResourceUtils localizedString:@"hybridBootstrapNoCredentialsAtStartup"];
         [self loadErrorPageWithCode:kErrorCodeNoCredentials description:noCredentials context:kErrorContextAppLoading];
         return;
+    }
+    
+    // Setup user stores and syncs defined in static configs
+    if ([SFUserAccountManager sharedInstance].currentUser) {
+        [[SalesforceHybridSDKManager sharedManager] setupUserStoreFromDefaultConfig];
+        [[SalesforceHybridSDKManager sharedManager] setupUserSyncsFromDefaultConfig];
     }
 
     // If the app is local, we should just be able to load it.
@@ -299,6 +310,7 @@ SFSDK_USE_DEPRECATED_BEGIN
         __strong typeof(weakSelf) strongSelf = weakSelf;
         [SFUserAccountManager sharedInstance].currentUser = userAccount;
         [strongSelf authenticationCompletion:nil authInfo:authInfo];
+        
         if (authInfo.authType == SFOAuthTypeRefresh) {
             [strongSelf loadVFPingPage];
         }

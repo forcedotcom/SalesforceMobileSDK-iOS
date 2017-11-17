@@ -23,7 +23,6 @@
  */
 
 
-#import <SalesforceSDKCore/SFJsonUtils.h>
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import <SmartStore/SmartStore.h>
 #import "SFSDKSyncsConfig.h"
@@ -47,9 +46,8 @@ static NSString *const kSyncsConfigTarget = @"target";
 - (nullable id)initWithResourceAtPath:(NSString *)path {
     self = [super init];
     if (self) {
-        NSString *str = [SFSDKResourceUtils getRawResourceAsString:path ofType:@"json"];
-        NSDictionary *config = [SFJsonUtils objectFromJSONString:str];
-        self.syncConfigs = config[kSyncsConfigSyncs];
+        NSDictionary *config = [SFSDKResourceUtils loadConfigFromFile:path];
+        self.syncConfigs = config == nil ? nil : config[kSyncsConfigSyncs];
     }
     return self;
 }

@@ -55,19 +55,30 @@ SFSDK_USE_DEPRECATED_BEGIN
 }
 
 - (void) setupGlobalStoreFromDefaultConfig {
-    [SFSDKSmartStoreLogger d:[self class] format:@"Setting up global store using config found in globalstore.json"];
-    [self setupStoreFromConfig:@"globalstore" store:[SFSmartStore sharedGlobalStoreWithName:kDefaultSmartStoreName]];
+    NSString *configPath = [self pathForGlobalStoreConfig];
+    [SFSDKSmartStoreLogger d:[self class] format:@"Setting up global store using config found in %@", configPath];
+    [self setupStoreFromConfig:configPath store:[SFSmartStore sharedGlobalStoreWithName:kDefaultSmartStoreName]];
 }
 
 - (void) setupUserStoreFromDefaultConfig {
-    [SFSDKSmartStoreLogger d:[self class] format:@"Setting up user store using config found in userstore.json"];
-    [self setupStoreFromConfig:@"userstore" store:[SFSmartStore sharedStoreWithName:kDefaultSmartStoreName]];
+    NSString *configPath = [self pathForUserStoreConfig];
+    [SFSDKSmartStoreLogger d:[self class] format:@"Setting up user store using config found in %@", configPath];
+    [self setupStoreFromConfig:configPath store:[SFSmartStore sharedStoreWithName:kDefaultSmartStoreName]];
 }
 
 - (void) setupStoreFromConfig:(NSString*)path store:(SFSmartStore *)store {
     SFSDKStoreConfig* storeConfig = [[SFSDKStoreConfig alloc] initWithResourceAtPath:path];
     [storeConfig registerSoups:store];
 }
+
+- (NSString*) pathForGlobalStoreConfig {
+    return @"globalstore.json";
+}
+
+- (NSString*) pathForUserStoreConfig {
+    return @"userstore.json";
+}
+
 
 #pragma mark - Dev support methods
 
