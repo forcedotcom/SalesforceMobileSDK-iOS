@@ -23,73 +23,109 @@
  */
 
 #import "SFSDKSyncsConfigTests.h"
+#import "SmartSyncSDKManager.h"
+#import "SFSoqlSyncDownTarget.h"
 #import <XCTest/XCTest.h>
+
+@interface SFSDKSyncsConfigTests ()
+
+@property (nonatomic, strong) SmartSyncSDKManager* sdkManager;
+
+@end
 
 @implementation SFSDKSyncsConfigTests
 
 #pragma mark - setup and teardown
 
-- (void) tearDown
+- (void) setUp
 {
-//    deleteSyncs();
-//    deleteGlobalSyncs();
-//    super.tearDown();
+    [super setUp];
+    [SFSDKSmartSyncLogger setLogLevel:DDLogLevelDebug];
+    self.sdkManager = [[SmartSyncSDKManager alloc] init];
 }
 
-#pragma mark - tests
+- (void) tearDown
+{
+    [super tearDown];
+    self.sdkManager = nil;
+}
 
 - (void) testSetupGlobalSyncsFromDefaultConfig  {
+    XCTAssertFalse([self.globalSyncManager hasSyncWithName:@"globalSync1"]);
+    XCTAssertFalse([self.globalSyncManager hasSyncWithName:@"globalSync2"]);
 
-//    assertFalse(SyncState.hasSyncWithName(globalSmartStore, "globalSync1"));
-//    assertFalse(SyncState.hasSyncWithName(globalSmartStore, "globalSync2"));
-//
-//    // Setting up soup
-//    SmartSyncSDKManager.getInstance().setupGlobalSyncsFromDefaultConfig();
-//
-//    // Checking smartstore
-//    assertTrue(SyncState.hasSyncWithName(globalSmartStore, "globalSync1"));
-//    assertTrue(SyncState.hasSyncWithName(globalSmartStore, "globalSync2"));
-//
-//    // Checking first sync in details
-//    SyncState actualSync1 = SyncState.byName(globalSmartStore, "globalSync1");
-//    assertEquals("Wrong soup name", ACCOUNTS_SOUP, actualSync1.getSoupName());
-//    checkStatus(actualSync1, SyncState.Type.syncDown, actualSync1.getId(), new SoqlSyncDownTarget("SELECT Id, Name, LastModifiedDate FROM Account"), SyncOptions.optionsForSyncDown(SyncState.MergeMode.OVERWRITE), SyncState.Status.NEW, 0);
-//
-//    // Checking second sync in details
-//    SyncState actualSync2 = SyncState.byName(globalSmartStore, "globalSync2");
-//    assertEquals("Wrong soup name", ACCOUNTS_SOUP, actualSync2.getSoupName());
-//    checkStatus(actualSync2, SyncState.Type.syncUp, actualSync2.getId(),
-//            new SyncUpTarget(Arrays.asList(new String[]{"Name"}), null),
-//    SyncOptions.optionsForSyncUp(Arrays.asList(new String[]{"Id", "Name", "LastModifiedDate"}), SyncState.MergeMode.LEAVE_IF_CHANGED),
-//    SyncState.Status.NEW, 0);
+    // Setting up syncs
+    [self.sdkManager setupGlobalSyncsFromDefaultConfig];
 
+    // Checking smartstore
+    XCTAssertTrue([self.globalSyncManager hasSyncWithName:@"globalSync1"]);
+    XCTAssertTrue([self.globalSyncManager hasSyncWithName:@"globalSync2"]);
+
+    // Checking first sync in details
+    SFSyncState* actualSync1 = [self.globalSyncManager getSyncStatusByName:@"globalSync1"];
+    XCTAssertEqualObjects(actualSync1.soupName, @"accounts");
+    [self checkStatus:actualSync1
+         expectedType:SFSyncStateSyncTypeDown
+           expectedId:actualSync1.syncId
+         expectedName:@"globalSync1"
+       expectedTarget:[SFSoqlSyncDownTarget
+               newSyncTarget:@"SELECT Id, Name, LastModifiedDate FROM Account"]
+      expectedOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeOverwrite]
+       expectedStatus:SFSyncStateStatusNew
+     expectedProgress:0
+    expectedTotalSize:-1];
+
+    // Checking second sync in details
+    SFSyncState* actualSync2 = [self.globalSyncManager getSyncStatusByName:@"globalSync2"];
+    XCTAssertEqualObjects(actualSync2.soupName, @"accounts");
+    [self checkStatus:actualSync2
+         expectedType:SFSyncStateSyncTypeUp
+           expectedId:actualSync2.syncId
+         expectedName:@"globalSync2"
+       expectedTarget:[[SFSyncUpTarget alloc] initWithCreateFieldlist:@[@"Name"] updateFieldlist:nil]
+      expectedOptions:[SFSyncOptions newSyncOptionsForSyncUp:@[@"Id", @"Name", @"LastModifiedDate"] mergeMode:SFSyncStateMergeModeLeaveIfChanged]
+       expectedStatus:SFSyncStateStatusNew
+     expectedProgress:0
+    expectedTotalSize:-1];
 }
 
 - (void) testSetupUserSyncsFromDefaulltConfig {
+    XCTAssertFalse([self.syncManager hasSyncWithName:@"userSync1"]);
+    XCTAssertFalse([self.syncManager hasSyncWithName:@"userSync2"]);
 
-//    assertFalse(SyncState.hasSyncWithName(smartStore, "userSync1"));
-//    assertFalse(SyncState.hasSyncWithName(smartStore, "userSync2"));
-//
-//    // Setting up soup
-//    SmartSyncSDKManager.getInstance().setupUserSyncsFromDefaultConfig();
-//
-//    // Checking smartstore
-//    assertTrue(SyncState.hasSyncWithName(smartStore, "userSync1"));
-//    assertTrue(SyncState.hasSyncWithName(smartStore, "userSync2"));
-//
-//    // Checking first sync in details
-//    SyncState actualSync1 = SyncState.byName(smartStore, "userSync1");
-//    assertEquals("Wrong soup name", ACCOUNTS_SOUP, actualSync1.getSoupName());
-//    checkStatus(actualSync1, SyncState.Type.syncDown, actualSync1.getId(), new SoqlSyncDownTarget("SELECT Id, Name, LastModifiedDate FROM Account"), SyncOptions.optionsForSyncDown(SyncState.MergeMode.OVERWRITE), SyncState.Status.NEW, 0);
-//
-//    // Checking second sync in details
-//    SyncState actualSync2 = SyncState.byName(smartStore, "userSync2");
-//    assertEquals("Wrong soup name", ACCOUNTS_SOUP, actualSync2.getSoupName());
-//    checkStatus(actualSync2, SyncState.Type.syncUp, actualSync2.getId(),
-//            new SyncUpTarget(Arrays.asList(new String[]{"Name"}), null),
-//    SyncOptions.optionsForSyncUp(Arrays.asList(new String[]{"Id", "Name", "LastModifiedDate"}), SyncState.MergeMode.LEAVE_IF_CHANGED),
-//    SyncState.Status.NEW, 0);
+    // Setting up syncs
+    [self.sdkManager setupUserSyncsFromDefaultConfig];
 
+    // Checking smartstore
+    XCTAssertTrue([self.syncManager hasSyncWithName:@"userSync1"]);
+    XCTAssertTrue([self.syncManager hasSyncWithName:@"userSync2"]);
+
+    // Checking first sync in details
+    SFSyncState* actualSync1 = [self.syncManager getSyncStatusByName:@"userSync1"];
+    XCTAssertEqualObjects(actualSync1.soupName, @"accounts");
+    [self checkStatus:actualSync1
+         expectedType:SFSyncStateSyncTypeDown
+           expectedId:actualSync1.syncId
+         expectedName:@"userSync1"
+       expectedTarget:[SFSoqlSyncDownTarget
+               newSyncTarget:@"SELECT Id, Name, LastModifiedDate FROM Account"]
+      expectedOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeOverwrite]
+       expectedStatus:SFSyncStateStatusNew
+     expectedProgress:0
+    expectedTotalSize:-1];
+
+    // Checking second sync in details
+    SFSyncState* actualSync2 = [self.syncManager getSyncStatusByName:@"userSync2"];
+    XCTAssertEqualObjects(actualSync2.soupName, @"accounts");
+    [self checkStatus:actualSync2
+         expectedType:SFSyncStateSyncTypeUp
+           expectedId:actualSync2.syncId
+         expectedName:@"userSync2"
+       expectedTarget:[[SFSyncUpTarget alloc] initWithCreateFieldlist:@[@"Name"] updateFieldlist:nil]
+      expectedOptions:[SFSyncOptions newSyncOptionsForSyncUp:@[@"Id", @"Name", @"LastModifiedDate"] mergeMode:SFSyncStateMergeModeLeaveIfChanged]
+       expectedStatus:SFSyncStateStatusNew
+     expectedProgress:0
+    expectedTotalSize:-1];
 }
 
 @end

@@ -45,6 +45,8 @@
 		4F307E3A1EBD4A010040CFC4 /* SFParentChildrenSyncHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F307E381EBD4A010040CFC4 /* SFParentChildrenSyncHelper.m */; };
 		4F307E3F1EC273780040CFC4 /* SyncManagerTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F307E3E1EC273780040CFC4 /* SyncManagerTestCase.m */; };
 		4F307E421EC2750C0040CFC4 /* ParentChildrenSyncTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F307E411EC2750C0040CFC4 /* ParentChildrenSyncTests.m */; };
+		4F3D60361FBFB0AF00D1830F /* globalsyncs.json in Resources */ = {isa = PBXBuildFile; fileRef = 4F3D60351FBFB0AF00D1830F /* globalsyncs.json */; };
+		4F3D603B1FBFB11C00D1830F /* usersyncs.json in Resources */ = {isa = PBXBuildFile; fileRef = 4F3D603A1FBFB11C00D1830F /* usersyncs.json */; };
 		4F3DF86B1ECCF44900D1D9AF /* SFParentChildrenSyncDownTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3DF8671ECCF44900D1D9AF /* SFParentChildrenSyncDownTarget.m */; };
 		4F3DF86C1ECCF44900D1D9AF /* SFSoqlSyncDownTarget+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F3DF8681ECCF44900D1D9AF /* SFSoqlSyncDownTarget+Internal.h */; };
 		4F3DF86D1ECCF44900D1D9AF /* SFSyncDownTarget+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F3DF8691ECCF44900D1D9AF /* SFSyncDownTarget+Internal.h */; };
@@ -289,6 +291,8 @@
 		4F307E3E1EC273780040CFC4 /* SyncManagerTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncManagerTestCase.m; sourceTree = "<group>"; };
 		4F307E401EC273AB0040CFC4 /* SyncManagerTestCase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SyncManagerTestCase.h; sourceTree = "<group>"; };
 		4F307E411EC2750C0040CFC4 /* ParentChildrenSyncTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParentChildrenSyncTests.m; sourceTree = "<group>"; };
+		4F3D60351FBFB0AF00D1830F /* globalsyncs.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = globalsyncs.json; sourceTree = "<group>"; };
+		4F3D603A1FBFB11C00D1830F /* usersyncs.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = usersyncs.json; sourceTree = "<group>"; };
 		4F3DF8671ECCF44900D1D9AF /* SFParentChildrenSyncDownTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFParentChildrenSyncDownTarget.m; path = Target/SFParentChildrenSyncDownTarget.m; sourceTree = "<group>"; };
 		4F3DF8681ECCF44900D1D9AF /* SFSoqlSyncDownTarget+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SFSoqlSyncDownTarget+Internal.h"; path = "Target/SFSoqlSyncDownTarget+Internal.h"; sourceTree = "<group>"; };
 		4F3DF8691ECCF44900D1D9AF /* SFSyncDownTarget+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SFSyncDownTarget+Internal.h"; path = "Target/SFSyncDownTarget+Internal.h"; sourceTree = "<group>"; };
@@ -454,6 +458,8 @@
 				4F06AF3E1C499FD100F70798 /* LaunchScreen.storyboard */,
 				4F06AF411C499FD100F70798 /* Info.plist */,
 				4F06AF301C499FD100F70798 /* Supporting Files */,
+				4F3D60351FBFB0AF00D1830F /* globalsyncs.json */,
+				4F3D603A1FBFB11C00D1830F /* usersyncs.json */,
 			);
 			path = SmartSyncTestApp;
 			sourceTree = "<group>";
@@ -971,7 +977,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F06AF401C499FD100F70798 /* LaunchScreen.storyboard in Resources */,
+				4F3D60361FBFB0AF00D1830F /* globalsyncs.json in Resources */,
 				4F06AF3D1C499FD100F70798 /* Assets.xcassets in Resources */,
+				4F3D603B1FBFB11C00D1830F /* usersyncs.json in Resources */,
 				4F06AF3B1C499FD100F70798 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
