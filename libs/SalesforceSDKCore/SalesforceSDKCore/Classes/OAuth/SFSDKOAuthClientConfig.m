@@ -32,4 +32,9 @@
 
 @implementation SFSDKOAuthClientConfig
 
+- (BOOL)idpEnabled {
+    return self.idpAppURIScheme!=nil;
+}
+
+
 @end

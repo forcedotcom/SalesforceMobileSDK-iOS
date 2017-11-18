@@ -48,6 +48,20 @@ static NSString * const OAuthRedirectURI        = @"com.salesforce.mobilesdk.sam
     self = [super init];
     if (self) {
         [SFUserAccountManager sharedInstance].advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;
+        /*
+         //scheme of idpAppp
+         [SFUserAccountManager sharedInstance].advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationNone;
+         [SalesforceSDKManager sharedManager].idpAppURIScheme = @"sampleidpapp";
+         //user friendly display name
+         [SalesforceSDKManager sharedManager].appDisplayName = @"SampleAppOne";
+         
+         //Use the following code block to replace the login flow selection dialog
+         [SalesforceSDKManager sharedManager].idpLoginFlowSelectionBlock = ^UIViewController<SFSDKLoginFlowSelectionView> * _Nonnull{
+         IDPLoginNavViewController *controller = [[IDPLoginNavViewController alloc] init];
+         return controller;
+         };
+         */
+        
         __weak typeof(self) weakSelf = self;
         [SalesforceSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActionList) {
             __strong typeof(weakSelf) strongSelf = weakSelf;

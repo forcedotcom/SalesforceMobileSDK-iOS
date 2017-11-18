@@ -149,7 +149,7 @@
     
     
     SFSDKOAuthClient *client3 = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig *config) {
-        config.idpEnabled = YES;
+        config.idpAppURIScheme = @"idpApp";
     }];
     
     XCTAssertNotNil( [[SFSDKOAuthClientCache sharedInstance] clientForKey:key2]);
@@ -184,7 +184,7 @@
     
     
     SFSDKOAuthClient *client3 = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig *config) {
-        config.idpEnabled = YES;
+        config.idpAppURIScheme = @"idpApp";
     }];
     
     XCTAssertNotNil( [[SFSDKOAuthClientCache sharedInstance] clientForKey:key2]);
@@ -223,7 +223,7 @@
     
     
     SFSDKOAuthClient *client3 = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig *config) {
-        config.idpEnabled = YES;
+        config.idpAppURIScheme = @"idpApp";
     }];
     
     XCTAssertNotNil( [[SFSDKOAuthClientCache sharedInstance] clientForKey:key2]);

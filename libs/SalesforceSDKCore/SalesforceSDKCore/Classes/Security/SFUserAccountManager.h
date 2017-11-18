@@ -28,7 +28,7 @@
 #import "SFUserAccountConstants.h"
 #import "SFOAuthCoordinator.h"
 #import "SFOAuthCoordinator.h"
-
+#import "SFSDKLoginViewControllerConfig.h"
 NS_ASSUME_NONNULL_BEGIN
 
 /**
@@ -330,7 +330,7 @@ FOUNDATION_EXTERN NSString * const kSFUserInfoAddlOptionsKey;
 /**  Use this property to enable this app to be able to use another app that is an Identity Provider
  *
  */
-@property (nonatomic,assign) BOOL idpEnabled;
+@property (nonatomic,assign, readonly) BOOL idpEnabled;
 
 /** Use this property to use SFAuthenticationManager for authentication
  *
@@ -340,7 +340,7 @@ FOUNDATION_EXTERN NSString * const kSFUserInfoAddlOptionsKey;
 /** Use this property to indicate the url scheme  for the Identity Provider app
  *
  */
-@property (nonatomic, copy) NSString *idpAppScheme;
+@property (nonatomic, copy) NSString *idpAppURIScheme;
 
 /** Use this property to indicate to provide a user-friendly name for your app. This name will be displayed
  *  in the user selection view of the identity provider app.
@@ -348,7 +348,10 @@ FOUNDATION_EXTERN NSString * const kSFUserInfoAddlOptionsKey;
  */
 @property (nonatomic,copy) NSString *appDisplayName;
 
-
+/** Use this property to indicate to provide LoginViewController customizations for themes,navbar and settigs icon.
+ *
+ */
+@property (nonatomic,strong) SFSDKLoginViewControllerConfig *loginViewControllerConfig;
 
 /** Shared singleton
  */

@@ -39,11 +39,12 @@
 #import "SFSDKIDPInitCommand.h"
 #import "SFSDKAlertMessage.h"
 #import "SFSDKAlertMessageBuilder.h"
-
+#import "SFSDKStartURLHandler.h"
 @implementation SFUserAccountManager (URLHandlers)
 
 - (BOOL)handleNativeAuthResponse:(NSURL *_Nonnull)appUrlResponse options:(NSDictionary *_Nullable)options {
     //should return the shared instance for advanced auth
+    [SFSDKCoreLogger d:[self class] format:@"handle handleNativeAuthResponse for %@", appUrlResponse];
     NSString *state = [appUrlResponse valueForParameterName:kSFStateParam];
     NSString *key = [SFSDKOAuthClientCache keyFromIdentifierPrefixWithType:state type:SFOAuthClientKeyTypeAdvanced];
     SFSDKOAuthClient *client = [[SFSDKOAuthClientCache sharedInstance] clientForKey:key];
@@ -57,7 +58,7 @@
     NSString *key = [SFSDKOAuthClientCache keyFromIdentifierPrefixWithType:param type:SFOAuthClientKeyTypeIDP];
     SFSDKOAuthClient *client = [[SFSDKOAuthClientCache sharedInstance] clientForKey:key];
     SFOAuthCredentials *creds = nil;
-    
+    [SFSDKCoreLogger e:[self class] format:@"handleIdpAuthError for %@", [command.allParams description]];
     if (!client) {
         creds = [self newClientCredentials];
         client = [self fetchOAuthClient:creds completion:nil failure:nil];
@@ -79,12 +80,17 @@
 - (BOOL)handleIdpInitiatedAuth:(SFSDKIDPInitCommand *)command {
     
     NSString *userHint = command.userHint;
-    
+    [SFSDKCoreLogger d:[self class] format:@"handle handleIdpInitiatedAuth for %@", [command.allParams description]];
     if (userHint) {
         SFUserAccountIdentity *identity = [self decodeUserIdentity:userHint];
         SFUserAccount *userAccount = [self userAccountForUserIdentity:identity];
         if (userAccount) {
             [self switchToUser:userAccount];
+            if (command.startURL) {
+                [SFSDKCoreLogger d:[self class] format:@"Attempting to launch %@", command.startURL];
+                SFSDKStartURLHandler *handler = [[SFSDKStartURLHandler alloc] init];
+                [handler processRequest:[NSURL URLWithString:command.startURL]  options:nil];
+            }
             return YES;
         }
     }
@@ -103,11 +109,12 @@
     SFOAuthCredentials *idpAppsCredentials = [self newClientCredentials];
     NSString *userHint = request.spUserHint;
     SFOAuthCredentials *foundUserCredentials = nil;
-    
+    [SFSDKCoreLogger d:[self class] format:@"handleIdpRequest for %@", [request.allParams description]];
     if (userHint) {
         SFUserAccountIdentity *identity = [self decodeUserIdentity:userHint];
         SFUserAccount *userAccount = [self userAccountForUserIdentity:identity];
         if (userAccount.credentials.accessToken!=nil) {
+            [SFSDKCoreLogger d:[self class] format:@"handleIdpRequest userAccount found for userHint"];
             foundUserCredentials = userAccount.credentials;
         }
     }
@@ -129,6 +136,7 @@
     }
 
     if (showSelection) {
+        [SFSDKCoreLogger d:[self class] format:@"handleIdpRequest userAccount will show user selection"];
         UIViewController<SFSDKUserSelectionView> *controller  = authClient.idpUserSelectionBlock();
         controller.spAppOptions = request.allParams;
         controller.userSelectionDelegate = self;
@@ -145,7 +153,7 @@
 {
     NSString *key = [SFSDKOAuthClientCache keyFromIdentifierPrefixWithType:response.state type:SFOAuthClientKeyTypeIDP];
     SFSDKOAuthClient *client =  [[SFSDKOAuthClientCache sharedInstance] clientForKey:key];
-    
+    [SFSDKCoreLogger d:[self class] format:@"handleIdpResponse did receive reponse %@", [response.allParams description]];
     if (response.domain)
         client.credentials.domain = response.domain;
     

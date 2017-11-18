@@ -211,15 +211,6 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     return self.authPreferences.idpEnabled;
 }
 
-- (void)setIdpEnabled:(BOOL)idpEnabled {
-    if (idpEnabled) {
-        [SFSDKAppFeatureMarkers registerAppFeature:kSFSPAppFeatureIDPLogin];
-    }else {
-        [SFSDKAppFeatureMarkers unregisterAppFeature:kSFSPAppFeatureIDPLogin];
-    }
-    self.authPreferences.idpEnabled = idpEnabled;
-}
-
 - (SFOAuthAdvancedAuthConfiguration)advancedAuthConfiguration {
    return self.authPreferences.advancedAuthConfiguration;
 }
@@ -245,12 +236,17 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     self.authPreferences.appDisplayName = appDisplayName;
 }
 
-- (NSString *)idpAppScheme{
-    return self.authPreferences.idpAppScheme;
+- (NSString *)idpAppURIScheme{
+    return self.authPreferences.idpAppURIScheme;
 }
 
-- (void)setIdpAppScheme:(NSString *)idpAppScheme {
-    self.authPreferences.idpAppScheme = idpAppScheme;
+- (void)setIdpAppURIScheme:(NSString *)idpAppURIScheme {
+    if (idpAppURIScheme && [idpAppURIScheme trim].length > 0) {
+        [SFSDKAppFeatureMarkers registerAppFeature:kSFSPAppFeatureIDPLogin];
+    } else {
+        [SFSDKAppFeatureMarkers unregisterAppFeature:kSFSPAppFeatureIDPLogin];
+    }
+    self.authPreferences.idpAppURIScheme = idpAppURIScheme;
 }
 
 #pragma  mark - login & logout
@@ -608,7 +604,6 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     return creds;
 }
 
-
 #pragma mark Account management
 - (NSArray *)allUserAccounts
 {
@@ -806,6 +801,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     [_accountsLock lock];
     _currentUser = nil;
     [self.userAccountMap removeAllObjects];
+    [[SFSDKOAuthClientCache sharedInstance] removeAllClients];
     [_accountsLock unlock];
 }
 
@@ -1167,9 +1163,8 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
             config.isIdentityProvider = strongSelf.isIdentityProvider;
             config.oauthCompletionUrl = strongSelf.oauthCompletionUrl;
             config.oauthClientId = strongSelf.oauthClientId;
-            config.idpAppScheme = strongSelf.idpAppScheme;
+            config.idpAppURIScheme = strongSelf.idpAppURIScheme;
             config.appDisplayName = strongSelf.appDisplayName;
-            config.idpEnabled = strongSelf.idpEnabled;
             config.advancedAuthConfiguration = strongSelf.advancedAuthConfiguration;
             config.delegate = strongSelf;
             config.webViewDelegate = strongSelf;
@@ -1180,6 +1175,11 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
             config.idpLoginFlowSelectionBlock = strongSelf.idpLoginFlowSelectionAction;
             config.idpUserSelectionBlock = strongSelf.idpUserSelectionAction;
             config.authViewHandler = strongSelf.authViewHandler;
+            if ([strongSelf loginViewControllerConfig]) {
+                config.loginViewControllerConfig = [strongSelf loginViewControllerConfig];
+            } else {
+                config.loginViewControllerConfig = [[SFSDKLoginViewControllerConfig alloc] init];
+            }
         }];
         [[SFSDKOAuthClientCache sharedInstance] addClient:client];
     }

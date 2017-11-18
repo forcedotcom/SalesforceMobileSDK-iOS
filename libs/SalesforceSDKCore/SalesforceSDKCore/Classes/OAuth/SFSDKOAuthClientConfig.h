@@ -41,21 +41,21 @@
 @class SFSDKOAuthClientIDP;
 @class SFAuthErrorHandlerList;
 @class SFAuthErrorHandler;
+@class SFSDKLoginViewControllerConfig;
 @protocol SFSDKIDPAuthClientDelegate;
 @protocol SFSDKOAuthClientWebViewDelegate;
 @protocol SFSDKOAuthClientSafariViewDelegate;
 
 @interface SFSDKOAuthClientConfig : NSObject
 @property (nonatomic, copy, nullable) NSString *brandLoginPath;
-@property (nonatomic, assign) BOOL hideSettingsIcon;
 @property (nonatomic, copy, nonnull) NSString *loginHost;
 @property (nonatomic, copy, nonnull) NSSet<NSString*> *scopes;
 @property (nonatomic, assign) SFOAuthAdvancedAuthConfiguration advancedAuthConfiguration;
 @property (nonatomic, strong, nullable) NSArray *additionalOAuthParameterKeys;
 @property (nonatomic, strong, nullable) NSDictionary *additionalTokenRefreshParams;
 @property (nonatomic, copy, nullable) NSString *appDisplayName;
-@property (nonatomic, assign) BOOL idpEnabled;
-@property (nonatomic, copy,nullable) NSString *idpAppScheme;
+@property (nonatomic, readonly) BOOL idpEnabled;
+@property (nonatomic, copy,nullable) NSString *idpAppURIScheme;
 @property (nonatomic, copy, nullable) NSString *oauthCompletionUrl;
 @property (nonatomic, copy, nullable) NSString *oauthClientId;
 @property (nonatomic, assign) BOOL isIDPInitiatedFlow;
@@ -81,7 +81,11 @@
 /**
  The authViewHandler for the client.
  */
-
 @property (nonatomic, strong, nullable) SFSDKAuthViewHandler *authViewHandler;
+
+/**
+ The SFSDKLoginViewControllerConfig for the client.
+ */
+@property (nonatomic, strong, nullable) SFSDKLoginViewControllerConfig  *loginViewControllerConfig;
 
 @end

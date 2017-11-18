@@ -36,6 +36,9 @@
 		82E7F5AF17147BC400AC4E27 /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E7F5AD17147BC400AC4E27 /* InitialViewController.m */; };
 		82E7F5B017147BC400AC4E27 /* InitialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82E7F5AE17147BC400AC4E27 /* InitialViewController.xib */; };
 		B7168F461FACC25000A48DB5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7168F451FACC25000A48DB5 /* LaunchScreen.storyboard */; };
+		B7BAD7AC1FBB7FAC0046629F /* IDPLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BAD7A91FBB7FAC0046629F /* IDPLoginViewController.m */; };
+		B7BAD7AD1FBB7FAC0046629F /* IDPLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7BAD7AA1FBB7FAC0046629F /* IDPLoginViewController.xib */; };
+		B7BAD7AE1FBB7FAC0046629F /* IDPLoginNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BAD7AB1FBB7FAC0046629F /* IDPLoginNavViewController.m */; };
 		BCAE01A21D7F77CE00944153 /* SalesforceAnalytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8D201CE9329300C6FC6A /* SalesforceAnalytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CE2B8D331CE932A600C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8D201CE9329300C6FC6A /* SalesforceAnalytics.framework */; };
 		CE6AB38C1C10C4880012125E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6AB38B1C10C4880012125E /* libz.tbd */; };
@@ -285,6 +288,11 @@
 		82E7F5AE17147BC400AC4E27 /* InitialViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = InitialViewController.xib; path = Classes/InitialViewController.xib; sourceTree = "<group>"; };
 		82E856521D88ACE60000EECB /* RestAPIExplorer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RestAPIExplorer.entitlements; sourceTree = "<group>"; };
 		B7168F451FACC25000A48DB5 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ../../../../shared/resources/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		B7BAD7901FBB7FAB0046629F /* IDPLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IDPLoginViewController.h; path = ../../../../shared/classes/IDPLoginViewController.h; sourceTree = "<group>"; };
+		B7BAD7A81FBB7FAB0046629F /* IDPLoginNavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IDPLoginNavViewController.h; path = ../../../../shared/classes/IDPLoginNavViewController.h; sourceTree = "<group>"; };
+		B7BAD7A91FBB7FAC0046629F /* IDPLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IDPLoginViewController.m; path = ../../../../shared/classes/IDPLoginViewController.m; sourceTree = "<group>"; };
+		B7BAD7AA1FBB7FAC0046629F /* IDPLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = IDPLoginViewController.xib; path = ../../../../shared/classes/IDPLoginViewController.xib; sourceTree = "<group>"; };
+		B7BAD7AB1FBB7FAC0046629F /* IDPLoginNavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IDPLoginNavViewController.m; path = ../../../../shared/classes/IDPLoginNavViewController.m; sourceTree = "<group>"; };
 		CE2B8D081CE9329300C6FC6A /* SalesforceAnalytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceAnalytics.xcodeproj; path = ../../../libs/SalesforceAnalytics/SalesforceAnalytics.xcodeproj; sourceTree = "<group>"; };
 		CE6AB38B1C10C4880012125E /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		CE6AB38D1C10C4940012125E /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
@@ -394,6 +402,11 @@
 		7DF4D3A91472E23A005CE144 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				B7BAD7A81FBB7FAB0046629F /* IDPLoginNavViewController.h */,
+				B7BAD7AB1FBB7FAC0046629F /* IDPLoginNavViewController.m */,
+				B7BAD7901FBB7FAB0046629F /* IDPLoginViewController.h */,
+				B7BAD7A91FBB7FAC0046629F /* IDPLoginViewController.m */,
+				B7BAD7AA1FBB7FAC0046629F /* IDPLoginViewController.xib */,
 				7DF4D3AA1472E23A005CE144 /* AppDelegate.h */,
 				7DF4D3AB1472E23A005CE144 /* AppDelegate.m */,
 				82E7F5AC17147BC400AC4E27 /* InitialViewController.h */,
@@ -503,7 +516,7 @@
 				};
 			};
 			buildConfigurationList = 7DF4D2D31472E238005CE144 /* Build configuration list for PBXProject "RestAPIExplorer" */;
-			compatibilityVersion = "Xcode 9.0";
+			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -716,6 +729,7 @@
 				7DF4D3A81472E23A005CE144 /* readme.txt in Resources */,
 				7DF4D3B51472E23A005CE144 /* SFAuthorizingViewController.xib in Resources */,
 				7DF4D3CC1472E3E0005CE144 /* RestAPIExplorerViewController.xib in Resources */,
+				B7BAD7AD1FBB7FAC0046629F /* IDPLoginViewController.xib in Resources */,
 				4F84FDFE18DD07D0006A7699 /* Images.xcassets in Resources */,
 				82E7F5B017147BC400AC4E27 /* InitialViewController.xib in Resources */,
 				822F516C1F97136C00EA0728 /* bootconfig.plist in Resources */,
@@ -730,7 +744,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				7DF4D2F51472E238005CE144 /* main.m in Sources */,
+				B7BAD7AE1FBB7FAC0046629F /* IDPLoginNavViewController.m in Sources */,
 				7DF4D3AC1472E23A005CE144 /* AppDelegate.m in Sources */,
+				B7BAD7AC1FBB7FAC0046629F /* IDPLoginViewController.m in Sources */,
 				7DF4D3CD1472E3E0005CE144 /* RestAPIExplorerViewController.m in Sources */,
 				7DF4D3CF1472E3E0005CE144 /* QueryListViewController.m in Sources */,
 				82E7F5AF17147BC400AC4E27 /* InitialViewController.m in Sources */,

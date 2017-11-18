@@ -236,11 +236,7 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
 }
 
 - (BOOL)idpEnabled {
-    return [SFUserAccountManager sharedInstance].idpEnabled;
-}
-
-- (void)setIdpEnabled:(BOOL)idpEnabled {
-    [SFUserAccountManager sharedInstance].idpEnabled = idpEnabled;
+    return [SFUserAccountManager sharedInstance].idpAppURIScheme!=nil;
 }
 
 - (BOOL)useLegacyAuthenticationManager{
@@ -259,12 +255,12 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
     [SFUserAccountManager sharedInstance].appDisplayName = appDisplayName;
 }
 
-- (NSString *)idpAppScheme{
-    return [SFUserAccountManager sharedInstance].idpAppScheme;
+- (NSString *)idpAppURIScheme{
+    return [SFUserAccountManager sharedInstance].idpAppURIScheme;
 }
 
-- (void)setIdpAppScheme:(NSString *)idpAppScheme {
-    [SFUserAccountManager sharedInstance].idpAppScheme = idpAppScheme;
+- (void)setIdpAppURIScheme:(NSString *)idpAppURIScheme {
+    [SFUserAccountManager sharedInstance].idpAppURIScheme = idpAppURIScheme;
 }
 
 - (BOOL)isLaunching
@@ -547,8 +543,7 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
     }
     
     if ([SFManagedPreferences sharedPreferences].idpAppURLScheme) {
-        self.idpEnabled = YES;
-        self.idpAppScheme = [SFManagedPreferences sharedPreferences].idpAppURLScheme;
+        self.idpAppURIScheme = [SFManagedPreferences sharedPreferences].idpAppURLScheme;
     }
 }
 

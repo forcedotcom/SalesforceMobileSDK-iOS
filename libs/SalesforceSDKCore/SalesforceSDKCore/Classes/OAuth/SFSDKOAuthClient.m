@@ -46,6 +46,7 @@
 #import "SFSDKIDPAuthClient.h"
 #import "SFSDKAlertMessage.h"
 #import "SFSDKAlertMessageBuilder.h"
+#import "SFSDKLoginViewControllerConfig.h"
 // Auth error handler name constants
 static NSString * const kSFInvalidCredentialsAuthErrorHandler = @"InvalidCredentialsErrorHandler";
 static NSString * const kSFConnectedAppVersionAuthErrorHandler = @"ConnectedAppVersionErrorHandler";
@@ -126,13 +127,12 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
                             strongSelf.config.authViewController = [[SFLoginViewController alloc] initWithNibName:nil bundle:nil];
                             strongSelf.config.authViewController.delegate = strongSelf;
                         }
-                        strongSelf.config.authViewController.showSettingsIcon = !(strongSelf.config.hideSettingsIcon);
+                        strongSelf.config.authViewController.config = strongSelf.config.loginViewControllerConfig;
                         [strongSelf.config.authViewController setOauthView:viewHandler.wkWebView];
                         strongSelf.authWindow.viewController = strongSelf.config.authViewController;
                         [strongSelf.authWindow enable];
                     } dismissBlock:^() {
                         __strong typeof(weakSelf) strongSelf = weakSelf;
-                        [SFLoginViewController sharedInstance].oauthView = nil;
                         [strongSelf dismissAuthViewControllerIfPresent];
                     }];
        }
