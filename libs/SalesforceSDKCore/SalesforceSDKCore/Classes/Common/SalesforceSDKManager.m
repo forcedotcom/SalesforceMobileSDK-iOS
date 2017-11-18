@@ -463,7 +463,9 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
             @"User Agent", self.userAgentString(@""),
             @"Browser Login Enabled", [SFUserAccountManager sharedInstance].advancedAuthConfiguration != SFOAuthAdvancedAuthConfigurationNone ? @"true" : @"false",
             @"Current User", [self usersToString:@[[SFUserAccountManager sharedInstance].currentUser]],
-            @"Authenticated Users", [self usersToString:[SFUserAccountManager sharedInstance].allUserAccounts]
+            @"Authenticated Users", [self usersToString:[SFUserAccountManager sharedInstance].allUserAccounts],
+            @"Boot config", [self dictToString:self.appConfig.configDict],
+            @"Managed Preferences", [self dictToString:[SFManagedPreferences sharedPreferences].rawPreferences]
     ];
 }
 
@@ -473,6 +475,10 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
         [usernames addObject:userAccount.email];
     }
     return [usernames componentsJoinedByString:@", "];
+}
+
+- (NSString*) dictToString:(NSDictionary*)dict {
+    return [dict.description stringByReplacingOccurrencesOfString:@"\n" withString:@""] ?: @"nil";
 }
 
 #pragma mark - Private methods
