@@ -207,7 +207,7 @@ SFSDK_USE_DEPRECATED_END
 }
 
 - (IBAction)backToPreviousHost:(id)sender {
-    if ([SFSDKWindowManager sharedManager].authWindow.window.rootViewController!= [SFSDKWindowManager sharedManager].authWindow.viewController) {
+    if (![SFUserAccountManager sharedInstance].idpEnabled) {
         [[SFSDKWindowManager sharedManager].authWindow disable];
     }else {
         [[SFSDKWindowManager sharedManager].authWindow.viewController dismissViewControllerAnimated:NO completion:nil];

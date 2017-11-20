@@ -486,6 +486,10 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 -(void)loginFlowSelectionIDPSelected:(UIViewController *)controller options:(NSDictionary *)appOptions {
     NSString *key = [appOptions objectForKey:kOptionsClientKey];
     SFSDKIDPAuthClient *client = (SFSDKIDPAuthClient *)[[SFSDKOAuthClientCache sharedInstance] clientForKey:key];
+    if(!client) {
+        SFOAuthCredentials *credentials = [self newClientCredentials];
+        client = [self fetchIDPAuthClient:credentials completion:nil failure:nil];
+    }
     client.config.loginHost = self.loginHost;
     [client initiateIDPFlowInSPApp];
 }
@@ -493,6 +497,10 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 -(void)loginFlowSelectionLocalLoginSelected:(UIViewController *)controller options:(NSDictionary *)appOptions  {
     NSString *key = [appOptions objectForKey:kOptionsClientKey];
     SFSDKIDPAuthClient *client = (SFSDKIDPAuthClient *)[[SFSDKOAuthClientCache sharedInstance] clientForKey:key];
+    if(!client) {
+        SFOAuthCredentials *credentials = [self newClientCredentials];
+        client = [self fetchIDPAuthClient:credentials completion:nil failure:nil];
+    }
     [client initiateLocalLoginInSPApp];
 }
 
@@ -1114,7 +1122,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
          __strong typeof (weakSelf) strongSelf = weakSelf;
         builder.alertTitle = [SFSDKResourceUtils localizedString:kAlertErrorTitleKey];
         builder.alertMessage = alertMessage;
-        builder.actionOneTitle = [SFSDKResourceUtils localizedString:kAlertErrorTitleKey];
+        builder.actionOneTitle = [SFSDKResourceUtils localizedString:kAlertOkButtonKey];
         builder.actionTwoTitle = [SFSDKResourceUtils localizedString:kAlertDismissButtonKey];
         builder.actionOneCompletion = ^{
             [strongSelf disposeOAuthClient:client];
@@ -1128,7 +1136,10 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
             [strongSelf disposeOAuthClient:client];
         };
     }];
-    self.alertDisplayBlock(message, SFSDKWindowManager.sharedManager.authWindow);
+    dispatch_async(dispatch_get_main_queue(), ^{
+         weakSelf.alertDisplayBlock(message, SFSDKWindowManager.sharedManager.authWindow);
+    });
+   
 }
 
 - (void)showAlertForConnectedAppVersionMismatchError:(NSError *)error client:(SFSDKOAuthClient *)client
@@ -1144,7 +1155,9 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
             [strongSelf handleFailure:error client:client];
         };
     }];
-   self.alertDisplayBlock(message, SFSDKWindowManager.sharedManager.authWindow);
+    dispatch_async(dispatch_get_main_queue(), ^{
+         weakSelf.alertDisplayBlock(message, SFSDKWindowManager.sharedManager.authWindow);
+    });
 }
 
 - (SFSDKOAuthClient *)fetchOAuthClient:(SFOAuthCredentials *)credentials completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {

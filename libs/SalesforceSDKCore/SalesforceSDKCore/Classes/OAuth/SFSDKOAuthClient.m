@@ -129,13 +129,19 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
                         }
                         strongSelf.config.authViewController.config = strongSelf.config.loginViewControllerConfig;
                         [strongSelf.config.authViewController setOauthView:viewHandler.wkWebView];
-                        if (!strongSelf.authWindow.window.rootViewController || strongSelf.authWindow.window.rootViewController == strongSelf.config.authViewController
-                            ) {
+                        
+                        if (!strongSelf.config.idpEnabled) {
                             strongSelf.authWindow.viewController = strongSelf.config.authViewController;
+                            
                         } else {
-                            [strongSelf.authWindow.window.rootViewController  presentViewController:strongSelf.config.authViewController  animated:YES completion:nil];
+                            if ([strongSelf.authWindow.window.rootViewController isViewLoaded]) {
+                                [strongSelf.authWindow.window.rootViewController  presentViewController:strongSelf.config.authViewController  animated:NO completion:nil];
+                            }else {
+                                strongSelf.authWindow.viewController = strongSelf.config.authViewController;
+                            }
                         }
-                        [strongSelf.authWindow enable];
+                        [[SFSDKWindowManager sharedManager].authWindow enable];
+                        
                     } dismissBlock:^() {
                         __strong typeof(weakSelf) strongSelf = weakSelf;
                         [strongSelf dismissAuthViewControllerIfPresent];
@@ -159,7 +165,6 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
 }
 
 -(void)dismissAuthWindow {
-    [SFSDKWindowManager sharedManager].authWindow.window.rootViewController = nil;
     [[SFSDKWindowManager sharedManager].authWindow disable];
 }
 
