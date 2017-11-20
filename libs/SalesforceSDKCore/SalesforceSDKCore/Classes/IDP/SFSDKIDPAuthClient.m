@@ -305,6 +305,7 @@
     
     SFSDKMutableOAuthClientContext *mutableContext = [self.context mutableCopy];
     mutableContext.credentials = userCredentials;
+    self.config.loginViewControllerConfig.showSettingsIcon = NO;
     self.context = mutableContext;
     self.coordinator.credentials = userCredentials;
     SFOAuthCredentials *spAppCredentials = [self spAppCredentials];

@@ -291,6 +291,7 @@
 
 - (void)hostListViewController:(SFSDKLoginHostListViewController *)hostListViewController didChangeLoginHost:(SFSDKLoginHost *)newLoginHost {
     [SFUserAccountManager sharedInstance].loginHost = newLoginHost.host;
+    [[SFUserAccountManager sharedInstance] switchToNewUser];
 }
 
 + (UIImage *)imageFromColor:(UIColor *)color {
