@@ -457,16 +457,19 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
 
 - (NSArray*) getDevSupportInfos
 {
-    return @[
+    NSMutableArray * devInfos = [NSMutableArray arrayWithArray:@[
             @"SDK Version", SALESFORCE_SDK_VERSION,
             @"App Type", [self getAppTypeAsString],
             @"User Agent", self.userAgentString(@""),
             @"Browser Login Enabled", [SFUserAccountManager sharedInstance].advancedAuthConfiguration != SFOAuthAdvancedAuthConfigurationNone ? @"true" : @"false",
             @"Current User", [self usersToString:@[[SFUserAccountManager sharedInstance].currentUser]],
-            @"Authenticated Users", [self usersToString:[SFUserAccountManager sharedInstance].allUserAccounts],
-            @"Boot config", [self dictToString:self.appConfig.configDict],
-            @"Managed Preferences", [self dictToString:[SFManagedPreferences sharedPreferences].rawPreferences]
+            @"Authenticated Users", [self usersToString:[SFUserAccountManager sharedInstance].allUserAccounts]]
     ];
+
+    [devInfos addObjectsFromArray:[self dictToDevInfos:self.appConfig.configDict keyPrefix:@"BootConfig"]];
+    [devInfos addObjectsFromArray:[self dictToDevInfos:[SFManagedPreferences sharedPreferences].rawPreferences keyPrefix:@"Managed Pref"]];
+
+    return devInfos;
 }
 
 - (NSString*) usersToString:(NSArray*)userAccounts {
@@ -477,8 +480,13 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
     return [usernames componentsJoinedByString:@", "];
 }
 
-- (NSString*) dictToString:(NSDictionary*)dict {
-    return [dict.description stringByReplacingOccurrencesOfString:@"\n" withString:@""] ?: @"nil";
+- (NSArray*) dictToDevInfos:(NSDictionary*)dict keyPrefix:(NSString*)keyPrefix {
+    NSMutableArray * devInfos = [NSMutableArray new];
+    [dict enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        [devInfos addObject:[NSString stringWithFormat:@"%@ - %@", keyPrefix, key]];
+        [devInfos addObject:[[NSString stringWithFormat:@"%@", obj] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
+    }];
+    return devInfos;
 }
 
 #pragma mark - Private methods

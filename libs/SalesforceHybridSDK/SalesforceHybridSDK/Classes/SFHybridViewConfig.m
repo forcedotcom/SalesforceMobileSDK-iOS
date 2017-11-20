@@ -24,10 +24,8 @@
  */
 
 #import "SFHybridViewConfig.h"
-#import <SalesforceAnalytics/SFSDKLogger.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
 #import <SalesforceSDKCore/SFSDKResourceUtils.h>
-#import "SFSDKHybridLogger.h"
 
 @interface SFHybridViewConfig ()
 
