@@ -106,7 +106,15 @@
 }
 
 - (BOOL)initiateLocalLoginInSPApp {
+    
+    if (self.isAuthenticating){
+        self.isAuthenticating = NO;
+      
+       [self.coordinator stopAuthentication];
+    }
+    self.config.loginViewControllerConfig.showSettingsIcon = NO;
     return [super refreshCredentials];
+
 }
 
 - (void)initiateIDPFlowInSPApp {

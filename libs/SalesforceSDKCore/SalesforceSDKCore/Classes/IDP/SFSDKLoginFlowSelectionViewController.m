@@ -31,8 +31,12 @@
 #import "UIColor+SFColors.h"
 #import "SFSDKResourceUtils.h"
 #import "SFSDKAuthPreferences.h"
+#import "SFSDKLoginHostListViewController.h"
+#import "SFUserAccountManager.h"
+#import "SFSDKLoginHost.h"
+#import "SFManagedPreferences.h"
 
-@interface SFSDKLoginFlowSelectionViewController ()
+@interface SFSDKLoginFlowSelectionViewController ()<SFSDKLoginHostDelegate>
 
 @property (nonatomic, strong) UINavigationBar *navBar;
 
@@ -49,8 +53,7 @@
 /** Specify visibility of nav bar. This property will be used to hide/show the nav bar*/
 @property (nonatomic) BOOL showNavbar;
 
-/** Specifiy the visibility of the settings icon. This property will be used to hide/show the settings icon*/
-@property (nonatomic) BOOL showSettingsIcon;
+@property (nonatomic, strong) SFSDKLoginHostListViewController *loginHostListViewController;
 
 /** Applies the view's style attributes to the given navigation bar.
  @param navigationBar The navigation bar that the style is applied to.
@@ -92,7 +95,6 @@
     };
     [self setupViews];
     
-    
 }
 
 - (void)viewDidLayoutSubviews {
@@ -109,7 +111,6 @@
     self.navBar.frame = CGRectMake(0, self.topLayoutGuide.length, self.view.bounds.size.width, navBarHeight);
 
 }
-
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -132,7 +133,7 @@
     self.navBar.items = @[item];
     [self styleNavigationBar:self.navBar];
     [self.view addSubview:self.navBar];
-
+    [self showSettingsIcon];
     [self setNeedsStatusBarAppearanceUpdate];
 }
 
@@ -230,12 +231,66 @@
     return backgroundImage;
 }
 
+- (void)showSettingsIcon {
+    
+    SFManagedPreferences *managedPreferences = [SFManagedPreferences sharedPreferences];
+    if (!managedPreferences.onlyShowAuthorizedHosts && managedPreferences.loginHosts.count == 0) {
+        UIImage *image = [[SFSDKResourceUtils imageNamed:@"login-window-gear"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(showLoginHost:)];
+        rightButton.accessibilityLabel = [SFSDKResourceUtils localizedString:@"LOGIN_CHOOSE_SERVER"];
+        self.navBar.topItem.rightBarButtonItem = rightButton;
+        self.navBar.topItem.rightBarButtonItem.tintColor = [UIColor  whiteColor];
+    }
+    
+}
+
+- (SFSDKLoginHostListViewController *)loginHostListViewController {
+    if (!_loginHostListViewController) {
+        _loginHostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
+        _loginHostListViewController.delegate = self;
+    }
+    return _loginHostListViewController;
+}
+
+
+- (IBAction)showLoginHost:(id)sender {
+    [self showHostListView];
+}
+
 - (IBAction)useIDPAction:(id)sender {
    [self.selectionFlowDelegate loginFlowSelectionIDPSelected:self options:self.appOptions];
 }
 
 - (IBAction)useLocalAction:(id)sender {
    [self.selectionFlowDelegate loginFlowSelectionLocalLoginSelected:self options:self.appOptions];
+}
+
+
+- (void)showHostListView {
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.loginHostListViewController];
+    navController.modalPresentationStyle = UIModalPresentationPageSheet;
+    [self presentViewController:navController animated:YES completion:nil];
+}
+
+- (void)hideHostListView:(BOOL)animated {
+    [self dismissViewControllerAnimated:animated completion:nil];
+}
+
+- (void)hostListViewControllerDidAddLoginHost:(SFSDKLoginHostListViewController *)hostListViewController {
+    [self hideHostListView:NO];
+}
+
+- (void)hostListViewControllerDidSelectLoginHost:(SFSDKLoginHostListViewController *)hostListViewController {
+    // Hide the popover
+    [self hideHostListView:NO];
+}
+
+- (void)hostListViewControllerDidCancelLoginHost:(SFSDKLoginHostListViewController *)hostListViewController {
+    [self hideHostListView:YES];
+}
+
+- (void)hostListViewController:(SFSDKLoginHostListViewController *)hostListViewController didChangeLoginHost:(SFSDKLoginHost *)newLoginHost {
+    [SFUserAccountManager sharedInstance].loginHost = newLoginHost.host;
 }
 
 + (UIImage *)imageFromColor:(UIColor *)color {

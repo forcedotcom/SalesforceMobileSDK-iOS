@@ -36,6 +36,8 @@
 #import "SFUserAccountManager.h"
 #import "SFAuthenticationManager.h"
 #import "SFSDKLoginViewControllerConfig.h"
+#import "SFOAuthInfo.h"
+#import "SFSDKWindowManager.h"
 
 SFSDK_USE_DEPRECATED_BEGIN
 
@@ -56,7 +58,6 @@ SFSDK_USE_DEPRECATED_END
 @implementation SFLoginViewController
 @synthesize config = _config;
 @synthesize oauthView = _oauthView;
-
 
 + (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
@@ -192,6 +193,9 @@ SFSDK_USE_DEPRECATED_END
 }
 
 - (BOOL)shouldShowBackButton {
+    if ([SFUserAccountManager sharedInstance].idpEnabled) {
+        return YES;
+    }
     NSInteger totalAccounts = [SFUserAccountManager sharedInstance].allUserAccounts.count;
     return  (totalAccounts > 0);
 }
@@ -203,11 +207,10 @@ SFSDK_USE_DEPRECATED_END
 }
 
 - (IBAction)backToPreviousHost:(id)sender {
-    SFSDK_USE_DEPRECATED_BEGIN
-    [[SFAuthenticationManager sharedManager] cancelAuthentication];
-    SFSDK_USE_DEPRECATED_END
-    if (self.previousUserAccount) {
-        [[SFUserAccountManager sharedInstance] switchToUser:self.previousUserAccount];
+    if ([SFSDKWindowManager sharedManager].authWindow.window.rootViewController!= [SFSDKWindowManager sharedManager].authWindow.viewController) {
+        [[SFSDKWindowManager sharedManager].authWindow disable];
+    }else {
+        [[SFSDKWindowManager sharedManager].authWindow.viewController dismissViewControllerAnimated:NO completion:nil];
     }
 }
 

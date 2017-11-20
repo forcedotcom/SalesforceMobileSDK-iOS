@@ -129,7 +129,12 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
                         }
                         strongSelf.config.authViewController.config = strongSelf.config.loginViewControllerConfig;
                         [strongSelf.config.authViewController setOauthView:viewHandler.wkWebView];
-                        strongSelf.authWindow.viewController = strongSelf.config.authViewController;
+                        if (!strongSelf.authWindow.window.rootViewController || strongSelf.authWindow.window.rootViewController == strongSelf.config.authViewController
+                            ) {
+                            strongSelf.authWindow.viewController = strongSelf.config.authViewController;
+                        } else {
+                            [strongSelf.authWindow.window.rootViewController  presentViewController:strongSelf.config.authViewController  animated:YES completion:nil];
+                        }
                         [strongSelf.authWindow enable];
                     } dismissBlock:^() {
                         __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -154,6 +159,7 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
 }
 
 -(void)dismissAuthWindow {
+    [SFSDKWindowManager sharedManager].authWindow.window.rootViewController = nil;
     [[SFSDKWindowManager sharedManager].authWindow disable];
 }
 
@@ -243,6 +249,13 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
 #pragma mark - SFLoginViewControllerDelegate
 
 - (void)loginViewController:(SFLoginViewController *)loginViewController didChangeLoginHost:(SFSDKLoginHost *)newLoginHost {
+
+    if ([self.config.delegate respondsToSelector:@selector(authClientDidChangeLoginHost:loginHost:)]) {
+        [self.config.delegate authClientDidChangeLoginHost:self loginHost:newLoginHost.host];
+    }
+}
+
+- (void)loginViewController:(SFLoginViewController *)loginViewController didSelectBackButton:(SFSDKLoginHost *)newLoginHost {
 
     if ([self.config.delegate respondsToSelector:@selector(authClientDidChangeLoginHost:loginHost:)]) {
         [self.config.delegate authClientDidChangeLoginHost:self loginHost:newLoginHost.host];

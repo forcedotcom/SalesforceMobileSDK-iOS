@@ -27,11 +27,15 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #import "IDPLoginViewController.h"
-
-@interface IDPLoginViewController ()
+#import <SalesforceSDKCore/SFSDKLoginHostListViewController.h>
+#import <SalesforceSDKCore/SFSDKResourceUtils.h>
+#import <SalesforceSDKCore/SFUserAccountManager.h>
+#import <SalesforceSDKCore/SFSDKLoginHost.h>
+@interface IDPLoginViewController ()<SFSDKLoginHostDelegate>
 - (IBAction)loginIDPAction:(id)sender;
 - (IBAction)loginLocalAction:(id)sender;
-
+// Reference to the login host list view controller
+@property (nonatomic, strong) SFSDKLoginHostListViewController *loginHostListViewController;
 @end
 
 @implementation IDPLoginViewController
@@ -43,6 +47,26 @@
     
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:[UIColor whiteColor]};
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0 green:0.439 blue:0.824 alpha:1.0];
+    [self showSettingsIcon];
+}
+
+- (void)showSettingsIcon {
+    
+    UIImage *image = [[SFSDKResourceUtils imageNamed:@"login-window-gear"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(showLoginHost:)];
+    
+    rightButton.accessibilityLabel = [SFSDKResourceUtils localizedString:@"LOGIN_CHOOSE_SERVER"];
+    self.navigationController.navigationBar.topItem.rightBarButtonItem = rightButton;
+    self.navigationController.navigationBar.topItem.rightBarButtonItem.tintColor = [UIColor  whiteColor];
+    
+}
+
+- (SFSDKLoginHostListViewController *)loginHostListViewController {
+    if (!_loginHostListViewController) {
+        _loginHostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
+        _loginHostListViewController.delegate = self;
+    }
+    return _loginHostListViewController;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -60,4 +84,38 @@
         [self.loginSelectionDelegate loginUsingApp];
     }
 }
+
+
+- (IBAction)showLoginHost:(id)sender {
+    [self showHostListView];
+}
+
+- (void)showHostListView {
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.loginHostListViewController];
+    navController.modalPresentationStyle = UIModalPresentationPageSheet;
+    [self presentViewController:navController animated:YES completion:nil];
+}
+
+- (void)hideHostListView:(BOOL)animated {
+    [self dismissViewControllerAnimated:animated completion:nil];
+}
+
+- (void)hostListViewControllerDidAddLoginHost:(SFSDKLoginHostListViewController *)hostListViewController {
+    [self hideHostListView:NO];
+}
+
+- (void)hostListViewControllerDidSelectLoginHost:(SFSDKLoginHostListViewController *)hostListViewController {
+    // Hide the popover
+    [self hideHostListView:NO];
+}
+
+- (void)hostListViewControllerDidCancelLoginHost:(SFSDKLoginHostListViewController *)hostListViewController {
+    [self hideHostListView:YES];
+}
+
+- (void)hostListViewController:(SFSDKLoginHostListViewController *)hostListViewController didChangeLoginHost:(SFSDKLoginHost *)newLoginHost {
+    [SFUserAccountManager sharedInstance].loginHost = newLoginHost.host;
+}
+
+
 @end
