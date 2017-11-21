@@ -62,12 +62,17 @@ static NSException *authException = nil;
     self.currentUser = [SFUserAccountManager sharedInstance].currentUser;
     self.syncManager = [SFSmartSyncSyncManager sharedInstance:self.currentUser];
     self.store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName user:self.currentUser];
+    self.globalStore = [SFSmartStore sharedGlobalStoreWithName:kDefaultSmartStoreName];
+    self.globalSyncManager = [SFSmartSyncSyncManager sharedInstanceForStore:self.globalStore];
+
     [super setUp];
 }
 
 - (void)tearDown
 {
     // User and managers tear down
+    [self deleteSyncs];
+    [self deleteGlobalSyncs];
     [SFSmartSyncSyncManager removeSharedInstance:self.currentUser];
     [[SFRestAPI sharedInstance] cleanup];
     [SFRestAPI setIsTestRun:NO];
@@ -79,6 +84,16 @@ static NSException *authException = nil;
     // Some test runs were failing, saying the run didn't complete. This seems to fix that.
     [NSThread sleepForTimeInterval:0.1];
     [super tearDown];
+}
+
+- (void)deleteSyncs
+{
+    [self.store clearSoup:kSFSyncStateSyncsSoupName];
+}
+
+- (void)deleteGlobalSyncs
+{
+    [self.globalStore clearSoup:kSFSyncStateSyncsSoupName];
 }
 
 - (NSString*)createRecordName:(NSString*)objectType {

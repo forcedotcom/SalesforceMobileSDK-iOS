@@ -52,6 +52,13 @@ NS_ASSUME_NONNULL_BEGIN
 */
 + (UIImage *)imageNamed:(NSString*)name;
 
+/**
+ * Read config and parse its content (which is expected to be json)
+ * @param configFilePath Path of resource file.
+ * @return NSDictionary built from content of tile.
+ */
++ (NSDictionary *)loadConfigFromFile:(NSString *)configFilePath;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -23,12 +23,15 @@
  */
 
 
-#import <SalesforceSDKCore/SFJsonUtils.h>
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import "SFSDKStoreConfig.h"
 #import "SFSoupIndex.h"
 #import "SFSmartStore.h"
 
+
+static NSString *const kStoreConfigSoups = @"soups";
+static NSString *const kStoreConfigSoupName = @"soupName";
+static NSString *const kStoreConfigIndexes = @"indexes";
 
 @interface SFSDKStoreConfig ()
 
@@ -41,17 +44,29 @@
 - (nullable id)initWithResourceAtPath:(NSString *)path {
     self = [super init];
     if (self) {
-        NSString *str = [SFSDKStoreConfig getRawResourceAsString:path ofType:@"json"];
-        NSDictionary *config = [SFJsonUtils objectFromJSONString:str];
-        self.soupsConfig = config[@"soups"];
+        NSDictionary *config = [SFSDKResourceUtils loadConfigFromFile:path];
+        self.soupsConfig = config == nil ? nil : config[kStoreConfigSoups];
     }
     return self;
 }
 
 - (void)registerSoups:(SFSmartStore *)store {
+    if (self.soupsConfig == nil) {
+        [SFSDKSmartStoreLogger d:[self class] format:@"No store config available"];
+        return;
+    }
+
     for (NSDictionary * soupConfig in self.soupsConfig) {
-        NSString *soupName = [soupConfig nonNullObjectForKey:@"soupName"];
-        NSArray *indexSpecs = [SFSoupIndex asArraySoupIndexes:[soupConfig nonNullObjectForKey:@"indexes"]];
+        NSString *soupName = [soupConfig nonNullObjectForKey:kStoreConfigSoupName];
+
+        // Leaving soup alone if it already exists
+        if ([store soupExists:soupName]) {
+            [SFSDKSmartStoreLogger d:[self class] format:@"Soup already exists:%@ - skipping", soupName];
+            continue;
+        }
+
+
+        NSArray *indexSpecs = [SFSoupIndex asArraySoupIndexes:[soupConfig nonNullObjectForKey:kStoreConfigIndexes]];
         NSError * error = nil;
         [store registerSoup:soupName withIndexSpecs:indexSpecs error:&error];
         if (error) {
@@ -59,20 +74,5 @@
         }
     }
 }
-
-+ (NSString*) getRawResourceAsString:(NSString *)path ofType:(NSString*)type {
-    NSString *fullPath = [[NSBundle mainBundle] pathForResource:path ofType:type];
-    NSError *error = nil;
-    NSString *content = [NSString stringWithContentsOfFile:fullPath
-                                                  encoding:NSUTF8StringEncoding
-                                                     error:&error];
-
-    if (error) {
-        [SFSDKSmartStoreLogger e:[self class] format:@"Error getting resource from %@: %@", fullPath, error];
-        return nil;
-    }
-    return content;
-}
-
 
 @end

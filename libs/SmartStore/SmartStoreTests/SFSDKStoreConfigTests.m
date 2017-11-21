@@ -63,7 +63,7 @@
 
 #pragma mark - tests
 
-- (void) testSetupGlobalStoreFromDefaulltConfig  {
+- (void) testSetupGlobalStoreFromDefaultConfig  {
 
     XCTAssertFalse([self.globalStore soupExists:@"globalSoup1"]);
     XCTAssertFalse([self.globalStore soupExists:@"globalSoup2"]);
@@ -99,7 +99,7 @@
     [self checkSoupIndex:(SFSoupIndex*)indexSpecs[4] expectedPath:@"ftsField2" expectedType:kSoupIndexTypeFullText expectedColumnName:@"TABLE_2_4"];
 }
 
-- (void) testSetupUserStoreFromDefaulltConfig {
+- (void) testSetupUserStoreFromDefaultConfig {
     XCTAssertFalse([self.store soupExists:@"userSoup1"]);
     XCTAssertFalse([self.store soupExists:@"userSoup2"]);
     

@@ -116,7 +116,7 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
     }];
     if (name) dict[kSFSyncStateName] = name;
     
-    if (name && [SFSyncState newByName:name store:store]) {
+    if (name && [SFSyncState byName:name store:store]) {
         [SFSDKSmartSyncLogger e:[self class] format:@"Failed to create sync down: there is already a sync with name:%@", name];
         return nil;
     }
@@ -145,7 +145,7 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
     }];
     if (name) dict[kSFSyncStateName] = name;
     
-    if (name && [SFSyncState newByName:name store:store]) {
+    if (name && [SFSyncState byName:name store:store]) {
         [SFSDKSmartSyncLogger e:[self class] format:@"Failed to create sync up: there is already a sync with name:%@", name];
         return nil;
     }
@@ -159,7 +159,7 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
 
 #pragma mark - Save/retrieve/delete to/from smartstore
 
-+ (SFSyncState*) newById:(NSNumber*)syncId store:(SFSmartStore*)store {
++ (SFSyncState*)byId:(NSNumber *)syncId store:(SFSmartStore*)store {
     NSArray* retrievedDicts = [store retrieveEntries:@ [ syncId ] fromSoup:kSFSyncStateSyncsSoupName];
     if (retrievedDicts == nil || retrievedDicts.count == 0)
         return nil;
@@ -167,9 +167,9 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
     return sync;
 }
 
-+ (SFSyncState*) newByName:(NSString *)name store:(SFSmartStore*)store {
++ (SFSyncState*)byName:(NSString *)name store:(SFSmartStore*)store {
     NSNumber *syncId = [store lookupSoupEntryIdForSoupName:kSFSyncStateSyncsSoupName forFieldPath:kSFSyncStateSyncsSoupSyncName fieldValue:name error:nil];
-    return syncId == nil ? nil : [self newById:syncId store:store];
+    return syncId == nil ? nil : [self byId:syncId store:store];
 }
 
 

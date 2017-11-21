@@ -157,10 +157,10 @@ static NSMutableDictionary *syncMgrList = nil;
     SFSDK_USE_DEPRECATED_END
 }
 
-#pragma mark - get sync methods
+#pragma mark - has / get sync methods
 
 - (SFSyncState*)getSyncStatus:(NSNumber*)syncId {
-    SFSyncState* sync = [SFSyncState newById:syncId store:self.store];
+    SFSyncState* sync = [SFSyncState byId:syncId store:self.store];
     
     if (sync == nil) {
         [SFSDKSmartSyncLogger d:[self class] format:@"Sync %@ not found", syncId];
@@ -169,12 +169,16 @@ static NSMutableDictionary *syncMgrList = nil;
 }
 
 - (SFSyncState*)getSyncStatusByName:(NSString*)syncName {
-    SFSyncState* sync = [SFSyncState newByName:syncName store:self.store];
+    SFSyncState* sync = [SFSyncState byName:syncName store:self.store];
 
     if (sync == nil) {
         [SFSDKSmartSyncLogger d:[self class] format:@"Sync %@ not found", syncName];
     }
     return sync;
+}
+
+- (BOOL)hasSyncWithName:(NSString*)syncName {
+    return [SFSyncState byName:syncName store:self.store] != nil;
 }
 
 #pragma mark - delete sync methods
@@ -268,10 +272,15 @@ static NSMutableDictionary *syncMgrList = nil;
 }
 
 - (SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName syncName:(NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
-    SFSyncState* sync = [SFSyncState newSyncDownWithOptions:options target:target soupName:soupName name:syncName store:self.store];
-    [SFSDKSmartSyncLogger d:[self class] format:@"syncDown:%@", sync];
+    SFSyncState *sync = [self createSyncDown:target options:options soupName:soupName syncName:syncName];
     [self runSync:sync updateBlock:updateBlock];
     return [sync copy];
+}
+
+- (SFSyncState *)createSyncDown:(SFSyncDownTarget *)target options:(SFSyncOptions *)options soupName:(NSString *)soupName syncName:(NSString *)syncName {
+    SFSyncState* sync = [SFSyncState newSyncDownWithOptions:options target:target soupName:soupName name:syncName store:self.store];
+    [SFSDKSmartSyncLogger d:[self class] format:@"Created syncDown:%@", sync];
+    return sync;
 }
 
 /** Resync
@@ -285,10 +294,6 @@ static NSMutableDictionary *syncMgrList = nil;
     if (sync == nil) {
         [SFSDKSmartSyncLogger e:[self class] format:@"Cannot run reSync:%@:no sync found", syncId];
          return nil;
-    }
-    if (sync.type != SFSyncStateSyncTypeDown) {
-        [SFSDKSmartSyncLogger e:[self class] format:@"Cannot run reSync:%@:wrong type:%@", syncId, [SFSyncState syncTypeToString:sync.type]];
-        return nil;
     }
     sync.totalSize = -1;
     [sync save:self.store];
@@ -388,8 +393,7 @@ static NSMutableDictionary *syncMgrList = nil;
 /** Create and run a sync up
  */
 - (SFSyncState*) syncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
-    SFSyncState *sync = [SFSyncState newSyncUpWithOptions:options soupName:soupName store:self.store];
-    [SFSDKSmartSyncLogger d:[self class] format:@"syncUp:%@", sync];
+    SFSyncState *sync = [self createSyncUp:[[SFSyncUpTarget alloc] init] options:options soupName:soupName syncName:nil];
     [self runSync:sync updateBlock:updateBlock];
     return [sync copy];
 }
@@ -406,9 +410,15 @@ static NSMutableDictionary *syncMgrList = nil;
                         soupName:(NSString *)soupName
                         syncName:(NSString*)syncName
                      updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
-    SFSyncState *sync = [SFSyncState newSyncUpWithOptions:options target:target soupName:soupName name:syncName store:self.store];
+    SFSyncState *sync = [self createSyncUp:target options:options soupName:soupName syncName:syncName];
     [self runSync:sync updateBlock:updateBlock];
     return [sync copy];
+}
+
+- (SFSyncState *)createSyncUp:(SFSyncUpTarget *)target options:(SFSyncOptions *)options soupName:(NSString *)soupName syncName:(NSString *)syncName {
+    SFSyncState *sync = [SFSyncState newSyncUpWithOptions:options target:target soupName:soupName name:syncName store:self.store];
+    [SFSDKSmartSyncLogger d:[self class] format:@"Created syncUp:%@", sync];
+    return sync;
 }
 
 /** Run a sync up

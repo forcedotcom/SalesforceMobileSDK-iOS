@@ -109,6 +109,13 @@ typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncSt
 - (nullable SFSyncState*)getSyncStatusByName:(NSString*)syncName;
 
 /**
+ * Returns YES if a sync with the given name exists.
+ * @param syncName Sync name.
+ * @return YES a sync with the given name exists.
+ */
+- (BOOL)hasSyncWithName:(NSString*)syncName;
+
+/**
  * Delete a sync.
  *
  * @param syncId Sync ID.
@@ -118,36 +125,72 @@ typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncSt
 /**
  * Delete a sync by name.
  *
- * @param syncName Sync name..
+ * @param syncName Sync name.
  */
 - (void)deleteSyncByName:(NSString*)syncName;
 
 
 /**
+ * Creates a sync down without running it.
+ * @param target The sync down target that will manage the sync down process.
+ * @param options The options associated with this sync down.
+ * @param soupName The soup name where the local entries are stored.
+ * @param syncName The name for this sync.
+ * @return The sync state associated with this sync down.
+ */
+- (SFSyncState *)createSyncDown:(SFSyncDownTarget *)target options:(SFSyncOptions *)options soupName:(NSString *)soupName syncName:(NSString *)syncName;
+
+/**
  * Creates and runs a sync down that will overwrite any modified records.
+ * @param target The sync down target that will manage the sync down process.
+ * @param soupName The soup name where the local entries are stored.
+ * @param updateBlock The block to be called with updates.
+ * @return The sync state associated with this sync down.
  */
 - (SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
 
 /**
  * Creates and runs a sync down.
+ * @param target The sync down target that will manage the sync down process.
+ * @param options The options associated with this sync down.
+ * @param soupName The soup name where the local entries are stored.
+ * @param updateBlock The block to be called with updates.
  */
 - (SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
 
 /**
  * Creates and runs a named sync down.
+ * @param target The sync down target that will manage the sync down process.
+ * @param options The options associated with this sync down.
+ * @param soupName The soup name where the local entries are stored.
+ * @param syncName The name for this sync.
+ * @param updateBlock The block to be called with updates.
  */
 - (SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName syncName:(NSString* __nullable)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
 
-
 /**
  * Performs a resync.
+ * @param syncId Sync ID.
+ * @param updateBlock The block to be called with updates.
  */
 - (nullable SFSyncState*) reSync:(NSNumber*)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
 
 /**
  * Performs a resync by name.
+ * @param syncName Sync name.
+ * @param updateBlock The block to be called with updates.
  */
 - (nullable SFSyncState*) reSyncByName:(NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
+
+/**
+ * Create a sync up without running it.
+ * @param target The sync up target that will manage the sync up process.
+ * @param options The options associated with this sync up.
+ * @param soupName The soup name where the local entries are stored.
+ * @param syncName The name for this sync.
+ * @return The sync state associated with this sync up.
+ */
+- (SFSyncState *)createSyncUp:(SFSyncUpTarget *)target options:(SFSyncOptions *)options soupName:(NSString *)soupName syncName:(NSString *)syncName;
 
 /**
  * Creates and runs a sync up with the default SFSyncUpTarget.
