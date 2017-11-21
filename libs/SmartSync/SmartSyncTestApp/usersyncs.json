@@ -1,0 +1,18 @@
+{
+    "syncs": [
+        {
+            "syncName": "userSync1",
+            "syncType": "syncDown",
+            "soupName": "accounts",
+            "target": {"type":"soql", "query":"SELECT Id, Name, LastModifiedDate FROM Account"},
+            "options": {"mergeMode":"OVERWRITE"}
+        },
+        {
+            "syncName": "userSync2",
+            "syncType": "syncUp",
+            "soupName": "accounts",
+            "target": {"createFieldlist":["Name"]},
+            "options": {"fieldlist":["Id", "Name", "LastModifiedDate"], "mergeMode":"LEAVE_IF_CHANGED"}
+        }
+    ]
+}

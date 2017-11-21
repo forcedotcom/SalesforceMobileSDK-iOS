@@ -23,6 +23,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <SalesforceSDKCore/SFJsonUtils.h>
 #import "SFSDKResourceUtils.h"
 
 @implementation SFSDKResourceUtils
@@ -71,4 +72,16 @@
     return image;
 }
 
++ (NSDictionary *)loadConfigFromFile:(NSString *)configFilePath
+{
+    NSString *fullPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:configFilePath];
+    NSError *fileReadError = nil;
+    NSData *fileContents = [NSData dataWithContentsOfFile:fullPath options:NSDataReadingUncached error:&fileReadError];
+    if (fileContents == nil) {
+        [SFSDKCoreLogger i:[SFSDKCoreLogger class] format:@"Config at specified path '%@' could not be read: %@", configFilePath, fileReadError];
+        return nil;
+    }
+    NSDictionary *jsonDict = [SFJsonUtils objectFromJSONData:fileContents];
+    return jsonDict;
+}
 @end

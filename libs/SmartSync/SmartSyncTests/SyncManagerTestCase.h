@@ -54,6 +54,9 @@
 @property (nonatomic, strong) SFUserAccount* currentUser;
 @property (nonatomic, strong) SFSmartSyncSyncManager* syncManager;
 @property (nonatomic, strong) SFSmartStore* store;
+@property (nonatomic, strong) SFSmartSyncSyncManager* globalSyncManager;
+@property (nonatomic, strong) SFSmartStore* globalStore;
+
 
 - (NSString *)createRecordName:(NSString *)objectType;
 - (NSString *)createAccountName;

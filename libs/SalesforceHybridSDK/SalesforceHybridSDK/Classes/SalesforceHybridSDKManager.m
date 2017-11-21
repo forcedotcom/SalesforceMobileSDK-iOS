@@ -24,7 +24,37 @@
 
 #import "SalesforceHybridSDKManager.h"
 
+@interface SmartStoreSDKManager ()
+
+- (NSString*) pathForGlobalStoreConfig;
+- (NSString*) pathForUserStoreConfig;
+
+@end
+
+@interface SmartSyncSDKManager ()
+
+- (NSString*) pathForGlobalSyncsConfig;
+- (NSString*) pathForUserSyncsConfig;
+
+@end
+
 @implementation SalesforceHybridSDKManager
+
+- (NSString*) pathForGlobalStoreConfig {
+    return @"/www/globalstore.json";
+}
+
+- (NSString*) pathForUserStoreConfig {
+    return @"/www/userstore.json";
+}
+
+- (NSString*) pathForGlobalSyncsConfig {
+    return @"/www/globalsyncs.json";
+}
+
+- (NSString*) pathForUserSyncsConfig {
+    return @"/www/usersyncs.json";
+}
 
 @end
 

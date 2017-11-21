@@ -24,16 +24,9 @@
  */
 
 #import "SFHybridViewConfig.h"
-#import <SalesforceSDKCore/SFJsonUtils.h>
 #import <SalesforceSDKCore/SFSDKResourceUtils.h>
 
 @interface SFHybridViewConfig ()
-
-/**
- * Reads the contents of a bootconfig.json file into an NSDictionary.
- * @return The NSDictionary of data, or nil if the data could not be read or parsed.
- */
-+ (NSDictionary *)loadConfigFromFile:(NSString *)configFilePath;
 
 /**
  * Sets the default properties in the configuration, for properties that haven't otherwise
@@ -176,26 +169,13 @@ static NSString* const kDefaultErrorPage = @"error.html";
 
 + (instancetype)fromConfigFile:(NSString *)configFilePath
 {
-    NSDictionary *hybridConfigDict = [SFHybridViewConfig loadConfigFromFile:configFilePath];
+    NSDictionary *hybridConfigDict = [SFSDKResourceUtils loadConfigFromFile:configFilePath];
     if (nil == hybridConfigDict) {
         [SFSDKHybridLogger i:[SFHybridViewConfig class] format:@"Hybrid view config at specified path '%@' not found, or data could not be parsed.", configFilePath];
         return nil;
     }
     SFHybridViewConfig *hybridViewConfig = [[SFHybridViewConfig alloc] initWithDict:hybridConfigDict];
     return hybridViewConfig;
-}
-
-+ (NSDictionary *)loadConfigFromFile:(NSString *)configFilePath
-{
-    NSString *fullPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:configFilePath];
-    NSError *fileReadError = nil;
-    NSData *fileContents = [NSData dataWithContentsOfFile:fullPath options:NSDataReadingUncached error:&fileReadError];
-    if (fileContents == nil) {
-        [SFSDKHybridLogger i:[SFHybridViewConfig class] format:@"Hybrid view config at specified path '%@' could not be read: %@", configFilePath, fileReadError];
-        return nil;
-    }
-    NSDictionary *jsonDict = [SFJsonUtils objectFromJSONData:fileContents];
-    return jsonDict;
 }
 
 + (BOOL)urlStringIsAbsolute:(NSString *)urlString

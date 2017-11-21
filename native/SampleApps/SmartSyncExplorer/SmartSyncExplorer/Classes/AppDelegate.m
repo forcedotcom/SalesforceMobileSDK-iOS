@@ -62,9 +62,8 @@
         SmartSyncExplorerConfig *config = [SmartSyncExplorerConfig sharedInstance];
         [SFSDKDatasharingHelper sharedInstance].appGroupName = config.appGroupName;
         [SFSDKDatasharingHelper sharedInstance].appGroupEnabled = config.appGroupsEnabled;
-        [SalesforceSDKManager setInstanceClass:[SmartSyncSDKManager class]];
         
-        // Need to use SmartStoreSDKManager when using smartstore
+        // Need to use SmartSyncSDKManager when using SmartSync
         [SalesforceSDKManager setInstanceClass:[SmartSyncSDKManager class]];
         [SalesforceSDKManager sharedManager].appConfig.remoteAccessConsumerKey = config.remoteAccessConsumerKey;
         [SalesforceSDKManager sharedManager].appConfig.oauthRedirectURI = config.oauthRedirectURI;
