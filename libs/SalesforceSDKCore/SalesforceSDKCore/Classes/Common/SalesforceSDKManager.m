@@ -467,7 +467,12 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
     ];
 
     [devInfos addObjectsFromArray:[self dictToDevInfos:self.appConfig.configDict keyPrefix:@"BootConfig"]];
-    [devInfos addObjectsFromArray:[self dictToDevInfos:[SFManagedPreferences sharedPreferences].rawPreferences keyPrefix:@"Managed Pref"]];
+    
+    SFManagedPreferences *managedPreferences = [SFManagedPreferences sharedPreferences];
+    [devInfos addObjectsFromArray:@[@"Managed?", [NSString stringWithFormat:@"%d", [managedPreferences hasManagedPreferences]]]];
+    if ([managedPreferences hasManagedPreferences]) {
+        [devInfos addObjectsFromArray:[self dictToDevInfos:managedPreferences.rawPreferences keyPrefix:@"Managed Pref"]];
+    }
 
     return devInfos;
 }
