@@ -129,8 +129,19 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
                         }
                         strongSelf.config.authViewController.config = strongSelf.config.loginViewControllerConfig;
                         [strongSelf.config.authViewController setOauthView:viewHandler.wkWebView];
-                        strongSelf.authWindow.viewController = strongSelf.config.authViewController;
-                        [strongSelf.authWindow enable];
+                        
+                        if (!strongSelf.config.idpEnabled) {
+                            strongSelf.authWindow.viewController = strongSelf.config.authViewController;
+                            
+                        } else {
+                            if ([strongSelf.authWindow.window.rootViewController isViewLoaded]) {
+                                [strongSelf.authWindow.window.rootViewController  presentViewController:strongSelf.config.authViewController  animated:NO completion:nil];
+                            }else {
+                                strongSelf.authWindow.viewController = strongSelf.config.authViewController;
+                            }
+                        }
+                        [[SFSDKWindowManager sharedManager].authWindow enable];
+                        
                     } dismissBlock:^() {
                         __strong typeof(weakSelf) strongSelf = weakSelf;
                         [strongSelf dismissAuthViewControllerIfPresent];
@@ -243,6 +254,13 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
 #pragma mark - SFLoginViewControllerDelegate
 
 - (void)loginViewController:(SFLoginViewController *)loginViewController didChangeLoginHost:(SFSDKLoginHost *)newLoginHost {
+
+    if ([self.config.delegate respondsToSelector:@selector(authClientDidChangeLoginHost:loginHost:)]) {
+        [self.config.delegate authClientDidChangeLoginHost:self loginHost:newLoginHost.host];
+    }
+}
+
+- (void)loginViewController:(SFLoginViewController *)loginViewController didSelectBackButton:(SFSDKLoginHost *)newLoginHost {
 
     if ([self.config.delegate respondsToSelector:@selector(authClientDidChangeLoginHost:loginHost:)]) {
         [self.config.delegate authClientDidChangeLoginHost:self loginHost:newLoginHost.host];

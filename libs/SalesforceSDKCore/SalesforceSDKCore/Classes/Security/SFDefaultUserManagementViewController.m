@@ -85,7 +85,11 @@
 
 - (void)actionCreateNewUser
 {
-    [[SFUserAccountManager sharedInstance] switchToNewUser];
+    [[SFUserAccountManager sharedInstance] loginWithCompletion:^(SFOAuthInfo * authInfo, SFUserAccount * newUser) {
+        [[SFUserAccountManager sharedInstance] switchToUser:newUser];
+    } failure:^(SFOAuthInfo * authInfo, NSError * error) {
+        [SFSDKCoreLogger e:[self class] format:@"Attempt to add new user failed %@",[error localizedDescription]];
+    }];
 }
 
 - (void)execCompletionBlock:(SFUserManagementAction)action account:(SFUserAccount *)actionAccount
