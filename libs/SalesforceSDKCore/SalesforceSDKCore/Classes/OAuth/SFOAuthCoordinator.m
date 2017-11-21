@@ -63,6 +63,7 @@ static NSString * const kSFOAuthResponseTypeCode                = @"code";
 
 static NSString * const kSFOAuthAccessToken                     = @"access_token";
 static NSString * const kSFOAuthClientId                        = @"client_id";
+static NSString * const kSFOAuthDeviceId                        = @"device_id";
 static NSString * const kSFOAuthCustomPermissions               = @"custom_permissions";
 static NSString * const kSFOAuthDisplay                         = @"display";
 static NSString * const kSFOAuthDisplayTouch                    = @"touch";
@@ -655,10 +656,11 @@ static NSString * const kSFECParameter = @"ec";
     }
     [request setHTTPShouldHandleCookies:NO];
     
-    NSMutableString *params = [[NSMutableString alloc] initWithFormat:@"%@=%@&%@=%@&%@=%@",
+    NSMutableString *params = [[NSMutableString alloc] initWithFormat:@"%@=%@&%@=%@&%@=%@&%@=%@",
                                kSFOAuthFormat, kSFOAuthFormatJson,
                                kSFOAuthRedirectUri, self.credentials.redirectUri,
-                               kSFOAuthClientId, self.credentials.clientId];
+                               kSFOAuthClientId, self.credentials.clientId,
+                               kSFOAuthDeviceId,[[[UIDevice currentDevice] identifierForVendor] UUIDString]];
     NSMutableString *logString = [NSMutableString stringWithString:params];
     
     // If there is an approval code (Advanced Auth flow), use it once to get the tokens.
@@ -852,11 +854,12 @@ static NSString * const kSFECParameter = @"ec";
     NSAssert(nil != credentials.domain, @"credentials.domain is required");
     NSAssert(nil != credentials.clientId, @"credentials.clientId is required");
     NSAssert(nil != credentials.redirectUri, @"credentials.redirectUri is required");
-    NSMutableString *approvalUrlString = [[NSMutableString alloc] initWithFormat:@"%@://%@%@?%@=%@&%@=%@&%@=%@", credentials.protocol,
+    NSMutableString *approvalUrlString = [[NSMutableString alloc] initWithFormat:@"%@://%@%@?%@=%@&%@=%@&%@=%@&%@=%@", credentials.protocol,
                                           credentials.domain, [self brandedAuthorizeURL],
                                           kSFOAuthClientId, credentials.clientId,
                                           kSFOAuthRedirectUri, credentials.redirectUri,
-                                          kSFOAuthDisplay, kSFOAuthDisplayTouch];
+                                          kSFOAuthDisplay, kSFOAuthDisplayTouch,
+                                          kSFOAuthDeviceId,[[[UIDevice currentDevice] identifierForVendor] UUIDString]];
     
     [approvalUrlString appendFormat:@"&%@=%@", kSFOAuthResponseType, kSFOAuthResponseTypeToken];
     NSString *scopeString = [self scopeQueryParamString];
@@ -870,14 +873,15 @@ static NSString * const kSFECParameter = @"ec";
     NSAssert(nil != self.credentials.domain, @"credentials.domain is required");
     NSAssert(nil != spAppCredentials.clientId, @"credentials.clientId is required");
     NSAssert(nil != spAppCredentials.redirectUri, @"credentials.redirectUri is required");
-    NSMutableString *approvalUrlString = [[NSMutableString alloc] initWithFormat:@"%@://%@%@?%@=%@&%@=%@&%@=%@&%@=%@",
+    NSMutableString *approvalUrlString = [[NSMutableString alloc] initWithFormat:@"%@://%@%@?%@=%@&%@=%@&%@=%@&%@=%@&%@=%@",
                                           @"https",
                                           self.credentials.domain,
                                           kSFOAuthEndPointAuthorize,
                                           kSFOAuthClientId,spAppCredentials.clientId,
                                           kSFOAuthRedirectUri,spAppCredentials.redirectUri,
                                           kSFOAuthDisplay,kSFOAuthDisplayTouch,
-                                          kSFOAuthResponseType,kSFOAuthResponseTypeCode];
+                                          kSFOAuthResponseType,kSFOAuthResponseTypeCode,
+                                          kSFOAuthDeviceId,[[[UIDevice currentDevice] identifierForVendor] UUIDString]];
     
     NSString *scopeString = [self scopeQueryParamString];
     if (scopeString != nil) {
