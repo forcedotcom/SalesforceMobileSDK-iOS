@@ -457,14 +457,24 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
 
 - (NSArray*) getDevSupportInfos
 {
-    return @[
+    NSMutableArray * devInfos = [NSMutableArray arrayWithArray:@[
             @"SDK Version", SALESFORCE_SDK_VERSION,
             @"App Type", [self getAppTypeAsString],
             @"User Agent", self.userAgentString(@""),
             @"Browser Login Enabled", [SFUserAccountManager sharedInstance].advancedAuthConfiguration != SFOAuthAdvancedAuthConfigurationNone ? @"true" : @"false",
             @"Current User", [self usersToString:@[[SFUserAccountManager sharedInstance].currentUser]],
-            @"Authenticated Users", [self usersToString:[SFUserAccountManager sharedInstance].allUserAccounts]
+            @"Authenticated Users", [self usersToString:[SFUserAccountManager sharedInstance].allUserAccounts]]
     ];
+
+    [devInfos addObjectsFromArray:[self dictToDevInfos:self.appConfig.configDict keyPrefix:@"BootConfig"]];
+    
+    SFManagedPreferences *managedPreferences = [SFManagedPreferences sharedPreferences];
+    [devInfos addObjectsFromArray:@[@"Managed?", [NSString stringWithFormat:@"%d", [managedPreferences hasManagedPreferences]]]];
+    if ([managedPreferences hasManagedPreferences]) {
+        [devInfos addObjectsFromArray:[self dictToDevInfos:managedPreferences.rawPreferences keyPrefix:@"Managed Pref"]];
+    }
+
+    return devInfos;
 }
 
 - (NSString*) usersToString:(NSArray*)userAccounts {
@@ -473,6 +483,15 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
         [usernames addObject:userAccount.email];
     }
     return [usernames componentsJoinedByString:@", "];
+}
+
+- (NSArray*) dictToDevInfos:(NSDictionary*)dict keyPrefix:(NSString*)keyPrefix {
+    NSMutableArray * devInfos = [NSMutableArray new];
+    [dict enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        [devInfos addObject:[NSString stringWithFormat:@"%@ - %@", keyPrefix, key]];
+        [devInfos addObject:[[NSString stringWithFormat:@"%@", obj] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
+    }];
+    return devInfos;
 }
 
 #pragma mark - Private methods
