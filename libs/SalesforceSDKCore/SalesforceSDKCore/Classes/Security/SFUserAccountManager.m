@@ -331,6 +331,10 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     if (isCurrentUser) {
         self.currentUser = nil;
     }
+    //need to reset Passcode if no other users are around.
+    if ([[self allUserAccounts] count] < 1 ) {
+        [SFSecurityLockout clearPasscodeState];
+    }
    
     NSNotification *logoutNotification = [NSNotification notificationWithName:kSFNotificationUserDidLogout object:self userInfo:userInfo];
     
