@@ -116,10 +116,11 @@ static NSString * const kFileName        = @"fileName";
                                           pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:response];
                                       } else if ([response isKindOfClass:[NSArray class]]) {
                                           pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:response];
-                                      } else if ([response isKindOfClass:[NSString class]]) {
-                                          pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:response];
                                       } else {
-                                          pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+                                          NSData* responseAsData = response;
+                                          NSStringEncoding encodingType = CFStringConvertEncodingToNSStringEncoding(CFStringConvertIANACharSetNameToEncoding((CFStringRef)rawResponse.textEncodingName));
+                                          NSString* responseAsString = [[NSString alloc] initWithData:responseAsData encoding:encodingType];
+                                          pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:responseAsString];
                                       }
                                       [strongSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
                                   }
