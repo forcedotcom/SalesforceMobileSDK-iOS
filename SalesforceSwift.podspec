@@ -20,7 +20,6 @@ Pod::Spec.new do |s|
   s.subspec 'SalesforceSwift' do |salesforceswift|
 
       salesforceswift.dependency 'SmartSync'
-      salesforceswift.dependency 'SalesforceSDKCore'
       salesforceswift.source_files = 'libs/SalesforceSwiftSDK/SalesforceSwiftSDK/**/*.{h,m,swift}'
       salesforceswift.public_header_files = 'libs/SalesforceSwiftSDK/SalesforceSwiftSDK/SalesforceSwiftSDK.h'
       salesforceswift.prefix_header_contents = '#import "SFSDKSmartSyncLogger.h"'
