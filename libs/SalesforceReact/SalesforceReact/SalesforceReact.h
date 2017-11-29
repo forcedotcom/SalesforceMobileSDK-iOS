@@ -2,7 +2,7 @@
  SalesforceReact.h
  SalesforceReact
 
- Created by Wolfgang Mathurin on Thu Nov  2 16:05:16 PDT 2017.
+ Created by Brandon Page on Wed Nov 29 14:54:22 PST 2017.
 
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
