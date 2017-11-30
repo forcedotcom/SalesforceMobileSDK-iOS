@@ -446,14 +446,20 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:Nil
                                                                    message:@"Are you sure you want to log out?"
-                                                            preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *logoutAction = [UIAlertAction actionWithTitle:@"Confirm Logout"
-                                                           style:UIAlertActionStyleDefault
+                                                          preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *logoutAction = [UIAlertAction actionWithTitle:@"Logout"
+                                                           style:UIAlertActionStyleDestructive
                                                          handler:^(UIAlertAction * action) {
                                                             self.logoutActionSheet = nil;
                                                             [[SFUserAccountManager sharedInstance] logout];
                                                         }];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
+                                                           style:UIAlertActionStyleCancel
+                                                         handler:^(UIAlertAction * action) {
+                                                         }];
     [alert addAction:logoutAction];
+    [alert addAction:cancelAction];
     self.logoutActionSheet = alert;
     [self presentViewController:alert animated:YES completion:nil];
 }
