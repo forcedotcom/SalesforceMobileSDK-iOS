@@ -742,12 +742,17 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
     [self sendPostLogout];
 }
 
-- (void)handleUserSwitch:(SFUserAccount *)fromUser toUser:(SFUserAccount *)toUser
+- (void)handleUserWillSwitch:(SFUserAccount *)fromUser toUser:(SFUserAccount *)toUser
 {
-    // Close the passcode screen and reset passcode monitoring.
     [SFSecurityLockout cancelPasscodeScreen];
     [SFSecurityLockout stopActivityMonitoring];
     [SFSecurityLockout removeTimer];
+}
+
+- (void)handleUserDidSwitch:(SFUserAccount *)fromUser toUser:(SFUserAccount *)toUser
+{
+    [SFSecurityLockout setupTimer];
+    [SFSecurityLockout startActivityMonitoring];
     [self sendUserAccountSwitch:fromUser toUser:toUser];
 }
 
@@ -1049,10 +1054,17 @@ SFSDK_USE_DEPRECATED_END
 }
 
 - (void)userAccountManager:(SFUserAccountManager *)userAccountManager
+         willSwitchFromUser:(SFUserAccount *)fromUser
+                    toUser:(SFUserAccount *)toUser
+{
+    [self.sdkManagerFlow handleUserWillSwitch:fromUser toUser:toUser];
+}
+
+- (void)userAccountManager:(SFUserAccountManager *)userAccountManager
          didSwitchFromUser:(SFUserAccount *)fromUser
                     toUser:(SFUserAccount *)toUser
 {
-    [self.sdkManagerFlow handleUserSwitch:fromUser toUser:toUser];
+    [self.sdkManagerFlow handleUserDidSwitch:fromUser toUser:toUser];
 }
 
 #pragma mark - SFSecurityLockoutDelegate
