@@ -25,6 +25,7 @@
 		829DA2BD1C126C6A0040F5F1 /* SFSmartStoreReactBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F3618A51AA51E9900AE3A65 /* SFSmartStoreReactBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		829DA2BE1C126C700040F5F1 /* SFSmartSyncReactBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FABF0691AA52E7E00D31E3F /* SFSmartSyncReactBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		829DA2C11C126D320040F5F1 /* SalesforceReact.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2C01C126D320040F5F1 /* SalesforceReact.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A3DCC14E1FCF774E004CE6A3 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A3DCC14F1FCF774E004CE6A3 /* libRCTWebSocket.a */; };
 		CE2B8D021CE9325E00C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8D011CE9325E00C6FC6A /* SalesforceAnalytics.framework */; };
 		CE4712661EFC668A00D9E059 /* SFSDKReactLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = CE4712641EFC668A00D9E059 /* SFSDKReactLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4712671EFC668A00D9E059 /* SFSDKReactLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CE4712651EFC668A00D9E059 /* SFSDKReactLogger.m */; };
@@ -70,6 +71,48 @@
 			proxyType = 2;
 			remoteGlobalIDString = 4F06AF2E1C499FD100F70798;
 			remoteInfo = SmartSyncTestApp;
+		};
+		A39A65751FCF71DF0010BC9C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 139D7ECE1E25DB7D00323FB7;
+			remoteInfo = "third-party";
+		};
+		A39A65771FCF71DF0010BC9C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D383D3C1EBD27B6005632C8;
+			remoteInfo = "third-party-tvOS";
+		};
+		A39A65791FCF71DF0010BC9C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 139D7E881E25C6D100323FB7;
+			remoteInfo = "double-conversion";
+		};
+		A39A657B1FCF71DF0010BC9C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D383D621EBD27B9005632C8;
+			remoteInfo = "double-conversion-tvOS";
+		};
+		A39A657D1FCF71DF0010BC9C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9936F3131F5F2E4B0010BF04;
+			remoteInfo = privatedata;
+		};
+		A39A657F1FCF71DF0010BC9C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9936F32F1F5F2E5B0010BF04;
+			remoteInfo = "privatedata-tvOS";
 		};
 		CE47126F1EFC668B00D9E059 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -161,6 +204,8 @@
 		4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../../external/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		829DA2C01C126D320040F5F1 /* SalesforceReact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceReact.h; sourceTree = "<group>"; };
 		82D0AB401C4980420081F833 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A39A65671FCF71DF0010BC9C /* libRCTWebSocket.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRCTWebSocket.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		A3DCC14F1FCF774E004CE6A3 /* libRCTWebSocket.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRCTWebSocket.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE2B8D011CE9325E00C6FC6A /* SalesforceAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceAnalytics.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-erwysdzugrhbsladkxhwtacrvgws/Build/Products/Debug-iphonesimulator/SalesforceAnalytics.framework"; sourceTree = "<group>"; };
 		CE4712641EFC668A00D9E059 /* SFSDKReactLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSDKReactLogger.h; path = Classes/SFSDKReactLogger.h; sourceTree = "<group>"; };
 		CE4712651EFC668A00D9E059 /* SFSDKReactLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKReactLogger.m; path = Classes/SFSDKReactLogger.m; sourceTree = "<group>"; };
@@ -180,6 +225,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A3DCC14E1FCF774E004CE6A3 /* libRCTWebSocket.a in Frameworks */,
 				CE2B8D021CE9325E00C6FC6A /* SalesforceAnalytics.framework in Frameworks */,
 				CE65C24B1C0FD59800319E68 /* libz.tbd in Frameworks */,
 				CE65C2451C0FD58800319E68 /* SalesforceSDKCore.framework in Frameworks */,
@@ -265,6 +311,8 @@
 		4FFEE5CE1BFE901E00B7AA8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A3DCC14F1FCF774E004CE6A3 /* libRCTWebSocket.a */,
+				A39A65671FCF71DF0010BC9C /* libRCTWebSocket.a */,
 				CE2B8D011CE9325E00C6FC6A /* SalesforceAnalytics.framework */,
 				4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */,
 				4FFEE5CF1BFE904100B7AA8A /* SmartSync.xcodeproj */,
@@ -298,6 +346,12 @@
 				CE4712781EFC668B00D9E059 /* libcxxreact.a */,
 				CE47127A1EFC668B00D9E059 /* libjschelpers.a */,
 				CE47127C1EFC668B00D9E059 /* libjschelpers.a */,
+				A39A65761FCF71DF0010BC9C /* libthird-party.a */,
+				A39A65781FCF71DF0010BC9C /* libthird-party.a */,
+				A39A657A1FCF71DF0010BC9C /* libdouble-conversion.a */,
+				A39A657C1FCF71DF0010BC9C /* libdouble-conversion.a */,
+				A39A657E1FCF71DF0010BC9C /* libprivatedata.a */,
+				A39A65801FCF71DF0010BC9C /* libprivatedata-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -414,6 +468,48 @@
 			fileType = wrapper.application;
 			path = SmartSyncTestApp.app;
 			remoteRef = 828917461C52B58D002F9981 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A39A65761FCF71DF0010BC9C /* libthird-party.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libthird-party.a";
+			remoteRef = A39A65751FCF71DF0010BC9C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A39A65781FCF71DF0010BC9C /* libthird-party.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libthird-party.a";
+			remoteRef = A39A65771FCF71DF0010BC9C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A39A657A1FCF71DF0010BC9C /* libdouble-conversion.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libdouble-conversion.a";
+			remoteRef = A39A65791FCF71DF0010BC9C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A39A657C1FCF71DF0010BC9C /* libdouble-conversion.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libdouble-conversion.a";
+			remoteRef = A39A657B1FCF71DF0010BC9C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A39A657E1FCF71DF0010BC9C /* libprivatedata.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libprivatedata.a;
+			remoteRef = A39A657D1FCF71DF0010BC9C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A39A65801FCF71DF0010BC9C /* libprivatedata-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libprivatedata-tvOS.a";
+			remoteRef = A39A657F1FCF71DF0010BC9C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		CE4712701EFC668B00D9E059 /* libReact.a */ = {
