@@ -18,7 +18,8 @@
 - (void)handleAuthCompleted:(nonnull NSNotification *)notification;
 - (void)handleIDPInitiatedAuthCompleted:(nonnull NSNotification *)notification;
 - (void)handleUserDidLogout:(nonnull NSNotification *)notification;
-- (void)handleUserSwitch:(nullable SFUserAccount *)fromUser toUser:(nullable SFUserAccount *)toUser;
+- (void)handleUserWillSwitch:(nullable SFUserAccount *)fromUser toUser:(nullable SFUserAccount *)toUser;
+- (void)handleUserDidSwitch:(nullable SFUserAccount *)fromUser toUser:(nullable SFUserAccount *)toUser;
 
 @end
 
