@@ -140,7 +140,25 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     return [[self class] openDatabaseWithPath:fullDbFilePath key:key error:error];
 }
 
+// If you created your database with an app based on Mobile SDK 5.3.0 using cocoapod
+// Then the key was never applied, and the database can be read directly
+// This method checks for that situation and encrypt the database if needed
+- (void)fixFor530Bug:(NSString *)storeName key:(NSString *)key {
+    NSString *fullDbFilePath = [self fullDbFilePathForStoreName:storeName];
+    
+    __block BOOL needEncrypting = NO;
+    [[FMDatabaseQueue databaseQueueWithPath:fullDbFilePath] inDatabase:^(FMDatabase* db) {
+        needEncrypting = [[self class] verifyDatabaseAccess:db error:nil];
+    }];
+    
+    if (needEncrypting) {
+        [[self class] encryptDbWithStoreName:storeName storePath:fullDbFilePath key:key error:nil];
+    }
+}
+
 - (FMDatabaseQueue *)openStoreQueueWithName:(NSString *)storeName key:(NSString *)key error:(NSError **)error {
+    [self fixFor530Bug:storeName key:key];
+    
     __block BOOL result = YES;
     NSString *fullDbFilePath = [self fullDbFilePathForStoreName:storeName];
     FMDatabaseQueue *queue = [FMDatabaseQueue databaseQueueWithPath:fullDbFilePath];
