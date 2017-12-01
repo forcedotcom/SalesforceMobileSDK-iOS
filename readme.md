@@ -34,6 +34,10 @@ If you have problems building any of the projects, take a look at the online [FA
 Introduction
 ==
 
+### What's New in 5.3.1
+
+- This patch release contains a fix for a recently discovered bug affecting apps consuming Mobile SDK 5.3.0 through cocoapods. These apps were unable to open a SmartStore created with Mobile SDK 5.2.0 or earlier.
+
 ### What's New in 5.3
 
 **OS Version Support**
