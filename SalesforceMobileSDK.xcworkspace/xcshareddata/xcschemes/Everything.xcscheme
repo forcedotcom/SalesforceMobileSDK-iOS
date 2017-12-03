@@ -398,6 +398,48 @@
                ReferencedContainer = "container:libs/SalesforceAnalytics/SalesforceAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "B7DA7ABA1FCDE08E0098C1EA"
+               BuildableName = "SalesforceSwiftSDK.framework"
+               BlueprintName = "SalesforceSwiftSDK"
+               ReferencedContainer = "container:libs/SalesforceSwiftSDK/SalesforceSwiftSDK.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "B7DA7AFA1FCDE6320098C1EA"
+               BuildableName = "SalesforceSwiftSDKTestApp.app"
+               BlueprintName = "SalesforceSwiftSDKTestApp"
+               ReferencedContainer = "container:libs/SalesforceSwiftSDK/SalesforceSwiftSDK.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "B7DA7AC31FCDE08F0098C1EA"
+               BuildableName = "SalesforceSwiftSDKTests.xctest"
+               BlueprintName = "SalesforceSwiftSDKTests"
+               ReferencedContainer = "container:libs/SalesforceSwiftSDK/SalesforceSwiftSDK.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
