@@ -17,9 +17,6 @@
 		B7CFC44B1FD0463D0013534D /* SalesforceSwiftSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7DA7ABB1FCDE08E0098C1EA /* SalesforceSwiftSDK.framework */; };
 		B7CFC44C1FD046430013534D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7CFC4361FD043D10013534D /* Foundation.framework */; };
 		B7CFC44D1FD0467B0013534D /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7DA7B491FCDECA70098C1EA /* PromiseKit.framework */; };
-		B7CFC47B1FD04A270013534D /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CFC47A1FD04A270013534D /* Logger.swift */; };
-		B7CFC47D1FD04A950013534D /* SalesforceTestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CFC47C1FD04A950013534D /* SalesforceTestExtensions.swift */; };
-		B7CFC4801FD04B440013534D /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = B7CFC47F1FD04B440013534D /* test_credentials.json */; };
 		B7DA7AC51FCDE08F0098C1EA /* SalesforceSwiftSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7DA7ABB1FCDE08E0098C1EA /* SalesforceSwiftSDK.framework */; };
 		B7DA7ACA1FCDE08F0098C1EA /* SalesforceSwiftSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7DA7AC91FCDE08F0098C1EA /* SalesforceSwiftSDKTests.swift */; };
 		B7DA7ACC1FCDE08F0098C1EA /* SalesforceSwiftSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = B7DA7ABE1FCDE08E0098C1EA /* SalesforceSwiftSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -144,9 +141,6 @@
 		B7CFC4411FD044350013534D /* SmartStore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartStore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7CFC4451FD0444A0013534D /* SalesforceAnalytics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SalesforceAnalytics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7CFC4461FD0444A0013534D /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SalesforceSDKCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B7CFC47A1FD04A270013534D /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
-		B7CFC47C1FD04A950013534D /* SalesforceTestExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesforceTestExtensions.swift; sourceTree = "<group>"; };
-		B7CFC47F1FD04B440013534D /* test_credentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test_credentials.json; path = ../../../../shared/test/test_credentials.json; sourceTree = "<group>"; };
 		B7DA7ABB1FCDE08E0098C1EA /* SalesforceSwiftSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SalesforceSwiftSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7DA7ABE1FCDE08E0098C1EA /* SalesforceSwiftSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SalesforceSwiftSDK.h; sourceTree = "<group>"; };
 		B7DA7ABF1FCDE08E0098C1EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -215,14 +209,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		B7CFC47E1FD04B100013534D /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				B7CFC47F1FD04B440013534D /* test_credentials.json */,
-			);
-			path = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		B7DA7AB11FCDE08E0098C1EA = {
 			isa = PBXGroup;
 			children = (
@@ -247,7 +233,6 @@
 		B7DA7ABD1FCDE08E0098C1EA /* SalesforceSwiftSDK */ = {
 			isa = PBXGroup;
 			children = (
-				B7CFC47A1FD04A270013534D /* Logger.swift */,
 				B7DA7ABE1FCDE08E0098C1EA /* SalesforceSwiftSDK.h */,
 				B7DA7ABF1FCDE08E0098C1EA /* Info.plist */,
 				B7DA7AF51FCDE3900098C1EA /* SDKCoreExtensions.swift */,
@@ -260,7 +245,6 @@
 			children = (
 				B7DA7AC91FCDE08F0098C1EA /* SalesforceSwiftSDKTests.swift */,
 				B7DA7ACB1FCDE08F0098C1EA /* Info.plist */,
-				B7CFC47C1FD04A950013534D /* SalesforceTestExtensions.swift */,
 			);
 			path = SalesforceSwiftSDKTests;
 			sourceTree = "<group>";
@@ -298,7 +282,6 @@
 		B7DA7AFC1FCDE6330098C1EA /* SalesforceSwiftSDKTestApp */ = {
 			isa = PBXGroup;
 			children = (
-				B7CFC47E1FD04B100013534D /* Supporting Files */,
 				B7DA7B0F1FCDE6AF0098C1EA /* SalesforceSwiftSDKTestApp.entitlements */,
 				B7DA7AFD1FCDE6330098C1EA /* AppDelegate.swift */,
 				B7DA7AFF1FCDE6330098C1EA /* ViewController.swift */,
@@ -541,7 +524,6 @@
 			files = (
 				B7DA7B081FCDE6330098C1EA /* LaunchScreen.storyboard in Resources */,
 				B7DA7B051FCDE6330098C1EA /* Assets.xcassets in Resources */,
-				B7CFC4801FD04B440013534D /* test_credentials.json in Resources */,
 				B7DA7B031FCDE6330098C1EA /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -554,7 +536,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7DA7AF61FCDE3900098C1EA /* SDKCoreExtensions.swift in Sources */,
-				B7CFC47B1FD04A270013534D /* Logger.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -562,7 +543,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B7CFC47D1FD04A950013534D /* SalesforceTestExtensions.swift in Sources */,
 				B7DA7ACA1FCDE08F0098C1EA /* SalesforceSwiftSDKTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
