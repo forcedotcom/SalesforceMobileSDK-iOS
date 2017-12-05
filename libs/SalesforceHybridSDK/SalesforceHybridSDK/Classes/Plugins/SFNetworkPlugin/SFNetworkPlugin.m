@@ -46,6 +46,10 @@ static NSString * const kfileParams      = @"fileParams";
 static NSString * const kFileMimeType    = @"fileMimeType";
 static NSString * const kFileUrl         = @"fileUrl";
 static NSString * const kFileName        = @"fileName";
+static NSString * const kReturnAsBlob    = @"returnResponseAsBlob";
+static NSString * const kEncodedBody     = @"encodedBody";
+static NSString * const kContentType     = @"contentType";
+static NSString * const kHttpContentType = @"content-type";
 
 @implementation SFNetworkPlugin
 
@@ -69,6 +73,7 @@ static NSString * const kFileName        = @"fileName";
     }
     NSMutableDictionary<NSString*, NSString*>* headerParams = [argsDict nonNullObjectForKey:kHeaderParams];
     NSDictionary<NSString*, NSDictionary*>* fileParams = [argsDict nonNullObjectForKey:kfileParams];
+    BOOL returnAsBlob = [argsDict nonNullObjectForKey:kReturnAsBlob] != nil && [[argsDict nonNullObjectForKey:kReturnAsBlob] boolValue];
     SFRestRequest* request = nil;
 
     // Sets HTTP body explicitly for a POST, PATCH or PUT request.
@@ -112,7 +117,13 @@ static NSString * const kFileName        = @"fileName";
                                   completeBlock:^(id response, NSURLResponse *rawResponse) {
                                       __strong typeof(self) strongSelf = weakSelf;
                                       CDVPluginResult *pluginResult = nil;
-                                      if ([response isKindOfClass:[NSDictionary class]]) {
+                                      if (returnAsBlob) {
+                                          NSDictionary* result = @{
+                                                                   kEncodedBody:[((NSData*) response) base64EncodedStringWithOptions:0],
+                                                                   kContentType:((NSHTTPURLResponse*) rawResponse).allHeaderFields[kHttpContentType]
+                                                                   };
+                                          pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:result];
+                                      } else if ([response isKindOfClass:[NSDictionary class]]) {
                                           pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:response];
                                       } else if ([response isKindOfClass:[NSArray class]]) {
                                           pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:response];
