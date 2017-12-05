@@ -23,35 +23,57 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import Foundation
-import SalesforceSDKCore
-import PromiseKit
 
-extension SalesforceSDKManager {
-    
-    func configure( config: (SFSDKAppConfig) -> Void ) -> SalesforceSDKManager {
-        config(self.appConfig!)
-        return self
-    }
-    
-    func postLaunchBlock(action : @escaping SFSDKPostLaunchCallbackBlock) -> SalesforceSDKManager {
-        self.postLaunchAction = action
-        return self
-    }
-    
-    func postLogoutBlock(action : @escaping SFSDKLogoutCallbackBlock) -> SalesforceSDKManager {
-        self.postLogoutAction = action
-        return self
-    }
-    
-    func switchUserBlock(action : @escaping SFSDKSwitchUserCallbackBlock) -> SalesforceSDKManager {
-        self.switchUserAction = action
-        return self
-    }
-    
-    func errorBlock(action : @escaping SFSDKLaunchErrorCallbackBlock) -> SalesforceSDKManager {
-        self.launchErrorAction = action
-        return self
-    }
-    
+protocol ProtocolStoredProperty {
+    associatedtype T
+    func getAssociatedObject(_ key: UnsafeRawPointer!, defaultValue: T) -> T
 }
+
+extension Decodable {
+    static func decode(data: Data) throws -> Self {
+        let decoder = JSONDecoder()
+        return try decoder.decode(Self.self, from: data)
+    }
+}
+
+extension Encodable {
+    func encode() throws -> Data {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        return try encoder.encode(self)
+    }
+}
+
+extension ProtocolStoredProperty {
+ 
+    func getAssociatedObject(_ key: UnsafeRawPointer!, defaultValue: T) -> T {
+        guard let value = objc_getAssociatedObject(self, key) as? T else {
+            return defaultValue
+        }
+        return value
+    }
+    
+    func setAssociatedObject(storedProperty: UnsafeRawPointer!, newValue: T) {
+        objc_setAssociatedObject(self, storedProperty, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+    }
+}
+
+extension Data {
+
+    func asJsonDictionary() -> Dictionary<String, Any> {
+        let jsonData = try! JSONSerialization.jsonObject(with: self, options: []) as! Dictionary<String, Any>
+        return jsonData
+    }
+    
+    func asJsonArray() -> [Dictionary<String, Any>] {
+        let jsonData = try! JSONSerialization.jsonObject(with: self, options: []) as! [Dictionary<String, Any>]
+        return jsonData
+    }
+    
+    func asString() -> String {
+        let jsonData =  String(data: self, encoding: String.Encoding.utf8)
+        return jsonData!
+    }
+}
+    
 
