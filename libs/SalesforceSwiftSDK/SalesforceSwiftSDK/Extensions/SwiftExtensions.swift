@@ -1,5 +1,5 @@
 /*
- SalesforceSDKCoreExtensions
+ SwiftExtensions
  Created by Raj Rao on 11/27/17.
  
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.

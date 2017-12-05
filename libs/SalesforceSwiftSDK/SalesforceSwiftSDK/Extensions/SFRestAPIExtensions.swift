@@ -69,7 +69,7 @@ extension SFRestAPI {
          */
         public func resources() -> Promise<SFRestRequest> {
             return  Promise(.pending) {  resolver in
-                resolver.fulfill(self.api!.requestForVersions())
+                resolver.fulfill(self.api!.requestForResources())
             }
         }
         
@@ -85,7 +85,7 @@ extension SFRestAPI {
          */
         public func describe(objectType:String) -> Promise<SFRestRequest> {
             return  Promise(.pending) {  resolver in
-                resolver.fulfill(self.api!.requestForVersions())
+                resolver.fulfill(self.api!.requestForDescribe(withObjectType: objectType))
             }
         }
         
@@ -201,7 +201,7 @@ extension SFRestAPI {
          ...
          }
          ```
-         - Returns: The instance of Promise<SFRestRequest>.
+         - Returns:  SFRestRequest wrapped in a promise.
          */
         public func delete(objectType: String, objectId: String) -> Promise<SFRestRequest> {
             return  Promise(.pending) {  resolver in
@@ -212,12 +212,12 @@ extension SFRestAPI {
         /**
          A factory method for update object request.
          ```
-         SFRestRequestFactory.Factory.describeGlobal()
+         SFRestRequestFactory.Factory.query(soql: soql)
          .then { (request) in
          ...
          }
          ```
-         - Returns: The instance of Promise<SFRestRequest>.
+         - Returns:  SFRestRequest wrapped in a promise.
          */
         public func query(soql: String) -> Promise<SFRestRequest> {
             return  Promise(.pending) {  resolver in
@@ -228,12 +228,12 @@ extension SFRestAPI {
         /**
          A factory method for update object request.
          ```
-         SFRestRequestFactory.Factory.describeGlobal()
+         SFRestRequestFactory.Factory.queryAll(soql: soql)
          .then { (request) in
          ...
          }
          ```
-         - Returns: The instance of Promise<SFRestRequest>.
+         - Returns:  SFRestRequest wrapped in a promise.
          */
         public func queryAll(soql: String) -> Promise<SFRestRequest> {
             return  Promise(.pending) {  resolver in
