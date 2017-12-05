@@ -357,7 +357,6 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
         }
     }
     [self logoutUser:[SFUserAccountManager sharedInstance].currentUser];
-    [[SFSDKOAuthClientCache sharedInstance] removeAllClients];
 }
 
 - (void)dismissAuthViewControllerIfPresent

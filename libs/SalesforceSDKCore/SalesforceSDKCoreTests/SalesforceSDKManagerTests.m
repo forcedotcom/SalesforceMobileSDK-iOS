@@ -233,6 +233,36 @@ static NSString* const kTestAppName = @"OverridenAppName";
     XCTAssertTrue(authBypassed, @"Launch should have generated an auth-bypassed status.");
 }
 
+- (void)testUserSwitching
+{
+    [SalesforceSDKManager sharedManager].appConfig.shouldAuthenticate = NO;
+    [self createStandardPostLaunchBlock];
+    [self createTestAppIdentity];
+    XCTAssertNil([SFUserAccountManager sharedInstance].currentUser, @"Current user should be nil.");
+    [SFUserAccountManager sharedInstance].currentUser = [self createUserAccount];
+    XCTAssertNotNil([SFUserAccountManager sharedInstance].currentUser, @"Current user should not be nil.");
+    SFUserAccount *userTo = [self createUserAccount];
+    SFUserAccount *userFrom = [SFUserAccountManager sharedInstance].currentUser;
+    XCTestExpectation *willSwitchExpectation = [self expectationWithDescription:@"willSwitch"];
+    XCTestExpectation *didSwitchExpectation = [self expectationWithDescription:@"didSwitch"];
+    __weak typeof (self) weakSelf = self;
+    [_currentSdkManagerFlow setUpUserSwitchState:[SFUserAccountManager sharedInstance].currentUser toUser:userTo completion:^(SFUserAccount *fromUser, SFUserAccount *toUser,BOOL before) {
+        __strong typeof (weakSelf) self = weakSelf;
+        NSString *beforeAfterString = before?@" in willSwitchuser " :@" in didSwitchuser ";
+        XCTAssertTrue([fromUser isEqual:userFrom],@"Switch from user is different than expected  %@",beforeAfterString);
+        XCTAssertTrue([toUser isEqual:userTo],@"Switch to user is different than expected  %@",beforeAfterString);
+        if( before ) {
+            [willSwitchExpectation fulfill];
+        }else {
+            XCTAssertTrue([toUser isEqual:[SFUserAccountManager sharedInstance].currentUser],@"Switch to user  should change current user");
+            [didSwitchExpectation fulfill];
+        }
+    }];
+    [[SFUserAccountManager sharedInstance] switchToUser:userTo];
+    [self waitForExpectations:@[willSwitchExpectation, didSwitchExpectation] timeout:20];
+    [_currentSdkManagerFlow clearUserSwitchState];
+}
+
 #pragma mark - Snapshot Tests
 
 - (void)testUsesSnapshot
