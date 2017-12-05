@@ -101,7 +101,7 @@ extension SFUserAccountManager {
         }
         
         /**
-         Logout wrapped in a promise.
+         LogoutAllusers wrapped in a promise.
          
          ```
          SFUserAccountManager.sharedInstance().logoutAllUsers()

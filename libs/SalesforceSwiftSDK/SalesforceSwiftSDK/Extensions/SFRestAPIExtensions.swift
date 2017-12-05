@@ -125,7 +125,7 @@ extension SFRestAPI {
         /**
          A factory method for retrieve object request.
          ```
-         SFRestRequestFactory.Factory.describeGlobal()
+         SFRestRequestFactory.Factory.retrieve(objectType: objectType,objectId: objectId, fieldList: "")
          .then { (request) in
              restApi.send(request)
          }
@@ -196,7 +196,7 @@ extension SFRestAPI {
         /**
          A factory method for update object request.
          ```
-         SFRestRequestFactory.Factory.delete()
+         SFRestRequestFactory.Factory.delete(objectType: objectType, objectId: objectId)
          .then { (request) in
          ...
          }
@@ -210,7 +210,7 @@ extension SFRestAPI {
         }
         
         /**
-         A factory method for update object request.
+         A factory method for query object request.
          ```
          SFRestRequestFactory.Factory.query(soql: soql)
          .then { (request) in
@@ -226,7 +226,7 @@ extension SFRestAPI {
         }
         
         /**
-         A factory method for update object request.
+         A factory method for queryAll object request.
          ```
          SFRestRequestFactory.Factory.queryAll(soql: soql)
          .then { (request) in

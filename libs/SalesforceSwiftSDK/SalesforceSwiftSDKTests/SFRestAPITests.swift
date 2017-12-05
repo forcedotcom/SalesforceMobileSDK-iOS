@@ -59,15 +59,12 @@ class SFRestAPITests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        //let exp1 = expectation(description: "init")
         SalesforceSwiftSDKTests.waitForCompletion(maxWaitTime: 5) { () -> Bool in
             if (SalesforceSwiftSDKTests.setupComplete) {
                 return true
             }
             return false
         }
-        //  waitForExpectations(timeout: 10)
-        
     }
     
     override func tearDown() {
@@ -164,7 +161,7 @@ class SFRestAPITests: XCTestCase {
     
     func testDescribeObject() {
         
-        var restResonse : [Dictionary<String, Any>]?
+        var restResonse : Dictionary<String, Any>?
         var restError : Error?
         let restApi  = SFRestAPI.sharedInstance()
         XCTAssertNotNil(restApi)
@@ -175,7 +172,7 @@ class SFRestAPITests: XCTestCase {
                 restApi.send(request: request)
             }
             .done { data in
-                restResonse = data.asJsonArray()
+                restResonse = data.asJsonDictionary()
                 exp.fulfill()
             }
             .catch { error in
