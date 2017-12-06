@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 
-  s.name         = "SalesforceSwift"
+  s.name         = "SalesforceSwiftSDK"
   s.version      = "6.0.0"
   s.summary      = "Salesforce Mobile SDK for iOS - Swift"
   s.homepage     = "https://github.com/forcedotcom/SalesforceMobileSDK-iOS"
@@ -15,9 +15,9 @@ Pod::Spec.new do |s|
                      :submodules => true }
 
   s.requires_arc = true
-  s.default_subspec  = 'SalesforceSwift'
+  s.default_subspec  = 'SalesforceSwiftSDK'
 
-  s.subspec 'SalesforceSwift' do |salesforceswift|
+  s.subspec 'SalesforceSwiftSDK' do |salesforceswift|
 
       salesforceswift.dependency 'SmartSync'
       salesforceswift.source_files = 'libs/SalesforceSwiftSDK/SalesforceSwiftSDK/**/*.{h,m,swift}'

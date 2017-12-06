@@ -1,5 +1,5 @@
 /*
- SalesforceSwiftSDKTests
+ SFRestAPITests
  Created by Raj Rao on 11/27/17.
  
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
@@ -22,12 +22,14 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+import Foundation
 import XCTest
 import SalesforceSDKCore
 import PromiseKit
+
 @testable import SalesforceSwiftSDK
 
-class SalesforceSwiftSDKTests: XCTestCase {
+class SFRestAPITests: XCTestCase {
     static var testCredentials: SFOAuthCredentials?
     static var testConfig: TestConfig?
     static var setupComplete = false
@@ -35,7 +37,7 @@ class SalesforceSwiftSDKTests: XCTestCase {
     override class func setUp() {
         super.setUp()
         SalesforceSDKManager.shared().saveState()
-       
+        
         _ = SalesforceSwiftSDKTests.readConfigFromFile(configFile: nil)
             .then { testJsonConfig -> Promise<SFUserAccount> in
                 SalesforceSwiftSDKTests.testConfig = testJsonConfig
@@ -52,25 +54,22 @@ class SalesforceSwiftSDKTests: XCTestCase {
                 setupComplete = true
             }.catch { error  in
                 setupComplete = true
-            }
+        }
     }
     
     override func setUp() {
         super.setUp()
-        //let exp1 = expectation(description: "init")
         SalesforceSwiftSDKTests.waitForCompletion(maxWaitTime: 5) { () -> Bool in
             if (SalesforceSwiftSDKTests.setupComplete) {
                 return true
             }
             return false
         }
-      //  waitForExpectations(timeout: 10)
-        
     }
-
+    
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
-      
+        
         super.tearDown()
     }
     
@@ -79,54 +78,137 @@ class SalesforceSwiftSDKTests: XCTestCase {
         SalesforceSDKManager.shared().restoreState()
         super.tearDown()
     }
-
-    func testConfiguration() {
-        XCTAssertNotNil(SalesforceSwiftSDKTests.testConfig)
-        XCTAssertNotNil(SalesforceSwiftSDKTests.testCredentials)
-        SalesforceSDKManager.Builder.configure { (appconfig: SFSDKAppConfig) -> Void in
-            appconfig.shouldAuthenticate = false
-            appconfig.oauthScopes = ["web", "api"]
-            appconfig.remoteAccessConsumerKey = (SalesforceSwiftSDKTests.testConfig?.testClientId)!
-            appconfig.oauthRedirectURI = (SalesforceSwiftSDKTests.testConfig?.testRedirectUri)!
-        }.done()
-
-        XCTAssertNotNil(SalesforceSDKManager.shared().appConfig)
-        XCTAssertTrue(!((SalesforceSDKManager.shared().appConfig?.shouldAuthenticate)!)
-                      , "SalesforceSDKManager should have been configured to not authenticate")
-        XCTAssertTrue(SalesforceSDKManager.shared().appConfig?.remoteAccessConsumerKey == SalesforceSwiftSDKTests.testConfig?.testClientId
-                      , "SalesforceSDKManager should have been configured to use correct consumer key")
-        XCTAssertTrue(SalesforceSDKManager.shared().appConfig?.oauthRedirectURI == SalesforceSwiftSDKTests.testConfig?.testRedirectUri
-                      , "SalesforceSDKManager should have been configured to use correct redirect url")
+    
+    func testQuery() {
+        
+        var restResonse : Dictionary<String, Any>?
+        var restError : Error?
+        let restApi  = SFRestAPI.sharedInstance()
+        XCTAssertNotNil(restApi)
+        let exp = expectation(description: "restApi")
+        
+        restApi.Factory.query(soql: "SELECT Id,FirstName,LastName FROM User")
+        .then { request in
+            restApi.send(request: request)
+        }
+        .done { data in
+           restResonse = data.asJsonDictionary()
+           exp.fulfill()
+        }
+        .catch { error in
+            restError = error
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 10)
+        XCTAssertNil(restError)
+        XCTAssertNotNil(restResonse)
+       
     }
     
-    func testPostLaunchBlock() {
-        XCTAssertNotNil(SalesforceSwiftSDKTests.testConfig)
-        XCTAssertNotNil(SalesforceSwiftSDKTests.testCredentials)
-        let expectation = self.expectation(description: "launched")
-        SalesforceSDKManager.Builder.postLaunch { action in
-            expectation.fulfill()
-        }.done()
-        SalesforceSDKManager.shared().launch()
-        wait(for: [expectation], timeout: 10)
+    func testQueryAll() {
+        
+        var restResonse : Dictionary<String, Any>?
+        var restError : Error?
+        
+        let restApi  = SFRestAPI.sharedInstance()
+        XCTAssertNotNil(restApi)
+        let exp = expectation(description: "restApi")
+        
+        restApi.Factory.queryAll(soql: "SELECT Id,FirstName,LastName FROM User")
+            .then { request in
+                restApi.send(request: request)
+            }
+            .done { data in
+                restResonse = data.asJsonDictionary()
+                exp.fulfill()
+            }
+            .catch { error in
+                restError = error
+                exp.fulfill()
+        }
+        wait(for: [exp], timeout: 10)
+        XCTAssertNil(restError)
+        XCTAssertNotNil(restResonse)
+        
     }
     
-    func testSwitchUserBlock() {
-        XCTAssertNotNil(SalesforceSwiftSDKTests.testConfig)
-        XCTAssertNotNil(SalesforceSwiftSDKTests.testCredentials)
-        let currentOrigUser = SFUserAccountManager.sharedInstance().currentUser
-        let expectation = self.expectation(description: "switched")
-        let newUser = self.createNewUser(indx: 1)
-        SalesforceSDKManager.Builder.switchUser { from,to in
-            expectation.fulfill()
-        }.done()
-        SFUserAccountManager.sharedInstance().switch(toUser: newUser)
-        SFUserAccountManager.sharedInstance().currentUser = currentOrigUser
-        wait(for: [expectation], timeout: 10)
+    func testDescribeGlobal() {
+        
+        var restResonse : Dictionary<String, Any>?
+        var restError : Error?
+        
+        let restApi  = SFRestAPI.sharedInstance()
+        XCTAssertNotNil(restApi)
+        let exp = expectation(description: "restApi")
+        
+        restApi.Factory.describeGlobal()
+            .then { request in
+                restApi.send(request: request)
+            }
+            .done { data in
+                restResonse = data.asJsonDictionary()
+                exp.fulfill()
+            }
+            .catch { error in
+                restError = error
+                exp.fulfill()
+        }
+        wait(for: [exp], timeout: 10)
+        XCTAssertNil(restError)
+        XCTAssertNotNil(restResonse)
+        
     }
     
-    func testAccessToken() {
-        XCTAssertNotNil(SalesforceSwiftSDKTests.testCredentials?.accessToken)
-        XCTAssertNotNil(SalesforceSwiftSDKTests.testCredentials?.instanceUrl)
+    func testDescribeObject() {
+        
+        var restResonse : Dictionary<String, Any>?
+        var restError : Error?
+        let restApi  = SFRestAPI.sharedInstance()
+        XCTAssertNotNil(restApi)
+        let exp = expectation(description: "restApi")
+        
+        restApi.Factory.describe(objectType: "Account")
+            .then { request in
+                restApi.send(request: request)
+            }
+            .done { data in
+                restResonse = data.asJsonDictionary()
+                exp.fulfill()
+            }
+            .catch { error in
+                restError = error
+                exp.fulfill()
+        }
+        wait(for: [exp], timeout: 10)
+        XCTAssertNil(restError)
+        XCTAssertNotNil(restResonse)
     }
+    
+    func testDescribeObjectAsString() {
+        
+        var restResonse : String?
+        var restError : Error?
+        let restApi  = SFRestAPI.sharedInstance()
+        XCTAssertNotNil(restApi)
+        let exp = expectation(description: "restApi")
+    
+        restApi.Factory.describe(objectType: "Account")
+            .then { request in
+                restApi.send(request: request)
+            }
+            .done { data in
+                restResonse = data.asString()
+                exp.fulfill()
+            }
+            .catch { error in
+                restError = error
+                exp.fulfill()
+            }
+        wait(for: [exp], timeout: 10)
+        XCTAssertNil(restError)
+        XCTAssertNotNil(restResonse)
+    }
+    
    
+    
 }
