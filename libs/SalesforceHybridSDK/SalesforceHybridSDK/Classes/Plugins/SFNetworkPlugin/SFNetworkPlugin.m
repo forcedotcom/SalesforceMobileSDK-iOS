@@ -46,7 +46,7 @@ static NSString * const kfileParams      = @"fileParams";
 static NSString * const kFileMimeType    = @"fileMimeType";
 static NSString * const kFileUrl         = @"fileUrl";
 static NSString * const kFileName        = @"fileName";
-static NSString * const kReturnAsBlob    = @"returnResponseAsBlob";
+static NSString * const kReturnBinary    = @"returnBinary";
 static NSString * const kEncodedBody     = @"encodedBody";
 static NSString * const kContentType     = @"contentType";
 static NSString * const kHttpContentType = @"content-type";
@@ -73,7 +73,7 @@ static NSString * const kHttpContentType = @"content-type";
     }
     NSMutableDictionary<NSString*, NSString*>* headerParams = [argsDict nonNullObjectForKey:kHeaderParams];
     NSDictionary<NSString*, NSDictionary*>* fileParams = [argsDict nonNullObjectForKey:kfileParams];
-    BOOL returnAsBlob = [argsDict nonNullObjectForKey:kReturnAsBlob] != nil && [[argsDict nonNullObjectForKey:kReturnAsBlob] boolValue];
+    BOOL returnBinary = [argsDict nonNullObjectForKey:kReturnBinary] != nil && [[argsDict nonNullObjectForKey:kReturnBinary] boolValue];
     SFRestRequest* request = nil;
 
     // Sets HTTP body explicitly for a POST, PATCH or PUT request.
@@ -109,7 +109,7 @@ static NSString * const kHttpContentType = @"content-type";
     }
     
     // Disable parsing for binary request
-    if (returnAsBlob) {
+    if (returnBinary) {
         request.parseResponse = NO;
     }
     
@@ -124,7 +124,7 @@ static NSString * const kHttpContentType = @"content-type";
                                       __strong typeof(self) strongSelf = weakSelf;
                                       CDVPluginResult *pluginResult = nil;
                                       // Binary response
-                                      if (returnAsBlob) {
+                                      if (returnBinary) {
                                           NSDictionary* result = @{
                                                                    kEncodedBody:[((NSData*) response) base64EncodedStringWithOptions:0],
                                                                    kContentType:((NSHTTPURLResponse*) rawResponse).allHeaderFields[kHttpContentType]
