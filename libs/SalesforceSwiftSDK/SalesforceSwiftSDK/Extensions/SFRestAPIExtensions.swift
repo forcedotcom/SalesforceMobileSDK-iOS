@@ -194,7 +194,7 @@ extension SFRestAPI {
       
         
         /**
-         A factory method for update object request.
+         A factory method for delete object request.
          ```
          SFRestRequestFactory.Factory.delete(objectType: objectType, objectId: objectId)
          .then { (request) in
