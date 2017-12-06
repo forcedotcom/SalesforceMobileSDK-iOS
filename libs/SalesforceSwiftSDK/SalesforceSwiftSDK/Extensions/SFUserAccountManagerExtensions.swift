@@ -184,7 +184,5 @@ extension SFUserAccountManager {
                 }
             }
         }
-        
     }
-    
 }

@@ -34,9 +34,9 @@ extension SalesforceSDKManager {
         config(SalesforceSDKManager.shared().appConfig!)
         return SalesforceSDKManager.self
     }
-    
-    
+
     class SalesforceSDKManagerBuilder {
+
         /**
          Provides a Builder based mechanism to setup the app config for the Salesforce Application.
          ```
@@ -97,6 +97,7 @@ extension SalesforceSDKManager {
             SalesforceSDKManager.shared().postLogoutAction = action
             return SalesforceSDKManagerBuilder.self
         }
+
         /**
          Provides a way to set the switch user action for the Salesforce Application.
          ```
@@ -161,6 +162,4 @@ extension SalesforceSDKManager {
             
         }
     }
-    
 }
-
