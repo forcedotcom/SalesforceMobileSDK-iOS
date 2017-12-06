@@ -34,6 +34,9 @@
 		B7DA7B081FCDE6330098C1EA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7DA7B061FCDE6330098C1EA /* LaunchScreen.storyboard */; };
 		B7DA7B541FCDECCC0098C1EA /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7DA7B491FCDECA70098C1EA /* PromiseKit.framework */; };
 		CE57D8FF1FD7AF6900A0930F /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = CE57D8FE1FD7AF6900A0930F /* test_credentials.json */; };
+		CE57D9021FD7B4A600A0930F /* SalesforceSDKManagerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7DA7AF51FCDE3900098C1EA /* SalesforceSDKManagerExtensions.swift */; };
+		CE57D9031FD7B4AB00A0930F /* SwiftExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CFC4D31FD1D0390013534D /* SwiftExtensions.swift */; };
+		CE57D9061FD7B54900A0930F /* SalesforceSwiftLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CFC47A1FD04A270013534D /* SalesforceSwiftLogger.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -359,7 +362,8 @@
 				B7DA7AB61FCDE08E0098C1EA /* Sources */,
 				B7DA7AB71FCDE08E0098C1EA /* Frameworks */,
 				B7DA7AB81FCDE08E0098C1EA /* Headers */,
-				B7DA7AB91FCDE08E0098C1EA /* Resources */,
+				CE57D9001FD7B19700A0930F /* ShellScript */,
+				CE57D9011FD7B1C200A0930F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -537,13 +541,6 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
-		B7DA7AB91FCDE08E0098C1EA /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		B7DA7AC21FCDE08F0098C1EA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -564,6 +561,35 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		CE57D9001FD7B19700A0930F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$SRCROOT/../../shared/common/build/tools/generate_headers.sh\" -o \"$TARGET_BUILD_DIR/$PRODUCT_NAME.framework/Headers/$PRODUCT_NAME.h\" -u \"$SRCROOT/$TARGET_NAME/$TARGET_NAME.h\"";
+		};
+		CE57D9011FD7B1C200A0930F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PROJECT_DIR}/../../shared/common/build/tools/update_podspec_headers.sh\" -s salesforceswift";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		B7DA7AB61FCDE08E0098C1EA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -582,8 +608,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				B799B46D1FD60528001DC6ED /* SFRestAPITests.swift in Sources */,
+				CE57D9061FD7B54900A0930F /* SalesforceSwiftLogger.swift in Sources */,
 				B7CFC47D1FD04A950013534D /* SalesforceTestExtensions.swift in Sources */,
+				CE57D9031FD7B4AB00A0930F /* SwiftExtensions.swift in Sources */,
 				B7DA7ACA1FCDE08F0098C1EA /* SalesforceSwiftSDKTests.swift in Sources */,
+				CE57D9021FD7B4A600A0930F /* SalesforceSDKManagerExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
