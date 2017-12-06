@@ -58,7 +58,7 @@ RCT_EXPORT_METHOD(sendRequest:(NSDictionary *)argsDict callback:(RCTResponseSend
     NSDictionary* queryParams = [argsDict nonNullObjectForKey:kQueryParams];
     NSMutableDictionary* headerParams = [argsDict nonNullObjectForKey:kHeaderParams];
     NSDictionary* fileParams = [argsDict nonNullObjectForKey:kfileParams];
-    BOOL returnAsBlob = [argsDict nonNullObjectForKey:kReturnBinary] != nil && [[argsDict nonNullObjectForKey:kReturnBinary] boolValue];
+    BOOL returnBinary = [argsDict nonNullObjectForKey:kReturnBinary] != nil && [[argsDict nonNullObjectForKey:kReturnBinary] boolValue];
     SFRestRequest* request = nil;
     
     // Sets HTTP body explicitly for a POST, PATCH or PUT request.
@@ -91,7 +91,7 @@ RCT_EXPORT_METHOD(sendRequest:(NSDictionary *)argsDict callback:(RCTResponseSend
     }
     
     // Disable parsing for binary request
-    if (returnAsBlob) {
+    if (returnBinary) {
         request.parseResponse = NO;
     }
     
@@ -104,7 +104,7 @@ RCT_EXPORT_METHOD(sendRequest:(NSDictionary *)argsDict callback:(RCTResponseSend
                                       id result;
                                       
                                       // Binary response
-                                      if (returnAsBlob) {
+                                      if (returnBinary) {
                                           result = @{
                                                      kEncodedBody:[((NSData*) response) base64EncodedStringWithOptions:0],
                                                      kContentType:((NSHTTPURLResponse*) rawResponse).allHeaderFields[kHttpContentType]
