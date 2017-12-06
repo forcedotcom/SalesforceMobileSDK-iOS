@@ -29,15 +29,20 @@
 
 
 // Private constants
-NSString * const kMethodArg       = @"method";
-NSString * const kPathArg         = @"path";
-NSString * const kEndPointArg     = @"endPoint";
-NSString * const kQueryParams     = @"queryParams";
-NSString * const kHeaderParams    = @"headerParams";
-NSString * const kfileParams      = @"fileParams";
-NSString * const kFileMimeType    = @"fileMimeType";
-NSString * const kFileUrl         = @"fileUrl";
-NSString * const kFileName        = @"fileName";
+static NSString * const kMethodArg       = @"method";
+static NSString * const kPathArg         = @"path";
+static NSString * const kEndPointArg     = @"endPoint";
+static NSString * const kQueryParams     = @"queryParams";
+static NSString * const kHeaderParams    = @"headerParams";
+static NSString * const kfileParams      = @"fileParams";
+static NSString * const kFileMimeType    = @"fileMimeType";
+static NSString * const kFileUrl         = @"fileUrl";
+static NSString * const kFileName        = @"fileName";
+static NSString * const kReturnAsBlob    = @"returnResponseAsBlob";
+static NSString * const kEncodedBody     = @"encodedBody";
+static NSString * const kContentType     = @"contentType";
+static NSString * const kHttpContentType = @"content-type";
+
 
 @implementation SFNetReactBridge
 
@@ -53,6 +58,7 @@ RCT_EXPORT_METHOD(sendRequest:(NSDictionary *)argsDict callback:(RCTResponseSend
     NSDictionary* queryParams = [argsDict nonNullObjectForKey:kQueryParams];
     NSMutableDictionary* headerParams = [argsDict nonNullObjectForKey:kHeaderParams];
     NSDictionary* fileParams = [argsDict nonNullObjectForKey:kfileParams];
+    BOOL returnAsBlob = [argsDict nonNullObjectForKey:kReturnAsBlob] != nil && [[argsDict nonNullObjectForKey:kReturnAsBlob] boolValue];
     SFRestRequest* request = nil;
     
     // Sets HTTP body explicitly for a POST, PATCH or PUT request.
@@ -83,12 +89,45 @@ RCT_EXPORT_METHOD(sendRequest:(NSDictionary *)argsDict callback:(RCTResponseSend
             [request addPostFileData:fileData description:nil fileName:fileName mimeType:fileMimeType];
         }
     }
+    
+    // Disable parsing for binary request
+    if (returnAsBlob) {
+        request.parseResponse = NO;
+    }
+    
+
     [[SFRestAPI sharedInstance] sendRESTRequest:request
                                       failBlock:^(NSError *e, NSURLResponse *rawResponse) {
                                           callback(@[RCTMakeError(@"sendRequest failed", e, nil)]);
                                       }
                                   completeBlock:^(id response, NSURLResponse *rawResponse) {
-                                      callback(@[[NSNull null], response == nil ? [NSNull null] : response]);
+                                      id result;
+                                      
+                                      // Binary response
+                                      if (returnAsBlob) {
+                                          result = @{
+                                                     kEncodedBody:[((NSData*) response) base64EncodedStringWithOptions:0],
+                                                     kContentType:((NSHTTPURLResponse*) rawResponse).allHeaderFields[kHttpContentType]
+                                                     };
+                                      }
+                                      // Some response
+                                      else if (response) {
+                                          if ([response isKindOfClass:[NSDictionary class]]) {
+                                              result = response;
+                                          } else if ([response isKindOfClass:[NSArray class]]) {
+                                              result = response;
+                                          } else {
+                                              NSData* responseAsData = response;
+                                              NSStringEncoding encodingType = rawResponse.textEncodingName == nil ? NSUTF8StringEncoding :  CFStringConvertEncodingToNSStringEncoding(CFStringConvertIANACharSetNameToEncoding((CFStringRef)rawResponse.textEncodingName));
+                                              result = [[NSString alloc] initWithData:responseAsData encoding:encodingType];
+                                          }
+                                      }
+                                      // No response
+                                      else {
+                                          result = nil;
+                                      }
+
+                                      callback(@[[NSNull null], result == nil ? [NSNull null] : result]);
                                   }
      ];
 }
