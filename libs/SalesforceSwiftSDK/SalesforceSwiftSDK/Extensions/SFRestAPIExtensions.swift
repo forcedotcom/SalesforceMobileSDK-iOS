@@ -26,7 +26,6 @@ import Foundation
 import PromiseKit
 import SalesforceSDKCore
 
-
 extension SFRestAPI {
     
     public var Factory: SFRestRequestFactory {
@@ -88,8 +87,7 @@ extension SFRestAPI {
                 resolver.fulfill(self.api!.requestForDescribe(withObjectType: objectType))
             }
         }
-        
-        
+
         /**
          A factory method for describe global request.
          ```
@@ -191,7 +189,6 @@ extension SFRestAPI {
                 resolver.fulfill(self.api!.requestForUpdate(withObjectType: objectType, objectId: objectId, fields: fieldList, ifUnmodifiedSince: ifUnmodifiedSince))
             }
         }
-      
         
         /**
          A factory method for delete object request.
@@ -240,7 +237,6 @@ extension SFRestAPI {
                 resolver.fulfill(self.api!.request(forQueryAll: soql))
             }
         }
-        
     }
     
     /**
@@ -262,7 +258,6 @@ extension SFRestAPI {
      ```
      - Returns: The instance of Promise<SFRestRequest>.
      */
-    
     public func send(request :SFRestRequest) -> Promise<Data> {
         return Promise(.pending) {  resolver in
             request.parseResponse = false
@@ -272,7 +267,5 @@ extension SFRestAPI {
                 resolver.fulfill(any as! Data)
             })
         }
-   }
-    
-    
+    }
 }

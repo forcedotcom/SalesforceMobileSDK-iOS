@@ -22,14 +22,13 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 import SalesforceAnalytics
 
 class SalesforceSwiftLogger: SFSDKLogger {
    
-    public static let kSFSDComponentName = "SalesforceSwift"
+    public static let kSFSDKComponentName = "SalesforceSwiftSDK"
     
     override class func sharedInstance() -> SalesforceSwiftLogger {
-         return self.sharedInstance(withComponent: kSFSDComponentName)
+         return self.sharedInstance(withComponent: kSFSDKComponentName)
     }
 }
