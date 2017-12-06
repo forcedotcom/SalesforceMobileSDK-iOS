@@ -34,7 +34,7 @@
 #import "SFJsonUtils.h"
 #import "SFSDKSafeMutableDictionary.h"
 
-NSString* const kSFRestDefaultAPIVersion = @"v39.0";
+NSString* const kSFRestDefaultAPIVersion = @"v41.0";
 NSString* const kSFRestIfUnmodifiedSince = @"If-Unmodified-Since";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
 NSString* const kSFDefaultContentType = @"application/json";
