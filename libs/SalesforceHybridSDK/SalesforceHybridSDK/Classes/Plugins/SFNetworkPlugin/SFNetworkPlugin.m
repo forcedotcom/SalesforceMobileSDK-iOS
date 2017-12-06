@@ -107,6 +107,12 @@ static NSString * const kHttpContentType = @"content-type";
             [request addPostFileData:fileData description:nil fileName:fileName mimeType:fileMimeType];
         }
     }
+    
+    // Disable parsing for binary request
+    if (returnAsBlob) {
+        request.parseResponse = NO;
+    }
+    
     __weak typeof(self) weakSelf = self;
     [[SFRestAPI sharedInstance] sendRESTRequest:request
                                       failBlock:^(NSError *e, NSURLResponse *rawResponse) {
@@ -117,22 +123,33 @@ static NSString * const kHttpContentType = @"content-type";
                                   completeBlock:^(id response, NSURLResponse *rawResponse) {
                                       __strong typeof(self) strongSelf = weakSelf;
                                       CDVPluginResult *pluginResult = nil;
+                                      // Binary response
                                       if (returnAsBlob) {
                                           NSDictionary* result = @{
                                                                    kEncodedBody:[((NSData*) response) base64EncodedStringWithOptions:0],
                                                                    kContentType:((NSHTTPURLResponse*) rawResponse).allHeaderFields[kHttpContentType]
                                                                    };
                                           pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:result];
-                                      } else if ([response isKindOfClass:[NSDictionary class]]) {
-                                          pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:response];
-                                      } else if ([response isKindOfClass:[NSArray class]]) {
-                                          pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:response];
-                                      } else {
-                                          NSData* responseAsData = response;
-                                          NSStringEncoding encodingType = CFStringConvertEncodingToNSStringEncoding(CFStringConvertIANACharSetNameToEncoding((CFStringRef)rawResponse.textEncodingName));
-                                          NSString* responseAsString = [[NSString alloc] initWithData:responseAsData encoding:encodingType];
-                                          pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:responseAsString];
+                                        
                                       }
+                                      // Some response
+                                      else if (response) {
+                                          if ([response isKindOfClass:[NSDictionary class]]) {
+                                              pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:response];
+                                          } else if ([response isKindOfClass:[NSArray class]]) {
+                                              pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:response];
+                                          } else {
+                                              NSData* responseAsData = response;
+                                              NSStringEncoding encodingType = rawResponse.textEncodingName == nil ? NSUTF8StringEncoding :  CFStringConvertEncodingToNSStringEncoding(CFStringConvertIANACharSetNameToEncoding((CFStringRef)rawResponse.textEncodingName));
+                                              NSString* responseAsString = [[NSString alloc] initWithData:responseAsData encoding:encodingType];
+                                              pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:responseAsString];
+                                          }
+                                      }
+                                      // No response
+                                      else {
+                                          pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+                                      }
+                                      
                                       [strongSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
                                   }
      ];
