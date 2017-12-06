@@ -34,7 +34,7 @@
 #import "SFSmartSyncPersistableObject+Internal.h"
 
 // Default API version.
-static NSString * kDefaultApiVersion = @"v39.0";
+static NSString * kDefaultApiVersion = @"v41.0";
 
 // Error constants.
 static NSInteger kSFNetworkRequestFailedDueToNoModification = 304;
