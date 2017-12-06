@@ -38,7 +38,7 @@ static NSString * const kfileParams      = @"fileParams";
 static NSString * const kFileMimeType    = @"fileMimeType";
 static NSString * const kFileUrl         = @"fileUrl";
 static NSString * const kFileName        = @"fileName";
-static NSString * const kReturnAsBlob    = @"returnResponseAsBlob";
+static NSString * const kReturnBinary    = @"returnBinary";
 static NSString * const kEncodedBody     = @"encodedBody";
 static NSString * const kContentType     = @"contentType";
 static NSString * const kHttpContentType = @"content-type";
@@ -58,7 +58,7 @@ RCT_EXPORT_METHOD(sendRequest:(NSDictionary *)argsDict callback:(RCTResponseSend
     NSDictionary* queryParams = [argsDict nonNullObjectForKey:kQueryParams];
     NSMutableDictionary* headerParams = [argsDict nonNullObjectForKey:kHeaderParams];
     NSDictionary* fileParams = [argsDict nonNullObjectForKey:kfileParams];
-    BOOL returnAsBlob = [argsDict nonNullObjectForKey:kReturnAsBlob] != nil && [[argsDict nonNullObjectForKey:kReturnAsBlob] boolValue];
+    BOOL returnAsBlob = [argsDict nonNullObjectForKey:kReturnBinary] != nil && [[argsDict nonNullObjectForKey:kReturnBinary] boolValue];
     SFRestRequest* request = nil;
     
     // Sets HTTP body explicitly for a POST, PATCH or PUT request.
