@@ -144,7 +144,7 @@ static NSString * const kSFUserAccountOAuthRedirectUri = @"SFDCOAuthRedirectUri"
 
 #pragma mark - SFAuthenticationManager
 
-@interface SFAuthenticationManager () <SFSDKLoginHostDelegate, SFLoginViewControllerDelegate>
+@interface SFAuthenticationManager () <SFSDKLoginHostDelegate, SFLoginViewControllerDelegate, SFSecurityLockoutDelegate>
 {
 }
 
@@ -850,13 +850,18 @@ static Class InstanceClass = nil;
     // NB: This method is assumed to run after identity data has been refreshed from the service, or otherwise
     // already exists.
     NSAssert(self.idCoordinator.idData != nil, @"Identity data should not be nil/empty at this point.");
-    
-    [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
-        [self finalizeAuthCompletion];
-    }];
-    [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
-        [self execFailureBlocks];
-    }];
+
+    if ([SFSecurityLockout passcodeScreenIsPresent]) {
+        [SFSecurityLockout addDelegate:self];
+    } else {
+        [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
+            [self finalizeAuthCompletion];
+        }];
+        [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
+            [self execFailureBlocks];
+        }];
+    }
+
     
     // Check to see if a passcode needs to be created or updated, based on passcode policy data from the
     // identity service.
@@ -1406,6 +1411,19 @@ static Class InstanceClass = nil;
     creds.accessToken = nil;
     creds.clientId = self.oauthClientId;
     return creds;
+}
+
+#pragma mark - SFSecurityLockoutDelegate
+
+- (void)passcodeFlowDidComplete:(BOOL)success {
+    if (success) {
+        [self finalizeAuthCompletion];
+    } else {
+        [self execFailureBlocks];
+    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [SFSecurityLockout removeDelegate:self];
+    });
 }
 
 @end
