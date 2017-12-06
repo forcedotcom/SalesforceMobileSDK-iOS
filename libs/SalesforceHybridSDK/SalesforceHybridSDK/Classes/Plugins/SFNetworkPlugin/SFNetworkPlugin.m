@@ -46,6 +46,10 @@ static NSString * const kfileParams      = @"fileParams";
 static NSString * const kFileMimeType    = @"fileMimeType";
 static NSString * const kFileUrl         = @"fileUrl";
 static NSString * const kFileName        = @"fileName";
+static NSString * const kReturnBinary    = @"returnBinary";
+static NSString * const kEncodedBody     = @"encodedBody";
+static NSString * const kContentType     = @"contentType";
+static NSString * const kHttpContentType = @"content-type";
 
 @implementation SFNetworkPlugin
 
@@ -69,6 +73,7 @@ static NSString * const kFileName        = @"fileName";
     }
     NSMutableDictionary<NSString*, NSString*>* headerParams = [argsDict nonNullObjectForKey:kHeaderParams];
     NSDictionary<NSString*, NSDictionary*>* fileParams = [argsDict nonNullObjectForKey:kfileParams];
+    BOOL returnBinary = [argsDict nonNullObjectForKey:kReturnBinary] != nil && [[argsDict nonNullObjectForKey:kReturnBinary] boolValue];
     SFRestRequest* request = nil;
 
     // Sets HTTP body explicitly for a POST, PATCH or PUT request.
@@ -102,6 +107,12 @@ static NSString * const kFileName        = @"fileName";
             [request addPostFileData:fileData description:nil fileName:fileName mimeType:fileMimeType];
         }
     }
+    
+    // Disable parsing for binary request
+    if (returnBinary) {
+        request.parseResponse = NO;
+    }
+    
     __weak typeof(self) weakSelf = self;
     [[SFRestAPI sharedInstance] sendRESTRequest:request
                                       failBlock:^(NSError *e, NSURLResponse *rawResponse) {
@@ -112,16 +123,33 @@ static NSString * const kFileName        = @"fileName";
                                   completeBlock:^(id response, NSURLResponse *rawResponse) {
                                       __strong typeof(self) strongSelf = weakSelf;
                                       CDVPluginResult *pluginResult = nil;
-                                      if ([response isKindOfClass:[NSDictionary class]]) {
-                                          pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:response];
-                                      } else if ([response isKindOfClass:[NSArray class]]) {
-                                          pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:response];
-                                      } else {
-                                          NSData* responseAsData = response;
-                                          NSStringEncoding encodingType = CFStringConvertEncodingToNSStringEncoding(CFStringConvertIANACharSetNameToEncoding((CFStringRef)rawResponse.textEncodingName));
-                                          NSString* responseAsString = [[NSString alloc] initWithData:responseAsData encoding:encodingType];
-                                          pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:responseAsString];
+                                      // Binary response
+                                      if (returnBinary) {
+                                          NSDictionary* result = @{
+                                                                   kEncodedBody:[((NSData*) response) base64EncodedStringWithOptions:0],
+                                                                   kContentType:((NSHTTPURLResponse*) rawResponse).allHeaderFields[kHttpContentType]
+                                                                   };
+                                          pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:result];
+                                        
                                       }
+                                      // Some response
+                                      else if (response) {
+                                          if ([response isKindOfClass:[NSDictionary class]]) {
+                                              pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:response];
+                                          } else if ([response isKindOfClass:[NSArray class]]) {
+                                              pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:response];
+                                          } else {
+                                              NSData* responseAsData = response;
+                                              NSStringEncoding encodingType = rawResponse.textEncodingName == nil ? NSUTF8StringEncoding :  CFStringConvertEncodingToNSStringEncoding(CFStringConvertIANACharSetNameToEncoding((CFStringRef)rawResponse.textEncodingName));
+                                              NSString* responseAsString = [[NSString alloc] initWithData:responseAsData encoding:encodingType];
+                                              pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:responseAsString];
+                                          }
+                                      }
+                                      // No response
+                                      else {
+                                          pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+                                      }
+                                      
                                       [strongSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
                                   }
      ];
