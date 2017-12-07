@@ -19,7 +19,6 @@
 		B7CFC4D41FD1D0390013534D /* SwiftExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CFC4D31FD1D0390013534D /* SwiftExtensions.swift */; };
 		B7DA7AC51FCDE08F0098C1EA /* SalesforceSwiftSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7DA7ABB1FCDE08E0098C1EA /* SalesforceSwiftSDK.framework */; };
 		B7DA7ACA1FCDE08F0098C1EA /* SalesforceSwiftSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7DA7AC91FCDE08F0098C1EA /* SalesforceSwiftSDKTests.swift */; };
-		B7DA7ACC1FCDE08F0098C1EA /* SalesforceSwiftSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = B7DA7ABE1FCDE08E0098C1EA /* SalesforceSwiftSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B7DA7AD71FCDE1CD0098C1EA /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B7DA7AD61FCDE1B70098C1EA /* libxml2.tbd */; };
 		B7DA7AD91FCDE1D80098C1EA /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B7DA7AD81FCDE1D80098C1EA /* libz.tbd */; };
 		B7DA7ADA1FCDE1E00098C1EA /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7DA7ADB1FCDE1E00098C1EA /* SalesforceAnalytics.framework */; };
@@ -152,7 +151,6 @@
 		B7CFC47C1FD04A950013534D /* SalesforceTestExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesforceTestExtensions.swift; sourceTree = "<group>"; };
 		B7CFC4D31FD1D0390013534D /* SwiftExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftExtensions.swift; sourceTree = "<group>"; };
 		B7DA7ABB1FCDE08E0098C1EA /* SalesforceSwiftSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SalesforceSwiftSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B7DA7ABE1FCDE08E0098C1EA /* SalesforceSwiftSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SalesforceSwiftSDK.h; sourceTree = "<group>"; };
 		B7DA7ABF1FCDE08E0098C1EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B7DA7AC41FCDE08F0098C1EA /* SalesforceSwiftSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceSwiftSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7DA7AC91FCDE08F0098C1EA /* SalesforceSwiftSDKTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesforceSwiftSDKTests.swift; sourceTree = "<group>"; };
@@ -259,7 +257,6 @@
 			children = (
 				B7CFC5141FD1D5A70013534D /* Classes */,
 				B7CFC5131FD1D5A70013534D /* Extensions */,
-				B7DA7ABE1FCDE08E0098C1EA /* SalesforceSwiftSDK.h */,
 				B7DA7ABF1FCDE08E0098C1EA /* Info.plist */,
 			);
 			path = SalesforceSwiftSDK;
@@ -348,7 +345,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B7DA7ACC1FCDE08F0098C1EA /* SalesforceSwiftSDK.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -362,7 +358,6 @@
 				B7DA7AB61FCDE08E0098C1EA /* Sources */,
 				B7DA7AB71FCDE08E0098C1EA /* Frameworks */,
 				B7DA7AB81FCDE08E0098C1EA /* Headers */,
-				CE57D9001FD7B19700A0930F /* ShellScript */,
 				CE57D9011FD7B1C200A0930F /* ShellScript */,
 			);
 			buildRules = (
@@ -562,19 +557,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		CE57D9001FD7B19700A0930F /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"$SRCROOT/../../shared/common/build/tools/generate_headers.sh\" -o \"$TARGET_BUILD_DIR/$PRODUCT_NAME.framework/Headers/$PRODUCT_NAME.h\" -u \"$SRCROOT/$TARGET_NAME/$TARGET_NAME.h\"";
-		};
 		CE57D9011FD7B1C200A0930F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
