@@ -21,7 +21,7 @@ Pod::Spec.new do |s|
 
       salesforceswift.dependency 'SmartSync'
       salesforceswift.source_files = 'libs/SalesforceSwiftSDK/SalesforceSwiftSDK/**/*.{h,m,swift}'
-      salesforceswift.public_header_files = 'libs/SalesforceSwiftSDK/SalesforceSwiftSDK/SalesforceSwiftSDK.h'
+      salesforceswift.public_header_files = 
       salesforceswift.requires_arc = true
 
   end
