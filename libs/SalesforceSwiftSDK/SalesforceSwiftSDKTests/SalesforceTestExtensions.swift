@@ -65,7 +65,6 @@ struct TestConfig: Codable {
         case identityUrl = "identity_url"
     }
     
-    
     init(accessToken: String, testClientId: String,
          testLoginDomain: String, testRedirectUri: String,
          refreshToken: String, instanceUrl: String,
@@ -105,9 +104,9 @@ extension SalesforceSDKManager : ProtocolStoredProperty  {
     }
     
     func restoreState() -> Void {
-       self.appConfig = state.appConfig
-       SFUserAccountManager.sharedInstance().currentUser =  state.currentUser
-       state = State()
+        self.appConfig = state.appConfig
+        SFUserAccountManager.sharedInstance().currentUser =  state.currentUser
+        state = State()
     }
 }
 

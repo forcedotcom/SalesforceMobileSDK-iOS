@@ -123,49 +123,48 @@ extension SFRestAPI {
         /**
          A factory method for retrieve object request.
          ```
-         SFRestRequestFactory.Factory.retrieve(objectType: objectType,objectId: objectId, fieldList: "")
+         SFRestRequestFactory.Factory.retrieve(objectType: objectType,objectId: objectId, fieldList: "Name","LastModifiedDate")
          .then { (request) in
              restApi.send(request)
          }
          ```
          - Returns: SFRestRequest wrapped in a promise.
          */
-        public func retrieve(objectType: String,objectId: String, fieldList: String) -> Promise<SFRestRequest> {
+        public func retrieve(objectType: String,objectId: String, fieldList: String... ) -> Promise<SFRestRequest> {
             return  Promise(.pending) {  resolver in
-                resolver.fulfill(self.api!.requestForRetrieve(withObjectType: objectType, objectId: objectId, fieldList: fieldList))
+                resolver.fulfill(self.api!.requestForRetrieve(withObjectType: objectType, objectId: objectId, fieldList: fieldList.joined(separator: ",")))
             }
         }
         
         /**
          A factory method for create object request.
          ```
-         SFRestRequestFactory.Factory.create(objectType: objectType,objectId: "1000", fieldList: fieldList)
+         SFRestRequestFactory.Factory.create(objectType: objectType, fieldList: ["Name": "salesforce.com", "TickerSymbol": "CRM"])
          .then { (request) in
-             restApi.send(request)
+            restApi.send(request)
          }
          ```
          - Returns: SFRestRequest wrapped in a promise.
          */
-        public func create(objectType: String,objectId: String, fieldList: [String: Any]?) -> Promise<SFRestRequest> {
+        public func create(objectType: String, fields: [String:String]) -> Promise<SFRestRequest> {
             return  Promise(.pending) {  resolver in
                 resolver.fulfill(self.api!
-                    .requestForCreate(withObjectType: objectType, fields: fieldList))
+                    .requestForCreate(withObjectType: objectType, fields: fields))
             }
         }
         
         /**
          A factory method for upsert object request.
          ```
-         SFRestRequestFactory.Factory.upsert(objectType: objectType,externalIdField:"",externalId: "1000", fieldList: fieldList)
+         SFRestRequestFactory.Factory.upsert(objectType: objectType,externalIdField:"",externalId: "1000", fieldList: {Name: "salesforce.com", TickerSymbol: "CRM"})
          .then { (request) in
             restApi.send(request)
-         
          }
          
          ```
          - Returns: SFRestRequest wrapped in a promise.
          */
-        public func upsert(objectType: String,externalIdField: String, externalId: String, fieldList: [String: Any]?) -> Promise<SFRestRequest> {
+        public func upsert(objectType: String,externalIdField: String, externalId: String, fieldList: Dictionary<String,String>?) -> Promise<SFRestRequest> {
             return  Promise(.pending) {  resolver in
                 resolver.fulfill(self.api!
                     .requestForUpsert(withObjectType: objectType, externalIdField: externalId, externalId: externalId, fields: fieldList!))
@@ -237,6 +236,55 @@ extension SFRestAPI {
                 resolver.fulfill(self.api!.request(forQueryAll: soql))
             }
         }
+        
+        /**
+         A factory method for sosl object request.
+         ```
+         SFRestRequestFactory.Factory.search(sosl: sosl)
+         .then { (request) in
+            ...
+         }
+         ```
+         - Returns:  SFRestRequest wrapped in a promise.
+         */
+        public func search(sosl: String) -> Promise<SFRestRequest> {
+            return  Promise(.pending) {  resolver in
+                resolver.fulfill(self.api!.request(forSearch: sosl))
+            }
+        }
+        
+        /**
+         A factory method for Search Scope And Order request.
+         ```
+         SFRestRequestFactory.Factory.searchScopeAndOrder()
+         .then { (request) in
+            ...
+         }
+         ```
+         - Returns:  SFRestRequest wrapped in a promise.
+         */
+        public func searchScopeAndOrder() -> Promise<SFRestRequest> {
+            return  Promise(.pending) {  resolver in
+                resolver.fulfill(self.api!.requestForSearchScopeAndOrder())
+            }
+        }
+        
+        /**
+         A factory method for Search Result Layout request.
+         ```
+         SFRestRequestFactory.Factory.searchResultLayout(objectList: "Account","Contact")
+         .then { (request) in
+            ...
+         }
+         ```
+         - Returns:  SFRestRequest wrapped in a promise.
+         */
+        public func searchResultLayout(objectList: String...) -> Promise<SFRestRequest> {
+            return  Promise(.pending) {  resolver in
+                resolver.fulfill(
+                    self.api!.request(forSearchResultLayout: objectList.joined(separator: ",")))
+            }
+        }
     }
     
     /**
@@ -246,14 +294,14 @@ extension SFRestAPI {
      let restApi = SFRestAPI.sharedInstance()
      restApi.Factory.describe(objectType: "Account")
      .then { request in
-         restApi.send(request: request)
+        restApi.send(request: request)
      }
      .done { data in
-         var restResonse = data.asJsonDictionary()
-         ...
+        var restResonse = SFRestAPI.Parser.asJsonDictionary(data: data)
+        ...
      }
      .catch { error in
-         restError = error
+        restError = error
      }
      ```
      - Returns: The instance of Promise<SFRestRequest>.
@@ -266,6 +314,42 @@ extension SFRestAPI {
             }, complete: { (any, urlResponse) in
                 resolver.fulfill(any as! Data)
             })
+        }
+    }
+    
+    public class Parser {
+        
+        class func asJsonDictionary(data: Data?) -> [String: Any] {
+            guard let rawData = data,rawData.count > 0 else {
+                return [String:Any]()
+            }
+            let jsonData = try! JSONSerialization.jsonObject(with: rawData, options: []) as! Dictionary<String, Any>
+            return jsonData
+        }
+        
+        class func asJsonArray(data: Data?) -> [[String: Any]] {
+            guard let rawData = data,rawData.count > 0 else {
+                return [[String: Any]]()
+            }
+            let jsonData = try! JSONSerialization.jsonObject(with: rawData, options: []) as! [Dictionary<String, Any>]
+            return jsonData
+        }
+        
+        class func asString(data: Data?) -> String {
+            guard let rawData = data,rawData.count > 0 else {
+                return ""
+            }
+            let jsonData = String(data: rawData, encoding: String.Encoding.utf8)
+            return jsonData!
+        }
+        
+        class func asDecodable<T:Decodable>(data: Data?,type: T.Type) -> Decodable? {
+            guard let rawData = data,rawData.count > 0 else {
+                return nil
+            }
+            let decoder = JSONDecoder()
+            return try! decoder.decode(type, from: rawData)
+            
         }
     }
 }
