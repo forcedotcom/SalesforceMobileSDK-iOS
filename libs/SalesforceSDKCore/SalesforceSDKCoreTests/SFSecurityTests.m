@@ -29,6 +29,12 @@
 
 static NSUInteger const kNumThreadsInSafetyTest = 100;
 
+@interface SFKeyStoreManager ()
+
+- (void)renameKeysWithKeyTypePasscode:(SFGeneratedKeyStore*)generatedKeyStore;
+
+@end;
+
 @interface SFSecurityTests : XCTestCase
 {
     SFKeyStoreManager *mgr;
@@ -81,7 +87,54 @@ static NSUInteger const kNumThreadsInSafetyTest = 100;
 
 #pragma mark - Upgrade tests
 
-- (void)testUpgradeTo60
+- (void)testUpgradeTo60NoPasscode
+{
+    // Pre SDK 6.0 code would store keys with keytype passcode in generated store if there was no passcode enabled
+    // Starting with SDK 6.0, we don't pass the keytype anymore (it's always generated)
+    // When initializing the generated key store, the keys named xxx__Passcode should be automatically renamed to xxx_Generated
+
+    NSString *keyLabel = @"keyLabel";
+    
+    // Manually inserting key with key type passcode in generated store
+    SFPasscodeKeyStore *passcodeKeyStore = [[SFPasscodeKeyStore alloc] init]; // only used to create the right label for the key
+    SFEncryptionKey *encryptionKey = [mgr keyWithRandomValue];
+    SFKeyStoreKey *keyStoreKey = [[SFKeyStoreKey alloc] initWithKey:encryptionKey];
+    NSString *originalKeyLabel = [passcodeKeyStore keyLabelForString:keyLabel];
+    XCTAssertEqualObjects(@"keyLabel__Passcode", originalKeyLabel);
+    NSMutableDictionary *mutableKeyStoreDict = [NSMutableDictionary dictionaryWithDictionary:mgr.generatedKeyStore.keyStoreDictionary];
+    mutableKeyStoreDict[originalKeyLabel] = keyStoreKey;
+    mgr.generatedKeyStore.keyStoreDictionary = mutableKeyStoreDict;
+
+    // Make sure it was saved in generated key store
+    [self assertKeyForDictionary:mgr.generatedKeyStore.keyStoreDictionary
+                       withLabel:originalKeyLabel
+                hasEncryptionKey:encryptionKey];
+    
+    // Make sure it cannot be retrieved currently
+    XCTAssertNil([mgr retrieveKeyWithLabel:keyLabel autoCreate:NO]);
+
+    // We want to simulate an upgrade
+    // Migration happens at start up when renameKeysWithKeyTypePasscode runs
+    [mgr renameKeysWithKeyTypePasscode:mgr.generatedKeyStore];
+    
+    // Make sure the key was renamed
+    NSString *newKeyLabel = [mgr.generatedKeyStore keyLabelForString:keyLabel];
+    XCTAssertEqualObjects(@"keyLabel__Generated", newKeyLabel);
+    XCTAssertFalse([mgr.generatedKeyStore.keyStoreDictionary objectForKey:originalKeyLabel]);
+    XCTAssertTrue([mgr.generatedKeyStore.keyStoreDictionary objectForKey:newKeyLabel]);
+    [self assertKeyForDictionary:mgr.generatedKeyStore.keyStoreDictionary
+                       withLabel:newKeyLabel
+                hasEncryptionKey:encryptionKey];
+
+    // Make sure we can now retrieve the key through the SFKeyStoreManager
+    SFEncryptionKey *retrievedKey = [mgr retrieveKeyWithLabel:keyLabel autoCreate:NO];
+    XCTAssertEqualObjects(retrievedKey.keyAsString, encryptionKey.keyAsString, @"Encryption keys do not match");
+    
+    // Cleanup
+    [mgr removeKeyWithLabel:keyLabel];
+}
+
+- (void)testUpgradeTo60PasscodeEnabled
 {
     NSString *keyLabel = @"keyLabel";
     NSString *passcode = @"passcode";
@@ -138,6 +191,9 @@ static NSUInteger const kNumThreadsInSafetyTest = 100;
 
     // Make sure the passcode key store is empty
     XCTAssertEqual(0, [passcodeKeyStore.keyStoreDictionary count], @"Passcode dictionary should be empty");
+    
+    // Cleanup
+    [mgr removeKeyWithLabel:keyLabel];
 }
 
 #pragma mark - Private methods

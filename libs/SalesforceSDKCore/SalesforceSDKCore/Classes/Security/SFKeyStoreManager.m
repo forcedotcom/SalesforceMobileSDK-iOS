@@ -121,6 +121,33 @@ static NSString * const kKeyStoreDecryptionFailedMessage = @"Could not decrypt k
     if (self.generatedKeyStore.keyStoreKey == nil) {
         self.generatedKeyStore.keyStoreKey = [self createDefaultKey];
     }
+    else {
+        // Pre SDK 6.0 code would store keys with keytype passcode in generated store if there was no passcode enabled
+        // Starting with SDK 6.0, we don't pass the keytype anymore (it's always generated)
+        // For things to work, we need to rename keys named xxx__Passcode to xxx__Generated
+        [self renameKeysWithKeyTypePasscode:self.generatedKeyStore];
+    }
+}
+
+- (void)renameKeysWithKeyTypePasscode:(SFGeneratedKeyStore*)generatedKeyStore
+{
+    @synchronized (self) {
+        NSDictionary *originalKeys = [NSDictionary dictionaryWithDictionary:generatedKeyStore.keyStoreDictionary];
+        NSMutableDictionary *updatedGeneratedDictionary = [NSMutableDictionary dictionaryWithDictionary:self.generatedKeyStore.keyStoreDictionary];
+        for (NSString *originalKeyLabel in [originalKeys allKeys]) {
+            SFKeyStoreKey *key = originalKeys[originalKeyLabel];
+            NSRange suffixRange = [originalKeyLabel rangeOfString:kPasscodeKeyLabelSuffix options:NSBackwardsSearch];
+            if (suffixRange.location != NSNotFound) {
+                NSString* renamedKeyLabel = [originalKeyLabel stringByReplacingCharactersInRange:suffixRange withString:kGeneratedKeyLabelSuffix];
+                updatedGeneratedDictionary[renamedKeyLabel] = key;
+                [updatedGeneratedDictionary removeObjectForKey:originalKeyLabel];
+                [SFSDKCoreLogger i:[self class] format:@"Renaming key %@ to %@", originalKeyLabel, renamedKeyLabel];
+            }
+        }
+        
+        self.generatedKeyStore.keyStoreDictionary = updatedGeneratedDictionary;
+    }
+
 }
 
 - (void)migratePasscodeToGenerated:(SFPasscodeKeyStore*)passcodeKeyStore
