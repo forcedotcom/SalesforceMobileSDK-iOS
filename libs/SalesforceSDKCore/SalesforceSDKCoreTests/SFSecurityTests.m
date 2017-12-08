@@ -31,7 +31,7 @@ static NSUInteger const kNumThreadsInSafetyTest = 100;
 
 @interface SFKeyStoreManager ()
 
-- (void)initializeKeyStores;
+- (void)renameKeysWithKeyTypePasscode:(SFGeneratedKeyStore*)generatedKeyStore;
 
 @end;
 
@@ -114,8 +114,8 @@ static NSUInteger const kNumThreadsInSafetyTest = 100;
     XCTAssertNil([mgr retrieveKeyWithLabel:keyLabel autoCreate:NO]);
 
     // We want to simulate an upgrade
-    // Migration happens at start up when manager initialize key stores
-    [mgr initializeKeyStores];
+    // Migration happens at start up when renameKeysWithKeyTypePasscode runs
+    [mgr renameKeysWithKeyTypePasscode:mgr.generatedKeyStore];
     
     // Make sure the key was renamed
     NSString *newKeyLabel = [mgr.generatedKeyStore keyLabelForString:keyLabel];
