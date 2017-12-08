@@ -129,6 +129,9 @@ static NSUInteger const kNumThreadsInSafetyTest = 100;
     // Make sure we can now retrieve the key through the SFKeyStoreManager
     SFEncryptionKey *retrievedKey = [mgr retrieveKeyWithLabel:keyLabel autoCreate:NO];
     XCTAssertEqualObjects(retrievedKey.keyAsString, encryptionKey.keyAsString, @"Encryption keys do not match");
+    
+    // Cleanup
+    [mgr removeKeyWithLabel:keyLabel];
 }
 
 - (void)testUpgradeTo60PasscodeEnabled
@@ -188,6 +191,9 @@ static NSUInteger const kNumThreadsInSafetyTest = 100;
 
     // Make sure the passcode key store is empty
     XCTAssertEqual(0, [passcodeKeyStore.keyStoreDictionary count], @"Passcode dictionary should be empty");
+    
+    // Cleanup
+    [mgr removeKeyWithLabel:keyLabel];
 }
 
 #pragma mark - Private methods
