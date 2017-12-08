@@ -328,7 +328,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
         if (statusCode >= 200 && statusCode <= 299) {
             if (request.parseResponse) {
                 NSError *parsingError;
-                NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parsingError];
+                NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&parsingError];
                 if (parsingError) {
                     if (data.length == 0) {
                         data = nil;
