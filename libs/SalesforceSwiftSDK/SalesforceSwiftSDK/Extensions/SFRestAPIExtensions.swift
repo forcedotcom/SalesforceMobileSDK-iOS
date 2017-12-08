@@ -26,6 +26,50 @@ import Foundation
 import PromiseKit
 import SalesforceSDKCore
 
+
+public struct SFRestResponse {
+    
+    private (set) var data : Data?
+    private (set) var urlResponse : URLResponse?
+    
+    init(data: Data?,response: URLResponse?) {
+        self.data = data
+        self.urlResponse = response
+    }
+    
+    func asJsonDictionary() -> [String: Any] {
+        guard let rawData = data,data!.count > 0 else {
+            return [String:Any]()
+        }
+        let jsonData = try! JSONSerialization.jsonObject(with: rawData, options: []) as! Dictionary<String, Any>
+        return jsonData
+    }
+    
+    func asJsonArray() -> [[String: Any]] {
+        guard let rawData = data,data!.count > 0 else {
+            return [[String: Any]]()
+        }
+        let jsonData = try! JSONSerialization.jsonObject(with: rawData, options: []) as! [Dictionary<String, Any>]
+        return jsonData
+    }
+    
+    func asString() -> String {
+        guard let rawData = data,data!.count > 0 else {
+            return ""
+        }
+        let jsonData = String(data: rawData, encoding: String.Encoding.utf8)
+        return jsonData!
+    }
+    
+    func asDecodable<T:Decodable>(type: T.Type) -> Decodable? {
+        guard let rawData = data,data!.count > 0 else {
+            return nil
+        }
+        let decoder = JSONDecoder()
+        return try! decoder.decode(type, from: rawData)
+    }
+}
+
 extension SFRestAPI {
     
     public var Factory: SFRestRequestFactory {
@@ -296,60 +340,40 @@ extension SFRestAPI {
      .then { request in
         restApi.send(request: request)
      }
-     .done { data in
-        var restResonse = SFRestAPI.Parser.asJsonDictionary(data: data)
+     .done { sfRestResponse in
+        var restResonse = sfRestResponse.asJsonDictionary()
         ...
      }
      .catch { error in
         restError = error
      }
      ```
-     - Returns: The instance of Promise<SFRestRequest>.
+     
+     ```
+     let restApi = SFRestAPI.sharedInstance()
+     restApi.Factory.describe(objectType: "Account")
+     .then { request in
+     restApi.send(request: request)
+     }
+     .done { sfRestResponse in
+     var restResonse = sfRestResponse.asDecodable(Account.Type)
+     ...
+     }
+     .catch { error in
+     restError = error
+     }
+     ```
+     - Returns: The instance of Promise<SFRestResponse>.
      */
-    public func send(request :SFRestRequest) -> Promise<Data> {
+    public func send(request :SFRestRequest) -> Promise<SFRestResponse> {
         return Promise(.pending) {  resolver in
             request.parseResponse = false
             self.send(request, fail: { (error, urlResponse) in
                 resolver.reject(error!)
-            }, complete: { (any, urlResponse) in
-                resolver.fulfill(any as! Data)
+            }, complete: { (data, urlResponse) in
+                resolver.fulfill(SFRestResponse(data: data as? Data,response: urlResponse))
             })
         }
     }
-    
-    public class Parser {
-        
-        class func asJsonDictionary(data: Data?) -> [String: Any] {
-            guard let rawData = data,rawData.count > 0 else {
-                return [String:Any]()
-            }
-            let jsonData = try! JSONSerialization.jsonObject(with: rawData, options: []) as! Dictionary<String, Any>
-            return jsonData
-        }
-        
-        class func asJsonArray(data: Data?) -> [[String: Any]] {
-            guard let rawData = data,rawData.count > 0 else {
-                return [[String: Any]]()
-            }
-            let jsonData = try! JSONSerialization.jsonObject(with: rawData, options: []) as! [Dictionary<String, Any>]
-            return jsonData
-        }
-        
-        class func asString(data: Data?) -> String {
-            guard let rawData = data,rawData.count > 0 else {
-                return ""
-            }
-            let jsonData = String(data: rawData, encoding: String.Encoding.utf8)
-            return jsonData!
-        }
-        
-        class func asDecodable<T:Decodable>(data: Data?,type: T.Type) -> Decodable? {
-            guard let rawData = data,rawData.count > 0 else {
-                return nil
-            }
-            let decoder = JSONDecoder()
-            return try! decoder.decode(type, from: rawData)
-            
-        }
-    }
+
 }

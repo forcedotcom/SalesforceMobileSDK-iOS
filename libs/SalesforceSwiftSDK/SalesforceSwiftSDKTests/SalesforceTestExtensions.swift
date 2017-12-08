@@ -117,11 +117,10 @@ struct  TestContext {
 
 extension XCTestCase  : ProtocolStoredProperty {
     
-    
     typealias T = TestContext
     
     private struct BackedProperties {
-         static var testContext: TestContext?
+        static var testContext: TestContext?
     }
     
     var testContext: TestContext {
@@ -132,9 +131,6 @@ extension XCTestCase  : ProtocolStoredProperty {
             return setAssociatedObject(storedProperty: &BackedProperties.testContext, newValue: newValue)
         }
     }
-    
-  
-    
     
     class func readConfigFromFile(configFile: String?) -> Promise<TestConfig> {
         return Promise(.pending) {  seal in
@@ -166,7 +162,6 @@ extension XCTestCase  : ProtocolStoredProperty {
             .refresh(credentials: credentials)
     }
     
-    
     class func waitForCompletion(maxWaitTime: TimeInterval, evaluate: @escaping () -> Bool) -> Void {
         let startTime = Date()
         while (evaluate()==false) {
@@ -178,7 +173,6 @@ extension XCTestCase  : ProtocolStoredProperty {
             RunLoop.current.run(until: Date(timeIntervalSinceNow: 0.1))
         }
     }
-    
     
     func createNewUser(indx: Int) -> SFUserAccount {
         let kUserIdFormatString = "005R0000000Dsl"
@@ -193,4 +187,3 @@ extension XCTestCase  : ProtocolStoredProperty {
     }
     
 }
-
