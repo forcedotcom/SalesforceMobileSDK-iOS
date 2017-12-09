@@ -24,19 +24,20 @@
  */
 import Foundation
 import SalesforceSDKCore
+import SmartSync
 import PromiseKit
 
 extension SalesforceSDKManager {
     
-    static var Builder = SalesforceSDKManagerBuilder.self
-    
-    class func configure(config : @escaping (SFSDKAppConfig) -> Void ) -> SalesforceSDKManager.Type  {
-        config(SalesforceSDKManager.shared().appConfig!)
-        return SalesforceSDKManager.self
+    static var Builder:SalesforceSDKManagerBuilder.Type{
+        get{
+           SalesforceSDKManager.setInstanceClass(SalesforceSwiftSDKManager.self)
+           return SalesforceSDKManagerBuilder.self
+        }
     }
 
     class SalesforceSDKManagerBuilder {
-
+        
         /**
          Provides a Builder based mechanism to setup the app config for the Salesforce Application.
          ```
@@ -51,7 +52,7 @@ extension SalesforceSDKManager {
          */
         class func configure(config : @escaping (SFSDKAppConfig) -> Void ) -> SalesforceSDKManagerBuilder.Type {
             config(SalesforceSDKManager.shared().appConfig!)
-            return SalesforceSDKManagerBuilder.self
+            return self
         }
 
         /**
@@ -70,10 +71,10 @@ extension SalesforceSDKManager {
          - Parameter action: The block which will be invoked after a succesfull SDK Launch.
          - Returns: The instance of SalesforceSDKManagerBuilder.
          */
-        class func postLaunch(action : @escaping SFSDKPostLaunchCallbackBlock) -> SalesforceSDKManagerBuilder.Type {
+         class func postLaunch(action : @escaping SFSDKPostLaunchCallbackBlock) -> SalesforceSDKManagerBuilder.Type {
             SalesforceSDKManager.shared().postLaunchAction = action
-            return SalesforceSDKManagerBuilder.self
-        }
+            return self
+         }
 
         /**
          Provides a way to set the post logout action for the Salesforce Application.
@@ -95,7 +96,7 @@ extension SalesforceSDKManager {
          */
         class func postLogout(action : @escaping SFSDKLogoutCallbackBlock) -> SalesforceSDKManagerBuilder.Type {
             SalesforceSDKManager.shared().postLogoutAction = action
-            return SalesforceSDKManagerBuilder.self
+            return self
         }
 
         /**
@@ -119,10 +120,9 @@ extension SalesforceSDKManager {
          - Parameter action: The block which will be invoked after a succesfull SDK Launch.
          - Returns: The instance of SalesforceSDKManagerBuilder.
          */
-        
         class func switchUser(action : @escaping SFSDKSwitchUserCallbackBlock) -> SalesforceSDKManagerBuilder.Type {
             SalesforceSDKManager.shared().switchUserAction = action
-            return SalesforceSDKManagerBuilder.self
+            return self
         }
 
         /**
@@ -152,7 +152,7 @@ extension SalesforceSDKManager {
         class func launchError(action : @escaping SFSDKLaunchErrorCallbackBlock) -> SalesforceSDKManagerBuilder.Type {
             SalesforceSDKManager.shared().launchErrorAction = action
             SalesforceSwiftLogger.d(SalesforceSDKManager.self, message: "error")
-            return SalesforceSDKManagerBuilder.self
+            return self
         }
         
         /**
@@ -160,6 +160,19 @@ extension SalesforceSDKManager {
         */
         class func done () -> Void {
             
+        }
+    }
+}
+
+class SalesforceSwiftSDKManager : SmartSyncSDKManager {
+    
+    override init() {
+       
+    }
+    
+    override var appType: SFAppType {
+        get {
+            return SFAppType.native
         }
     }
 }
