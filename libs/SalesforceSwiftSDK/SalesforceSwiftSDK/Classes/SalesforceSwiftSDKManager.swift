@@ -1,5 +1,5 @@
 /*
- SalesforceSwiftLogger
+ SalesforceSwiftSDKManager
  
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  Redistribution and use of this software in source and binary forms, with or without modification,
