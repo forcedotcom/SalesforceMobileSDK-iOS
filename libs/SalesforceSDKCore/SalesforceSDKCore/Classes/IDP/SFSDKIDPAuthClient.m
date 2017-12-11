@@ -148,8 +148,8 @@
     NSString *spAppUrlStr = self.context.callingAppOptions[kSFOAuthRedirectUrlParam];
     NSURL *spAppUrl = [NSURL URLWithString:spAppUrlStr];
     NSURL *url = [self appURLWithError:error reason:reason app:spAppUrl.scheme];
-    [self.authWindow disable];
-    [[SFSDKWindowManager sharedManager].mainWindow enable];
+    [self.authWindow dismissWindow];
+    [[SFSDKWindowManager sharedManager].mainWindow presentWindow];
     
     BOOL launched  = [SFApplicationHelper openURL:url];
     
@@ -231,9 +231,9 @@
     if ( [self.config.idpDelegate respondsToSelector:@selector(authClient:willSendResponseForIDPAuth:)]) {
         [self.config.idpDelegate authClient:self willSendResponseForIDPAuth:responseCommand.allParams];
     }
-    
-    [self.authWindow disable];
-    [[SFSDKWindowManager sharedManager].mainWindow enable];
+
+    [self.authWindow dismissWindow];
+    [[SFSDKWindowManager sharedManager].mainWindow presentWindow];
     BOOL launched  = [SFApplicationHelper openURL:url];
     if (launched) {
         if ( [self.config.idpDelegate respondsToSelector:@selector(authClient:didSendRequestForIDPAuth:)]) {

@@ -107,11 +107,11 @@ static BOOL _showPasscode = YES;
         
         [SFSecurityLockout setPresentPasscodeViewControllerBlock:^(UIViewController *pvc) {
                 [SFSDKWindowManager sharedManager].passcodeWindow.viewController = pvc;
-                [[SFSDKWindowManager sharedManager].passcodeWindow enable];
+            [[SFSDKWindowManager sharedManager].passcodeWindow presentWindow];
         }];
         
         [SFSecurityLockout setDismissPasscodeViewControllerBlock:^(UIViewController *pvc) {
-            [[SFSDKWindowManager sharedManager].passcodeWindow disable];
+            [[SFSDKWindowManager sharedManager].passcodeWindow dismissWindow];
         }];
     }
 }

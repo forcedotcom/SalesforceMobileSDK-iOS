@@ -141,7 +141,7 @@
         controller.spAppOptions = request.allParams;
         controller.userSelectionDelegate = self;
         authClient.authWindow.viewController = controller;
-        [authClient.authWindow enable];
+        [authClient.authWindow presentWindow];
     } else {
         [authClient setCallingAppOptionsInContext:request.allParams];
         [authClient beginIDPFlow:request]; 

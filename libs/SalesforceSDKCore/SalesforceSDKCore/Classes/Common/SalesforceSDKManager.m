@@ -801,8 +801,8 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
     
     // Presentation
     __weak typeof (self) weakSelf = self;
-    [[SFSDKWindowManager sharedManager].snapshotWindow enable:NO withCompletion:^{
-        __strong typeof (weakSelf) strongSelf  = weakSelf;
+    [[SFSDKWindowManager sharedManager].snapshotWindow presentWindowAnimated:NO withCompletion:^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
         if (strongSelf.snapshotPresentationAction && strongSelf.snapshotDismissalAction) {
             strongSelf.snapshotPresentationAction(strongSelf->_snapshotViewController);
         }
@@ -819,7 +819,7 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
                 [SFSecurityLockout validateTimer];
             }
         } else {
-            [[SFSDKWindowManager sharedManager].snapshotWindow disable:NO withCompletion:^{
+            [[SFSDKWindowManager sharedManager].snapshotWindow dismissWindowAnimated:NO withCompletion:^{
                 if ([SFSecurityLockout isPasscodeNeeded]) {
                     [SFSecurityLockout validateTimer];
                 }

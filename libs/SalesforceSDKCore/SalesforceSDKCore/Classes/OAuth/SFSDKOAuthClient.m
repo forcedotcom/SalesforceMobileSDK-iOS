@@ -117,7 +117,7 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
                     initWithDisplayBlock:^(SFSDKAuthViewHolder *viewHandler) {
                         __strong typeof(weakSelf) strongSelf = weakSelf;
                         strongSelf.authWindow.viewController = viewHandler.safariViewController;
-                        [strongSelf.authWindow enable];
+                        [strongSelf.authWindow presentWindow];
                     } dismissBlock:nil];
         } else {
             self.config.authViewHandler = [[SFSDKAuthViewHandler alloc]
@@ -140,7 +140,7 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
                                 strongSelf.authWindow.viewController = strongSelf.config.authViewController;
                             }
                         }
-                        [[SFSDKWindowManager sharedManager].authWindow enable];
+                        [[SFSDKWindowManager sharedManager].authWindow presentWindow];
                         
                     } dismissBlock:^() {
                         __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -165,7 +165,7 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
 }
 
 -(void)dismissAuthWindow {
-    [[SFSDKWindowManager sharedManager].authWindow disable];
+    [[SFSDKWindowManager sharedManager].authWindow dismissWindow];
 }
 
 - (void)retrieveIdentityDataWithCompletion:(SFIdentitySuccessCallbackBlock)successBlock
@@ -470,7 +470,7 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
         SFSDKLoginHostListViewController *hostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
         hostListViewController.delegate = self;
         self.authWindow.viewController = hostListViewController;
-        [self.authWindow enable];
+        [self.authWindow presentWindow];
     }
 
 }
