@@ -63,27 +63,27 @@
     }
 }
 
-- (void)enable {
-    [self enable:NO withCompletion:nil];
+- (void)presentWindow {
+    [self presentWindowAnimated:NO withCompletion:nil];
 }
 
 - (BOOL)isEnabled {
     return self.window.alpha == 1.0;
 }
-- (void)enable:(BOOL)animated withCompletion:(void (^)(void))completion {
-    if ( [self.windowDelegate respondsToSelector:@selector(windowEnable:animated:withCompletion:)]) {
-        [self.windowDelegate windowEnable:self animated:animated withCompletion:completion];
+- (void)presentWindowAnimated:(BOOL)animated withCompletion:(void (^ _Nullable)(void))completion {
+    if ([self.windowDelegate respondsToSelector:@selector(presentWindow:animated:withCompletion:)]) {
+        [self.windowDelegate presentWindow:self animated:animated withCompletion:completion];
     }
 }
 
-- (void)disable {
-    [self disable:NO withCompletion:nil];
+- (void)dismissWindow {
+    [self dismissWindowAnimated:NO withCompletion:nil];
 }
 
-- (void)disable:(BOOL)animated withCompletion:(void (^)(void))completion {
+- (void)dismissWindowAnimated:(BOOL)animated withCompletion:(void (^ _Nullable)(void))completion {
     if ([self isEnabled]) {
-        if ( [self.windowDelegate respondsToSelector:@selector(windowDisable:animated:withCompletion:)]) {
-            [self.windowDelegate windowDisable:self animated:animated withCompletion:completion];
+        if ([self.windowDelegate respondsToSelector:@selector(dismissWindow:animated:withCompletion:)]) {
+            [self.windowDelegate dismissWindow:self animated:animated withCompletion:completion];
         }
     }
 }
