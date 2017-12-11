@@ -36,7 +36,8 @@ typedef UIViewController * __nullable (^SFSnapshotViewControllerCreationBlock)(v
 typedef NS_ENUM(NSUInteger, SFAppType) {
     kSFAppTypeNative,
     kSFAppTypeHybrid,
-    kSFAppTypeReactNative
+    kSFAppTypeReactNative,
+    kSFAppTypeNativeSwift
 };
 
 NS_ASSUME_NONNULL_BEGIN
@@ -45,6 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 static NSString * const kSFMobileSDKNativeDesignator = @"Native";
 static NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
 static NSString * const kSFMobileSDKReactNativeDesignator = @"ReactNative";
+static NSString * const kSFMobileSDKNativeSwiftDesignator = @"NativeSwift";
 
 /**
  Block typedef for presenting the snapshot view controller.

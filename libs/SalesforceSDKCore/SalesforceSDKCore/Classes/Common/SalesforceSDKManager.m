@@ -183,15 +183,6 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
        [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleUserDidLogout:)  name:kSFNotificationUserDidLogout object:nil];
         
         [SFPasscodeManager sharedManager].preferredPasscodeProvider = kSFPasscodeProviderPBKDF2;
-        if (NSClassFromString(@"SFHybridViewController") != nil) {
-            self.appType = kSFAppTypeHybrid;
-        } else {
-            if (NSClassFromString(@"SFNetReactBridge") != nil) {
-                self.appType = kSFAppTypeReactNative;
-            } else {
-                self.appType = kSFAppTypeNative;
-            }            
-        }
         self.useSnapshotView = YES;
         self.userAgentString = [self defaultUserAgentString];
     }
@@ -203,6 +194,20 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
 }
 
 #pragma mark - Public methods / properties
+
+- (SFAppType) appType {
+    // The following if blocks are only there for hybrid or react native apps upgraded from SDK 5.x or older
+    // that are not doing: [SalesforceSDKManager setInstanceClass:[{Correct-Sub-Class}SDKManager class]]
+    // in their app delegate class.
+    if (NSClassFromString(@"SFHybridViewController") != nil) {
+        return kSFAppTypeHybrid;
+    }
+    if (NSClassFromString(@"SFNetReactBridge") != nil) {
+        return kSFAppTypeReactNative;
+    }
+
+    return kSFAppTypeNative;
+}
 
 - (SFSDKAppConfig *)appConfig {
     if (_appConfig == nil) {
@@ -1003,6 +1008,7 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
             case kSFAppTypeNative: appTypeStr = kSFMobileSDKNativeDesignator; break;
             case kSFAppTypeHybrid: appTypeStr = kSFMobileSDKHybridDesignator; break;
             case kSFAppTypeReactNative: appTypeStr = kSFMobileSDKReactNativeDesignator; break;
+            case kSFAppTypeNativeSwift: appTypeStr = kSFMobileSDKNativeSwiftDesignator; break;
         }
     return appTypeStr;
 }
