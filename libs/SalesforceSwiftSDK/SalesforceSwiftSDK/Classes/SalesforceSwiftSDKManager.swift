@@ -23,7 +23,7 @@
  */
 import SalesforceSDKCore
 
-class SalesforceSwiftSDKManager: SalesforceSDKManager {
+public class SalesforceSwiftSDKManager: SalesforceSDKManager {
     
     override public var appType: SFAppType {
         return SFAppType.nativeSwift;
