@@ -62,6 +62,20 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
     return self;
 }
 
+- (SFSDKWindowContainer *)activeWindow {
+    BOOL found = NO;
+    UIWindow *activeWindow = [self findActiveWindow];
+    SFSDKWindowContainer *window = nil;
+    NSEnumerator *enumerator = self.namedWindows.objectEnumerator;
+    while ((window = [enumerator nextObject]))  {
+        if(window.window==activeWindow) {
+            found = YES;
+            break;
+        }
+    }
+    return found?window:nil;
+}
+
 - (SFSDKWindowContainer *)mainWindow {
     SFSDKWindowContainer *mainWindow = [self.namedWindows objectForKey:kSFMainWindowKey];
     
@@ -171,17 +185,18 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
     }
 }
 #pragma mark - SFSDKWindowContainerDelegate
-- (void)windowEnable:(SFSDKWindowContainer *_Nonnull)window animated:(BOOL)animated withCompletion:(void (^)(void))completion{
+- (void)presentWindow:(SFSDKWindowContainer *)window animated:(BOOL)animated withCompletion:(void (^ _Nullable)(void))completion{
 
     if (![NSThread isMainThread]) {
         dispatch_sync(dispatch_get_main_queue(), ^{
-            [self windowEnable:window animated:animated withCompletion:completion];
+            [self presentWindow:window animated:animated withCompletion:completion];
         });
+        return;
     }
 
     [self enumerateDelegates:^(id<SFSDKWindowManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(windowManager:willEnableWindow:)]){
-            [delegate windowManager:self willEnableWindow:window];
+        if ([delegate respondsToSelector:@selector(windowManager:willPresentWindow:)]){
+            [delegate windowManager:self willPresentWindow:window];
         }
     }];
     
@@ -196,16 +211,17 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
     }
 }
 
-- (void)windowDisable:(SFSDKWindowContainer *)window animated:(BOOL)animated withCompletion:(void (^)(void))completion{
+- (void)dismissWindow:(SFSDKWindowContainer *)window animated:(BOOL)animated withCompletion:(void (^ _Nullable)(void))completion{
     if (![NSThread isMainThread]) {
         dispatch_sync(dispatch_get_main_queue(), ^{
-            [self windowDisable:window animated:animated withCompletion:completion];
+            [self dismissWindow:window animated:animated withCompletion:completion];
         });
+        return;
     }
 
     [self enumerateDelegates:^(id<SFSDKWindowManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(windowManager:willDisableWindow:)]){
-            [delegate windowManager:self willDisableWindow:window];
+        if ([delegate respondsToSelector:@selector(windowManager:willDismissWindow:)]){
+            [delegate windowManager:self willDismissWindow:window];
         }
     }];
    
@@ -229,8 +245,8 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
     
     [self updateKeyWindow:nil];
     [self enumerateDelegates:^(id<SFSDKWindowManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(windowManager:didDisableWindow:)]){
-            [delegate windowManager:self didDisableWindow:window];
+        if ([delegate respondsToSelector:@selector(windowManager:didDismissWindow:)]){
+            [delegate windowManager:self didDismissWindow:window];
         }
     }];
     if (completion)
@@ -241,8 +257,8 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
     window.window.alpha = 1.0; //make Opaque
     [self updateKeyWindow:window];
     [self enumerateDelegates:^(id<SFSDKWindowManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(windowManager:didEnableWindow:)]){
-            [delegate windowManager:self didEnableWindow:window];
+        if ([delegate respondsToSelector:@selector(windowManager:didPresentWindow:)]){
+            [delegate windowManager:self didPresentWindow:window];
         }
     }];
     if (completion)
@@ -293,6 +309,7 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
    
     if ([self.snapshotWindow isEnabled])
         return;
+
     BOOL windowFound = NO;
     for (NSInteger i = [SFApplicationHelper sharedApplication].windows.count - 1; i >= 0; i--) {
         UIWindow *win = ([SFApplicationHelper sharedApplication].windows)[i];
@@ -313,6 +330,22 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
         [[self mainWindow].window makeKeyWindow];
     }
     
+}
+
+- (UIWindow *)findActiveWindow {
+
+    UIWindow *foundWindow = nil;
+    for (NSInteger i = [SFApplicationHelper sharedApplication].windows.count - 1; i >= 0; i--) {
+        UIWindow *win = ([SFApplicationHelper sharedApplication].windows)[i];
+        if (win.alpha == 0.0 || [self isKeyboard:win]) {
+            continue;
+        } else {
+            foundWindow = win;
+            break;
+        }
+    }
+
+    return foundWindow;
 }
 
 + (instancetype)sharedManager {

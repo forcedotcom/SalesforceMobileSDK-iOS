@@ -296,7 +296,7 @@ static Class InstanceClass = nil;
                                     }
                                     [strongSelf.authViewController setOauthView:authWebView];
                                     SFSDKWindowManager.sharedManager.authWindow.viewController = strongSelf.authViewController;
-                                    [SFSDKWindowManager.sharedManager.authWindow enable];
+                                    [SFSDKWindowManager.sharedManager.authWindow presentWindow];
                                 } dismissBlock:^(SFAuthenticationManager *authViewManager) {
                                     __strong typeof(weakSelf) strongSelf = weakSelf;
                                     [SFLoginViewController sharedInstance].oauthView = nil;
@@ -307,7 +307,7 @@ static Class InstanceClass = nil;
         self.authSafariControllerHandler = [[SFAuthenticationSafariControllerHandler alloc]
                 initWithPresentBlock:^(SFAuthenticationManager *manager, SFSafariViewController *controller) {
                     SFSDKWindowManager.sharedManager.authWindow.viewController = controller;
-                    [SFSDKWindowManager.sharedManager.authWindow enable];
+                    [SFSDKWindowManager.sharedManager.authWindow presentWindow];
                 }];
 
         [[SFUserAccountManager sharedInstance] addDelegate:self];
@@ -842,7 +842,7 @@ static Class InstanceClass = nil;
         });
         return;
     }
-    [SFSDKWindowManager.sharedManager.authWindow disable];
+    [SFSDKWindowManager.sharedManager.authWindow dismissWindow];
 }
 
 - (void)retrievedIdentityData
@@ -937,7 +937,7 @@ static Class InstanceClass = nil;
         dispatch_async(dispatch_get_main_queue(), ^{
             
             SFSDKWindowManager.sharedManager.authWindow.viewController = [self blankViewController];
-            [SFSDKWindowManager.sharedManager.authWindow enable:YES withCompletion:^{
+            [SFSDKWindowManager.sharedManager.authWindow presentWindowAnimated:YES withCompletion:^{
                 [SFSDKWindowManager.sharedManager.authWindow.viewController presentViewController:weakSelf.statusAlert animated:NO completion:nil];
             }];
         });
@@ -1115,7 +1115,7 @@ static Class InstanceClass = nil;
         SFSDKLoginHostListViewController *hostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
         hostListViewController.delegate = self;
         SFSDKWindowManager.sharedManager.authWindow.viewController = hostListViewController;
-        [SFSDKWindowManager.sharedManager.authWindow enable];
+        [SFSDKWindowManager.sharedManager.authWindow presentWindow];
     }
 }
 
@@ -1324,7 +1324,7 @@ static Class InstanceClass = nil;
         SFSDKLoginHostListViewController *hostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
         hostListViewController.delegate = self;
         SFSDKWindowManager.sharedManager.authWindow.viewController = hostListViewController;
-        [SFSDKWindowManager.sharedManager.authWindow enable];
+        [SFSDKWindowManager.sharedManager.authWindow presentWindow];
     }
 }
 
@@ -1341,8 +1341,8 @@ static Class InstanceClass = nil;
     [alert addAction:defaultAction];
     __weak typeof(self) weakSelf = self;
     SFSDKWindowManager.sharedManager.authWindow.viewController = [self blankViewController];
-    [SFSDKWindowManager.sharedManager.authWindow enable:NO withCompletion:^{
-            [SFSDKWindowManager.sharedManager.authWindow.viewController presentViewController:weakSelf.statusAlert animated:NO completion:nil];
+    [SFSDKWindowManager.sharedManager.authWindow presentWindowAnimated:NO withCompletion:^{
+        [SFSDKWindowManager.sharedManager.authWindow.viewController presentViewController:weakSelf.statusAlert animated:NO completion:nil];
     }];
 }
 
@@ -1365,7 +1365,7 @@ static Class InstanceClass = nil;
     [alert addAction:cancelAction];
 
     SFSDKWindowManager.sharedManager.authWindow.viewController = [self blankViewController];
-    [SFSDKWindowManager.sharedManager.authWindow enable:NO withCompletion:^{
+    [SFSDKWindowManager.sharedManager.authWindow presentWindowAnimated:NO withCompletion:^{
         [SFSDKWindowManager.sharedManager.authWindow.viewController presentViewController:alert animated:NO completion:nil];
     }];
 

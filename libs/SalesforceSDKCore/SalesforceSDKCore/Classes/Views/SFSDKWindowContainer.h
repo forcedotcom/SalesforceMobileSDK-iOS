@@ -47,13 +47,13 @@ typedef NS_ENUM(NSInteger, SFSDKWindowType) {
  Called when the window has to be enabled
  @param window The window
  */
-- (void)windowEnable:(SFSDKWindowContainer *)window animated:(BOOL)animated withCompletion:(void (^_Nullable)(void))completion;
+- (void)presentWindow:(SFSDKWindowContainer *)window animated:(BOOL)animated withCompletion:(void (^_Nullable)(void))completion;
 
 /**
  Called when the window has to be disabled
  @param window The window
  */
-- (void)windowDisable:(SFSDKWindowContainer *)window animated:(BOOL)animated withCompletion:(void (^_Nullable)(void))completion;
+- (void)dismissWindow:(SFSDKWindowContainer *)window animated:(BOOL)animated withCompletion:(void (^_Nullable)(void))completion;
 @end
 
 @interface SFSDKWindowContainer : NSObject
@@ -92,21 +92,21 @@ typedef NS_ENUM(NSInteger, SFSDKWindowType) {
 /**
  * Make window visible, set alpha to 1.0
  */
-- (void)enable;
+- (void)presentWindow;
 /**
  * Make window visible, set alpha to 1.0 invoke completion block
  */
-- (void)enable:(BOOL)animated withCompletion:(void (^_Nullable)(void))completion;
+- (void)presentWindowAnimated:(BOOL)animated withCompletion:(void (^_Nullable)(void))completion;
 
 /**
  * Make window visible
  */
-- (void)disable:(BOOL)animated withCompletion:(void (^_Nullable)(void))completion;
+- (void)dismissWindowAnimated:(BOOL)animated withCompletion:(void (^_Nullable)(void))completion;
 
 /**
  * Make window invisible
  */
-- (void)disable;
+- (void)dismissWindow;
 
 /** Convenience API returns true if the SFSDKWindowType is main
  * @return YES if this is the main Window

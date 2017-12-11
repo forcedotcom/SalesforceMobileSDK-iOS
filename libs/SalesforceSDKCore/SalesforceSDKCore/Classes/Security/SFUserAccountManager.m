@@ -367,7 +367,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
         });
         return;
     }
-    [SFSDKWindowManager.sharedManager.authWindow disable];
+    [SFSDKWindowManager.sharedManager.authWindow dismissWindow];
 }
 
 + (BOOL)errorIsInvalidAuthCredentials:(NSError *)error {
@@ -482,7 +482,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     client.authWindow.viewController = controller;
     
     [[SFSDKOAuthClientCache sharedInstance] addClient:client];
-    [client.authWindow enable:YES withCompletion:nil];
+    [client.authWindow presentWindowAnimated:YES withCompletion:nil];
 }
 
 #pragma mark - SFSDKLoginFlowSelectionViewControllerDelegate
