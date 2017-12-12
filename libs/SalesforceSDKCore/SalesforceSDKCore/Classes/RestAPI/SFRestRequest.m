@@ -206,7 +206,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 
 #pragma mark - Upload
 
-- (void)addPostFileData:(NSData *)fileData description:(NSString *)description fileName:(NSString *)fileName mimeType:(NSString *)mimeType {
+- (void)addPostFileData:(NSData *)fileData paramName:(NSString*)paramName description:(NSString *)description fileName:(NSString *)fileName mimeType:(NSString *)mimeType {
     NSString *mpeBoundary = [[NSUUID UUID] UUIDString];
     NSString *mpeSeparator = @"--";
     NSString *newline = @"\r\n";
@@ -236,7 +236,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
         if (!mimeType) {
             mimeType = @"application/octet-stream";
         }
-        [body appendData:[self multiPartRequestBodyForkey:@"fileData" mimeType:mimeType fileName:fileName file:fileData]];
+        [body appendData:[self multiPartRequestBodyForkey:paramName mimeType:mimeType fileName:fileName file:fileData]];
         [body appendData:[[NSString stringWithFormat:@"%@%@%@%@", mpeSeparator, mpeBoundary, mpeSeparator, newline] dataUsingEncoding:NSUTF8StringEncoding]];
     }
     
