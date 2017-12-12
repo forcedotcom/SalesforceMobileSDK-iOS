@@ -794,9 +794,6 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
     }
     SFSDKWindowManager.sharedManager.snapshotWindow.viewController = _snapshotViewController;
     
-    // Remove the keyboard if it is showing..
-    [[SFSDKWindowManager sharedManager].activeWindow.window endEditing:YES];
-    
     // Presentation
     __weak typeof (self) weakSelf = self;
     [[SFSDKWindowManager sharedManager].snapshotWindow presentWindowAnimated:NO withCompletion:^{
