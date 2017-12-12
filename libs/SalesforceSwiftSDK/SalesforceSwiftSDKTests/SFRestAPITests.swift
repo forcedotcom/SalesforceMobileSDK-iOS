@@ -35,7 +35,7 @@ class SFRestAPITests: XCTestCase {
     
     override class func setUp() {
         super.setUp()
-        SalesforceSwiftSDKManager.shared().saveState()
+        SalesforceSwiftSDKManager.initSDK().shared().saveState()
         
         _ = SalesforceSwiftSDKTests.readConfigFromFile(configFile: nil)
             .then { testJsonConfig -> Promise<SFUserAccount> in
@@ -74,7 +74,7 @@ class SFRestAPITests: XCTestCase {
     
     override class func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
-        SalesforceSDKManager.shared().restoreState()
+        SalesforceSwiftSDKManager.shared().restoreState()
         super.tearDown()
     }
     

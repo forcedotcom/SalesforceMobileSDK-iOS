@@ -163,7 +163,7 @@ extension XCTestCase  : ProtocolStoredProperty {
     }
     
     class func refreshCredentials(credentials: SFOAuthCredentials) -> Promise<SFUserAccount> {
-        SalesforceSDKManager.Builder.configure { (appconfig: SFSDKAppConfig) -> Void in
+        SalesforceSwiftSDKManager.Builder.configure { (appconfig: SFSDKAppConfig) -> Void in
             appconfig.shouldAuthenticate = false
             appconfig.oauthScopes = ["web", "api"]
             appconfig.remoteAccessConsumerKey = (SalesforceSwiftSDKTests.testConfig?.testClientId)!

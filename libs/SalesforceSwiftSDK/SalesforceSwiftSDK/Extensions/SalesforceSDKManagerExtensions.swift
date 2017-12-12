@@ -27,21 +27,40 @@ import SalesforceSDKCore
 import SmartSync
 import PromiseKit
 
-extension SalesforceSDKManager {
+class SalesforceSwiftSDKManager : SmartSyncSDKManager {
+   
+    override init() {
+        super.init()
+    }
     
-    static var Builder:SalesforceSDKManagerBuilder.Type{
-        get{
-           SalesforceSDKManager.setInstanceClass(SalesforceSwiftSDKManager.self)
+    override var appType: SFAppType {
+        get {
+            return SFAppType.native
+        }
+    }
+ 
+}
+
+extension SalesforceSwiftSDKManager {
+    
+    public static var Builder:SalesforceSDKManagerBuilder.Type {
+        get {
+           _ = SalesforceSwiftSDKManager.initSDK()
            return SalesforceSDKManagerBuilder.self
         }
     }
+    
+    public class func initSDK() -> SalesforceSwiftSDKManager.Type {
+        SalesforceSDKManager.setInstanceClass(SalesforceSwiftSDKManager.self)
+        return SalesforceSwiftSDKManager.self
+    }
 
-    class SalesforceSDKManagerBuilder {
+    public class SalesforceSDKManagerBuilder {
         
         /**
          Provides a Builder based mechanism to setup the app config for the Salesforce Application.
          ```
-         SalesforceSDKManager.Builder.configure { (appconfig) in
+         SalesforceSwiftSDKManager.Builder.configure { (appconfig) in
              appconfig.remoteAccessConsumerKey = RemoteAccessConsumerKey
              appconfig.oauthRedirectURI = OAuthRedirectURI
              appconfig.oauthScopes = ["web", "api"]
@@ -51,14 +70,14 @@ extension SalesforceSDKManager {
          - Returns: The instance of SalesforceSDKManagerBuilder.
          */
         class func configure(config : @escaping (SFSDKAppConfig) -> Void ) -> SalesforceSDKManagerBuilder.Type {
-            config(SalesforceSDKManager.shared().appConfig!)
+            config(SalesforceSwiftSDKManager.shared().appConfig!)
             return self
         }
 
         /**
          Provides a way to set the post launch action for the Salesforce Application.
          ```
-         SalesforceSDKManager.Builder.configure { (appconfig) in
+         SalesforceSwiftSDKManager.Builder.configure { (appconfig) in
              appconfig.remoteAccessConsumerKey = RemoteAccessConsumerKey
              appconfig.oauthRedirectURI = OAuthRedirectURI
              appconfig.oauthScopes = ["web", "api"]
@@ -72,14 +91,14 @@ extension SalesforceSDKManager {
          - Returns: The instance of SalesforceSDKManagerBuilder.
          */
          class func postLaunch(action : @escaping SFSDKPostLaunchCallbackBlock) -> SalesforceSDKManagerBuilder.Type {
-            SalesforceSDKManager.shared().postLaunchAction = action
+            SalesforceSwiftSDKManager.shared().postLaunchAction = action
             return self
          }
 
         /**
          Provides a way to set the post logout action for the Salesforce Application.
          ```
-         SalesforceSDKManager.Builder.configure { (appconfig) in
+         SalesforceSwiftSDKManager.Builder.configure { (appconfig) in
              appconfig.remoteAccessConsumerKey = RemoteAccessConsumerKey
              appconfig.oauthRedirectURI = OAuthRedirectURI
              appconfig.oauthScopes = ["web", "api"]
@@ -95,14 +114,14 @@ extension SalesforceSDKManager {
          - Returns: The instance of SalesforceSDKManagerBuilder.
          */
         class func postLogout(action : @escaping SFSDKLogoutCallbackBlock) -> SalesforceSDKManagerBuilder.Type {
-            SalesforceSDKManager.shared().postLogoutAction = action
+            SalesforceSwiftSDKManager.shared().postLogoutAction = action
             return self
         }
 
         /**
          Provides a way to set the switch user action for the Salesforce Application.
          ```
-         SalesforceSDKManager.Builder.configure { (appconfig) in
+         SalesforceSwiftSDKManager.Builder.configure { (appconfig) in
          appconfig.remoteAccessConsumerKey = RemoteAccessConsumerKey
          appconfig.oauthRedirectURI = OAuthRedirectURI
          appconfig.oauthScopes = ["web", "api"]
@@ -121,14 +140,14 @@ extension SalesforceSDKManager {
          - Returns: The instance of SalesforceSDKManagerBuilder.
          */
         class func switchUser(action : @escaping SFSDKSwitchUserCallbackBlock) -> SalesforceSDKManagerBuilder.Type {
-            SalesforceSDKManager.shared().switchUserAction = action
+            SalesforceSwiftSDKManager.shared().switchUserAction = action
             return self
         }
 
         /**
          Provides a way to set the error handling during sdk launch for the Salesforce Application.
          ```
-         SalesforceSDKManager.Builder.configure { (appconfig) in
+         SalesforceSwiftSDKManager.Builder.configure { (appconfig) in
              appconfig.remoteAccessConsumerKey = RemoteAccessConsumerKey
              appconfig.oauthRedirectURI = OAuthRedirectURI
              appconfig.oauthScopes = ["web", "api"]
@@ -150,7 +169,7 @@ extension SalesforceSDKManager {
          - Returns: The instance of SalesforceSDKManagerBuilder.
          */
         class func launchError(action : @escaping SFSDKLaunchErrorCallbackBlock) -> SalesforceSDKManagerBuilder.Type {
-            SalesforceSDKManager.shared().launchErrorAction = action
+            SalesforceSwiftSDKManager.shared().launchErrorAction = action
             SalesforceSwiftLogger.d(SalesforceSDKManager.self, message: "error")
             return self
         }
@@ -164,15 +183,4 @@ extension SalesforceSDKManager {
     }
 }
 
-class SalesforceSwiftSDKManager : SmartSyncSDKManager {
-    
-    override init() {
-       
-    }
-    
-    override var appType: SFAppType {
-        get {
-            return SFAppType.native
-        }
-    }
-}
+

@@ -561,14 +561,14 @@ extension SFRestAPI {
         /**
          A factory method to create a retrieve file shares request
          ```
-         restApi.fileContents(sfdcId: "10", version: nil)
+         restApi.fileShares(sfdcId: "10", version: nil)
          .then { (request) in
          ...
          }
          ```
          - Returns:  SFRestRequest wrapped in a promise.
          */
-        func fileShares(sfdcId: String, page: UInt? = 1) -> Promise<SFRestRequest> {
+        func fileShares(sfdcId: String, page: UInt? = 0) -> Promise<SFRestRequest> {
             return  Promise(.pending) {  resolver in
                 resolver.fulfill(
                     self.api!.request(forFileShares: sfdcId, page: page!))
