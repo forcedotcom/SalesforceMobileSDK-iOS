@@ -75,7 +75,7 @@ NSString * const kSFNotificationUserDidLogout  = @"SFNotificationUserDidLogout";
 
 //Auth Display Notification
 NSString * const kSFNotificationUserWillShowAuthView = @"SFNotificationUserWillShowAuthView";
-
+NSString * const kSFNotificationUserCanceledAuth = @"SFNotificationUserCanceledAuthentication";
 //IDP-SP flow Notifications
 NSString * const kSFNotificationUserWillSendIDPRequest      = @"SFNotificationUserWillSendIDPRequest";
 NSString * const kSFNotificationUserDidReceiveIDPRequest    = @"SFNotificationUserDidReceiveIDPRequest";
@@ -451,6 +451,20 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
                                 kSFNotificationUserInfoAuthTypeKey: client.context.authInfo };
     [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserWillShowAuthView
                                                         object:self userInfo:userInfo];
+}
+
+- (BOOL)authClientDidCancelBrowserFlow:(SFSDKOAuthClient *)client {
+    BOOL result = NO;
+    NSDictionary *userInfo = @{ kSFNotificationUserInfoCredentialsKey: client.credentials,
+                                kSFNotificationUserInfoAuthTypeKey: client.context.authInfo };
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserCanceledAuth
+                                                        object:self userInfo:userInfo];
+    if (self.authCancelledByUserHandlerBlock) {
+        [client cancelAuthentication:YES];
+        result = YES;
+        self.authCancelledByUserHandlerBlock();
+    }
+    return result;
 }
 
 #pragma mark - SFSDKIDPAuthClientDelegate
