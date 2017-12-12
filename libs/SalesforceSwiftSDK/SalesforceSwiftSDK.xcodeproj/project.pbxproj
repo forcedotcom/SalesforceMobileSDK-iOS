@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F0F31D11FDF2E6800CF6926 /* SalesforceSwiftSDKManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0F31D01FDF2E6800CF6926 /* SalesforceSwiftSDKManager.swift */; };
+		4F0F31DA1FDF2E7700CF6926 /* SalesforceSwiftSDKManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0F31D01FDF2E6800CF6926 /* SalesforceSwiftSDKManager.swift */; };
 		B7980CC01FD49B3C009CFDE1 /* SFUserAccountManagerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7980CBF1FD49B3C009CFDE1 /* SFUserAccountManagerExtensions.swift */; };
 		B7980CC21FD49B63009CFDE1 /* SFRestAPIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7980CC11FD49B63009CFDE1 /* SFRestAPIExtensions.swift */; };
 		B799B46D1FD60528001DC6ED /* SFRestAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B799B46C1FD60527001DC6ED /* SFRestAPITests.swift */; };
@@ -140,6 +142,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4F0F31D01FDF2E6800CF6926 /* SalesforceSwiftSDKManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesforceSwiftSDKManager.swift; sourceTree = "<group>"; };
 		B7980CBF1FD49B3C009CFDE1 /* SFUserAccountManagerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFUserAccountManagerExtensions.swift; sourceTree = "<group>"; };
 		B7980CC11FD49B63009CFDE1 /* SFRestAPIExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFRestAPIExtensions.swift; sourceTree = "<group>"; };
 		B799B46C1FD60527001DC6ED /* SFRestAPITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFRestAPITests.swift; sourceTree = "<group>"; };
@@ -227,6 +230,7 @@
 			isa = PBXGroup;
 			children = (
 				B7CFC47A1FD04A270013534D /* SalesforceSwiftLogger.swift */,
+				4F0F31D01FDF2E6800CF6926 /* SalesforceSwiftSDKManager.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -578,6 +582,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7DA7AF61FCDE3900098C1EA /* SalesforceSDKManagerExtensions.swift in Sources */,
+				4F0F31D11FDF2E6800CF6926 /* SalesforceSwiftSDKManager.swift in Sources */,
 				B7CFC47B1FD04A270013534D /* SalesforceSwiftLogger.swift in Sources */,
 				B7CFC4D41FD1D0390013534D /* SwiftExtensions.swift in Sources */,
 				B7980CC21FD49B63009CFDE1 /* SFRestAPIExtensions.swift in Sources */,
@@ -592,6 +597,7 @@
 				B799B46D1FD60528001DC6ED /* SFRestAPITests.swift in Sources */,
 				CE57D9061FD7B54900A0930F /* SalesforceSwiftLogger.swift in Sources */,
 				B7CFC47D1FD04A950013534D /* SalesforceTestExtensions.swift in Sources */,
+				4F0F31DA1FDF2E7700CF6926 /* SalesforceSwiftSDKManager.swift in Sources */,
 				CE57D9031FD7B4AB00A0930F /* SwiftExtensions.swift in Sources */,
 				B7DA7ACA1FCDE08F0098C1EA /* SalesforceSwiftSDKTests.swift in Sources */,
 				CE57D9021FD7B4A600A0930F /* SalesforceSDKManagerExtensions.swift in Sources */,

@@ -26,6 +26,10 @@
 
 @implementation SalesforceReactSDKManager
 
+- (SFAppType) appType {
+    return kSFAppTypeReactNative;
+}
+
 -(NSArray*) getDevActions:(UIViewController *)presentedViewController
 {
     NSMutableArray * devActions = [NSMutableArray arrayWithArray:[super getDevActions:presentedViewController]];

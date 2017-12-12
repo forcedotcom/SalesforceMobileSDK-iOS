@@ -288,7 +288,7 @@ FOUNDATION_EXTERN NSString * const kSFUserInfoAddlOptionsKey;
  value is determined by the SFDCOAuthClientIdPreference
  configured via the settings bundle.
  */
-@property (nonatomic, copy, nullable) NSString *oauthClientId;
+@property (nonatomic, copy) NSString *oauthClientId;
 
 /** OAuth callback url to use for the OAuth login process.
  Apps may customize this by setting this property before login.
@@ -296,7 +296,7 @@ FOUNDATION_EXTERN NSString * const kSFUserInfoAddlOptionsKey;
  bundle property SFDCOAuthRedirectUri
  default: @"sfdc:///axm/detect/oauth/done")
  */
-@property (nonatomic, copy, nullable) NSString *oauthCompletionUrl;
+@property (nonatomic, copy) NSString *oauthCompletionUrl;
 
 /**
  The Branded Login path configured for this application.
