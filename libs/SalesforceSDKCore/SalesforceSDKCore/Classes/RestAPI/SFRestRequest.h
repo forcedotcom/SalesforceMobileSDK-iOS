@@ -257,7 +257,7 @@ extern NSString * const kSFDefaultRestEndpoint;
 + (SFRestMethod)sfRestMethodFromHTTPMethod:(NSString *)httpMethod;
 
 /**
- * Creates an `SFRestRequest` object. See SFRestMethod.
+ * Creates an `SFRestRequest` object. See SFRestMethod. If you need to set body on the request, use one of the 'setCustomRequestBody...' methods to do so with the instance returned by this method.
  * @param method the HTTP method
  * @param path the request path
  * @param queryParams the parameters of the request (could be nil)
@@ -265,7 +265,7 @@ extern NSString * const kSFDefaultRestEndpoint;
 + (instancetype)requestWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, id> *)queryParams;
 
 /**
- * Creates an `SFRestRequest` object. See SFRestMethod.
+ * Creates an `SFRestRequest` object. See SFRestMethod. If you need to set body on the request, use one of the 'setCustomRequestBody...' methods to do so with the instance returned by this method.
  * @param method the HTTP method
  * @param baseURL the request URL
  * @param path the request path

@@ -218,7 +218,6 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
  * @param completeBlock the block to be executed when the request successfully completes
  * @return the newly sent SFRestRequest
  */
-
 - (SFRestRequest *) performRequestForFileRendition:(NSString *)sfdcId
                                            version:(NSString *)version
                                      renditionType:(NSString *)renditionType
@@ -232,7 +231,6 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
  * @param completeBlock the block to be executed when the request successfully completes
  * @return the newly sent SFRestRequest
  */
-
 - (SFRestRequest *) performRequestForSearchScopeAndOrderWithFailBlock:(SFRestFailBlock)failBlock
                                      completeBlock:(SFRestArrayResponseBlock)completeBlock;
 
@@ -247,22 +245,6 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
 - (SFRestRequest *) performRequestForSearchResultLayout:(NSString*)objectList
                                               failBlock:(SFRestFailBlock)failBlock
                                           completeBlock:(SFRestArrayResponseBlock)completeBlock;
-
-/**
- * Executes a request that returns json
- * @param method the HTTP method
- * @param path the request path
- * @param queryParams the parameters of the request (could be nil)
- * @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
- * @param completeBlock the block to be executed when the request successfully completes
- * @return the newly sent SFRestRequest
- */
-
-- (SFRestRequest *) performRequestWithMethod:(SFRestMethod)method
-                                        path:(NSString*)path
-                                 queryParams:(NSDictionary<NSString*, id>*)queryParams
-                                   failBlock:(SFRestFailBlock)failBlock
-                               completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
 
 @end
 
