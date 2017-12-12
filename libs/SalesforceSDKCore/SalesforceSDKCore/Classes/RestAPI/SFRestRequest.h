@@ -202,11 +202,12 @@ extern NSString * const kSFDefaultRestEndpoint;
 /**
  * Add file to upload.
  * @param fileData Value of this POST parameter
+ * @param paramName Name of the POST parameter
  * @param description Description of the file
  * @param fileName Name of the file
  * @param mimeType MIME type of the file
  */
-- (void)addPostFileData:(NSData *)fileData description:(nullable NSString *)description fileName:(NSString *)fileName mimeType:(NSString *)mimeType;
+- (void)addPostFileData:(NSData *)fileData paramName:(NSString*)paramName description:(nullable NSString *)description fileName:(NSString *)fileName mimeType:(NSString *)mimeType;
 
 /**
  * Sets a custom request body based on an NSString representation.
