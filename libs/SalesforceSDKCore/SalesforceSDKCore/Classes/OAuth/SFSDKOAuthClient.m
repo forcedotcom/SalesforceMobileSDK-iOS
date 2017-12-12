@@ -210,12 +210,12 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
 }
 
 - (BOOL)refreshCredentials:(SFOAuthCredentials *)credentials {
-    __block BOOL result = NO;
     if (![NSThread isMainThread]) {
+         __block BOOL result = NO;
         dispatch_sync(dispatch_get_main_queue(), ^{
             result =  [self refreshCredentials:credentials];
-            return;
         });
+        return result;
     }
     [readWriteLock lock];
     
