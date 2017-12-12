@@ -339,7 +339,11 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
 }
 
 - (BOOL)oauthCoordinatorIsNetworkAvailable:(SFOAuthCoordinator *)coordinator {
-    return YES;
+    BOOL result = YES;
+    if ([self.config.delegate respondsToSelector:@selector(authClientIsNetworkAvailable:)]) {
+        result = [self.config.delegate authClientIsNetworkAvailable:self];
+    }
+    return result;
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginBrowserAuthentication:(SFOAuthBrowserFlowCallbackBlock)callbackBlock {
