@@ -114,6 +114,10 @@ FOUNDATION_EXTERN NSString * const kSFNotificationUserDidLogout;
  */
 FOUNDATION_EXTERN NSString * const kSFNotificationUserWillShowAuthView;
 
+/** Notification sent when user cancels authentication
+ */
+FOUNDATION_EXTERN NSString * const kSFNotificationUserCanceledAuth;
+
 /** Notification sent prior to user log in
  */
 FOUNDATION_EXTERN NSString * const kSFNotificationUserWillLogIn;
@@ -586,9 +590,14 @@ FOUNDATION_EXTERN NSString * const kSFUserInfoAddlOptionsKey;
 @property (nonatomic, strong) SFSDKAuthViewHandler *authViewHandler;
 
 /**
- Change this block to handle all alerts  required by the SFUSerAccountManager.
+ Change this block to handle all alerts  required by the SFUserAccountManager.
  */
 @property (nonatomic, copy, nonnull) void (^alertDisplayBlock)(SFSDKAlertMessage *,SFSDKWindowContainer *);
+
+/**
+ Change this block to customize behavior for user initiated auth cancellation
+ */
+@property (nonatomic, copy, nonnull) void (^authCancelledByUserHandlerBlock)(void);
 
 /**
  Determines whether an error is due to invalid auth credentials.
