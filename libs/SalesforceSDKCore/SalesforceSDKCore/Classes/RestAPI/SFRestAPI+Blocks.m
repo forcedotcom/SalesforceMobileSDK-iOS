@@ -203,14 +203,6 @@ static char CompleteBlockKey;
     return request;
 }
 
-- (SFRestRequest *) performRequestWithMethod:(SFRestMethod)method path:(NSString*)path queryParams:(NSDictionary*)queryParams failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestDictionaryResponseBlock)completeBlock {
-    SFRestRequest *request = [SFRestRequest requestWithMethod:method path:path queryParams:queryParams];
-    [self sendRESTRequest:request
-                failBlock:failBlock
-            completeBlock:completeBlock];
-    return request;
-}
-
 #pragma mark - response delegate
 
 - (void) sendActionForRequest:(SFRestRequest *)request success:(BOOL)success withObject:(id)object rawResponse:(NSURLResponse* )rawResponse {
