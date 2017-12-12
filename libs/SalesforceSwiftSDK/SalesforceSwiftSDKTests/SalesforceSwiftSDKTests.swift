@@ -34,7 +34,8 @@ class SalesforceSwiftSDKTests: XCTestCase {
     
     override class func setUp() {
         super.setUp()
-        SalesforceSDKManager.shared().saveState()
+        
+        SalesforceSwiftSDKManager.shared().saveState()
        
         _ = SalesforceSwiftSDKTests.readConfigFromFile(configFile: nil)
             .then { testJsonConfig -> Promise<SFUserAccount> in

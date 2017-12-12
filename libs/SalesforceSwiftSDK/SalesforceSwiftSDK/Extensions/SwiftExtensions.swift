@@ -45,7 +45,7 @@ public extension Encodable {
 }
 
 extension ProtocolStoredProperty {
- 
+    
     func getAssociatedObject(_ key: UnsafeRawPointer!, defaultValue: T) -> T {
         guard let value = objc_getAssociatedObject(self, key) as? T else {
             return defaultValue

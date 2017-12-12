@@ -1,6 +1,6 @@
 /*
- SalesforceCodables
- Created by Raj Rao on 11/29/17.
+ SalesforceTestCodables
+ Created by Raj Rao on 12/07/17.
  
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -22,6 +22,7 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 import Foundation
 
 public struct Attributes : Codable {
@@ -80,7 +81,7 @@ public struct QueryResponse<T:QueryResponseRecord> : Codable {
     }
 }
 
-public class SearchRecord : Codable {
+public class SearchResponseRecord : Codable {
     let attributes : Attributes?
     let id : String?
     
@@ -94,18 +95,92 @@ public class SearchRecord : Codable {
         attributes = try Attributes(from: decoder)
         id = try values.decodeIfPresent(String.self, forKey: .id)
     }
-    
 }
 
-struct SearchResponse : Codable {
-    let searchRecords : [SearchRecord]?
+public struct SearchResponse<T:SearchResponseRecord> : Codable {
+    let searchRecords : [T]?
     
     enum CodingKeys: String, CodingKey {
         case searchRecords = "searchRecords"
     }
     
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        searchRecords = try values.decodeIfPresent([SearchRecord].self, forKey: .searchRecords)
+        searchRecords = try values.decodeIfPresent([T].self, forKey: .searchRecords)
+    }
+    
+}
+
+class SampleRecord : QueryResponseRecord {
+    let id : String?
+    let firstName : String?
+    let lastName : String?
+    
+    enum SampleRecordCodingKeys: String, CodingKey {
+        case id = "Id"
+        case firstName = "FirstName"
+        case lastName = "LastName"
+    }
+    
+    required init(from decoder: Decoder) throws {
+        let values =  try decoder.container(keyedBy: SampleRecordCodingKeys.self)
+        self.id = try values.decodeIfPresent(String.self, forKey: .id)
+        self.firstName = try values.decodeIfPresent(String.self, forKey: .firstName)
+        self.lastName = try values.decodeIfPresent(String.self, forKey: .lastName)
+        try super.init(from: decoder)
+    }
+}
+
+class SearchRecord : SearchResponseRecord {
+    let firstName : String?
+    let lastName : String?
+    
+    enum SampleRecordCodingKeys: String, CodingKey {
+        case firstName = "FirstName"
+        case lastName = "LastName"
+    }
+    
+    required init(from decoder: Decoder) throws {
+        let values =  try decoder.container(keyedBy: SampleRecordCodingKeys.self)
+        self.firstName = try values.decodeIfPresent(String.self, forKey: .firstName)
+        self.lastName = try values.decodeIfPresent(String.self, forKey: .lastName)
+        try super.init(from: decoder)
+    }
+}
+
+public struct CompositeSubResponse : Decodable {
+    
+    let body : [String:Any]?
+    let httpHeaders : [String:Any]?
+    let httpStatusCode : Int?
+    let referenceId : String?
+    
+    enum CodingKeys: String, CodingKey {
+        case body
+        case httpHeaders
+        case httpStatusCode = "httpStatusCode"
+        case referenceId = "referenceId"
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        body = try values.decodeIfPresent([String:Any].self,forKey: .body)
+        httpHeaders = try values.decodeIfPresent([String:Any].self, forKey: .httpHeaders)
+        httpStatusCode = try values.decodeIfPresent(Int.self, forKey: .httpStatusCode)
+        referenceId = try values.decodeIfPresent(String.self, forKey: .referenceId)
+    }
+}
+
+public struct CompositeResponse : Decodable {
+    
+    let subResponses : [CompositeSubResponse]?
+    
+    enum CodingKeys: String, CodingKey {
+        case compositeResponse = "compositeResponse"
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        subResponses = try values.decodeIfPresent([CompositeSubResponse].self, forKey: .compositeResponse)
     }
 }

@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B71343D21FDA35C6008ABF1A /* SalesforceCodables.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71343D11FDA35C6008ABF1A /* SalesforceCodables.swift */; };
 		B71343DD1FDA6AF6008ABF1A /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = B71343DC1FDA6AF6008ABF1A /* test_credentials.json */; };
+		B71343DF1FDDF2B1008ABF1A /* SalesforceTestCodables.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71343DE1FDDF2B1008ABF1A /* SalesforceTestCodables.swift */; };
 		B7980CC01FD49B3C009CFDE1 /* SFUserAccountManagerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7980CBF1FD49B3C009CFDE1 /* SFUserAccountManagerExtensions.swift */; };
 		B7980CC21FD49B63009CFDE1 /* SFRestAPIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7980CC11FD49B63009CFDE1 /* SFRestAPIExtensions.swift */; };
 		B799B46D1FD60528001DC6ED /* SFRestAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B799B46C1FD60527001DC6ED /* SFRestAPITests.swift */; };
@@ -141,8 +141,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		B71343D11FDA35C6008ABF1A /* SalesforceCodables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesforceCodables.swift; sourceTree = "<group>"; };
 		B71343DC1FDA6AF6008ABF1A /* test_credentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test_credentials.json; path = ../../../../shared/test/test_credentials.json; sourceTree = "<group>"; };
+		B71343DE1FDDF2B1008ABF1A /* SalesforceTestCodables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesforceTestCodables.swift; sourceTree = "<group>"; };
 		B7980CBF1FD49B3C009CFDE1 /* SFUserAccountManagerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFUserAccountManagerExtensions.swift; sourceTree = "<group>"; };
 		B7980CC11FD49B63009CFDE1 /* SFRestAPIExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFRestAPIExtensions.swift; sourceTree = "<group>"; };
 		B799B46C1FD60527001DC6ED /* SFRestAPITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFRestAPITests.swift; sourceTree = "<group>"; };
@@ -237,7 +237,6 @@
 			isa = PBXGroup;
 			children = (
 				B7CFC47A1FD04A270013534D /* SalesforceSwiftLogger.swift */,
-				B71343D11FDA35C6008ABF1A /* SalesforceCodables.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -280,6 +279,7 @@
 				B7DA7ACB1FCDE08F0098C1EA /* Info.plist */,
 				B7CFC47C1FD04A950013534D /* SalesforceTestExtensions.swift */,
 				B799B46C1FD60527001DC6ED /* SFRestAPITests.swift */,
+				B71343DE1FDDF2B1008ABF1A /* SalesforceTestCodables.swift */,
 			);
 			path = SalesforceSwiftSDKTests;
 			sourceTree = "<group>";
@@ -583,7 +583,6 @@
 				B7DA7AF61FCDE3900098C1EA /* SalesforceSDKManagerExtensions.swift in Sources */,
 				B7CFC47B1FD04A270013534D /* SalesforceSwiftLogger.swift in Sources */,
 				B7CFC4D41FD1D0390013534D /* SwiftExtensions.swift in Sources */,
-				B71343D21FDA35C6008ABF1A /* SalesforceCodables.swift in Sources */,
 				B7980CC21FD49B63009CFDE1 /* SFRestAPIExtensions.swift in Sources */,
 				B7980CC01FD49B3C009CFDE1 /* SFUserAccountManagerExtensions.swift in Sources */,
 			);
@@ -594,6 +593,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B799B46D1FD60528001DC6ED /* SFRestAPITests.swift in Sources */,
+				B71343DF1FDDF2B1008ABF1A /* SalesforceTestCodables.swift in Sources */,
 				CE57D9061FD7B54900A0930F /* SalesforceSwiftLogger.swift in Sources */,
 				B7CFC47D1FD04A950013534D /* SalesforceTestExtensions.swift in Sources */,
 				CE57D9031FD7B4AB00A0930F /* SwiftExtensions.swift in Sources */,
