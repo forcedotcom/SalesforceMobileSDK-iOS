@@ -47,6 +47,7 @@ SFSDK_USE_DEPRECATED_BEGIN
 - (id)init
 {
     self = [super init];
+    [SalesforceSDKManager setInstanceClass:[SalesforceHybridSDKManager class]];
     if (self != nil) {
         [SFSDKLogger log:[self class] level:DDLogLevelDebug message:@"Setting up auth credentials."];
         self.testAppHybridViewConfig = [self stageTestCredentials];
