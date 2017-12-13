@@ -30,12 +30,14 @@
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFSDKAppConfig.h>
+#import <SalesforceSDKcore/SFSDKWindowManager.h>
 #import <SmartSync/SmartSyncSDKManager.h>
 #import <SalesforceAnalytics/SFSDKDatasharingHelper.h>
 #import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 #import <SmartSyncExplorerCommon/SmartSyncExplorerConfig.h>
 #import "IDPLoginNavViewController.h"
-@interface AppDelegate ()
+
+@interface AppDelegate () <SalesforceSDKManagerDelegate>
 
 /**
  * Convenience method for setting up the main UIViewController and setting self.window's rootViewController
@@ -68,7 +70,10 @@
         [SalesforceSDKManager sharedManager].appConfig.remoteAccessConsumerKey = config.remoteAccessConsumerKey;
         [SalesforceSDKManager sharedManager].appConfig.oauthRedirectURI = config.oauthRedirectURI;
         [SalesforceSDKManager sharedManager].appConfig.oauthScopes = [NSSet setWithArray:config.oauthScopes];
+        
         __weak typeof(self) weakSelf = self;
+        
+        [[SalesforceSDKManager sharedManager] addDelegate:self];
         
         //Uncomment following block to enable IDP Login flow.
         /*
@@ -227,4 +232,10 @@
     }];
 }
 
+- (void)sdkManagerWillResignActive {
+    if ([SalesforceSDKManager sharedManager].useSnapshotView) {
+        // Remove the keyboard if it is showing..
+        [[SFSDKWindowManager sharedManager].activeWindow.window endEditing:YES];
+    }
+}
 @end

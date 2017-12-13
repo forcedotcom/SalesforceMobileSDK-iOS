@@ -75,7 +75,7 @@ NSString * const kSFNotificationUserDidLogout  = @"SFNotificationUserDidLogout";
 
 //Auth Display Notification
 NSString * const kSFNotificationUserWillShowAuthView = @"SFNotificationUserWillShowAuthView";
-
+NSString * const kSFNotificationUserCanceledAuth = @"SFNotificationUserCanceledAuthentication";
 //IDP-SP flow Notifications
 NSString * const kSFNotificationUserWillSendIDPRequest      = @"SFNotificationUserWillSendIDPRequest";
 NSString * const kSFNotificationUserDidReceiveIDPRequest    = @"SFNotificationUserDidReceiveIDPRequest";
@@ -367,7 +367,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
         });
         return;
     }
-    [SFSDKWindowManager.sharedManager.authWindow disable];
+    [SFSDKWindowManager.sharedManager.authWindow dismissWindow];
 }
 
 + (BOOL)errorIsInvalidAuthCredentials:(NSError *)error {
@@ -453,6 +453,20 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
                                                         object:self userInfo:userInfo];
 }
 
+- (BOOL)authClientDidCancelBrowserFlow:(SFSDKOAuthClient *)client {
+    BOOL result = NO;
+    NSDictionary *userInfo = @{ kSFNotificationUserInfoCredentialsKey: client.credentials,
+                                kSFNotificationUserInfoAuthTypeKey: client.context.authInfo };
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserCanceledAuth
+                                                        object:self userInfo:userInfo];
+    if (self.authCancelledByUserHandlerBlock) {
+        [client cancelAuthentication:YES];
+        result = YES;
+        self.authCancelledByUserHandlerBlock();
+    }
+    return result;
+}
+
 #pragma mark - SFSDKIDPAuthClientDelegate
 - (void)authClient:(SFSDKOAuthClient *)client error:(NSError *)error {
     SFSDKIDPAuthClient *idpClient = (SFSDKIDPAuthClient *) [SFSDKOAuthClient idpAuthInstance:nil];
@@ -482,7 +496,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     client.authWindow.viewController = controller;
     
     [[SFSDKOAuthClientCache sharedInstance] addClient:client];
-    [client.authWindow enable:YES withCompletion:nil];
+    [client.authWindow presentWindowAnimated:YES withCompletion:nil];
 }
 
 #pragma mark - SFSDKLoginFlowSelectionViewControllerDelegate

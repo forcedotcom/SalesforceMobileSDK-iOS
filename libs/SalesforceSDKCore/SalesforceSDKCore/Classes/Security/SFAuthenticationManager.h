@@ -335,7 +335,7 @@ SFSDK_DEPRECATED(6.0, 7.0, "Use SFUserAccountManager Login/Logout apis instead."
  value is determined by the SFDCOAuthClientIdPreference
  configured via the settings bundle.
  */
-@property (nonatomic, copy, nullable) NSString *oauthClientId;
+@property (nonatomic, copy) NSString *oauthClientId;
 
 /** OAuth callback url to use for the OAuth login process.
  Apps may customize this by setting this property before login.
@@ -343,7 +343,7 @@ SFSDK_DEPRECATED(6.0, 7.0, "Use SFUserAccountManager Login/Logout apis instead."
  bundle property SFDCOAuthRedirectUri
  default: @"sfdc:///axm/detect/oauth/done")
  */
-@property (nonatomic, copy, nullable) NSString *oauthCompletionUrl;
+@property (nonatomic, copy) NSString *oauthCompletionUrl;
 
 /**
  The Branded Login path configured for this application.

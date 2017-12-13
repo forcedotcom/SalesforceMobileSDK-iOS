@@ -176,7 +176,7 @@ NS_ASSUME_NONNULL_BEGIN
  Called when a browser flow authentication is cancelled.
  @param client The instance of SFSDKOAuthClient making the call.
  */
-- (void)authClientDidCancelBrowserFlow:(SFSDKOAuthClient *)client;
+- (BOOL)authClientDidCancelBrowserFlow:(SFSDKOAuthClient *)client;
 
 /**
  Called when the auth client is going to present the safari view controller.

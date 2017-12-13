@@ -43,7 +43,7 @@
  @param window The window that will be made opaque
  */
 - (void)windowManager:(SFSDKWindowManager *_Nonnull)windowManager
-      willEnableWindow:(SFSDKWindowContainer *_Nonnull)window;
+    willPresentWindow:(SFSDKWindowContainer *_Nonnull)window;
 
 /**
  Called when the window has been made opaque
@@ -51,7 +51,7 @@
  @param window The window that has been made opaque
  */
 - (void)windowManager:(SFSDKWindowManager *_Nonnull)windowManager
-    didEnableWindow:(SFSDKWindowContainer *_Nonnull)window;
+     didPresentWindow:(SFSDKWindowContainer *_Nonnull)window;
 
 /**
  Called when the window will be made transparent
@@ -59,7 +59,7 @@
  @param window The window will be made transparent
  */
 - (void)windowManager:(SFSDKWindowManager *_Nonnull)windowManager
-    willDisableWindow:(SFSDKWindowContainer *_Nonnull)window;
+    willDismissWindow:(SFSDKWindowContainer *_Nonnull)window;
 
 /**
  Called when the window is made transparent
@@ -67,7 +67,7 @@
  @param window The window that has been made transparent
  */
 - (void)windowManager:(SFSDKWindowManager *_Nonnull)windowManager
-   didDisableWindow:(SFSDKWindowContainer *_Nonnull)window;
+     didDismissWindow:(SFSDKWindowContainer *_Nonnull)window;
 @end
 
 @interface SFSDKWindowManager : NSObject
@@ -87,6 +87,10 @@
 /** Returns the SFSDKWindowContainer window representing the mainWindow that has been set
  */
 @property (readonly,nonatomic,strong) SFSDKWindowContainer * _Nonnull mainWindow;
+
+/** Returns the SFSDKWindowContainer window representing the active presented Window that has been set
+ */
+- (SFSDKWindowContainer * _Nullable)activeWindow;
 
 /** Used to setup the main application window.
  */

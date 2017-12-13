@@ -27,20 +27,6 @@ import SalesforceSDKCore
 import SmartSync
 import PromiseKit
 
-class SalesforceSwiftSDKManager : SmartSyncSDKManager {
-   
-    override init() {
-        super.init()
-    }
-    
-    override var appType: SFAppType {
-        get {
-            return SFAppType.native
-        }
-    }
- 
-}
-
 extension SalesforceSwiftSDKManager {
     
     public static var Builder:SalesforceSDKManagerBuilder.Type {
@@ -49,12 +35,7 @@ extension SalesforceSwiftSDKManager {
            return SalesforceSDKManagerBuilder.self
         }
     }
-    
-    public class func initSDK() -> SalesforceSwiftSDKManager.Type {
-        SalesforceSDKManager.setInstanceClass(SalesforceSwiftSDKManager.self)
-        return SalesforceSwiftSDKManager.self
-    }
-
+   
     public class SalesforceSDKManagerBuilder {
         
         /**

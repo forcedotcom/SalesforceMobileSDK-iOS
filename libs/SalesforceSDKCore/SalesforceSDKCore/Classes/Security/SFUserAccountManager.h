@@ -114,6 +114,10 @@ FOUNDATION_EXTERN NSString * const kSFNotificationUserDidLogout;
  */
 FOUNDATION_EXTERN NSString * const kSFNotificationUserWillShowAuthView;
 
+/** Notification sent when user cancels authentication
+ */
+FOUNDATION_EXTERN NSString * const kSFNotificationUserCanceledAuth;
+
 /** Notification sent prior to user log in
  */
 FOUNDATION_EXTERN NSString * const kSFNotificationUserWillLogIn;
@@ -288,7 +292,7 @@ FOUNDATION_EXTERN NSString * const kSFUserInfoAddlOptionsKey;
  value is determined by the SFDCOAuthClientIdPreference
  configured via the settings bundle.
  */
-@property (nonatomic, copy, nullable) NSString *oauthClientId;
+@property (nonatomic, copy) NSString *oauthClientId;
 
 /** OAuth callback url to use for the OAuth login process.
  Apps may customize this by setting this property before login.
@@ -296,7 +300,7 @@ FOUNDATION_EXTERN NSString * const kSFUserInfoAddlOptionsKey;
  bundle property SFDCOAuthRedirectUri
  default: @"sfdc:///axm/detect/oauth/done")
  */
-@property (nonatomic, copy, nullable) NSString *oauthCompletionUrl;
+@property (nonatomic, copy) NSString *oauthCompletionUrl;
 
 /**
  The Branded Login path configured for this application.
@@ -586,9 +590,14 @@ FOUNDATION_EXTERN NSString * const kSFUserInfoAddlOptionsKey;
 @property (nonatomic, strong) SFSDKAuthViewHandler *authViewHandler;
 
 /**
- Change this block to handle all alerts  required by the SFUSerAccountManager.
+ Change this block to handle all alerts  required by the SFUserAccountManager.
  */
 @property (nonatomic, copy, nonnull) void (^alertDisplayBlock)(SFSDKAlertMessage *,SFSDKWindowContainer *);
+
+/**
+ Change this block to customize behavior for user initiated auth cancellation
+ */
+@property (nonatomic, copy, nonnull) void (^authCancelledByUserHandlerBlock)(void);
 
 /**
  Determines whether an error is due to invalid auth credentials.

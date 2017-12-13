@@ -202,11 +202,12 @@ extern NSString * const kSFDefaultRestEndpoint;
 /**
  * Add file to upload.
  * @param fileData Value of this POST parameter
+ * @param paramName Name of the POST parameter
  * @param description Description of the file
  * @param fileName Name of the file
  * @param mimeType MIME type of the file
  */
-- (void)addPostFileData:(NSData *)fileData description:(nullable NSString *)description fileName:(NSString *)fileName mimeType:(NSString *)mimeType;
+- (void)addPostFileData:(NSData *)fileData paramName:(NSString*)paramName description:(nullable NSString *)description fileName:(NSString *)fileName mimeType:(NSString *)mimeType;
 
 /**
  * Sets a custom request body based on an NSString representation.
@@ -257,7 +258,7 @@ extern NSString * const kSFDefaultRestEndpoint;
 + (SFRestMethod)sfRestMethodFromHTTPMethod:(NSString *)httpMethod;
 
 /**
- * Creates an `SFRestRequest` object. See SFRestMethod.
+ * Creates an `SFRestRequest` object. See SFRestMethod. If you need to set body on the request, use one of the 'setCustomRequestBody...' methods to do so with the instance returned by this method.
  * @param method the HTTP method
  * @param path the request path
  * @param queryParams the parameters of the request (could be nil)
@@ -265,7 +266,7 @@ extern NSString * const kSFDefaultRestEndpoint;
 + (instancetype)requestWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, id> *)queryParams;
 
 /**
- * Creates an `SFRestRequest` object. See SFRestMethod.
+ * Creates an `SFRestRequest` object. See SFRestMethod. If you need to set body on the request, use one of the 'setCustomRequestBody...' methods to do so with the instance returned by this method.
  * @param method the HTTP method
  * @param baseURL the request URL
  * @param path the request path

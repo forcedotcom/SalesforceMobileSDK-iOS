@@ -77,7 +77,7 @@
         __strong typeof (weakSelf) strongSelf = weakSelf;
         if (!strongSelf.window.viewController)
             strongSelf.window.viewController = [strongSelf blankViewController];
-        [strongSelf.window enable:YES withCompletion:^{
+        [strongSelf.window presentWindowAnimated:YES withCompletion:^{
             [strongSelf.window.viewController presentViewController:weakSelf.controller animated:animated completion:completion];
         }];
     });

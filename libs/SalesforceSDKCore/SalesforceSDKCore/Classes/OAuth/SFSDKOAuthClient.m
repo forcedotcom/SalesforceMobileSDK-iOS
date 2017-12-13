@@ -117,7 +117,7 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
                     initWithDisplayBlock:^(SFSDKAuthViewHolder *viewHandler) {
                         __strong typeof(weakSelf) strongSelf = weakSelf;
                         strongSelf.authWindow.viewController = viewHandler.safariViewController;
-                        [strongSelf.authWindow enable];
+                        [strongSelf.authWindow presentWindow];
                     } dismissBlock:nil];
         } else {
             self.config.authViewHandler = [[SFSDKAuthViewHandler alloc]
@@ -140,7 +140,7 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
                                 strongSelf.authWindow.viewController = strongSelf.config.authViewController;
                             }
                         }
-                        [[SFSDKWindowManager sharedManager].authWindow enable];
+                        [[SFSDKWindowManager sharedManager].authWindow presentWindow];
                         
                     } dismissBlock:^() {
                         __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -165,7 +165,7 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
 }
 
 -(void)dismissAuthWindow {
-    [[SFSDKWindowManager sharedManager].authWindow disable];
+    [[SFSDKWindowManager sharedManager].authWindow dismissWindow];
 }
 
 - (void)retrieveIdentityDataWithCompletion:(SFIdentitySuccessCallbackBlock)successBlock
@@ -210,12 +210,12 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
 }
 
 - (BOOL)refreshCredentials:(SFOAuthCredentials *)credentials {
-    __block BOOL result = NO;
     if (![NSThread isMainThread]) {
+         __block BOOL result = NO;
         dispatch_sync(dispatch_get_main_queue(), ^{
             result =  [self refreshCredentials:credentials];
-            return;
         });
+        return result;
     }
     [readWriteLock lock];
     
@@ -339,7 +339,11 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
 }
 
 - (BOOL)oauthCoordinatorIsNetworkAvailable:(SFOAuthCoordinator *)coordinator {
-    return YES;
+    BOOL result = YES;
+    if ([self.config.delegate respondsToSelector:@selector(authClientIsNetworkAvailable:)]) {
+        result = [self.config.delegate authClientIsNetworkAvailable:self];
+    }
+    return result;
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginBrowserAuthentication:(SFOAuthBrowserFlowCallbackBlock)callbackBlock {
@@ -381,14 +385,14 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
         };
         builder.actionTwoCompletion = ^{
             __strong typeof(weakSelf) strongSelf = weakSelf;
+            // Let the OAuth coordinator know whether to proceed or not.
             if ([strongSelf.config.safariViewDelegate respondsToSelector:@selector(authClientDidCancelBrowserFlow:)]) {
                 [strongSelf.config.safariViewDelegate authClientDidCancelBrowserFlow:strongSelf];
             }
-
-            // Let the OAuth coordinator know whether to proceed or not.
             if (strongSelf.authCoordinatorBrowserBlock) {
                 strongSelf.authCoordinatorBrowserBlock(NO);
             }
+            
         };
     }];
     [self.config.delegate authClient:self displayMessage:messageObject];
@@ -462,15 +466,14 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
     __block BOOL handledByDelegate = NO;
     [SFSDKCoreLogger i:[self class] format:@"oauthCoordinatorDidCancelBrowserAuthentication"];
     if ([self.config.safariViewDelegate respondsToSelector:@selector(authClientDidCancelBrowserFlow:)]) {
-        handledByDelegate = YES;
-        [self.config.safariViewDelegate authClientDidCancelBrowserFlow:self];
+        handledByDelegate = [self.config.safariViewDelegate authClientDidCancelBrowserFlow:self];
     }
     // If no delegates implement authManagerDidCancelBrowserFlow, display Login Host List
     if (!handledByDelegate) {
         SFSDKLoginHostListViewController *hostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
         hostListViewController.delegate = self;
         self.authWindow.viewController = hostListViewController;
-        [self.authWindow enable];
+        [self.authWindow presentWindow];
     }
 
 }
