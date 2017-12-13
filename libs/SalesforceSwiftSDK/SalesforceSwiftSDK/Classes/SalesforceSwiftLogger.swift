@@ -24,11 +24,11 @@
  */
 import SalesforceAnalytics
 
-class SalesforceSwiftLogger: SFSDKLogger {
+public class SalesforceSwiftLogger: SFSDKLogger {
    
     public static let kSFSDKComponentName = "SalesforceSwiftSDK"
     
-    override class func sharedInstance() -> SalesforceSwiftLogger {
+    override public class func sharedInstance() -> SalesforceSwiftLogger {
          return self.sharedInstance(withComponent: kSFSDKComponentName)
     }
 }
