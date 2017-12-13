@@ -50,7 +50,7 @@ extension SalesforceSwiftSDKManager {
          - Parameter config: The block which will be invoked with a config object.
          - Returns: The instance of SalesforceSDKManagerBuilder.
          */
-        class func configure(config : @escaping (SFSDKAppConfig) -> Void ) -> SalesforceSDKManagerBuilder.Type {
+        public class func configure(config : @escaping (SFSDKAppConfig) -> Void ) -> SalesforceSDKManagerBuilder.Type {
             config(SalesforceSwiftSDKManager.shared().appConfig!)
             return self
         }
@@ -71,7 +71,7 @@ extension SalesforceSwiftSDKManager {
          - Parameter action: The block which will be invoked after a succesfull SDK Launch.
          - Returns: The instance of SalesforceSDKManagerBuilder.
          */
-         class func postLaunch(action : @escaping SFSDKPostLaunchCallbackBlock) -> SalesforceSDKManagerBuilder.Type {
+         public class func postLaunch(action : @escaping SFSDKPostLaunchCallbackBlock) -> SalesforceSDKManagerBuilder.Type {
             SalesforceSwiftSDKManager.shared().postLaunchAction = action
             return self
          }
@@ -94,7 +94,7 @@ extension SalesforceSwiftSDKManager {
          - Parameter action: The block which will be invoked after a succesfull SDK Launch.
          - Returns: The instance of SalesforceSDKManagerBuilder.
          */
-        class func postLogout(action : @escaping SFSDKLogoutCallbackBlock) -> SalesforceSDKManagerBuilder.Type {
+        public class func postLogout(action : @escaping SFSDKLogoutCallbackBlock) -> SalesforceSDKManagerBuilder.Type {
             SalesforceSwiftSDKManager.shared().postLogoutAction = action
             return self
         }
@@ -120,7 +120,7 @@ extension SalesforceSwiftSDKManager {
          - Parameter action: The block which will be invoked after a succesfull SDK Launch.
          - Returns: The instance of SalesforceSDKManagerBuilder.
          */
-        class func switchUser(action : @escaping SFSDKSwitchUserCallbackBlock) -> SalesforceSDKManagerBuilder.Type {
+        public class func switchUser(action : @escaping SFSDKSwitchUserCallbackBlock) -> SalesforceSDKManagerBuilder.Type {
             SalesforceSwiftSDKManager.shared().switchUserAction = action
             return self
         }
@@ -149,7 +149,7 @@ extension SalesforceSwiftSDKManager {
          - Parameter action: The block which will be invoked after a succesfull SDK Launch.
          - Returns: The instance of SalesforceSDKManagerBuilder.
          */
-        class func launchError(action : @escaping SFSDKLaunchErrorCallbackBlock) -> SalesforceSDKManagerBuilder.Type {
+        public class func launchError(action : @escaping SFSDKLaunchErrorCallbackBlock) -> SalesforceSDKManagerBuilder.Type {
             SalesforceSwiftSDKManager.shared().launchErrorAction = action
             SalesforceSwiftLogger.d(SalesforceSDKManager.self, message: "error")
             return self
@@ -158,7 +158,7 @@ extension SalesforceSwiftSDKManager {
         /**
          Last call for the builder returns Void to suppress warnings.
         */
-        class func done () -> Void {
+        public class func done () -> Void {
             
         }
     }

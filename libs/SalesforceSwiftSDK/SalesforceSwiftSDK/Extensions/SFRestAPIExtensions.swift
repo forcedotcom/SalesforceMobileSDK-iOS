@@ -36,7 +36,7 @@ public struct SFRestResponse {
         self.urlResponse = response
     }
     
-    func asJsonDictionary() -> [String: Any] {
+    public func asJsonDictionary() -> [String: Any] {
         guard let rawData = data,data!.count > 0 else {
             return [String:Any]()
         }
@@ -44,7 +44,7 @@ public struct SFRestResponse {
         return jsonData
     }
     
-    func asJsonArray() -> [[String: Any]] {
+    public func asJsonArray() -> [[String: Any]] {
         guard let rawData = data,data!.count > 0 else {
             return [[String: Any]]()
         }
@@ -52,11 +52,11 @@ public struct SFRestResponse {
         return jsonData
     }
     
-    func asData() -> Data? {
+    public func asData() -> Data? {
        return self.data
     }
     
-    func asString() -> String {
+    public func asString() -> String {
         guard let rawData = data,data!.count > 0 else {
             return ""
         }
@@ -555,7 +555,7 @@ extension SFRestAPI {
          ```
          - Returns:  SFRestRequest wrapped in a promise.
          */
-        func fileContents(sfdcId: String, version: String?) -> Promise<SFRestRequest> {
+        public func fileContents(sfdcId: String, version: String?) -> Promise<SFRestRequest> {
             return  Promise(.pending) {  resolver in
                 resolver.fulfill(
                     self.api!.request(forFileContents: sfdcId, version: version))
@@ -572,7 +572,7 @@ extension SFRestAPI {
          ```
          - Returns:  SFRestRequest wrapped in a promise.
          */
-        func fileShares(sfdcId: String, page: UInt? = 0) -> Promise<SFRestRequest> {
+        public func fileShares(sfdcId: String, page: UInt? = 0) -> Promise<SFRestRequest> {
             return  Promise(.pending) {  resolver in
                 resolver.fulfill(
                     self.api!.request(forFileShares: sfdcId, page: page!))
@@ -589,7 +589,7 @@ extension SFRestAPI {
          ```
          - Returns:  SFRestRequest wrapped in a promise.
          */
-        func addFileShare(fileId: String, entityId: String, shareType: String) -> Promise<SFRestRequest> {
+        public func addFileShare(fileId: String, entityId: String, shareType: String) -> Promise<SFRestRequest> {
             return  Promise(.pending) { resolver in
                 resolver.fulfill(
                     self.api!.request(forAddFileShare: fileId, entityId: entityId, shareType: shareType))
@@ -606,7 +606,7 @@ extension SFRestAPI {
          ```
          - Returns:  SFRestRequest wrapped in a promise.
          */
-        func deleteFileShare(shareId: String) -> Promise<SFRestRequest> {
+        public func deleteFileShare(shareId: String) -> Promise<SFRestRequest> {
             return  Promise(.pending) {  resolver in
                 resolver.fulfill(
                     self.api!.request(forDeleteFileShare: shareId))
@@ -624,7 +624,7 @@ extension SFRestAPI {
          - Returns:  SFRestRequest wrapped in a promise.
          */
         
-        func uploadFile(data: Data, name: String, description: String, mimeType: String) -> Promise<SFRestRequest> {
+        public func uploadFile(data: Data, name: String, description: String, mimeType: String) -> Promise<SFRestRequest> {
             return  Promise(.pending) {  resolver in
                 resolver.fulfill(
                     self.api!.request(forUploadFile: data, name: name, description: description, mimeType: mimeType))
