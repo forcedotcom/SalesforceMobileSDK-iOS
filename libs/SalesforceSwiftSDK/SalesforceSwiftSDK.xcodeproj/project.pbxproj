@@ -11,11 +11,11 @@
 		4F0F31DA1FDF2E7700CF6926 /* SalesforceSwiftSDKManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0F31D01FDF2E6800CF6926 /* SalesforceSwiftSDKManager.swift */; };
 		B71343DD1FDA6AF6008ABF1A /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = B71343DC1FDA6AF6008ABF1A /* test_credentials.json */; };
 		B71343DF1FDDF2B1008ABF1A /* SalesforceTestCodables.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71343DE1FDDF2B1008ABF1A /* SalesforceTestCodables.swift */; };
+		B71FACB31FE1AC63003EE359 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B71FACB41FE1AC63003EE359 /* CocoaLumberjack.framework */; };
 		B777957D1FE0AE52009C10FB /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B777957E1FE0AE52009C10FB /* SalesforceSDKCore.framework */; };
 		B77795871FE0AEDB009C10FB /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B77795881FE0AEDB009C10FB /* SalesforceAnalytics.framework */; };
 		B77795891FE0AEE5009C10FB /* SmartStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B777958A1FE0AEE5009C10FB /* SmartStore.framework */; };
 		B777958B1FE0AEE5009C10FB /* SmartSync.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7DA7AEB1FCDE2540098C1EA /* SmartSync.framework */; };
-		B77795B61FE0AF56009C10FB /* CocoaLumberjackSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B77795B71FE0AF56009C10FB /* CocoaLumberjackSwift.framework */; };
 		B77795C01FE0AF5E009C10FB /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7DA7B491FCDECA70098C1EA /* PromiseKit.framework */; };
 		B7980CC01FD49B3C009CFDE1 /* SFUserAccountManagerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7980CBF1FD49B3C009CFDE1 /* SFUserAccountManagerExtensions.swift */; };
 		B7980CC21FD49B63009CFDE1 /* SFRestAPIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7980CC11FD49B63009CFDE1 /* SFRestAPIExtensions.swift */; };
@@ -152,6 +152,7 @@
 		4F0F31D01FDF2E6800CF6926 /* SalesforceSwiftSDKManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesforceSwiftSDKManager.swift; sourceTree = "<group>"; };
 		B71343DC1FDA6AF6008ABF1A /* test_credentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test_credentials.json; path = ../../../../shared/test/test_credentials.json; sourceTree = "<group>"; };
 		B71343DE1FDDF2B1008ABF1A /* SalesforceTestCodables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesforceTestCodables.swift; sourceTree = "<group>"; };
+		B71FACB41FE1AC63003EE359 /* CocoaLumberjack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CocoaLumberjack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B777957E1FE0AE52009C10FB /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SalesforceSDKCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B77795881FE0AEDB009C10FB /* SalesforceAnalytics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SalesforceAnalytics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B777958A1FE0AEE5009C10FB /* SmartStore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartStore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -210,8 +211,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B71FACB31FE1AC63003EE359 /* CocoaLumberjack.framework in Frameworks */,
 				B77795C01FE0AF5E009C10FB /* PromiseKit.framework in Frameworks */,
-				B77795B61FE0AF56009C10FB /* CocoaLumberjackSwift.framework in Frameworks */,
 				B77795891FE0AEE5009C10FB /* SmartStore.framework in Frameworks */,
 				B777958B1FE0AEE5009C10FB /* SmartSync.framework in Frameworks */,
 				B77795871FE0AEDB009C10FB /* SalesforceAnalytics.framework in Frameworks */,
@@ -307,6 +308,7 @@
 		B7DA7AD51FCDE1B70098C1EA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B71FACB41FE1AC63003EE359 /* CocoaLumberjack.framework */,
 				B77795B71FE0AF56009C10FB /* CocoaLumberjackSwift.framework */,
 				B777958A1FE0AEE5009C10FB /* SmartStore.framework */,
 				B77795881FE0AEDB009C10FB /* SalesforceAnalytics.framework */,
