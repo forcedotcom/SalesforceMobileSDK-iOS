@@ -29,7 +29,7 @@ public class SalesforceSwiftSDKManager: SalesforceSDKManager {
         return SFAppType.nativeSwift;
     }
     
-    class func initSDK() -> SalesforceSwiftSDKManager.Type {
+    public class func initSDK() -> SalesforceSwiftSDKManager.Type {
         SalesforceSDKManager.setInstanceClass(SalesforceSwiftSDKManager.self)
         return SalesforceSwiftSDKManager.self
     }

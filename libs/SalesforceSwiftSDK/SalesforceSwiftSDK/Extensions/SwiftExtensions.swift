@@ -30,14 +30,14 @@ protocol ProtocolStoredProperty {
 }
 
 public extension Decodable {
-    static func decode(data: Data) throws -> Self {
+    public static func decode(data: Data) throws -> Self {
         let decoder = JSONDecoder()
         return try decoder.decode(Self.self, from: data)
     }
 }
 
 public extension Encodable {
-    func encode() throws -> Data {
+    public func encode() throws -> Data {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
         return try encoder.encode(self)
@@ -46,14 +46,14 @@ public extension Encodable {
 
 extension ProtocolStoredProperty {
     
-    func getAssociatedObject(_ key: UnsafeRawPointer!, defaultValue: T) -> T {
+    public func getAssociatedObject(_ key: UnsafeRawPointer!, defaultValue: T) -> T {
         guard let value = objc_getAssociatedObject(self, key) as? T else {
             return defaultValue
         }
         return value
     }
     
-    func setAssociatedObject(storedProperty: UnsafeRawPointer!, newValue: T) {
+    public func setAssociatedObject(storedProperty: UnsafeRawPointer!, newValue: T) {
         objc_setAssociatedObject(self, storedProperty, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
 }
