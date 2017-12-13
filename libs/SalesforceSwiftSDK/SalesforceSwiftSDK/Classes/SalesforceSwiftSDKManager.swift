@@ -28,5 +28,11 @@ public class SalesforceSwiftSDKManager: SalesforceSDKManager {
     override public var appType: SFAppType {
         return SFAppType.nativeSwift;
     }
+    
+    class func initSDK() -> SalesforceSwiftSDKManager.Type {
+        SalesforceSDKManager.setInstanceClass(SalesforceSwiftSDKManager.self)
+        return SalesforceSwiftSDKManager.self
+    }
+
 }
 

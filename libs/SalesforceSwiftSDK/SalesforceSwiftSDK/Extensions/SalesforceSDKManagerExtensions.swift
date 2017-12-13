@@ -24,23 +24,24 @@
  */
 import Foundation
 import SalesforceSDKCore
+import SmartSync
 import PromiseKit
 
-extension SalesforceSDKManager {
+extension SalesforceSwiftSDKManager {
     
-    static var Builder = SalesforceSDKManagerBuilder.self
-    
-    class func configure(config : @escaping (SFSDKAppConfig) -> Void ) -> SalesforceSDKManager.Type  {
-        config(SalesforceSDKManager.shared().appConfig!)
-        return SalesforceSDKManager.self
+    public static var Builder:SalesforceSDKManagerBuilder.Type {
+        get {
+           _ = SalesforceSwiftSDKManager.initSDK()
+           return SalesforceSDKManagerBuilder.self
+        }
     }
-
-    class SalesforceSDKManagerBuilder {
-
+   
+    public class SalesforceSDKManagerBuilder {
+        
         /**
          Provides a Builder based mechanism to setup the app config for the Salesforce Application.
          ```
-         SalesforceSDKManager.Builder.configure { (appconfig) in
+         SalesforceSwiftSDKManager.Builder.configure { (appconfig) in
              appconfig.remoteAccessConsumerKey = RemoteAccessConsumerKey
              appconfig.oauthRedirectURI = OAuthRedirectURI
              appconfig.oauthScopes = ["web", "api"]
@@ -50,14 +51,14 @@ extension SalesforceSDKManager {
          - Returns: The instance of SalesforceSDKManagerBuilder.
          */
         class func configure(config : @escaping (SFSDKAppConfig) -> Void ) -> SalesforceSDKManagerBuilder.Type {
-            config(SalesforceSDKManager.shared().appConfig!)
-            return SalesforceSDKManagerBuilder.self
+            config(SalesforceSwiftSDKManager.shared().appConfig!)
+            return self
         }
 
         /**
          Provides a way to set the post launch action for the Salesforce Application.
          ```
-         SalesforceSDKManager.Builder.configure { (appconfig) in
+         SalesforceSwiftSDKManager.Builder.configure { (appconfig) in
              appconfig.remoteAccessConsumerKey = RemoteAccessConsumerKey
              appconfig.oauthRedirectURI = OAuthRedirectURI
              appconfig.oauthScopes = ["web", "api"]
@@ -70,15 +71,15 @@ extension SalesforceSDKManager {
          - Parameter action: The block which will be invoked after a succesfull SDK Launch.
          - Returns: The instance of SalesforceSDKManagerBuilder.
          */
-        class func postLaunch(action : @escaping SFSDKPostLaunchCallbackBlock) -> SalesforceSDKManagerBuilder.Type {
-            SalesforceSDKManager.shared().postLaunchAction = action
-            return SalesforceSDKManagerBuilder.self
-        }
+         class func postLaunch(action : @escaping SFSDKPostLaunchCallbackBlock) -> SalesforceSDKManagerBuilder.Type {
+            SalesforceSwiftSDKManager.shared().postLaunchAction = action
+            return self
+         }
 
         /**
          Provides a way to set the post logout action for the Salesforce Application.
          ```
-         SalesforceSDKManager.Builder.configure { (appconfig) in
+         SalesforceSwiftSDKManager.Builder.configure { (appconfig) in
              appconfig.remoteAccessConsumerKey = RemoteAccessConsumerKey
              appconfig.oauthRedirectURI = OAuthRedirectURI
              appconfig.oauthScopes = ["web", "api"]
@@ -94,14 +95,14 @@ extension SalesforceSDKManager {
          - Returns: The instance of SalesforceSDKManagerBuilder.
          */
         class func postLogout(action : @escaping SFSDKLogoutCallbackBlock) -> SalesforceSDKManagerBuilder.Type {
-            SalesforceSDKManager.shared().postLogoutAction = action
-            return SalesforceSDKManagerBuilder.self
+            SalesforceSwiftSDKManager.shared().postLogoutAction = action
+            return self
         }
 
         /**
          Provides a way to set the switch user action for the Salesforce Application.
          ```
-         SalesforceSDKManager.Builder.configure { (appconfig) in
+         SalesforceSwiftSDKManager.Builder.configure { (appconfig) in
          appconfig.remoteAccessConsumerKey = RemoteAccessConsumerKey
          appconfig.oauthRedirectURI = OAuthRedirectURI
          appconfig.oauthScopes = ["web", "api"]
@@ -119,16 +120,15 @@ extension SalesforceSDKManager {
          - Parameter action: The block which will be invoked after a succesfull SDK Launch.
          - Returns: The instance of SalesforceSDKManagerBuilder.
          */
-        
         class func switchUser(action : @escaping SFSDKSwitchUserCallbackBlock) -> SalesforceSDKManagerBuilder.Type {
-            SalesforceSDKManager.shared().switchUserAction = action
-            return SalesforceSDKManagerBuilder.self
+            SalesforceSwiftSDKManager.shared().switchUserAction = action
+            return self
         }
 
         /**
          Provides a way to set the error handling during sdk launch for the Salesforce Application.
          ```
-         SalesforceSDKManager.Builder.configure { (appconfig) in
+         SalesforceSwiftSDKManager.Builder.configure { (appconfig) in
              appconfig.remoteAccessConsumerKey = RemoteAccessConsumerKey
              appconfig.oauthRedirectURI = OAuthRedirectURI
              appconfig.oauthScopes = ["web", "api"]
@@ -150,9 +150,9 @@ extension SalesforceSDKManager {
          - Returns: The instance of SalesforceSDKManagerBuilder.
          */
         class func launchError(action : @escaping SFSDKLaunchErrorCallbackBlock) -> SalesforceSDKManagerBuilder.Type {
-            SalesforceSDKManager.shared().launchErrorAction = action
+            SalesforceSwiftSDKManager.shared().launchErrorAction = action
             SalesforceSwiftLogger.d(SalesforceSDKManager.self, message: "error")
-            return SalesforceSDKManagerBuilder.self
+            return self
         }
         
         /**
@@ -163,3 +163,5 @@ extension SalesforceSDKManager {
         }
     }
 }
+
+

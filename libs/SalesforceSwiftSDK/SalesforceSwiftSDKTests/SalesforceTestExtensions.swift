@@ -65,7 +65,6 @@ struct TestConfig: Codable {
         case identityUrl = "identity_url"
     }
     
-    
     init(accessToken: String, testClientId: String,
          testLoginDomain: String, testRedirectUri: String,
          refreshToken: String, instanceUrl: String,
@@ -77,6 +76,19 @@ struct TestConfig: Codable {
         self.refreshToken = refreshToken
         self.instanceUrl = instanceUrl
         self.identityUrl = identityUrl
+    }
+}
+extension String {
+    
+    func toBool() -> Bool {
+        switch self.lowercased() {
+        case "true", "yes", "1":
+            return true
+        case "false", "no", "0":
+            return false
+        default:
+            return false
+        }
     }
 }
 
@@ -105,9 +117,9 @@ extension SalesforceSDKManager : ProtocolStoredProperty  {
     }
     
     func restoreState() -> Void {
-       self.appConfig = state.appConfig
-       SFUserAccountManager.sharedInstance().currentUser =  state.currentUser
-       state = State()
+        self.appConfig = state.appConfig
+        SFUserAccountManager.sharedInstance().currentUser =  state.currentUser
+        state = State()
     }
 }
 
@@ -118,11 +130,10 @@ struct  TestContext {
 
 extension XCTestCase  : ProtocolStoredProperty {
     
-    
     typealias T = TestContext
     
     private struct BackedProperties {
-         static var testContext: TestContext?
+        static var testContext: TestContext?
     }
     
     var testContext: TestContext {
@@ -133,9 +144,6 @@ extension XCTestCase  : ProtocolStoredProperty {
             return setAssociatedObject(storedProperty: &BackedProperties.testContext, newValue: newValue)
         }
     }
-    
-  
-    
     
     class func readConfigFromFile(configFile: String?) -> Promise<TestConfig> {
         return Promise(.pending) {  seal in
@@ -155,7 +163,7 @@ extension XCTestCase  : ProtocolStoredProperty {
     }
     
     class func refreshCredentials(credentials: SFOAuthCredentials) -> Promise<SFUserAccount> {
-        SalesforceSDKManager.Builder.configure { (appconfig: SFSDKAppConfig) -> Void in
+        SalesforceSwiftSDKManager.Builder.configure { (appconfig: SFSDKAppConfig) -> Void in
             appconfig.shouldAuthenticate = false
             appconfig.oauthScopes = ["web", "api"]
             appconfig.remoteAccessConsumerKey = (SalesforceSwiftSDKTests.testConfig?.testClientId)!
@@ -166,7 +174,6 @@ extension XCTestCase  : ProtocolStoredProperty {
             .sharedInstance().Promises
             .refresh(credentials: credentials)
     }
-    
     
     class func waitForCompletion(maxWaitTime: TimeInterval, evaluate: @escaping () -> Bool) -> Void {
         let startTime = Date()
@@ -179,7 +186,6 @@ extension XCTestCase  : ProtocolStoredProperty {
             RunLoop.current.run(until: Date(timeIntervalSinceNow: 0.1))
         }
     }
-    
     
     func createNewUser(indx: Int) -> SFUserAccount {
         let kUserIdFormatString = "005R0000000Dsl"
@@ -194,4 +200,3 @@ extension XCTestCase  : ProtocolStoredProperty {
     }
     
 }
-

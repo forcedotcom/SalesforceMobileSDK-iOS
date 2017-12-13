@@ -34,8 +34,9 @@ class SalesforceSwiftSDKTests: XCTestCase {
     
     override class func setUp() {
         super.setUp()
-        SalesforceSDKManager.shared().saveState()
-       
+        
+        SalesforceSwiftSDKManager.initSDK().shared().saveState()
+        
         _ = SalesforceSwiftSDKTests.readConfigFromFile(configFile: nil)
             .then { testJsonConfig -> Promise<SFUserAccount> in
                 SalesforceSwiftSDKTests.testConfig = testJsonConfig
@@ -83,7 +84,7 @@ class SalesforceSwiftSDKTests: XCTestCase {
     func testConfiguration() {
         XCTAssertNotNil(SalesforceSwiftSDKTests.testConfig)
         XCTAssertNotNil(SalesforceSwiftSDKTests.testCredentials)
-        SalesforceSDKManager.Builder.configure { (appconfig: SFSDKAppConfig) -> Void in
+        SalesforceSwiftSDKManager.Builder.configure { (appconfig: SFSDKAppConfig) -> Void in
             appconfig.shouldAuthenticate = false
             appconfig.oauthScopes = ["web", "api"]
             appconfig.remoteAccessConsumerKey = (SalesforceSwiftSDKTests.testConfig?.testClientId)!
@@ -103,7 +104,7 @@ class SalesforceSwiftSDKTests: XCTestCase {
         XCTAssertNotNil(SalesforceSwiftSDKTests.testConfig)
         XCTAssertNotNil(SalesforceSwiftSDKTests.testCredentials)
         let expectation = self.expectation(description: "launched")
-        SalesforceSDKManager.Builder.postLaunch { action in
+        SalesforceSwiftSDKManager.Builder.postLaunch { action in
             expectation.fulfill()
         }.done()
         SalesforceSDKManager.shared().launch()
@@ -116,7 +117,7 @@ class SalesforceSwiftSDKTests: XCTestCase {
         let currentOrigUser = SFUserAccountManager.sharedInstance().currentUser
         let expectation = self.expectation(description: "switched")
         let newUser = self.createNewUser(indx: 1)
-        SalesforceSDKManager.Builder.switchUser { from,to in
+        SalesforceSwiftSDKManager.Builder.switchUser { from,to in
             expectation.fulfill()
         }.done()
         SFUserAccountManager.sharedInstance().switch(toUser: newUser)

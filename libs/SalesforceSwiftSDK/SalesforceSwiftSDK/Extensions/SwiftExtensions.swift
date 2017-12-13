@@ -29,14 +29,14 @@ protocol ProtocolStoredProperty {
     func getAssociatedObject(_ key: UnsafeRawPointer!, defaultValue: T) -> T
 }
 
-extension Decodable {
+public extension Decodable {
     static func decode(data: Data) throws -> Self {
         let decoder = JSONDecoder()
         return try decoder.decode(Self.self, from: data)
     }
 }
 
-extension Encodable {
+public extension Encodable {
     func encode() throws -> Data {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
@@ -45,7 +45,7 @@ extension Encodable {
 }
 
 extension ProtocolStoredProperty {
- 
+    
     func getAssociatedObject(_ key: UnsafeRawPointer!, defaultValue: T) -> T {
         guard let value = objc_getAssociatedObject(self, key) as? T else {
             return defaultValue
@@ -55,23 +55,5 @@ extension ProtocolStoredProperty {
     
     func setAssociatedObject(storedProperty: UnsafeRawPointer!, newValue: T) {
         objc_setAssociatedObject(self, storedProperty, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-    }
-}
-
-extension Data {
-
-    func asJsonDictionary() -> Dictionary<String, Any> {
-        let jsonData = try! JSONSerialization.jsonObject(with: self, options: []) as! Dictionary<String, Any>
-        return jsonData
-    }
-    
-    func asJsonArray() -> [Dictionary<String, Any>] {
-        let jsonData = try! JSONSerialization.jsonObject(with: self, options: []) as! [Dictionary<String, Any>]
-        return jsonData
-    }
-    
-    func asString() -> String {
-        let jsonData =  String(data: self, encoding: String.Encoding.utf8)
-        return jsonData!
     }
 }
