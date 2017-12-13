@@ -52,6 +52,10 @@ public struct SFRestResponse {
         return jsonData
     }
     
+    func asData() -> Data? {
+       return self.data
+    }
+    
     func asString() -> String {
         guard let rawData = data,data!.count > 0 else {
             return ""
