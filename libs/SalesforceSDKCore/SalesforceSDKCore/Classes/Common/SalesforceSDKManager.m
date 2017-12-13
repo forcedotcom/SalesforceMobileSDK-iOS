@@ -466,15 +466,17 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
             @"SDK Version", SALESFORCE_SDK_VERSION,
             @"App Type", [self getAppTypeAsString],
             @"User Agent", self.userAgentString(@""),
-            @"Browser Login Enabled", [SFUserAccountManager sharedInstance].advancedAuthConfiguration != SFOAuthAdvancedAuthConfigurationNone ? @"true" : @"false",
+            @"Browser Login Enabled", [SFUserAccountManager sharedInstance].advancedAuthConfiguration != SFOAuthAdvancedAuthConfigurationNone ? @"YES" : @"NO",
+            @"IDP Enabled", [self idpEnabled] ? @"YES" : @"NO",
+            @"Identity Provider", [self isIdentityProvider] ? @"YES" : @"NO",
             @"Current User", [self usersToString:@[[SFUserAccountManager sharedInstance].currentUser]],
-            @"Authenticated Users", [self usersToString:[SFUserAccountManager sharedInstance].allUserAccounts]]
-    ];
+            @"Authenticated Users", [self usersToString:[SFUserAccountManager sharedInstance].allUserAccounts]
+    ]];
 
     [devInfos addObjectsFromArray:[self dictToDevInfos:self.appConfig.configDict keyPrefix:@"BootConfig"]];
     
     SFManagedPreferences *managedPreferences = [SFManagedPreferences sharedPreferences];
-    [devInfos addObjectsFromArray:@[@"Managed?", [NSString stringWithFormat:@"%d", [managedPreferences hasManagedPreferences]]]];
+    [devInfos addObjectsFromArray:@[@"Managed", [managedPreferences hasManagedPreferences] ? @"YES" : @"NO"]];
     if ([managedPreferences hasManagedPreferences]) {
         [devInfos addObjectsFromArray:[self dictToDevInfos:managedPreferences.rawPreferences keyPrefix:@"Managed Pref"]];
     }
