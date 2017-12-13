@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		4F0F31D11FDF2E6800CF6926 /* SalesforceSwiftSDKManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0F31D01FDF2E6800CF6926 /* SalesforceSwiftSDKManager.swift */; };
 		4F0F31DA1FDF2E7700CF6926 /* SalesforceSwiftSDKManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0F31D01FDF2E6800CF6926 /* SalesforceSwiftSDKManager.swift */; };
-		B71343DD1FDA6AF6008ABF1A /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = B71343DC1FDA6AF6008ABF1A /* test_credentials.json */; };
 		B71343DF1FDDF2B1008ABF1A /* SalesforceTestCodables.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71343DE1FDDF2B1008ABF1A /* SalesforceTestCodables.swift */; };
 		B71FACB31FE1AC63003EE359 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B71FACB41FE1AC63003EE359 /* CocoaLumberjack.framework */; };
 		B777957D1FE0AE52009C10FB /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B777957E1FE0AE52009C10FB /* SalesforceSDKCore.framework */; };
@@ -42,6 +41,7 @@
 		B7DA7B051FCDE6330098C1EA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B7DA7B041FCDE6330098C1EA /* Assets.xcassets */; };
 		B7DA7B081FCDE6330098C1EA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7DA7B061FCDE6330098C1EA /* LaunchScreen.storyboard */; };
 		B7DA7B541FCDECCC0098C1EA /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7DA7B491FCDECA70098C1EA /* PromiseKit.framework */; };
+		CE56D2A71FE1CCCB006B1876 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = CE56D2A61FE1CCCB006B1876 /* test_credentials.json */; };
 		CE57D9021FD7B4A600A0930F /* SalesforceSDKManagerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7DA7AF51FCDE3900098C1EA /* SalesforceSDKManagerExtensions.swift */; };
 		CE57D9031FD7B4AB00A0930F /* SwiftExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CFC4D31FD1D0390013534D /* SwiftExtensions.swift */; };
 		CE57D9061FD7B54900A0930F /* SalesforceSwiftLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CFC47A1FD04A270013534D /* SalesforceSwiftLogger.swift */; };
@@ -150,7 +150,6 @@
 
 /* Begin PBXFileReference section */
 		4F0F31D01FDF2E6800CF6926 /* SalesforceSwiftSDKManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesforceSwiftSDKManager.swift; sourceTree = "<group>"; };
-		B71343DC1FDA6AF6008ABF1A /* test_credentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test_credentials.json; path = ../../../../shared/test/test_credentials.json; sourceTree = "<group>"; };
 		B71343DE1FDDF2B1008ABF1A /* SalesforceTestCodables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesforceTestCodables.swift; sourceTree = "<group>"; };
 		B71FACB41FE1AC63003EE359 /* CocoaLumberjack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CocoaLumberjack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B777957E1FE0AE52009C10FB /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SalesforceSDKCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -189,6 +188,7 @@
 		B7DA7B091FCDE6330098C1EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B7DA7B0F1FCDE6AF0098C1EA /* SalesforceSwiftSDKTestApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SalesforceSwiftSDKTestApp.entitlements; sourceTree = "<group>"; };
 		B7DA7B401FCDECA70098C1EA /* PromiseKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PromiseKit.xcodeproj; path = ../../external/PromiseKit/PromiseKit.xcodeproj; sourceTree = "<group>"; };
+		CE56D2A61FE1CCCB006B1876 /* test_credentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test_credentials.json; path = ../../../../shared/test/test_credentials.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -234,14 +234,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		B71343DB1FDA36DD008ABF1A /* Supporting files */ = {
-			isa = PBXGroup;
-			children = (
-				B71343DC1FDA6AF6008ABF1A /* test_credentials.json */,
-			);
-			path = "Supporting files";
-			sourceTree = "<group>";
-		};
 		B7CFC5131FD1D5A70013534D /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -343,7 +335,7 @@
 		B7DA7AFC1FCDE6330098C1EA /* SalesforceSwiftSDKTestApp */ = {
 			isa = PBXGroup;
 			children = (
-				B71343DB1FDA36DD008ABF1A /* Supporting files */,
+				CE56D2A51FE1CCA2006B1876 /* Supporting Files */,
 				B7DA7B0F1FCDE6AF0098C1EA /* SalesforceSwiftSDKTestApp.entitlements */,
 				B7DA7AFD1FCDE6330098C1EA /* AppDelegate.swift */,
 				B7DA7AFF1FCDE6330098C1EA /* ViewController.swift */,
@@ -365,6 +357,14 @@
 				B7DA7B511FCDECA70098C1EA /* PMKDispatchTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		CE56D2A51FE1CCA2006B1876 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CE56D2A61FE1CCCB006B1876 /* test_credentials.json */,
+			);
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -578,7 +578,7 @@
 			files = (
 				B7DA7B081FCDE6330098C1EA /* LaunchScreen.storyboard in Resources */,
 				B7DA7B051FCDE6330098C1EA /* Assets.xcassets in Resources */,
-				B71343DD1FDA6AF6008ABF1A /* test_credentials.json in Resources */,
+				CE56D2A71FE1CCCB006B1876 /* test_credentials.json in Resources */,
 				B7DA7B031FCDE6330098C1EA /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
