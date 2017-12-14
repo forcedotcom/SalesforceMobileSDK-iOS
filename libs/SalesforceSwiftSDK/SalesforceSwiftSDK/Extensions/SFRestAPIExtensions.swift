@@ -64,7 +64,7 @@ public struct SFRestResponse {
         return jsonData!
     }
     
-    func asDecodable<T:Decodable>(type: T.Type) -> Decodable? {
+    public func asDecodable<T:Decodable>(type: T.Type) -> Decodable? {
         guard let rawData = data,data!.count > 0 else {
             return nil
         }
