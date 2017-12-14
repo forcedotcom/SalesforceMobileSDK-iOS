@@ -70,7 +70,7 @@ extension SalesforceSwiftSDKManager {
          - Returns: The instance of SalesforceSDKManagerBuilder.
          */
         public class func postInit(action: () -> Void) -> SalesforceSDKManagerBuilder.Type {
-            block()
+            action()
             return self
         }
 
