@@ -33,6 +33,6 @@ public class SalesforceSwiftSDKManager: SalesforceSDKManager {
         SalesforceSDKManager.setInstanceClass(SalesforceSwiftSDKManager.self)
         return SalesforceSwiftSDKManager.self
     }
-
+    
 }
 

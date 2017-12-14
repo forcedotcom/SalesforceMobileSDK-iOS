@@ -54,6 +54,25 @@ extension SalesforceSwiftSDKManager {
             config(SalesforceSwiftSDKManager.shared().appConfig!)
             return self
         }
+        
+        /**
+         Provides a Builder based mechanism to setup the post inititialization settings for the Salesforce Application.
+         ```
+         SalesforceSwiftSDKManager.Builder.configure { (appconfig) in
+         appconfig.remoteAccessConsumerKey = RemoteAccessConsumerKey
+         appconfig.oauthRedirectURI = OAuthRedirectURI
+         appconfig.oauthScopes = ["web", "api"]
+         }.postInit {
+         
+         }
+         ```
+         - Parameter action: The block which will be invoked.
+         - Returns: The instance of SalesforceSDKManagerBuilder.
+         */
+        public class func postInit(action: () -> Void) -> SalesforceSDKManagerBuilder.Type {
+            block()
+            return self
+        }
 
         /**
          Provides a way to set the post launch action for the Salesforce Application.
