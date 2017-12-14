@@ -34,9 +34,5 @@ public class SalesforceSwiftSDKManager: SalesforceSDKManager {
         return SalesforceSwiftSDKManager.self
     }
     
-    public class func postInit(block: () -> Void) -> SalesforceSwiftSDKManager.Type {
-       block()
-       return SalesforceSwiftSDKManager.self
-    }
 }
 
