@@ -387,7 +387,7 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
             __strong typeof(weakSelf) strongSelf = weakSelf;
             BOOL handledByDelegate = NO;
             // Let the OAuth coordinator know whether to proceed or not.
-            if ([self.config.safariViewDelegate respondsToSelector:@selector(authClientDidCancelBrowserFlow:)]) {
+            if ([strongSelf.config.safariViewDelegate respondsToSelector:@selector(authClientDidCancelBrowserFlow:)]) {
                 handledByDelegate = [weakSelf.config.safariViewDelegate authClientDidCancelBrowserFlow:weakSelf];
             }
             
@@ -397,11 +397,10 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
             // If no delegates implement authManagerDidCancelBrowserFlow, display Login Host List
             if (!handledByDelegate) {
                 SFSDKLoginHostListViewController *hostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
-                hostListViewController.delegate = weakSelf;
-                weakSelf.authWindow.viewController = hostListViewController;
-                [weakSelf.authWindow presentWindow];
+                hostListViewController.delegate = strongSelf;
+                strongSelf.authWindow.viewController = hostListViewController;
+                [strongSelf.authWindow presentWindow];
             }
-            
             
         };
     }];
