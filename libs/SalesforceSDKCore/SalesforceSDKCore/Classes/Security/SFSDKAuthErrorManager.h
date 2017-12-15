@@ -43,6 +43,8 @@ typedef void (^SFSDKErrorHandlerBlock)(NSError *error,SFOAuthInfo *authInfo,NSDi
 
 @property (nonatomic,copy) SFSDKErrorHandlerBlock invalidAuthCredentialsErrorHandlerBlock;
 
+@property (nonatomic,copy) SFSDKErrorHandlerBlock hostConnectionErrorHandlerBlock;
+
 @property (nonatomic,copy) SFSDKErrorHandlerBlock genericErrorHandlerBlock;
 
 /**
