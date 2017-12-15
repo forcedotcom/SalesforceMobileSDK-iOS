@@ -335,7 +335,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     if ([[self allUserAccounts] count] < 1 ) {
         [SFSecurityLockout clearPasscodeState];
     }
-   
+    [SFSDKWebViewStateManager removeSession];
     NSNotification *logoutNotification = [NSNotification notificationWithName:kSFNotificationUserDidLogout object:self userInfo:userInfo];
     
     [[NSNotificationCenter defaultCenter] postNotification:logoutNotification];
@@ -1396,6 +1396,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 
 #pragma mark Switching Users
 - (void)switchToNewUser {
+    [SFSDKWebViewStateManager removeSession];
     [self switchToUser:nil];
 }
 
