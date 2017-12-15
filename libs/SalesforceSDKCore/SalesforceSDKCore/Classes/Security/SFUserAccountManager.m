@@ -395,6 +395,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
             }
         }];
     }
+    [self disposeOAuthClient:client];
 }
 
 - (BOOL)authClientIsNetworkAvailable:(SFSDKOAuthClient *)client {
@@ -422,6 +423,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     SFSDKOAuthClient *newClient = [self fetchOAuthClient:credentials
                                               completion:client.config.successCallbackBlock
                                                  failure:client.config.failureCallbackBlock];
+    newClient.config.loginHost = newLoginHost;
     [newClient refreshCredentials];
 }
 
@@ -1116,6 +1118,12 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
         
     };
     
+    self.errorManager.hostConnectionErrorHandlerBlock  = ^(NSError *error, SFOAuthInfo *authInfo,NSDictionary *options) {
+        __strong typeof (weakSelf) strongSelf = weakSelf;
+        SFSDKOAuthClient *client = [options objectForKey:kErroredClientKey];
+        [strongSelf showAlertForHostConnectionError:(NSError *)error client:client];
+    };
+    
     self.errorManager.genericErrorHandlerBlock = ^(NSError *error, SFOAuthInfo *authInfo,NSDictionary *options) {
         __strong typeof (weakSelf) strongSelf = weakSelf;
         SFSDKOAuthClient *client = [options objectForKey:kErroredClientKey];
@@ -1128,6 +1136,31 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
         [SFSDKCoreLogger w:[strongSelf class] format:@"OAuth refresh failed due to Connected App version mismatch.  Error code: %ld", (long)error.code];
         [strongSelf showAlertForConnectedAppVersionMismatchError:error client:client];
     };
+}
+
+- (void)showAlertForHostConnectionError:(NSError *)error client:(SFSDKOAuthClient *)client
+{
+    NSString *alertMessage = [NSString stringWithFormat:[SFSDKResourceUtils localizedString:kAlertConnectionErrorFormatStringKey], [error localizedDescription]];
+    
+    __weak typeof (self) weakSelf = self;
+    SFSDKAlertMessage *message = [SFSDKAlertMessage messageWithBlock:^(SFSDKAlertMessageBuilder *builder) {
+        __strong typeof (weakSelf) strongSelf = weakSelf;
+        builder.alertTitle = [SFSDKResourceUtils localizedString:kAlertErrorTitleKey];
+        builder.alertMessage = alertMessage;
+        builder.actionOneTitle = [SFSDKResourceUtils localizedString:kAlertOkButtonKey];
+        builder.actionOneCompletion = ^{
+            [client cancelAuthentication:YES];
+            [strongSelf disposeOAuthClient:client];
+            [weakSelf notifyUserCancelledOrDismissedAuth:client.credentials andAuthInfo:client.context.authInfo];
+            SFSDKLoginHost *host = [[SFSDKLoginHostStorage sharedInstance] loginHostAtIndex:0];
+            strongSelf.loginHost = host.host;
+            [strongSelf switchToNewUser];
+        };
+    }];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        weakSelf.alertDisplayBlock(message, SFSDKWindowManager.sharedManager.authWindow);
+    });
+    
 }
 
 - (void)showRetryAlertForAuthError:(NSError *)error client:(SFSDKOAuthClient *)client
@@ -1151,6 +1184,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
         builder.actionTwoCompletion = ^{
             [client cancelAuthentication:YES];
             [strongSelf disposeOAuthClient:client];
+            [weakSelf notifyUserCancelledOrDismissedAuth:client.credentials andAuthInfo:client.context.authInfo];
         };
     }];
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -1419,6 +1453,13 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     }
 }
 
+- (void)notifyUserCancelledOrDismissedAuth:(SFOAuthCredentials *)credentials andAuthInfo:(SFOAuthInfo *)info
+ {
+    NSDictionary *userInfo = @{ kSFNotificationUserInfoCredentialsKey:credentials,
+                                kSFNotificationUserInfoAuthTypeKey: info };
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserCanceledAuth
+                                                        object:self userInfo:userInfo];
+}
 - (void)reload {
     [_accountsLock lock];
 
