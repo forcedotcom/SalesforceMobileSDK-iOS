@@ -385,12 +385,21 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
         };
         builder.actionTwoCompletion = ^{
             __strong typeof(weakSelf) strongSelf = weakSelf;
+            BOOL handledByDelegate = NO;
             // Let the OAuth coordinator know whether to proceed or not.
             if ([strongSelf.config.safariViewDelegate respondsToSelector:@selector(authClientDidCancelBrowserFlow:)]) {
-                [strongSelf.config.safariViewDelegate authClientDidCancelBrowserFlow:strongSelf];
+                handledByDelegate = [strongSelf.config.safariViewDelegate authClientDidCancelBrowserFlow:strongSelf];
             }
+            
             if (strongSelf.authCoordinatorBrowserBlock) {
                 strongSelf.authCoordinatorBrowserBlock(NO);
+            }
+            // If no delegates implement authManagerDidCancelBrowserFlow, display Login Host List
+            if (!handledByDelegate) {
+                SFSDKLoginHostListViewController *hostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
+                hostListViewController.delegate = strongSelf;
+                strongSelf.authWindow.viewController = hostListViewController;
+                [strongSelf.authWindow presentWindow];
             }
             
         };
