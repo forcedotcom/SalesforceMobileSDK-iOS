@@ -388,7 +388,7 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
             BOOL handledByDelegate = NO;
             // Let the OAuth coordinator know whether to proceed or not.
             if ([strongSelf.config.safariViewDelegate respondsToSelector:@selector(authClientDidCancelBrowserFlow:)]) {
-                handledByDelegate = [weakSelf.config.safariViewDelegate authClientDidCancelBrowserFlow:weakSelf];
+                handledByDelegate = [strongSelf.config.safariViewDelegate authClientDidCancelBrowserFlow:strongSelf];
             }
             
             if (strongSelf.authCoordinatorBrowserBlock) {
