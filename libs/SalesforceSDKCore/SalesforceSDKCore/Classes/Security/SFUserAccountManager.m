@@ -277,9 +277,8 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 }
 
 - (BOOL)authenticateWithCompletion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock credentials:(SFOAuthCredentials *)credentials{
-    
     NSAssert(self.useLegacyAuthenticationManager==false, kSFIncompatibleAuthError);
-    
+    [SFSDKWebViewStateManager removeSession];
     SFSDKOAuthClient *client = [self fetchOAuthClient:credentials completion:completionBlock failure:failureBlock];
     [[SFSDKOAuthClientCache sharedInstance] addClient:client];
     return [client refreshCredentials];
