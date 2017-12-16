@@ -369,6 +369,9 @@
 - (BOOL)handleURLAuthenticationResponse:(NSURL *)appUrlResponse {
     [SFSDKCoreLogger d:[self class] format:@"handleAdvancedAuthenticationResponse called"];
     self.coordinator.credentials = self.context.credentials;
+    if(self.config.loginHost) {
+        self.coordinator.credentials.domain = self.config.loginHost;
+    }
     [self.coordinator handleIDPAuthenticationResponse:appUrlResponse];
     return YES;
 }

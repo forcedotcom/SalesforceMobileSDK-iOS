@@ -127,9 +127,8 @@
     BOOL showSelection = NO;
     NSString *domain = request.allParams[kSFLoginHostParam]?:idpAppsCredentials.domain;
     SFOAuthCredentials *credentials = foundUserCredentials?:idpAppsCredentials;
-    authClient.config.loginHost = domain;
     authClient = [self fetchIDPAuthClient:credentials completion:nil failure:nil];
-
+    authClient.config.loginHost = domain;
     if (self.currentUser!=nil && !foundUserCredentials) {
         NSArray *domainUsers = [self userAccountsForDomain:request.spLoginHost];
         showSelection = ([domainUsers count] > 0);
