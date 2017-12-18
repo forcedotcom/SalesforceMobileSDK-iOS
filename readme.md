@@ -65,9 +65,11 @@ Introduction
 - To define sync operations for the default global store, provide a file named `globalsyncs.json`.
 - To define sync operations for the default user store, provide a file named `usersyncs.json`.
 
-**Other Enhancements**
-- Mobile SDK 6.0 adds support for a developer settings screen in DEBUG builds.
-- This screen displays configuration information that is useful during the development cycle.
+**Mobile SDK Developer Tools**
+- The Developer Support dialog box is the launchpad for all available support screens and other useful actions.
+- The dialog box presents only the options that are pertinent to the type of app you’re running.
+- During debugging on a desktop, you can access the home screen through a keyboard shortcut or gesture (`^⌘z` keyboard shortcut or `Shake Gesture` in the `Hardware` menu).
+- By default, these tools are available only in debug builds. However, you can use an API call to enable or disable the Developer Support screen at other times.
 
 **Other Technical Improvements**
 - Improvements to sample apps.
