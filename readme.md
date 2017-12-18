@@ -71,6 +71,10 @@ Introduction
 - During debugging on a desktop, you can access the home screen through a keyboard shortcut or gesture (`^⌘z` keyboard shortcut or `Shake Gesture` in the `Hardware` menu).
 - By default, these tools are available only in debug builds. However, you can use an API call to enable or disable the Developer Support screen at other times.
 
+**SDK Manager Classes**
+- The `SalesforceSDKManager` class welcomes several new SDK manager cousins that handle specific types of apps.
+- This architecture now matches the analogous architecture in Mobile SDK for Android.
+
 **Other Technical Improvements**
 - Improvements to sample apps.
 - Various bug fixes.
