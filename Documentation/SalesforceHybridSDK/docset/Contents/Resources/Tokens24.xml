@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Constants/SFSDKHybridAppConfigErrorCode.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSDKHybridAppConfigErrorCode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFHybridViewConfig.h</DeclaredIn>
+            
+			
+			<NodeRef refid="24"/>
+		</Token>
+		
+		
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKHybridAppConfigErrorCodeNoStartPage</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKHybridAppConfigErrorCodeNoStartPage</Declaration>
+            
+            <DeclaredIn>SFHybridViewConfig.h</DeclaredIn>
+            
+            <NodeRef refid="24"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKHybridAppConfigErrorCodeStartPageAbsoluteURL</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKHybridAppConfigErrorCodeStartPageAbsoluteURL</Declaration>
+            
+            <DeclaredIn>SFHybridViewConfig.h</DeclaredIn>
+            
+            <NodeRef refid="24"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKHybridAppConfigErrorCodeUnauthenticatedStartPageNotAbsoluteURL</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKHybridAppConfigErrorCodeUnauthenticatedStartPageNotAbsoluteURL</Declaration>
+            
+            <DeclaredIn>SFHybridViewConfig.h</DeclaredIn>
+            
+            <NodeRef refid="24"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKHybridAppConfigErrorCodeNoUnauthenticatedStartPage</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKHybridAppConfigErrorCodeNoUnauthenticatedStartPage</Declaration>
+            
+            <DeclaredIn>SFHybridViewConfig.h</DeclaredIn>
+            
+            <NodeRef refid="24"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKHybridAppConfigErrorCodeAbsoluteURLNoAuth</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKHybridAppConfigErrorCodeAbsoluteURLNoAuth</Declaration>
+            
+            <DeclaredIn>SFHybridViewConfig.h</DeclaredIn>
+            
+            <NodeRef refid="24"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKHybridAppConfigErrorCodeRelativeURLAuth</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKHybridAppConfigErrorCodeRelativeURLAuth</Declaration>
+            
+            <DeclaredIn>SFHybridViewConfig.h</DeclaredIn>
+            
+            <NodeRef refid="24"/>
+        </Token>
+        
+        
+	</File>
+</Tokens>

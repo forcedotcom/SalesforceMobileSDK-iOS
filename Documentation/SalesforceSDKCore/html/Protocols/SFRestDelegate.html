@@ -62,7 +62,11 @@
 		
 		<option value="//api/name/request:didFailLoadWithError:">- request:didFailLoadWithError:</option>
 		
+		<option value="//api/name/request:didFailLoadWithError:rawResponse:">- request:didFailLoadWithError:rawResponse:</option>
+		
 		<option value="//api/name/request:didLoadResponse:">- request:didLoadResponse:</option>
+		
+		<option value="//api/name/request:didLoadResponse:rawResponse:">- request:didLoadResponse:rawResponse:</option>
 		
 		<option value="//api/name/requestDidCancelLoad:">- requestDidCancelLoad:</option>
 		
@@ -118,6 +122,71 @@
 
 						<div class="task-list">
 							<div class="section-method">
+	<a name="//api/name/request:didLoadResponse:rawResponse:" title="request:didLoadResponse:rawResponse:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/request:didLoadResponse:rawResponse:">&ndash;&nbsp;request:didLoadResponse:rawResponse:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Sent when a request has finished loading.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)request:(SFRestRequest *)<em>request</em> didLoadResponse:(id)<em>dataResponse</em> rawResponse:(NSURLResponse *)<em>rawResponse</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>request</code></th>
+						<td><p>The request that was loaded.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>dataResponse</code></th>
+						<td><p>The data from the response.  By default, this will be an object
+containing the parsed JSON response.  However, if the response is not JSON,
+the data will be contained in a binary <code>NSData</code> object.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>rawResponse</code></th>
+						<td><p>Raw response returned by the server.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestRequest.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/request:didLoadResponse:" title="request:didLoadResponse:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/request:didLoadResponse:">&ndash;&nbsp;request:didLoadResponse:</a></code>
 </h3>
@@ -151,7 +220,75 @@
 						<th scope="row" class="argument-name"><code>dataResponse</code></th>
 						<td><p>The data from the response.  By default, this will be an object
 containing the parsed JSON response.  However, if the response is not JSON,
-the data will be contained in a binary <code>NSData</code> object.</p></td>
+the data will be contained in a binary <code>NSData</code> object.</p>
+
+<p>The pre SDK 6.0 signature
+Is called only if <a href="#//api/name/request:didLoadResponse:rawResponse:">request:didLoadResponse:rawResponse:</a> is not provided</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestRequest.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/request:didFailLoadWithError:rawResponse:" title="request:didFailLoadWithError:rawResponse:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/request:didFailLoadWithError:rawResponse:">&ndash;&nbsp;request:didFailLoadWithError:rawResponse:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Sent when a request has failed due to an error.
+This includes HTTP network errors, as well as Salesforce errors
+(for example, passing an invalid SOQL string when doing a query).</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)request:(SFRestRequest *)<em>request</em> didFailLoadWithError:(NSError *)<em>error</em> rawResponse:(NSURLResponse *)<em>rawResponse</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>request</code></th>
+						<td><p>The attempted request.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>error</code></th>
+						<td><p>The error associated with the failed request.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>rawResponse</code></th>
+						<td><p>Raw response returned by the server.</p></td>
 					</tr>
 				
 				</table>
@@ -211,7 +348,10 @@ This includes HTTP network errors, as well as Salesforce errors
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>error</code></th>
-						<td><p>The error associated with the failed request.</p></td>
+						<td><p>The error associated with the failed request.</p>
+
+<p>The pre SDK 6.0 signature
+Is called only if <a href="#//api/name/request:didFailLoadWithError:rawResponse:">request:didFailLoadWithError:rawResponse:</a> is not provided</p></td>
 					</tr>
 				
 				</table>
@@ -359,7 +499,7 @@ backgrounded request expired before completion.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-09-18</p>
+						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-12-18</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

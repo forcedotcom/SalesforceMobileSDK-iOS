@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFOAuthKeychainCredentials.html">
+	<File path="Classes/SFSDKAppFeatureMarkers.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFOAuthKeychainCredentials</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAppFeatureMarkers</TokenIdentifier>
+			<Abstract type="html">Class to register and unregister feature markers associated with SDK facilities being used in
+an app.</Abstract>
+			<DeclaredIn>SFSDKAppFeatureMarkers.h</DeclaredIn>
             
 			
 			<NodeRef refid="66"/>
@@ -13,170 +14,48 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/keyMacForService:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAppFeatureMarkers/registerAppFeature:</TokenIdentifier>
+			<Abstract type="html">Register a particular app feature.</Abstract>
+			<DeclaredIn>SFSDKAppFeatureMarkers.h</DeclaredIn>
 			
-			<Declaration>- (NSData *)keyMacForService:(NSString *)service</Declaration>
+			<Declaration>+ (void)registerAppFeature:(nonnull NSString *)appFeature</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>appFeature</Name>
+					<Abstract type="html">The string representation of the feature to register.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/keyMacForService:</Anchor>
+			<Anchor>//api/name/registerAppFeature:</Anchor>
             <NodeRef refid="66"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/keyVendorIdForService:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAppFeatureMarkers/unregisterAppFeature:</TokenIdentifier>
+			<Abstract type="html">Unregister a particular app feature.</Abstract>
+			<DeclaredIn>SFSDKAppFeatureMarkers.h</DeclaredIn>
 			
-			<Declaration>- (NSData *)keyVendorIdForService:(NSString *)service</Declaration>
+			<Declaration>+ (void)unregisterAppFeature:(nonnull NSString *)appFeature</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>appFeature</Name>
+					<Abstract type="html">The string representation of the feature to unregister.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/keyVendorIdForService:</Anchor>
+			<Anchor>//api/name/unregisterAppFeature:</Anchor>
             <NodeRef refid="66"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/keyBaseAppIdForService:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAppFeatureMarkers/appFeatures</TokenIdentifier>
+			<Abstract type="html">The current set of registered features.</Abstract>
+			<DeclaredIn>SFSDKAppFeatureMarkers.h</DeclaredIn>
 			
-			<Declaration>- (NSData *)keyBaseAppIdForService:(NSString *)service</Declaration>
+			<Declaration>+ (nonnull NSSet&lt;NSString*&gt; *)appFeatures</Declaration>
 			
-			
-			<Anchor>//api/name/keyBaseAppIdForService:</Anchor>
-            <NodeRef refid="66"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/keyStoreKeyForService:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
-			
-			<Declaration>- (SFEncryptionKey *)keyStoreKeyForService:(NSString *)service</Declaration>
-			
-			
-			<Anchor>//api/name/keyStoreKeyForService:</Anchor>
-            <NodeRef refid="66"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/keyWithSeed:service:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
-			
-			<Declaration>- (NSData *)keyWithSeed:(NSString *)seed service:(NSString *)service</Declaration>
-			
-			
-			<Anchor>//api/name/keyWithSeed:service:</Anchor>
-            <NodeRef refid="66"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/refreshTokenWithKey:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)refreshTokenWithKey:(NSData *)key</Declaration>
-			
-			
-			<Anchor>//api/name/refreshTokenWithKey:</Anchor>
-            <NodeRef refid="66"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/refreshTokenWithSFEncryptionKey:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)refreshTokenWithSFEncryptionKey:(SFEncryptionKey *)encryptionKey</Declaration>
-			
-			
-			<Anchor>//api/name/refreshTokenWithSFEncryptionKey:</Anchor>
-            <NodeRef refid="66"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/setRefreshToken:withSFEncryptionKey:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
-			
-			<Declaration>- (void)setRefreshToken:(NSString *)token withSFEncryptionKey:(SFEncryptionKey *)key</Declaration>
-			
-			
-			<Anchor>//api/name/setRefreshToken:withSFEncryptionKey:</Anchor>
-            <NodeRef refid="66"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/accessTokenWithKey:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)accessTokenWithKey:(NSData *)key</Declaration>
-			
-			
-			<Anchor>//api/name/accessTokenWithKey:</Anchor>
-            <NodeRef refid="66"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/accessTokenWithSFEncryptionKey:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)accessTokenWithSFEncryptionKey:(SFEncryptionKey *)encryptionKey</Declaration>
-			
-			
-			<Anchor>//api/name/accessTokenWithSFEncryptionKey:</Anchor>
-            <NodeRef refid="66"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/setAccessToken:withSFEncryptionKey:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
-			
-			<Declaration>- (void)setAccessToken:(NSString *)token withSFEncryptionKey:(SFEncryptionKey *)key</Declaration>
-			
-			
-			<Anchor>//api/name/setAccessToken:withSFEncryptionKey:</Anchor>
-            <NodeRef refid="66"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/updateTokenEncryption</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
-			
-			<Declaration>- (void)updateTokenEncryption</Declaration>
-			
-			
-			<Anchor>//api/name/updateTokenEncryption</Anchor>
-            <NodeRef refid="66"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/setAccessToken:withKey:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
-			
-			<Declaration>- (void)setAccessToken:(NSString *)token withKey:(NSData *)key</Declaration>
-			
-			
-			<Anchor>//api/name/setAccessToken:withKey:</Anchor>
-            <NodeRef refid="66"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/setRefreshToken:withKey:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
-			
-			<Declaration>- (void)setRefreshToken:(NSString *)token withKey:(NSData *)key</Declaration>
-			
-			
-			<Anchor>//api/name/setRefreshToken:withKey:</Anchor>
+			<ReturnValue><Abstract type="html">The current set of registered features.</Abstract></ReturnValue>
+			<Anchor>//api/name/appFeatures</Anchor>
             <NodeRef refid="66"/>
 		</Token>
 		

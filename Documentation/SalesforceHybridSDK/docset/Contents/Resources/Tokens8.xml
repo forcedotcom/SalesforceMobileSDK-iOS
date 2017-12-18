@@ -198,7 +198,7 @@
 found.</Abstract>
 			<DeclaredIn>SFHybridViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSURL *appHomeUrl</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) NSURL *appHomeUrl</Declaration>
 			
 			
 			<Anchor>//api/name/appHomeUrl</Anchor>
@@ -211,7 +211,7 @@ found.</Abstract>
 found.</Abstract>
 			<DeclaredIn>SFHybridViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSURL *appHomeUrl</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) NSURL *appHomeUrl</Declaration>
 			
 			
 			<Anchor>//api/name/appHomeUrl</Anchor>
@@ -224,7 +224,7 @@ found.</Abstract>
 found.</Abstract>
 			<DeclaredIn>SFHybridViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSURL *appHomeUrl</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) NSURL *appHomeUrl</Declaration>
 			
 			
 			<Anchor>//api/name/appHomeUrl</Anchor>
@@ -236,7 +236,7 @@ found.</Abstract>
 			<Abstract type="html">Designated initializer. Initializes the view controller with its hybrid view configuration. Uses WKWebView by default.</Abstract>
 			<DeclaredIn>SFHybridViewController.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithConfig:(SFHybridViewConfig *)viewConfig</Declaration>
+			<Declaration>- (id)initWithConfig:(nullable SFHybridViewConfig *)viewConfig</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>viewConfig</Name>
@@ -253,7 +253,7 @@ found.</Abstract>
 			<Abstract type="html">Designated initializer. Initializes the view controller with its hybrid view configuration and which view to use.</Abstract>
 			<DeclaredIn>SFHybridViewController.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithConfig:(SFHybridViewConfig *)viewConfig useUIWebView:(BOOL)useUIWebView</Declaration>
+			<Declaration>- (id)initWithConfig:(nullable SFHybridViewConfig *)viewConfig useUIWebView:(BOOL)useUIWebView</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>viewConfig</Name>
@@ -281,33 +281,11 @@ found.</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewController/getAuthCredentialsWithCompletionBlock:failureBlock:</TokenIdentifier>
-			<Abstract type="html">Method used by the OAuth plugin to obtain the current login credentials, or authenticate if no
-credentials are configured.</Abstract>
-			<DeclaredIn>SFHybridViewController.h</DeclaredIn>
-			
-			<Declaration>- (void)getAuthCredentialsWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>completionBlock</Name>
-					<Abstract type="html">The OAuth plugin completion block to call upon successful retrieval of
-the credentials.</Abstract>
-				</Parameter><Parameter>
-					<Name>failureBlock</Name>
-					<Abstract type="html">The failure block to call in the event of an authentication failure.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/getAuthCredentialsWithCompletionBlock:failureBlock:</Anchor>
-            <NodeRef refid="8"/>
-		</Token>
-		
-		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewController/authenticateWithCompletionBlock:failureBlock:</TokenIdentifier>
 			<Abstract type="html">Used by the OAuth plugin to authenticate the user.</Abstract>
 			<DeclaredIn>SFHybridViewController.h</DeclaredIn>
 			
-			<Declaration>- (void)authenticateWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock</Declaration>
+			<Declaration>- (void)authenticateWithCompletionBlock:(nullable SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>completionBlock</Name>
@@ -351,7 +329,7 @@ the credentials.</Abstract>
 the calling client code.</Abstract>
 			<DeclaredIn>SFHybridViewController.h</DeclaredIn>
 			
-			<Declaration>- (NSDictionary *)credentialsAsDictionary</Declaration>
+			<Declaration>- (nullable NSDictionary *)credentialsAsDictionary</Declaration>
 			
 			<ReturnValue><Abstract type="html">Dictionary representation of oauth credentials.</Abstract></ReturnValue>
 			<Anchor>//api/name/credentialsAsDictionary</Anchor>

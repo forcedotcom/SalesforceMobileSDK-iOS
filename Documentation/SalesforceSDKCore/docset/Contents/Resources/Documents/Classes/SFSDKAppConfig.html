@@ -70,11 +70,23 @@
 	
 
 	
+	<optgroup label="Class Methods">
+		
+		<option value="//api/name/createError:withCode:message:">+ createError:withCode:message:</option>
+		
+		<option value="//api/name/fromConfigFile:">+ fromConfigFile:</option>
+		
+		<option value="//api/name/fromDefaultConfigFile">+ fromDefaultConfigFile</option>
+		
+	</optgroup>
+	
 
 	
 	<optgroup label="Instance Methods">
 		
 		<option value="//api/name/initWithDict:">- initWithDict:</option>
+		
+		<option value="//api/name/validate:">- validate:</option>
 		
 	</optgroup>
 	
@@ -347,7 +359,7 @@
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (instancetype)initWithDict:(NSDictionary *)<em>configDict</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (nullable instancetype)initWithDict:(nullable NSDictionary *)<em>configDict</em></code></div>
 
 		    
 			
@@ -383,6 +395,184 @@
 			
 		</div>
 	</div>
+</div><div class="section-method">
+	<a name="//api/name/validate:" title="validate:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/validate:">&ndash;&nbsp;validate:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Validate the app config inputs.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)validate:(NSError *_Nullable *_Nullable)<em>error</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>error</code></th>
+						<td><p>The error associated with validation, if an error occurs.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if validation was successful, NO otherwise.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKAppConfig.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/fromDefaultConfigFile" title="fromDefaultConfigFile"></a>
+	<h3 class="method-title"><code><a href="#//api/name/fromDefaultConfigFile">+&nbsp;fromDefaultConfigFile</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The app config from the default configuration file location.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (nullable instancetype)fromDefaultConfigFile</code></div>
+
+		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>The app config from the default configuration file location.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKAppConfig.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/fromConfigFile:" title="fromConfigFile:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/fromConfigFile:">+&nbsp;fromConfigFile:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Create an app config from the config file at the specified file path.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (nullable instancetype)fromConfigFile:(NSString *)<em>configFilePath</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>configFilePath</code></th>
+						<td><p>The file path to the configuration file, relative to the resources root path.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>The app config from the given file path.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKAppConfig.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/createError:withCode:message:" title="createError:withCode:message:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/createError:withCode:message:">+&nbsp;createError:withCode:message:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>+ (void)createError:(NSError *_Nullable *_Nullable)<em>error</em> withCode:(NSInteger)<em>errorCode</em> message:(nonnull NSString *)<em>message</em></code></div>
+
+		    
+		</div>
+	</div>
 </div>
 						</div>
 						
@@ -398,7 +588,7 @@
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-09-18</p>
+						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-12-18</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

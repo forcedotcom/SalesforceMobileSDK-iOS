@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/CSFInteractionContext.html">
+	<File path="Constants/SFEntityIdLength.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/CSFInteractionContext</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFEntityIdLength</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFDefines.h</DeclaredIn>
+			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
             
 			
 			<NodeRef refid="189"/>
@@ -14,21 +14,41 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFInteractionContextUser</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFEntityIdLength15</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFInteractionContextUser</Declaration>
+            <Declaration>SFEntityIdLength15</Declaration>
             
-            <DeclaredIn>CSFDefines.h</DeclaredIn>
+            <DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
             
             <NodeRef refid="189"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFInteractionContextProgrammatic</TokenIdentifier>
-            <Abstract type="html">the event was caused by user interaction</Abstract>
-            <Declaration>CSFInteractionContextProgrammatic</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFEntityIdLength18</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFEntityIdLength18</Declaration>
             
-            <DeclaredIn>CSFDefines.h</DeclaredIn>
+            <DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+            
+            <NodeRef refid="189"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFEntityIdLengthMin</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFEntityIdLengthMin</Declaration>
+            
+            <DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+            
+            <NodeRef refid="189"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFEntityIdLengthMax</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFEntityIdLengthMax</Declaration>
+            
+            <DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
             
             <NodeRef refid="189"/>
         </Token>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/CSFOAuthTokenRefreshOutput.html">
+	<File path="Classes/SFCommunityData.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/CSFOAuthTokenRefreshOutput</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFCommunityData</TokenIdentifier>
+			<Abstract type="html">Class that groups the data describing a community</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
             
 			
 			<NodeRef refid="12"/>
@@ -13,266 +13,326 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshOutput/setIdUrl:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setEntityId:</TokenIdentifier>
+			<Abstract type="html">The community ID</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSURL *idUrl</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *entityId</Declaration>
 			
 			
-			<Anchor>//api/name/idUrl</Anchor>
+			<Anchor>//api/name/entityId</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshOutput/idUrl</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/entityId</TokenIdentifier>
+			<Abstract type="html">The community ID</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSURL *idUrl</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *entityId</Declaration>
 			
 			
-			<Anchor>//api/name/idUrl</Anchor>
+			<Anchor>//api/name/entityId</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/CSFOAuthTokenRefreshOutput/idUrl</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/entityId</TokenIdentifier>
+			<Abstract type="html">The community ID</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSURL *idUrl</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *entityId</Declaration>
 			
 			
-			<Anchor>//api/name/idUrl</Anchor>
+			<Anchor>//api/name/entityId</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshOutput/setTokenType:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setName:</TokenIdentifier>
+			<Abstract type="html">The community name</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *tokenType</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *name</Declaration>
 			
 			
-			<Anchor>//api/name/tokenType</Anchor>
+			<Anchor>//api/name/name</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshOutput/tokenType</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/name</TokenIdentifier>
+			<Abstract type="html">The community name</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *tokenType</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *name</Declaration>
 			
 			
-			<Anchor>//api/name/tokenType</Anchor>
+			<Anchor>//api/name/name</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/CSFOAuthTokenRefreshOutput/tokenType</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/name</TokenIdentifier>
+			<Abstract type="html">The community name</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *tokenType</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *name</Declaration>
 			
 			
-			<Anchor>//api/name/tokenType</Anchor>
+			<Anchor>//api/name/name</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshOutput/setSignature:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setDescriptionText:</TokenIdentifier>
+			<Abstract type="html">The community description</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *signature</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *descriptionText</Declaration>
 			
 			
-			<Anchor>//api/name/signature</Anchor>
+			<Anchor>//api/name/descriptionText</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshOutput/signature</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/descriptionText</TokenIdentifier>
+			<Abstract type="html">The community description</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *signature</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *descriptionText</Declaration>
 			
 			
-			<Anchor>//api/name/signature</Anchor>
+			<Anchor>//api/name/descriptionText</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/CSFOAuthTokenRefreshOutput/signature</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/descriptionText</TokenIdentifier>
+			<Abstract type="html">The community description</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *signature</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *descriptionText</Declaration>
 			
 			
-			<Anchor>//api/name/signature</Anchor>
+			<Anchor>//api/name/descriptionText</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshOutput/setAccessToken:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setSiteUrl:</TokenIdentifier>
+			<Abstract type="html">The community siteUrl</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *accessToken</Declaration>
+			<Declaration>@property (nonatomic, strong) NSURL *siteUrl</Declaration>
 			
 			
-			<Anchor>//api/name/accessToken</Anchor>
+			<Anchor>//api/name/siteUrl</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshOutput/accessToken</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/siteUrl</TokenIdentifier>
+			<Abstract type="html">The community siteUrl</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *accessToken</Declaration>
+			<Declaration>@property (nonatomic, strong) NSURL *siteUrl</Declaration>
 			
 			
-			<Anchor>//api/name/accessToken</Anchor>
+			<Anchor>//api/name/siteUrl</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/CSFOAuthTokenRefreshOutput/accessToken</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/siteUrl</TokenIdentifier>
+			<Abstract type="html">The community siteUrl</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *accessToken</Declaration>
+			<Declaration>@property (nonatomic, strong) NSURL *siteUrl</Declaration>
 			
 			
-			<Anchor>//api/name/accessToken</Anchor>
+			<Anchor>//api/name/siteUrl</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshOutput/setScope:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setUrl:</TokenIdentifier>
+			<Abstract type="html">The community URL</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSArray *scope</Declaration>
+			<Declaration>@property (nonatomic, strong) NSURL *url</Declaration>
 			
 			
-			<Anchor>//api/name/scope</Anchor>
+			<Anchor>//api/name/url</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshOutput/scope</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/url</TokenIdentifier>
+			<Abstract type="html">The community URL</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSArray *scope</Declaration>
+			<Declaration>@property (nonatomic, strong) NSURL *url</Declaration>
 			
 			
-			<Anchor>//api/name/scope</Anchor>
+			<Anchor>//api/name/url</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/CSFOAuthTokenRefreshOutput/scope</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/url</TokenIdentifier>
+			<Abstract type="html">The community URL</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSArray *scope</Declaration>
+			<Declaration>@property (nonatomic, strong) NSURL *url</Declaration>
 			
 			
-			<Anchor>//api/name/scope</Anchor>
+			<Anchor>//api/name/url</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshOutput/setIssuedAt:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setUrlPathPrefix:</TokenIdentifier>
+			<Abstract type="html">The community URL&apos;s path prefix</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSDate *issuedAt</Declaration>
+			<Declaration>@property (nonatomic, strong) NSURL *urlPathPrefix</Declaration>
 			
 			
-			<Anchor>//api/name/issuedAt</Anchor>
+			<Anchor>//api/name/urlPathPrefix</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshOutput/issuedAt</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/urlPathPrefix</TokenIdentifier>
+			<Abstract type="html">The community URL&apos;s path prefix</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSDate *issuedAt</Declaration>
+			<Declaration>@property (nonatomic, strong) NSURL *urlPathPrefix</Declaration>
 			
 			
-			<Anchor>//api/name/issuedAt</Anchor>
+			<Anchor>//api/name/urlPathPrefix</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/CSFOAuthTokenRefreshOutput/issuedAt</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/urlPathPrefix</TokenIdentifier>
+			<Abstract type="html">The community URL&apos;s path prefix</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSDate *issuedAt</Declaration>
+			<Declaration>@property (nonatomic, strong) NSURL *urlPathPrefix</Declaration>
 			
 			
-			<Anchor>//api/name/issuedAt</Anchor>
+			<Anchor>//api/name/urlPathPrefix</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshOutput/setInstanceUrl:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setEnabled:</TokenIdentifier>
+			<Abstract type="html">Flag indicating if the community is live or not</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSURL *instanceUrl</Declaration>
+			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
 			
 			
-			<Anchor>//api/name/instanceUrl</Anchor>
+			<Anchor>//api/name/enabled</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshOutput/instanceUrl</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/enabled</TokenIdentifier>
+			<Abstract type="html">Flag indicating if the community is live or not</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSURL *instanceUrl</Declaration>
+			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
 			
 			
-			<Anchor>//api/name/instanceUrl</Anchor>
+			<Anchor>//api/name/enabled</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/CSFOAuthTokenRefreshOutput/instanceUrl</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/enabled</TokenIdentifier>
+			<Abstract type="html">Flag indicating if the community is live or not</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSURL *instanceUrl</Declaration>
+			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
 			
 			
-			<Anchor>//api/name/instanceUrl</Anchor>
+			<Anchor>//api/name/enabled</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshOutput/initWithCoordinator:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setInvitationsEnabled:</TokenIdentifier>
+			<Abstract type="html">Flag indicating whether invitations can be sent to potential new members</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)initWithCoordinator:(SFOAuthCoordinator *)coordinator</Declaration>
+			<Declaration>@property (nonatomic) BOOL invitationsEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/initWithCoordinator:</Anchor>
+			<Anchor>//api/name/invitationsEnabled</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/invitationsEnabled</TokenIdentifier>
+			<Abstract type="html">Flag indicating whether invitations can be sent to potential new members</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL invitationsEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/invitationsEnabled</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/invitationsEnabled</TokenIdentifier>
+			<Abstract type="html">Flag indicating whether invitations can be sent to potential new members</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL invitationsEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/invitationsEnabled</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setSendWelcomeEmail:</TokenIdentifier>
+			<Abstract type="html">Flag indicating whether to send a welcome email to new members</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL sendWelcomeEmail</Declaration>
+			
+			
+			<Anchor>//api/name/sendWelcomeEmail</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/sendWelcomeEmail</TokenIdentifier>
+			<Abstract type="html">Flag indicating whether to send a welcome email to new members</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL sendWelcomeEmail</Declaration>
+			
+			
+			<Anchor>//api/name/sendWelcomeEmail</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/sendWelcomeEmail</TokenIdentifier>
+			<Abstract type="html">Flag indicating whether to send a welcome email to new members</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL sendWelcomeEmail</Declaration>
+			
+			
+			<Anchor>//api/name/sendWelcomeEmail</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		

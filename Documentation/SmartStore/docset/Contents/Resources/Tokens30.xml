@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSoupQuerySortOrder.html">
+	<File path="Constants/SFSmartStoreFtsExtension.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSoupQuerySortOrder</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSmartStoreFtsExtension</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
             
 			
 			<NodeRef refid="30"/>
@@ -14,21 +14,21 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFSoupQuerySortOrderAscending</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSmartStoreFTS4</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>kSFSoupQuerySortOrderAscending</Declaration>
+            <Declaration>SFSmartStoreFTS4</Declaration>
             
-            <DeclaredIn>SFQuerySpec.h</DeclaredIn>
+            <DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
             
             <NodeRef refid="30"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFSoupQuerySortOrderDescending</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSmartStoreFTS5</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>kSFSoupQuerySortOrderDescending</Declaration>
+            <Declaration>SFSmartStoreFTS5</Declaration>
             
-            <DeclaredIn>SFQuerySpec.h</DeclaredIn>
+            <DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
             
             <NodeRef refid="30"/>
         </Token>

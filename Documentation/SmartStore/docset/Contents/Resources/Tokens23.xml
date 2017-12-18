@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSoupSpec.html">
+	<File path="Classes/SFSmartStoreUtils.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSoupSpec</TokenIdentifier>
-			<Abstract type="html">Object containing soup specifications, such as soup name and features.</Abstract>
-			<DeclaredIn>SFSoupSpec.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSmartStoreUtils</TokenIdentifier>
+			<Abstract type="html">Utility methods used by SmartStore.</Abstract>
+			<DeclaredIn>SFSmartStoreUtils.h</DeclaredIn>
             
 			
 			<NodeRef refid="23"/>
@@ -13,124 +13,15 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSoupSpec/setSoupName:</TokenIdentifier>
-			<Abstract type="html">The soup name.</Abstract>
-			<DeclaredIn>SFSoupSpec.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreUtils/userKeyForUser:</TokenIdentifier>
+			<Abstract type="html">Returns a unique key for the given user, or a &quot;global&quot; key if no proper
+user is configured.</Abstract>
+			<DeclaredIn>SFSmartStoreUtils.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, readonly) NSString *soupName</Declaration>
+			<Declaration>+ (NSString *)userKeyForUser:(nullable SFUserAccount *)user</Declaration>
 			
-			
-			<Anchor>//api/name/soupName</Anchor>
-            <NodeRef refid="23"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSoupSpec/soupName</TokenIdentifier>
-			<Abstract type="html">The soup name.</Abstract>
-			<DeclaredIn>SFSoupSpec.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, readonly) NSString *soupName</Declaration>
-			
-			
-			<Anchor>//api/name/soupName</Anchor>
-            <NodeRef refid="23"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSoupSpec/soupName</TokenIdentifier>
-			<Abstract type="html">The soup name.</Abstract>
-			<DeclaredIn>SFSoupSpec.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, readonly) NSString *soupName</Declaration>
-			
-			
-			<Anchor>//api/name/soupName</Anchor>
-            <NodeRef refid="23"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSoupSpec/setFeatures:</TokenIdentifier>
-			<Abstract type="html">The soup features.</Abstract>
-			<DeclaredIn>SFSoupSpec.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, readonly) NSArray *features</Declaration>
-			
-			
-			<Anchor>//api/name/features</Anchor>
-            <NodeRef refid="23"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSoupSpec/features</TokenIdentifier>
-			<Abstract type="html">The soup features.</Abstract>
-			<DeclaredIn>SFSoupSpec.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, readonly) NSArray *features</Declaration>
-			
-			
-			<Anchor>//api/name/features</Anchor>
-            <NodeRef refid="23"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSoupSpec/features</TokenIdentifier>
-			<Abstract type="html">The soup features.</Abstract>
-			<DeclaredIn>SFSoupSpec.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, readonly) NSArray *features</Declaration>
-			
-			
-			<Anchor>//api/name/features</Anchor>
-            <NodeRef refid="23"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSoupSpec/newSoupSpec:withFeatures:</TokenIdentifier>
-			<Abstract type="html">Factory method to build a soup spec.</Abstract>
-			<DeclaredIn>SFSoupSpec.h</DeclaredIn>
-			
-			<Declaration>+ (SFSoupSpec *)newSoupSpec:(NSString *)soupName withFeatures:(NSArray *)features</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>soupName</Name>
-					<Abstract type="html">The soup name.</Abstract>
-				</Parameter><Parameter>
-					<Name>features</Name>
-					<Abstract type="html">The soup features.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">A soup spec object.</Abstract></ReturnValue>
-			<Anchor>//api/name/newSoupSpec:withFeatures:</Anchor>
-            <NodeRef refid="23"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSoupSpec/newSoupSpecWithDictionary:</TokenIdentifier>
-			<Abstract type="html">Factory method to build a soup spec from a dictionary.</Abstract>
-			<DeclaredIn>SFSoupSpec.h</DeclaredIn>
-			
-			<Declaration>+ (SFSoupSpec *)newSoupSpecWithDictionary:(NSDictionary *)dictionary</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>dictionary</Name>
-					<Abstract type="html">A dictionary with soup spec info. Keys must match &lt;code&gt;kSoupSpec&lt;i&gt;xxx&lt;/i&gt;&lt;/code&gt; constants defined in this header file.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">A soup spec object.</Abstract></ReturnValue>
-			<Anchor>//api/name/newSoupSpecWithDictionary:</Anchor>
-            <NodeRef refid="23"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSoupSpec/asDictionary</TokenIdentifier>
-			<Abstract type="html">A dictionary representation for this SFSoupSpec object.
-Use keys defined in the &lt;code&gt;kSoupSpec&lt;i&gt;xxx&lt;/i&gt;&lt;/code&gt; constants in this header file.</Abstract>
-			<DeclaredIn>SFSoupSpec.h</DeclaredIn>
-			
-			<Declaration>- (NSDictionary *)asDictionary</Declaration>
-			
-			<ReturnValue><Abstract type="html">An NSDictionary object representing this SFSoupSpec object.</Abstract></ReturnValue>
-			<Anchor>//api/name/asDictionary</Anchor>
+			<ReturnValue><Abstract type="html">Unique key for the given user</Abstract></ReturnValue>
+			<Anchor>//api/name/userKeyForUser:</Anchor>
             <NodeRef refid="23"/>
 		</Token>
 		

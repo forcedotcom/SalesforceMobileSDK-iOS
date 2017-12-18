@@ -1,16 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSmartSqlWithExternalStorageTests.html">
+	<File path="Classes/SFSmartSqlHelper.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSmartSqlWithExternalStorageTests</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSqlWithExternalStorageTests.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSmartSqlHelper</TokenIdentifier>
+			<Abstract type="html">Utility helper functions for Smart SQL.</Abstract>
+			<DeclaredIn>SFSmartSqlHelper.h</DeclaredIn>
             
 			
 			<NodeRef refid="9"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSqlHelper/sharedInstance</TokenIdentifier>
+			<Abstract type="html">Gets the shared instance of the Smart SQL helper.</Abstract>
+			<DeclaredIn>SFSmartSqlHelper.h</DeclaredIn>
+			
+			<Declaration>+ (SFSmartSqlHelper *)sharedInstance</Declaration>
+			
+			<ReturnValue><Abstract type="html">Pointer to the shared SFSmartSqlHelper instance.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedInstance</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSqlHelper/convertSmartSql:withStore:withDb:</TokenIdentifier>
+			<Abstract type="html">Converts a Smart SQL query to SQL.</Abstract>
+			<DeclaredIn>SFSmartSqlHelper.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)convertSmartSql:(NSString *)smartSql withStore:(SFSmartStore *)store withDb:(FMDatabase *)db</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>smartSql</Name>
+					<Abstract type="html">The Smart SQL query to convert.</Abstract>
+				</Parameter><Parameter>
+					<Name>store</Name>
+					<Abstract type="html">The SmartStore instance.</Abstract>
+				</Parameter><Parameter>
+					<Name>db</Name>
+					<Abstract type="html">The database.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The SQL version of the given Smart SQL query.</Abstract></ReturnValue>
+			<Anchor>//api/name/convertSmartSql:withStore:withDb:</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
 		
         
         

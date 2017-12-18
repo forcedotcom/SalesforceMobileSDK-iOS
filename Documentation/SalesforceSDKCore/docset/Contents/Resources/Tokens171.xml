@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFUserAccountPersister.html">
+	<File path="Protocols/SFSDKOAuthClientSafariViewDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFUserAccountPersister</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKOAuthClientSafariViewDelegate</TokenIdentifier>
+			<Abstract type="html">Delegate that will be used to notify of all the OAuth Client WebView Events.</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
             
 			
 			<NodeRef refid="171"/>
@@ -13,62 +13,68 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFUserAccountPersister/saveAccountForUser:error:</TokenIdentifier>
-			<Abstract type="html">Called when the Account manager requires to save the state of an account.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientSafariViewDelegate/authClient:willBeginBrowserAuthentication:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)saveAccountForUser:(SFUserAccount *)userAccount error:(NSError **)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>userAccount</Name>
-					<Abstract type="html">The instance of SFUserAccount making the call.</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">On output, the error if the return value is NO</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the account was saved properly, NO in case of error</Abstract></ReturnValue>
-			<Anchor>//api/name/saveAccountForUser:error:</Anchor>
+			<Declaration>- (void)authClient:(SFSDKOAuthClient *)client willBeginBrowserAuthentication:(SFOAuthBrowserFlowCallbackBlock)callbackBlock</Declaration>
+			
+			
+			<Anchor>//api/name/authClient:willBeginBrowserAuthentication:</Anchor>
             <NodeRef refid="171"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFUserAccountPersister/fetchAllAccounts:</TokenIdentifier>
-			<Abstract type="html">Fetches all the accounts.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientSafariViewDelegate/authClientDidProceedWithBrowserFlow:</TokenIdentifier>
+			<Abstract type="html">Called when a browser flow authentication is proceeded.</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
 			
-			<Declaration>- (NSDictionary&lt;SFUserAccountIdentity*,SFUserAccount*&gt; *)fetchAllAccounts:(NSError **)error</Declaration>
+			<Declaration>- (void)authClientDidProceedWithBrowserFlow:(SFSDKOAuthClient *)client</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>error</Name>
-					<Abstract type="html">On output, the error if the return value is NO</Abstract>
+					<Name>client</Name>
+					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">NSDictionary with SFUserAccountIdentity as keys and SFUserAccount as values
-  </Abstract></ReturnValue>
-			<Anchor>//api/name/fetchAllAccounts:</Anchor>
+			
+			<Anchor>//api/name/authClientDidProceedWithBrowserFlow:</Anchor>
             <NodeRef refid="171"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFUserAccountPersister/deleteAccountForUser:error:</TokenIdentifier>
-			<Abstract type="html">Allows you to remove the given user account.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientSafariViewDelegate/authClientDidCancelBrowserFlow:</TokenIdentifier>
+			<Abstract type="html">Called when a browser flow authentication is cancelled.</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)deleteAccountForUser:(SFUserAccount *)user error:(NSError **)error</Declaration>
+			<Declaration>- (BOOL)authClientDidCancelBrowserFlow:(SFSDKOAuthClient *)client</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>user</Name>
-					<Abstract type="html">The user account to remove.</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">Output error parameter, populated if there was an error deleting
-the account (likely from the filesystem operations).</Abstract>
+					<Name>client</Name>
+					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the deletion was successful, NO otherwise.  Note: If no persisted account matching
-the user parameter is found, no action will be taken, and deletion will be reported as successful.</Abstract></ReturnValue>
-			<Anchor>//api/name/deleteAccountForUser:error:</Anchor>
+			
+			<Anchor>//api/name/authClientDidCancelBrowserFlow:</Anchor>
+            <NodeRef refid="171"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientSafariViewDelegate/authClient:willDisplayAuthSafariViewController:</TokenIdentifier>
+			<Abstract type="html">Called when the auth client is going to present the safari view controller.</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>- (void)authClient:(SFSDKOAuthClient *)client willDisplayAuthSafariViewController:(SFSafariViewController *_Nonnull)svc</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>client</Name>
+					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
+				</Parameter><Parameter>
+					<Name>svc</Name>
+					<Abstract type="html">The instance of the safari view controller to be presented.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/authClient:willDisplayAuthSafariViewController:</Anchor>
             <NodeRef refid="171"/>
 		</Token>
 		

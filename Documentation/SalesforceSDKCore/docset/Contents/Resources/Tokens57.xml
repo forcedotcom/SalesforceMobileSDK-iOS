@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFLoginViewController.html">
+	<File path="Classes/SFPushNotificationManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFLoginViewController</TokenIdentifier>
-			<Abstract type="html">The Salesforce login screen view.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFPushNotificationManager</TokenIdentifier>
+			<Abstract type="html">Handles push notification registration and unregistration, both for Salesforce notifications and remote notifications.</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="57"/>
@@ -13,11 +13,83 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFLoginViewController/sharedInstance</TokenIdentifier>
-			<Abstract type="html">Returns a shared singleton of SFLoginViewController class.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/setDeviceToken:</TokenIdentifier>
+			<Abstract type="html">Device token returned when registering with APNS.</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
 			
-			<Declaration>+ (_Nonnull instancetype)sharedInstance</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *deviceToken</Declaration>
+			
+			
+			<Anchor>//api/name/deviceToken</Anchor>
+            <NodeRef refid="57"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/deviceToken</TokenIdentifier>
+			<Abstract type="html">Device token returned when registering with APNS.</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSString *deviceToken</Declaration>
+			
+			
+			<Anchor>//api/name/deviceToken</Anchor>
+            <NodeRef refid="57"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPushNotificationManager/deviceToken</TokenIdentifier>
+			<Abstract type="html">Device token returned when registering with APNS.</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSString *deviceToken</Declaration>
+			
+			
+			<Anchor>//api/name/deviceToken</Anchor>
+            <NodeRef refid="57"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/setDeviceSalesforceId:</TokenIdentifier>
+			<Abstract type="html">ID returned when registering for Salesforce push notifications.</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSString *deviceSalesforceId</Declaration>
+			
+			
+			<Anchor>//api/name/deviceSalesforceId</Anchor>
+            <NodeRef refid="57"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/deviceSalesforceId</TokenIdentifier>
+			<Abstract type="html">ID returned when registering for Salesforce push notifications.</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSString *deviceSalesforceId</Declaration>
+			
+			
+			<Anchor>//api/name/deviceSalesforceId</Anchor>
+            <NodeRef refid="57"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPushNotificationManager/deviceSalesforceId</TokenIdentifier>
+			<Abstract type="html">ID returned when registering for Salesforce push notifications.</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSString *deviceSalesforceId</Declaration>
+			
+			
+			<Anchor>//api/name/deviceSalesforceId</Anchor>
+            <NodeRef refid="57"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPushNotificationManager/sharedInstance</TokenIdentifier>
+			<Abstract type="html">The share instance of this class.</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
+			
+			<Declaration>+ (SFPushNotificationManager *)sharedInstance</Declaration>
 			
 			
 			<Anchor>//api/name/sharedInstance</Anchor>
@@ -25,271 +97,73 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setDelegate:</TokenIdentifier>
-			<Abstract type="html">The delegate representing the owner of this object.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/registerForRemoteNotifications</TokenIdentifier>
+			<Abstract type="html">Register with APNS</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
+			<Declaration>- (void)registerForRemoteNotifications</Declaration>
 			
 			
-			<Anchor>//api/name/delegate</Anchor>
+			<Anchor>//api/name/registerForRemoteNotifications</Anchor>
             <NodeRef refid="57"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/delegate</TokenIdentifier>
-			<Abstract type="html">The delegate representing the owner of this object.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/didRegisterForRemoteNotificationsWithDeviceToken:</TokenIdentifier>
+			<Abstract type="html">Call this method from your app delegate&apos;s didRegisterForRemoteNotificationsWithDeviceToken</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
-			
-			
-			<Anchor>//api/name/delegate</Anchor>
-            <NodeRef refid="57"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/delegate</TokenIdentifier>
-			<Abstract type="html">The delegate representing the owner of this object.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
-			
-			
-			<Anchor>//api/name/delegate</Anchor>
-            <NodeRef refid="57"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setOauthView:</TokenIdentifier>
-			<Abstract type="html">Outlet to the OAuth web view.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) IBOutlet UIView *oauthView</Declaration>
-			
-			
-			<Anchor>//api/name/oauthView</Anchor>
-            <NodeRef refid="57"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/oauthView</TokenIdentifier>
-			<Abstract type="html">Outlet to the OAuth web view.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) IBOutlet UIView *oauthView</Declaration>
-			
-			
-			<Anchor>//api/name/oauthView</Anchor>
-            <NodeRef refid="57"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/oauthView</TokenIdentifier>
-			<Abstract type="html">Outlet to the OAuth web view.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) IBOutlet UIView *oauthView</Declaration>
-			
-			
-			<Anchor>//api/name/oauthView</Anchor>
-            <NodeRef refid="57"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setNavBarFont:</TokenIdentifier>
-			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIFont *navBarFont</Declaration>
-			
-			
-			<Anchor>//api/name/navBarFont</Anchor>
-            <NodeRef refid="57"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/navBarFont</TokenIdentifier>
-			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIFont *navBarFont</Declaration>
-			
-			
-			<Anchor>//api/name/navBarFont</Anchor>
-            <NodeRef refid="57"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/navBarFont</TokenIdentifier>
-			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIFont *navBarFont</Declaration>
-			
-			
-			<Anchor>//api/name/navBarFont</Anchor>
-            <NodeRef refid="57"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setNavBarTextColor:</TokenIdentifier>
-			<Abstract type="html">Specify the text color to use for navigation bar header text.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarTextColor</Declaration>
-			
-			
-			<Anchor>//api/name/navBarTextColor</Anchor>
-            <NodeRef refid="57"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/navBarTextColor</TokenIdentifier>
-			<Abstract type="html">Specify the text color to use for navigation bar header text.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarTextColor</Declaration>
-			
-			
-			<Anchor>//api/name/navBarTextColor</Anchor>
-            <NodeRef refid="57"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/navBarTextColor</TokenIdentifier>
-			<Abstract type="html">Specify the text color to use for navigation bar header text.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarTextColor</Declaration>
-			
-			
-			<Anchor>//api/name/navBarTextColor</Anchor>
-            <NodeRef refid="57"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setNavBarColor:</TokenIdentifier>
-			<Abstract type="html">Specify navigation bar color. This color will be used by the login view header.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarColor</Declaration>
-			
-			
-			<Anchor>//api/name/navBarColor</Anchor>
-            <NodeRef refid="57"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/navBarColor</TokenIdentifier>
-			<Abstract type="html">Specify navigation bar color. This color will be used by the login view header.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarColor</Declaration>
-			
-			
-			<Anchor>//api/name/navBarColor</Anchor>
-            <NodeRef refid="57"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/navBarColor</TokenIdentifier>
-			<Abstract type="html">Specify navigation bar color. This color will be used by the login view header.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarColor</Declaration>
-			
-			
-			<Anchor>//api/name/navBarColor</Anchor>
-            <NodeRef refid="57"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setShowNavbar:</TokenIdentifier>
-			<Abstract type="html">Specify visibility of nav bar. This property will be used to hide/show the nav bar</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL showNavbar</Declaration>
-			
-			
-			<Anchor>//api/name/showNavbar</Anchor>
-            <NodeRef refid="57"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/showNavbar</TokenIdentifier>
-			<Abstract type="html">Specify visibility of nav bar. This property will be used to hide/show the nav bar</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL showNavbar</Declaration>
-			
-			
-			<Anchor>//api/name/showNavbar</Anchor>
-            <NodeRef refid="57"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/showNavbar</TokenIdentifier>
-			<Abstract type="html">Specify visibility of nav bar. This property will be used to hide/show the nav bar</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL showNavbar</Declaration>
-			
-			
-			<Anchor>//api/name/showNavbar</Anchor>
-            <NodeRef refid="57"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setShowSettingsIcon:</TokenIdentifier>
-			<Abstract type="html">Specifiy the visibility of the settings icon. This property will be used to hide/show the settings icon</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL showSettingsIcon</Declaration>
-			
-			
-			<Anchor>//api/name/showSettingsIcon</Anchor>
-            <NodeRef refid="57"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/showSettingsIcon</TokenIdentifier>
-			<Abstract type="html">Specifiy the visibility of the settings icon. This property will be used to hide/show the settings icon</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL showSettingsIcon</Declaration>
-			
-			
-			<Anchor>//api/name/showSettingsIcon</Anchor>
-            <NodeRef refid="57"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/showSettingsIcon</TokenIdentifier>
-			<Abstract type="html">Specifiy the visibility of the settings icon. This property will be used to hide/show the settings icon</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL showSettingsIcon</Declaration>
-			
-			
-			<Anchor>//api/name/showSettingsIcon</Anchor>
-            <NodeRef refid="57"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/styleNavigationBar:</TokenIdentifier>
-			<Abstract type="html">Applies the view&apos;s style attributes to the given navigation bar.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>- (void)styleNavigationBar:(nullable UINavigationBar *)navigationBar</Declaration>
+			<Declaration>- (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceTokenData</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>navigationBar</Name>
-					<Abstract type="html">The navigation bar that the style is applied to.</Abstract>
+					<Name>deviceTokenData</Name>
+					<Abstract type="html">The device token returned by APNS.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/styleNavigationBar:</Anchor>
+			<Anchor>//api/name/didRegisterForRemoteNotificationsWithDeviceToken:</Anchor>
+            <NodeRef refid="57"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/registerForSalesforceNotifications</TokenIdentifier>
+			<Abstract type="html">Register for notifications with Salesforce.
+Call this method after authenticating with Salesforce and registering with APNS.</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)registerForSalesforceNotifications</Declaration>
+			
+			<ReturnValue><Abstract type="html">YES for successful registration call made.</Abstract></ReturnValue>
+			<Anchor>//api/name/registerForSalesforceNotifications</Anchor>
+            <NodeRef refid="57"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/unregisterSalesforceNotifications</TokenIdentifier>
+			<Abstract type="html">Unregister from notifications with Salesforce for all users. This method is called at logout.</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)unregisterSalesforceNotifications</Declaration>
+			
+			<ReturnValue><Abstract type="html">YES for successful unregistration call being made.</Abstract></ReturnValue>
+			<Anchor>//api/name/unregisterSalesforceNotifications</Anchor>
+            <NodeRef refid="57"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/unregisterSalesforceNotifications:</TokenIdentifier>
+			<Abstract type="html">Unregister from notifications with Salesforce for a specific user. This method is called at logout.</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)unregisterSalesforceNotifications:(SFUserAccount *)user</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>user</Name>
+					<Abstract type="html">User account.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES for successful unregistration call being made.</Abstract></ReturnValue>
+			<Anchor>//api/name/unregisterSalesforceNotifications:</Anchor>
             <NodeRef refid="57"/>
 		</Token>
 		

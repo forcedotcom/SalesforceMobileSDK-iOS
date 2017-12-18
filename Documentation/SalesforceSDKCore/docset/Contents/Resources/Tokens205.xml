@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFOAuthAdvancedAuthState.html">
+	<File path="Constants/SFSecurityLockoutAction.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthAdvancedAuthState</TokenIdentifier>
-			<Abstract type="html">Enumeration of different advanced authentication stages.</Abstract>
-			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSecurityLockoutAction</TokenIdentifier>
+			<Abstract type="html">The action that was taken as the result of calling into the security lockout functionality.
+Note: This value should denote the action actually taken, as opposed to an expected action
+going in.  Callbacks will use this value to determine what action took place.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
             
 			
 			<NodeRef refid="205"/>
@@ -14,35 +16,56 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthStateNotStarted</TokenIdentifier>
-            <Abstract type="html">     No advanced authentication is currently under way.
+            <TokenIdentifier>//apple_ref/c/econst/SFSecurityLockoutActionNone</TokenIdentifier>
+            <Abstract type="html">     No action taken
      </Abstract>
-            <Declaration>SFOAuthAdvancedAuthStateNotStarted</Declaration>
+            <Declaration>SFSecurityLockoutActionNone</Declaration>
             
-            <DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
             
             <NodeRef refid="205"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthStateBrowserRequestInitiated</TokenIdentifier>
-            <Abstract type="html">     The advanced authentication flow has initiated a request through Safari view controller.
+            <TokenIdentifier>//apple_ref/c/econst/SFSecurityLockoutActionPasscodeCreated</TokenIdentifier>
+            <Abstract type="html">     Passcode creation functionality was called.
      </Abstract>
-            <Declaration>SFOAuthAdvancedAuthStateBrowserRequestInitiated</Declaration>
+            <Declaration>SFSecurityLockoutActionPasscodeCreated</Declaration>
             
-            <DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
             
             <NodeRef refid="205"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthStateTokenRequestInitiated</TokenIdentifier>
-            <Abstract type="html">     The advanced authentication flow has received a response from Safari view controller, and has
-     initiated a token exchange request.
+            <TokenIdentifier>//apple_ref/c/econst/SFSecurityLockoutActionPasscodeChanged</TokenIdentifier>
+            <Abstract type="html">     Passcode change functionality was called.
      </Abstract>
-            <Declaration>SFOAuthAdvancedAuthStateTokenRequestInitiated</Declaration>
+            <Declaration>SFSecurityLockoutActionPasscodeChanged</Declaration>
             
-            <DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+            
+            <NodeRef refid="205"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSecurityLockoutActionPasscodeVerified</TokenIdentifier>
+            <Abstract type="html">     Passcode verification functionality was called.
+     </Abstract>
+            <Declaration>SFSecurityLockoutActionPasscodeVerified</Declaration>
+            
+            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+            
+            <NodeRef refid="205"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSecurityLockoutActionPasscodeRemoved</TokenIdentifier>
+            <Abstract type="html">     Passcode removal functionality was called.
+     </Abstract>
+            <Declaration>SFSecurityLockoutActionPasscodeRemoved</Declaration>
+            
+            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
             
             <NodeRef refid="205"/>
         </Token>

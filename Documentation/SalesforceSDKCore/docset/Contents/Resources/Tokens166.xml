@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKAnalyticsPublisher.html">
+	<File path="Protocols/SFSDKLoginFlowSelectionViewDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKAnalyticsPublisher</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKLoginFlowSelectionViewDelegate</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAnalyticsPublisher.h</DeclaredIn>
+			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
             
 			
 			<NodeRef refid="166"/>
@@ -13,22 +13,42 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKAnalyticsPublisher/publish:publishCompleteBlock:</TokenIdentifier>
-			<Abstract type="html">Publishes events to a network endpoint.</Abstract>
-			<DeclaredIn>SFSDKAnalyticsPublisher.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginFlowSelectionViewDelegate/loginFlowSelectionIDPSelected:options:</TokenIdentifier>
+			<Abstract type="html">Used to notify the SDK of user selection on the login flow selection view</Abstract>
+			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
 			
-			<Declaration>- (void)publish:(nonnull NSArray *)events publishCompleteBlock:(nonnull PublishCompleteBlock)publishCompleteBlock</Declaration>
+			<Declaration>- (void)loginFlowSelectionIDPSelected:(UIViewController *)controller options:(NSDictionary *)appOptions</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>events</Name>
-					<Abstract type="html">Events to be published.</Abstract>
+					<Name>controller</Name>
+					<Abstract type="html">instance invoking this delegate</Abstract>
 				</Parameter><Parameter>
-					<Name>publishCompleteBlock</Name>
-					<Abstract type="html">Completion block invoked once network publish is complete.</Abstract>
+					<Name>appOptions</Name>
+					<Abstract type="html">addl. name value pairs sent from the sdk for the SFSDKLoginFlowSelectionView</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/publish:publishCompleteBlock:</Anchor>
+			<Anchor>//api/name/loginFlowSelectionIDPSelected:options:</Anchor>
+            <NodeRef refid="166"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginFlowSelectionViewDelegate/loginFlowSelectionLocalLoginSelected:options:</TokenIdentifier>
+			<Abstract type="html">Used to notify the SDK of user selection on the login flow selection view</Abstract>
+			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
+			
+			<Declaration>- (void)loginFlowSelectionLocalLoginSelected:(UIViewController *)controller options:(NSDictionary *)appOptions</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>controller</Name>
+					<Abstract type="html">instance invoking this delegate</Abstract>
+				</Parameter><Parameter>
+					<Name>appOptions</Name>
+					<Abstract type="html">addl. name value pairs sent from the sdk for the SFSDKLoginFlowSelectionVie</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/loginFlowSelectionLocalLoginSelected:options:</Anchor>
             <NodeRef refid="166"/>
 		</Token>
 		

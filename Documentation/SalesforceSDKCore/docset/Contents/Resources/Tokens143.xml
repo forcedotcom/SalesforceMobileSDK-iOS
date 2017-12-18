@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSURL+SFAdditions.html">
+	<File path="Categories/NSData+SFzlib.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSURL(SFAdditions)</TokenIdentifier>
-			<Abstract type="html">Salesforce Mobile SDK additions to the NSURL class</Abstract>
-			<DeclaredIn>NSURL+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFzlib)</TokenIdentifier>
+			<Abstract type="html">Provides gzip uncompressed conversion support.</Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
             
 			
 			<NodeRef refid="143"/>
@@ -13,19 +13,26 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSURL/valueForParameterName:</TokenIdentifier>
-			<Abstract type="html">Get value for a parameter name from the URL</Abstract>
-			<DeclaredIn>NSURL+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/gzipInflate</TokenIdentifier>
+			<Abstract type="html">Converts this data to gzip uncompressed format.</Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)valueForParameterName:(NSString *)name</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>name</Name>
-					<Abstract type="html">Name of the parameter</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (nullable NSData *)gzipInflate</Declaration>
 			
-			<Anchor>//api/name/valueForParameterName:</Anchor>
+			<ReturnValue><Abstract type="html">This data in gzip uncompressed format.</Abstract></ReturnValue>
+			<Anchor>//api/name/gzipInflate</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/gzipDeflate</TokenIdentifier>
+			<Abstract type="html">Converts this data to gzip compressed format.</Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (nullable NSData *)gzipDeflate</Declaration>
+			
+			<ReturnValue><Abstract type="html">This data in gzip compressed format.</Abstract></ReturnValue>
+			<Anchor>//api/name/gzipDeflate</Anchor>
             <NodeRef refid="143"/>
 		</Token>
 		

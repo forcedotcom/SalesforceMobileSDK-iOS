@@ -72,6 +72,8 @@
 		
 		<option value="//api/name/syncId">syncId</option>
 		
+		<option value="//api/name/syncName">syncName</option>
+		
 		<option value="//api/name/target">target</option>
 		
 		<option value="//api/name/totalSize">totalSize</option>
@@ -84,19 +86,25 @@
 	
 	<optgroup label="Class Methods">
 		
+		<option value="//api/name/byId:store:">+ byId:store:</option>
+		
+		<option value="//api/name/byName:store:">+ byName:store:</option>
+		
+		<option value="//api/name/deleteById:store:">+ deleteById:store:</option>
+		
+		<option value="//api/name/deleteByName:store:">+ deleteByName:store:</option>
+		
 		<option value="//api/name/mergeModeFromString:">+ mergeModeFromString:</option>
 		
 		<option value="//api/name/mergeModeToString:">+ mergeModeToString:</option>
 		
-		<option value="//api/name/newById:store:">+ newById:store:</option>
-		
 		<option value="//api/name/newFromDict:">+ newFromDict:</option>
 		
-		<option value="//api/name/newSyncDownWithOptions:target:soupName:store:">+ newSyncDownWithOptions:target:soupName:store:</option>
+		<option value="//api/name/newSyncDownWithOptions:target:soupName:name:store:">+ newSyncDownWithOptions:target:soupName:name:store:</option>
 		
 		<option value="//api/name/newSyncUpWithOptions:soupName:store:">+ newSyncUpWithOptions:soupName:store:</option>
 		
-		<option value="//api/name/newSyncUpWithOptions:target:soupName:store:">+ newSyncUpWithOptions:target:soupName:store:</option>
+		<option value="//api/name/newSyncUpWithOptions:target:soupName:name:store:">+ newSyncUpWithOptions:target:soupName:name:store:</option>
 		
 		<option value="//api/name/setupSyncsSoupIfNeeded:">+ setupSyncsSoupIfNeeded:</option>
 		
@@ -180,6 +188,22 @@
 			
 
 			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSInteger syncId</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/syncName" title="syncName"></a>
+	<h3 class="method-title"><code><a href="#//api/name/syncName">&nbsp;&nbsp;syncName</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, readonly) NSString *syncName</code></div>
 
 		    
 		</div>
@@ -402,8 +426,8 @@
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/newSyncDownWithOptions:target:soupName:store:" title="newSyncDownWithOptions:target:soupName:store:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/newSyncDownWithOptions:target:soupName:store:">+&nbsp;newSyncDownWithOptions:target:soupName:store:</a></code>
+	<a name="//api/name/newSyncDownWithOptions:target:soupName:name:store:" title="newSyncDownWithOptions:target:soupName:name:store:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/newSyncDownWithOptions:target:soupName:name:store:">+&nbsp;newSyncDownWithOptions:target:soupName:name:store:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -418,7 +442,7 @@
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>+ (SFSyncState *)newSyncDownWithOptions:(SFSyncOptions *)<em>options</em> target:(SFSyncDownTarget *)<em>target</em> soupName:(NSString *)<em>soupName</em> store:(SFSmartStore *)<em>store</em></code></div>
+			<div class="method-subsection method-declaration"><code>+ (nullable SFSyncState *)newSyncDownWithOptions:(SFSyncOptions *)<em>options</em> target:(SFSyncDownTarget *)<em>target</em> soupName:(NSString *)<em>soupName</em> name:(nullable NSString *)<em>name</em> store:(SFSmartStore *)<em>store</em></code></div>
 
 		    
 			
@@ -440,6 +464,22 @@
 			</div>
 			
 			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/newSyncUpWithOptions:target:soupName:name:store:" title="newSyncUpWithOptions:target:soupName:name:store:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/newSyncUpWithOptions:target:soupName:name:store:">+&nbsp;newSyncUpWithOptions:target:soupName:name:store:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>+ (nullable SFSyncState *)newSyncUpWithOptions:(SFSyncOptions *)<em>options</em> target:(SFSyncUpTarget *)<em>target</em> soupName:(NSString *)<em>soupName</em> name:(nullable NSString *)<em>name</em> store:(SFSmartStore *)<em>store</em></code></div>
+
+		    
 		</div>
 	</div>
 </div><div class="section-method">
@@ -453,30 +493,14 @@
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>+ (SFSyncState *)newSyncUpWithOptions:(SFSyncOptions *)<em>options</em> soupName:(NSString *)<em>soupName</em> store:(SFSmartStore *)<em>store</em></code></div>
+			<div class="method-subsection method-declaration"><code>+ (nullable SFSyncState *)newSyncUpWithOptions:(SFSyncOptions *)<em>options</em> soupName:(NSString *)<em>soupName</em> store:(SFSmartStore *)<em>store</em></code></div>
 
 		    
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/newSyncUpWithOptions:target:soupName:store:" title="newSyncUpWithOptions:target:soupName:store:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/newSyncUpWithOptions:target:soupName:store:">+&nbsp;newSyncUpWithOptions:target:soupName:store:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>+ (SFSyncState *)newSyncUpWithOptions:(SFSyncOptions *)<em>options</em> target:(SFSyncUpTarget *)<em>target</em> soupName:(NSString *)<em>soupName</em> store:(SFSmartStore *)<em>store</em></code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/newById:store:" title="newById:store:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/newById:store:">+&nbsp;newById:store:</a></code>
+	<a name="//api/name/byId:store:" title="byId:store:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/byId:store:">+&nbsp;byId:store:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -486,12 +510,12 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Methods to save/retrieve from smartstore</p>
+				<p>Methods to save/retrieve/delete from smartstore</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>+ (SFSyncState *)newById:(NSNumber *)<em>syncId</em> store:(SFSmartStore *)<em>store</em></code></div>
+			<div class="method-subsection method-declaration"><code>+ (nullable SFSyncState *)byId:(NSNumber *)<em>syncId</em> store:(SFSmartStore *)<em>store</em></code></div>
 
 		    
 			
@@ -513,6 +537,22 @@
 			</div>
 			
 			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/byName:store:" title="byName:store:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/byName:store:">+&nbsp;byName:store:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>+ (nullable SFSyncState *)byName:(NSString *)<em>name</em> store:(SFSmartStore *)<em>store</em></code></div>
+
+		    
 		</div>
 	</div>
 </div><div class="section-method">
@@ -527,6 +567,38 @@
 			
 
 			<div class="method-subsection method-declaration"><code>- (void)save:(SFSmartStore *)<em>store</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/deleteById:store:" title="deleteById:store:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/deleteById:store:">+&nbsp;deleteById:store:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>+ (void)deleteById:(NSNumber *)<em>syncId</em> store:(SFSmartStore *)<em>store</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/deleteByName:store:" title="deleteByName:store:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/deleteByName:store:">+&nbsp;deleteByName:store:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>+ (void)deleteByName:(NSString *)<em>name</em> store:(SFSmartStore *)<em>store</em></code></div>
 
 		    
 		</div>
@@ -548,7 +620,7 @@
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>+ (SFSyncState *)newFromDict:(NSDictionary *)<em>dict</em></code></div>
+			<div class="method-subsection method-declaration"><code>+ (nullable SFSyncState *)newFromDict:(NSDictionary *)<em>dict</em></code></div>
 
 		    
 			
@@ -729,7 +801,7 @@
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>+ (SFSyncStateStatus)syncStatusFromString:(NSString *)<em>syncStatus</em></code></div>
+			<div class="method-subsection method-declaration"><code>+ (SFSyncStateStatus)syncStatusFromString:(nullable NSString *)<em>syncStatus</em></code></div>
 
 		    
 		</div>
@@ -797,7 +869,7 @@
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-09-18</p>
+						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-12-18</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

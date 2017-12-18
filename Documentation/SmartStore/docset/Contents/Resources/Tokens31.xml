@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSoupQueryType.html">
+	<File path="Constants/SFSmartStoreLegacyDefaultEncryptionType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSoupQueryType</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSmartStoreLegacyDefaultEncryptionType</TokenIdentifier>
+			<Abstract type="html">Enumeration of types of encryption used for the default encryption of stores.</Abstract>
+			<DeclaredIn>SFSmartStoreUpgrade+Internal.h</DeclaredIn>
             
 			
 			<NodeRef refid="31"/>
@@ -14,51 +14,41 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFSoupQueryTypeExact</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSmartStoreDefaultEncryptionTypeNone</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>kSFSoupQueryTypeExact</Declaration>
+            <Declaration>SFSmartStoreDefaultEncryptionTypeNone</Declaration>
             
-            <DeclaredIn>SFQuerySpec.h</DeclaredIn>
+            <DeclaredIn>SFSmartStoreUpgrade+Internal.h</DeclaredIn>
             
             <NodeRef refid="31"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFSoupQueryTypeRange</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSmartStoreDefaultEncryptionTypeMac</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>kSFSoupQueryTypeRange</Declaration>
+            <Declaration>SFSmartStoreDefaultEncryptionTypeMac</Declaration>
             
-            <DeclaredIn>SFQuerySpec.h</DeclaredIn>
+            <DeclaredIn>SFSmartStoreUpgrade+Internal.h</DeclaredIn>
             
             <NodeRef refid="31"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFSoupQueryTypeLike</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSmartStoreDefaultEncryptionTypeIdForVendor</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>kSFSoupQueryTypeLike</Declaration>
+            <Declaration>SFSmartStoreDefaultEncryptionTypeIdForVendor</Declaration>
             
-            <DeclaredIn>SFQuerySpec.h</DeclaredIn>
+            <DeclaredIn>SFSmartStoreUpgrade+Internal.h</DeclaredIn>
             
             <NodeRef refid="31"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFSoupQueryTypeSmart</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSmartStoreDefaultEncryptionTypeBaseAppId</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>kSFSoupQueryTypeSmart</Declaration>
+            <Declaration>SFSmartStoreDefaultEncryptionTypeBaseAppId</Declaration>
             
-            <DeclaredIn>SFQuerySpec.h</DeclaredIn>
-            
-            <NodeRef refid="31"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFSoupQueryTypeMatch</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>kSFSoupQueryTypeMatch</Declaration>
-            
-            <DeclaredIn>SFQuerySpec.h</DeclaredIn>
+            <DeclaredIn>SFSmartStoreUpgrade+Internal.h</DeclaredIn>
             
             <NodeRef refid="31"/>
         </Token>

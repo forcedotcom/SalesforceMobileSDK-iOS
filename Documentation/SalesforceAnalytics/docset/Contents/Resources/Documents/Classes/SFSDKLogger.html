@@ -72,11 +72,39 @@
 		
 		<option value="//api/name/allComponents">+ allComponents</option>
 		
+		<option value="//api/name/d:format:">+ d:format:</option>
+		
+		<option value="//api/name/d:message:">+ d:message:</option>
+		
+		<option value="//api/name/e:format:">+ e:format:</option>
+		
+		<option value="//api/name/e:message:">+ e:message:</option>
+		
 		<option value="//api/name/flushAllComponents">+ flushAllComponents</option>
 		
-		<option value="//api/name/sharedDefaultInstance">+ sharedDefaultInstance</option>
+		<option value="//api/name/i:format:">+ i:format:</option>
+		
+		<option value="//api/name/i:message:">+ i:message:</option>
+		
+		<option value="//api/name/log:level:format:">+ log:level:format:</option>
+		
+		<option value="//api/name/log:level:message:">+ log:level:message:</option>
+		
+		<option value="//api/name/logLevel">+ logLevel</option>
+		
+		<option value="//api/name/setLogLevel:">+ setLogLevel:</option>
+		
+		<option value="//api/name/sharedInstance">+ sharedInstance</option>
 		
 		<option value="//api/name/sharedInstanceWithComponent:">+ sharedInstanceWithComponent:</option>
+		
+		<option value="//api/name/v:format:">+ v:format:</option>
+		
+		<option value="//api/name/v:message:">+ v:message:</option>
+		
+		<option value="//api/name/w:format:">+ w:format:</option>
+		
+		<option value="//api/name/w:message:">+ w:message:</option>
 		
 	</optgroup>
 	
@@ -84,9 +112,15 @@
 	
 	<optgroup label="Instance Methods">
 		
+		<option value="//api/name/d:format:">- d:format:</option>
+		
 		<option value="//api/name/d:message:">- d:message:</option>
 		
+		<option value="//api/name/e:format:">- e:format:</option>
+		
 		<option value="//api/name/e:message:">- e:message:</option>
+		
+		<option value="//api/name/i:format:">- i:format:</option>
 		
 		<option value="//api/name/i:message:">- i:message:</option>
 		
@@ -94,7 +128,11 @@
 		
 		<option value="//api/name/log:level:message:">- log:level:message:</option>
 		
+		<option value="//api/name/v:format:">- v:format:</option>
+		
 		<option value="//api/name/v:message:">- v:message:</option>
+		
+		<option value="//api/name/w:format:">- w:format:</option>
 		
 		<option value="//api/name/w:message:">- w:message:</option>
 		
@@ -345,8 +383,8 @@
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/sharedDefaultInstance" title="sharedDefaultInstance"></a>
-	<h3 class="method-title"><code><a href="#//api/name/sharedDefaultInstance">+&nbsp;sharedDefaultInstance</a></code>
+	<a name="//api/name/sharedInstance" title="sharedInstance"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sharedInstance">+&nbsp;sharedInstance</a></code>
 </h3>
 
 	<div class="method-info">
@@ -356,12 +394,13 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Returns an instance of this class associated with the default component.</p>
+				<p>By default, returns the default shared instance. Child classes implement this method to return an instance with
+their defined component name.</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>+ (nonnull instancetype)sharedDefaultInstance</code></div>
+			<div class="method-subsection method-declaration"><code>+ (nonnull instancetype)sharedInstance</code></div>
 
 		    
 			
@@ -552,7 +591,7 @@
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)e:(nonnull Class)<em>class</em> message:(nonnull NSString *)<em>message</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)e:(nonnull Class)<em>cls</em> message:(nonnull NSString *)<em>message</em></code></div>
 
 		    
 			
@@ -561,13 +600,76 @@
 				<table class="argument-def parameter-def">
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>class</code></th>
+						<th scope="row" class="argument-name"><code>cls</code></th>
 						<td><p>Class.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>message</code></th>
 						<td><p>Log message.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKLogger.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/e:format:" title="e:format:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/e:format:">&ndash;&nbsp;e:format:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Logs an error log line.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)e:(nonnull Class)<em>cls</em> format:(nonnull NSString *)<em>format</em>, <em>...</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>cls</code></th>
+						<td><p>Class.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>format</code></th>
+						<td><p>The format message, and optional arguments to expand in the format.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>...</code></th>
+						<td><p>The arguments to the message format string.</p></td>
 					</tr>
 				
 				</table>
@@ -610,7 +712,7 @@
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)w:(nonnull Class)<em>class</em> message:(nonnull NSString *)<em>message</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)w:(nonnull Class)<em>cls</em> message:(nonnull NSString *)<em>message</em></code></div>
 
 		    
 			
@@ -619,13 +721,76 @@
 				<table class="argument-def parameter-def">
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>class</code></th>
+						<th scope="row" class="argument-name"><code>cls</code></th>
 						<td><p>Class.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>message</code></th>
 						<td><p>Log message.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKLogger.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/w:format:" title="w:format:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/w:format:">&ndash;&nbsp;w:format:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Logs a warning log line.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)w:(nonnull Class)<em>cls</em> format:(nonnull NSString *)<em>format</em>, <em>...</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>cls</code></th>
+						<td><p>Class.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>format</code></th>
+						<td><p>The format message, and optional arguments to expand in the format.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>...</code></th>
+						<td><p>The arguments to the message format string.</p></td>
 					</tr>
 				
 				</table>
@@ -668,7 +833,7 @@
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)i:(nonnull Class)<em>class</em> message:(nonnull NSString *)<em>message</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)i:(nonnull Class)<em>cls</em> message:(nonnull NSString *)<em>message</em></code></div>
 
 		    
 			
@@ -677,13 +842,76 @@
 				<table class="argument-def parameter-def">
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>class</code></th>
+						<th scope="row" class="argument-name"><code>cls</code></th>
 						<td><p>Class.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>message</code></th>
 						<td><p>Log message.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKLogger.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/i:format:" title="i:format:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/i:format:">&ndash;&nbsp;i:format:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Logs an info log line.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)i:(nonnull Class)<em>cls</em> format:(nonnull NSString *)<em>format</em>, <em>...</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>cls</code></th>
+						<td><p>Class.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>format</code></th>
+						<td><p>The format message, and optional arguments to expand in the format.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>...</code></th>
+						<td><p>The arguments to the message format string.</p></td>
 					</tr>
 				
 				</table>
@@ -726,7 +954,7 @@
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)v:(nonnull Class)<em>class</em> message:(nonnull NSString *)<em>message</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)v:(nonnull Class)<em>cls</em> message:(nonnull NSString *)<em>message</em></code></div>
 
 		    
 			
@@ -735,13 +963,76 @@
 				<table class="argument-def parameter-def">
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>class</code></th>
+						<th scope="row" class="argument-name"><code>cls</code></th>
 						<td><p>Class.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>message</code></th>
 						<td><p>Log message.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKLogger.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/v:format:" title="v:format:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/v:format:">&ndash;&nbsp;v:format:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Logs a verbose log line.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)v:(nonnull Class)<em>cls</em> format:(nonnull NSString *)<em>format</em>, <em>...</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>cls</code></th>
+						<td><p>Class.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>format</code></th>
+						<td><p>The format message, and optional arguments to expand in the format.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>...</code></th>
+						<td><p>The arguments to the message format string.</p></td>
 					</tr>
 				
 				</table>
@@ -784,7 +1075,7 @@
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)d:(nonnull Class)<em>class</em> message:(nonnull NSString *)<em>message</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)d:(nonnull Class)<em>cls</em> message:(nonnull NSString *)<em>message</em></code></div>
 
 		    
 			
@@ -793,13 +1084,76 @@
 				<table class="argument-def parameter-def">
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>class</code></th>
+						<th scope="row" class="argument-name"><code>cls</code></th>
 						<td><p>Class.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>message</code></th>
 						<td><p>Log message.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKLogger.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/d:format:" title="d:format:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/d:format:">&ndash;&nbsp;d:format:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Logs a debug log line.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)d:(nonnull Class)<em>cls</em> format:(nonnull NSString *)<em>format</em>, <em>...</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>cls</code></th>
+						<td><p>Class.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>format</code></th>
+						<td><p>The format message, and optional arguments to expand in the format.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>...</code></th>
+						<td><p>The arguments to the message format string.</p></td>
 					</tr>
 				
 				</table>
@@ -842,7 +1196,7 @@
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)log:(nonnull Class)<em>class</em> level:(DDLogLevel)<em>level</em> message:(nonnull NSString *)<em>message</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)log:(nonnull Class)<em>cls</em> level:(DDLogLevel)<em>level</em> message:(nonnull NSString *)<em>message</em></code></div>
 
 		    
 			
@@ -851,7 +1205,7 @@
 				<table class="argument-def parameter-def">
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>class</code></th>
+						<th scope="row" class="argument-name"><code>cls</code></th>
 						<td><p>Class.</p></td>
 					</tr>
 				
@@ -905,7 +1259,7 @@
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)log:(nonnull Class)<em>class</em> level:(DDLogLevel)<em>level</em> format:(nonnull NSString *)<em>format</em>, <em>...</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)log:(nonnull Class)<em>cls</em> level:(DDLogLevel)<em>level</em> format:(nonnull NSString *)<em>format</em>, <em>...</em></code></div>
 
 		    
 			
@@ -914,7 +1268,7 @@
 				<table class="argument-def parameter-def">
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>class</code></th>
+						<th scope="row" class="argument-name"><code>cls</code></th>
 						<td><p>Class.
 @level Log level.</p></td>
 					</tr>
@@ -927,6 +1281,837 @@
 					<tr>
 						<th scope="row" class="argument-name"><code>...</code></th>
 						<td><p>The arguments to the message format string.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKLogger.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/logLevel" title="logLevel"></a>
+	<h3 class="method-title"><code><a href="#//api/name/logLevel">+&nbsp;logLevel</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns current log level used by this <a href="#//api/name/logger">logger</a>.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (DDLogLevel)logLevel</code></div>
+
+		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>Current log level.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKLogger.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setLogLevel:" title="setLogLevel:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setLogLevel:">+&nbsp;setLogLevel:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Sets log level to be used by this <a href="#//api/name/logger">logger</a>.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)setLogLevel:(DDLogLevel)<em>logLevel</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>logLevel</code></th>
+						<td><p>Log level.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKLogger.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/e:format:" title="e:format:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/e:format:">+&nbsp;e:format:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Logs an error log line.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)e:(nonnull Class)<em>cls</em> format:(nonnull NSString *)<em>format</em>, <em>...</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>cls</code></th>
+						<td><p>Class.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>format</code></th>
+						<td><p>The format message, and optional arguments to expand in the format.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>...</code></th>
+						<td><p>The arguments to the message format string.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKLogger.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/e:message:" title="e:message:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/e:message:">+&nbsp;e:message:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Logs an error log line.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)e:(nonnull Class)<em>cls</em> message:(nonnull NSString *)<em>message</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>cls</code></th>
+						<td><p>Class.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>message</code></th>
+						<td><p>Log message.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKLogger.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/w:format:" title="w:format:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/w:format:">+&nbsp;w:format:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Logs a warning log line.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)w:(nonnull Class)<em>cls</em> format:(nonnull NSString *)<em>format</em>, <em>...</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>cls</code></th>
+						<td><p>Class.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>format</code></th>
+						<td><p>The format message, and optional arguments to expand in the format.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>...</code></th>
+						<td><p>The arguments to the message format string.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKLogger.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/w:message:" title="w:message:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/w:message:">+&nbsp;w:message:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Logs a warning log line.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)w:(nonnull Class)<em>cls</em> message:(nonnull NSString *)<em>message</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>cls</code></th>
+						<td><p>Class.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>message</code></th>
+						<td><p>Log message.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKLogger.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/i:format:" title="i:format:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/i:format:">+&nbsp;i:format:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Logs an info log line.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)i:(nonnull Class)<em>cls</em> format:(nonnull NSString *)<em>format</em>, <em>...</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>cls</code></th>
+						<td><p>Class.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>format</code></th>
+						<td><p>The format message, and optional arguments to expand in the format.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>...</code></th>
+						<td><p>The arguments to the message format string.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKLogger.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/i:message:" title="i:message:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/i:message:">+&nbsp;i:message:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Logs an info log line.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)i:(nonnull Class)<em>cls</em> message:(nonnull NSString *)<em>message</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>cls</code></th>
+						<td><p>Class.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>message</code></th>
+						<td><p>Log message.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKLogger.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/v:format:" title="v:format:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/v:format:">+&nbsp;v:format:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Logs a verbose log line.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)v:(nonnull Class)<em>cls</em> format:(nonnull NSString *)<em>format</em>, <em>...</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>cls</code></th>
+						<td><p>Class.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>format</code></th>
+						<td><p>The format message, and optional arguments to expand in the format.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>...</code></th>
+						<td><p>The arguments to the message format string.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKLogger.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/v:message:" title="v:message:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/v:message:">+&nbsp;v:message:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Logs a verbose log line.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)v:(nonnull Class)<em>cls</em> message:(nonnull NSString *)<em>message</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>cls</code></th>
+						<td><p>Class.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>message</code></th>
+						<td><p>Log message.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKLogger.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/d:format:" title="d:format:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/d:format:">+&nbsp;d:format:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Logs a debug log line.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)d:(nonnull Class)<em>cls</em> format:(nonnull NSString *)<em>format</em>, <em>...</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>cls</code></th>
+						<td><p>Class.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>format</code></th>
+						<td><p>The format message, and optional arguments to expand in the format.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>...</code></th>
+						<td><p>The arguments to the message format string.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKLogger.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/d:message:" title="d:message:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/d:message:">+&nbsp;d:message:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Logs a debug log line.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)d:(nonnull Class)<em>cls</em> message:(nonnull NSString *)<em>message</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>cls</code></th>
+						<td><p>Class.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>message</code></th>
+						<td><p>Log message.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKLogger.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/log:level:format:" title="log:level:format:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/log:level:format:">+&nbsp;log:level:format:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Logs a log line of the specified level.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)log:(nonnull Class)<em>cls</em> level:(DDLogLevel)<em>level</em> format:(nonnull NSString *)<em>format</em>, <em>...</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>cls</code></th>
+						<td><p>Class.
+@level Log level.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>format</code></th>
+						<td><p>The format message, and optional arguments to expand in the format.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>...</code></th>
+						<td><p>The arguments to the message format string.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKLogger.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/log:level:message:" title="log:level:message:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/log:level:message:">+&nbsp;log:level:message:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Logs a log line of the specified level.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)log:(nonnull Class)<em>cls</em> level:(DDLogLevel)<em>level</em> message:(nonnull NSString *)<em>message</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>cls</code></th>
+						<td><p>Class.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>level</code></th>
+						<td><p>Log level.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>message</code></th>
+						<td><p>Log message.</p></td>
 					</tr>
 				
 				</table>
@@ -967,7 +2152,7 @@
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-09-18</p>
+						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-12-18</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

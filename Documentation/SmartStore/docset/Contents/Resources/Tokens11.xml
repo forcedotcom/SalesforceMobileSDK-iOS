@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSmartStoreAlterTests.html">
+	<File path="Classes/SFSmartSqlWithExternalStorageTests.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSmartStoreAlterTests</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSmartSqlWithExternalStorageTests</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreAlterTests.h</DeclaredIn>
+			<DeclaredIn>SFSmartSqlWithExternalStorageTests.h</DeclaredIn>
             
 			
 			<NodeRef refid="11"/>

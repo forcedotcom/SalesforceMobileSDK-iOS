@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/TestSyncUpTargetModDateCompare.html">
+	<File path="Constants/SFSyncStateSyncType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/TestSyncUpTargetModDateCompare</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSyncStateSyncType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>TestSyncUpTarget.h</DeclaredIn>
+			<DeclaredIn>SFSyncState.h</DeclaredIn>
             
 			
 			<NodeRef refid="39"/>
@@ -14,31 +14,21 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/TestSyncUpTargetRemoteModDateSameAsLocal</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSyncStateSyncTypeDown</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>TestSyncUpTargetRemoteModDateSameAsLocal</Declaration>
+            <Declaration>SFSyncStateSyncTypeDown</Declaration>
             
-            <DeclaredIn>TestSyncUpTarget.h</DeclaredIn>
+            <DeclaredIn>SFSyncState.h</DeclaredIn>
             
             <NodeRef refid="39"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/TestSyncUpTargetRemoteModDateGreaterThanLocal</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSyncStateSyncTypeUp</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>TestSyncUpTargetRemoteModDateGreaterThanLocal</Declaration>
+            <Declaration>SFSyncStateSyncTypeUp</Declaration>
             
-            <DeclaredIn>TestSyncUpTarget.h</DeclaredIn>
-            
-            <NodeRef refid="39"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/TestSyncUpTargetRemoteModDateLessThanLocal</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>TestSyncUpTargetRemoteModDateLessThanLocal</Declaration>
-            
-            <DeclaredIn>TestSyncUpTarget.h</DeclaredIn>
+            <DeclaredIn>SFSyncState.h</DeclaredIn>
             
             <NodeRef refid="39"/>
         </Token>

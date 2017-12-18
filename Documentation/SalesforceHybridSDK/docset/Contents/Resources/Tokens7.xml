@@ -85,6 +85,45 @@
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewConfig/setUnauthenticatedStartPage:</TokenIdentifier>
+			<Abstract type="html">In a deferred authentication configuration for remote apps, the page/URL that should
+be loaded in an unauthenticated context.</Abstract>
+			<DeclaredIn>SFHybridViewConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, copy) NSString *unauthenticatedStartPage</Declaration>
+			
+			
+			<Anchor>//api/name/unauthenticatedStartPage</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewConfig/unauthenticatedStartPage</TokenIdentifier>
+			<Abstract type="html">In a deferred authentication configuration for remote apps, the page/URL that should
+be loaded in an unauthenticated context.</Abstract>
+			<DeclaredIn>SFHybridViewConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, copy) NSString *unauthenticatedStartPage</Declaration>
+			
+			
+			<Anchor>//api/name/unauthenticatedStartPage</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFHybridViewConfig/unauthenticatedStartPage</TokenIdentifier>
+			<Abstract type="html">In a deferred authentication configuration for remote apps, the page/URL that should
+be loaded in an unauthenticated context.</Abstract>
+			<DeclaredIn>SFHybridViewConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, copy) NSString *unauthenticatedStartPage</Declaration>
+			
+			
+			<Anchor>//api/name/unauthenticatedStartPage</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewConfig/setErrorPage:</TokenIdentifier>
 			<Abstract type="html">The error page to navigate to, in the event of an error during the app load process.</Abstract>
 			<DeclaredIn>SFHybridViewConfig.h</DeclaredIn>
@@ -160,31 +199,19 @@ connectivity.</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFHybridViewConfig/fromDefaultConfigFile</TokenIdentifier>
-			<Abstract type="html">The hybrid view config from the default configuration file location (/www/bootconfig.json).</Abstract>
+			<TokenIdentifier>//apple_ref/occ/clm/SFHybridViewConfig/urlStringIsAbsolute:</TokenIdentifier>
+			<Abstract type="html">Determines whether an input URL string is an absolute URL or not.</Abstract>
 			<DeclaredIn>SFHybridViewConfig.h</DeclaredIn>
 			
-			<Declaration>+ (SFHybridViewConfig *)fromDefaultConfigFile</Declaration>
-			
-			<ReturnValue><Abstract type="html">The hybrid view config from the default configuration file location (/www/bootconfig.json).</Abstract></ReturnValue>
-			<Anchor>//api/name/fromDefaultConfigFile</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFHybridViewConfig/fromConfigFile:</TokenIdentifier>
-			<Abstract type="html">Create a hybrid view config from the config file at the specified file path.</Abstract>
-			<DeclaredIn>SFHybridViewConfig.h</DeclaredIn>
-			
-			<Declaration>+ (SFHybridViewConfig *)fromConfigFile:(NSString *)configFilePath</Declaration>
+			<Declaration>+ (BOOL)urlStringIsAbsolute:(nonnull NSString *)urlString</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>configFilePath</Name>
-					<Abstract type="html">The file path to the configuration file, relative to the resources root path.</Abstract>
+					<Name>urlString</Name>
+					<Abstract type="html">The URL string to evaluate.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The hybrid view config from the given file path.</Abstract></ReturnValue>
-			<Anchor>//api/name/fromConfigFile:</Anchor>
+			<ReturnValue><Abstract type="html">YES if the URL string is absolute, no otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/urlStringIsAbsolute:</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		

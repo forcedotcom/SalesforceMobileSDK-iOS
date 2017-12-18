@@ -233,7 +233,7 @@
 			<Abstract type="html">The paths to return in an array. nil means return the entire soup element.</Abstract>
 			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSArray *selectPaths</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) NSArray *selectPaths</Declaration>
 			
 			
 			<Anchor>//api/name/selectPaths</Anchor>
@@ -245,7 +245,7 @@
 			<Abstract type="html">The paths to return in an array. nil means return the entire soup element.</Abstract>
 			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSArray *selectPaths</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) NSArray *selectPaths</Declaration>
 			
 			
 			<Anchor>//api/name/selectPaths</Anchor>
@@ -257,7 +257,7 @@
 			<Abstract type="html">The paths to return in an array. nil means return the entire soup element.</Abstract>
 			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSArray *selectPaths</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) NSArray *selectPaths</Declaration>
 			
 			
 			<Anchor>//api/name/selectPaths</Anchor>
@@ -558,7 +558,7 @@
 Note: caller is responsible for releaseing the query spec</Abstract>
 			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
 			
-			<Declaration>+ (SFQuerySpec *)newExactQuerySpec:(NSString *)soupName withSelectPaths:(NSArray *)selectPaths withPath:(NSString *)path withMatchKey:(NSString *)matchKey withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize</Declaration>
+			<Declaration>+ (nullable SFQuerySpec *)newExactQuerySpec:(NSString *)soupName withSelectPaths:(nullable NSArray *)selectPaths withPath:(NSString *)path withMatchKey:(NSString *)matchKey withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>soupName</Name>
@@ -606,7 +606,7 @@ Note: caller is responsible for releaseing the query spec</Abstract>
 Note: caller is responsible for releaseing the query spec</Abstract>
 			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
 			
-			<Declaration>+ (SFQuerySpec *)newLikeQuerySpec:(NSString *)soupName withSelectPaths:(NSArray *)selectPaths withPath:(NSString *)path withLikeKey:(NSString *)likeKey withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize</Declaration>
+			<Declaration>+ (nullable SFQuerySpec *)newLikeQuerySpec:(NSString *)soupName withSelectPaths:(nullable NSArray *)selectPaths withPath:(NSString *)path withLikeKey:(NSString *)likeKey withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>soupName</Name>
@@ -654,7 +654,7 @@ Note: caller is responsible for releaseing the query spec</Abstract>
 Note: caller is responsible for releaseing the query spec</Abstract>
 			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
 			
-			<Declaration>+ (SFQuerySpec *)newRangeQuerySpec:(NSString *)soupName withSelectPaths:(NSArray *)selectPaths withPath:(NSString *)path withBeginKey:(NSString *)beginKey withEndKey:(NSString *)endKey withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize</Declaration>
+			<Declaration>+ (nullable SFQuerySpec *)newRangeQuerySpec:(NSString *)soupName withSelectPaths:(nullable NSArray *)selectPaths withPath:(nullable NSString *)path withBeginKey:(nullable NSString *)beginKey withEndKey:(nullable NSString *)endKey withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>soupName</Name>
@@ -704,7 +704,7 @@ Note: caller is responsible for releaseing the query spec</Abstract>
 			<Abstract type="html">Factory method to build a query spec to return all data from a soup.</Abstract>
 			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
 			
-			<Declaration>+ (SFQuerySpec *)newAllQuerySpec:(NSString *)soupName withSelectPaths:(NSArray *)selectPaths withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize</Declaration>
+			<Declaration>+ (SFQuerySpec *)newAllQuerySpec:(NSString *)soupName withSelectPaths:(nullable NSArray *)selectPaths withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>soupName</Name>
@@ -746,7 +746,7 @@ Note: caller is responsible for releaseing the query spec</Abstract>
 Note: caller is responsible for releaseing the query spec</Abstract>
 			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
 			
-			<Declaration>+ (SFQuerySpec *)newMatchQuerySpec:(NSString *)soupName withSelectPaths:(NSArray *)selectPaths withPath:(NSString *)path withMatchKey:(NSString *)matchKey withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize</Declaration>
+			<Declaration>+ (nullable SFQuerySpec *)newMatchQuerySpec:(NSString *)soupName withSelectPaths:(nullable NSArray *)selectPaths withPath:(NSString *)path withMatchKey:(NSString *)matchKey withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>soupName</Name>
@@ -794,7 +794,7 @@ Note: caller is responsible for releaseing the query spec</Abstract>
 Note: caller is responsible for releaseing the query spec</Abstract>
 			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
 			
-			<Declaration>+ (SFQuerySpec *)newSmartQuerySpec:(NSString *)smartSql withPageSize:(NSUInteger)pageSize</Declaration>
+			<Declaration>+ (nullable SFQuerySpec *)newSmartQuerySpec:(NSString *)smartSql withPageSize:(NSUInteger)pageSize</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>smartSql</Name>
@@ -846,7 +846,7 @@ Note: caller is responsible for releaseing the query spec</Abstract>
 			<Abstract type="html">Return bind arguments for query.</Abstract>
 			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
 			
-			<Declaration>- (NSArray *)bindsForQuerySpec</Declaration>
+			<Declaration>- (nullable NSArray *)bindsForQuerySpec</Declaration>
 			
 			<ReturnValue><Abstract type="html">bind arguments.</Abstract></ReturnValue>
 			<Anchor>//api/name/bindsForQuerySpec</Anchor>

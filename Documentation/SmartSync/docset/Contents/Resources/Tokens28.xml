@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SyncManagerTestCase.html">
+	<File path="Classes/SFSyncUpTarget.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SyncManagerTestCase</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSyncUpTarget</TokenIdentifier>
+			<Abstract type="html">Base class for a server target, used to manage sync ups to the configured service.</Abstract>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
             
 			
 			<NodeRef refid="28"/>
@@ -13,542 +13,323 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/setCurrentUser:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/setTargetType:</TokenIdentifier>
+			<Abstract type="html">The type of server target represented by this instance.</Abstract>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFUserAccount *currentUser</Declaration>
+			<Declaration>@property (nonatomic, assign) SFSyncUpTargetType targetType</Declaration>
 			
 			
-			<Anchor>//api/name/currentUser</Anchor>
+			<Anchor>//api/name/targetType</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/currentUser</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/targetType</TokenIdentifier>
+			<Abstract type="html">The type of server target represented by this instance.</Abstract>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFUserAccount *currentUser</Declaration>
+			<Declaration>@property (nonatomic, assign) SFSyncUpTargetType targetType</Declaration>
 			
 			
-			<Anchor>//api/name/currentUser</Anchor>
+			<Anchor>//api/name/targetType</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SyncManagerTestCase/currentUser</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSyncUpTarget/targetType</TokenIdentifier>
+			<Abstract type="html">The type of server target represented by this instance.</Abstract>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFUserAccount *currentUser</Declaration>
+			<Declaration>@property (nonatomic, assign) SFSyncUpTargetType targetType</Declaration>
 			
 			
-			<Anchor>//api/name/currentUser</Anchor>
+			<Anchor>//api/name/targetType</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/setSyncManager:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/setCreateFieldlist:</TokenIdentifier>
+			<Abstract type="html">Create field list (optional)</Abstract>
+			<DeclaredIn>SFSyncUpTarget+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFSmartSyncSyncManager *syncManager</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSArray *createFieldlist</Declaration>
 			
 			
-			<Anchor>//api/name/syncManager</Anchor>
+			<Anchor>//api/name/createFieldlist</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/syncManager</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/createFieldlist</TokenIdentifier>
+			<Abstract type="html">Create field list (optional)</Abstract>
+			<DeclaredIn>SFSyncUpTarget+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFSmartSyncSyncManager *syncManager</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSArray *createFieldlist</Declaration>
 			
 			
-			<Anchor>//api/name/syncManager</Anchor>
+			<Anchor>//api/name/createFieldlist</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SyncManagerTestCase/syncManager</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSyncUpTarget/createFieldlist</TokenIdentifier>
+			<Abstract type="html">Create field list (optional)</Abstract>
+			<DeclaredIn>SFSyncUpTarget+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFSmartSyncSyncManager *syncManager</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSArray *createFieldlist</Declaration>
 			
 			
-			<Anchor>//api/name/syncManager</Anchor>
+			<Anchor>//api/name/createFieldlist</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/setStore:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/setUpdateFieldlist:</TokenIdentifier>
+			<Abstract type="html">Update field list (optional)</Abstract>
+			<DeclaredIn>SFSyncUpTarget+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFSmartStore *store</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSArray *updateFieldlist</Declaration>
 			
 			
-			<Anchor>//api/name/store</Anchor>
+			<Anchor>//api/name/updateFieldlist</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/store</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/updateFieldlist</TokenIdentifier>
+			<Abstract type="html">Update field list (optional)</Abstract>
+			<DeclaredIn>SFSyncUpTarget+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFSmartStore *store</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSArray *updateFieldlist</Declaration>
 			
 			
-			<Anchor>//api/name/store</Anchor>
+			<Anchor>//api/name/updateFieldlist</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SyncManagerTestCase/store</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSyncUpTarget/updateFieldlist</TokenIdentifier>
+			<Abstract type="html">Update field list (optional)</Abstract>
+			<DeclaredIn>SFSyncUpTarget+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFSmartStore *store</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSArray *updateFieldlist</Declaration>
 			
 			
-			<Anchor>//api/name/store</Anchor>
+			<Anchor>//api/name/updateFieldlist</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/createRecordName:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSyncUpTarget/newFromDict:</TokenIdentifier>
+			<Abstract type="html">Creates a new instance of a server target from a serialized dictionary.</Abstract>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)createRecordName:(NSString *)objectType</Declaration>
+			<Declaration>+ (nullable instancetype)newFromDict:(NSDictionary *)dict</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>dict</Name>
+					<Abstract type="html">The dictionary with the serialized server target.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/createRecordName:</Anchor>
+			<Anchor>//api/name/newFromDict:</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/createAccountName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSyncUpTarget/targetTypeFromString:</TokenIdentifier>
+			<Abstract type="html">Converts a string representation of a target type into its target type.</Abstract>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)createAccountName</Declaration>
-			
-			
-			<Anchor>//api/name/createAccountName</Anchor>
+			<Declaration>+ (SFSyncUpTargetType)targetTypeFromString:(NSString *)targetType</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>targetType</Name>
+					<Abstract type="html">The string representation of the target type.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The target type value.</Abstract></ReturnValue>
+			<Anchor>//api/name/targetTypeFromString:</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/createDescription:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSyncUpTarget/targetTypeToString:</TokenIdentifier>
+			<Abstract type="html">Gives the string representation of a target type.</Abstract>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)createDescription:(NSString *)name</Declaration>
-			
-			
-			<Anchor>//api/name/createDescription:</Anchor>
+			<Declaration>+ (NSString *)targetTypeToString:(SFSyncUpTargetType)targetType</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>targetType</Name>
+					<Abstract type="html">The target type to display.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The string representation of the target type.</Abstract></ReturnValue>
+			<Anchor>//api/name/targetTypeToString:</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/createLocalId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/initWithCreateFieldlist:updateFieldlist:</TokenIdentifier>
+			<Abstract type="html">Constructor</Abstract>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)createLocalId</Declaration>
+			<Declaration>- (instancetype)initWithCreateFieldlist:(nullable NSArray *)createFieldlist updateFieldlist:(nullable NSArray *)updateFieldlist</Declaration>
 			
 			
-			<Anchor>//api/name/createLocalId</Anchor>
+			<Anchor>//api/name/initWithCreateFieldlist:updateFieldlist:</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/buildInClause:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/isNewerThanServer:record:resultBlock:</TokenIdentifier>
+			<Abstract type="html">Call resultBlock with YES if record is more recent than corresponding record on server
+NB: also call resultBlock true if both were deleted or if local mod date is missing
+Used to decide whether a record should be synced up or not when using merge mode leave-if-changed</Abstract>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)buildInClause:(NSArray *)values</Declaration>
+			<Declaration>- (void)isNewerThanServer:(SFSmartSyncSyncManager *)syncManager record:(NSDictionary *)record resultBlock:(SFSyncUpRecordNewerThanServerBlock)resultBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>record</Name>
+					<Abstract type="html">The record</Abstract>
+				</Parameter><Parameter>
+					<Name>resultBlock</Name>
+					<Abstract type="html">The block to execute</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/buildInClause:</Anchor>
+			<Anchor>//api/name/isNewerThanServer:record:resultBlock:</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/createAccountsLocally:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/createOnServer:record:fieldlist:completionBlock:failBlock:</TokenIdentifier>
+			<Abstract type="html">Save locally created record back to server</Abstract>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
 			
-			<Declaration>- (NSArray *)createAccountsLocally:(NSArray *)names</Declaration>
+			<Declaration>- (void)createOnServer:(SFSmartSyncSyncManager *)syncManager record:(NSDictionary *)record fieldlist:(NSArray *)fieldlist completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock failBlock:(SFSyncUpTargetErrorBlock)failBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>syncManager</Name>
+					<Abstract type="html">The sync manager doing the sync</Abstract>
+				</Parameter><Parameter>
+					<Name>record</Name>
+					<Abstract type="html">The record being synced</Abstract>
+				</Parameter><Parameter>
+					<Name>fieldlist</Name>
+					<Abstract type="html">List of fields to send to server</Abstract>
+				</Parameter><Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">The block to execute after the server call completes.</Abstract>
+				</Parameter><Parameter>
+					<Name>failBlock</Name>
+					<Abstract type="html">The block to execute if the server call fails.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/createAccountsLocally:</Anchor>
+			<Anchor>//api/name/createOnServer:record:fieldlist:completionBlock:failBlock:</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/createAccountsSoup</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/updateOnServer:record:fieldlist:completionBlock:failBlock:</TokenIdentifier>
+			<Abstract type="html">Save locally updated record back to server</Abstract>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
 			
-			<Declaration>- (void)createAccountsSoup</Declaration>
+			<Declaration>- (void)updateOnServer:(SFSmartSyncSyncManager *)syncManager record:(NSDictionary *)record fieldlist:(NSArray *)fieldlist completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock failBlock:(SFSyncUpTargetErrorBlock)failBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>syncManager</Name>
+					<Abstract type="html">The sync manager doing the sync</Abstract>
+				</Parameter><Parameter>
+					<Name>record</Name>
+					<Abstract type="html">The record being synced</Abstract>
+				</Parameter><Parameter>
+					<Name>fieldlist</Name>
+					<Abstract type="html">List of fields to send to server</Abstract>
+				</Parameter><Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">The block to execute after the server call completes.</Abstract>
+				</Parameter><Parameter>
+					<Name>failBlock</Name>
+					<Abstract type="html">The block to execute if the server call fails.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/createAccountsSoup</Anchor>
+			<Anchor>//api/name/updateOnServer:record:fieldlist:completionBlock:failBlock:</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/dropAccountsSoup</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/deleteOnServer:record:completionBlock:failBlock:</TokenIdentifier>
+			<Abstract type="html">Delete locally deleted record from server</Abstract>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
 			
-			<Declaration>- (void)dropAccountsSoup</Declaration>
+			<Declaration>- (void)deleteOnServer:(SFSmartSyncSyncManager *)syncManager record:(NSDictionary *)record completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock failBlock:(SFSyncUpTargetErrorBlock)failBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>syncManager</Name>
+					<Abstract type="html">The sync manager doing the sync</Abstract>
+				</Parameter><Parameter>
+					<Name>record</Name>
+					<Abstract type="html">The record being synced</Abstract>
+				</Parameter><Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">The block to execute after the server call completes.</Abstract>
+				</Parameter><Parameter>
+					<Name>failBlock</Name>
+					<Abstract type="html">The block to execute if the server call fails.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/dropAccountsSoup</Anchor>
+			<Anchor>//api/name/deleteOnServer:record:completionBlock:failBlock:</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/createContactsSoup</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/getIdsOfRecordsToSyncUp:soupName:</TokenIdentifier>
+			<Abstract type="html">Return set of record ids (soup element ids) that need to be sent up to the server</Abstract>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
 			
-			<Declaration>- (void)createContactsSoup</Declaration>
+			<Declaration>- (NSArray *)getIdsOfRecordsToSyncUp:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>syncManager</Name>
+					<Abstract type="html">The sync manager running the sync.</Abstract>
+				</Parameter><Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">The soup name to look into for records.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/createContactsSoup</Anchor>
+			<Anchor>//api/name/getIdsOfRecordsToSyncUp:soupName:</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/dropContactsSoup</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/buildFieldsMap:fieldlist:idFieldName:modificationDateFieldName:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
+			<DeclaredIn>SFSyncUpTarget+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)dropContactsSoup</Declaration>
+			<Declaration>- (NSMutableDictionary *)buildFieldsMap:(NSDictionary *)record fieldlist:(NSArray *)fieldlist idFieldName:(NSString *)idFieldName modificationDateFieldName:(NSString *)modificationDateFieldName</Declaration>
 			
 			
-			<Anchor>//api/name/dropContactsSoup</Anchor>
+			<Anchor>//api/name/buildFieldsMap:fieldlist:idFieldName:modificationDateFieldName:</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/buildFieldsMapForRecords:objectType:additionalFields:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/isNewerThanServer:remoteModDate:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
+			<DeclaredIn>SFSyncUpTarget+Internal.h</DeclaredIn>
 			
-			<Declaration>- (NSArray *)buildFieldsMapForRecords:(NSUInteger)count objectType:(NSString *)objectType additionalFields:(NSDictionary *)additionalFields</Declaration>
+			<Declaration>- (BOOL)isNewerThanServer:(SFRecordModDate *)localModDate remoteModDate:(SFRecordModDate *)remoteModDate</Declaration>
 			
 			
-			<Anchor>//api/name/buildFieldsMapForRecords:objectType:additionalFields:</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/createAccountsOnServer:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
-			
-			<Declaration>- (NSDictionary *)createAccountsOnServer:(NSUInteger)count</Declaration>
-			
-			
-			<Anchor>//api/name/createAccountsOnServer:</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/createRecordsOnServer:objectType:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
-			
-			<Declaration>- (NSDictionary&lt;NSString*,NSString*&gt; *)createRecordsOnServer:(NSUInteger)count objectType:(NSString *)objectType</Declaration>
-			
-			
-			<Anchor>//api/name/createRecordsOnServer:objectType:</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/deleteRecordsOnServer:objectType:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
-			
-			<Declaration>- (void)deleteRecordsOnServer:(NSArray *)ids objectType:(NSString *)objectType</Declaration>
-			
-			
-			<Anchor>//api/name/deleteRecordsOnServer:objectType:</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/sendSyncRequest:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
-			
-			<Declaration>- (NSDictionary *)sendSyncRequest:(SFRestRequest *)request</Declaration>
-			
-			
-			<Anchor>//api/name/sendSyncRequest:</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/trySyncDown:target:soupName:totalSize:numberFetches:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
-			
-			<Declaration>- (NSInteger)trySyncDown:(SFSyncStateMergeMode)mergeMode target:(SFSyncDownTarget *)target soupName:(NSString *)soupName totalSize:(NSUInteger)totalSize numberFetches:(NSUInteger)numberFetches</Declaration>
-			
-			
-			<Anchor>//api/name/trySyncDown:target:soupName:totalSize:numberFetches:</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/checkStatus:expectedType:expectedId:expectedTarget:expectedOptions:expectedStatus:expectedProgress:expectedTotalSize:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
-			
-			<Declaration>- (void)checkStatus:(SFSyncState *)sync expectedType:(SFSyncStateSyncType)expectedType expectedId:(NSInteger)expectedId expectedTarget:(SFSyncTarget *)expectedTarget expectedOptions:(SFSyncOptions *)expectedOptions expectedStatus:(SFSyncStateStatus)expectedStatus expectedProgress:(NSInteger)expectedProgress expectedTotalSize:(NSInteger)expectedTotalSize</Declaration>
-			
-			
-			<Anchor>//api/name/checkStatus:expectedType:expectedId:expectedTarget:expectedOptions:expectedStatus:expectedProgress:expectedTotalSize:</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/checkDb:soupName:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
-			
-			<Declaration>- (void)checkDb:(NSDictionary *)expectedIdToFields soupName:(NSString *)soupName</Declaration>
-			
-			
-			<Anchor>//api/name/checkDb:soupName:</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/checkDbStateFlags:soupName:expectedLocallyCreated:expectedLocallyUpdated:expectedLocallyDeleted:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
-			
-			<Declaration>- (void)checkDbStateFlags:(NSArray *)ids soupName:(NSString *)soupName expectedLocallyCreated:(bool)expectedLocallyCreated expectedLocallyUpdated:(bool)expectedLocallyUpdated expectedLocallyDeleted:(bool)expectedLocallyDeleted</Declaration>
-			
-			
-			<Anchor>//api/name/checkDbStateFlags:soupName:expectedLocallyCreated:expectedLocallyUpdated:expectedLocallyDeleted:</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/makeSomeLocalChanges:soupName:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
-			
-			<Declaration>- (NSDictionary *)makeSomeLocalChanges:(NSDictionary *)idToFields soupName:(NSString *)soupName</Declaration>
-			
-			
-			<Anchor>//api/name/makeSomeLocalChanges:soupName:</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/makeSomeLocalChanges:soupName:idsToUpdate:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
-			
-			<Declaration>- (NSDictionary *)makeSomeLocalChanges:(NSDictionary *)idToFields soupName:(NSString *)soupName idsToUpdate:(NSArray *)idsToUpdate</Declaration>
-			
-			
-			<Anchor>//api/name/makeSomeLocalChanges:soupName:idsToUpdate:</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/prepareSomeChanges:idsToUpdate:suffix:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
-			
-			<Declaration>- (NSDictionary *)prepareSomeChanges:(NSDictionary *)idToFields idsToUpdate:(NSArray *)idsToUpdate suffix:(NSString *)suffix</Declaration>
-			
-			
-			<Anchor>//api/name/prepareSomeChanges:idsToUpdate:suffix:</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/updateRecordsLocally:soupName:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
-			
-			<Declaration>- (void)updateRecordsLocally:(NSDictionary *)idToFieldsLocallyUpdated soupName:(NSString *)soupName</Declaration>
-			
-			
-			<Anchor>//api/name/updateRecordsLocally:soupName:</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/makeSomeRemoteChanges:objectType:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
-			
-			<Declaration>- (NSDictionary *)makeSomeRemoteChanges:(NSDictionary *)idToFields objectType:(NSString *)objectType</Declaration>
-			
-			
-			<Anchor>//api/name/makeSomeRemoteChanges:objectType:</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/makeSomeRemoteChanges:objectType:idsToUpdate:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
-			
-			<Declaration>- (NSDictionary *)makeSomeRemoteChanges:(NSDictionary *)idToFields objectType:(NSString *)objectType idsToUpdate:(NSArray *)idsToUpdate</Declaration>
-			
-			
-			<Anchor>//api/name/makeSomeRemoteChanges:objectType:idsToUpdate:</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/updateRecordsOnServer:objectType:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
-			
-			<Declaration>- (void)updateRecordsOnServer:(NSDictionary *)idToFieldsUpdated objectType:(NSString *)objectType</Declaration>
-			
-			
-			<Anchor>//api/name/updateRecordsOnServer:objectType:</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/checkDbDeleted:ids:idField:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
-			
-			<Declaration>- (void)checkDbDeleted:(NSString *)soupName ids:(NSArray *)ids idField:(NSString *)idField</Declaration>
-			
-			
-			<Anchor>//api/name/checkDbDeleted:ids:idField:</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/trySyncUp:target:mergeMode:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
-			
-			<Declaration>- (void)trySyncUp:(NSInteger)numberChanges target:(SFSyncUpTarget *)target mergeMode:(SFSyncStateMergeMode)mergeMode</Declaration>
-			
-			
-			<Anchor>//api/name/trySyncUp:target:mergeMode:</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/trySyncUp:actualChanges:target:options:completionStatus:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
-			
-			<Declaration>- (void)trySyncUp:(NSInteger)numberChanges actualChanges:(NSInteger)actualNumberChanges target:(SFSyncUpTarget *)target options:(SFSyncOptions *)options completionStatus:(SFSyncStateStatus)completionStatus</Declaration>
-			
-			
-			<Anchor>//api/name/trySyncUp:actualChanges:target:options:completionStatus:</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/getIdToFieldsByName:fieldNames:nameField:names:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
-			
-			<Declaration>- (NSDictionary *)getIdToFieldsByName:(NSString *)soupName fieldNames:(NSArray *)fieldNames nameField:(NSString *)nameField names:(NSArray *)names</Declaration>
-			
-			
-			<Anchor>//api/name/getIdToFieldsByName:fieldNames:nameField:names:</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/checkServer:objectType:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
-			
-			<Declaration>- (void)checkServer:(NSDictionary *)idToFields objectType:(NSString *)objectType</Declaration>
-			
-			
-			<Anchor>//api/name/checkServer:objectType:</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/updateRecordOnServer:idToUpdate:objectType:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
-			
-			<Declaration>- (NSDictionary *)updateRecordOnServer:(NSDictionary *)fields idToUpdate:(NSString *)idToUpdate objectType:(NSString *)objectType</Declaration>
-			
-			
-			<Anchor>//api/name/updateRecordOnServer:idToUpdate:objectType:</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/updateRecordLocally:idToUpdate:soupName:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
-			
-			<Declaration>- (NSDictionary *)updateRecordLocally:(NSDictionary *)fields idToUpdate:(NSString *)idToUpdate soupName:(NSString *)soupName</Declaration>
-			
-			
-			<Anchor>//api/name/updateRecordLocally:idToUpdate:soupName:</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/deleteRecordsLocally:soupName:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
-			
-			<Declaration>- (void)deleteRecordsLocally:(NSArray *)ids soupName:(NSString *)soupName</Declaration>
-			
-			
-			<Anchor>//api/name/deleteRecordsLocally:soupName:</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/checkServerDeleted:objectType:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
-			
-			<Declaration>- (void)checkServerDeleted:(NSArray *)ids objectType:(NSString *)objectType</Declaration>
-			
-			
-			<Anchor>//api/name/checkServerDeleted:objectType:</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/checkDbRelationshipsWithChildrenIds:expectedParentId:soupName:idFieldName:parentIdFieldName:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
-			
-			<Declaration>- (void)checkDbRelationshipsWithChildrenIds:(NSArray *)childrenIds expectedParentId:(NSString *)expectedParentId soupName:(NSString *)soupName idFieldName:(NSString *)idFieldName parentIdFieldName:(NSString *)parentIdFieldName</Declaration>
-			
-			
-			<Anchor>//api/name/checkDbRelationshipsWithChildrenIds:expectedParentId:soupName:idFieldName:parentIdFieldName:</Anchor>
+			<Anchor>//api/name/isNewerThanServer:remoteModDate:</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		

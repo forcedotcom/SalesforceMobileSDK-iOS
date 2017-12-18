@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKLoginHostStorage.html">
+	<File path="Classes/SFSDKMutableOAuthClientContext.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKLoginHostStorage</TokenIdentifier>
-			<Abstract type="html">This class manages the list of login hosts as well its persistence.
-Currently this list is persisted in the user defaults.</Abstract>
-			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKMutableOAuthClientContext</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
             
 			
 			<NodeRef refid="93"/>
@@ -14,135 +13,182 @@ Currently this list is persisted in the user defaults.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKLoginHostStorage/sharedInstance</TokenIdentifier>
-			<Abstract type="html">Returns the shared instance of this class.</Abstract>
-			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/setCredentials:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>+ (SFSDKLoginHostStorage *)sharedInstance</Declaration>
+			<Declaration>@property (nonatomic, readwrite, nullable) SFOAuthCredentials *credentials</Declaration>
 			
 			
-			<Anchor>//api/name/sharedInstance</Anchor>
+			<Anchor>//api/name/credentials</Anchor>
             <NodeRef refid="93"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/addLoginHost:</TokenIdentifier>
-			<Abstract type="html">Adds a new login host.</Abstract>
-			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/credentials</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>- (void)addLoginHost:(SFSDKLoginHost *)loginHost</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>loginHost</Name>
-					<Abstract type="html">Login host to be added</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, readwrite, nullable) SFOAuthCredentials *credentials</Declaration>
 			
-			<Anchor>//api/name/addLoginHost:</Anchor>
+			
+			<Anchor>//api/name/credentials</Anchor>
             <NodeRef refid="93"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/removeLoginHostAtIndex:</TokenIdentifier>
-			<Abstract type="html">Removes the login host at the specified index.</Abstract>
-			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKMutableOAuthClientContext/credentials</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>- (void)removeLoginHostAtIndex:(NSUInteger)index</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>index</Name>
-					<Abstract type="html">Index of the login host</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, readwrite, nullable) SFOAuthCredentials *credentials</Declaration>
 			
-			<Anchor>//api/name/removeLoginHostAtIndex:</Anchor>
+			
+			<Anchor>//api/name/credentials</Anchor>
             <NodeRef refid="93"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/indexOfLoginHost:</TokenIdentifier>
-			<Abstract type="html">Returns the index of the specified host if exists.</Abstract>
-			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/setAuthInfo:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>- (NSUInteger)indexOfLoginHost:(SFSDKLoginHost *)host</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>host</Name>
-					<Abstract type="html">Requested login host</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, strong, readwrite, nullable) SFOAuthInfo *authInfo</Declaration>
 			
-			<Anchor>//api/name/indexOfLoginHost:</Anchor>
+			
+			<Anchor>//api/name/authInfo</Anchor>
             <NodeRef refid="93"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/loginHostAtIndex:</TokenIdentifier>
-			<Abstract type="html">Returns the login host at the specified index.</Abstract>
-			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/authInfo</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKLoginHost *)loginHostAtIndex:(NSUInteger)index</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>index</Name>
-					<Abstract type="html">Requested index</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, strong, readwrite, nullable) SFOAuthInfo *authInfo</Declaration>
 			
-			<Anchor>//api/name/loginHostAtIndex:</Anchor>
+			
+			<Anchor>//api/name/authInfo</Anchor>
             <NodeRef refid="93"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/loginHostForHostAddress:</TokenIdentifier>
-			<Abstract type="html">Returns the login host with a particular host address, if any.</Abstract>
-			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKMutableOAuthClientContext/authInfo</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKLoginHost *)loginHostForHostAddress:(NSString *)hostAddress</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>hostAddress</Name>
-					<Abstract type="html">Address to be queried</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, strong, readwrite, nullable) SFOAuthInfo *authInfo</Declaration>
 			
-			<Anchor>//api/name/loginHostForHostAddress:</Anchor>
+			
+			<Anchor>//api/name/authInfo</Anchor>
             <NodeRef refid="93"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/removeAllLoginHosts</TokenIdentifier>
-			<Abstract type="html">Removes all the login hosts.</Abstract>
-			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/setAuthError:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>- (void)removeAllLoginHosts</Declaration>
+			<Declaration>@property (nonatomic, strong, readwrite, nullable) NSError *authError</Declaration>
 			
 			
-			<Anchor>//api/name/removeAllLoginHosts</Anchor>
+			<Anchor>//api/name/authError</Anchor>
             <NodeRef refid="93"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/numberOfLoginHosts</TokenIdentifier>
-			<Abstract type="html">Returns the number of login hosts.</Abstract>
-			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/authError</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>- (NSUInteger)numberOfLoginHosts</Declaration>
+			<Declaration>@property (nonatomic, strong, readwrite, nullable) NSError *authError</Declaration>
 			
 			
-			<Anchor>//api/name/numberOfLoginHosts</Anchor>
+			<Anchor>//api/name/authError</Anchor>
             <NodeRef refid="93"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/save</TokenIdentifier>
-			<Abstract type="html">Stores all the login host except the non-deletable ones in the user defaults.</Abstract>
-			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKMutableOAuthClientContext/authError</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>- (void)save</Declaration>
+			<Declaration>@property (nonatomic, strong, readwrite, nullable) NSError *authError</Declaration>
 			
 			
-			<Anchor>//api/name/save</Anchor>
+			<Anchor>//api/name/authError</Anchor>
+            <NodeRef refid="93"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/setUserHint:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readwrite) NSString *userHint</Declaration>
+			
+			
+			<Anchor>//api/name/userHint</Anchor>
+            <NodeRef refid="93"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/userHint</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readwrite) NSString *userHint</Declaration>
+			
+			
+			<Anchor>//api/name/userHint</Anchor>
+            <NodeRef refid="93"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKMutableOAuthClientContext/userHint</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readwrite) NSString *userHint</Declaration>
+			
+			
+			<Anchor>//api/name/userHint</Anchor>
+            <NodeRef refid="93"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/setCallingAppOptions:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readwrite, nonnull) NSDictionary *callingAppOptions</Declaration>
+			
+			
+			<Anchor>//api/name/callingAppOptions</Anchor>
+            <NodeRef refid="93"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/callingAppOptions</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readwrite, nonnull) NSDictionary *callingAppOptions</Declaration>
+			
+			
+			<Anchor>//api/name/callingAppOptions</Anchor>
+            <NodeRef refid="93"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKMutableOAuthClientContext/callingAppOptions</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readwrite, nonnull) NSDictionary *callingAppOptions</Declaration>
+			
+			
+			<Anchor>//api/name/callingAppOptions</Anchor>
             <NodeRef refid="93"/>
 		</Token>
 		

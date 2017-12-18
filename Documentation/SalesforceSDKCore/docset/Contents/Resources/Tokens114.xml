@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFUserAccountIdentity.html">
+	<File path="Classes/SFSDKWebViewStateManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFUserAccountIdentity</TokenIdentifier>
-			<Abstract type="html">Represents the unique identity of a given user account.</Abstract>
-			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKWebViewStateManager</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="114"/>
@@ -13,149 +13,78 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountIdentity/setUserId:</TokenIdentifier>
-			<Abstract type="html">The user ID associated with the account.</Abstract>
-			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKWebViewStateManager/resetSessionWithNewAccessToken:isSecureProtocol:</TokenIdentifier>
+			<Abstract type="html">  Reset some associated state with WKWebView and UIWebView e.g. Remove Cookies then add SID cookie</Abstract>
+			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *userId</Declaration>
+			<Declaration>+ (void)resetSessionWithNewAccessToken:(NSString *)accessToken isSecureProtocol:(BOOL)isSecure</Declaration>
 			
 			
-			<Anchor>//api/name/userId</Anchor>
+			<Anchor>//api/name/resetSessionWithNewAccessToken:isSecureProtocol:</Anchor>
             <NodeRef refid="114"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountIdentity/userId</TokenIdentifier>
-			<Abstract type="html">The user ID associated with the account.</Abstract>
-			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKWebViewStateManager/removeSession</TokenIdentifier>
+			<Abstract type="html">  Remove all associated state with WKWebView and UIWebView e.g. Remove Cookies, reset WKProcessPool</Abstract>
+			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *userId</Declaration>
+			<Declaration>+ (void)removeSession</Declaration>
 			
 			
-			<Anchor>//api/name/userId</Anchor>
+			<Anchor>//api/name/removeSession</Anchor>
             <NodeRef refid="114"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountIdentity/userId</TokenIdentifier>
-			<Abstract type="html">The user ID associated with the account.</Abstract>
-			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWebViewStateManager/setSharedProcessPool:</TokenIdentifier>
+			<Abstract type="html">Gets or sets an instance of WKProcessPool that will be used during instantiation of any WKWebView instances @discussion
+  Use the default instance or provide an instance to share state between WKWebView instances</Abstract>
+			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *userId</Declaration>
+			<Declaration>@property (class, strong, nonatomic, nullable) WKProcessPool *sharedProcessPool</Declaration>
 			
 			
-			<Anchor>//api/name/userId</Anchor>
+			<Anchor>//api/name/sharedProcessPool</Anchor>
             <NodeRef refid="114"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountIdentity/setOrgId:</TokenIdentifier>
-			<Abstract type="html">The organization ID associated with the account.</Abstract>
-			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWebViewStateManager/sharedProcessPool</TokenIdentifier>
+			<Abstract type="html">Gets or sets an instance of WKProcessPool that will be used during instantiation of any WKWebView instances @discussion
+  Use the default instance or provide an instance to share state between WKWebView instances</Abstract>
+			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *orgId</Declaration>
+			<Declaration>@property (class, strong, nonatomic, nullable) WKProcessPool *sharedProcessPool</Declaration>
 			
 			
-			<Anchor>//api/name/orgId</Anchor>
+			<Anchor>//api/name/sharedProcessPool</Anchor>
             <NodeRef refid="114"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountIdentity/orgId</TokenIdentifier>
-			<Abstract type="html">The organization ID associated with the account.</Abstract>
-			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKWebViewStateManager/sharedProcessPool</TokenIdentifier>
+			<Abstract type="html">Gets or sets an instance of WKProcessPool that will be used during instantiation of any WKWebView instances @discussion
+  Use the default instance or provide an instance to share state between WKWebView instances</Abstract>
+			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *orgId</Declaration>
+			<Declaration>@property (class, strong, nonatomic, nullable) WKProcessPool *sharedProcessPool</Declaration>
 			
 			
-			<Anchor>//api/name/orgId</Anchor>
+			<Anchor>//api/name/sharedProcessPool</Anchor>
             <NodeRef refid="114"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountIdentity/orgId</TokenIdentifier>
-			<Abstract type="html">The organization ID associated with the account.</Abstract>
-			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKWebViewStateManager/resetSessionCookie</TokenIdentifier>
+			<Abstract type="html">Clears session cookie data from the cookie store, and sets a new session cookie based on the
+OAuth credentials.</Abstract>
+			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *orgId</Declaration>
+			<Declaration>+ (void)resetSessionCookie</Declaration>
 			
 			
-			<Anchor>//api/name/orgId</Anchor>
-            <NodeRef refid="114"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFUserAccountIdentity/identityWithUserId:orgId:</TokenIdentifier>
-			<Abstract type="html">Convenience method to return a new account identity with the given User ID and Org ID.</Abstract>
-			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
-			
-			<Declaration>+ (SFUserAccountIdentity *)identityWithUserId:(NSString *)userId orgId:(NSString *)orgId</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>userId</Name>
-					<Abstract type="html">The user ID associated with the identity.</Abstract>
-				</Parameter><Parameter>
-					<Name>orgId</Name>
-					<Abstract type="html">The org ID associated with the identity.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">An account identity representing the given User ID and Org ID.</Abstract></ReturnValue>
-			<Anchor>//api/name/identityWithUserId:orgId:</Anchor>
-            <NodeRef refid="114"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountIdentity/initWithUserId:orgId:</TokenIdentifier>
-			<Abstract type="html">Creates a new account identity object with the given user ID and org ID.</Abstract>
-			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
-			
-			<Declaration>- (id)initWithUserId:(NSString *)userId orgId:(NSString *)orgId</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>userId</Name>
-					<Abstract type="html">The user ID associated with the identity.</Abstract>
-				</Parameter><Parameter>
-					<Name>orgId</Name>
-					<Abstract type="html">The org ID associated with the identity.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/initWithUserId:orgId:</Anchor>
-            <NodeRef refid="114"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountIdentity/compare:</TokenIdentifier>
-			<Abstract type="html">Compares this identity with another.  Useful for [NSArray sortedArrayUsingSelector:].</Abstract>
-			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
-			
-			<Declaration>- (NSComparisonResult)compare:(SFUserAccountIdentity *)otherIdentity</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>otherIdentity</Name>
-					<Abstract type="html">The other identity to compare to this one.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">NSOrderedAscending if other is greater, NSOrderedDescending if other is less,
-NSOrderedSame if they&apos;re equal.</Abstract></ReturnValue>
-			<Anchor>//api/name/compare:</Anchor>
-            <NodeRef refid="114"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountIdentity/matchesCredentials:</TokenIdentifier>
-			<Abstract type="html">Compares the user identifying information of the account identity with that in the credentials.</Abstract>
-			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)matchesCredentials:(SFOAuthCredentials *)credentials</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>credentials</Name>
-					<Abstract type="html">The OAuthCredentials to compare against</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">BOOL Whether or not the user contained is the same</Abstract></ReturnValue>
-			<Anchor>//api/name/matchesCredentials:</Anchor>
+			<Anchor>//api/name/resetSessionCookie</Anchor>
             <NodeRef refid="114"/>
 		</Token>
 		

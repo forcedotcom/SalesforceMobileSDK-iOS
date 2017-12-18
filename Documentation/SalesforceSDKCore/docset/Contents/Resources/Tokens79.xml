@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFPushNotificationManager.html">
+	<File path="Classes/SFSDKEventBuilderHelper.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFPushNotificationManager</TokenIdentifier>
-			<Abstract type="html">Handles push notification registration and unregistration, both for Salesforce notifications and remote notifications.</Abstract>
-			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKEventBuilderHelper</TokenIdentifier>
+			<Abstract type="html">// Event startTime and endTime can be specified by passing values for attributes STARTTIME and ENDTIME</Abstract>
+			<DeclaredIn>SFSDKEventBuilderHelper.h</DeclaredIn>
             
 			
 			<NodeRef refid="79"/>
@@ -13,157 +13,28 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/setDeviceToken:</TokenIdentifier>
-			<Abstract type="html">Device token returned when registering with APNS.</Abstract>
-			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKEventBuilderHelper/createAndStoreEvent:userAccount:className:attributes:</TokenIdentifier>
+			<Abstract type="html">Creates and stores an analytics event with the supplied parameters.</Abstract>
+			<DeclaredIn>SFSDKEventBuilderHelper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *deviceToken</Declaration>
-			
-			
-			<Anchor>//api/name/deviceToken</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/deviceToken</TokenIdentifier>
-			<Abstract type="html">Device token returned when registering with APNS.</Abstract>
-			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *deviceToken</Declaration>
-			
-			
-			<Anchor>//api/name/deviceToken</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPushNotificationManager/deviceToken</TokenIdentifier>
-			<Abstract type="html">Device token returned when registering with APNS.</Abstract>
-			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *deviceToken</Declaration>
-			
-			
-			<Anchor>//api/name/deviceToken</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/setDeviceSalesforceId:</TokenIdentifier>
-			<Abstract type="html">ID returned when registering for Salesforce push notifications.</Abstract>
-			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *deviceSalesforceId</Declaration>
-			
-			
-			<Anchor>//api/name/deviceSalesforceId</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/deviceSalesforceId</TokenIdentifier>
-			<Abstract type="html">ID returned when registering for Salesforce push notifications.</Abstract>
-			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *deviceSalesforceId</Declaration>
-			
-			
-			<Anchor>//api/name/deviceSalesforceId</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPushNotificationManager/deviceSalesforceId</TokenIdentifier>
-			<Abstract type="html">ID returned when registering for Salesforce push notifications.</Abstract>
-			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *deviceSalesforceId</Declaration>
-			
-			
-			<Anchor>//api/name/deviceSalesforceId</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFPushNotificationManager/sharedInstance</TokenIdentifier>
-			<Abstract type="html">The share instance of this class.</Abstract>
-			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
-			
-			<Declaration>+ (SFPushNotificationManager *)sharedInstance</Declaration>
-			
-			
-			<Anchor>//api/name/sharedInstance</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/registerForRemoteNotifications</TokenIdentifier>
-			<Abstract type="html">Register with APNS</Abstract>
-			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
-			
-			<Declaration>- (void)registerForRemoteNotifications</Declaration>
-			
-			
-			<Anchor>//api/name/registerForRemoteNotifications</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/didRegisterForRemoteNotificationsWithDeviceToken:</TokenIdentifier>
-			<Abstract type="html">Call this method from your app delegate&apos;s didRegisterForRemoteNotificationsWithDeviceToken</Abstract>
-			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
-			
-			<Declaration>- (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceTokenData</Declaration>
+			<Declaration>+ (void)createAndStoreEvent:(NSString *)name userAccount:(nullable SFUserAccount *)userAccount className:(NSString *)className attributes:(nullable NSDictionary *)attributes</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>deviceTokenData</Name>
-					<Abstract type="html">The device token returned by APNS.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/didRegisterForRemoteNotificationsWithDeviceToken:</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/registerForSalesforceNotifications</TokenIdentifier>
-			<Abstract type="html">Register for notifications with Salesforce.
-Call this method after authenticating with Salesforce and registering with APNS.</Abstract>
-			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)registerForSalesforceNotifications</Declaration>
-			
-			<ReturnValue><Abstract type="html">YES for successful registration call made.</Abstract></ReturnValue>
-			<Anchor>//api/name/registerForSalesforceNotifications</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/unregisterSalesforceNotifications</TokenIdentifier>
-			<Abstract type="html">Unregister from notifications with Salesforce for all users. This method is called at logout.</Abstract>
-			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)unregisterSalesforceNotifications</Declaration>
-			
-			<ReturnValue><Abstract type="html">YES for successful unregistration call being made.</Abstract></ReturnValue>
-			<Anchor>//api/name/unregisterSalesforceNotifications</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/unregisterSalesforceNotifications:</TokenIdentifier>
-			<Abstract type="html">Unregister from notifications with Salesforce for a specific user. This method is called at logout.</Abstract>
-			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)unregisterSalesforceNotifications:(SFUserAccount *)user</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>user</Name>
+					<Name>name</Name>
+					<Abstract type="html">Event name.</Abstract>
+				</Parameter><Parameter>
+					<Name>userAccount</Name>
 					<Abstract type="html">User account.</Abstract>
+				</Parameter><Parameter>
+					<Name>className</Name>
+					<Abstract type="html">Class name or context where the event was generated.</Abstract>
+				</Parameter><Parameter>
+					<Name>attributes</Name>
+					<Abstract type="html">Addiitonal attributes.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">YES for successful unregistration call being made.</Abstract></ReturnValue>
-			<Anchor>//api/name/unregisterSalesforceNotifications:</Anchor>
+			
+			<Anchor>//api/name/createAndStoreEvent:userAccount:className:attributes:</Anchor>
             <NodeRef refid="79"/>
 		</Token>
 		

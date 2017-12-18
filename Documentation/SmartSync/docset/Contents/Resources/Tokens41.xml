@@ -1,8 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="">
+	<File path="Constants/SFSyncUpTargetType.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSyncUpTargetType</TokenIdentifier>
+			<Abstract type="html">Enumeration of types of server targets.</Abstract>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+            
+			
+			<NodeRef refid="41"/>
+		</Token>
 		
 		
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSyncUpTargetTypeRestStandard</TokenIdentifier>
+            <Abstract type="html">     The default server target, which uses standard REST requests to post updates.
+     </Abstract>
+            <Declaration>SFSyncUpTargetTypeRestStandard</Declaration>
+            
+            <DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+            
+            <NodeRef refid="41"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSyncUpTargetTypeCustom</TokenIdentifier>
+            <Abstract type="html">     Server target is a custom target, that manages its own server update logic.
+     </Abstract>
+            <Declaration>SFSyncUpTargetTypeCustom</Declaration>
+            
+            <DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+            
+            <NodeRef refid="41"/>
+        </Token>
         
         
 	</File>

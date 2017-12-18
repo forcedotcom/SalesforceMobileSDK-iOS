@@ -1,16 +1,105 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFGeneratedKeyStore.html">
+	<File path="Classes/SFOAuthOrgAuthConfiguration.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFGeneratedKeyStore</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFGeneratedKeyStore.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFOAuthOrgAuthConfiguration</TokenIdentifier>
+			<Abstract type="html">Data class representing the org authentication configuration.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
             
 			
 			<NodeRef refid="45"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/setUseNativeBrowserForAuth:</TokenIdentifier>
+			<Abstract type="html">Whether to use the native browser for authentication.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL useNativeBrowserForAuth</Declaration>
+			
+			
+			<Anchor>//api/name/useNativeBrowserForAuth</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/useNativeBrowserForAuth</TokenIdentifier>
+			<Abstract type="html">Whether to use the native browser for authentication.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL useNativeBrowserForAuth</Declaration>
+			
+			
+			<Anchor>//api/name/useNativeBrowserForAuth</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthOrgAuthConfiguration/useNativeBrowserForAuth</TokenIdentifier>
+			<Abstract type="html">Whether to use the native browser for authentication.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL useNativeBrowserForAuth</Declaration>
+			
+			
+			<Anchor>//api/name/useNativeBrowserForAuth</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/setAuthConfigDict:</TokenIdentifier>
+			<Abstract type="html">The raw dictionary data representing the org auth configuration.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSDictionary *authConfigDict</Declaration>
+			
+			
+			<Anchor>//api/name/authConfigDict</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/authConfigDict</TokenIdentifier>
+			<Abstract type="html">The raw dictionary data representing the org auth configuration.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSDictionary *authConfigDict</Declaration>
+			
+			
+			<Anchor>//api/name/authConfigDict</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthOrgAuthConfiguration/authConfigDict</TokenIdentifier>
+			<Abstract type="html">The raw dictionary data representing the org auth configuration.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSDictionary *authConfigDict</Declaration>
+			
+			
+			<Anchor>//api/name/authConfigDict</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/initWithConfigDict:</TokenIdentifier>
+			<Abstract type="html">Designated initializer.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithConfigDict:(NSDictionary *)authConfigDict</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>authConfigDict</Name>
+					<Abstract type="html">The NSDictionary containing the org auth configuration.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/initWithConfigDict:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
 		
         
         

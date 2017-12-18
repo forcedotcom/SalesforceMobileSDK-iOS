@@ -65,7 +65,7 @@
 			<Abstract type="html">Flushes the log file and resets it to its original state.</Abstract>
 			<DeclaredIn>SFSDKFileLogger.h</DeclaredIn>
 			
-			<Declaration>- (void)flushLogWithCompletionBlock:(void ( ^ _Nullable ) ( ))completionBlock</Declaration>
+			<Declaration>- (void)flushLogWithCompletionBlock:(void ( ^ _Nullable ) ( void ))completionBlock</Declaration>
 			
 			
 			<Anchor>//api/name/flushLogWithCompletionBlock:</Anchor>

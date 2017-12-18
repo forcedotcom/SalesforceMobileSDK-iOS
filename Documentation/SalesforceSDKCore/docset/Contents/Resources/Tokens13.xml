@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/CSFOutput.html">
+	<File path="Classes/SFCryptChunks.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/CSFOutput</TokenIdentifier>
-			<Abstract type="html">The CSFOutput class declares the basis for all network responses.
-Each response from REST APIs is a set of structured data describing the response to
-a particular request.  Because this data is structured, the client-side representation
-of these responses needs to be structured too. This class and its subclasses provide the
-capability to encode and expose the data provided from server resources to client code.</Abstract>
-			<DeclaredIn>CSFOutput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFCryptChunks</TokenIdentifier>
+			<Abstract type="html">SFCryptChunks performs encryption / decryption in chunks, using a fixed size buffer in the stack.
+It does not allocate any memory to perform the encryption / decryption,
+the size of memory used (by SFCryptChunks) is O(1) regardless of the input / output data size.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
             
 			
 			<NodeRef refid="13"/>
@@ -17,217 +15,157 @@ capability to encode and expose the data provided from server resources to clien
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOutput/init</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOutput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/initForEncryptionWithKey:initializationVector:</TokenIdentifier>
+			<Abstract type="html">Initializes a SFCryptChunks for encryption that uses algorithm specified in SFCryptChunksCipherAlgorithm
+and options specified in SFCryptChunksCipherOptions.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)init</Declaration>
-			
-			
-			<Anchor>//api/name/init</Anchor>
-            <NodeRef refid="13"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOutput/initWithJSON:context:</TokenIdentifier>
-			<Abstract type="html">Designated initializer to construct a model object from its JSON representation.</Abstract>
-			<DeclaredIn>CSFOutput.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithJSON:(id)json context:(NSDictionary *)context</Declaration>
+			<Declaration>- (instancetype)initForEncryptionWithKey:(NSData *)key initializationVector:(nullable NSData *)iv</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>json</Name>
-					<Abstract type="html">Dictionary of structured data from the network.</Abstract>
+					<Name>key</Name>
+					<Abstract type="html">the cipher key.</Abstract>
 				</Parameter><Parameter>
-					<Name>context</Name>
-					<Abstract type="html">Dictionary of relevant information about the request and the action that performed it.</Abstract>
+					<Name>iv</Name>
+					<Abstract type="html">the initialization vector, must be size of SFCryptChunksCipherBlockSize.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">Initialized model object.</Abstract></ReturnValue>
-			<Anchor>//api/name/initWithJSON:context:</Anchor>
+			<ReturnValue><Abstract type="html">a SFCryptChunks ready for encryption.</Abstract></ReturnValue>
+			<Anchor>//api/name/initForEncryptionWithKey:initializationVector:</Anchor>
             <NodeRef refid="13"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOutput/isEqualToOutput:</TokenIdentifier>
-			<Abstract type="html">Returns a boolean value that indicates whether a given model object is equal to the receiver.</Abstract>
-			<DeclaredIn>CSFOutput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/initForDecryptionWithKey:initializationVector:</TokenIdentifier>
+			<Abstract type="html">Initializes a SFCryptChunks for decryption that uses algorithm specified in SFCryptChunksCipherAlgorithm
+and options specified in SFCryptChunksCipherOptions.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)isEqualToOutput:(CSFOutput *)model</Declaration>
+			<Declaration>- (instancetype)initForDecryptionWithKey:(NSData *)key initializationVector:(nullable NSData *)iv</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>model</Name>
-					<Abstract type="html">The model object to compare to the receiver.</Abstract>
+					<Name>key</Name>
+					<Abstract type="html">the cipher key.</Abstract>
+				</Parameter><Parameter>
+					<Name>iv</Name>
+					<Abstract type="html">the initialization vector, must be size of SFCryptChunksCipherBlockSize.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">YES if model is equal to the receiver (if the properties of this and its child objects match), otherwise NO.</Abstract></ReturnValue>
-			<Anchor>//api/name/isEqualToOutput:</Anchor>
+			<ReturnValue><Abstract type="html">a SFCryptChunks ready for decryption.</Abstract></ReturnValue>
+			<Anchor>//api/name/initForDecryptionWithKey:initializationVector:</Anchor>
             <NodeRef refid="13"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOutput/setParentObject:</TokenIdentifier>
-			<Abstract type="html">This property exposes the parent object to the receiver, as a weak reference.</Abstract>
-			<DeclaredIn>CSFOutput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/setDelegate:</TokenIdentifier>
+			<Abstract type="html">The delegate to receive crypt results.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak, readwrite) NSObject *parentObject</Declaration>
+			<Declaration>@property (nonatomic, weak) id&lt;SFCryptChunksDelegate&gt; delegate</Declaration>
 			
 			
-			<Anchor>//api/name/parentObject</Anchor>
+			<Anchor>//api/name/delegate</Anchor>
             <NodeRef refid="13"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOutput/parentObject</TokenIdentifier>
-			<Abstract type="html">This property exposes the parent object to the receiver, as a weak reference.</Abstract>
-			<DeclaredIn>CSFOutput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/delegate</TokenIdentifier>
+			<Abstract type="html">The delegate to receive crypt results.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak, readwrite) NSObject *parentObject</Declaration>
+			<Declaration>@property (nonatomic, weak) id&lt;SFCryptChunksDelegate&gt; delegate</Declaration>
 			
 			
-			<Anchor>//api/name/parentObject</Anchor>
+			<Anchor>//api/name/delegate</Anchor>
             <NodeRef refid="13"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/CSFOutput/parentObject</TokenIdentifier>
-			<Abstract type="html">This property exposes the parent object to the receiver, as a weak reference.</Abstract>
-			<DeclaredIn>CSFOutput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCryptChunks/delegate</TokenIdentifier>
+			<Abstract type="html">The delegate to receive crypt results.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak, readwrite) NSObject *parentObject</Declaration>
+			<Declaration>@property (nonatomic, weak) id&lt;SFCryptChunksDelegate&gt; delegate</Declaration>
 			
 			
-			<Anchor>//api/name/parentObject</Anchor>
+			<Anchor>//api/name/delegate</Anchor>
             <NodeRef refid="13"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOutput/importAllProperties</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOutput_Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/cryptBuffer:bufferLen:</TokenIdentifier>
+			<Abstract type="html">A data buffer to be encrypted / decrypted. You may pass a buffer of any size here,
+the delegate will then be called with results as many times as needed:
+- the delegate may be called multiple times with chunk results; or
+- the delegate may not be called at all, if there isn&apos;t enough data to produce a result.
+This method utilizes a stack memory buffer the size of 2 cipher blocks.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
 			
-			<Declaration>- (void)importAllProperties</Declaration>
-			
-			
-			<Anchor>//api/name/importAllProperties</Anchor>
-            <NodeRef refid="13"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOutput/importSynthesizedProperties</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOutput_Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)importSynthesizedProperties</Declaration>
-			
-			
-			<Anchor>//api/name/importSynthesizedProperties</Anchor>
-            <NodeRef refid="13"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOutput/importProperty:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOutput_Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)importProperty:(NSString *)propertyName</Declaration>
-			
-			
-			<Anchor>//api/name/importProperty:</Anchor>
-            <NodeRef refid="13"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOutput/objectForKeyedSubscript:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOutput.h</DeclaredIn>
-			
-			<Declaration>- (id)objectForKeyedSubscript:(id)key</Declaration>
-			
-			
-			<Anchor>//api/name/objectForKeyedSubscript:</Anchor>
-            <NodeRef refid="13"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOutput/setObject:forKeyedSubscript:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOutput.h</DeclaredIn>
-			
-			<Declaration>- (void)setObject:(id)obj forKeyedSubscript:(id&lt;NSCopying&gt;)key</Declaration>
-			
-			
-			<Anchor>//api/name/setObject:forKeyedSubscript:</Anchor>
-            <NodeRef refid="13"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/CSFOutput/storageKeyPathForPropertyName:</TokenIdentifier>
-			<Abstract type="html">Returns the storage key used for JSON serialization for the given property name.</Abstract>
-			<DeclaredIn>CSFOutput.h</DeclaredIn>
-			
-			<Declaration>+ (NSString *)storageKeyPathForPropertyName:(NSString *)propertyName</Declaration>
+			<Declaration>- (void)cryptBuffer:(const uint8_t *)buffer bufferLen:(size_t)len</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>propertyName</Name>
-					<Abstract type="html">The name of the Objective-C property.</Abstract>
+					<Name>buffer</Name>
+					<Abstract type="html">the buffer data to be encrypted or decrypted.</Abstract>
+				</Parameter><Parameter>
+					<Name>len</Name>
+					<Abstract type="html">the buffer size.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The storage key to use when serializing JSON.</Abstract></ReturnValue>
-			<Anchor>//api/name/storageKeyPathForPropertyName:</Anchor>
+			
+			<Anchor>//api/name/cryptBuffer:bufferLen:</Anchor>
             <NodeRef refid="13"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/CSFOutput/isDefaultPropertyForArray:</TokenIdentifier>
-			<Abstract type="html">Returns a BOOL value indicating if the propertyName specified will store the contents of Array.</Abstract>
-			<DeclaredIn>CSFOutput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/setCryptFinalized:</TokenIdentifier>
+			<Abstract type="html">Whether or not the crypt operation completed.
+Once complete, this object must be disposed.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
 			
-			<Declaration>+ (BOOL)isDefaultPropertyForArray:(NSString *)propertyName</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>propertyName</Name>
-					<Abstract type="html">The name of the Objective-C property whose type will be NSArray.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">a BOOL value indicatind if the passed in property name is default.</Abstract></ReturnValue>
-			<Anchor>//api/name/isDefaultPropertyForArray:</Anchor>
+			<Declaration>@property (nonatomic, assign, readonly) BOOL cryptFinalized</Declaration>
+			
+			
+			<Anchor>//api/name/cryptFinalized</Anchor>
             <NodeRef refid="13"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/CSFOutput/actionModelForPropertyName:propertyClass:contents:</TokenIdentifier>
-			<Abstract type="html">Returns the underlying class type for a dynamic property, if it isn&apos;t clear from the property description.</Abstract>
-			<DeclaredIn>CSFOutput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/cryptFinalized</TokenIdentifier>
+			<Abstract type="html">Whether or not the crypt operation completed.
+Once complete, this object must be disposed.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
 			
-			<Declaration>+ (Class&lt;CSFActionModel&gt;)actionModelForPropertyName:(NSString *)propertyName propertyClass:(Class)originalClass contents:(id)contents</Declaration>
+			<Declaration>@property (nonatomic, assign, readonly) BOOL cryptFinalized</Declaration>
 			
-			<ReturnValue><Abstract type="html">Class conforming to CSFActionModel, or nil if the contents should not be composed as a CSFActionModel instance.</Abstract></ReturnValue>
-			<Anchor>//api/name/actionModelForPropertyName:propertyClass:contents:</Anchor>
+			
+			<Anchor>//api/name/cryptFinalized</Anchor>
             <NodeRef refid="13"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOutput/transformedValueForProperty:propertyClass:value:</TokenIdentifier>
-			<Abstract type="html">Method used to transform an existing property to some other form on an as-needed basis.</Abstract>
-			<DeclaredIn>CSFOutput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCryptChunks/cryptFinalized</TokenIdentifier>
+			<Abstract type="html">Whether or not the crypt operation completed.
+Once complete, this object must be disposed.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
 			
-			<Declaration>- (id)transformedValueForProperty:(NSString *)propertyName propertyClass:(Class)propertyClass value:(id)value</Declaration>
+			<Declaration>@property (nonatomic, assign, readonly) BOOL cryptFinalized</Declaration>
 			
-			<ReturnValue><Abstract type="html">Transformed value for the incoming property, or the original value if no transformation is needed.</Abstract></ReturnValue>
-			<Anchor>//api/name/transformedValueForProperty:propertyClass:value:</Anchor>
+			
+			<Anchor>//api/name/cryptFinalized</Anchor>
             <NodeRef refid="13"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/CSFOutput/actionModelFormatterForPrimitiveProperty:encodingType:</TokenIdentifier>
-			<Abstract type="html">Class method that returns a function pointer capable of transforming primitive values for the given encoding type.</Abstract>
-			<DeclaredIn>CSFOutput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/finalizeCrypt</TokenIdentifier>
+			<Abstract type="html">Finalizes the crypt operation. The delegate may be called with chunk results if the final crypt produced any results.
+The final result is never bigger than the cipher block size.
+This method utilizes a stack memory buffer the size of 1 cipher block.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
 			
-			<Declaration>+ (CSFPrimitiveFormatterPtr)actionModelFormatterForPrimitiveProperty:(NSString *)propertyName encodingType:(const char *)encodingType</Declaration>
+			<Declaration>- (void)finalizeCrypt</Declaration>
 			
-			<ReturnValue><Abstract type="html">Pointer to a C function capable of transforming this property to a primitive type.</Abstract></ReturnValue>
-			<Anchor>//api/name/actionModelFormatterForPrimitiveProperty:encodingType:</Anchor>
+			
+			<Anchor>//api/name/finalizeCrypt</Anchor>
             <NodeRef refid="13"/>
 		</Token>
 		

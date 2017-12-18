@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFFileProtectionHelper.html">
+	<File path="Classes/SFOAuthKeychainCredentials.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFFileProtectionHelper</TokenIdentifier>
-			<Abstract type="html">This helper class aims at providing a centralized
-place where NSFileProtection can be configured and retrieved.</Abstract>
-			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFOAuthKeychainCredentials</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
             
 			
 			<NodeRef refid="44"/>
@@ -14,130 +13,170 @@ place where NSFileProtection can be configured and retrieved.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFFileProtectionHelper/setDefaultNSFileProtectionMode:</TokenIdentifier>
-			<Abstract type="html">Contains the default NSFileProtection mode to use
-if no protection is specified. By default, this property
-is NSFileProtectionComplete</Abstract>
-			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/keyMacForService:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *defaultNSFileProtectionMode</Declaration>
+			<Declaration>- (NSData *)keyMacForService:(NSString *)service</Declaration>
 			
 			
-			<Anchor>//api/name/defaultNSFileProtectionMode</Anchor>
+			<Anchor>//api/name/keyMacForService:</Anchor>
             <NodeRef refid="44"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFFileProtectionHelper/defaultNSFileProtectionMode</TokenIdentifier>
-			<Abstract type="html">Contains the default NSFileProtection mode to use
-if no protection is specified. By default, this property
-is NSFileProtectionComplete</Abstract>
-			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/keyVendorIdForService:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *defaultNSFileProtectionMode</Declaration>
+			<Declaration>- (NSData *)keyVendorIdForService:(NSString *)service</Declaration>
 			
 			
-			<Anchor>//api/name/defaultNSFileProtectionMode</Anchor>
+			<Anchor>//api/name/keyVendorIdForService:</Anchor>
             <NodeRef refid="44"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFFileProtectionHelper/defaultNSFileProtectionMode</TokenIdentifier>
-			<Abstract type="html">Contains the default NSFileProtection mode to use
-if no protection is specified. By default, this property
-is NSFileProtectionComplete</Abstract>
-			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/keyBaseAppIdForService:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *defaultNSFileProtectionMode</Declaration>
+			<Declaration>- (NSData *)keyBaseAppIdForService:(NSString *)service</Declaration>
 			
 			
-			<Anchor>//api/name/defaultNSFileProtectionMode</Anchor>
+			<Anchor>//api/name/keyBaseAppIdForService:</Anchor>
             <NodeRef refid="44"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFFileProtectionHelper/setPathsToFileProtection:</TokenIdentifier>
-			<Abstract type="html">A mapping of paths to custom file protection statuses</Abstract>
-			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/keyStoreKeyForService:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSDictionary *pathsToFileProtection</Declaration>
+			<Declaration>- (SFEncryptionKey *)keyStoreKeyForService:(NSString *)service</Declaration>
 			
 			
-			<Anchor>//api/name/pathsToFileProtection</Anchor>
+			<Anchor>//api/name/keyStoreKeyForService:</Anchor>
             <NodeRef refid="44"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFFileProtectionHelper/pathsToFileProtection</TokenIdentifier>
-			<Abstract type="html">A mapping of paths to custom file protection statuses</Abstract>
-			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/keyWithSeed:service:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSDictionary *pathsToFileProtection</Declaration>
+			<Declaration>- (NSData *)keyWithSeed:(NSString *)seed service:(NSString *)service</Declaration>
 			
 			
-			<Anchor>//api/name/pathsToFileProtection</Anchor>
+			<Anchor>//api/name/keyWithSeed:service:</Anchor>
             <NodeRef refid="44"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFFileProtectionHelper/pathsToFileProtection</TokenIdentifier>
-			<Abstract type="html">A mapping of paths to custom file protection statuses</Abstract>
-			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/refreshTokenWithKey:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSDictionary *pathsToFileProtection</Declaration>
+			<Declaration>- (nullable NSString *)refreshTokenWithKey:(NSData *)key</Declaration>
 			
 			
-			<Anchor>//api/name/pathsToFileProtection</Anchor>
+			<Anchor>//api/name/refreshTokenWithKey:</Anchor>
             <NodeRef refid="44"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFFileProtectionHelper/sharedInstance</TokenIdentifier>
-			<Abstract type="html">Returns the shared instance</Abstract>
-			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/refreshTokenWithSFEncryptionKey:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)sharedInstance</Declaration>
+			<Declaration>- (nullable NSString *)refreshTokenWithSFEncryptionKey:(SFEncryptionKey *)encryptionKey</Declaration>
 			
 			
-			<Anchor>//api/name/sharedInstance</Anchor>
+			<Anchor>//api/name/refreshTokenWithSFEncryptionKey:</Anchor>
             <NodeRef refid="44"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFFileProtectionHelper/fileProtectionForPath:</TokenIdentifier>
-			<Abstract type="html">Helper method that will return the file protection
-for the specified file path.</Abstract>
-			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/setRefreshToken:withSFEncryptionKey:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)fileProtectionForPath:(NSString *)path</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>path</Name>
-					<Abstract type="html">The path for which to return the file protection</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The file protection</Abstract></ReturnValue>
-			<Anchor>//api/name/fileProtectionForPath:</Anchor>
+			<Declaration>- (void)setRefreshToken:(nullable NSString *)token withSFEncryptionKey:(SFEncryptionKey *)key</Declaration>
+			
+			
+			<Anchor>//api/name/setRefreshToken:withSFEncryptionKey:</Anchor>
             <NodeRef refid="44"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFFileProtectionHelper/addProtection:forPath:</TokenIdentifier>
-			<Abstract type="html">Add a valid file protection attribute to a path</Abstract>
-			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/accessTokenWithKey:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
 			
-			<Declaration>- (void)addProtection:(NSString *)fileProtection forPath:(NSString *)path</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>fileProtection</Name>
-					<Abstract type="html">Type of file protection to apply to the path</Abstract>
-				</Parameter><Parameter>
-					<Name>path</Name>
-					<Abstract type="html">The path for which to return the file protection</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (nullable NSString *)accessTokenWithKey:(NSData *)key</Declaration>
 			
-			<Anchor>//api/name/addProtection:forPath:</Anchor>
+			
+			<Anchor>//api/name/accessTokenWithKey:</Anchor>
+            <NodeRef refid="44"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/accessTokenWithSFEncryptionKey:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			
+			<Declaration>- (nullable NSString *)accessTokenWithSFEncryptionKey:(SFEncryptionKey *)encryptionKey</Declaration>
+			
+			
+			<Anchor>//api/name/accessTokenWithSFEncryptionKey:</Anchor>
+            <NodeRef refid="44"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/setAccessToken:withSFEncryptionKey:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			
+			<Declaration>- (void)setAccessToken:(nullable NSString *)token withSFEncryptionKey:(SFEncryptionKey *)key</Declaration>
+			
+			
+			<Anchor>//api/name/setAccessToken:withSFEncryptionKey:</Anchor>
+            <NodeRef refid="44"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/updateTokenEncryption</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			
+			<Declaration>- (void)updateTokenEncryption</Declaration>
+			
+			
+			<Anchor>//api/name/updateTokenEncryption</Anchor>
+            <NodeRef refid="44"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/setAccessToken:withKey:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			
+			<Declaration>- (void)setAccessToken:(NSString *)token withKey:(NSData *)key</Declaration>
+			
+			
+			<Anchor>//api/name/setAccessToken:withKey:</Anchor>
+            <NodeRef refid="44"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/setRefreshToken:withKey:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			
+			<Declaration>- (void)setRefreshToken:(NSString *)token withKey:(NSData *)key</Declaration>
+			
+			
+			<Anchor>//api/name/setRefreshToken:withKey:</Anchor>
             <NodeRef refid="44"/>
 		</Token>
 		

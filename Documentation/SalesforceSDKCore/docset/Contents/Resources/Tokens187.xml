@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/CSFForceTaskRecurrenceType.html">
+	<File path="Constants/SFCryptoMode.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/CSFForceTaskRecurrenceType</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFForceDefines.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFCryptoMode</TokenIdentifier>
+			<Abstract type="html">This class is responsible for encrypting and decrypting the content data for chatter.</Abstract>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
             
 			
 			<NodeRef refid="187"/>
@@ -14,81 +14,21 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceTypeUnknown</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFCryptoModeInMemory</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceTypeUnknown</Declaration>
+            <Declaration>SFCryptoModeInMemory</Declaration>
             
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            <DeclaredIn>SFCrypto.h</DeclaredIn>
             
             <NodeRef refid="187"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceTypeRecursDaily</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFCryptoModeDisk</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceTypeRecursDaily</Declaration>
+            <Declaration>SFCryptoModeDisk</Declaration>
             
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="187"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceTypeRecursEveryWeekday</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceTypeRecursEveryWeekday</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="187"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceTypeRecursMonthly</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceTypeRecursMonthly</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="187"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceTypeRecursMonthyNth</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceTypeRecursMonthyNth</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="187"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceTypeRecursWeekly</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceTypeRecursWeekly</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="187"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceTypeRecursYearly</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceTypeRecursYearly</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="187"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceTypeRecursYearlyNth</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceTypeRecursYearlyNth</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            <DeclaredIn>SFCrypto.h</DeclaredIn>
             
             <NodeRef refid="187"/>
         </Token>

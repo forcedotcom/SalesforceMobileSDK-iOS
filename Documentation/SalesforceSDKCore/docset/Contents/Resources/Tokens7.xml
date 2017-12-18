@@ -1,433 +1,174 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/CSFInputStreamElement.html">
+	<File path="Classes/SFAuthErrorHandler.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/CSFInputStreamElement</TokenIdentifier>
-			<Abstract type="html">Object that represents an individual element within a multipart stream, used for the request body of a network action.</Abstract>
-			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFAuthErrorHandler</TokenIdentifier>
+			<Abstract type="html">Class to define a handler for authentication errors, which can be used in an
+error handling filter chain.</Abstract>
+			<DeclaredIn>SFAuthErrorHandler.h</DeclaredIn>
             
 			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/SFAuthenticationManager</TokenIdentifier>
+		
+	</RelatedTokens>
+	
 			<NodeRef refid="7"/>
 		</Token>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFInputStreamElement/setObject:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandler/setName:</TokenIdentifier>
+			<Abstract type="html">The canonical name of the error handler.</Abstract>
+			<DeclaredIn>SFAuthErrorHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) id object</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *name</Declaration>
 			
 			
-			<Anchor>//api/name/object</Anchor>
+			<Anchor>//api/name/name</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFInputStreamElement/object</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandler/name</TokenIdentifier>
+			<Abstract type="html">The canonical name of the error handler.</Abstract>
+			<DeclaredIn>SFAuthErrorHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) id object</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *name</Declaration>
 			
 			
-			<Anchor>//api/name/object</Anchor>
+			<Anchor>//api/name/name</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/CSFInputStreamElement/object</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAuthErrorHandler/name</TokenIdentifier>
+			<Abstract type="html">The canonical name of the error handler.</Abstract>
+			<DeclaredIn>SFAuthErrorHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) id object</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *name</Declaration>
 			
 			
-			<Anchor>//api/name/object</Anchor>
+			<Anchor>//api/name/name</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFInputStreamElement/setBoundary:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandler/setEvalBlock:</TokenIdentifier>
+			<Abstract type="html">The block of code that will evaluate the error.  The block should return YES if it can
+handle the error, and NO if the error should be passed on to the next handler.</Abstract>
+			<DeclaredIn>SFAuthErrorHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *boundary</Declaration>
+			<Declaration>@property (nonatomic, readonly) SFAuthErrorHandlerEvalBlock evalBlock</Declaration>
 			
 			
-			<Anchor>//api/name/boundary</Anchor>
+			<Anchor>//api/name/evalBlock</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFInputStreamElement/boundary</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandler/evalBlock</TokenIdentifier>
+			<Abstract type="html">The block of code that will evaluate the error.  The block should return YES if it can
+handle the error, and NO if the error should be passed on to the next handler.</Abstract>
+			<DeclaredIn>SFAuthErrorHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *boundary</Declaration>
+			<Declaration>@property (nonatomic, readonly) SFAuthErrorHandlerEvalBlock evalBlock</Declaration>
 			
 			
-			<Anchor>//api/name/boundary</Anchor>
+			<Anchor>//api/name/evalBlock</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/CSFInputStreamElement/boundary</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAuthErrorHandler/evalBlock</TokenIdentifier>
+			<Abstract type="html">The block of code that will evaluate the error.  The block should return YES if it can
+handle the error, and NO if the error should be passed on to the next handler.</Abstract>
+			<DeclaredIn>SFAuthErrorHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *boundary</Declaration>
+			<Declaration>@property (nonatomic, readonly) SFAuthErrorHandlerEvalBlock evalBlock</Declaration>
 			
 			
-			<Anchor>//api/name/boundary</Anchor>
+			<Anchor>//api/name/evalBlock</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFInputStreamElement/setKey:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandler/setEvalOptionsBlock:</TokenIdentifier>
+			<Abstract type="html">The block of code that will evaluate the error.  The block should return YES if it can
+handle the error, and NO if the error should be passed on to the next handler.</Abstract>
+			<DeclaredIn>SFAuthErrorHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, readonly) NSString *key</Declaration>
+			<Declaration>@property (nonatomic, readonly) SFAuthErrorHandlerOptionsEvalBlock evalOptionsBlock</Declaration>
 			
 			
-			<Anchor>//api/name/key</Anchor>
+			<Anchor>//api/name/evalOptionsBlock</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFInputStreamElement/key</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandler/evalOptionsBlock</TokenIdentifier>
+			<Abstract type="html">The block of code that will evaluate the error.  The block should return YES if it can
+handle the error, and NO if the error should be passed on to the next handler.</Abstract>
+			<DeclaredIn>SFAuthErrorHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, readonly) NSString *key</Declaration>
+			<Declaration>@property (nonatomic, readonly) SFAuthErrorHandlerOptionsEvalBlock evalOptionsBlock</Declaration>
 			
 			
-			<Anchor>//api/name/key</Anchor>
+			<Anchor>//api/name/evalOptionsBlock</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/CSFInputStreamElement/key</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAuthErrorHandler/evalOptionsBlock</TokenIdentifier>
+			<Abstract type="html">The block of code that will evaluate the error.  The block should return YES if it can
+handle the error, and NO if the error should be passed on to the next handler.</Abstract>
+			<DeclaredIn>SFAuthErrorHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, readonly) NSString *key</Declaration>
+			<Declaration>@property (nonatomic, readonly) SFAuthErrorHandlerOptionsEvalBlock evalOptionsBlock</Declaration>
 			
 			
-			<Anchor>//api/name/key</Anchor>
+			<Anchor>//api/name/evalOptionsBlock</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFInputStreamElement/setMimeType:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, readonly) NSString *mimeType</Declaration>
-			
-			
-			<Anchor>//api/name/mimeType</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFInputStreamElement/mimeType</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, readonly) NSString *mimeType</Declaration>
-			
-			
-			<Anchor>//api/name/mimeType</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/CSFInputStreamElement/mimeType</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, readonly) NSString *mimeType</Declaration>
-			
-			
-			<Anchor>//api/name/mimeType</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFInputStreamElement/setFilename:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, readonly) NSString *filename</Declaration>
-			
-			
-			<Anchor>//api/name/filename</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFInputStreamElement/filename</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, readonly) NSString *filename</Declaration>
-			
-			
-			<Anchor>//api/name/filename</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/CSFInputStreamElement/filename</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, readonly) NSString *filename</Declaration>
-			
-			
-			<Anchor>//api/name/filename</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFInputStreamElement/setHeaderLength:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readonly) NSUInteger headerLength</Declaration>
-			
-			
-			<Anchor>//api/name/headerLength</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFInputStreamElement/headerLength</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readonly) NSUInteger headerLength</Declaration>
-			
-			
-			<Anchor>//api/name/headerLength</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/CSFInputStreamElement/headerLength</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readonly) NSUInteger headerLength</Declaration>
-			
-			
-			<Anchor>//api/name/headerLength</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFInputStreamElement/setBodyLength:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readonly) NSUInteger bodyLength</Declaration>
-			
-			
-			<Anchor>//api/name/bodyLength</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFInputStreamElement/bodyLength</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readonly) NSUInteger bodyLength</Declaration>
-			
-			
-			<Anchor>//api/name/bodyLength</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/CSFInputStreamElement/bodyLength</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readonly) NSUInteger bodyLength</Declaration>
-			
-			
-			<Anchor>//api/name/bodyLength</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFInputStreamElement/setLength:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readonly) NSUInteger length</Declaration>
-			
-			
-			<Anchor>//api/name/length</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFInputStreamElement/length</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readonly) NSUInteger length</Declaration>
-			
-			
-			<Anchor>//api/name/length</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/CSFInputStreamElement/length</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readonly) NSUInteger length</Declaration>
-			
-			
-			<Anchor>//api/name/length</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFInputStreamElement/setDelivered:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readonly) NSUInteger delivered</Declaration>
-			
-			
-			<Anchor>//api/name/delivered</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFInputStreamElement/delivered</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readonly) NSUInteger delivered</Declaration>
-			
-			
-			<Anchor>//api/name/delivered</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/CSFInputStreamElement/delivered</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readonly) NSUInteger delivered</Declaration>
-			
-			
-			<Anchor>//api/name/delivered</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFInputStreamElement/init</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)init</Declaration>
-			
-			
-			<Anchor>//api/name/init</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFInputStreamElement/initWithObject:boundary:key:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithObject:(id)object boundary:(NSString *)boundary key:(NSString *)key</Declaration>
-			
-			
-			<Anchor>//api/name/initWithObject:boundary:key:</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFInputStreamElement/initWithObject:boundary:key:transformer:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithObject:(id)object boundary:(NSString *)boundary key:(NSString *)key transformer:(NSValueTransformer *)transformer</Declaration>
-			
-			
-			<Anchor>//api/name/initWithObject:boundary:key:transformer:</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFInputStreamElement/initWithObject:boundary:key:mimeType:filename:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithObject:(id)object boundary:(NSString *)boundary key:(NSString *)key mimeType:(NSString *)mimeType filename:(NSString *)filename</Declaration>
-			
-			
-			<Anchor>//api/name/initWithObject:boundary:key:mimeType:filename:</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFInputStreamElement/initWithObject:boundary:key:transformer:mimeType:filename:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithObject:(id)object boundary:(NSString *)boundary key:(NSString *)key transformer:(NSValueTransformer *)transformer mimeType:(NSString *)mimeType filename:(NSString *)filename</Declaration>
-			
-			
-			<Anchor>//api/name/initWithObject:boundary:key:transformer:mimeType:filename:</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFInputStreamElement/initWithStream:boundary:key:mimeType:filename:streamLength:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithStream:(NSInputStream *)stream boundary:(NSString *)boundary key:(NSString *)key mimeType:(NSString *)mimeType filename:(NSString *)filename streamLength:(NSUInteger)streamLength</Declaration>
-			
-			
-			<Anchor>//api/name/initWithStream:boundary:key:mimeType:filename:streamLength:</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFInputStreamElement/read:maxLength:</TokenIdentifier>
-			<Abstract type="html">Internal method used by CSFMultipartInputStream to handle reading data from individual elements.</Abstract>
-			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>
-			
-			<Declaration>- (NSUInteger)read:(uint8_t *)buffer maxLength:(NSUInteger)len</Declaration>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandler/initWithName:evalBlock:</TokenIdentifier>
+			<Abstract type="html">Designated initializer for SFAuthErrorHandler.</Abstract>
+			<DeclaredIn>SFAuthErrorHandler.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithName:(NSString *)name evalBlock:(SFAuthErrorHandlerEvalBlock)evalBlock</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>buffer</Name>
-					<Abstract type="html">Buffer to read data into.</Abstract>
+					<Name>name</Name>
+					<Abstract type="html">The canonical name of the error handler.</Abstract>
 				</Parameter><Parameter>
-					<Name>len</Name>
-					<Abstract type="html">The maximum amount of data to read.</Abstract>
+					<Name>evalBlock</Name>
+					<Abstract type="html">The block to handle the error evaluation.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">A number indicating the outcome of the operation
-   * A positive number indicates the number of bytes read;
-   * 0 indicates that the end of the buffer was reached;
-   * A negative number means that the operation failed.</Abstract></ReturnValue>
-			<Anchor>//api/name/read:maxLength:</Anchor>
+			
+			<Anchor>//api/name/initWithName:evalBlock:</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandler/initWithName:evalOptionsBlock:</TokenIdentifier>
+			<Abstract type="html">Designated initializer for SFAuthErrorHandler.</Abstract>
+			<DeclaredIn>SFAuthErrorHandler.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithName:(NSString *)name evalOptionsBlock:(SFAuthErrorHandlerOptionsEvalBlock)evalOptionsBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>name</Name>
+					<Abstract type="html">The canonical name of the error handler.</Abstract>
+				</Parameter><Parameter>
+					<Name>evalOptionsBlock</Name>
+					<Abstract type="html">The block to handle the error evaluation.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/initWithName:evalOptionsBlock:</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		

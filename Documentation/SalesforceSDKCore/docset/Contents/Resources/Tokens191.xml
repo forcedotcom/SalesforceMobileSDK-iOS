@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/CSFParameterStyle.html">
+	<File path="Constants/SFOAuthAdvancedAuthConfiguration.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/CSFParameterStyle</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFDefines.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthAdvancedAuthConfiguration</TokenIdentifier>
+			<Abstract type="html">Enumeration of advanced auth configuration.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
             
 			
 			<NodeRef refid="191"/>
@@ -14,41 +14,36 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFParameterStyleNone</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFParameterStyleNone</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthConfigurationNone</TokenIdentifier>
+            <Abstract type="html">     Advanced authentication is not configured (default)
+     </Abstract>
+            <Declaration>SFOAuthAdvancedAuthConfigurationNone</Declaration>
             
-            <DeclaredIn>CSFDefines.h</DeclaredIn>
-            
-            <NodeRef refid="191"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFParameterStyleQueryString</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFParameterStyleQueryString</Declaration>
-            
-            <DeclaredIn>CSFDefines.h</DeclaredIn>
+            <DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
             
             <NodeRef refid="191"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFParameterStyleURLEncoded</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFParameterStyleURLEncoded</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthConfigurationAllow</TokenIdentifier>
+            <Abstract type="html">     Advanced authentication is allowed.  Coordinator will attempt to retrieve advanced auth
+     configuration from the org, to determine whether to initiate advanced authentication.
+     </Abstract>
+            <Declaration>SFOAuthAdvancedAuthConfigurationAllow</Declaration>
             
-            <DeclaredIn>CSFDefines.h</DeclaredIn>
+            <DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
             
             <NodeRef refid="191"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFParameterStyleMultipart</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFParameterStyleMultipart</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthConfigurationRequire</TokenIdentifier>
+            <Abstract type="html">     Advanced authentication is required.  Coordinator will initiate advanced authentication
+     regardless of org settings.
+     </Abstract>
+            <Declaration>SFOAuthAdvancedAuthConfigurationRequire</Declaration>
             
-            <DeclaredIn>CSFDefines.h</DeclaredIn>
+            <DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
             
             <NodeRef refid="191"/>
         </Token>

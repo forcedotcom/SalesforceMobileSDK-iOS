@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSmartStoreDatabaseManager.html">
+	<File path="Classes/SFSmartStore.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSmartStoreDatabaseManager</TokenIdentifier>
-			<Abstract type="html">The NSError domain for SmartStore database errors.</Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSmartStore</TokenIdentifier>
+			<Abstract type="html">Table to keep track of status of long operations in flight</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
             
 			
 			<NodeRef refid="12"/>
@@ -13,467 +13,1633 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreDatabaseManager/sharedManager</TokenIdentifier>
-			<Abstract type="html">Gets the shared instance of the database manager for the current user.</Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/setStoreName:</TokenIdentifier>
+			<Abstract type="html">The name of this store.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>+ (SFSmartStoreDatabaseManager *)sharedManager</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong) NSString *storeName</Declaration>
 			
 			
-			<Anchor>//api/name/sharedManager</Anchor>
+			<Anchor>//api/name/storeName</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreDatabaseManager/sharedManagerForUser:</TokenIdentifier>
-			<Abstract type="html">Gets the shared instance of the database manager for the given user.</Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/storeName</TokenIdentifier>
+			<Abstract type="html">The name of this store.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>+ (SFSmartStoreDatabaseManager *)sharedManagerForUser:(SFUserAccount *)user</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong) NSString *storeName</Declaration>
+			
+			
+			<Anchor>//api/name/storeName</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSmartStore/storeName</TokenIdentifier>
+			<Abstract type="html">The name of this store.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSString *storeName</Declaration>
+			
+			
+			<Anchor>//api/name/storeName</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/setStorePath:</TokenIdentifier>
+			<Abstract type="html">The full path to the store database.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nullable) NSString *storePath</Declaration>
+			
+			
+			<Anchor>//api/name/storePath</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/storePath</TokenIdentifier>
+			<Abstract type="html">The full path to the store database.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nullable) NSString *storePath</Declaration>
+			
+			
+			<Anchor>//api/name/storePath</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSmartStore/storePath</TokenIdentifier>
+			<Abstract type="html">The full path to the store database.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nullable) NSString *storePath</Declaration>
+			
+			
+			<Anchor>//api/name/storePath</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/setUser:</TokenIdentifier>
+			<Abstract type="html">User for this store - nil for global stores</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) SFUserAccount *user</Declaration>
+			
+			
+			<Anchor>//api/name/user</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/user</TokenIdentifier>
+			<Abstract type="html">User for this store - nil for global stores</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) SFUserAccount *user</Declaration>
+			
+			
+			<Anchor>//api/name/user</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSmartStore/user</TokenIdentifier>
+			<Abstract type="html">User for this store - nil for global stores</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) SFUserAccount *user</Declaration>
+			
+			
+			<Anchor>//api/name/user</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/setCaptureExplainQueryPlan:</TokenIdentifier>
+			<Abstract type="html">Flag to cause explain plan to be captured for every query</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL captureExplainQueryPlan</Declaration>
+			
+			
+			<Anchor>//api/name/captureExplainQueryPlan</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/captureExplainQueryPlan</TokenIdentifier>
+			<Abstract type="html">Flag to cause explain plan to be captured for every query</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL captureExplainQueryPlan</Declaration>
+			
+			
+			<Anchor>//api/name/captureExplainQueryPlan</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSmartStore/captureExplainQueryPlan</TokenIdentifier>
+			<Abstract type="html">Flag to cause explain plan to be captured for every query</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL captureExplainQueryPlan</Declaration>
+			
+			
+			<Anchor>//api/name/captureExplainQueryPlan</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/setLastExplainQueryPlan:</TokenIdentifier>
+			<Abstract type="html">Dictionary with results of last explain query plan</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDictionary *lastExplainQueryPlan</Declaration>
+			
+			
+			<Anchor>//api/name/lastExplainQueryPlan</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/lastExplainQueryPlan</TokenIdentifier>
+			<Abstract type="html">Dictionary with results of last explain query plan</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDictionary *lastExplainQueryPlan</Declaration>
+			
+			
+			<Anchor>//api/name/lastExplainQueryPlan</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSmartStore/lastExplainQueryPlan</TokenIdentifier>
+			<Abstract type="html">Dictionary with results of last explain query plan</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDictionary *lastExplainQueryPlan</Declaration>
+			
+			
+			<Anchor>//api/name/lastExplainQueryPlan</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/sharedStoreWithName:</TokenIdentifier>
+			<Abstract type="html">Use this method to obtain a shared store instance with a particular name for the current user.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>+ (id)sharedStoreWithName:(NSString *)storeName</Declaration>
 			<Parameters>
 				<Parameter>
+					<Name>storeName</Name>
+					<Abstract type="html">The name of the store.  If in doubt, use kDefaultSmartStoreName.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">A shared instance of a store with the given name.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedStoreWithName:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/sharedStoreWithName:user:</TokenIdentifier>
+			<Abstract type="html">Use this method to obtain a shared store instance with the given name for the given user.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>+ (nullable id)sharedStoreWithName:(NSString *)storeName user:(SFUserAccount *)user</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>storeName</Name>
+					<Abstract type="html">The name of the store.  If in doubt, use kDefaultSmartStoreName.</Abstract>
+				</Parameter><Parameter>
 					<Name>user</Name>
-					<Abstract type="html">The user associated with the database manager.</Abstract>
+					<Abstract type="html">The user associated with the store.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/sharedManagerForUser:</Anchor>
+			<Anchor>//api/name/sharedStoreWithName:user:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreDatabaseManager/sharedGlobalManager</TokenIdentifier>
-			<Abstract type="html">Gets the shared instance of the database manager of global stores.</Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/sharedGlobalStoreWithName:</TokenIdentifier>
+			<Abstract type="html">Use this method to obtain a shared global store instance with the given name.  This store will
+not be specific to a particular user.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>+ (SFSmartStoreDatabaseManager *)sharedGlobalManager</Declaration>
-			
-			
-			<Anchor>//api/name/sharedGlobalManager</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreDatabaseManager/removeSharedManagerForUser:</TokenIdentifier>
-			<Abstract type="html">Removes the shared database manager associated with the given user.</Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
-			
-			<Declaration>+ (void)removeSharedManagerForUser:(SFUserAccount *)user</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>user</Name>
-					<Abstract type="html">The user configured for the shared database manager.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/removeSharedManagerForUser:</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/persistentStoreExists:</TokenIdentifier>
-			<Abstract type="html">Whether the store with the given name exists.</Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)persistentStoreExists:(NSString *)storeName</Declaration>
+			<Declaration>+ (id)sharedGlobalStoreWithName:(NSString *)storeName</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>storeName</Name>
-					<Abstract type="html">The name of the store to query.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the store exists, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/persistentStoreExists:</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/openStoreDatabaseWithName:key:error:</TokenIdentifier>
-			<Abstract type="html">Creates or opens an existing store DB.</Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
-			
-			<Declaration>- (FMDatabase *)openStoreDatabaseWithName:(NSString *)storeName key:(NSString *)key error:(NSError **)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>storeName</Name>
-					<Abstract type="html">The name of the store to create or open.</Abstract>
-				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The encryption key associated with the store.</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">Returned if there&apos;s an error with the process.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The FMDatabase instance representing the DB, or nil if the create/open failed.</Abstract></ReturnValue>
-			<Anchor>//api/name/openStoreDatabaseWithName:key:error:</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/openStoreQueueWithName:key:error:</TokenIdentifier>
-			<Abstract type="html">Creates or opens an existing store DB.</Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
-			
-			<Declaration>- (FMDatabaseQueue *)openStoreQueueWithName:(NSString *)storeName key:(NSString *)key error:(NSError **)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>storeName</Name>
-					<Abstract type="html">The name of the store to create or open.</Abstract>
-				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The encryption key associated with the store.</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">Returned if there&apos;s an error with the process.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The FMDatabaseQueue instance to access the DB, or nil if the create/open failed.</Abstract></ReturnValue>
-			<Anchor>//api/name/openStoreQueueWithName:key:error:</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/encryptDb:name:key:error:</TokenIdentifier>
-			<Abstract type="html">Encrypts an existing unencrypted database.</Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
-			
-			<Declaration>- (FMDatabase *)encryptDb:(FMDatabase *)db name:(NSString *)storeName key:(NSString *)key error:(NSError **)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>db</Name>
-					<Abstract type="html">The DB to encrypt.</Abstract>
-				</Parameter><Parameter>
-					<Name>storeName</Name>
-					<Abstract type="html">The name of the store representing the DB.</Abstract>
-				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The encryption key to be used for encrypting the database.</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">Returned if there&apos;s an error with encrypting the data.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The newly-encrypted DB, or the original DB if the encryption fails at any point in the process.</Abstract></ReturnValue>
-			<Anchor>//api/name/encryptDb:name:key:error:</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreDatabaseManager/encryptDbWithStoreName:storePath:key:error:</TokenIdentifier>
-			<Abstract type="html">Encrypts an existing store</Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
-			
-			<Declaration>+ (BOOL)encryptDbWithStoreName:(NSString *)storeName storePath:(NSString *)storePath key:(NSString *)key error:(NSError **)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>storeName</Name>
-					<Abstract type="html">The name of the store representing the DB.</Abstract>
-				</Parameter><Parameter>
-					<Name>storePath</Name>
-					<Abstract type="html">The path specifying the store location.</Abstract>
-				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The encryption key to be used for encrypting the database.</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">Returned if there&apos;s an error with encrypting the data.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the encryption was successful, or NO if the encryption fails at any point in the process.</Abstract></ReturnValue>
-			<Anchor>//api/name/encryptDbWithStoreName:storePath:key:error:</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/unencryptDb:name:oldKey:error:</TokenIdentifier>
-			<Abstract type="html">Unencrypts an encrypted database, back to plaintext.</Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
-			
-			<Declaration>- (FMDatabase *)unencryptDb:(FMDatabase *)db name:(NSString *)storeName oldKey:(NSString *)oldKey error:(NSError **)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>db</Name>
-					<Abstract type="html">The database to unencrypt.</Abstract>
-				</Parameter><Parameter>
-					<Name>storeName</Name>
-					<Abstract type="html">The name of the store associated with the DB.</Abstract>
-				</Parameter><Parameter>
-					<Name>oldKey</Name>
-					<Abstract type="html">The original encryption key of the database.</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">Returned if there&apos;s an error during the process.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The unencrypted database, or the original encrypted database if the process fails at any point.</Abstract></ReturnValue>
-			<Anchor>//api/name/unencryptDb:name:oldKey:error:</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreDatabaseManager/unencryptDbWithStoreName:storePath:key:error:</TokenIdentifier>
-			<Abstract type="html">Unencrypts an encrypted store, back to plaintext.</Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
-			
-			<Declaration>+ (BOOL)unencryptDbWithStoreName:(NSString *)storeName storePath:(NSString *)storePath key:(NSString *)key error:(NSError **)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>storeName</Name>
-					<Abstract type="html">The name of the store associated with the DB.</Abstract>
-				</Parameter><Parameter>
-					<Name>storePath</Name>
-					<Abstract type="html">The path specifying the store location.</Abstract>
-				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The original encryption key of the database.</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">Returned if there&apos;s an error during the process.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the existing store was successfully unencrypted, or NO if the process fails at any point.</Abstract></ReturnValue>
-			<Anchor>//api/name/unencryptDbWithStoreName:storePath:key:error:</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/createStoreDir:</TokenIdentifier>
-			<Abstract type="html">Creates the directory for the store, on the filesystem.</Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)createStoreDir:(NSString *)storeName</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>storeName</Name>
-					<Abstract type="html">The name of the store to be created.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the call completed with no errors, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/createStoreDir:</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/protectStoreDirIfNeeded:protection:</TokenIdentifier>
-			<Abstract type="html">Sets filesystem protection on the store DB file, directory and ancestor directories.</Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)protectStoreDirIfNeeded:(NSString *)storeName protection:(NSString *)protection</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>storeName</Name>
-					<Abstract type="html">The store associated with the protection.</Abstract>
-				</Parameter><Parameter>
-					<Name>protection</Name>
-					<Abstract type="html">The file system protection desired.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the call completes without errors, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/protectStoreDirIfNeeded:protection:</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/removeStoreDir:</TokenIdentifier>
-			<Abstract type="html">Removes the store directory and all of its contents from the filesystem.</Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
-			
-			<Declaration>- (void)removeStoreDir:(NSString *)storeName</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>storeName</Name>
-					<Abstract type="html">The store associated with the request.</Abstract>
+					<Abstract type="html">The name of the global store to retrieve.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/removeStoreDir:</Anchor>
+			<Anchor>//api/name/sharedGlobalStoreWithName:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/allStoreNames</TokenIdentifier>
-			<Abstract type="html">All of the store names associated with this application.</Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/removeSharedStoreWithName:</TokenIdentifier>
+			<Abstract type="html">You may use this method to completely remove a persistent shared store with
+the given name for the current user.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>- (NSArray *)allStoreNames</Declaration>
-			
-			<ReturnValue><Abstract type="html">All of the store names associated with this application.</Abstract></ReturnValue>
-			<Anchor>//api/name/allStoreNames</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/fullDbFilePathForStoreName:</TokenIdentifier>
-			<Abstract type="html">The full filesystem path to the database with the given store name.</Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)fullDbFilePathForStoreName:(NSString *)storeName</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>storeName</Name>
-					<Abstract type="html">The name of the store (excluding paths).</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">Full filesystem path for the store DB file.</Abstract></ReturnValue>
-			<Anchor>//api/name/fullDbFilePathForStoreName:</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreDatabaseManager/verifyDatabaseAccess:error:</TokenIdentifier>
-			<Abstract type="html">Verifies that the database contents for the given DB can be read.</Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
-			
-			<Declaration>+ (BOOL)verifyDatabaseAccess:(FMDatabase *)dbPath error:(NSError **)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>dbPath</Name>
-					<Abstract type="html">The instance of the database to read.</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">The output NSError parameter that will be populated in the event of an error.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the database can be read.</Abstract></ReturnValue>
-			<Anchor>//api/name/verifyDatabaseAccess:error:</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/setUser:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) SFUserAccount *user</Declaration>
-			
-			
-			<Anchor>//api/name/user</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/user</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) SFUserAccount *user</Declaration>
-			
-			
-			<Anchor>//api/name/user</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSmartStoreDatabaseManager/user</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) SFUserAccount *user</Declaration>
-			
-			
-			<Anchor>//api/name/user</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/setIsGlobalManager:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL isGlobalManager</Declaration>
-			
-			
-			<Anchor>//api/name/isGlobalManager</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/isGlobalManager</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL isGlobalManager</Declaration>
-			
-			
-			<Anchor>//api/name/isGlobalManager</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSmartStoreDatabaseManager/isGlobalManager</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL isGlobalManager</Declaration>
-			
-			
-			<Anchor>//api/name/isGlobalManager</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/storeDirectoryForStoreName:</TokenIdentifier>
-			<Abstract type="html">The name of the store.</Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)storeDirectoryForStoreName:(NSString *)storeName</Declaration>
+			<Declaration>+ (void)removeSharedStoreWithName:(NSString *)storeName</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>storeName</Name>
 					<Abstract type="html">The name of the store.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The filesystem diretory containing for the given store name</Abstract></ReturnValue>
-			<Anchor>//api/name/storeDirectoryForStoreName:</Anchor>
+			
+			<Anchor>//api/name/removeSharedStoreWithName:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/rootStoreDirectory</TokenIdentifier>
-			<Abstract type="html">The root directory where all the SmartStore DBs live.</Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/removeSharedStoreWithName:forUser:</TokenIdentifier>
+			<Abstract type="html">You may use this method to completely remove a persisted shared store with the given name
+for the given user.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)rootStoreDirectory</Declaration>
+			<Declaration>+ (void)removeSharedStoreWithName:(NSString *)storeName forUser:(SFUserAccount *)user</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>storeName</Name>
+					<Abstract type="html">The name of the store to remove.</Abstract>
+				</Parameter><Parameter>
+					<Name>user</Name>
+					<Abstract type="html">The user associated with the store.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			<ReturnValue><Abstract type="html">The root directory where all the SmartStore DBs live.</Abstract></ReturnValue>
-			<Anchor>//api/name/rootStoreDirectory</Anchor>
+			<Anchor>//api/name/removeSharedStoreWithName:forUser:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/encryptOrUnencryptDb:name:oldKey:newKey:error:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/removeSharedGlobalStoreWithName:</TokenIdentifier>
+			<Abstract type="html">You may use this method to completely remove a persisted global store with the given name.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>+ (void)removeSharedGlobalStoreWithName:(NSString *)storeName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>storeName</Name>
+					<Abstract type="html">The name of the global store to remove.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/removeSharedGlobalStoreWithName:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/removeAllStores</TokenIdentifier>
+			<Abstract type="html">Removes all of the stores for the current user from this app.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>+ (void)removeAllStores</Declaration>
+			
+			
+			<Anchor>//api/name/removeAllStores</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/removeAllStoresForUser:</TokenIdentifier>
+			<Abstract type="html">Removes all of the store for the given user from this app.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>+ (void)removeAllStoresForUser:(SFUserAccount *)user</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>user</Name>
+					<Abstract type="html">The user associated with the stores to remove.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/removeAllStoresForUser:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/removeAllGlobalStores</TokenIdentifier>
+			<Abstract type="html">Removes all of the global stores from this app.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>+ (void)removeAllGlobalStores</Declaration>
+			
+			
+			<Anchor>//api/name/removeAllGlobalStores</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/allStoreNames</TokenIdentifier>
+			<Abstract type="html">Get all of the store names for the current user from this app.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>+ (NSArray *)allStoreNames</Declaration>
+			
+			
+			<Anchor>//api/name/allStoreNames</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/allGlobalStoreNames</TokenIdentifier>
+			<Abstract type="html">Get all of the the global store names from this app.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>+ (NSArray *)allGlobalStoreNames</Declaration>
+			
+			
+			<Anchor>//api/name/allGlobalStoreNames</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/encryptionKeyBlock</TokenIdentifier>
+			<Abstract type="html">The block used to generate the encryption key.  Sticking with the default encryption
+key derivation is recommended.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>+ (SFSmartStoreEncryptionKeyBlock)encryptionKeyBlock</Declaration>
+			
+			<ReturnValue><Abstract type="html">The block used to generate the encryption key.  Sticking with the default encryption
+key derivation is recommended.</Abstract></ReturnValue>
+			<Anchor>//api/name/encryptionKeyBlock</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/setEncryptionKeyBlock:</TokenIdentifier>
+			<Abstract type="html">Sets a custom block for deriving the encryption key used to encrypt stores.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>+ (void)setEncryptionKeyBlock:(SFSmartStoreEncryptionKeyBlock)newEncryptionKeyBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>newEncryptionKeyBlock</Name>
+					<Abstract type="html">The new encryption key derivation block to use with SmartStore.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setEncryptionKeyBlock:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/attributesForSoup:</TokenIdentifier>
+			<Abstract type="html">Name of the soup.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>- (SFSoupSpec *)attributesForSoup:(NSString *)soupName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">Name of the soup.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Specs of the soup if it exists.</Abstract></ReturnValue>
+			<Anchor>//api/name/attributesForSoup:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/indicesForSoup:</TokenIdentifier>
+			<Abstract type="html">Name of the soup.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>- (NSArray *)indicesForSoup:(NSString *)soupName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">Name of the soup.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">NSArray of SFSoupIndex for the given soup.</Abstract></ReturnValue>
+			<Anchor>//api/name/indicesForSoup:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/soupExists:</TokenIdentifier>
+			<Abstract type="html">Name of the soup.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)soupExists:(NSString *)soupName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">Name of the soup.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if a soup with the given name already exists.</Abstract></ReturnValue>
+			<Anchor>//api/name/soupExists:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/registerSoup:withIndexSpecs:error:</TokenIdentifier>
+			<Abstract type="html">Creates a new soup or confirms the existence of an existing soup.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)registerSoup:(NSString *)soupName withIndexSpecs:(NSArray *)indexSpecs error:(NSError **)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">Name of the soup to register.</Abstract>
+				</Parameter><Parameter>
+					<Name>indexSpecs</Name>
+					<Abstract type="html">Array of one or more SFSoupIndex objects.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">Sets/returns any error generated as part of the process.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the soup is registered or already exists.</Abstract></ReturnValue>
+			<Anchor>//api/name/registerSoup:withIndexSpecs:error:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/registerSoup:withIndexSpecs:</TokenIdentifier>
+			<Abstract type="html">Creates a new soup or confirms the existence of an existing soup.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)registerSoup:(NSString *)soupName withIndexSpecs:(NSArray *)indexSpecs</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">The name of the soup to register.</Abstract>
+				</Parameter><Parameter>
+					<Name>indexSpecs</Name>
+					<Abstract type="html">Array of one or more SFSoupIndex objects.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the soup is registered or already exists.</Abstract></ReturnValue>
+			<Anchor>//api/name/registerSoup:withIndexSpecs:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/registerSoupWithSpec:withIndexSpecs:error:</TokenIdentifier>
+			<Abstract type="html">Creates a new soup or confirms the existence of an existing soup.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)registerSoupWithSpec:(SFSoupSpec *)soupSpec withIndexSpecs:(NSArray *)indexSpecs error:(NSError **)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>soupSpec</Name>
+					<Abstract type="html">Soup specs of the soup to register.</Abstract>
+				</Parameter><Parameter>
+					<Name>indexSpecs</Name>
+					<Abstract type="html">Array of one or more SFSoupIndex objects.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">Sets/returns any error generated as part of the process.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the soup is registered or already exists.</Abstract></ReturnValue>
+			<Anchor>//api/name/registerSoupWithSpec:withIndexSpecs:error:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/countWithQuerySpec:error:</TokenIdentifier>
+			<Abstract type="html">Get the number of entries that would be returned with the given query spec</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>- (NSUInteger)countWithQuerySpec:(SFQuerySpec *)querySpec error:(NSError **)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>querySpec</Name>
+					<Abstract type="html">A native query spec.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">Sets/returns any error generated as part of the process.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/countWithQuerySpec:error:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/queryWithQuerySpec:pageIndex:error:</TokenIdentifier>
+			<Abstract type="html">Search for entries matching the given query spec.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>- (NSArray *)queryWithQuerySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex error:(NSError **)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>querySpec</Name>
+					<Abstract type="html">A native query spec.</Abstract>
+				</Parameter><Parameter>
+					<Name>pageIndex</Name>
+					<Abstract type="html">The page index to start the entries at (this supports paging).</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">Sets/returns any error generated as part of the process.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">A set of entries given the pageSize provided in the querySpec.</Abstract></ReturnValue>
+			<Anchor>//api/name/queryWithQuerySpec:pageIndex:error:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/retrieveEntries:fromSoup:</TokenIdentifier>
+			<Abstract type="html">Search soup for entries exactly matching the soup entry IDs.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>- (NSArray *)retrieveEntries:(NSArray *)soupEntryIds fromSoup:(NSString *)soupName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>soupEntryIds</Name>
+					<Abstract type="html">An array of opaque soup entry IDs.</Abstract>
+				</Parameter><Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">The name of the soup to query.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">An array with zero or more entries matching the input IDs. Order is not guaranteed.</Abstract></ReturnValue>
+			<Anchor>//api/name/retrieveEntries:fromSoup:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/upsertEntries:toSoup:</TokenIdentifier>
+			<Abstract type="html">Insert/update entries to the soup.  Insert vs. update will be determined by the internal
+soup entry ID generated from intial entry.  If you want to specify a different identifier
+for determining existing entries, use upsertEntries:toSoup:withExternalIdPath:</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>- (NSArray *)upsertEntries:(NSArray *)entries toSoup:(NSString *)soupName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>entries</Name>
+					<Abstract type="html">The entries to insert or update.</Abstract>
+				</Parameter><Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">The name of the soup to update.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The array of updated entries in the soup.</Abstract></ReturnValue>
+			<Anchor>//api/name/upsertEntries:toSoup:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/upsertEntries:toSoup:withExternalIdPath:error:</TokenIdentifier>
+			<Abstract type="html">Insert/update entries to the soup.  Insert vs. update will be determined by the specified
+external ID path argument.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>- (NSArray *)upsertEntries:(NSArray *)entries toSoup:(NSString *)soupName withExternalIdPath:(NSString *)externalIdPath error:(NSError **)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>entries</Name>
+					<Abstract type="html">The entries to insert or update.</Abstract>
+				</Parameter><Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">The name of the soup to update.</Abstract>
+				</Parameter><Parameter>
+					<Name>externalIdPath</Name>
+					<Abstract type="html">The user-defined query spec path used to determine insert vs. update.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">Sets/returns any error generated as part of the process.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The array of updated entries in the soup.</Abstract></ReturnValue>
+			<Anchor>//api/name/upsertEntries:toSoup:withExternalIdPath:error:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/lookupSoupEntryIdForSoupName:forFieldPath:fieldValue:error:</TokenIdentifier>
+			<Abstract type="html">Look up the ID for an entry in a soup.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>- (NSNumber *)lookupSoupEntryIdForSoupName:(NSString *)soupName forFieldPath:(NSString *)fieldPath fieldValue:(NSString *)fieldValue error:(NSError **)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">Soup name.</Abstract>
+				</Parameter><Parameter>
+					<Name>fieldPath</Name>
+					<Abstract type="html">Field path.</Abstract>
+				</Parameter><Parameter>
+					<Name>fieldValue</Name>
+					<Abstract type="html">Field value.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">Sets/returns any error generated as part of the process.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The ID of the specified soup entry.</Abstract></ReturnValue>
+			<Anchor>//api/name/lookupSoupEntryIdForSoupName:forFieldPath:fieldValue:error:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/removeEntries:fromSoup:error:</TokenIdentifier>
+			<Abstract type="html">Remove soup entries exactly matching the soup entry IDs.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>- (void)removeEntries:(NSArray *)entryIds fromSoup:(NSString *)soupName error:(NSError **)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>entryIds</Name>
+					<Abstract type="html">An array of opaque soup entry IDs from _soupEntryId.</Abstract>
+				</Parameter><Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">The name of the soup from which to remove the soup entries.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">Sets/returns any error generated as part of the process.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/removeEntries:fromSoup:error:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/removeEntries:fromSoup:</TokenIdentifier>
+			<Abstract type="html">Remove soup entries exactly matching the soup entry IDs.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>- (void)removeEntries:(NSArray *)entryIds fromSoup:(NSString *)soupName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>entryIds</Name>
+					<Abstract type="html">An array of opaque soup entry IDs from _soupEntryId.</Abstract>
+				</Parameter><Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">The name of the soup from which to remove the soup entries.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/removeEntries:fromSoup:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/removeEntriesByQuery:fromSoup:error:</TokenIdentifier>
+			<Abstract type="html">Remove soup entries returned by the given query spec.
+NB: A single SQL call is executed to improve performance.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>- (void)removeEntriesByQuery:(SFQuerySpec *)querySpec fromSoup:(NSString *)soupName error:(NSError **)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>querySpec</Name>
+					<Abstract type="html">Query returning entries to delete (if querySpec uses smartSQL, it must select soup entry ids).</Abstract>
+				</Parameter><Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">The name of the soup from which to remove the soup entries.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">Sets/returns any error generated as part of the process.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/removeEntriesByQuery:fromSoup:error:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/removeEntriesByQuery:fromSoup:</TokenIdentifier>
+			<Abstract type="html">Remove soup entries returned by the given query spec.
+NB: A single SQL call is executed to improve performance.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>- (void)removeEntriesByQuery:(SFQuerySpec *)querySpec fromSoup:(NSString *)soupName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>querySpec</Name>
+					<Abstract type="html">Query returning entries to delete (if querySpec uses smartSQL, it must select soup entry ids).</Abstract>
+				</Parameter><Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">The name of the soup from which to remove the soup entries.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/removeEntriesByQuery:fromSoup:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/clearSoup:</TokenIdentifier>
+			<Abstract type="html">Remove all elements from soup.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>- (void)clearSoup:(NSString *)soupName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">The name of the soup to clear.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/clearSoup:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/removeSoup:</TokenIdentifier>
+			<Abstract type="html">Remove soup completely from the store.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>- (void)removeSoup:(NSString *)soupName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">The name of the soup to remove from the store.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/removeSoup:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/removeAllSoups</TokenIdentifier>
+			<Abstract type="html">Remove all soups from the store.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>- (void)removeAllSoups</Declaration>
+			
+			
+			<Anchor>//api/name/removeAllSoups</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/getDatabaseSize</TokenIdentifier>
+			<Abstract type="html">Return database file size.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>- (unsigned long long)getDatabaseSize</Declaration>
+			
+			<ReturnValue><Abstract type="html">Database size, in bytes.</Abstract></ReturnValue>
+			<Anchor>//api/name/getDatabaseSize</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/getExternalFileStorageSizeForSoup:</TokenIdentifier>
+			<Abstract type="html">Returns sum of all external file sizes for a given soup.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>- (unsigned long long)getExternalFileStorageSizeForSoup:(NSString *)soupName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">Name of the soup.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">External file storage size, in bytes.</Abstract></ReturnValue>
+			<Anchor>//api/name/getExternalFileStorageSizeForSoup:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/getExternalFilesCountForSoup:</TokenIdentifier>
+			<Abstract type="html">Return the number of external storage files for a given soup.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>- (NSUInteger)getExternalFilesCountForSoup:(NSString *)soupName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">The name of the soup.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Number of external files.</Abstract></ReturnValue>
+			<Anchor>//api/name/getExternalFilesCountForSoup:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/alterSoup:withIndexSpecs:reIndexData:</TokenIdentifier>
+			<Abstract type="html">Alter soup indexes.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)alterSoup:(NSString *)soupName withIndexSpecs:(NSArray *)indexSpecs reIndexData:(BOOL)reIndexData</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">The name of the soup to alter.</Abstract>
+				</Parameter><Parameter>
+					<Name>indexSpecs</Name>
+					<Abstract type="html">Array of one ore more SFSoupIndex objects to replace existing index specs.</Abstract>
+				</Parameter><Parameter>
+					<Name>reIndexData</Name>
+					<Abstract type="html">pass true if you want existing records to be re-indexed for new index specs.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the soup was altered successfully.</Abstract></ReturnValue>
+			<Anchor>//api/name/alterSoup:withIndexSpecs:reIndexData:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/alterSoup:withSoupSpec:withIndexSpecs:reIndexData:</TokenIdentifier>
+			<Abstract type="html">Alter soup indexes.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)alterSoup:(NSString *)soupName withSoupSpec:(SFSoupSpec *)soupSpec withIndexSpecs:(NSArray *)indexSpecs reIndexData:(BOOL)reIndexData</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">The name of the soup to alter.</Abstract>
+				</Parameter><Parameter>
+					<Name>soupSpec</Name>
+					<Abstract type="html">The new soup spec to convert. (e.g. convert internal storage soup to external storage soup).</Abstract>
+				</Parameter><Parameter>
+					<Name>indexSpecs</Name>
+					<Abstract type="html">Array of one ore more SFSoupIndex objects to replace existing index specs.</Abstract>
+				</Parameter><Parameter>
+					<Name>reIndexData</Name>
+					<Abstract type="html">Pass YES if you want existing records to be re-indexed for new index specs.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the soup was altered successfully.</Abstract></ReturnValue>
+			<Anchor>//api/name/alterSoup:withSoupSpec:withIndexSpecs:reIndexData:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/reIndexSoup:withIndexPaths:</TokenIdentifier>
+			<Abstract type="html">Reindex a soup.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)reIndexSoup:(NSString *)soupName withIndexPaths:(NSArray *)indexPaths</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">The name of the soup to alter.</Abstract>
+				</Parameter><Parameter>
+					<Name>indexPaths</Name>
+					<Abstract type="html">Array of on ore more paths to be reindexed.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if soup reindexing succeeded.</Abstract></ReturnValue>
+			<Anchor>//api/name/reIndexSoup:withIndexPaths:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/getCompileOptions</TokenIdentifier>
+			<Abstract type="html">Return compile options</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>- (NSArray *)getCompileOptions</Declaration>
+			
+			<ReturnValue><Abstract type="html">An array with all the compile options used to build SQL Cipher.</Abstract></ReturnValue>
+			<Anchor>//api/name/getCompileOptions</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/getSQLCipherVersion</TokenIdentifier>
+			<Abstract type="html">Return sqlcipher version</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)getSQLCipherVersion</Declaration>
+			
+			<ReturnValue><Abstract type="html">The version of SQL Cipher in use.</Abstract></ReturnValue>
+			<Anchor>//api/name/getSQLCipherVersion</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/resumeLongOperations</TokenIdentifier>
+			<Abstract type="html">Complete long operations that were interrupted.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>- (void)resumeLongOperations</Declaration>
+			
+			
+			<Anchor>//api/name/resumeLongOperations</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/isFileDataProtectionActive</TokenIdentifier>
+			<Abstract type="html">This property is updated when notifications are received for
+UIApplicationProtectedDataDidBecomeAvailable and UIApplicationProtectedDataWillBecomeUnavailable events.
+Note that on the simulator currently, data protection is NEVER active.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)isFileDataProtectionActive</Declaration>
+			
+			<ReturnValue><Abstract type="html">YES if file data protection (full passcode-based encryption) is available.</Abstract></ReturnValue>
+			<Anchor>//api/name/isFileDataProtectionActive</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/allSoupNames</TokenIdentifier>
+			<Abstract type="html">Return all soup names.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>- (NSArray *)allSoupNames</Declaration>
+			
+			<ReturnValue><Abstract type="html">Array containing all soup names.</Abstract></ReturnValue>
+			<Anchor>//api/name/allSoupNames</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/dateFromLastModifiedValue:</TokenIdentifier>
+			<Abstract type="html">Creates a date object from the last modified date column value, which is numeric.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>+ (NSDate *)dateFromLastModifiedValue:(NSNumber *)lastModifiedValue</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>lastModifiedValue</Name>
+					<Abstract type="html">The numeric value of the date stored in the soup entry.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The NSDate representation of the last modified date.</Abstract></ReturnValue>
+			<Anchor>//api/name/dateFromLastModifiedValue:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/setStoreQueue:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager+Internal.h</DeclaredIn>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
 			
-			<Declaration>- (FMDatabase *)encryptOrUnencryptDb:(FMDatabase *)db name:(NSString *)storeName oldKey:(NSString *)oldKey newKey:(NSString *)newKey error:(NSError **)error</Declaration>
+			<Declaration>@property (nonatomic, strong) FMDatabaseQueue *storeQueue</Declaration>
 			
 			
-			<Anchor>//api/name/encryptOrUnencryptDb:name:oldKey:newKey:error:</Anchor>
+			<Anchor>//api/name/storeQueue</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreDatabaseManager/openDatabaseWithPath:key:error:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/storeQueue</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager+Internal.h</DeclaredIn>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
 			
-			<Declaration>+ (FMDatabase *)openDatabaseWithPath:(NSString *)dbPath key:(NSString *)key error:(NSError **)error</Declaration>
+			<Declaration>@property (nonatomic, strong) FMDatabaseQueue *storeQueue</Declaration>
 			
 			
-			<Anchor>//api/name/openDatabaseWithPath:key:error:</Anchor>
+			<Anchor>//api/name/storeQueue</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreDatabaseManager/encryptOrUnencryptDb:name:path:oldKey:newKey:error:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSmartStore/storeQueue</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager+Internal.h</DeclaredIn>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
 			
-			<Declaration>+ (FMDatabase *)encryptOrUnencryptDb:(FMDatabase *)db name:(NSString *)storeName path:(NSString *)storePath oldKey:(NSString *)oldKey newKey:(NSString *)newKey error:(NSError **)error</Declaration>
+			<Declaration>@property (nonatomic, strong) FMDatabaseQueue *storeQueue</Declaration>
 			
 			
-			<Anchor>//api/name/encryptOrUnencryptDb:name:path:oldKey:newKey:error:</Anchor>
+			<Anchor>//api/name/storeQueue</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/setDbMgr:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFSmartStoreDatabaseManager *dbMgr</Declaration>
+			
+			
+			<Anchor>//api/name/dbMgr</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/dbMgr</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFSmartStoreDatabaseManager *dbMgr</Declaration>
+			
+			
+			<Anchor>//api/name/dbMgr</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSmartStore/dbMgr</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFSmartStoreDatabaseManager *dbMgr</Declaration>
+			
+			
+			<Anchor>//api/name/dbMgr</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/setIsGlobal:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isGlobal</Declaration>
+			
+			
+			<Anchor>//api/name/isGlobal</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/isGlobal</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isGlobal</Declaration>
+			
+			
+			<Anchor>//api/name/isGlobal</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSmartStore/isGlobal</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isGlobal</Declaration>
+			
+			
+			<Anchor>//api/name/isGlobal</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/setFtsExtension:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) SFSmartStoreFtsExtension ftsExtension</Declaration>
+			
+			
+			<Anchor>//api/name/ftsExtension</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/ftsExtension</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) SFSmartStoreFtsExtension ftsExtension</Declaration>
+			
+			
+			<Anchor>//api/name/ftsExtension</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSmartStore/ftsExtension</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) SFSmartStoreFtsExtension ftsExtension</Declaration>
+			
+			
+			<Anchor>//api/name/ftsExtension</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/openStoreDatabase</TokenIdentifier>
+			<Abstract type="html">Simply open the db file.</Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)openStoreDatabase</Declaration>
+			
+			<ReturnValue><Abstract type="html">YES if we were able to open the DB file.</Abstract></ReturnValue>
+			<Anchor>//api/name/openStoreDatabase</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/createMetaTables</TokenIdentifier>
+			<Abstract type="html">Create soup index map table to keep track of soups&apos; index specs (SOUPINDEXMAP_TABLE)
+Create soup attributes table to keep track of soups&apos; attributes specs (e.g. external blobs storage)
+and maps arbitrary soup names to soup table names (SOUPATTRSTABLE)</Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)createMetaTables</Declaration>
+			
+			<ReturnValue><Abstract type="html">YES if we were able to create the meta tables, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/createMetaTables</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/registeredSoupFeaturesWithDb:</TokenIdentifier>
+			<Abstract type="html">Returns the features currently registered.</Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/SFSoupSpec</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (NSArray *)registeredSoupFeaturesWithDb:(FMDatabase *)db</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>db</Name>
+					<Abstract type="html">This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">array with registered soup features, if none, an empty array.</Abstract></ReturnValue>
+			<Anchor>//api/name/registeredSoupFeaturesWithDb:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/createLongOperationsStatusTable</TokenIdentifier>
+			<Abstract type="html">Create long operations status table (LONGOPERATIONSSTATUS_TABLE)</Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)createLongOperationsStatusTable</Declaration>
+			
+			<ReturnValue><Abstract type="html">YES if we were able to create the table, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/createLongOperationsStatusTable</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/registerSoupWithSpec:withIndexSpecs:withSoupTableName:withDb:</TokenIdentifier>
+			<Abstract type="html">Register the soup</Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)registerSoupWithSpec:(SFSoupSpec *)soupSpec withIndexSpecs:(NSArray *)indexSpecs withSoupTableName:(NSString *)soupTableName withDb:(FMDatabase *)db</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>soupSpec</Name>
+					<Abstract type="html">The soup specs of the soup to register</Abstract>
+				</Parameter><Parameter>
+					<Name>indexSpecs</Name>
+					<Abstract type="html">Array of one ore more IndexSpec objects as dictionaries</Abstract>
+				</Parameter><Parameter>
+					<Name>soupTableName</Name>
+					<Abstract type="html">The name of the table to use for the soup</Abstract>
+				</Parameter><Parameter>
+					<Name>db</Name>
+					<Abstract type="html">This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/registerSoupWithSpec:withIndexSpecs:withSoupTableName:withDb:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/externalStorageRootDirectory</TokenIdentifier>
+			<Abstract type="html">the root directory where external blobs are stored.</Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)externalStorageRootDirectory</Declaration>
+			
+			<ReturnValue><Abstract type="html">the root directory where external blobs are stored.</Abstract></ReturnValue>
+			<Anchor>//api/name/externalStorageRootDirectory</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/externalStorageSoupDirectory:</TokenIdentifier>
+			<Abstract type="html">the soup table name</Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)externalStorageSoupDirectory:(NSString *)soupTableName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>soupTableName</Name>
+					<Abstract type="html">the soup table name</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the directory in which external blobs are stored for a soup (based on table name).</Abstract></ReturnValue>
+			<Anchor>//api/name/externalStorageSoupDirectory:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/externalStorageSoupFilePath:soupTableName:</TokenIdentifier>
+			<Abstract type="html">the soup entry id</Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)externalStorageSoupFilePath:(NSNumber *)soupEntryId soupTableName:(NSString *)soupTableName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>soupEntryId</Name>
+					<Abstract type="html">the soup entry id</Abstract>
+				</Parameter><Parameter>
+					<Name>soupTableName</Name>
+					<Abstract type="html">the soup table name</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the file path where external blobs of a soup entry is stored.</Abstract></ReturnValue>
+			<Anchor>//api/name/externalStorageSoupFilePath:soupTableName:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/saveSoupEntryExternally:soupEntryId:soupTableName:</TokenIdentifier>
+			<Abstract type="html">the soup entry to save to a external file</Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)saveSoupEntryExternally:(NSDictionary *)soupEntry soupEntryId:(NSNumber *)soupEntryId soupTableName:(NSString *)soupTableName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>soupEntry</Name>
+					<Abstract type="html">the soup entry to save to a external file</Abstract>
+				</Parameter><Parameter>
+					<Name>soupEntryId</Name>
+					<Abstract type="html">the soup entry id</Abstract>
+				</Parameter><Parameter>
+					<Name>soupTableName</Name>
+					<Abstract type="html">the soup table name</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if file was saved successfully.</Abstract></ReturnValue>
+			<Anchor>//api/name/saveSoupEntryExternally:soupEntryId:soupTableName:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/loadExternalSoupEntry:soupTableName:</TokenIdentifier>
+			<Abstract type="html">the soup entry id</Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>- (id)loadExternalSoupEntry:(NSNumber *)soupEntryId soupTableName:(NSString *)soupTableName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>soupEntryId</Name>
+					<Abstract type="html">the soup entry id</Abstract>
+				</Parameter><Parameter>
+					<Name>soupTableName</Name>
+					<Abstract type="html">the soup table name</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">a soup entry if file was loaded successfully.</Abstract></ReturnValue>
+			<Anchor>//api/name/loadExternalSoupEntry:soupTableName:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/deleteAllExternalEntries:deleteDir:</TokenIdentifier>
+			<Abstract type="html">the soup table name</Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)deleteAllExternalEntries:(NSString *)soupTableName deleteDir:(BOOL)deleteDir</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>soupTableName</Name>
+					<Abstract type="html">the soup table name</Abstract>
+				</Parameter><Parameter>
+					<Name>deleteDir</Name>
+					<Abstract type="html">whether or not should delete directory as well</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/deleteAllExternalEntries:deleteDir:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/tableNameForSoup:withDb:</TokenIdentifier>
+			<Abstract type="html">This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]</Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)tableNameForSoup:(NSString *)soupName withDb:(FMDatabase *)db</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>db</Name>
+					<Abstract type="html">This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The soup table name from SOUPATTRSTABLE, based on soup name.</Abstract></ReturnValue>
+			<Anchor>//api/name/tableNameForSoup:withDb:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/attributesForSoup:withDb:</TokenIdentifier>
+			<Abstract type="html">the name of the soup</Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>- (SFSoupSpec *)attributesForSoup:(NSString *)soupName withDb:(FMDatabase *)db</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">the name of the soup</Abstract>
+				</Parameter><Parameter>
+					<Name>db</Name>
+					<Abstract type="html">Database.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">SFSoupSpec for the given soup name</Abstract></ReturnValue>
+			<Anchor>//api/name/attributesForSoup:withDb:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/indicesForSoup:withDb:</TokenIdentifier>
+			<Abstract type="html">the name of the soup</Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>- (NSArray *)indicesForSoup:(NSString *)soupName withDb:(FMDatabase *)db</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">the name of the soup</Abstract>
+				</Parameter><Parameter>
+					<Name>db</Name>
+					<Abstract type="html">This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">NSArray of SFSoupIndex for the given soup</Abstract></ReturnValue>
+			<Anchor>//api/name/indicesForSoup:withDb:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/reIndexSoup:withIndexPaths:withDb:</TokenIdentifier>
+			<Abstract type="html">Helper method re-index a soup.</Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)reIndexSoup:(NSString *)soupName withIndexPaths:(NSArray *)indexPaths withDb:(FMDatabase *)db</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">The soup to re-index</Abstract>
+				</Parameter><Parameter>
+					<Name>indexPaths</Name>
+					<Abstract type="html">Array of one ore more IndexSpec objects as dictionaries</Abstract>
+				</Parameter><Parameter>
+					<Name>db</Name>
+					<Abstract type="html">This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the insert was successful, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/reIndexSoup:withIndexPaths:withDb:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/insertIntoTable:values:withDb:</TokenIdentifier>
+			<Abstract type="html">Helper method to insert values into an arbitrary table.</Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)insertIntoTable:(NSString *)tableName values:(NSDictionary *)map withDb:(FMDatabase *)db</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>tableName</Name>
+					<Abstract type="html">The table to insert the data into.</Abstract>
+				</Parameter><Parameter>
+					<Name>map</Name>
+					<Abstract type="html">A dictionary of key-value pairs to be inserted into table.</Abstract>
+				</Parameter><Parameter>
+					<Name>db</Name>
+					<Abstract type="html">This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/insertIntoTable:values:withDb:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/updateTable:values:entryId:idCol:withDb:</TokenIdentifier>
+			<Abstract type="html">Helper method to update existing values in a table.</Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)updateTable:(NSString *)tableName values:(NSDictionary *)map entryId:(NSNumber *)entryId idCol:(NSString *)idCol withDb:(FMDatabase *)db</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>tableName</Name>
+					<Abstract type="html">The name of the table to update.</Abstract>
+				</Parameter><Parameter>
+					<Name>map</Name>
+					<Abstract type="html">The column name/value mapping to update.</Abstract>
+				</Parameter><Parameter>
+					<Name>entryId</Name>
+					<Abstract type="html">The ID value used to determine what to update.</Abstract>
+				</Parameter><Parameter>
+					<Name>idCol</Name>
+					<Abstract type="html">The name of the ID column</Abstract>
+				</Parameter><Parameter>
+					<Name>db</Name>
+					<Abstract type="html">This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/updateTable:values:entryId:idCol:withDb:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/queryTable:forColumns:orderBy:limit:whereClause:whereArgs:withDb:</TokenIdentifier>
+			<Abstract type="html">Helper to query table</Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>- (FMResultSet *)queryTable:(NSString *)table forColumns:(NSArray *)columns orderBy:(NSString *)orderBy limit:(NSString *)limit whereClause:(NSString *)whereClause whereArgs:(NSArray *)whereArgs withDb:(FMDatabase *)db</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>table</Name>
+					<Abstract type="html">Table</Abstract>
+				</Parameter><Parameter>
+					<Name>columns</Name>
+					<Abstract type="html">Column names</Abstract>
+				</Parameter><Parameter>
+					<Name>orderBy</Name>
+					<Abstract type="html">Order by column</Abstract>
+				</Parameter><Parameter>
+					<Name>limit</Name>
+					<Abstract type="html">Limit</Abstract>
+				</Parameter><Parameter>
+					<Name>whereClause</Name>
+					<Abstract type="html">Where clause</Abstract>
+				</Parameter><Parameter>
+					<Name>whereArgs</Name>
+					<Abstract type="html">Arguments to where clause</Abstract>
+				</Parameter><Parameter>
+					<Name>db</Name>
+					<Abstract type="html">This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">FMResultSet</Abstract></ReturnValue>
+			<Anchor>//api/name/queryTable:forColumns:orderBy:limit:whereClause:whereArgs:withDb:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/columnNameForPath:inSoup:withDb:</TokenIdentifier>
+			<Abstract type="html">This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]</Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)columnNameForPath:(NSString *)path inSoup:(NSString *)soupName withDb:(FMDatabase *)db</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>db</Name>
+					<Abstract type="html">This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The map of an indexSpec path to a column name from SOUPINDEXMAP_TABLE.</Abstract></ReturnValue>
+			<Anchor>//api/name/columnNameForPath:inSoup:withDb:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/currentTimeInMilliseconds</TokenIdentifier>
+			<Abstract type="html">Similar to System.currentTimeMillis: time in ms since Jan 1 1970
+Used for timestamping created and modified times.</Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>- (NSNumber *)currentTimeInMilliseconds</Declaration>
+			
+			<ReturnValue><Abstract type="html">The current number of milliseconds since 1/1/1970.</Abstract></ReturnValue>
+			<Anchor>//api/name/currentTimeInMilliseconds</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/encKey</TokenIdentifier>
+			<Abstract type="html">The key used to encrypt the store.</Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)encKey</Declaration>
+			
+			<ReturnValue><Abstract type="html">The key used to encrypt the store.</Abstract></ReturnValue>
+			<Anchor>//api/name/encKey</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/clearSharedStoreMemoryState</TokenIdentifier>
+			<Abstract type="html">FOR UNIT TESTING.  Removes all of the shared smart store objects from memory (persisted stores remain).</Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (void)clearSharedStoreMemoryState</Declaration>
+			
+			
+			<Anchor>//api/name/clearSharedStoreMemoryState</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/convertSmartSql:</TokenIdentifier>
+			<Abstract type="html">Convert smart sql to sql.</Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)convertSmartSql:(NSString *)smartSql</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>smartSql</Name>
+					<Abstract type="html">The smart sql to convert.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The sql.</Abstract></ReturnValue>
+			<Anchor>//api/name/convertSmartSql:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/removeFromCache:</TokenIdentifier>
+			<Abstract type="html">Remove soup from cache</Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)removeFromCache:(NSString *)soupName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">The name of the soup to remove</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/removeFromCache:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/getLongOperations</TokenIdentifier>
+			<Abstract type="html">unfinished long operations</Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>- (NSArray *)getLongOperations</Declaration>
+			
+			<ReturnValue><Abstract type="html">unfinished long operations</Abstract></ReturnValue>
+			<Anchor>//api/name/getLongOperations</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/executeQueryThrows:withDb:</TokenIdentifier>
+			<Abstract type="html">  Execute query
+  Log errors and throw exception in case of error</Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>- (FMResultSet *)executeQueryThrows:(NSString *)sql withDb:(FMDatabase *)db</Declaration>
+			
+			
+			<Anchor>//api/name/executeQueryThrows:withDb:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/executeQueryThrows:withArgumentsInArray:withDb:</TokenIdentifier>
+			<Abstract type="html">Execute query
+Log errors and throw exception in case of error</Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>- (FMResultSet *)executeQueryThrows:(NSString *)sql withArgumentsInArray:(NSArray *)arguments withDb:(FMDatabase *)db</Declaration>
+			
+			
+			<Anchor>//api/name/executeQueryThrows:withArgumentsInArray:withDb:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/executeUpdateThrows:withDb:</TokenIdentifier>
+			<Abstract type="html">Execute update
+Log errors and throw exception in case of error</Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)executeUpdateThrows:(NSString *)sql withDb:(FMDatabase *)db</Declaration>
+			
+			
+			<Anchor>//api/name/executeUpdateThrows:withDb:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/executeUpdateThrows:withArgumentsInArray:withDb:</TokenIdentifier>
+			<Abstract type="html">Execute update
+Log errors and throw exception in case of error</Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)executeUpdateThrows:(NSString *)sql withArgumentsInArray:(NSArray *)arguments withDb:(FMDatabase *)db</Declaration>
+			
+			
+			<Anchor>//api/name/executeUpdateThrows:withArgumentsInArray:withDb:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		

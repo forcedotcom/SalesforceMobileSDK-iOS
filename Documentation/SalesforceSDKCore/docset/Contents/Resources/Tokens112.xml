@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFTestSDKManagerFlow.html">
+	<File path="Classes/SFSDKUserSelectionTableViewController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFTestSDKManagerFlow</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKUserSelectionTableViewController</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
             
 			
 			<NodeRef refid="112"/>
@@ -13,74 +13,110 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/setPauseInAuth:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/setSelectedAccount:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL pauseInAuth</Declaration>
+			<Declaration>@property (nonatomic, strong) SFUserAccount *selectedAccount</Declaration>
 			
 			
-			<Anchor>//api/name/pauseInAuth</Anchor>
+			<Anchor>//api/name/selectedAccount</Anchor>
             <NodeRef refid="112"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/pauseInAuth</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/selectedAccount</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL pauseInAuth</Declaration>
+			<Declaration>@property (nonatomic, strong) SFUserAccount *selectedAccount</Declaration>
 			
 			
-			<Anchor>//api/name/pauseInAuth</Anchor>
+			<Anchor>//api/name/selectedAccount</Anchor>
             <NodeRef refid="112"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFTestSDKManagerFlow/pauseInAuth</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUserSelectionTableViewController/selectedAccount</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL pauseInAuth</Declaration>
+			<Declaration>@property (nonatomic, strong) SFUserAccount *selectedAccount</Declaration>
 			
 			
-			<Anchor>//api/name/pauseInAuth</Anchor>
+			<Anchor>//api/name/selectedAccount</Anchor>
             <NodeRef refid="112"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/initWithStepTimeDelaySecs:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/setListViewDelegate:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithStepTimeDelaySecs:(NSTimeInterval)timeDelayInSecs</Declaration>
+			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionTableViewControllerDelegate&gt; listViewDelegate</Declaration>
 			
 			
-			<Anchor>//api/name/initWithStepTimeDelaySecs:</Anchor>
+			<Anchor>//api/name/listViewDelegate</Anchor>
             <NodeRef refid="112"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/resumeAuth</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/listViewDelegate</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
 			
-			<Declaration>- (void)resumeAuth</Declaration>
+			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionTableViewControllerDelegate&gt; listViewDelegate</Declaration>
 			
 			
-			<Anchor>//api/name/resumeAuth</Anchor>
+			<Anchor>//api/name/listViewDelegate</Anchor>
             <NodeRef refid="112"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/waitForLaunchCompletion</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUserSelectionTableViewController/listViewDelegate</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)waitForLaunchCompletion</Declaration>
+			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionTableViewControllerDelegate&gt; listViewDelegate</Declaration>
 			
 			
-			<Anchor>//api/name/waitForLaunchCompletion</Anchor>
+			<Anchor>//api/name/listViewDelegate</Anchor>
+            <NodeRef refid="112"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/setOptions:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDictionary *options</Declaration>
+			
+			
+			<Anchor>//api/name/options</Anchor>
+            <NodeRef refid="112"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/options</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDictionary *options</Declaration>
+			
+			
+			<Anchor>//api/name/options</Anchor>
+            <NodeRef refid="112"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUserSelectionTableViewController/options</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDictionary *options</Declaration>
+			
+			
+			<Anchor>//api/name/options</Anchor>
             <NodeRef refid="112"/>
 		</Token>
 		

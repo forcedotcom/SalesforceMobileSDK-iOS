@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SalesforceSDKManagerFlow.html">
+	<File path="Protocols/SFSDKURLHandler.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SalesforceSDKManagerFlow</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKURLHandler</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			<DeclaredIn>SFSDKURLHandler.h</DeclaredIn>
             
 			
 			<NodeRef refid="173"/>
@@ -13,134 +13,26 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/passcodeValidationAtLaunch</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKURLHandler/canHandleRequest:options:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			<DeclaredIn>SFSDKURLHandler.h</DeclaredIn>
 			
-			<Declaration>- (void)passcodeValidationAtLaunch</Declaration>
+			<Declaration>- (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options</Declaration>
 			
 			
-			<Anchor>//api/name/passcodeValidationAtLaunch</Anchor>
+			<Anchor>//api/name/canHandleRequest:options:</Anchor>
             <NodeRef refid="173"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/authAtLaunch</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKURLHandler/processRequest:options:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			<DeclaredIn>SFSDKURLHandler.h</DeclaredIn>
 			
-			<Declaration>- (void)authAtLaunch</Declaration>
-			
-			
-			<Anchor>//api/name/authAtLaunch</Anchor>
-            <NodeRef refid="173"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/authBypassAtLaunch</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)authBypassAtLaunch</Declaration>
+			<Declaration>- (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options</Declaration>
 			
 			
-			<Anchor>//api/name/authBypassAtLaunch</Anchor>
-            <NodeRef refid="173"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppForeground:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleAppForeground:(nonnull NSNotification *)notification</Declaration>
-			
-			
-			<Anchor>//api/name/handleAppForeground:</Anchor>
-            <NodeRef refid="173"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppBackground:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleAppBackground:(nonnull NSNotification *)notification</Declaration>
-			
-			
-			<Anchor>//api/name/handleAppBackground:</Anchor>
-            <NodeRef refid="173"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppTerminate:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleAppTerminate:(nonnull NSNotification *)notification</Declaration>
-			
-			
-			<Anchor>//api/name/handleAppTerminate:</Anchor>
-            <NodeRef refid="173"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppDidBecomeActive:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleAppDidBecomeActive:(nonnull NSNotification *)notification</Declaration>
-			
-			
-			<Anchor>//api/name/handleAppDidBecomeActive:</Anchor>
-            <NodeRef refid="173"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppWillResignActive:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleAppWillResignActive:(nonnull NSNotification *)notification</Declaration>
-			
-			
-			<Anchor>//api/name/handleAppWillResignActive:</Anchor>
-            <NodeRef refid="173"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handlePostLogout</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handlePostLogout</Declaration>
-			
-			
-			<Anchor>//api/name/handlePostLogout</Anchor>
-            <NodeRef refid="173"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAuthCompleted:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleAuthCompleted:(nonnull NSNotification *)notification</Declaration>
-			
-			
-			<Anchor>//api/name/handleAuthCompleted:</Anchor>
-            <NodeRef refid="173"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleUserSwitch:toUser:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleUserSwitch:(nullable SFUserAccount *)fromUser toUser:(nullable SFUserAccount *)toUser</Declaration>
-			
-			
-			<Anchor>//api/name/handleUserSwitch:toUser:</Anchor>
+			<Anchor>//api/name/processRequest:options:</Anchor>
             <NodeRef refid="173"/>
 		</Token>
 		

@@ -1,49 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFApplicationHelper.html">
+	<File path="Classes/SFGeneratedKeyStore.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFApplicationHelper</TokenIdentifier>
-			<Abstract type="html">This class is abstracting the UIApplication class
-and making it possible to use it when compiling for
-application extension such as with watchOS which
-doesn&apos;t have such a class.</Abstract>
-			<DeclaredIn>SFApplicationHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFGeneratedKeyStore</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFGeneratedKeyStore.h</DeclaredIn>
             
 			
 			<NodeRef refid="25"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFApplicationHelper/sharedApplication</TokenIdentifier>
-			<Abstract type="html">Returns the shared application or nil
-on platform that doesn&apos;t have one (such as extension).</Abstract>
-			<DeclaredIn>SFApplicationHelper.h</DeclaredIn>
-			
-			<Declaration>+ (UIApplication *)sharedApplication</Declaration>
-			
-			<ReturnValue><Abstract type="html">The shared application object.</Abstract></ReturnValue>
-			<Anchor>//api/name/sharedApplication</Anchor>
-            <NodeRef refid="25"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFApplicationHelper/openURL:</TokenIdentifier>
-			<Abstract type="html">Opens the specified URL.</Abstract>
-			<DeclaredIn>SFApplicationHelper.h</DeclaredIn>
-			
-			<Declaration>+ (BOOL)openURL:(NSURL *)url</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>url</Name>
-					<Abstract type="html">The URL to be opened.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the URL is successfully opened.</Abstract></ReturnValue>
-			<Anchor>//api/name/openURL:</Anchor>
-            <NodeRef refid="25"/>
-		</Token>
 		
         
         

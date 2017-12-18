@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/TestSyncUpTarget.html">
+	<File path="Classes/SFSyncUpdateCallbackQueue.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/TestSyncUpTarget</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSyncUpdateCallbackQueue</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>TestSyncUpTarget.h</DeclaredIn>
+			<DeclaredIn>SFSyncUpdateCallbackQueue.h</DeclaredIn>
             
 			
 			<NodeRef refid="29"/>
@@ -13,14 +13,50 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/TestSyncUpTarget/initWithRemoteModDateCompare:sendRemoteModError:sendSyncUpError:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpdateCallbackQueue/runSync:syncManager:</TokenIdentifier>
+			<Abstract type="html">Run sync</Abstract>
+			<DeclaredIn>SFSyncUpdateCallbackQueue.h</DeclaredIn>
+			
+			<Declaration>- (void)runSync:(SFSyncState *)sync syncManager:(SFSmartSyncSyncManager *)syncManager</Declaration>
+			
+			
+			<Anchor>//api/name/runSync:syncManager:</Anchor>
+            <NodeRef refid="29"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpdateCallbackQueue/runReSync:syncManager:</TokenIdentifier>
+			<Abstract type="html">Run re-sync</Abstract>
+			<DeclaredIn>SFSyncUpdateCallbackQueue.h</DeclaredIn>
+			
+			<Declaration>- (SFSyncState *)runReSync:(NSNumber *)syncId syncManager:(SFSmartSyncSyncManager *)syncManager</Declaration>
+			
+			
+			<Anchor>//api/name/runReSync:syncManager:</Anchor>
+            <NodeRef refid="29"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpdateCallbackQueue/getNextSyncUpdate</TokenIdentifier>
+			<Abstract type="html">Get next sync update</Abstract>
+			<DeclaredIn>SFSyncUpdateCallbackQueue.h</DeclaredIn>
+			
+			<Declaration>- (SFSyncState *)getNextSyncUpdate</Declaration>
+			
+			
+			<Anchor>//api/name/getNextSyncUpdate</Anchor>
+            <NodeRef refid="29"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpdateCallbackQueue/getNextSyncUpdate:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>TestSyncUpTarget.h</DeclaredIn>
+			<DeclaredIn>SFSyncUpdateCallbackQueue.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)initWithRemoteModDateCompare:(TestSyncUpTargetModDateCompare)dateCompare sendRemoteModError:(BOOL)sendRemoteModError sendSyncUpError:(BOOL)sendSyncUpError</Declaration>
+			<Declaration>- (SFSyncState *)getNextSyncUpdate:(NSTimeInterval)maxWaitTime</Declaration>
 			
 			
-			<Anchor>//api/name/initWithRemoteModDateCompare:sendRemoteModError:sendSyncUpError:</Anchor>
+			<Anchor>//api/name/getNextSyncUpdate:</Anchor>
             <NodeRef refid="29"/>
 		</Token>
 		

@@ -62,15 +62,15 @@
 		
 		<option value="//api/name/startPage">startPage</option>
 		
+		<option value="//api/name/unauthenticatedStartPage">unauthenticatedStartPage</option>
+		
 	</optgroup>
 	
 
 	
 	<optgroup label="Class Methods">
 		
-		<option value="//api/name/fromConfigFile:">+ fromConfigFile:</option>
-		
-		<option value="//api/name/fromDefaultConfigFile">+ fromDefaultConfigFile</option>
+		<option value="//api/name/urlStringIsAbsolute:">+ urlStringIsAbsolute:</option>
 		
 	</optgroup>
 	
@@ -198,6 +198,48 @@
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/unauthenticatedStartPage" title="unauthenticatedStartPage"></a>
+	<h3 class="method-title"><code><a href="#//api/name/unauthenticatedStartPage">&nbsp;&nbsp;unauthenticatedStartPage</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>In a deferred authentication configuration for remote apps, the page/URL that should
+be loaded in an unauthenticated context.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nullable, nonatomic, copy) NSString *unauthenticatedStartPage</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFHybridViewConfig.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/errorPage" title="errorPage"></a>
 	<h3 class="method-title"><code><a href="#//api/name/errorPage">&nbsp;&nbsp;errorPage</a></code>
 </h3>
@@ -281,8 +323,8 @@ connectivity.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/fromDefaultConfigFile" title="fromDefaultConfigFile"></a>
-	<h3 class="method-title"><code><a href="#//api/name/fromDefaultConfigFile">+&nbsp;fromDefaultConfigFile</a></code>
+	<a name="//api/name/urlStringIsAbsolute:" title="urlStringIsAbsolute:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/urlStringIsAbsolute:">+&nbsp;urlStringIsAbsolute:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -292,58 +334,12 @@ connectivity.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>The hybrid view config from the default configuration file location (/www/bootconfig.json).</p>
+				<p>Determines whether an input URL string is an absolute URL or not.</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>+ (SFHybridViewConfig *)fromDefaultConfigFile</code></div>
-
-		    
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The hybrid view config from the default configuration file location (/www/bootconfig.json).</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFHybridViewConfig.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/fromConfigFile:" title="fromConfigFile:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/fromConfigFile:">+&nbsp;fromConfigFile:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Create a hybrid view config from the config file at the specified file path.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (SFHybridViewConfig *)fromConfigFile:(NSString *)<em>configFilePath</em></code></div>
+			<div class="method-subsection method-declaration"><code>+ (BOOL)urlStringIsAbsolute:(nonnull NSString *)<em>urlString</em></code></div>
 
 		    
 			
@@ -352,8 +348,8 @@ connectivity.</p>
 				<table class="argument-def parameter-def">
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>configFilePath</code></th>
-						<td><p>The file path to the configuration file, relative to the resources root path.</p></td>
+						<th scope="row" class="argument-name"><code>urlString</code></th>
+						<td><p>The URL string to evaluate.</p></td>
 					</tr>
 				
 				</table>
@@ -363,7 +359,7 @@ connectivity.</p>
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The hybrid view config from the given file path.</p>
+				<p>YES if the URL string is absolute, no otherwise.</p>
 			</div>
 			
 
@@ -399,7 +395,7 @@ connectivity.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-09-18</p>
+						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-12-18</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

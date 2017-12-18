@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/TestSetupUtils.html">
+	<File path="Classes/SFUserAccountIdentity.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/TestSetupUtils</TokenIdentifier>
-			<Abstract type="html">This class provides utilities useful to all unit tests based on the Salesforce SDK</Abstract>
-			<DeclaredIn>TestSetupUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFUserAccountIdentity</TokenIdentifier>
+			<Abstract type="html">Represents the unique identity of a given user account.</Abstract>
+			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
             
 			
 			<NodeRef refid="125"/>
@@ -13,55 +13,149 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/TestSetupUtils/populateUILoginInfoFromConfigFileForClass:</TokenIdentifier>
-			<Abstract type="html">Loads a set of auth credentials from the &apos;uitestcredentials.json&apos; file located in the bundle associated
-with the given class, and return a dictionary of login info</Abstract>
-			<DeclaredIn>TestSetupUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountIdentity/setUserId:</TokenIdentifier>
+			<Abstract type="html">The user ID associated with the account.</Abstract>
+			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
 			
-			<Declaration>+ (NSArray *)populateUILoginInfoFromConfigFileForClass:(Class)testClass</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>testClass</Name>
-					<Abstract type="html">The class associated with the bundle where the test credentials file lives.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">a dictionary of login username, password, url</Abstract></ReturnValue>
-			<Anchor>//api/name/populateUILoginInfoFromConfigFileForClass:</Anchor>
+			<Declaration>@property (nonatomic, copy, nullable) NSString *userId</Declaration>
+			
+			
+			<Anchor>//api/name/userId</Anchor>
             <NodeRef refid="125"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/TestSetupUtils/populateAuthCredentialsFromConfigFileForClass:</TokenIdentifier>
-			<Abstract type="html">Loads a set of auth credentials from the &apos;test_credentials.json&apos; file located in the bundle associated
-with the given class, and configures SFUserAccountManager and the current account with the data from
-that file.</Abstract>
-			<DeclaredIn>TestSetupUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountIdentity/userId</TokenIdentifier>
+			<Abstract type="html">The user ID associated with the account.</Abstract>
+			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
 			
-			<Declaration>+ (SFSDKTestCredentialsData *)populateAuthCredentialsFromConfigFileForClass:(Class)testClass</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>testClass</Name>
-					<Abstract type="html">The class associated with the bundle where the test credentials file lives.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The configuration data used to configure SFUserAccountManager (useful e.g. for hybrid
-apps which need the data to bootstrap SFHybridViewController.</Abstract></ReturnValue>
-			<Anchor>//api/name/populateAuthCredentialsFromConfigFileForClass:</Anchor>
+			<Declaration>@property (nonatomic, copy, nullable) NSString *userId</Declaration>
+			
+			
+			<Anchor>//api/name/userId</Anchor>
             <NodeRef refid="125"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/TestSetupUtils/synchronousAuthRefresh</TokenIdentifier>
-			<Abstract type="html">Performs a synchronous refresh of the OAuth credentials, which will stage the remaining auth
-data (access token, User ID, Org ID, etc.) in SFUserAccountManager.
-populateAuthCredentialsFromConfigFile is required to run once before this method will attempt
-to refresh authentication.</Abstract>
-			<DeclaredIn>TestSetupUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountIdentity/userId</TokenIdentifier>
+			<Abstract type="html">The user ID associated with the account.</Abstract>
+			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
 			
-			<Declaration>+ (void)synchronousAuthRefresh</Declaration>
+			<Declaration>@property (nonatomic, copy, nullable) NSString *userId</Declaration>
 			
 			
-			<Anchor>//api/name/synchronousAuthRefresh</Anchor>
+			<Anchor>//api/name/userId</Anchor>
+            <NodeRef refid="125"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountIdentity/setOrgId:</TokenIdentifier>
+			<Abstract type="html">The organization ID associated with the account.</Abstract>
+			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSString *orgId</Declaration>
+			
+			
+			<Anchor>//api/name/orgId</Anchor>
+            <NodeRef refid="125"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountIdentity/orgId</TokenIdentifier>
+			<Abstract type="html">The organization ID associated with the account.</Abstract>
+			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSString *orgId</Declaration>
+			
+			
+			<Anchor>//api/name/orgId</Anchor>
+            <NodeRef refid="125"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountIdentity/orgId</TokenIdentifier>
+			<Abstract type="html">The organization ID associated with the account.</Abstract>
+			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSString *orgId</Declaration>
+			
+			
+			<Anchor>//api/name/orgId</Anchor>
+            <NodeRef refid="125"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFUserAccountIdentity/identityWithUserId:orgId:</TokenIdentifier>
+			<Abstract type="html">Convenience method to return a new account identity with the given User ID and Org ID.</Abstract>
+			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
+			
+			<Declaration>+ (SFUserAccountIdentity *)identityWithUserId:(NSString *)userId orgId:(NSString *)orgId</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>userId</Name>
+					<Abstract type="html">The user ID associated with the identity.</Abstract>
+				</Parameter><Parameter>
+					<Name>orgId</Name>
+					<Abstract type="html">The org ID associated with the identity.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">An account identity representing the given User ID and Org ID.</Abstract></ReturnValue>
+			<Anchor>//api/name/identityWithUserId:orgId:</Anchor>
+            <NodeRef refid="125"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountIdentity/initWithUserId:orgId:</TokenIdentifier>
+			<Abstract type="html">Creates a new account identity object with the given user ID and org ID.</Abstract>
+			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithUserId:(NSString *)userId orgId:(NSString *)orgId</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>userId</Name>
+					<Abstract type="html">The user ID associated with the identity.</Abstract>
+				</Parameter><Parameter>
+					<Name>orgId</Name>
+					<Abstract type="html">The org ID associated with the identity.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/initWithUserId:orgId:</Anchor>
+            <NodeRef refid="125"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountIdentity/compare:</TokenIdentifier>
+			<Abstract type="html">Compares this identity with another.  Useful for [NSArray sortedArrayUsingSelector:].</Abstract>
+			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
+			
+			<Declaration>- (NSComparisonResult)compare:(SFUserAccountIdentity *)otherIdentity</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>otherIdentity</Name>
+					<Abstract type="html">The other identity to compare to this one.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">NSOrderedAscending if other is greater, NSOrderedDescending if other is less,
+NSOrderedSame if they&apos;re equal.</Abstract></ReturnValue>
+			<Anchor>//api/name/compare:</Anchor>
+            <NodeRef refid="125"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountIdentity/matchesCredentials:</TokenIdentifier>
+			<Abstract type="html">Compares the user identifying information of the account identity with that in the credentials.</Abstract>
+			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)matchesCredentials:(SFOAuthCredentials *)credentials</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>credentials</Name>
+					<Abstract type="html">The OAuthCredentials to compare against</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">BOOL Whether or not the user contained is the same</Abstract></ReturnValue>
+			<Anchor>//api/name/matchesCredentials:</Anchor>
             <NodeRef refid="125"/>
 		</Token>
 		

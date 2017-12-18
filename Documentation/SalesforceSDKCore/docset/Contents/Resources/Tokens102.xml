@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKTestRequestListener.html">
+	<File path="Classes/SFSDKSalesforceAnalyticsManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKTestRequestListener</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKSalesforceAnalyticsManager</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="102"/>
@@ -13,183 +13,267 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/setDataResponse:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/setEventStoreManager:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) id dataResponse</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKEventStoreManager *eventStoreManager</Declaration>
 			
 			
-			<Anchor>//api/name/dataResponse</Anchor>
+			<Anchor>//api/name/eventStoreManager</Anchor>
             <NodeRef refid="102"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/dataResponse</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/eventStoreManager</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) id dataResponse</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKEventStoreManager *eventStoreManager</Declaration>
 			
 			
-			<Anchor>//api/name/dataResponse</Anchor>
+			<Anchor>//api/name/eventStoreManager</Anchor>
             <NodeRef refid="102"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestRequestListener/dataResponse</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSalesforceAnalyticsManager/eventStoreManager</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) id dataResponse</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKEventStoreManager *eventStoreManager</Declaration>
 			
 			
-			<Anchor>//api/name/dataResponse</Anchor>
+			<Anchor>//api/name/eventStoreManager</Anchor>
             <NodeRef refid="102"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/setLastError:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/setAnalyticsManager:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) NSError *lastError</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKAnalyticsManager *analyticsManager</Declaration>
 			
 			
-			<Anchor>//api/name/lastError</Anchor>
+			<Anchor>//api/name/analyticsManager</Anchor>
             <NodeRef refid="102"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/lastError</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/analyticsManager</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) NSError *lastError</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKAnalyticsManager *analyticsManager</Declaration>
 			
 			
-			<Anchor>//api/name/lastError</Anchor>
+			<Anchor>//api/name/analyticsManager</Anchor>
             <NodeRef refid="102"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestRequestListener/lastError</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSalesforceAnalyticsManager/analyticsManager</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) NSError *lastError</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKAnalyticsManager *analyticsManager</Declaration>
 			
 			
-			<Anchor>//api/name/lastError</Anchor>
+			<Anchor>//api/name/analyticsManager</Anchor>
             <NodeRef refid="102"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/setReturnStatus:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/setUserAccount:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) NSString *returnStatus</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFUserAccount *userAccount</Declaration>
 			
 			
-			<Anchor>//api/name/returnStatus</Anchor>
+			<Anchor>//api/name/userAccount</Anchor>
             <NodeRef refid="102"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/returnStatus</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/userAccount</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) NSString *returnStatus</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFUserAccount *userAccount</Declaration>
 			
 			
-			<Anchor>//api/name/returnStatus</Anchor>
+			<Anchor>//api/name/userAccount</Anchor>
             <NodeRef refid="102"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestRequestListener/returnStatus</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSalesforceAnalyticsManager/userAccount</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) NSString *returnStatus</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFUserAccount *userAccount</Declaration>
 			
 			
-			<Anchor>//api/name/returnStatus</Anchor>
+			<Anchor>//api/name/userAccount</Anchor>
             <NodeRef refid="102"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/setMaxWaitTime:</TokenIdentifier>
-			<Abstract type="html">Max time to wait for request completion</Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/setLoggingEnabled:</TokenIdentifier>
+			<Abstract type="html">Disables or enables logging of events.</Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSTimeInterval maxWaitTime</Declaration>
+			<Declaration>@property (nonatomic, readwrite, assign, getter=isLoggingEnabled) BOOL loggingEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/maxWaitTime</Anchor>
+			<Anchor>//api/name/loggingEnabled</Anchor>
             <NodeRef refid="102"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/maxWaitTime</TokenIdentifier>
-			<Abstract type="html">Max time to wait for request completion</Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/isLoggingEnabled</TokenIdentifier>
+			<Abstract type="html">Disables or enables logging of events.</Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSTimeInterval maxWaitTime</Declaration>
+			<Declaration>@property (nonatomic, readwrite, assign, getter=isLoggingEnabled) BOOL loggingEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/maxWaitTime</Anchor>
+			<Anchor>//api/name/loggingEnabled</Anchor>
             <NodeRef refid="102"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestRequestListener/maxWaitTime</TokenIdentifier>
-			<Abstract type="html">Max time to wait for request completion</Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSalesforceAnalyticsManager/loggingEnabled</TokenIdentifier>
+			<Abstract type="html">Disables or enables logging of events.</Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSTimeInterval maxWaitTime</Declaration>
+			<Declaration>@property (nonatomic, readwrite, assign, getter=isLoggingEnabled) BOOL loggingEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/maxWaitTime</Anchor>
+			<Anchor>//api/name/loggingEnabled</Anchor>
             <NodeRef refid="102"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/initWithServiceType:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSalesforceAnalyticsManager/sharedInstanceWithUser:</TokenIdentifier>
+			<Abstract type="html">Returns an instance of this class associated with the specified user account.</Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithServiceType:(SFAccountManagerServiceType)serviceType</Declaration>
-			
-			
-			<Anchor>//api/name/initWithServiceType:</Anchor>
+			<Declaration>+ (nullable instancetype)sharedInstanceWithUser:(nonnull SFUserAccount *)userAccount</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>userAccount</Name>
+					<Abstract type="html">User account.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedInstanceWithUser:</Anchor>
             <NodeRef refid="102"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/waitForCompletion</TokenIdentifier>
-			<Abstract type="html">Wait for the request to complete (success or fail)
-Waits for up to maxWaitTime.</Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSalesforceAnalyticsManager/removeSharedInstanceWithUser:</TokenIdentifier>
+			<Abstract type="html">Resets and removes the instance associated with the specified user account.</Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)waitForCompletion</Declaration>
+			<Declaration>+ (void)removeSharedInstanceWithUser:(nonnull SFUserAccount *)userAccount</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>userAccount</Name>
+					<Abstract type="html">User account.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			<ReturnValue><Abstract type="html">returnStatus:  kTestRequestStatusDidTimeout if maxWaitTime was exceeded</Abstract></ReturnValue>
-			<Anchor>//api/name/waitForCompletion</Anchor>
+			<Anchor>//api/name/removeSharedInstanceWithUser:</Anchor>
             <NodeRef refid="102"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/serviceTypeDescription</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/publishAllEvents</TokenIdentifier>
+			<Abstract type="html">Publishes all stored events to all registered network endpoints after
+applying the required event format transforms. Stored events will be
+deleted if publishing was successful for all registered endpoints.
+This method should NOT be called from the main thread.</Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)serviceTypeDescription</Declaration>
+			<Declaration>- (void)publishAllEvents</Declaration>
 			
 			
-			<Anchor>//api/name/serviceTypeDescription</Anchor>
+			<Anchor>//api/name/publishAllEvents</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/publishEvents:</TokenIdentifier>
+			<Abstract type="html">Publishes a list of events to all registered network endpoints after
+applying the required event format transforms. Stored events will be
+deleted if publishing was successful for all registered endpoints.
+This method should NOT be called from the main thread.</Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
+			
+			<Declaration>- (void)publishEvents:(nonnull NSArray&lt;SFSDKInstrumentationEvent*&gt; *)events</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>events</Name>
+					<Abstract type="html">List of events.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/publishEvents:</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/publishEvent:</TokenIdentifier>
+			<Abstract type="html">Publishes an event to all registered network endpoints after
+applying the required event format transforms. Stored event will be
+deleted if publishing was successful for all registered endpoints.
+This method should NOT be called from the main thread.</Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
+			
+			<Declaration>- (void)publishEvent:(nonnull SFSDKInstrumentationEvent *)event</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>event</Name>
+					<Abstract type="html">Event.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/publishEvent:</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/addRemotePublisher:publisher:</TokenIdentifier>
+			<Abstract type="html">Adds a remote publisher to publish events to.</Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
+			
+			<Declaration>- (void)addRemotePublisher:(nonnull id&lt;SFSDKTransform&gt;)transformer publisher:(nonnull id&lt;SFSDKAnalyticsPublisher&gt;)publisher</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>transformer</Name>
+					<Abstract type="html">Transformer class.</Abstract>
+				</Parameter><Parameter>
+					<Name>publisher</Name>
+					<Abstract type="html">Publisher class.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/addRemotePublisher:publisher:</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/updateLoggingPrefs</TokenIdentifier>
+			<Abstract type="html">Updates the preferences of this library.</Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
+			
+			<Declaration>- (void)updateLoggingPrefs</Declaration>
+			
+			
+			<Anchor>//api/name/updateLoggingPrefs</Anchor>
             <NodeRef refid="102"/>
 		</Token>
 		

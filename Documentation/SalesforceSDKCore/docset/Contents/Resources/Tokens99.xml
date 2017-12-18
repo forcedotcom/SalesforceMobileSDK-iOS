@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKSoslBuilder.html">
+	<File path="Classes/SFSDKResourceUtils.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKSoslBuilder</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKResourceUtils</TokenIdentifier>
+			<Abstract type="html">Class that handles access to Mobile SDK&apos;s main bundle.</Abstract>
+			<DeclaredIn>SFSDKResourceUtils.h</DeclaredIn>
             
 			
 			<NodeRef refid="99"/>
@@ -13,162 +13,65 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSoslBuilder/withSearchTerm:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOSL statement.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKResourceUtils/mainSdkBundle</TokenIdentifier>
+			<Abstract type="html">The main bundle associated with the SDK.</Abstract>
+			<DeclaredIn>SFSDKResourceUtils.h</DeclaredIn>
 			
-			<Declaration>+ (SFSDKSoslBuilder *)withSearchTerm:(NSString *)searchTerm</Declaration>
+			<Declaration>+ (NSBundle *)mainSdkBundle</Declaration>
+			
+			<ReturnValue><Abstract type="html">The main bundle associated with the SDK.</Abstract></ReturnValue>
+			<Anchor>//api/name/mainSdkBundle</Anchor>
+            <NodeRef refid="99"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKResourceUtils/localizedString:</TokenIdentifier>
+			<Abstract type="html">Gets a localized string from the main bundle of the SDK.</Abstract>
+			<DeclaredIn>SFSDKResourceUtils.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)localizedString:(NSString *)localizationKey</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>searchTerm</Name>
-					<Abstract type="html">text or word phrases to search for</Abstract>
+					<Name>localizationKey</Name>
+					<Abstract type="html">The localization key used to look up the localized string.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/withSearchTerm:</Anchor>
+			<ReturnValue><Abstract type="html">The localized string associated with the key.</Abstract></ReturnValue>
+			<Anchor>//api/name/localizedString:</Anchor>
             <NodeRef refid="99"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/searchGroup:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOSL statement.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKResourceUtils/imageNamed:</TokenIdentifier>
+			<Abstract type="html">Gets an image from the Images asset catalog from the framework bundle of the SDK</Abstract>
+			<DeclaredIn>SFSDKResourceUtils.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoslBuilder *)searchGroup:(NSString *)searchGroup</Declaration>
+			<Declaration>+ (UIImage *)imageNamed:(NSString *)name</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>searchGroup</Name>
-					<Abstract type="html">scope of fields to search. Values may be: ALL FIELDS, NAME FIELDS, EMAIL FIELDS, PHONE FIELDS, SIDEBAR FIELDS</Abstract>
+					<Name>name</Name>
+					<Abstract type="html">The name of the image in the asset catalog.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/searchGroup:</Anchor>
+			<ReturnValue><Abstract type="html">The image from the asset catalog with the provided name.</Abstract></ReturnValue>
+			<Anchor>//api/name/imageNamed:</Anchor>
             <NodeRef refid="99"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/returning:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOSL statement.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKResourceUtils/loadConfigFromFile:</TokenIdentifier>
+			<Abstract type="html">Read config and parse its content (which is expected to be json)</Abstract>
+			<DeclaredIn>SFSDKResourceUtils.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoslBuilder *)returning:(SFSDKSoslReturningBuilder *)returningSpec</Declaration>
+			<Declaration>+ (NSDictionary *)loadConfigFromFile:(NSString *)configFilePath</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>returningSpec</Name>
-					<Abstract type="html">information to return in the search result. List of one or more objects and, within each object, list of one or more fields, with optional values to filter against. If unspecified, then the search results contain the IDs of all objects found</Abstract>
+					<Name>configFilePath</Name>
+					<Abstract type="html">Path of resource file.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/returning:</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/divisionFilter:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOSL statement.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
-			
-			<Declaration>- (SFSDKSoslBuilder *)divisionFilter:(NSString *)divisionFilter</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>divisionFilter</Name>
-					<Abstract type="html">if an organization uses divisions, filters all search results based on values for the Division field</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/divisionFilter:</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/dataCategory:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOSL statement.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
-			
-			<Declaration>- (SFSDKSoslBuilder *)dataCategory:(NSString *)dataCategory</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>dataCategory</Name>
-					<Abstract type="html">if an organization uses Salesforce Knowledge articles or answers, filters all search results based on one or more data categories</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/dataCategory:</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/limit:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOSL statement.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
-			
-			<Declaration>- (SFSDKSoslBuilder *)limit:(NSInteger)limit</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>limit</Name>
-					<Abstract type="html">the maximum number of rows returned in the text query, up to 200. If unspecified, the default is 200, the largest number of rows that can be returned</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/limit:</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/encodeAndBuild</TokenIdentifier>
-			<Abstract type="html">Builds an encoded query from the builder.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)encodeAndBuild</Declaration>
-			
-			<ReturnValue><Abstract type="html">the built query</Abstract></ReturnValue>
-			<Anchor>//api/name/encodeAndBuild</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/encodeAndBuildWithPath:</TokenIdentifier>
-			<Abstract type="html">Builds an enoded query from the builder.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)encodeAndBuildWithPath:(NSString *)path</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>path</Name>
-					<Abstract type="html">the path to build the query for</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the built query</Abstract></ReturnValue>
-			<Anchor>//api/name/encodeAndBuildWithPath:</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/buildWithPath:</TokenIdentifier>
-			<Abstract type="html">Builds a raw (unencoded) query from the builder.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)buildWithPath:(NSString *)path</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>path</Name>
-					<Abstract type="html">the path to build the query for</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the built query</Abstract></ReturnValue>
-			<Anchor>//api/name/buildWithPath:</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/build</TokenIdentifier>
-			<Abstract type="html">Builds a raw (unencoded) query from the builder.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)build</Declaration>
-			
-			<ReturnValue><Abstract type="html">the built query</Abstract></ReturnValue>
-			<Anchor>//api/name/build</Anchor>
+			<ReturnValue><Abstract type="html">NSDictionary built from content of tile.</Abstract></ReturnValue>
+			<Anchor>//api/name/loadConfigFromFile:</Anchor>
             <NodeRef refid="99"/>
 		</Token>
 		

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/CSFOAuthTokenRefreshInput.html">
+	<File path="Classes/SFAuthenticationViewHandler.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/CSFOAuthTokenRefreshInput</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOAuthTokenRefreshInput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFAuthenticationViewHandler</TokenIdentifier>
+			<Abstract type="html">Class encompassing the custom actions to take when displaying and dismissing an auth view during the auth process.</Abstract>
+			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
             
 			
 			<NodeRef refid="11"/>
@@ -13,146 +13,94 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshInput/setRedirectUri:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOAuthTokenRefreshInput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationViewHandler/setAuthViewDisplayBlock:</TokenIdentifier>
+			<Abstract type="html">The block used to display the auth view.</Abstract>
+			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *redirectUri</Declaration>
+			<Declaration>@property (nonatomic, copy) SFAuthViewDisplayBlock authViewDisplayBlock</Declaration>
 			
 			
-			<Anchor>//api/name/redirectUri</Anchor>
+			<Anchor>//api/name/authViewDisplayBlock</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshInput/redirectUri</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOAuthTokenRefreshInput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationViewHandler/authViewDisplayBlock</TokenIdentifier>
+			<Abstract type="html">The block used to display the auth view.</Abstract>
+			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *redirectUri</Declaration>
+			<Declaration>@property (nonatomic, copy) SFAuthViewDisplayBlock authViewDisplayBlock</Declaration>
 			
 			
-			<Anchor>//api/name/redirectUri</Anchor>
+			<Anchor>//api/name/authViewDisplayBlock</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/CSFOAuthTokenRefreshInput/redirectUri</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOAuthTokenRefreshInput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationViewHandler/authViewDisplayBlock</TokenIdentifier>
+			<Abstract type="html">The block used to display the auth view.</Abstract>
+			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *redirectUri</Declaration>
+			<Declaration>@property (nonatomic, copy) SFAuthViewDisplayBlock authViewDisplayBlock</Declaration>
 			
 			
-			<Anchor>//api/name/redirectUri</Anchor>
+			<Anchor>//api/name/authViewDisplayBlock</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshInput/setInstanceUrl:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOAuthTokenRefreshInput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationViewHandler/setAuthViewDismissBlock:</TokenIdentifier>
+			<Abstract type="html">The block used to dismiss the auth view.</Abstract>
+			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSURL *instanceUrl</Declaration>
+			<Declaration>@property (nonatomic, copy) SFAuthViewDismissBlock authViewDismissBlock</Declaration>
 			
 			
-			<Anchor>//api/name/instanceUrl</Anchor>
+			<Anchor>//api/name/authViewDismissBlock</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshInput/instanceUrl</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOAuthTokenRefreshInput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationViewHandler/authViewDismissBlock</TokenIdentifier>
+			<Abstract type="html">The block used to dismiss the auth view.</Abstract>
+			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSURL *instanceUrl</Declaration>
+			<Declaration>@property (nonatomic, copy) SFAuthViewDismissBlock authViewDismissBlock</Declaration>
 			
 			
-			<Anchor>//api/name/instanceUrl</Anchor>
+			<Anchor>//api/name/authViewDismissBlock</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/CSFOAuthTokenRefreshInput/instanceUrl</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOAuthTokenRefreshInput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationViewHandler/authViewDismissBlock</TokenIdentifier>
+			<Abstract type="html">The block used to dismiss the auth view.</Abstract>
+			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSURL *instanceUrl</Declaration>
+			<Declaration>@property (nonatomic, copy) SFAuthViewDismissBlock authViewDismissBlock</Declaration>
 			
 			
-			<Anchor>//api/name/instanceUrl</Anchor>
+			<Anchor>//api/name/authViewDismissBlock</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshInput/setClientId:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOAuthTokenRefreshInput.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationViewHandler/initWithDisplayBlock:dismissBlock:</TokenIdentifier>
+			<Abstract type="html">Designated initializer for the class.</Abstract>
+			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *clientId</Declaration>
+			<Declaration>- (id)initWithDisplayBlock:(SFAuthViewDisplayBlock)displayBlock dismissBlock:(SFAuthViewDismissBlock)dismissBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>displayBlock</Name>
+					<Abstract type="html">The block used to display the auth view.</Abstract>
+				</Parameter><Parameter>
+					<Name>dismissBlock</Name>
+					<Abstract type="html">The block used to dismiss the auth view.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/clientId</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshInput/clientId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOAuthTokenRefreshInput.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *clientId</Declaration>
-			
-			
-			<Anchor>//api/name/clientId</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/CSFOAuthTokenRefreshInput/clientId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOAuthTokenRefreshInput.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *clientId</Declaration>
-			
-			
-			<Anchor>//api/name/clientId</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshInput/setRefreshToken:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOAuthTokenRefreshInput.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *refreshToken</Declaration>
-			
-			
-			<Anchor>//api/name/refreshToken</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshInput/refreshToken</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOAuthTokenRefreshInput.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *refreshToken</Declaration>
-			
-			
-			<Anchor>//api/name/refreshToken</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/CSFOAuthTokenRefreshInput/refreshToken</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOAuthTokenRefreshInput.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *refreshToken</Declaration>
-			
-			
-			<Anchor>//api/name/refreshToken</Anchor>
+			<Anchor>//api/name/initWithDisplayBlock:dismissBlock:</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFDefaultUserManagementDetailViewController.html">
+	<File path="Classes/SFNativeRestRequestListener.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFDefaultUserManagementDetailViewController</TokenIdentifier>
-			<Abstract type="html">View controller for showing the user management details of a given user.</Abstract>
-			<DeclaredIn>SFDefaultUserManagementDetailViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFNativeRestRequestListener</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNativeRestRequestListener.h</DeclaredIn>
             
 			
 			<NodeRef refid="38"/>
@@ -13,19 +13,50 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFDefaultUserManagementDetailViewController/initWithUser:</TokenIdentifier>
-			<Abstract type="html">Initialize to provide the details of the given user.</Abstract>
-			<DeclaredIn>SFDefaultUserManagementDetailViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNativeRestRequestListener/setRequest:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNativeRestRequestListener.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithUser:(SFUserAccount *)user</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>user</Name>
-					<Abstract type="html">The user providing the details.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, strong) SFRestRequest *request</Declaration>
 			
-			<Anchor>//api/name/initWithUser:</Anchor>
+			
+			<Anchor>//api/name/request</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNativeRestRequestListener/request</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNativeRestRequestListener.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFRestRequest *request</Declaration>
+			
+			
+			<Anchor>//api/name/request</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFNativeRestRequestListener/request</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNativeRestRequestListener.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFRestRequest *request</Declaration>
+			
+			
+			<Anchor>//api/name/request</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNativeRestRequestListener/initWithRequest:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNativeRestRequestListener.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithRequest:(SFRestRequest *)request</Declaration>
+			
+			
+			<Anchor>//api/name/initWithRequest:</Anchor>
             <NodeRef refid="38"/>
 		</Token>
 		

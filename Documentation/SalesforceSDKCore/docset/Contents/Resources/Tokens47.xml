@@ -1,1480 +1,398 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFIdentityData.html">
+	<File path="Classes/SFOAuthTestFlow.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFIdentityData</TokenIdentifier>
-			<Abstract type="html">The data structure for the identity data that&apos;s retrieved from the Salesforce service.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFOAuthTestFlow</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
             
 			
-	<RelatedTokens>
-		<TokenIdentifier>//apple_ref/occ/cl/SFIdentityCoordinator</TokenIdentifier>
-		
-	</RelatedTokens>
-	
 			<NodeRef refid="47"/>
 		</Token>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setDictRepresentation:</TokenIdentifier>
-			<Abstract type="html">The NSDictionary representation of this identity data.</Abstract>
-			<DeclaredIn>SFIdentityData+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/setBeginUserAgentFlowCalled:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSDictionary *dictRepresentation</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL beginUserAgentFlowCalled</Declaration>
 			
 			
-			<Anchor>//api/name/dictRepresentation</Anchor>
+			<Anchor>//api/name/beginUserAgentFlowCalled</Anchor>
             <NodeRef refid="47"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/dictRepresentation</TokenIdentifier>
-			<Abstract type="html">The NSDictionary representation of this identity data.</Abstract>
-			<DeclaredIn>SFIdentityData+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/beginUserAgentFlowCalled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSDictionary *dictRepresentation</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL beginUserAgentFlowCalled</Declaration>
 			
 			
-			<Anchor>//api/name/dictRepresentation</Anchor>
+			<Anchor>//api/name/beginUserAgentFlowCalled</Anchor>
             <NodeRef refid="47"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/dictRepresentation</TokenIdentifier>
-			<Abstract type="html">The NSDictionary representation of this identity data.</Abstract>
-			<DeclaredIn>SFIdentityData+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlow/beginUserAgentFlowCalled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSDictionary *dictRepresentation</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL beginUserAgentFlowCalled</Declaration>
 			
 			
-			<Anchor>//api/name/dictRepresentation</Anchor>
+			<Anchor>//api/name/beginUserAgentFlowCalled</Anchor>
             <NodeRef refid="47"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setIdUrl:</TokenIdentifier>
-			<Abstract type="html">The ID URL.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/setBeginTokenEndpointFlowCalled:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSURL *idUrl</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL beginTokenEndpointFlowCalled</Declaration>
 			
 			
-			<Anchor>//api/name/idUrl</Anchor>
+			<Anchor>//api/name/beginTokenEndpointFlowCalled</Anchor>
             <NodeRef refid="47"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/idUrl</TokenIdentifier>
-			<Abstract type="html">The ID URL.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/beginTokenEndpointFlowCalled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSURL *idUrl</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL beginTokenEndpointFlowCalled</Declaration>
 			
 			
-			<Anchor>//api/name/idUrl</Anchor>
+			<Anchor>//api/name/beginTokenEndpointFlowCalled</Anchor>
             <NodeRef refid="47"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/idUrl</TokenIdentifier>
-			<Abstract type="html">The ID URL.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlow/beginTokenEndpointFlowCalled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSURL *idUrl</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL beginTokenEndpointFlowCalled</Declaration>
 			
 			
-			<Anchor>//api/name/idUrl</Anchor>
+			<Anchor>//api/name/beginTokenEndpointFlowCalled</Anchor>
             <NodeRef refid="47"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setAssertedUser:</TokenIdentifier>
-			<Abstract type="html">Whether or not this is the asserted user for this session.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/setBeginNativeBrowserFlowCalled:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
 			
-			<Declaration>@property (readonly) BOOL assertedUser</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL beginNativeBrowserFlowCalled</Declaration>
 			
 			
-			<Anchor>//api/name/assertedUser</Anchor>
+			<Anchor>//api/name/beginNativeBrowserFlowCalled</Anchor>
             <NodeRef refid="47"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/assertedUser</TokenIdentifier>
-			<Abstract type="html">Whether or not this is the asserted user for this session.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/beginNativeBrowserFlowCalled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
 			
-			<Declaration>@property (readonly) BOOL assertedUser</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL beginNativeBrowserFlowCalled</Declaration>
 			
 			
-			<Anchor>//api/name/assertedUser</Anchor>
+			<Anchor>//api/name/beginNativeBrowserFlowCalled</Anchor>
             <NodeRef refid="47"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/assertedUser</TokenIdentifier>
-			<Abstract type="html">Whether or not this is the asserted user for this session.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlow/beginNativeBrowserFlowCalled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
 			
-			<Declaration>@property (readonly) BOOL assertedUser</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL beginNativeBrowserFlowCalled</Declaration>
 			
 			
-			<Anchor>//api/name/assertedUser</Anchor>
+			<Anchor>//api/name/beginNativeBrowserFlowCalled</Anchor>
             <NodeRef refid="47"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setUserId:</TokenIdentifier>
-			<Abstract type="html">The User ID of the associated user.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/setBeginJwtTokenExchangeFlowCalled:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSString *userId</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL beginJwtTokenExchangeFlowCalled</Declaration>
 			
 			
-			<Anchor>//api/name/userId</Anchor>
+			<Anchor>//api/name/beginJwtTokenExchangeFlowCalled</Anchor>
             <NodeRef refid="47"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/userId</TokenIdentifier>
-			<Abstract type="html">The User ID of the associated user.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/beginJwtTokenExchangeFlowCalled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSString *userId</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL beginJwtTokenExchangeFlowCalled</Declaration>
 			
 			
-			<Anchor>//api/name/userId</Anchor>
+			<Anchor>//api/name/beginJwtTokenExchangeFlowCalled</Anchor>
             <NodeRef refid="47"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/userId</TokenIdentifier>
-			<Abstract type="html">The User ID of the associated user.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlow/beginJwtTokenExchangeFlowCalled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSString *userId</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL beginJwtTokenExchangeFlowCalled</Declaration>
 			
 			
-			<Anchor>//api/name/userId</Anchor>
+			<Anchor>//api/name/beginJwtTokenExchangeFlowCalled</Anchor>
             <NodeRef refid="47"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setOrgId:</TokenIdentifier>
-			<Abstract type="html">The Organization ID of the associated user.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/setTokenEndpointFlowType:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSString *orgId</Declaration>
+			<Declaration>@property (nonatomic, assign) SFOAuthTokenEndpointFlow tokenEndpointFlowType</Declaration>
 			
 			
-			<Anchor>//api/name/orgId</Anchor>
+			<Anchor>//api/name/tokenEndpointFlowType</Anchor>
             <NodeRef refid="47"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/orgId</TokenIdentifier>
-			<Abstract type="html">The Organization ID of the associated user.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/tokenEndpointFlowType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSString *orgId</Declaration>
+			<Declaration>@property (nonatomic, assign) SFOAuthTokenEndpointFlow tokenEndpointFlowType</Declaration>
 			
 			
-			<Anchor>//api/name/orgId</Anchor>
+			<Anchor>//api/name/tokenEndpointFlowType</Anchor>
             <NodeRef refid="47"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/orgId</TokenIdentifier>
-			<Abstract type="html">The Organization ID of the associated user.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlow/tokenEndpointFlowType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSString *orgId</Declaration>
+			<Declaration>@property (nonatomic, assign) SFOAuthTokenEndpointFlow tokenEndpointFlowType</Declaration>
 			
 			
-			<Anchor>//api/name/orgId</Anchor>
+			<Anchor>//api/name/tokenEndpointFlowType</Anchor>
             <NodeRef refid="47"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setUsername:</TokenIdentifier>
-			<Abstract type="html">The username of the associated user.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/setHandleTokenEndpointResponseCalled:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSString *username</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL handleTokenEndpointResponseCalled</Declaration>
 			
 			
-			<Anchor>//api/name/username</Anchor>
+			<Anchor>//api/name/handleTokenEndpointResponseCalled</Anchor>
             <NodeRef refid="47"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/username</TokenIdentifier>
-			<Abstract type="html">The username of the associated user.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/handleTokenEndpointResponseCalled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSString *username</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL handleTokenEndpointResponseCalled</Declaration>
 			
 			
-			<Anchor>//api/name/username</Anchor>
+			<Anchor>//api/name/handleTokenEndpointResponseCalled</Anchor>
             <NodeRef refid="47"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/username</TokenIdentifier>
-			<Abstract type="html">The username of the associated user.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlow/handleTokenEndpointResponseCalled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSString *username</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL handleTokenEndpointResponseCalled</Declaration>
 			
 			
-			<Anchor>//api/name/username</Anchor>
+			<Anchor>//api/name/handleTokenEndpointResponseCalled</Anchor>
             <NodeRef refid="47"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setNickname:</TokenIdentifier>
-			<Abstract type="html">The nickname of the associated user.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/setTimeBeforeUserAgentCompletion:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSString *nickname</Declaration>
+			<Declaration>@property (nonatomic, assign) NSTimeInterval timeBeforeUserAgentCompletion</Declaration>
 			
 			
-			<Anchor>//api/name/nickname</Anchor>
+			<Anchor>//api/name/timeBeforeUserAgentCompletion</Anchor>
             <NodeRef refid="47"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/nickname</TokenIdentifier>
-			<Abstract type="html">The nickname of the associated user.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/timeBeforeUserAgentCompletion</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSString *nickname</Declaration>
+			<Declaration>@property (nonatomic, assign) NSTimeInterval timeBeforeUserAgentCompletion</Declaration>
 			
 			
-			<Anchor>//api/name/nickname</Anchor>
+			<Anchor>//api/name/timeBeforeUserAgentCompletion</Anchor>
             <NodeRef refid="47"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/nickname</TokenIdentifier>
-			<Abstract type="html">The nickname of the associated user.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlow/timeBeforeUserAgentCompletion</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSString *nickname</Declaration>
+			<Declaration>@property (nonatomic, assign) NSTimeInterval timeBeforeUserAgentCompletion</Declaration>
 			
 			
-			<Anchor>//api/name/nickname</Anchor>
+			<Anchor>//api/name/timeBeforeUserAgentCompletion</Anchor>
             <NodeRef refid="47"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setDisplayName:</TokenIdentifier>
-			<Abstract type="html">The display name of the associated user.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/setTimeBeforeRefreshTokenCompletion:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSString *displayName</Declaration>
+			<Declaration>@property (nonatomic, assign) NSTimeInterval timeBeforeRefreshTokenCompletion</Declaration>
 			
 			
-			<Anchor>//api/name/displayName</Anchor>
+			<Anchor>//api/name/timeBeforeRefreshTokenCompletion</Anchor>
             <NodeRef refid="47"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/displayName</TokenIdentifier>
-			<Abstract type="html">The display name of the associated user.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/timeBeforeRefreshTokenCompletion</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSString *displayName</Declaration>
+			<Declaration>@property (nonatomic, assign) NSTimeInterval timeBeforeRefreshTokenCompletion</Declaration>
 			
 			
-			<Anchor>//api/name/displayName</Anchor>
+			<Anchor>//api/name/timeBeforeRefreshTokenCompletion</Anchor>
             <NodeRef refid="47"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/displayName</TokenIdentifier>
-			<Abstract type="html">The display name of the associated user.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlow/timeBeforeRefreshTokenCompletion</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSString *displayName</Declaration>
+			<Declaration>@property (nonatomic, assign) NSTimeInterval timeBeforeRefreshTokenCompletion</Declaration>
 			
 			
-			<Anchor>//api/name/displayName</Anchor>
+			<Anchor>//api/name/timeBeforeRefreshTokenCompletion</Anchor>
             <NodeRef refid="47"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setEmail:</TokenIdentifier>
-			<Abstract type="html">The email address of the associated user.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/setUserAgentFlowIsSuccessful:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSString *email</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL userAgentFlowIsSuccessful</Declaration>
 			
 			
-			<Anchor>//api/name/email</Anchor>
+			<Anchor>//api/name/userAgentFlowIsSuccessful</Anchor>
             <NodeRef refid="47"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/email</TokenIdentifier>
-			<Abstract type="html">The email address of the associated user.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/userAgentFlowIsSuccessful</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSString *email</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL userAgentFlowIsSuccessful</Declaration>
 			
 			
-			<Anchor>//api/name/email</Anchor>
+			<Anchor>//api/name/userAgentFlowIsSuccessful</Anchor>
             <NodeRef refid="47"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/email</TokenIdentifier>
-			<Abstract type="html">The email address of the associated user.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlow/userAgentFlowIsSuccessful</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSString *email</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL userAgentFlowIsSuccessful</Declaration>
 			
 			
-			<Anchor>//api/name/email</Anchor>
+			<Anchor>//api/name/userAgentFlowIsSuccessful</Anchor>
             <NodeRef refid="47"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setFirstName:</TokenIdentifier>
-			<Abstract type="html">The first name of the user.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/setRefreshTokenFlowIsSuccessful:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSString *firstName</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL refreshTokenFlowIsSuccessful</Declaration>
 			
 			
-			<Anchor>//api/name/firstName</Anchor>
+			<Anchor>//api/name/refreshTokenFlowIsSuccessful</Anchor>
             <NodeRef refid="47"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/firstName</TokenIdentifier>
-			<Abstract type="html">The first name of the user.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/refreshTokenFlowIsSuccessful</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSString *firstName</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL refreshTokenFlowIsSuccessful</Declaration>
 			
 			
-			<Anchor>//api/name/firstName</Anchor>
+			<Anchor>//api/name/refreshTokenFlowIsSuccessful</Anchor>
             <NodeRef refid="47"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/firstName</TokenIdentifier>
-			<Abstract type="html">The first name of the user.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlow/refreshTokenFlowIsSuccessful</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSString *firstName</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL refreshTokenFlowIsSuccessful</Declaration>
 			
 			
-			<Anchor>//api/name/firstName</Anchor>
+			<Anchor>//api/name/refreshTokenFlowIsSuccessful</Anchor>
             <NodeRef refid="47"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setLastName:</TokenIdentifier>
-			<Abstract type="html">The last name of the user.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/initWithCoordinator:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSString *lastName</Declaration>
+			<Declaration>- (id)initWithCoordinator:(SFOAuthCoordinator *)coordinator</Declaration>
 			
 			
-			<Anchor>//api/name/lastName</Anchor>
+			<Anchor>//api/name/initWithCoordinator:</Anchor>
             <NodeRef refid="47"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/lastName</TokenIdentifier>
-			<Abstract type="html">The last name of the user.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/setRetrieveOrgAuthConfigurationData:error:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSString *lastName</Declaration>
+			<Declaration>- (void)setRetrieveOrgAuthConfigurationData:(SFOAuthOrgAuthConfiguration *)config error:(NSError *)error</Declaration>
 			
 			
-			<Anchor>//api/name/lastName</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/lastName</TokenIdentifier>
-			<Abstract type="html">The last name of the user.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSString *lastName</Declaration>
-			
-			
-			<Anchor>//api/name/lastName</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setPictureUrl:</TokenIdentifier>
-			<Abstract type="html">The URL to retrieve the user&apos;s picture.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSURL *pictureUrl</Declaration>
-			
-			
-			<Anchor>//api/name/pictureUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/pictureUrl</TokenIdentifier>
-			<Abstract type="html">The URL to retrieve the user&apos;s picture.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSURL *pictureUrl</Declaration>
-			
-			
-			<Anchor>//api/name/pictureUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/pictureUrl</TokenIdentifier>
-			<Abstract type="html">The URL to retrieve the user&apos;s picture.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSURL *pictureUrl</Declaration>
-			
-			
-			<Anchor>//api/name/pictureUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setThumbnailUrl:</TokenIdentifier>
-			<Abstract type="html">The URL to retrieve a thumbnail picture for the user.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSURL *thumbnailUrl</Declaration>
-			
-			
-			<Anchor>//api/name/thumbnailUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/thumbnailUrl</TokenIdentifier>
-			<Abstract type="html">The URL to retrieve a thumbnail picture for the user.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSURL *thumbnailUrl</Declaration>
-			
-			
-			<Anchor>//api/name/thumbnailUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/thumbnailUrl</TokenIdentifier>
-			<Abstract type="html">The URL to retrieve a thumbnail picture for the user.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSURL *thumbnailUrl</Declaration>
-			
-			
-			<Anchor>//api/name/thumbnailUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setEnterpriseSoapUrl:</TokenIdentifier>
-			<Abstract type="html">The enterprise SOAP API URL string for this user.
-Note: API URLs require replacement of the version token with a valid API version string.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSString *enterpriseSoapUrl</Declaration>
-			
-			
-			<Anchor>//api/name/enterpriseSoapUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/enterpriseSoapUrl</TokenIdentifier>
-			<Abstract type="html">The enterprise SOAP API URL string for this user.
-Note: API URLs require replacement of the version token with a valid API version string.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSString *enterpriseSoapUrl</Declaration>
-			
-			
-			<Anchor>//api/name/enterpriseSoapUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/enterpriseSoapUrl</TokenIdentifier>
-			<Abstract type="html">The enterprise SOAP API URL string for this user.
-Note: API URLs require replacement of the version token with a valid API version string.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSString *enterpriseSoapUrl</Declaration>
-			
-			
-			<Anchor>//api/name/enterpriseSoapUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setMetadataSoapUrl:</TokenIdentifier>
-			<Abstract type="html">The metadata SOAP API URL string for this user.
-Note: API URLs require replacement of the version token with a valid API version string.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSString *metadataSoapUrl</Declaration>
-			
-			
-			<Anchor>//api/name/metadataSoapUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/metadataSoapUrl</TokenIdentifier>
-			<Abstract type="html">The metadata SOAP API URL string for this user.
-Note: API URLs require replacement of the version token with a valid API version string.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSString *metadataSoapUrl</Declaration>
-			
-			
-			<Anchor>//api/name/metadataSoapUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/metadataSoapUrl</TokenIdentifier>
-			<Abstract type="html">The metadata SOAP API URL string for this user.
-Note: API URLs require replacement of the version token with a valid API version string.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSString *metadataSoapUrl</Declaration>
-			
-			
-			<Anchor>//api/name/metadataSoapUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setPartnerSoapUrl:</TokenIdentifier>
-			<Abstract type="html">The partner SOAP API URL string for this user.
-Note: API URLs require replacement of the version token with a valid API version string.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSString *partnerSoapUrl</Declaration>
-			
-			
-			<Anchor>//api/name/partnerSoapUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/partnerSoapUrl</TokenIdentifier>
-			<Abstract type="html">The partner SOAP API URL string for this user.
-Note: API URLs require replacement of the version token with a valid API version string.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSString *partnerSoapUrl</Declaration>
-			
-			
-			<Anchor>//api/name/partnerSoapUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/partnerSoapUrl</TokenIdentifier>
-			<Abstract type="html">The partner SOAP API URL string for this user.
-Note: API URLs require replacement of the version token with a valid API version string.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSString *partnerSoapUrl</Declaration>
-			
-			
-			<Anchor>//api/name/partnerSoapUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setRestUrl:</TokenIdentifier>
-			<Abstract type="html">The REST API URL string entry point for this user.
-Note: API URLs require replacement of the version token with a valid API version string.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSString *restUrl</Declaration>
-			
-			
-			<Anchor>//api/name/restUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/restUrl</TokenIdentifier>
-			<Abstract type="html">The REST API URL string entry point for this user.
-Note: API URLs require replacement of the version token with a valid API version string.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSString *restUrl</Declaration>
-			
-			
-			<Anchor>//api/name/restUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/restUrl</TokenIdentifier>
-			<Abstract type="html">The REST API URL string entry point for this user.
-Note: API URLs require replacement of the version token with a valid API version string.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSString *restUrl</Declaration>
-			
-			
-			<Anchor>//api/name/restUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setRestSObjectsUrl:</TokenIdentifier>
-			<Abstract type="html">The REST endpoint string for SObjects.
-Note: API URLs require replacement of the version token with a valid API version string.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSString *restSObjectsUrl</Declaration>
-			
-			
-			<Anchor>//api/name/restSObjectsUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/restSObjectsUrl</TokenIdentifier>
-			<Abstract type="html">The REST endpoint string for SObjects.
-Note: API URLs require replacement of the version token with a valid API version string.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSString *restSObjectsUrl</Declaration>
-			
-			
-			<Anchor>//api/name/restSObjectsUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/restSObjectsUrl</TokenIdentifier>
-			<Abstract type="html">The REST endpoint string for SObjects.
-Note: API URLs require replacement of the version token with a valid API version string.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSString *restSObjectsUrl</Declaration>
-			
-			
-			<Anchor>//api/name/restSObjectsUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setRestSearchUrl:</TokenIdentifier>
-			<Abstract type="html">The REST endpoint string for search.
-Note: API URLs require replacement of the version token with a valid API version string.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSString *restSearchUrl</Declaration>
-			
-			
-			<Anchor>//api/name/restSearchUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/restSearchUrl</TokenIdentifier>
-			<Abstract type="html">The REST endpoint string for search.
-Note: API URLs require replacement of the version token with a valid API version string.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSString *restSearchUrl</Declaration>
-			
-			
-			<Anchor>//api/name/restSearchUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/restSearchUrl</TokenIdentifier>
-			<Abstract type="html">The REST endpoint string for search.
-Note: API URLs require replacement of the version token with a valid API version string.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSString *restSearchUrl</Declaration>
-			
-			
-			<Anchor>//api/name/restSearchUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setRestQueryUrl:</TokenIdentifier>
-			<Abstract type="html">The REST endpoint string for queries.
-Note: API URLs require replacement of the version token with a valid API version string.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSString *restQueryUrl</Declaration>
-			
-			
-			<Anchor>//api/name/restQueryUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/restQueryUrl</TokenIdentifier>
-			<Abstract type="html">The REST endpoint string for queries.
-Note: API URLs require replacement of the version token with a valid API version string.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSString *restQueryUrl</Declaration>
-			
-			
-			<Anchor>//api/name/restQueryUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/restQueryUrl</TokenIdentifier>
-			<Abstract type="html">The REST endpoint string for queries.
-Note: API URLs require replacement of the version token with a valid API version string.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSString *restQueryUrl</Declaration>
-			
-			
-			<Anchor>//api/name/restQueryUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setRestRecentUrl:</TokenIdentifier>
-			<Abstract type="html">The REST endpoint string for recent activity.
-Note: API URLs require replacement of the version token with a valid API version string.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSString *restRecentUrl</Declaration>
-			
-			
-			<Anchor>//api/name/restRecentUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/restRecentUrl</TokenIdentifier>
-			<Abstract type="html">The REST endpoint string for recent activity.
-Note: API URLs require replacement of the version token with a valid API version string.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSString *restRecentUrl</Declaration>
-			
-			
-			<Anchor>//api/name/restRecentUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/restRecentUrl</TokenIdentifier>
-			<Abstract type="html">The REST endpoint string for recent activity.
-Note: API URLs require replacement of the version token with a valid API version string.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSString *restRecentUrl</Declaration>
-			
-			
-			<Anchor>//api/name/restRecentUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setProfileUrl:</TokenIdentifier>
-			<Abstract type="html">The user profile URL.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSURL *profileUrl</Declaration>
-			
-			
-			<Anchor>//api/name/profileUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/profileUrl</TokenIdentifier>
-			<Abstract type="html">The user profile URL.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSURL *profileUrl</Declaration>
-			
-			
-			<Anchor>//api/name/profileUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/profileUrl</TokenIdentifier>
-			<Abstract type="html">The user profile URL.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSURL *profileUrl</Declaration>
-			
-			
-			<Anchor>//api/name/profileUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setChatterFeedsUrl:</TokenIdentifier>
-			<Abstract type="html">The URL string for Chatter feeds.
-Note: API URLs require replacement of the version token with a valid API version string.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSString *chatterFeedsUrl</Declaration>
-			
-			
-			<Anchor>//api/name/chatterFeedsUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/chatterFeedsUrl</TokenIdentifier>
-			<Abstract type="html">The URL string for Chatter feeds.
-Note: API URLs require replacement of the version token with a valid API version string.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSString *chatterFeedsUrl</Declaration>
-			
-			
-			<Anchor>//api/name/chatterFeedsUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/chatterFeedsUrl</TokenIdentifier>
-			<Abstract type="html">The URL string for Chatter feeds.
-Note: API URLs require replacement of the version token with a valid API version string.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSString *chatterFeedsUrl</Declaration>
-			
-			
-			<Anchor>//api/name/chatterFeedsUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setChatterGroupsUrl:</TokenIdentifier>
-			<Abstract type="html">The URL string for Chatter groups.
-Note: API URLs require replacement of the version token with a valid API version string.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSString *chatterGroupsUrl</Declaration>
-			
-			
-			<Anchor>//api/name/chatterGroupsUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/chatterGroupsUrl</TokenIdentifier>
-			<Abstract type="html">The URL string for Chatter groups.
-Note: API URLs require replacement of the version token with a valid API version string.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSString *chatterGroupsUrl</Declaration>
-			
-			
-			<Anchor>//api/name/chatterGroupsUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/chatterGroupsUrl</TokenIdentifier>
-			<Abstract type="html">The URL string for Chatter groups.
-Note: API URLs require replacement of the version token with a valid API version string.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSString *chatterGroupsUrl</Declaration>
-			
-			
-			<Anchor>//api/name/chatterGroupsUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setChatterUsersUrl:</TokenIdentifier>
-			<Abstract type="html">The URL string for Chatter users.
-Note: API URLs require replacement of the version token with a valid API version string.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSString *chatterUsersUrl</Declaration>
-			
-			
-			<Anchor>//api/name/chatterUsersUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/chatterUsersUrl</TokenIdentifier>
-			<Abstract type="html">The URL string for Chatter users.
-Note: API URLs require replacement of the version token with a valid API version string.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSString *chatterUsersUrl</Declaration>
-			
-			
-			<Anchor>//api/name/chatterUsersUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/chatterUsersUrl</TokenIdentifier>
-			<Abstract type="html">The URL string for Chatter users.
-Note: API URLs require replacement of the version token with a valid API version string.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSString *chatterUsersUrl</Declaration>
-			
-			
-			<Anchor>//api/name/chatterUsersUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setChatterFeedItemsUrl:</TokenIdentifier>
-			<Abstract type="html">The URL string for Chatter feed items.
-Note: API URLs require replacement of the version token with a valid API version string.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSString *chatterFeedItemsUrl</Declaration>
-			
-			
-			<Anchor>//api/name/chatterFeedItemsUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/chatterFeedItemsUrl</TokenIdentifier>
-			<Abstract type="html">The URL string for Chatter feed items.
-Note: API URLs require replacement of the version token with a valid API version string.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSString *chatterFeedItemsUrl</Declaration>
-			
-			
-			<Anchor>//api/name/chatterFeedItemsUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/chatterFeedItemsUrl</TokenIdentifier>
-			<Abstract type="html">The URL string for Chatter feed items.
-Note: API URLs require replacement of the version token with a valid API version string.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSString *chatterFeedItemsUrl</Declaration>
-			
-			
-			<Anchor>//api/name/chatterFeedItemsUrl</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setIsActive:</TokenIdentifier>
-			<Abstract type="html">Whether or not this user is active.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (readonly) BOOL isActive</Declaration>
-			
-			
-			<Anchor>//api/name/isActive</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/isActive</TokenIdentifier>
-			<Abstract type="html">Whether or not this user is active.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (readonly) BOOL isActive</Declaration>
-			
-			
-			<Anchor>//api/name/isActive</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/isActive</TokenIdentifier>
-			<Abstract type="html">Whether or not this user is active.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (readonly) BOOL isActive</Declaration>
-			
-			
-			<Anchor>//api/name/isActive</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setUserType:</TokenIdentifier>
-			<Abstract type="html">The user type.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSString *userType</Declaration>
-			
-			
-			<Anchor>//api/name/userType</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/userType</TokenIdentifier>
-			<Abstract type="html">The user type.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSString *userType</Declaration>
-			
-			
-			<Anchor>//api/name/userType</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/userType</TokenIdentifier>
-			<Abstract type="html">The user type.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSString *userType</Declaration>
-			
-			
-			<Anchor>//api/name/userType</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setLanguage:</TokenIdentifier>
-			<Abstract type="html">The user&apos;s configured language.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSString *language</Declaration>
-			
-			
-			<Anchor>//api/name/language</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/language</TokenIdentifier>
-			<Abstract type="html">The user&apos;s configured language.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSString *language</Declaration>
-			
-			
-			<Anchor>//api/name/language</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/language</TokenIdentifier>
-			<Abstract type="html">The user&apos;s configured language.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSString *language</Declaration>
-			
-			
-			<Anchor>//api/name/language</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setLocale:</TokenIdentifier>
-			<Abstract type="html">The user&apos;s configured locale.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSString *locale</Declaration>
-			
-			
-			<Anchor>//api/name/locale</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/locale</TokenIdentifier>
-			<Abstract type="html">The user&apos;s configured locale.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSString *locale</Declaration>
-			
-			
-			<Anchor>//api/name/locale</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/locale</TokenIdentifier>
-			<Abstract type="html">The user&apos;s configured locale.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSString *locale</Declaration>
-			
-			
-			<Anchor>//api/name/locale</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setUtcOffset:</TokenIdentifier>
-			<Abstract type="html">The UTC offset for this user.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (readonly) int utcOffset</Declaration>
-			
-			
-			<Anchor>//api/name/utcOffset</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/utcOffset</TokenIdentifier>
-			<Abstract type="html">The UTC offset for this user.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (readonly) int utcOffset</Declaration>
-			
-			
-			<Anchor>//api/name/utcOffset</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/utcOffset</TokenIdentifier>
-			<Abstract type="html">The UTC offset for this user.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (readonly) int utcOffset</Declaration>
-			
-			
-			<Anchor>//api/name/utcOffset</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setMobilePoliciesConfigured:</TokenIdentifier>
-			<Abstract type="html">Whether or not any additional mobile security policies have been configured
-for this application.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (readonly) BOOL mobilePoliciesConfigured</Declaration>
-			
-			
-			<Anchor>//api/name/mobilePoliciesConfigured</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/mobilePoliciesConfigured</TokenIdentifier>
-			<Abstract type="html">Whether or not any additional mobile security policies have been configured
-for this application.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (readonly) BOOL mobilePoliciesConfigured</Declaration>
-			
-			
-			<Anchor>//api/name/mobilePoliciesConfigured</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/mobilePoliciesConfigured</TokenIdentifier>
-			<Abstract type="html">Whether or not any additional mobile security policies have been configured
-for this application.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (readonly) BOOL mobilePoliciesConfigured</Declaration>
-			
-			
-			<Anchor>//api/name/mobilePoliciesConfigured</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setMobileAppPinLength:</TokenIdentifier>
-			<Abstract type="html">The length of the PIN code, if it&apos;s required.  Defaults to 0 if not set, but
-querying mobilePoliciesConfigured is recommended to validate that policies
-are set.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (readonly) int mobileAppPinLength</Declaration>
-			
-			
-			<Anchor>//api/name/mobileAppPinLength</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/mobileAppPinLength</TokenIdentifier>
-			<Abstract type="html">The length of the PIN code, if it&apos;s required.  Defaults to 0 if not set, but
-querying mobilePoliciesConfigured is recommended to validate that policies
-are set.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (readonly) int mobileAppPinLength</Declaration>
-			
-			
-			<Anchor>//api/name/mobileAppPinLength</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/mobileAppPinLength</TokenIdentifier>
-			<Abstract type="html">The length of the PIN code, if it&apos;s required.  Defaults to 0 if not set, but
-querying mobilePoliciesConfigured is recommended to validate that policies
-are set.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (readonly) int mobileAppPinLength</Declaration>
-			
-			
-			<Anchor>//api/name/mobileAppPinLength</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setMobileAppScreenLockTimeout:</TokenIdentifier>
-			<Abstract type="html">The length of time in minutes before the app will be locked, if it&apos;s required.
-Defaults to -1 if not set, but querying mobilePoliciesConfigured is recommended
-to validate that policies are set.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (readonly) int mobileAppScreenLockTimeout</Declaration>
-			
-			
-			<Anchor>//api/name/mobileAppScreenLockTimeout</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/mobileAppScreenLockTimeout</TokenIdentifier>
-			<Abstract type="html">The length of time in minutes before the app will be locked, if it&apos;s required.
-Defaults to -1 if not set, but querying mobilePoliciesConfigured is recommended
-to validate that policies are set.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (readonly) int mobileAppScreenLockTimeout</Declaration>
-			
-			
-			<Anchor>//api/name/mobileAppScreenLockTimeout</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/mobileAppScreenLockTimeout</TokenIdentifier>
-			<Abstract type="html">The length of time in minutes before the app will be locked, if it&apos;s required.
-Defaults to -1 if not set, but querying mobilePoliciesConfigured is recommended
-to validate that policies are set.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (readonly) int mobileAppScreenLockTimeout</Declaration>
-			
-			
-			<Anchor>//api/name/mobileAppScreenLockTimeout</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setCustomAttributes:</TokenIdentifier>
-			<Abstract type="html">An optional dictionary of custom attributes defined on the Connected App.</Abstract>
-			<DeclaredIn>SFIdentityData+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSDictionary *customAttributes</Declaration>
-			
-			
-			<Anchor>//api/name/customAttributes</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/customAttributes</TokenIdentifier>
-			<Abstract type="html">An optional dictionary of custom attributes defined on the Connected App.</Abstract>
-			<DeclaredIn>SFIdentityData+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSDictionary *customAttributes</Declaration>
-			
-			
-			<Anchor>//api/name/customAttributes</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/customAttributes</TokenIdentifier>
-			<Abstract type="html">An optional dictionary of custom attributes defined on the Connected App.</Abstract>
-			<DeclaredIn>SFIdentityData+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSDictionary *customAttributes</Declaration>
-			
-			
-			<Anchor>//api/name/customAttributes</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setCustomPermissions:</TokenIdentifier>
-			<Abstract type="html">An optional dictionary of custom permissions defined on the Connected App.</Abstract>
-			<DeclaredIn>SFIdentityData+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSDictionary *customPermissions</Declaration>
-			
-			
-			<Anchor>//api/name/customPermissions</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/customPermissions</TokenIdentifier>
-			<Abstract type="html">An optional dictionary of custom permissions defined on the Connected App.</Abstract>
-			<DeclaredIn>SFIdentityData+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSDictionary *customPermissions</Declaration>
-			
-			
-			<Anchor>//api/name/customPermissions</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/customPermissions</TokenIdentifier>
-			<Abstract type="html">An optional dictionary of custom permissions defined on the Connected App.</Abstract>
-			<DeclaredIn>SFIdentityData+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, strong, nonatomic, readonly) NSDictionary *customPermissions</Declaration>
-			
-			
-			<Anchor>//api/name/customPermissions</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/setLastModifiedDate:</TokenIdentifier>
-			<Abstract type="html">The date this record was last modified.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSDate *lastModifiedDate</Declaration>
-			
-			
-			<Anchor>//api/name/lastModifiedDate</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/lastModifiedDate</TokenIdentifier>
-			<Abstract type="html">The date this record was last modified.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSDate *lastModifiedDate</Declaration>
-			
-			
-			<Anchor>//api/name/lastModifiedDate</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityData/lastModifiedDate</TokenIdentifier>
-			<Abstract type="html">The date this record was last modified.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonnull, strong, nonatomic, readonly) NSDate *lastModifiedDate</Declaration>
-			
-			
-			<Anchor>//api/name/lastModifiedDate</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/initWithJsonDict:</TokenIdentifier>
-			<Abstract type="html">Designated initializer for creating an instance of the SFIdentityData object.</Abstract>
-			<DeclaredIn>SFIdentityData.h</DeclaredIn>
-			
-			<Declaration>- (nonnull instancetype)initWithJsonDict:(nonnull NSDictionary *)jsonDict</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>jsonDict</Name>
-					<Abstract type="html">The JSON dictionary containing the user data.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/initWithJsonDict:</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFIdentityData/dateFromRfc822String:</TokenIdentifier>
-			<Abstract type="html">Creates an NSDate object from an RFC 822-formatted date string.</Abstract>
-			<DeclaredIn>SFIdentityData+Internal.h</DeclaredIn>
-			
-			<Declaration>+ (NSDate *)dateFromRfc822String:(NSString *)dateString</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>dateString</Name>
-					<Abstract type="html">The date string to parse into an NSDate.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The NSDate representation of the date string.</Abstract></ReturnValue>
-			<Anchor>//api/name/dateFromRfc822String:</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/parentExistsOrNilForUrl:childKey:</TokenIdentifier>
-			<Abstract type="html">Returns the URL configured in the sub-object of the parent, or nil if the parent
-object does not exist.</Abstract>
-			<DeclaredIn>SFIdentityData+Internal.h</DeclaredIn>
-			
-			<Declaration>- (NSURL *)parentExistsOrNilForUrl:(NSString *)parentKey childKey:(NSString *)childKey</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>parentKey</Name>
-					<Abstract type="html">The data key associated with the parent object.</Abstract>
-				</Parameter><Parameter>
-					<Name>childKey</Name>
-					<Abstract type="html">The data key associated with the child object where the URL is configured.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The NSURL representation configured in the child object, or nil if the parent
-does not exist.</Abstract></ReturnValue>
-			<Anchor>//api/name/parentExistsOrNilForUrl:childKey:</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityData/parentExistsOrNilForString:childKey:</TokenIdentifier>
-			<Abstract type="html">Returns the NSString configured in the sub-object of the parent, or nil if the parent
-object does not exist.</Abstract>
-			<DeclaredIn>SFIdentityData+Internal.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)parentExistsOrNilForString:(NSString *)parentKey childKey:(NSString *)childKey</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>parentKey</Name>
-					<Abstract type="html">The data key associated with the parent object.</Abstract>
-				</Parameter><Parameter>
-					<Name>childKey</Name>
-					<Abstract type="html">The data key associated with the child object where the string is configured.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The NSString representation configured in the child object, or nil if the parent
-does not exist.</Abstract></ReturnValue>
-			<Anchor>//api/name/parentExistsOrNilForString:childKey:</Anchor>
+			<Anchor>//api/name/setRetrieveOrgAuthConfigurationData:error:</Anchor>
             <NodeRef refid="47"/>
 		</Token>
 		

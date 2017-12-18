@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFLogLevel.html">
+	<File path="Constants/SFSDKLaunchAction.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFLogLevel</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSDKLaunchAction</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLoggerMacros.h</DeclaredIn>
+			<DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
             
 			
 			<NodeRef refid="203"/>
@@ -14,78 +14,51 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogLevelOff</TokenIdentifier>
-            <Abstract type="html">No logs
-     </Abstract>
-            <Declaration>SFLogLevelOff</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKLaunchActionNone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKLaunchActionNone</Declaration>
             
-            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
-            
-            <NodeRef refid="203"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogLevelError</TokenIdentifier>
-            <Abstract type="html">Error logs only
-     </Abstract>
-            <Declaration>SFLogLevelError</Declaration>
-            
-            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
+            <DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
             
             <NodeRef refid="203"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogLevelWarning</TokenIdentifier>
-            <Abstract type="html">Error and warning logs
-     </Abstract>
-            <Declaration>SFLogLevelWarning</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKLaunchActionAuthenticated</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKLaunchActionAuthenticated</Declaration>
             
-            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
-            
-            <NodeRef refid="203"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogLevelInfo</TokenIdentifier>
-            <Abstract type="html">Error, warning and info logs
-     </Abstract>
-            <Declaration>SFLogLevelInfo</Declaration>
-            
-            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
+            <DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
             
             <NodeRef refid="203"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogLevelDebug</TokenIdentifier>
-            <Abstract type="html">Error, warning, info and debug logs
-     </Abstract>
-            <Declaration>SFLogLevelDebug</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKLaunchActionAlreadyAuthenticated</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKLaunchActionAlreadyAuthenticated</Declaration>
             
-            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
-            
-            <NodeRef refid="203"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogLevelVerbose</TokenIdentifier>
-            <Abstract type="html">Error, warning, info, debug and verbose logs
-     </Abstract>
-            <Declaration>SFLogLevelVerbose</Declaration>
-            
-            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
+            <DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
             
             <NodeRef refid="203"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogLevelAll</TokenIdentifier>
-            <Abstract type="html">All logs (1...11111)
-     </Abstract>
-            <Declaration>SFLogLevelAll</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKLaunchActionAuthBypassed</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKLaunchActionAuthBypassed</Declaration>
             
-            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
+            <DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
+            
+            <NodeRef refid="203"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKLaunchActionPasscodeVerified</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKLaunchActionPasscodeVerified</Declaration>
+            
+            <DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
             
             <NodeRef refid="203"/>
         </Token>

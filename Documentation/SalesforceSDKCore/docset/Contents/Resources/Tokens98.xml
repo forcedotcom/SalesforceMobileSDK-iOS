@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKSoqlBuilder.html">
+	<File path="Classes/SFSDKOAuthClientContext.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKSoqlBuilder</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKOAuthClientContext</TokenIdentifier>
+			<Abstract type="html">Object representing state of a current authentication context. Provides a means to isolate individual authentication requests</Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
             
 			
 			<NodeRef refid="98"/>
@@ -13,230 +13,194 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSoqlBuilder/withFields:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
-			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClientContext/setCredentials:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>+ (SFSDKSoqlBuilder *)withFields:(NSString *)fields</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>fields</Name>
-					<Abstract type="html">a list of one or more fields, separated by commas, that are to be retrieved from the specified object</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/withFields:</Anchor>
+			<Declaration>@property (nonatomic, strong, readonly) SFOAuthCredentials *credentials</Declaration>
+			
+			
+			<Anchor>//api/name/credentials</Anchor>
             <NodeRef refid="98"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSoqlBuilder/withFieldsArray:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
-			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClientContext/credentials</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>+ (SFSDKSoqlBuilder *)withFieldsArray:(NSArray *)fields</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>fields</Name>
-					<Abstract type="html">an array of one or more fields, that are to be retrieved from the specified object</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/withFieldsArray:</Anchor>
+			<Declaration>@property (nonatomic, strong, readonly) SFOAuthCredentials *credentials</Declaration>
+			
+			
+			<Anchor>//api/name/credentials</Anchor>
             <NodeRef refid="98"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/from:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
-			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKOAuthClientContext/credentials</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoqlBuilder *)from:(NSString *)from</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>from</Name>
-					<Abstract type="html">the object to be queried</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/from:</Anchor>
+			<Declaration>@property (nonatomic, strong, readonly) SFOAuthCredentials *credentials</Declaration>
+			
+			
+			<Anchor>//api/name/credentials</Anchor>
             <NodeRef refid="98"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/whereClause:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
-			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClientContext/setAuthInfo:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoqlBuilder *)whereClause:(NSString *)whereClause</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>whereClause</Name>
-					<Abstract type="html">a conditional statement</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/whereClause:</Anchor>
+			<Declaration>@property (nonatomic, strong, readonly) SFOAuthInfo *authInfo</Declaration>
+			
+			
+			<Anchor>//api/name/authInfo</Anchor>
             <NodeRef refid="98"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/with:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
-			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClientContext/authInfo</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoqlBuilder *)with:(NSString *)with</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>with</Name>
-					<Abstract type="html">used to filter records based on field values.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/with:</Anchor>
+			<Declaration>@property (nonatomic, strong, readonly) SFOAuthInfo *authInfo</Declaration>
+			
+			
+			<Anchor>//api/name/authInfo</Anchor>
             <NodeRef refid="98"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/groupBy:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
-			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKOAuthClientContext/authInfo</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoqlBuilder *)groupBy:(NSString *)groupBy</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>groupBy</Name>
-					<Abstract type="html">a list of one or more fields, separated by commas, the resutls are to be grouped by</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/groupBy:</Anchor>
+			<Declaration>@property (nonatomic, strong, readonly) SFOAuthInfo *authInfo</Declaration>
+			
+			
+			<Anchor>//api/name/authInfo</Anchor>
             <NodeRef refid="98"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/having:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
-			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClientContext/setAuthError:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoqlBuilder *)having:(NSString *)having</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>having</Name>
-					<Abstract type="html">specifies one or more conditional expressions using aggregate functions to filter the query results</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/having:</Anchor>
+			<Declaration>@property (nonatomic, strong, readonly) NSError *authError</Declaration>
+			
+			
+			<Anchor>//api/name/authError</Anchor>
             <NodeRef refid="98"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/orderBy:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
-			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClientContext/authError</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoqlBuilder *)orderBy:(NSString *)orderBy</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>orderBy</Name>
-					<Abstract type="html">controls the order of the query results</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/orderBy:</Anchor>
+			<Declaration>@property (nonatomic, strong, readonly) NSError *authError</Declaration>
+			
+			
+			<Anchor>//api/name/authError</Anchor>
             <NodeRef refid="98"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/limit:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
-			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKOAuthClientContext/authError</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoqlBuilder *)limit:(NSInteger)limit</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>limit</Name>
-					<Abstract type="html">specifies the maximum number of rows to return</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/limit:</Anchor>
+			<Declaration>@property (nonatomic, strong, readonly) NSError *authError</Declaration>
+			
+			
+			<Anchor>//api/name/authError</Anchor>
             <NodeRef refid="98"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/offset:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
-			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClientContext/setUserHint:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoqlBuilder *)offset:(NSInteger)offset</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>offset</Name>
-					<Abstract type="html">specifies the starting row offset into the result set returned by the query</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/offset:</Anchor>
+			<Declaration>@property (nonatomic, copy, readonly) NSString *userHint</Declaration>
+			
+			
+			<Anchor>//api/name/userHint</Anchor>
             <NodeRef refid="98"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/encodeAndBuild</TokenIdentifier>
-			<Abstract type="html">Builds an encoded query from the builder.</Abstract>
-			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClientContext/userHint</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)encodeAndBuild</Declaration>
+			<Declaration>@property (nonatomic, copy, readonly) NSString *userHint</Declaration>
 			
-			<ReturnValue><Abstract type="html">the built query</Abstract></ReturnValue>
-			<Anchor>//api/name/encodeAndBuild</Anchor>
+			
+			<Anchor>//api/name/userHint</Anchor>
             <NodeRef refid="98"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/encodeAndBuildWithPath:</TokenIdentifier>
-			<Abstract type="html">Builds an enoded query from the builder.</Abstract>
-			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKOAuthClientContext/userHint</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)encodeAndBuildWithPath:(NSString *)path</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>path</Name>
-					<Abstract type="html">the path to build the query for</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the built query</Abstract></ReturnValue>
-			<Anchor>//api/name/encodeAndBuildWithPath:</Anchor>
+			<Declaration>@property (nonatomic, copy, readonly) NSString *userHint</Declaration>
+			
+			
+			<Anchor>//api/name/userHint</Anchor>
             <NodeRef refid="98"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/buildWithPath:</TokenIdentifier>
-			<Abstract type="html">Builds a raw (unencoded) query from the builder.</Abstract>
-			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClientContext/setCallingAppOptions:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)buildWithPath:(NSString *)path</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>path</Name>
-					<Abstract type="html">the path to build the query for</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the built query</Abstract></ReturnValue>
-			<Anchor>//api/name/buildWithPath:</Anchor>
+			<Declaration>@property (nonatomic, strong, readonly) NSDictionary *callingAppOptions</Declaration>
+			
+			
+			<Anchor>//api/name/callingAppOptions</Anchor>
             <NodeRef refid="98"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/build</TokenIdentifier>
-			<Abstract type="html">Builds a raw (unencoded) query from the builder.</Abstract>
-			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClientContext/callingAppOptions</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)build</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSDictionary *callingAppOptions</Declaration>
 			
-			<ReturnValue><Abstract type="html">the built query</Abstract></ReturnValue>
-			<Anchor>//api/name/build</Anchor>
+			
+			<Anchor>//api/name/callingAppOptions</Anchor>
+            <NodeRef refid="98"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKOAuthClientContext/callingAppOptions</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSDictionary *callingAppOptions</Declaration>
+			
+			
+			<Anchor>//api/name/callingAppOptions</Anchor>
+            <NodeRef refid="98"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClientContext/initWithAuthType:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithAuthType:(SFOAuthType)oauthType</Declaration>
+			
+			
+			<Anchor>//api/name/initWithAuthType:</Anchor>
             <NodeRef refid="98"/>
 		</Token>
 		

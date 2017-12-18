@@ -89,7 +89,7 @@
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)initWithTimestamp:(NSString *)timestamp isDeleted:(BOOL)isDeleted</Declaration>
+			<Declaration>- (instancetype)initWithTimestamp:(nullable NSString *)timestamp isDeleted:(BOOL)isDeleted</Declaration>
 			
 			
 			<Anchor>//api/name/initWithTimestamp:isDeleted:</Anchor>

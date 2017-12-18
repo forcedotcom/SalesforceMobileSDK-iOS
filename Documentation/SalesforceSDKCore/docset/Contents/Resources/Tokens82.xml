@@ -1,133 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFRootViewManager.html">
+	<File path="Classes/SFSDKIDPErrorHandler.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFRootViewManager</TokenIdentifier>
-			<Abstract type="html">Class to control the presentation of temporary modal views in an existing view stack.  Used
-internally for things like the authentication view and the passcode screen.</Abstract>
-			<DeclaredIn>SFRootViewManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKIDPErrorHandler</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPErrorHandler.h</DeclaredIn>
             
 			
 			<NodeRef refid="82"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFRootViewManager/sharedManager</TokenIdentifier>
-			<Abstract type="html">The singleton SFRootViewManager object.</Abstract>
-			<DeclaredIn>SFRootViewManager.h</DeclaredIn>
-			
-			<Declaration>+ (SFRootViewManager *)sharedManager</Declaration>
-			
-			<ReturnValue><Abstract type="html">The singleton SFRootViewManager object.</Abstract></ReturnValue>
-			<Anchor>//api/name/sharedManager</Anchor>
-            <NodeRef refid="82"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRootViewManager/setMainWindow:</TokenIdentifier>
-			<Abstract type="html">The main window of the application.  If not explicitly set, defaults to [UIApplication sharedApplication].windows[0].</Abstract>
-			<DeclaredIn>SFRootViewManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) UIWindow *mainWindow</Declaration>
-			
-			
-			<Anchor>//api/name/mainWindow</Anchor>
-            <NodeRef refid="82"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRootViewManager/mainWindow</TokenIdentifier>
-			<Abstract type="html">The main window of the application.  If not explicitly set, defaults to [UIApplication sharedApplication].windows[0].</Abstract>
-			<DeclaredIn>SFRootViewManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) UIWindow *mainWindow</Declaration>
-			
-			
-			<Anchor>//api/name/mainWindow</Anchor>
-            <NodeRef refid="82"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRootViewManager/mainWindow</TokenIdentifier>
-			<Abstract type="html">The main window of the application.  If not explicitly set, defaults to [UIApplication sharedApplication].windows[0].</Abstract>
-			<DeclaredIn>SFRootViewManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) UIWindow *mainWindow</Declaration>
-			
-			
-			<Anchor>//api/name/mainWindow</Anchor>
-            <NodeRef refid="82"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRootViewManager/addDelegate:</TokenIdentifier>
-			<Abstract type="html">Add a delegate</Abstract>
-			<DeclaredIn>SFRootViewManager.h</DeclaredIn>
-			
-			<Declaration>- (void)addDelegate:(id&lt;SFRootViewManagerDelegate&gt;)delegate</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>delegate</Name>
-					<Abstract type="html">The delegate to add</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/addDelegate:</Anchor>
-            <NodeRef refid="82"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRootViewManager/removeDelegate:</TokenIdentifier>
-			<Abstract type="html">Remove a delegate</Abstract>
-			<DeclaredIn>SFRootViewManager.h</DeclaredIn>
-			
-			<Declaration>- (void)removeDelegate:(id&lt;SFRootViewManagerDelegate&gt;)delegate</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>delegate</Name>
-					<Abstract type="html">The delegate to remove</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/removeDelegate:</Anchor>
-            <NodeRef refid="82"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRootViewManager/pushViewController:</TokenIdentifier>
-			<Abstract type="html">Push a view controller onto the top of the presentation stack.</Abstract>
-			<DeclaredIn>SFRootViewManager.h</DeclaredIn>
-			
-			<Declaration>- (void)pushViewController:(UIViewController *)viewController</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>viewController</Name>
-					<Abstract type="html">The view controller to display.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/pushViewController:</Anchor>
-            <NodeRef refid="82"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRootViewManager/popViewController:</TokenIdentifier>
-			<Abstract type="html">Take a view controller off of the presentation stack.</Abstract>
-			<DeclaredIn>SFRootViewManager.h</DeclaredIn>
-			
-			<Declaration>- (void)popViewController:(UIViewController *)viewController</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>viewController</Name>
-					<Abstract type="html">The view to remove.  Does nothing if the view controller is not found in the presented stack.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/popViewController:</Anchor>
-            <NodeRef refid="82"/>
-		</Token>
 		
         
         

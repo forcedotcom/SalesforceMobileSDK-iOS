@@ -1,84 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SalesforceOAuthPlugin.html">
+	<File path="Classes/SalesforceHybridSDKManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SalesforceOAuthPlugin</TokenIdentifier>
-			<Abstract type="html">Cordova plugin for managing authentication with the Salesforce service, via OAuth.</Abstract>
-			<DeclaredIn>SalesforceOAuthPlugin.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SalesforceHybridSDKManager</TokenIdentifier>
+			<Abstract type="html">Version of SalesforceSDKManager to be used with all hybrid apps.</Abstract>
+			<DeclaredIn>SalesforceHybridSDKManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="18"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthPlugin/getAuthCredentials:</TokenIdentifier>
-			<Abstract type="html">Cordova plug-in method to obtain the current login credentials, authenticating if needed.</Abstract>
-			<DeclaredIn>SalesforceOAuthPlugin.h</DeclaredIn>
-			
-			<Declaration>- (void)getAuthCredentials:(CDVInvokedUrlCommand *)command</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>command</Name>
-					<Abstract type="html">Cordova plugin command object, containing input parameters.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/getAuthCredentials:</Anchor>
-            <NodeRef refid="18"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthPlugin/authenticate:</TokenIdentifier>
-			<Abstract type="html">Cordova plug-in method to authenticate a user to the application.</Abstract>
-			<DeclaredIn>SalesforceOAuthPlugin.h</DeclaredIn>
-			
-			<Declaration>- (void)authenticate:(CDVInvokedUrlCommand *)command</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>command</Name>
-					<Abstract type="html">Cordova plugin command object, containing the OAuth configuration properties.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/authenticate:</Anchor>
-            <NodeRef refid="18"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthPlugin/logoutCurrentUser:</TokenIdentifier>
-			<Abstract type="html">Clear the current user&apos;s authentication credentials.</Abstract>
-			<DeclaredIn>SalesforceOAuthPlugin.h</DeclaredIn>
-			
-			<Declaration>- (void)logoutCurrentUser:(CDVInvokedUrlCommand *)command</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>command</Name>
-					<Abstract type="html">Standard Cordova plugin arguments, not used in this method.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/logoutCurrentUser:</Anchor>
-            <NodeRef refid="18"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthPlugin/getAppHomeUrl:</TokenIdentifier>
-			<Abstract type="html">Get the app&apos;s homepage URL, which can be used for loading the app in scenarios where it&apos;s offline.</Abstract>
-			<DeclaredIn>SalesforceOAuthPlugin.h</DeclaredIn>
-			
-			<Declaration>- (void)getAppHomeUrl:(CDVInvokedUrlCommand *)command</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>command</Name>
-					<Abstract type="html">Standard Cordova plugin arguments, nominally used in this method.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/getAppHomeUrl:</Anchor>
-            <NodeRef refid="18"/>
-		</Token>
 		
         
         

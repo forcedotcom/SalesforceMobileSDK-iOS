@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSyncOptions.html">
+	<File path="Classes/SFSoslSyncDownTarget.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSyncOptions</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSoslSyncDownTarget</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
+			<DeclaredIn>SFSoslSyncDownTarget.h</DeclaredIn>
             
 			
 			<NodeRef refid="23"/>
@@ -13,134 +13,50 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncOptions/setFieldlist:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSoslSyncDownTarget/setQuery:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
+			<DeclaredIn>SFSoslSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSArray *fieldlist</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSString *query</Declaration>
 			
 			
-			<Anchor>//api/name/fieldlist</Anchor>
+			<Anchor>//api/name/query</Anchor>
             <NodeRef refid="23"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncOptions/fieldlist</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSoslSyncDownTarget/query</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
+			<DeclaredIn>SFSoslSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSArray *fieldlist</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSString *query</Declaration>
 			
 			
-			<Anchor>//api/name/fieldlist</Anchor>
+			<Anchor>//api/name/query</Anchor>
             <NodeRef refid="23"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSyncOptions/fieldlist</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSoslSyncDownTarget/query</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
+			<DeclaredIn>SFSoslSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSArray *fieldlist</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSString *query</Declaration>
 			
 			
-			<Anchor>//api/name/fieldlist</Anchor>
+			<Anchor>//api/name/query</Anchor>
             <NodeRef refid="23"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncOptions/setMergeMode:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) SFSyncStateMergeMode mergeMode</Declaration>
-			
-			
-			<Anchor>//api/name/mergeMode</Anchor>
-            <NodeRef refid="23"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncOptions/mergeMode</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) SFSyncStateMergeMode mergeMode</Declaration>
-			
-			
-			<Anchor>//api/name/mergeMode</Anchor>
-            <NodeRef refid="23"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSyncOptions/mergeMode</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) SFSyncStateMergeMode mergeMode</Declaration>
-			
-			
-			<Anchor>//api/name/mergeMode</Anchor>
-            <NodeRef refid="23"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncOptions/newSyncOptionsForSyncDown:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSoslSyncDownTarget/newSyncTarget:</TokenIdentifier>
 			<Abstract type="html">Factory methods</Abstract>
-			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
+			<DeclaredIn>SFSoslSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>+ (SFSyncOptions *)newSyncOptionsForSyncDown:(SFSyncStateMergeMode)mergeMode</Declaration>
-			
-			
-			<Anchor>//api/name/newSyncOptionsForSyncDown:</Anchor>
-            <NodeRef refid="23"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncOptions/newSyncOptionsForSyncUp:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
-			
-			<Declaration>+ (SFSyncOptions *)newSyncOptionsForSyncUp:(NSArray *)fieldlist</Declaration>
+			<Declaration>+ (SFSoslSyncDownTarget *)newSyncTarget:(NSString *)query</Declaration>
 			
 			
-			<Anchor>//api/name/newSyncOptionsForSyncUp:</Anchor>
-            <NodeRef refid="23"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncOptions/newSyncOptionsForSyncUp:mergeMode:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
-			
-			<Declaration>+ (SFSyncOptions *)newSyncOptionsForSyncUp:(NSArray *)fieldlist mergeMode:(SFSyncStateMergeMode)mergeMode</Declaration>
-			
-			
-			<Anchor>//api/name/newSyncOptionsForSyncUp:mergeMode:</Anchor>
-            <NodeRef refid="23"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncOptions/newFromDict:</TokenIdentifier>
-			<Abstract type="html">Methods to translate to/from dictionary</Abstract>
-			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
-			
-			<Declaration>+ (SFSyncOptions *)newFromDict:(NSDictionary *)dict</Declaration>
-			
-			
-			<Anchor>//api/name/newFromDict:</Anchor>
-            <NodeRef refid="23"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncOptions/asDict</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
-			
-			<Declaration>- (NSDictionary *)asDict</Declaration>
-			
-			
-			<Anchor>//api/name/asDict</Anchor>
+			<Anchor>//api/name/newSyncTarget:</Anchor>
             <NodeRef refid="23"/>
 		</Token>
 		

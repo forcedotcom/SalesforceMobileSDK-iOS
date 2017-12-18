@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKAppDelegate.html">
+	<File path="Protocols/SFSDKLoginHostDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKAppDelegate</TokenIdentifier>
-			<Abstract type="html">Protocol defining an SDK-based app delegate.</Abstract>
-			<DeclaredIn>SFSDKAppDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKLoginHostDelegate</TokenIdentifier>
+			<Abstract type="html">Use the SFSDKLoginHostDelegate to be notified of the actions taken by the user on the login host list view controller.</Abstract>
+			<DeclaredIn>SFSDKLoginHostDelegate.h</DeclaredIn>
             
 			
 			<NodeRef refid="167"/>
@@ -13,63 +13,95 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKAppDelegate/setUserAgentString:</TokenIdentifier>
-			<Abstract type="html">The User-Agent string presented by this application</Abstract>
-			<DeclaredIn>SFSDKAppDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginHostDelegate/hostListViewController:willPresentLoginHostViewController:</TokenIdentifier>
+			<Abstract type="html">Notifies the delegate that a new login host viewcontroller will be presented.</Abstract>
+			<DeclaredIn>SFSDKLoginHostDelegate.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *userAgentString</Declaration>
+			<Declaration>- (void)hostListViewController:(SFSDKLoginHostListViewController *)hostListViewController willPresentLoginHostViewController:(UIViewController *)loginHostViewController</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>hostListViewController</Name>
+					<Abstract type="html">The instance sending this message.</Abstract>
+				</Parameter><Parameter>
+					<Name>loginHostViewController</Name>
+					<Abstract type="html">The view controller that will be presented.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/userAgentString</Anchor>
+			<Anchor>//api/name/hostListViewController:willPresentLoginHostViewController:</Anchor>
             <NodeRef refid="167"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKAppDelegate/userAgentString</TokenIdentifier>
-			<Abstract type="html">The User-Agent string presented by this application</Abstract>
-			<DeclaredIn>SFSDKAppDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginHostDelegate/hostListViewControllerDidSelectLoginHost:</TokenIdentifier>
+			<Abstract type="html">Notifies the delegate that a login host has been selected by the user.
+This will be a good time to dismiss the host list view controller.</Abstract>
+			<DeclaredIn>SFSDKLoginHostDelegate.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *userAgentString</Declaration>
+			<Declaration>- (void)hostListViewControllerDidSelectLoginHost:(SFSDKLoginHostListViewController *)hostListViewController</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>hostListViewController</Name>
+					<Abstract type="html">The instance sending this message.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/userAgentString</Anchor>
+			<Anchor>//api/name/hostListViewControllerDidSelectLoginHost:</Anchor>
             <NodeRef refid="167"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/SFSDKAppDelegate/userAgentString</TokenIdentifier>
-			<Abstract type="html">The User-Agent string presented by this application</Abstract>
-			<DeclaredIn>SFSDKAppDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginHostDelegate/hostListViewControllerDidAddLoginHost:</TokenIdentifier>
+			<Abstract type="html">Notifies the delegate that a login host has been added to the list of hosts.</Abstract>
+			<DeclaredIn>SFSDKLoginHostDelegate.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *userAgentString</Declaration>
+			<Declaration>- (void)hostListViewControllerDidAddLoginHost:(SFSDKLoginHostListViewController *)hostListViewController</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>hostListViewController</Name>
+					<Abstract type="html">The instance sending this message.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/userAgentString</Anchor>
+			<Anchor>//api/name/hostListViewControllerDidAddLoginHost:</Anchor>
             <NodeRef refid="167"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKAppDelegate/logout</TokenIdentifier>
-			<Abstract type="html">Forces a logout from the current account.
-This throws out the OAuth refresh token.</Abstract>
-			<DeclaredIn>SFSDKAppDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginHostDelegate/hostListViewControllerDidCancelLoginHost:</TokenIdentifier>
+			<Abstract type="html">Notifies the delegate that user cancels out from the login host picking flow</Abstract>
+			<DeclaredIn>SFSDKLoginHostDelegate.h</DeclaredIn>
 			
-			<Declaration>- (void)logout</Declaration>
+			<Declaration>- (void)hostListViewControllerDidCancelLoginHost:(SFSDKLoginHostListViewController *)hostListViewController</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>hostListViewController</Name>
+					<Abstract type="html">The instance sending this message.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/logout</Anchor>
+			<Anchor>//api/name/hostListViewControllerDidCancelLoginHost:</Anchor>
             <NodeRef refid="167"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKAppDelegate/createSnapshotView</TokenIdentifier>
-			<Abstract type="html">Creates a snapshot view.</Abstract>
-			<DeclaredIn>SFSDKAppDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginHostDelegate/hostListViewController:didChangeLoginHost:</TokenIdentifier>
+			<Abstract type="html">Notifies the delegate that the login host has been changed in some capacity (user-selected, host entry edited,
+custom login host added, previous current login host deleted, etc.).</Abstract>
+			<DeclaredIn>SFSDKLoginHostDelegate.h</DeclaredIn>
 			
-			<Declaration>- (UIView *)createSnapshotView</Declaration>
+			<Declaration>- (void)hostListViewController:(SFSDKLoginHostListViewController *)hostListViewController didChangeLoginHost:(SFSDKLoginHost *)newLoginHost</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>hostListViewController</Name>
+					<Abstract type="html">The instance sending this message.</Abstract>
+				</Parameter><Parameter>
+					<Name>newLoginHost</Name>
+					<Abstract type="html">The updated login host.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/createSnapshotView</Anchor>
+			<Anchor>//api/name/hostListViewController:didChangeLoginHost:</Anchor>
             <NodeRef refid="167"/>
 		</Token>
 		
