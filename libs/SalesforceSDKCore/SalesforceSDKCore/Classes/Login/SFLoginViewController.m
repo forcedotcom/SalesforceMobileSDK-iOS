@@ -197,7 +197,7 @@ SFSDK_USE_DEPRECATED_END
         return YES;
     }
     NSInteger totalAccounts = [SFUserAccountManager sharedInstance].allUserAccounts.count;
-    return  (totalAccounts > 0);
+    return  (totalAccounts > 0 && [SFUserAccountManager sharedInstance].currentUser);
 }
 
 #pragma mark - Action Methods

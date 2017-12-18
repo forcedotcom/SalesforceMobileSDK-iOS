@@ -130,6 +130,10 @@ FOUNDATION_EXTERN NSString * const kSFNotificationUserDidLogIn;
  */
 FOUNDATION_EXTERN NSString * const kSFNotificationUserWillSendIDPRequest;
 
+/**  Notification sent before IDP APP invokes SP APP with auth code
+ */
+FOUNDATION_EXTERN NSString * const kSFNotificationUserWillSendIDPResponse;
+
 /**  Notification sent when  IDP APP receives request for authentication from SP APP
  */
 FOUNDATION_EXTERN NSString * const kSFNotificationUserDidReceiveIDPRequest;

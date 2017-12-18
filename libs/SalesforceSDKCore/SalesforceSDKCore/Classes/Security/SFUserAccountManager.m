@@ -78,6 +78,7 @@ NSString * const kSFNotificationUserWillShowAuthView = @"SFNotificationUserWillS
 NSString * const kSFNotificationUserCanceledAuth = @"SFNotificationUserCanceledAuthentication";
 //IDP-SP flow Notifications
 NSString * const kSFNotificationUserWillSendIDPRequest      = @"SFNotificationUserWillSendIDPRequest";
+NSString * const kSFNotificationUserWillSendIDPResponse     = @"kSFNotificationUserWillSendIDPResponse";
 NSString * const kSFNotificationUserDidReceiveIDPRequest    = @"SFNotificationUserDidReceiveIDPRequest";
 NSString * const kSFNotificationUserDidReceiveIDPResponse   = @"SFNotificationUserDidReceiveIDPResponse";
 NSString * const kSFNotificationUserIDPInitDidLogIn       = @"SFNotificationUserIDPInitDidLogIn";
@@ -477,6 +478,12 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 
 - (void)authClient:(SFSDKOAuthClient *)client willSendResponseForIDPAuth:(NSDictionary *)options {
     [client dismissAuthViewControllerIfPresent];
+    SFUserAccount *account = [[SFUserAccountManager sharedInstance] accountForCredentials:client.credentials];
+    NSDictionary *userInfo = @{kSFNotificationUserInfoAccountKey:account,kSFUserInfoAddlOptionsKey:options};
+    [[NSNotificationCenter defaultCenter]  postNotificationName:kSFNotificationUserWillSendIDPResponse
+                                                         object:self
+                                                       userInfo:userInfo
+     ];
 }
 
 - (void)authClient:(SFSDKIDPAuthClient *)client willSendRequestForIDPAuth:(NSDictionary *)options {
