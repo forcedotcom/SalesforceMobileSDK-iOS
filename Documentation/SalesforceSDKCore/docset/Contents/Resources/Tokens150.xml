@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/CSFActionModel.html">
+	<File path="Categories/UIColor+SFColors.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/CSFActionModel</TokenIdentifier>
-			<Abstract type="html">This protocol represents objects that can be used as the model class for a CSFAction.</Abstract>
-			<DeclaredIn>CSFActionModel.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/UIColor(SFColors)</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
             
 			
 			<NodeRef refid="150"/>
@@ -13,22 +13,39 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/CSFActionModel/initWithJSON:context:</TokenIdentifier>
-			<Abstract type="html">Designated initializer to construct a model object from its JSON representation.</Abstract>
-			<DeclaredIn>CSFActionModel.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/salesforceBlueColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithJSON:(id)json context:(NSDictionary *)context</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>json</Name>
-					<Abstract type="html">Dictionary of structured data from the network.</Abstract>
-				</Parameter><Parameter>
-					<Name>context</Name>
-					<Abstract type="html">Dictionary of relevant information about the request and the action that performed it.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">Initialized model object.</Abstract></ReturnValue>
-			<Anchor>//api/name/initWithJSON:context:</Anchor>
+			<Declaration>+ (UIColor *)salesforceBlueColor</Declaration>
+			
+			
+			<Anchor>//api/name/salesforceBlueColor</Anchor>
+            <NodeRef refid="150"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/colorFromHexValue:</TokenIdentifier>
+			<Abstract type="html">Construct a color given hex color, like &quot;#00FF00&quot; (#RRGGBB).</Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			
+			<Declaration>+ (nullable UIColor *)colorFromHexValue:(NSString *)hexString</Declaration>
+			
+			
+			<Anchor>//api/name/colorFromHexValue:</Anchor>
+            <NodeRef refid="150"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/hexStringFromColor</TokenIdentifier>
+			<Abstract type="html">Returns a CSS hex color representation
+of this color</Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)hexStringFromColor</Declaration>
+			
+			
+			<Anchor>//api/name/hexStringFromColor</Anchor>
             <NodeRef refid="150"/>
 		</Token>
 		

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFOAuthAdvancedAuthConfiguration.html">
+	<File path="Constants/SFSDKWindowType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthAdvancedAuthConfiguration</TokenIdentifier>
-			<Abstract type="html">Enumeration of advanced auth configuration.</Abstract>
-			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSDKWindowType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
             
 			
 			<NodeRef refid="204"/>
@@ -14,36 +14,51 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthConfigurationNone</TokenIdentifier>
-            <Abstract type="html">     Advanced authentication is not configured (default)
-     </Abstract>
-            <Declaration>SFOAuthAdvancedAuthConfigurationNone</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeMain</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKWindowTypeMain</Declaration>
             
-            <DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
-            
-            <NodeRef refid="204"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthConfigurationAllow</TokenIdentifier>
-            <Abstract type="html">     Advanced authentication is allowed.  Coordinator will attempt to retrieve advanced auth
-     configuration from the org, to determine whether to initiate advanced authentication.
-     </Abstract>
-            <Declaration>SFOAuthAdvancedAuthConfigurationAllow</Declaration>
-            
-            <DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
             
             <NodeRef refid="204"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthConfigurationRequire</TokenIdentifier>
-            <Abstract type="html">     Advanced authentication is required.  Coordinator will initiate advanced authentication
-     regardless of org settings.
-     </Abstract>
-            <Declaration>SFOAuthAdvancedAuthConfigurationRequire</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeAuth</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKWindowTypeAuth</Declaration>
             
-            <DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            
+            <NodeRef refid="204"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypePasscode</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKWindowTypePasscode</Declaration>
+            
+            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            
+            <NodeRef refid="204"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeSnapshot</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKWindowTypeSnapshot</Declaration>
+            
+            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            
+            <NodeRef refid="204"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeOther</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKWindowTypeOther</Declaration>
+            
+            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
             
             <NodeRef refid="204"/>
         </Token>

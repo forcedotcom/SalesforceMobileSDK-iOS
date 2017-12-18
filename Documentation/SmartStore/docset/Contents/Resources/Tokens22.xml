@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSoupIndex.html">
+	<File path="Classes/SFSmartStoreUpgrade.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSoupIndex</TokenIdentifier>
-			<Abstract type="html">Definition of an index on a given soup.</Abstract>
-			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSmartStoreUpgrade</TokenIdentifier>
+			<Abstract type="html">Used internally for upgrading SmartStore.</Abstract>
+			<DeclaredIn>SFSmartStoreUpgrade.h</DeclaredIn>
             
 			
 			<NodeRef refid="22"/>
@@ -13,318 +13,208 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/setPath:</TokenIdentifier>
-			<Abstract type="html">The simple or compound path to the index value, e.g. &quot;Id&quot; or &quot;Account.Id&quot;.</Abstract>
-			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreUpgrade/updateStoreLocations</TokenIdentifier>
+			<Abstract type="html">Updates any existing stores from their legacy location to their new user-specific location.</Abstract>
+			<DeclaredIn>SFSmartStoreUpgrade.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *path</Declaration>
+			<Declaration>+ (void)updateStoreLocations</Declaration>
 			
 			
-			<Anchor>//api/name/path</Anchor>
+			<Anchor>//api/name/updateStoreLocations</Anchor>
             <NodeRef refid="22"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/path</TokenIdentifier>
-			<Abstract type="html">The simple or compound path to the index value, e.g. &quot;Id&quot; or &quot;Account.Id&quot;.</Abstract>
-			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreUpgrade/updateEncryption</TokenIdentifier>
+			<Abstract type="html">Updates the encryption scheme of each SmartStore database to the currently supported scheme.</Abstract>
+			<DeclaredIn>SFSmartStoreUpgrade.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *path</Declaration>
+			<Declaration>+ (void)updateEncryption</Declaration>
 			
 			
-			<Anchor>//api/name/path</Anchor>
+			<Anchor>//api/name/updateEncryption</Anchor>
             <NodeRef refid="22"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSoupIndex/path</TokenIdentifier>
-			<Abstract type="html">The simple or compound path to the index value, e.g. &quot;Id&quot; or &quot;Account.Id&quot;.</Abstract>
-			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreUpgrade/usesKeyStoreEncryptionForUser:store:</TokenIdentifier>
+			<Abstract type="html">Whether or not a given store for the given user is encrypted based on the key store key.</Abstract>
+			<DeclaredIn>SFSmartStoreUpgrade.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *path</Declaration>
-			
-			
-			<Anchor>//api/name/path</Anchor>
-            <NodeRef refid="22"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/setIndexType:</TokenIdentifier>
-			<Abstract type="html">The type of index this is (string or date).</Abstract>
-			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *indexType</Declaration>
-			
-			
-			<Anchor>//api/name/indexType</Anchor>
-            <NodeRef refid="22"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/indexType</TokenIdentifier>
-			<Abstract type="html">The type of index this is (string or date).</Abstract>
-			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *indexType</Declaration>
-			
-			
-			<Anchor>//api/name/indexType</Anchor>
-            <NodeRef refid="22"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSoupIndex/indexType</TokenIdentifier>
-			<Abstract type="html">The type of index this is (string or date).</Abstract>
-			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *indexType</Declaration>
-			
-			
-			<Anchor>//api/name/indexType</Anchor>
-            <NodeRef refid="22"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/setColumnType:</TokenIdentifier>
-			<Abstract type="html">The type of data that will be indexed (string or integer).</Abstract>
-			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
-			
-			<Declaration>@property (strong, nonatomic, readonly) NSString *columnType</Declaration>
-			
-			
-			<Anchor>//api/name/columnType</Anchor>
-            <NodeRef refid="22"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/columnType</TokenIdentifier>
-			<Abstract type="html">The type of data that will be indexed (string or integer).</Abstract>
-			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
-			
-			<Declaration>@property (strong, nonatomic, readonly) NSString *columnType</Declaration>
-			
-			
-			<Anchor>//api/name/columnType</Anchor>
-            <NodeRef refid="22"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSoupIndex/columnType</TokenIdentifier>
-			<Abstract type="html">The type of data that will be indexed (string or integer).</Abstract>
-			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
-			
-			<Declaration>@property (strong, nonatomic, readonly) NSString *columnType</Declaration>
-			
-			
-			<Anchor>//api/name/columnType</Anchor>
-            <NodeRef refid="22"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/setColumnName:</TokenIdentifier>
-			<Abstract type="html">The name of the column that will store the index.</Abstract>
-			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
-			
-			<Declaration>@property (strong, nonatomic, readonly) NSString *columnName</Declaration>
-			
-			
-			<Anchor>//api/name/columnName</Anchor>
-            <NodeRef refid="22"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/columnName</TokenIdentifier>
-			<Abstract type="html">The name of the column that will store the index.</Abstract>
-			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
-			
-			<Declaration>@property (strong, nonatomic, readonly) NSString *columnName</Declaration>
-			
-			
-			<Anchor>//api/name/columnName</Anchor>
-            <NodeRef refid="22"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSoupIndex/columnName</TokenIdentifier>
-			<Abstract type="html">The name of the column that will store the index.</Abstract>
-			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
-			
-			<Declaration>@property (strong, nonatomic, readonly) NSString *columnName</Declaration>
-			
-			
-			<Anchor>//api/name/columnName</Anchor>
-            <NodeRef refid="22"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/initWithPath:indexType:columnName:</TokenIdentifier>
-			<Abstract type="html">Designated initializer.</Abstract>
-			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
-			
-			<Declaration>- (id)initWithPath:(NSString *)path indexType:(NSString *)type columnName:(NSString *)columnName</Declaration>
+			<Declaration>+ (BOOL)usesKeyStoreEncryptionForUser:(SFUserAccount *)user store:(NSString *)storeName</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>path</Name>
-					<Abstract type="html">The simple or compound path to the index value, e.g. &quot;Id&quot; or &quot;Account.Id&quot;.</Abstract>
+					<Name>user</Name>
+					<Abstract type="html">The user associated with the store.</Abstract>
 				</Parameter><Parameter>
-					<Name>type</Name>
-					<Abstract type="html">An index type, e.g. kSoupIndexTypeString.</Abstract>
+					<Name>storeName</Name>
+					<Abstract type="html">The store to query.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the store is encrypted with the key store, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/usesKeyStoreEncryptionForUser:store:</Anchor>
+            <NodeRef refid="22"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreUpgrade/setUsesKeyStoreEncryption:forUser:store:</TokenIdentifier>
+			<Abstract type="html">Sets a flag denoting whether or not the store for the given user uses encryption based the key store key.</Abstract>
+			<DeclaredIn>SFSmartStoreUpgrade.h</DeclaredIn>
+			
+			<Declaration>+ (void)setUsesKeyStoreEncryption:(BOOL)usesKeyStoreEncryption forUser:(SFUserAccount *)user store:(NSString *)storeName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>usesKeyStoreEncryption</Name>
+					<Abstract type="html">YES if it does, NO if it doesn&apos;t.</Abstract>
 				</Parameter><Parameter>
-					<Name>columnName</Name>
-					<Abstract type="html">The SQL column name, or nil.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/initWithPath:indexType:columnName:</Anchor>
-            <NodeRef refid="22"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/initWithDictionary:</TokenIdentifier>
-			<Abstract type="html">Creates an SFSoupIndex based on the given NSDictionary index spec.</Abstract>
-			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
-			
-			<Declaration>- (id)initWithDictionary:(NSDictionary *)dict</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>dict</Name>
-					<Abstract type="html">the dictionary to use</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">Initialized SFSoupIndex object.</Abstract></ReturnValue>
-			<Anchor>//api/name/initWithDictionary:</Anchor>
-            <NodeRef refid="22"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/asDictionary</TokenIdentifier>
-			<Abstract type="html">Return dictionary for this SFSoupIndex object without column name
-  </Abstract>
-			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
-			
-			<Declaration>- (NSDictionary *)asDictionary</Declaration>
-			
-			
-			<Anchor>//api/name/asDictionary</Anchor>
-            <NodeRef refid="22"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/asDictionary:</TokenIdentifier>
-			<Abstract type="html">Returns a dictionary For this SFSoupIndex object with or without column name</Abstract>
-			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
-			
-			<Declaration>- (NSDictionary *)asDictionary:(BOOL)withColumnName</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>withColumnName</Name>
-					<Abstract type="html">If YES, column name is included in returned dictionary
-  </Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/asDictionary:</Anchor>
-            <NodeRef refid="22"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSoupIndex/asArrayOfDictionaries:withColumnName:</TokenIdentifier>
-			<Abstract type="html">Returns an array of NSDictionary objects for a given array of soup indexes, using the given column name as the index.</Abstract>
-			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
-			
-			<Declaration>+ (NSArray *)asArrayOfDictionaries:(NSArray *)arrayOfSoupIndexes withColumnName:(BOOL)withColumnName</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>arrayOfSoupIndexes</Name>
-					<Abstract type="html">Array of soup indexes</Abstract>
+					<Name>user</Name>
+					<Abstract type="html">The user associated with the store.</Abstract>
 				</Parameter><Parameter>
-					<Name>withColumnName</Name>
-					<Abstract type="html">If YES, column name is included in returned dictionary</Abstract>
+					<Name>storeName</Name>
+					<Abstract type="html">The store to which the flag applies.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">Array of NSDictionary objects
-  </Abstract></ReturnValue>
-			<Anchor>//api/name/asArrayOfDictionaries:withColumnName:</Anchor>
+			
+			<Anchor>//api/name/setUsesKeyStoreEncryption:forUser:store:</Anchor>
             <NodeRef refid="22"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSoupIndex/asArraySoupIndexes:</TokenIdentifier>
-			<Abstract type="html">Returns an array of SFSoupIndex objects for a given array of soup indexes.</Abstract>
-			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreUpgrade/legacyDefaultKey</TokenIdentifier>
+			<Abstract type="html">The default key to use, if no encryption key exists.</Abstract>
+			<DeclaredIn>SFSmartStoreUpgrade+Internal.h</DeclaredIn>
 			
-			<Declaration>+ (NSArray *)asArraySoupIndexes:(NSArray *)arrayOfDictionaries</Declaration>
+			<Declaration>+ (NSString *)legacyDefaultKey</Declaration>
+			
+			<ReturnValue><Abstract type="html">The default key to use, if no encryption key exists.</Abstract></ReturnValue>
+			<Anchor>//api/name/legacyDefaultKey</Anchor>
+            <NodeRef refid="22"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreUpgrade/usesLegacyDefaultKey:</TokenIdentifier>
+			<Abstract type="html">Determines whether the given store uses a legacy default key for encryption.</Abstract>
+			<DeclaredIn>SFSmartStoreUpgrade+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)usesLegacyDefaultKey:(NSString *)storeName</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>arrayOfDictionaries</Name>
-					<Abstract type="html">Array of dictionaries</Abstract>
+					<Name>storeName</Name>
+					<Abstract type="html">The store associated with the setting.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">Array of SFSoupIndex objects</Abstract></ReturnValue>
-			<Anchor>//api/name/asArraySoupIndexes:</Anchor>
+			<ReturnValue><Abstract type="html">YES if it does, NO if it doesn&apos;t.</Abstract></ReturnValue>
+			<Anchor>//api/name/usesLegacyDefaultKey:</Anchor>
             <NodeRef refid="22"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSoupIndex/mapForSoupIndexes:</TokenIdentifier>
-			<Abstract type="html">Returns a map path to SFSoupIndex</Abstract>
-			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreUpgrade/setUsesLegacyDefaultKey:forStore:</TokenIdentifier>
+			<Abstract type="html">Sets a property specifying whether the given store uses a default key for encryption.</Abstract>
+			<DeclaredIn>SFSmartStoreUpgrade+Internal.h</DeclaredIn>
 			
-			<Declaration>+ (NSDictionary *)mapForSoupIndexes:(NSArray *)soupIndexes</Declaration>
+			<Declaration>+ (void)setUsesLegacyDefaultKey:(BOOL)usesDefault forStore:(NSString *)storeName</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>soupIndexes</Name>
-					<Abstract type="html">array of SFSoupIndex objects</Abstract>
+					<Name>usesDefault</Name>
+					<Abstract type="html">Whether the store uses a default key.</Abstract>
+				</Parameter><Parameter>
+					<Name>storeName</Name>
+					<Abstract type="html">The store for which the setting applies.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">Dictionary that maps paths to soup indexes</Abstract></ReturnValue>
-			<Anchor>//api/name/mapForSoupIndexes:</Anchor>
+			
+			<Anchor>//api/name/setUsesLegacyDefaultKey:forStore:</Anchor>
             <NodeRef refid="22"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSoupIndex/hasFts:</TokenIdentifier>
-			<Abstract type="html">Returns YES if any of the indexes are full text</Abstract>
-			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreUpgrade/setLegacyDefaultEncryptionType:forStore:</TokenIdentifier>
+			<Abstract type="html">Sets the default encryption type for the given store.</Abstract>
+			<DeclaredIn>SFSmartStoreUpgrade+Internal.h</DeclaredIn>
 			
-			<Declaration>+ (BOOL)hasFts:(NSArray *)soupIndexes</Declaration>
+			<Declaration>+ (void)setLegacyDefaultEncryptionType:(SFSmartStoreLegacyDefaultEncryptionType)encType forStore:(NSString *)storeName</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>soupIndexes</Name>
-					<Abstract type="html">array of SFSoupIndex objects</Abstract>
+					<Name>encType</Name>
+					<Abstract type="html">The type of default encryption being used for the store.</Abstract>
+				</Parameter><Parameter>
+					<Name>storeName</Name>
+					<Abstract type="html">The name of the store to set the value for.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">YES if any of the indexes are full text</Abstract></ReturnValue>
-			<Anchor>//api/name/hasFts:</Anchor>
+			
+			<Anchor>//api/name/setLegacyDefaultEncryptionType:forStore:</Anchor>
             <NodeRef refid="22"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSoupIndex/hasJSON1:</TokenIdentifier>
-			<Abstract type="html">Returns YES if any of the indexes are JSON1</Abstract>
-			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreUpgrade/legacyDefaultEncryptionTypeForStore:</TokenIdentifier>
+			<Abstract type="html">Gets the default encryption type for the given store.</Abstract>
+			<DeclaredIn>SFSmartStoreUpgrade+Internal.h</DeclaredIn>
 			
-			<Declaration>+ (BOOL)hasJSON1:(NSArray *)soupIndexes</Declaration>
+			<Declaration>+ (SFSmartStoreLegacyDefaultEncryptionType)legacyDefaultEncryptionTypeForStore:(NSString *)storeName</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>soupIndexes</Name>
-					<Abstract type="html">array of SFSoupIndex objects</Abstract>
+					<Name>storeName</Name>
+					<Abstract type="html">The name of the story to query for its default encryption type.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">YES if any of the indexes are JSON1</Abstract></ReturnValue>
-			<Anchor>//api/name/hasJSON1:</Anchor>
+			<ReturnValue><Abstract type="html">An SFSmartStoreDefaultEncryptionType enumerated value specifying the default encryption type.</Abstract></ReturnValue>
+			<Anchor>//api/name/legacyDefaultEncryptionTypeForStore:</Anchor>
             <NodeRef refid="22"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/getPathType</TokenIdentifier>
-			<Abstract type="html">Using the path and indexType property values, constructs a string in the format &quot;path--indexType&quot;.</Abstract>
-			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreUpgrade/legacyDefaultKeyMac</TokenIdentifier>
+			<Abstract type="html">The default key, based on the MAC address.</Abstract>
+			<DeclaredIn>SFSmartStoreUpgrade+Internal.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)getPathType</Declaration>
+			<Declaration>+ (NSString *)legacyDefaultKeyMac</Declaration>
 			
-			<ReturnValue><Abstract type="html">String containing the path and indext type, separated by &quot;--&quot;.</Abstract></ReturnValue>
-			<Anchor>//api/name/getPathType</Anchor>
+			<ReturnValue><Abstract type="html">The default key, based on the MAC address.</Abstract></ReturnValue>
+			<Anchor>//api/name/legacyDefaultKeyMac</Anchor>
+            <NodeRef refid="22"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreUpgrade/legacyDefaultKeyIdForVendor</TokenIdentifier>
+			<Abstract type="html">The default key, based on the idForVendor value.</Abstract>
+			<DeclaredIn>SFSmartStoreUpgrade+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)legacyDefaultKeyIdForVendor</Declaration>
+			
+			<ReturnValue><Abstract type="html">The default key, based on the idForVendor value.</Abstract></ReturnValue>
+			<Anchor>//api/name/legacyDefaultKeyIdForVendor</Anchor>
+            <NodeRef refid="22"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreUpgrade/legacyDefaultKeyBaseAppId</TokenIdentifier>
+			<Abstract type="html">The default key, based on the base app id.</Abstract>
+			<DeclaredIn>SFSmartStoreUpgrade+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)legacyDefaultKeyBaseAppId</Declaration>
+			
+			<ReturnValue><Abstract type="html">The default key, based on the base app id.</Abstract></ReturnValue>
+			<Anchor>//api/name/legacyDefaultKeyBaseAppId</Anchor>
+            <NodeRef refid="22"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreUpgrade/legacyDefaultKeyWithSeed:</TokenIdentifier>
+			<Abstract type="html">Creates a default key with the given seed.</Abstract>
+			<DeclaredIn>SFSmartStoreUpgrade+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)legacyDefaultKeyWithSeed:(NSString *)seed</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>seed</Name>
+					<Abstract type="html">The seed for creating the default key.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The default key, based on the seed.</Abstract></ReturnValue>
+			<Anchor>//api/name/legacyDefaultKeyWithSeed:</Anchor>
             <NodeRef refid="22"/>
 		</Token>
 		

@@ -161,7 +161,7 @@
 			<Abstract type="html">Object name field</Abstract>
 			<DeclaredIn>SFObjectType+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *nameField</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *nameField</Declaration>
 			
 			
 			<Anchor>//api/name/nameField</Anchor>
@@ -173,7 +173,7 @@
 			<Abstract type="html">Object name field</Abstract>
 			<DeclaredIn>SFObjectType+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *nameField</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *nameField</Declaration>
 			
 			
 			<Anchor>//api/name/nameField</Anchor>
@@ -185,7 +185,7 @@
 			<Abstract type="html">Object name field</Abstract>
 			<DeclaredIn>SFObjectType+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *nameField</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *nameField</Declaration>
 			
 			
 			<Anchor>//api/name/nameField</Anchor>

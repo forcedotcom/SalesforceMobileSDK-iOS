@@ -1,362 +1,144 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFOAuthCoordinatorDelegate.html">
+	<File path="Protocols/SFPasscodeProvider.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFOAuthCoordinatorDelegate</TokenIdentifier>
-			<Abstract type="html">Protocol for objects intending to be a delegate for an OAuth coordinator.</Abstract>
-			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFPasscodeProvider</TokenIdentifier>
+			<Abstract type="html">Protocol that a passcode provider class must implement.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
             
 			
-	<RelatedTokens>
-		<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCoordinator</TokenIdentifier>
-		
-	</RelatedTokens>
-	
 			<NodeRef refid="160"/>
 		</Token>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:willBeginAuthenticationWithView:</TokenIdentifier>
-			<Abstract type="html">Sent when authentication will begin.</Abstract>
-			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/setProviderName:</TokenIdentifier>
+			<Abstract type="html">The canonical name of this passcode provider.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
 			
-	<RelatedTokens>
-		<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCoordinator</TokenIdentifier>
-		
-	</RelatedTokens>
-	
-			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginAuthenticationWithView:(WKWebView *)view</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>coordinator</Name>
-					<Abstract type="html">The SFOAuthCoordinator instance processing this message</Abstract>
-				</Parameter><Parameter>
-					<Name>view</Name>
-					<Abstract type="html">The WKWebView instance that will be used to conduct the authentication workflow</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, readonly) SFPasscodeProviderId providerName</Declaration>
 			
-			<Anchor>//api/name/oauthCoordinator:willBeginAuthenticationWithView:</Anchor>
+			
+			<Anchor>//api/name/providerName</Anchor>
             <NodeRef refid="160"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:didStartLoad:</TokenIdentifier>
-			<Abstract type="html">Sent when the web will starts to load its content.</Abstract>
-			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/providerName</TokenIdentifier>
+			<Abstract type="html">The canonical name of this passcode provider.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
 			
-			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didStartLoad:(WKWebView *)view</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>coordinator</Name>
-					<Abstract type="html">The SFOAuthCoordinator instance processing this message</Abstract>
-				</Parameter><Parameter>
-					<Name>view</Name>
-					<Abstract type="html">The WKWebView instance that will be used to conduct the authentication workflow</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, readonly) SFPasscodeProviderId providerName</Declaration>
 			
-			<Anchor>//api/name/oauthCoordinator:didStartLoad:</Anchor>
+			
+			<Anchor>//api/name/providerName</Anchor>
             <NodeRef refid="160"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:didFinishLoad:error:</TokenIdentifier>
-			<Abstract type="html">Sent when the web will completed to load its content.</Abstract>
-			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfp/SFPasscodeProvider/providerName</TokenIdentifier>
+			<Abstract type="html">The canonical name of this passcode provider.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
 			
-			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFinishLoad:(WKWebView *)view error:(NSError *)errorOrNil</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>coordinator</Name>
-					<Abstract type="html">The SFOAuthCoordinator instance processing this message</Abstract>
-				</Parameter><Parameter>
-					<Name>view</Name>
-					<Abstract type="html">The WKWebView instance that will be used to conduct the authentication workflow</Abstract>
-				</Parameter><Parameter>
-					<Name>errorOrNil</Name>
-					<Abstract type="html">Contains the error or nil if no error</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, readonly) SFPasscodeProviderId providerName</Declaration>
 			
-			<Anchor>//api/name/oauthCoordinator:didFinishLoad:error:</Anchor>
+			
+			<Anchor>//api/name/providerName</Anchor>
             <NodeRef refid="160"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinatorDidAuthenticate:</TokenIdentifier>
-			<Abstract type="html">Sent when authentication successfully completes. Note: This method is deprecated.  You should use
-the oauthCoordinatorDidAuthenticate:authInfo: method instead.</Abstract>
-			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/initWithProviderName:</TokenIdentifier>
+			<Abstract type="html">Designated initializer for an SFPasscodeProvider.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
 			
-	<RelatedTokens>
-		<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCoordinator</TokenIdentifier>
-		
-	</RelatedTokens>
-	
-			<Declaration>- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator</Declaration>
+			<Declaration>- (instancetype)initWithProviderName:(SFPasscodeProviderId)providerName</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>coordinator</Name>
-					<Abstract type="html">The SFOAuthCoordinator instance processing this message</Abstract>
+					<Name>providerName</Name>
+					<Abstract type="html">The canonical name of the provider.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/oauthCoordinatorDidAuthenticate:</Anchor>
+			<Anchor>//api/name/initWithProviderName:</Anchor>
             <NodeRef refid="160"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinatorWillBeginAuthentication:authInfo:</TokenIdentifier>
-			<Abstract type="html">Sent before oauthcoordinator will begin any kind of authentication</Abstract>
-			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/resetPasscodeData</TokenIdentifier>
+			<Abstract type="html">Reset (unset) the passcode and any persisted data associated with it.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
 			
-			<Declaration>- (void)oauthCoordinatorWillBeginAuthentication:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>coordinator</Name>
-					<Abstract type="html">The SFOAuthCoordinator instance processing this message</Abstract>
-				</Parameter><Parameter>
-					<Name>info</Name>
-					<Abstract type="html">The SFOAuthInfo instance containing details about the type of authentication.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (void)resetPasscodeData</Declaration>
 			
-			<Anchor>//api/name/oauthCoordinatorWillBeginAuthentication:authInfo:</Anchor>
+			
+			<Anchor>//api/name/resetPasscodeData</Anchor>
             <NodeRef refid="160"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinatorDidAuthenticate:authInfo:</TokenIdentifier>
-			<Abstract type="html">Sent when authentication successfully completes.</Abstract>
-			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/verifyPasscode:</TokenIdentifier>
+			<Abstract type="html">Verify that the input passcode is the correct passcode.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
 			
-	<RelatedTokens>
-		<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCoordinator</TokenIdentifier>
-		
-	</RelatedTokens>
-	
-			<Declaration>- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info</Declaration>
+			<Declaration>- (BOOL)verifyPasscode:(NSString *)passcode</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>coordinator</Name>
-					<Abstract type="html">The SFOAuthCoordinator instance processing this message.</Abstract>
-				</Parameter><Parameter>
-					<Name>info</Name>
-					<Abstract type="html">Object containing info associated with this authentication attempt.</Abstract>
+					<Name>passcode</Name>
+					<Abstract type="html">The passcode to verify.</Abstract>
 				</Parameter>
 			</Parameters>
-			
-			<Anchor>//api/name/oauthCoordinatorDidAuthenticate:authInfo:</Anchor>
+			<ReturnValue><Abstract type="html">YES if the passcode is verified, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/verifyPasscode:</Anchor>
             <NodeRef refid="160"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:didFailWithError:</TokenIdentifier>
-			<Abstract type="html">Sent if authentication fails due to an error. Note: This method is deprecated.  You should use the
-oauthCoordinator:didFailWithError:authInfo method instead.</Abstract>
-			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/hashedVerificationPasscode</TokenIdentifier>
+			<Abstract type="html">The hashed verification passcode, or nil if not configured.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
 			
-	<RelatedTokens>
-		<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCoordinator</TokenIdentifier>
-		
-	</RelatedTokens>
-	
-			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>coordinator</Name>
-					<Abstract type="html">The SFOAuthCoordinator instance processing this message</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">The error message</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (nullable NSString *)hashedVerificationPasscode</Declaration>
 			
-			<Anchor>//api/name/oauthCoordinator:didFailWithError:</Anchor>
+			<ReturnValue><Abstract type="html">The hashed verification passcode, or nil if not configured.</Abstract></ReturnValue>
+			<Anchor>//api/name/hashedVerificationPasscode</Anchor>
             <NodeRef refid="160"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:didFailWithError:authInfo:</TokenIdentifier>
-			<Abstract type="html">Sent if authentication fails due to an error.</Abstract>
-			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/setVerificationPasscode:</TokenIdentifier>
+			<Abstract type="html">Set/persist the verification passcode, based on the input passcode.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
 			
-	<RelatedTokens>
-		<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCoordinator</TokenIdentifier>
-		
-	</RelatedTokens>
-	
-			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info</Declaration>
+			<Declaration>- (void)setVerificationPasscode:(NSString *)newPasscode</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>coordinator</Name>
-					<Abstract type="html">The SFOAuthCoordinator instance processing this message.</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">The error associated with the failure.</Abstract>
-				</Parameter><Parameter>
-					<Name>info</Name>
-					<Abstract type="html">Object containing info associated with the authentication attempt.</Abstract>
+					<Name>newPasscode</Name>
+					<Abstract type="html">The new (plaintext) passcode to set.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/oauthCoordinator:didFailWithError:authInfo:</Anchor>
+			<Anchor>//api/name/setVerificationPasscode:</Anchor>
             <NodeRef refid="160"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinatorIsNetworkAvailable:</TokenIdentifier>
-			<Abstract type="html">The delegate can implement this method to return a BOOL indicating whether the network is available.</Abstract>
-			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/generateEncryptionKey:</TokenIdentifier>
+			<Abstract type="html">Generates an encryption key, based on the input passcode.
+NOTE: This method must generate the same encryption key for the given
+input passcode.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)oauthCoordinatorIsNetworkAvailable:(SFOAuthCoordinator *)coordinator</Declaration>
+			<Declaration>- (nullable NSString *)generateEncryptionKey:(NSString *)passcode</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>coordinator</Name>
-					<Abstract type="html">The SFOAuthCoordinator object to be queried (typically self).</Abstract>
+					<Name>passcode</Name>
+					<Abstract type="html">The (plaintext) passcode used to generate the encryption key.</Abstract>
 				</Parameter>
 			</Parameters>
-			
-			<Anchor>//api/name/oauthCoordinatorIsNetworkAvailable:</Anchor>
-            <NodeRef refid="160"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:willBeginBrowserAuthentication:</TokenIdentifier>
-			<Abstract type="html">Sent to notify the delegate that a browser authentication flow is about to begin.</Abstract>
-			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
-			
-			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginBrowserAuthentication:(SFOAuthBrowserFlowCallbackBlock)callbackBlock</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>coordinator</Name>
-					<Abstract type="html">The SFOAuthCoordinator instance processing this message.</Abstract>
-				</Parameter><Parameter>
-					<Name>callbackBlock</Name>
-					<Abstract type="html">A callback block used to notify the coordinator if it should continue with the authentication flow.
-Pass in YES to proceed, NO to cancel the authentication flow.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/oauthCoordinator:willBeginBrowserAuthentication:</Anchor>
-            <NodeRef refid="160"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:displayAlertMessage:completion:</TokenIdentifier>
-			<Abstract type="html">The delegate is expected to display an alert with the specific message and callback the completion block when
-the user dismisses the alert.</Abstract>
-			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
-			
-			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator displayAlertMessage:(NSString *)message completion:(dispatch_block_t)completion</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>coordinator</Name>
-					<Abstract type="html">The SFOAuthCoordinator instance</Abstract>
-				</Parameter><Parameter>
-					<Name>message</Name>
-					<Abstract type="html">The message to display</Abstract>
-				</Parameter><Parameter>
-					<Name>completion</Name>
-					<Abstract type="html">The completion block to invoke</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/oauthCoordinator:displayAlertMessage:completion:</Anchor>
-            <NodeRef refid="160"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:displayConfirmationMessage:completion:</TokenIdentifier>
-			<Abstract type="html">The delegate is expected to display a confirmation alert with the specific message and callback the completion block when
-the user dismisses the alert.</Abstract>
-			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
-			
-			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator displayConfirmationMessage:(NSString *)message completion:(void ( ^ ) ( BOOL result ))completion</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>coordinator</Name>
-					<Abstract type="html">The SFOAuthCoordinator instance</Abstract>
-				</Parameter><Parameter>
-					<Name>message</Name>
-					<Abstract type="html">The message to display</Abstract>
-				</Parameter><Parameter>
-					<Name>completion</Name>
-					<Abstract type="html">The completion block to invoke with YES as result if the user confirmed the alert or NO if the user cancelled the alert.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/oauthCoordinator:displayConfirmationMessage:completion:</Anchor>
-            <NodeRef refid="160"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:didBeginAuthenticationWithView:</TokenIdentifier>
-			<Abstract type="html">Sent after authentication has begun and the view parameter is displaying the first page of authentication content.</Abstract>
-			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
-			
-	<RelatedTokens>
-		<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCoordinator</TokenIdentifier>
-		
-	</RelatedTokens>
-	
-			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(WKWebView *)view</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>coordinator</Name>
-					<Abstract type="html">The SFOAuthCoordinator instance processing this message</Abstract>
-				</Parameter><Parameter>
-					<Name>view</Name>
-					<Abstract type="html">The WKWebView instance that will be used to conduct the authentication workflow</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/oauthCoordinator:didBeginAuthenticationWithView:</Anchor>
-            <NodeRef refid="160"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:didBeginAuthenticationWithSafariViewController:</TokenIdentifier>
-			<Abstract type="html">Sent after VC has been initialized with authentication URL.</Abstract>
-			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
-			
-	<RelatedTokens>
-		<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCoordinator</TokenIdentifier>
-		
-	</RelatedTokens>
-	
-			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSafariViewController:(SFSafariViewController *)svc</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>coordinator</Name>
-					<Abstract type="html">The SFOAuthCoordinator instance processing this message</Abstract>
-				</Parameter><Parameter>
-					<Name>svc</Name>
-					<Abstract type="html">The SFSafariViewController instance that will be used to conduct the authentication workflow</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/oauthCoordinator:didBeginAuthenticationWithSafariViewController:</Anchor>
-            <NodeRef refid="160"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinatorDidCancelBrowserAuthentication:</TokenIdentifier>
-			<Abstract type="html">Sent to notify the delegate that a browser authentication flow was cancelled out of by the user.</Abstract>
-			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
-			
-			<Declaration>- (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator *)coordinator</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>coordinator</Name>
-					<Abstract type="html">The SFOAuthCoordinator instance processing this message.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/oauthCoordinatorDidCancelBrowserAuthentication:</Anchor>
+			<ReturnValue><Abstract type="html">The encryption key generated from the passcode.</Abstract></ReturnValue>
+			<Anchor>//api/name/generateEncryptionKey:</Anchor>
             <NodeRef refid="160"/>
 		</Token>
 		

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSHA256PasscodeProvider.html">
+	<File path="Classes/SFSDKStartURLHandler.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSHA256PasscodeProvider</TokenIdentifier>
-			<Abstract type="html">Passcode provider for passcodes hashed with the SHA-256 algorithm.</Abstract>
-			<DeclaredIn>SFSHA256PasscodeProvider.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKStartURLHandler</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKStartURLHandler.h</DeclaredIn>
             
 			
 			<NodeRef refid="106"/>

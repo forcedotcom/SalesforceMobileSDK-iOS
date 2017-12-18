@@ -140,28 +140,6 @@
             <Name>SFSDKAnalyticsLogger</Name>
             <Path>Classes/SFSDKAnalyticsLogger.html</Path>
             
-                <Subnodes>
-                <Node type="section">
-                    <Path>Classes/SFSDKAnalyticsLogger.html</Path>
-                    <Name>Overview</Name>
-                    <Anchor>overview</Anchor>
-                </Node>
-                <Node type="section">
-                    <Path>Classes/SFSDKAnalyticsLogger.html</Path>
-                    <Name>Tasks</Name>
-                    <Anchor>tasks</Anchor>
-                </Node>
-                
-                
-                <Node type="section">
-                    <Path>Classes/SFSDKAnalyticsLogger.html</Path>
-                    <Name>Class Methods</Name>
-                    <Anchor>class_methods</Anchor>
-                </Node>
-                
-                
-            </Subnodes>
-            
         </Node>
 		<Node id="5" type="file" documentType="reference">
             <Name>SFSDKAnalyticsManager</Name>

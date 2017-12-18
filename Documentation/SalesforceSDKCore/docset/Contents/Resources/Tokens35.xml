@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFCryptoStreamTestUtils.html">
+	<File path="Classes/SFLoginViewController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFCryptoStreamTestUtils</TokenIdentifier>
-			<Abstract type="html">Utilities for crypto stream testing.</Abstract>
-			<DeclaredIn>SFCryptoStreamTestUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFLoginViewController</TokenIdentifier>
+			<Abstract type="html">The Salesforce login screen view.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
             
 			
 			<NodeRef refid="35"/>
@@ -13,93 +13,322 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFCryptoStreamTestUtils/defaultKeyWithSize:</TokenIdentifier>
-			<Abstract type="html">The default test key bounded by a size.</Abstract>
-			<DeclaredIn>SFCryptoStreamTestUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFLoginViewController/sharedInstance</TokenIdentifier>
+			<Abstract type="html">Returns a shared singleton of SFLoginViewController class.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>+ (NSData *)defaultKeyWithSize:(size_t)keySize</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>keySize</Name>
-					<Abstract type="html">the key size.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the default test key data.</Abstract></ReturnValue>
-			<Anchor>//api/name/defaultKeyWithSize:</Anchor>
+			<Declaration>+ (_Nonnull instancetype)sharedInstance</Declaration>
+			
+			
+			<Anchor>//api/name/sharedInstance</Anchor>
             <NodeRef refid="35"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFCryptoStreamTestUtils/defaultInitializationVectorWithBlockSize:</TokenIdentifier>
-			<Abstract type="html">The default initialization vector bounded by a size.</Abstract>
-			<DeclaredIn>SFCryptoStreamTestUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setDelegate:</TokenIdentifier>
+			<Abstract type="html">The delegate representing the owner of this object.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>+ (NSData *)defaultInitializationVectorWithBlockSize:(size_t)blockSize</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>blockSize</Name>
-					<Abstract type="html">the iv size.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the default test iv data.</Abstract></ReturnValue>
-			<Anchor>//api/name/defaultInitializationVectorWithBlockSize:</Anchor>
+			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
             <NodeRef refid="35"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFCryptoStreamTestUtils/defaultTestDataWithSize:</TokenIdentifier>
-			<Abstract type="html">The default test data bounded by a size.</Abstract>
-			<DeclaredIn>SFCryptoStreamTestUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/delegate</TokenIdentifier>
+			<Abstract type="html">The delegate representing the owner of this object.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>+ (NSData *)defaultTestDataWithSize:(size_t)testDataSize</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>testDataSize</Name>
-					<Abstract type="html">the test data size.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the default test data.</Abstract></ReturnValue>
-			<Anchor>//api/name/defaultTestDataWithSize:</Anchor>
+			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
             <NodeRef refid="35"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFCryptoStreamTestUtils/encryptDecryptData:usingCrypto:withInitializationVector:</TokenIdentifier>
-			<Abstract type="html">Encrypt or decrypted in one-shot, based on the operation type of crypto.</Abstract>
-			<DeclaredIn>SFCryptoStreamTestUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/delegate</TokenIdentifier>
+			<Abstract type="html">The delegate representing the owner of this object.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>+ (NSData *)encryptDecryptData:(NSData *)data usingCrypto:(CCCryptorRef)crypto withInitializationVector:(NSData *)iv</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>data</Name>
-					<Abstract type="html">the data to be encrypted/decrypted.</Abstract>
-				</Parameter><Parameter>
-					<Name>crypto</Name>
-					<Abstract type="html">a crypto reference to be used in the operation.</Abstract>
-				</Parameter><Parameter>
-					<Name>iv</Name>
-					<Abstract type="html">the initialization vector desired to be used.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the encrypted/decrypted result.</Abstract></ReturnValue>
-			<Anchor>//api/name/encryptDecryptData:usingCrypto:withInitializationVector:</Anchor>
+			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
             <NodeRef refid="35"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFCryptoStreamTestUtils/filePathForFileName:</TokenIdentifier>
-			<Abstract type="html">A file path where test files are stored.</Abstract>
-			<DeclaredIn>SFCryptoStreamTestUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setOauthView:</TokenIdentifier>
+			<Abstract type="html">Outlet to the OAuth web view.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)filePathForFileName:(NSString *)fileName</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) IBOutlet UIView *oauthView</Declaration>
+			
+			
+			<Anchor>//api/name/oauthView</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/oauthView</TokenIdentifier>
+			<Abstract type="html">Outlet to the OAuth web view.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) IBOutlet UIView *oauthView</Declaration>
+			
+			
+			<Anchor>//api/name/oauthView</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/oauthView</TokenIdentifier>
+			<Abstract type="html">Outlet to the OAuth web view.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) IBOutlet UIView *oauthView</Declaration>
+			
+			
+			<Anchor>//api/name/oauthView</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setNavBarFont:</TokenIdentifier>
+			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) UIFont *navBarFont</Declaration>
+			
+			
+			<Anchor>//api/name/navBarFont</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/navBarFont</TokenIdentifier>
+			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) UIFont *navBarFont</Declaration>
+			
+			
+			<Anchor>//api/name/navBarFont</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/navBarFont</TokenIdentifier>
+			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) UIFont *navBarFont</Declaration>
+			
+			
+			<Anchor>//api/name/navBarFont</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setNavBarTextColor:</TokenIdentifier>
+			<Abstract type="html">Specify the text color to use for navigation bar header text.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarTextColor</Declaration>
+			
+			
+			<Anchor>//api/name/navBarTextColor</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/navBarTextColor</TokenIdentifier>
+			<Abstract type="html">Specify the text color to use for navigation bar header text.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarTextColor</Declaration>
+			
+			
+			<Anchor>//api/name/navBarTextColor</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/navBarTextColor</TokenIdentifier>
+			<Abstract type="html">Specify the text color to use for navigation bar header text.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarTextColor</Declaration>
+			
+			
+			<Anchor>//api/name/navBarTextColor</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setNavBarColor:</TokenIdentifier>
+			<Abstract type="html">Specify navigation bar color. This color will be used by the login view header.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarColor</Declaration>
+			
+			
+			<Anchor>//api/name/navBarColor</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/navBarColor</TokenIdentifier>
+			<Abstract type="html">Specify navigation bar color. This color will be used by the login view header.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarColor</Declaration>
+			
+			
+			<Anchor>//api/name/navBarColor</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/navBarColor</TokenIdentifier>
+			<Abstract type="html">Specify navigation bar color. This color will be used by the login view header.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarColor</Declaration>
+			
+			
+			<Anchor>//api/name/navBarColor</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setShowNavbar:</TokenIdentifier>
+			<Abstract type="html">Specify visibility of nav bar. This property will be used to hide/show the nav bar</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL showNavbar</Declaration>
+			
+			
+			<Anchor>//api/name/showNavbar</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/showNavbar</TokenIdentifier>
+			<Abstract type="html">Specify visibility of nav bar. This property will be used to hide/show the nav bar</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL showNavbar</Declaration>
+			
+			
+			<Anchor>//api/name/showNavbar</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/showNavbar</TokenIdentifier>
+			<Abstract type="html">Specify visibility of nav bar. This property will be used to hide/show the nav bar</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL showNavbar</Declaration>
+			
+			
+			<Anchor>//api/name/showNavbar</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setShowSettingsIcon:</TokenIdentifier>
+			<Abstract type="html">Specifiy the visibility of the settings icon. This property will be used to hide/show the settings icon</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL showSettingsIcon</Declaration>
+			
+			
+			<Anchor>//api/name/showSettingsIcon</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/showSettingsIcon</TokenIdentifier>
+			<Abstract type="html">Specifiy the visibility of the settings icon. This property will be used to hide/show the settings icon</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL showSettingsIcon</Declaration>
+			
+			
+			<Anchor>//api/name/showSettingsIcon</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/showSettingsIcon</TokenIdentifier>
+			<Abstract type="html">Specifiy the visibility of the settings icon. This property will be used to hide/show the settings icon</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL showSettingsIcon</Declaration>
+			
+			
+			<Anchor>//api/name/showSettingsIcon</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setConfig:</TokenIdentifier>
+			<Abstract type="html">Specify all display properties in a config. All the above properties are backed by
+a config object</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nonnull) SFSDKLoginViewControllerConfig *config</Declaration>
+			
+			
+			<Anchor>//api/name/config</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/config</TokenIdentifier>
+			<Abstract type="html">Specify all display properties in a config. All the above properties are backed by
+a config object</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nonnull) SFSDKLoginViewControllerConfig *config</Declaration>
+			
+			
+			<Anchor>//api/name/config</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/config</TokenIdentifier>
+			<Abstract type="html">Specify all display properties in a config. All the above properties are backed by
+a config object</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nonnull) SFSDKLoginViewControllerConfig *config</Declaration>
+			
+			
+			<Anchor>//api/name/config</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/styleNavigationBar:</TokenIdentifier>
+			<Abstract type="html">Applies the view&apos;s style attributes to the given navigation bar.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>- (void)styleNavigationBar:(nullable UINavigationBar *)navigationBar</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>fileName</Name>
-					<Abstract type="html">the file name.</Abstract>
+					<Name>navigationBar</Name>
+					<Abstract type="html">The navigation bar that the style is applied to.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">the complete path to reach the test file name passed.</Abstract></ReturnValue>
-			<Anchor>//api/name/filePathForFileName:</Anchor>
+			
+			<Anchor>//api/name/styleNavigationBar:</Anchor>
             <NodeRef refid="35"/>
 		</Token>
 		

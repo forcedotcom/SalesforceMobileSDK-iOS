@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFKeychainItemExceptionErrorCode.html">
+	<File path="Constants/SFPasscodeControllerMode.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFKeychainItemExceptionErrorCode</TokenIdentifier>
-			<Abstract type="html">This class is left to remain non-ARC INTENTIONALLY!</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFPasscodeControllerMode</TokenIdentifier>
+			<Abstract type="html">Mode constants indicating whether to create or verify an existing passcode.</Abstract>
+			<DeclaredIn>SFPasscodeViewControllerTypes.h</DeclaredIn>
             
 			
 			<NodeRef refid="200"/>
@@ -14,11 +14,31 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFKeychainItemExceptionKeychainInaccessible</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFPasscodeControllerModeCreate</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFKeychainItemExceptionKeychainInaccessible</Declaration>
+            <Declaration>SFPasscodeControllerModeCreate</Declaration>
             
-            <DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+            <DeclaredIn>SFPasscodeViewControllerTypes.h</DeclaredIn>
+            
+            <NodeRef refid="200"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFPasscodeControllerModeVerify</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFPasscodeControllerModeVerify</Declaration>
+            
+            <DeclaredIn>SFPasscodeViewControllerTypes.h</DeclaredIn>
+            
+            <NodeRef refid="200"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFPasscodeControllerModeChange</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFPasscodeControllerModeChange</Declaration>
+            
+            <DeclaredIn>SFPasscodeViewControllerTypes.h</DeclaredIn>
             
             <NodeRef refid="200"/>
         </Token>

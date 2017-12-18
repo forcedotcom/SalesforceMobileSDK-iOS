@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/CSFForceTaskStatus.html">
+	<File path="Constants/SFCryptoOperation.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/CSFForceTaskStatus</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFCryptoOperation</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFForceDefines.h</DeclaredIn>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
             
 			
 			<NodeRef refid="188"/>
@@ -14,61 +14,21 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskStatusUnknown</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFCryptoOperationEncrypt</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskStatusUnknown</Declaration>
+            <Declaration>SFCryptoOperationEncrypt</Declaration>
             
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            <DeclaredIn>SFCrypto.h</DeclaredIn>
             
             <NodeRef refid="188"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskStatusNotStarted</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFCryptoOperationDecrypt</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskStatusNotStarted</Declaration>
+            <Declaration>SFCryptoOperationDecrypt</Declaration>
             
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="188"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskStatusInProgress</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskStatusInProgress</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="188"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskStatusCompleted</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskStatusCompleted</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="188"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskStatusWaitingonsomeoneelse</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskStatusWaitingonsomeoneelse</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="188"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskStatusDeferred</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskStatusDeferred</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            <DeclaredIn>SFCrypto.h</DeclaredIn>
             
             <NodeRef refid="188"/>
         </Token>

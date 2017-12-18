@@ -32,6 +32,7 @@
 						<NodeRef refid="19"/>
 						<NodeRef refid="20"/>
 						<NodeRef refid="21"/>
+						<NodeRef refid="22"/>
 						
 					</Subnodes>
 				</Node>
@@ -41,19 +42,28 @@
 					<Name>Categories</Name>
 					<Path>index.html</Path>
 					<Subnodes>
-						<NodeRef refid="22"/>
+						<NodeRef refid="23"/>
 						
 					</Subnodes>
 				</Node>
 				
                 
                 
+				<Node>
+					<Name>Constants</Name>
+					<Path>index.html</Path>
+					<Subnodes>
+						<NodeRef refid="24"/>
+						
+					</Subnodes>
+				</Node>
+				
                 
                 <Node>
                     <Name>Blocks</Name>
                     <Path>index.html</Path>
                     <Subnodes>
-                        <NodeRef refid="23"/>
+                        <NodeRef refid="25"/>
                         
                     </Subnodes>
                 </Node>
@@ -334,28 +344,6 @@
             <Name>SFSDKHybridLogger</Name>
             <Path>Classes/SFSDKHybridLogger.html</Path>
             
-                <Subnodes>
-                <Node type="section">
-                    <Path>Classes/SFSDKHybridLogger.html</Path>
-                    <Name>Overview</Name>
-                    <Anchor>overview</Anchor>
-                </Node>
-                <Node type="section">
-                    <Path>Classes/SFSDKHybridLogger.html</Path>
-                    <Name>Tasks</Name>
-                    <Anchor>tasks</Anchor>
-                </Node>
-                
-                
-                <Node type="section">
-                    <Path>Classes/SFSDKHybridLogger.html</Path>
-                    <Name>Class Methods</Name>
-                    <Anchor>class_methods</Anchor>
-                </Node>
-                
-                
-            </Subnodes>
-            
         </Node>
 		<Node id="13" type="file" documentType="reference">
             <Name>SFSDKInfoPlugin</Name>
@@ -505,6 +493,11 @@
             
         </Node>
 		<Node id="18" type="file" documentType="reference">
+            <Name>SalesforceHybridSDKManager</Name>
+            <Path>Classes/SalesforceHybridSDKManager.html</Path>
+            
+        </Node>
+		<Node id="19" type="file" documentType="reference">
             <Name>SalesforceOAuthPlugin</Name>
             <Path>Classes/SalesforceOAuthPlugin.html</Path>
             
@@ -531,23 +524,23 @@
             </Subnodes>
             
         </Node>
-		<Node id="19" type="file" documentType="reference">
+		<Node id="20" type="file" documentType="reference">
             <Name>SmartStoreLoadTestSuite</Name>
             <Path>Classes/SmartStoreLoadTestSuite.html</Path>
             
         </Node>
-		<Node id="20" type="file" documentType="reference">
+		<Node id="21" type="file" documentType="reference">
             <Name>SmartStoreTestSuite</Name>
             <Path>Classes/SmartStoreTestSuite.html</Path>
             
         </Node>
-		<Node id="21" type="file" documentType="reference">
+		<Node id="22" type="file" documentType="reference">
             <Name>SmartSyncTestSuite</Name>
             <Path>Classes/SmartSyncTestSuite.html</Path>
             
         </Node>
 		
-		<Node id="22" type="file" documentType="reference">
+		<Node id="23" type="file" documentType="reference">
             <Name>CDVPlugin(SFAdditions)</Name>
             <Path>Categories/CDVPlugin+SFAdditions.html</Path>
             
@@ -576,8 +569,13 @@
         </Node>
 		
         
-        
-        <Node id="23" type="file" documentType="reference">
+        <Node id="24" type="file" documentType="reference">
+            <Name>SFSDKHybridAppConfigErrorCode</Name>
+            <Path>Constants/SFSDKHybridAppConfigErrorCode.html</Path>
+            
+        </Node>
+		
+        <Node id="25" type="file" documentType="reference">
             <Name>SFOAuthPluginAuthSuccessBlock</Name>
             <Path>Blocks/SFOAuthPluginAuthSuccessBlock.html</Path>
             

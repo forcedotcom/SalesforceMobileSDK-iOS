@@ -1,52 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKAsyncProcessListener.html">
+	<File path="Classes/SFSDKIDPResponseHandler.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAsyncProcessListener</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKIDPResponseHandler</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAsyncProcessListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKIDPResponseHandler.h</DeclaredIn>
             
 			
 			<NodeRef refid="86"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAsyncProcessListener/initWithExpectedStatus:actualStatusBlock:timeout:</TokenIdentifier>
-			<Abstract type="html">Designated initializer.  Initialize the process listener with an expected status and a block that
-will return status updates when called.</Abstract>
-			<DeclaredIn>SFSDKAsyncProcessListener.h</DeclaredIn>
-			
-			<Declaration>- (id)initWithExpectedStatus:(id)expectedStatus actualStatusBlock:(id ( ^ ) ( void ))actualStatusBlock timeout:(NSTimeInterval)timeout</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>expectedStatus</Name>
-					<Abstract type="html">The expected return status upon completion.</Abstract>
-				</Parameter><Parameter>
-					<Name>actualStatusBlock</Name>
-					<Abstract type="html">The block that will return the actual status when called.</Abstract>
-				</Parameter><Parameter>
-					<Name>timeout</Name>
-					<Abstract type="html">The amount of time before the asynchronous process is considered to time out.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/initWithExpectedStatus:actualStatusBlock:timeout:</Anchor>
-            <NodeRef refid="86"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAsyncProcessListener/waitForCompletion</TokenIdentifier>
-			<Abstract type="html">Waits for the asynchronous process to complete.</Abstract>
-			<DeclaredIn>SFSDKAsyncProcessListener.h</DeclaredIn>
-			
-			<Declaration>- (id)waitForCompletion</Declaration>
-			
-			<ReturnValue><Abstract type="html">The actual status at the time the process completes, or times out.</Abstract></ReturnValue>
-			<Anchor>//api/name/waitForCompletion</Anchor>
-            <NodeRef refid="86"/>
-		</Token>
 		
         
         

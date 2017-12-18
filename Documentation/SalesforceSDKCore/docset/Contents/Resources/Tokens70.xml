@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFOAuthTestFlowCoordinatorDelegate.html">
+	<File path="Classes/SFSDKAuthErrorManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFOAuthTestFlowCoordinatorDelegate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAuthErrorManager</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="70"/>
@@ -13,254 +13,222 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/setWillBeginAuthenticationCalled:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/setNetworkErrorHandlerBlock:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL willBeginAuthenticationCalled</Declaration>
+			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock networkErrorHandlerBlock</Declaration>
 			
 			
-			<Anchor>//api/name/willBeginAuthenticationCalled</Anchor>
+			<Anchor>//api/name/networkErrorHandlerBlock</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/willBeginAuthenticationCalled</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/networkErrorHandlerBlock</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL willBeginAuthenticationCalled</Declaration>
+			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock networkErrorHandlerBlock</Declaration>
 			
 			
-			<Anchor>//api/name/willBeginAuthenticationCalled</Anchor>
+			<Anchor>//api/name/networkErrorHandlerBlock</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlowCoordinatorDelegate/willBeginAuthenticationCalled</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthErrorManager/networkErrorHandlerBlock</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL willBeginAuthenticationCalled</Declaration>
+			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock networkErrorHandlerBlock</Declaration>
 			
 			
-			<Anchor>//api/name/willBeginAuthenticationCalled</Anchor>
+			<Anchor>//api/name/networkErrorHandlerBlock</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/setDidAuthenticateCalled:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/setConnectedAppVersionMismatchErrorHandlerBlock:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL didAuthenticateCalled</Declaration>
+			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock connectedAppVersionMismatchErrorHandlerBlock</Declaration>
 			
 			
-			<Anchor>//api/name/didAuthenticateCalled</Anchor>
+			<Anchor>//api/name/connectedAppVersionMismatchErrorHandlerBlock</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/didAuthenticateCalled</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/connectedAppVersionMismatchErrorHandlerBlock</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL didAuthenticateCalled</Declaration>
+			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock connectedAppVersionMismatchErrorHandlerBlock</Declaration>
 			
 			
-			<Anchor>//api/name/didAuthenticateCalled</Anchor>
+			<Anchor>//api/name/connectedAppVersionMismatchErrorHandlerBlock</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlowCoordinatorDelegate/didAuthenticateCalled</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthErrorManager/connectedAppVersionMismatchErrorHandlerBlock</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL didAuthenticateCalled</Declaration>
+			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock connectedAppVersionMismatchErrorHandlerBlock</Declaration>
 			
 			
-			<Anchor>//api/name/didAuthenticateCalled</Anchor>
+			<Anchor>//api/name/connectedAppVersionMismatchErrorHandlerBlock</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/setAuthInfo:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/setInvalidAuthCredentialsErrorHandlerBlock:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFOAuthInfo *authInfo</Declaration>
+			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock invalidAuthCredentialsErrorHandlerBlock</Declaration>
 			
 			
-			<Anchor>//api/name/authInfo</Anchor>
+			<Anchor>//api/name/invalidAuthCredentialsErrorHandlerBlock</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/authInfo</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/invalidAuthCredentialsErrorHandlerBlock</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFOAuthInfo *authInfo</Declaration>
+			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock invalidAuthCredentialsErrorHandlerBlock</Declaration>
 			
 			
-			<Anchor>//api/name/authInfo</Anchor>
+			<Anchor>//api/name/invalidAuthCredentialsErrorHandlerBlock</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlowCoordinatorDelegate/authInfo</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthErrorManager/invalidAuthCredentialsErrorHandlerBlock</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFOAuthInfo *authInfo</Declaration>
+			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock invalidAuthCredentialsErrorHandlerBlock</Declaration>
 			
 			
-			<Anchor>//api/name/authInfo</Anchor>
+			<Anchor>//api/name/invalidAuthCredentialsErrorHandlerBlock</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/setDidFailWithErrorCalled:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/setHostConnectionErrorHandlerBlock:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL didFailWithErrorCalled</Declaration>
+			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock hostConnectionErrorHandlerBlock</Declaration>
 			
 			
-			<Anchor>//api/name/didFailWithErrorCalled</Anchor>
+			<Anchor>//api/name/hostConnectionErrorHandlerBlock</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/didFailWithErrorCalled</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/hostConnectionErrorHandlerBlock</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL didFailWithErrorCalled</Declaration>
+			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock hostConnectionErrorHandlerBlock</Declaration>
 			
 			
-			<Anchor>//api/name/didFailWithErrorCalled</Anchor>
+			<Anchor>//api/name/hostConnectionErrorHandlerBlock</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlowCoordinatorDelegate/didFailWithErrorCalled</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthErrorManager/hostConnectionErrorHandlerBlock</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL didFailWithErrorCalled</Declaration>
+			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock hostConnectionErrorHandlerBlock</Declaration>
 			
 			
-			<Anchor>//api/name/didFailWithErrorCalled</Anchor>
+			<Anchor>//api/name/hostConnectionErrorHandlerBlock</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/setIsNetworkAvailableCalled:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/setGenericErrorHandlerBlock:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL isNetworkAvailableCalled</Declaration>
+			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock genericErrorHandlerBlock</Declaration>
 			
 			
-			<Anchor>//api/name/isNetworkAvailableCalled</Anchor>
+			<Anchor>//api/name/genericErrorHandlerBlock</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/isNetworkAvailableCalled</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/genericErrorHandlerBlock</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL isNetworkAvailableCalled</Declaration>
+			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock genericErrorHandlerBlock</Declaration>
 			
 			
-			<Anchor>//api/name/isNetworkAvailableCalled</Anchor>
+			<Anchor>//api/name/genericErrorHandlerBlock</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlowCoordinatorDelegate/isNetworkAvailableCalled</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthErrorManager/genericErrorHandlerBlock</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL isNetworkAvailableCalled</Declaration>
+			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock genericErrorHandlerBlock</Declaration>
 			
 			
-			<Anchor>//api/name/isNetworkAvailableCalled</Anchor>
+			<Anchor>//api/name/genericErrorHandlerBlock</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/setDidFailWithError:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/processAuthError:authInfo:options:</TokenIdentifier>
+			<Abstract type="html">Determines whether an error is due to invalid auth credentials.</Abstract>
+			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSError *didFailWithError</Declaration>
-			
-			
-			<Anchor>//api/name/didFailWithError</Anchor>
+			<Declaration>- (BOOL)processAuthError:(NSError *)error authInfo:(SFOAuthInfo *)info options:(NSDictionary *)options</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>error</Name>
+					<Abstract type="html">The error to process.</Abstract>
+				</Parameter><Parameter>
+					<Name>info</Name>
+					<Abstract type="html">type of auth.</Abstract>
+				</Parameter><Parameter>
+					<Name>options</Name>
+					<Abstract type="html">addl. execution context related params</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the error is handled, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/processAuthError:authInfo:options:</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/didFailWithError</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAuthErrorManager/errorIsInvalidAuthCredentials:</TokenIdentifier>
+			<Abstract type="html">Determines whether an error is due to invalid auth credentials.</Abstract>
+			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSError *didFailWithError</Declaration>
-			
-			
-			<Anchor>//api/name/didFailWithError</Anchor>
-            <NodeRef refid="70"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlowCoordinatorDelegate/didFailWithError</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSError *didFailWithError</Declaration>
-			
-			
-			<Anchor>//api/name/didFailWithError</Anchor>
-            <NodeRef refid="70"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/setIsNetworkAvailable:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL isNetworkAvailable</Declaration>
-			
-			
-			<Anchor>//api/name/isNetworkAvailable</Anchor>
-            <NodeRef refid="70"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/isNetworkAvailable</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL isNetworkAvailable</Declaration>
-			
-			
-			<Anchor>//api/name/isNetworkAvailable</Anchor>
-            <NodeRef refid="70"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlowCoordinatorDelegate/isNetworkAvailable</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL isNetworkAvailable</Declaration>
-			
-			
-			<Anchor>//api/name/isNetworkAvailable</Anchor>
+			<Declaration>+ (BOOL)errorIsInvalidAuthCredentials:(NSError *)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>error</Name>
+					<Abstract type="html">The error to check against an invalid credentials error.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the error is due to invalid credentials, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/errorIsInvalidAuthCredentials:</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		

@@ -106,11 +106,11 @@
 	
 	<optgroup label="Instance Methods">
 		
-		<option value="//api/name/addPostFileData:description:fileName:mimeType:">- addPostFileData:description:fileName:mimeType:</option>
+		<option value="//api/name/addPostFileData:paramName:description:fileName:mimeType:">- addPostFileData:paramName:description:fileName:mimeType:</option>
 		
 		<option value="//api/name/cancel">- cancel</option>
 		
-		<option value="//api/name/prepareRequestForSend">- prepareRequestForSend</option>
+		<option value="//api/name/prepareRequestForSend:">- prepareRequestForSend:</option>
 		
 		<option value="//api/name/setCustomRequestBodyData:contentType:">- setCustomRequestBodyData:contentType:</option>
 		
@@ -595,8 +595,8 @@ the <a href="#//api/name/request">request</a> headers before sending the <a href
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/prepareRequestForSend" title="prepareRequestForSend"></a>
-	<h3 class="method-title"><code><a href="#//api/name/prepareRequestForSend">&ndash;&nbsp;prepareRequestForSend</a></code>
+	<a name="//api/name/prepareRequestForSend:" title="prepareRequestForSend:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/prepareRequestForSend:">&ndash;&nbsp;prepareRequestForSend:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -611,9 +611,21 @@ the <a href="#//api/name/request">request</a> headers before sending the <a href
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (NSURLRequest *)prepareRequestForSend</code></div>
+			<div class="method-subsection method-declaration"><code>- (nullable NSURLRequest *)prepareRequestForSend:(nonnull SFUserAccount *)<em>user</em></code></div>
 
 		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>user</code></th>
+						<td><p>User account.</p></td>
+					</tr>
+				
+				</table>
+			</div>
 			
 
 			
@@ -741,8 +753,8 @@ from the collection of headers.</p></td>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/addPostFileData:description:fileName:mimeType:" title="addPostFileData:description:fileName:mimeType:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/addPostFileData:description:fileName:mimeType:">&ndash;&nbsp;addPostFileData:description:fileName:mimeType:</a></code>
+	<a name="//api/name/addPostFileData:paramName:description:fileName:mimeType:" title="addPostFileData:paramName:description:fileName:mimeType:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/addPostFileData:paramName:description:fileName:mimeType:">&ndash;&nbsp;addPostFileData:paramName:description:fileName:mimeType:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -757,7 +769,7 @@ from the collection of headers.</p></td>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)addPostFileData:(NSData *)<em>fileData</em> description:(nullable NSString *)<em>description</em> fileName:(NSString *)<em>fileName</em> mimeType:(NSString *)<em>mimeType</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)addPostFileData:(NSData *)<em>fileData</em> paramName:(NSString *)<em>paramName</em> description:(nullable NSString *)<em>description</em> fileName:(NSString *)<em>fileName</em> mimeType:(NSString *)<em>mimeType</em></code></div>
 
 		    
 			
@@ -768,6 +780,11 @@ from the collection of headers.</p></td>
 					<tr>
 						<th scope="row" class="argument-name"><code>fileData</code></th>
 						<td><p>Value of this POST parameter</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>paramName</code></th>
+						<td><p>Name of the POST parameter</p></td>
 					</tr>
 				
 					<tr>
@@ -1229,7 +1246,7 @@ from the collection of headers.</p></td>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Creates an <code>SFRestRequest</code> object. See <a href="../Constants/SFRestMethod.html">SFRestMethod</a>.</p>
+				<p>Creates an <code>SFRestRequest</code> object. See <a href="../Constants/SFRestMethod.html">SFRestMethod</a>. If you need to set body on the <a href="#//api/name/request">request</a>, use one of the &lsquo;setCustomRequestBody&hellip;&rsquo; methods to do so with the instance returned by this <a href="#//api/name/method">method</a>.</p>
 			</div>
 			
 		    
@@ -1292,7 +1309,7 @@ from the collection of headers.</p></td>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Creates an <code>SFRestRequest</code> object. See <a href="../Constants/SFRestMethod.html">SFRestMethod</a>.</p>
+				<p>Creates an <code>SFRestRequest</code> object. See <a href="../Constants/SFRestMethod.html">SFRestMethod</a>. If you need to set body on the <a href="#//api/name/request">request</a>, use one of the &lsquo;setCustomRequestBody&hellip;&rsquo; methods to do so with the instance returned by this <a href="#//api/name/method">method</a>.</p>
 			</div>
 			
 		    
@@ -1435,7 +1452,7 @@ from the collection of headers.</p></td>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-09-18</p>
+						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-12-18</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

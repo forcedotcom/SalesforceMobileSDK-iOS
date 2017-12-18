@@ -88,8 +88,6 @@
 		
 		<option value="//api/name/credentialsAsDictionary">- credentialsAsDictionary</option>
 		
-		<option value="//api/name/getAuthCredentialsWithCompletionBlock:failureBlock:">- getAuthCredentialsWithCompletionBlock:failureBlock:</option>
-		
 		<option value="//api/name/initWithConfig:">- initWithConfig:</option>
 		
 		<option value="//api/name/initWithConfig:useUIWebView:">- initWithConfig:useUIWebView:</option>
@@ -375,7 +373,7 @@ found.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSURL *appHomeUrl</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable) NSURL *appHomeUrl</code></div>
 
 		    
 			
@@ -416,7 +414,7 @@ found.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (id)initWithConfig:(SFHybridViewConfig *)<em>viewConfig</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (id)initWithConfig:(nullable SFHybridViewConfig *)<em>viewConfig</em></code></div>
 
 		    
 			
@@ -469,7 +467,7 @@ found.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (id)initWithConfig:(SFHybridViewConfig *)<em>viewConfig</em> useUIWebView:(BOOL)<em>useUIWebView</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (id)initWithConfig:(nullable SFHybridViewConfig *)<em>viewConfig</em> useUIWebView:(BOOL)<em>useUIWebView</em></code></div>
 
 		    
 			
@@ -552,66 +550,6 @@ found.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/getAuthCredentialsWithCompletionBlock:failureBlock:" title="getAuthCredentialsWithCompletionBlock:failureBlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/getAuthCredentialsWithCompletionBlock:failureBlock:">&ndash;&nbsp;getAuthCredentialsWithCompletionBlock:failureBlock:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Method used by the OAuth plugin to obtain the current login credentials, or authenticate if no
-credentials are configured.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (void)getAuthCredentialsWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)<em>completionBlock</em> failureBlock:(SFOAuthFlowFailureCallbackBlock)<em>failureBlock</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>completionBlock</code></th>
-						<td><p>The OAuth plugin completion block to call upon successful retrieval of
-the credentials.</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>failureBlock</code></th>
-						<td><p>The failure block to call in the event of an authentication failure.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFHybridViewController.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
 	<a name="//api/name/authenticateWithCompletionBlock:failureBlock:" title="authenticateWithCompletionBlock:failureBlock:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/authenticateWithCompletionBlock:failureBlock:">&ndash;&nbsp;authenticateWithCompletionBlock:failureBlock:</a></code>
 </h3>
@@ -628,7 +566,7 @@ the credentials.</p></td>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)authenticateWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)<em>completionBlock</em> failureBlock:(SFOAuthFlowFailureCallbackBlock)<em>failureBlock</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)authenticateWithCompletionBlock:(nullable SFOAuthPluginAuthSuccessBlock)<em>completionBlock</em> failureBlock:(SFOAuthFlowFailureCallbackBlock)<em>failureBlock</em></code></div>
 
 		    
 			
@@ -750,7 +688,7 @@ the calling client code.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (NSDictionary *)credentialsAsDictionary</code></div>
+			<div class="method-subsection method-declaration"><code>- (nullable NSDictionary *)credentialsAsDictionary</code></div>
 
 		    
 			
@@ -952,7 +890,7 @@ loaded with the details of the error.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-09-18</p>
+						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-12-18</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

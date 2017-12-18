@@ -439,7 +439,7 @@
 			<Abstract type="html">Initializer for starting the alter soup operation with a new soup spec.</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithStore:(SFSmartStore *)store soupName:(NSString *)soupName newSoupSpec:(SFSoupSpec *)newSoupSpec newIndexSpecs:(NSArray *)newIndexSpecs reIndexData:(BOOL)reIndexData</Declaration>
+			<Declaration>- (id)initWithStore:(SFSmartStore *)store soupName:(NSString *)soupName newSoupSpec:(nullable SFSoupSpec *)newSoupSpec newIndexSpecs:(NSArray *)newIndexSpecs reIndexData:(BOOL)reIndexData</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>store</Name>

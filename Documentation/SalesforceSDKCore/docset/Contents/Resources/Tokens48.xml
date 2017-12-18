@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFInactivityTimerCenter.html">
+	<File path="Classes/SFOAuthTestFlowCoordinatorDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFInactivityTimerCenter</TokenIdentifier>
-			<Abstract type="html">This class manages manages the inactivity timer. See NSTimer in the Objective-C documentation for more details.</Abstract>
-			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFOAuthTestFlowCoordinatorDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
             
 			
 			<NodeRef refid="48"/>
@@ -13,110 +13,254 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFInactivityTimerCenter/registerTimer:target:selector:timerInterval:</TokenIdentifier>
-			<Abstract type="html">* Register the timer.</Abstract>
-			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/setWillBeginAuthenticationCalled:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
 			
-			<Declaration>+ (void)registerTimer:(NSString *)timerName target:(id)target selector:(SEL)aSelector timerInterval:(NSTimeInterval)interval</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>timerName</Name>
-					<Abstract type="html">Name to use to register the timer.</Abstract>
-				</Parameter><Parameter>
-					<Name>target</Name>
-					<Abstract type="html">The object to which to send the message specified by aSelector when the timer fires. See NSTimer documentation.</Abstract>
-				</Parameter><Parameter>
-					<Name>aSelector</Name>
-					<Abstract type="html">The message to send to target when the timer fires. See NSTimer documentation.</Abstract>
-				</Parameter><Parameter>
-					<Name>interval</Name>
-					<Abstract type="html">For a repeating timer, this parameter contains the number of seconds between firings of the timer. See NSTimer documentation.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, assign) BOOL willBeginAuthenticationCalled</Declaration>
 			
-			<Anchor>//api/name/registerTimer:target:selector:timerInterval:</Anchor>
+			
+			<Anchor>//api/name/willBeginAuthenticationCalled</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFInactivityTimerCenter/removeTimer:</TokenIdentifier>
-			<Abstract type="html">* Remove a specific timer.</Abstract>
-			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/willBeginAuthenticationCalled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
 			
-			<Declaration>+ (void)removeTimer:(NSString *)timerName</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>timerName</Name>
-					<Abstract type="html">Name of the timer to remove.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, assign) BOOL willBeginAuthenticationCalled</Declaration>
 			
-			<Anchor>//api/name/removeTimer:</Anchor>
+			
+			<Anchor>//api/name/willBeginAuthenticationCalled</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFInactivityTimerCenter/removeAllTimers</TokenIdentifier>
-			<Abstract type="html">Remove all timers.</Abstract>
-			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlowCoordinatorDelegate/willBeginAuthenticationCalled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
 			
-			<Declaration>+ (void)removeAllTimers</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL willBeginAuthenticationCalled</Declaration>
 			
 			
-			<Anchor>//api/name/removeAllTimers</Anchor>
+			<Anchor>//api/name/willBeginAuthenticationCalled</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFInactivityTimerCenter/updateActivityTimestamp</TokenIdentifier>
-			<Abstract type="html">Update last activity timestamp to current time.</Abstract>
-			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/setDidAuthenticateCalled:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
 			
-			<Declaration>+ (void)updateActivityTimestamp</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL didAuthenticateCalled</Declaration>
 			
 			
-			<Anchor>//api/name/updateActivityTimestamp</Anchor>
+			<Anchor>//api/name/didAuthenticateCalled</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFInactivityTimerCenter/updateActivityTimestampTo:</TokenIdentifier>
-			<Abstract type="html">* Update last activity timestamp to specified time.</Abstract>
-			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/didAuthenticateCalled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
 			
-			<Declaration>+ (void)updateActivityTimestampTo:(NSDate *)date</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>date</Name>
-					<Abstract type="html">The NSDate object that specifies the new timestamp.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, assign) BOOL didAuthenticateCalled</Declaration>
 			
-			<Anchor>//api/name/updateActivityTimestampTo:</Anchor>
+			
+			<Anchor>//api/name/didAuthenticateCalled</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFInactivityTimerCenter/lastActivityTimestamp</TokenIdentifier>
-			<Abstract type="html">Return the timestamp for the latest activity.</Abstract>
-			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlowCoordinatorDelegate/didAuthenticateCalled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
 			
-			<Declaration>+ (NSDate *)lastActivityTimestamp</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL didAuthenticateCalled</Declaration>
 			
 			
-			<Anchor>//api/name/lastActivityTimestamp</Anchor>
+			<Anchor>//api/name/didAuthenticateCalled</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFInactivityTimerCenter/saveActivityTimestamp</TokenIdentifier>
-			<Abstract type="html">Save the activity timestamp to persistant storage.</Abstract>
-			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/setAuthInfo:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
 			
-			<Declaration>+ (void)saveActivityTimestamp</Declaration>
+			<Declaration>@property (nonatomic, strong) SFOAuthInfo *authInfo</Declaration>
 			
 			
-			<Anchor>//api/name/saveActivityTimestamp</Anchor>
+			<Anchor>//api/name/authInfo</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/authInfo</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFOAuthInfo *authInfo</Declaration>
+			
+			
+			<Anchor>//api/name/authInfo</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlowCoordinatorDelegate/authInfo</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFOAuthInfo *authInfo</Declaration>
+			
+			
+			<Anchor>//api/name/authInfo</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/setDidFailWithErrorCalled:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL didFailWithErrorCalled</Declaration>
+			
+			
+			<Anchor>//api/name/didFailWithErrorCalled</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/didFailWithErrorCalled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL didFailWithErrorCalled</Declaration>
+			
+			
+			<Anchor>//api/name/didFailWithErrorCalled</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlowCoordinatorDelegate/didFailWithErrorCalled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL didFailWithErrorCalled</Declaration>
+			
+			
+			<Anchor>//api/name/didFailWithErrorCalled</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/setIsNetworkAvailableCalled:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isNetworkAvailableCalled</Declaration>
+			
+			
+			<Anchor>//api/name/isNetworkAvailableCalled</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/isNetworkAvailableCalled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isNetworkAvailableCalled</Declaration>
+			
+			
+			<Anchor>//api/name/isNetworkAvailableCalled</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlowCoordinatorDelegate/isNetworkAvailableCalled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isNetworkAvailableCalled</Declaration>
+			
+			
+			<Anchor>//api/name/isNetworkAvailableCalled</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/setDidFailWithError:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSError *didFailWithError</Declaration>
+			
+			
+			<Anchor>//api/name/didFailWithError</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/didFailWithError</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSError *didFailWithError</Declaration>
+			
+			
+			<Anchor>//api/name/didFailWithError</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlowCoordinatorDelegate/didFailWithError</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSError *didFailWithError</Declaration>
+			
+			
+			<Anchor>//api/name/didFailWithError</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/setIsNetworkAvailable:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isNetworkAvailable</Declaration>
+			
+			
+			<Anchor>//api/name/isNetworkAvailable</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/isNetworkAvailable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isNetworkAvailable</Declaration>
+			
+			
+			<Anchor>//api/name/isNetworkAvailable</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlowCoordinatorDelegate/isNetworkAvailable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isNetworkAvailable</Declaration>
+			
+			
+			<Anchor>//api/name/isNetworkAvailable</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		

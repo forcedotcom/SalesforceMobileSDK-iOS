@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/CSFForceTaskRecurrenceInstance.html">
+	<File path="Constants/SFAppType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/CSFForceTaskRecurrenceInstance</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFForceDefines.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFAppType</TokenIdentifier>
+			<Abstract type="html">Block typedef for creating a custom snapshot view controller.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="185"/>
@@ -14,61 +14,41 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceInstanceUnknown</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/kSFAppTypeNative</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceInstanceUnknown</Declaration>
+            <Declaration>kSFAppTypeNative</Declaration>
             
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
             
             <NodeRef refid="185"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceInstance1st</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/kSFAppTypeHybrid</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceInstance1st</Declaration>
+            <Declaration>kSFAppTypeHybrid</Declaration>
             
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
             
             <NodeRef refid="185"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceInstance2nd</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/kSFAppTypeReactNative</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceInstance2nd</Declaration>
+            <Declaration>kSFAppTypeReactNative</Declaration>
             
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
             
             <NodeRef refid="185"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceInstance3rd</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/kSFAppTypeNativeSwift</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceInstance3rd</Declaration>
+            <Declaration>kSFAppTypeNativeSwift</Declaration>
             
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="185"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceInstance4th</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceInstance4th</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="185"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceInstanceLast</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceInstanceLast</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
             
             <NodeRef refid="185"/>
         </Token>

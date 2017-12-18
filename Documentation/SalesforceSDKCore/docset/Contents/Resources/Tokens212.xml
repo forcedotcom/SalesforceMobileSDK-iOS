@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFPasscodeControllerMode.html">
+	<File path="Constants/UIDeviceFamily.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFPasscodeControllerMode</TokenIdentifier>
-			<Abstract type="html">Mode constants indicating whether to create or verify an existing passcode.</Abstract>
-			<DeclaredIn>SFPasscodeViewControllerTypes.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/UIDeviceFamily</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
             
 			
 			<NodeRef refid="212"/>
@@ -14,31 +14,51 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFPasscodeControllerModeCreate</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/UIDeviceFamilyiPhone</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFPasscodeControllerModeCreate</Declaration>
+            <Declaration>UIDeviceFamilyiPhone</Declaration>
             
-            <DeclaredIn>SFPasscodeViewControllerTypes.h</DeclaredIn>
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
             
             <NodeRef refid="212"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFPasscodeControllerModeVerify</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/UIDeviceFamilyiPod</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFPasscodeControllerModeVerify</Declaration>
+            <Declaration>UIDeviceFamilyiPod</Declaration>
             
-            <DeclaredIn>SFPasscodeViewControllerTypes.h</DeclaredIn>
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
             
             <NodeRef refid="212"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFPasscodeControllerModeChange</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/UIDeviceFamilyiPad</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFPasscodeControllerModeChange</Declaration>
+            <Declaration>UIDeviceFamilyiPad</Declaration>
             
-            <DeclaredIn>SFPasscodeViewControllerTypes.h</DeclaredIn>
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="212"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDeviceFamilyAppleTV</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDeviceFamilyAppleTV</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="212"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDeviceFamilyUnknown</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDeviceFamilyUnknown</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
             
             <NodeRef refid="212"/>
         </Token>

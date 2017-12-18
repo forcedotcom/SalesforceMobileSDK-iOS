@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFCryptoOperation.html">
+	<File path="Constants/SFOAuthSessionRefreshErrorCode.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFCryptoOperation</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthSessionRefreshErrorCode</TokenIdentifier>
+			<Abstract type="html">Error codes for refresh failures.</Abstract>
+			<DeclaredIn>SFOAuthSessionRefresher.h</DeclaredIn>
             
 			
 			<NodeRef refid="197"/>
@@ -14,21 +14,11 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFCryptoOperationEncrypt</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthSessionRefreshErrorCodeInvalidCredentials</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFCryptoOperationEncrypt</Declaration>
+            <Declaration>SFOAuthSessionRefreshErrorCodeInvalidCredentials</Declaration>
             
-            <DeclaredIn>SFCrypto.h</DeclaredIn>
-            
-            <NodeRef refid="197"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFCryptoOperationDecrypt</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFCryptoOperationDecrypt</Declaration>
-            
-            <DeclaredIn>SFCrypto.h</DeclaredIn>
+            <DeclaredIn>SFOAuthSessionRefresher.h</DeclaredIn>
             
             <NodeRef refid="197"/>
         </Token>

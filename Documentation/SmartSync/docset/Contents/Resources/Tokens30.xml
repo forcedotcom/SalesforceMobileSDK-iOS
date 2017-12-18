@@ -1,16 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/ViewController.html">
+	<File path="Classes/SmartSyncSDKManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/ViewController</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>ViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SmartSyncSDKManager</TokenIdentifier>
+			<Abstract type="html">Version of SalesforceSDKManager to be used with all SmartSync-enabled apps.</Abstract>
+			<DeclaredIn>SmartSyncSDKManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="30"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SmartSyncSDKManager/setupGlobalSyncsFromDefaultConfig</TokenIdentifier>
+			<Abstract type="html">Setup global syncs using config found globalsyncs.json</Abstract>
+			<DeclaredIn>SmartSyncSDKManager.h</DeclaredIn>
+			
+			<Declaration>- (void)setupGlobalSyncsFromDefaultConfig</Declaration>
+			
+			
+			<Anchor>//api/name/setupGlobalSyncsFromDefaultConfig</Anchor>
+            <NodeRef refid="30"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SmartSyncSDKManager/setupUserSyncsFromDefaultConfig</TokenIdentifier>
+			<Abstract type="html">Setup user syncs using config found in usersyncs.json</Abstract>
+			<DeclaredIn>SmartSyncSDKManager.h</DeclaredIn>
+			
+			<Declaration>- (void)setupUserSyncsFromDefaultConfig</Declaration>
+			
+			
+			<Anchor>//api/name/setupUserSyncsFromDefaultConfig</Anchor>
+            <NodeRef refid="30"/>
+		</Token>
 		
         
         

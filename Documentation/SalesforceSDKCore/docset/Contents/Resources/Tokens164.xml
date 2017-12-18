@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFRestDelegate.html">
+	<File path="Protocols/SFSDKIDPAuthClientDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFRestDelegate</TokenIdentifier>
-			<Abstract type="html">Lifecycle events for SFRestRequests.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKIDPAuthClientDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPAuthClient.h</DeclaredIn>
             
 			
 			<NodeRef refid="164"/>
@@ -13,81 +13,138 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFRestDelegate/request:didLoadResponse:</TokenIdentifier>
-			<Abstract type="html">Sent when a request has finished loading.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKIDPAuthClientDelegate/authClientDisplayIDPLoginFlowSelection:</TokenIdentifier>
+			<Abstract type="html">Called when the Oauth Client requires Delegate to choose the login flow.</Abstract>
+			<DeclaredIn>SFSDKIDPAuthClient.h</DeclaredIn>
 			
-			<Declaration>- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse</Declaration>
+			<Declaration>- (void)authClientDisplayIDPLoginFlowSelection:(SFSDKIDPAuthClient *)client</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>request</Name>
-					<Abstract type="html">The request that was loaded.</Abstract>
-				</Parameter><Parameter>
-					<Name>dataResponse</Name>
-					<Abstract type="html">The data from the response.  By default, this will be an object
-containing the parsed JSON response.  However, if the response is not JSON,
-the data will be contained in a binary NSData object.</Abstract>
+					<Name>client</Name>
+					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/request:didLoadResponse:</Anchor>
+			<Anchor>//api/name/authClientDisplayIDPLoginFlowSelection:</Anchor>
             <NodeRef refid="164"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFRestDelegate/request:didFailLoadWithError:</TokenIdentifier>
-			<Abstract type="html">Sent when a request has failed due to an error.
-This includes HTTP network errors, as well as Salesforce errors
-(for example, passing an invalid SOQL string when doing a query).</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKIDPAuthClientDelegate/authClient:willSendRequestForIDPAuth:</TokenIdentifier>
+			<Abstract type="html">Called when the Oauth Client is starting the auth process using IDP APP</Abstract>
+			<DeclaredIn>SFSDKIDPAuthClient.h</DeclaredIn>
 			
-			<Declaration>- (void)request:(SFRestRequest *)request didFailLoadWithError:(NSError *)error</Declaration>
+			<Declaration>- (void)authClient:(SFSDKIDPAuthClient *_Nonnull)client willSendRequestForIDPAuth:(NSDictionary *)options</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>request</Name>
-					<Abstract type="html">The attempted request.</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">The error associated with the failed request.</Abstract>
+					<Name>client</Name>
+					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/request:didFailLoadWithError:</Anchor>
+			<Anchor>//api/name/authClient:willSendRequestForIDPAuth:</Anchor>
             <NodeRef refid="164"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFRestDelegate/requestDidCancelLoad:</TokenIdentifier>
-			<Abstract type="html">Sent to the delegate when a request was cancelled.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKIDPAuthClientDelegate/authClient:didSendRequestForIDPAuth:</TokenIdentifier>
+			<Abstract type="html">Called when the Oauth Client is starting the auth process using IDP APP</Abstract>
+			<DeclaredIn>SFSDKIDPAuthClient.h</DeclaredIn>
 			
-			<Declaration>- (void)requestDidCancelLoad:(SFRestRequest *)request</Declaration>
+			<Declaration>- (void)authClient:(SFSDKIDPAuthClient *_Nonnull)client didSendRequestForIDPAuth:(NSDictionary *)options</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>request</Name>
-					<Abstract type="html">The canceled request.</Abstract>
+					<Name>client</Name>
+					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/requestDidCancelLoad:</Anchor>
+			<Anchor>//api/name/authClient:didSendRequestForIDPAuth:</Anchor>
             <NodeRef refid="164"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFRestDelegate/requestDidTimeout:</TokenIdentifier>
-			<Abstract type="html">Sent to the delegate when a request has timed out. This is sent when a
-backgrounded request expired before completion.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKIDPAuthClientDelegate/authClient:didReceiveRequestForIDPAuth:</TokenIdentifier>
+			<Abstract type="html">Called when the Oauth Client is starting the auth process using IDP APP</Abstract>
+			<DeclaredIn>SFSDKIDPAuthClient.h</DeclaredIn>
 			
-			<Declaration>- (void)requestDidTimeout:(SFRestRequest *)request</Declaration>
+			<Declaration>- (void)authClient:(SFSDKIDPAuthClient *_Nonnull)client didReceiveRequestForIDPAuth:(NSURL *)request</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>request</Name>
-					<Abstract type="html">The request that timed out.</Abstract>
+					<Name>client</Name>
+					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/requestDidTimeout:</Anchor>
+			<Anchor>//api/name/authClient:didReceiveRequestForIDPAuth:</Anchor>
+            <NodeRef refid="164"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKIDPAuthClientDelegate/authClient:error:</TokenIdentifier>
+			<Abstract type="html">Called when the Oauth Client is starting the auth process using IDP APP</Abstract>
+			<DeclaredIn>SFSDKIDPAuthClient.h</DeclaredIn>
+			
+			<Declaration>- (void)authClient:(SFSDKIDPAuthClient *_Nonnull)client error:(NSError *)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>client</Name>
+					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/authClient:error:</Anchor>
+            <NodeRef refid="164"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKIDPAuthClientDelegate/authClientDidFetchAuthCode:</TokenIdentifier>
+			<Abstract type="html">Called when the Oauth Client is starting the auth process using IDP APP</Abstract>
+			<DeclaredIn>SFSDKIDPAuthClient.h</DeclaredIn>
+			
+			<Declaration>- (void)authClientDidFetchAuthCode:(SFSDKIDPAuthClient *_Nonnull)client</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>client</Name>
+					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/authClientDidFetchAuthCode:</Anchor>
+            <NodeRef refid="164"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKIDPAuthClientDelegate/authClient:didReceiveResponseForIDPAuth:</TokenIdentifier>
+			<Abstract type="html">Called when the Oauth Client is starting the auth process with an auth view.</Abstract>
+			<DeclaredIn>SFSDKIDPAuthClient.h</DeclaredIn>
+			
+			<Declaration>- (void)authClient:(SFSDKIDPAuthClient *_Nonnull)client didReceiveResponseForIDPAuth:(NSDictionary *)options</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>client</Name>
+					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/authClient:didReceiveResponseForIDPAuth:</Anchor>
+            <NodeRef refid="164"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKIDPAuthClientDelegate/authClient:willSendResponseForIDPAuth:</TokenIdentifier>
+			<Abstract type="html">Called when the Oauth Client is starting the auth process with an auth view.</Abstract>
+			<DeclaredIn>SFSDKIDPAuthClient.h</DeclaredIn>
+			
+			<Declaration>- (void)authClient:(SFSDKIDPAuthClient *_Nonnull)client willSendResponseForIDPAuth:(NSDictionary *)options</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>client</Name>
+					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/authClient:willSendResponseForIDPAuth:</Anchor>
             <NodeRef refid="164"/>
 		</Token>
 		

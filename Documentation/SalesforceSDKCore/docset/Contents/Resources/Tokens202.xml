@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFLogFlag.html">
+	<File path="Constants/SFSDKAppConfigErrorCode.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFLogFlag</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSDKAppConfigErrorCode</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLoggerMacros.h</DeclaredIn>
+			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
             
 			
 			<NodeRef refid="202"/>
@@ -14,61 +14,31 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogFlagError</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKAppConfigErrorCodeNoConsumerKey</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFLogFlagError</Declaration>
+            <Declaration>SFSDKAppConfigErrorCodeNoConsumerKey</Declaration>
             
-            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
+            <DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
             
             <NodeRef refid="202"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogFlagWarning</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKAppConfigErrorCodeNoRedirectURI</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFLogFlagWarning</Declaration>
+            <Declaration>SFSDKAppConfigErrorCodeNoRedirectURI</Declaration>
             
-            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
+            <DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
             
             <NodeRef refid="202"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogFlagInfo</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKAppConfigErrorCodeNoOAuthScopes</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFLogFlagInfo</Declaration>
+            <Declaration>SFSDKAppConfigErrorCodeNoOAuthScopes</Declaration>
             
-            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
-            
-            <NodeRef refid="202"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogFlagDebug</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFLogFlagDebug</Declaration>
-            
-            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
-            
-            <NodeRef refid="202"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogFlagVerbose</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFLogFlagVerbose</Declaration>
-            
-            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
-            
-            <NodeRef refid="202"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogFlagNSLog</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFLogFlagNSLog</Declaration>
-            
-            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
+            <DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
             
             <NodeRef refid="202"/>
         </Token>

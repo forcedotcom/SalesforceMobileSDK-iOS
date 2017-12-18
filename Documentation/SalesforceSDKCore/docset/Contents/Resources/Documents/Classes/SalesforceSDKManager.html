@@ -56,25 +56,31 @@
 	
 	<optgroup label="Properties">
 		
+		<option value="//api/name/)">)</option>
+		
 		<option value="//api/name/appConfig">appConfig</option>
+		
+		<option value="//api/name/appDisplayName">appDisplayName</option>
 		
 		<option value="//api/name/appType">appType</option>
 		
-		<option value="//api/name/authScopes">authScopes</option>
-		
-		<option value="//api/name/authenticateAtLaunch">authenticateAtLaunch</option>
-		
 		<option value="//api/name/brandLoginPath">brandLoginPath</option>
-		
-		<option value="//api/name/connectedAppCallbackUri">connectedAppCallbackUri</option>
-		
-		<option value="//api/name/connectedAppId">connectedAppId</option>
 		
 		<option value="//api/name/delegates">delegates</option>
 		
 		<option value="//api/name/hasVerifiedPasscodeAtStartup">hasVerifiedPasscodeAtStartup</option>
 		
+		<option value="//api/name/idpAppURIScheme">idpAppURIScheme</option>
+		
+		<option value="//api/name/idpLoginFlowSelectionBlock">idpLoginFlowSelectionBlock</option>
+		
+		<option value="//api/name/idpUserSelectionBlock">idpUserSelectionBlock</option>
+		
 		<option value="//api/name/inManagerForegroundProcess">inManagerForegroundProcess</option>
+		
+		<option value="//api/name/isDevSupportEnabled">isDevSupportEnabled</option>
+		
+		<option value="//api/name/isIdentityProvider">isIdentityProvider</option>
 		
 		<option value="//api/name/isLaunching">isLaunching</option>
 		
@@ -101,6 +107,8 @@
 		<option value="//api/name/snapshotViewControllerCreationAction">snapshotViewControllerCreationAction</option>
 		
 		<option value="//api/name/switchUserAction">switchUserAction</option>
+		
+		<option value="//api/name/useLegacyAuthenticationManager">useLegacyAuthenticationManager</option>
 		
 		<option value="//api/name/useSnapshotView">useSnapshotView</option>
 		
@@ -136,6 +144,12 @@
 		
 		<option value="//api/name/dismissSnapshot">- dismissSnapshot</option>
 		
+		<option value="//api/name/getAppTypeAsString">- getAppTypeAsString</option>
+		
+		<option value="//api/name/getDevActions:">- getDevActions:</option>
+		
+		<option value="//api/name/getDevSupportInfos">- getDevSupportInfos</option>
+		
 		<option value="//api/name/isSnapshotPresented">- isSnapshotPresented</option>
 		
 		<option value="//api/name/launch">- launch</option>
@@ -145,6 +159,8 @@
 		<option value="//api/name/presentSnapshot">- presentSnapshot</option>
 		
 		<option value="//api/name/removeDelegate:">- removeDelegate:</option>
+		
+		<option value="//api/name/showDevSupportDialog:">- showDevSupportDialog:</option>
 		
 	</optgroup>
 	
@@ -168,9 +184,6 @@
 						<tr>
 	<th>Inherits from</th>
 	<td>NSObject</td>
-</tr><tr>
-	<th>Conforms to</th>
-	<td><a href="../Protocols/SFAuthenticationManagerDelegate.html">SFAuthenticationManagerDelegate</a></td>
 </tr><tr>
 	<th>Declared in</th>
 	<td>SalesforceSDKManager.h</td>
@@ -568,8 +581,8 @@ backgrounding and foregrounding state.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/connectedAppId" title="connectedAppId"></a>
-	<h3 class="method-title"><code><a href="#//api/name/connectedAppId">&nbsp;&nbsp;connectedAppId</a></code>
+	<a name="//api/name/)" title=")"></a>
+	<h3 class="method-title"><code><a href="#//api/name/)">&nbsp;&nbsp;)</a></code>
 </h3>
 
 	<div class="method-info">
@@ -584,89 +597,7 @@ backgrounding and foregrounding state.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) NSString *connectedAppId</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SalesforceSDKManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/connectedAppCallbackUri" title="connectedAppCallbackUri"></a>
-	<h3 class="method-title"><code><a href="#//api/name/connectedAppCallbackUri">&nbsp;&nbsp;connectedAppCallbackUri</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>The Connected App Callback URI configured for this application.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) NSString *connectedAppCallbackUri</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SalesforceSDKManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/authScopes" title="authScopes"></a>
-	<h3 class="method-title"><code><a href="#//api/name/authScopes">&nbsp;&nbsp;authScopes</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>The OAuth scopes configured for this application.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable) NSArray&lt;NSString*&gt; *authScopes</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) NSString *SFSDK_DEPRECATED ( 6.0 , 7.0 , &quot;Use appConfig.remoteAccessConsumerKey to specify the consumer key.&quot; )</code></div>
 
 		    
 			
@@ -708,48 +639,6 @@ backgrounding and foregrounding state.</p>
 		    
 
 			<div class="method-subsection method-declaration"><code>@property (nonatomic, nullable, copy) NSString *brandLoginPath</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SalesforceSDKManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/authenticateAtLaunch" title="authenticateAtLaunch"></a>
-	<h3 class="method-title"><code><a href="#//api/name/authenticateAtLaunch">&nbsp;&nbsp;authenticateAtLaunch</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Whether or not to attempt authentication as part of the <a href="#//api/name/launch">launch</a> process.  Default
-value is YES.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL authenticateAtLaunch</code></div>
 
 		    
 			
@@ -1021,6 +910,88 @@ sensitive data from being displayed outside of the app context.  Default is YES.
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/idpLoginFlowSelectionBlock" title="idpLoginFlowSelectionBlock"></a>
+	<h3 class="method-title"><code><a href="#//api/name/idpLoginFlowSelectionBlock">&nbsp;&nbsp;idpLoginFlowSelectionBlock</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The block to provide custom view to use for IDP selection flow. This block will be used if loginFlowSelectionDialogEnabled in SDSDKIDPconfig is set to YES.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) SFIDPLoginFlowSelectionBlock idpLoginFlowSelectionBlock</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SalesforceSDKManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/idpUserSelectionBlock" title="idpUserSelectionBlock"></a>
+	<h3 class="method-title"><code><a href="#//api/name/idpUserSelectionBlock">&nbsp;&nbsp;idpUserSelectionBlock</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The block to provide custom view to use for IDP user selection flow.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) SFIDPUserSelectionBlock idpUserSelectionBlock</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SalesforceSDKManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/snapshotViewControllerCreationAction" title="snapshotViewControllerCreationAction"></a>
 	<h3 class="method-title"><code><a href="#//api/name/snapshotViewControllerCreationAction">&nbsp;&nbsp;snapshotViewControllerCreationAction</a></code>
 </h3>
@@ -1077,7 +1048,7 @@ a default opaque white view will be used.</p>
 			
 			<div class="method-subsection brief-description">
 				<p>The block to execute to present the snapshot viewcontroller.
-If this property is not set, <a href="../Classes/SFRootViewManager.html">SFRootViewManager</a> will be used to present the snapshot.
+If this property is not set, <a href="../Classes/SFSDKWindowManager.html">SFSDKWindowManager</a> will be used to present the snapshot in the snapshot window.
 @discussion
 This block is only invoked if the dismissal action is also set.</p>
 			</div>
@@ -1240,6 +1211,212 @@ SalesforceMobileSDK/3.0.0 iPhone OS/8.1 (iPad) AppName/AppVersion <em>Native or 
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/isIdentityProvider" title="isIdentityProvider"></a>
+	<h3 class="method-title"><code><a href="#//api/name/isIdentityProvider">&nbsp;&nbsp;isIdentityProvider</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Use this flag to indicate if the APP will be an identity provider</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL isIdentityProvider</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SalesforceSDKManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/idpAppURIScheme" title="idpAppURIScheme"></a>
+	<h3 class="method-title"><code><a href="#//api/name/idpAppURIScheme">&nbsp;&nbsp;idpAppURIScheme</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Use this flag to indicate if the scheme for the identity provider app</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *idpAppURIScheme</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SalesforceSDKManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/appDisplayName" title="appDisplayName"></a>
+	<h3 class="method-title"><code><a href="#//api/name/appDisplayName">&nbsp;&nbsp;appDisplayName</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Use this flag to setup a user friendly display name  for your current app. This value will be used by the identity
+provider app on the user selection view.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *appDisplayName</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SalesforceSDKManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/useLegacyAuthenticationManager" title="useLegacyAuthenticationManager"></a>
+	<h3 class="method-title"><code><a href="#//api/name/useLegacyAuthenticationManager">&nbsp;&nbsp;useLegacyAuthenticationManager</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Use this flag to indicate if the APP supports using an identity provider app for authentication</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL useLegacyAuthenticationManager</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SalesforceSDKManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/isDevSupportEnabled" title="isDevSupportEnabled"></a>
+	<h3 class="method-title"><code><a href="#//api/name/isDevSupportEnabled">&nbsp;&nbsp;isDevSupportEnabled</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Use this flag to indicate if the dev support dialog should be enabled in the APP</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL isDevSupportEnabled</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SalesforceSDKManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/launch" title="launch"></a>
 	<h3 class="method-title"><code><a href="#//api/name/launch">&ndash;&nbsp;launch</a></code>
 </h3>
@@ -1268,6 +1445,52 @@ actions.</p>
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
 				<p>YES if the launch successfully kicks off, NO if launch is already running.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SalesforceSDKManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/getAppTypeAsString" title="getAppTypeAsString"></a>
+	<h3 class="method-title"><code><a href="#//api/name/getAppTypeAsString">&ndash;&nbsp;getAppTypeAsString</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>app type as a string</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (NSString *)getAppTypeAsString</code></div>
+
+		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>app type as a string</p>
 			</div>
 			
 
@@ -1432,6 +1655,163 @@ actions.</p>
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
 				<p>A log-friendly string of the <a href="#//api/name/launch">launch</a> actions that were taken, given in <a href="#//api/name/postLaunchAction">postLaunchAction</a>.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SalesforceSDKManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/showDevSupportDialog:" title="showDevSupportDialog:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/showDevSupportDialog:">&ndash;&nbsp;showDevSupportDialog:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Show dev support dialog</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)showDevSupportDialog:(UIViewController *)<em>presentedViewController</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>presentedViewController</code></th>
+						<td><p>The view controller currently presented.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SalesforceSDKManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/getDevActions:" title="getDevActions:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/getDevActions:">&ndash;&nbsp;getDevActions:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The view controller currently presented.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (NSArray *)getDevActions:(UIViewController *)<em>presentedViewController</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>presentedViewController</code></th>
+						<td><p>The view controller currently presented.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>Dev actions (list of title1, handler1, title2, handler2 etc) to show in dev support dialog</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SalesforceSDKManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/getDevSupportInfos" title="getDevSupportInfos"></a>
+	<h3 class="method-title"><code><a href="#//api/name/getDevSupportInfos">&ndash;&nbsp;getDevSupportInfos</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Dev info (list of name1, value1, name2, value2 etc) to show in SFSDKDevInfoController</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (NSArray *)getDevSupportInfos</code></div>
+
+		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>Dev info (list of name1, value1, name2, value2 etc) to show in SFSDKDevInfoController</p>
 			</div>
 			
 
@@ -1651,7 +2031,7 @@ actions.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-09-18</p>
+						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-12-18</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

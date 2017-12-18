@@ -1,16 +1,481 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSmartStoreFullTextSearchSpeedTests.html">
+	<File path="Classes/SFSmartStoreDatabaseManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSmartStoreFullTextSearchSpeedTests</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreFullTextSearchSpeedTests.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSmartStoreDatabaseManager</TokenIdentifier>
+			<Abstract type="html">The NSError domain for SmartStore database errors.</Abstract>
+			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="14"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreDatabaseManager/sharedManager</TokenIdentifier>
+			<Abstract type="html">Gets the shared instance of the database manager for the current user.</Abstract>
+			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
+			
+			<Declaration>+ (SFSmartStoreDatabaseManager *)sharedManager</Declaration>
+			
+			
+			<Anchor>//api/name/sharedManager</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreDatabaseManager/sharedManagerForUser:</TokenIdentifier>
+			<Abstract type="html">Gets the shared instance of the database manager for the given user.</Abstract>
+			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
+			
+			<Declaration>+ (SFSmartStoreDatabaseManager *)sharedManagerForUser:(SFUserAccount *)user</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>user</Name>
+					<Abstract type="html">The user associated with the database manager.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/sharedManagerForUser:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreDatabaseManager/sharedGlobalManager</TokenIdentifier>
+			<Abstract type="html">Gets the shared instance of the database manager of global stores.</Abstract>
+			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
+			
+			<Declaration>+ (SFSmartStoreDatabaseManager *)sharedGlobalManager</Declaration>
+			
+			
+			<Anchor>//api/name/sharedGlobalManager</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreDatabaseManager/removeSharedManagerForUser:</TokenIdentifier>
+			<Abstract type="html">Removes the shared database manager associated with the given user.</Abstract>
+			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
+			
+			<Declaration>+ (void)removeSharedManagerForUser:(SFUserAccount *)user</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>user</Name>
+					<Abstract type="html">The user configured for the shared database manager.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/removeSharedManagerForUser:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/persistentStoreExists:</TokenIdentifier>
+			<Abstract type="html">Whether the store with the given name exists.</Abstract>
+			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)persistentStoreExists:(NSString *)storeName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>storeName</Name>
+					<Abstract type="html">The name of the store to query.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the store exists, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/persistentStoreExists:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/openStoreDatabaseWithName:key:error:</TokenIdentifier>
+			<Abstract type="html">Creates or opens an existing store DB.</Abstract>
+			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
+			
+			<Declaration>- (nullable FMDatabase *)openStoreDatabaseWithName:(NSString *)storeName key:(NSString *)key error:(NSError **)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>storeName</Name>
+					<Abstract type="html">The name of the store to create or open.</Abstract>
+				</Parameter><Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The encryption key associated with the store.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">Returned if there&apos;s an error with the process.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The FMDatabase instance representing the DB, or nil if the create/open failed.</Abstract></ReturnValue>
+			<Anchor>//api/name/openStoreDatabaseWithName:key:error:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/openStoreQueueWithName:key:error:</TokenIdentifier>
+			<Abstract type="html">Creates or opens an existing store DB.</Abstract>
+			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
+			
+			<Declaration>- (nullable FMDatabaseQueue *)openStoreQueueWithName:(NSString *)storeName key:(NSString *)key error:(NSError **)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>storeName</Name>
+					<Abstract type="html">The name of the store to create or open.</Abstract>
+				</Parameter><Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The encryption key associated with the store.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">Returned if there&apos;s an error with the process.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The FMDatabaseQueue instance to access the DB, or nil if the create/open failed.</Abstract></ReturnValue>
+			<Anchor>//api/name/openStoreQueueWithName:key:error:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/encryptDb:name:key:error:</TokenIdentifier>
+			<Abstract type="html">Encrypts an existing unencrypted database.</Abstract>
+			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
+			
+			<Declaration>- (FMDatabase *)encryptDb:(FMDatabase *)db name:(NSString *)storeName key:(NSString *)key error:(NSError **)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>db</Name>
+					<Abstract type="html">The DB to encrypt.</Abstract>
+				</Parameter><Parameter>
+					<Name>storeName</Name>
+					<Abstract type="html">The name of the store representing the DB.</Abstract>
+				</Parameter><Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The encryption key to be used for encrypting the database.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">Returned if there&apos;s an error with encrypting the data.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The newly-encrypted DB, or the original DB if the encryption fails at any point in the process.</Abstract></ReturnValue>
+			<Anchor>//api/name/encryptDb:name:key:error:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreDatabaseManager/encryptDbWithStoreName:storePath:key:error:</TokenIdentifier>
+			<Abstract type="html">Encrypts an existing store</Abstract>
+			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)encryptDbWithStoreName:(NSString *)storeName storePath:(NSString *)storePath key:(NSString *)key error:(NSError **)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>storeName</Name>
+					<Abstract type="html">The name of the store representing the DB.</Abstract>
+				</Parameter><Parameter>
+					<Name>storePath</Name>
+					<Abstract type="html">The path specifying the store location.</Abstract>
+				</Parameter><Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The encryption key to be used for encrypting the database.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">Returned if there&apos;s an error with encrypting the data.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the encryption was successful, or NO if the encryption fails at any point in the process.</Abstract></ReturnValue>
+			<Anchor>//api/name/encryptDbWithStoreName:storePath:key:error:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/unencryptDb:name:oldKey:error:</TokenIdentifier>
+			<Abstract type="html">Unencrypts an encrypted database, back to plaintext.</Abstract>
+			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
+			
+			<Declaration>- (FMDatabase *)unencryptDb:(FMDatabase *)db name:(NSString *)storeName oldKey:(NSString *)oldKey error:(NSError **)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>db</Name>
+					<Abstract type="html">The database to unencrypt.</Abstract>
+				</Parameter><Parameter>
+					<Name>storeName</Name>
+					<Abstract type="html">The name of the store associated with the DB.</Abstract>
+				</Parameter><Parameter>
+					<Name>oldKey</Name>
+					<Abstract type="html">The original encryption key of the database.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">Returned if there&apos;s an error during the process.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The unencrypted database, or the original encrypted database if the process fails at any point.</Abstract></ReturnValue>
+			<Anchor>//api/name/unencryptDb:name:oldKey:error:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreDatabaseManager/unencryptDbWithStoreName:storePath:key:error:</TokenIdentifier>
+			<Abstract type="html">Unencrypts an encrypted store, back to plaintext.</Abstract>
+			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)unencryptDbWithStoreName:(NSString *)storeName storePath:(NSString *)storePath key:(NSString *)key error:(NSError **)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>storeName</Name>
+					<Abstract type="html">The name of the store associated with the DB.</Abstract>
+				</Parameter><Parameter>
+					<Name>storePath</Name>
+					<Abstract type="html">The path specifying the store location.</Abstract>
+				</Parameter><Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The original encryption key of the database.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">Returned if there&apos;s an error during the process.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the existing store was successfully unencrypted, or NO if the process fails at any point.</Abstract></ReturnValue>
+			<Anchor>//api/name/unencryptDbWithStoreName:storePath:key:error:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/createStoreDir:</TokenIdentifier>
+			<Abstract type="html">Creates the directory for the store, on the filesystem.</Abstract>
+			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)createStoreDir:(NSString *)storeName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>storeName</Name>
+					<Abstract type="html">The name of the store to be created.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the call completed with no errors, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/createStoreDir:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/protectStoreDirIfNeeded:protection:</TokenIdentifier>
+			<Abstract type="html">Sets filesystem protection on the store DB file, directory and ancestor directories.</Abstract>
+			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)protectStoreDirIfNeeded:(NSString *)storeName protection:(NSString *)protection</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>storeName</Name>
+					<Abstract type="html">The store associated with the protection.</Abstract>
+				</Parameter><Parameter>
+					<Name>protection</Name>
+					<Abstract type="html">The file system protection desired.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the call completes without errors, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/protectStoreDirIfNeeded:protection:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/removeStoreDir:</TokenIdentifier>
+			<Abstract type="html">Removes the store directory and all of its contents from the filesystem.</Abstract>
+			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
+			
+			<Declaration>- (void)removeStoreDir:(NSString *)storeName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>storeName</Name>
+					<Abstract type="html">The store associated with the request.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/removeStoreDir:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/allStoreNames</TokenIdentifier>
+			<Abstract type="html">All of the store names associated with this application.</Abstract>
+			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
+			
+			<Declaration>- (NSArray *)allStoreNames</Declaration>
+			
+			<ReturnValue><Abstract type="html">All of the store names associated with this application.</Abstract></ReturnValue>
+			<Anchor>//api/name/allStoreNames</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/fullDbFilePathForStoreName:</TokenIdentifier>
+			<Abstract type="html">The full filesystem path to the database with the given store name.</Abstract>
+			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)fullDbFilePathForStoreName:(NSString *)storeName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>storeName</Name>
+					<Abstract type="html">The name of the store (excluding paths).</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Full filesystem path for the store DB file.</Abstract></ReturnValue>
+			<Anchor>//api/name/fullDbFilePathForStoreName:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreDatabaseManager/verifyDatabaseAccess:error:</TokenIdentifier>
+			<Abstract type="html">Verifies that the database contents for the given DB can be read.</Abstract>
+			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)verifyDatabaseAccess:(FMDatabase *)dbPath error:(NSError **)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>dbPath</Name>
+					<Abstract type="html">The instance of the database to read.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">The output NSError parameter that will be populated in the event of an error.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the database can be read.</Abstract></ReturnValue>
+			<Anchor>//api/name/verifyDatabaseAccess:error:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/setUser:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreDatabaseManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFUserAccount *user</Declaration>
+			
+			
+			<Anchor>//api/name/user</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/user</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreDatabaseManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFUserAccount *user</Declaration>
+			
+			
+			<Anchor>//api/name/user</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSmartStoreDatabaseManager/user</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreDatabaseManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFUserAccount *user</Declaration>
+			
+			
+			<Anchor>//api/name/user</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/setIsGlobalManager:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreDatabaseManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isGlobalManager</Declaration>
+			
+			
+			<Anchor>//api/name/isGlobalManager</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/isGlobalManager</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreDatabaseManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isGlobalManager</Declaration>
+			
+			
+			<Anchor>//api/name/isGlobalManager</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSmartStoreDatabaseManager/isGlobalManager</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreDatabaseManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isGlobalManager</Declaration>
+			
+			
+			<Anchor>//api/name/isGlobalManager</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/storeDirectoryForStoreName:</TokenIdentifier>
+			<Abstract type="html">The name of the store.</Abstract>
+			<DeclaredIn>SFSmartStoreDatabaseManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)storeDirectoryForStoreName:(NSString *)storeName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>storeName</Name>
+					<Abstract type="html">The name of the store.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The filesystem diretory containing for the given store name</Abstract></ReturnValue>
+			<Anchor>//api/name/storeDirectoryForStoreName:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/rootStoreDirectory</TokenIdentifier>
+			<Abstract type="html">The root directory where all the SmartStore DBs live.</Abstract>
+			<DeclaredIn>SFSmartStoreDatabaseManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)rootStoreDirectory</Declaration>
+			
+			<ReturnValue><Abstract type="html">The root directory where all the SmartStore DBs live.</Abstract></ReturnValue>
+			<Anchor>//api/name/rootStoreDirectory</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/encryptOrUnencryptDb:name:oldKey:newKey:error:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreDatabaseManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (FMDatabase *)encryptOrUnencryptDb:(FMDatabase *)db name:(NSString *)storeName oldKey:(NSString *)oldKey newKey:(NSString *)newKey error:(NSError **)error</Declaration>
+			
+			
+			<Anchor>//api/name/encryptOrUnencryptDb:name:oldKey:newKey:error:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreDatabaseManager/openDatabaseWithPath:key:error:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreDatabaseManager+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (FMDatabase *)openDatabaseWithPath:(NSString *)dbPath key:(NSString *)key error:(NSError **)error</Declaration>
+			
+			
+			<Anchor>//api/name/openDatabaseWithPath:key:error:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreDatabaseManager/encryptOrUnencryptDb:name:path:oldKey:newKey:error:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreDatabaseManager+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (FMDatabase *)encryptOrUnencryptDb:(FMDatabase *)db name:(NSString *)storeName path:(NSString *)storePath oldKey:(NSString *)oldKey newKey:(NSString *)newKey error:(NSError **)error</Declaration>
+			
+			
+			<Anchor>//api/name/encryptOrUnencryptDb:name:path:oldKey:newKey:error:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
 		
         
         

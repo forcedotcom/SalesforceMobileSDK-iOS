@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSoqlSyncDownTarget.html">
+	<File path="Classes/SFSmartSyncPersistableObject.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSoqlSyncDownTarget</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSmartSyncPersistableObject</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSoqlSyncDownTarget.h</DeclaredIn>
+			<DeclaredIn>SFSmartSyncPersistableObject.h</DeclaredIn>
             
 			
 			<NodeRef refid="20"/>
@@ -13,127 +13,98 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSoqlSyncDownTarget/setQuery:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPersistableObject/setRawData:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSoqlSyncDownTarget.h</DeclaredIn>
+			<DeclaredIn>SFSmartSyncPersistableObject.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *query</Declaration>
+			<Declaration>@property (nonatomic, strong) NSDictionary *rawData</Declaration>
 			
 			
-			<Anchor>//api/name/query</Anchor>
+			<Anchor>//api/name/rawData</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSoqlSyncDownTarget/query</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPersistableObject/rawData</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSoqlSyncDownTarget.h</DeclaredIn>
+			<DeclaredIn>SFSmartSyncPersistableObject.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *query</Declaration>
+			<Declaration>@property (nonatomic, strong) NSDictionary *rawData</Declaration>
 			
 			
-			<Anchor>//api/name/query</Anchor>
+			<Anchor>//api/name/rawData</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSoqlSyncDownTarget/query</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSmartSyncPersistableObject/rawData</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSoqlSyncDownTarget.h</DeclaredIn>
+			<DeclaredIn>SFSmartSyncPersistableObject.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *query</Declaration>
+			<Declaration>@property (nonatomic, strong) NSDictionary *rawData</Declaration>
 			
 			
-			<Anchor>//api/name/query</Anchor>
+			<Anchor>//api/name/rawData</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSoqlSyncDownTarget/newSyncTarget:</TokenIdentifier>
-			<Abstract type="html">Factory methods</Abstract>
-			<DeclaredIn>SFSoqlSyncDownTarget.h</DeclaredIn>
-			
-			<Declaration>+ (SFSoqlSyncDownTarget *)newSyncTarget:(NSString *)query</Declaration>
-			
-			
-			<Anchor>//api/name/newSyncTarget:</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSoqlSyncDownTarget/getQueryToRun</TokenIdentifier>
-			<Abstract type="html">query to run</Abstract>
-			<DeclaredIn>SFSoqlSyncDownTarget.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)getQueryToRun</Declaration>
-			
-			<ReturnValue><Abstract type="html">query to run</Abstract></ReturnValue>
-			<Anchor>//api/name/getQueryToRun</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSoqlSyncDownTarget/getQueryToRun:</TokenIdentifier>
-			<Abstract type="html">max time stamp to use in query (can be 0)</Abstract>
-			<DeclaredIn>SFSoqlSyncDownTarget.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)getQueryToRun:(long long)maxTimeStamp</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>maxTimeStamp</Name>
-					<Abstract type="html">max time stamp to use in query (can be 0)</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">query to run taking into account max time stamp</Abstract></ReturnValue>
-			<Anchor>//api/name/getQueryToRun:</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSoqlSyncDownTarget/startFetch:queryToRun:errorBlock:completeBlock:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPersistableObject/setObjectType:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSoqlSyncDownTarget+Internal.h</DeclaredIn>
+			<DeclaredIn>SFSmartSyncPersistableObject+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)startFetch:(SFSmartSyncSyncManager *)syncManager queryToRun:(NSString *)queryToRun errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock</Declaration>
+			<Declaration>@property (nonatomic, readonly, copy) NSString *objectType</Declaration>
 			
 			
-			<Anchor>//api/name/startFetch:queryToRun:errorBlock:completeBlock:</Anchor>
+			<Anchor>//api/name/objectType</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSoqlSyncDownTarget/parseIdsFromResponse:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPersistableObject/objectType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSoqlSyncDownTarget+Internal.h</DeclaredIn>
+			<DeclaredIn>SFSmartSyncPersistableObject+Internal.h</DeclaredIn>
 			
-			<Declaration>- (NSSet&lt;NSString*&gt; *)parseIdsFromResponse:(NSArray *)records</Declaration>
+			<Declaration>@property (nonatomic, readonly, copy) NSString *objectType</Declaration>
 			
 			
-			<Anchor>//api/name/parseIdsFromResponse:</Anchor>
+			<Anchor>//api/name/objectType</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSoqlSyncDownTarget/getRecordsFromResponse:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSmartSyncPersistableObject/objectType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSoqlSyncDownTarget+Internal.h</DeclaredIn>
+			<DeclaredIn>SFSmartSyncPersistableObject+Internal.h</DeclaredIn>
 			
-			<Declaration>- (NSArray&lt;NSDictionary*&gt; *)getRecordsFromResponse:(NSDictionary *)responseJson</Declaration>
+			<Declaration>@property (nonatomic, readonly, copy) NSString *objectType</Declaration>
 			
 			
-			<Anchor>//api/name/getRecordsFromResponse:</Anchor>
+			<Anchor>//api/name/objectType</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSoqlSyncDownTarget/getLatestModificationTimeStamp:modificationDateFieldName:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPersistableObject/initWithDictionary:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSoqlSyncDownTarget+Internal.h</DeclaredIn>
+			<DeclaredIn>SFSmartSyncPersistableObject.h</DeclaredIn>
 			
-			<Declaration>- (long long)getLatestModificationTimeStamp:(NSArray *)records modificationDateFieldName:(NSString *)modificationDateFieldName</Declaration>
+			<Declaration>- (id)initWithDictionary:(NSDictionary *)data</Declaration>
 			
 			
-			<Anchor>//api/name/getLatestModificationTimeStamp:modificationDateFieldName:</Anchor>
+			<Anchor>//api/name/initWithDictionary:</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPersistableObject/initWithDictionary:forObjectType:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartSyncPersistableObject.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithDictionary:(NSDictionary *)data forObjectType:(nullable NSString *)objectType</Declaration>
+			
+			
+			<Anchor>//api/name/initWithDictionary:forObjectType:</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		

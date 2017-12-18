@@ -438,7 +438,7 @@
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSArray *selectPaths</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable) NSArray *selectPaths</code></div>
 
 		    
 			
@@ -808,7 +808,7 @@ Note: caller is responsible for releaseing the query spec</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>+ (SFQuerySpec *)newExactQuerySpec:(NSString *)<em>soupName</em> withSelectPaths:(NSArray *)<em>selectPaths</em> withPath:(NSString *)<em>path</em> withMatchKey:(NSString *)<em>matchKey</em> withOrderPath:(NSString *)<em>orderPath</em> withOrder:(SFSoupQuerySortOrder)<em>order</em> withPageSize:(NSUInteger)<em>pageSize</em></code></div>
+			<div class="method-subsection method-declaration"><code>+ (nullable SFQuerySpec *)newExactQuerySpec:(NSString *)<em>soupName</em> withSelectPaths:(nullable NSArray *)<em>selectPaths</em> withPath:(NSString *)<em>path</em> withMatchKey:(NSString *)<em>matchKey</em> withOrderPath:(NSString *)<em>orderPath</em> withOrder:(SFSoupQuerySortOrder)<em>order</em> withPageSize:(NSUInteger)<em>pageSize</em></code></div>
 
 		    
 			
@@ -913,7 +913,7 @@ Note: caller is responsible for releaseing the query spec</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>+ (SFQuerySpec *)newLikeQuerySpec:(NSString *)<em>soupName</em> withSelectPaths:(NSArray *)<em>selectPaths</em> withPath:(NSString *)<em>path</em> withLikeKey:(NSString *)<em>likeKey</em> withOrderPath:(NSString *)<em>orderPath</em> withOrder:(SFSoupQuerySortOrder)<em>order</em> withPageSize:(NSUInteger)<em>pageSize</em></code></div>
+			<div class="method-subsection method-declaration"><code>+ (nullable SFQuerySpec *)newLikeQuerySpec:(NSString *)<em>soupName</em> withSelectPaths:(nullable NSArray *)<em>selectPaths</em> withPath:(NSString *)<em>path</em> withLikeKey:(NSString *)<em>likeKey</em> withOrderPath:(NSString *)<em>orderPath</em> withOrder:(SFSoupQuerySortOrder)<em>order</em> withPageSize:(NSUInteger)<em>pageSize</em></code></div>
 
 		    
 			
@@ -1018,7 +1018,7 @@ Note: caller is responsible for releaseing the query spec</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>+ (SFQuerySpec *)newRangeQuerySpec:(NSString *)<em>soupName</em> withSelectPaths:(NSArray *)<em>selectPaths</em> withPath:(NSString *)<em>path</em> withBeginKey:(NSString *)<em>beginKey</em> withEndKey:(NSString *)<em>endKey</em> withOrderPath:(NSString *)<em>orderPath</em> withOrder:(SFSoupQuerySortOrder)<em>order</em> withPageSize:(NSUInteger)<em>pageSize</em></code></div>
+			<div class="method-subsection method-declaration"><code>+ (nullable SFQuerySpec *)newRangeQuerySpec:(NSString *)<em>soupName</em> withSelectPaths:(nullable NSArray *)<em>selectPaths</em> withPath:(nullable NSString *)<em>path</em> withBeginKey:(nullable NSString *)<em>beginKey</em> withEndKey:(nullable NSString *)<em>endKey</em> withOrderPath:(NSString *)<em>orderPath</em> withOrder:(SFSoupQuerySortOrder)<em>order</em> withPageSize:(NSUInteger)<em>pageSize</em></code></div>
 
 		    
 			
@@ -1127,7 +1127,7 @@ Note: caller is responsible for releaseing the query spec</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>+ (SFQuerySpec *)newAllQuerySpec:(NSString *)<em>soupName</em> withSelectPaths:(NSArray *)<em>selectPaths</em> withOrderPath:(NSString *)<em>orderPath</em> withOrder:(SFSoupQuerySortOrder)<em>order</em> withPageSize:(NSUInteger)<em>pageSize</em></code></div>
+			<div class="method-subsection method-declaration"><code>+ (SFQuerySpec *)newAllQuerySpec:(NSString *)<em>soupName</em> withSelectPaths:(nullable NSArray *)<em>selectPaths</em> withOrderPath:(NSString *)<em>orderPath</em> withOrder:(SFSoupQuerySortOrder)<em>order</em> withPageSize:(NSUInteger)<em>pageSize</em></code></div>
 
 		    
 			
@@ -1217,7 +1217,7 @@ Note: caller is responsible for releaseing the query spec</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>+ (SFQuerySpec *)newMatchQuerySpec:(NSString *)<em>soupName</em> withSelectPaths:(NSArray *)<em>selectPaths</em> withPath:(NSString *)<em>path</em> withMatchKey:(NSString *)<em>matchKey</em> withOrderPath:(NSString *)<em>orderPath</em> withOrder:(SFSoupQuerySortOrder)<em>order</em> withPageSize:(NSUInteger)<em>pageSize</em></code></div>
+			<div class="method-subsection method-declaration"><code>+ (nullable SFQuerySpec *)newMatchQuerySpec:(NSString *)<em>soupName</em> withSelectPaths:(nullable NSArray *)<em>selectPaths</em> withPath:(NSString *)<em>path</em> withMatchKey:(NSString *)<em>matchKey</em> withOrderPath:(NSString *)<em>orderPath</em> withOrder:(SFSoupQuerySortOrder)<em>order</em> withPageSize:(NSUInteger)<em>pageSize</em></code></div>
 
 		    
 			
@@ -1322,7 +1322,7 @@ Note: caller is responsible for releaseing the query spec</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>+ (SFQuerySpec *)newSmartQuerySpec:(NSString *)<em>smartSql</em> withPageSize:(NSUInteger)<em>pageSize</em></code></div>
+			<div class="method-subsection method-declaration"><code>+ (nullable SFQuerySpec *)newSmartQuerySpec:(NSString *)<em>smartSql</em> withPageSize:(NSUInteger)<em>pageSize</em></code></div>
 
 		    
 			
@@ -1489,7 +1489,7 @@ Note: caller is responsible for releaseing the query spec</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (NSArray *)bindsForQuerySpec</code></div>
+			<div class="method-subsection method-declaration"><code>- (nullable NSArray *)bindsForQuerySpec</code></div>
 
 		    
 			
@@ -1533,7 +1533,7 @@ Note: caller is responsible for releaseing the query spec</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-09-18</p>
+						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-12-18</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

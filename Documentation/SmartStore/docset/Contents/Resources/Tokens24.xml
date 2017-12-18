@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFStoreCursor.html">
+	<File path="Classes/SFSoupIndex.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFStoreCursor</TokenIdentifier>
-			<Abstract type="html">Defines a cursor into data stored in a soup.</Abstract>
-			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSoupIndex</TokenIdentifier>
+			<Abstract type="html">Definition of an index on a given soup.</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
             
 			
 			<NodeRef refid="24"/>
@@ -13,307 +13,318 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/setCursorId:</TokenIdentifier>
-			<Abstract type="html">A unique ID for this cursor.</Abstract>
-			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/setPath:</TokenIdentifier>
+			<Abstract type="html">The simple or compound path to the index value, e.g. &quot;Id&quot; or &quot;Account.Id&quot;.</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, strong) NSString *cursorId</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *path</Declaration>
 			
 			
-			<Anchor>//api/name/cursorId</Anchor>
+			<Anchor>//api/name/path</Anchor>
             <NodeRef refid="24"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/cursorId</TokenIdentifier>
-			<Abstract type="html">A unique ID for this cursor.</Abstract>
-			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/path</TokenIdentifier>
+			<Abstract type="html">The simple or compound path to the index value, e.g. &quot;Id&quot; or &quot;Account.Id&quot;.</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, strong) NSString *cursorId</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *path</Declaration>
 			
 			
-			<Anchor>//api/name/cursorId</Anchor>
+			<Anchor>//api/name/path</Anchor>
             <NodeRef refid="24"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFStoreCursor/cursorId</TokenIdentifier>
-			<Abstract type="html">A unique ID for this cursor.</Abstract>
-			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSoupIndex/path</TokenIdentifier>
+			<Abstract type="html">The simple or compound path to the index value, e.g. &quot;Id&quot; or &quot;Account.Id&quot;.</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, strong) NSString *cursorId</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *path</Declaration>
 			
 			
-			<Anchor>//api/name/cursorId</Anchor>
+			<Anchor>//api/name/path</Anchor>
             <NodeRef refid="24"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/setQuerySpec:</TokenIdentifier>
-			<Abstract type="html">The query spec that generated this cursor.</Abstract>
-			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/setIndexType:</TokenIdentifier>
+			<Abstract type="html">The type of index this is (string or date).</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, strong) SFQuerySpec *querySpec</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *indexType</Declaration>
 			
 			
-			<Anchor>//api/name/querySpec</Anchor>
+			<Anchor>//api/name/indexType</Anchor>
             <NodeRef refid="24"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/querySpec</TokenIdentifier>
-			<Abstract type="html">The query spec that generated this cursor.</Abstract>
-			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/indexType</TokenIdentifier>
+			<Abstract type="html">The type of index this is (string or date).</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, strong) SFQuerySpec *querySpec</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *indexType</Declaration>
 			
 			
-			<Anchor>//api/name/querySpec</Anchor>
+			<Anchor>//api/name/indexType</Anchor>
             <NodeRef refid="24"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFStoreCursor/querySpec</TokenIdentifier>
-			<Abstract type="html">The query spec that generated this cursor.</Abstract>
-			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSoupIndex/indexType</TokenIdentifier>
+			<Abstract type="html">The type of index this is (string or date).</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, strong) SFQuerySpec *querySpec</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *indexType</Declaration>
 			
 			
-			<Anchor>//api/name/querySpec</Anchor>
+			<Anchor>//api/name/indexType</Anchor>
             <NodeRef refid="24"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/setCurrentPageOrderedEntries:</TokenIdentifier>
-			<Abstract type="html">The list of current page entries, ordered as requested in the querySpec.</Abstract>
-			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/setColumnType:</TokenIdentifier>
+			<Abstract type="html">The type of data that will be indexed (string or integer).</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, strong) NSArray *currentPageOrderedEntries</Declaration>
+			<Declaration>@property (strong, nonatomic, readonly, nullable) NSString *columnType</Declaration>
 			
 			
-			<Anchor>//api/name/currentPageOrderedEntries</Anchor>
+			<Anchor>//api/name/columnType</Anchor>
             <NodeRef refid="24"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/currentPageOrderedEntries</TokenIdentifier>
-			<Abstract type="html">The list of current page entries, ordered as requested in the querySpec.</Abstract>
-			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/columnType</TokenIdentifier>
+			<Abstract type="html">The type of data that will be indexed (string or integer).</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, strong) NSArray *currentPageOrderedEntries</Declaration>
+			<Declaration>@property (strong, nonatomic, readonly, nullable) NSString *columnType</Declaration>
 			
 			
-			<Anchor>//api/name/currentPageOrderedEntries</Anchor>
+			<Anchor>//api/name/columnType</Anchor>
             <NodeRef refid="24"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFStoreCursor/currentPageOrderedEntries</TokenIdentifier>
-			<Abstract type="html">The list of current page entries, ordered as requested in the querySpec.</Abstract>
-			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSoupIndex/columnType</TokenIdentifier>
+			<Abstract type="html">The type of data that will be indexed (string or integer).</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, strong) NSArray *currentPageOrderedEntries</Declaration>
+			<Declaration>@property (strong, nonatomic, readonly, nullable) NSString *columnType</Declaration>
 			
 			
-			<Anchor>//api/name/currentPageOrderedEntries</Anchor>
+			<Anchor>//api/name/columnType</Anchor>
             <NodeRef refid="24"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/setPageSize:</TokenIdentifier>
-			<Abstract type="html">The maximum number of entries returned per page.</Abstract>
-			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/setColumnName:</TokenIdentifier>
+			<Abstract type="html">The name of the column that will store the index.</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, strong) NSNumber *pageSize</Declaration>
+			<Declaration>@property (strong, nonatomic, readonly) NSString *columnName</Declaration>
 			
 			
-			<Anchor>//api/name/pageSize</Anchor>
+			<Anchor>//api/name/columnName</Anchor>
             <NodeRef refid="24"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/pageSize</TokenIdentifier>
-			<Abstract type="html">The maximum number of entries returned per page.</Abstract>
-			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/columnName</TokenIdentifier>
+			<Abstract type="html">The name of the column that will store the index.</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, strong) NSNumber *pageSize</Declaration>
+			<Declaration>@property (strong, nonatomic, readonly) NSString *columnName</Declaration>
 			
 			
-			<Anchor>//api/name/pageSize</Anchor>
+			<Anchor>//api/name/columnName</Anchor>
             <NodeRef refid="24"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFStoreCursor/pageSize</TokenIdentifier>
-			<Abstract type="html">The maximum number of entries returned per page.</Abstract>
-			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSoupIndex/columnName</TokenIdentifier>
+			<Abstract type="html">The name of the column that will store the index.</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, strong) NSNumber *pageSize</Declaration>
+			<Declaration>@property (strong, nonatomic, readonly) NSString *columnName</Declaration>
 			
 			
-			<Anchor>//api/name/pageSize</Anchor>
+			<Anchor>//api/name/columnName</Anchor>
             <NodeRef refid="24"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/setTotalPages:</TokenIdentifier>
-			<Abstract type="html">The total number of pages of results available.</Abstract>
-			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/initWithPath:indexType:columnName:</TokenIdentifier>
+			<Abstract type="html">Designated initializer.</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, strong) NSNumber *totalPages</Declaration>
-			
-			
-			<Anchor>//api/name/totalPages</Anchor>
-            <NodeRef refid="24"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/totalPages</TokenIdentifier>
-			<Abstract type="html">The total number of pages of results available.</Abstract>
-			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong) NSNumber *totalPages</Declaration>
-			
-			
-			<Anchor>//api/name/totalPages</Anchor>
-            <NodeRef refid="24"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFStoreCursor/totalPages</TokenIdentifier>
-			<Abstract type="html">The total number of pages of results available.</Abstract>
-			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong) NSNumber *totalPages</Declaration>
-			
-			
-			<Anchor>//api/name/totalPages</Anchor>
-            <NodeRef refid="24"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/setTotalEntries:</TokenIdentifier>
-			<Abstract type="html">The total number of entries.</Abstract>
-			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong) NSNumber *totalEntries</Declaration>
-			
-			
-			<Anchor>//api/name/totalEntries</Anchor>
-            <NodeRef refid="24"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/totalEntries</TokenIdentifier>
-			<Abstract type="html">The total number of entries.</Abstract>
-			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong) NSNumber *totalEntries</Declaration>
-			
-			
-			<Anchor>//api/name/totalEntries</Anchor>
-            <NodeRef refid="24"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFStoreCursor/totalEntries</TokenIdentifier>
-			<Abstract type="html">The total number of entries.</Abstract>
-			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong) NSNumber *totalEntries</Declaration>
-			
-			
-			<Anchor>//api/name/totalEntries</Anchor>
-            <NodeRef refid="24"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/setCurrentPageIndex:</TokenIdentifier>
-			<Abstract type="html">The current page index among totalPages available: writing this value
-causes currentPageOrderedEntries to be refetched.</Abstract>
-			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readwrite, strong) NSNumber *currentPageIndex</Declaration>
-			
-			
-			<Anchor>//api/name/currentPageIndex</Anchor>
-            <NodeRef refid="24"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/currentPageIndex</TokenIdentifier>
-			<Abstract type="html">The current page index among totalPages available: writing this value
-causes currentPageOrderedEntries to be refetched.</Abstract>
-			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readwrite, strong) NSNumber *currentPageIndex</Declaration>
-			
-			
-			<Anchor>//api/name/currentPageIndex</Anchor>
-            <NodeRef refid="24"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFStoreCursor/currentPageIndex</TokenIdentifier>
-			<Abstract type="html">The current page index among totalPages available: writing this value
-causes currentPageOrderedEntries to be refetched.</Abstract>
-			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readwrite, strong) NSNumber *currentPageIndex</Declaration>
-			
-			
-			<Anchor>//api/name/currentPageIndex</Anchor>
-            <NodeRef refid="24"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/initWithStore:querySpec:totalEntries:firstPageEntries:</TokenIdentifier>
-			<Abstract type="html">Initializes a new instance of a soup cursor.</Abstract>
-			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
-			
-			<Declaration>- (id)initWithStore:(SFSmartStore *)store querySpec:(SFQuerySpec *)querySpec totalEntries:(NSUInteger)totalEntries firstPageEntries:(NSArray *)firstPageEntries</Declaration>
+			<Declaration>- (nullable id)initWithPath:(NSString *)path indexType:(NSString *)type columnName:(nullable NSString *)columnName</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>store</Name>
-					<Abstract type="html">The store where the soup is contained.</Abstract>
+					<Name>path</Name>
+					<Abstract type="html">The simple or compound path to the index value, e.g. &quot;Id&quot; or &quot;Account.Id&quot;.</Abstract>
 				</Parameter><Parameter>
-					<Name>querySpec</Name>
-					<Abstract type="html">The query used to retrieve the data.</Abstract>
+					<Name>type</Name>
+					<Abstract type="html">An index type, e.g. kSoupIndexTypeString.</Abstract>
 				</Parameter><Parameter>
-					<Name>totalEntries</Name>
-					<Abstract type="html">The total number of entries retrieved from the query.</Abstract>
-				</Parameter><Parameter>
-					<Name>firstPageEntries</Name>
-					<Abstract type="html">The entries of the first page</Abstract>
+					<Name>columnName</Name>
+					<Abstract type="html">The SQL column name, or nil.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/initWithStore:querySpec:totalEntries:firstPageEntries:</Anchor>
+			<Anchor>//api/name/initWithPath:indexType:columnName:</Anchor>
             <NodeRef refid="24"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/asDictionary</TokenIdentifier>
-			<Abstract type="html">The NSDictionary representation of this object.</Abstract>
-			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/initWithDictionary:</TokenIdentifier>
+			<Abstract type="html">Creates an SFSoupIndex based on the given NSDictionary index spec.</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithDictionary:(NSDictionary *)dict</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>dict</Name>
+					<Abstract type="html">the dictionary to use</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Initialized SFSoupIndex object.</Abstract></ReturnValue>
+			<Anchor>//api/name/initWithDictionary:</Anchor>
+            <NodeRef refid="24"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/asDictionary</TokenIdentifier>
+			<Abstract type="html">Return dictionary for this SFSoupIndex object without column name
+  </Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
 			
 			<Declaration>- (NSDictionary *)asDictionary</Declaration>
 			
-			<ReturnValue><Abstract type="html">Dictionary representation of this object, for translation to JSON.</Abstract></ReturnValue>
+			
 			<Anchor>//api/name/asDictionary</Anchor>
             <NodeRef refid="24"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/close</TokenIdentifier>
-			<Abstract type="html">Close this cursor when finished operating on it.</Abstract>
-			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/asDictionary:</TokenIdentifier>
+			<Abstract type="html">Returns a dictionary For this SFSoupIndex object with or without column name</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
 			
-			<Declaration>- (void)close</Declaration>
+			<Declaration>- (NSDictionary *)asDictionary:(BOOL)withColumnName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>withColumnName</Name>
+					<Abstract type="html">If YES, column name is included in returned dictionary
+  </Abstract>
+				</Parameter>
+			</Parameters>
 			
+			<Anchor>//api/name/asDictionary:</Anchor>
+            <NodeRef refid="24"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSoupIndex/asArrayOfDictionaries:withColumnName:</TokenIdentifier>
+			<Abstract type="html">Returns an array of NSDictionary objects for a given array of soup indexes, using the given column name as the index.</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
 			
-			<Anchor>//api/name/close</Anchor>
+			<Declaration>+ (NSArray *)asArrayOfDictionaries:(NSArray *)arrayOfSoupIndexes withColumnName:(BOOL)withColumnName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>arrayOfSoupIndexes</Name>
+					<Abstract type="html">Array of soup indexes</Abstract>
+				</Parameter><Parameter>
+					<Name>withColumnName</Name>
+					<Abstract type="html">If YES, column name is included in returned dictionary</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Array of NSDictionary objects
+  </Abstract></ReturnValue>
+			<Anchor>//api/name/asArrayOfDictionaries:withColumnName:</Anchor>
+            <NodeRef refid="24"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSoupIndex/asArraySoupIndexes:</TokenIdentifier>
+			<Abstract type="html">Returns an array of SFSoupIndex objects for a given array of soup indexes.</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+			
+			<Declaration>+ (NSArray *)asArraySoupIndexes:(NSArray *)arrayOfDictionaries</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>arrayOfDictionaries</Name>
+					<Abstract type="html">Array of dictionaries</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Array of SFSoupIndex objects</Abstract></ReturnValue>
+			<Anchor>//api/name/asArraySoupIndexes:</Anchor>
+            <NodeRef refid="24"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSoupIndex/mapForSoupIndexes:</TokenIdentifier>
+			<Abstract type="html">Returns a map path to SFSoupIndex</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+			
+			<Declaration>+ (NSDictionary *)mapForSoupIndexes:(NSArray *)soupIndexes</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>soupIndexes</Name>
+					<Abstract type="html">array of SFSoupIndex objects</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Dictionary that maps paths to soup indexes</Abstract></ReturnValue>
+			<Anchor>//api/name/mapForSoupIndexes:</Anchor>
+            <NodeRef refid="24"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSoupIndex/hasFts:</TokenIdentifier>
+			<Abstract type="html">Returns YES if any of the indexes are full text</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)hasFts:(NSArray *)soupIndexes</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>soupIndexes</Name>
+					<Abstract type="html">array of SFSoupIndex objects</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if any of the indexes are full text</Abstract></ReturnValue>
+			<Anchor>//api/name/hasFts:</Anchor>
+            <NodeRef refid="24"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSoupIndex/hasJSON1:</TokenIdentifier>
+			<Abstract type="html">Returns YES if any of the indexes are JSON1</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)hasJSON1:(NSArray *)soupIndexes</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>soupIndexes</Name>
+					<Abstract type="html">array of SFSoupIndex objects</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if any of the indexes are JSON1</Abstract></ReturnValue>
+			<Anchor>//api/name/hasJSON1:</Anchor>
+            <NodeRef refid="24"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/getPathType</TokenIdentifier>
+			<Abstract type="html">Using the path and indexType property values, constructs a string in the format &quot;path--indexType&quot;.</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)getPathType</Declaration>
+			
+			<ReturnValue><Abstract type="html">String containing the path and indext type, separated by &quot;--&quot;.</Abstract></ReturnValue>
+			<Anchor>//api/name/getPathType</Anchor>
             <NodeRef refid="24"/>
 		</Token>
 		

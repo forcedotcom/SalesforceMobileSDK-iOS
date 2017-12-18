@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFLoginViewControllerDelegate.html">
+	<File path="Protocols/SFPasscodeManagerDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFLoginViewControllerDelegate</TokenIdentifier>
-			<Abstract type="html">Delegate protocol for the owner of SFLoginViewController.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFPasscodeManagerDelegate</TokenIdentifier>
+			<Abstract type="html">Delegate protocol for SFPasscodeManager callbacks</Abstract>
+			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="159"/>
@@ -13,22 +13,25 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFLoginViewControllerDelegate/loginViewController:didChangeLoginHost:</TokenIdentifier>
-			<Abstract type="html">Notifies the delegate that the selected login host has been changed.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeManagerDelegate/passcodeManager:didChangeEncryptionKey:toEncryptionKey:</TokenIdentifier>
+			<Abstract type="html">Notifies delegates of an encryption key change.</Abstract>
+			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
 			
-			<Declaration>- (void)loginViewController:(nonnull SFLoginViewController *)loginViewController didChangeLoginHost:(nonnull SFSDKLoginHost *)newLoginHost</Declaration>
+			<Declaration>- (void)passcodeManager:(SFPasscodeManager *)manager didChangeEncryptionKey:(NSString *)oldKey toEncryptionKey:(NSString *)newKey</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>loginViewController</Name>
-					<Abstract type="html">The instance sending this message.</Abstract>
+					<Name>manager</Name>
+					<Abstract type="html">The passcode manager instance making the change.</Abstract>
 				</Parameter><Parameter>
-					<Name>newLoginHost</Name>
-					<Abstract type="html">The updated login host.</Abstract>
+					<Name>oldKey</Name>
+					<Abstract type="html">The old encryption key.</Abstract>
+				</Parameter><Parameter>
+					<Name>newKey</Name>
+					<Abstract type="html">The new encryption key.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/loginViewController:didChangeLoginHost:</Anchor>
+			<Anchor>//api/name/passcodeManager:didChangeEncryptionKey:toEncryptionKey:</Anchor>
             <NodeRef refid="159"/>
 		</Token>
 		

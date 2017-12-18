@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFLogStorage.html">
+	<File path="Protocols/SFOAuthCoordinatorFlow.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFLogStorage</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intf/SFOAuthCoordinatorFlow</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogStorage.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
             
 			
 			<NodeRef refid="158"/>
@@ -13,98 +13,74 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFLogStorage/setAllLoggers:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorFlow/beginUserAgentFlow</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogStorage.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSArray&lt;id&lt;DDLogger&gt; &gt; *allLoggers</Declaration>
+			<Declaration>- (void)beginUserAgentFlow</Declaration>
 			
 			
-			<Anchor>//api/name/allLoggers</Anchor>
+			<Anchor>//api/name/beginUserAgentFlow</Anchor>
             <NodeRef refid="158"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFLogStorage/allLoggers</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorFlow/beginTokenEndpointFlow:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogStorage.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSArray&lt;id&lt;DDLogger&gt; &gt; *allLoggers</Declaration>
+			<Declaration>- (void)beginTokenEndpointFlow:(SFOAuthTokenEndpointFlow)flowType</Declaration>
 			
 			
-			<Anchor>//api/name/allLoggers</Anchor>
+			<Anchor>//api/name/beginTokenEndpointFlow:</Anchor>
             <NodeRef refid="158"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/SFLogStorage/allLoggers</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorFlow/beginJwtTokenExchangeFlow</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogStorage.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSArray&lt;id&lt;DDLogger&gt; &gt; *allLoggers</Declaration>
+			<Declaration>- (void)beginJwtTokenExchangeFlow</Declaration>
 			
 			
-			<Anchor>//api/name/allLoggers</Anchor>
+			<Anchor>//api/name/beginJwtTokenExchangeFlow</Anchor>
             <NodeRef refid="158"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFLogStorage/flushLog</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorFlow/handleTokenEndpointResponse:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogStorage.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)flushLog</Declaration>
+			<Declaration>- (void)handleTokenEndpointResponse:(NSMutableData *)data</Declaration>
 			
 			
-			<Anchor>//api/name/flushLog</Anchor>
+			<Anchor>//api/name/handleTokenEndpointResponse:</Anchor>
             <NodeRef refid="158"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFLogStorage/addLogger:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorFlow/beginNativeBrowserFlow</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogStorage.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)addLogger:(id&lt;DDLogger&gt;)logger</Declaration>
+			<Declaration>- (void)beginNativeBrowserFlow</Declaration>
 			
 			
-			<Anchor>//api/name/addLogger:</Anchor>
+			<Anchor>//api/name/beginNativeBrowserFlow</Anchor>
             <NodeRef refid="158"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFLogStorage/removeLogger:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorFlow/retrieveOrgAuthConfiguration:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogStorage.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)removeLogger:(id&lt;DDLogger&gt;)logger</Declaration>
-			
-			
-			<Anchor>//api/name/removeLogger:</Anchor>
-            <NodeRef refid="158"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFLogStorage/removeAllLoggers</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogStorage.h</DeclaredIn>
-			
-			<Declaration>- (void)removeAllLoggers</Declaration>
+			<Declaration>- (void)retrieveOrgAuthConfiguration:(void ( ^ ) ( SFOAuthOrgAuthConfiguration *, NSError *))retrievedAuthConfigBlock</Declaration>
 			
 			
-			<Anchor>//api/name/removeAllLoggers</Anchor>
-            <NodeRef refid="158"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFLogStorage/log:message:level:flag:context:file:function:line:tag:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLogStorage.h</DeclaredIn>
-			
-			<Declaration>- (void)log:(BOOL)asynchronous message:(NSString *)message level:(DDLogLevel)level flag:(DDLogFlag)flag context:(NSInteger)context file:(const char *)file function:(const char *)function line:(NSUInteger)line tag:(id)tag</Declaration>
-			
-			
-			<Anchor>//api/name/log:message:level:flag:context:file:function:line:tag:</Anchor>
+			<Anchor>//api/name/retrieveOrgAuthConfiguration:</Anchor>
             <NodeRef refid="158"/>
 		</Token>
 		

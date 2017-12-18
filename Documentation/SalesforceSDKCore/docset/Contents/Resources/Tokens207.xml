@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFOAuthCredsEncryptionType.html">
+	<File path="Constants/SFUserAccountChange.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthCredsEncryptionType</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountChange</TokenIdentifier>
+			<Abstract type="html">The various changes that can affect a user account</Abstract>
+			<DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
 			
 			<NodeRef refid="207"/>
@@ -14,51 +14,34 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeNotSet</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>kSFOAuthCredsEncryptionTypeNotSet</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeUnknown</TokenIdentifier>
+            <Abstract type="html">Unknown change
+     </Abstract>
+            <Declaration>SFUserAccountChangeUnknown</Declaration>
             
-            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
-            
-            <NodeRef refid="207"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeMac</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>kSFOAuthCredsEncryptionTypeMac</Declaration>
-            
-            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="207"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeIdForVendor</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>kSFOAuthCredsEncryptionTypeIdForVendor</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeNewUser</TokenIdentifier>
+            <Abstract type="html">New User
+      </Abstract>
+            <Declaration>SFUserAccountChangeNewUser</Declaration>
             
-            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
-            
-            <NodeRef refid="207"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeBaseAppId</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>kSFOAuthCredsEncryptionTypeBaseAppId</Declaration>
-            
-            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="207"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeKeyStore</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>kSFOAuthCredsEncryptionTypeKeyStore</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeCurrentUser</TokenIdentifier>
+            <Abstract type="html">Change of Current User
+     </Abstract>
+            <Declaration>SFUserAccountChangeCurrentUser</Declaration>
             
-            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="207"/>
         </Token>

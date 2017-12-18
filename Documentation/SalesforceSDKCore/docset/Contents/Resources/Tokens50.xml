@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFJsonUtils.html">
+	<File path="Classes/SFPBKDFData.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFJsonUtils</TokenIdentifier>
-			<Abstract type="html">This class helps decouple framework code from the underlying JSON implementation.</Abstract>
-			<DeclaredIn>SFJsonUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFPBKDFData</TokenIdentifier>
+			<Abstract type="html">Data class for PBKDF-generated keys.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
             
 			
 			<NodeRef refid="50"/>
@@ -13,142 +13,172 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFJsonUtils/lastError</TokenIdentifier>
-			<Abstract type="html">The last error that was logged during a JSON conversion operation.</Abstract>
-			<DeclaredIn>SFJsonUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/setDerivedKey:</TokenIdentifier>
+			<Abstract type="html">The PBKDF-derived key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
 			
-			<Declaration>+ (NSError *)lastError</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) NSData *derivedKey</Declaration>
 			
-			<ReturnValue><Abstract type="html">The last error that was logged during a JSON conversion operation.</Abstract></ReturnValue>
-			<Anchor>//api/name/lastError</Anchor>
+			
+			<Anchor>//api/name/derivedKey</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFJsonUtils/JSONRepresentation:</TokenIdentifier>
-			<Abstract type="html">Creates the JSON representation of an object.</Abstract>
-			<DeclaredIn>SFJsonUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/derivedKey</TokenIdentifier>
+			<Abstract type="html">The PBKDF-derived key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)JSONRepresentation:(id)object</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>object</Name>
-					<Abstract type="html">The object to JSON-ify</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">a JSON string representation of an Objective-C object</Abstract></ReturnValue>
-			<Anchor>//api/name/JSONRepresentation:</Anchor>
+			<Declaration>@property (nonatomic, strong, nullable) NSData *derivedKey</Declaration>
+			
+			
+			<Anchor>//api/name/derivedKey</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFJsonUtils/JSONRepresentation:options:</TokenIdentifier>
-			<Abstract type="html">Creates the JSON representation of an object.</Abstract>
-			<DeclaredIn>SFJsonUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDFData/derivedKey</TokenIdentifier>
+			<Abstract type="html">The PBKDF-derived key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)JSONRepresentation:(id)object options:(NSJSONWritingOptions)options</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) NSData *derivedKey</Declaration>
+			
+			
+			<Anchor>//api/name/derivedKey</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/setSalt:</TokenIdentifier>
+			<Abstract type="html">The salt used in conjunction with the plaintext input for creating the key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSData *salt</Declaration>
+			
+			
+			<Anchor>//api/name/salt</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/salt</TokenIdentifier>
+			<Abstract type="html">The salt used in conjunction with the plaintext input for creating the key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSData *salt</Declaration>
+			
+			
+			<Anchor>//api/name/salt</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDFData/salt</TokenIdentifier>
+			<Abstract type="html">The salt used in conjunction with the plaintext input for creating the key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSData *salt</Declaration>
+			
+			
+			<Anchor>//api/name/salt</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/setNumDerivationRounds:</TokenIdentifier>
+			<Abstract type="html">The number of derivation rounds used when generating the key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSUInteger numDerivationRounds</Declaration>
+			
+			
+			<Anchor>//api/name/numDerivationRounds</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/numDerivationRounds</TokenIdentifier>
+			<Abstract type="html">The number of derivation rounds used when generating the key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSUInteger numDerivationRounds</Declaration>
+			
+			
+			<Anchor>//api/name/numDerivationRounds</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDFData/numDerivationRounds</TokenIdentifier>
+			<Abstract type="html">The number of derivation rounds used when generating the key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSUInteger numDerivationRounds</Declaration>
+			
+			
+			<Anchor>//api/name/numDerivationRounds</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/setDerivedKeyLength:</TokenIdentifier>
+			<Abstract type="html">The length, in bytes, of the derived key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSUInteger derivedKeyLength</Declaration>
+			
+			
+			<Anchor>//api/name/derivedKeyLength</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/derivedKeyLength</TokenIdentifier>
+			<Abstract type="html">The length, in bytes, of the derived key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSUInteger derivedKeyLength</Declaration>
+			
+			
+			<Anchor>//api/name/derivedKeyLength</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDFData/derivedKeyLength</TokenIdentifier>
+			<Abstract type="html">The length, in bytes, of the derived key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSUInteger derivedKeyLength</Declaration>
+			
+			
+			<Anchor>//api/name/derivedKeyLength</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/initWithKey:salt:derivationRounds:derivedKeyLength:</TokenIdentifier>
+			<Abstract type="html">Initializes the data object with its core components.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithKey:(NSData *)key salt:(NSData *)salt derivationRounds:(NSUInteger)derivationRounds derivedKeyLength:(NSUInteger)derivedKeyLength</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>object</Name>
-					<Abstract type="html">The object to JSON-ify</Abstract>
+					<Name>key</Name>
+					<Abstract type="html">The derived key.</Abstract>
 				</Parameter><Parameter>
-					<Name>options</Name>
-					<Abstract type="html">for json-ization</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">a JSON string representation of an Objective-C object</Abstract></ReturnValue>
-			<Anchor>//api/name/JSONRepresentation:options:</Anchor>
-            <NodeRef refid="50"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFJsonUtils/JSONDataRepresentation:</TokenIdentifier>
-			<Abstract type="html">Creates the JSON-as-NSData representation of an object.</Abstract>
-			<DeclaredIn>SFJsonUtils.h</DeclaredIn>
-			
-			<Declaration>+ (NSData *)JSONDataRepresentation:(id)obj</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>obj</Name>
-					<Abstract type="html">The object to JSON-ify.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">A JSON string in NSData format, UTF8 encoded.</Abstract></ReturnValue>
-			<Anchor>//api/name/JSONDataRepresentation:</Anchor>
-            <NodeRef refid="50"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFJsonUtils/JSONDataRepresentation:options:</TokenIdentifier>
-			<Abstract type="html">Creates the JSON-as-NSData representation of an object.</Abstract>
-			<DeclaredIn>SFJsonUtils.h</DeclaredIn>
-			
-			<Declaration>+ (NSData *)JSONDataRepresentation:(id)obj options:(NSJSONWritingOptions)options</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>obj</Name>
-					<Abstract type="html">The object to JSON-ify.</Abstract>
+					<Name>salt</Name>
+					<Abstract type="html">The salt used with the input value to create the key.</Abstract>
 				</Parameter><Parameter>
-					<Name>options</Name>
-					<Abstract type="html">for json-ization</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">A JSON string in NSData format, UTF8 encoded.</Abstract></ReturnValue>
-			<Anchor>//api/name/JSONDataRepresentation:options:</Anchor>
-            <NodeRef refid="50"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFJsonUtils/objectFromJSONString:</TokenIdentifier>
-			<Abstract type="html">Creates an object from a string of JSON data.</Abstract>
-			<DeclaredIn>SFJsonUtils.h</DeclaredIn>
-			
-			<Declaration>+ (id)objectFromJSONString:(NSString *)jsonString</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>jsonString</Name>
-					<Abstract type="html">A JSON object string.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">An Objective-C object such as an NSDictionary or NSArray.</Abstract></ReturnValue>
-			<Anchor>//api/name/objectFromJSONString:</Anchor>
-            <NodeRef refid="50"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFJsonUtils/objectFromJSONData:</TokenIdentifier>
-			<Abstract type="html">Creates an object from a JSON-as-NSData object.</Abstract>
-			<DeclaredIn>SFJsonUtils.h</DeclaredIn>
-			
-			<Declaration>+ (id)objectFromJSONData:(NSData *)jsonData</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>jsonData</Name>
-					<Abstract type="html">JSON data in an NSData wrapper (UTF8 encoding assumed).</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">An Objective-C object such as an NSDictionary or NSArray.</Abstract></ReturnValue>
-			<Anchor>//api/name/objectFromJSONData:</Anchor>
-            <NodeRef refid="50"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFJsonUtils/projectIntoJson:path:</TokenIdentifier>
-			<Abstract type="html">Pull a value from the json-derived object by path (&quot;.&quot; delimited).</Abstract>
-			<DeclaredIn>SFJsonUtils.h</DeclaredIn>
-			
-			<Declaration>+ (id)projectIntoJson:(NSDictionary *)jsonObj path:(NSString *)path</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>jsonObj</Name>
-					<Abstract type="html">The JSON object that contains the requested JSON path.</Abstract>
+					<Name>derivationRounds</Name>
+					<Abstract type="html">The number of derivation rounds used to generate the key.</Abstract>
 				</Parameter><Parameter>
-					<Name>path</Name>
-					<Abstract type="html">Requested JSON path.</Abstract>
+					<Name>derivedKeyLength</Name>
+					<Abstract type="html">The length of the derived key, in bytes.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/projectIntoJson:path:</Anchor>
+			<Anchor>//api/name/initWithKey:salt:derivationRounds:derivedKeyLength:</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		

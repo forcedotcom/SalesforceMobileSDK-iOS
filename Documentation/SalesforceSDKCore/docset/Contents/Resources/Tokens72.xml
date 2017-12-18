@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFPBKDFData.html">
+	<File path="Classes/SFSDKAuthRequestCommand.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFPBKDFData</TokenIdentifier>
-			<Abstract type="html">Data class for PBKDF-generated keys.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAuthRequestCommand</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
             
 			
 			<NodeRef refid="72"/>
@@ -13,172 +13,362 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/setDerivedKey:</TokenIdentifier>
-			<Abstract type="html">The PBKDF-derived key.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/setSpState:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSData *derivedKey</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *spState</Declaration>
 			
 			
-			<Anchor>//api/name/derivedKey</Anchor>
+			<Anchor>//api/name/spState</Anchor>
             <NodeRef refid="72"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/derivedKey</TokenIdentifier>
-			<Abstract type="html">The PBKDF-derived key.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/spState</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSData *derivedKey</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *spState</Declaration>
 			
 			
-			<Anchor>//api/name/derivedKey</Anchor>
+			<Anchor>//api/name/spState</Anchor>
             <NodeRef refid="72"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDFData/derivedKey</TokenIdentifier>
-			<Abstract type="html">The PBKDF-derived key.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequestCommand/spState</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSData *derivedKey</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *spState</Declaration>
 			
 			
-			<Anchor>//api/name/derivedKey</Anchor>
+			<Anchor>//api/name/spState</Anchor>
             <NodeRef refid="72"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/setSalt:</TokenIdentifier>
-			<Abstract type="html">The salt used in conjunction with the plaintext input for creating the key.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/setSpClientId:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSData *salt</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *spClientId</Declaration>
 			
 			
-			<Anchor>//api/name/salt</Anchor>
+			<Anchor>//api/name/spClientId</Anchor>
             <NodeRef refid="72"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/salt</TokenIdentifier>
-			<Abstract type="html">The salt used in conjunction with the plaintext input for creating the key.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/spClientId</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSData *salt</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *spClientId</Declaration>
 			
 			
-			<Anchor>//api/name/salt</Anchor>
+			<Anchor>//api/name/spClientId</Anchor>
             <NodeRef refid="72"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDFData/salt</TokenIdentifier>
-			<Abstract type="html">The salt used in conjunction with the plaintext input for creating the key.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequestCommand/spClientId</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSData *salt</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *spClientId</Declaration>
 			
 			
-			<Anchor>//api/name/salt</Anchor>
+			<Anchor>//api/name/spClientId</Anchor>
             <NodeRef refid="72"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/setNumDerivationRounds:</TokenIdentifier>
-			<Abstract type="html">The number of derivation rounds used when generating the key.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/setSpRedirectURI:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSUInteger numDerivationRounds</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *spRedirectURI</Declaration>
 			
 			
-			<Anchor>//api/name/numDerivationRounds</Anchor>
+			<Anchor>//api/name/spRedirectURI</Anchor>
             <NodeRef refid="72"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/numDerivationRounds</TokenIdentifier>
-			<Abstract type="html">The number of derivation rounds used when generating the key.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/spRedirectURI</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSUInteger numDerivationRounds</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *spRedirectURI</Declaration>
 			
 			
-			<Anchor>//api/name/numDerivationRounds</Anchor>
+			<Anchor>//api/name/spRedirectURI</Anchor>
             <NodeRef refid="72"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDFData/numDerivationRounds</TokenIdentifier>
-			<Abstract type="html">The number of derivation rounds used when generating the key.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequestCommand/spRedirectURI</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSUInteger numDerivationRounds</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *spRedirectURI</Declaration>
 			
 			
-			<Anchor>//api/name/numDerivationRounds</Anchor>
+			<Anchor>//api/name/spRedirectURI</Anchor>
             <NodeRef refid="72"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/setDerivedKeyLength:</TokenIdentifier>
-			<Abstract type="html">The length, in bytes, of the derived key.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/setSpCodeChallenge:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSUInteger derivedKeyLength</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *spCodeChallenge</Declaration>
 			
 			
-			<Anchor>//api/name/derivedKeyLength</Anchor>
+			<Anchor>//api/name/spCodeChallenge</Anchor>
             <NodeRef refid="72"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/derivedKeyLength</TokenIdentifier>
-			<Abstract type="html">The length, in bytes, of the derived key.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/spCodeChallenge</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSUInteger derivedKeyLength</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *spCodeChallenge</Declaration>
 			
 			
-			<Anchor>//api/name/derivedKeyLength</Anchor>
+			<Anchor>//api/name/spCodeChallenge</Anchor>
             <NodeRef refid="72"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDFData/derivedKeyLength</TokenIdentifier>
-			<Abstract type="html">The length, in bytes, of the derived key.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequestCommand/spCodeChallenge</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSUInteger derivedKeyLength</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *spCodeChallenge</Declaration>
 			
 			
-			<Anchor>//api/name/derivedKeyLength</Anchor>
+			<Anchor>//api/name/spCodeChallenge</Anchor>
             <NodeRef refid="72"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/initWithKey:salt:derivationRounds:derivedKeyLength:</TokenIdentifier>
-			<Abstract type="html">Initializes the data object with its core components.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/setSpUserHint:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithKey:(NSData *)key salt:(NSData *)salt derivationRounds:(NSUInteger)derivationRounds derivedKeyLength:(NSUInteger)derivedKeyLength</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The derived key.</Abstract>
-				</Parameter><Parameter>
-					<Name>salt</Name>
-					<Abstract type="html">The salt used with the input value to create the key.</Abstract>
-				</Parameter><Parameter>
-					<Name>derivationRounds</Name>
-					<Abstract type="html">The number of derivation rounds used to generate the key.</Abstract>
-				</Parameter><Parameter>
-					<Name>derivedKeyLength</Name>
-					<Abstract type="html">The length of the derived key, in bytes.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, copy) NSString *spUserHint</Declaration>
 			
-			<Anchor>//api/name/initWithKey:salt:derivationRounds:derivedKeyLength:</Anchor>
+			
+			<Anchor>//api/name/spUserHint</Anchor>
+            <NodeRef refid="72"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/spUserHint</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spUserHint</Declaration>
+			
+			
+			<Anchor>//api/name/spUserHint</Anchor>
+            <NodeRef refid="72"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequestCommand/spUserHint</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spUserHint</Declaration>
+			
+			
+			<Anchor>//api/name/spUserHint</Anchor>
+            <NodeRef refid="72"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/setCallingAppUrl:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *callingAppUrl</Declaration>
+			
+			
+			<Anchor>//api/name/callingAppUrl</Anchor>
+            <NodeRef refid="72"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/callingAppUrl</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *callingAppUrl</Declaration>
+			
+			
+			<Anchor>//api/name/callingAppUrl</Anchor>
+            <NodeRef refid="72"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequestCommand/callingAppUrl</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *callingAppUrl</Declaration>
+			
+			
+			<Anchor>//api/name/callingAppUrl</Anchor>
+            <NodeRef refid="72"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/setSpAppName:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spAppName</Declaration>
+			
+			
+			<Anchor>//api/name/spAppName</Anchor>
+            <NodeRef refid="72"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/spAppName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spAppName</Declaration>
+			
+			
+			<Anchor>//api/name/spAppName</Anchor>
+            <NodeRef refid="72"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequestCommand/spAppName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spAppName</Declaration>
+			
+			
+			<Anchor>//api/name/spAppName</Anchor>
+            <NodeRef refid="72"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/setSpAppDescription:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spAppDescription</Declaration>
+			
+			
+			<Anchor>//api/name/spAppDescription</Anchor>
+            <NodeRef refid="72"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/spAppDescription</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spAppDescription</Declaration>
+			
+			
+			<Anchor>//api/name/spAppDescription</Anchor>
+            <NodeRef refid="72"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequestCommand/spAppDescription</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spAppDescription</Declaration>
+			
+			
+			<Anchor>//api/name/spAppDescription</Anchor>
+            <NodeRef refid="72"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/setSpLoginHost:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spLoginHost</Declaration>
+			
+			
+			<Anchor>//api/name/spLoginHost</Anchor>
+            <NodeRef refid="72"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/spLoginHost</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spLoginHost</Declaration>
+			
+			
+			<Anchor>//api/name/spLoginHost</Anchor>
+            <NodeRef refid="72"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequestCommand/spLoginHost</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spLoginHost</Declaration>
+			
+			
+			<Anchor>//api/name/spLoginHost</Anchor>
+            <NodeRef refid="72"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/setSpAppScopes:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spAppScopes</Declaration>
+			
+			
+			<Anchor>//api/name/spAppScopes</Anchor>
+            <NodeRef refid="72"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/spAppScopes</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spAppScopes</Declaration>
+			
+			
+			<Anchor>//api/name/spAppScopes</Anchor>
+            <NodeRef refid="72"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequestCommand/spAppScopes</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spAppScopes</Declaration>
+			
+			
+			<Anchor>//api/name/spAppScopes</Anchor>
             <NodeRef refid="72"/>
 		</Token>
 		

@@ -58,6 +58,26 @@
 		
 		<option value="//api/name/accountPersister">accountPersister</option>
 		
+		<option value="//api/name/additionalOAuthParameterKeys">additionalOAuthParameterKeys</option>
+		
+		<option value="//api/name/additionalTokenRefreshParams">additionalTokenRefreshParams</option>
+		
+		<option value="//api/name/advancedAuthConfiguration">advancedAuthConfiguration</option>
+		
+		<option value="//api/name/alertDisplayBlock">alertDisplayBlock</option>
+		
+		<option value="//api/name/alertView">alertView</option>
+		
+		<option value="//api/name/appDisplayName">appDisplayName</option>
+		
+		<option value="//api/name/authCancelledByUserHandlerBlock">authCancelledByUserHandlerBlock</option>
+		
+		<option value="//api/name/authPreferences">authPreferences</option>
+		
+		<option value="//api/name/authViewHandler">authViewHandler</option>
+		
+		<option value="//api/name/brandLoginPath">brandLoginPath</option>
+		
 		<option value="//api/name/currentUser">currentUser</option>
 		
 		<option value="//api/name/currentUserAnonymous">currentUserAnonymous</option>
@@ -66,6 +86,34 @@
 		
 		<option value="//api/name/delegates">delegates</option>
 		
+		<option value="//api/name/errorManager">errorManager</option>
+		
+		<option value="//api/name/idpAppURIScheme">idpAppURIScheme</option>
+		
+		<option value="//api/name/idpEnabled">idpEnabled</option>
+		
+		<option value="//api/name/idpLoginFlowSelectionAction">idpLoginFlowSelectionAction</option>
+		
+		<option value="//api/name/idpUserSelectionAction">idpUserSelectionAction</option>
+		
+		<option value="//api/name/isIdentityProvider">isIdentityProvider</option>
+		
+		<option value="//api/name/loginHost">loginHost</option>
+		
+		<option value="//api/name/loginViewControllerConfig">loginViewControllerConfig</option>
+		
+		<option value="//api/name/logoutSettingEnabled">logoutSettingEnabled</option>
+		
+		<option value="//api/name/oauthClientId">oauthClientId</option>
+		
+		<option value="//api/name/oauthCompletionUrl">oauthCompletionUrl</option>
+		
+		<option value="//api/name/retryLoginAfterFailure">retryLoginAfterFailure</option>
+		
+		<option value="//api/name/scopes">scopes</option>
+		
+		<option value="//api/name/useLegacyAuthenticationManager">useLegacyAuthenticationManager</option>
+		
 		<option value="//api/name/userAccountMap">userAccountMap</option>
 		
 	</optgroup>
@@ -73,6 +121,8 @@
 
 	
 	<optgroup label="Class Methods">
+		
+		<option value="//api/name/errorIsInvalidAuthCredentials:">+ errorIsInvalidAuthCredentials:</option>
 		
 		<option value="//api/name/sharedInstance">+ sharedInstance</option>
 		
@@ -114,11 +164,49 @@
 		
 		<option value="//api/name/createUserAccount:">- createUserAccount:</option>
 		
+		<option value="//api/name/decodeUserIdentity:">- decodeUserIdentity:</option>
+		
 		<option value="//api/name/deleteAccountForUser:error:">- deleteAccountForUser:error:</option>
+		
+		<option value="//api/name/dismissAuthViewControllerIfPresent">- dismissAuthViewControllerIfPresent</option>
+		
+		<option value="//api/name/disposeOAuthClient:">- disposeOAuthClient:</option>
+		
+		<option value="//api/name/encodeUserIdentity:">- encodeUserIdentity:</option>
 		
 		<option value="//api/name/enumerateDelegates:">- enumerateDelegates:</option>
 		
+		<option value="//api/name/fetchIDPAuthClient:completion:failure:">- fetchIDPAuthClient:completion:failure:</option>
+		
+		<option value="//api/name/fetchOAuthClient:completion:failure:">- fetchOAuthClient:completion:failure:</option>
+		
+		<option value="//api/name/handleAdvancedAuthenticationResponse:options:">- handleAdvancedAuthenticationResponse:options:</option>
+		
+		<option value="//api/name/handleIdpAuthError:">- handleIdpAuthError:</option>
+		
+		<option value="//api/name/handleIdpInitiatedAuth:">- handleIdpInitiatedAuth:</option>
+		
+		<option value="//api/name/handleIdpRequest:">- handleIdpRequest:</option>
+		
+		<option value="//api/name/handleIdpResponse:">- handleIdpResponse:</option>
+		
+		<option value="//api/name/handleNativeAuthResponse:options:">- handleNativeAuthResponse:options:</option>
+		
 		<option value="//api/name/loadAccounts:">- loadAccounts:</option>
+		
+		<option value="//api/name/loginWithCompletion:failure:">- loginWithCompletion:failure:</option>
+		
+		<option value="//api/name/loginWithJwtToken:completion:failure:">- loginWithJwtToken:completion:failure:</option>
+		
+		<option value="//api/name/logout">- logout</option>
+		
+		<option value="//api/name/logoutAllUsers">- logoutAllUsers</option>
+		
+		<option value="//api/name/logoutUser:">- logoutUser:</option>
+		
+		<option value="//api/name/newClientCredentials">- newClientCredentials</option>
+		
+		<option value="//api/name/refreshCredentials:completion:failure:">- refreshCredentials:completion:failure:</option>
 		
 		<option value="//api/name/reload">- reload</option>
 		
@@ -135,6 +223,8 @@
 		<option value="//api/name/uniqueUserAccountIdentifier:">- uniqueUserAccountIdentifier:</option>
 		
 		<option value="//api/name/userAccountForUserIdentity:">- userAccountForUserIdentity:</option>
+		
+		<option value="//api/name/userAccountsForDomain:">- userAccountsForDomain:</option>
 		
 		<option value="//api/name/userChanged:change:">- userChanged:change:</option>
 		
@@ -272,6 +362,421 @@ has never logged in.</p>
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/logoutSettingEnabled" title="logoutSettingEnabled"></a>
+	<h3 class="method-title"><code><a href="#//api/name/logoutSettingEnabled">&nbsp;&nbsp;logoutSettingEnabled</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns YES if the <a href="#//api/name/logout">logout</a> is requested by the app settings.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) BOOL logoutSettingEnabled</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/advancedAuthConfiguration" title="advancedAuthConfiguration"></a>
+	<h3 class="method-title"><code><a href="#//api/name/advancedAuthConfiguration">&nbsp;&nbsp;advancedAuthConfiguration</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Advanced authentication configuration.  Default is SFOAuthAdvancedAuthConfigurationNone.  Leave the
+default value unless you need advanced authentication, as it requires an additional round trip to the
+service to retrieve org authentication configuration.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) SFOAuthAdvancedAuthConfiguration advancedAuthConfiguration</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/additionalOAuthParameterKeys" title="additionalOAuthParameterKeys"></a>
+	<h3 class="method-title"><code><a href="#//api/name/additionalOAuthParameterKeys">&nbsp;&nbsp;additionalOAuthParameterKeys</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>An array of additional keys (NSString) to parse during OAuth</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSArray *additionalOAuthParameterKeys</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/additionalTokenRefreshParams" title="additionalTokenRefreshParams"></a>
+	<h3 class="method-title"><code><a href="#//api/name/additionalTokenRefreshParams">&nbsp;&nbsp;additionalTokenRefreshParams</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>A dictionary of additional parameters (key value pairs) to send during token refresh</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSDictionary *additionalTokenRefreshParams</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/loginHost" title="loginHost"></a>
+	<h3 class="method-title"><code><a href="#//api/name/loginHost">&nbsp;&nbsp;loginHost</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The host that will be used for login.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable) NSString *loginHost</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/retryLoginAfterFailure" title="retryLoginAfterFailure"></a>
+	<h3 class="method-title"><code><a href="#//api/name/retryLoginAfterFailure">&nbsp;&nbsp;retryLoginAfterFailure</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Should the login process start again if it fails (default: YES)</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL retryLoginAfterFailure</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/oauthClientId" title="oauthClientId"></a>
+	<h3 class="method-title"><code><a href="#//api/name/oauthClientId">&nbsp;&nbsp;oauthClientId</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>OAuth client ID to use for login.  Apps may customize
+by setting this property before login; otherwise, this
+value is determined by the SFDCOAuthClientIdPreference
+configured via the settings bundle.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *oauthClientId</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/oauthCompletionUrl" title="oauthCompletionUrl"></a>
+	<h3 class="method-title"><code><a href="#//api/name/oauthCompletionUrl">&nbsp;&nbsp;oauthCompletionUrl</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>axm/detect/oauth/done")</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *oauthCompletionUrl</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/brandLoginPath" title="brandLoginPath"></a>
+	<h3 class="method-title"><code><a href="#//api/name/brandLoginPath">&nbsp;&nbsp;brandLoginPath</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The Branded Login path configured for this application.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, nullable, copy) NSString *brandLoginPath</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/scopes" title="scopes"></a>
+	<h3 class="method-title"><code><a href="#//api/name/scopes">&nbsp;&nbsp;scopes</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The OAuth scopes associated with the app.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSSet&lt;NSString*&gt; *scopes</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/currentUserIdentity" title="currentUserIdentity"></a>
 	<h3 class="method-title"><code><a href="#//api/name/currentUserIdentity">&nbsp;&nbsp;currentUserIdentity</a></code>
 </h3>
@@ -289,6 +794,335 @@ has never logged in.</p>
 		    
 
 			<div class="method-subsection method-declaration"><code>@property (readonly, nonatomic, nullable) SFUserAccountIdentity *currentUserIdentity</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/idpLoginFlowSelectionAction" title="idpLoginFlowSelectionAction"></a>
+	<h3 class="method-title"><code><a href="#//api/name/idpLoginFlowSelectionAction">&nbsp;&nbsp;idpLoginFlowSelectionAction</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Use this block to replace the Login flow selection dialog</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) SFIDPLoginFlowSelectionBlock idpLoginFlowSelectionAction</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/idpUserSelectionAction" title="idpUserSelectionAction"></a>
+	<h3 class="method-title"><code><a href="#//api/name/idpUserSelectionAction">&nbsp;&nbsp;idpUserSelectionAction</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Use this to replace the default User Selection Screen</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) SFIDPUserSelectionBlock idpUserSelectionAction</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/isIdentityProvider" title="isIdentityProvider"></a>
+	<h3 class="method-title"><code><a href="#//api/name/isIdentityProvider">&nbsp;&nbsp;isIdentityProvider</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>  Use this property to enable an app to become and IdentityProvider for other apps</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL isIdentityProvider</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/idpEnabled" title="idpEnabled"></a>
+	<h3 class="method-title"><code><a href="#//api/name/idpEnabled">&nbsp;&nbsp;idpEnabled</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>  Use this property to enable this app to be able to use another app that is an Identity Provider</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign, readonly) BOOL idpEnabled</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/useLegacyAuthenticationManager" title="useLegacyAuthenticationManager"></a>
+	<h3 class="method-title"><code><a href="#//api/name/useLegacyAuthenticationManager">&nbsp;&nbsp;useLegacyAuthenticationManager</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Use this property to use <a href="../Classes/SFAuthenticationManager.html">SFAuthenticationManager</a> for authentication</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL useLegacyAuthenticationManager</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/idpAppURIScheme" title="idpAppURIScheme"></a>
+	<h3 class="method-title"><code><a href="#//api/name/idpAppURIScheme">&nbsp;&nbsp;idpAppURIScheme</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Use this property to indicate the url scheme  for the Identity Provider app</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *idpAppURIScheme</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/appDisplayName" title="appDisplayName"></a>
+	<h3 class="method-title"><code><a href="#//api/name/appDisplayName">&nbsp;&nbsp;appDisplayName</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Use this property to indicate to provide a user-friendly name for your app. This name will be displayed
+in the user selection view of the identity provider app.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *appDisplayName</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/loginViewControllerConfig" title="loginViewControllerConfig"></a>
+	<h3 class="method-title"><code><a href="#//api/name/loginViewControllerConfig">&nbsp;&nbsp;loginViewControllerConfig</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Use this property to indicate to provide Login<a href="../Classes/ViewController.html">ViewController</a> customizations for themes,navbar and settigs icon.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) SFSDKLoginViewControllerConfig *loginViewControllerConfig</code></div>
 
 		    
 			
@@ -822,6 +1656,64 @@ has never logged in.</p>
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/userAccountsForDomain:" title="userAccountsForDomain:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/userAccountsForDomain:">&ndash;&nbsp;userAccountsForDomain:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns all accounts that match a domain</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (NSArray *)userAccountsForDomain:(NSString *)<em>domain</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>domain</code></th>
+						<td><p>The domain.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>An array of accounts that match that instance URL</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/saveAccountForUser:error:" title="saveAccountForUser:error:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/saveAccountForUser:error:">&ndash;&nbsp;saveAccountForUser:error:</a></code>
 </h3>
@@ -891,7 +1783,7 @@ has never logged in.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (SFUserAccount *)accountForCredentials:(SFOAuthCredentials *)<em>credentials</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (nullable SFUserAccount *)accountForCredentials:(SFOAuthCredentials *)<em>credentials</em></code></div>
 
 		    
 			
@@ -1167,7 +2059,7 @@ This will post user update notification.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (SFUserAccount *)applyCredentials:(SFOAuthCredentials *)<em>credentials</em> withIdData:(SFIdentityData *)<em>identityData</em> andNotification:(BOOL)<em>shouldSendNotification</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (SFUserAccount *)applyCredentials:(SFOAuthCredentials *)<em>credentials</em> withIdData:(nullable SFIdentityData *)<em>identityData</em> andNotification:(BOOL)<em>shouldSendNotification</em></code></div>
 
 		    
 			
@@ -1608,6 +2500,937 @@ The NSDictionary should be NSCoder encodeable.</p>
 			
 		</div>
 	</div>
+</div><div class="section-method">
+	<a name="//api/name/loginWithCompletion:failure:" title="loginWithCompletion:failure:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/loginWithCompletion:failure:">&ndash;&nbsp;loginWithCompletion:failure:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Kick off the login process for credentials that&rsquo;s previously configured.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)loginWithCompletion:(nullable SFUserAccountManagerSuccessCallbackBlock)<em>completionBlock</em> failure:(nullable SFUserAccountManagerFailureCallbackBlock)<em>failureBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completionBlock</code></th>
+						<td><p>The block of code to execute when the authentication process successfully completes.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failureBlock</code></th>
+						<td><p>The block of code to execute when the authentication process has a fatal failure.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if this call kicks off the authentication process.  NO if an authentication process has already
+started, in which case subsequent requests are queued up to have their completion or failure blocks executed
+in succession.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/refreshCredentials:completion:failure:" title="refreshCredentials:completion:failure:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/refreshCredentials:completion:failure:">&ndash;&nbsp;refreshCredentials:completion:failure:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Kick off the refresh process for the specified credentials.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)refreshCredentials:(nonnull SFOAuthCredentials *)<em>credentials</em> completion:(nullable SFUserAccountManagerSuccessCallbackBlock)<em>completionBlock</em> failure:(nullable SFUserAccountManagerFailureCallbackBlock)<em>failureBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>credentials</code></th>
+						<td><p><a href="../Classes/SFOAuthCredentials.html">SFOAuthCredentials</a> to be refreshed.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completionBlock</code></th>
+						<td><p>The block of code to execute when the refresh process successfully completes.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failureBlock</code></th>
+						<td><p>The block of code to execute when the refresh process has a fatal failure.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if this call kicks off the authentication process.  NO if an authentication process has already
+started, in which case subsequent requests are queued up to have their completion or failure blocks executed
+in succession.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/loginWithJwtToken:completion:failure:" title="loginWithJwtToken:completion:failure:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/loginWithJwtToken:completion:failure:">&ndash;&nbsp;loginWithJwtToken:completion:failure:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Login using the given JWT token to exchange with the service for credentials.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)loginWithJwtToken:(NSString *)<em>jwtToken</em> completion:(nullable SFUserAccountManagerSuccessCallbackBlock)<em>completionBlock</em> failure:(nullable SFUserAccountManagerFailureCallbackBlock)<em>failureBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>jwtToken</code></th>
+						<td><p>The JWT token (received out of band) to exchange for credentials.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completionBlock</code></th>
+						<td><p>The block of code to execute when the authentication process successfully completes.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failureBlock</code></th>
+						<td><p>The block of code to execute when the authentication process has a fatal failure.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if this call kicks off the authentication process.  NO if an authentication process has already
+started, in which case subsequent requests are queued up to have their completion or failure blocks executed
+in succession.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/logout" title="logout"></a>
+	<h3 class="method-title"><code><a href="#//api/name/logout">&ndash;&nbsp;logout</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Forces a logout from the current account, redirecting the user to the login process.
+This throws out the OAuth refresh token.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)logout</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/logoutUser:" title="logoutUser:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/logoutUser:">&ndash;&nbsp;logoutUser:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Performs a <a href="#//api/name/logout">logout</a> on the specified user.  Note that if the user is not the current user of the app, the
+specified user&rsquo;s authenticated state will be removed, but no other action will otherwise interrupt the
+current app state.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)logoutUser:(SFUserAccount *)<em>user</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>user</code></th>
+						<td><p>The user to log out.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/logoutAllUsers" title="logoutAllUsers"></a>
+	<h3 class="method-title"><code><a href="#//api/name/logoutAllUsers">&ndash;&nbsp;logoutAllUsers</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Performs a <a href="#//api/name/logout">logout</a> for all users of the app, including the current user.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)logoutAllUsers</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/dismissAuthViewControllerIfPresent" title="dismissAuthViewControllerIfPresent"></a>
+	<h3 class="method-title"><code><a href="#//api/name/dismissAuthViewControllerIfPresent">&ndash;&nbsp;dismissAuthViewControllerIfPresent</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Dismisses the auth view controller, resetting the UI state back to its original
+presentation.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)dismissAuthViewControllerIfPresent</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/handleAdvancedAuthenticationResponse:options:" title="handleAdvancedAuthenticationResponse:options:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/handleAdvancedAuthenticationResponse:options:">&ndash;&nbsp;handleAdvancedAuthenticationResponse:options:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Handle an advanced authentication response from the external browser, continuing any
+in-progress adavanced authentication flow.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)<em>appUrlResponse</em> options:(NSDictionary *)<em>options</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>appUrlResponse</code></th>
+						<td><p>The URL response returned to the app from the external browser.
+@options Dictionary of name-value pairs received from open URL</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if this is a valid URL response from advanced authentication that should
+be handled, NO otherwise.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/authViewHandler" title="authViewHandler"></a>
+	<h3 class="method-title"><code><a href="#//api/name/authViewHandler">&nbsp;&nbsp;authViewHandler</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Set this block to handle presentation of the Authentication View Controller.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) SFSDKAuthViewHandler *authViewHandler</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/alertDisplayBlock" title="alertDisplayBlock"></a>
+	<h3 class="method-title"><code><a href="#//api/name/alertDisplayBlock">&nbsp;&nbsp;alertDisplayBlock</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Change this block to handle all alerts  required by the SFUserAccountManager.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nonnull) void ( ^ ) ( SFSDKAlertMessage *, SFSDKWindowContainer *) alertDisplayBlock</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/authCancelledByUserHandlerBlock" title="authCancelledByUserHandlerBlock"></a>
+	<h3 class="method-title"><code><a href="#//api/name/authCancelledByUserHandlerBlock">&nbsp;&nbsp;authCancelledByUserHandlerBlock</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Change this block to customize behavior for user initiated auth cancellation</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nonnull) void ( ^ ) ( void ) authCancelledByUserHandlerBlock</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/errorIsInvalidAuthCredentials:" title="errorIsInvalidAuthCredentials:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/errorIsInvalidAuthCredentials:">+&nbsp;errorIsInvalidAuthCredentials:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Determines whether an error is due to invalid auth credentials.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (BOOL)errorIsInvalidAuthCredentials:(NSError *)<em>error</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>error</code></th>
+						<td><p>The error to check against an invalid credentials error.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if the error is due to invalid credentials, NO otherwise.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="URLHandlers Methods" name="task_URLHandlers Methods"></a>
+						<h2 class="task-title">URLHandlers Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/handleNativeAuthResponse:options:" title="handleNativeAuthResponse:options:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/handleNativeAuthResponse:options:">&ndash;&nbsp;handleNativeAuthResponse:options:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Handle an advanced authentication response from the external browser, continuing any
+in-progress adavanced authentication flow.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)handleNativeAuthResponse:(NSURL *_Nonnull)<em>url</em> options:(NSDictionary *_Nullable)<em>options</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>url</code></th>
+						<td><p>The URL response returned to the app from the external browser.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>options</code></th>
+						<td><p>Dictionary of name-value pairs received from open URL</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if this is request is handled, NO otherwise.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager+URLHandlers.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/handleIdpAuthError:" title="handleIdpAuthError:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/handleIdpAuthError:">&ndash;&nbsp;handleIdpAuthError:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Handle an error situation that occured in the IDP flow.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)handleIdpAuthError:(SFSDKAuthErrorCommand *_Nonnull)<em>command</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>command</code></th>
+						<td><p>The Error URL request from the idp or SP App.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if this is request is handled, NO otherwise.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager+URLHandlers.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/handleIdpInitiatedAuth:" title="handleIdpInitiatedAuth:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/handleIdpInitiatedAuth:">&ndash;&nbsp;handleIdpInitiatedAuth:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Handle an IDP initiated auth flow.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)handleIdpInitiatedAuth:(SFSDKIDPInitCommand *_Nonnull)<em>command</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>command</code></th>
+						<td><p>The URL request from the IDP APP.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if this is request is handled, NO otherwise.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager+URLHandlers.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/handleIdpRequest:" title="handleIdpRequest:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/handleIdpRequest:">&ndash;&nbsp;handleIdpRequest:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Handle an IDP request initiated from an SP APP.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)handleIdpRequest:(SFSDKAuthRequestCommand *_Nonnull)<em>request</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>request</code></th>
+						<td><p>The  request from the SP APP.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if this request is handled, NO otherwise.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager+URLHandlers.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/handleIdpResponse:" title="handleIdpResponse:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/handleIdpResponse:">&ndash;&nbsp;handleIdpResponse:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Handle an IDP response received from an IDP APP.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)handleIdpResponse:(SFSDKAuthResponseCommand *_Nonnull)<em>response</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>response</code></th>
+						<td><p>The URL response from the IDP APP.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if this is request is handled, NO otherwise.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager+URLHandlers.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
 </div>
 						</div>
 						
@@ -1683,10 +3506,158 @@ The NSDictionary should be NSCoder encodeable.</p>
 
 		<div class="method-info-container">
 			
+			
+			<div class="method-subsection brief-description">
+				<p>instance of accountPersister</p>
+			</div>
+			
+		    
 
 			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable) id&lt;SFUserAccountPersister&gt; accountPersister</code></div>
 
 		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/authPreferences" title="authPreferences"></a>
+	<h3 class="method-title"><code><a href="#//api/name/authPreferences">&nbsp;&nbsp;authPreferences</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>instance of authPreferences</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nonnull) SFSDKAuthPreferences *authPreferences</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/alertView" title="alertView"></a>
+	<h3 class="method-title"><code><a href="#//api/name/alertView">&nbsp;&nbsp;alertView</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p><a href="../Classes/SFSDKAlertView.html">SFSDKAlertView</a> used to wrap display of SFSDKMessage using an AlertController.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable) SFSDKAlertView *alertView</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/errorManager" title="errorManager"></a>
+	<h3 class="method-title"><code><a href="#//api/name/errorManager">&nbsp;&nbsp;errorManager</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p><a href="../Classes/SFSDKAlertView.html">SFSDKAlertView</a> used to wrap display of SFSDKMessage using an AlertController.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable) SFSDKAuthErrorManager *errorManager</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager+Internal.h</code></p>
+			</div>
+			
+			
 		</div>
 	</div>
 </div><div class="section-method">
@@ -1933,6 +3904,357 @@ The NSDictionary should be NSCoder encodeable.</p>
 			
 		</div>
 	</div>
+</div><div class="section-method">
+	<a name="//api/name/newClientCredentials" title="newClientCredentials"></a>
+	<h3 class="method-title"><code><a href="#//api/name/newClientCredentials">&ndash;&nbsp;newClientCredentials</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p><a href="../Classes/SFOAuthCredentials.html">SFOAuthCredentials</a></p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFOAuthCredentials *_Nonnull)newClientCredentials</code></div>
+
+		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p><a href="../Classes/SFOAuthCredentials.html">SFOAuthCredentials</a></p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/encodeUserIdentity:" title="encodeUserIdentity:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/encodeUserIdentity:">&ndash;&nbsp;encodeUserIdentity:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>to use for encoding to String</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (NSString *_Nonnull)encodeUserIdentity:(SFUserAccountIdentity *_Nonnull)<em>userIdentity</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>userIdentity</code></th>
+						<td><p>to use for encoding to String</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>NSString userid:orgid</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/decodeUserIdentity:" title="decodeUserIdentity:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/decodeUserIdentity:">&ndash;&nbsp;decodeUserIdentity:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>encoded string</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFUserAccountIdentity *_Nullable)decodeUserIdentity:(NSString *_Nullable)<em>userIdentityEncoded</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>userIdentityEncoded</code></th>
+						<td><p>encoded string</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p><a href="../Classes/SFUserAccountIdentity.html">SFUserAccountIdentity</a> decoded from string</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/disposeOAuthClient:" title="disposeOAuthClient:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/disposeOAuthClient:">&ndash;&nbsp;disposeOAuthClient:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>to remove from cache.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)disposeOAuthClient:(SFSDKOAuthClient *_Nonnull)<em>client</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>client</code></th>
+						<td><p>to remove from cache.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/fetchIDPAuthClient:completion:failure:" title="fetchIDPAuthClient:completion:failure:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/fetchIDPAuthClient:completion:failure:">&ndash;&nbsp;fetchIDPAuthClient:completion:failure:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>to use to init client</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFSDKIDPAuthClient *_Nonnull)fetchIDPAuthClient:(SFOAuthCredentials *_Nonnull)<em>credentials</em> completion:(SFUserAccountManagerSuccessCallbackBlock _Nullable)<em>completionBlock</em> failure:(SFUserAccountManagerFailureCallbackBlock _Nullable)<em>failureBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>credentials</code></th>
+						<td><p>to use to init client</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completionBlock</code></th>
+						<td><p>to use for client</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failureBlock</code></th>
+						<td><p>to use for client</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p><a href="../Classes/SFSDKIDPAuthClient.html">SFSDKIDPAuthClient</a> instance</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/fetchOAuthClient:completion:failure:" title="fetchOAuthClient:completion:failure:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/fetchOAuthClient:completion:failure:">&ndash;&nbsp;fetchOAuthClient:completion:failure:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>to use to init client</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFSDKOAuthClient *_Nonnull)fetchOAuthClient:(SFOAuthCredentials *_Nonnull)<em>credentials</em> completion:(SFUserAccountManagerSuccessCallbackBlock _Nullable)<em>completionBlock</em> failure:(SFUserAccountManagerFailureCallbackBlock _Nullable)<em>failureBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>credentials</code></th>
+						<td><p>to use to init client</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completionBlock</code></th>
+						<td><p>to use for the client</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failureBlock</code></th>
+						<td><p>to use for the client</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p><a href="../Classes/SFSDKOAuthClient.html">SFSDKOAuthClient</a> instance</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
 </div>
 						</div>
 						
@@ -1948,7 +4270,7 @@ The NSDictionary should be NSCoder encodeable.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-09-18</p>
+						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-12-18</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>
