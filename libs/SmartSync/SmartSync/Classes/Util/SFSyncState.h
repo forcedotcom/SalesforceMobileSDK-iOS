@@ -24,6 +24,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class SFSyncTarget;
 @class SFSyncDownTarget;
 @class SFSyncUpTarget;
@@ -36,6 +38,7 @@ extern NSString * const kSFSyncStateSyncsSoupSyncType;
 
 // Fields in dict representation
 extern NSString * const kSFSyncStateId;
+extern NSString * const kSFSyncStateName;
 extern NSString * const kSFSyncStateType;
 extern NSString * const kSFSyncStateTarget;
 extern NSString * const kSFSyncStateSoupName;
@@ -82,6 +85,7 @@ extern NSString * const kSFSyncStateMergeModeLeaveIfChanged;
 @interface SFSyncState : NSObject <NSCopying>
 
 @property (nonatomic, readonly) NSInteger syncId;
+@property (nonatomic, strong, readonly) NSString* syncName;
 @property (nonatomic, readonly) SFSyncStateSyncType type;
 @property (nonatomic, strong, readonly) NSString* soupName;
 @property (nonatomic, strong, readonly) SFSyncTarget* target;
@@ -102,18 +106,21 @@ extern NSString * const kSFSyncStateMergeModeLeaveIfChanged;
 
 /** Factory methods
  */
-+ (SFSyncState*) newSyncDownWithOptions:(SFSyncOptions*)options target:(SFSyncDownTarget*)target soupName:(NSString*)soupName store:(SFSmartStore*)store;
-+ (SFSyncState*) newSyncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName store:(SFSmartStore*)store;
-+ (SFSyncState*) newSyncUpWithOptions:(SFSyncOptions*)options target:(SFSyncUpTarget*)target soupName:(NSString*)soupName store:(SFSmartStore*)store;
++ (nullable SFSyncState *)newSyncDownWithOptions:(SFSyncOptions *)options target:(SFSyncDownTarget *)target soupName:(NSString *)soupName name:(nullable NSString *) name store:(SFSmartStore*)store;
++ (nullable SFSyncState *)newSyncUpWithOptions:(SFSyncOptions *)options target:(SFSyncUpTarget *)target soupName:(NSString *)soupName name:(nullable NSString *)name store:(SFSmartStore *)store;
++ (nullable SFSyncState*) newSyncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName store:(SFSmartStore*)store;
 
-/** Methods to save/retrieve from smartstore
+/** Methods to save/retrieve/delete from smartstore
  */
-+ (SFSyncState*) newById:(NSNumber*)syncId store:(SFSmartStore*)store;
++ (nullable SFSyncState*)byId:(NSNumber *)syncId store:(SFSmartStore*)store;
++ (nullable SFSyncState*)byName:(NSString *)name store:(SFSmartStore*)store;
 - (void) save:(SFSmartStore*)store;
++ (void) deleteById:(NSNumber*)syncId store:(SFSmartStore*)store;
++ (void) deleteByName:(NSString*)name store:(SFSmartStore*)store;
 
 /** Methods to translate to/from dictionary
  */
-+ (SFSyncState*) newFromDict:(NSDictionary *)dict;
++ (nullable SFSyncState*) newFromDict:(NSDictionary *)dict;
 - (NSDictionary*) asDict;
 
 /** Method for easy status check
@@ -126,9 +133,11 @@ extern NSString * const kSFSyncStateMergeModeLeaveIfChanged;
  */
 + (SFSyncStateSyncType) syncTypeFromString:(NSString*)syncType;
 + (NSString*) syncTypeToString:(SFSyncStateSyncType)syncType;
-+ (SFSyncStateStatus) syncStatusFromString:(NSString*)syncStatus;
++ (SFSyncStateStatus) syncStatusFromString:(nullable NSString*)syncStatus;
 + (NSString*) syncStatusToString:(SFSyncStateStatus)syncStatus;
 + (SFSyncStateMergeMode) mergeModeFromString:(NSString*)mergeMode;
 + (NSString*) mergeModeToString:(SFSyncStateMergeMode)mergeMode;
 
 @end
+
+NS_ASSUME_NONNULL_END

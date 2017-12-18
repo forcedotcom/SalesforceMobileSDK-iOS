@@ -120,7 +120,7 @@
     NSData *key = [SFCryptoStreamTestUtils defaultKeyWithSize:kCCKeySizeAES256];
     NSString *filePath = [SFCryptoStreamTestUtils filePathForFileName:[[NSUUID UUID] UUIDString]]; //where the encrypted file will be written
     NSUInteger __block useChunkLen = 0;
-    void (^incrementUseChunkLen)() = ^{
+    void (^incrementUseChunkLen)(void) = ^{
         if (++useChunkLen >= chunksLen.count) useChunkLen = 0;
     };
     void (^performEncryption)(SFEncryptStream *) = ^(SFEncryptStream *encryptStream) {

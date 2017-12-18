@@ -25,6 +25,20 @@
 
 #import <SalesforceSDKCore/SFSDKAppConfig.h>
 
+typedef NS_ENUM(NSInteger, SFSDKHybridAppConfigErrorCode) {
+    SFSDKHybridAppConfigErrorCodeNoStartPage = 1066,
+    SFSDKHybridAppConfigErrorCodeStartPageAbsoluteURL,
+    SFSDKHybridAppConfigErrorCodeUnauthenticatedStartPageNotAbsoluteURL,
+    SFSDKHybridAppConfigErrorCodeNoUnauthenticatedStartPage,
+    SFSDKHybridAppConfigErrorCodeAbsoluteURLNoAuth,
+    SFSDKHybridAppConfigErrorCodeRelativeURLAuth
+};
+
+NS_ASSUME_NONNULL_BEGIN
+
+// Default path to bootconfig.json on the filesystem.
+static NSString *const SFSDKDefaultHybridAppConfigFilePath = @"/www/bootconfig.json";
+
 @interface SFHybridViewConfig : SFSDKAppConfig
 
 /**
@@ -38,6 +52,12 @@
 @property (nonatomic, copy) NSString *startPage;
 
 /**
+ * In a deferred authentication configuration for remote apps, the page/URL that should
+ * be loaded in an unauthenticated context.
+ */
+@property (nullable, nonatomic, copy) NSString *unauthenticatedStartPage;
+
+/**
  * The error page to navigate to, in the event of an error during the app load process.
  */
 @property (nonatomic, copy) NSString *errorPage;
@@ -49,15 +69,12 @@
 @property (nonatomic, assign) BOOL attemptOfflineLoad;
 
 /**
- * @return The hybrid view config from the default configuration file location (/www/bootconfig.json).
+ * Determines whether an input URL string is an absolute URL or not.
+ * @param urlString The URL string to evaluate.
+ * @return YES if the URL string is absolute, no otherwise.
  */
-+ (SFHybridViewConfig *)fromDefaultConfigFile;
-
-/**
- * Create a hybrid view config from the config file at the specified file path.
- * @param configFilePath The file path to the configuration file, relative to the resources root path.
- * @return The hybrid view config from the given file path.
- */
-+ (SFHybridViewConfig *)fromConfigFile:(NSString *)configFilePath;
++ (BOOL)urlStringIsAbsolute:(nonnull NSString *)urlString;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -107,6 +107,9 @@ static NSInteger const kSSMegaBytePayloadSize = 1024 * 1024;
     }
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
+
 - (void)testInsertEntryWithExternalStorage {
     NSUInteger const iterations = 10;
     SFSoupSpec *soupSpec = [SFSoupSpec newSoupSpec:kSSExternalStorage_TestSoupName withFeatures:@[kSoupFeatureExternalStorage]];
@@ -184,6 +187,8 @@ static NSInteger const kSSMegaBytePayloadSize = 1024 * 1024;
         XCTAssertEqual(contentsOfDir.count, 1, @"There should be only 1 external soup file saved.");
     }
 }
+
+#pragma clang diagnostic pop
 
 - (void)testRetrieveEntriesWithExternalStorage {
     NSUInteger const numberOfEntries = 10;
@@ -299,6 +304,9 @@ static NSInteger const kSSMegaBytePayloadSize = 1024 * 1024;
         [self checkFileSystem:@[soupEltsCreated[0], soupEltsCreated[1], soupEltsCreated[2]] shouldExist:NO store:store soupName:kSSExternalStorage_TestSoupName];
     }
 }
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
 
 - (void)testClearSoupWithExternalStorage {
     NSUInteger const entriesToInsert = 10;
@@ -416,6 +424,8 @@ static NSInteger const kSSMegaBytePayloadSize = 1024 * 1024;
         XCTAssertNotEqual(foundRange.location, NSNotFound, @"External file should contain plain text, store is not encrypted, neither should be external files.");
     }
 }
+
+#pragma clang diagnostic pop
 
 - (void)FIXMEtestExternalStorageUpsertWithOneMBSizePayloadInRegression {
     NSInteger numberOfIterations = 500;

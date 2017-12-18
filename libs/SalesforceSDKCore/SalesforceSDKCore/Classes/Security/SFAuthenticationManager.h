@@ -46,6 +46,7 @@ typedef NS_ENUM(NSUInteger, SFAuthenticationManagerDelegatePriority) {
 };
 
 NS_ASSUME_NONNULL_BEGIN
+
 /**
  Callback block definition for OAuth completion callback.
  */
@@ -56,6 +57,7 @@ typedef void (^SFOAuthFlowSuccessCallbackBlock)(SFOAuthInfo *, SFUserAccount *);
  */
 typedef void (^SFOAuthFlowFailureCallbackBlock)(SFOAuthInfo *, NSError *);
 
+SFSDK_DEPRECATED(6.0, 7.0, "Use SFUserAccountManagerDelegate, SFUserAccountManager & its  Notifications instead.")
 /**
  Delegate protocol for SFAuthenticationManager events and callbacks.
  */
@@ -211,33 +213,9 @@ extern NSString * const kSFUserLoggedInNotification;
 extern NSString * const kSFAuthenticationManagerFinishedNotification;
 
 /**
-  Default used as last resort
- */
-extern NSString * const kSFUserAccountOAuthLoginHostDefault;
-
-/**
- Key identifying login host
- */
-extern NSString * const kSFUserAccountOAuthLoginHost;
-
-/**
- The key for storing the persisted OAuth scopes.
- */
-extern  NSString * const kOAuthScopesKey;
-
-/**
-The key for storing the persisted OAuth client ID.
- */
-extern  NSString * const kOAuthClientIdKey;
-
-/**
-The key for storing the persisted OAuth redirect URI.
- */
-extern  NSString * const kOAuthRedirectUriKey;
-
-/**
  This class handles all the authentication related tasks, which includes login, logout and session refresh
  */
+SFSDK_DEPRECATED(6.0, 7.0, "Use SFUserAccountManager Login/Logout apis instead.")
 @interface SFAuthenticationManager : NSObject <SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate, SFUserAccountManagerDelegate>
 
 /**
@@ -357,7 +335,7 @@ extern  NSString * const kOAuthRedirectUriKey;
  value is determined by the SFDCOAuthClientIdPreference
  configured via the settings bundle.
  */
-@property (nonatomic, copy, nullable) NSString *oauthClientId;
+@property (nonatomic, copy) NSString *oauthClientId;
 
 /** OAuth callback url to use for the OAuth login process.
  Apps may customize this by setting this property before login.
@@ -365,7 +343,7 @@ extern  NSString * const kOAuthRedirectUriKey;
  bundle property SFDCOAuthRedirectUri
  default: @"sfdc:///axm/detect/oauth/done")
  */
-@property (nonatomic, copy, nullable) NSString *oauthCompletionUrl;
+@property (nonatomic, copy) NSString *oauthCompletionUrl;
 
 /**
  The Branded Login path configured for this application.

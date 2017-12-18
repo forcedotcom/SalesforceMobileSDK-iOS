@@ -26,8 +26,7 @@
 #import <SmartSync/SFSmartSyncSyncManager.h>
 #import <SmartSync/SFSmartSyncConstants.h>
 #import <SmartSync/SFSmartSyncNetworkUtils.h>
-#import <SalesforceSDKCore/CSFNetwork.h>
-#import <SalesforceSDKCore/SFAuthenticationManager.h>
+#import <SalesforceSDKCore/SFOAuthCredentials.h>
 
 // SOAP request
 #define REQUEST_TEMPLATE @"<?xml version=\"1.0\"?>"\
@@ -195,9 +194,9 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
     return self;
 }
 
-- (NSURLRequest *)prepareRequestForSend
+- (NSURLRequest *)prepareRequestForSend:(SFUserAccount *)user
 {
-    NSString *sessionId = [SFAuthenticationManager sharedManager].coordinator.credentials.accessToken;
+    NSString *sessionId = user.credentials.accessToken;
     NSString *body;
     if (self.queryLocator) {
         body = [NSString stringWithFormat:QUERY_MORE_TEMPLATE, self.queryLocator];
@@ -207,7 +206,7 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
     NSString *soapBody = [NSString stringWithFormat:REQUEST_TEMPLATE, sessionId, body];
     [self setCustomRequestBodyString:soapBody contentType:XML_MIME_TYPE];
     [self setHeaderValue:SOAP_ACTION_VALUE forHeaderName:SOAP_ACTION];
-    return [super prepareRequestForSend];
+    return [super prepareRequestForSend:user];
 }
 
 @end
@@ -240,9 +239,13 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
     __weak typeof(self) weakSelf = self;
     
     NSString* queryToRun = [self getQueryToRun:maxTimeStamp];
-    [[SFRestAPI sharedInstance] performRequestForResourcesWithFailBlock:errorBlock completeBlock:^(NSDictionary* d) { // cheap call to refresh session
+    [[SFRestAPI sharedInstance] performRequestForResourcesWithFailBlock:^(NSError *e, NSURLResponse *rawResponse) {
+        errorBlock(e);
+    } completeBlock:^(NSDictionary* d, NSURLResponse *rawResponse) { // cheap call to refresh session
         SFRestRequest* request = [[SFSoapSoqlRequest alloc] initWithQuery:queryToRun];
-        [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSData * response) {
+        [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+            errorBlock(e);
+        } completeBlock:^(NSData * response, NSURLResponse *rawResponse) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [strongSelf parseRestResponse:response parseCompletion:^(SFSoapSoqlResponse *soapSoqlResponse) {
                 strongSelf.queryLocator = soapSoqlResponse.queryLocator;
@@ -261,15 +264,16 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
     if (self.queryLocator) {
         __weak typeof(self) weakSelf = self;
         SFSoapSoqlRequest* request = [[SFSoapSoqlRequest alloc] initWithQueryLocator:self.queryLocator];
-        [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSData *response) {
+        [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+            errorBlock(e);
+        } completeBlock:^(NSData *response, NSURLResponse *rawResponse) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [strongSelf parseRestResponse:response parseCompletion:^(SFSoapSoqlResponse *soapSoqlResponse) {
                 strongSelf.queryLocator = soapSoqlResponse.queryLocator;
                 completeBlock(soapSoqlResponse.records);
             }];
         }];
-    }
-    else {
+    } else {
         completeBlock(nil);
     }
 }

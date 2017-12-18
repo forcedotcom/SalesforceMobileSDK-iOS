@@ -33,7 +33,7 @@ NSString* const kTestRequestStatusDidLoad = @"didLoad";
 NSString* const kTestRequestStatusDidFail = @"didFail";
 NSString* const kTestRequestStatusDidCancel = @"didCancel";
 NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
-
+SFSDK_USE_DEPRECATED_BEGIN
 @interface SFSDKTestRequestListener ()
 {
     SFAccountManagerServiceType _serviceType;
@@ -201,3 +201,4 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
 }
 
 @end
+SFSDK_USE_DEPRECATED_END

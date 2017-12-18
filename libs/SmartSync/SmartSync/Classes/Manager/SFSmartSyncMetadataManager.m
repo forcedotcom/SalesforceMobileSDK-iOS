@@ -34,7 +34,7 @@
 #import "SFSmartSyncPersistableObject+Internal.h"
 
 // Default API version.
-static NSString * kDefaultApiVersion = @"v39.0";
+static NSString * kDefaultApiVersion = @"v41.0";
 
 // Error constants.
 static NSInteger kSFNetworkRequestFailedDueToNoModification = 304;
@@ -59,9 +59,10 @@ NSString * const kSFObjectLayoutByType = @"object_layout_%@";
 
 // REST request constants.
 static NSString *const kSFMetadataRestApiPath = @"services/data";
-
+SFSDK_USE_DEPRECATED_BEGIN
 @interface SFSmartSyncMetadataManager () <SFAuthenticationManagerDelegate>
 
+SFSDK_USE_DEPRECATED_END
 @property (nonatomic, strong) SFUserAccount *user;
 @property (nonatomic, readonly) SFRestAPI *restClient;
 @property (nonatomic, assign) BOOL cacheEnabled;
@@ -130,13 +131,18 @@ static NSMutableDictionary *metadataMgrList = nil;
         self.apiVersion = kDefaultApiVersion;
         self.cacheEnabled = YES;
         self.encryptCache = YES;
+        SFSDK_USE_DEPRECATED_BEGIN
         [[SFAuthenticationManager sharedManager] addDelegate:self];
+        SFSDK_USE_DEPRECATED_END
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserWillLogout:)  name:kSFNotificationUserWillLogout object:nil];
     }
     return self;
 }
 
 - (void)dealloc {
+    SFSDK_USE_DEPRECATED_BEGIN
     [[SFAuthenticationManager sharedManager] removeDelegate:self];
+    SFSDK_USE_DEPRECATED_END
 }
 
 - (SFRestAPI *) restClient {
@@ -252,7 +258,7 @@ static NSMutableDictionary *metadataMgrList = nil;
 
     // Loads the smart scopes.
     void (^loadSearchScope)(NSArray *searchableObjects) = ^ (NSArray *searchableObjects){
-        SFRestArrayResponseBlock completeBlock = ^(NSArray* returnedItems) {
+        SFRestArrayResponseBlock completeBlock = ^(NSArray* returnedItems, NSURLResponse *rawResponse) {
             NSArray *recentItems = nil;
             if (returnedItems && [returnedItems isKindOfClass:[NSArray class]]) {
                 NSMutableArray *returnList = [NSMutableArray arrayWithCapacity:returnedItems.count];
@@ -266,7 +272,7 @@ static NSMutableDictionary *metadataMgrList = nil;
             processSmartScopes(recentItems, searchableObjects);
         };
         
-        SFRestFailBlock failBlock = ^(NSError *error) {
+        SFRestFailBlock failBlock = ^(NSError *error, NSURLResponse *rawResponse) {
             if ([SFRestRequest isNetworkError:error]) {
                 invokeErrorBlock(error);
             } else {
@@ -405,7 +411,7 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
         }
         NSString * queryString = [queryBuilder build];
         
-        SFRestDictionaryResponseBlock completeBlock = ^(NSDictionary* returnDict) {
+        SFRestDictionaryResponseBlock completeBlock = ^(NSDictionary* returnDict, NSURLResponse *rawResponse) {
             NSArray *returnedItems = returnDict[@"records"];
             if (!returnedItems && [objectTypeName isEqualToString:kContent]) {
                 returnedItems = returnDict[@"recentItems"];
@@ -434,7 +440,7 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
             }
         };
         
-        SFRestFailBlock failBlock = ^(NSError *error) {
+        SFRestFailBlock failBlock = ^(NSError *error, NSURLResponse *rawResponse) {
             if (error.code == 400) {
                 
                 // 400 error could be due to cached search layout, so retry it at least once.
@@ -507,7 +513,7 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
         return;
     }
     
-    SFRestDictionaryResponseBlock completeBlock = ^(NSDictionary* data) {
+    SFRestDictionaryResponseBlock completeBlock = ^(NSDictionary* data, NSURLResponse *rawResponse) {
         NSMutableArray *returnList = nil;
         NSArray *objectTypes = data[@"sobjects"];
         returnList = [NSMutableArray arrayWithCapacity:objectTypes.count];
@@ -527,7 +533,7 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
         }
     };
     
-    SFRestFailBlock failBlock = ^(NSError *error) {
+    SFRestFailBlock failBlock = ^(NSError *error, NSURLResponse *rawResponse) {
         if (error.code != kSFNetworkRequestFailedDueToNoModification) {
             [SFSDKSmartSyncLogger e:[self class] format:@"failed to get get all searchable objects, [%@]", [error localizedDescription]];
         }
@@ -592,7 +598,7 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
         return;
     }
 
-    SFRestDictionaryResponseBlock completeBlock = ^(NSDictionary* data) {
+    SFRestDictionaryResponseBlock completeBlock = ^(NSDictionary* data, NSURLResponse *rawResponse) {
         SFObjectType *objectType = nil;
         objectType = [[SFObjectType alloc] initWithDictionary:data];
 
@@ -605,7 +611,7 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
         }
     };
     
-    SFRestFailBlock failBlock = ^(NSError *error) {
+    SFRestFailBlock failBlock = ^(NSError *error, NSURLResponse *rawResponse) {
         if (error.code != kSFNetworkRequestFailedDueToNoModification) {
             [SFSDKSmartSyncLogger e:[self class] format:@"Failed to get get object information for %@, [%@]", objectTypeName, [error localizedDescription]];
         }
@@ -724,7 +730,7 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
         return;
     }
 
-    SFRestArrayResponseBlock completeBlock = ^(NSArray* data) {
+    SFRestArrayResponseBlock completeBlock = ^(NSArray* data, NSURLResponse *rawResponse) {
         for (NSUInteger idx = 0; idx < data.count; idx++) {
             NSDictionary *layoutDict = data[idx];
             SFObjectType *typeModel = layoutObjectsToLoad[idx];
@@ -742,7 +748,7 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
         }
     };
     
-    SFRestFailBlock failBlock = ^(NSError *error) {
+    SFRestFailBlock failBlock = ^(NSError *error, NSURLResponse *rawResponse) {
         if (error.code != kSFNetworkRequestFailedDueToNoModification) {
             [SFSDKSmartSyncLogger e:[self class] format:@"failed to get get objects layout, [%@]", [error localizedDescription]];
         }
@@ -798,7 +804,7 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
 }
 
 - (void)markObjectAsViewed:(NSString *)objectId objectType:(NSString *)objectType
-          networkFieldName:(NSString *)networkFieldName completionBlock:(void(^)())completionBlock
+          networkFieldName:(NSString *)networkFieldName completionBlock:(void(^)(void))completionBlock
                      error:(void(^)(NSError *error))errorBlock {
     if (nil == objectType || nil == objectId || [objectType isEqualToString:kContentVersion] || [objectType isEqualToString:kContent]) {
         if (completionBlock) {
@@ -825,7 +831,7 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
         queryBuilder = [queryBuilder whereClause:whereClause];
         NSString *queryString = [[queryBuilder whereClause:whereClause] build];
         
-        SFRestDictionaryResponseBlock completeBlock = ^(NSDictionary* responseAsJson) {
+        SFRestDictionaryResponseBlock completeBlock = ^(NSDictionary* responseAsJson, NSURLResponse *rawResponse) {
             NSArray *records = responseAsJson[@"records"];
             if (records && [records isKindOfClass:[NSArray class]]) {
                 if (records.count == 0) {
@@ -842,7 +848,7 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
             }
         };
         
-        SFRestFailBlock failBlock = ^(NSError *error) {
+        SFRestFailBlock failBlock = ^(NSError *error, NSURLResponse *rawResponse) {
             [SFSDKSmartSyncLogger e:[self class] format:@"Failed to mark %@ as being viewed, error %@", objectId, [error localizedDescription]];
             callErrorBlock(error);
         };
@@ -1020,9 +1026,18 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
 }
 
 #pragma mark - SFAuthenticationManagerDelegate
+SFSDK_USE_DEPRECATED_BEGIN
 
 - (void)authManager:(SFAuthenticationManager *)manager willLogoutUser:(SFUserAccount *)user {
     [[self class] removeSharedInstance:user];
 }
 
+SFSDK_USE_DEPRECATED_END
+
+- (void)handleUserWillLogout:(NSNotification *)notification {
+    SFUserAccount *user = notification.userInfo[kSFNotificationUserInfoAccountKey];
+    [[self class] removeSharedInstance:user];
+}
+
 @end
+SFSDK_USE_DEPRECATED_END

@@ -31,14 +31,12 @@ NSString * const kSObjectIdField = @"Id";
 
 - (id)initWithObjectType:(NSString *)objectType
             objectFieldSpecs:(NSArray *)objectFieldSpecs
-              indexSpecs:(NSArray *)indexSpecs
                 soupName:(NSString *)soupName
         orderByFieldName:(NSString *)orderByFieldName {
     self = [super init];
     if (self) {
         self.objectType = objectType;
         self.objectFieldSpecs = [self buildObjectFieldSpecs:objectFieldSpecs];
-        self.indexSpecs = [self buildSoupIndexSpecs:indexSpecs];
         self.soupName = soupName;
         self.orderByFieldName = orderByFieldName;
     }

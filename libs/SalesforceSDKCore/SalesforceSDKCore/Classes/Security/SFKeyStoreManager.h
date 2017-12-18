@@ -26,6 +26,8 @@
 #import "SFEncryptionKey.h"
 #import "SFKeyStoreKey.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  Singleton class to manage operations on the key store.
  */
@@ -47,17 +49,6 @@
 - (SFEncryptionKey *)retrieveKeyWithLabel:(NSString *)keyLabel autoCreate:(BOOL)create;
 
 /**
- Retrieves a key with the given label from the key store, or `nil` depending on the autoCreate value.
- @param keyLabel The label associated with the stored key.
- @param keyType The type of key store encryption to use for the key.  If 'passcode' is specified and
- a passcode is not configured, the key will still be encrypted with a generated key.  If 'generated' is
- specified, the key will be encrypted with a generated key, even if a passcode is configured.
- @param create Indicates whether a new key should be created if one does not exist.
- @return The encryption key, or `nil` depending on the autoCreate value.
- */
-- (SFEncryptionKey *)retrieveKeyWithLabel:(NSString *)keyLabel keyType:(SFKeyStoreKeyType)keyType autoCreate:(BOOL)create;
-
-/**
  Stores a key with the given label in the key store, with a default encryption type of 'passcode'.  If
  a passcode is not configured, the key will be encrypted with a generated key.
  @param key The encryption key to store.
@@ -66,27 +57,10 @@
 - (void)storeKey:(SFEncryptionKey *)key withLabel:(NSString *)keyLabel;
 
 /**
- Stores a key with the given label in the key store.
- @param key The encryption key to store.
- @param keyType The type of key store encryption to use for the key.  If 'passcode' is specified and
- a passcode is not configured, the key will still be encrypted with a generated key.  If 'generated' is
- specified, the key will be encrypted with a generated key, even if a passcode is configured.
- @param keyLabel The label associated with the key.
- */
-- (void)storeKey:(SFEncryptionKey *)key withKeyType:(SFKeyStoreKeyType)keyType label:(NSString *)keyLabel;
-
-/**
  Removes the key with the given label from the key store holding passcode-based encrypted keys.
  @param keyLabel The label associated with the key to remove.
  */
 - (void)removeKeyWithLabel:(NSString *)keyLabel;
-
-/**
- Removes the key with the given label and encryption type from the key store.
- @param keyLabel The label identifying the key.
- @param keyType The encryption type used to encrypt the key in the store.
- */
-- (void)removeKeyWithLabel:(NSString *)keyLabel keyType:(SFKeyStoreKeyType)keyType;
 
 /**
  Determines whether a key with the given label, and encrypted with passcode-based encryption, exists.
@@ -94,14 +68,6 @@
  @return YES if the key exists in the key store, NO otherwise.
  */
 - (BOOL)keyWithLabelExists:(NSString *)keyLabel;
-
-/**
- Determines whether the key with the given label and encryption type exists.
- @param keyLabel The label identifying the key.
- @param keyType The type of encryption used to encrypt the key in the store.
- @return YES if the given key exists, NO otherwise.
- */
-- (BOOL)keyWithLabelAndKeyTypeExists:(NSString *)keyLabel keyType:(SFKeyStoreKeyType)keyType;
 
 /**
  Returns a key with a random value for the key and initialization vector.  The key size
@@ -112,3 +78,5 @@
 - (SFEncryptionKey *)keyWithRandomValue;
 
 @end
+
+NS_ASSUME_NONNULL_END

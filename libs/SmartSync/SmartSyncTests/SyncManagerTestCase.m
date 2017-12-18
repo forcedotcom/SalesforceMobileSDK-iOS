@@ -62,12 +62,17 @@ static NSException *authException = nil;
     self.currentUser = [SFUserAccountManager sharedInstance].currentUser;
     self.syncManager = [SFSmartSyncSyncManager sharedInstance:self.currentUser];
     self.store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName user:self.currentUser];
+    self.globalStore = [SFSmartStore sharedGlobalStoreWithName:kDefaultSmartStoreName];
+    self.globalSyncManager = [SFSmartSyncSyncManager sharedInstanceForStore:self.globalStore];
+
     [super setUp];
 }
 
 - (void)tearDown
 {
     // User and managers tear down
+    [self deleteSyncs];
+    [self deleteGlobalSyncs];
     [SFSmartSyncSyncManager removeSharedInstance:self.currentUser];
     [[SFRestAPI sharedInstance] cleanup];
     [SFRestAPI setIsTestRun:NO];
@@ -79,6 +84,16 @@ static NSException *authException = nil;
     // Some test runs were failing, saying the run didn't complete. This seems to fix that.
     [NSThread sleepForTimeInterval:0.1];
     [super tearDown];
+}
+
+- (void)deleteSyncs
+{
+    [self.store clearSoup:kSFSyncStateSyncsSoupName];
+}
+
+- (void)deleteGlobalSyncs
+{
+    [self.globalStore clearSoup:kSFSyncStateSyncsSoupName];
 }
 
 - (NSString*)createRecordName:(NSString*)objectType {
@@ -168,12 +183,12 @@ static NSException *authException = nil;
 
 - (NSDictionary*)sendSyncRequest:(SFRestRequest*)request ignoreNotFound:(BOOL)ignoreNotFound {
     SFSDKTestRequestListener *listener = [[SFSDKTestRequestListener alloc] init];
-    SFRestFailBlock failBlock = ^(NSError *error) {
+    SFRestFailBlock failBlock = ^(NSError *error, NSURLResponse *rawResponse) {
         listener.lastError = error;
         listener.returnStatus = kTestRequestStatusDidFail;
 
     };
-    SFRestDictionaryResponseBlock completeBlock = ^(NSDictionary *data) {
+    SFRestDictionaryResponseBlock completeBlock = ^(NSDictionary *data, NSURLResponse *rawResponse) {
         listener.dataResponse = data;
         listener.returnStatus = kTestRequestStatusDidLoad;
     };
@@ -259,7 +274,7 @@ static NSException *authException = nil;
 
     // Creates sync.
     SFSyncOptions* options = [SFSyncOptions newSyncOptionsForSyncDown:mergeMode];
-    SFSyncState* sync = [SFSyncState newSyncDownWithOptions:options target:target soupName:soupName store:self.store];
+    SFSyncState* sync = [SFSyncState newSyncDownWithOptions:options target:target soupName:soupName name:nil store:self.store];
     NSInteger syncId = sync.syncId;
     [self checkStatus:sync expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusNew expectedProgress:0 expectedTotalSize:-1];
 
@@ -282,14 +297,10 @@ static NSException *authException = nil;
     return syncId;
 }
 
-- (void)checkStatus:(SFSyncState*)sync
-       expectedType:(SFSyncStateSyncType)expectedType
-         expectedId:(NSInteger)expectedId
-     expectedTarget:(SFSyncTarget*)expectedTarget
-    expectedOptions:(SFSyncOptions*)expectedOptions
-     expectedStatus:(SFSyncStateStatus)expectedStatus
-   expectedProgress:(NSInteger)expectedProgress
-  expectedTotalSize:(NSInteger)expectedTotalSize {
+- (void)checkStatus:(SFSyncState *)sync expectedType:(SFSyncStateSyncType)expectedType expectedId:(NSInteger)expectedId expectedTarget:(SFSyncTarget *)expectedTarget expectedOptions:(SFSyncOptions *)expectedOptions expectedStatus:(SFSyncStateStatus)expectedStatus expectedProgress:(NSInteger)expectedProgress expectedTotalSize:(NSInteger)expectedTotalSize {
+    [self checkStatus:sync expectedType:expectedType expectedId:expectedId expectedName:nil expectedTarget:expectedTarget expectedOptions:expectedOptions expectedStatus:expectedStatus expectedProgress:expectedProgress expectedTotalSize:expectedTotalSize];
+}
+- (void)checkStatus:(SFSyncState *)sync expectedType:(SFSyncStateSyncType)expectedType expectedId:(NSInteger)expectedId expectedName:(NSString *)expectedName expectedTarget:(SFSyncTarget *)expectedTarget expectedOptions:(SFSyncOptions *)expectedOptions expectedStatus:(SFSyncStateStatus)expectedStatus expectedProgress:(NSInteger)expectedProgress expectedTotalSize:(NSInteger)expectedTotalSize {
     XCTAssertNotNil(sync);
     if (!sync) {
         return;
@@ -501,7 +512,7 @@ static NSException *authException = nil;
  completionStatus:(SFSyncStateStatus)completionStatus {
 
     // Creates sync.
-    SFSyncState *sync = [SFSyncState newSyncUpWithOptions:options target:target soupName:ACCOUNTS_SOUP store:self.store];
+    SFSyncState *sync = [SFSyncState newSyncUpWithOptions:options target:target soupName:ACCOUNTS_SOUP name:nil store:self.store];
     NSInteger syncId = sync.syncId;
     [self checkStatus:sync expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusNew expectedProgress:0 expectedTotalSize:-1];
 

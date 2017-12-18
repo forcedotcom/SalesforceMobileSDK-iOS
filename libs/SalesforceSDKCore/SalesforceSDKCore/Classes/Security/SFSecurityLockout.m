@@ -31,7 +31,7 @@
 #import "SFUserAccountManager.h"
 #import "SFPasscodeManager.h"
 #import "SFAuthenticationManager.h"
-#import "SFRootViewManager.h"
+#import "SFSDKWindowManager.h"
 #import "SFPreferences.h"
 #import "SFUserActivityMonitor.h"
 #import "SFIdentityData.h"
@@ -106,12 +106,12 @@ static BOOL _showPasscode = YES;
         }];
         
         [SFSecurityLockout setPresentPasscodeViewControllerBlock:^(UIViewController *pvc) {
-            [[SalesforceSDKManager sharedManager] dismissSnapshot];
-            [[SFRootViewManager sharedManager] pushViewController:pvc];
+                [SFSDKWindowManager sharedManager].passcodeWindow.viewController = pvc;
+            [[SFSDKWindowManager sharedManager].passcodeWindow presentWindow];
         }];
         
         [SFSecurityLockout setDismissPasscodeViewControllerBlock:^(UIViewController *pvc) {
-            [[SFRootViewManager sharedManager] popViewController:pvc];
+            [[SFSDKWindowManager sharedManager].passcodeWindow dismissWindow];
         }];
     }
 }
@@ -316,7 +316,7 @@ static BOOL _showPasscode = YES;
 
 + (BOOL)hasValidSession
 {
-    return [[SFAuthenticationManager sharedManager] haveValidSession];
+    return [SFUserAccountManager sharedInstance].currentUser != nil && [SFUserAccountManager sharedInstance].currentUser.isSessionValid;
 }
 
 // For unit tests.
@@ -394,7 +394,13 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     } else {
         // Clear the SFSecurityLockout passcode state, as it's no longer valid.
         [SFSecurityLockout clearAllPasscodeState];
-        [[SFAuthenticationManager sharedManager] logoutAllUsers];
+        if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
+            SFSDK_USE_DEPRECATED_BEGIN
+            [[SFAuthenticationManager sharedManager] logoutAllUsers];
+            SFSDK_USE_DEPRECATED_END
+        }else {
+            [[SFUserAccountManager sharedInstance] logoutAllUsers];
+        }
         [SFSecurityLockout unlockFailurePostProcessing];
     }
     
@@ -408,7 +414,13 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 + (void)timerExpired:(NSTimer*)theTimer
 {
     [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
-        [[SFAuthenticationManager sharedManager] logout];
+        if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
+            SFSDK_USE_DEPRECATED_BEGIN
+            [[SFAuthenticationManager sharedManager] logout];
+            SFSDK_USE_DEPRECATED_END
+        }else {
+             [[SFUserAccountManager sharedInstance] logout];
+        }
     }];
     
     [SFSDKCoreLogger i:[self class] format:@"NSTimer expired, but checking lastUserEvent before locking!"];
@@ -449,6 +461,8 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
             return;
         }
     }
+    if ([[SFSDKWindowManager sharedManager].snapshotWindow isEnabled])
+        return;
     
     SFPasscodeConfigurationData configData;
     configData.lockoutTime = [self lockoutTime];
@@ -736,3 +750,4 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 }
 
 @end
+

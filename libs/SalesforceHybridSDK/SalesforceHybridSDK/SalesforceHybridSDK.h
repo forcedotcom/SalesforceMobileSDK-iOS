@@ -2,7 +2,7 @@
  SalesforceHybridSDK.h
  SalesforceHybridSDK
 
- Created by Bharath Hariharan on Thu Jun 22 17:36:01 PDT 2017.
+ Created by Wolfgang Mathurin on Thu Nov  2 15:52:46 PDT 2017.
 
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
@@ -28,6 +28,7 @@
  */
 
 #import <SalesforceHybridSDK/CDVPlugin+SFAdditions.h>
+#import <SalesforceHybridSDK/SalesforceHybridSDKManager.h>
 #import <SalesforceHybridSDK/SalesforceOAuthPlugin.h>
 #import <SalesforceHybridSDK/SFAccountManagerPlugin.h>
 #import <SalesforceHybridSDK/SFForcePlugin.h>

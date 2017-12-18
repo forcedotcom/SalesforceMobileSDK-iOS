@@ -51,7 +51,7 @@
     return self;
 }
 
-- (void)flushLogWithCompletionBlock:(void (^)())completionBlock {
+- (void)flushLogWithCompletionBlock:(void (^)(void))completionBlock {
     NSFileManager *fileManager = [[NSFileManager alloc] init];
     [self rollLogFileWithCompletionBlock: ^{
         for (NSString *filename in self->_logFileManager.sortedLogFilePaths) {
@@ -71,7 +71,7 @@
     }
     NSFileManager *fileManager = [[NSFileManager alloc] init];
     NSError *error = nil;
-    if ([fileManager fileExistsAtPath:logFile]) {
+    if (logFile && [fileManager fileExistsAtPath:logFile]) {
         NSString *fileContent = [NSString stringWithContentsOfFile:logFile
                                                           encoding:NSUTF8StringEncoding
                                                              error:&error];

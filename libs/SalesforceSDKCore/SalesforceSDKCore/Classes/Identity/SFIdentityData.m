@@ -23,6 +23,7 @@
  */
 
 #import "SFIdentityData+Internal.h"
+#import "NSDictionary+SFAdditions.h"
 
 // Private constants
 
@@ -81,6 +82,7 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
     self = [super init];
     if (self) {
         NSAssert(jsonDict != nil, @"Data dictionary must not be nil.");
+        NSAssert([jsonDict isKindOfClass:[NSDictionary class]], @"Data dictionary must be a NSDictionary or sublcass");
         self.dictRepresentation = jsonDict;
     }
     
@@ -101,10 +103,8 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 
 - (BOOL)assertedUser
 {
-    if ((self.dictRepresentation)[kSFIdentityAssertedUserKey] != nil)
-        return [(self.dictRepresentation)[kSFIdentityAssertedUserKey] boolValue];
-    else
-        return NO;
+    id value = [self.dictRepresentation nonNullObjectForKey:kSFIdentityAssertedUserKey];
+    return value == nil ? NO : [value boolValue];
 }
 
 - (NSString *)userId
@@ -124,12 +124,12 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 
 - (NSString *)nickname
 {
-    return (self.dictRepresentation)[kSFIdentityNicknameKey];
+    return [self.dictRepresentation nonNullObjectForKey:kSFIdentityNicknameKey];
 }
 
 - (NSString *)displayName
 {
-    return (self.dictRepresentation)[kSFIdentityDisplayNameKey];
+    return [self.dictRepresentation nonNullObjectForKey:kSFIdentityDisplayNameKey];
 }
 
 - (NSString *)email
@@ -139,7 +139,7 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 
 - (NSString *)firstName
 {
-    return (self.dictRepresentation)[kSFIdentityFirstNameKey];
+    return [self.dictRepresentation nonNullObjectForKey:kSFIdentityFirstNameKey];
 }
 
 - (NSString *)lastName
@@ -247,22 +247,21 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 
 - (int)utcOffset
 {
-    if ((self.dictRepresentation)[kSFIdentityUtcOffsetKey] != nil)
-        return [(self.dictRepresentation)[kSFIdentityUtcOffsetKey] intValue];
-    else
-        return -1;
+    id value = [self.dictRepresentation nonNullObjectForKey:kSFIdentityUtcOffsetKey];
+    return value == nil ? -1 : [value intValue];
 }
 
 - (BOOL)mobilePoliciesConfigured
 {
-    return ((self.dictRepresentation)[kSFIdentityMobilePolicyKey] != nil);
+    id value = [self.dictRepresentation nonNullObjectForKey:kSFIdentityMobilePolicyKey];
+    return value == nil ? NO : [value boolValue];
 }
 
 - (int)mobileAppPinLength
 {
-    NSDictionary *mobilePolicy = (self.dictRepresentation)[kSFIdentityMobilePolicyKey];
+    NSDictionary *mobilePolicy = [self.dictRepresentation nonNullObjectForKey:kSFIdentityMobilePolicyKey];
     if (mobilePolicy != nil) {
-        id pinLength = mobilePolicy[kSFIdentityMobileAppPinLengthKey];
+        id pinLength = [mobilePolicy nonNullObjectForKey:kSFIdentityMobileAppPinLengthKey];
         return (pinLength != nil ? [pinLength intValue] : 0);
     } else {
         return 0;
@@ -271,9 +270,9 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 
 - (int)mobileAppScreenLockTimeout
 {
-    NSDictionary *mobilePolicy = (self.dictRepresentation)[kSFIdentityMobilePolicyKey];
+    NSDictionary *mobilePolicy = [self.dictRepresentation nonNullObjectForKey:kSFIdentityMobilePolicyKey];
     if (mobilePolicy != nil) {
-        id screenLockTimeout = mobilePolicy[kSFIdentityMobileAppScreenLockTimeoutKey];
+        id screenLockTimeout = [mobilePolicy nonNullObjectForKey:kSFIdentityMobileAppScreenLockTimeoutKey];
         return (screenLockTimeout != nil ? [screenLockTimeout intValue] : 0);
     } else {
         return 0;
@@ -282,10 +281,9 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 
 - (NSDictionary *)customAttributes
 {
-    NSDictionary *attributes = (self.dictRepresentation)[kSFIdentityCustomAttributesKey];
+    NSDictionary *attributes = [self.dictRepresentation nonNullObjectForKey:kSFIdentityCustomAttributesKey];
 
-    // sometimes attributes returned as NSNull
-    if (((NSObject *)attributes) == [NSNull null] || ![attributes isKindOfClass:[NSDictionary class]]) {
+    if (![attributes isKindOfClass:[NSDictionary class]]) {
         attributes = nil;
     }
     return attributes;
@@ -300,7 +298,7 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 
 - (NSDictionary *)customPermissions
 {
-    return (self.dictRepresentation)[kSFIdentityCustomPermissionsKey];
+    return [self.dictRepresentation nonNullObjectForKey:kSFIdentityCustomPermissionsKey];
 }
 
 - (void)setCustomPermissions:(NSDictionary *)customPermissions
@@ -312,8 +310,9 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 
 - (NSDate *)lastModifiedDate
 {
-    if ((self.dictRepresentation)[kSFIdentityLastModifiedDateKey] != nil)
-        return [[self class] dateFromRfc822String:(self.dictRepresentation)[kSFIdentityLastModifiedDateKey]];
+    NSString *value = [self.dictRepresentation nonNullObjectForKey:kSFIdentityLastModifiedDateKey];
+    if (value != nil)
+        return [[self class] dateFromRfc822String:value];
     else
         return nil;
 }
@@ -322,20 +321,19 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 
 - (NSURL *)parentExistsOrNilForUrl:(NSString *)parentKey childKey:(NSString *)childKey
 {
-    NSDictionary *parentDict = (self.dictRepresentation)[parentKey];
-    if (parentDict != nil)
-        return [NSURL URLWithString:parentDict[childKey]];
-    else
-        return nil;
+    NSString *value = [self parentExistsOrNilForString:parentKey childKey:childKey];
+    return value != nil ? [NSURL URLWithString:value] : nil;
 }
 
 - (NSString *)parentExistsOrNilForString:(NSString *)parentKey childKey:(NSString *)childKey
 {
-    NSDictionary *parentDict = (self.dictRepresentation)[parentKey];
-    if (parentDict != nil)
-        return parentDict[childKey];
-    else
+    NSDictionary *parentDict = [self.dictRepresentation nonNullObjectForKey:parentKey];
+    if (parentDict != nil) {
+        NSString *value = [parentDict nonNullObjectForKey:childKey];
+        return [value isKindOfClass:[NSString class]] ? value : nil;
+    } else {
         return nil;
+    }
 }
 
 + (NSDate *)dateFromRfc822String:(NSString *)dateString

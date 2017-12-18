@@ -29,11 +29,13 @@
 #import <SalesforceAnalytics/SFSDKLogger.h>
 
 // Will go away once we are done refactoring SFSyncTarget
-#import <SmartSync/SFSoqlSyncDownTarget.h>
+#import <SalesforceSDKCore/SalesforceSDKManager.h>
+#import <SmartSync/SmartSyncSDKManager.h>
 
 static NSUInteger kMaxQueryPageSize = 1000;
-static NSUInteger kSyncLimit = 10000;
 static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.searchFilterQueue";
+static NSString* const kSyncDownName = @"syncDownContacts";
+static NSString* const kSyncUpName = @"syncUpContacts";
 
 @interface SObjectDataManager ()
 {
@@ -43,8 +45,6 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
 @property (nonatomic, strong) SFSmartSyncSyncManager *syncMgr;
 @property (nonatomic, strong) SObjectDataSpec *dataSpec;
 @property (nonatomic, strong) NSArray *fullDataRowList;
-@property (nonatomic, copy) SFSyncSyncManagerUpdateBlock syncCompletionBlock;
-@property (nonatomic) NSInteger syncDownId;
 
 @end
 
@@ -56,6 +56,9 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
         self.syncMgr = [SFSmartSyncSyncManager sharedInstance:[SFUserAccountManager sharedInstance].currentUser];
         self.dataSpec = dataSpec;
         _searchFilterQueue = dispatch_queue_create(kSearchFilterQueueName, NULL);
+        // Setup store and syncs if needed
+        [[SmartSyncSDKManager sharedManager] setupUserStoreFromDefaultConfig];
+        [[SmartSyncSDKManager sharedManager] setupUserSyncsFromDefaultConfig];
     }
     return self;
 }
@@ -68,34 +71,19 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
 }
 
 - (void)refreshRemoteData:(void (^)(void))completionBlock {
-    if (![self.store soupExists:self.dataSpec.soupName]) {
-        [self registerSoup];
-    }
     __weak SObjectDataManager *weakSelf = self;
-    SFSyncSyncManagerUpdateBlock updateBlock = ^(SFSyncState* sync) {
+    // See usersyncs.json
+    [self.syncMgr reSyncByName:kSyncDownName updateBlock:^(SFSyncState *sync) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if ([sync isDone] || [sync hasFailed]) {
-            strongSelf.syncDownId = sync.syncId;
             [strongSelf refreshLocalData:completionBlock];
         }
-    };
-    if (self.syncDownId == 0) {
-
-        // First time.
-        NSString *soqlQuery = [NSString stringWithFormat:@"SELECT %@ FROM %@ LIMIT %lu", [self.dataSpec.fieldNames componentsJoinedByString:@","], self.dataSpec.objectType, (unsigned long)kSyncLimit];
-        SFSyncOptions *syncOptions = [SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged];
-        SFSyncDownTarget *syncTarget = [SFSoqlSyncDownTarget newSyncTarget:soqlQuery];
-        [self.syncMgr syncDownWithTarget:syncTarget options:syncOptions soupName:self.dataSpec.soupName updateBlock:updateBlock];
-    } else {
-
-        // Subsequent times.
-        [self.syncMgr reSync:[NSNumber numberWithInteger:self.syncDownId] updateBlock:updateBlock];
-    }
+    }];
 }
 
 - (void)updateRemoteData:(SFSyncSyncManagerUpdateBlock)completionBlock {
-    SFSyncOptions *syncOptions = [SFSyncOptions newSyncOptionsForSyncUp:self.dataSpec.fieldNames mergeMode:SFSyncStateMergeModeLeaveIfChanged];
-    [self.syncMgr syncUpWithOptions:syncOptions soupName:self.dataSpec.soupName updateBlock:^(SFSyncState* sync) {
+    // See usersyncs.json
+    [self.syncMgr reSyncByName:kSyncUpName updateBlock:^(SFSyncState* sync) {
         if ([sync isDone] || [sync hasFailed]) {
             completionBlock(sync);
         }
@@ -137,28 +125,18 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
 
 #pragma mark - Private methods
 
-- (void)registerSoup {
-    NSString *soupName = self.dataSpec.soupName;
-    NSArray *indexSpecs = self.dataSpec.indexSpecs;
-    [self.store registerSoup:soupName withIndexSpecs:indexSpecs error:nil];
-}
-
 - (void)refreshLocalData:(void (^)(void))completionBlock {
-    if (![self.store soupExists:self.dataSpec.soupName]) {
-        [self registerSoup];
-    }
-    
     SFQuerySpec *sobjectsQuerySpec = [SFQuerySpec newAllQuerySpec:self.dataSpec.soupName withOrderPath:self.dataSpec.orderByFieldName withOrder:kSFSoupQuerySortOrderAscending withPageSize:kMaxQueryPageSize];
     NSError *queryError = nil;
     NSArray *queryResults = [self.store queryWithQuerySpec:sobjectsQuerySpec pageIndex:0 error:&queryError];
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"Got local query results.  Populating data rows."];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"Got local query results.  Populating data rows."];
     if (queryError) {
-        [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelError format:@"Error retrieving '%@' data from SmartStore: %@", self.dataSpec.objectType, [queryError localizedDescription]];
+        [SFSDKLogger log:[self class] level:DDLogLevelError format:@"Error retrieving '%@' data from SmartStore: %@", self.dataSpec.objectType, [queryError localizedDescription]];
         return;
     }
     
     self.fullDataRowList = [self populateDataRows:queryResults];
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"Finished generating data rows.  Number of rows: %d.  Refreshing view.", [self.fullDataRowList count]];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"Finished generating data rows.  Number of rows: %d.  Refreshing view.", [self.fullDataRowList count]];
     self.dataRows = [self.fullDataRowList copy];
     if (completionBlock) completionBlock();
 }
@@ -215,14 +193,14 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
 - (void)lastModifiedRecords:(int) limit completion:(void (^)(void))completionBlock {
     SFQuerySpec *sobjectsQuerySpec =  [SFQuerySpec newAllQuerySpec:self.dataSpec.soupName withOrderPath:@"_soupLastModifiedDate" withOrder:kSFSoupQuerySortOrderDescending withPageSize:limit];
     NSError *queryError = nil;
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"Got local query results.  Populating data rows."];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"Got local query results.  Populating data rows."];
     NSArray *queryResults = [self.store queryWithQuerySpec:sobjectsQuerySpec pageIndex:0 error:&queryError];
     if (queryError) {
-        [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelError format:@"Error retrieving '%@' data from SmartStore: %@", self.dataSpec.objectType, [queryError localizedDescription]];
+        [SFSDKLogger log:[self class] level:DDLogLevelError format:@"Error retrieving '%@' data from SmartStore: %@", self.dataSpec.objectType, [queryError localizedDescription]];
         return;
     }
     self.fullDataRowList = [self populateDataRows:queryResults];
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"Finished generating data rows.  Number of rows: %d.  Refreshing view.", [self.fullDataRowList count]];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"Finished generating data rows.  Number of rows: %d.  Refreshing view.", [self.fullDataRowList count]];
     self.dataRows = [self.fullDataRowList copy];
     completionBlock();
 }

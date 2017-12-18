@@ -26,12 +26,12 @@
 
 @implementation NSNotificationCenter (SFAdditions)
 
-+ (void)postNotificationOnceWithName:(NSString*)notificationName object:(id)object userInfo:(NSDictionary*)userInfo {
++ (void)postNotificationOnceWithName:(NSString*)notificationName object:(id)object userInfo:(nullable NSDictionary*)userInfo {
     NSNotification *notification = [NSNotification notificationWithName:notificationName object:object userInfo:userInfo];
     [[NSNotificationQueue defaultQueue] enqueueNotification:notification postingStyle:NSPostASAP coalesceMask:NSNotificationCoalescingOnName forModes:nil];
 }
 
-- (void)postNotificationOnMainThreadWithName:(NSString *)notificationName object:(id)object userInfo:(NSDictionary *)userInfo {
+- (void)postNotificationOnMainThreadWithName:(NSString *)notificationName object:(id)object userInfo:(nullable NSDictionary *)userInfo {
     __weak typeof(object) weakObject = object;
     dispatch_async(dispatch_get_main_queue(), ^{
         [self postNotificationName:notificationName object:weakObject userInfo:userInfo];

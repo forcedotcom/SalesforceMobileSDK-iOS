@@ -24,16 +24,9 @@
  */
 
 #import "SFHybridViewConfig.h"
-#import <SalesforceAnalytics/SFSDKLogger.h>
-#import <SalesforceSDKCore/SFJsonUtils.h>
+#import <SalesforceSDKCore/SFSDKResourceUtils.h>
 
 @interface SFHybridViewConfig ()
-
-/**
- * Reads the contents of a bootconfig.json file into an NSDictionary.
- * @return The NSDictionary of data, or nil if the data could not be read or parsed.
- */
-+ (NSDictionary *)loadConfigFromFile:(NSString *)configFilePath;
 
 /**
  * Sets the default properties in the configuration, for properties that haven't otherwise
@@ -46,11 +39,9 @@
 // Keys used in bootconfig.json.
 static NSString* const kIsLocal = @"isLocal";
 static NSString* const kStartPage = @"startPage";
+static NSString* const kUnauthenticatedStartPage = @"unauthenticatedStartPage";
 static NSString* const kErrorPage = @"errorPage";
 static NSString* const kAttemptOfflineLoad = @"attemptOfflineLoad";
-
-// Default path to bootconfig.json on the filesystem.
-static NSString* const kDefaultHybridViewConfigFilePath = @"/www/bootconfig.json";
 
 // Default values for optional configs.
 static BOOL const kDefaultAttemptOfflineLoad = YES;
@@ -96,6 +87,16 @@ static NSString* const kDefaultErrorPage = @"error.html";
     self.configDict[kStartPage] = [startPage copy];
 }
 
+- (NSString *)unauthenticatedStartPage
+{
+    return (self.configDict)[kUnauthenticatedStartPage];
+}
+
+- (void)setUnauthenticatedStartPage:(NSString *)unauthenticatedStartPage
+{
+    self.configDict[kUnauthenticatedStartPage] = [unauthenticatedStartPage copy];
+}
+
 - (NSString *)errorPage
 {
     return (self.configDict)[kErrorPage];
@@ -119,33 +120,68 @@ static NSString* const kDefaultErrorPage = @"error.html";
 
 #pragma mark - Configuration helpers
 
-+ (SFHybridViewConfig *)fromDefaultConfigFile
-{
-    return [SFHybridViewConfig fromConfigFile:kDefaultHybridViewConfigFilePath];
+- (BOOL)validate:(NSError **)error {
+    BOOL baseResult = [super validate:error];
+    if (!baseResult) {
+        return baseResult;
+    }
+    
+    if (self.startPage.length == 0) {
+        [SFSDKAppConfig createError:error withCode:SFSDKHybridAppConfigErrorCodeNoStartPage message:[SFSDKResourceUtils localizedString:@"appConfigValidationErrorNoStartPage"]];
+        return NO;
+    }
+    
+    // startPage must be a relative URL.
+    if ([SFHybridViewConfig urlStringIsAbsolute:self.startPage]) {
+        [SFSDKAppConfig createError:error withCode:SFSDKHybridAppConfigErrorCodeStartPageAbsoluteURL message:[SFSDKResourceUtils localizedString:@"appConfigValidationErrorStartPageAbsoluteURL"]];
+        return NO;
+    }
+    
+    // unauthenticatedStartPage doesn't make sense in a local setup.  Warn accordingly.
+    if (self.isLocal && self.unauthenticatedStartPage.length > 0) {
+        [SFSDKHybridLogger w:[self class] format:@"%@ %@ set for local app, but it will never be used.", NSStringFromSelector(_cmd), kUnauthenticatedStartPage];
+    }
+    
+    // unauthenticatedStartPage doesn't make sense in a remote setup with authentication.  Warn accordingly.
+    if (!self.isLocal && self.shouldAuthenticate && self.unauthenticatedStartPage.length > 0) {
+        [SFSDKHybridLogger w:[self class] format:@"%@ %@ set for remote app with authentication, but it will never be used.", NSStringFromSelector(_cmd), kUnauthenticatedStartPage];
+    }
+    
+    // Lack of unauthenticatedStartPage with remote deferred authentication is an error.
+    if (!self.isLocal && !self.shouldAuthenticate && self.unauthenticatedStartPage.length == 0) {
+        [SFSDKAppConfig createError:error withCode:SFSDKHybridAppConfigErrorCodeNoUnauthenticatedStartPage message:[SFSDKResourceUtils localizedString:@"appConfigValidationErrorNoUnauthenticatedStartPage"]];
+        return NO;
+    }
+    
+    // unauthenticatedStartPage, if present, must be an absolute URL.
+    if (self.unauthenticatedStartPage.length > 0 && ![SFHybridViewConfig urlStringIsAbsolute:self.unauthenticatedStartPage]) {
+        [SFSDKAppConfig createError:error withCode:SFSDKHybridAppConfigErrorCodeUnauthenticatedStartPageNotAbsoluteURL message:[SFSDKResourceUtils localizedString:@"appConfigValidationErrorUnauthenticatedStartPageNotAbsoluteURL"]];
+        return NO;
+    }
+    
+    return YES;
 }
 
-+ (SFHybridViewConfig *)fromConfigFile:(NSString *)configFilePath
++ (instancetype)fromDefaultConfigFile
 {
-    NSDictionary *hybridConfigDict = [SFHybridViewConfig loadConfigFromFile:configFilePath];
+    return [self fromConfigFile:SFSDKDefaultHybridAppConfigFilePath];
+}
+
++ (instancetype)fromConfigFile:(NSString *)configFilePath
+{
+    NSDictionary *hybridConfigDict = [SFSDKResourceUtils loadConfigFromFile:configFilePath];
     if (nil == hybridConfigDict) {
-        [SFSDKHybridLogger i:[SFHybridViewConfig class] format:[NSString stringWithFormat:@"Hybrid view config at specified path '%@' not found, or data could not be parsed.", configFilePath]];
+        [SFSDKHybridLogger i:[SFHybridViewConfig class] format:@"Hybrid view config at specified path '%@' not found, or data could not be parsed.", configFilePath];
         return nil;
     }
     SFHybridViewConfig *hybridViewConfig = [[SFHybridViewConfig alloc] initWithDict:hybridConfigDict];
     return hybridViewConfig;
 }
 
-+ (NSDictionary *)loadConfigFromFile:(NSString *)configFilePath
++ (BOOL)urlStringIsAbsolute:(NSString *)urlString
 {
-    NSString *fullPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:configFilePath];
-    NSError *fileReadError = nil;
-    NSData *fileContents = [NSData dataWithContentsOfFile:fullPath options:NSDataReadingUncached error:&fileReadError];
-    if (fileContents == nil) {
-        [SFSDKHybridLogger i:[SFHybridViewConfig class] format:[NSString stringWithFormat:@"Hybrid view config at specified path '%@' could not be read: %@", configFilePath, fileReadError]];
-        return nil;
-    }
-    NSDictionary *jsonDict = [SFJsonUtils objectFromJSONData:fileContents];
-    return jsonDict;
+    NSAssert(urlString.length > 0, @"urlString parameter is required.");
+    return ([urlString hasPrefix:@"http://"] || [urlString hasPrefix:@"https://"]);
 }
 
 - (void)setConfigDefaults

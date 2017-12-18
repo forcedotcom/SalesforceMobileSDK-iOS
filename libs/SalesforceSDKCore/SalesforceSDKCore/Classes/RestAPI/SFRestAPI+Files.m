@@ -35,6 +35,7 @@
 #define LINKED_ENTITY_ID @"LinkedEntityId"
 #define SHARE_TYPE @"ShareType"
 #define RENDITION_TYPE @"type"
+#define FILE_DATA @"fileData"
 
 @implementation SFRestAPI (Files)
 
@@ -119,7 +120,7 @@
 - (SFRestRequest *) requestForUploadFile:(NSData *)data name:(NSString *)name description:(NSString *)description mimeType:(NSString *)mimeType {
     NSString *path = [NSString stringWithFormat:@"/%@/connect/files/users/me", self.apiVersion];
     SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
-    [request addPostFileData:data description:description fileName:name mimeType:mimeType];
+    [request addPostFileData:data paramName:FILE_DATA description:description fileName:name mimeType:mimeType];
     return request;
 }
 

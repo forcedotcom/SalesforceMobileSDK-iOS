@@ -25,6 +25,8 @@
 #import <Foundation/Foundation.h>
 #import "SFSmartSyncPersistableObject.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SFObjectTypeLayout : SFSmartSyncPersistableObject <NSCoding>
 
 @property (nonatomic, strong, readonly) NSNumber *limit;
@@ -40,3 +42,5 @@
 + (BOOL)isMatchColumns:(NSArray *)sourceColumnNames target:(NSArray *)targetColumnNames;
 
 @end
+
+NS_ASSUME_NONNULL_END

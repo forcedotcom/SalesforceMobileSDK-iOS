@@ -1,0 +1,18 @@
+{
+  "syncs": [
+    {
+      "syncName": "syncDownContacts",
+      "syncType": "syncDown",
+      "soupName": "contacts",
+      "target": {"type":"soql", "query":"SELECT FirstName, LastName, Title, MobilePhone, Email, Department, HomePhone FROM Contact LIMIT 10000"},
+      "options": {"mergeMode":"OVERWRITE"}
+    },
+    {
+      "syncName": "syncUpContacts",
+      "syncType": "syncUp",
+      "soupName": "contacts",
+      "target": {"createFieldlist":["FirstName", "LastName", "Title", "MobilePhone", "Email", "Department", "HomePhone"]},
+      "options": {"fieldlist":["Id", "FirstName", "LastName", "Title", "MobilePhone", "Email", "Department", "HomePhone"], "mergeMode":"LEAVE_IF_CHANGED"}
+    }
+  ]
+}

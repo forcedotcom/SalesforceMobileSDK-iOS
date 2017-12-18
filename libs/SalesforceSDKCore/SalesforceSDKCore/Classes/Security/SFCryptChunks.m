@@ -80,7 +80,8 @@ uint32_t const SFCryptChunksCipherOptions = kCCOptionPKCS7Padding;
 }
 
 - (void)dealloc {
-    CCCryptorRelease(_cryptor), _cryptor = NULL;
+    CCCryptorRelease(_cryptor);
+    _cryptor = NULL;
 }
 
 

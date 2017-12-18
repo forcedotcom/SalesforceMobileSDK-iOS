@@ -35,7 +35,7 @@ NSString * const kOrgIdCredentialsDictKey = @"orgId";
 NSString * const kLoginUrlCredentialsDictKey = @"loginUrl";
 NSString * const kInstanceUrlCredentialsDictKey = @"instanceUrl";
 NSString * const kUserAgentCredentialsDictKey = @"userAgent";
-
+SFSDK_USE_DEPRECATED_BEGIN
 @implementation SFOauthReactBridge
 
 RCT_EXPORT_MODULE();
@@ -44,34 +44,38 @@ RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(getAuthCredentials:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
 {
-    [SFSDKReactLogger d:[self class] format:[NSString stringWithFormat:@"getAuthCredentials: arguments: %@", args]];
+    [SFSDKReactLogger d:[self class] format:@"getAuthCredentials: arguments: %@", args];
     [self getAuthCredentialsWithCallback:callback];
 }
 
 RCT_EXPORT_METHOD(logoutCurrentUser:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
 {
-    [SFSDKReactLogger d:[self class] format:[NSString stringWithFormat:@"logoutCurrentUser: arguments: %@", args]];
+    __weak typeof(self) weakSelf = self;
+    [SFSDKReactLogger d:[self class] format:@"logoutCurrentUser: arguments: %@", args];
     dispatch_async(dispatch_get_main_queue(), ^{
-        [[SFAuthenticationManager sharedManager] logout];
+         __strong typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf logout];
     });
 }
 
 RCT_EXPORT_METHOD(authenticate:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
 {
-    [SFSDKReactLogger d:[self class] format:[NSString stringWithFormat:@"authenticate: arguments: %@", args]];
+    __weak typeof(self) weakSelf = self;
+    [SFSDKReactLogger d:[self class] format:@"authenticate: arguments: %@", args];
     dispatch_async(dispatch_get_main_queue(), ^{
-        [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf loginWithCompletion:^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
             [SFUserAccountManager sharedInstance].currentUser  =  userAccount;
-            [self sendAuthCredentials:callback];
+            [strongSelf sendAuthCredentials:callback];
         } failure:^(SFOAuthInfo *authInfo, NSError *error) {
-            [self sendNotAuthenticatedError:callback];
+            [strongSelf sendNotAuthenticatedError:callback];
         }];
     });
 }
 
 - (void)sendAuthCredentials:(RCTResponseSenderBlock) callback
 {
-    SFOAuthCredentials *creds = [SFAuthenticationManager sharedManager].coordinator.credentials;
+    SFOAuthCredentials *creds = [SFUserAccountManager sharedInstance].currentUser.credentials;
     if (nil != creds) {
         NSString *instanceUrl = creds.instanceUrl.absoluteString;
         NSString *loginUrl = [NSString stringWithFormat:@"%@://%@", creds.protocol, creds.domain];
@@ -97,15 +101,34 @@ RCT_EXPORT_METHOD(authenticate:(NSDictionary *)args callback:(RCTResponseSenderB
 
 - (void)getAuthCredentialsWithCallback:(RCTResponseSenderBlock) callback
 {
-    SFOAuthCredentials *creds = [SFAuthenticationManager sharedManager].coordinator.credentials;
+    SFOAuthCredentials *creds = [SFUserAccountManager sharedInstance].currentUser.credentials;
     NSString *accessToken = creds.accessToken;
     
-    // If access token is not present, authenticate first. Otherwise, send current credentials.
+    // If access token is not present, send error so user can manually authenticate. Otherwise, send current credentials.
     if (accessToken) {
         [self sendAuthCredentials:callback];
     } else {
-        [self authenticate:nil callback:callback];
+        [self sendNotAuthenticatedError:callback];
+    }
+}
+
+- (void)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
+                    failure:(SFOAuthFlowFailureCallbackBlock)failureBlock {
+    if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
+        [[SFAuthenticationManager sharedManager] loginWithCompletion:completionBlock failure:failureBlock];
+    } else {
+        [[SFUserAccountManager sharedInstance] loginWithCompletion:completionBlock failure:failureBlock];
+    }
+    
+}
+
+- (void)logout {
+    if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
+        [[SFAuthenticationManager sharedManager] logout];
+    } else {
+        [[SFUserAccountManager sharedInstance] logout];
     }
 }
 
 @end
+SFSDK_USE_DEPRECATED_END

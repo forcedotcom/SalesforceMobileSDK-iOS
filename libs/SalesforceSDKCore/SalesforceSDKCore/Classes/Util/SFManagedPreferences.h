@@ -24,6 +24,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  Class to handle preferences set by an MDM provider.
  */
@@ -75,8 +77,14 @@
 @property (nonatomic, readonly) BOOL onlyShowAuthorizedHosts;
 
 /**
+ The idp App's URL Scheme
+ */
+@property (nonatomic,readonly) NSString *idpAppURLScheme;
+/**
  The raw NSDictionary of managed preferences.
  */
 @property (nonatomic, strong, readonly) NSDictionary *rawPreferences;
 
 @end
+
+NS_ASSUME_NONNULL_END

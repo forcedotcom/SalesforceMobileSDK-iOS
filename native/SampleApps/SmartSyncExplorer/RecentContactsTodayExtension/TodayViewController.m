@@ -24,13 +24,15 @@
 #import "TodayViewController.h"
 #import <SmartSyncExplorerCommon/SmartSyncExplorerCommon.h>
 #import <NotificationCenter/NotificationCenter.h>
-#import <SmartStore/SalesforceSDKManagerWithSmartStore.h>
+#import <SmartStore/SmartStoreSDKManager.h>
 #import <SalesforceAnalytics/SFSDKDatasharingHelper.h>
 #import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 #import <SalesforceSDKCore/SFRestRequest.h>
 #import <SalesforceSDKCore/SFRestAPI.h>
+#import <SalesforceSDKCore/SFSDKAppConfig.h>
 #import <SalesforceAnalytics/SFSDKLogger.h>
 #import <SmartStore/SFQuerySpec.h>
+#import <SalesforceSDKCore/SFUserAccountManager.h>
 
 @interface TodayViewController () <NCWidgetProviding, UITableViewDelegate, UITableViewDataSource>
 
@@ -66,12 +68,12 @@ static NSString *simpleTableIdentifier = @"SimpleTableItem";
     [SFSDKDatasharingHelper sharedInstance].appGroupName = config.appGroupName;
     [SFSDKDatasharingHelper sharedInstance].appGroupEnabled = YES;
     if ([self userIsLoggedIn] ) {
-        [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelError format:@"User has logged in"];
-        [SalesforceSDKManager setInstanceClass:[SalesforceSDKManagerWithSmartStore class]];
-        [SalesforceSDKManager sharedManager].connectedAppId = config.remoteAccessConsumerKey;
-        [SalesforceSDKManager sharedManager].connectedAppCallbackUri = config.oauthRedirectURI;
-        [SalesforceSDKManager sharedManager].authScopes = config.oauthScopes;
-        [SalesforceSDKManager sharedManager].authenticateAtLaunch = config.appGroupsEnabled;
+        [SFSDKLogger log:[self class] level:DDLogLevelError format:@"User has logged in"];
+        [SalesforceSDKManager setInstanceClass:[SmartStoreSDKManager class]];
+        [SalesforceSDKManager sharedManager].appConfig.remoteAccessConsumerKey = config.remoteAccessConsumerKey;
+        [SalesforceSDKManager sharedManager].appConfig.oauthRedirectURI = config.oauthRedirectURI;
+        [SalesforceSDKManager sharedManager].appConfig.oauthScopes = [NSSet setWithArray:config.oauthScopes];
+        [SalesforceSDKManager sharedManager].appConfig.shouldAuthenticate = config.appGroupsEnabled;
         SFUserAccount *currentUser = [SFUserAccountManager sharedInstance].currentUser;
         __weak typeof(self) weakSelf = self;
         void (^completionBlock)(void) = ^{

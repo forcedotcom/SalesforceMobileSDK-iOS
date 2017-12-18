@@ -1,6 +1,6 @@
 {
 	"name": "SalesforceMobileSDK-iOS",
-	"version": "5.3.1",
+	"version": "6.0.0",
 	"description": "Salesforce Mobile SDK for iOS",
 	"keywords": [ "mobilesdk", "ios", "salesforce", "mobile", "sdk" ],
 	"homepage": "https://github.com/forcedotcom/SalesforceMobileSDK-iOS",

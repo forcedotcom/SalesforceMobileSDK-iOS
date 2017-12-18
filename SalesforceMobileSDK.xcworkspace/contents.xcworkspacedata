@@ -30,6 +30,9 @@
       location = "container:"
       name = "Libs">
       <FileRef
+         location = "group:libs/SalesforceSwiftSDK/SalesforceSwiftSDK.xcodeproj">
+      </FileRef>
+      <FileRef
          location = "group:libs/SalesforceAnalytics/SalesforceAnalytics.xcodeproj">
       </FileRef>
       <FileRef
@@ -74,6 +77,9 @@
    <Group
       location = "container:"
       name = "External">
+      <FileRef
+         location = "group:external/PromiseKit/PromiseKit.xcodeproj">
+      </FileRef>
       <FileRef
          location = "group:external/CocoaLumberjack/Lumberjack.xcodeproj">
       </FileRef>
@@ -190,6 +196,9 @@
          </FileRef>
          <FileRef
             location = "group:SalesforceSDKAssets.xcassets">
+         </FileRef>
+         <FileRef
+            location = "group:LaunchScreen.storyboard">
          </FileRef>
       </Group>
       <Group

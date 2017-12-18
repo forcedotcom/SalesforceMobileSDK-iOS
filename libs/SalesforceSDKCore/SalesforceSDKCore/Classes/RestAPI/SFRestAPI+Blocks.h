@@ -32,11 +32,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SFRestAPI (Blocks) <SFRestDelegate>
 
 // Block types
-typedef void (^SFRestFailBlock) (NSError * _Nullable e);
-typedef void (^SFRestDictionaryResponseBlock) (NSDictionary * _Nullable dict);
-typedef void (^SFRestArrayResponseBlock) (NSArray * _Nullable arr);
-typedef void (^SFRestDataResponseBlock) (NSData* _Nullable data);
-typedef void (^SFRestResponseBlock) (id _Nullable response);
+typedef void (^SFRestFailBlock) (NSError * _Nullable e, NSURLResponse * _Nullable rawResponse);
+typedef void (^SFRestDictionaryResponseBlock) (NSDictionary * _Nullable dict, NSURLResponse * _Nullable rawResponse);
+typedef void (^SFRestArrayResponseBlock) (NSArray * _Nullable arr, NSURLResponse * _Nullable rawResponse);
+typedef void (^SFRestDataResponseBlock) (NSData* _Nullable data, NSURLResponse * _Nullable rawResponse);
+typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nullable rawResponse);
 /** Creates an error object with the given description.
  @param description Description
  */
@@ -218,7 +218,6 @@ typedef void (^SFRestResponseBlock) (id _Nullable response);
  * @param completeBlock the block to be executed when the request successfully completes
  * @return the newly sent SFRestRequest
  */
-
 - (SFRestRequest *) performRequestForFileRendition:(NSString *)sfdcId
                                            version:(NSString *)version
                                      renditionType:(NSString *)renditionType
@@ -232,7 +231,6 @@ typedef void (^SFRestResponseBlock) (id _Nullable response);
  * @param completeBlock the block to be executed when the request successfully completes
  * @return the newly sent SFRestRequest
  */
-
 - (SFRestRequest *) performRequestForSearchScopeAndOrderWithFailBlock:(SFRestFailBlock)failBlock
                                      completeBlock:(SFRestArrayResponseBlock)completeBlock;
 
@@ -247,22 +245,6 @@ typedef void (^SFRestResponseBlock) (id _Nullable response);
 - (SFRestRequest *) performRequestForSearchResultLayout:(NSString*)objectList
                                               failBlock:(SFRestFailBlock)failBlock
                                           completeBlock:(SFRestArrayResponseBlock)completeBlock;
-
-/**
- * Executes a request that returns json
- * @param method the HTTP method
- * @param path the request path
- * @param queryParams the parameters of the request (could be nil)
- * @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
- * @param completeBlock the block to be executed when the request successfully completes
- * @return the newly sent SFRestRequest
- */
-
-- (SFRestRequest *) performRequestWithMethod:(SFRestMethod)method
-                                        path:(NSString*)path
-                                 queryParams:(NSDictionary<NSString*, id>*)queryParams
-                                   failBlock:(SFRestFailBlock)failBlock
-                               completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
 
 @end
 

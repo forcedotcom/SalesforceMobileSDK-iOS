@@ -24,6 +24,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  * Data class for PBKDF-generated keys.
  */
@@ -32,7 +34,7 @@
 /**
  * The PBKDF-derived key.
  */
-@property (nonatomic, strong) NSData *derivedKey;
+@property (nonatomic, strong, nullable) NSData *derivedKey;
 
 /**
  * The salt used in conjunction with the plaintext input for creating the key.
@@ -62,3 +64,5 @@
  derivedKeyLength:(NSUInteger)derivedKeyLength;
 
 @end
+
+NS_ASSUME_NONNULL_END

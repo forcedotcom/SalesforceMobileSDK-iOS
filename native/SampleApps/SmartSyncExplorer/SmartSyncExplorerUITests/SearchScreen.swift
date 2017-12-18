@@ -104,7 +104,7 @@ class SearchScreen: PageObject {
     // MARK - Check screen
     
     func countRecords() -> UInt {
-        return app.tables.cells.count
+        return UInt(app.tables.cells.count)
     }
     
     func hasRecord(_ text : String) -> Bool {
@@ -162,6 +162,6 @@ class SearchScreen: PageObject {
     
     
     func openRecord(_ cell :  UInt) {
-        app.tables.cells.element(boundBy: cell).tap()
+        app.tables.cells.element.tap()
     }
 }

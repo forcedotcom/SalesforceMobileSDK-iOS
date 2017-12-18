@@ -28,7 +28,7 @@
 
 @implementation NSDictionary (SFAdditions)
 
-- (id) objectAtPath:(NSString *) path {
+- (nullable id) objectAtPath:(NSString *) path {
     if (path == nil) {
         return nil;
     }
@@ -50,7 +50,7 @@
     return obj;
 }
 
-- (id)nonNullObjectForKey:(id)key {
+- (nullable id)nonNullObjectForKey:(id)key {
     id result = [self objectForKey:key];
     if (result == [NSNull null]) {
         return nil;
@@ -62,7 +62,7 @@
     return result;
 }
 
-- (NSString*)jsonString {
+- (nullable NSString*)jsonString {
     NSError *error = nil;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:self
                                                        options:0

@@ -51,7 +51,7 @@
 -(void)testGetKeyStoreDictionaryDefaultsToEmpty {
     // set up the keystore
     SFEncryptionKey *encKey = [mgr keyWithRandomValue];
-    SFKeyStoreKey *key = [[SFKeyStoreKey alloc] initWithKey:encKey type:SFKeyStoreKeyTypeGenerated];
+    SFKeyStoreKey *key = [[SFKeyStoreKey alloc] initWithKey:encKey];
 
     SFKeyStore *keyStore = [[SFGeneratedKeyStore alloc] init];
     keyStore.keyStoreKey = key;
@@ -64,7 +64,7 @@
 // ensures we can set and get the dictionary
 -(void)testSetAndGetDictionary {
     SFEncryptionKey *encKey = [mgr keyWithRandomValue];
-    SFKeyStoreKey *key = [[SFKeyStoreKey alloc] initWithKey:encKey type:SFKeyStoreKeyTypeGenerated];
+    SFKeyStoreKey *key = [[SFKeyStoreKey alloc] initWithKey:encKey];
     
     SFKeyStore *keyStore = [[SFGeneratedKeyStore alloc] init];
     keyStore.keyStoreKey = key;
@@ -83,7 +83,7 @@
 // try to decrpt with bad enc key
 -(void)testAttemptToDecryptWithBadEncKey {
     SFEncryptionKey *encKey = [mgr keyWithRandomValue];
-    SFKeyStoreKey *key = [[SFKeyStoreKey alloc] initWithKey:encKey type:SFKeyStoreKeyTypeGenerated];
+    SFKeyStoreKey *key = [[SFKeyStoreKey alloc] initWithKey:encKey];
     
     SFKeyStore *keyStore = [[SFGeneratedKeyStore alloc] init];
     keyStore.keyStoreKey = key;

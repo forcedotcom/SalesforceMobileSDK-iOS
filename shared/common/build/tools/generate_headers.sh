@@ -48,12 +48,6 @@ shift $((OPTIND-1))
 
 [[ -z $OPT_OUTPUT ]] && usage "You must specify an output filename"
 
-if [[ 0$XCODE_VERSION_MINOR -lt 0400 ]]; then
-    if [[ $OPT_FORCE -ne 1 ]]; then
-        usage "Generating headers needs to be run from within an Xcode shell environment"
-    fi
-fi
-
 if [[ -z $OPT_NAME ]]; then
     OPT_NAME=$(basename "$OPT_OUTPUT" | awk -F. '{print $1}')
 fi

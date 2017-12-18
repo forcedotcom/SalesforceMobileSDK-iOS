@@ -24,6 +24,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SFSDKSoslReturningBuilder : NSObject
 
 /** Returns the object name for this builder
@@ -78,6 +80,8 @@
  *
  * @return the built returning statement
  */
-- (NSString *) build;
+- (nullable NSString *) build;
 
 @end
+
+NS_ASSUME_NONNULL_END

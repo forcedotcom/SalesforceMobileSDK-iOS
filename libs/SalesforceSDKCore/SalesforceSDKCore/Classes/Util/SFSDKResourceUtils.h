@@ -24,6 +24,10 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+
+NS_ASSUME_NONNULL_BEGIN
+
 /** 
  * Class that handles access to Mobile SDK's main bundle.
  */
@@ -48,4 +52,13 @@
 */
 + (UIImage *)imageNamed:(NSString*)name;
 
+/**
+ * Read config and parse its content (which is expected to be json)
+ * @param configFilePath Path of resource file.
+ * @return NSDictionary built from content of tile.
+ */
++ (NSDictionary *)loadConfigFromFile:(NSString *)configFilePath;
+
 @end
+
+NS_ASSUME_NONNULL_END

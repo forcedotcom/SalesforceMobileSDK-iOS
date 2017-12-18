@@ -109,7 +109,7 @@ class OAuthUITest: SalesforceNoSessionTestCase {
             sleep(1)
         }
         
-        SFAuthenticationManager.shared().logoutAllUsers() //FIXME: for some reason, this doesn's work
+        SFUserAccountManager.sharedInstance().logoutAllUsers() //FIXME: for some reason, this doesn's work
         sleep(5) //give server sometime to revoke the token
         
         searchScreen.sync()

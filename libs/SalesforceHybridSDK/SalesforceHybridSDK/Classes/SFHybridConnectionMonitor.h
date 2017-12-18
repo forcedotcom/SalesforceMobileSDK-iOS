@@ -22,6 +22,8 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class SFSDKReachability;
 
 @interface SFHybridConnectionMonitor : NSObject
@@ -34,3 +36,5 @@
 + (SFHybridConnectionMonitor *)sharedInstance;
 
 @end
+
+NS_ASSUME_NONNULL_END

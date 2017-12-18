@@ -72,7 +72,7 @@ class PasscodeUITest: SalesforceNoSessionTestCase {
         passcodePage.enterPasscode(passcode)
         backspace(1) //backspace
         XCTAssertTrue(passcodePage.isPresented() && passcodePage.getStatus()==PasscodeStatus.verifying)
-        passcodePage.enterPasscode(passcode.substring(from: passcode.characters.index(passcode.endIndex, offsetBy: -1)))
+        passcodePage.enterPasscode(String(passcode[passcode.index(passcode.endIndex, offsetBy: -1)...]))
         passcodePage.done()
         XCTAssertFalse(passcodePage.isPresented()) //should not present passcode
         

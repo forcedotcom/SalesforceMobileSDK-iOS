@@ -34,12 +34,12 @@ NSString * const kSmartSync = @"SmartSync";
 + (void)sendRequestWithSmartSyncUserAgent:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestResponseBlock)completeBlock {
     [SFSDKSmartSyncLogger d:[self class] format:@"sendRequestWithSmartSyncUserAgent:request:%@", request];
     [request setHeaderValue:[SFRestAPI userAgentString:kSmartSync] forHeaderName:kUserAgent];
-    [[SFRestAPI sharedInstance] sendRESTRequest:request failBlock:^(NSError *e) {
+    [[SFRestAPI sharedInstance] sendRESTRequest:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
         [SFSDKSmartSyncLogger e:[self class] format:@"sendRequestWithSmartSyncUserAgent:error:%ld:%@", (long) e.code, e.domain];
-        failBlock(e);
-    } completeBlock:^(id response) {
+        failBlock(e, rawResponse);
+    } completeBlock:^(id response, NSURLResponse *rawResponse) {
         [SFSDKSmartSyncLogger d:[self class] format:@"sendRequestWithSmartSyncUserAgent:response:%@", response];
-        completeBlock(response);
+        completeBlock(response, rawResponse);
     }];
 }
 

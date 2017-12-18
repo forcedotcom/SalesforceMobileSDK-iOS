@@ -24,6 +24,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  Shows the list of users who have authenticated to this app, allowing the user to switch between
  users, revoke credentials, etc.
@@ -31,3 +33,5 @@
 @interface SFDefaultUserManagementListViewController : UITableViewController
 
 @end
+
+NS_ASSUME_NONNULL_END

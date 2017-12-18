@@ -35,10 +35,15 @@
 #import "SFSDKResourceUtils.h"
 #import "SFUserAccountManager.h"
 #import "SFAuthenticationManager.h"
+#import "SFSDKLoginViewControllerConfig.h"
+#import "SFOAuthInfo.h"
+#import "SFSDKWindowManager.h"
 
+SFSDK_USE_DEPRECATED_BEGIN
 
 @interface SFLoginViewController () <SFSDKLoginHostDelegate, SFUserAccountManagerDelegate>
 
+SFSDK_USE_DEPRECATED_END
 @property (nonatomic, strong) UINavigationBar *navBar;
 
 // Reference to the login host list view controller
@@ -51,10 +56,8 @@
 @end
 
 @implementation SFLoginViewController
-
-
+@synthesize config = _config;
 @synthesize oauthView = _oauthView;
-
 
 + (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
@@ -68,11 +71,7 @@
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        _navBarColor = [UIColor salesforceBlueColor];
-        _navBarFont = nil;
-        _navBarTextColor = [UIColor whiteColor];
-        _showNavbar = YES;
-        _showSettingsIcon = YES;
+        _config = [[SFSDKLoginViewControllerConfig  alloc] init];
         [[SFUserAccountManager sharedInstance] addDelegate:self];
     }
     return self;
@@ -105,6 +104,56 @@
     return NO;
 }
 
+- (UIFont *)navBarFont {
+    return self.config.navBarFont;
+}
+
+- (void)setNavBarFont:(UIFont *)navBarFont {
+    self.config.navBarFont = navBarFont;
+}
+
+- (UIColor *)navBarTextColor {
+    return self.config.navBarTextColor;
+}
+
+- (void)setNavBarTextColor:(UIColor *)color {
+    self.config.navBarTextColor = color;
+}
+
+- (UIColor *)navBarColor {
+    return self.config.navBarColor;
+}
+
+- (void)setNavBarColor:(UIColor *)navBarColor {
+    self.config.navBarColor = navBarColor;
+}
+
+- (BOOL)showNavbar {
+    return self.config.showNavbar;
+}
+
+- (void)setShowNavbar:(BOOL)showNavbar {
+    self.config.showNavbar = showNavbar;
+}
+
+- (BOOL)showSettingsIcon {
+    return self.config.showSettingsIcon;
+}
+
+- (void)setShowSettingsIcon:(BOOL)showSettingsIcon {
+    self.config.showSettingsIcon = showSettingsIcon;
+}
+
+- (SFSDKLoginViewControllerConfig *)config {
+    return _config;
+}
+
+- (void)setConfig:(SFSDKLoginViewControllerConfig *)config {
+    if (_config!=config) {
+        _config = config;
+    }
+}
+
 #pragma mark - Setup Navigation bar
 
 - (void)setupNavigationBar {
@@ -118,7 +167,7 @@
     // Hides the gear icon if there are no hosts to switch to.
     SFManagedPreferences *managedPreferences = [SFManagedPreferences sharedPreferences];
     if (managedPreferences.onlyShowAuthorizedHosts && managedPreferences.loginHosts.count == 0) {
-        self.showSettingsIcon = NO;
+        self.config.showSettingsIcon = NO;
     }
     if(self.showSettingsIcon) {
 
@@ -144,8 +193,11 @@
 }
 
 - (BOOL)shouldShowBackButton {
+    if ([SFUserAccountManager sharedInstance].idpEnabled) {
+        return YES;
+    }
     NSInteger totalAccounts = [SFUserAccountManager sharedInstance].allUserAccounts.count;
-    return  (totalAccounts > 0);
+    return  (totalAccounts > 0 && [SFUserAccountManager sharedInstance].currentUser);
 }
 
 #pragma mark - Action Methods
@@ -155,9 +207,10 @@
 }
 
 - (IBAction)backToPreviousHost:(id)sender {
-    [[SFAuthenticationManager sharedManager] cancelAuthentication];
-    if (self.previousUserAccount) {
-        [[SFUserAccountManager sharedInstance] switchToUser:self.previousUserAccount];
+    if (![SFUserAccountManager sharedInstance].idpEnabled) {
+        [[SFSDKWindowManager sharedManager].authWindow dismissWindow];
+    }else {
+        [[SFSDKWindowManager sharedManager].authWindow.viewController dismissViewControllerAnimated:NO completion:nil];
     }
 }
 

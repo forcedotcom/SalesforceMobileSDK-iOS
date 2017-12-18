@@ -30,7 +30,6 @@
 @interface SFKeyStoreManager () <SFPasscodeManagerDelegate>
 
 @property (nonatomic, strong) SFGeneratedKeyStore *generatedKeyStore;
-@property (nonatomic, strong) SFPasscodeKeyStore *passcodeKeyStore;
 
 /**
  Creates a default key store key from random generated key and IV values.  Used when a passcode
@@ -38,12 +37,6 @@
  @return The generated key used to encrypt/decrypt the key store.
  */
 - (SFKeyStoreKey *)createDefaultKey;
-
-/**
- Creates a key store key based on the encryption key provided in part by the user's passcode.
- @return A passcode-based key store key used to encrypt/decrypt the key store.
- */
-- (SFKeyStoreKey *)createNewPasscodeKey;
 
 /**
  Converts an NSString-based key into NSData.

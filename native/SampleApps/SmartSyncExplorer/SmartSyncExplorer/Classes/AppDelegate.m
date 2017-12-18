@@ -29,12 +29,15 @@
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
-#import <SmartStore/SalesforceSDKManagerWithSmartStore.h>
+#import <SalesforceSDKCore/SFSDKAppConfig.h>
+#import <SalesforceSDKcore/SFSDKWindowManager.h>
+#import <SmartSync/SmartSyncSDKManager.h>
 #import <SalesforceAnalytics/SFSDKDatasharingHelper.h>
 #import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 #import <SmartSyncExplorerCommon/SmartSyncExplorerConfig.h>
+#import "IDPLoginNavViewController.h"
 
-@interface AppDelegate ()
+@interface AppDelegate () <SalesforceSDKManagerDelegate>
 
 /**
  * Convenience method for setting up the main UIViewController and setting self.window's rootViewController
@@ -61,14 +64,31 @@
         SmartSyncExplorerConfig *config = [SmartSyncExplorerConfig sharedInstance];
         [SFSDKDatasharingHelper sharedInstance].appGroupName = config.appGroupName;
         [SFSDKDatasharingHelper sharedInstance].appGroupEnabled = config.appGroupsEnabled;
-        [SalesforceSDKManager setInstanceClass:[SalesforceSDKManagerWithSmartStore class]];
         
-        // Need to use SalesforceSDKManagerWithSmartStore when using smartstore
-        [SalesforceSDKManager setInstanceClass:[SalesforceSDKManagerWithSmartStore class]];
-        [SalesforceSDKManager sharedManager].connectedAppId = config.remoteAccessConsumerKey;
-        [SalesforceSDKManager sharedManager].connectedAppCallbackUri = config.oauthRedirectURI;
-        [SalesforceSDKManager sharedManager].authScopes = config.oauthScopes;
+        // Need to use SmartSyncSDKManager when using SmartSync
+        [SalesforceSDKManager setInstanceClass:[SmartSyncSDKManager class]];
+        [SalesforceSDKManager sharedManager].appConfig.remoteAccessConsumerKey = config.remoteAccessConsumerKey;
+        [SalesforceSDKManager sharedManager].appConfig.oauthRedirectURI = config.oauthRedirectURI;
+        [SalesforceSDKManager sharedManager].appConfig.oauthScopes = [NSSet setWithArray:config.oauthScopes];
+        
         __weak typeof(self) weakSelf = self;
+        
+        [[SalesforceSDKManager sharedManager] addDelegate:self];
+        
+        //Uncomment following block to enable IDP Login flow.
+        /*
+        //scheme of idpAppp
+        [SalesforceSDKManager sharedManager].idpAppURIScheme = @"sampleidpapp";
+         //user friendly display name
+        [SalesforceSDKManager sharedManager].appDisplayName = @"SampleAppOne";
+         
+        //Use the following code block to replace the login flow selection dialog
+        [SalesforceSDKManager sharedManager].idpLoginFlowSelectionBlock = ^UIViewController<SFSDKLoginFlowSelectionView> * _Nonnull{
+            IDPLoginNavViewController *controller = [[IDPLoginNavViewController alloc] init];
+            return controller;
+        };
+        */
+        
         [SalesforceSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActionList) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             //
@@ -79,13 +99,13 @@
             //[[SFPushNotificationManager sharedInstance] registerForRemoteNotifications];
             //
             [strongSelf setUserLoginStatus:YES];
-            [[SFSDKLogger sharedDefaultInstance] log:[strongSelf class] level:DDLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
+            [SFSDKLogger log:[strongSelf class] level:DDLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
             [strongSelf setupRootViewController];
 
         };
         [SalesforceSDKManager sharedManager].launchErrorAction = ^(NSError *error, SFSDKLaunchAction launchActionList) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
-            [[SFSDKLogger sharedDefaultInstance] log:[strongSelf class] level:DDLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
+            [SFSDKLogger log:[strongSelf class] level:DDLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
             [strongSelf initializeAppViewState];
             [[SalesforceSDKManager sharedManager] launch];
         };
@@ -106,7 +126,7 @@
 - (void)setUserLoginStatus :(BOOL) loggedIn {
     [[NSUserDefaults msdkUserDefaults] setBool:loggedIn forKey:@"userLoggedIn"];
     [[NSUserDefaults msdkUserDefaults] synchronize];
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"%d userLoggedIn", [[NSUserDefaults msdkUserDefaults] boolForKey:@"userLoggedIn"] ];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"%d userLoggedIn", [[NSUserDefaults msdkUserDefaults] boolForKey:@"userLoggedIn"] ];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -132,6 +152,17 @@
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 {
     // Respond to any push notification registration errors here.
+}
+
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
+    
+    //Uncomment following block to enable IDP Login flow
+    /*
+    return [[SFUserAccountManager sharedInstance] handleAdvancedAuthenticationResponse:url options:options];
+    */
+    return NO;
+
 }
 
 #pragma mark - Private methods
@@ -162,7 +193,7 @@
 
 - (void)handleSdkManagerLogout
 {
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"SFAuthenticationManager logged out. Resetting app."];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"SFUserAccountManager logged out. Resetting app."];
     [self resetViewState:^{
         [self initializeAppViewState];
         
@@ -193,7 +224,7 @@
 - (void)handleUserSwitch:(SFUserAccount *)fromUser
                   toUser:(SFUserAccount *)toUser
 {
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@.  Resetting app.",
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@.  Resetting app.",
      fromUser.userName, toUser.userName];
     [self resetViewState:^{
         [self initializeAppViewState];
@@ -201,4 +232,10 @@
     }];
 }
 
+- (void)sdkManagerWillResignActive {
+    if ([SalesforceSDKManager sharedManager].useSnapshotView) {
+        // Remove the keyboard if it is showing..
+        [[SFSDKWindowManager sharedManager].activeWindow.window endEditing:YES];
+    }
+}
 @end

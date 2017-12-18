@@ -30,6 +30,8 @@
 #import <SalesforceSDKCore/SFOAuthInfo.h>
 #import "SFHybridViewConfig.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  The property key used to designate the "home" URL of the app, to be used if the app is
  offline and supports HTML5 offline caching.
@@ -51,7 +53,7 @@ extern NSString * const kUserAgentCredentialsDictKey;
 /**
  Callback block definition for OAuth plugin auth success.
  */
-typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *, NSDictionary *);
+typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *_Nullable, NSDictionary *);
 
 /**
  Base view controller for Salesforce hybrid app components.
@@ -90,20 +92,20 @@ typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *, NSDictionary *);
  The offline "home page" for the app.  Will be nil if no value has been
  found.
  */
-@property (nonatomic, strong) NSURL *appHomeUrl;
+@property (nonatomic, strong, nullable) NSURL *appHomeUrl;
 
 /**
  Designated initializer. Initializes the view controller with its hybrid view configuration. Uses WKWebView by default.
  @param viewConfig The hybrid view configuration associated with this component.
  */
-- (id) initWithConfig:(SFHybridViewConfig *) viewConfig;
+- (id) initWithConfig:(nullable SFHybridViewConfig *) viewConfig;
 
 /**
  Designated initializer. Initializes the view controller with its hybrid view configuration and which view to use.
  @param viewConfig The hybrid view configuration associated with this component.
  @param useUIWebView YES - to use UIWebView, NO - to use WKWebView.
  */
-- (id) initWithConfig:(SFHybridViewConfig *) viewConfig useUIWebView:(BOOL) useUIWebView;
+- (id) initWithConfig:(nullable SFHybridViewConfig *) viewConfig useUIWebView:(BOOL) useUIWebView;
 
 /**
  * Initializes a new Cordova view with the specified bounds and engine.
@@ -111,20 +113,11 @@ typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *, NSDictionary *);
 - (UIView *)newCordovaViewWithFrameAndEngine:(CGRect)bounds webViewEngine:(NSString *)webViewEngine;
 
 /**
- Method used by the OAuth plugin to obtain the current login credentials, or authenticate if no
- credentials are configured.
- @param completionBlock The OAuth plugin completion block to call upon successful retrieval of
- the credentials.
- @param failureBlock The failure block to call in the event of an authentication failure.
- */
-- (void)getAuthCredentialsWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock;
-
-/**
  Used by the OAuth plugin to authenticate the user.
  @param completionBlock The block to call upon successsful authentication.
  @param failureBlock The block to call in the event of an auth failure.
  */
-- (void)authenticateWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock;
+- (void)authenticateWithCompletionBlock:(nullable SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock;
 
 /**
  Loads an error page, in the event of an otherwise unhandled error.
@@ -139,7 +132,7 @@ typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *, NSDictionary *);
  the calling client code.
  @return Dictionary representation of oauth credentials.
  */
-- (NSDictionary *)credentialsAsDictionary;
+- (nullable NSDictionary *)credentialsAsDictionary;
 
 /**
  @return The user agent string for SF hybrid apps.  @see [SalesforceSDKManager sharedManager].userAgentString @/see
@@ -167,3 +160,5 @@ typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *, NSDictionary *);
 - (void)configureRemoteStartPage;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -24,7 +24,6 @@
 
 #import "SFPasscodeKeyStore.h"
 #import "SFKeyStore+Internal.h"
-#import "SFKeyStoreKey.h"
 #import "SFPasscodeManager.h"
 #import "SFKeyStoreManager+Internal.h"
 #import "SFKeychainItemWrapper.h"
@@ -34,6 +33,7 @@ static NSString * const kPasscodeKeyStoreKeychainIdentifier = @"com.salesforce.k
 static NSString * const kPasscodeKeyStoreDataArchiveKey = @"com.salesforce.keystore.passcodeKeystoreDataArchive";
 static NSString * const kPasscodeKeyStoreEncryptionKeyKeychainIdentifier = @"com.salesforce.keystore.passcodeKeystoreEncryptionKeyId";
 static NSString * const kPasscodeKeyStoreEncryptionKeyDataArchiveKey = @"com.salesforce.keystore.passcodeKeystoreEncryptionKeyDataArchive";
+NSString * const kPasscodeKeyLabelSuffix = @"Passcode";
 
 @interface SFPasscodeKeyStore ()
 {
@@ -142,7 +142,7 @@ static NSString * const kPasscodeKeyStoreEncryptionKeyDataArchiveKey = @"com.sal
 
 - (NSString *)keyLabelForString:(NSString *)baseKeyLabel
 {
-    return [NSString stringWithFormat:@"%@__Passcode", baseKeyLabel];
+    return [NSString stringWithFormat:@"%@__%@", baseKeyLabel, kPasscodeKeyLabelSuffix];
 }
 
 @end
