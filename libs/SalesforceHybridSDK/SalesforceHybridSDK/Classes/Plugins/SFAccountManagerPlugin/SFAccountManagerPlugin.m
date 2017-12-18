@@ -95,7 +95,11 @@ SFSDK_USE_DEPRECATED_BEGIN
         NSArray *userAccounts = [SFUserAccountManager sharedInstance].allUserAccounts;
         if ([userAccounts count] == 1) {
             // Single account configured.  Switch to new user.
-            [[SFUserAccountManager sharedInstance] switchToNewUser];
+            [self loginWithCompletion:^(SFOAuthInfo * authInfo, SFUserAccount * newAccount) {
+                [[SFUserAccountManager sharedInstance] switchToUser:newAccount];
+            } failure:^(SFOAuthInfo * info, NSError * error) {
+                [SFSDKHybridLogger e:[self class] format:@"switchToNewUser: Failed Switching to user account: %@", error.localizedDescription ];
+            }];
         } else if ([userAccounts count] > 1) {
             // Already more than one account.  Let the user choose the account to switch to.
             SFDefaultUserManagementViewController *umvc = [[SFDefaultUserManagementViewController alloc] initWithCompletionBlock:^(SFUserManagementAction action) {
@@ -165,6 +169,14 @@ SFSDK_USE_DEPRECATED_BEGIN
     } else {
         [[SFUserAccountManager sharedInstance] logout];
     }
+}
+
+- (void)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)completionBlock failure:(SFOAuthFlowFailureCallbackBlock)failureBlock {
+  if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
+      [[SFAuthenticationManager sharedManager] loginWithCompletion:completionBlock failure:failureBlock];
+  } else {
+      [[SFUserAccountManager sharedInstance] loginWithCompletion:completionBlock failure:failureBlock];
+  }
 }
 
 @end

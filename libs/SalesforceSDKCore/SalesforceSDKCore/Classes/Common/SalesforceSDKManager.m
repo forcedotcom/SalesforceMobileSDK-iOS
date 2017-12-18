@@ -180,6 +180,9 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow  selector:@selector(handleIDPInitiatedAuthCompleted:)
                                                      name:kSFNotificationUserIDPInitDidLogIn object:nil];
         
+        [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow  selector:@selector(handleIDPUserAddCompleted:)
+                                                     name:kSFNotificationUserWillSendIDPResponse object:nil];
+        
        [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleUserDidLogout:)  name:kSFNotificationUserDidLogout object:nil];
         
         [SFPasscodeManager sharedManager].preferredPasscodeProvider = kSFPasscodeProviderPBKDF2;
@@ -738,6 +741,20 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
     SFUserAccount *userAccount = userInfo[kSFNotificationUserInfoAccountKey];
     [[SFUserAccountManager sharedInstance] switchToUser:userAccount];
     [self sendPostLaunch];
+}
+
+- (void)handleIDPUserAddCompleted:(NSNotification *)notification
+{
+   
+    NSDictionary *userInfo = notification.userInfo;
+    SFUserAccount *userAccount = userInfo[kSFNotificationUserInfoAccountKey];
+    // this is the only user context in the idp app.
+    if ([userAccount isEqual:[SFUserAccountManager sharedInstance].currentUser]) {
+        [SFSecurityLockout setupTimer];
+        [SFSecurityLockout startActivityMonitoring];
+        [[SFUserAccountManager sharedInstance] switchToUser:userAccount];
+        [self sendPostLaunch];
+    }
 }
 
 - (void)handlePostLogout
