@@ -1,7 +1,7 @@
 #ifndef SalesforceSDKConstants_h
 #define SalesforceSDKConstants_h
 
-#define SALESFORCE_SDK_IS_PRODUCTION_VERSION YES
+#define SALESFORCE_SDK_IS_PRODUCTION_VERSION NO
 
 #define SALESFORCE_SDK_BUILD_IDENTIFIER @".dev"
 
@@ -43,8 +43,9 @@
 #define __SALESFORCE_SDK_5_3_0 50300
 #define __SALESFORCE_SDK_5_3_1 50301
 #define __SALESFORCE_SDK_6_0_0 60000
+#define __SALESFORCE_SDK_6_1_0 60100
 
-#define SALESFORCE_SDK_VERSION_MIN_REQUIRED __SALESFORCE_SDK_6_0_0
+#define SALESFORCE_SDK_VERSION_MIN_REQUIRED __SALESFORCE_SDK_6_1_0
 
 #define SALESFORCE_SDK_VERSION [NSString stringWithFormat:@"%d.%d.%d%@",              \
                                 (SALESFORCE_SDK_VERSION_MIN_REQUIRED / 10000),        \
