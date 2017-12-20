@@ -47,10 +47,21 @@ static NSString * const OAuthRedirectURI        = @"com.salesforce.mobilesdk.sam
 {
     self = [super init];
     if (self) {
-        [SFAuthenticationManager sharedManager].advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;
-        [SalesforceSDKManager sharedManager].connectedAppId = RemoteAccessConsumerKey;
-        [SalesforceSDKManager sharedManager].connectedAppCallbackUri = OAuthRedirectURI;
-        [SalesforceSDKManager sharedManager].authScopes = @[ @"web", @"api" ];
+        [SFUserAccountManager sharedInstance].advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;
+        /*
+         //scheme of idpAppp
+         [SFUserAccountManager sharedInstance].advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationNone;
+         [SalesforceSDKManager sharedManager].idpAppURIScheme = @"sampleidpapp";
+         //user friendly display name
+         [SalesforceSDKManager sharedManager].appDisplayName = @"SampleAppOne";
+         
+         //Use the following code block to replace the login flow selection dialog
+         [SalesforceSDKManager sharedManager].idpLoginFlowSelectionBlock = ^UIViewController<SFSDKLoginFlowSelectionView> * _Nonnull{
+         IDPLoginNavViewController *controller = [[IDPLoginNavViewController alloc] init];
+         return controller;
+         };
+         */
+        
         __weak typeof(self) weakSelf = self;
         [SalesforceSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActionList) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -61,12 +72,12 @@ static NSString * const OAuthRedirectURI        = @"com.salesforce.mobilesdk.sam
             //
             //[[SFPushNotificationManager sharedInstance] registerForRemoteNotifications];
             //
-            [[SFSDKLogger sharedDefaultInstance] log:[strongSelf class] level:DDLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
+            [SFSDKLogger log:[strongSelf class] level:DDLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
             [strongSelf setupRootViewController];
         };
         [SalesforceSDKManager sharedManager].launchErrorAction = ^(NSError *error, SFSDKLaunchAction launchActionList) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
-            [[SFSDKLogger sharedDefaultInstance] log:[strongSelf class] level:DDLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
+            [SFSDKLogger log:[strongSelf class] level:DDLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
             [strongSelf initializeAppViewState];
             [[SalesforceSDKManager sharedManager] launch];
         };
@@ -87,19 +98,6 @@ static NSString * const OAuthRedirectURI        = @"com.salesforce.mobilesdk.sam
 {
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     [self initializeAppViewState];
-    //
-    //Uncomment the code below to see how you can customize the color, textcolor, font and fontsize of the navigation bar
-    //
-    //SFLoginViewController *loginViewController = [SFLoginViewController sharedInstance];
-    //Set showNavBar to NO if you want to hide the top bar
-    //loginViewController.showNavbar = YES;
-    //Set showSettingsIcon to NO if you want to hide the settings icon on the nav bar
-    //loginViewController.showSettingsIcon = YES;
-    // Set primary color to different color to style the navigation header
-    //loginViewController.navBarColor = [UIColor colorWithRed:0.051 green:0.765 blue:0.733 alpha:1.0];
-    //loginViewController.navBarFont = [UIFont fontWithName:@"Helvetica" size:16.0];
-    //loginViewController.navBarTextColor = [UIColor blackColor];
-    //
     [[SalesforceSDKManager sharedManager] launch];
     return YES;
 }
@@ -123,7 +121,7 @@ static NSString * const OAuthRedirectURI        = @"com.salesforce.mobilesdk.sam
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
 {
-    return [[SFAuthenticationManager sharedManager] handleAdvancedAuthenticationResponse:url];
+    return [[SFUserAccountManager sharedInstance] handleAdvancedAuthenticationResponse:url options:options];
 }
 
 
@@ -154,7 +152,7 @@ static NSString * const OAuthRedirectURI        = @"com.salesforce.mobilesdk.sam
 
 - (void)handleSdkManagerLogout
 {
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"SDK Manager logged out.  Resetting app."];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"SDK Manager logged out.  Resetting app."];
     [self resetViewState:^{
         [self initializeAppViewState];
         
@@ -183,7 +181,7 @@ static NSString * const OAuthRedirectURI        = @"com.salesforce.mobilesdk.sam
 
 - (void)handleUserSwitch:(SFUserAccount *)fromUser toUser:(SFUserAccount *)toUser
 {
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelInfo format:@"SFUserAccountManager changed from user %@ to %@.  Resetting app.", fromUser.userName, toUser.userName];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@.  Resetting app.", fromUser.userName, toUser.userName];
     [self resetViewState:^{
         [self initializeAppViewState];
         [[SalesforceSDKManager sharedManager] launch];
@@ -196,7 +194,8 @@ static NSString * const OAuthRedirectURI        = @"com.salesforce.mobilesdk.sam
     //collect credentials and copy to pasteboard
     SFOAuthCredentials *creds = [SFUserAccountManager sharedInstance].currentUser.credentials;
     NSMutableDictionary *configDict = [NSMutableDictionary dictionaryWithDictionary:@{@"test_client_id": RemoteAccessConsumerKey,
-                                                                                      @"test_login_domain": [SFAuthenticationManager sharedManager].loginHost,
+                                                                                      @"test_login_domain": [SFUserAccountManager sharedInstance].loginHost,
+                                                                                      @"test_login_domain": [SFUserAccountManager  sharedInstance].loginHost,
                                                                                       @"test_redirect_uri": OAuthRedirectURI,
                                                                                       @"refresh_token": creds.refreshToken,
                                                                                       @"instance_url": [creds.instanceUrl absoluteString],

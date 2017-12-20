@@ -1231,6 +1231,9 @@
     }
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
+
 /**
  Test that doing resync while corresponding sync is running fails.
  */
@@ -1247,7 +1250,7 @@
     NSString* soql = [@[@"SELECT Id, Name, LastModifiedDate FROM Account WHERE Id IN ", idsClause] componentsJoinedByString:@""];
     SlowSoqlSyncDownTarget* target = [SlowSoqlSyncDownTarget newSyncTarget:soql];
     SFSyncOptions* options = [SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged];
-    SFSyncState* sync = [SFSyncState newSyncDownWithOptions:options target:target soupName:ACCOUNTS_SOUP store:self.store];
+    SFSyncState* sync = [SFSyncState newSyncDownWithOptions:options target:target soupName:ACCOUNTS_SOUP name:nil store:self.store];
     NSNumber* syncId = [NSNumber numberWithInteger:sync.syncId];
 
     // Run sync -- will freeze during fetch
@@ -1269,6 +1272,104 @@
     // Waiting for reSync to complete successfully
     while ([queue getNextSyncUpdate].status != SFSyncStateStatusDone);
 }
+
+/**
+* Create sync down, get it by id, delete it by id, make sure it's gone
+*/
+-(void) testCreateGetDeleteSyncDownById {
+    // Create
+    SFSyncState* sync = [SFSyncState newSyncDownWithOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged] target:[SFSoqlSyncDownTarget newSyncTarget:@"SELECT Id, Name from Account"] soupName:ACCOUNTS_SOUP name:nil store:self.store];
+    NSNumber* syncId = [NSNumber numberWithInteger:sync.syncId];
+    // Get by id
+    SFSyncState* fetchedSync = [SFSyncState byId:syncId store:self.store];
+    [self checkStatus:fetchedSync expectedType:sync.type expectedId:sync.syncId expectedName:nil expectedTarget:sync.target expectedOptions:sync.options expectedStatus:sync.status expectedProgress:sync.progress expectedTotalSize:sync.totalSize];
+    // Delete by id
+    [SFSyncState deleteById:syncId store:self.store];
+    XCTAssertNil([SFSyncState byId:syncId store:self.store], "Sync should be gone");
+}
+
+/**
+ * Create sync down with a name, get it by name, delete it by name, make sure it's gone
+ */
+-(void) testCreateGetDeleteSyncDownByName {
+    NSString* syncName = @"MyNamedSyncDown";
+    // Create
+    SFSyncState* sync = [SFSyncState newSyncDownWithOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged] target:[SFSoqlSyncDownTarget newSyncTarget:@"SELECT Id, Name from Account"] soupName:ACCOUNTS_SOUP name:syncName store:self.store];
+    NSNumber* syncId = [NSNumber numberWithInteger:sync.syncId];
+    // Get by name
+    SFSyncState* fetchedSync = [SFSyncState byName:syncName store:self.store];
+    [self checkStatus:fetchedSync expectedType:sync.type expectedId:sync.syncId expectedName:syncName expectedTarget:sync.target expectedOptions:sync.options expectedStatus:sync.status expectedProgress:sync.progress expectedTotalSize:sync.totalSize];
+    // Delete by name
+    [SFSyncState deleteByName:syncName store:self.store];
+    XCTAssertNil([SFSyncState byId:syncId store:self.store], "Sync should be gone");
+    XCTAssertNil([SFSyncState byName:syncName store:self.store], "Sync should be gone");
+}
+
+/**
+* Create sync up, get it by id, delete it by id, make sure it's gone
+*/
+-(void) testCreateGetDeleteSyncUpById {
+    // Create
+    SFSyncState* sync = [SFSyncState newSyncUpWithOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged] target:[SFSyncUpTarget new] soupName:ACCOUNTS_SOUP name:nil store:self.store];
+    NSNumber* syncId = [NSNumber numberWithInteger:sync.syncId];
+    // Get by id
+    SFSyncState* fetchedSync = [SFSyncState byId:syncId store:self.store];
+    [self checkStatus:fetchedSync expectedType:sync.type expectedId:sync.syncId expectedName:nil expectedTarget:sync.target expectedOptions:sync.options expectedStatus:sync.status expectedProgress:sync.progress expectedTotalSize:sync.totalSize];
+    // Delete by id
+    [SFSyncState deleteById:syncId store:self.store];
+    XCTAssertNil([SFSyncState byId:syncId store:self.store], "Sync should be gone");
+}
+
+/**
+ * Create sync up with a name, get it by name, delete it by name, make sure it's gone
+ */
+-(void) testCreateGetDeleteSyncUpByName {
+    NSString* syncName = @"MyNamedSyncUp";
+    // Create
+    SFSyncState* sync = [SFSyncState newSyncUpWithOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged] target:[SFSyncUpTarget new] soupName:ACCOUNTS_SOUP name:syncName store:self.store];
+    NSNumber* syncId = [NSNumber numberWithInteger:sync.syncId];
+    // Get by name
+    SFSyncState* fetchedSync = [SFSyncState byName:syncName store:self.store];
+    [self checkStatus:fetchedSync expectedType:sync.type expectedId:sync.syncId expectedName:syncName expectedTarget:sync.target expectedOptions:sync.options expectedStatus:sync.status expectedProgress:sync.progress expectedTotalSize:sync.totalSize];
+    // Delete by name
+    [SFSyncState deleteByName:syncName store:self.store];
+    XCTAssertNil([SFSyncState byId:syncId store:self.store], "Sync should be gone");
+    XCTAssertNil([SFSyncState byName:syncName store:self.store], "Sync should be gone");
+}
+
+/**
+ * Create sync with a name, make sure a new sync down with the same name cannot be created
+ */
+- (void) testCreateSyncDownWithExistingName {
+    NSString* syncName = @"MyNamedSync";
+    // Create a named sync
+    [SFSyncState newSyncUpWithOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged] target:[SFSyncUpTarget new] soupName:ACCOUNTS_SOUP name:syncName store:self.store];
+    // Try to create a sync down with the same name
+    SFSyncState* secondSync = [SFSyncState newSyncDownWithOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged] target:[SFSoqlSyncDownTarget newSyncTarget:@"SELECT Id, Name from Account"] soupName:ACCOUNTS_SOUP name:syncName store:self.store];
+    XCTAssertNil(secondSync, @"sync should nil");
+
+    // Delete by name
+    [SFSyncState deleteByName:syncName store:self.store];
+    XCTAssertNil([SFSyncState byName:syncName store:self.store], "Sync should be gone");
+}
+
+/**
+ * Create sync with a name, make sure a new sync up with the same name cannot be created
+ */
+- (void) testCreateSyncUpWithExistingName {
+    NSString* syncName = @"MyNamedSync";
+    // Create a named sync
+    [SFSyncState newSyncDownWithOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged] target:[SFSoqlSyncDownTarget newSyncTarget:@"SELECT Id, Name from Account"] soupName:ACCOUNTS_SOUP name:syncName store:self.store];
+    // Try to create a sync up with the same name
+    SFSyncState* secondSync = [SFSyncState newSyncUpWithOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged] target:[SFSyncUpTarget new] soupName:ACCOUNTS_SOUP name:syncName store:self.store];
+    XCTAssertNil(secondSync, @"sync should nil");
+
+    // Delete by name
+    [SFSyncState deleteByName:syncName store:self.store];
+    XCTAssertNil([SFSyncState byName:syncName store:self.store], "Sync should be gone");
+}
+
+#pragma clang diagnostic pop
 
 #pragma mark - helper methods
 

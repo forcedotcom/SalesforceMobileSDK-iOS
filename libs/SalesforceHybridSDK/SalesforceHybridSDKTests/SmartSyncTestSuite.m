@@ -284,4 +284,20 @@
     [self runTest:@"testSyncUpLocallyUpdatedWithGlobalStoreNamed"];
 }
 
+- (void) testSyncDownGetSyncDeleteSyncById {
+    [self runTest:@"testSyncDownGetSyncDeleteSyncById"];
+}
+
+- (void) testSyncDownGetSyncDeleteSyncByName {
+    [self runTest:@"testSyncDownGetSyncDeleteSyncByName"];
+}
+
+- (void) testSyncUpGetSyncDeleteSyncById {
+    [self runTest:@"testSyncUpGetSyncDeleteSyncById"];
+}
+
+- (void) testSyncUpGetSyncDeleteSyncByName {
+    [self runTest:@"testSyncUpGetSyncDeleteSyncByName"];
+}
+
 @end

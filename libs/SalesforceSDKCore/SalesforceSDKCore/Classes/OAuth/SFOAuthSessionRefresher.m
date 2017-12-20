@@ -23,7 +23,9 @@
  */
 
 #import "SFOAuthSessionRefresher+Internal.h"
-#import "SFAuthenticationManager.h"
+#import "SFUserAccountManager.h"
+
+static NSString * const kSFAuthenticationManagerFinishedNotification = @"kSFAuthenticationManagerFinishedNotification";
 
 @implementation SFOAuthSessionRefresher
 
@@ -32,8 +34,8 @@
     if (self) {
         self.coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:credentials];
         self.coordinator.delegate = self;
-        self.coordinator.additionalTokenRefreshParams = [SFAuthenticationManager sharedManager].additionalTokenRefreshParams;
-        self.coordinator.additionalOAuthParameterKeys = [SFAuthenticationManager sharedManager].additionalOAuthParameterKeys;
+        self.coordinator.additionalTokenRefreshParams = [SFUserAccountManager sharedInstance].additionalTokenRefreshParams;
+        self.coordinator.additionalOAuthParameterKeys = [SFUserAccountManager sharedInstance].additionalOAuthParameterKeys;
     }
     return self;
 }
@@ -108,10 +110,16 @@
     [self completeWithSuccess:coordinator.credentials];
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:kSFAuthenticationManagerFinishedNotification
-                                                            object:nil
-                                                          userInfo:nil];
-    });
+        if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kSFAuthenticationManagerFinishedNotification
+                                                                object:nil
+                                                              userInfo:nil];
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidLogIn
+                                                                object:nil
+                                                              userInfo:nil];
+        }
+   });
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info {

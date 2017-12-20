@@ -57,19 +57,22 @@
 // ensure storing a key, we can check to see if the key exists
 - (void)testStoreKeyGetsBackOriginal {
     SFEncryptionKey *key =  [mgr keyWithRandomValue];
-    [mgr storeKey:key withKeyType:SFKeyStoreKeyTypeGenerated label:@"key"];
+    [mgr storeKey:key withLabel:@"key"];
     
-    XCTAssertTrue([mgr keyWithLabelAndKeyTypeExists:@"key" keyType:SFKeyStoreKeyTypeGenerated], @"Key type should exist.");
+    XCTAssertTrue([mgr keyWithLabelExists:@"key"], @"Key type should exist.");
 }
 
 // ensure removing a key works
 - (void)testRemoveKey {
     SFEncryptionKey *key =  [mgr keyWithRandomValue];
-    [mgr storeKey:key withKeyType:SFKeyStoreKeyTypeGenerated label:@"key"];
-    [mgr removeKeyWithLabel:@"key" keyType:SFKeyStoreKeyTypeGenerated];
+    [mgr storeKey:key withLabel:@"key"];
+    [mgr removeKeyWithLabel:@"key"];
     
-    XCTAssertFalse([mgr keyWithLabelAndKeyTypeExists:@"key" keyType:SFKeyStoreKeyTypeGenerated], @"Key type should no longer exist.");
+    XCTAssertFalse([mgr keyWithLabelExists:@"key"], @"Key type should no longer exist.");
 }
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
 
 // ensure we handle nil values
 - (void)testRetrieveKeyWithNilValues {
@@ -77,63 +80,23 @@
     XCTAssertNil(key, @"Key should be nil with a nil label");
 }
 
+#pragma clang diagnostic pop
+
 // retrieve key with label, do not create one by default.
-- (void)testRetrieveKeyButDontCreateForGeneratedStore {
-    [mgr removeKeyWithLabel:@"myLabel" keyType:SFKeyStoreKeyTypeGenerated];
-    SFEncryptionKey *key =[mgr retrieveKeyWithLabel:@"myLabel" keyType:SFKeyStoreKeyTypeGenerated autoCreate: NO];
+- (void)testRetrieveKeyButDontCreate {
+    [mgr removeKeyWithLabel:@"myLabel"];
+    SFEncryptionKey *key =[mgr retrieveKeyWithLabel:@"myLabel" autoCreate: NO];
     XCTAssertNil(key, @"Should not have created key");
 }
 
-// retrieve key with label, do not create one by default.
-- (void)testRetrieveKeyButDontCreateForPasscodeStore {
-     [mgr removeKeyWithLabel:@"myLabel" keyType:SFKeyStoreKeyTypePasscode];
-    SFEncryptionKey *key =[mgr retrieveKeyWithLabel:@"myLabel" keyType:SFKeyStoreKeyTypePasscode autoCreate: NO];
-    XCTAssertNil(key, @"Should not have created key");
-}
-
-// retrieve key with label, create one if it does not exist for generated key store
-- (void)testRetrieveKeyCreateNewForGenerated {
-    SFEncryptionKey *key =[mgr retrieveKeyWithLabel:@"myLabel" keyType:SFKeyStoreKeyTypeGenerated autoCreate: YES];
+// retrieve key with label, create one if it does not exist
+- (void)testRetrieveKeyCreateNew {
+    SFEncryptionKey *key =[mgr retrieveKeyWithLabel:@"myLabel" autoCreate: YES];
     XCTAssertNotNil(key, @"Should have created key");
     
     // get it again to ensure it exists for real
-    SFEncryptionKey *existingKey =[mgr retrieveKeyWithLabel:@"myLabel" keyType:SFKeyStoreKeyTypeGenerated  autoCreate: NO];
+    SFEncryptionKey *existingKey =[mgr retrieveKeyWithLabel:@"myLabel" autoCreate: NO];
     XCTAssertEqualObjects(key, existingKey, @"Keys should be the same");
 }
 
-// retrieve key with label, create one if it does not exist for passcode key store
-- (void)testRetrieveKeyCreateNewForPasscode {
-    // first, we set up the passcode store
-    [[SFPasscodeManager sharedManager] resetPasscode];
-    SFEncryptionKey *key =[mgr retrieveKeyWithLabel:@"myLabel" keyType:SFKeyStoreKeyTypePasscode autoCreate: YES];
-    XCTAssertNotNil(key, @"Should have created key");
-    
-    // get it again to ensure it exists for real
-    SFEncryptionKey *existingKey =[mgr retrieveKeyWithLabel:@"myLabel" keyType:SFKeyStoreKeyTypePasscode  autoCreate: NO];
-    XCTAssertEqualObjects(key, existingKey, @"Keys should be the same");
-}
-
-// when nil values for old and new are observed, keystore info should be cleared.
-- (void)testObserveKeyChangesOldAndNewKeyNil {
-    // make sure the keystore key is set so we can verify it is nil'ed
-    SFEncryptionKey *key =  [mgr keyWithRandomValue];
-    SFKeyStoreKey *ksKey = [[SFKeyStoreKey alloc] initWithKey:key type:SFKeyStoreKeyTypePasscode];
-    mgr.passcodeKeyStore.keyStoreKey = ksKey;
-    mgr.passcodeKeyStore.keyStoreDictionary = @{@"somkey":@"someobj"};
-    XCTAssertNotNil([mgr.passcodeKeyStore keyStoreKey], @"Key store key should be available");
-    XCTAssertEqual(1, [mgr.passcodeKeyStore.keyStoreDictionary count], @"Key store dictionary should be available");
-
-    // when we invoke, key store key and dictionary should be nil'ed
-    NSDictionary *change = @{NSKeyValueChangeOldKey:[NSNull null], NSKeyValueChangeNewKey:[NSNull null]};
-    [mgr observeValueForKeyPath:@"encryptionKey" ofObject:[SFPasscodeManager sharedManager] change:change context:nil];
-    XCTAssertNil(mgr.passcodeKeyStore.keyStoreKey, @"Key store key should have been reset");
-    XCTAssertEqual(0, [mgr.passcodeKeyStore.keyStoreDictionary count], @"Key store dictionary should be empty");
-}
-
-// default key should be a generated type
-- (void)testDefaultKeyIsGeneratedType
-{
-    SFKeyStoreKey *origKeyStoreKey = [mgr createDefaultKey];
-    XCTAssertEqual(origKeyStoreKey.keyType, SFKeyStoreKeyTypeGenerated, @"Key store key should be the default generated key.");
-}
 @end

@@ -24,6 +24,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class SFOAuthCredentials;
 
 /**
@@ -41,7 +43,7 @@ typedef NS_ENUM(NSUInteger, SFOAuthSessionRefreshErrorCode) {
  * Initializes the object with the given credentials.
  * @param credentials The OAuth credentials used to refresh the session.
  */
-- (instancetype)initWithCredentials:(SFOAuthCredentials *)credentials NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithCredentials:(nullable SFOAuthCredentials *)credentials NS_DESIGNATED_INITIALIZER;
 
 /**
  * Refreshes the expired session, with the given completion and error handler blocks.
@@ -51,3 +53,5 @@ typedef NS_ENUM(NSUInteger, SFOAuthSessionRefreshErrorCode) {
 - (void)refreshSessionWithCompletion:(void (^) (SFOAuthCredentials *))completionBlock error:(void (^) (NSError *))errorBlock;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -49,7 +49,9 @@ static NSURLSessionConfiguration *kSFBackgroundSessionConfig;
             ephemeralSessionConfig = kSFEphemeralSessionConfig;
         }
         self.ephemeralSession = [NSURLSession sessionWithConfiguration:ephemeralSessionConfig];
-        NSURLSessionConfiguration *backgroundSessionConfig = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:@"com.salesforce.network"];
+        
+        NSString *identifier = [NSString stringWithFormat:@"com.salesforce.network.%lu", (unsigned long)self.hash];
+        NSURLSessionConfiguration *backgroundSessionConfig = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:identifier];
         if (kSFBackgroundSessionConfig) {
             backgroundSessionConfig = kSFBackgroundSessionConfig;
         }

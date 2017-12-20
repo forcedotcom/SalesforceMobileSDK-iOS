@@ -1,11 +1,11 @@
 fastlane_require 'nokogiri'
 
 if !ENV["device"] or ENV["device"]==""
-	ENV["device"] = "iPhone 6"
+  ENV["device"] = "iPhone 6"
 end
 
 if !ENV["scheme"] or ENV["scheme"]==""
-	ENV["scheme"] = "UnitTests"
+  ENV["scheme"] = "UnitTests"
 end
 
 $Jenkins = false
@@ -22,151 +22,157 @@ system("/usr/libexec/PlistBuddy -c \"add :ConnectHardwareKeyboard bool 0\" ~/Lib
 system("rm -r $HOME/Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-*")
 
 def combinePackagesOfXML(toFile, files)
-	toDoc = Nokogiri::XML(File.open(toFile))
-	packageNode = toDoc.xpath('//packages/package')
-	packageNode = packageNode[packageNode.size-1] #get last package node
-	for fromfile in files
-		fromDoc = Nokogiri::XML(File.open(fromfile))
-		packages = fromDoc.xpath('//packages/package')
-		for package in packages
-			packageNode.add_next_sibling(package)
-		end
-	end
-	File.write(toFile, toDoc.to_xml)
+  toDoc = Nokogiri::XML(File.open(toFile))
+  packageNode = toDoc.xpath('//packages/package')
+  packageNode = packageNode[packageNode.size-1] #get last package node
+
+  for fromfile in files
+    fromDoc = Nokogiri::XML(File.open(fromfile))
+    packages = fromDoc.xpath('//packages/package')
+    for package in packages
+      packageNode.add_next_sibling(package)
+    end
+  end
+  File.write(toFile, toDoc.to_xml)
 end
 
 def doDanger
-	if $Jenkins
-		begin
-			 danger(
-				 danger_id: "CI-result",
-				 dangerfile: "DangerFile",
-				 github_api_token: ENV["DANGER_GITHUB_API_TOKEN"],
-				 verbose: true
-			 )
-		 rescue => ex
-			 UI.error(ex)
-		 end
-	end
+  if $Jenkins
+    begin
+      danger(
+          danger_id: "CI-result",
+          dangerfile: "DangerFile",
+          github_api_token: ENV["DANGER_GITHUB_API_TOKEN"]
+      )
+    rescue => ex
+      UI.error(ex)
+    end
+  end
 end
 
 
 def testScheme(scheme)
-	scan(
-		workspace: "SalesforceMobileSDK.xcworkspace",
-		scheme: scheme,
-		device: ENV["device"],
-		output_directory: "test_output”,
-		code_coverage: true,
-		fail_build: false,
-		clean: true
-	)
+  begin
+    xcodebuild(
+        xcargs: "CLANG_ANALYZER_OUTPUT=plist-html CLANG_ANALYZER_OUTPUT_DIR=./clangReport RUN_CLANG_STATIC_ANALYZER=YES",
+        workspace: "SalesforceMobileSDK.xcworkspace",
+        scheme: scheme,
+        sdk: "iphonesimulator",
+        fail_build: false
+    )
+  rescue => ex
+    UI.error(ex)
+  ensure
+    #move clangReports to one folder
+    system("mkdir -p ../clangReport/StaticAnalyzer")
+    system("mv ../libs/SalesforceAnalytics/clangReport/StaticAnalyzer/SalesforceAnalytics ../clangReport/StaticAnalyzer/")
+    system("mv ../libs/SalesforceHybridSDK/clangReport/StaticAnalyzer/SalesforceHybridSDK ../clangReport/StaticAnalyzer/")
+    system("mv ../libs/SalesforceReact/clangReport/StaticAnalyzer/SalesforceReact ../clangReport/StaticAnalyzer/")
+    system("mv ../libs/SalesforceSDKCore/clangReport/StaticAnalyzer/SalesforceSDKCore ../clangReport/StaticAnalyzer/")
+    system("mv ../libs/SmartStore/clangReport/StaticAnalyzer/SmartStore ../clangReport/StaticAnalyzer/")
+    system("mv ../libs/SmartSync/clangReport/StaticAnalyzer/SmartSync ../clangReport/StaticAnalyzer/")
+  end
 
-	begin
-		xcodebuild(
-		 	xcargs: "CLANG_ANALYZER_OUTPUT=plist-html CLANG_ANALYZER_OUTPUT_DIR=./clangReport RUN_CLANG_STATIC_ANALYZER=YES",
-		 	workspace: "SalesforceMobileSDK.xcworkspace",
-		 	scheme: scheme,
-		 	fail_build: false
-		)
-	rescue => ex
-		UI.error(ex)
-	ensure
-		#move clangReports to one folder
-		system("mkdir -p ../clangReport/StaticAnalyzer")
-		system("mv ../libs/SalesforceAnalytics/clangReport/StaticAnalyzer/SalesforceAnalytics ../clangReport/StaticAnalyzer/")
-		system("mv ../libs/SalesforceHybridSDK/clangReport/StaticAnalyzer/SalesforceHybridSDK ../clangReport/StaticAnalyzer/")
-		system("mv ../libs/SalesforceReact/clangReport/StaticAnalyzer/SalesforceReact ../clangReport/StaticAnalyzer/")
-		system("mv ../libs/SalesforceSDKCore/clangReport/StaticAnalyzer/SalesforceSDKCore ../clangReport/StaticAnalyzer/")
-		system("mv ../libs/SmartStore/clangReport/StaticAnalyzer/SmartStore ../clangReport/StaticAnalyzer/")
-		system("mv ../libs/SmartSync/clangReport/StaticAnalyzer/SmartSync ../clangReport/StaticAnalyzer/")
-	end
+  scan(
+      workspace: "SalesforceMobileSDK.xcworkspace",
+      scheme: scheme,
+      device: ENV["device"],
+      output_directory: "test_output",
+      code_coverage: true,
+      fail_build: false,
+      clean: true
+  )
+
+  xcov(
+      workspace: "SalesforceMobileSDK.xcworkspace",
+      scheme: scheme,
+      output_directory: "xcov_output",
+      exclude_targets: "CocoaLumberjack.framework,SalesforceSDKCoreTestApp.app,SmartStoreTestApp.app,SmartSyncTestApp.app,SalesforceHybridSDKTestApp.app,SalesforceAnalyticsTestApp.app,RestAPIExplorer.app,AccountEditor.app,NoteSync.app,SmartSyncExplorerHybrid.app,SmartSyncExplorer.app,SmartSyncExplorerCommon.framework,RecentContactsTodayExtension.appex,Cordova.framework,SalesforceReact.framework"
+  )
 
   schemes = [scheme]
   if scheme.include?("UnitTests")
-     schemes = $schemes
+    schemes = $schemes
   end
   for oneScheme in schemes
-			begin
-  			slather(
-		  		workspace: "SalesforceMobileSDK.xcworkspace",
-		  		scheme: oneScheme,
-		  		output_directory: "slather_output_temp/#{oneScheme}",
-		      html: true,
-		      jenkins: $Jenkins,
-		      cobertura_xml: true,
-					ignore:["../*", "external/*"],
-		      proj: "./libs/%s/%s.xcodeproj" %[oneScheme, oneScheme]
-	  		)
-			rescue => ex
-				UI.error(ex)
-			end
+    begin
+      slather(
+          workspace: "SalesforceMobileSDK.xcworkspace",
+          scheme: oneScheme,
+          output_directory: "slather_output_temp/#{oneScheme}",
+          html: true,
+          jenkins: $Jenkins,
+          cobertura_xml: true,
+          ignore: ["../*", "external/*"],
+          proj: "./libs/%s/%s.xcodeproj" %[oneScheme, oneScheme]
+      )
+    rescue => ex
+      UI.error(ex)
+    end
   end
 
-	system("mkdir -p ../slather_output")
-	desFile = "../slather_output/cobertura.xml"
-	system("rm #{desFile}")  #remove existing file first
-	coberturaXmls = Dir["../slather_output_temp/**/cobertura*.xml"]
-	mergeFiles = Array.new
-	for i in 0..coberturaXmls.size-1
-		coberturaXml = coberturaXmls[i]
-		if i == 0
-			system("cp #{coberturaXml} #{desFile}")
-		else
-			mergeFiles.push(coberturaXml)
-		end
-	end
-	combinePackagesOfXML(desFile, mergeFiles)
+  system("mkdir -p ../slather_output")
+  desFile = "../slather_output/cobertura.xml"
+  system("rm #{desFile}") #remove existing file first
+  coberturaXmls = Dir["../slather_output_temp/**/cobertura*.xml"]
+  mergeFiles = Array.new
+  for i in 0..coberturaXmls.size-1
+    coberturaXml = coberturaXmls[i]
+    if i == 0
+      system("cp #{coberturaXml} #{desFile}")
+    else
+      mergeFiles.push(coberturaXml)
+    end
+  end
+  combinePackagesOfXML(desFile, mergeFiles)
 end
 
 lane :PR do
-	schemes = Set.new
-	if ENV["ghprbPullId"] && ENV["gitToken"]
-		prFilesAPI = $GITPRAPI % ENV["ghprbPullId"]
-		curlCommand = "curl %s -H 'Authorization: token %s'" % [prFilesAPI, ENV["gitToken"]]
-		pullfiles = `#{curlCommand}`
-		prfiles = JSON.parse(pullfiles)
-		for prfile in prfiles
-			path = prfile["filename"]
+  schemes = Set.new
+  if ENV["ghprbPullId"] && ENV["gitToken"]
+    prFilesAPI = $GITPRAPI % ENV["ghprbPullId"]
+    curlCommand = "curl %s -H 'Authorization: token %s'" % [prFilesAPI, ENV["gitToken"]]
+    pullfiles = `#{curlCommand}`
+    prfiles = JSON.parse(pullfiles)
+    for prfile in prfiles
+      path = prfile["filename"]
       for scheme in $schemes
-  			if path.include? scheme
-  				schemes = schemes.add(scheme)
-  			end
+        if path.include? scheme
+          schemes = schemes.add(scheme)
+        end
       end
-		end
-		puts "schemes:" + schemes.to_a().join(",")
-	end
+    end
+    puts "schemes:" + schemes.to_a().join(",")
+  end
 
-	if schemes.size == 0
-			schemes = ENV["scheme"].split(',')
-	end
+  if schemes.size == 0
+    schemes = ENV["scheme"].split(',')
+  end
 
-	if schemes.size >= 3 || schemes.include?("UnitTests")
-		testScheme("UnitTests")
-		doDanger
-	else
-		for scheme in schemes
-			testScheme(scheme)
-			doDanger
-		end
-	end
+  if schemes.include?("SalesforceSDKCore") || schemes.include?("UnitTests")
+    testScheme("UnitTests")
+    doDanger
+  else
+    for scheme in schemes
+      testScheme(scheme)
+      doDanger
+    end
+  end
 end
 
 lane :LCL do
   index = 1
-	puts "Select scheme:"
-	for scheme in $schemesWithUnitTests
-			puts index.to_s + ": " + scheme
-			index = index + 1
-	end
+  puts "Select scheme:"
+  for scheme in $schemesWithUnitTests
+    puts index.to_s + ": " + scheme
+    index = index + 1
+  end
 
-	print "Just enter a number:"
-	selection = STDIN.gets.strip
-
-	testScheme($schemesWithUnitTests[selection.to_i-1])
-
+  print "Just enter a number:"
+  selection = STDIN.gets.strip
+  testScheme($schemesWithUnitTests[selection.to_i-1])
 end
 
 lane :CI do
-	testScheme("UnitTests")
+  testScheme("UnitTests")
 end

@@ -24,6 +24,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  * Singleton class to monitor the application for user activity, and update SFInactivityTimerCenter when
  * a change is detected.
@@ -50,3 +52,5 @@
 - (void)stopMonitoring;
 
 @end
+
+NS_ASSUME_NONNULL_END

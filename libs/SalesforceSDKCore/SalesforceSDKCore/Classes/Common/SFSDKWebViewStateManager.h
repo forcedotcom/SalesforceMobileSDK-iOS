@@ -23,6 +23,8 @@
  */
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class WKProcessPool;
 
 @interface SFSDKWebViewStateManager : NSObject
@@ -41,6 +43,13 @@
  Gets or sets an instance of WKProcessPool that will be used during instantiation of any WKWebView instances @discussion
   Use the default instance or provide an instance to share state between WKWebView instances
  */
-@property (class, strong, nonatomic) WKProcessPool *sharedProcessPool;
+@property (class, strong, nonatomic, nullable) WKProcessPool *sharedProcessPool;
 
+/**
+ Clears session cookie data from the cookie store, and sets a new session cookie based on the
+ OAuth credentials.
+ */
++ (void)resetSessionCookie;
 @end
+
+NS_ASSUME_NONNULL_END

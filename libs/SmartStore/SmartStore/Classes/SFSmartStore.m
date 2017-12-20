@@ -629,7 +629,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
     @throw [NSException exceptionWithName:message reason:[db lastErrorMessage] userInfo:nil];
 }
 
-- (void)inDatabase:(void (^)(FMDatabase *db))block error:(NSError**)error
+- (void)inDatabase:(void (^)(FMDatabase *db))block error:(NSError* __autoreleasing *)error
 {
     [self.storeQueue inDatabase:^(FMDatabase* db) {
         @try {
@@ -643,7 +643,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
     }];
 }
 
-- (void)inTransaction:(void (^)(FMDatabase *db, BOOL *rollback))block error:(NSError**)error {
+- (void)inTransaction:(void (^)(FMDatabase *db, BOOL *rollback))block error:(NSError* __autoreleasing *)error {
     [self.storeQueue inTransaction:^(FMDatabase* db, BOOL *rollback) {
         @try {
             block(db, rollback);
@@ -1420,7 +1420,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
 - (NSNumber *)lookupSoupEntryIdForSoupName:(NSString *)soupName
                               forFieldPath:(NSString *)fieldPath
                                 fieldValue:(NSString *)fieldValue
-                                     error:(NSError **)error
+                                     error:(NSError * __autoreleasing *)error
 {
     __block NSNumber* result;
     [self inDatabase:^(FMDatabase* db) {
@@ -1878,9 +1878,10 @@ NSString *const EXPLAIN_ROWS = @"rows";
     return [self upsertEntries:entries toSoup:soupName withExternalIdPath:SOUP_ENTRY_ID error:nil];
 }
 
-- (NSArray*)upsertEntries:(NSArray*)entries toSoup:(NSString*)soupName withExternalIdPath:(NSString *)externalIdPath error:(NSError **)error
+- (NSArray*)upsertEntries:(NSArray*)entries toSoup:(NSString*)soupName withExternalIdPath:(NSString *)externalIdPath error:(NSError * __autoreleasing *)error
 {
     __block NSArray* result;
+   
     [self inTransaction:^(FMDatabase* db, BOOL* rollback) {
         result = [self upsertEntries:entries toSoup:soupName withExternalIdPath:externalIdPath error:error withDb:db];
     } error:error];
@@ -2225,6 +2226,35 @@ NSString *const EXPLAIN_ROWS = @"rows";
             [self executeUpdateThrows:renameSoupNamesTableSql withDb:db];
         }
     } error:nil];
+}
+
+#pragma mark - Misc info methods
+- (NSArray*) getCompileOptions
+{
+    return [self queryPragma:@"compile_options"];
+}
+
+- (NSString*) getSQLCipherVersion
+{
+    return [[self queryPragma:@"cipher_version"] componentsJoinedByString:@""];
+}
+
+- (NSArray*) queryPragma:(NSString*) pragma
+{
+    __block NSMutableArray* result = [NSMutableArray new];
+
+    [self.storeQueue inDatabase:^(FMDatabase *db) {
+
+        FMResultSet *rs = [db executeQuery:[NSString stringWithFormat:@"pragma %@", pragma]];
+
+        while ([rs next]) {
+            [result addObject:[rs stringForColumnIndex:0]];
+        }
+
+        [rs close];
+    }];
+
+    return result;
 }
 
 @end

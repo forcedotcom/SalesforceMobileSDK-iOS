@@ -54,7 +54,7 @@ static NSString * const kFilesSharedKey = @"filesShared";
 
 + (BOOL)ensureDirectoryExists:(NSString*)directory error:(NSError**)error {
     NSFileManager *manager = [[NSFileManager alloc] init];
-    if (![manager fileExistsAtPath:directory]) {
+    if (directory && ![manager fileExistsAtPath:directory]) {
         return [manager createDirectoryAtPath:directory
                   withIntermediateDirectories:YES
                                    attributes:@{NSFileProtectionKey: [SFFileProtectionHelper fileProtectionForPath:directory]}
@@ -117,21 +117,21 @@ static NSString * const kFilesSharedKey = @"filesShared";
             
         case SFUserAccountScopeOrg:
             if (!user.credentials.organizationId) {
-                [SFSDKCoreLogger w:[self class] format:@"Credentials missing for user %@ ", user];
+                [SFSDKCoreLogger w:[self class] format:@"Credentials missing for user"];
                 return nil;
             }
             return [self directoryForOrg:user.credentials.organizationId user:nil community:nil type:type components:components];
             
         case SFUserAccountScopeUser:
             if (!user.credentials.organizationId || !user.credentials.userId) {
-                [SFSDKCoreLogger w:[self class] format:@"Credentials missing for user %@ ", user];
+                [SFSDKCoreLogger w:[self class] format:@"Credentials missing for user"];
                 return nil;
             }
             return [self directoryForOrg:user.credentials.organizationId user:user.credentials.userId community:nil type:type components:components];
             
         case SFUserAccountScopeCommunity:
             if (!user.credentials.organizationId || !user.credentials.userId) {
-                [SFSDKCoreLogger w:[self class] format:@"Credentials missing for user %@ ", user];
+                [SFSDKCoreLogger w:[self class] format:@"Credentials missing for user"];
                 return nil;
             }
             // Note: if the user communityId is nil, we use the default (internal) name for it.
@@ -142,7 +142,7 @@ static NSString * const kFilesSharedKey = @"filesShared";
 - (NSString*)directoryForUser:(SFUserAccount*)user type:(NSSearchPathDirectory)type components:(NSArray*)components {
     if (user) {
         if (!user.credentials.organizationId || !user.credentials.userId) {
-                [SFSDKCoreLogger w:[self class] format:@"Credentials missing for user %@ ", user];
+                [SFSDKCoreLogger w:[self class] format:@"Credentials missing for user"];
             return nil;
         }
         // Note: if the user communityId is nil, we use the default (internal) name for it.

@@ -42,9 +42,10 @@ char * const kSyncManagerQueue = "com.salesforce.smartsync.manager.syncmanager.Q
 // block type
 typedef void (^SyncUpdateBlock) (NSString* status, NSInteger progress, NSInteger totalSize, long long maxTimeStamp);
 typedef void (^SyncFailBlock) (NSString* message, NSError* error);
-
+SFSDK_USE_DEPRECATED_BEGIN
 @interface SFSmartSyncSyncManager () <SFAuthenticationManagerDelegate>
 
+SFSDK_USE_DEPRECATED_END
 @property (nonatomic, strong) SFSmartStore *store;
 @property (nonatomic, strong) dispatch_queue_t queue;
 @property (nonatomic, strong) NSMutableSet *runningSyncIds;
@@ -139,7 +140,10 @@ static NSMutableDictionary *syncMgrList = nil;
         self.runningSyncIds = [NSMutableSet new];
         self.store = store;
         self.queue = dispatch_queue_create(kSyncManagerQueue,  DISPATCH_QUEUE_SERIAL);
+        SFSDK_USE_DEPRECATED_BEGIN
         [[SFAuthenticationManager sharedManager] addDelegate:self];
+        SFSDK_USE_DEPRECATED_END
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserWillLogout:)  name:kSFNotificationUserWillLogout object:nil];
         [SFSyncState setupSyncsSoupIfNeeded:self.store];
     }
     return self;
@@ -148,22 +152,46 @@ static NSMutableDictionary *syncMgrList = nil;
 
 
 - (void)dealloc {
+    SFSDK_USE_DEPRECATED_BEGIN
     [[SFAuthenticationManager sharedManager] removeDelegate:self];
+    SFSDK_USE_DEPRECATED_END
 }
 
-#pragma mark - get sync / run sync methods
+#pragma mark - has / get sync methods
 
-/** Return details about a sync
- @param syncId Sync ID.
- */
 - (SFSyncState*)getSyncStatus:(NSNumber*)syncId {
-    SFSyncState* sync = [SFSyncState newById:syncId store:self.store];
+    SFSyncState* sync = [SFSyncState byId:syncId store:self.store];
     
     if (sync == nil) {
-        [SFSDKSmartSyncLogger e:[self class] format:@"Sync %@ not found", syncId];
+        [SFSDKSmartSyncLogger d:[self class] format:@"Sync %@ not found", syncId];
     }
     return sync;
 }
+
+- (SFSyncState*)getSyncStatusByName:(NSString*)syncName {
+    SFSyncState* sync = [SFSyncState byName:syncName store:self.store];
+
+    if (sync == nil) {
+        [SFSDKSmartSyncLogger d:[self class] format:@"Sync %@ not found", syncName];
+    }
+    return sync;
+}
+
+- (BOOL)hasSyncWithName:(NSString*)syncName {
+    return [SFSyncState byName:syncName store:self.store] != nil;
+}
+
+#pragma mark - delete sync methods
+
+- (void)deleteSyncById:(NSNumber *)syncId {
+    [SFSyncState deleteById:syncId store:self.store];
+}
+
+- (void)deleteSyncByName:(NSString*)syncName {
+    [SFSyncState deleteByName:syncName store:self.store];
+}
+
+#pragma mark - run sync methods
 
 /** Run a previously created sync
  */
@@ -239,14 +267,20 @@ static NSMutableDictionary *syncMgrList = nil;
     return [self syncDownWithTarget:target options:options soupName:soupName updateBlock:updateBlock];
 }
 
-
-/** Create and run a sync down
- */
 - (SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
-    SFSyncState* sync = [SFSyncState newSyncDownWithOptions:options target:target soupName:soupName store:self.store];
-    [SFSDKSmartSyncLogger d:[self class] format:@"syncDown:%@", sync];
+   return [self syncDownWithTarget:target options:options soupName:soupName syncName:nil updateBlock:updateBlock];
+}
+
+- (SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName syncName:(NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
+    SFSyncState *sync = [self createSyncDown:target options:options soupName:soupName syncName:syncName];
     [self runSync:sync updateBlock:updateBlock];
     return [sync copy];
+}
+
+- (SFSyncState *)createSyncDown:(SFSyncDownTarget *)target options:(SFSyncOptions *)options soupName:(NSString *)soupName syncName:(NSString *)syncName {
+    SFSyncState* sync = [SFSyncState newSyncDownWithOptions:options target:target soupName:soupName name:syncName store:self.store];
+    [SFSDKSmartSyncLogger d:[self class] format:@"Created syncDown:%@", sync];
+    return sync;
 }
 
 /** Resync
@@ -261,15 +295,22 @@ static NSMutableDictionary *syncMgrList = nil;
         [SFSDKSmartSyncLogger e:[self class] format:@"Cannot run reSync:%@:no sync found", syncId];
          return nil;
     }
-    if (sync.type != SFSyncStateSyncTypeDown) {
-        [SFSDKSmartSyncLogger e:[self class] format:@"Cannot run reSync:%@:wrong type:%@", syncId, [SFSyncState syncTypeToString:sync.type]];
-        return nil;
-    }
     sync.totalSize = -1;
     [sync save:self.store];
     [SFSDKSmartSyncLogger d:[self class] format:@"reSync:%@", sync];
     [self runSync:sync updateBlock:updateBlock];
     return [sync copy];
+}
+
+- (SFSyncState*) reSyncByName:(NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
+    SFSyncState *sync = [self getSyncStatusByName:syncName];
+    if (sync == nil) {
+        [SFSDKSmartSyncLogger e:[self class] format:@"Cannot run reSync:%@:no sync found", syncName];
+        return nil;
+    }
+    else {
+        return [self reSync:[NSNumber numberWithInteger:sync.syncId] updateBlock:updateBlock];
+    }
 }
 
 
@@ -352,19 +393,32 @@ static NSMutableDictionary *syncMgrList = nil;
 /** Create and run a sync up
  */
 - (SFSyncState*) syncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
-    SFSyncState *sync = [SFSyncState newSyncUpWithOptions:options soupName:soupName store:self.store];
-    [SFSDKSmartSyncLogger d:[self class] format:@"syncUp:%@", sync];
+    SFSyncState *sync = [self createSyncUp:[[SFSyncUpTarget alloc] init] options:options soupName:soupName syncName:nil];
     [self runSync:sync updateBlock:updateBlock];
     return [sync copy];
 }
 
-- (SFSyncState*)syncUpWithTarget:(SFSyncUpTarget *)target
+- (SFSyncState*) syncUpWithTarget:(SFSyncUpTarget *)target
                          options:(SFSyncOptions *)options
                         soupName:(NSString *)soupName
                      updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
-    SFSyncState *sync = [SFSyncState newSyncUpWithOptions:options target:target soupName:soupName store:self.store];
+    return [self syncUpWithTarget:target options:options soupName:soupName syncName:nil updateBlock:updateBlock];
+}
+
+- (SFSyncState*) syncUpWithTarget:(SFSyncUpTarget *)target
+                         options:(SFSyncOptions *)options
+                        soupName:(NSString *)soupName
+                        syncName:(NSString*)syncName
+                     updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
+    SFSyncState *sync = [self createSyncUp:target options:options soupName:soupName syncName:syncName];
     [self runSync:sync updateBlock:updateBlock];
     return [sync copy];
+}
+
+- (SFSyncState *)createSyncUp:(SFSyncUpTarget *)target options:(SFSyncOptions *)options soupName:(NSString *)soupName syncName:(NSString *)syncName {
+    SFSyncState *sync = [SFSyncState newSyncUpWithOptions:options target:target soupName:soupName name:syncName store:self.store];
+    [SFSDKSmartSyncLogger d:[self class] format:@"Created syncUp:%@", sync];
+    return sync;
 }
 
 /** Run a sync up
@@ -510,7 +564,7 @@ static NSMutableDictionary *syncMgrList = nil;
     NSString* soupName = sync.soupName;
 
     // Next
-    void (^nextBlock)()=^() {
+    void (^nextBlock)(void)=^() {
         [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failBlock:failBlock];
     };
 
@@ -611,9 +665,15 @@ static NSMutableDictionary *syncMgrList = nil;
 }
 
 #pragma mark - SFAuthenticationManagerDelegate
-
+SFSDK_USE_DEPRECATED_BEGIN
 - (void)authManager:(SFAuthenticationManager *)manager willLogoutUser:(SFUserAccount *)user {
     [[self class] removeSharedInstance:user];
 }
+SFSDK_USE_DEPRECATED_END
+- (void)handleUserWillLogout:(NSNotification *)notification {
+    SFUserAccount *user = notification.userInfo[kSFNotificationUserInfoAccountKey];
+     [[self class] removeSharedInstance:user];
+}
 
 @end
+

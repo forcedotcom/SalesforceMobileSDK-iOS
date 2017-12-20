@@ -26,7 +26,7 @@
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import <SalesforceHybridSDK/SalesforceHybridSDK.h>
 #import "SFTestRunnerPlugin.h"
-
+SFSDK_USE_DEPRECATED_BEGIN
 @interface AppDelegate () <SFAuthenticationManagerDelegate, SFUserAccountManagerDelegate>
 
 @property (nonatomic, strong) SFHybridViewConfig *testAppHybridViewConfig;
@@ -47,13 +47,15 @@
 - (id)init
 {
     self = [super init];
+    [SalesforceSDKManager setInstanceClass:[SalesforceHybridSDKManager class]];
     if (self != nil) {
-        [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"Setting up auth credentials."];
+        [SFSDKLogger log:[self class] level:DDLogLevelDebug message:@"Setting up auth credentials."];
         self.testAppHybridViewConfig = [self stageTestCredentials];
 
         // Logout and login host change handlers.
         [[SFAuthenticationManager sharedManager] addDelegate:self];
         [[SFUserAccountManager sharedInstance] addDelegate:self];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserDidLogout:)  name:kSFNotificationUserDidLogout object:nil];
     }
     return self;
 }
@@ -77,9 +79,9 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     SFTestRunnerPlugin *runner =  (SFTestRunnerPlugin*)[self.viewController.commandDelegate getCommandInstance:kSFTestRunnerPluginName];
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"runner: %@", runner];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"runner: %@", runner];
     BOOL runningOctest = [self isRunningOctest];
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"octest running: %d", runningOctest];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"octest running: %d", runningOctest];
 }
 
 - (NSString *) evalJS:(NSString *) js {
@@ -95,7 +97,7 @@
                     resultString = [NSString stringWithFormat:@"%@", result];
                 }
             } else {
-                [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"evaluateJavaScript error : %@", error.localizedDescription];
+                [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"evaluateJavaScript error : %@", error.localizedDescription];
             }
             finished = YES;
         }];
@@ -110,9 +112,13 @@
 
 - (void)authManagerDidLogout:(SFAuthenticationManager *)manager
 {
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"Logout notification received. Resetting app."];
-    self.viewController.appHomeUrl = nil;
+    [self userDidLogout];
+}
 
+- (void)userDidLogout {
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"Logout notification received. Resetting app."];
+    self.viewController.appHomeUrl = nil;
+    
     // Multi-user pattern:
     // - If there are two or more existing accounts after logout, let the user choose the account
     //   to switch to.
@@ -135,13 +141,16 @@
     }
 }
 
+- (void)handleUserDidLogout:(NSNotification *)notification {
+    [self userDidLogout];
+}
 #pragma mark - SFUserAccountManagerDelegate
 
 - (void)userAccountManager:(SFUserAccountManager *)userAccountManager
          didSwitchFromUser:(SFUserAccount *)fromUser
                     toUser:(SFUserAccount *)toUser
 {
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@. Resetting app.",
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@. Resetting app.",
      fromUser.userName, toUser.userName];
     [self initializeAppViewState];
 }
@@ -166,7 +175,7 @@
     BOOL result = NO;
     NSDictionary *processEnv = [[NSProcessInfo processInfo] environment];
     NSString *injectBundle = [processEnv valueForKey:@"XCInjectBundle"];
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"XCInjectBundle: %@", injectBundle];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"XCInjectBundle: %@", injectBundle];
     if (nil != injectBundle) {
         NSRange found = [injectBundle rangeOfString:@".octest"];
         if (NSNotFound != found.location) {
@@ -200,3 +209,4 @@ FILE *fopen$UNIX2003(const char *filename, const char *mode) {
 size_t fwrite$UNIX2003(const void *a, size_t b, size_t c, FILE *d) {
     return fwrite(a, b, c, d);
 }
+SFSDK_USE_DEPRECATED_END

@@ -24,12 +24,13 @@
 
 #import "SFTestSDKManagerFlow.h"
 
+
 static NSTimeInterval const kMaxLaunchWaitTime = 30.0;
 
 @interface SFTestSDKManagerFlow ()
 
 @property (nonatomic, assign) NSTimeInterval stepTimeDelaySecs;
-
+@property (nonatomic,copy,nullable) void (^switchUserCompletionBlock)(SFUserAccount *,SFUserAccount *,BOOL before);
 @end
 
 @implementation SFTestSDKManagerFlow
@@ -48,18 +49,18 @@ static NSTimeInterval const kMaxLaunchWaitTime = 30.0;
 - (void)resumeAuth
 {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, self.stepTimeDelaySecs * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"Finishing auth."];
+        [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"Finishing auth."];
         [[SalesforceSDKManager sharedManager] authValidatedToPostAuth:SFSDKLaunchActionAuthenticated];
     });
 }
 
 - (void)resumeAuthBypass
 {
-    SFSDKLaunchAction launchAction = ([SalesforceSDKManager sharedManager].authenticateAtLaunch
+    SFSDKLaunchAction launchAction = ([SalesforceSDKManager sharedManager].appConfig.shouldAuthenticate
                                       ? SFSDKLaunchActionAlreadyAuthenticated
                                       : SFSDKLaunchActionAuthBypassed);
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, self.stepTimeDelaySecs * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"Finishing auth bypass."];
+        [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"Finishing auth bypass."];
         [[SalesforceSDKManager sharedManager] authValidatedToPostAuth:launchAction];
     });
 }
@@ -70,30 +71,38 @@ static NSTimeInterval const kMaxLaunchWaitTime = 30.0;
     while ([SalesforceSDKManager sharedManager].isLaunching) {
         NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
         if (elapsed > kMaxLaunchWaitTime) {
-            [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"Launch took too long (> %f secs) to complete.", elapsed];
+            [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"Launch took too long (> %f secs) to complete.", elapsed];
             return NO;
         }
         
-        [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"## waitForLaunch sleeping..."];
+        [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"## waitForLaunch sleeping..."];
         [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
     }
     return YES;
+}
+
+- (void)setUpUserSwitchState:(SFUserAccount *) fromUser toUser:(SFUserAccount *) toUser completion:(void (^)(SFUserAccount *,SFUserAccount *,BOOL before))switchUserCompletionBlock {
+    self.switchUserCompletionBlock = switchUserCompletionBlock;
+}
+
+- (void)clearUserSwitchState {
+    self.switchUserCompletionBlock = nil;
 }
 
 #pragma mark - SalesforceSDKManagerFlow
 
 - (void)passcodeValidationAtLaunch
 {
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"Entering passcode validation."];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"Entering passcode validation."];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, self.stepTimeDelaySecs * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"Finishing passcode validation."];
+        [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"Finishing passcode validation."];
         [[SalesforceSDKManager sharedManager] passcodeValidatedToAuthValidation];
     });
 }
 
 - (void)authAtLaunch
 {
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"Entering auth at launch."];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"Entering auth at launch."];
     if (!self.pauseInAuth) {
         [self resumeAuth];
     }
@@ -101,7 +110,7 @@ static NSTimeInterval const kMaxLaunchWaitTime = 30.0;
 
 - (void)authBypassAtLaunch
 {
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"Entering auth at launch."];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"Entering auth at launch."];
     if (!self.pauseInAuth) {
         [self resumeAuthBypass];
     }
@@ -142,9 +151,27 @@ static NSTimeInterval const kMaxLaunchWaitTime = 30.0;
     
 }
 
-- (void)handleUserSwitch:(SFUserAccount *)fromUser toUser:(SFUserAccount *)toUser
+- (void)handleUserWillSwitch:(SFUserAccount *)fromUser toUser:(SFUserAccount *)toUser
 {
-    
+    if (self.switchUserCompletionBlock) {
+        self.switchUserCompletionBlock(fromUser, toUser,YES);
+    }
 }
+
+- (void)handleUserDidSwitch:(SFUserAccount *)fromUser toUser:(SFUserAccount *)toUser
+{
+    if (self.switchUserCompletionBlock) {
+        self.switchUserCompletionBlock(fromUser, toUser,NO);
+    }
+}
+
+- (void)handleIDPInitiatedAuthCompleted:(nonnull NSNotification *)notification {
+
+}
+
+- (void)handleUserDidLogout:(nonnull NSNotification *)notification {
+
+}
+
 
 @end

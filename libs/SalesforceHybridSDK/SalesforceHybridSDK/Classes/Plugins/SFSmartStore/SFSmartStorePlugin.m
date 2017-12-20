@@ -71,7 +71,7 @@ NSString * const kStoreName           = @"storeName";
 
 - (void)pluginInitialize
 {
-    [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"SFSmartStorePlugin pluginInitialize"]];
+    [SFSDKHybridLogger d:[self class] message:@"SFSmartStorePlugin pluginInitialize"];
     self.cursorCache = [[NSMutableDictionary alloc] init];
     _dispatchQueue = dispatch_queue_create([@"SFSmartStorePlugin CursorCache Queue" UTF8String], DISPATCH_QUEUE_SERIAL);
 }
@@ -106,7 +106,7 @@ NSString * const kStoreName           = @"storeName";
 {
     [self runCommand:^(NSDictionary* argsDict) {
         NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
-        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"pgSoupExists with soup name '%@'.", soupName]];
+        [SFSDKHybridLogger d:[self class] format:@"pgSoupExists with soup name '%@'.", soupName];
         BOOL exists = [[self getStoreInst:argsDict] soupExists:soupName];
         return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:exists];
     } command:command];
@@ -126,7 +126,7 @@ NSString * const kStoreName           = @"storeName";
             soupSpec = [SFSoupSpec newSoupSpec:soupName withFeatures:nil];
         }
         NSArray *indexSpecs = [SFSoupIndex asArraySoupIndexes:[argsDict nonNullObjectForKey:kIndexesArg]];
-        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"pgRegisterSoup with name: %@, soup features: %@, indexSpecs: %@", soupSpec.soupName, soupSpec.features, indexSpecs]];
+        [SFSDKHybridLogger d:[self class] format:@"pgRegisterSoup with name: %@, soup features: %@, indexSpecs: %@", soupSpec.soupName, soupSpec.features, indexSpecs];
         if (smartStore) {
             NSError *error = nil;
             BOOL result = [smartStore registerSoupWithSpec:soupSpec withIndexSpecs:indexSpecs error:&error];
@@ -147,7 +147,7 @@ NSString * const kStoreName           = @"storeName";
 {
     [self runCommand:^(NSDictionary* argsDict) {
         NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
-        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"pgRemoveSoup with name: %@", soupName]];
+        [SFSDKHybridLogger d:[self class] format:@"pgRemoveSoup with name: %@", soupName];
         [[self getStoreInst:argsDict] removeSoup:soupName];
         return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"OK"];
     } command:command];
@@ -159,7 +159,7 @@ NSString * const kStoreName           = @"storeName";
         NSString *soupName = argsDict[kSoupNameArg];
         NSDictionary *querySpecDict = [argsDict nonNullObjectForKey:kQuerySpecArg];
         SFQuerySpec* querySpec = [[SFQuerySpec alloc] initWithDictionary:querySpecDict withSoupName:soupName];
-        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"pgQuerySoup with name: %@, querySpec: %@", soupName, querySpecDict]];
+        [SFSDKHybridLogger d:[self class] format:@"pgQuerySoup with name: %@, querySpec: %@", soupName, querySpecDict];
         NSError* error = nil;
         SFStoreCursor* cursor = [self runQuery:querySpec error:&error argsDict:argsDict];
         if (cursor.cursorId) {
@@ -169,7 +169,7 @@ NSString * const kStoreName           = @"storeName";
             });
             return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[cursor asDictionary]];
         } else {
-            [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"No cursor for query: %@", querySpec]];
+            [SFSDKHybridLogger d:[self class] format:@"No cursor for query: %@", querySpec];
             return [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[error localizedDescription]];
         }
     } command:command];
@@ -201,7 +201,7 @@ NSString * const kStoreName           = @"storeName";
     [self runCommand:^(NSDictionary* argsDict) {
         NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
         NSArray *rawIds = [argsDict nonNullObjectForKey:kEntryIdsArg];
-        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"pgRetrieveSoupEntries with soup name: %@", soupName]];
+        [SFSDKHybridLogger d:[self class] format:@"pgRetrieveSoupEntries with soup name: %@", soupName];
         NSArray *entries = [[self getStoreInst:argsDict] retrieveEntries:rawIds fromSoup:soupName];
         return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:entries];
     } command:command];
@@ -213,7 +213,7 @@ NSString * const kStoreName           = @"storeName";
         NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
         NSArray *entries = [argsDict nonNullObjectForKey:kEntriesArg];
         NSString *externalIdPath = [argsDict nonNullObjectForKey:kExternalIdPathArg];
-        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"pgUpsertSoupEntries with soup name: %@, external ID path: %@", soupName, externalIdPath]];
+        [SFSDKHybridLogger d:[self class] format:@"pgUpsertSoupEntries with soup name: %@, external ID path: %@", soupName, externalIdPath];
         NSError *error = nil;
         NSArray *resultEntries = [[self getStoreInst:argsDict] upsertEntries:entries toSoup:soupName withExternalIdPath:externalIdPath error:&error];
         if (nil != resultEntries) {
@@ -230,7 +230,7 @@ NSString * const kStoreName           = @"storeName";
         NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
         NSArray *entryIds = [argsDict nonNullObjectForKey:kEntryIdsArg];
         NSDictionary *querySpecDict = [argsDict nonNullObjectForKey:kQuerySpecArg];
-        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"pgRemoveFromSoup with soup name: %@", soupName]];
+        [SFSDKHybridLogger d:[self class] format:@"pgRemoveFromSoup with soup name: %@", soupName];
         NSError *error = nil;
         if (entryIds) {
             [[self getStoreInst:argsDict] removeEntries:entryIds fromSoup:soupName error:&error];
@@ -252,7 +252,7 @@ NSString * const kStoreName           = @"storeName";
 {
     [self runCommand:^(NSDictionary* argsDict) {
         NSString *cursorId = [argsDict nonNullObjectForKey:kCursorIdArg];
-        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"pgCloseCursor with cursor ID: %@", cursorId]];
+        [SFSDKHybridLogger d:[self class] format:@"pgCloseCursor with cursor ID: %@", cursorId];
         [self closeCursorWithId:cursorId withArgs:argsDict];
         return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"OK"];
     } command:command];
@@ -263,7 +263,7 @@ NSString * const kStoreName           = @"storeName";
     [self runCommand:^(NSDictionary* argsDict) {
         NSString *cursorId = [argsDict nonNullObjectForKey:kCursorIdArg];
         NSNumber *newPageIndex = [argsDict nonNullObjectForKey:kIndexArg];
-        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"pgMoveCursorToPageIndex with cursor ID: %@, page index: %@", cursorId, newPageIndex]];
+        [SFSDKHybridLogger d:[self class] format:@"pgMoveCursorToPageIndex with cursor ID: %@, page index: %@", cursorId, newPageIndex];
         SFStoreCursor *cursor = [self cursorByCursorId:cursorId withArgs:argsDict];
         [cursor setCurrentPageIndex:newPageIndex];
         return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[cursor asDictionary]];
@@ -274,7 +274,7 @@ NSString * const kStoreName           = @"storeName";
 {
     [self runCommand:^(NSDictionary* argsDict) {
         NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
-        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"pgClearSoup with name: %@", soupName]];
+        [SFSDKHybridLogger d:[self class] format:@"pgClearSoup with name: %@", soupName];
         [[self getStoreInst:argsDict] clearSoup:soupName];
         return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"OK"];
     } command:command];
@@ -306,7 +306,7 @@ NSString * const kStoreName           = @"storeName";
         }
         NSArray *indexSpecs = [SFSoupIndex asArraySoupIndexes:[argsDict nonNullObjectForKey:kIndexesArg]];
         BOOL reIndexData = [[argsDict nonNullObjectForKey:kReIndexDataArg] boolValue];
-        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"pgAlterSoup with name: %@, soup features: %@, indexSpecs: %@, reIndexData: %@", soupName, soupSpec.features, indexSpecs, reIndexData ? @"true" : @"false"]];
+        [SFSDKHybridLogger d:[self class] format:@"pgAlterSoup with name: %@, soup features: %@, indexSpecs: %@, reIndexData: %@", soupName, soupSpec.features, indexSpecs, reIndexData ? @"true" : @"false"];
         BOOL alterOk = [[self getStoreInst:argsDict] alterSoup:soupName withSoupSpec:soupSpec withIndexSpecs:indexSpecs reIndexData:reIndexData];
         if (alterOk) {
             return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:soupName];
@@ -321,7 +321,7 @@ NSString * const kStoreName           = @"storeName";
     [self runCommand:^(NSDictionary* argsDict) {
         NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
         NSArray *indexPaths = [argsDict nonNullObjectForKey:kPathsArg];
-        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"pgReIndexSoup with soup name: %@, indexPaths: %@", soupName, indexPaths]];
+        [SFSDKHybridLogger d:[self class] format:@"pgReIndexSoup with soup name: %@, indexPaths: %@", soupName, indexPaths];
         BOOL regOk = [[self getStoreInst:argsDict] reIndexSoup:soupName withIndexPaths:indexPaths];
         if (regOk) {
             return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:soupName];
@@ -347,7 +347,7 @@ NSString * const kStoreName           = @"storeName";
 {
     [self runCommand:^(NSDictionary* argsDict) {
         NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
-        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"pgGetSoupIndexSpecs with soup name: %@", soupName]];
+        [SFSDKHybridLogger d:[self class] format:@"pgGetSoupIndexSpecs with soup name: %@", soupName];
         NSArray *indexSpecsAsDicts = [SFSoupIndex asArrayOfDictionaries:[[self getStoreInst:argsDict] indicesForSoup:soupName] withColumnName:NO];
         if ([indexSpecsAsDicts count] > 0) {
             return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:indexSpecsAsDicts];
@@ -361,7 +361,7 @@ NSString * const kStoreName           = @"storeName";
     [self runCommand:^(NSDictionary* argsDict) {
         SFSmartStore *store = [self getStoreInst:argsDict];
         NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
-        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"pgGetSoupSpec with soup name: %@", soupName]];
+        [SFSDKHybridLogger d:[self class] format:@"pgGetSoupSpec with soup name: %@", soupName];
         SFSoupSpec *soupSpec = [store attributesForSoup:soupName];
         if (soupSpec) {
             return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[soupSpec asDictionary]];
@@ -414,21 +414,21 @@ NSString * const kStoreName           = @"storeName";
         }else {
             [SFSmartStore removeSharedStoreWithName:storeName];
         }
-        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:@YES];
+        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:YES];
     } command:command];
 }
 
 - (void)pgRemoveAllGlobalStores:(CDVInvokedUrlCommand *)command {
     [self runCommand:^(NSDictionary* argsDict) {
         [SFSmartStore removeAllGlobalStores];
-        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:@YES];
+        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:YES];
     } command:command];
 }
 
 - (void)pgRemoveAllStores:(CDVInvokedUrlCommand *)command {
     [self runCommand:^(NSDictionary* argsDict) {
         [SFSmartStore removeAllStores];
-        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:@YES];
+        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:YES];
     } command:command];
 
 }

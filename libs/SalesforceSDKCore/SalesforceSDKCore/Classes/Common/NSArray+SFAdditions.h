@@ -23,6 +23,9 @@
  */
 
 #import <Foundation/Foundation.h>
+
+NS_ASSUME_NONNULL_BEGIN
+
 /** Provides Salesforce Mobile SDK filtering for NSArray objects.
  */
 
@@ -50,3 +53,5 @@
 - (NSArray*)filteredArrayExcludingValue:(id)value forKeyPath:(NSString*)key;
 
 @end
+
+NS_ASSUME_NONNULL_END

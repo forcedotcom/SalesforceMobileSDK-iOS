@@ -23,6 +23,9 @@
  */
 
 #import <Foundation/Foundation.h>
+
+NS_ASSUME_NONNULL_BEGIN
+
 /** Salesforce Mobile SDK additions to the NSURL class
  */
 @interface NSURL (SFAdditions)
@@ -30,6 +33,12 @@
 /** Get value for a parameter name from the URL
  @param name Name of the parameter
  */
-- (NSString*)valueForParameterName:(NSString*)name;
+- (nullable NSString*)valueForParameterName:(NSString*)name;
+
+/** Get all query params as dictionary
+ */
+- (nullable NSDictionary *)dictionaryFromQuery;
 
 @end
+
+NS_ASSUME_NONNULL_END

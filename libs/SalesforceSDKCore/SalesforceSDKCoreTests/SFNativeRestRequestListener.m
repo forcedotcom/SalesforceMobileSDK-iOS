@@ -44,7 +44,7 @@ int class_uid = 0;
         self.request.delegate = self;
         self->uid = class_uid++;
     }
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"## created listener %d", self->uid];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"## created listener %d", self->uid];
     return self;
 }
 
@@ -61,19 +61,19 @@ int class_uid = 0;
 
 #pragma mark - SFRestDelegate
 
-- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse {
+- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse {
     self.dataResponse = dataResponse;
     self.returnStatus = kTestRequestStatusDidLoad;
 }
 
-- (void)request:(SFRestRequest*)request didFailLoadWithError:(NSError*)error {
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"## error for request %d", self->uid];
+- (void)request:(SFRestRequest*)request didFailLoadWithError:(NSError*)error rawResponse:(NSURLResponse *)rawResponse {
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"## error for request %d", self->uid];
     self.lastError = error;
     self.returnStatus = kTestRequestStatusDidFail;
 }
 
 - (void)requestDidCancelLoad:(SFRestRequest *)request {
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"## cancel for request %d", self->uid];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"## cancel for request %d", self->uid];
     self.returnStatus = kTestRequestStatusDidCancel;
 }
 

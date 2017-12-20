@@ -25,6 +25,8 @@
 #import <Foundation/Foundation.h>
 #import "SFKeyStoreKey.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /** For internal use. 
  */
 @interface SFKeyStore : NSObject
@@ -32,12 +34,12 @@
 /**
  The key store key, used for encrypting and decrypting the key store.
  */
-@property (nonatomic, copy) SFKeyStoreKey *keyStoreKey;
+@property (nonatomic, copy, nullable) SFKeyStoreKey *keyStoreKey;
 
 /**
  The dictionary that holds the key store data.
  */
-@property (nonatomic, strong) NSDictionary *keyStoreDictionary;
+@property (nonatomic, strong, nullable) NSDictionary *keyStoreDictionary;
 
 /**
  Whether or not the key store is currently available for exchanging keys.
@@ -58,3 +60,5 @@
 - (NSString *)keyLabelForString:(NSString *)baseKeyLabel;
 
 @end
+
+NS_ASSUME_NONNULL_END

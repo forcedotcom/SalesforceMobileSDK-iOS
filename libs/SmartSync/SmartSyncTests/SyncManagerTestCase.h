@@ -54,6 +54,9 @@
 @property (nonatomic, strong) SFUserAccount* currentUser;
 @property (nonatomic, strong) SFSmartSyncSyncManager* syncManager;
 @property (nonatomic, strong) SFSmartStore* store;
+@property (nonatomic, strong) SFSmartSyncSyncManager* globalSyncManager;
+@property (nonatomic, strong) SFSmartStore* globalStore;
+
 
 - (NSString *)createRecordName:(NSString *)objectType;
 - (NSString *)createAccountName;
@@ -76,7 +79,9 @@
 - (NSDictionary *)sendSyncRequest:(SFRestRequest *)request;
 
 - (NSInteger)trySyncDown:(SFSyncStateMergeMode)mergeMode target:(SFSyncDownTarget *)target soupName:(NSString *)soupName totalSize:(NSUInteger)totalSize numberFetches:(NSUInteger)numberFetches;
+
 - (void)checkStatus:(SFSyncState *)sync expectedType:(SFSyncStateSyncType)expectedType expectedId:(NSInteger)expectedId expectedTarget:(SFSyncTarget *)expectedTarget expectedOptions:(SFSyncOptions *)expectedOptions expectedStatus:(SFSyncStateStatus)expectedStatus expectedProgress:(NSInteger)expectedProgress expectedTotalSize:(NSInteger)expectedTotalSize;
+- (void)checkStatus:(SFSyncState *)sync expectedType:(SFSyncStateSyncType)expectedType expectedId:(NSInteger)expectedId expectedName:(NSString *)expectedName expectedTarget:(SFSyncTarget *)expectedTarget expectedOptions:(SFSyncOptions *)expectedOptions expectedStatus:(SFSyncStateStatus)expectedStatus expectedProgress:(NSInteger)expectedProgress expectedTotalSize:(NSInteger)expectedTotalSize;
 - (void)checkDb:(NSDictionary *)expectedIdToFields soupName:(NSString *)soupName;
 
 - (void)checkDbStateFlags:(NSArray *)ids soupName:(NSString *)soupName expectedLocallyCreated:(bool)expectedLocallyCreated expectedLocallyUpdated:(bool)expectedLocallyUpdated expectedLocallyDeleted:(bool)expectedLocallyDeleted;

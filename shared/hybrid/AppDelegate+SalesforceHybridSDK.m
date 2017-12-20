@@ -33,7 +33,7 @@
 #import <SalesforceSDKCore/SFSDKAppConfig.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
 #import <SalesforceAnalytics/SFSDKLogger.h>
-#import <SmartStore/SalesforceSDKManagerWithSmartStore.h>
+#import <SalesforceHybridSDK/SalesforceHybridSDKManager.h>
 
 @implementation AppDelegate (SalesforceHybridSDK)
 
@@ -48,29 +48,41 @@
 
 - (AppDelegate *)sfsdk_swizzled_init
 {
-    SFHybridViewConfig *appConfig = [SFHybridViewConfig fromDefaultConfigFile];
-    // Need to use SalesforceSDKManagerWithSmartStore when using smartstore
-    [SalesforceSDKManager setInstanceClass:[SalesforceSDKManagerWithSmartStore class]];
-    [SalesforceSDKManager sharedManager].appConfig = appConfig;
+    // Need to use SalesforceHybridSDKManager in hybrid apps
+    [SalesforceSDKManager setInstanceClass:[SalesforceHybridSDKManager class]];
     
     //Uncomment the following line inorder to enable/force the use of advanced authentication flow.
-    //[SFAuthenticationManager sharedManager].advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;
+    //[SFUserAcountManager sharedInstance].advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;
     // OR
     // To  retrieve advanced auth configuration from the org, to determine whether to initiate advanced authentication.
-    //[SFAuthenticationManager sharedManager].advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationAllow;
+    //[SFUserAcountManager sharedInstance].advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationAllow;
     
     // NOTE: If advanced authentication is configured or forced,  it will launch Safari to handle authentication
     // instead of a webview. You must implement application:openURL:options: to handle the callback.
     
+    
+    //Or uncomment following block to enable IDP Login flow.
+    /*
+     //scheme of idpAppp
+     [SalesforceSDKManager sharedManager].idpAppURIScheme = @"sampleidpapp";
+     //user friendly display name
+     [SalesforceSDKManager sharedManager].appDisplayName = @"SampleAppOne";
+     
+     //Use the following code block to replace the login flow selection dialog
+     [SalesforceSDKManager sharedManager].idpLoginFlowSelectionBlock = ^UIViewController<SFSDKLoginFlowSelectionView> * _Nonnull{
+     IDPLoginNavViewController *controller = [[IDPLoginNavViewController alloc] init];
+     return controller;
+     };
+     */
     __weak __typeof(self) weakSelf = self;
     [SalesforceSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActionList) {
         __strong __typeof(weakSelf) strongSelf = weakSelf;
-        [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
+        [SFSDKLogger log:[self class] level:DDLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
         [strongSelf setupRootViewController];
     };
     [SalesforceSDKManager sharedManager].launchErrorAction = ^(NSError *error, SFSDKLaunchAction launchActionList) {
         __strong __typeof(weakSelf) strongSelf = weakSelf;
-        [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
+        [SFSDKLogger log:[self class] level:DDLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
         [strongSelf initializeAppViewState];
         [[SalesforceSDKManager sharedManager] launch];
     };
@@ -113,21 +125,24 @@
     [self sfsdk_swizzled_application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
-- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options{
-
-    // If you're using advanced authentication:
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
+    
+    //Uncomment following block to enable IDP Login flow or If you're using advanced authentication:
     // --Configure your app to handle incoming requests to your
     //   OAuth Redirect URI custom URL scheme.
     // --Uncomment the following line and delete the original return statement:
-
-    // return [[SFAuthenticationManager sharedManager] handleAdvancedAuthenticationResponse:url];
+    /*
+     return [[SFUserAccountManager sharedInstance] handleAdvancedAuthenticationResponse:url options:options];
+     */
     return NO;
+    
 }
 
 - (void)handleSdkManagerLogout
 {
     [self resetViewState:^{
-        [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"Logout notification received. Resetting app."];
+        [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"Logout notification received. Resetting app."];
         ((SFHybridViewController*)self.viewController).appHomeUrl = nil;
         [self initializeAppViewState];
         
@@ -158,7 +173,7 @@
                   toUser:(SFUserAccount *)toUser
 {
     [self resetViewState:^{
-        [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@. Resetting app.",
+        [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@. Resetting app.",
          fromUser.userName, toUser.userName];
         [self initializeAppViewState];
         [[SalesforceSDKManager sharedManager] launch];

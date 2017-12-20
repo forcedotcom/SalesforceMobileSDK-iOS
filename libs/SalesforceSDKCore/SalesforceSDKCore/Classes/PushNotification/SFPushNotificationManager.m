@@ -34,7 +34,7 @@
 
 static NSString* const kSFDeviceToken = @"deviceToken";
 static NSString* const kSFDeviceSalesforceId = @"deviceSalesforceId";
-static NSString* const kSFPushNotificationEndPoint = @"services/data/v39.0/sobjects/MobilePushServiceDevice";
+static NSString* const kSFPushNotificationEndPoint = @"services/data/v41.0/sobjects/MobilePushServiceDevice";
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-const-variable"
@@ -165,7 +165,7 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
         [SFSDKCoreLogger i:[self class] format:@"Skipping Salesforce push notification registration because push isn't supported on the simulator"];
         return YES;  // "Successful", from this standpoint.
     }
-    SFOAuthCredentials *credentials = [SFAuthenticationManager sharedManager].coordinator.credentials;
+    SFOAuthCredentials *credentials = [SFUserAccountManager  sharedInstance].currentUser.credentials;
     if (!credentials) {
         [SFSDKCoreLogger e:[self class] format:@"Cannot register for notifications with Salesforce: not authenticated"];
         return NO;
@@ -275,7 +275,7 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
 - (void)onAppWillEnterForeground:(NSNotification *)notification
 {
     // Re-registering with Salesforce if we have a device token unless we are logging out
-    if (![SFAuthenticationManager sharedManager].logoutSettingEnabled && self.deviceToken) {
+    if (![SFUserAccountManager sharedInstance].logoutSettingEnabled && self.deviceToken) {
         [SFSDKCoreLogger i:[self class] format:@"Re-registering for Salesforce notification because application is being foregrounded"];
         [self registerForSalesforceNotifications];
     }

@@ -30,10 +30,10 @@
 #import "SFSDKNewLoginHostViewController.h"
 #import "SFSDKLoginHostStorage.h"
 #import "SFSDKLoginHost.h"
-#import "SFAuthenticationManager.h"
 #import "SFSDKResourceUtils.h"
 #import "SFLoginViewController.h"
 #import "SFManagedPreferences.h"
+#import "SFUserAccountManager.h"
 
 static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCellIdentifier";
 
@@ -66,7 +66,7 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
  * Returns the index of the current login host.
  */
 - (NSUInteger)indexOfCurrentLoginHost {
-    SFAuthenticationManager *m = [SFAuthenticationManager sharedManager];
+    SFUserAccountManager *m = [SFUserAccountManager sharedInstance];
     NSString *currentLoginHost = [m loginHost];
     NSUInteger numberOfLoginHosts = [[SFSDKLoginHostStorage sharedInstance] numberOfLoginHosts];
     for (NSUInteger index = 0; index < numberOfLoginHosts; index++) {

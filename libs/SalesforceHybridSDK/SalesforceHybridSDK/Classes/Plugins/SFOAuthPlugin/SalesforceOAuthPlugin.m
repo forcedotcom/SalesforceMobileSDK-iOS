@@ -30,89 +30,72 @@
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFSDKWebUtils.h>
 #import "SFHybridViewController.h"
-
-// ------------------------------------------
-// Private methods interface
-// ------------------------------------------
-@interface SalesforceOAuthPlugin()
-
-- (void)authenticate:(CDVInvokedUrlCommand*)command getCachedCredentials:(BOOL)getCachedCredentials;
-
-/**
- Method to be called when the OAuth process completes.
- @param authDict The NSDictionary containing the authentication data.
- @param callbackId The plugin callback ID associated with the request.
- */
-- (void)authenticationCompletion:(NSDictionary *)authDict callbackId:(NSString *)callbackId;
-
-/**
- Creates an error dictionary to send back in an auth error case.
- @param error The OAuth error that occurred.
- @param authInfo The OAuth info associated with the auth attempt.
- @return An NSDictionary of error information.
- */
-+ (NSDictionary *)authErrorDictionaryFromError:(NSError *)error authInfo:(SFOAuthInfo *)authInfo;
-
-@end
-
-// ------------------------------------------
-// Main implementation
-// ------------------------------------------
+SFSDK_USE_DEPRECATED_BEGIN
 @implementation SalesforceOAuthPlugin
 
-#pragma mark - Cordova plugin methods and helpers
+#pragma mark - Cordova plugin methods
 
 - (void)getAuthCredentials:(CDVInvokedUrlCommand *)command
 {
-    [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"getAuthCredentials: arguments: %@", command.arguments]];
+    [SFSDKHybridLogger d:[self class] format:@"getAuthCredentials: arguments: %@", command.arguments];
     [self getVersion:@"getAuthCredentials" withArguments:command.arguments];
-    [self authenticate:command getCachedCredentials:YES];
+
+    SFHybridViewController *hybridVc = (SFHybridViewController *)self.viewController;
+    NSDictionary *authDict = [hybridVc credentialsAsDictionary];
+    if ([authDict[kAccessTokenCredentialsDictKey] length] > 0) {
+        [self sendAuthCredentials:command authDict:authDict];
+    } else {
+        [self sendNotAuthenticated:command];
+    }
 }
 
 - (void)authenticate:(CDVInvokedUrlCommand*)command
 {
-    [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"authenticate: arguments: %@", command.arguments]];
+    [SFSDKHybridLogger d:[self class] format:@"authenticate: arguments: %@", command.arguments];
     [self getVersion:@"authenticate" withArguments:command.arguments];
-    [self authenticate:command getCachedCredentials:NO];
+
+    SFOAuthPluginAuthSuccessBlock completionBlock = ^(SFOAuthInfo *authInfo, NSDictionary *authDict) {
+        [self sendAuthCredentials:command authDict:authDict];
+    };
+
+    SFOAuthFlowFailureCallbackBlock failureBlock = ^(SFOAuthInfo *authInfo, NSError *error) {
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
+                                                      messageAsDictionary:[[self class] authErrorDictionaryFromError:error authInfo:authInfo]];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    };
+    SFHybridViewController *hybridVc = (SFHybridViewController *)self.viewController;
+    [hybridVc authenticateWithCompletionBlock:completionBlock failureBlock:failureBlock];
 }
 
 - (void)logoutCurrentUser:(CDVInvokedUrlCommand *)command
 {
-    [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"logoutCurrentUser: arguments: %@", command.arguments]];
+    [SFSDKHybridLogger d:[self class] format:@"logoutCurrentUser: arguments: %@", command.arguments];
     [self getVersion:@"logoutCurrentUser" withArguments:command.arguments];
     [[SFAuthenticationManager sharedManager] logout];
 }
 
 - (void)getAppHomeUrl:(CDVInvokedUrlCommand *)command
 {
-    [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"getAppHomeUrl: arguments: %@", command.arguments]];
+    [SFSDKHybridLogger d:[self class] format:@"getAppHomeUrl: arguments: %@", command.arguments];
     NSString* callbackId = command.callbackId;
     [self getVersion:@"getAppHomeUrl" withArguments:command.arguments];
     NSURL *url = ((SFHybridViewController *)self.viewController).appHomeUrl;
     NSString *urlString = (url == nil ? @"" : [url absoluteString]);
-    [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"AppHomeURL: %@", urlString]];
+    [SFSDKHybridLogger d:[self class] format:@"AppHomeURL: %@", urlString];
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:urlString];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
 }
 
-- (void)authenticate:(CDVInvokedUrlCommand*)command getCachedCredentials:(BOOL)getCachedCredentials
-{
-    [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"authenticate:getCachedCredentials:"]];
-    NSString* callbackId = command.callbackId;
-    SFOAuthPluginAuthSuccessBlock completionBlock = ^(SFOAuthInfo *authInfo, NSDictionary *authDict) {
-        [self authenticationCompletion:authDict callbackId:callbackId];
-    };
-    SFOAuthFlowFailureCallbackBlock failureBlock = ^(SFOAuthInfo *authInfo, NSError *error) {
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
-                                                      messageAsDictionary:[[self class] authErrorDictionaryFromError:error authInfo:authInfo]];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
-    };
-    SFHybridViewController *hybridVc = (SFHybridViewController *)self.viewController;
-    if (getCachedCredentials) {
-        [hybridVc getAuthCredentialsWithCompletionBlock:completionBlock failureBlock:failureBlock];
-    } else {
-        [hybridVc authenticateWithCompletionBlock:completionBlock failureBlock:failureBlock];
-    }
+#pragma mark - Cordova plugin helpers
+
+- (void) sendAuthCredentials:(CDVInvokedUrlCommand *)command authDict:(NSDictionary*)authDict {
+    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:authDict];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+- (void) sendNotAuthenticated:(CDVInvokedUrlCommand *)command {
+    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Not authenticated"];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 + (NSDictionary *)authErrorDictionaryFromError:(NSError *)error authInfo:(SFOAuthInfo *)authInfo
@@ -127,15 +110,5 @@
     return authDict;
 }
 
-#pragma mark - Salesforce.com login helpers
-
-- (void)authenticationCompletion:(NSDictionary *)authDict callbackId:(NSString *)callbackId
-{
-    [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"authenticationCompletion: Authentication flow succeeded. Initiating post-auth configuration."]];
-
-    // Call back to the client with the authentication credentials.
-    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:authDict];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
-}
-
 @end
+SFSDK_USE_DEPRECATED_END

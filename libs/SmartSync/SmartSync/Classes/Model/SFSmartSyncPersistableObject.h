@@ -22,12 +22,16 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SFSmartSyncPersistableObject : NSObject
 
 @property (nonatomic, strong) NSDictionary *rawData;
 @property (nonatomic, readonly, copy) NSString *objectType;
 
 - (id)initWithDictionary:(NSDictionary *)data;
-- (id)initWithDictionary:(NSDictionary *)data forObjectType:(NSString *)objectType;
+- (id)initWithDictionary:(NSDictionary *)data forObjectType:(nullable NSString *)objectType;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -21,13 +21,25 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
+#import "SalesforceSDKCoreDefines.h"
 #import "SFUserAccount.h"
 #import "SFOAuthCredentials.h"
 #import "SFUserAccountIdentity.h"
 #import "SFUserAccountConstants.h"
-
+#import "SFOAuthCoordinator.h"
+#import "SFOAuthCoordinator.h"
+#import "SFSDKLoginViewControllerConfig.h"
 NS_ASSUME_NONNULL_BEGIN
+
+/**
+ Callback block definition for OAuth completion callback.
+ */
+typedef void (^SFUserAccountManagerSuccessCallbackBlock)(SFOAuthInfo *, SFUserAccount *);
+
+/**
+ Callback block definition for OAuth failure callback.
+ */
+typedef void (^SFUserAccountManagerFailureCallbackBlock)(SFOAuthInfo *, NSError *);
 
 /**Notification sent when user has been created or is set as current User
  */
@@ -65,14 +77,122 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationOriginalHostKe
  */
 FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
 
+/**
+  Default used as last resort
+ */
+FOUNDATION_EXTERN NSString * const kSFUserAccountOAuthLoginHostDefault;
+
+/**
+ Key identifying login host
+ */
+FOUNDATION_EXTERN NSString * const kSFUserAccountOAuthLoginHost;
+
+/**
+ The key for storing the persisted OAuth scopes.
+ */
+FOUNDATION_EXTERN  NSString * const kOAuthScopesKey;
+
+/**
+The key for storing the persisted OAuth client ID.
+ */
+FOUNDATION_EXTERN  NSString * const kOAuthClientIdKey;
+
+/**
+The key for storing the persisted OAuth redirect URI.
+ */
+FOUNDATION_EXTERN  NSString * const kOAuthRedirectUriKey;
+
+/** Notification sent prior to user logout
+ */
+FOUNDATION_EXTERN NSString * const kSFNotificationUserWillLogout;
+
+/** Notification sent after user logout
+ */
+FOUNDATION_EXTERN NSString * const kSFNotificationUserDidLogout;
+
+/** Notification sent prior to display of Auth View
+ */
+FOUNDATION_EXTERN NSString * const kSFNotificationUserWillShowAuthView;
+
+/** Notification sent when user cancels authentication
+ */
+FOUNDATION_EXTERN NSString * const kSFNotificationUserCanceledAuth;
+
+/** Notification sent prior to user log in
+ */
+FOUNDATION_EXTERN NSString * const kSFNotificationUserWillLogIn;
+
+/** Notification sent after user log in
+ */
+FOUNDATION_EXTERN NSString * const kSFNotificationUserDidLogIn;
+
+/**  Notification sent before SP APP invokes IDP APP for authentication
+ */
+FOUNDATION_EXTERN NSString * const kSFNotificationUserWillSendIDPRequest;
+
+/**  Notification sent before IDP APP invokes SP APP with auth code
+ */
+FOUNDATION_EXTERN NSString * const kSFNotificationUserWillSendIDPResponse;
+
+/**  Notification sent when  IDP APP receives request for authentication from SP APP
+ */
+FOUNDATION_EXTERN NSString * const kSFNotificationUserDidReceiveIDPRequest;
+
+/**  Notification sent when  SP APP receives successful response of authentication from IDP APP
+ */
+FOUNDATION_EXTERN NSString * const kSFNotificationUserDidReceiveIDPResponse;
+
+/**  Notification sent when  SP APP has log in  is successful when initiated from IDP APP
+ */
+FOUNDATION_EXTERN NSString * const kSFNotificationUserIDPInitDidLogIn;
+
+/**  Key to use to lookup userAccount associated with  NSNotification userInfo
+ */
+FOUNDATION_EXTERN NSString * const kSFNotificationUserInfoAccountKey;
+
+/**  Key to use to lookup credentials associated with  NSNotification userInfo
+ */
+FOUNDATION_EXTERN NSString * const kSFNotificationUserInfoCredentialsKey;
+
+/**  Key to use to lookup authinfo type associated with  NSNotification userInfo
+ */
+FOUNDATION_EXTERN NSString * const kSFNotificationUserInfoAuthTypeKey;
+
+/**  Key to use to lookup dictionary of nv-pairs type associated with NSNotification userInfo
+ */
+FOUNDATION_EXTERN NSString * const kSFUserInfoAddlOptionsKey;
+
+@protocol SFSDKOAuthClientDelegate;
+@protocol SFSDKOAuthClientSafariViewDelegate;
+@protocol SFSDKOAuthClientWebViewDelegate;
+@protocol SFSDKIDPAuthClientDelegate;
+
 @class SFUserAccountManager;
+@class SFSDKAlertMessage;
+@class SFSDKWindowContainer;
+@class SFSDKAuthViewHandler;
 
 /**
  Protocol for handling callbacks from SFUserAccountManager.
  */
 @protocol SFUserAccountManagerDelegate <NSObject>
 
+
 @optional
+/**
+ Called when the account manager wants to determine if the network is available.
+ @param userAccountManager The instance of SFUserAccountManager making the call.
+ @return YES if the network is available, NO otherwise
+ */
+- (BOOL)userAccountManagerIsNetworkAvailable:(SFUserAccountManager *)userAccountManager;
+
+/**
+ *
+ * @param userAccountManager The instance of SFUserAccountManager
+ * @param error The Error that occurred
+ * @param info  The info for the auth request
+ */
+- (void)userAccountManager:(SFUserAccountManager *)userAccountManager error:(NSError*)error info:(SFOAuthInfo *)info;
 
 /**
  Called before the user account manager switches from one user to another.
@@ -141,9 +261,105 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
   */
 @property (nonatomic, readonly, getter=isCurrentUserAnonymous) BOOL currentUserAnonymous;
 
+/**
+ Returns YES if the logout is requested by the app settings.
+ */
+@property (nonatomic, readonly) BOOL logoutSettingEnabled;
+
+/**
+ Advanced authentication configuration.  Default is SFOAuthAdvancedAuthConfigurationNone.  Leave the
+ default value unless you need advanced authentication, as it requires an additional round trip to the
+ service to retrieve org authentication configuration.
+ */
+@property (nonatomic, assign) SFOAuthAdvancedAuthConfiguration advancedAuthConfiguration;
+
+/**
+ An array of additional keys (NSString) to parse during OAuth
+ */
+@property (nonatomic, strong) NSArray * additionalOAuthParameterKeys;
+
+/**
+ A dictionary of additional parameters (key value pairs) to send during token refresh
+ */
+@property (nonatomic, strong) NSDictionary * additionalTokenRefreshParams;
+
+/** The host that will be used for login.
+ */
+@property (nonatomic, strong, nullable) NSString *loginHost;
+
+/** Should the login process start again if it fails (default: YES)
+ */
+@property (nonatomic, assign) BOOL retryLoginAfterFailure;
+
+/** OAuth client ID to use for login.  Apps may customize
+ by setting this property before login; otherwise, this
+ value is determined by the SFDCOAuthClientIdPreference
+ configured via the settings bundle.
+ */
+@property (nonatomic, copy) NSString *oauthClientId;
+
+/** OAuth callback url to use for the OAuth login process.
+ Apps may customize this by setting this property before login.
+ By default this value is picked up from the main
+ bundle property SFDCOAuthRedirectUri
+ default: @"sfdc:///axm/detect/oauth/done")
+ */
+@property (nonatomic, copy) NSString *oauthCompletionUrl;
+
+/**
+ The Branded Login path configured for this application.
+ */
+@property (nonatomic, nullable, copy) NSString *brandLoginPath;
+
+/**
+ The OAuth scopes associated with the app.
+ */
+@property (nonatomic, copy) NSSet<NSString*> *scopes;
+
 /**  Convenience property to retrieve the current user's identity.
  */
 @property (readonly, nonatomic, nullable) SFUserAccountIdentity *currentUserIdentity;
+
+/** Use this block to replace the Login flow selection dialog
+ *
+ */
+@property (nonatomic, copy, nullable) SFIDPLoginFlowSelectionBlock idpLoginFlowSelectionAction;
+
+/** Use this to replace the default User Selection Screen
+ *
+ */
+@property (nonatomic, copy, nullable) SFIDPUserSelectionBlock idpUserSelectionAction;
+
+/**  Use this property to enable an app to become and IdentityProvider for other apps
+ *
+ */
+@property (nonatomic,assign) BOOL isIdentityProvider;
+
+/**  Use this property to enable this app to be able to use another app that is an Identity Provider
+ *
+ */
+@property (nonatomic,assign, readonly) BOOL idpEnabled;
+
+/** Use this property to use SFAuthenticationManager for authentication
+ *
+ */
+@property (nonatomic,assign) BOOL useLegacyAuthenticationManager;
+
+/** Use this property to indicate the url scheme  for the Identity Provider app
+ *
+ */
+@property (nonatomic, copy) NSString *idpAppURIScheme;
+
+/** Use this property to indicate to provide a user-friendly name for your app. This name will be displayed
+ *  in the user selection view of the identity provider app.
+ *
+ */
+@property (nonatomic,copy) NSString *appDisplayName;
+
+/** Use this property to indicate to provide LoginViewController customizations for themes,navbar and settigs icon.
+ *
+ */
+@property (nonatomic,strong) SFSDKLoginViewControllerConfig *loginViewControllerConfig;
 
 /** Shared singleton
  */
@@ -198,6 +414,12 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
  */
 - (NSArray<SFUserAccount*> *)accountsForInstanceURL:(NSURL *)instanceURL;
 
+/** Returns all accounts that match a domain
+ @param domain The domain.
+ @return An array of accounts that match that instance URL
+ */
+- (NSArray *)userAccountsForDomain:(NSString *)domain;
+
 /** Adds/Updates a user account
  @param userAccount The account to be added
  */
@@ -206,7 +428,7 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
 /** Lookup  a user account
  @param credentials used to  up Account matching the credentials
  */
-- (SFUserAccount *)accountForCredentials:(SFOAuthCredentials *) credentials;
+- (nullable SFUserAccount *)accountForCredentials:(SFOAuthCredentials *) credentials;
 
 /**
  Allows you to remove the given user account.
@@ -244,7 +466,7 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
  @param identityData The identityData to apply
  @param shouldSendNotification whether to post notifications.
  */
-- (SFUserAccount *)applyCredentials:(SFOAuthCredentials*)credentials withIdData:(SFIdentityData *) identityData andNotification:(BOOL) shouldSendNotification;
+- (SFUserAccount *)applyCredentials:(SFOAuthCredentials*)credentials withIdData:(nullable SFIdentityData *) identityData andNotification:(BOOL) shouldSendNotification;
 
 
 /** Invoke this method to apply the specified id data to the
@@ -294,7 +516,99 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
  */
 - (void)userChanged:(SFUserAccount *)user change:(SFUserAccountDataChange)change;
 
+/**
+ Kick off the login process for credentials that's previously configured.
+ @param completionBlock The block of code to execute when the authentication process successfully completes.
+ @param failureBlock The block of code to execute when the authentication process has a fatal failure.
+ @return YES if this call kicks off the authentication process.  NO if an authentication process has already
+ started, in which case subsequent requests are queued up to have their completion or failure blocks executed
+ in succession.
+ */
+- (BOOL)loginWithCompletion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
+                    failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock;
 
+/**
+ Kick off the refresh process for the specified credentials.
+ @param credentials SFOAuthCredentials to be refreshed.
+ @param completionBlock The block of code to execute when the refresh process successfully completes.
+ @param failureBlock The block of code to execute when the refresh process has a fatal failure.
+ @return YES if this call kicks off the authentication process.  NO if an authentication process has already
+ started, in which case subsequent requests are queued up to have their completion or failure blocks executed
+ in succession.
+ */
+- (BOOL)refreshCredentials:(nonnull SFOAuthCredentials *)credentials
+                completion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
+                   failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock;
+
+/**
+ Login using the given JWT token to exchange with the service for credentials.
+ @param jwtToken The JWT token (received out of band) to exchange for credentials.
+ @param completionBlock The block of code to execute when the authentication process successfully completes.
+ @param failureBlock The block of code to execute when the authentication process has a fatal failure.
+ @return YES if this call kicks off the authentication process.  NO if an authentication process has already
+ started, in which case subsequent requests are queued up to have their completion or failure blocks executed
+ in succession.
+ */
+- (BOOL)loginWithJwtToken:(NSString *)jwtToken
+               completion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
+                  failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock;
+
+/**
+ Forces a logout from the current account, redirecting the user to the login process.
+ This throws out the OAuth refresh token.
+ */
+- (void)logout;
+
+/**
+ Performs a logout on the specified user.  Note that if the user is not the current user of the app, the
+ specified user's authenticated state will be removed, but no other action will otherwise interrupt the
+ current app state.
+ @param user The user to log out.
+ */
+- (void)logoutUser:(SFUserAccount *)user;
+
+/**
+ Performs a logout for all users of the app, including the current user.
+ */
+- (void)logoutAllUsers;
+
+/**
+ Dismisses the auth view controller, resetting the UI state back to its original
+ presentation.
+ */
+- (void)dismissAuthViewControllerIfPresent;
+
+/**
+ Handle an advanced authentication response from the external browser, continuing any
+ in-progress adavanced authentication flow.
+ @param appUrlResponse The URL response returned to the app from the external browser.
+ @options Dictionary of name-value pairs received from open URL
+ @return YES if this is a valid URL response from advanced authentication that should
+ be handled, NO otherwise.
+ */
+- (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse options:(NSDictionary *)options;
+
+/**
+ Set this block to handle presentation of the Authentication View Controller.
+ */
+@property (nonatomic, strong) SFSDKAuthViewHandler *authViewHandler;
+
+/**
+ Change this block to handle all alerts  required by the SFUserAccountManager.
+ */
+@property (nonatomic, copy, nonnull) void (^alertDisplayBlock)(SFSDKAlertMessage *,SFSDKWindowContainer *);
+
+/**
+ Change this block to customize behavior for user initiated auth cancellation
+ */
+@property (nonatomic, copy, nonnull) void (^authCancelledByUserHandlerBlock)(void);
+
+/**
+ Determines whether an error is due to invalid auth credentials.
+ @param error The error to check against an invalid credentials error.
+ @return YES if the error is due to invalid credentials, NO otherwise.
+ */
++ (BOOL)errorIsInvalidAuthCredentials:(NSError *)error;
 
 @end
 

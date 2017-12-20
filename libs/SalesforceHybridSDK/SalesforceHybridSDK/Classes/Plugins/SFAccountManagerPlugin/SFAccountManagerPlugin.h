@@ -25,6 +25,8 @@
 #import <Foundation/Foundation.h>
 #import <Cordova/CDVPlugin.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class CDVInvokedUrlCommand;
 
 /**
@@ -73,3 +75,5 @@ extern NSString * const kUserAccountClientIdDictKey;
 - (void)logout:(CDVInvokedUrlCommand *)command;
 
 @end
+
+NS_ASSUME_NONNULL_END

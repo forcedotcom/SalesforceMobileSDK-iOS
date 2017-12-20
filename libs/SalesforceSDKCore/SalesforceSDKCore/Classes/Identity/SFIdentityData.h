@@ -24,6 +24,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  * The data structure for the identity data that's retrieved from the Salesforce service.
  * @see SFIdentityCoordinator
@@ -63,12 +65,12 @@
 /**
  * The nickname of the associated user.
  */
-@property (nonnull, strong, nonatomic, readonly) NSString *nickname;
+@property (nullable, strong, nonatomic, readonly) NSString *nickname;
 
 /**
  * The display name of the associated user.
  */
-@property (nonnull, strong, nonatomic, readonly) NSString *displayName;
+@property (nullable, strong, nonatomic, readonly) NSString *displayName;
 
 /**
  * The email address of the associated user.
@@ -78,7 +80,7 @@
 /**
  * The first name of the user.
  */
-@property (nonnull, strong, nonatomic, readonly) NSString *firstName;
+@property (nullable, strong, nonatomic, readonly) NSString *firstName;
 
 /**
  * The last name of the user.
@@ -88,7 +90,7 @@
 /**
  * The URL to retrieve the user's picture.
  */
-@property (nonnull, strong, nonatomic, readonly) NSURL *pictureUrl;
+@property (nullable, strong, nonatomic, readonly) NSURL *pictureUrl;
 
 /**
  * The URL to retrieve a thumbnail picture for the user.
@@ -230,7 +232,7 @@
 /**
  * The date this record was last modified.
  */
-@property (nonnull, strong, nonatomic, readonly) NSDate *lastModifiedDate;
+@property (nullable, strong, nonatomic, readonly) NSDate *lastModifiedDate;
 
 /**
  * Designated initializer for creating an instance of the SFIdentityData object.
@@ -239,3 +241,5 @@
 - (nonnull instancetype)initWithJsonDict:(nonnull NSDictionary *)jsonDict;
 
 @end
+
+NS_ASSUME_NONNULL_END

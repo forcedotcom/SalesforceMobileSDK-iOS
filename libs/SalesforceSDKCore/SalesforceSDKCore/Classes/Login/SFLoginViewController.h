@@ -28,6 +28,7 @@
 
 @class SFLoginViewController;
 @class SFSDKLoginHost;
+@class SFSDKLoginViewControllerConfig;
 
 /**
  * Delegate protocol for the owner of SFLoginViewController.
@@ -79,6 +80,10 @@
 
 /** Specifiy the visibility of the settings icon. This property will be used to hide/show the settings icon*/
 @property (nonatomic) BOOL showSettingsIcon;
+
+/** Specify all display properties in a config. All the above properties are backed by
+ a config object */
+@property (nonatomic, strong, nonnull) SFSDKLoginViewControllerConfig *config;
 
 /** Applies the view's style attributes to the given navigation bar.
  @param navigationBar The navigation bar that the style is applied to.

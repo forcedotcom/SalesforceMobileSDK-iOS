@@ -10,6 +10,3 @@
 
 INSTALL_PATH = /
 SKIP_INSTALL = YES
-
-MODULEMAP_FILE = $(SRCROOT)/SalesforceSDKCore/SalesforceSDKCore.modulemap
-MODULEMAP_PRIVATE_FILE = $(SRCROOT)/SalesforceSDKCore/SalesforceSDKCore.private.modulemap

@@ -24,6 +24,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  Data object representing an symmetric encryption key, with a key value and initialization vector.
  */
@@ -39,7 +41,7 @@
 /**
  The key component of the object.
  */
-@property (nonatomic, copy) NSData *key;
+@property (nonatomic, copy, nullable) NSData *key;
 
 /**
  The initialization vector component of the object.
@@ -49,11 +51,13 @@
 /**
  The base64 representation of the key data.
  */
-@property (nonatomic, readonly) NSString *keyAsString;
+@property (nonatomic, readonly, nullable) NSString *keyAsString;
 
 /**
  The base64 representation of the initialization vector data.
  */
-@property (nonatomic, readonly) NSString *initializationVectorAsString;
+@property (nonatomic, readonly, nullable) NSString *initializationVectorAsString;
 
 @end
+
+NS_ASSUME_NONNULL_END

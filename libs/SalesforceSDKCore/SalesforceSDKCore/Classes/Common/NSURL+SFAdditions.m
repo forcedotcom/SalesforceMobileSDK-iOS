@@ -26,7 +26,7 @@
 
 @implementation NSURL (SFAdditions)
 
-- (NSString *)valueForParameterName:(NSString *)name
+- (nullable NSString *)valueForParameterName:(NSString *)name
 {
     NSString *query = [self query];
     NSArray *queryComponents = [query componentsSeparatedByString:@"&"];
@@ -37,6 +37,27 @@
         }
     }
     return nil;
+}
+
+
+- (nullable NSDictionary *)dictionaryFromQuery
+{
+    NSString *query = [self query];
+    NSArray *queryComponents = [query componentsSeparatedByString:@"&"];
+    NSMutableDictionary *allVaues = [[NSMutableDictionary alloc] init];
+    for (NSString *paramNameValuePair in queryComponents) {
+        NSArray *paramComponents = [paramNameValuePair componentsSeparatedByString:@"="];
+        NSString *key = [paramComponents objectAtIndex:0];
+        NSString *value = @"";
+        if ([paramComponents count] > 1) {
+            value = [paramComponents objectAtIndex:1];
+            value = [[value
+                      stringByReplacingOccurrencesOfString:@"+" withString:@" "] stringByRemovingPercentEncoding];
+            
+        }
+        [allVaues setObject:value forKey:key];
+    }
+    return allVaues;
 }
 
 @end

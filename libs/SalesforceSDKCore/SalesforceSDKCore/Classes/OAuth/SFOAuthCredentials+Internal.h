@@ -38,7 +38,7 @@ extern NSString * const kSFOAuthServiceAccess;
 extern NSString * const kSFOAuthServiceRefresh;
 extern NSString * const kSFOAuthServiceActivation;
 
-extern NSException * SFOAuthInvalidIdentifierException();
+extern NSException * SFOAuthInvalidIdentifierException(void);
 
 @interface SFOAuthCredentials ()
 

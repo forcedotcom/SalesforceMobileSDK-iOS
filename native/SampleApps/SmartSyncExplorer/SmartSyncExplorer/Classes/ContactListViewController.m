@@ -26,15 +26,11 @@
 #import "ActionsPopupController.h"
 #import "ContactDetailViewController.h"
 #import "WYPopoverController.h"
-#import <SmartSyncExplorerCommon/SObjectDataManager.h>
-#import <SmartSyncExplorerCommon/ContactSObjectDataSpec.h>
-#import <SmartSyncExplorerCommon/ContactSObjectData.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
-#import <SmartStore/SFSmartStoreInspectorViewController.h>
-#import <SalesforceSDKCore/SFAuthenticationManager.h>
+#import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFSecurityLockout.h>
-#import <SmartSync/SFSmartSyncSyncManager.h>
-#import <SmartSync/SFSyncState.h>
+#import <SalesforceSDKCore/SalesforceSDKManager.h>
+#import <SmartStore/SFSmartStoreInspectorViewController.h>
 
 static NSString * const kNavBarTitleText                = @"Contacts";
 static NSUInteger const kNavBarTintColor                = 0xf10000;
@@ -258,7 +254,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 #pragma mark - UISearchBarDelegate methods
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"searching with text: %@", searchText];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"searching with text: %@", searchText];
     self.searchText = searchText;
     [self refreshList];
 }
@@ -420,7 +416,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     }
 
     ActionsPopupController *popoverContent = [[ActionsPopupController alloc] initWithAppViewController:self];
-    popoverContent.preferredContentSize = CGSizeMake(260,130);
+    popoverContent.preferredContentSize = CGSizeMake(260,180);
     self.popOverController = [[WYPopoverController alloc] initWithContentViewController:popoverContent];
 
 
@@ -442,8 +438,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
         [self presentViewController:umvc animated:YES completion:NULL];
     } else if ([text isEqualToString:kActionDbInspector]) {
         SFSmartStoreInspectorViewController *inspector = [[SFSmartStoreInspectorViewController alloc] initWithStore:self.dataMgr.store];
-         [self presentViewController:inspector animated:NO completion:nil];
-                                                         
+        [self presentViewController:inspector animated:NO completion:nil];
     }
 }
 
@@ -451,14 +446,20 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:Nil
                                                                    message:@"Are you sure you want to log out?"
-                                                            preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *logoutAction = [UIAlertAction actionWithTitle:@"Confirm Logout"
-                                                           style:UIAlertActionStyleDefault
+                                                          preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *logoutAction = [UIAlertAction actionWithTitle:@"Logout"
+                                                           style:UIAlertActionStyleDestructive
                                                          handler:^(UIAlertAction * action) {
                                                             self.logoutActionSheet = nil;
-                                                            [[SFAuthenticationManager sharedManager] logout];
+                                                            [[SFUserAccountManager sharedInstance] logout];
                                                         }];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
+                                                           style:UIAlertActionStyleCancel
+                                                         handler:^(UIAlertAction * action) {
+                                                         }];
     [alert addAction:logoutAction];
+    [alert addAction:cancelAction];
     self.logoutActionSheet = alert;
     [self presentViewController:alert animated:YES completion:nil];
 }
@@ -624,7 +625,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 
 - (void)clearPopovers:(NSNotification *)note
 {
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"Passcode screen loading. Clearing popovers."];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"Passcode screen loading. Clearing popovers."];
     if (self.popOverController) {
         [self.popOverController dismissPopoverAnimated:NO];
     }

@@ -24,6 +24,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class SFUserAccount;
 
 /** Handles push notification registration and unregistration, both for Salesforce notifications and remote notifications.
@@ -75,3 +77,5 @@
 - (BOOL)unregisterSalesforceNotifications:(SFUserAccount*)user;
 
 @end
+
+NS_ASSUME_NONNULL_END

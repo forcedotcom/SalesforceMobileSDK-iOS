@@ -41,7 +41,7 @@ NSString * const kUserAccountOrgIdDictKey          = @"orgId";
 NSString * const kUserAccountUserIdDictKey         = @"userId";
 NSString * const kUserAccountUsernameDictKey       = @"username";
 NSString * const kUserAccountClientIdDictKey       = @"clientId";
-
+SFSDK_USE_DEPRECATED_BEGIN
 @interface SFAccountManagerPlugin ()
 
 /**
@@ -59,7 +59,7 @@ NSString * const kUserAccountClientIdDictKey       = @"clientId";
 
 - (void)getUsers:(CDVInvokedUrlCommand *)command
 {
-    [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"getUsers: arguments: %@", command.arguments]];
+    [SFSDKHybridLogger d:[self class] format:@"getUsers: arguments: %@", command.arguments];
     NSString* callbackId = command.callbackId;
     [self getVersion:@"getUsers" withArguments:command.arguments];
     NSMutableArray *userAccountArray = [NSMutableArray array];
@@ -72,7 +72,7 @@ NSString * const kUserAccountClientIdDictKey       = @"clientId";
 
 - (void)getCurrentUser:(CDVInvokedUrlCommand *)command
 {
-    [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"getCurrentUser: arguments: %@", command.arguments]];
+    [SFSDKHybridLogger d:[self class] format:@"getCurrentUser: arguments: %@", command.arguments];
     NSString* callbackId = command.callbackId;
     /* NSString* jsVersionStr = */[self getVersion:@"getCurrentUser" withArguments:command.arguments];
     
@@ -87,7 +87,7 @@ NSString * const kUserAccountClientIdDictKey       = @"clientId";
 
 - (void)switchToUser:(CDVInvokedUrlCommand *)command
 {
-    [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"switchToUser: arguments: %@", command.arguments]];
+    [SFSDKHybridLogger d:[self class] format:@"switchToUser: arguments: %@", command.arguments];
     [self getVersion:@"switchToUser" withArguments:command.arguments];
     NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
     if (argsDict == nil) {
@@ -95,7 +95,11 @@ NSString * const kUserAccountClientIdDictKey       = @"clientId";
         NSArray *userAccounts = [SFUserAccountManager sharedInstance].allUserAccounts;
         if ([userAccounts count] == 1) {
             // Single account configured.  Switch to new user.
-            [[SFUserAccountManager sharedInstance] switchToNewUser];
+            [self loginWithCompletion:^(SFOAuthInfo * authInfo, SFUserAccount * newAccount) {
+                [[SFUserAccountManager sharedInstance] switchToUser:newAccount];
+            } failure:^(SFOAuthInfo * info, NSError * error) {
+                [SFSDKHybridLogger e:[self class] format:@"switchToNewUser: Failed Switching to user account: %@", error.localizedDescription ];
+            }];
         } else if ([userAccounts count] > 1) {
             // Already more than one account.  Let the user choose the account to switch to.
             SFDefaultUserManagementViewController *umvc = [[SFDefaultUserManagementViewController alloc] initWithCompletionBlock:^(SFUserManagementAction action) {
@@ -104,7 +108,7 @@ NSString * const kUserAccountClientIdDictKey       = @"clientId";
             [self.viewController presentViewController:umvc animated:YES completion:NULL];
         } else {
             // Zero accounts configured?  Logout, I guess.
-            [[SFAuthenticationManager sharedManager] logout];
+            [self logout];
         }
     } else {
         // User data was passed in.  Assume API-level user switching.
@@ -112,14 +116,14 @@ NSString * const kUserAccountClientIdDictKey       = @"clientId";
         NSString *orgId = [argsDict nonNullObjectForKey:kUserAccountOrgIdDictKey];
         SFUserAccountIdentity *accountIdentity = [SFUserAccountIdentity identityWithUserId:userId orgId:orgId];
         SFUserAccount *account = [[SFUserAccountManager sharedInstance] userAccountForUserIdentity:accountIdentity];
-        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"switchToUser: Switching to user account: %@", account]];
+        [SFSDKHybridLogger d:[self class] format:@"switchToUser: Switching to user account: %@", account];
         [[SFUserAccountManager sharedInstance] switchToUser:account];
     }
 }
 
 - (void)logout:(CDVInvokedUrlCommand *)command;
 {
-    [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"logout: arguments: %@", command.arguments]];
+    [SFSDKHybridLogger d:[self class] format:@"logout: arguments: %@", command.arguments];
     NSString *callbackId = command.callbackId;
     [self getVersion:@"logout" withArguments:command.arguments];
     NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
@@ -128,11 +132,11 @@ NSString * const kUserAccountClientIdDictKey       = @"clientId";
     SFUserAccountIdentity *accountIdentity = [SFUserAccountIdentity identityWithUserId:userId orgId:orgId];
     SFUserAccount *account = [[SFUserAccountManager sharedInstance] userAccountForUserIdentity:accountIdentity];
     if (account == nil || account == [SFUserAccountManager sharedInstance].currentUser) {
-        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"logout: Logging out current user.  App state will reset."]];
-        [[SFAuthenticationManager sharedManager] logout];
+        [SFSDKHybridLogger d:[self class] message:@"logout: Logging out current user.  App state will reset."];
+        [self logout];
     } else {
-        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"logout: Logging out user account: %@", account]];
-        [[SFAuthenticationManager sharedManager] logoutUser:account];
+        [SFSDKHybridLogger d:[self class] format:@"logout: Logging out user account: %@", account];
+        [self logoutUser:account];
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
     }
@@ -155,4 +159,25 @@ NSString * const kUserAccountClientIdDictKey       = @"clientId";
     return accountDict;
 }
 
+- (void)logout {
+    [self logoutUser:[SFUserAccountManager sharedInstance].currentUser];
+}
+
+- (void)logoutUser:(SFUserAccount *)user {
+    if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
+        [[SFAuthenticationManager sharedManager] logout];
+    } else {
+        [[SFUserAccountManager sharedInstance] logout];
+    }
+}
+
+- (void)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)completionBlock failure:(SFOAuthFlowFailureCallbackBlock)failureBlock {
+  if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
+      [[SFAuthenticationManager sharedManager] loginWithCompletion:completionBlock failure:failureBlock];
+  } else {
+      [[SFUserAccountManager sharedInstance] loginWithCompletion:completionBlock failure:failureBlock];
+  }
+}
+
 @end
+SFSDK_USE_DEPRECATED_END

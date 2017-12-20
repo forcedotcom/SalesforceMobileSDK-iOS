@@ -64,6 +64,9 @@
     [super tearDown];
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
+
 - (void)testLoginHost{
     NSString *name = @"dummyname";
     NSString *host = @"dummyhost";
@@ -81,6 +84,8 @@
     XCTAssertNotNil(loginHost.name, @"Name shoud not be nil");
     
 }
+
+#pragma clang diagnostic pop
 
 - (void)testSetupNavigationBar {
     SFLoginViewController *loginViewController = [SFLoginViewController sharedInstance];

@@ -24,6 +24,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  @enum OAuth credential storage type
  */
@@ -153,7 +155,7 @@ typedef NS_ENUM(NSInteger, SFOAuthCredentialsStorageType){
 /** The community-base URL the user choose to log into. This usually happens when the user
  logs into the app using a community-based login page
  
- Note: this property is nil of the user logs into the internal community or into an org that doesn't have communities.
+ Note: this property is nil if the user logs into the internal community or into an org that doesn't have communities.
  */
 @property (nonatomic, copy, nullable) NSURL *communityUrl;
 
@@ -205,6 +207,10 @@ typedef NS_ENUM(NSInteger, SFOAuthCredentialsStorageType){
  */
 @property (nonatomic, readonly, nullable) NSDictionary * additionalOAuthFields;
 
+@property (nonatomic, copy, nullable) NSString *challengeString;
+
+@property (nonatomic, copy, nullable) NSString *authCode;
+
 ///---------------------------------------------------------------------------------------
 /// @name Initialization
 ///---------------------------------------------------------------------------------------
@@ -253,3 +259,5 @@ typedef NS_ENUM(NSInteger, SFOAuthCredentialsStorageType){
 - (void)revokeRefreshToken;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -46,9 +46,10 @@ static NSString * const kSmartStoreCacheDataPath       = @"cache_data";
 // Store data keys
 static NSString * const kRawDataKey = @"rawData";
 static NSString * const kTypeKey    = @"type";
-
+SFSDK_USE_DEPRECATED_BEGIN
 @interface SFSmartSyncCacheManager () <SFAuthenticationManagerDelegate>
 
+SFSDK_USE_DEPRECATED_END
 @property (nonatomic, strong) SFUserAccount *user;
 @property (nonatomic, readonly) SFSmartStore *store;
 @property (nonatomic, strong) NSCache *inMemCache;
@@ -100,7 +101,11 @@ static NSMutableDictionary *cacheMgrList = nil;
         self.inMemCache = [[NSCache alloc] init];
         self.enableInMemoryCache = YES;
         self.user = user;
+        SFSDK_USE_DEPRECATED_BEGIN
         [[SFAuthenticationManager sharedManager] addDelegate:self];
+        SFSDK_USE_DEPRECATED_END
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserWillLogout:)  name:kSFNotificationUserWillLogout object:nil];
+
     }
     return self;
 }
@@ -110,7 +115,9 @@ static NSMutableDictionary *cacheMgrList = nil;
 }
 
 - (void)dealloc {
+    SFSDK_USE_DEPRECATED_BEGIN
     [[SFAuthenticationManager sharedManager] removeDelegate:self];
+    SFSDK_USE_DEPRECATED_END
 }
 
 #pragma mark - Private Methods
@@ -300,8 +307,16 @@ static NSMutableDictionary *cacheMgrList = nil;
 }
 
 #pragma mark - SFAuthenticationManagerDelegate
+SFSDK_USE_DEPRECATED_BEGIN
 
 - (void)authManager:(SFAuthenticationManager *)manager willLogoutUser:(SFUserAccount *)user {
+    [[self class] removeSharedInstance:user];
+}
+
+SFSDK_USE_DEPRECATED_END
+
+- (void)handleUserWillLogout:(NSNotification *)notification {
+    SFUserAccount *user = notification.userInfo[kSFNotificationUserInfoAccountKey];
     [[self class] removeSharedInstance:user];
 }
 
@@ -485,3 +500,4 @@ static NSMutableDictionary *cacheMgrList = nil;
 }
 
 @end
+SFSDK_USE_DEPRECATED_END

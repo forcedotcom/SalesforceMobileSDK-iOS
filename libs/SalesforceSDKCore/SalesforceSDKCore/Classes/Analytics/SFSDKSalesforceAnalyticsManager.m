@@ -37,10 +37,12 @@
 #import "UIDevice+SFHardware.h"
 #import "SFIdentityData.h"
 #import "SFApplicationHelper.h"
+#import "SFAuthenticationManager.h"
 #import <SalesforceAnalytics/SFSDKAILTNTransform.h>
 #import <SalesforceAnalytics/SFSDKDeviceAppAttributes.h>
 #import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 #import "SFSDKAppFeatureMarkers.h"
+#import "SFSDKAppConfig.h"
 
 static NSString * const kEventStoresDirectory = @"event_stores";
 static NSString * const kEventStoreEncryptionKeyLabel = @"com.salesforce.eventStore.encryptionKey";
@@ -57,9 +59,11 @@ static NSMutableDictionary *analyticsManagerList = nil;
 - (instancetype)initWithTransform:(id<SFSDKTransform>)transform publisher:(id<SFSDKAnalyticsPublisher>)publisher;
 
 @end
+SFSDK_USE_DEPRECATED_BEGIN
 
 @interface SFSDKSalesforceAnalyticsManager () <SFAuthenticationManagerDelegate>
 
+SFSDK_USE_DEPRECATED_END
 @property (nonatomic, readwrite, strong) SFSDKAnalyticsManager *analyticsManager;
 @property (nonatomic, readwrite, strong) SFSDKEventStoreManager *eventStoreManager;
 @property (nonatomic, readwrite, strong) SFUserAccount *userAccount;
@@ -109,6 +113,9 @@ static NSMutableDictionary *analyticsManagerList = nil;
 
 - (void) dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
+    SFSDK_USE_DEPRECATED_BEGIN
+    [[SFAuthenticationManager sharedManager] removeDelegate:self];
+    SFSDK_USE_DEPRECATED_END
 }
 
 - (instancetype) initWithUser:(SFUserAccount *) userAccount {
@@ -117,7 +124,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
         self.userAccount = userAccount;
         SFSDKDeviceAppAttributes *deviceAttributes = [self buildDeviceAppAttributes];
         NSString *rootStoreDir = [[SFDirectoryManager sharedManager] directoryForUser:userAccount type:NSDocumentDirectory components:@[ kEventStoresDirectory ]];
-        SFEncryptionKey *encKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kEventStoreEncryptionKeyLabel keyType:SFKeyStoreKeyTypePasscode autoCreate:YES];
+        SFEncryptionKey *encKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kEventStoreEncryptionKeyLabel autoCreate:YES];
         DataEncryptorBlock dataEncryptorBlock = ^NSData*(NSData *data) {
             return [SFSDKCryptoUtils aes256EncryptData:data withKey:encKey.key iv:encKey.initializationVector];
         };
@@ -130,6 +137,10 @@ static NSMutableDictionary *analyticsManagerList = nil;
         SFSDKAnalyticsTransformPublisherPair *tpp = [[SFSDKAnalyticsTransformPublisherPair alloc] initWithTransform:[[SFSDKAILTNTransform alloc] init] publisher:[[SFSDKAILTNPublisher alloc] init]];
         [self.remotes addObject:tpp];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(publishOnAppBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
+        SFSDK_USE_DEPRECATED_BEGIN
+        [[SFAuthenticationManager sharedManager] addDelegate:self];
+        SFSDK_USE_DEPRECATED_END
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserWillLogout:)  name:kSFNotificationUserWillLogout object:nil];
     }
     return self;
 }
@@ -247,22 +258,11 @@ static NSMutableDictionary *analyticsManagerList = nil;
     UIDevice *curDevice = [UIDevice currentDevice];
     NSString *osVersion = [curDevice systemVersion];
     NSString *osName = [curDevice systemName];
-    NSString *appTypeStr = @"";
-    switch ([sdkManager appType]) {
-        case kSFAppTypeNative:
-            appTypeStr = kSFMobileSDKNativeDesignator;
-            break;
-        case kSFAppTypeHybrid:
-            appTypeStr = kSFMobileSDKHybridDesignator;
-            break;
-        case kSFAppTypeReactNative:
-            appTypeStr = kSFMobileSDKReactNativeDesignator;
-            break;
-    }
+    NSString *appTypeStr = [sdkManager getAppTypeAsString];
     NSString *mobileSdkVersion = SALESFORCE_SDK_VERSION;
     NSString *deviceModel = [curDevice platform];
     NSString *deviceId = [sdkManager deviceId];
-    NSString *clientId = sdkManager.connectedAppId;
+    NSString *clientId = sdkManager.appConfig.remoteAccessConsumerKey;
     return [[SFSDKDeviceAppAttributes alloc] initWithAppVersion:appVersion appName:appName osVersion:osVersion osName:osName nativeAppType:appTypeStr mobileSdkVersion:mobileSdkVersion deviceModel:deviceModel deviceId:deviceId clientId:clientId];
 }
 
@@ -322,15 +322,27 @@ static NSMutableDictionary *analyticsManagerList = nil;
 }
 
 #pragma mark - SFAuthenticationManagerDelegate
+- (void)handleUserWillLogout:(NSNotification *)notification {
+    SFUserAccount *user = notification.userInfo[kSFNotificationUserInfoAccountKey];
+    [self handleLogoutForUser:user];
+}
 
-- (void) authManager:(SFAuthenticationManager *) manager willLogoutUser:(SFUserAccount *) user {
+- (void)handleLogoutForUser:(SFUserAccount *)user {
     [self.analyticsManager reset];
     NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
     [defs removeObjectForKey:kAnalyticsOnOffKey];
     [[self class] removeSharedInstanceWithUser:user];
 }
 
+SFSDK_USE_DEPRECATED_BEGIN
+
+- (void) authManager:(SFAuthenticationManager *) manager willLogoutUser:(SFUserAccount *) user {
+    [self handleLogoutForUser:user];
+}
+
 @end
+
+SFSDK_USE_DEPRECATED_END
 
 @implementation SFSDKAnalyticsTransformPublisherPair
 
@@ -344,3 +356,4 @@ static NSMutableDictionary *analyticsManagerList = nil;
 }
 
 @end
+

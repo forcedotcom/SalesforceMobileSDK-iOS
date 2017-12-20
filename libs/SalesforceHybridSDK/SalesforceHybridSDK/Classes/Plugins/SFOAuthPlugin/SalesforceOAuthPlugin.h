@@ -26,6 +26,8 @@
 #import <SalesforceSDKCore/SFOAuthCoordinator.h>
 #import <Cordova/CDVPlugin.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class CDVInvokedUrlCommand;
 
 /**
@@ -36,7 +38,7 @@
 #pragma mark - Plugin exported to javascript
 
 /**
- * Cordova plug-in method to obtain the current login credentials, authenticating if needed.
+ * Cordova plug-in method to obtain the current login credentials.
  * @param command Cordova plugin command object, containing input parameters.
  */
 - (void)getAuthCredentials:(CDVInvokedUrlCommand *)command;
@@ -60,3 +62,5 @@
 - (void)getAppHomeUrl:(CDVInvokedUrlCommand *)command;
 
 @end
+
+NS_ASSUME_NONNULL_END

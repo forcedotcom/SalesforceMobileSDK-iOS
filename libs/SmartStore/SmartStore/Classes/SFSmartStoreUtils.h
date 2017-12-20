@@ -25,6 +25,8 @@
 #import <Foundation/Foundation.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**Utility methods used by SmartStore.
  */
 @interface SFSmartStoreUtils : NSObject
@@ -33,6 +35,8 @@
  user is configured.
  @return Unique key for the given user
  */
-+ (NSString *)userKeyForUser:(SFUserAccount *)user;
++ (NSString *)userKeyForUser:(nullable SFUserAccount *)user;
 
 @end
+
+NS_ASSUME_NONNULL_END

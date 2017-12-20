@@ -86,18 +86,7 @@
  */
 - (void) testCompileOptions
 {
-    __block NSMutableArray* options = [NSMutableArray new];
-
-    [self.store.storeQueue inDatabase:^(FMDatabase *db) {
-        
-        FMResultSet *rs = [db executeQuery:@"pragma compile_options"];
-        
-        while ([rs next]) {
-            [options addObject:[rs stringForColumnIndex:0]];
-        }
-        
-        [rs close];
-    }];
+    NSArray* options = [self.store getCompileOptions];
 
     XCTAssertTrue([options containsObject:@"ENABLE_FTS4"]);
     XCTAssertTrue([options containsObject:@"ENABLE_FTS3_PARENTHESIS"]);
@@ -111,6 +100,12 @@
     XCTAssertEqualObjects(version, @"3.15.2");
 }
 
+- (void) testSqlCipherVersion
+{
+    NSString* version = [self.store getSQLCipherVersion];
+    XCTAssertEqualObjects(version, @"3.4.1");
+}
+
 /**
  * Test fts extension
  */
@@ -118,6 +113,9 @@
 {
     XCTAssertEqual(self.store.ftsExtension, 5, @"Expected FTS5");
 }
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
 
 /**
  * Testing method with paths to top level string/integer/array/map as well as edge cases (nil object/nil or empty path)
@@ -140,6 +138,8 @@
     [self assertSameJSONWithExpected:[SFJsonUtils objectFromJSONString:@"[0,1,2]"] actual:[SFJsonUtils projectIntoJson:json path:@"c"] message:@"Wrong value for key c"];
     [self assertSameJSONWithExpected:[SFJsonUtils objectFromJSONString:@"{\"d1\":\"vd1\", \"d2\":\"vd2\", \"d3\":[1,2], \"d4\":{\"e\":5}}"] actual:[SFJsonUtils projectIntoJson:json path:@"d"] message:@"Wrong value for key d"];
 }
+
+#pragma clang diagnostic pop
 
 /**
   * Testing method with paths to non-top level string/integer/array/map
@@ -811,6 +811,9 @@
     XCTAssertEqual(querySpecPageSize, expectedPageSize, @"Page size value should reflect input value.");
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
+
 - (void)testCursorTotalPages
 {
     NSUInteger totalEntries = 50;
@@ -839,6 +842,8 @@
     cursorTotalPages = [cursor.totalPages intValue];
     XCTAssertEqual(cursorTotalPages, expectedPageSize, @"%lu entries across a page size of %lu should make %lu total pages.", (unsigned long)totalEntries, (unsigned long)unevenDividePageSize, (unsigned long)expectedPageSize);
 }
+
+#pragma clang diagnostic pop
 
 - (void)testPersistentStoreExists
 {

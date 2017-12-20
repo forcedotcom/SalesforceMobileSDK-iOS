@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13526" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina5_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13524"/>
+        <capability name="documents saved in the Xcode 9 format" minToolsVersion="9.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="IDPLoginViewController">
+            <connections>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U4Y-Ef-Dpi">
+                    <rect key="frame" x="54" y="259" width="317" height="45"/>
+                    <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="45" id="HCC-WZ-S0N"/>
+                    </constraints>
+                    <state key="normal" title="Log In Using IDP Application">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="loginIDPAction:" destination="-1" eventType="touchUpInside" id="jgu-LG-iJb"/>
+                    </connections>
+                </button>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Use the IDP option if you prefer to share your credentials between multiple apps" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="3pr-SL-Z88">
+                    <rect key="frame" x="55" y="202" width="314" height="50"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="9uP-if-wLI"/>
+                    </constraints>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Use this option if you prefer to use your credentials for only this app only." textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="4ov-Ta-Grl">
+                    <rect key="frame" x="54" y="370" width="314" height="50"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="E2o-vM-kxu"/>
+                    </constraints>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kWo-9c-agW">
+                    <rect key="frame" x="55" y="427" width="317" height="45"/>
+                    <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="45" id="mD9-dN-1WM"/>
+                    </constraints>
+                    <state key="normal" title="Log In Using App">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="loginLocalAction:" destination="-1" eventType="touchUpInside" id="mzO-xF-mIp"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select a login flow" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="upu-ES-uGc">
+                    <rect key="frame" x="138" y="149" width="139" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="upu-ES-uGc" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="149" id="0Y5-P2-8DC"/>
+                <constraint firstItem="3pr-SL-Z88" firstAttribute="leading" secondItem="kWo-9c-agW" secondAttribute="leading" id="84e-7V-Mhb"/>
+                <constraint firstItem="upu-ES-uGc" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="9N7-5J-PUK"/>
+                <constraint firstItem="3pr-SL-Z88" firstAttribute="centerX" secondItem="U4Y-Ef-Dpi" secondAttribute="centerX" id="Jfp-9K-NRK"/>
+                <constraint firstItem="kWo-9c-agW" firstAttribute="top" secondItem="4ov-Ta-Grl" secondAttribute="bottom" constant="7" id="UA1-p7-zQk"/>
+                <constraint firstAttribute="trailing" secondItem="kWo-9c-agW" secondAttribute="trailing" constant="42" id="UbT-QX-V7x"/>
+                <constraint firstAttribute="trailing" secondItem="U4Y-Ef-Dpi" secondAttribute="trailing" constant="43" id="XeH-f7-ZOj"/>
+                <constraint firstAttribute="trailing" secondItem="4ov-Ta-Grl" secondAttribute="trailing" constant="46" id="cTY-Fl-36f"/>
+                <constraint firstItem="4ov-Ta-Grl" firstAttribute="top" secondItem="U4Y-Ef-Dpi" secondAttribute="bottom" constant="66" id="e7y-iC-mba"/>
+                <constraint firstItem="U4Y-Ef-Dpi" firstAttribute="leading" secondItem="4ov-Ta-Grl" secondAttribute="leading" id="gk8-BL-WxV"/>
+                <constraint firstItem="U4Y-Ef-Dpi" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="54" id="ial-MM-PtW"/>
+                <constraint firstItem="U4Y-Ef-Dpi" firstAttribute="top" secondItem="3pr-SL-Z88" secondAttribute="bottom" constant="7" id="oCk-eK-Zir"/>
+                <constraint firstItem="3pr-SL-Z88" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="55" id="qnA-hd-Cvw"/>
+                <constraint firstItem="3pr-SL-Z88" firstAttribute="top" secondItem="upu-ES-uGc" secondAttribute="bottom" constant="32" id="sKH-eE-Ivv"/>
+            </constraints>
+            <point key="canvasLocation" x="-267" y="-13"/>
+        </view>
+    </objects>
+</document>

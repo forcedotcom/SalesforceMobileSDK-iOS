@@ -30,7 +30,7 @@
 #import <SalesforceSDKCore/SFRestAPI+Files.h>
 #import <SalesforceSDKCore/SFRestRequest.h>
 #import <SalesforceSDKCore/SFSecurityLockout.h>
-#import <SalesforceSDKCore/SFAuthenticationManager.h>
+#import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
 #import <SalesforceSDKCore/SFIdentityData.h>
 #import <SalesforceSDKCore/SFApplicationHelper.h>
@@ -420,12 +420,19 @@
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:Nil
                                                                    message:@"Are you sure you want to log out?"
                                                             preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *logoutAction = [UIAlertAction actionWithTitle:@"Confirm Logout"
-                                                          style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-                                                              self.logoutActionSheet = nil;
-                                                              [[SFAuthenticationManager sharedManager] logout];
-                                                          }];
+    UIAlertAction *logoutAction = [UIAlertAction actionWithTitle:@"Logout"
+                                                           style:UIAlertActionStyleDestructive
+                                                         handler:^(UIAlertAction * action) {
+                                                             self.logoutActionSheet = nil;
+                                                             [[SFUserAccountManager sharedInstance] logout];
+                                                         }];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
+                                                           style:UIAlertActionStyleCancel
+                                                         handler:^(UIAlertAction * action) {
+                                                         }];
     [alert addAction:logoutAction];
+    [alert addAction:cancelAction];
     self.logoutActionSheet = alert;
     [self presentViewController:alert animated:YES completion:nil];
 }
@@ -447,7 +454,7 @@
 
 - (void)clearPopovers:(NSNotification *)note
 {
-    [[SFSDKLogger sharedDefaultInstance] log:[self class] level:DDLogLevelDebug format:@"Passcode screen loading. Clearing popovers."];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"Passcode screen loading. Clearing popovers."];
     if (self.popOverController) {
         [self dismissPopoverController];
     }

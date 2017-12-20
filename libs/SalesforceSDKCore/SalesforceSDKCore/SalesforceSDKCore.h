@@ -2,7 +2,7 @@
  SalesforceSDKCore.h
  SalesforceSDKCore
 
- Created by Bharath Hariharan on Tue Jun 27 13:31:24 PDT 2017.
+ Created by Raj Rao on Wed Nov 15 15:49:43 PST 2017.
 
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
@@ -27,21 +27,6 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SalesforceSDKCore/CSFAction.h>
-#import <SalesforceSDKCore/CSFActionInput.h>
-#import <SalesforceSDKCore/CSFActionModel.h>
-#import <SalesforceSDKCore/CSFActionValue.h>
-#import <SalesforceSDKCore/CSFAuthRefresh.h>
-#import <SalesforceSDKCore/CSFAvailability.h>
-#import <SalesforceSDKCore/CSFDefines.h>
-#import <SalesforceSDKCore/CSFForceDefines.h>
-#import <SalesforceSDKCore/CSFIndexedEntity.h>
-#import <SalesforceSDKCore/CSFInput.h>
-#import <SalesforceSDKCore/CSFNetwork.h>
-#import <SalesforceSDKCore/CSFNetworkOutputCache.h>
-#import <SalesforceSDKCore/CSFOutput.h>
-#import <SalesforceSDKCore/CSFParameterStorage.h>
-#import <SalesforceSDKCore/CSFSalesforceAction.h>
 #import <SalesforceSDKCore/NSArray+SFAdditions.h>
 #import <SalesforceSDKCore/NSData+SFAdditions.h>
 #import <SalesforceSDKCore/NSData+SFSDKUtils.h>
@@ -83,8 +68,6 @@
 #import <SalesforceSDKCore/SFKeyStore.h>
 #import <SalesforceSDKCore/SFKeyStoreKey.h>
 #import <SalesforceSDKCore/SFKeyStoreManager.h>
-#import <SalesforceSDKCore/SFLogger.h>
-#import <SalesforceSDKCore/SFLoggerMacros.h>
 #import <SalesforceSDKCore/SFLoginViewController.h>
 #import <SalesforceSDKCore/SFManagedPreferences.h>
 #import <SalesforceSDKCore/SFMethodInterceptor.h>
@@ -112,20 +95,25 @@
 #import <SalesforceSDKCore/SFRestAPI+QueryBuilder.h>
 #import <SalesforceSDKCore/SFRestAPI.h>
 #import <SalesforceSDKCore/SFRestRequest.h>
-#import <SalesforceSDKCore/SFRootViewManager.h>
 #import <SalesforceSDKCore/SFSDKAILTNPublisher.h>
+#import <SalesforceSDKCore/SFSDKAlertMessage.h>
+#import <SalesforceSDKCore/SFSDKAlertMessageBuilder.h>
 #import <SalesforceSDKCore/SFSDKAnalyticsPublisher.h>
 #import <SalesforceSDKCore/SFSDKAppConfig.h>
 #import <SalesforceSDKCore/SFSDKAppDelegate.h>
 #import <SalesforceSDKCore/SFSDKAppFeatureMarkers.h>
 #import <SalesforceSDKCore/SFSDKAsyncProcessListener.h>
+#import <SalesforceSDKCore/SFSDKAuthViewHandler.h>
 #import <SalesforceSDKCore/SFSDKCoreLogger.h>
 #import <SalesforceSDKCore/SFSDKCryptoUtils.h>
+#import <SalesforceSDKCore/SFSDKDevInfoViewController.h>
 #import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
+#import <SalesforceSDKCore/SFSDKLoginFlowSelectionView.h>
 #import <SalesforceSDKCore/SFSDKLoginHost.h>
 #import <SalesforceSDKCore/SFSDKLoginHostDelegate.h>
 #import <SalesforceSDKCore/SFSDKLoginHostListViewController.h>
 #import <SalesforceSDKCore/SFSDKLoginHostStorage.h>
+#import <SalesforceSDKCore/SFSDKLoginViewControllerConfig.h>
 #import <SalesforceSDKCore/SFSDKResourceUtils.h>
 #import <SalesforceSDKCore/SFSDKSafeMutableDictionary.h>
 #import <SalesforceSDKCore/SFSDKSalesforceAnalyticsManager.h>
@@ -134,14 +122,16 @@
 #import <SalesforceSDKCore/SFSDKSoslReturningBuilder.h>
 #import <SalesforceSDKCore/SFSDKTestCredentialsData.h>
 #import <SalesforceSDKCore/SFSDKTestRequestListener.h>
+#import <SalesforceSDKCore/SFSDKUserSelectionView.h>
 #import <SalesforceSDKCore/SFSDKWebUtils.h>
 #import <SalesforceSDKCore/SFSDKWebViewStateManager.h>
+#import <SalesforceSDKCore/SFSDKWindowContainer.h>
+#import <SalesforceSDKCore/SFSDKWindowManager.h>
 #import <SalesforceSDKCore/SFSecurityLockout+Internal.h>
 #import <SalesforceSDKCore/SFSecurityLockout.h>
 #import <SalesforceSDKCore/SFSHA256PasscodeProvider.h>
 #import <SalesforceSDKCore/SFSObjectTree.h>
 #import <SalesforceSDKCore/SFTestContext.h>
-#import <SalesforceSDKCore/SFUserAccount+SalesforceNetwork.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import <SalesforceSDKCore/SFUserAccountConstants.h>
 #import <SalesforceSDKCore/SFUserAccountIdentity.h>

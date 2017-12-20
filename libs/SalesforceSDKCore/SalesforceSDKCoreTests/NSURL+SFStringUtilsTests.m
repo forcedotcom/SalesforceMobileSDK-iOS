@@ -29,6 +29,9 @@
 
 #pragma mark - NSURL+SFStringUtils tests
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
+
 - (void)testNoQueryString
 {
     NSString *inUrlString = @"https://www.myserver.com/path.html";
@@ -98,7 +101,7 @@
     XCTAssertEqualObjects(@"http://test.salesforce.com", [NSURL stringUrlWithBaseUrl:[NSURL URLWithString:@"http://test.salesforce.com"] pathComponents:nil], @"Invalid URL string");
     XCTAssertEqualObjects(@"http://test.salesforce.com:8080", [NSURL stringUrlWithBaseUrl:[NSURL URLWithString:@"http://test.salesforce.com:8080"] pathComponents:nil], @"Invalid URL string");
     XCTAssertEqualObjects(@"http://test.salesforce.com:8080/customers", [NSURL stringUrlWithBaseUrl:[NSURL URLWithString:@"http://test.salesforce.com:8080/customers"] pathComponents:nil], @"Invalid URL string");
-    XCTAssertEqualObjects(@"http://test.salesforce.com:8080/customers/service/data/v39.0", ([NSURL stringUrlWithBaseUrl:[NSURL URLWithString:@"http://test.salesforce.com:8080/customers"] pathComponents:@[@"service/data", @"v39.0"]]), @"Invalid URL string");
+    XCTAssertEqualObjects(@"http://test.salesforce.com:8080/customers/service/data/v41.0", ([NSURL stringUrlWithBaseUrl:[NSURL URLWithString:@"http://test.salesforce.com:8080/customers"] pathComponents:@[@"service/data", @"v41.0"]]), @"Invalid URL string");
 }
 
 - (void)testStringUrlWithComponents
@@ -110,8 +113,8 @@
     XCTAssertEqualObjects(@"https://test.salesforce.com:3747/customers", [NSURL stringUrlWithScheme:@"https" host:@"test.salesforce.com" port:@(3747) pathComponents:@[@"/customers"]], @"Invalid URL string");
     XCTAssertEqualObjects(@"https://test.salesforce.com:3747/customers/", [NSURL stringUrlWithScheme:@"https" host:@"test.salesforce.com" port:@(3747) pathComponents:@[@"customers/"]], @"Invalid URL string");
     XCTAssertEqualObjects(@"https://test.salesforce.com:3747/customers/", [NSURL stringUrlWithScheme:@"https" host:@"test.salesforce.com" port:@(3747) pathComponents:@[@"/customers/"]], @"Invalid URL string");
-    XCTAssertEqualObjects(@"https://test.salesforce.com:3747/customers/service/data/v39.0/settings", ([NSURL stringUrlWithScheme:@"https" host:@"test.salesforce.com" port:@(3747) pathComponents:@[@"/customers", @"service/data/v39.0/", @"settings"]]), @"Invalid URL string");
-    XCTAssertEqualObjects(@"https://test.salesforce.com:3747/customers/service/data/v39.0/settings", ([NSURL stringUrlWithScheme:@"https" host:@"test.salesforce.com" port:@(3747) pathComponents:@[@"/customers/", @"/service/data/v39.0/", @"/settings"]]), @"Invalid URL string");
+    XCTAssertEqualObjects(@"https://test.salesforce.com:3747/customers/service/data/v41.0/settings", ([NSURL stringUrlWithScheme:@"https" host:@"test.salesforce.com" port:@(3747) pathComponents:@[@"/customers", @"service/data/v41.0/", @"settings"]]), @"Invalid URL string");
+    XCTAssertEqualObjects(@"https://test.salesforce.com:3747/customers/service/data/v41.0/settings", ([NSURL stringUrlWithScheme:@"https" host:@"test.salesforce.com" port:@(3747) pathComponents:@[@"/customers/", @"/service/data/v41.0/", @"/settings"]]), @"Invalid URL string");
 }
 
 - (void)testStringURLWithNil
@@ -132,3 +135,5 @@
 }
 
 @end
+
+#pragma clang diagnostic pop
