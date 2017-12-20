@@ -82,15 +82,15 @@ NSUInteger const kSFPBKDFDefaultSaltByteLength = 32;
     }
 }
 
-+ (NSData *)aes256EncryptData:(NSData *)data withKey:(NSData *)key iv:(NSData *)iv
++ (NSData *)aesEncryptData:(NSData *)data withKey:(NSData *)key keyLength:(NSInteger)keyLength iv:(NSData *)iv
 {
     // Ensure the proper key, IV sizes.
     if (key == nil) {
-        [SFSDKCoreLogger e:[self class] format:@"aes256EncryptData: encryption key is nil.  Cannot encrypt data."];
+        [SFSDKCoreLogger e:[self class] format:@"aesEncryptData: encryption key is nil.  Cannot encrypt data."];
         return nil;
     }
     NSMutableData *mutableKey = [key mutableCopy];
-    [mutableKey setLength:kCCKeySizeAES256];
+    [mutableKey setLength:keyLength];
     NSMutableData *mutableIv = [iv mutableCopy];
     [mutableIv setLength:kCCBlockSizeAES128];
 	
@@ -113,15 +113,15 @@ NSUInteger const kSFPBKDFDefaultSaltByteLength = 32;
     return (executeCryptSuccess ? resultData : nil);
 }
 
-+ (NSData *)aes256DecryptData:(NSData *)data withKey:(NSData *)key iv:(NSData *)iv
++ (NSData *)aesDecryptData:(NSData *)data withKey:(NSData *)key keyLength:(NSInteger)keyLength iv:(NSData *)iv
 {
     // Ensure the proper key, IV sizes.
     if (key == nil) {
-        [SFSDKCoreLogger e:[self class] format:@"aes256DecryptData: decryption key is nil.  Cannot decrypt data."];
+        [SFSDKCoreLogger e:[self class] format:@"aesDecryptData: decryption key is nil.  Cannot decrypt data."];
         return nil;
     }
     NSMutableData *mutableKey = [key mutableCopy];
-    [mutableKey setLength:kCCKeySizeAES256];
+    [mutableKey setLength:keyLength];
     NSMutableData *mutableIv = [iv mutableCopy];
     [mutableIv setLength:kCCBlockSizeAES128];
 	
@@ -142,6 +142,26 @@ NSUInteger const kSFPBKDFDefaultSaltByteLength = 32;
 	BOOL executeCryptSuccess = [self executeCrypt:data cryptor:cryptor resultData:&resultData];
 	CCCryptorRelease(cryptor);
     return (executeCryptSuccess ? resultData : nil);
+}
+
++ (NSData *)aes128EncryptData:(NSData *)data withKey:(NSData *)key iv:(NSData *)iv
+{
+    return [self aesEncryptData:data withKey:key keyLength:kCCKeySizeAES128 iv:iv];
+}
+
++ (NSData *)aes128DecryptData:(NSData *)data withKey:(NSData *)key iv:(NSData *)iv
+{
+    return [self aesDecryptData:data withKey:key keyLength:kCCKeySizeAES128 iv:iv];
+}
+
++ (NSData *)aes256EncryptData:(NSData *)data withKey:(NSData *)key iv:(NSData *)iv
+{
+    return [self aesEncryptData:data withKey:key keyLength:kCCKeySizeAES256 iv:iv];
+}
+
++ (NSData *)aes256DecryptData:(NSData *)data withKey:(NSData *)key iv:(NSData *)iv
+{
+    return [self aesDecryptData:data withKey:key keyLength:kCCKeySizeAES256 iv:iv];
 }
 
 #pragma mark - Private methods

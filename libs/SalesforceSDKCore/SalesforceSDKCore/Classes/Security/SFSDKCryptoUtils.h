@@ -80,6 +80,44 @@ extern NSUInteger const kSFPBKDFDefaultSaltByteLength;
                               keyLength:(NSUInteger)derivedKeyLength;
 
 /**
+ * Encrypt the given data using the AES algorithm.
+ * @param data The data to encrypt.
+ * @param key The encryption key used to encrypt the data.
+ * @param keyLength The encryption key length used for key.
+ * @param iv The initialization vector data used for the encryption.
+ * @return The encrypted data, or `nil` if encryption was not successful.
+ */
++ (nullable NSData *)aesEncryptData:(NSData *)data withKey:(NSData *)key keyLength:(NSInteger)keyLength iv:(NSData *)iv;
+
+/**
+ * Decrypt the given data using the AES algorithm.
+ * @param data The data to decrypt.
+ * @param key The decryption key used to decrypt the data.
+ * @param keyLength The decryption key length used for key.
+ * @param iv The initialization vector data used for the decryption.
+ * @return The decrypted data, or `nil` if decryption was not successful.
+ */
++ (nullable NSData *)aesDecryptData:(NSData *)data withKey:(NSData *)key keyLength:(NSInteger)keyLength iv:(NSData *)iv;
+
+/**
+ * Encrypt the given data using the AES-128 algorithm.
+ * @param data The data to encrypt.
+ * @param key The encryption key used to encrypt the data.
+ * @param iv The initialization vector data used for the encryption.
+ * @return The encrypted data, or `nil` if encryption was not successful.
+ */
++ (nullable NSData *)aes128EncryptData:(NSData *)data withKey:(NSData *)key iv:(NSData *)iv;
+
+/**
+ * Decrypt the given data using the AES-128 algorithm.
+ * @param data The data to decrypt.
+ * @param key The decryption key used to decrypt the data.
+ * @param iv The initialization vector data used for the decryption.
+ * @return The decrypted data, or `nil` if decryption was not successful.
+ */
++ (nullable NSData *)aes128DecryptData:(NSData *)data withKey:(NSData *)key iv:(NSData *)iv;
+
+/**
  * Encrypt the given data using the AES-256 algorithm.
  * @param data The data to encrypt.
  * @param key The encryption key used to encrypt the data.
