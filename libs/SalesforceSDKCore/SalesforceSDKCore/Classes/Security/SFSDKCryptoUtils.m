@@ -44,6 +44,26 @@ NSUInteger const kSFPBKDFDefaultSaltByteLength = 32;
  */
 + (BOOL)executeCrypt:(NSData *)inData cryptor:(CCCryptorRef)cryptor resultData:(NSData **)resultData;
 
+/**
+ * Encrypt the given data using the AES algorithm.
+ * @param data The data to encrypt.
+ * @param key The encryption key used to encrypt the data.
+ * @param keyLength The encryption key length used for key.
+ * @param iv The initialization vector data used for the encryption.
+ * @return The encrypted data, or `nil` if encryption was not successful.
+ */
++ (nullable NSData *)aesEncryptData:(NSData *)data withKey:(NSData *)key keyLength:(NSInteger)keyLength iv:(NSData *)iv;
+
+/**
+ * Decrypt the given data using the AES algorithm.
+ * @param data The data to decrypt.
+ * @param key The decryption key used to decrypt the data.
+ * @param keyLength The decryption key length used for key.
+ * @param iv The initialization vector data used for the decryption.
+ * @return The decrypted data, or `nil` if decryption was not successful.
+ */
++ (nullable NSData *)aesDecryptData:(NSData *)data withKey:(NSData *)key keyLength:(NSInteger)keyLength iv:(NSData *)iv;
+
 @end
 
 @implementation SFSDKCryptoUtils
@@ -80,68 +100,6 @@ NSUInteger const kSFPBKDFDefaultSaltByteLength = 32;
         SFPBKDFData *returnPBKDFData = [[SFPBKDFData alloc] initWithKey:keyData salt:salt derivationRounds:numDerivationRounds derivedKeyLength:derivedKeyLength];
         return returnPBKDFData;
     }
-}
-
-+ (NSData *)aesEncryptData:(NSData *)data withKey:(NSData *)key keyLength:(NSInteger)keyLength iv:(NSData *)iv
-{
-    // Ensure the proper key, IV sizes.
-    if (key == nil) {
-        [SFSDKCoreLogger e:[self class] format:@"aesEncryptData: encryption key is nil.  Cannot encrypt data."];
-        return nil;
-    }
-    NSMutableData *mutableKey = [key mutableCopy];
-    [mutableKey setLength:keyLength];
-    NSMutableData *mutableIv = [iv mutableCopy];
-    [mutableIv setLength:kCCBlockSizeAES128];
-	
-	CCCryptorRef cryptor = NULL;
-	CCCryptorStatus status = CCCryptorCreate(kCCEncrypt,
-                                             kCCAlgorithmAES,
-                                             kCCOptionPKCS7Padding,
-                                             [mutableKey bytes],
-                                             [mutableKey length],
-                                             [mutableIv bytes],
-                                             &cryptor);
-	if (status != kCCSuccess) {
-        [SFSDKCoreLogger e:[self class] format:@"Error creating encryption cryptor with CCCryptorCreate().  Status code: %d", status];
-		return nil;
-	}
-	
-    NSData *resultData = nil;
-	BOOL executeCryptSuccess = [self executeCrypt:data cryptor:cryptor resultData:&resultData];
-	CCCryptorRelease(cryptor);
-    return (executeCryptSuccess ? resultData : nil);
-}
-
-+ (NSData *)aesDecryptData:(NSData *)data withKey:(NSData *)key keyLength:(NSInteger)keyLength iv:(NSData *)iv
-{
-    // Ensure the proper key, IV sizes.
-    if (key == nil) {
-        [SFSDKCoreLogger e:[self class] format:@"aesDecryptData: decryption key is nil.  Cannot decrypt data."];
-        return nil;
-    }
-    NSMutableData *mutableKey = [key mutableCopy];
-    [mutableKey setLength:keyLength];
-    NSMutableData *mutableIv = [iv mutableCopy];
-    [mutableIv setLength:kCCBlockSizeAES128];
-	
-	CCCryptorRef cryptor = NULL;
-	CCCryptorStatus status = CCCryptorCreate(kCCDecrypt,
-                                             kCCAlgorithmAES,
-                                             kCCOptionPKCS7Padding,
-                                             [mutableKey bytes],
-                                             [mutableKey length],
-                                             [mutableIv bytes],
-                                             &cryptor);
-	if (status != kCCSuccess) {
-        [SFSDKCoreLogger e:[self class] format:@"Error creating decryption cryptor with CCCryptorCreate().  Status code: %d", status];
-		return nil;
-	}
-	
-    NSData *resultData = nil;
-	BOOL executeCryptSuccess = [self executeCrypt:data cryptor:cryptor resultData:&resultData];
-	CCCryptorRelease(cryptor);
-    return (executeCryptSuccess ? resultData : nil);
 }
 
 + (NSData *)aes128EncryptData:(NSData *)data withKey:(NSData *)key iv:(NSData *)iv
@@ -196,6 +154,68 @@ NSUInteger const kSFPBKDFDefaultSaltByteLength = 32;
         free(buffer);
     
 	return YES;
+}
+
++ (NSData *)aesEncryptData:(NSData *)data withKey:(NSData *)key keyLength:(NSInteger)keyLength iv:(NSData *)iv
+{
+    // Ensure the proper key, IV sizes.
+    if (key == nil) {
+        [SFSDKCoreLogger e:[self class] format:@"aesEncryptData: encryption key is nil.  Cannot encrypt data."];
+        return nil;
+    }
+    NSMutableData *mutableKey = [key mutableCopy];
+    [mutableKey setLength:keyLength];
+    NSMutableData *mutableIv = [iv mutableCopy];
+    [mutableIv setLength:kCCBlockSizeAES128];
+    
+    CCCryptorRef cryptor = NULL;
+    CCCryptorStatus status = CCCryptorCreate(kCCEncrypt,
+                                             kCCAlgorithmAES,
+                                             kCCOptionPKCS7Padding,
+                                             [mutableKey bytes],
+                                             [mutableKey length],
+                                             [mutableIv bytes],
+                                             &cryptor);
+    if (status != kCCSuccess) {
+        [SFSDKCoreLogger e:[self class] format:@"Error creating encryption cryptor with CCCryptorCreate().  Status code: %d", status];
+        return nil;
+    }
+    
+    NSData *resultData = nil;
+    BOOL executeCryptSuccess = [self executeCrypt:data cryptor:cryptor resultData:&resultData];
+    CCCryptorRelease(cryptor);
+    return (executeCryptSuccess ? resultData : nil);
+}
+
++ (NSData *)aesDecryptData:(NSData *)data withKey:(NSData *)key keyLength:(NSInteger)keyLength iv:(NSData *)iv
+{
+    // Ensure the proper key, IV sizes.
+    if (key == nil) {
+        [SFSDKCoreLogger e:[self class] format:@"aesDecryptData: decryption key is nil.  Cannot decrypt data."];
+        return nil;
+    }
+    NSMutableData *mutableKey = [key mutableCopy];
+    [mutableKey setLength:keyLength];
+    NSMutableData *mutableIv = [iv mutableCopy];
+    [mutableIv setLength:kCCBlockSizeAES128];
+    
+    CCCryptorRef cryptor = NULL;
+    CCCryptorStatus status = CCCryptorCreate(kCCDecrypt,
+                                             kCCAlgorithmAES,
+                                             kCCOptionPKCS7Padding,
+                                             [mutableKey bytes],
+                                             [mutableKey length],
+                                             [mutableIv bytes],
+                                             &cryptor);
+    if (status != kCCSuccess) {
+        [SFSDKCoreLogger e:[self class] format:@"Error creating decryption cryptor with CCCryptorCreate().  Status code: %d", status];
+        return nil;
+    }
+    
+    NSData *resultData = nil;
+    BOOL executeCryptSuccess = [self executeCrypt:data cryptor:cryptor resultData:&resultData];
+    CCCryptorRelease(cryptor);
+    return (executeCryptSuccess ? resultData : nil);
 }
 
 @end
