@@ -143,6 +143,7 @@
 		CE65C2321C0FD51400319E68 /* SmartStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2311C0FD51400319E68 /* SmartStore.framework */; };
 		CE65C2341C0FD51A00319E68 /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2331C0FD51A00319E68 /* SalesforceSDKCore.framework */; };
 		CE65C23A1C0FD52F00319E68 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2391C0FD52F00319E68 /* libz.tbd */; };
+		CE6839431FFEE5220011DA0A /* Cordova.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEF966C1EB7CBF50059CA79 /* Cordova.framework */; };
 		CE6AB3C51C10CD440012125E /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F0C192B18AAFDF3000FD4E9 /* AssetsLibrary.framework */; };
 		CE77E2FD1E8C8BAB003E1CD6 /* CDVWKProcessPoolFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = CE77E2F81E8C8BAB003E1CD6 /* CDVWKProcessPoolFactory.m */; };
 		CE77E2FE1E8C8BAB003E1CD6 /* CDVWKWebViewEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = CE77E2FA1E8C8BAB003E1CD6 /* CDVWKWebViewEngine.m */; };
@@ -607,6 +608,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE6839431FFEE5220011DA0A /* Cordova.framework in Frameworks */,
 				CE4CE2E81C0E465B009F6029 /* SalesforceHybridSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
