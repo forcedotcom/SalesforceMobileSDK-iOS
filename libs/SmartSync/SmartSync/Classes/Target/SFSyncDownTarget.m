@@ -147,6 +147,9 @@ ABSTRACT_METHOD
     if ([queryType isEqualToString:kSFSyncTargetQueryTypeRefresh]) {
         return SFSyncDownTargetQueryTypeRefresh;
     }
+    if ([queryType isEqualToString:kSFSyncTargetQueryTypeParentChidlren]) {
+        return SFSyncDownTargetQueryTypeParentChildren;
+    }
     // Must be custom
     return SFSyncDownTargetQueryTypeCustom;
 }
