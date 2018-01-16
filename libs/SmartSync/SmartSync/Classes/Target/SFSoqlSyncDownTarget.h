@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SFSoqlSyncDownTarget : SFSyncDownTarget
 
-@property (nonatomic, strong) NSString* query;
+@property (nonatomic, copy) NSString* query;
 
 /** Factory methods
  */

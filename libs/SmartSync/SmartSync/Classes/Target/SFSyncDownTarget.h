@@ -43,7 +43,7 @@ typedef NS_ENUM(NSInteger, SFSyncDownTargetQueryType) {
 
 @interface SFSyncDownTarget : SFSyncTarget
 
-@property (nonatomic) SFSyncDownTargetQueryType queryType;
+@property (nonatomic,assign) SFSyncDownTargetQueryType queryType;
 
 // Set during a fetch
 @property (nonatomic) NSUInteger totalSize;

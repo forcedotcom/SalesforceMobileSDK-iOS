@@ -31,9 +31,7 @@
     self = [self init];
     if (self) {
         if (soupDict != nil) {
-            for (NSString *fieldName in [soupDict allKeys]) {
-                [self updateSoupForFieldName:fieldName fieldValue:soupDict[fieldName]];
-            }
+            [self updateSoup:soupDict];
         }
     }
     return self;
@@ -43,12 +41,32 @@
     self = [super init];
     if (self) {
         self.soupDict = @{ };
-        for (NSString *fieldName in [[self class] dataSpec].fieldNames) {
-            [self updateSoupForFieldName:fieldName fieldValue:[NSNull null]];
-        }
+        [self initSoupValues:[[self class] dataSpec].fieldNames];
         [self updateSoupForFieldName:@"attributes" fieldValue:@{ @"type": [[self class] dataSpec].objectType }];
     }
     return self;
+}
+
+- (void)initSoupValues:(NSArray *)fieldNames {
+    NSMutableDictionary *mutableSoup = [self.soupDict mutableCopy];
+    
+    for (NSString *fieldName in fieldNames) {
+        mutableSoup[fieldName] = [NSNull null];
+    }
+    self.soupDict = mutableSoup;
+}
+
+- (void)updateSoup:(NSDictionary *)soupDict {
+    NSMutableDictionary *mutableSoup = [self.soupDict mutableCopy];
+    
+    for (NSString *fieldName in [soupDict allKeys]) {
+       
+        id fieldValue = soupDict[fieldName];
+        if (fieldValue == nil)
+            fieldValue = [NSNull null];
+        mutableSoup[fieldName] = fieldValue;
+    }
+    self.soupDict = mutableSoup;
 }
 
 - (void)updateSoupForFieldName:(NSString *)fieldName fieldValue:(id)fieldValue  {
