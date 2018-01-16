@@ -55,6 +55,9 @@
       location = "container:"
       name = "NativeSamples">
       <FileRef
+         location = "group:native/SampleApps/RestAPIExplorerSwift/RestAPIExplorerSwift.xcodeproj">
+      </FileRef>
+      <FileRef
          location = "group:native/SampleApps/RestAPIExplorer/RestAPIExplorer.xcodeproj">
       </FileRef>
       <FileRef
