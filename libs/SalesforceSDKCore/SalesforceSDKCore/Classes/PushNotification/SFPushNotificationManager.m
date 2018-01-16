@@ -186,7 +186,8 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
     [request setHTTPShouldHandleCookies:NO];
     
     // Body
-    NSDictionary* bodyDict = @{@"ConnectionToken":_deviceToken, @"ServiceType":@"Apple"};
+    NSString *bundleId = [NSBundle mainBundle].bundleIdentifier;
+    NSDictionary* bodyDict = @{@"ConnectionToken":_deviceToken, @"ServiceType":@"Apple", @"ApplicationBundle":bundleId};
     [request setHTTPBody:[SFJsonUtils JSONDataRepresentation:bodyDict]];
     
     // Send
