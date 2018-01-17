@@ -135,7 +135,7 @@ static NSException *authException = nil;
                             [[SFSoupIndex alloc] initWithPath:NAME indexType:kSoupIndexTypeString columnName:nil],
                             [[SFSoupIndex alloc] initWithPath:DESCRIPTION indexType:kSoupIndexTypeFullText columnName:nil],
                             [[SFSoupIndex alloc] initWithPath:kSyncTargetLocal indexType:kSoupIndexTypeString columnName:nil],
-                            [[SFSoupIndex alloc] initWithPath:kSyncTargetSyncId indexType:kSoupIndexTypeInteger columnName:nil],
+                            [[SFSoupIndex alloc] initWithPath:kSyncTargetSyncId indexType:kSoupIndexTypeInteger columnName:nil]
                             ];
     [self.store registerSoup:ACCOUNTS_SOUP withIndexSpecs:indexSpecs error:nil];
 }
@@ -149,7 +149,8 @@ static NSException *authException = nil;
             [[SFSoupIndex alloc] initWithPath:ID indexType:kSoupIndexTypeString columnName:nil],
             [[SFSoupIndex alloc] initWithPath:LAST_NAME indexType:kSoupIndexTypeString columnName:nil],
             [[SFSoupIndex alloc] initWithPath:ACCOUNT_ID indexType:kSoupIndexTypeString columnName:nil],
-            [[SFSoupIndex alloc] initWithPath:kSyncTargetLocal indexType:kSoupIndexTypeString columnName:nil]
+            [[SFSoupIndex alloc] initWithPath:kSyncTargetLocal indexType:kSoupIndexTypeString columnName:nil],
+            [[SFSoupIndex alloc] initWithPath:kSyncTargetSyncId indexType:kSoupIndexTypeInteger columnName:nil]
     ];
     [self.store registerSoup:CONTACTS_SOUP withIndexSpecs:indexSpecs error:nil];
 }

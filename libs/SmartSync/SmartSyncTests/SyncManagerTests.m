@@ -161,6 +161,8 @@
  */
 - (void) testCleanResyncGhostsWithMultipleSyncs
 {
+    [self createAccountsSoup];
+        
     // Creates 6 accounts on the server.
     NSArray* accountIds = [[self createAccountsOnServer:6] allKeys];
     NSArray* accountIdsFirstSubset = [accountIds subarrayWithRange:NSMakeRange(0, 3)];  // id0, id1, id2
