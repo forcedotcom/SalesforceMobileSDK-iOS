@@ -304,7 +304,7 @@
 
 
 - (NSString *)getNonDirtyRecordIdsSql:(NSString *)soupName idField:(NSString *)idField additionalPredicate:(NSString *)additionalPredicate {
-    return [SFParentChildrenSyncHelper getNonDirtyRecordIdsSql:self.parentInfo childrenInfo:self.childrenInfo parentFieldToSelect:idField additionalPredicate:nil];
+    return [SFParentChildrenSyncHelper getNonDirtyRecordIdsSql:self.parentInfo childrenInfo:self.childrenInfo parentFieldToSelect:idField additionalPredicate:additionalPredicate];
 }
 
 

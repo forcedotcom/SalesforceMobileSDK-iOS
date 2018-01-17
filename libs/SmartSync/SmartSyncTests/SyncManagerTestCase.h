@@ -82,9 +82,12 @@
 
 - (void)checkStatus:(SFSyncState *)sync expectedType:(SFSyncStateSyncType)expectedType expectedId:(NSInteger)expectedId expectedTarget:(SFSyncTarget *)expectedTarget expectedOptions:(SFSyncOptions *)expectedOptions expectedStatus:(SFSyncStateStatus)expectedStatus expectedProgress:(NSInteger)expectedProgress expectedTotalSize:(NSInteger)expectedTotalSize;
 - (void)checkStatus:(SFSyncState *)sync expectedType:(SFSyncStateSyncType)expectedType expectedId:(NSInteger)expectedId expectedName:(NSString *)expectedName expectedTarget:(SFSyncTarget *)expectedTarget expectedOptions:(SFSyncOptions *)expectedOptions expectedStatus:(SFSyncStateStatus)expectedStatus expectedProgress:(NSInteger)expectedProgress expectedTotalSize:(NSInteger)expectedTotalSize;
+- (void)checkDbExists:(NSString*)soupName ids:(NSArray*)ids idField:(NSString*)idField;
 - (void)checkDb:(NSDictionary *)expectedIdToFields soupName:(NSString *)soupName;
 
 - (void)checkDbStateFlags:(NSArray *)ids soupName:(NSString *)soupName expectedLocallyCreated:(bool)expectedLocallyCreated expectedLocallyUpdated:(bool)expectedLocallyUpdated expectedLocallyDeleted:(bool)expectedLocallyDeleted;
+
+- (void)checkDbSyncIdField:(NSArray *)ids soupName:(NSString *)soupName syncId:(NSNumber*)syncId;
 
 - (NSDictionary *)makeSomeLocalChanges:(NSDictionary *)idToFields soupName:(NSString *)soupName;
 - (NSDictionary *)makeSomeLocalChanges:(NSDictionary *)idToFields soupName:(NSString *)soupName idsToUpdate:(NSArray *)idsToUpdate;
