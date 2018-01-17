@@ -40,8 +40,10 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
 
 - (NSString *)getSoqlForRemoteIds;
 - (NSString*) getDirtyRecordIdsSql:(NSString*)soupName idField:(NSString*)idField;
-- (NSString*) getNonDirtyRecordIdsSql:(NSString*)soupName idField:(NSString*)idField;
-- (NSOrderedSet *)getNonDirtyRecordIds:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName idField:(NSString *)idField;
+
+- (NSString *)getNonDirtyRecordIdsSql:(NSString *)soupName idField:(NSString *)idField additionalPredicate:(NSString *)additionalPredicate;
+
+- (NSOrderedSet *)getNonDirtyRecordIds:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName idField:(NSString *)idField additionalPredicate:(NSString *)additionalPredicate;
 
 @end
 
@@ -188,7 +190,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
                        relationshipType:SFParentChildrenRelationpshipLookup];
 
     NSString *expectedQuery = @"SELECT DISTINCT {parentsSoup:IdForQuery} FROM {parentsSoup} WHERE {parentsSoup:__local__} = 0 AND NOT EXISTS (SELECT {childrenSoup:ChildId} FROM {childrenSoup} WHERE {childrenSoup:ChildParentId} = {parentsSoup:ParentId} AND {childrenSoup:__local__} = 1)";
-    XCTAssertEqualObjects([target getNonDirtyRecordIdsSql:@"parentsSoup" idField:@"IdForQuery"], expectedQuery);
+    XCTAssertEqualObjects([target getNonDirtyRecordIdsSql:@"parentsSoup" idField:@"IdForQuery" additionalPredicate:nil], expectedQuery);
 }
 
 /**
@@ -280,7 +282,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
 
     // Now calling saveRecordsToLocalStore
     SFParentChildrenSyncDownTarget * target = [self getAccountContactsSyncDownTarget];
-    [target saveRecordsToLocalStore:self.syncManager soupName:ACCOUNTS_SOUP records:records];
+    [target saveRecordsToLocalStore:self.syncManager soupName:ACCOUNTS_SOUP records:records syncId:nil];
 
     // Checking accounts and contacts soup
     // Making sure local fields are populated
@@ -1154,7 +1156,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
 - (void) tryGetNonDirtyRecordIds:(NSArray*) expectedRecords
 {
     SFParentChildrenSyncDownTarget * target = [self getAccountContactsSyncDownTarget];
-    NSOrderedSet* nonDirtyRecordIds = [target getNonDirtyRecordIds:self.syncManager soupName:ACCOUNTS_SOUP idField:ID];
+    NSOrderedSet* nonDirtyRecordIds = [target getNonDirtyRecordIds:self.syncManager soupName:ACCOUNTS_SOUP idField:ID additionalPredicate:nil];
     XCTAssertEqual(nonDirtyRecordIds.count, expectedRecords.count);
 
     for (NSDictionary * expectedRecord in expectedRecords) {

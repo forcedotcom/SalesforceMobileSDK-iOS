@@ -159,12 +159,14 @@
 
 - (void)cleanGhosts:(SFSmartSyncSyncManager *)syncManager
            soupName:(NSString *)soupName
+             syncId:(NSNumber *)syncId
          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
 
     // Taking care of ghost parents
     [super cleanGhosts:syncManager
               soupName:soupName
+                syncId:syncId
             errorBlock:errorBlock
          completeBlock:^(NSArray *localIdsArr) {
 
@@ -172,7 +174,10 @@
 
              // NB: ParentChildrenSyncDownTarget's getNonDirtyRecordIdsSql does a join between parent and children soups
              // We only want to look at the children soup, so using SoqlSyncDownTarget's getNonDirtyRecordIdsSql
-             NSMutableOrderedSet* localChildrenIds = [[self getIdsWithQuery:[super getNonDirtyRecordIdsSql:self.childrenInfo.soupName idField:self.childrenInfo.idFieldName] syncManager:syncManager] mutableCopy];
+             NSMutableOrderedSet *localChildrenIds = [[self getIdsWithQuery:[super getNonDirtyRecordIdsSql:self.childrenInfo.soupName
+                                                                                                   idField:self.childrenInfo.idFieldName
+                                                                                       additionalPredicate:[self buildSyncIdPredicateIfIndexed:syncManager soupName:self.childrenInfo.soupName syncId:syncId]]
+                                                                syncManager:syncManager] mutableCopy];
 
              [self getChildrenRemoteIdsWithSoql:syncManager soqlForChildrenRemoteIds:[self getSoqlForRemoteChildrenIds] errorBlock:errorBlock completeBlock:^(NSArray *remoteChildrenIds) {
                  [localChildrenIds removeObjectsInArray:remoteChildrenIds];
@@ -182,7 +187,7 @@
 
                  completeBlock(localIdsArr);
              }];
-    }];
+         }];
 }
 
 - (long long)getLatestModificationTimeStamp:(NSArray *)records {
@@ -201,10 +206,10 @@
     return maxTimeStamp;
 }
 
-- (void)saveRecordsToLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName records:(NSArray *)records {
+- (void)saveRecordsToLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName records:(NSArray *)records syncId:(NSNumber *)syncId {
     // NB: method is called during sync down so for this target records contain parent and children
 
-    return [SFParentChildrenSyncHelper saveRecordTreesToLocalStore:syncManager target:self parentInfo:self.parentInfo childrenInfo:self.childrenInfo recordTrees:records];
+    return [SFParentChildrenSyncHelper saveRecordTreesToLocalStore:syncManager target:self parentInfo:self.parentInfo childrenInfo:self.childrenInfo recordTrees:records syncId:syncId];
 }
 
 #pragma mark - Utility methods
@@ -298,8 +303,8 @@
 }
 
 
-- (NSString*) getNonDirtyRecordIdsSql:(NSString*)soupName idField:(NSString*)idField {
-    return [SFParentChildrenSyncHelper getNonDirtyRecordIdsSql:self.parentInfo childrenInfo:self.childrenInfo parentFieldToSelect:idField];
+- (NSString *)getNonDirtyRecordIdsSql:(NSString *)soupName idField:(NSString *)idField additionalPredicate:(NSString *)additionalPredicate {
+    return [SFParentChildrenSyncHelper getNonDirtyRecordIdsSql:self.parentInfo childrenInfo:self.childrenInfo parentFieldToSelect:idField additionalPredicate:nil];
 }
 
 
