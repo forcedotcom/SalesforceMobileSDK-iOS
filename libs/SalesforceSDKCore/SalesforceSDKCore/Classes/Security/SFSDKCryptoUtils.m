@@ -33,6 +33,10 @@ NSUInteger const kSFPBKDFDefaultNumberOfDerivationRounds = 4000;
 NSUInteger const kSFPBKDFDefaultDerivedKeyByteLength = 128;
 NSUInteger const kSFPBKDFDefaultSaltByteLength = 32;
 
+// RSA key constants
+static NSString * const kSFRSAPublicKeyTagPrefix = @"com.salesforce.rsakey.public";
+static NSString * const kSFRSAPrivateKeyTagPrefix = @"com.salesforce.rsakey.private";
+
 @interface SFSDKCryptoUtils ()
 
 /**
@@ -63,6 +67,21 @@ NSUInteger const kSFPBKDFDefaultSaltByteLength = 32;
  * @return The decrypted data, or `nil` if decryption was not successful.
  */
 + (nullable NSData *)aesDecryptData:(NSData *)data withKey:(NSData *)key keyLength:(NSInteger)keyLength iv:(NSData *)iv;
+
+/**
+ * Create asymmetric keys (public/private key pairs) using RSA algorithm with given keyName and length
+ * @param keyName The name string used to generate the key.
+ * @param length The key length used for key
+ */
++ (void)createRSAKeyPairWithName:(NSString *)keyName keyLength:(NSUInteger)length;
+
+/**
+ * Get RSA key as NSString with given keyTagString and length
+ * @param keyTagString The key tag string used to generate the key.
+ * @param length The key length used for key
+ * @return The key data, or `nil` if no matching key is found
+ */
++ (nullable NSData *)getRSAKeyDataWithTag:(NSString *)keyTagString keyLength:(NSUInteger)length;
 
 @end
 
@@ -120,6 +139,24 @@ NSUInteger const kSFPBKDFDefaultSaltByteLength = 32;
 + (NSData *)aes256DecryptData:(NSData *)data withKey:(NSData *)key iv:(NSData *)iv
 {
     return [self aesDecryptData:data withKey:key keyLength:kCCKeySizeAES256 iv:iv];
+}
+
+
++ (nullable NSData *)getRSAPrivateKeyDataWithName:(NSString *)keyName keyLength:(NSUInteger)length
+{
+    NSString *tagString = [NSString stringWithFormat:@"%@.%@", kSFRSAPrivateKeyTagPrefix, keyName];
+    return [self getRSAKeyDataWithTag:tagString keyLength:length];
+}
+
++ (nullable NSString *)getRSAPublicKeyStringWithName:(NSString *)keyName keyLength:(NSUInteger)length
+{
+    NSString *tagString = [NSString stringWithFormat:@"%@.%@", kSFRSAPublicKeyTagPrefix, keyName];
+    NSData *keyBits = [self getRSAKeyDataWithTag:tagString keyLength:length];
+    if (keyBits != nil) {
+        return [keyBits base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+    } else {
+        return nil;
+    }
 }
 
 #pragma mark - Private methods
@@ -216,6 +253,87 @@ NSUInteger const kSFPBKDFDefaultSaltByteLength = 32;
     BOOL executeCryptSuccess = [self executeCrypt:data cryptor:cryptor resultData:&resultData];
     CCCryptorRelease(cryptor);
     return (executeCryptSuccess ? resultData : nil);
+}
+
++ (void)createRSAKeyPairWithName:(NSString *)keyName keyLength:(NSUInteger)length
+{
+    NSString *privateTagString = [NSString stringWithFormat:@"%@.%@", kSFRSAPrivateKeyTagPrefix, keyName];
+    NSData *privateTag = [privateTagString dataUsingEncoding:NSUTF8StringEncoding];
+                          
+    NSString *publicTagString = [NSString stringWithFormat:@"%@.%@", kSFRSAPublicKeyTagPrefix, keyName];
+    NSData *publicTag = [publicTagString dataUsingEncoding:NSUTF8StringEncoding];
+
+    NSDictionary *attributes =
+    @{ (id)kSecAttrKeyType:               (id)kSecAttrKeyTypeRSA,
+       (id)kSecAttrKeySizeInBits:         [NSNumber numberWithUnsignedInteger:length],
+       (id)kSecPrivateKeyAttrs:
+           @{ (id)kSecAttrIsPermanent:    @YES,
+              (id)kSecAttrApplicationTag: privateTag,
+              },
+       (id)kSecPublicKeyAttrs:
+           @{ (id)kSecAttrIsPermanent:    @YES,
+              (id)kSecAttrApplicationTag: publicTag,
+              },
+
+       };
+    
+    CFErrorRef error = NULL;
+    SecKeyRef privateKey = SecKeyCreateRandomKey((__bridge CFDictionaryRef)attributes,
+                                                 &error);
+    if (privateKey == nil) {
+        NSError *err = CFBridgingRelease(error);
+        // Handle the error. . .
+        [SFSDKCoreLogger e:[self class] format:@"Error creating RSA private Key with name %@ and length %d.  Error code: %@", keyName, length, err.localizedDescription];
+        return;
+    }
+    
+    SecKeyRef publicKey = SecKeyCopyPublicKey(privateKey);
+
+    if (publicKey == nil) {
+        [SFSDKCoreLogger e:[self class] format:@"Error creating RSA public key with name %@ and length %d.", keyName, length];
+    }
+    
+    if (publicKey != nil)  {
+        CFRelease(publicKey);
+    }
+    if (privateKey != nil) {
+        CFRelease(privateKey);
+    }
+}
+
++(nullable NSData *)getRSAKeyDataWithTag:(NSString *)keyTagString keyLength:(NSUInteger)length {
+    NSData *tag = [keyTagString dataUsingEncoding:NSUTF8StringEncoding];
+    
+    NSDictionary *getquery = @{ (id)kSecClass: (id)kSecClassKey,
+                                (id)kSecAttrApplicationTag: tag,
+                                (id)kSecAttrKeyType: (id)kSecAttrKeyTypeRSA,
+                                (id)kSecReturnData: @YES,
+                                (id)kSecAttrKeySizeInBits: [NSNumber numberWithUnsignedInteger:length],
+                                };
+    
+    NSData *keyBits = nil;
+    CFTypeRef result = NULL;
+    OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef)getquery,
+                                          (CFTypeRef *)&result);
+    if (status != errSecSuccess) {
+        if (status == errSecItemNotFound) {
+            NSString *keyName = [[keyTagString componentsSeparatedByString:@"."] lastObject];
+            [self createRSAKeyPairWithName:keyName keyLength:length];
+            status = SecItemCopyMatching((__bridge CFDictionaryRef)getquery,
+                                         (CFTypeRef *)&result);
+        }
+        if (status != errSecSuccess) {
+            // Handle the error. . .
+            NSError *error = [NSError errorWithDomain:NSOSStatusErrorDomain code:status userInfo:nil];
+            [SFSDKCoreLogger e:[self class] format:@"Error getting RSA key with tag %@ and length %d. Error code: %@", keyTagString, length, error.localizedDescription];
+            return nil;
+        }
+    }
+    
+    if (result != nil) {
+        keyBits = CFBridgingRelease(result);
+    }
+    return keyBits;
 }
 
 @end

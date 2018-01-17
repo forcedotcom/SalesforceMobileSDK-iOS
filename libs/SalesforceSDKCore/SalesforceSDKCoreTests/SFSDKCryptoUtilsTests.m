@@ -188,4 +188,59 @@
     XCTAssertFalse([badDecryptData isEqualToData:origData], @"Wrong key and initialization vector should return different data on decrypt.");
 }
 
+- (void)testRSAKeyGeneration
+{
+    NSData *privateKeyData = [SFSDKCryptoUtils getRSAPrivateKeyDataWithName:@"test" keyLength:2048];
+    XCTAssertNotNil(privateKeyData);
+    NSString *publicKeyString = [SFSDKCryptoUtils getRSAPublicKeyStringWithName:@"test" keyLength:2048];
+    XCTAssertNotNil(publicKeyString);
+}
+
+- (void)testRSAKeyGenerationSameKey
+{
+    NSData *privateKeyData1 = [SFSDKCryptoUtils getRSAPrivateKeyDataWithName:@"testSameKey" keyLength:2048];
+    XCTAssertNotNil(privateKeyData1);
+
+    NSData *privateKeyData2 = [SFSDKCryptoUtils getRSAPrivateKeyDataWithName:@"testSameKey" keyLength:2048];
+    XCTAssertNotNil(privateKeyData2);
+
+    XCTAssertTrue([privateKeyData1 isEqualToData:privateKeyData2], @"should get same private key data with same keyname and size");
+
+    NSString *public1KeyString = [SFSDKCryptoUtils getRSAPublicKeyStringWithName:@"testSameKey" keyLength:2048];
+    XCTAssertFalse([public1KeyString isEqualToString:@""]);
+
+    NSString *public2KeyString = [SFSDKCryptoUtils getRSAPublicKeyStringWithName:@"testSameKey" keyLength:2048];
+    XCTAssertFalse([public2KeyString isEqualToString:@""]);
+
+    XCTAssertTrue([public1KeyString isEqualToString:public2KeyString], @"should get same public key string with same keyname and size");
+}
+
+- (void)testRSAKeyGenerationDifferentKey
+{
+    NSData *privateKeyData1 = [SFSDKCryptoUtils getRSAPrivateKeyDataWithName:@"test1" keyLength:2048];
+    XCTAssertNotNil(privateKeyData1);
+
+    NSData *privateKeyData2 = [SFSDKCryptoUtils getRSAPrivateKeyDataWithName:@"test2" keyLength:2048];
+    XCTAssertNotNil(privateKeyData2);
+
+    XCTAssertFalse([privateKeyData1 isEqualToData:privateKeyData2], @"should get different private key data with different keynames");
+
+    NSString *public1KeyString = [SFSDKCryptoUtils getRSAPublicKeyStringWithName:@"test1" keyLength:2048];
+    XCTAssertFalse([public1KeyString isEqualToString:@""]);
+
+    NSString *public2KeyString = [SFSDKCryptoUtils getRSAPublicKeyStringWithName:@"test2" keyLength:2048];
+    XCTAssertFalse([public2KeyString isEqualToString:@""]);
+
+    XCTAssertFalse([public1KeyString isEqualToString:public2KeyString], @"should get different public key strings with different keynames");
+
+    NSData *privateKeyData3 = [SFSDKCryptoUtils getRSAPrivateKeyDataWithName:@"test1" keyLength:1024];
+    XCTAssertNotNil(privateKeyData3);
+
+    NSString *public3KeyString = [SFSDKCryptoUtils getRSAPublicKeyStringWithName:@"test1" keyLength:1024];
+    XCTAssertFalse([public3KeyString isEqualToString:@""]);
+
+    XCTAssertFalse([public3KeyString isEqualToString:public1KeyString], @"should get different public key strings with different sizes");
+    XCTAssertFalse([privateKeyData3 isEqualToData:privateKeyData1], @"should get different private key strings with different sizes");
+
+}
 @end
