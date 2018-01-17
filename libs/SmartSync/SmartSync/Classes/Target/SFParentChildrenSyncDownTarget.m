@@ -163,27 +163,29 @@
          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
 
+    __weak typeof(self) weakSelf = self;
     // Taking care of ghost parents
     [super cleanGhosts:syncManager
               soupName:soupName
                 syncId:syncId
             errorBlock:errorBlock
          completeBlock:^(NSArray *localIdsArr) {
+             __strong typeof(weakSelf) strongSelf = weakSelf;
 
              // Taking care of ghost children
 
              // NB: ParentChildrenSyncDownTarget's getNonDirtyRecordIdsSql does a join between parent and children soups
              // We only want to look at the children soup, so using SoqlSyncDownTarget's getNonDirtyRecordIdsSql
-             NSMutableOrderedSet *localChildrenIds = [[self getIdsWithQuery:[super getNonDirtyRecordIdsSql:self.childrenInfo.soupName
-                                                                                                   idField:self.childrenInfo.idFieldName
-                                                                                       additionalPredicate:[self buildSyncIdPredicateIfIndexed:syncManager soupName:self.childrenInfo.soupName syncId:syncId]]
+             NSMutableOrderedSet *localChildrenIds = [[strongSelf getIdsWithQuery:[super getNonDirtyRecordIdsSql:strongSelf.childrenInfo.soupName
+                                                                                                   idField:strongSelf.childrenInfo.idFieldName
+                                                                                       additionalPredicate:[strongSelf buildSyncIdPredicateIfIndexed:syncManager soupName:strongSelf.childrenInfo.soupName syncId:syncId]]
                                                                 syncManager:syncManager] mutableCopy];
 
-             [self getChildrenRemoteIdsWithSoql:syncManager soqlForChildrenRemoteIds:[self getSoqlForRemoteChildrenIds] errorBlock:errorBlock completeBlock:^(NSArray *remoteChildrenIds) {
+             [strongSelf getChildrenRemoteIdsWithSoql:syncManager soqlForChildrenRemoteIds:[strongSelf getSoqlForRemoteChildrenIds] errorBlock:errorBlock completeBlock:^(NSArray *remoteChildrenIds) {
                  [localChildrenIds removeObjectsInArray:remoteChildrenIds];
 
                  // Delete extra IDs from SmartStore.
-                 [self deleteRecordsFromLocalStore:syncManager soupName:self.childrenInfo.soupName ids:[localChildrenIds array] idField:self.childrenInfo.idFieldName];
+                 [strongSelf deleteRecordsFromLocalStore:syncManager soupName:strongSelf.childrenInfo.soupName ids:[localChildrenIds array] idField:strongSelf.childrenInfo.idFieldName];
 
                  completeBlock(localIdsArr);
              }];
