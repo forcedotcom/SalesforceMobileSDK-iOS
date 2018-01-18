@@ -149,15 +149,10 @@ lane :PR do
     schemes = ENV["scheme"].split(',')
   end
 
-  if schemes.include?("SalesforceSDKCore") || schemes.include?("UnitTests")
-    testScheme("UnitTests")
-    doDanger
-  else
-    for scheme in schemes
-      testScheme(scheme)
-      doDanger
-    end
+  for scheme in schemes
+    testScheme(scheme)
   end
+  doDanger
 end
 
 lane :LCL do
