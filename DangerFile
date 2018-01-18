@@ -4,9 +4,9 @@ require 'plist'
 # Markdown table character length without any issues
 MAKRDOWN_LENGTH = 138
 
-#junit.parse 'test_output/report.junit'
-#junit.show_skipped_tests = true
-#junit.report
+junit.parse 'test_output/report.junit'
+junit.show_skipped_tests = true
+junit.report
 
 # Warn when there is a big PR
 warn('Big PR, try to keep changes smaller if you can') if git.lines_of_code > 500
@@ -34,15 +34,15 @@ end
 
 fail 'Please re-submit this PR to dev, we may have already fixed your issue.' if github.branch_for_base != 'dev'
 
-#xcov.report(
-#    scheme: 'UnitTests',
-#    workspace: 'SalesforceMobileSDK.xcworkspace',
-#    exclude_targets:'CocoaLumberjack.framework,SalesforceSDKCoreTestApp.app,SmartStoreTestApp.app,SmartSyncTestApp.app,SalesforceHybridSDKTestApp.app,SalesforceAnalyticsTestApp.app,RestAPIExplorer.app,AccountEditor.app,NoteSync.app,SmartSyncExplorerHybrid.app,SmartSyncExplorer.app,SmartSyncExplorerCommon.framework,RecentContactsTodayExtension.appex,Cordova.framework,SalesforceReact.framework'
-#)
+xcov.report(
+    scheme: 'UnitTests',
+    workspace: 'SalesforceMobileSDK.xcworkspace',
+    exclude_targets:'CocoaLumberjack.framework,SalesforceSDKCoreTestApp.app,SmartStoreTestApp.app,SmartSyncTestApp.app,SalesforceHybridSDKTestApp.app,SalesforceAnalyticsTestApp.app,RestAPIExplorer.app,AccountEditor.app,NoteSync.app,SmartSyncExplorerHybrid.app,SmartSyncExplorer.app,SmartSyncExplorerCommon.framework,RecentContactsTodayExtension.appex,Cordova.framework,SalesforceReact.framework'
+)
 
-message = '### Clang Static Analysis Issues\n\n'
-message << 'File | Type | Category | Description | Line | Col |\n'
-message << ' --- | ---- | -------- | ----------- | ---- | --- |\n'
+message = "### Clang Static Analysis Issues\n\n"
+message << "File | Type | Category | Description | Line | Col |\n"
+message << " --- | ---- | -------- | ----------- | ---- | --- |\n"
 
 # Parse Clang Plist files and report issues associated with files modified in this PR.
 clang_libs = Dir['clangReport/StaticAnalyzer/*'].map { | x | x.split('/').last }
