@@ -1,3 +1,6 @@
+gem 'plist'
+require 'plist'
+
 junit.parse "test_output/report.junit"
 junit.show_skipped_tests = true
 junit.report
@@ -30,6 +33,33 @@ fail "Please re-submit this PR to dev, we may have already fixed your issue." if
 
 xcov.report(
    scheme: 'UnitTests',
-   workspace: 'SalesforceMobileSDK.xcworkspace', 
+   workspace: 'SalesforceMobileSDK.xcworkspace',
    exclude_targets:'CocoaLumberjack.framework,SalesforceSDKCoreTestApp.app,SmartStoreTestApp.app,SmartSyncTestApp.app,SalesforceHybridSDKTestApp.app,SalesforceAnalyticsTestApp.app,RestAPIExplorer.app,AccountEditor.app,NoteSync.app,SmartSyncExplorerHybrid.app,SmartSyncExplorer.app,SmartSyncExplorerCommon.framework,RecentContactsTodayExtension.appex,Cordova.framework,SalesforceReact.framework'
 )
+
+message = "### Clang Static Analysis issues\n\n"
+message << "File | Type | Category | Description | Line | Col |\n"
+message << " --- | ---- | -------- | ----------- | ---- | --- |\n"
+
+static_analysis_list = []
+clang_libs = Dir["clangReport/StaticAnalyzer/*"].map { | x | x.split("/").last }
+for lib in clang_libs;
+  files = Dir["clangReport/StaticAnalyzer/#{lib}/#{lib}/normal/x86_64/*.plist"].map { | x | x.split("/").last }
+  for file in files;
+    file_name = file.split(".").first.concat(".m")
+    if git.modified_files.include?(file_name) || git.added_files.include?(file_name)
+      puts "\nINCLUDED!!!!!!!!!!!!!!!!!!!!!!!!\nFile: #{file_name}\n\n\n\n"
+    end
+      # move code below into file check above after testing
+      report = Plist.parse_xml("clangReport/StaticAnalyzer/#{lib}/#{lib}/normal/x86_64/#{file}")
+      issues = report["diagnostics"]
+
+      for i in 0..issues.count
+        if !issues[i].nil?
+          message << "#{file_name} | #{issues[0]["type"]} | #{issues[0]["category"]} | #{issues[0]["description"]} | #{issues[0]["location"]["line"]} | #{issues[0]["location"]["col"]}"
+        end
+      end
+  end
+end
+
+markdown message
