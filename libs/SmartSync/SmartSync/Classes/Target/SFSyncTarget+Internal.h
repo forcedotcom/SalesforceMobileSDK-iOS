@@ -33,6 +33,6 @@
 - (NSString*) getDirtyRecordIdsSql:(NSString*)soupName idField:(NSString*)idField;
 - (void) deleteRecordsFromLocalStore:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName ids:(NSArray*)ids idField:(NSString*)idField;
 
-- (void)cleanAndSaveInSmartStore:(SFSmartStore *)smartStore soupName:(NSString *)soupName records:(NSArray *)record idFieldName:(NSString *)idFieldName;
+- (void)cleanAndSaveInSmartStore:(SFSmartStore *)smartStore soupName:(NSString *)soupName records:(NSArray *)record idFieldName:(NSString *)idFieldName syncId:(NSNumber *)syncId;
 
 @end

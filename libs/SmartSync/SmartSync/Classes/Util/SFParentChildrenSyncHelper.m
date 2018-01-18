@@ -77,14 +77,15 @@ NSString * const kSFParentChildrenRelationshipLookup = @"LOOKUP";
     ];
 }
 
-+ (NSString*) getNonDirtyRecordIdsSql:(SFParentInfo*)parentInfo childrenInfo:(SFChildrenInfo*)childrenInfo parentFieldToSelect:(NSString*)parentFieldToSelect {
-    return [NSString stringWithFormat:@"SELECT DISTINCT {%@:%@} FROM {%@} WHERE {%@:%@} = 0 AND NOT EXISTS (SELECT {%@:%@} FROM {%@} WHERE {%@:%@} = {%@:%@} AND {%@:%@} = 1)",
++ (NSString *)getNonDirtyRecordIdsSql:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo parentFieldToSelect:(NSString *)parentFieldToSelect additionalPredicate:(NSString *)additionalPredicate {
+    return [NSString stringWithFormat:@"SELECT DISTINCT {%@:%@} FROM {%@} WHERE {%@:%@} = 0 %@ AND NOT EXISTS (SELECT {%@:%@} FROM {%@} WHERE {%@:%@} = {%@:%@} AND {%@:%@} = 1)",
             parentInfo.soupName, parentFieldToSelect, parentInfo.soupName, parentInfo.soupName, kSyncTargetLocal,
+            additionalPredicate,
             childrenInfo.soupName, childrenInfo.idFieldName, childrenInfo.soupName, childrenInfo.soupName, childrenInfo.parentIdFieldName, parentInfo.soupName, parentInfo.idFieldName, childrenInfo.soupName, kSyncTargetLocal
     ];
 }
 
-+ (void)saveRecordTreesToLocalStore:(SFSmartSyncSyncManager *)syncManager target:(SFSyncTarget *)target parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo recordTrees:(NSArray *)recordTrees {
++ (void)saveRecordTreesToLocalStore:(SFSmartSyncSyncManager *)syncManager target:(SFSyncTarget *)target parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo recordTrees:(NSArray *)recordTrees syncId:(NSNumber *)syncId {
     NSMutableArray * parentRecords = [NSMutableArray new];
     NSMutableArray * childrenRecords = [NSMutableArray new];
     for (NSDictionary * recordTree  in recordTrees) {
@@ -107,10 +108,10 @@ NSString * const kSFParentChildrenRelationshipLookup = @"LOOKUP";
     }
 
     // Saving parents
-    [target cleanAndSaveInSmartStore:syncManager.store soupName:parentInfo.soupName records:parentRecords idFieldName:parentInfo.idFieldName];
+    [target cleanAndSaveInSmartStore:syncManager.store soupName:parentInfo.soupName records:parentRecords idFieldName:parentInfo.idFieldName syncId:syncId];
 
     // Saving children
-    [target cleanAndSaveInSmartStore:syncManager.store soupName:childrenInfo.soupName records:childrenRecords idFieldName:childrenInfo.idFieldName];
+    [target cleanAndSaveInSmartStore:syncManager.store soupName:childrenInfo.soupName records:childrenRecords idFieldName:childrenInfo.idFieldName syncId:syncId];
 }
 
 + (NSArray<NSMutableDictionary*> *)getMutableChildrenFromLocalStore:(SFSmartStore *)store parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo parent:(NSDictionary *)parent {

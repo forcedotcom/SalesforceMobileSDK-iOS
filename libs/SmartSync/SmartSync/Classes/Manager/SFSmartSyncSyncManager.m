@@ -322,6 +322,7 @@ static NSMutableDictionary *syncMgrList = nil;
     SFSyncStateMergeMode mergeMode = sync.mergeMode;
     SFSyncDownTarget* target = (SFSyncDownTarget*) sync.target;
     long long maxTimeStamp = sync.maxTimeStamp;
+    NSNumber* syncId = [NSNumber numberWithInteger:sync.syncId];
 
     SFSyncDownTargetFetchErrorBlock failBlock = ^(NSError *error) {
         failSync(@"Server call for sync down failed", error);
@@ -354,7 +355,7 @@ static NSMutableDictionary *syncMgrList = nil;
             NSArray* recordsToSave = idsToSkip && idsToSkip.count > 0 ? [strongSelf  removeWithIds:records idsToSkip:idsToSkip idField:target.idFieldName] : records;
 
             // Save to smartstore.
-            [target saveRecordsToLocalStore:strongSelf  soupName:soupName records:recordsToSave];
+            [target saveRecordsToLocalStore:strongSelf  soupName:soupName records:recordsToSave syncId:syncId];
             countFetched += [records count];
             progress = 100*countFetched / totalSize;
 
@@ -467,25 +468,26 @@ static NSMutableDictionary *syncMgrList = nil;
     }
     [SFSDKSmartSyncLogger d:[self class] format:@"cleanResyncGhosts:%@", sync];
     NSString* soupName = [sync soupName];
-    [(SFSyncDownTarget *)sync.target cleanGhosts:self
-                                        soupName:soupName
-                                      errorBlock:^(NSError* e) {
-                                          [SFSDKSmartSyncLogger e:[self class] format:@"Failed to get list of remote IDs, %@", [e localizedDescription]];
-                                          NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
-                                          attributes[@"syncId"] = [NSNumber numberWithInteger:sync.syncId];
-                                          attributes[@"syncTarget"] = NSStringFromClass([sync.target class]);
-                                          [SFSDKEventBuilderHelper createAndStoreEvent:@"cleanResyncGhosts" userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
-                                          completionStatusBlock(SFSyncStateStatusFailed);
-                                      }
-                                   completeBlock:^(NSArray* localIds) {
-                                       NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
-                                       attributes[@"numRecords"] = [NSNumber numberWithInteger:localIds.count];
-                                       attributes[@"syncId"] = [NSNumber numberWithInteger:sync.syncId];
-                                       attributes[@"syncTarget"] = NSStringFromClass([sync.target class]);
-                                       [SFSDKEventBuilderHelper createAndStoreEvent:@"cleanResyncGhosts" userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
-                                       completionStatusBlock(SFSyncStateStatusDone);
-                                   }];
-
+    Class currentClass = [self class];
+    [(SFSyncDownTarget *) sync.target cleanGhosts:self
+                                         soupName:soupName
+                                           syncId:[NSNumber numberWithInteger:sync.syncId]
+                                       errorBlock:^(NSError *e) {
+                                           [SFSDKSmartSyncLogger e:currentClass format:@"Failed to get list of remote IDs, %@", [e localizedDescription]];
+                                           NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
+                                           attributes[@"syncId"] = [NSNumber numberWithInteger:sync.syncId];
+                                           attributes[@"syncTarget"] = NSStringFromClass([sync.target class]);
+                                           [SFSDKEventBuilderHelper createAndStoreEvent:@"cleanResyncGhosts" userAccount:nil className:NSStringFromClass(currentClass) attributes:attributes];
+                                           completionStatusBlock(SFSyncStateStatusFailed);
+                                       }
+                                    completeBlock:^(NSArray *localIds) {
+                                        NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
+                                        attributes[@"numRecords"] = [NSNumber numberWithInteger:localIds.count];
+                                        attributes[@"syncId"] = [NSNumber numberWithInteger:sync.syncId];
+                                        attributes[@"syncTarget"] = NSStringFromClass([sync.target class]);
+                                        [SFSDKEventBuilderHelper createAndStoreEvent:@"cleanResyncGhosts" userAccount:nil className:NSStringFromClass(currentClass) attributes:attributes];
+                                        completionStatusBlock(SFSyncStateStatusDone);
+                                    }];
 }
 
 - (void)syncUpOneEntry:(SFSyncState*)sync
