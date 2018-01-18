@@ -57,7 +57,7 @@ for lib in clang_libs;
         issues = report['diagnostics']
         for i in 0..issues.count
           unless issues[i].nil?
-            message << "#{file_path.split('/').last} | #{issues[0]['type']} | #{issues[0]['category']} | #{issues[0]['description']} | #{issues[0]['location']['line']} | #{issues[0]['location']['col']}"
+            message << "#{file_path.split('/').last} | #{issues[0]['type']} | #{issues[0]['category']} | #{issues[0]['description']} | #{issues[0]['location']['line']} | #{issues[0]['location']['col']}\n"
           end
         end
       end
