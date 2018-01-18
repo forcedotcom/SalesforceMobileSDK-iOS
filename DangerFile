@@ -1,9 +1,9 @@
 gem 'plist'
 require 'plist'
 
-#junit.parse "test_output/report.junit"
-#junit.show_skipped_tests = true
-#junit.report
+junit.parse "test_output/report.junit"
+junit.show_skipped_tests = true
+junit.report
 
 # Warn when there is a big PR
 warn("Big PR, try to keep changes smaller if you can") if git.lines_of_code > 500
@@ -31,33 +31,45 @@ end
 
 fail "Please re-submit this PR to dev, we may have already fixed your issue." if github.branch_for_base != "dev"
 
-#xcov.report(
-#   scheme: 'UnitTests',
-#   workspace: 'SalesforceMobileSDK.xcworkspace',
-#   exclude_targets:'CocoaLumberjack.framework,SalesforceSDKCoreTestApp.app,SmartStoreTestApp.app,SmartSyncTestApp.app,SalesforceHybridSDKTestApp.app,SalesforceAnalyticsTestApp.app,RestAPIExplorer.app,AccountEditor.app,NoteSync.app,SmartSyncExplorerHybrid.app,SmartSyncExplorer.app,SmartSyncExplorerCommon.framework,RecentContactsTodayExtension.appex,Cordova.framework,SalesforceReact.framework'
-#)
+xcov.report(
+   scheme: 'UnitTests',
+   workspace: 'SalesforceMobileSDK.xcworkspace',
+   exclude_targets:'CocoaLumberjack.framework,SalesforceSDKCoreTestApp.app,SmartStoreTestApp.app,SmartSyncTestApp.app,SalesforceHybridSDKTestApp.app,SalesforceAnalyticsTestApp.app,RestAPIExplorer.app,AccountEditor.app,NoteSync.app,SmartSyncExplorerHybrid.app,SmartSyncExplorer.app,SmartSyncExplorerCommon.framework,RecentContactsTodayExtension.appex,Cordova.framework,SalesforceReact.framework'
+)
 
 message = "### Clang Static Analysis issues\n\n"
 message << "File | Type | Category | Description | Line | Col |\n"
 message << " --- | ---- | -------- | ----------- | ---- | --- |\n"
 
-static_analysis_list = []
 clang_libs = Dir["clangReport/StaticAnalyzer/*"].map { | x | x.split("/").last }
 for lib in clang_libs;
   files = Dir["clangReport/StaticAnalyzer/#{lib}/#{lib}/normal/x86_64/*.plist"].map { | x | x.split("/").last }
   for file in files;
-    file_name = file.split(".").first.concat(".m")
-    if git.modified_files.include?(file_name) || git.added_files.include?(file_name)
-      report = Plist.parse_xml("clangReport/StaticAnalyzer/#{lib}/#{lib}/normal/x86_64/#{file}")
-      issues = report["diagnostics"]
+    report = Plist.parse_xml("clangReport/StaticAnalyzer/#{lib}/#{lib}/normal/x86_64/#{file}")
 
-      for i in 0..issues.count
-        if !issues[i].nil?
-          message << "#{file_name} | #{issues[0]["type"]} | #{issues[0]["category"]} | #{issues[0]["description"]} | #{issues[0]["location"]["line"]} | #{issues[0]["location"]["col"]}"
+    absolute_file_path = report["files"][0]
+    unless absolute_file_path.nil?
+      file_path = absolute_file_path.split("SalesforceMobileSDK-iOS/").last
+      puts "\n\npath: #{file_path}"
+      if git.modified_files.include?(file_path) || git.added_files.include?(file_path)
+
+        issues = report["diagnostics"]
+        for i in 0..issues.count
+          if !issues[i].nil?
+            file_name = file_path.split("/").last
+            description = issues[0]["description"]
+            line_num = issues[0]["location"]["line"]
+            message << "#{file_name} | #{issues[0]["type"]} | #{issues[0]["category"]} | #{description} | #{line_num} | #{issues[0]["location"]["col"]}"
+            warn("Static Analysis: #{description}", file: file_name, line: line_num)
+          end
         end
       end
     end
   end
 end
 
-markdown message
+# Only print Static Analysis table if there are issues
+if message.length > 138
+  warn("Static Analysis found an issue with one or more file you modified.  Please fix the issue.")
+  markdown message
+end
