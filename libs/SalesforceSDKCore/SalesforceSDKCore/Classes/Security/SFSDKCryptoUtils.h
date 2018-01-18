@@ -115,6 +115,22 @@ extern NSUInteger const kSFPBKDFDefaultSaltByteLength;
  */
 + (nullable NSData *)aes256DecryptData:(NSData *)data withKey:(NSData *)key iv:(NSData *)iv;
 
+/**
+ * Get RSA public key as NSString with given keyName and length
+ * @param keyName The name string used to generate the key.
+ * @param length The key length used for key
+ * @return The key string, or `nil` if no matching key is found
+ */
++ (nullable NSString *)getRSAPublicKeyStringWithName:(NSString *)keyName keyLength:(NSUInteger)length;
+
+/**
+ * Get RSA private key as NSData with given keyName and length
+ * @param keyName The name string used to generate the key.
+ * @param length The key length used for key
+ * @return The key data, or `nil` if no matching key is found
+ */
++ (nullable NSData *)getRSAPrivateKeyDataWithName:(NSString *)keyName keyLength:(NSUInteger)length;
+
 @end
 
 NS_ASSUME_NONNULL_END
