@@ -762,6 +762,61 @@
 }
 
 /**
+ * Test smart sql returning entire soup elements (i.e. select {soup:_soup} from {soup})
+ */
+- (void) testSelectUnderscoreSoup
+{
+    // Create soup
+    NSError* error = nil;
+    [self.store registerSoup:kTestSoupName withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[@{@"path": @"key",@"type": kSoupIndexTypeString}]] error:&error];
+
+    // Create soup elements
+    NSDictionary* soupElt1 = @{@"key":@"ka1", @"value":@"va1"};
+    NSDictionary* soupElt2 = @{@"key":@"ka2", @"value":@"va2"};
+    NSDictionary* soupElt3 = @{@"key":@"ka3", @"value":@"va3"};
+    NSDictionary* soupElt4 = @{@"key":@"ka4", @"value":@"va4"};
+    NSArray* soupEltsCreated = [self.store upsertEntries:@[soupElt1, soupElt2, soupElt3, soupElt4] toSoup:kTestSoupName];
+    
+    // Query _soup
+    NSString* smartSql = [NSString stringWithFormat:@"SELECT {%@:_soup} FROM {%@} ORDER BY {%@:key}", kTestSoupName, kTestSoupName, kTestSoupName];
+    [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newSmartQuerySpec:smartSql withPageSize:10]
+                                        page:0
+                             expectedResults:@[@[soupEltsCreated[0]], @[soupEltsCreated[1]], @[soupEltsCreated[2]], @[soupEltsCreated[3]]]
+                                    covering:NO
+                         expectedDbOperation:@"SCAN"
+                                       store:self.store];
+}
+    
+    /**
+     * Test smart sql returning entire soup elements from multiple soups
+     */
+- (void) testSelectUnderscoreSoupFromMultipleSoups
+{
+    // Create soups
+    NSString* otherTestSoupName = @"otherTestSoup";
+    NSError* error = nil;
+    [self.store registerSoup:kTestSoupName withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[@{@"path": @"key",@"type": kSoupIndexTypeString}]] error:&error];
+    [self.store registerSoup:otherTestSoupName withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[@{@"path": @"key",@"type": @"string"}]] error:&error];
+
+
+    // Create soup elements
+    NSDictionary* soupElt1 = @{@"key":@"ka1", @"value":@"va1"};
+    NSDictionary* soupElt1Created = [self.store upsertEntries:@[soupElt1] toSoup:kTestSoupName][0];
+    
+    NSDictionary* soupElt2 = @{@"key":@"ka1", @"value":@"va1", @"otherValue":@"ova1"};
+    NSDictionary* soupElt2Created = [self.store upsertEntries:@[soupElt2] toSoup:otherTestSoupName][0];
+
+    // Query _soup from both soups
+    NSString* smartSql = [NSString stringWithFormat:@"SELECT {%@:_soup}, {%@:_soup} FROM {%@}, {%@}", kTestSoupName, otherTestSoupName, kTestSoupName, otherTestSoupName];
+    [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newSmartQuerySpec:smartSql withPageSize:10]
+                                        page:0
+                             expectedResults:@[@[soupElt1Created, soupElt2Created]]
+                                    covering:NO
+                         expectedDbOperation:nil
+                                       store:self.store];
+}
+
+/**
  * Test registering same soup name multiple times.
  */
 - (void) testMultipleRegisterSameSoup
