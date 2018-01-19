@@ -33,7 +33,7 @@
 #import <SalesforceAnalytics/SFSDKLogger.h>
 #import <SmartStore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
-
+#import <SmartSync/SmartSyncSDKManager.h>
 @interface TodayViewController () <NCWidgetProviding, UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UITableView *todayTableView;
@@ -66,10 +66,11 @@ static NSString *simpleTableIdentifier = @"SimpleTableItem";
 - (void)widgetPerformUpdateWithCompletionHandler:(void (^)(NCUpdateResult))completionHandler {
     SmartSyncExplorerConfig *config = [SmartSyncExplorerConfig sharedInstance];
     [SFSDKDatasharingHelper sharedInstance].appGroupName = config.appGroupName;
-    [SFSDKDatasharingHelper sharedInstance].appGroupEnabled = YES;
+    [SFSDKDatasharingHelper sharedInstance].appGroupEnabled = config.appGroupsEnabled;
+    
     if ([self userIsLoggedIn] ) {
         [SFSDKLogger log:[self class] level:DDLogLevelError format:@"User has logged in"];
-        [SalesforceSDKManager setInstanceClass:[SmartStoreSDKManager class]];
+        [SalesforceSDKManager setInstanceClass:[SmartSyncSDKManager class]];
         [SalesforceSDKManager sharedManager].appConfig.remoteAccessConsumerKey = config.remoteAccessConsumerKey;
         [SalesforceSDKManager sharedManager].appConfig.oauthRedirectURI = config.oauthRedirectURI;
         [SalesforceSDKManager sharedManager].appConfig.oauthScopes = [NSSet setWithArray:config.oauthScopes];
