@@ -324,10 +324,6 @@ static NSMutableDictionary *syncMgrList = nil;
     long long maxTimeStamp = sync.maxTimeStamp;
     NSNumber* syncId = [NSNumber numberWithInteger:sync.syncId];
 
-    SFSyncDownTargetFetchErrorBlock failBlock = ^(NSError *error) {
-        failSync(@"Server call for sync down failed", error);
-    };
-
     __block NSUInteger countFetched = 0;
     __block NSUInteger totalSize = 0;
     __block NSUInteger progress = 0;
@@ -338,6 +334,11 @@ static NSMutableDictionary *syncMgrList = nil;
         idsToSkip = [target getIdsToSkip:self soupName:soupName];
     }
    
+    SFSyncDownTargetFetchErrorBlock failBlock = ^(NSError *error) {
+        failSync(@"Server call for sync down failed", error);
+        continueFetchBlockRecurse = nil;
+    };
+    
     SFSyncDownTargetFetchCompleteBlock startFetchBlock = ^(NSArray* records) {
         totalSize = target.totalSize;
         updateSync(nil, totalSize == 0 ? 100 : 0, target.totalSize, kSyncManagerUnchanged);
@@ -349,7 +350,7 @@ static NSMutableDictionary *syncMgrList = nil;
     
     __weak typeof (self) weakSelf = self;
     SFSyncDownTargetFetchCompleteBlock continueFetchBlock = ^(NSArray* records) {
-        __weak typeof (weakSelf) strongSelf = weakSelf;
+        __strong typeof (weakSelf) strongSelf = weakSelf;
         if (records != nil) {
             // Figure out records to save
             NSArray* recordsToSave = idsToSkip && idsToSkip.count > 0 ? [strongSelf  removeWithIds:records idsToSkip:idsToSkip idField:target.idFieldName] : records;
