@@ -1,0 +1,507 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A432DDE4200EBA6100A7A8D4 /* SalesforceSwiftSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A432DDE3200EBA6100A7A8D4 /* SalesforceSwiftSDK.framework */; };
+		A432DDE5200EBA6100A7A8D4 /* SalesforceSwiftSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A432DDE3200EBA6100A7A8D4 /* SalesforceSwiftSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A432DDE8200EBA7100A7A8D4 /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A432DDE7200EBA7100A7A8D4 /* SalesforceSDKCore.framework */; };
+		A432DDE9200EBA7100A7A8D4 /* SalesforceSDKCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A432DDE7200EBA7100A7A8D4 /* SalesforceSDKCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A432DDEB200EBA8900A7A8D4 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A432DDEA200EBA8900A7A8D4 /* CocoaLumberjack.framework */; };
+		A432DDEC200EBA8900A7A8D4 /* CocoaLumberjack.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A432DDEA200EBA8900A7A8D4 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A432DDEE200FCC2C00A7A8D4 /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A432DDED200FCC2C00A7A8D4 /* SalesforceAnalytics.framework */; };
+		A432DDEF200FCC2C00A7A8D4 /* SalesforceAnalytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A432DDED200FCC2C00A7A8D4 /* SalesforceAnalytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A432DDF120100A9500A7A8D4 /* SmartSync.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A432DDF020100A9500A7A8D4 /* SmartSync.framework */; };
+		A432DDF220100A9500A7A8D4 /* SmartSync.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A432DDF020100A9500A7A8D4 /* SmartSync.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A432DDF420100AA200A7A8D4 /* SmartStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A432DDF320100AA200A7A8D4 /* SmartStore.framework */; };
+		A432DDF520100AA200A7A8D4 /* SmartStore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A432DDF320100AA200A7A8D4 /* SmartStore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A432DDF720100C2E00A7A8D4 /* SmartSyncExplorerCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A432DDF620100C2E00A7A8D4 /* SmartSyncExplorerCommon.framework */; };
+		A432DDF820100C2E00A7A8D4 /* SmartSyncExplorerCommon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A432DDF620100C2E00A7A8D4 /* SmartSyncExplorerCommon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A432DDFB20100DD400A7A8D4 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A432DDFA20100DD400A7A8D4 /* libz.tbd */; };
+		A432DDFD20100DE000A7A8D4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A432DDFC20100DE000A7A8D4 /* CoreGraphics.framework */; };
+		A432DDFF20100DE900A7A8D4 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A432DDFE20100DE900A7A8D4 /* ImageIO.framework */; };
+		A432DE0120100DF200A7A8D4 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A432DE0020100DF200A7A8D4 /* MessageUI.framework */; };
+		A432DE0320100DFC00A7A8D4 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A432DE0220100DFC00A7A8D4 /* MobileCoreServices.framework */; };
+		A432DE0520100E0500A7A8D4 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A432DE0420100E0400A7A8D4 /* SystemConfiguration.framework */; };
+		A432DE0720100E0E00A7A8D4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A432DE0620100E0E00A7A8D4 /* UIKit.framework */; };
+		A432DE0920100E1600A7A8D4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A432DE0820100E1600A7A8D4 /* Foundation.framework */; };
+		A432DE0E20100FDB00A7A8D4 /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A432DE0D20100FDB00A7A8D4 /* InitialViewController.swift */; };
+		A465C4AE20104342006AC8D5 /* UIColors+helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A465C4AC20104342006AC8D5 /* UIColors+helper.swift */; };
+		A465C4AF20104342006AC8D5 /* UIFont+helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A465C4AD20104342006AC8D5 /* UIFont+helper.swift */; };
+		A465C4B0201043BB006AC8D5 /* SalesforceSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A465C4A92010432A006AC8D5 /* SalesforceSans-Bold.ttf */; };
+		A465C4B1201043BB006AC8D5 /* SalesforceSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A465C4A720104329006AC8D5 /* SalesforceSans-BoldItalic.ttf */; };
+		A465C4B2201043BB006AC8D5 /* SalesforceSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A465C4A620104329006AC8D5 /* SalesforceSans-Italic.ttf */; };
+		A465C4B3201043BB006AC8D5 /* SalesforceSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A465C4A420104328006AC8D5 /* SalesforceSans-Light.ttf */; };
+		A465C4B4201043BB006AC8D5 /* SalesforceSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A465C4A820104329006AC8D5 /* SalesforceSans-LightItalic.ttf */; };
+		A465C4B5201043BB006AC8D5 /* SalesforceSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A465C4AB2010432A006AC8D5 /* SalesforceSans-Regular.ttf */; };
+		A465C4B6201043BB006AC8D5 /* SalesforceSans-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A465C4A520104328006AC8D5 /* SalesforceSans-Thin.ttf */; };
+		A465C4B7201043BB006AC8D5 /* SalesforceSans-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A465C4AA2010432A006AC8D5 /* SalesforceSans-ThinItalic.ttf */; };
+		A465C4D920116B37006AC8D5 /* userstore.json in Resources */ = {isa = PBXBuildFile; fileRef = A465C4D720116B37006AC8D5 /* userstore.json */; };
+		A465C4DA20116B37006AC8D5 /* usersyncs.json in Resources */ = {isa = PBXBuildFile; fileRef = A465C4D820116B37006AC8D5 /* usersyncs.json */; };
+		A483D405200EA27700713510 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A483D404200EA27700713510 /* AppDelegate.swift */; };
+		A483D407200EA27700713510 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A483D406200EA27700713510 /* RootViewController.swift */; };
+		A483D40C200EA27700713510 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A483D40B200EA27700713510 /* Assets.xcassets */; };
+		A483D40F200EA27700713510 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A483D40D200EA27700713510 /* LaunchScreen.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A432DDE6200EBA6200A7A8D4 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				A432DDEF200FCC2C00A7A8D4 /* SalesforceAnalytics.framework in Embed Frameworks */,
+				A432DDE5200EBA6100A7A8D4 /* SalesforceSwiftSDK.framework in Embed Frameworks */,
+				A432DDF820100C2E00A7A8D4 /* SmartSyncExplorerCommon.framework in Embed Frameworks */,
+				A432DDF520100AA200A7A8D4 /* SmartStore.framework in Embed Frameworks */,
+				A432DDEC200EBA8900A7A8D4 /* CocoaLumberjack.framework in Embed Frameworks */,
+				A432DDE9200EBA7100A7A8D4 /* SalesforceSDKCore.framework in Embed Frameworks */,
+				A432DDF220100A9500A7A8D4 /* SmartSync.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		A432DDE3200EBA6100A7A8D4 /* SalesforceSwiftSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SalesforceSwiftSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A432DDE7200EBA7100A7A8D4 /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SalesforceSDKCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A432DDEA200EBA8900A7A8D4 /* CocoaLumberjack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CocoaLumberjack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A432DDED200FCC2C00A7A8D4 /* SalesforceAnalytics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SalesforceAnalytics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A432DDF020100A9500A7A8D4 /* SmartSync.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartSync.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A432DDF320100AA200A7A8D4 /* SmartStore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartStore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A432DDF620100C2E00A7A8D4 /* SmartSyncExplorerCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartSyncExplorerCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A432DDFA20100DD400A7A8D4 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		A432DDFC20100DE000A7A8D4 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		A432DDFE20100DE900A7A8D4 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		A432DE0020100DF200A7A8D4 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		A432DE0220100DFC00A7A8D4 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		A432DE0420100E0400A7A8D4 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		A432DE0620100E0E00A7A8D4 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		A432DE0820100E1600A7A8D4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		A432DE0D20100FDB00A7A8D4 /* InitialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
+		A432DE0F2010112900A7A8D4 /* SmartSyncExplorerSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartSyncExplorerSwift.entitlements; sourceTree = "<group>"; };
+		A465C4A420104328006AC8D5 /* SalesforceSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SalesforceSans-Light.ttf"; sourceTree = "<group>"; };
+		A465C4A520104328006AC8D5 /* SalesforceSans-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SalesforceSans-Thin.ttf"; sourceTree = "<group>"; };
+		A465C4A620104329006AC8D5 /* SalesforceSans-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SalesforceSans-Italic.ttf"; sourceTree = "<group>"; };
+		A465C4A720104329006AC8D5 /* SalesforceSans-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SalesforceSans-BoldItalic.ttf"; sourceTree = "<group>"; };
+		A465C4A820104329006AC8D5 /* SalesforceSans-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SalesforceSans-LightItalic.ttf"; sourceTree = "<group>"; };
+		A465C4A92010432A006AC8D5 /* SalesforceSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SalesforceSans-Bold.ttf"; sourceTree = "<group>"; };
+		A465C4AA2010432A006AC8D5 /* SalesforceSans-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SalesforceSans-ThinItalic.ttf"; sourceTree = "<group>"; };
+		A465C4AB2010432A006AC8D5 /* SalesforceSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SalesforceSans-Regular.ttf"; sourceTree = "<group>"; };
+		A465C4AC20104342006AC8D5 /* UIColors+helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColors+helper.swift"; sourceTree = "<group>"; };
+		A465C4AD20104342006AC8D5 /* UIFont+helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+helper.swift"; sourceTree = "<group>"; };
+		A465C4D720116B37006AC8D5 /* userstore.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = userstore.json; sourceTree = "<group>"; };
+		A465C4D820116B37006AC8D5 /* usersyncs.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = usersyncs.json; sourceTree = "<group>"; };
+		A483D401200EA27700713510 /* SmartSyncExplorerSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartSyncExplorerSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A483D404200EA27700713510 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		A483D406200EA27700713510 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		A483D40B200EA27700713510 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A483D40E200EA27700713510 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A483D410200EA27700713510 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A483D3FE200EA27700713510 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A432DE0920100E1600A7A8D4 /* Foundation.framework in Frameworks */,
+				A432DE0720100E0E00A7A8D4 /* UIKit.framework in Frameworks */,
+				A432DE0520100E0500A7A8D4 /* SystemConfiguration.framework in Frameworks */,
+				A432DE0320100DFC00A7A8D4 /* MobileCoreServices.framework in Frameworks */,
+				A432DE0120100DF200A7A8D4 /* MessageUI.framework in Frameworks */,
+				A432DDFF20100DE900A7A8D4 /* ImageIO.framework in Frameworks */,
+				A432DDFD20100DE000A7A8D4 /* CoreGraphics.framework in Frameworks */,
+				A432DDFB20100DD400A7A8D4 /* libz.tbd in Frameworks */,
+				A432DDEE200FCC2C00A7A8D4 /* SalesforceAnalytics.framework in Frameworks */,
+				A432DDE4200EBA6100A7A8D4 /* SalesforceSwiftSDK.framework in Frameworks */,
+				A432DDF720100C2E00A7A8D4 /* SmartSyncExplorerCommon.framework in Frameworks */,
+				A432DDF420100AA200A7A8D4 /* SmartStore.framework in Frameworks */,
+				A432DDEB200EBA8900A7A8D4 /* CocoaLumberjack.framework in Frameworks */,
+				A432DDE8200EBA7100A7A8D4 /* SalesforceSDKCore.framework in Frameworks */,
+				A432DDF120100A9500A7A8D4 /* SmartSync.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A432DDF920100DD400A7A8D4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A432DE0820100E1600A7A8D4 /* Foundation.framework */,
+				A432DE0620100E0E00A7A8D4 /* UIKit.framework */,
+				A432DE0420100E0400A7A8D4 /* SystemConfiguration.framework */,
+				A432DE0220100DFC00A7A8D4 /* MobileCoreServices.framework */,
+				A432DE0020100DF200A7A8D4 /* MessageUI.framework */,
+				A432DDFE20100DE900A7A8D4 /* ImageIO.framework */,
+				A432DDFC20100DE000A7A8D4 /* CoreGraphics.framework */,
+				A432DDFA20100DD400A7A8D4 /* libz.tbd */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A432DE0C20100FBE00A7A8D4 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				A432DE0D20100FDB00A7A8D4 /* InitialViewController.swift */,
+				A483D406200EA27700713510 /* RootViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		A432DE102010429000A7A8D4 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				A465C4AC20104342006AC8D5 /* UIColors+helper.swift */,
+				A465C4AD20104342006AC8D5 /* UIFont+helper.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		A432DE11201042A400A7A8D4 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A432DE12201042B100A7A8D4 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A465C4D720116B37006AC8D5 /* userstore.json */,
+				A465C4D820116B37006AC8D5 /* usersyncs.json */,
+				A465C4A92010432A006AC8D5 /* SalesforceSans-Bold.ttf */,
+				A465C4A720104329006AC8D5 /* SalesforceSans-BoldItalic.ttf */,
+				A465C4A620104329006AC8D5 /* SalesforceSans-Italic.ttf */,
+				A465C4A420104328006AC8D5 /* SalesforceSans-Light.ttf */,
+				A465C4A820104329006AC8D5 /* SalesforceSans-LightItalic.ttf */,
+				A465C4AB2010432A006AC8D5 /* SalesforceSans-Regular.ttf */,
+				A465C4A520104328006AC8D5 /* SalesforceSans-Thin.ttf */,
+				A465C4AA2010432A006AC8D5 /* SalesforceSans-ThinItalic.ttf */,
+				A483D40D200EA27700713510 /* LaunchScreen.storyboard */,
+				A483D40B200EA27700713510 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		A483D3F8200EA27700713510 = {
+			isa = PBXGroup;
+			children = (
+				A432DDF620100C2E00A7A8D4 /* SmartSyncExplorerCommon.framework */,
+				A432DDF320100AA200A7A8D4 /* SmartStore.framework */,
+				A432DDF020100A9500A7A8D4 /* SmartSync.framework */,
+				A432DDED200FCC2C00A7A8D4 /* SalesforceAnalytics.framework */,
+				A432DDEA200EBA8900A7A8D4 /* CocoaLumberjack.framework */,
+				A432DDE7200EBA7100A7A8D4 /* SalesforceSDKCore.framework */,
+				A432DDE3200EBA6100A7A8D4 /* SalesforceSwiftSDK.framework */,
+				A483D403200EA27700713510 /* SmartSyncExplorerSwift */,
+				A483D402200EA27700713510 /* Products */,
+				A432DDF920100DD400A7A8D4 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		A483D402200EA27700713510 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A483D401200EA27700713510 /* SmartSyncExplorerSwift.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A483D403200EA27700713510 /* SmartSyncExplorerSwift */ = {
+			isa = PBXGroup;
+			children = (
+				A432DE0F2010112900A7A8D4 /* SmartSyncExplorerSwift.entitlements */,
+				A432DE12201042B100A7A8D4 /* Resources */,
+				A432DE11201042A400A7A8D4 /* Views */,
+				A432DE102010429000A7A8D4 /* Helpers */,
+				A432DE0C20100FBE00A7A8D4 /* ViewControllers */,
+				A483D404200EA27700713510 /* AppDelegate.swift */,
+				A483D410200EA27700713510 /* Info.plist */,
+			);
+			path = SmartSyncExplorerSwift;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A483D400200EA27700713510 /* SmartSyncExplorerSwift */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A483D413200EA27700713510 /* Build configuration list for PBXNativeTarget "SmartSyncExplorerSwift" */;
+			buildPhases = (
+				A483D3FD200EA27700713510 /* Sources */,
+				A483D3FE200EA27700713510 /* Frameworks */,
+				A483D3FF200EA27700713510 /* Resources */,
+				A432DDE6200EBA6200A7A8D4 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SmartSyncExplorerSwift;
+			productName = SmartSyncExplorerSwift;
+			productReference = A483D401200EA27700713510 /* SmartSyncExplorerSwift.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A483D3F9200EA27700713510 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0920;
+				LastUpgradeCheck = 0920;
+				ORGANIZATIONNAME = Salesforce;
+				TargetAttributes = {
+					A483D400200EA27700713510 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
+					};
+				};
+			};
+			buildConfigurationList = A483D3FC200EA27700713510 /* Build configuration list for PBXProject "SmartSyncExplorerSwift" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A483D3F8200EA27700713510;
+			productRefGroup = A483D402200EA27700713510 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A483D400200EA27700713510 /* SmartSyncExplorerSwift */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A483D3FF200EA27700713510 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A465C4B0201043BB006AC8D5 /* SalesforceSans-Bold.ttf in Resources */,
+				A465C4DA20116B37006AC8D5 /* usersyncs.json in Resources */,
+				A465C4B1201043BB006AC8D5 /* SalesforceSans-BoldItalic.ttf in Resources */,
+				A465C4B2201043BB006AC8D5 /* SalesforceSans-Italic.ttf in Resources */,
+				A465C4B3201043BB006AC8D5 /* SalesforceSans-Light.ttf in Resources */,
+				A465C4D920116B37006AC8D5 /* userstore.json in Resources */,
+				A465C4B4201043BB006AC8D5 /* SalesforceSans-LightItalic.ttf in Resources */,
+				A465C4B5201043BB006AC8D5 /* SalesforceSans-Regular.ttf in Resources */,
+				A465C4B6201043BB006AC8D5 /* SalesforceSans-Thin.ttf in Resources */,
+				A465C4B7201043BB006AC8D5 /* SalesforceSans-ThinItalic.ttf in Resources */,
+				A483D40F200EA27700713510 /* LaunchScreen.storyboard in Resources */,
+				A483D40C200EA27700713510 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A483D3FD200EA27700713510 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A432DE0E20100FDB00A7A8D4 /* InitialViewController.swift in Sources */,
+				A483D407200EA27700713510 /* RootViewController.swift in Sources */,
+				A483D405200EA27700713510 /* AppDelegate.swift in Sources */,
+				A465C4AF20104342006AC8D5 /* UIFont+helper.swift in Sources */,
+				A465C4AE20104342006AC8D5 /* UIColors+helper.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		A483D40D200EA27700713510 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A483D40E200EA27700713510 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		A483D411200EA27700713510 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A483D412200EA27700713510 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A483D414200EA27700713510 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SmartSyncExplorerSwift/SmartSyncExplorerSwift.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5DFJC8MD3A;
+				INFOPLIST_FILE = SmartSyncExplorerSwift/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SmartSyncExplorerSwift.SmartSyncExplorerSwift;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A483D415200EA27700713510 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SmartSyncExplorerSwift/SmartSyncExplorerSwift.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5DFJC8MD3A;
+				INFOPLIST_FILE = SmartSyncExplorerSwift/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SmartSyncExplorerSwift.SmartSyncExplorerSwift;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A483D3FC200EA27700713510 /* Build configuration list for PBXProject "SmartSyncExplorerSwift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A483D411200EA27700713510 /* Debug */,
+				A483D412200EA27700713510 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A483D413200EA27700713510 /* Build configuration list for PBXNativeTarget "SmartSyncExplorerSwift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A483D414200EA27700713510 /* Debug */,
+				A483D415200EA27700713510 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A483D3F9200EA27700713510 /* Project object */;
+}
