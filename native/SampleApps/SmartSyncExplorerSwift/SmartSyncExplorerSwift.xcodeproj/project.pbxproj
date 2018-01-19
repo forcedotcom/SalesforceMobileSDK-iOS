@@ -42,6 +42,8 @@
 		A465C4B7201043BB006AC8D5 /* SalesforceSans-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A465C4AA2010432A006AC8D5 /* SalesforceSans-ThinItalic.ttf */; };
 		A465C4D920116B37006AC8D5 /* userstore.json in Resources */ = {isa = PBXBuildFile; fileRef = A465C4D720116B37006AC8D5 /* userstore.json */; };
 		A465C4DA20116B37006AC8D5 /* usersyncs.json in Resources */ = {isa = PBXBuildFile; fileRef = A465C4D820116B37006AC8D5 /* usersyncs.json */; };
+		A46870A920128E9F00096408 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A46870A820128E9F00096408 /* PromiseKit.framework */; };
+		A46870AA20128E9F00096408 /* PromiseKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A46870A820128E9F00096408 /* PromiseKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A483D405200EA27700713510 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A483D404200EA27700713510 /* AppDelegate.swift */; };
 		A483D407200EA27700713510 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A483D406200EA27700713510 /* RootViewController.swift */; };
 		A483D40C200EA27700713510 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A483D40B200EA27700713510 /* Assets.xcassets */; };
@@ -62,6 +64,7 @@
 				A432DDEC200EBA8900A7A8D4 /* CocoaLumberjack.framework in Embed Frameworks */,
 				A432DDE9200EBA7100A7A8D4 /* SalesforceSDKCore.framework in Embed Frameworks */,
 				A432DDF220100A9500A7A8D4 /* SmartSync.framework in Embed Frameworks */,
+				A46870AA20128E9F00096408 /* PromiseKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -98,6 +101,7 @@
 		A465C4AD20104342006AC8D5 /* UIFont+helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+helper.swift"; sourceTree = "<group>"; };
 		A465C4D720116B37006AC8D5 /* userstore.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = userstore.json; sourceTree = "<group>"; };
 		A465C4D820116B37006AC8D5 /* usersyncs.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = usersyncs.json; sourceTree = "<group>"; };
+		A46870A820128E9F00096408 /* PromiseKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PromiseKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A483D401200EA27700713510 /* SmartSyncExplorerSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartSyncExplorerSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A483D404200EA27700713510 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A483D406200EA27700713510 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
@@ -118,6 +122,7 @@
 				A432DE0120100DF200A7A8D4 /* MessageUI.framework in Frameworks */,
 				A432DDFF20100DE900A7A8D4 /* ImageIO.framework in Frameworks */,
 				A432DDFD20100DE000A7A8D4 /* CoreGraphics.framework in Frameworks */,
+				A46870A920128E9F00096408 /* PromiseKit.framework in Frameworks */,
 				A432DDFB20100DD400A7A8D4 /* libz.tbd in Frameworks */,
 				A432DDEE200FCC2C00A7A8D4 /* SalesforceAnalytics.framework in Frameworks */,
 				A432DDE4200EBA6100A7A8D4 /* SalesforceSwiftSDK.framework in Frameworks */,
@@ -194,6 +199,7 @@
 		A483D3F8200EA27700713510 = {
 			isa = PBXGroup;
 			children = (
+				A46870A820128E9F00096408 /* PromiseKit.framework */,
 				A432DDF620100C2E00A7A8D4 /* SmartSyncExplorerCommon.framework */,
 				A432DDF320100AA200A7A8D4 /* SmartStore.framework */,
 				A432DDF020100A9500A7A8D4 /* SmartSync.framework */,

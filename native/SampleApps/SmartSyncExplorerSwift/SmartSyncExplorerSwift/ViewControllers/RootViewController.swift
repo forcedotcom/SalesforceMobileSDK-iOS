@@ -175,7 +175,7 @@ extension RootViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
         if let data = self.dataManager?.dataRows {
             if let obj = data[indexPath.row] as? ContactSObjectData {
-                cell.textLabel?.text =
+                cell.textLabel?.text = self.nameStringFromContact(obj)
             }
         }
         cell.textLabel?.text = "\(indexPath.row)"

@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A46870A02012812D00096408 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A483D3E62009658A00713510 /* PromiseKit.framework */; };
+		A46870A12012812D00096408 /* PromiseKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A483D3E62009658A00713510 /* PromiseKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A46870A32012815200096408 /* SmartSync.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A46870A22012815200096408 /* SmartSync.framework */; };
+		A46870A42012815200096408 /* SmartSync.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A46870A22012815200096408 /* SmartSync.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A46870A62012815200096408 /* SmartStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A46870A52012815200096408 /* SmartStore.framework */; };
+		A46870A72012815200096408 /* SmartStore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A46870A52012815200096408 /* SmartStore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A483D3CA2005C56300713510 /* UIColors+helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A483D3C82005C56300713510 /* UIColors+helper.swift */; };
 		A483D3CB2005C56300713510 /* UIFont+helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A483D3C92005C56300713510 /* UIFont+helper.swift */; };
 		A483D3CD2005CB1E00713510 /* ActionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A483D3CC2005CB1E00713510 /* ActionsTableViewController.swift */; };
@@ -46,7 +52,10 @@
 			files = (
 				A4C9614F1FFD8B2600A224DB /* SalesforceAnalytics.framework in Embed Frameworks */,
 				A4C961551FFD8B5000A224DB /* SalesforceSDKCore.framework in Embed Frameworks */,
+				A46870A12012812D00096408 /* PromiseKit.framework in Embed Frameworks */,
+				A46870A42012815200096408 /* SmartSync.framework in Embed Frameworks */,
 				A4C961581FFD8B7F00A224DB /* CocoaLumberjack.framework in Embed Frameworks */,
+				A46870A72012815200096408 /* SmartStore.framework in Embed Frameworks */,
 				A4C9614B1FFD8ADE00A224DB /* SalesforceSwiftSDK.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -55,6 +64,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A46870A22012815200096408 /* SmartSync.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartSync.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A46870A52012815200096408 /* SmartStore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartStore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A483D3C82005C56300713510 /* UIColors+helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColors+helper.swift"; sourceTree = "<group>"; };
 		A483D3C92005C56300713510 /* UIFont+helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+helper.swift"; sourceTree = "<group>"; };
 		A483D3CC2005CB1E00713510 /* ActionsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionsTableViewController.swift; sourceTree = "<group>"; };
@@ -104,7 +115,10 @@
 			files = (
 				A4C9614A1FFD8ADE00A224DB /* SalesforceSwiftSDK.framework in Frameworks */,
 				A4C9614E1FFD8B2600A224DB /* SalesforceAnalytics.framework in Frameworks */,
+				A46870A02012812D00096408 /* PromiseKit.framework in Frameworks */,
+				A46870A32012815200096408 /* SmartSync.framework in Frameworks */,
 				A4C961541FFD8B5000A224DB /* SalesforceSDKCore.framework in Frameworks */,
+				A46870A62012815200096408 /* SmartStore.framework in Frameworks */,
 				A4C961571FFD8B7F00A224DB /* CocoaLumberjack.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -168,6 +182,8 @@
 		A4C961041FFD7F6700A224DB = {
 			isa = PBXGroup;
 			children = (
+				A46870A52012815200096408 /* SmartStore.framework */,
+				A46870A22012815200096408 /* SmartSync.framework */,
 				A4C961561FFD8B7F00A224DB /* CocoaLumberjack.framework */,
 				A4C961531FFD8B5000A224DB /* SalesforceSDKCore.framework */,
 				A4C961501FFD8B4500A224DB /* CocoaLumberjackSwift.framework */,
@@ -255,7 +271,7 @@
 				TargetAttributes = {
 					A4C9610C1FFD7F6700A224DB = {
 						CreatedOnToolsVersion = 9.1;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -441,7 +457,8 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Manual;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = RestAPIExplorerSwift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -459,7 +476,8 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Manual;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = RestAPIExplorerSwift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
