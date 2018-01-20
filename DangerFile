@@ -52,9 +52,9 @@ for lib in clang_libs;
       file_path = (ENV.has_key?('JENKINS_HOME')) ? absolute_file_path.split('SalesforceMobileSDK-iOS-PR/').last : absolute_file_path.split('SalesforceMobileSDK-iOS/').last
       if git.modified_files.include?(file_path) || git.added_files.include?(file_path)
         issues = report['diagnostics']
-        for i in 0..issues.count
+        for i in 0..issues.count-1
           unless issues[i].nil?
-            message << "#{file_path.split('/').last} | #{issues[0]['type']} | #{issues[0]['category']} | #{issues[0]['description']} | #{issues[0]['location']['line']} | #{issues[0]['location']['col']}\n"
+            message << "#{file_path.split('/').last} | #{issues[i]['type']} | #{issues[i]['category']} | #{issues[i]['description']} | #{issues[i]['location']['line']} | #{issues[i]['location']['col']}\n"
           end
         end
       end
