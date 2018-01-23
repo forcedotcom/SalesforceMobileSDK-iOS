@@ -1,5 +1,5 @@
 /*
- SFSmartStoreClient
+ SFSmartStoreExtensions
  Created by Raj Rao on 01/19/18.
  
  Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
