@@ -24,13 +24,11 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import <objc/runtime.h>
-
 #import "SFPasscodeViewController.h"
 #import "SFPasscodeManager.h"
 #import "SFSDKResourceUtils.h"
 
 // Private view layout constants
-
 static CGFloat      const kPaddingTop                       = 25.0f;
 static NSString *   const kPasscodeTextFontName             = @"HelveticaNeue-Bold";
 static CGFloat      const kPasscodeTextFontSize             = 29.0f;
@@ -203,10 +201,7 @@ static CGFloat      const kUseTouchIdButtonHeight           = 40.0f;
 
 - (void)didReceiveMemoryWarning
 {
-    // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
 }
 
 #pragma mark - View lifecycle
@@ -300,12 +295,9 @@ static CGFloat      const kUseTouchIdButtonHeight           = 40.0f;
 - (void)forgotPassAction
 {
     __weak typeof(self) weakSelf = self;
-    
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:[SFSDKResourceUtils localizedString:@"forgotPasscodeTitle"]
                                                                    message:[SFSDKResourceUtils localizedString:@"logoutAlertViewTitle"]
                                                             preferredStyle:UIAlertControllerStyleAlert];
-    
-    
     UIAlertAction *okAction = [UIAlertAction
                                actionWithTitle:[SFSDKResourceUtils localizedString:@"logoutYes"]
                                style:UIAlertActionStyleDefault
@@ -315,7 +307,6 @@ static CGFloat      const kUseTouchIdButtonHeight           = 40.0f;
                                    [SFSDKCoreLogger d:[strongSelf class] format:@"User pressed Yes"];
                                    [strongSelf validatePasscodeFailed];
                                }];
-
     UIAlertAction *cancelAction = [UIAlertAction
                                    actionWithTitle:[SFSDKResourceUtils localizedString:@"logoutNo"]
                                    style:UIAlertActionStyleDefault
@@ -323,8 +314,6 @@ static CGFloat      const kUseTouchIdButtonHeight           = 40.0f;
                                    {
                                        [SFSDKCoreLogger d:[weakSelf class] format:@"User pressed No"];
                                    }];
-    
-    
     [alert addAction:okAction];
     [alert addAction:cancelAction];
     [SFSDKCoreLogger d:[self class] format:@"SFPasscodeViewController forgotPassAction"];
@@ -340,8 +329,6 @@ static CGFloat      const kUseTouchIdButtonHeight           = 40.0f;
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (void)layoutSubviews
@@ -355,8 +342,6 @@ static CGFloat      const kUseTouchIdButtonHeight           = 40.0f;
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
-    //    return (interfaceOrientation == UIInterfaceOrientationPortrait);
     return YES;
 }
 
@@ -511,7 +496,6 @@ static CGFloat      const kUseTouchIdButtonHeight           = 40.0f;
                                                                          target:self
                                                                          action:@selector(finishedConfirmPasscode)];
     [self.navigationItem setRightBarButtonItem:bbi];
-    
     bbi = [[UIBarButtonItem alloc] initWithTitle:[SFSDKResourceUtils localizedString:@"prevScreenNavButtonTitle"]
                                            style:UIBarButtonItemStylePlain
                                           target:self
@@ -555,9 +539,7 @@ static CGFloat      const kUseTouchIdButtonHeight           = 40.0f;
         NSUInteger newLength = [textField.text length] + [string length] - range.length;
         return (newLength > kMaxPasscodeLength) ? NO : YES;
     }
-    
     return YES;
 }
-
 
 @end
