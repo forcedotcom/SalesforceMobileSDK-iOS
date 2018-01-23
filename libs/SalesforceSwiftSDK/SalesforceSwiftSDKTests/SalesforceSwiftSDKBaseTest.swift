@@ -67,7 +67,7 @@ class SalesforceSwiftSDKBaseTest: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        SalesforceSwiftSDKTests.waitForCompletion(maxWaitTime: 5) { () -> Bool in
+        SalesforceSwiftSDKTests.waitForCompletion(maxWaitTime: 10) { () -> Bool in
             if (SalesforceSwiftSDKTests.setupComplete) {
                 return true
             }

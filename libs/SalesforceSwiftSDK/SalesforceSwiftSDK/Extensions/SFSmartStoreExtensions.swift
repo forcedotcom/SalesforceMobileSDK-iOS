@@ -86,7 +86,7 @@ extension SFSmartStore {
             }
         }
         
-        public func registerSoup(with soupSpec: SFSoupSpec, withIndexSpecs indexSpecs: [Any]) -> Promise<Bool> {
+        public func registerSoup(soupSpec: SFSoupSpec,indexSpecs: [Any]) -> Promise<Bool> {
             return Promise(.pending) {  resolver in
                 do {
                     try self.api!.registerSoup(with: soupSpec, withIndexSpecs: indexSpecs)
@@ -97,7 +97,7 @@ extension SFSmartStore {
             }
         }
         
-        public func count(with querySpec: SFQuerySpec) -> Promise<UInt> {
+        public func count(querySpec: SFQuerySpec) -> Promise<UInt> {
             return Promise(.pending) {  resolver in
                 var count: UInt = 0
                 var error: NSError?
@@ -110,7 +110,7 @@ extension SFSmartStore {
             }
         }
         
-        public func query(with querySpec: SFQuerySpec, pageIndex: UInt) throws -> Promise<[Any]> {
+        public func query(querySpec: SFQuerySpec, pageIndex: UInt) throws -> Promise<[Any]> {
             return Promise(.pending) {  resolver in
                 var result: [Any]?
                 var error: NSError?
@@ -127,7 +127,7 @@ extension SFSmartStore {
             }
         }
         
-        public func upsertEntries(_ entries: [Any], toSoup soupName: String) -> Promise<[Any]> {
+        public func upsertEntries(entries: [Any], toSoup soupName: String) -> Promise<[Any]> {
             return Promise(.pending) {  resolver in
                 var result: [Any] = []
                 result = self.api!.upsertEntries(entries, toSoup: soupName)
@@ -135,7 +135,7 @@ extension SFSmartStore {
             }
         }
         
-        public func upsertEntries(_ entries: [Any], toSoup soupName: String, withExternalIdPath externalIdPath: String)  -> Promise<[Any]> {
+        public func upsertEntries(entries: [Any], soupName: String, externalIdPath: String)  -> Promise<[Any]> {
             return Promise(.pending) {  resolver in
                  var result: [Any] = []
                  var error: NSError?
@@ -148,7 +148,7 @@ extension SFSmartStore {
             }
         }
         
-        public func lookupSoupEntryId(forSoupName soupName: String, forFieldPath fieldPath: String, fieldValue: String) throws -> Promise<NSNumber> {
+        public func lookupSoupEntryId(soupName: String, fieldPath: String, fieldValue: String) throws -> Promise<NSNumber> {
             return Promise(.pending) {  resolver in
                 var result: NSNumber = -1
                 var error: NSError?
@@ -161,14 +161,14 @@ extension SFSmartStore {
             }
         }
         
-        public func removeEntries(entryIds: [Any], fromSoup soupName: String) -> Promise<Void> {
+        public func removeEntries(entryIds: [Any], soupName: String) -> Promise<Void> {
             return Promise(.pending) {  resolver in
                 self.api!.removeEntries(entryIds, fromSoup: soupName)
                 resolver.fulfill(())
             }
         }
         
-        public func removeEntries(byQuery querySpec: SFQuerySpec, fromSoup soupName: String) -> Promise<Void> {
+        public func removeEntries(querySpec: SFQuerySpec, soupName: String) -> Promise<Void> {
             return Promise(.pending) {  resolver in
                 self.api!.removeEntries(byQuery: querySpec, fromSoup: soupName)
                 resolver.fulfill(())
