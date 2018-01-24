@@ -83,6 +83,14 @@ static NSString * const kSFRSAPrivateKeyTagPrefix = @"com.salesforce.rsakey.priv
  */
 + (nullable NSData *)getRSAKeyDataWithTag:(NSString *)keyTagString keyLength:(NSUInteger)length;
 
+/**
+ * Get RSA SecKeyRef with given keyTagString and length
+ * @param keyTagString The key tag string used to generate the key.
+ * @param length The key length used for key
+ * @return The SecKeyRef, or `nil` if no matching key is found
+ */
++ (nullable SecKeyRef)getRSAKeyRefWithTag:(NSString *)keyTagString keyLength:(NSUInteger)length;
+
 @end
 
 @implementation SFSDKCryptoUtils
@@ -141,7 +149,6 @@ static NSString * const kSFRSAPrivateKeyTagPrefix = @"com.salesforce.rsakey.priv
     return [self aesDecryptData:data withKey:key keyLength:kCCKeySizeAES256 iv:iv];
 }
 
-
 + (nullable NSData *)getRSAPrivateKeyDataWithName:(NSString *)keyName keyLength:(NSUInteger)length
 {
     NSString *tagString = [NSString stringWithFormat:@"%@.%@", kSFRSAPrivateKeyTagPrefix, keyName];
@@ -157,6 +164,57 @@ static NSString * const kSFRSAPrivateKeyTagPrefix = @"com.salesforce.rsakey.priv
     } else {
         return nil;
     }
+}
+
++ (nullable SecKeyRef)getRSAPublicKeyRefWithName:(NSString *)keyName keyLength:(NSUInteger)length
+{
+    NSString *tagString = [NSString stringWithFormat:@"%@.%@", kSFRSAPublicKeyTagPrefix, keyName];
+    return [self getRSAKeyRefWithTag:tagString keyLength:length];
+}
+
++ (nullable SecKeyRef)getRSAPrivateKeyRefWithName:(NSString *)keyName keyLength:(NSUInteger)length
+{
+    NSString *tagString = [NSString stringWithFormat:@"%@.%@", kSFRSAPrivateKeyTagPrefix, keyName];
+
+    return [self getRSAKeyRefWithTag:tagString keyLength:length];
+}
+
++ (nullable NSData*)encryptUsingRSAforData:(NSData *)data withKeyRef:(SecKeyRef)keyRef
+{
+    uint8_t *bytes = (uint8_t*)[data bytes];
+    size_t blockSize = SecKeyGetBlockSize(keyRef);
+    
+    uint8_t cipherText[blockSize];
+    size_t cipherLength = blockSize;
+    OSStatus status = SecKeyEncrypt(keyRef, kSecPaddingPKCS1, bytes, strlen((char*)bytes), &cipherText[0], &cipherLength);
+
+    if (status != errSecSuccess) {
+        [SFSDKCoreLogger e:[self class] format:@"encryptUsingRSAforData failed with status code: %d", status];
+        return nil;
+    }
+    
+    NSData *encryptedData = [NSData dataWithBytes:cipherText length:cipherLength];
+    return encryptedData;
+
+}
+
++ (nullable NSData*)decryptUsingRSAforData:(NSData *)data withKeyRef:(SecKeyRef)keyRef
+{
+    size_t blockSize = SecKeyGetBlockSize(keyRef);
+    size_t cipherLength = [data length];
+    uint8_t *cipherText = (uint8_t*)[data bytes];
+    
+    uint8_t plainText[blockSize];
+    size_t plainLength = blockSize;
+    OSStatus status = SecKeyDecrypt(keyRef, kSecPaddingPKCS1, &cipherText[0], cipherLength, &plainText[0], &plainLength );
+    
+    if (status != errSecSuccess) {
+        [SFSDKCoreLogger e:[self class] format:@"decryptUsingRSAforData failed with status code: %d", status];
+        return nil;
+    }
+    
+    NSData *decryptedData = [NSData dataWithBytes:plainText length:plainLength];
+    return decryptedData;
 }
 
 #pragma mark - Private methods
@@ -334,6 +392,36 @@ static NSString * const kSFRSAPrivateKeyTagPrefix = @"com.salesforce.rsakey.priv
         keyBits = CFBridgingRelease(result);
     }
     return keyBits;
+}
+
++(nullable SecKeyRef)getRSAKeyRefWithTag:(NSString *)keyTagString keyLength:(NSUInteger)length {
+    NSData *tag = [keyTagString dataUsingEncoding:NSUTF8StringEncoding];
+    
+    NSDictionary *getquery = @{ (id)kSecClass: (id)kSecClassKey,
+                                (id)kSecAttrApplicationTag: tag,
+                                (id)kSecAttrKeyType: (id)kSecAttrKeyTypeRSA,
+                                (id)kSecReturnRef: @YES,
+                                (id)kSecAttrKeySizeInBits: [NSNumber numberWithUnsignedInteger:length],
+                                };
+    
+    SecKeyRef keyRef = NULL;
+    OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef)getquery,
+                                          (CFTypeRef *)&keyRef);
+    if (status != errSecSuccess) {
+        if (status == errSecItemNotFound) {
+            NSString *keyName = [[keyTagString componentsSeparatedByString:@"."] lastObject];
+            [self createRSAKeyPairWithName:keyName keyLength:length];
+            status = SecItemCopyMatching((__bridge CFDictionaryRef)getquery,
+                                         (CFTypeRef *)&keyRef);
+        }
+        if (status != errSecSuccess) {
+            // Handle the error. . .
+            NSError *error = [NSError errorWithDomain:NSOSStatusErrorDomain code:status userInfo:nil];
+            [SFSDKCoreLogger e:[self class] format:@"Error getting RSA SecKeyRef with tag %@ and length %d. Error code: %@", keyTagString, length, error.localizedDescription];
+            return nil;
+        }
+    }
+    return keyRef;
 }
 
 @end
