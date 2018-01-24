@@ -44,8 +44,7 @@ class SalesforceSwiftSDKTests: SalesforceSwiftSDKBaseTest {
     
     override class func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
-        SalesforceSDKManager.shared().restoreState()
-        super.tearDown()
+         super.tearDown()
     }
 
     func testConfiguration() {
