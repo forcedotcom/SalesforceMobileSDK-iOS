@@ -153,7 +153,7 @@ extern NSString *const EXPLAIN_ROWS;
  @param storeName The name of the store.  If in doubt, use kDefaultSmartStoreName.
  @return A shared instance of a store with the given name.
  */
-+ (id)sharedStoreWithName:(NSString*)storeName;
++ (nullable id)sharedStoreWithName:(NSString*)storeName;
 
 /**
  Use this method to obtain a shared store instance with the given name for the given user.
