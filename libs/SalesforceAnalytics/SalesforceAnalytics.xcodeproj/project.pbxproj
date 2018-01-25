@@ -21,6 +21,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		CE1F09E4201A6C18006FA9D2 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F09D5201A6C17006FA9D2 /* CoreTelephony.framework */; };
+		CE1F09E5201A6C2C006FA9D2 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F09D5201A6C17006FA9D2 /* CoreTelephony.framework */; };
 		CE2B8BD31CE900F500C6FC6A /* SalesforceAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2B8BD21CE900F500C6FC6A /* SalesforceAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE2B8C2E1CE9218900C6FC6A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2B8C2D1CE9218900C6FC6A /* main.m */; };
 		CE2B8C311CE9218900C6FC6A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2B8C301CE9218900C6FC6A /* AppDelegate.m */; };
@@ -265,6 +267,7 @@
 
 /* Begin PBXFileReference section */
 		B7282F401D8C711100475F79 /* SalesforceAnalyticsTestApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SalesforceAnalyticsTestApp.entitlements; sourceTree = "<group>"; };
+		CE1F09D5201A6C17006FA9D2 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		CE2B8BCF1CE900F500C6FC6A /* SalesforceAnalytics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SalesforceAnalytics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE2B8BD21CE900F500C6FC6A /* SalesforceAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SalesforceAnalytics.h; sourceTree = "<group>"; };
 		CE2B8BD91CE900F500C6FC6A /* SalesforceAnalyticsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceAnalyticsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -336,6 +339,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE1F09E4201A6C18006FA9D2 /* CoreTelephony.framework in Frameworks */,
 				CE57B2E41EE9EA97006F560B /* CocoaLumberjack.framework in Frameworks */,
 				CEF371B01D0E582C0004A237 /* UIKit.framework in Frameworks */,
 				CEF371AF1D0E58260004A237 /* Foundation.framework in Frameworks */,
@@ -355,6 +359,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE1F09E5201A6C2C006FA9D2 /* CoreTelephony.framework in Frameworks */,
 				CEF371AE1D0E58190004A237 /* UIKit.framework in Frameworks */,
 				CEF371AD1D0E58130004A237 /* Foundation.framework in Frameworks */,
 			);
@@ -545,6 +550,7 @@
 		CEF371A61D0E55C70004A237 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CE1F09D5201A6C17006FA9D2 /* CoreTelephony.framework */,
 				CE57B2AF1EE9EA5D006F560B /* Lumberjack.xcodeproj */,
 				CEF371A91D0E57F50004A237 /* UIKit.framework */,
 				CEF371A71D0E57ED0004A237 /* Foundation.framework */,
