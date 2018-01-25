@@ -31,6 +31,7 @@
 #import "SFSDKReachability.h"
 #import "SFSDKAnalyticsManager+Internal.h"
 #import "SFSDKInstrumentationEvent+Internal.h"
+#import <CoreTelephony/CTTelephonyNetworkInfo.h>
 
 @interface SFSDKInstrumentationEventBuilder ()
 
@@ -89,12 +90,22 @@
         case SFSDKReachabilityNotReachable:
             return @"None";
         case SFSDKReachabilityReachableViaWWAN:
-            return @"Cellular";
+            return [self getMobileConnectionSubType];
         case SFSDKReachabilityReachableViaWiFi:
             return @"WiFi";
         default:
             return @"Unknown";
     }
+}
+
+- (NSString *) getMobileConnectionSubType {
+    NSString *type = @"Mobile";
+    CTTelephonyNetworkInfo *telephonyInfo = [[CTTelephonyNetworkInfo alloc] init];
+    NSString *subType = telephonyInfo.currentRadioAccessTechnology;
+    if (subType != nil) {
+        type = [NSString stringWithFormat:@"Mobile;%@", subType];
+    }
+    return type;
 }
 
 @end
