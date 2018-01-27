@@ -9,7 +9,7 @@ ENV['SCHEME'] = 'UnitTests' unless ENV.has_key?('SCHEME')
 ENV['IOS_VERSION'] = ' (11.2)' unless ENV.has_key?('IOS_VERSION')
 $Jenkins = ENV.has_key?('JENKINS_URL')
 
-$GITPRAPI = 'https://api.github.com/repos/forcedotcom/SalesforceMobileSDK-iOS/pulls/%s/files'
+$GITPRAPI = "https://api.github.com/repos/%s/SalesforceMobileSDK-iOS/pulls/%s/files"
 $schemes = ['SalesforceAnalytics', 'SalesforceHybridSDK', 'SalesforceReact', 'SalesforceSDKCore', 'SmartStore', 'SmartSync']
 $schemesWithUnitTests = Array.new($schemes)
 $schemesWithUnitTests.push("UnitTests")
@@ -32,11 +32,11 @@ def combinePackagesOfXML(toFile, files)
   File.write(toFile, toDoc.to_xml)
 end
 
-def doDanger
+def doDanger(scheme)
   begin
     danger(
-        danger_id: "CI-result",
-        dangerfile: ".circleci/DangerFile",
+        danger_id: scheme,
+        dangerfile: ".circleci/Dangerfile-Lib.rb",
         github_api_token: ENV["DANGER_GITHUB_API_TOKEN"]
     )
   rescue => ex
@@ -127,35 +127,51 @@ end
 lane :PR do |options|
   Dir.chdir('../')
   schemes = Set.new
-  if ENV["ghprbPullId"] && ENV["gitToken"]
-    prFilesAPI = $GITPRAPI % ENV["ghprbPullId"]
-    curlCommand = "curl %s -H 'Authorization: token %s'" % [prFilesAPI, ENV["gitToken"]]
+
+  # Determine CI platform or exit
+  if $Jenkins
+    # This should fix the issue of rebuilding PRs on jenkins not actually working, just rebuild with
+    # the sha1 from the original PR build. e.g. "origin/pr/2384/merge"
+    pr_id = ENV.has_key?('ghprbPullId') ? ENV['ghprbPullId'] : ENV['sha1'].split('/')[2]
+    prFilesAPI = $GITPRAPI % ['forcedotcom', pr_id]
+    curlCommand = "curl %s -H 'Authorization: token %s'" % [prFilesAPI, ENV['gitToken']]
     pullfiles = `#{curlCommand}`
-    prfiles = JSON.parse(pullfiles)
-    for prfile in prfiles
-      path = prfile["filename"]
-      for scheme in $schemes
-        if path.include? scheme
-          schemes = schemes.add(scheme)
-        end
-      end
+  elsif ENV.has_key?('CIRCLE_PULL_REQUEST')
+    # No PR Number indicates that this PR is running in a CircleCI env linked to a fork, so force the url to forcedotcom project.
+    if ENV.has_key?('CIRCLE_PR_NUMBER')
+      prFilesAPI = $GITPRAPI % [ENV['CIRCLE_PROJECT_USERNAME'], ENV['CIRCLE_PR_NUMBER']]
+    else
+      prFilesAPI = $GITPRAPI % ['forcedotcom', ENV['CIRCLE_PULL_REQUEST'].split('/').last]
     end
-    puts "schemes:" + schemes.to_a().join(",")
+    pullfiles = `#{"curl %s" % [prFilesAPI]}`
+  else
+    UI.error 'Not a PR on Jenkins or CircleCI, stopping stop execution now.'
+    next
   end
 
+  # Determine which libs have been modified
+  prfiles = JSON.parse(pullfiles)
+  for prfile in prfiles
+    path = prfile["filename"]
+    for scheme in $schemes
+      if path.include? scheme
+        schemes.add(scheme)
+      end
+    end
+  end
+  UI.important "Schemes to test: " + schemes.to_a().join(",")
+
   lib_to_test = options[:lib]
-  puts lib_to_test
   if lib_to_test.nil?
     # The old Jenkins way
     for scheme in schemes
       testScheme(scheme)
     end
-    doDanger
   else
     # The new CircleCI way
     if schemes.include? lib_to_test
       testScheme(lib_to_test)
-      doDanger
+      doDanger scheme
     end
   end
 end

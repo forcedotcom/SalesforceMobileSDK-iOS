@@ -49,6 +49,10 @@ jobs:
       - checkout
       - restore_cache: *restore-gem-cache
       - run: *install-dependecies
+      - run:
+          name: Danger PR
+          command: DANGER_GITHUB_API_TOKEN="d6c848fa0585147fd2f1""b37d03973333e8123e5e" danger --dangerfile=.circleci/Dangerfile_PR.rb --danger_id=PR-Check --verbose
+          background: true
       - save_cache: *save-gem-cache
       - run: *run-tests
       - store_test_results:
