@@ -32,7 +32,7 @@ def combinePackagesOfXML(toFile, files)
   File.write(toFile, toDoc.to_xml)
 end
 
-def doDanger(scheme)
+def runDanger(scheme)
   begin
     danger(
         danger_id: scheme,
@@ -83,6 +83,7 @@ def testScheme(scheme)
           output_directory: "xcov_output",
           exclude_targets: "CocoaLumberjack.framework,SalesforceSDKCoreTestApp.app,SmartStoreTestApp.app,SmartSyncTestApp.app,SalesforceHybridSDKTestApp.app,SalesforceAnalyticsTestApp.app,RestAPIExplorer.app,AccountEditor.app,NoteSync.app,SmartSyncExplorerHybrid.app,SmartSyncExplorer.app,SmartSyncExplorerCommon.framework,RecentContactsTodayExtension.appex,Cordova.framework,SalesforceReact.framework"
       )
+      runDanger scheme
 
       schemes = [scheme]
       if scheme.include?("UnitTests")
@@ -171,7 +172,8 @@ lane :PR do |options|
     # The new CircleCI way
     if schemes.include? lib_to_test
       testScheme(lib_to_test)
-      doDanger scheme
+    else
+      UI.important "Lib #{lib_to_test} not modified by this PR, no need to test."
     end
   end
 end
