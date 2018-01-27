@@ -1,0 +1,180 @@
+fastlane_require 'nokogiri'
+
+before_all do
+  setup_circle_ci
+end
+
+ENV['DEVICE'] = 'iPhone 8' unless ENV.has_key?('DEVICE')
+ENV['SCHEME'] = 'UnitTests' unless ENV.has_key?('SCHEME')
+ENV['IOS_VERSION'] = ' (11.2)' unless ENV.has_key?('IOS_VERSION')
+$Jenkins = ENV.has_key?('JENKINS_URL')
+
+$GITPRAPI = 'https://api.github.com/repos/forcedotcom/SalesforceMobileSDK-iOS/pulls/%s/files'
+$schemes = ['SalesforceAnalytics', 'SalesforceHybridSDK', 'SalesforceReact', 'SalesforceSDKCore', 'SmartStore', 'SmartSync']
+$schemesWithUnitTests = Array.new($schemes)
+$schemesWithUnitTests.push("UnitTests")
+
+system('/usr/libexec/PlistBuddy -c \"add :ConnectHardwareKeyboard bool 0\" ~/Library/Preferences/com.apple.iphonesimulator.plist || /usr/libexec/PlistBuddy -c \"set :ConnectHardwareKeyboard 0\" ~/Library/Preferences/com.apple.iphonesimulator.plist')
+system('rm -r $HOME/Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-*')
+
+def combinePackagesOfXML(toFile, files)
+  toDoc = Nokogiri::XML(File.open(toFile))
+  packageNode = toDoc.xpath('//packages/package')
+  packageNode = packageNode[packageNode.size-1] #get last package node
+
+  for fromfile in files
+    fromDoc = Nokogiri::XML(File.open(fromfile))
+    packages = fromDoc.xpath('//packages/package')
+    for package in packages
+      packageNode.add_next_sibling(package)
+    end
+  end
+  File.write(toFile, toDoc.to_xml)
+end
+
+def doDanger
+  begin
+    danger(
+        danger_id: "CI-result",
+        dangerfile: ".circleci/DangerFile",
+        github_api_token: ENV["DANGER_GITHUB_API_TOKEN"]
+    )
+  rescue => ex
+    UI.error(ex)
+  end
+end
+
+
+def testScheme(scheme)
+  begin
+    xcodebuild(
+        xcargs: "CLANG_ANALYZER_OUTPUT=plist-html CLANG_ANALYZER_OUTPUT_DIR=./clangReport RUN_CLANG_STATIC_ANALYZER=YES",
+        workspace: "SalesforceMobileSDK.xcworkspace",
+        scheme: scheme,
+        sdk: "iphonesimulator",
+        )
+  ensure
+    #move clangReports to one folder
+    system("mkdir -p ../clangReport/StaticAnalyzer")
+    system("mv ../libs/SalesforceAnalytics/clangReport/StaticAnalyzer/SalesforceAnalytics ../clangReport/StaticAnalyzer/")
+    system("mv ../libs/SalesforceHybridSDK/clangReport/StaticAnalyzer/SalesforceHybridSDK ../clangReport/StaticAnalyzer/")
+    system("mv ../libs/SalesforceReact/clangReport/StaticAnalyzer/SalesforceReact ../clangReport/StaticAnalyzer/")
+    system("mv ../libs/SalesforceSDKCore/clangReport/StaticAnalyzer/SalesforceSDKCore ../clangReport/StaticAnalyzer/")
+    system("mv ../libs/SmartStore/clangReport/StaticAnalyzer/SmartStore ../clangReport/StaticAnalyzer/")
+    system("mv ../libs/SmartSync/clangReport/StaticAnalyzer/SmartSync ../clangReport/StaticAnalyzer/")
+  end
+
+  if (scheme != 'SalesforceReact')
+    begin
+      scan(
+          workspace: "SalesforceMobileSDK.xcworkspace",
+          scheme: scheme,
+          device: ENV['DEVICE'] + ENV['IOS_VERSION'],
+          output_directory: "test_output",
+          code_coverage: true,
+          clean: true
+      )
+    ensure
+      system('cp ../test_output/report.junit ../test_output/results.xml')
+
+      xcov(
+          workspace: "SalesforceMobileSDK.xcworkspace",
+          scheme: scheme,
+          output_directory: "xcov_output",
+          exclude_targets: "CocoaLumberjack.framework,SalesforceSDKCoreTestApp.app,SmartStoreTestApp.app,SmartSyncTestApp.app,SalesforceHybridSDKTestApp.app,SalesforceAnalyticsTestApp.app,RestAPIExplorer.app,AccountEditor.app,NoteSync.app,SmartSyncExplorerHybrid.app,SmartSyncExplorer.app,SmartSyncExplorerCommon.framework,RecentContactsTodayExtension.appex,Cordova.framework,SalesforceReact.framework"
+      )
+
+      schemes = [scheme]
+      if scheme.include?("UnitTests")
+        schemes = $schemes
+      end
+      for oneScheme in schemes
+        begin
+          slather(
+              workspace: "SalesforceMobileSDK.xcworkspace",
+              scheme: oneScheme,
+              output_directory: "slather_output_temp/#{oneScheme}",
+              html: true,
+              jenkins: $Jenkins,
+              cobertura_xml: true,
+              ignore: ["../*", "external/*"],
+              proj: "./libs/%s/%s.xcodeproj" %[oneScheme, oneScheme],
+              verbose: true
+          )
+        rescue => ex
+          UI.error(ex)
+        end
+      end
+
+      system("mkdir -p ../slather_output")
+      desFile = "../slather_output/cobertura.xml"
+      system("rm #{desFile}") #remove existing file first
+      coberturaXmls = Dir["../slather_output_temp/**/cobertura*.xml"]
+      mergeFiles = Array.new
+      for i in 0..coberturaXmls.size-1
+        coberturaXml = coberturaXmls[i]
+        if i == 0
+          system("cp #{coberturaXml} #{desFile}")
+        else
+          mergeFiles.push(coberturaXml)
+        end
+      end
+      combinePackagesOfXML(desFile, mergeFiles)
+    end
+  end
+end
+
+lane :PR do |options|
+  Dir.chdir('../')
+  schemes = Set.new
+  if ENV["ghprbPullId"] && ENV["gitToken"]
+    prFilesAPI = $GITPRAPI % ENV["ghprbPullId"]
+    curlCommand = "curl %s -H 'Authorization: token %s'" % [prFilesAPI, ENV["gitToken"]]
+    pullfiles = `#{curlCommand}`
+    prfiles = JSON.parse(pullfiles)
+    for prfile in prfiles
+      path = prfile["filename"]
+      for scheme in $schemes
+        if path.include? scheme
+          schemes = schemes.add(scheme)
+        end
+      end
+    end
+    puts "schemes:" + schemes.to_a().join(",")
+  end
+
+  lib_to_test = options[:lib]
+  puts lib_to_test
+  if lib_to_test.nil?
+    # The old Jenkins way
+    for scheme in schemes
+      testScheme(scheme)
+    end
+    doDanger
+  else
+    # The new CircleCI way
+    if schemes.include? lib_to_test
+      testScheme(lib_to_test)
+      doDanger
+    end
+  end
+end
+
+lane :LCL do
+  Dir.chdir('../')
+  index = 1
+  puts "Select scheme:"
+  for scheme in $schemesWithUnitTests
+    puts index.to_s + ": " + scheme
+    index = index + 1
+  end
+
+  print "Just enter a number:"
+  selection = STDIN.gets.strip
+  testScheme($schemesWithUnitTests[selection.to_i-1])
+end
+
+lane :CI do
+  Dir.chdir('../')
+  testScheme("UnitTests")
+end
