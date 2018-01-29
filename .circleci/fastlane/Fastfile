@@ -32,10 +32,10 @@ def combinePackagesOfXML(toFile, files)
   File.write(toFile, toDoc.to_xml)
 end
 
-def runDanger(scheme)
+def runDanger
   begin
     danger(
-        danger_id: scheme,
+        danger_id: "CI-result",
         dangerfile: ".circleci/Dangerfile-Lib.rb",
         github_api_token: ENV["DANGER_GITHUB_API_TOKEN"]
     )
@@ -83,7 +83,6 @@ def testScheme(scheme)
           output_directory: "xcov_output",
           exclude_targets: "CocoaLumberjack.framework,SalesforceSDKCoreTestApp.app,SmartStoreTestApp.app,SmartSyncTestApp.app,SalesforceHybridSDKTestApp.app,SalesforceAnalyticsTestApp.app,RestAPIExplorer.app,AccountEditor.app,NoteSync.app,SmartSyncExplorerHybrid.app,SmartSyncExplorer.app,SmartSyncExplorerCommon.framework,RecentContactsTodayExtension.appex,Cordova.framework,SalesforceReact.framework"
       )
-      runDanger scheme
 
       schemes = [scheme]
       if scheme.include?("UnitTests")
@@ -161,12 +160,14 @@ lane :PR do |options|
     end
   end
   UI.important "Schemes to test: " + schemes.to_a().join(",")
+  ENV['LIBS_TO_TEST'] = schemes.to_a().join(",")
 
   lib_to_test = options[:lib]
   if lib_to_test.nil?
     # The old Jenkins way
     for scheme in schemes
       testScheme(scheme)
+      runDanger
     end
   else
     # The new CircleCI way

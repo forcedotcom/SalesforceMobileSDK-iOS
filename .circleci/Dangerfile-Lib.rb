@@ -4,15 +4,20 @@ require 'plist'
 # Markdown table character length without any issues
 MAKRDOWN_LENGTH = 138
 
-junit.parse 'test_output/report.junit'
-junit.show_skipped_tests = true
-junit.report
+test_results = 'test_output/report.junit'
+if File.file?(test_results)
+  junit.parse test_results
+  junit.show_skipped_tests = true
+  junit.report
+end
 
-xcov.report(
-    scheme: 'UnitTests',
-    workspace: '../SalesforceMobileSDK.xcworkspace',
-    exclude_targets:'CocoaLumberjack.framework,SalesforceSDKCoreTestApp.app,SmartStoreTestApp.app,SmartSyncTestApp.app,SalesforceHybridSDKTestApp.app,SalesforceAnalyticsTestApp.app,RestAPIExplorer.app,AccountEditor.app,NoteSync.app,SmartSyncExplorerHybrid.app,SmartSyncExplorer.app,SmartSyncExplorerCommon.framework,RecentContactsTodayExtension.appex,Cordova.framework,SalesforceReact.framework'
-)
+if ENV.has_key?('JENKINS_URL')
+  xcov.report(
+      scheme: 'UnitTests',
+      workspace: '../SalesforceMobileSDK.xcworkspace',
+      exclude_targets:'CocoaLumberjack.framework,SalesforceSDKCoreTestApp.app,SmartStoreTestApp.app,SmartSyncTestApp.app,SalesforceHybridSDKTestApp.app,SalesforceAnalyticsTestApp.app,RestAPIExplorer.app,AccountEditor.app,NoteSync.app,SmartSyncExplorerHybrid.app,SmartSyncExplorer.app,SmartSyncExplorerCommon.framework,RecentContactsTodayExtension.appex,Cordova.framework,SalesforceReact.framework'
+  )
+end
 
 message = "### Clang Static Analysis Issues\n\n"
 message << "File | Type | Category | Description | Line | Col |\n"
@@ -44,3 +49,6 @@ if message.length > MAKRDOWN_LENGTH
   warn('Static Analysis found an issue with one or more files you modified.  Please fix the issue(s).')
   markdown message
 end
+
+# State what Library the test failures are for (or don't post at all).
+markdown "# Tests results for #{ENV['LIB']}" unless status_report[:errors].empty? && status_report[:warnings].empty?

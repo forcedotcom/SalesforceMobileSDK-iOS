@@ -28,6 +28,14 @@ aliases:
       cd .circleci
       fastlane ${FASTLANE_LANE}
 
+  - &danger-lib
+    name: Danger Lib
+    command:  |
+      chruby 2.4.2
+      DANGER_GITHUB_API_TOKEN="d6c848fa0585147fd2f1""b37d03973333e8123e5e" danger --dangerfile=.circleci/Dangerfile-Lib.rb --danger_id="${LIB}" --verbose
+    background: true
+    when: always
+
   - &codecov
     name: Codecov Uplaod
     command: bash <(curl -s https://codecov.io/bash) -f slather_output/cobertura.xml -X gcov -X xcode
@@ -38,6 +46,8 @@ defaults: &defaults
   macos:
     xcode: "9.2.0"
   shell: /bin/bash --login -eo pipefail
+  environment:
+    BASH_ENV: ~/.bashrc
 
 version: 2
 jobs:
@@ -45,6 +55,7 @@ jobs:
     <<: *defaults
     environment:
       - FASTLANE_LANE: "PR lib:SalesforceAnalytics"
+      - LIB: "SalesforceAnalytics"
     steps:
       - checkout
       - restore_cache: *restore-gem-cache
@@ -53,10 +64,11 @@ jobs:
           name: Danger PR
           command:  |
             chruby 2.4.2
-            DANGER_GITHUB_API_TOKEN="d6c848fa0585147fd2f1""b37d03973333e8123e5e" danger --dangerfile=.circleci/Dangerfile_PR.rb --danger_id=PR-Check --verbose
+            DANGER_GITHUB_API_TOKEN="d6c848fa0585147fd2f1""b37d03973333e8123e5e" danger --dangerfile=.circleci/Dangerfile-PR.rb --danger_id=PR-Check --verbose
           background: true
       - save_cache: *save-gem-cache
       - run: *run-tests
+      - run: *danger-lib
       - store_test_results:
           path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
       - store_artifacts:
@@ -74,12 +86,14 @@ jobs:
     <<: *defaults
     environment:
       - FASTLANE_LANE: "PR lib:SalesforceHybridSDK"
+      - LIB: "SalesforceHybridSDK"
     steps:
       - checkout
       - restore_cache: *restore-gem-cache
       - run: *install-dependecies
       - save_cache: *save-gem-cache
       - run: *run-tests
+      - run: *danger-lib
       - store_test_results:
           path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
       - store_artifacts:
@@ -120,12 +134,14 @@ jobs:
     <<: *defaults
     environment:
       - FASTLANE_LANE: "PR lib:SalesforceSDKCore"
+      - LIB: "SalesforceSDKCore"
     steps:
       - checkout
       - restore_cache: *restore-gem-cache
       - run: *install-dependecies
       - save_cache: *save-gem-cache
       - run: *run-tests
+      - run: *danger-lib
       - store_test_results:
           path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
       - store_artifacts:
@@ -143,12 +159,14 @@ jobs:
     <<: *defaults
     environment:
       - FASTLANE_LANE: "PR lib:SmartStore"
+      - LIB: "SmartStore"
     steps:
       - checkout
       - restore_cache: *restore-gem-cache
       - run: *install-dependecies
       - save_cache: *save-gem-cache
       - run: *run-tests
+      - run: *danger-lib
       - store_test_results:
           path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
       - store_artifacts:
@@ -166,12 +184,14 @@ jobs:
     <<: *defaults
     environment:
       - FASTLANE_LANE: "PR lib:SmartSync"
+      - LIB: "SmartSync"
     steps:
       - checkout
       - restore_cache: *restore-gem-cache
       - run: *install-dependecies
       - save_cache: *save-gem-cache
       - run: *run-tests
+      - run: *danger-lib
       - store_test_results:
           path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
       - store_artifacts:
@@ -261,6 +281,3 @@ workflows:
     jobs:
       - test-ios-11
       - test-ios-10
-
-
-
