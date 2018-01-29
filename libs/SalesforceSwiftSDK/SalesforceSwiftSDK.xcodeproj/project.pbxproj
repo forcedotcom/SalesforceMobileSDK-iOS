@@ -22,6 +22,7 @@
 		B7980CC01FD49B3C009CFDE1 /* SFUserAccountManagerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7980CBF1FD49B3C009CFDE1 /* SFUserAccountManagerExtensions.swift */; };
 		B7980CC21FD49B63009CFDE1 /* SFRestAPIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7980CC11FD49B63009CFDE1 /* SFRestAPIExtensions.swift */; };
 		B799B46D1FD60528001DC6ED /* SFRestAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B799B46C1FD60527001DC6ED /* SFRestAPITests.swift */; };
+		B7C22B07201BE58D009E0787 /* SFSmartSyncExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C22B06201BE58D009E0787 /* SFSmartSyncExtensions.swift */; };
 		B7CFC43F1FD043E00013534D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7CFC4361FD043D10013534D /* Foundation.framework */; };
 		B7CFC44B1FD0463D0013534D /* SalesforceSwiftSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7DA7ABB1FCDE08E0098C1EA /* SalesforceSwiftSDK.framework */; };
 		B7CFC44C1FD046430013534D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7CFC4361FD043D10013534D /* Foundation.framework */; };
@@ -165,6 +166,7 @@
 		B7980CBF1FD49B3C009CFDE1 /* SFUserAccountManagerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFUserAccountManagerExtensions.swift; sourceTree = "<group>"; };
 		B7980CC11FD49B63009CFDE1 /* SFRestAPIExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFRestAPIExtensions.swift; sourceTree = "<group>"; };
 		B799B46C1FD60527001DC6ED /* SFRestAPITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFRestAPITests.swift; sourceTree = "<group>"; };
+		B7C22B06201BE58D009E0787 /* SFSmartSyncExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSmartSyncExtensions.swift; sourceTree = "<group>"; };
 		B7CFC4361FD043D10013534D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B7CFC4411FD044350013534D /* SmartStore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartStore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7CFC4451FD0444A0013534D /* SalesforceAnalytics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SalesforceAnalytics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -248,6 +250,7 @@
 				B7980CBF1FD49B3C009CFDE1 /* SFUserAccountManagerExtensions.swift */,
 				B7980CC11FD49B63009CFDE1 /* SFRestAPIExtensions.swift */,
 				B79119032012846900516791 /* SFSmartStoreExtensions.swift */,
+				B7C22B06201BE58D009E0787 /* SFSmartSyncExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -618,6 +621,7 @@
 				B7DA7AF61FCDE3900098C1EA /* SalesforceSDKManagerExtensions.swift in Sources */,
 				4F0F31D11FDF2E6800CF6926 /* SalesforceSwiftSDKManager.swift in Sources */,
 				B7CFC47B1FD04A270013534D /* SalesforceSwiftLogger.swift in Sources */,
+				B7C22B07201BE58D009E0787 /* SFSmartSyncExtensions.swift in Sources */,
 				B7CFC4D41FD1D0390013534D /* SwiftExtensions.swift in Sources */,
 				B7980CC21FD49B63009CFDE1 /* SFRestAPIExtensions.swift in Sources */,
 				B79119042012846900516791 /* SFSmartStoreExtensions.swift in Sources */,
