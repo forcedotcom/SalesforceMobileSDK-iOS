@@ -98,14 +98,14 @@ extension SFSmartSyncSyncManager {
          Delete a sync
          
          ```
-         syncManager.Promises.deleteSync(id:  id)
+         syncManager.Promises.deleteSync(syncId:  id)
          .then {
          ..
          }
          ```
          - parameter name: Name of sync.
          */
-        func deleteSync(id: NSNumber) -> Promise<Void>  {
+        func deleteSync(syncId: NSNumber) -> Promise<Void>  {
             return Promise(.pending) {  resolver in
                 resolver.fulfill(self.api!.deleteSync(byId: id))
             }
@@ -115,7 +115,7 @@ extension SFSmartSyncSyncManager {
          Delete a sync
          
          ```
-         syncManager.Promises.deleteSync(id:  id)
+         syncManager.Promises.deleteSync(name:  name)
          .then {
          ..
          }
@@ -187,7 +187,7 @@ extension SFSmartSyncSyncManager {
              - updateBlock: Block to invoke
          - Returns: SFSmartStore wrapped in a promise.
          */
-        func syncDown(with target: SFSyncDownTarget, options: SFSyncOptions, soupName: String, updateBlock: SFSyncSyncManagerUpdateBlock) -> Promise<SFSyncState> {
+        func syncDown(target: SFSyncDownTarget, options: SFSyncOptions, soupName: String, updateBlock: SFSyncSyncManagerUpdateBlock) -> Promise<SFSyncState> {
             return Promise(.pending) {  resolver in
                 resolver.fulfill(self.api!.syncDown(with: target,options: options, soupName: soupName, update: updateBlock))
             }
@@ -209,7 +209,7 @@ extension SFSmartSyncSyncManager {
          - updateBlock: Block to invoke
          - Returns: SFSmartStore wrapped in a promise.
          */
-        func syncDown(with target: SFSyncDownTarget, options: SFSyncOptions, soupName: String, syncName: String?, updateBlock: SFSyncSyncManagerUpdateBlock) -> Promise<SFSyncState> {
+        func syncDown(target: SFSyncDownTarget, options: SFSyncOptions, soupName: String, syncName: String?, updateBlock: SFSyncSyncManagerUpdateBlock) -> Promise<SFSyncState> {
             return Promise(.pending) {  resolver in
                 resolver.fulfill(self.api!.syncDown(with: target,options: options, soupName: soupName,syncName: syncName, update: updateBlock))
             }
