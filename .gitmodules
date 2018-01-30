@@ -13,9 +13,6 @@
 [submodule "external/wypopovercontroller"]
 	path = external/wypopovercontroller
 	url = https://github.com/sammcewan/WYPopoverController
-[submodule "external/react-native"]
-	path = external/react-native
-	url = https://github.com/forcedotcom/react-native.git
 [submodule "external/CocoaLumberjack"]
 	path = external/CocoaLumberjack
 	url=https://github.com/forcedotcom/CocoaLumberjack.git
