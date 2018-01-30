@@ -26,17 +26,24 @@ import Foundation
 import SmartSync
 import PromiseKit
 
+enum SFSmartSyncError : Error {
+    case SyncDownFailed
+    case SyncUpFailed
+    case ReSyncFailed
+    case CleanResyncGhostsFailed
+}
+
 extension SFSmartSyncSyncManager {
     
     public var Promises : SFSmartSyncSyncManagerPromises {
-        return SFSmartStorePromises(api: self)
+        return SFSmartSyncSyncManagerPromises(api: self)
     }
     
     public class SFSmartSyncSyncManagerPromises {
 
         weak var api: SFSmartSyncSyncManager?
 
-        init(api: SFSmartSyncManager) {
+        init(api: SFSmartSyncSyncManager) {
             self.api = api
         }
 
@@ -107,7 +114,7 @@ extension SFSmartSyncSyncManager {
          */
         func deleteSync(syncId: NSNumber) -> Promise<Void>  {
             return Promise(.pending) {  resolver in
-                resolver.fulfill(self.api!.deleteSync(byId: id))
+                resolver.fulfill(self.api!.deleteSync(byId: syncId))
             }
         }
 
@@ -137,7 +144,7 @@ extension SFSmartSyncSyncManager {
          ..
          }
          ```
-         - parameters
+         - parameters:
             - target: SFSyncDownTarget target
             - options: SFSyncOptions
              - soupName: Soup Name
@@ -146,7 +153,7 @@ extension SFSmartSyncSyncManager {
          */
         func createSyncDown(target: SFSyncDownTarget, options: SFSyncOptions, soupName: String, syncName: String?) -> Promise<SFSyncState> {
             return Promise(.pending) {  resolver in
-                resolver.fulfill( self.api!.createSyncDown(target, options: options, soupName: soupName, syncName: syncName)
+                resolver.fulfill( self.api!.createSyncDown(target, options: options, soupName: soupName, syncName: syncName))
             }
         }
 
@@ -154,20 +161,28 @@ extension SFSmartSyncSyncManager {
          Sync Down
          
          ```
-         syncManager.Promises.deleteSync(id:  id)
+         syncManager.Promises.syncDown(target: target, soupName: soupName)
          .then {
          ..
          }
+         .catch SFSmartSync.SyncDownFailed {
+         
+         }
          ```
-         - parameters
+         - parameters:
              - target: SFSyncDownTarget target
              - soupName: Soup Name
-             - updateBlock: Block to invoke
          - Returns: SFSmartStore wrapped in a promise.
          */
-        func syncDown(target: SFSyncDownTarget, soupName: String, updateBlock: SFSyncSyncManagerUpdateBlock) -> Promise<SFSyncState> {
+        func syncDown(target: SFSyncDownTarget, soupName: String) -> Promise<SFSyncState> {
             return Promise(.pending) {  resolver in
-                resolver.fulfill(self.api!.syncDown(with: target, soupName: soupName, update: updateBlock))
+                self.api!.syncDown(with: target, soupName: soupName, update: { (syncState) in
+                    if syncState.status == .done  {
+                        resolver.fulfill(syncState)
+                    } else if syncState.status == .failed {
+                        resolver.reject(SFSmartSyncError.SyncDownFailed)
+                    }
+                })
             }
         }
         
@@ -175,84 +190,246 @@ extension SFSmartSyncSyncManager {
          Sync Down
          
          ```
-         syncManager.Promises.deleteSync(id:  id)
+         syncManager.Promises.syncDown(target: target, options: options,soupName: soupName)
          .then {
          ..
          }
-         ```
-         - parameters
-             - target: SFSyncDownTarget target
-             - options: SFSyncOptions
-             - soupName: Soup Name
-             - updateBlock: Block to invoke
-         - Returns: SFSmartStore wrapped in a promise.
-         */
-        func syncDown(target: SFSyncDownTarget, options: SFSyncOptions, soupName: String, updateBlock: SFSyncSyncManagerUpdateBlock) -> Promise<SFSyncState> {
-            return Promise(.pending) {  resolver in
-                resolver.fulfill(self.api!.syncDown(with: target,options: options, soupName: soupName, update: updateBlock))
-            }
-        }
-
-        /**
-         Sync Down
+         .catch SFSmartSync.SyncDownFailed {
          
-         ```
-         syncManager.Promises.deleteSync(id:  id)
-         .then {
-         ..
          }
          ```
-         - parameters
+         - parameters:
          - target: SFSyncDownTarget target
-         - options: SFSyncOptions
          - soupName: Soup Name
-         - updateBlock: Block to invoke
          - Returns: SFSmartStore wrapped in a promise.
          */
-        func syncDown(target: SFSyncDownTarget, options: SFSyncOptions, soupName: String, syncName: String?, updateBlock: SFSyncSyncManagerUpdateBlock) -> Promise<SFSyncState> {
+        func syncDown(target: SFSyncDownTarget, options: SFSyncOptions, soupName: String) -> Promise<SFSyncState> {
             return Promise(.pending) {  resolver in
-                resolver.fulfill(self.api!.syncDown(with: target,options: options, soupName: soupName,syncName: syncName, update: updateBlock))
+                self.api!.syncDown(with: target, options: options, soupName: soupName, update: { (syncState) in
+                    if syncState.status == .done  {
+                        resolver.fulfill(syncState)
+                    } else if syncState.status == .failed {
+                        resolver.reject(SFSmartSyncError.SyncDownFailed)
+                    }
+                })
+            }
+        }
+
+        /**
+         Sync Down
+         
+         ```
+         syncManager.Promises.syncDown(target: target, options: options,soupName: soupName)
+         .then {
+         ..
+         }
+         .catch SFSmartSync.SyncDownFailed {
+         
+         }
+         ```
+         - parameters:
+         - target: SFSyncDownTarget target
+         - soupName: Soup Name
+         - Returns: SFSmartStore wrapped in a promise.
+         */
+        func syncDown(target: SFSyncDownTarget, options: SFSyncOptions, soupName: String, syncName: String?) -> Promise<SFSyncState> {
+            return Promise(.pending) {  resolver in
+                self.api!.syncDown(with: target, options: options, soupName: soupName, syncName: syncName, update: { (syncState) in
+                    if syncState.status == .done  {
+                        resolver.fulfill(syncState)
+                    } else if syncState.status == .failed {
+                        resolver.reject(SFSmartSyncError.SyncDownFailed)
+                    }
+                })
+            }
+        }
+
+        /**
+         ReSync
+
+         ```
+         syncManager.Promises.reSync(syncId: syncId)
+         .then { syncState in
+         ..
+         }
+         .catch SFSmartSync.ReSyncFailed {
+         
+         }
+         ```
+         - parameters:
+             - syncId: NSNumber
+         - Returns: SFSyncState wrapped in a promise.
+         */
+
+        func reSync(syncId: NSNumber) -> Promise<SFSyncState> {
+            return Promise(.pending) {  resolver in
+                self.api!.reSync(syncId, update: { (syncState) in
+                    if syncState.status == .done  {
+                        resolver.fulfill(syncState)
+                    } else if syncState.status == .failed {
+                        resolver.reject(SFSmartSyncError.ReSyncFailed)
+                    }
+                })
+            }
+        }
+
+        /**
+         ReSync
+
+         ```
+         syncManager.Promises.reSync(syncId: syncName)
+         .then {
+         ..
+         }
+         .catch SFSmartSync.ReSyncFailed {
+         
+         }
+         ```
+         - parameters:
+             - syncName: Soup Name
+         - Returns: SFSyncState wrapped in a promise.
+         */
+        func reSync(syncName: String) -> Promise<SFSyncState> {
+            return Promise(.pending) {  resolver in
+                self.api!.reSync(byName: syncName, update: { (syncState) in
+                    if syncState.status == .done  {
+                        resolver.fulfill(syncState)
+                    } else if syncState.status == .failed {
+                         resolver.reject(SFSmartSyncError.ReSyncFailed)
+                    }
+                })
+            }
+        }
+       
+        /**
+         Create a sync up without running it.
+         ```
+         syncManager.Promises.createSyncUp(target: target, options: options, soupName: soupName, syncName: syncName)
+         .then {
+         ..
+         }
+         ```
+         -parameters:
+            -target: The sync up target that will manage the sync up process.
+            -options: The options associated with this sync up.
+            -soupName: The soup name where the local entries are stored.
+            -syncName: The name for this sync.
+         -Returns: SFSyncState wrapped in a promise.
+         */
+        func createSyncUp(target: SFSyncUpTarget, options: SFSyncOptions, soupName: String, syncName: String?) -> Promise<SFSyncState> {
+            return Promise(.pending) {  resolver in
+                resolver.fulfill(self.api!.createSyncUp(target, options: options, soupName: soupName, syncName: syncName))
             }
         }
         
-        /**
-         ReSync
-         
+        /** Creates and runs a sync up with the default SFSyncUpTarget.
          ```
-         syncManager.Promises.reSync(syncId: syncId, updateBlock: {})
-         .then {
+         syncManager.Promises.syncUp(options: options, soupName: soupName)
+         .then { syncState in
          ..
          }
+         .catch SFSmartSync.SyncUpFailed {
+         
+         }
          ```
-         - parameters
-         - syncId: NSNumber
-         - updateBlock: Block to invoke
-         - Returns: SFSyncState wrapped in a promise.
+         -parameters:
+             -options: The options associated with this sync up.
+             -soupName: The soup name where the local entries are stored.
+         -Returns: SFSyncState wrapped in a promise.
          */
-
-        func reSync(syncId: NSNumber, updateBlock: SFSyncSyncManagerUpdateBlock) -> Promise<SFSyncState> {
+        func syncUp(options: SFSyncOptions, soupName: String) -> Promise<SFSyncState> {
             return Promise(.pending) {  resolver in
-                resolver.fulfill(self.api!.reSync(syncId, update: updateBlock)))
+                self.api!.syncUp(with: options, soupName: soupName) { (syncState) in
+                    if syncState.status == .done  {
+                        resolver.fulfill(syncState)
+                    } else if syncState.status == .failed {
+                        resolver.reject(SFSmartSyncError.SyncUpFailed)
+                    }
+                }
             }
         }
-
+        
+        
         /**
-         ReSync
-         
+         Creates and runs a sync up with the configured SFSyncUpTarget.
          ```
-         syncManager.Promises.reSync(syncId: syncId, updateBlock: {})
-         .then {
+         syncManager.Promises.syncUp(target:target, options: options, soupName: soupName)
+         .then { syncState in
          ..
          }
+         .catch SFSmartSync.SyncUpFailed  {
+         
+         }
          ```
-         - parameters
-             - syncName: Soup Name
-             - updateBlock: Block to invoke
-         - Returns: SFSyncState wrapped in a promise.
+         -parameters:
+             -target: The options associated with this sync up.
+             -options: The options associated with this sync up.
+             -soupName: The soup name where the local entries are stored.
+         -Returns: The sync state associated with this sync up.
          */
-        func reSync(syncName: String, updateBlock: SFSyncSyncManagerUpdateBlock) -> Promise<SFSyncState> {
+        func syncUp(target: SFSyncUpTarget, options: SFSyncOptions, soupName: String) -> Promise<SFSyncState> {
             return Promise(.pending) {  resolver in
-                resolver.fulfill(self.api!.reSync(syncName, update: updateBlock)))
+                self.api!.syncUp(with: target, options: options, soupName: soupName, update: { (syncState) in
+                    if syncState.status == .done  {
+                        resolver.fulfill(syncState)
+                    } else if syncState.status == .failed {
+                        resolver.reject(SFSmartSyncError.SyncUpFailed)
+                    }
+                })
+            }
+        }
+        
+        /** Creates and runs a named sync up.
+         ```
+         syncManager.Promises.syncUp(target:target, options: options, soupName: soupName,syncName: syncName)
+         .then { syncState in
+         ..
+         }
+         .catch SFSmartSync.SyncUpFailed {
+         
+         }
+         ```
+         -parameters:
+             -target: The options associated with this sync up.
+             -options: The options associated with this sync up.
+             -soupName: The soup name where the local entries are stored.
+             -syncName: The name for this sync.
+        -Returns: The SFSyncState wrapped in a promise
+         */
+        func syncUp(with target: SFSyncUpTarget, options: SFSyncOptions, soupName: String, syncName: String?) -> Promise<SFSyncState> {
+            return Promise(.pending) {  resolver in
+                self.api!.syncUp(with: target, options: options, soupName: soupName,syncName: syncName, update: { (syncState) in
+                    if syncState.status == .done  {
+                        resolver.fulfill(syncState)
+                    } else if syncState.status == .failed {
+                        resolver.reject(SFSmartSyncError.SyncUpFailed)
+                    }
+                })
+            }
+        }
+        
+        /** Removes local copies of records that have been deleted on the server or do not match the query results on the server anymore.
+         ```
+         syncManager.Promises.cleanResyncGhosts(syncId: syncId)
+         .then { syncStatus in
+         ..
+         }
+         .catch SFSmartSync.CleanResyncGhostsFailed {
+         
+         }
+         ```
+         -parameter syncId: Sync ID.
+         -Returns: The SFSyncState wrapped in a promise
+         */
+        func cleanResyncGhosts(syncId: NSNumber) -> Promise<SFSyncStateStatus> {
+            return Promise(.pending) {  resolver in
+                self.api!.cleanResyncGhosts(syncId, completionStatusBlock: { (syncStatus) in
+                    if syncStatus == .done  {
+                        resolver.fulfill(syncStatus)
+                    } else if syncStatus == .failed {
+                        resolver.reject(SFSmartSyncError.CleanResyncGhostsFailed)
+                    }
+                })
             }
         }
     }

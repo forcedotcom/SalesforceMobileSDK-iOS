@@ -44,12 +44,13 @@ extern NSString * const kQuerySpecParamIndexPath;
 extern NSString * const kQuerySpecParamOrder;
 extern NSString * const kQuerySpecParamPageSize;
 extern NSUInteger const kQuerySpecDefaultPageSize;
+extern NSString * const kQuerySpecParamOrderPath;
 
 extern NSString * const kQuerySpecParamMatchKey;
 extern NSString * const kQuerySpecParamBeginKey;
 extern NSString * const kQuerySpecParamEndKey;
 extern NSString * const kQuerySpecParamLikeKey;
-
+extern NSString * const kQuerySpecParamSmartSql;
 
 typedef NS_ENUM(NSInteger, SFSoupQueryType) {
     kSFSoupQueryTypeExact = 2,

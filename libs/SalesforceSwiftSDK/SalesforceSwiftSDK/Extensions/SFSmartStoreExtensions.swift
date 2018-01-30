@@ -49,9 +49,11 @@ extension SFQuerySpec {
      ```
      */
     public class Builder {
-        var queryDict: Dictionary<String,Any> = [[]]
+        var queryDict: Dictionary<String,Any> = Dictionary<String,Any>()
+        let soupName: String
         
-        public required init() {
+        public required init(soupName: String) {
+            self.soupName = soupName
         }
         
         public func queryType(value: String) -> Self {
@@ -66,11 +68,6 @@ extension SFQuerySpec {
         
         public func pageSize(value: UInt) -> Self {
              queryDict[kQuerySpecParamPageSize] = value
-            return self
-        }
-        
-        public func soupName(value: String) -> Self {
-            queryDict[kQuerySpecParamSmartSql] = value
             return self
         }
         
@@ -116,8 +113,8 @@ extension SFQuerySpec {
             return self
         }
         
-        public func build() -> SFSoupSpec {
-          return SFQuerySpec(self.queryDict)
+        public func build() -> SFQuerySpec {
+            return SFQuerySpec(dictionary: self.queryDict,withSoupName: soupName)
         }
     }
 }
