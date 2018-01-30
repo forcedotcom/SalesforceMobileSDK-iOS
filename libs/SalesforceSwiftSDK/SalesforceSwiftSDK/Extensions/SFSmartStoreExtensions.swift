@@ -249,7 +249,7 @@ extension SFSmartStore {
         }
         
         /**
-         Create a soup
+         Return a count based on querySpec
          
          ```
          store.Promises.count(querySpec: spec)
@@ -384,7 +384,7 @@ extension SFSmartStore {
         }
         
         /**
-         Lookup the soup entry Id
+         Remove entries from the soup
          
          ```
          store.Promises.removeEntries(entryIds: entries, soupName: soupName)
@@ -404,7 +404,7 @@ extension SFSmartStore {
         }
         
         /**
-         Lookup the soup entry Id
+        Remove entries from a soup based on query spec.
          
          ```
          store.Promises.removeEntries(querySpec: querySpec, soupName: soupName)
@@ -462,7 +462,7 @@ extension SFSmartStore {
         }
         
         /**
-         Remove a soup
+         Remove all soups
          
          ```
          store.Promises.removeAllSoups()
@@ -608,7 +608,7 @@ public class SFSmartStoreClient {
     }
     
     /**
-     Remove all shared store instances for current user.
+     Remove all global stores.
      
      ```
      SFSmartStoreClient.removeAllGlobalStores()

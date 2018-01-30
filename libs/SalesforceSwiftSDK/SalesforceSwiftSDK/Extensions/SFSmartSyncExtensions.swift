@@ -136,7 +136,7 @@ extension SFSmartSyncSyncManager {
         }
 
         /**
-         Delete a sync
+         Create a sync down
          
          ```
          syncManager.Promises.createSyncDown(target: target, options: options, soupName: soupName, syncName: syncName)
