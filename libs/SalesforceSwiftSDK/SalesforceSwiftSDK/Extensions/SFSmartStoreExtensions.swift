@@ -32,6 +32,93 @@ enum SmartStoreError : Error {
     case IndicesNotFoundError
 }
 
+extension SFQuerySpec {
+    
+    /**
+     Builder class to build a querySpec
+     
+     ```
+      var querySpec =  SFQuerySpec.Builder().
+                                 .queryType()
+                                 .smartSql()
+                                 .pageSize()
+                                 .soupName()
+                                 .selectedPaths()
+                                 ....
+                                 .build()
+     ```
+     */
+    public class Builder {
+        var queryDict: Dictionary<String,Any> = Dictionary<String,Any>()
+        let soupName: String
+        
+        public required init(soupName: String) {
+            self.soupName = soupName
+        }
+        
+        public func queryType(value: String) -> Self {
+            queryDict[kQuerySpecParamQueryType] = value
+            return self
+        }
+        
+        public func smartSql(value: String) -> Self {
+            queryDict[kQuerySpecParamSmartSql] = value
+            return self
+        }
+        
+        public func pageSize(value: UInt) -> Self {
+             queryDict[kQuerySpecParamPageSize] = value
+            return self
+        }
+        
+        public func selectedPaths(value: [Any]) -> Self {
+            queryDict[kQuerySpecParamSelectPaths] = value
+            return self
+        }
+        
+        public func path(value: String) -> Self {
+             queryDict[kQuerySpecParamIndexPath] = value
+            return self
+        }
+        
+        public func beginKey(value: String) -> Self {
+            queryDict[kQuerySpecParamBeginKey] = value
+            return self
+        }
+        
+        public func endKey(value: String) -> Self {
+             queryDict[kQuerySpecParamEndKey] = value
+            return self
+        }
+        
+        public func likeKey(value: String) -> Self {
+            queryDict[kQuerySpecParamQueryType] = kQuerySpecTypeLike
+            queryDict[kQuerySpecParamLikeKey] = value
+            return self
+        }
+        
+        public func matchKey(value: String) -> Self {
+            queryDict[kQuerySpecParamQueryType] = kQuerySpecTypeMatch
+            queryDict[kQuerySpecParamMatchKey] = value
+            return self
+        }
+        
+        public func orderPath(value: String) -> Self {
+             queryDict[kQuerySpecParamOrderPath] = value
+            return self
+        }
+        
+        public func order(value: SFSoupQuerySortOrder) ->Self {
+            queryDict[kQuerySpecParamOrder] = value
+            return self
+        }
+        
+        public func build() -> SFQuerySpec {
+            return SFQuerySpec(dictionary: self.queryDict,withSoupName: soupName)
+        }
+    }
+}
+
 extension SFSmartStore {
     
     public var Promises : SFSmartStorePromises {
@@ -46,7 +133,19 @@ extension SFSmartStore {
             self.api = api
         }
         
-        public func attributes(forSoup soupName: String) -> Promise<SFSoupSpec> {
+        /**
+         Get attributes given soupName
+         
+         ```
+         store.Promises.attributes(soupName)
+         .then { (soupSpec) in
+            ..
+         }
+         ```
+         - parameter soupName: The Name of the soup
+         - Returns: SFSoupSpec wrapped in a promise.
+         */
+        public func attributes(soupName: String) -> Promise<SFSoupSpec> {
             return Promise(.pending) {  resolver in
                 let soupSpec : SFSoupSpec?  = self.api!.attributes(forSoup: soupName)
                 if let spec = soupSpec {
@@ -57,7 +156,19 @@ extension SFSmartStore {
             }
         }
         
-        public func indices(forSoup soupName: String) -> Promise<[Any]> {
+        /**
+         Get indices given soupName
+         
+         ```
+         store.Promises.indices(soupName)
+         .then { (indices) in
+         ..
+         }
+         ```
+         - parameter soupName: The name of the soup
+         - Returns: [Any] of indices wrapped in a promise.
+         */
+        public func indices(soupName: String) -> Promise<[Any]> {
             return Promise(.pending) {  resolver in
                 let indices : [Any]?  = self.api!.indices(forSoup: soupName)
                 if let indices = indices {
@@ -68,6 +179,18 @@ extension SFSmartStore {
             }
         }
         
+        /**
+        Check if a soup exists
+         
+         ```
+         store.Promises.soupExists(soupName)
+         .then { (result) in
+            ..
+         }
+         ```
+         - parameter soupName: The name of the soup
+         - Returns: Boolean wrapped in a promise indicating existence of soup.
+         */
         public func soupExists(soupName: String) -> Promise<Bool> {
             return Promise(.pending) {  resolver in
                 let result  = self.api!.soupExists(soupName)
@@ -75,6 +198,20 @@ extension SFSmartStore {
             }
         }
         
+        /**
+         Create a soup
+         
+         ```
+         store.Promises.registerSoup(soupName,indexSpecs: specs)
+         .then { (result) in
+         ..
+         }
+         ```
+         - parameters:
+            - soupName: The name of the soup
+            - indexSpecs: Array of Index specs
+         - Returns: Boolean wrapped in a promise indicating success.
+         */
         public func registerSoup(soupName: String, indexSpecs: [Any]) -> Promise<Bool> {
             return Promise(.pending) {  resolver in
                 do {
@@ -86,6 +223,20 @@ extension SFSmartStore {
             }
         }
         
+        /**
+         Create a soup
+         
+         ```
+         store.Promises.registerSoup(soupName,indexSpecs: specs)
+         .then { (result) in
+         ..
+         }
+         ```
+         - parameters:
+             - soupSpec: SFSoupSpec Specification of the Soup
+             - indexSpecs: Array of Index specs
+         - Returns: Boolean wrapped in a promise indicating success.
+         */
         public func registerSoup(soupSpec: SFSoupSpec,indexSpecs: [Any]) -> Promise<Bool> {
             return Promise(.pending) {  resolver in
                 do {
@@ -97,6 +248,18 @@ extension SFSmartStore {
             }
         }
         
+        /**
+         Return a count based on querySpec
+         
+         ```
+         store.Promises.count(querySpec: spec)
+         .then { (numberOfRecords) in
+            ..
+         }
+         ```
+         - parameter soupSpec: SFSoupSpec Specification of the Soup
+         - Returns: Integer wrapped in a promise indicating count.
+         */
         public func count(querySpec: SFQuerySpec) -> Promise<UInt> {
             return Promise(.pending) {  resolver in
                 var count: UInt = 0
@@ -110,6 +273,20 @@ extension SFSmartStore {
             }
         }
         
+        /**
+         Perform a Query
+         
+         ```
+         store.Promises.query(querySpec: spec,pageIndex: 0)
+         .then { (results) in
+            ..
+         }
+         ```
+         - parameters:
+            - querySpec: SFSoupSpec Specification of the Soup
+            - pageIndex: Page number for records.
+         - Returns: Integer wrapped in a promise indicating count.
+         */
         public func query(querySpec: SFQuerySpec, pageIndex: UInt) throws -> Promise<[Any]> {
             return Promise(.pending) {  resolver in
                 var result: [Any]?
@@ -127,7 +304,21 @@ extension SFSmartStore {
             }
         }
         
-        public func upsertEntries(entries: [Any], toSoup soupName: String) -> Promise<[Any]> {
+        /**
+         Update or insert entries into the soup.
+         
+         ```
+         store.Promises.upsertEntries(entries: entries,soupName: soupName)
+         .then { (results) in
+         ..
+         }
+         ```
+         - parameters:
+             - entries: Entries to upsert in the soup
+             - soupName: Nameof Soup.
+         - Returns: Upserted entries wrapped in a promise.
+         */
+        public func upsertEntries(entries: [Any],soupName: String) -> Promise<[Any]> {
             return Promise(.pending) {  resolver in
                 var result: [Any] = []
                 result = self.api!.upsertEntries(entries, toSoup: soupName)
@@ -135,6 +326,21 @@ extension SFSmartStore {
             }
         }
         
+        /**
+         Update or insert entries into the soup.
+         
+         ```
+         store.Promises.upsertEntries(entries: entries,soupName: soupName,externalIdPath: externalIdPath)
+         .then { (results) in
+         ..
+         }
+         ```
+         - parameters:
+             - entries: Entries to upsert in the soup
+             - soupName: Nameof Soup.
+             - externalIdPath: External ID Path
+         - Returns: Upserted entries wrapped in a promise.
+         */
         public func upsertEntries(entries: [Any], soupName: String, externalIdPath: String)  -> Promise<[Any]> {
             return Promise(.pending) {  resolver in
                  var result: [Any] = []
@@ -148,7 +354,23 @@ extension SFSmartStore {
             }
         }
         
-        public func lookupSoupEntryId(soupName: String, fieldPath: String, fieldValue: String) throws -> Promise<NSNumber> {
+        /**
+         Lookup the soup entry Id
+         
+         ```
+         store.Promises.lookupSoupEntryId(soupName: soupName, fieldPath: path, fieldValue: fieldValue)
+         .then { (entryId) in
+         ..
+         }
+         ```
+         - parameters:
+             - entries: Entries to upsert in the soup
+             - soupName: Nameof Soup.
+             - fieldPath: Field Path
+             - fieldValue: Value for the field.
+         - Returns: EntryId wrapped in promise
+         */
+        public func lookupSoupEntryId(soupName: String, fieldPath: String, fieldValue: String) -> Promise<NSNumber> {
             return Promise(.pending) {  resolver in
                 var result: NSNumber = -1
                 var error: NSError?
@@ -161,6 +383,19 @@ extension SFSmartStore {
             }
         }
         
+        /**
+         Remove entries from the soup
+         
+         ```
+         store.Promises.removeEntries(entryIds: entries, soupName: soupName)
+         .then {
+         ..
+         }
+         ```
+         - parameters:
+             - entryIds: Entries to upsert in the soup
+             - soupName: Name of soup.
+         */
         public func removeEntries(entryIds: [Any], soupName: String) -> Promise<Void> {
             return Promise(.pending) {  resolver in
                 self.api!.removeEntries(entryIds, fromSoup: soupName)
@@ -168,6 +403,19 @@ extension SFSmartStore {
             }
         }
         
+        /**
+        Remove entries from a soup based on query spec.
+         
+         ```
+         store.Promises.removeEntries(querySpec: querySpec, soupName: soupName)
+         .then {
+         ..
+         }
+         ```
+         - parameters:
+             - querySpec: SFQuerySoupSpec for the soup
+             - soupName: Name of soup.
+         */
         public func removeEntries(querySpec: SFQuerySpec, soupName: String) -> Promise<Void> {
             return Promise(.pending) {  resolver in
                 self.api!.removeEntries(byQuery: querySpec, fromSoup: soupName)
@@ -175,6 +423,19 @@ extension SFSmartStore {
             }
         }
         
+        /**
+         Clear a soup
+         
+         ```
+         store.Promises.clearSoup(soupName: soupName)
+         .then {
+         ..
+         }
+         ```
+         - parameters:
+         - querySpec: SFQuerySoupSpec for the soup
+         - soupName: Name of soup.
+         */
         public func clearSoup(soupName: String) -> Promise<Void> {
             return Promise(.pending) {  resolver in
                 self.api!.clearSoup(soupName)
@@ -182,6 +443,17 @@ extension SFSmartStore {
             }
         }
         
+        /**
+         Remove a soup
+         
+         ```
+         store.Promises.removeSoup(soupName: soupName)
+         .then {
+         ..
+         }
+         ```
+         - parameters soupName: Name of soup.
+         */
         public func removeSoup(soupName: String) -> Promise<Void>{
             return Promise(.pending) {  resolver in
                 self.api!.removeSoup(soupName)
@@ -189,6 +461,17 @@ extension SFSmartStore {
             }
         }
         
+        /**
+         Remove all soups
+         
+         ```
+         store.Promises.removeAllSoups()
+         .then {
+         ..
+         }
+         ```
+         - parameters soupName: Name of soup.
+         */
         public func removeAllSoups() -> Promise<Void>{
             return Promise(.pending) {  resolver in
                 self.api!.removeAllSoups()
@@ -196,12 +479,23 @@ extension SFSmartStore {
             }
         }
     }
-    
-    
-
+ 
 }
 
 public class SFSmartStoreClient {
+    
+    /**
+     Retrieve a store instance for a store name.
+     
+     ```
+     SFSmartStoreClient.store(withName: storeName)
+     .then { (store) in
+     ..
+     }
+     ```
+     - parameter storeName: Name of Store.
+     - Returns: SFSmartStore wrapped in a promise.
+     */
     
     public class func store(withName: String) -> Promise<SFSmartStore> {
         return Promise(.pending) { resolver in
@@ -213,6 +507,20 @@ public class SFSmartStoreClient {
         }
     }
     
+    /**
+     Retrieve a store instance for a store name.
+     
+     ```
+     SFSmartStoreClient.store(withName: storeName, user: user)
+     .then { (store) in
+     ..
+     }
+     ```
+     - parameters:
+        -storeName: Name of Store.
+        -user: User associated with the store.
+     - Returns: SFSmartStore wrapped in a promise.
+     */
     public class func store(withName: String,user: SFUserAccount) -> Promise<SFSmartStore> {
         return Promise(.pending) { resolver in
             let smartStore = SFSmartStore.sharedStore(withName : withName,user: user)
@@ -223,6 +531,18 @@ public class SFSmartStoreClient {
         }
     }
     
+    /**
+     Retrieve a global store instance for a store name.
+     
+     ```
+     SFSmartStoreClient.globalStore(withName: storeName)
+     .then { (store) in
+     ..
+     }
+     ```
+     - parameter withName: Name of Store.
+     - Returns: SFSmartStore wrapped in a promise.
+     */
     public class func globalStore(withName: String) -> Promise<SFSmartStore> {
         return Promise(.pending) { resolver in
             let smartStore = SFSmartStore.sharedGlobalStore(withName : withName)
@@ -230,6 +550,18 @@ public class SFSmartStoreClient {
         }
     }
     
+    /**
+     Remove a global store instance for a store name.
+     
+     ```
+     SFSmartStoreClient.removeGlobalStore(withName: storeName)
+     .then { (store) in
+     ..
+     }
+     ```
+     - parameter withName: Name of Store.
+     - Returns: SFSmartStore wrapped in a promise.
+     */
     public class func removeGlobalStore(withName: String) -> Promise<Void> {
         return Promise(.pending) { resolver in
             SFSmartStore.removeSharedGlobalStore(withName:  withName)
@@ -237,6 +569,18 @@ public class SFSmartStoreClient {
         }
     }
     
+    /**
+     Remove a shared store instance for a store name.
+     
+     ```
+     SFSmartStoreClient.removeSharedStore(withName: storeName)
+     .then { (store) in
+     ..
+     }
+     ```
+     - parameter withName: Name of Store.
+     - Returns: SFSmartStore wrapped in a promise.
+     */
     public class func removeSharedStore(withName: String) -> Promise<Void> {
         return Promise(.pending) { resolver in
             SFSmartStore.removeSharedStore(withName:  withName)
@@ -244,6 +588,18 @@ public class SFSmartStoreClient {
         }
     }
     
+    /**
+     Remove all shared store instances for current user.
+     
+     ```
+     SFSmartStoreClient.removeAllSharedStores()
+     .then { 
+     ..
+     }
+     ```
+     - parameter withName: Name of Store.
+     - Returns: SFSmartStore wrapped in a promise.
+     */
     public class func removeAllSharedStores() -> Promise<Void> {
         return Promise(.pending) { resolver in
             SFSmartStore.removeAllStores()
@@ -251,6 +607,18 @@ public class SFSmartStoreClient {
         }
     }
     
+    /**
+     Remove all global stores.
+     
+     ```
+     SFSmartStoreClient.removeAllGlobalStores()
+     .then {
+     ..
+     }
+     ```
+     - parameter withName: Name of Store.
+     - Returns: SFSmartStore wrapped in a promise.
+     */
     public class func removeAllGlobalStores() -> Promise<Void> {
         return Promise(.pending) { resolver in
             SFSmartStore.removeAllGlobalStores()
