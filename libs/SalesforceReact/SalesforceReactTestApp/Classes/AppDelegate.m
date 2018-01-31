@@ -23,9 +23,9 @@
  */
 
 #import "AppDelegate.h"
-#import <React/RCTRootView.h>
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import <SalesforceReact/SalesforceReact.h>
+#import <React/RCTRootView.h>
 
 @implementation AppDelegate
 
@@ -52,10 +52,10 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-// XXX    SFTestRunnerPlugin *runner =  (SFTestRunnerPlugin*)[self.viewController.commandDelegate getCommandInstance:kSFTestRunnerPluginName];
-//    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"runner: %@", runner];
+    // XXX    SFTestRunnerPlugin *runner =  (SFTestRunnerPlugin*)[self.viewController.commandDelegate getCommandInstance:kSFTestRunnerPluginName];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"runner: %@", runner];
     BOOL runningOctest = [self isRunningOctest];
-    // [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"octest running: %d", runningOctest];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"octest running: %d", runningOctest];
 }
 
 #pragma mark - Private methods
@@ -76,7 +76,7 @@
     BOOL result = NO;
     NSDictionary *processEnv = [[NSProcessInfo processInfo] environment];
     NSString *injectBundle = [processEnv valueForKey:@"XCInjectBundle"];
-    // [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"XCInjectBundle: %@", injectBundle];
+    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"XCInjectBundle: %@", injectBundle];
     if (nil != injectBundle) {
         NSRange found = [injectBundle rangeOfString:@".octest"];
         if (NSNotFound != found.location) {
@@ -95,7 +95,7 @@
         return;
     }
     [TestSetupUtils synchronousAuthRefresh];
-
+    
     // Setup root view controller
     NSURL* jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.bundle?platform=ios"];
     RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation

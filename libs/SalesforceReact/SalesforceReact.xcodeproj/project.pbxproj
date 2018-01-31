@@ -25,13 +25,17 @@
 		4FA796982020E6D500CA9759 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA796972020E6D500CA9759 /* AppDelegate.m */; };
 		4FA796A62020E6D500CA9759 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA796A52020E6D500CA9759 /* main.m */; };
 		4FA796B02020E6D500CA9759 /* SFNetReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA796AF2020E6D500CA9759 /* SFNetReactBridge.m */; };
-		4FA796D32021408400CA9759 /* libRCTTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FA796D42021408400CA9759 /* libRCTTest.a */; };
+		4FFE0AA02022519D00073E6F /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFE0A832022518700073E6F /* libReact.a */; };
+		4FFE0AB2202251EB00073E6F /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFE0AAB202251D800073E6F /* libRCTWebSocket.a */; };
+		4FFE0ABE2022521900073E6F /* libRCTTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFE0ABB2022521000073E6F /* libRCTTest.a */; };
+		4FFE0AD92022673400073E6F /* libRCTTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFE0ABB2022521000073E6F /* libRCTTest.a */; };
+		4FFE0ADA2022675E00073E6F /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFE0A832022518700073E6F /* libReact.a */; };
+		4FFE0ADB20226F4000073E6F /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFE0A832022518700073E6F /* libReact.a */; };
 		829DA2BB1C126C610040F5F1 /* SFNetReactBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF0BCA11B826D4B00ABC91C /* SFNetReactBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		829DA2BC1C126C670040F5F1 /* SFOauthReactBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FABF0701AA6921E00D31E3F /* SFOauthReactBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		829DA2BD1C126C6A0040F5F1 /* SFSmartStoreReactBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F3618A51AA51E9900AE3A65 /* SFSmartStoreReactBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		829DA2BE1C126C700040F5F1 /* SFSmartSyncReactBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FABF0691AA52E7E00D31E3F /* SFSmartSyncReactBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		829DA2C11C126D320040F5F1 /* SalesforceReact.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2C01C126D320040F5F1 /* SalesforceReact.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A3DCC14E1FCF774E004CE6A3 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A3DCC14F1FCF774E004CE6A3 /* libRCTWebSocket.a */; };
 		CE2B8D021CE9325E00C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8D011CE9325E00C6FC6A /* SalesforceAnalytics.framework */; };
 		CE4712661EFC668A00D9E059 /* SFSDKReactLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = CE4712641EFC668A00D9E059 /* SFSDKReactLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4712671EFC668A00D9E059 /* SFSDKReactLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CE4712651EFC668A00D9E059 /* SFSDKReactLogger.m */; };
@@ -44,7 +48,6 @@
 		CE65C2431C0FD58000319E68 /* SmartStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2421C0FD58000319E68 /* SmartStore.framework */; };
 		CE65C2451C0FD58800319E68 /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2441C0FD58800319E68 /* SalesforceSDKCore.framework */; };
 		CE65C24B1C0FD59800319E68 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C24A1C0FD59800319E68 /* libz.tbd */; };
-		CE6AB3DF1C10CEF90012125E /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFEE6301BFE932100B7AA8A /* libReact.a */; };
 		FDCECBC6D61B39AC948CF0EC /* SalesforceReactSDKManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FDCECA026A7650CEBD674735 /* SalesforceReactSDKManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FDCECD467E719BF14D34E80D /* SalesforceReactSDKManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCECE47B345156461C6A30D /* SalesforceReactSDKManager.m */; };
 /* End PBXBuildFile section */
@@ -57,19 +60,173 @@
 			remoteGlobalIDString = 4FA796932020E6D400CA9759;
 			remoteInfo = SalesforceReactTestApp;
 		};
-		4FA796C920212B8A00CA9759 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 83CBBA2D1A601D0E00E9B192;
-			remoteInfo = React;
-		};
 		4FA796D52021412D00CA9759 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4F36189E1AA51E3900AE3A65 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = CE4CE2F71C0E4673009F6029;
 			remoteInfo = SalesforceReact;
+		};
+		4FFE0A822022518700073E6F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFE0A712022518600073E6F /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 83CBBA2E1A601D0E00E9B192;
+			remoteInfo = React;
+		};
+		4FFE0A842022518700073E6F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFE0A712022518600073E6F /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2D2A28131D9B038B00D4039D;
+			remoteInfo = "React-tvOS";
+		};
+		4FFE0A862022518700073E6F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFE0A712022518600073E6F /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D3C059A1DE3340900C268FA;
+			remoteInfo = yoga;
+		};
+		4FFE0A882022518700073E6F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFE0A712022518600073E6F /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D3C06751DE3340C00C268FA;
+			remoteInfo = "yoga-tvOS";
+		};
+		4FFE0A8A2022518700073E6F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFE0A712022518600073E6F /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D3CD9251DE5FBEC00167DC4;
+			remoteInfo = cxxreact;
+		};
+		4FFE0A8C2022518700073E6F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFE0A712022518600073E6F /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D3CD9321DE5FBEE00167DC4;
+			remoteInfo = "cxxreact-tvOS";
+		};
+		4FFE0A8E2022518700073E6F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFE0A712022518600073E6F /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D3CD90B1DE5FBD600167DC4;
+			remoteInfo = jschelpers;
+		};
+		4FFE0A902022518700073E6F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFE0A712022518600073E6F /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D3CD9181DE5FBD800167DC4;
+			remoteInfo = "jschelpers-tvOS";
+		};
+		4FFE0A922022518700073E6F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFE0A712022518600073E6F /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 139D7ECE1E25DB7D00323FB7;
+			remoteInfo = "third-party";
+		};
+		4FFE0A942022518700073E6F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFE0A712022518600073E6F /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D383D3C1EBD27B6005632C8;
+			remoteInfo = "third-party-tvOS";
+		};
+		4FFE0A962022518700073E6F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFE0A712022518600073E6F /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 139D7E881E25C6D100323FB7;
+			remoteInfo = "double-conversion";
+		};
+		4FFE0A982022518700073E6F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFE0A712022518600073E6F /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D383D621EBD27B9005632C8;
+			remoteInfo = "double-conversion-tvOS";
+		};
+		4FFE0A9A2022518700073E6F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFE0A712022518600073E6F /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9936F3131F5F2E4B0010BF04;
+			remoteInfo = privatedata;
+		};
+		4FFE0A9C2022518700073E6F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFE0A712022518600073E6F /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9936F32F1F5F2E5B0010BF04;
+			remoteInfo = "privatedata-tvOS";
+		};
+		4FFE0A9E2022519400073E6F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFE0A712022518600073E6F /* React.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 83CBBA2D1A601D0E00E9B192;
+			remoteInfo = React;
+		};
+		4FFE0AAA202251D800073E6F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFE0AA3202251D800073E6F /* RCTWebSocket.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3C86DF461ADF2C930047B81A;
+			remoteInfo = RCTWebSocket;
+		};
+		4FFE0AAC202251D800073E6F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFE0AA3202251D800073E6F /* RCTWebSocket.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2D2A28881D9B049200D4039D;
+			remoteInfo = "RCTWebSocket-tvOS";
+		};
+		4FFE0AAE202251D800073E6F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFE0AA3202251D800073E6F /* RCTWebSocket.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3DBE0D001F3B181A0099AA32;
+			remoteInfo = fishhook;
+		};
+		4FFE0AB0202251D800073E6F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFE0AA3202251D800073E6F /* RCTWebSocket.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3DBE0D0D1F3B181C0099AA32;
+			remoteInfo = "fishhook-tvOS";
+		};
+		4FFE0AB3202251F000073E6F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFE0AA3202251D800073E6F /* RCTWebSocket.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 3C86DF451ADF2C930047B81A;
+			remoteInfo = RCTWebSocket;
+		};
+		4FFE0ABA2022521000073E6F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFE0AB52022521000073E6F /* RCTTest.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 580C376F1AB104AF0015E709;
+			remoteInfo = RCTTest;
+		};
+		4FFE0ABC2022521000073E6F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFE0AB52022521000073E6F /* RCTTest.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2D2A286E1D9B047700D4039D;
+			remoteInfo = "RCTTest-tvOS";
+		};
+		4FFE0ABF2022522100073E6F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFE0AB52022521000073E6F /* RCTTest.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 580C376E1AB104AF0015E709;
+			remoteInfo = RCTTest;
 		};
 		4FFEE5D51BFE904100B7AA8A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -85,110 +242,12 @@
 			remoteGlobalIDString = CEAAAE55195911E600CBBFE9;
 			remoteInfo = SmartSyncTests;
 		};
-		4FFEE62F1BFE932100B7AA8A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 83CBBA2E1A601D0E00E9B192;
-			remoteInfo = React;
-		};
 		828917461C52B58D002F9981 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4FFEE5CF1BFE904100B7AA8A /* SmartSync.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 4F06AF2E1C499FD100F70798;
 			remoteInfo = SmartSyncTestApp;
-		};
-		A39A65751FCF71DF0010BC9C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 139D7ECE1E25DB7D00323FB7;
-			remoteInfo = "third-party";
-		};
-		A39A65771FCF71DF0010BC9C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 3D383D3C1EBD27B6005632C8;
-			remoteInfo = "third-party-tvOS";
-		};
-		A39A65791FCF71DF0010BC9C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 139D7E881E25C6D100323FB7;
-			remoteInfo = "double-conversion";
-		};
-		A39A657B1FCF71DF0010BC9C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 3D383D621EBD27B9005632C8;
-			remoteInfo = "double-conversion-tvOS";
-		};
-		A39A657D1FCF71DF0010BC9C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9936F3131F5F2E4B0010BF04;
-			remoteInfo = privatedata;
-		};
-		A39A657F1FCF71DF0010BC9C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9936F32F1F5F2E5B0010BF04;
-			remoteInfo = "privatedata-tvOS";
-		};
-		CE47126F1EFC668B00D9E059 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 2D2A28131D9B038B00D4039D;
-			remoteInfo = "React-tvOS";
-		};
-		CE4712711EFC668B00D9E059 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 3D3C059A1DE3340900C268FA;
-			remoteInfo = yoga;
-		};
-		CE4712731EFC668B00D9E059 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 3D3C06751DE3340C00C268FA;
-			remoteInfo = "yoga-tvOS";
-		};
-		CE4712751EFC668B00D9E059 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 3D3CD9251DE5FBEC00167DC4;
-			remoteInfo = cxxreact;
-		};
-		CE4712771EFC668B00D9E059 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 3D3CD9321DE5FBEE00167DC4;
-			remoteInfo = "cxxreact-tvOS";
-		};
-		CE4712791EFC668B00D9E059 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 3D3CD90B1DE5FBD600167DC4;
-			remoteInfo = jschelpers;
-		};
-		CE47127B1EFC668B00D9E059 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 3D3CD9181DE5FBD800167DC4;
-			remoteInfo = "jschelpers-tvOS";
 		};
 		CE81A9AB1E9C251100F3D0AD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -213,8 +272,7 @@
 		4F67FECE1B7970CE00A957A3 /* SalesforceReact-Static-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceReact-Static-iOS-Debug.xcconfig"; path = "Configuration/SalesforceReact-Static-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
 		4F67FECF1B7970CE00A957A3 /* SalesforceReact-Static-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceReact-Static-iOS-Release.xcconfig"; path = "Configuration/SalesforceReact-Static-iOS-Release.xcconfig"; sourceTree = "<group>"; };
 		4F67FED01B7970CE00A957A3 /* SalesforceReact-Test.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceReact-Test.xcconfig"; path = "Configuration/SalesforceReact-Test.xcconfig"; sourceTree = "<group>"; };
-		4F7C844920214E1000E09ACF /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = ../../React.xcodeproj; sourceTree = "<group>"; };
-		4F7C84512021555900E09ACF /* test_credentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test_credentials.json; path = ../../../../shared/test/test_credentials.json; sourceTree = "<group>"; };
+		4F7C84512021555900E09ACF /* test_credentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test_credentials.json; path = ../../../shared/test/test_credentials.json; sourceTree = "<group>"; };
 		4FA796942020E6D400CA9759 /* SalesforceReactTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SalesforceReactTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FA796962020E6D500CA9759 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		4FA796972020E6D500CA9759 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -223,8 +281,6 @@
 		4FA796AB2020E6D500CA9759 /* SalesforceReactTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceReactTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FA796AF2020E6D500CA9759 /* SFNetReactBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFNetReactBridge.m; sourceTree = "<group>"; };
 		4FA796B12020E6D500CA9759 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4FA796D220213F1D00CA9759 /* libRCTTest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRCTTest.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		4FA796D42021408400CA9759 /* libRCTTest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRCTTest.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FABF0651AA5229300D31E3F /* SalesforceReact-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SalesforceReact-Prefix.pch"; sourceTree = "<group>"; };
 		4FABF0691AA52E7E00D31E3F /* SFSmartSyncReactBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFSmartSyncReactBridge.h; path = Classes/SFSmartSyncReactBridge.h; sourceTree = "<group>"; };
 		4FABF06A1AA52EC800D31E3F /* SFSmartSyncReactBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSmartSyncReactBridge.m; path = Classes/SFSmartSyncReactBridge.m; sourceTree = "<group>"; };
@@ -232,12 +288,13 @@
 		4FABF0701AA6921E00D31E3F /* SFOauthReactBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFOauthReactBridge.h; path = Classes/SFOauthReactBridge.h; sourceTree = "<group>"; };
 		4FF0BCA11B826D4B00ABC91C /* SFNetReactBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFNetReactBridge.h; path = Classes/SFNetReactBridge.h; sourceTree = "<group>"; };
 		4FF0BCA21B826D9400ABC91C /* SFNetReactBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFNetReactBridge.m; path = Classes/SFNetReactBridge.m; sourceTree = "<group>"; };
+		4FFE0A712022518600073E6F /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
+		4FFE0AA3202251D800073E6F /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
+		4FFE0AB52022521000073E6F /* RCTTest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTTest.xcodeproj; path = "node_modules/react-native/Libraries/RCTTest/RCTTest.xcodeproj"; sourceTree = "<group>"; };
+		4FFE0AD82022665100073E6F /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SalesforceSDKCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FFEE5CF1BFE904100B7AA8A /* SmartSync.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SmartSync.xcodeproj; path = ../SmartSync/SmartSync.xcodeproj; sourceTree = "<group>"; };
-		4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../../external/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		829DA2C01C126D320040F5F1 /* SalesforceReact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceReact.h; sourceTree = "<group>"; };
 		82D0AB401C4980420081F833 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A39A65671FCF71DF0010BC9C /* libRCTWebSocket.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRCTWebSocket.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		A3DCC14F1FCF774E004CE6A3 /* libRCTWebSocket.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRCTWebSocket.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE2B8D011CE9325E00C6FC6A /* SalesforceAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceAnalytics.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-erwysdzugrhbsladkxhwtacrvgws/Build/Products/Debug-iphonesimulator/SalesforceAnalytics.framework"; sourceTree = "<group>"; };
 		CE4712641EFC668A00D9E059 /* SFSDKReactLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSDKReactLogger.h; path = Classes/SFSDKReactLogger.h; sourceTree = "<group>"; };
 		CE4712651EFC668A00D9E059 /* SFSDKReactLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKReactLogger.m; path = Classes/SFSDKReactLogger.m; sourceTree = "<group>"; };
@@ -257,6 +314,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4FFE0ADB20226F4000073E6F /* libReact.a in Frameworks */,
+				4FFE0ABE2022521900073E6F /* libRCTTest.a in Frameworks */,
 				4F7C84192021470D00E09ACF /* SalesforceReact.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -265,7 +324,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4FA796D32021408400CA9759 /* libRCTTest.a in Frameworks */,
+				4FFE0ADA2022675E00073E6F /* libReact.a in Frameworks */,
+				4FFE0AD92022673400073E6F /* libRCTTest.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,14 +333,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A3DCC14E1FCF774E004CE6A3 /* libRCTWebSocket.a in Frameworks */,
+				4FFE0AB2202251EB00073E6F /* libRCTWebSocket.a in Frameworks */,
+				4FFE0AA02022519D00073E6F /* libReact.a in Frameworks */,
 				CE2B8D021CE9325E00C6FC6A /* SalesforceAnalytics.framework in Frameworks */,
 				CE65C24B1C0FD59800319E68 /* libz.tbd in Frameworks */,
 				CE65C2451C0FD58800319E68 /* SalesforceSDKCore.framework in Frameworks */,
 				CE65C2431C0FD58000319E68 /* SmartStore.framework in Frameworks */,
 				CE65C23F1C0FD56C00319E68 /* SmartSync.framework in Frameworks */,
 				CE65C2411C0FD57200319E68 /* Foundation.framework in Frameworks */,
-				CE6AB3DF1C10CEF90012125E /* libReact.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,21 +372,6 @@
 			name = Configuration;
 			sourceTree = "<group>";
 		};
-		4F7C844A20214E1000E09ACF /* Products */ = {
-			isa = PBXGroup;
-			name = Products;
-			sourceTree = "<group>";
-		};
-		4F7C844F202154EC00E09ACF /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				4F7C84512021555900E09ACF /* test_credentials.json */,
-				4FA796A42020E6D500CA9759 /* Info.plist */,
-				4FA796A52020E6D500CA9759 /* main.m */,
-			);
-			path = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		4F7C84502021552A00E09ACF /* Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -340,7 +385,7 @@
 			isa = PBXGroup;
 			children = (
 				4F7C84502021552A00E09ACF /* Classes */,
-				4F7C844F202154EC00E09ACF /* Supporting Files */,
+				4FFE0A6E20224DA300073E6F /* Supporting Files */,
 			);
 			path = SalesforceReactTestApp;
 			sourceTree = "<group>";
@@ -402,16 +447,65 @@
 			name = Classes;
 			sourceTree = "<group>";
 		};
+		4FFE0A6E20224DA300073E6F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4F7C84512021555900E09ACF /* test_credentials.json */,
+				4FA796A42020E6D500CA9759 /* Info.plist */,
+				4FA796A52020E6D500CA9759 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		4FFE0A722022518600073E6F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4FFE0A832022518700073E6F /* libReact.a */,
+				4FFE0A852022518700073E6F /* libReact.a */,
+				4FFE0A872022518700073E6F /* libyoga.a */,
+				4FFE0A892022518700073E6F /* libyoga.a */,
+				4FFE0A8B2022518700073E6F /* libcxxreact.a */,
+				4FFE0A8D2022518700073E6F /* libcxxreact.a */,
+				4FFE0A8F2022518700073E6F /* libjschelpers.a */,
+				4FFE0A912022518700073E6F /* libjschelpers.a */,
+				4FFE0A932022518700073E6F /* libthird-party.a */,
+				4FFE0A952022518700073E6F /* libthird-party.a */,
+				4FFE0A972022518700073E6F /* libdouble-conversion.a */,
+				4FFE0A992022518700073E6F /* libdouble-conversion.a */,
+				4FFE0A9B2022518700073E6F /* libprivatedata.a */,
+				4FFE0A9D2022518700073E6F /* libprivatedata-tvOS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4FFE0AA4202251D800073E6F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4FFE0AAB202251D800073E6F /* libRCTWebSocket.a */,
+				4FFE0AAD202251D800073E6F /* libRCTWebSocket-tvOS.a */,
+				4FFE0AAF202251D800073E6F /* libfishhook.a */,
+				4FFE0AB1202251D800073E6F /* libfishhook-tvOS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4FFE0AB62022521000073E6F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4FFE0ABB2022521000073E6F /* libRCTTest.a */,
+				4FFE0ABD2022521000073E6F /* libRCTTest-tvOS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		4FFEE5CE1BFE901E00B7AA8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4FA796D42021408400CA9759 /* libRCTTest.a */,
-				4F7C844920214E1000E09ACF /* React.xcodeproj */,
-				4FA796D220213F1D00CA9759 /* libRCTTest.a */,
-				A3DCC14F1FCF774E004CE6A3 /* libRCTWebSocket.a */,
-				A39A65671FCF71DF0010BC9C /* libRCTWebSocket.a */,
+				4FFE0AD82022665100073E6F /* SalesforceSDKCore.framework */,
+				4FFE0AB52022521000073E6F /* RCTTest.xcodeproj */,
+				4FFE0AA3202251D800073E6F /* RCTWebSocket.xcodeproj */,
+				4FFE0A712022518600073E6F /* React.xcodeproj */,
 				CE2B8D011CE9325E00C6FC6A /* SalesforceAnalytics.framework */,
-				4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */,
 				4FFEE5CF1BFE904100B7AA8A /* SmartSync.xcodeproj */,
 				CE65C24A1C0FD59800319E68 /* libz.tbd */,
 				CE65C2441C0FD58800319E68 /* SalesforceSDKCore.framework */,
@@ -428,27 +522,6 @@
 				828917471C52B58D002F9981 /* SmartSyncTestApp.app */,
 				4FFEE5D81BFE904100B7AA8A /* SmartSyncTests.xctest */,
 				CEBA95221C1BA47900C0B2E0 /* libSmartSync.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		4FFEE62C1BFE932100B7AA8A /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				4FFEE6301BFE932100B7AA8A /* libReact.a */,
-				CE4712701EFC668B00D9E059 /* libReact.a */,
-				CE4712721EFC668B00D9E059 /* libyoga.a */,
-				CE4712741EFC668B00D9E059 /* libyoga.a */,
-				CE4712761EFC668B00D9E059 /* libcxxreact.a */,
-				CE4712781EFC668B00D9E059 /* libcxxreact.a */,
-				CE47127A1EFC668B00D9E059 /* libjschelpers.a */,
-				CE47127C1EFC668B00D9E059 /* libjschelpers.a */,
-				A39A65761FCF71DF0010BC9C /* libthird-party.a */,
-				A39A65781FCF71DF0010BC9C /* libthird-party.a */,
-				A39A657A1FCF71DF0010BC9C /* libdouble-conversion.a */,
-				A39A657C1FCF71DF0010BC9C /* libdouble-conversion.a */,
-				A39A657E1FCF71DF0010BC9C /* libprivatedata.a */,
-				A39A65801FCF71DF0010BC9C /* libprivatedata-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -485,6 +558,7 @@
 			);
 			dependencies = (
 				4FA796D62021412D00CA9759 /* PBXTargetDependency */,
+				4FFE0AC02022522100073E6F /* PBXTargetDependency */,
 			);
 			name = SalesforceReactTestApp;
 			productName = SalesforceReactTestApp;
@@ -522,8 +596,9 @@
 			buildRules = (
 			);
 			dependencies = (
+				4FFE0A9F2022519400073E6F /* PBXTargetDependency */,
+				4FFE0AB4202251F000073E6F /* PBXTargetDependency */,
 				CE81A9AC1E9C251100F3D0AD /* PBXTargetDependency */,
-				4FA796CA20212B8A00CA9759 /* PBXTargetDependency */,
 			);
 			name = SalesforceReact;
 			productName = SalesforceReact;
@@ -568,12 +643,16 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 4F7C844A20214E1000E09ACF /* Products */;
-					ProjectRef = 4F7C844920214E1000E09ACF /* React.xcodeproj */;
+					ProductGroup = 4FFE0AB62022521000073E6F /* Products */;
+					ProjectRef = 4FFE0AB52022521000073E6F /* RCTTest.xcodeproj */;
 				},
 				{
-					ProductGroup = 4FFEE62C1BFE932100B7AA8A /* Products */;
-					ProjectRef = 4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */;
+					ProductGroup = 4FFE0AA4202251D800073E6F /* Products */;
+					ProjectRef = 4FFE0AA3202251D800073E6F /* RCTWebSocket.xcodeproj */;
+				},
+				{
+					ProductGroup = 4FFE0A722022518600073E6F /* Products */;
+					ProjectRef = 4FFE0A712022518600073E6F /* React.xcodeproj */;
 				},
 				{
 					ProductGroup = 4FFEE5D01BFE904100B7AA8A /* Products */;
@@ -591,6 +670,146 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		4FFE0A832022518700073E6F /* libReact.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libReact.a;
+			remoteRef = 4FFE0A822022518700073E6F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4FFE0A852022518700073E6F /* libReact.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libReact.a;
+			remoteRef = 4FFE0A842022518700073E6F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4FFE0A872022518700073E6F /* libyoga.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libyoga.a;
+			remoteRef = 4FFE0A862022518700073E6F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4FFE0A892022518700073E6F /* libyoga.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libyoga.a;
+			remoteRef = 4FFE0A882022518700073E6F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4FFE0A8B2022518700073E6F /* libcxxreact.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libcxxreact.a;
+			remoteRef = 4FFE0A8A2022518700073E6F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4FFE0A8D2022518700073E6F /* libcxxreact.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libcxxreact.a;
+			remoteRef = 4FFE0A8C2022518700073E6F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4FFE0A8F2022518700073E6F /* libjschelpers.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libjschelpers.a;
+			remoteRef = 4FFE0A8E2022518700073E6F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4FFE0A912022518700073E6F /* libjschelpers.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libjschelpers.a;
+			remoteRef = 4FFE0A902022518700073E6F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4FFE0A932022518700073E6F /* libthird-party.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libthird-party.a";
+			remoteRef = 4FFE0A922022518700073E6F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4FFE0A952022518700073E6F /* libthird-party.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libthird-party.a";
+			remoteRef = 4FFE0A942022518700073E6F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4FFE0A972022518700073E6F /* libdouble-conversion.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libdouble-conversion.a";
+			remoteRef = 4FFE0A962022518700073E6F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4FFE0A992022518700073E6F /* libdouble-conversion.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libdouble-conversion.a";
+			remoteRef = 4FFE0A982022518700073E6F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4FFE0A9B2022518700073E6F /* libprivatedata.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libprivatedata.a;
+			remoteRef = 4FFE0A9A2022518700073E6F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4FFE0A9D2022518700073E6F /* libprivatedata-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libprivatedata-tvOS.a";
+			remoteRef = 4FFE0A9C2022518700073E6F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4FFE0AAB202251D800073E6F /* libRCTWebSocket.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTWebSocket.a;
+			remoteRef = 4FFE0AAA202251D800073E6F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4FFE0AAD202251D800073E6F /* libRCTWebSocket-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRCTWebSocket-tvOS.a";
+			remoteRef = 4FFE0AAC202251D800073E6F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4FFE0AAF202251D800073E6F /* libfishhook.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libfishhook.a;
+			remoteRef = 4FFE0AAE202251D800073E6F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4FFE0AB1202251D800073E6F /* libfishhook-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libfishhook-tvOS.a";
+			remoteRef = 4FFE0AB0202251D800073E6F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4FFE0ABB2022521000073E6F /* libRCTTest.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTTest.a;
+			remoteRef = 4FFE0ABA2022521000073E6F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4FFE0ABD2022521000073E6F /* libRCTTest-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRCTTest-tvOS.a";
+			remoteRef = 4FFE0ABC2022521000073E6F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		4FFEE5D61BFE904100B7AA8A /* SmartSync.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -605,109 +824,11 @@
 			remoteRef = 4FFEE5D71BFE904100B7AA8A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		4FFEE6301BFE932100B7AA8A /* libReact.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libReact.a;
-			remoteRef = 4FFEE62F1BFE932100B7AA8A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		828917471C52B58D002F9981 /* SmartSyncTestApp.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
 			path = SmartSyncTestApp.app;
 			remoteRef = 828917461C52B58D002F9981 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		A39A65761FCF71DF0010BC9C /* libthird-party.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libthird-party.a";
-			remoteRef = A39A65751FCF71DF0010BC9C /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		A39A65781FCF71DF0010BC9C /* libthird-party.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libthird-party.a";
-			remoteRef = A39A65771FCF71DF0010BC9C /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		A39A657A1FCF71DF0010BC9C /* libdouble-conversion.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libdouble-conversion.a";
-			remoteRef = A39A65791FCF71DF0010BC9C /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		A39A657C1FCF71DF0010BC9C /* libdouble-conversion.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libdouble-conversion.a";
-			remoteRef = A39A657B1FCF71DF0010BC9C /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		A39A657E1FCF71DF0010BC9C /* libprivatedata.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libprivatedata.a;
-			remoteRef = A39A657D1FCF71DF0010BC9C /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		A39A65801FCF71DF0010BC9C /* libprivatedata-tvOS.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libprivatedata-tvOS.a";
-			remoteRef = A39A657F1FCF71DF0010BC9C /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		CE4712701EFC668B00D9E059 /* libReact.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libReact.a;
-			remoteRef = CE47126F1EFC668B00D9E059 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		CE4712721EFC668B00D9E059 /* libyoga.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libyoga.a;
-			remoteRef = CE4712711EFC668B00D9E059 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		CE4712741EFC668B00D9E059 /* libyoga.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libyoga.a;
-			remoteRef = CE4712731EFC668B00D9E059 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		CE4712761EFC668B00D9E059 /* libcxxreact.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libcxxreact.a;
-			remoteRef = CE4712751EFC668B00D9E059 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		CE4712781EFC668B00D9E059 /* libcxxreact.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libcxxreact.a;
-			remoteRef = CE4712771EFC668B00D9E059 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		CE47127A1EFC668B00D9E059 /* libjschelpers.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libjschelpers.a;
-			remoteRef = CE4712791EFC668B00D9E059 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		CE47127C1EFC668B00D9E059 /* libjschelpers.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libjschelpers.a;
-			remoteRef = CE47127B1EFC668B00D9E059 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		CEBA95221C1BA47900C0B2E0 /* libSmartSync.a */ = {
@@ -805,15 +926,25 @@
 			target = 4FA796932020E6D400CA9759 /* SalesforceReactTestApp */;
 			targetProxy = 4FA796AC2020E6D500CA9759 /* PBXContainerItemProxy */;
 		};
-		4FA796CA20212B8A00CA9759 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = React;
-			targetProxy = 4FA796C920212B8A00CA9759 /* PBXContainerItemProxy */;
-		};
 		4FA796D62021412D00CA9759 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = CE4CE2F71C0E4673009F6029 /* SalesforceReact */;
 			targetProxy = 4FA796D52021412D00CA9759 /* PBXContainerItemProxy */;
+		};
+		4FFE0A9F2022519400073E6F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = React;
+			targetProxy = 4FFE0A9E2022519400073E6F /* PBXContainerItemProxy */;
+		};
+		4FFE0AB4202251F000073E6F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = RCTWebSocket;
+			targetProxy = 4FFE0AB3202251F000073E6F /* PBXContainerItemProxy */;
+		};
+		4FFE0AC02022522100073E6F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = RCTTest;
+			targetProxy = 4FFE0ABF2022522100073E6F /* PBXContainerItemProxy */;
 		};
 		CE81A9AC1E9C251100F3D0AD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -895,6 +1026,7 @@
 		};
 		4FA796B22020E6D500CA9759 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4F67FED01B7970CE00A957A3 /* SalesforceReact-Test.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -935,6 +1067,7 @@
 		};
 		4FA796B32020E6D500CA9759 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4F67FED01B7970CE00A957A3 /* SalesforceReact-Test.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -971,6 +1104,7 @@
 		};
 		4FA796B42020E6D500CA9759 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4F67FED01B7970CE00A957A3 /* SalesforceReact-Test.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -997,11 +1131,11 @@
 				);
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = SalesforceReactTestAppTests/Info.plist;
+				INFOPLIST_FILE = SalesforceReactTestApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceReactTestApp.SalesforceReactTestAppTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceReactTestApp.SalesforceReactTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1011,6 +1145,7 @@
 		};
 		4FA796B52020E6D500CA9759 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4F67FED01B7970CE00A957A3 /* SalesforceReact-Test.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1032,11 +1167,11 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = SalesforceReactTestAppTests/Info.plist;
+				INFOPLIST_FILE = SalesforceReactTestApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceReactTestApp.SalesforceReactTestAppTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceReactTestApp.SalesforceReactTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
