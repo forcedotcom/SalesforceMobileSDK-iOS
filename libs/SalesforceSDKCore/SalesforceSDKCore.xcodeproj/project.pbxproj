@@ -260,6 +260,7 @@
 		BE2B46341DB03A10004DA618 /* NSObject+SFBlocks.h in Headers */ = {isa = PBXBuildFile; fileRef = BE2B45951DAFFB1E004DA618 /* NSObject+SFBlocks.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BE2B46491DB03A1D004DA618 /* NSObject+SFBlocks.m in Sources */ = {isa = PBXBuildFile; fileRef = BE2B45961DAFFB1E004DA618 /* NSObject+SFBlocks.m */; };
 		BE2B464A1DB03B52004DA618 /* UIColor+SFColors.h in Headers */ = {isa = PBXBuildFile; fileRef = E1DDC0EE1CAA29A1002F51DD /* UIColor+SFColors.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE0CDEF51D7F765E005AAFAB /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0CDEEB1D7F753D005AAFAB /* libOCMock.a */; };
 		CE145A9C1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CE145A9A1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE145A9D1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CE145A9B1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.m */; };
 		CE145A9E1D13838B003BCC20 /* SFSDKSalesforceAnalyticsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CE145A9A1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -896,6 +897,13 @@
 			remoteGlobalIDString = CE2B8BFE1CE91BFA00C6FC6A;
 			remoteInfo = SalesforceAnalyticsStatic;
 		};
+		CED4521F1D7F834D009266EB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE0CDED11D7F753D005AAFAB /* OCMock.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 030EF0DB14632FF700B04273;
+			remoteInfo = OCMockLib;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1332,6 +1340,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE0CDEF51D7F765E005AAFAB /* libOCMock.a in Frameworks */,
 				4F230BC21BFEABA00030EEFA /* libz.tbd in Frameworks */,
 				82D4642619C7C8170006BDFE /* CoreGraphics.framework in Frameworks */,
 				CE4CE2721C0E449C009F6029 /* SalesforceSDKCore.framework in Frameworks */,
@@ -2413,6 +2422,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				CED452201D7F834D009266EB /* PBXTargetDependency */,
 				CE4CE2711C0E449C009F6029 /* PBXTargetDependency */,
 			);
 			name = SalesforceSDKCoreTestApp;
@@ -3129,6 +3139,11 @@
 			isa = PBXTargetDependency;
 			target = CE4CE26A1C0E449C009F6029 /* SalesforceSDKCore */;
 			targetProxy = 82A8C6E21C122998006BBDFE /* PBXContainerItemProxy */;
+		};
+		CED452201D7F834D009266EB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = OCMockLib;
+			targetProxy = CED4521F1D7F834D009266EB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
