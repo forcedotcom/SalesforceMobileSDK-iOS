@@ -48,7 +48,7 @@
 
 - (void)setUp {
     [super setUp];
-    _runner = RCTInitRunnerForApp(@"js/SFNetReactBridgeTests", nil);
+    _runner = RCTInitRunnerForApp(@"js/IntegrationHarnessTest", nil);
 }
 
 - (void)tearDown {

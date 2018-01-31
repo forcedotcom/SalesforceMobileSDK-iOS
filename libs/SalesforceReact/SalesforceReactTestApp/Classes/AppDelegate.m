@@ -23,9 +23,11 @@
  */
 
 #import "AppDelegate.h"
-#import <SalesforceSDKCore/SalesforceSDKCore.h>
-#import <SalesforceReact/SalesforceReact.h>
-#import <React/RCTRootView.h>
+#import <SalesforceSDKCore/SalesforceSDKManager.h>
+#import <SalesforceSDKCore/SFSDKTestCredentialsData.h>
+#import <SalesforceSDKCore/TestSetupUtils.h>
+#import <SalesforceSDKCore/SFSDKAppConfig.h>
+#import <SalesforceReact/SalesforceReactSDKManager.h>
 
 @implementation AppDelegate
 
@@ -53,7 +55,7 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // XXX    SFTestRunnerPlugin *runner =  (SFTestRunnerPlugin*)[self.viewController.commandDelegate getCommandInstance:kSFTestRunnerPluginName];
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"runner: %@", runner];
+//    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"runner: %@", runner];
     BOOL runningOctest = [self isRunningOctest];
     [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"octest running: %d", runningOctest];
 }
@@ -98,13 +100,13 @@
     
     // Setup root view controller
     NSURL* jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.bundle?platform=ios"];
-    RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
-                                                        moduleName:@"SalesforceReactTestApp"
-                                                 initialProperties:nil
-                                                     launchOptions:nil];
+//    RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
+//                                                        moduleName:@"SalesforceReactTestApp"
+//                                                 initialProperties:nil
+//                                                     launchOptions:nil];
     
     UIViewController *rootViewController = [[UIViewController alloc] init];
-    rootViewController.view = rootView;
+//    rootViewController.view = rootView;
     self.window.rootViewController = rootViewController;
 }
 
