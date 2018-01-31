@@ -1,6 +1,6 @@
 [![Build Status](https://forcedotcom.github.io/SalesforceMobileSDK-TestResults/iOS-test-results/dev/latest/buildstatus.svg)](https://forcedotcom.github.io/SalesforceMobileSDK-TestResults/iOS-test-results/dev/latest/index.html)
 [![CircleCI](https://circleci.com/gh/forcedotcom/SalesforceMobileSDK-iOS/tree/dev.svg?style=svg)](https://circleci.com/gh/forcedotcom/SalesforceMobileSDK-iOS/tree/dev)
-[![codecov](https://codecov.io/gh/forcedotcom/SalesforceMobileSDK-iOS/branch/dev/graph/badge.svg)](https://codecov.io/gh/forcedotcom/SalesforceMobileSDK-iOS)
+[![codecov](https://codecov.io/gh/forcedotcom/SalesforceMobileSDK-iOS/branch/dev/graph/badge.svg)](https://codecov.io/gh/forcedotcom/SalesforceMobileSDK-iOS/branch/dev)
 
 # Salesforce.com Mobile SDK for iOS
 
