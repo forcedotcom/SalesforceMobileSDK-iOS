@@ -89,4 +89,13 @@
  @param navigationBar The navigation bar that the style is applied to.
  */
 - (void)styleNavigationBar:(nullable UINavigationBar *)navigationBar;
+
+/** Present the Host List View.
+ */
+- (void)showHostListView;
+
+/** Hide the Host List View.
+ @param animated Indicates whether or not the hiding should be animated.
+ */
+- (void)hideHostListView:(BOOL)animated;
 @end
