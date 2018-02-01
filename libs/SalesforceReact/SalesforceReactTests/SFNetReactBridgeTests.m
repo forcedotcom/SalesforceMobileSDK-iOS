@@ -25,7 +25,7 @@
 #import <UIKit/UIKit.h>
 
 #import <XCTest/XCTest.h>
-#import <RCTTest/RCTTestRunner.h>
+//#import <RCTTest/RCTTestRunner.h>
 
 
 #define RCT_TEST(name)                  \
@@ -42,13 +42,13 @@
 
 @implementation SFNetReactBridgeTests
 {
-    RCTTestRunner *_runner;
+//    RCTTestRunner *_runner;
 }
 
 
 - (void)setUp {
     [super setUp];
-    _runner = RCTInitRunnerForApp(@"js/IntegrationHarnessTest", nil);
+//    _runner = RCTInitRunnerForApp(@"js/IntegrationHarnessTest", nil);
 }
 
 - (void)tearDown {
@@ -66,7 +66,7 @@
 
 #pragma mark - JS tests
 
-RCT_TEST(IntegrationHarnessTest)
+//RCT_TEST(IntegrationHarnessTest)
 
 @end
 

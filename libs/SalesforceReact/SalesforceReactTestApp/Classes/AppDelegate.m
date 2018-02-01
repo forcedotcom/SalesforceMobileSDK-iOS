@@ -28,6 +28,7 @@
 #import <SalesforceSDKCore/TestSetupUtils.h>
 #import <SalesforceSDKCore/SFSDKAppConfig.h>
 #import <SalesforceReact/SalesforceReactSDKManager.h>
+#import <React/RCTRootView.h>
 
 @implementation AppDelegate
 
@@ -99,14 +100,14 @@
     [TestSetupUtils synchronousAuthRefresh];
     
     // Setup root view controller
-    NSURL* jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.bundle?platform=ios"];
-//    RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
-//                                                        moduleName:@"SalesforceReactTestApp"
-//                                                 initialProperties:nil
-//                                                     launchOptions:nil];
+    NSURL* jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.test.bundle?platform=ios"];
+    RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
+                                                        moduleName:@"SalesforceReactTestApp"
+                                                 initialProperties:nil
+                                                     launchOptions:nil];
     
     UIViewController *rootViewController = [[UIViewController alloc] init];
-//    rootViewController.view = rootView;
+    rootViewController.view = rootView;
     self.window.rootViewController = rootViewController;
 }
 

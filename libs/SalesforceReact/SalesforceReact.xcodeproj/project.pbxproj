@@ -373,8 +373,8 @@
 		4F36189D1AA51E3900AE3A65 = {
 			isa = PBXGroup;
 			children = (
-				4FABF0481AA51F9000D31E3F /* SalesforceReact */,
 				4F67FECC1B7970C300A957A3 /* Configuration */,
+				4FABF0481AA51F9000D31E3F /* SalesforceReact */,
 				4FA796952020E6D400CA9759 /* SalesforceReactTestApp */,
 				4FA796AE2020E6D500CA9759 /* SalesforceReactTests */,
 				4FFEE5CE1BFE901E00B7AA8A /* Frameworks */,
