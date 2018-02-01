@@ -24,12 +24,11 @@
 		4F7C84522021555900E09ACF /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 4F7C84512021555900E09ACF /* test_credentials.json */; };
 		4FA796982020E6D500CA9759 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA796972020E6D500CA9759 /* AppDelegate.m */; };
 		4FA796A62020E6D500CA9759 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA796A52020E6D500CA9759 /* main.m */; };
-		4FA796B02020E6D500CA9759 /* SFNetReactBridgeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA796AF2020E6D500CA9759 /* SFNetReactBridgeTests.m */; };
+		4FA796B02020E6D500CA9759 /* SFReactBridgeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA796AF2020E6D500CA9759 /* SFReactBridgeTests.m */; };
 		4FFE0AA02022519D00073E6F /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFE0A832022518700073E6F /* libReact.a */; };
 		4FFE0AB2202251EB00073E6F /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFE0AAB202251D800073E6F /* libRCTWebSocket.a */; };
 		4FFE0ABE2022521900073E6F /* libRCTTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFE0ABB2022521000073E6F /* libRCTTest.a */; };
 		4FFE0AD92022673400073E6F /* libRCTTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFE0ABB2022521000073E6F /* libRCTTest.a */; };
-		4FFE0ADA2022675E00073E6F /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFE0A832022518700073E6F /* libReact.a */; };
 		4FFE0ADC20227D8900073E6F /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFE0ADF20227D8900073E6F /* SalesforceAnalytics.framework */; };
 		4FFE0ADD20227D8900073E6F /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFE0AE020227D8900073E6F /* SalesforceSDKCore.framework */; };
 		4FFE0AE220227D8900073E6F /* SalesforceReact.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2F81C0E4673009F6029 /* SalesforceReact.framework */; };
@@ -287,7 +286,7 @@
 		4FA796A42020E6D500CA9759 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4FA796A52020E6D500CA9759 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4FA796AB2020E6D500CA9759 /* SalesforceReactTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceReactTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		4FA796AF2020E6D500CA9759 /* SFNetReactBridgeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFNetReactBridgeTests.m; sourceTree = "<group>"; };
+		4FA796AF2020E6D500CA9759 /* SFReactBridgeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFReactBridgeTests.m; sourceTree = "<group>"; };
 		4FA796B12020E6D500CA9759 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4FABF0651AA5229300D31E3F /* SalesforceReact-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SalesforceReact-Prefix.pch"; sourceTree = "<group>"; };
 		4FABF0691AA52E7E00D31E3F /* SFSmartSyncReactBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFSmartSyncReactBridge.h; path = Classes/SFSmartSyncReactBridge.h; sourceTree = "<group>"; };
@@ -347,7 +346,6 @@
 				4FFE0AE320227D9C00073E6F /* SmartStore.framework in Frameworks */,
 				4FFE0AE520227DA800073E6F /* SmartSync.framework in Frameworks */,
 				4FFE0AE220227D8900073E6F /* SalesforceReact.framework in Frameworks */,
-				4FFE0ADA2022675E00073E6F /* libReact.a in Frameworks */,
 				4FFE0AD92022673400073E6F /* libRCTTest.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -416,7 +414,7 @@
 		4FA796AE2020E6D500CA9759 /* SalesforceReactTests */ = {
 			isa = PBXGroup;
 			children = (
-				4FA796AF2020E6D500CA9759 /* SFNetReactBridgeTests.m */,
+				4FA796AF2020E6D500CA9759 /* SFReactBridgeTests.m */,
 				4FA796B12020E6D500CA9759 /* Info.plist */,
 			);
 			path = SalesforceReactTests;
@@ -931,7 +929,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4FA796B02020E6D500CA9759 /* SFNetReactBridgeTests.m in Sources */,
+				4FA796B02020E6D500CA9759 /* SFReactBridgeTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

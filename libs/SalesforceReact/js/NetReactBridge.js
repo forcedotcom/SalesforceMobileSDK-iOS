@@ -21,9 +21,6 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
- /**
- * @flow
- */
 
 'use strict';
 
@@ -39,7 +36,7 @@ var { TestModule } = ReactNative.NativeModules;
 import {smartstore, smartsync} from 'react-native-force';
 
 
-class IntegrationTestSmartStoreBridgeTest extends React.Component {
+class NetReactBridgeTests extends React.Component {
 
   constructor(props) {
     super(props);
@@ -97,13 +94,13 @@ class IntegrationTestSmartStoreBridgeTest extends React.Component {
           {this.constructor.displayName + ': '}
           {this.state.done ? 'Done' : 'Testing...'}
         </Text>
-        {this.state.done ? <Text accessibilityLabel="testResult" accessible={true}>IntegrationTestSmartStoreBridgeTest</Text> : <Text>Testing...</Text>}
+        {this.state.done ? <Text accessibilityLabel="testResult" accessible={true}>NetReactBridgeTests</Text> : <Text>Testing...</Text>}
 
       </View>
     );
   }
 }
 
-IntegrationTestSmartStoreBridgeTest.displayName = 'IntegrationTestSmartStoreBridgeTest';
+NetReactBridgeTests.displayName = 'NetReactBridgeTests';
 
-module.exports = IntegrationTestSmartStoreBridgeTest;
+module.exports = NetReactBridgeTests;

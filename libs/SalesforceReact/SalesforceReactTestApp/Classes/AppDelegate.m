@@ -28,7 +28,6 @@
 #import <SalesforceSDKCore/TestSetupUtils.h>
 #import <SalesforceSDKCore/SFSDKAppConfig.h>
 #import <SalesforceReact/SalesforceReactSDKManager.h>
-//#import <React/RCTRootView.h>
 
 @implementation AppDelegate
 
@@ -37,7 +36,7 @@
     self = [super init];
     [SalesforceSDKManager setInstanceClass:[SalesforceReactSDKManager class]];
     if (self != nil) {
-        // [SFSDKLogger log:[self class] level:DDLogLevelDebug message:@"Setting up auth credentials."];
+         [SFSDKLogger log:[self class] level:DDLogLevelDebug message:@"Setting up auth credentials."];
         [SalesforceSDKManager sharedManager].appConfig = [self stageTestCredentials];
     }
     return self;
@@ -55,8 +54,6 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    // XXX    SFTestRunnerPlugin *runner =  (SFTestRunnerPlugin*)[self.viewController.commandDelegate getCommandInstance:kSFTestRunnerPluginName];
-//    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"runner: %@", runner];
     BOOL runningOctest = [self isRunningOctest];
     [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"octest running: %d", runningOctest];
 }
@@ -99,15 +96,7 @@
     }
     [TestSetupUtils synchronousAuthRefresh];
     
-    // Setup root view controller
-    NSURL* jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.test.bundle?platform=ios"];
-//    RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
-//                                                        moduleName:@"SalesforceReactTestApp"
-//                                                 initialProperties:nil
-//                                                     launchOptions:nil];
-    
     UIViewController *rootViewController = [[UIViewController alloc] init];
-//    rootViewController.view = rootView;
     self.window.rootViewController = rootViewController;
 }
 

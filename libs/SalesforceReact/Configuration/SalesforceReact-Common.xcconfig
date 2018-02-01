@@ -13,7 +13,7 @@ OTHER_LDFLAGS = -ObjC -lc++
 
 PRODUCT_NAME = SalesforceReact
 
-HEADER_SEARCH_PATHS = $(PROJECT_DIR)/node_modules/react-native/React/ $(inherited)
+HEADER_SEARCH_PATHS = $(PROJECT_DIR)/node_modules/react-native/React/** $(inherited)
 LIBRARY_SEARCH_PATHS = $(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher $(inherited)
 
 // Make sure to use only API that are safe for application extensions

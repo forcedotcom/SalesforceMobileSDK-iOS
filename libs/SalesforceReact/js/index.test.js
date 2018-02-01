@@ -1,6 +1,6 @@
 /*
- Copyright (c) 2016-present, salesforce.com, inc. All rights reserved.
- 
+ Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
+
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
  * Redistributions of source code must retain the above copyright notice, this list of conditions
@@ -11,7 +11,7 @@
  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
  endorse or promote products derived from this software without specific prior written
  permission of salesforce.com, inc.
- 
+
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -20,53 +20,21 @@
  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+const { AppRegistry } = require('react-native');
+
+/**
+ * Require here every single component you would like
+ * to test
  */
+const TO_TEST = [
+  require('./NetReactBridgeTests'),
+];
 
-#import <UIKit/UIKit.h>
-
-#import <XCTest/XCTest.h>
-//#import <RCTTest/RCTTestRunner.h>
-
-
-#define RCT_TEST(name)                  \
-- (void)test##name                      \
-{                                       \
-[_runner runTest:_cmd module:@#name]; \
-}
-
-
-
-@interface SFNetReactBridgeTests : XCTestCase
-
-@end
-
-@implementation SFNetReactBridgeTests
-{
-//    RCTTestRunner *_runner;
-}
-
-
-- (void)setUp {
-    [super setUp];
-//    _runner = RCTInitRunnerForApp(@"js/IntegrationHarnessTest", nil);
-}
-
-- (void)tearDown {
-    [super tearDown];
-}
-
-
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
-    }];
-}
-
-
-#pragma mark - JS tests
-
-//RCT_TEST(IntegrationHarnessTest)
-
-@end
-
+/**
+ * Register every test component
+ */
+TO_TEST.forEach(Component => {
+  AppRegistry.registerComponent(Component.displayName, () => Component);
+});
