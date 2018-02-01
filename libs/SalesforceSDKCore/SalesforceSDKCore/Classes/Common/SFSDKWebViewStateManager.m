@@ -45,6 +45,7 @@ static WKProcessPool *_processPool = nil;
 + (void)removeSession {
     //reset UIWebView related state if any
     [self removeUIWebViewCookies:@[SID_COOKIE] fromDomains:self.domains];
+    [self removeWKWebViewCookies:self.domains withCompletion:NULL];
     self.sharedProcessPool = nil;
 }
 
@@ -82,25 +83,35 @@ static WKProcessPool *_processPool = nil;
 
 + (void)removeWKWebViewCookies:(NSArray *)domainNames withCompletion:(nullable void(^)(void))completionBlock {
     NSAssert(domainNames != nil && [domainNames count] > 0, ERR_NO_DOMAIN_NAMES);
-    WKWebsiteDataStore *dateStore = [WKWebsiteDataStore defaultDataStore];
+    WKWebsiteDataStore *dataStore = [WKWebsiteDataStore defaultDataStore];
     NSSet *websiteDataTypes = [NSSet setWithArray:@[ WKWebsiteDataTypeCookies]];
-    [dateStore fetchDataRecordsOfTypes:websiteDataTypes
+    [dataStore fetchDataRecordsOfTypes:websiteDataTypes
                      completionHandler:^(NSArray<WKWebsiteDataRecord *> *records) {
                          NSMutableArray<WKWebsiteDataRecord *> *deletedRecords = [NSMutableArray new];
-                         for ( WKWebsiteDataRecord * record in records) {
+                         for (WKWebsiteDataRecord * record in records) {
+                             // Cookie record display names look like "salesforce.com", "force.com". Make
+                             // them look like proper cookie domain suffixes, for comparison.
+                             NSString *recordDisplayName = [NSString stringWithFormat:@".%@", record.displayName];
                              for(NSString *domainName in domainNames) {
-                                 if ([record.displayName containsString:domainName]) {
+                                 if ([domainName hasSuffix:recordDisplayName]) {
                                      [deletedRecords addObject:record];
                                  }
                              }
                          }
-                         if (deletedRecords.count > 0)
-                             [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:websiteDataTypes
-                                                                       forDataRecords:deletedRecords
-                                                                    completionHandler:^{
-                                                                        if (completionBlock)
-                                                                            completionBlock();
-                                                                    }];
+                         if (deletedRecords.count > 0) {
+                             [dataStore removeDataOfTypes:websiteDataTypes
+                                           forDataRecords:deletedRecords
+                                        completionHandler:^{
+                                            if (completionBlock)
+                                                completionBlock();
+                                        }];
+                         } else {
+                             dispatch_async(dispatch_get_main_queue(), ^{
+                                 if (completionBlock) {
+                                     completionBlock();
+                                 }
+                             });
+                         }
                      }];
 }
 
