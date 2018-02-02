@@ -89,8 +89,29 @@ testDescribe = () => {
         'account',
         (response) => {
             assert.isFalse(response.custom, 'Expected custom to be false');
-            assert.isArray(response.fields, 'Expected fields object');
+            assert.isArray(response.fields, 'Expected fields array');
             testDone(true);
+        },
+        (error) => { throw error; }
+    );
+    
+    return false; // not done
+};
+
+testDescribeLayout = () => {
+    net.describe(
+        'account',
+        (response) => {
+            const recordId = response.recordTypeInfos[0].recordTypeId;
+            net.describeLayout(
+                'account',
+                recordId,
+                (response) => {
+                    assert.isArray(response.relatedLists, 'Expected relatedLists object');
+                    testDone(true);
+                },
+                (error) => { throw error; }
+            );
         },
         (error) => { throw error; }
     );
@@ -105,3 +126,4 @@ registerTest(testResources);
 registerTest(testDescribeGlobal);
 registerTest(testMetaData);
 registerTest(testDescribe);
+registerTest(testDescribeLayout);

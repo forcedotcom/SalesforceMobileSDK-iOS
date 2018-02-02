@@ -44,6 +44,7 @@ RCT_TEST(Resources)
 RCT_TEST(DescribeGlobal)
 RCT_TEST(MetaData)
 RCT_TEST(Describe)
+RCT_TEST(DescribeLayout)
 
 @end
 
