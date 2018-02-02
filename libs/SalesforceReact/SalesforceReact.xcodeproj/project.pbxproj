@@ -22,6 +22,8 @@
 /* Begin PBXBuildFile section */
 		4F7C84192021470D00E09ACF /* SalesforceReact.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2F81C0E4673009F6029 /* SalesforceReact.framework */; };
 		4FA08DDC2024E8E50055FD7C /* ReactNetTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA08DDB2024E8E50055FD7C /* ReactNetTests.m */; };
+		4FA08DF420251FBB0055FD7C /* ReactSmartStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA08DF320251FBB0055FD7C /* ReactSmartStoreTests.m */; };
+		4FA08E02202523E60055FD7C /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FA08DFB202523BB0055FD7C /* libRCTNetwork.a */; };
 		4FA796982020E6D500CA9759 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA796972020E6D500CA9759 /* AppDelegate.m */; };
 		4FA796A62020E6D500CA9759 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA796A52020E6D500CA9759 /* main.m */; };
 		4FA796B02020E6D500CA9759 /* ReactHarnessTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA796AF2020E6D500CA9759 /* ReactHarnessTests.m */; };
@@ -62,6 +64,34 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		4FA08DFA202523BB0055FD7C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FA08DF5202523BB0055FD7C /* RCTNetwork.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 58B511DB1A9E6C8500147676;
+			remoteInfo = RCTNetwork;
+		};
+		4FA08DFC202523BB0055FD7C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FA08DF5202523BB0055FD7C /* RCTNetwork.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2D2A28541D9B044C00D4039D;
+			remoteInfo = "RCTNetwork-tvOS";
+		};
+		4FA08DFE202523D80055FD7C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFE0AB52022521000073E6F /* RCTTest.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 580C376E1AB104AF0015E709;
+			remoteInfo = RCTTest;
+		};
+		4FA08E00202523DE0055FD7C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FA08DF5202523BB0055FD7C /* RCTNetwork.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 58B511DA1A9E6C8500147676;
+			remoteInfo = RCTNetwork;
+		};
 		4FA796AC2020E6D500CA9759 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4F36189E1AA51E3900AE3A65 /* Project object */;
@@ -276,6 +306,8 @@
 		4F67FED01B7970CE00A957A3 /* SalesforceReact-Test.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceReact-Test.xcconfig"; path = "Configuration/SalesforceReact-Test.xcconfig"; sourceTree = "<group>"; };
 		4F7C84512021555900E09ACF /* test_credentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test_credentials.json; path = ../../../shared/test/test_credentials.json; sourceTree = "<group>"; };
 		4FA08DDB2024E8E50055FD7C /* ReactNetTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReactNetTests.m; sourceTree = "<group>"; };
+		4FA08DF320251FBB0055FD7C /* ReactSmartStoreTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReactSmartStoreTests.m; sourceTree = "<group>"; };
+		4FA08DF5202523BB0055FD7C /* RCTNetwork.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTNetwork.xcodeproj; path = "node_modules/react-native/Libraries/Network/RCTNetwork.xcodeproj"; sourceTree = "<group>"; };
 		4FA796942020E6D400CA9759 /* SalesforceReactTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SalesforceReactTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FA796962020E6D500CA9759 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		4FA796972020E6D500CA9759 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -339,6 +371,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4FA08E02202523E60055FD7C /* libRCTNetwork.a in Frameworks */,
 				4FFE0ADC20227D8900073E6F /* SalesforceAnalytics.framework in Frameworks */,
 				4FFE0ADD20227D8900073E6F /* SalesforceSDKCore.framework in Frameworks */,
 				4FFE0AE320227D9C00073E6F /* SmartStore.framework in Frameworks */,
@@ -400,6 +433,15 @@
 			path = Classes;
 			sourceTree = "<group>";
 		};
+		4FA08DF6202523BB0055FD7C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4FA08DFB202523BB0055FD7C /* libRCTNetwork.a */,
+				4FA08DFD202523BB0055FD7C /* libRCTNetwork-tvOS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		4FA796952020E6D400CA9759 /* SalesforceReactTestApp */ = {
 			isa = PBXGroup;
 			children = (
@@ -418,6 +460,7 @@
 				4FEBA77A2024DB2400F3BC83 /* ReactTestCase.m */,
 				4FEBA77C2024DDED00F3BC83 /* ReactOauthTests.m */,
 				4FA08DDB2024E8E50055FD7C /* ReactNetTests.m */,
+				4FA08DF320251FBB0055FD7C /* ReactSmartStoreTests.m */,
 			);
 			path = SalesforceReactTests;
 			sourceTree = "<group>";
@@ -540,6 +583,7 @@
 				4FFE0AE020227D8900073E6F /* SalesforceSDKCore.framework */,
 				4FFE0AE120227D8900073E6F /* SalesforceSwiftSDK.framework */,
 				4FFE0AD82022665100073E6F /* SalesforceSDKCore.framework */,
+				4FA08DF5202523BB0055FD7C /* RCTNetwork.xcodeproj */,
 				4FFE0AB52022521000073E6F /* RCTTest.xcodeproj */,
 				4FFE0AA3202251D800073E6F /* RCTWebSocket.xcodeproj */,
 				4FFE0A712022518600073E6F /* React.xcodeproj */,
@@ -613,6 +657,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				4FA08E01202523DE0055FD7C /* PBXTargetDependency */,
+				4FA08DFF202523D80055FD7C /* PBXTargetDependency */,
 				4FA796AD2020E6D500CA9759 /* PBXTargetDependency */,
 			);
 			name = SalesforceReactTests;
@@ -680,6 +726,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 4FA08DF6202523BB0055FD7C /* Products */;
+					ProjectRef = 4FA08DF5202523BB0055FD7C /* RCTNetwork.xcodeproj */;
+				},
+				{
 					ProductGroup = 4FFE0AB62022521000073E6F /* Products */;
 					ProjectRef = 4FFE0AB52022521000073E6F /* RCTTest.xcodeproj */;
 				},
@@ -707,6 +757,20 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		4FA08DFB202523BB0055FD7C /* libRCTNetwork.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTNetwork.a;
+			remoteRef = 4FA08DFA202523BB0055FD7C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4FA08DFD202523BB0055FD7C /* libRCTNetwork-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRCTNetwork-tvOS.a";
+			remoteRef = 4FA08DFC202523BB0055FD7C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		4FFE0A832022518700073E6F /* libReact.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -940,6 +1004,7 @@
 			files = (
 				4FA796B02020E6D500CA9759 /* ReactHarnessTests.m in Sources */,
 				4FEBA77D2024DDED00F3BC83 /* ReactOauthTests.m in Sources */,
+				4FA08DF420251FBB0055FD7C /* ReactSmartStoreTests.m in Sources */,
 				4FEBA77B2024DB2400F3BC83 /* ReactTestCase.m in Sources */,
 				4FA08DDC2024E8E50055FD7C /* ReactNetTests.m in Sources */,
 			);
@@ -961,6 +1026,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		4FA08DFF202523D80055FD7C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = RCTTest;
+			targetProxy = 4FA08DFE202523D80055FD7C /* PBXContainerItemProxy */;
+		};
+		4FA08E01202523DE0055FD7C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = RCTNetwork;
+			targetProxy = 4FA08E00202523DE0055FD7C /* PBXContainerItemProxy */;
+		};
 		4FA796AD2020E6D500CA9759 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 4FA796932020E6D400CA9759 /* SalesforceReactTestApp */;
