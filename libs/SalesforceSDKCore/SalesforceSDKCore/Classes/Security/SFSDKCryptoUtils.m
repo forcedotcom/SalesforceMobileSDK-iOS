@@ -40,11 +40,11 @@ static NSString * const kSFRSAPrivateKeyTagPrefix = @"com.salesforce.rsakey.priv
 @interface SFSDKCryptoUtils ()
 
 /**
- Executes the encryption/decryption operation (depending on the configuration of the cryptor).
- @param inData The data to encrypt/decrypt.
- @param cryptor The CCCryptor doing the encryption/decryption.
- @param resultData Output parameter containing the encrypted/decrypted result of the operation.
- @return YES if the operation was successful, NO otherwise.
+ * Executes the encryption/decryption operation (depending on the configuration of the cryptor).
+ * @param inData The data to encrypt/decrypt.
+ * @param cryptor The CCCryptor doing the encryption/decryption.
+ * @param resultData Output parameter containing the encrypted/decrypted result of the operation.
+ * @return YES if the operation was successful, NO otherwise.
  */
 + (BOOL)executeCrypt:(NSData *)inData cryptor:(CCCryptorRef)cryptor resultData:(NSData **)resultData;
 
@@ -90,6 +90,21 @@ static NSString * const kSFRSAPrivateKeyTagPrefix = @"com.salesforce.rsakey.priv
  * @return The SecKeyRef, or `nil` if no matching key is found
  */
 + (nullable SecKeyRef)getRSAKeyRefWithTag:(NSString *)keyTagString keyLength:(NSUInteger)length;
+
+/**
+ * Export keyData into DER format. Originally from https://blog.wingsofhermes.org/?p=42
+ * @param keyData The public key raw data
+ * @return The SecKeyRef, or `nil` if failed
+ */
++ (nullable NSData *)getRSAPublicKeyAsDER:(NSData *)keyData;
+
+/**
+ Helper function for ASN.1 encoding. Originally from https://blog.wingsofhermes.org/?p=42
+ @param buf The buffer to encode
+ @param length The buffer length
+ @return buffer encode length
+ */
++ (size_t)encodeLength:(unsigned char *)buf length:(size_t)length;
 
 @end
 
@@ -160,7 +175,12 @@ static NSString * const kSFRSAPrivateKeyTagPrefix = @"com.salesforce.rsakey.priv
     NSString *tagString = [NSString stringWithFormat:@"%@.%@", kSFRSAPublicKeyTagPrefix, keyName];
     NSData *keyBits = [self getRSAKeyDataWithTag:tagString keyLength:length];
     if (keyBits != nil) {
-        return [keyBits base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+        NSData *pemData = [self getRSAPublicKeyAsDER:keyBits];
+        if (pemData != nil) {
+            return [pemData base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+        } else {
+            return nil;
+        }
     } else {
         return nil;
     }
@@ -422,6 +442,72 @@ static NSString * const kSFRSAPrivateKeyTagPrefix = @"com.salesforce.rsakey.priv
         }
     }
     return keyRef;
+}
+
++ (NSData *)getRSAPublicKeyAsDER:(NSData *)keyData {
+    // Sequence of length 0xd made up of OID followed by NULL
+    static const unsigned char _encodedRSAEncryptionOID[15] = {
+        0x30, 0x0d, 0x06, 0x09, 0x2a, 0x86, 0x48, 0x86,
+        0xf7, 0x0d, 0x01, 0x01, 0x01, 0x05, 0x00
+    };
+    
+    NSData *publicKeyBits = keyData;
+    
+    // encoded RSA public key
+    unsigned char builder[15];
+    NSMutableData * encKey = [[NSMutableData alloc] init];
+    unsigned long bitstringEncLength;
+    
+    // encode bitstring
+    if  ([publicKeyBits length ] + 1  < 128 )
+        bitstringEncLength = 1 ;
+    else
+        bitstringEncLength = (([publicKeyBits length ] + 1 ) / 256 ) + 2 ;
+    
+    // Overall we have a sequence of a certain length
+    // ASN.1 encoding representing a SEQUENCE
+    builder[0] = 0x30;
+    
+    // Build up overall size made up of -
+    // size of OID + size of bitstring encoding + size of actual key
+    size_t i = sizeof(_encodedRSAEncryptionOID) + 2 + bitstringEncLength +
+    [publicKeyBits length];
+
+    size_t j = [self encodeLength:&builder[1] length:i];
+    [encKey appendBytes:builder length:j + 1];
+    
+    // First part of the sequence is the OID
+    [encKey appendBytes:_encodedRSAEncryptionOID
+                 length:sizeof(_encodedRSAEncryptionOID)];
+    
+    // Now add the bitstring
+    builder[0] = 0x03;
+    j = [self encodeLength:&builder[1] length:[publicKeyBits length] + 1];
+    builder[j+1] = 0x00;
+    [encKey appendBytes:builder length:j + 2];
+    
+    // Now the actual key
+    [encKey appendData:publicKeyBits];
+    
+    return encKey;
+}
+
++ (size_t)encodeLength:(unsigned char *)buf length:(size_t)length {
+    
+    // encode length in ASN.1 DER format
+    if (length < 128) {
+        buf[0] = length;
+        return 1;
+    }
+    
+    size_t i = (length / 256) + 1;
+    buf[0] = i + 0x80;
+    for (size_t j = 0 ; j < i; j++) {
+        buf[i - j] = length & 0xFF;
+        length = length >> 8;
+    }
+    
+    return i + 1;
 }
 
 @end
