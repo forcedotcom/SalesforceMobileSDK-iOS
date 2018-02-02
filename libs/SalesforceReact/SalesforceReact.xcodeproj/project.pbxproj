@@ -27,7 +27,6 @@
 		4FA796B02020E6D500CA9759 /* SFReactBridgeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA796AF2020E6D500CA9759 /* SFReactBridgeTests.m */; };
 		4FFE0AA02022519D00073E6F /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFE0A832022518700073E6F /* libReact.a */; };
 		4FFE0AB2202251EB00073E6F /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFE0AAB202251D800073E6F /* libRCTWebSocket.a */; };
-		4FFE0ABE2022521900073E6F /* libRCTTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFE0ABB2022521000073E6F /* libRCTTest.a */; };
 		4FFE0AD92022673400073E6F /* libRCTTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFE0ABB2022521000073E6F /* libRCTTest.a */; };
 		4FFE0ADC20227D8900073E6F /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFE0ADF20227D8900073E6F /* SalesforceAnalytics.framework */; };
 		4FFE0ADD20227D8900073E6F /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFE0AE020227D8900073E6F /* SalesforceSDKCore.framework */; };
@@ -228,13 +227,6 @@
 			remoteGlobalIDString = 2D2A286E1D9B047700D4039D;
 			remoteInfo = "RCTTest-tvOS";
 		};
-		4FFE0ABF2022522100073E6F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4FFE0AB52022521000073E6F /* RCTTest.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 580C376E1AB104AF0015E709;
-			remoteInfo = RCTTest;
-		};
 		4FFEE5D51BFE904100B7AA8A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4FFEE5CF1BFE904100B7AA8A /* SmartSync.xcodeproj */;
@@ -333,7 +325,6 @@
 				4FFE0AE620227DD600073E6F /* SmartStore.framework in Frameworks */,
 				4FFE0AE820227DD600073E6F /* SmartSync.framework in Frameworks */,
 				4F7C84192021470D00E09ACF /* SalesforceReact.framework in Frameworks */,
-				4FFE0ABE2022521900073E6F /* libRCTTest.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -586,7 +577,6 @@
 			);
 			dependencies = (
 				4FA796D62021412D00CA9759 /* PBXTargetDependency */,
-				4FFE0AC02022522100073E6F /* PBXTargetDependency */,
 			);
 			name = SalesforceReactTestApp;
 			productName = SalesforceReactTestApp;
@@ -968,11 +958,6 @@
 			isa = PBXTargetDependency;
 			name = RCTWebSocket;
 			targetProxy = 4FFE0AB3202251F000073E6F /* PBXContainerItemProxy */;
-		};
-		4FFE0AC02022522100073E6F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = RCTTest;
-			targetProxy = 4FFE0ABF2022522100073E6F /* PBXContainerItemProxy */;
 		};
 		CE81A9AC1E9C251100F3D0AD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

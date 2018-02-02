@@ -24,6 +24,9 @@
 
 #import <UIKit/UIKit.h>
 
+// NB: we shouldn't have to define RCT_EXTERN here
+// It is already defined in RCTDefines.h which is imported in RCTBridge.h which is imported in RCTTestRunner.h
+// But somehow the compiler gets confused and won't build
 #if defined(__cplusplus)
 #define RCT_EXTERN extern "C" __attribute__((visibility("default")))
 #define RCT_EXTERN_C_BEGIN extern "C" {
@@ -59,7 +62,6 @@
 - (void)setUp {
     [super setUp];
     _runner = RCTInitRunnerForApp(@"js/index.test", nil);
-    _runner.useBundler = YES;
 }
 
 - (void)tearDown {
@@ -67,17 +69,10 @@
 }
 
 
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
-    }];
-}
-
-
 #pragma mark - JS tests
 
-RCT_TEST(NetReactBridgeTests)
+RCT_TEST(Passing)
+RCT_TEST(Failing)
 
 @end
 

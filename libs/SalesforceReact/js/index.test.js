@@ -22,19 +22,68 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-const { AppRegistry } = require('react-native');
+import React from 'react';
+import { assert } from 'chai'; 
+import { AppRegistry, NativeModules, View, Text, StyleSheet } from 'react-native';
+const { TestModule } = NativeModules;
+const createReactClass = require('create-react-class');
 
-/**
- * Require here every single component you would like
- * to test
- */
-const TO_TEST = [
-  require('./NetReactBridgeTests'),
-];
+//
+// Helper code - belongs in helper class
+//
 
-/**
- * Register every test component
- */
-TO_TEST.forEach(Component => {
-  AppRegistry.registerComponent(Component.displayName, () => Component);
+const componentForTest = (test) => {
+    return createReactClass({
+        componentDidMount() {
+            test();
+            TestModule.markTestPassed(true); 
+        },
+        
+        render() {
+            message = "Running " + test.name;
+//                    <View style={styles.container}><Text style={styles.message}>{message}</Text></View>
+            return (
+<View/>
+            );
+        }            
+    });
+};
+
+const registerTest = (test) => {
+    AppRegistry.registerComponent(test.name.substring("test".length), () => componentForTest(test));
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+  },
+  message: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
 });
+
+//
+// Tests
+//
+
+testPassing = () => {
+    assert(true, "testPassing should have succeeded");
+};
+
+testFailing = () => {
+    assert(false, "testFailing failed not surprisingly");
+};
+
+
+//
+// Tests registration
+//
+
+registerTest(testPassing);
+registerTest(testFailing);
+
