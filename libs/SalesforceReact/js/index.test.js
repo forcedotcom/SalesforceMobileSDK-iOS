@@ -24,9 +24,11 @@
 
 import React from 'react';
 import { assert } from 'chai'; 
-import { AppRegistry, NativeModules, View, Text, StyleSheet } from 'react-native';
+import { AppRegistry, NativeModules, View } from 'react-native';
 const { TestModule } = NativeModules;
 const createReactClass = require('create-react-class');
+import {oauth, net, smartstore, smartsync} from 'react-native-force';
+
 
 //
 // Helper code - belongs in helper class
@@ -35,16 +37,13 @@ const createReactClass = require('create-react-class');
 const componentForTest = (test) => {
     return createReactClass({
         componentDidMount() {
-            test();
-            TestModule.markTestPassed(true); 
+            if (test() != false) {
+                TestModule.markTestPassed(true);
+            }
         },
         
         render() {
-            message = "Running " + test.name;
-//                    <View style={styles.container}><Text style={styles.message}>{message}</Text></View>
-            return (
-<View/>
-            );
+            return (<View/>);
         }            
     });
 };
@@ -53,22 +52,8 @@ const registerTest = (test) => {
     AppRegistry.registerComponent(test.name.substring("test".length), () => componentForTest(test));
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
-  },
-  message: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-});
-
 //
-// Tests
+// Harness Tests
 //
 
 testPassing = () => {
@@ -79,6 +64,40 @@ testFailing = () => {
     assert(false, "testFailing failed not surprisingly");
 };
 
+testAsyncPassing = () => {
+    oauth.getAuthCredentials(
+        (creds) => { TestModule.markTestPassed(true); },
+        (error) => { throw error; }
+    );
+    
+    return false; // not done
+};
+
+testAsyncFailing = () => {
+    oauth.getAuthCredentials(
+        (creds) => { throw "testAsyncFailing made-up exception"; },
+        (error) => { throw error; }
+    );
+    
+    return false; // not done
+};
+
+//
+// Oauth tests
+//
+
+testGetAuthCredentials = () => {
+    oauth.getAuthCredentials(
+        (creds) => {
+            assert.deepEqual(Object.keys(creds).sort(), ["accessToken","clientId","instanceUrl","loginUrl","orgId","refreshToken","userAgent","userId"], 'Wrong keys in credentials');
+            TestModule.markTestPassed(true);
+        },
+        (error) => { throw error; }
+    );
+    
+    return false; // not done
+};
+
 
 //
 // Tests registration
@@ -86,4 +105,6 @@ testFailing = () => {
 
 registerTest(testPassing);
 registerTest(testFailing);
-
+registerTest(testAsyncPassing);
+registerTest(testAsyncFailing);
+registerTest(testGetAuthCredentials);

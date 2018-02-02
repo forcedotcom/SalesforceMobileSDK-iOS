@@ -73,6 +73,9 @@
 
 RCT_TEST(Passing)
 RCT_TEST(Failing)
+RCT_TEST(AsyncPassing)
+RCT_TEST(AsyncFailing)
+RCT_TEST(GetAuthCredentials)
 
 @end
 
