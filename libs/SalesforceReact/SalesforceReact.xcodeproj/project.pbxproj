@@ -21,10 +21,12 @@
 
 /* Begin PBXBuildFile section */
 		4F7C84192021470D00E09ACF /* SalesforceReact.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2F81C0E4673009F6029 /* SalesforceReact.framework */; };
-		4F7C84522021555900E09ACF /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 4F7C84512021555900E09ACF /* test_credentials.json */; };
 		4FA796982020E6D500CA9759 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA796972020E6D500CA9759 /* AppDelegate.m */; };
 		4FA796A62020E6D500CA9759 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA796A52020E6D500CA9759 /* main.m */; };
-		4FA796B02020E6D500CA9759 /* SFReactBridgeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA796AF2020E6D500CA9759 /* SFReactBridgeTests.m */; };
+		4FA796B02020E6D500CA9759 /* ReactHarnessTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA796AF2020E6D500CA9759 /* ReactHarnessTests.m */; };
+		4FEBA77B2024DB2400F3BC83 /* ReactTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FEBA77A2024DB2400F3BC83 /* ReactTestCase.m */; };
+		4FEBA77D2024DDED00F3BC83 /* ReactOauthTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FEBA77C2024DDED00F3BC83 /* ReactOauthTests.m */; };
+		4FEBA77F2024E25E00F3BC83 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 4F7C84512021555900E09ACF /* test_credentials.json */; };
 		4FFE0AA02022519D00073E6F /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFE0A832022518700073E6F /* libReact.a */; };
 		4FFE0AB2202251EB00073E6F /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFE0AAB202251D800073E6F /* libRCTWebSocket.a */; };
 		4FFE0AD92022673400073E6F /* libRCTTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFE0ABB2022521000073E6F /* libRCTTest.a */; };
@@ -278,13 +280,16 @@
 		4FA796A42020E6D500CA9759 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4FA796A52020E6D500CA9759 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4FA796AB2020E6D500CA9759 /* SalesforceReactTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceReactTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		4FA796AF2020E6D500CA9759 /* SFReactBridgeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFReactBridgeTests.m; sourceTree = "<group>"; };
+		4FA796AF2020E6D500CA9759 /* ReactHarnessTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReactHarnessTests.m; sourceTree = "<group>"; };
 		4FA796B12020E6D500CA9759 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4FABF0651AA5229300D31E3F /* SalesforceReact-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SalesforceReact-Prefix.pch"; sourceTree = "<group>"; };
 		4FABF0691AA52E7E00D31E3F /* SFSmartSyncReactBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFSmartSyncReactBridge.h; path = Classes/SFSmartSyncReactBridge.h; sourceTree = "<group>"; };
 		4FABF06A1AA52EC800D31E3F /* SFSmartSyncReactBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSmartSyncReactBridge.m; path = Classes/SFSmartSyncReactBridge.m; sourceTree = "<group>"; };
 		4FABF06E1AA6920800D31E3F /* SFOauthReactBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFOauthReactBridge.m; path = Classes/SFOauthReactBridge.m; sourceTree = "<group>"; };
 		4FABF0701AA6921E00D31E3F /* SFOauthReactBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFOauthReactBridge.h; path = Classes/SFOauthReactBridge.h; sourceTree = "<group>"; };
+		4FEBA7632024DB1000F3BC83 /* ReactTestCase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReactTestCase.h; sourceTree = "<group>"; };
+		4FEBA77A2024DB2400F3BC83 /* ReactTestCase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReactTestCase.m; sourceTree = "<group>"; };
+		4FEBA77C2024DDED00F3BC83 /* ReactOauthTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReactOauthTests.m; sourceTree = "<group>"; };
 		4FF0BCA11B826D4B00ABC91C /* SFNetReactBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFNetReactBridge.h; path = Classes/SFNetReactBridge.h; sourceTree = "<group>"; };
 		4FF0BCA21B826D9400ABC91C /* SFNetReactBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFNetReactBridge.m; path = Classes/SFNetReactBridge.m; sourceTree = "<group>"; };
 		4FFE0A712022518600073E6F /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
@@ -405,8 +410,11 @@
 		4FA796AE2020E6D500CA9759 /* SalesforceReactTests */ = {
 			isa = PBXGroup;
 			children = (
-				4FA796AF2020E6D500CA9759 /* SFReactBridgeTests.m */,
-				4FA796B12020E6D500CA9759 /* Info.plist */,
+				4FEBA77E2024E23700F3BC83 /* Supporting Files */,
+				4FA796AF2020E6D500CA9759 /* ReactHarnessTests.m */,
+				4FEBA7632024DB1000F3BC83 /* ReactTestCase.h */,
+				4FEBA77A2024DB2400F3BC83 /* ReactTestCase.m */,
+				4FEBA77C2024DDED00F3BC83 /* ReactOauthTests.m */,
 			);
 			path = SalesforceReactTests;
 			sourceTree = "<group>";
@@ -459,10 +467,18 @@
 			name = Classes;
 			sourceTree = "<group>";
 		};
-		4FFE0A6E20224DA300073E6F /* Supporting Files */ = {
+		4FEBA77E2024E23700F3BC83 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
 				4F7C84512021555900E09ACF /* test_credentials.json */,
+				4FA796B12020E6D500CA9759 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		4FFE0A6E20224DA300073E6F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
 				4FA796A42020E6D500CA9759 /* Info.plist */,
 				4FA796A52020E6D500CA9759 /* main.m */,
 			);
@@ -863,7 +879,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4F7C84522021555900E09ACF /* test_credentials.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -871,6 +886,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4FEBA77F2024E25E00F3BC83 /* test_credentials.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -919,7 +935,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4FA796B02020E6D500CA9759 /* SFReactBridgeTests.m in Sources */,
+				4FA796B02020E6D500CA9759 /* ReactHarnessTests.m in Sources */,
+				4FEBA77D2024DDED00F3BC83 /* ReactOauthTests.m in Sources */,
+				4FEBA77B2024DB2400F3BC83 /* ReactTestCase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

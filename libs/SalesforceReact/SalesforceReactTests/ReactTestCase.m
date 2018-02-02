@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2016-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,60 +22,45 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
 
-// NB: we shouldn't have to define RCT_EXTERN here
-// It is already defined in RCTDefines.h which is imported in RCTBridge.h which is imported in RCTTestRunner.h
-// But somehow the compiler gets confused and won't build
-#if defined(__cplusplus)
-#define RCT_EXTERN extern "C" __attribute__((visibility("default")))
-#define RCT_EXTERN_C_BEGIN extern "C" {
-#define RCT_EXTERN_C_END }
-#else
-#define RCT_EXTERN extern __attribute__((visibility("default")))
-#define RCT_EXTERN_C_BEGIN
-#define RCT_EXTERN_C_END
-#endif
+#import <SalesforceSDKCore/TestSetupUtils.h>
+#import "ReactTestCase.h"
 
-#import <XCTest/XCTest.h>
-#import <RCTTest/RCTTestRunner.h>
+static NSException *authException = nil;
 
+@implementation ReactTestCase
 
-#define RCT_TEST(name)                  \
-- (void)test##name                      \
-{                                       \
-[_runner runTest:_cmd module:@#name]; \
-}
-
-
-
-@interface SFReactBridgeTests : XCTestCase
-
-@end
-
-@implementation SFReactBridgeTests
++ (void)setUp
 {
-    RCTTestRunner *_runner;
-}
-
-
-- (void)setUp {
+    @try {
+        [SFSDKReactLogger setLogLevel:DDLogLevelDebug];
+        [TestSetupUtils populateAuthCredentialsFromConfigFileForClass:[self class]];
+        [TestSetupUtils synchronousAuthRefresh];
+        
+    } @catch (NSException *exception) {
+        [SFSDKReactLogger d:[self class] format:@"Populating auth from config failed: %@", exception];
+        authException = exception;
+    }
     [super setUp];
-    _runner = RCTInitRunnerForApp(@"js/index.test", nil);
 }
 
-- (void)tearDown {
+- (void)setUp
+{
+    if (authException) {
+        XCTFail(@"Setting up authentication failed: %@", authException);
+    }
+    if (self.jsSuitePath == nil) {
+        XCTFail(@"jsSuitePath not defined");
+    }
+    
+    self.runner = RCTInitRunnerForApp(self.jsSuitePath, nil);
+    [super setUp];
+}
+
+- (void)tearDown
+{
     [super tearDown];
 }
-
-
-#pragma mark - JS tests
-
-RCT_TEST(Passing)
-RCT_TEST(Failing)
-RCT_TEST(AsyncPassing)
-RCT_TEST(AsyncFailing)
-RCT_TEST(GetAuthCredentials)
 
 @end
 

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -23,91 +23,41 @@
  */
 
 #import "AppDelegate.h"
-#import <SalesforceSDKCore/SalesforceSDKManager.h>
-#import <SalesforceSDKCore/SFSDKTestCredentialsData.h>
-#import <SalesforceSDKCore/TestSetupUtils.h>
-#import <SalesforceSDKCore/SFSDKAppConfig.h>
-#import <SalesforceReact/SalesforceReactSDKManager.h>
 
 @implementation AppDelegate
 
-- (id)init
-{
-    self = [super init];
-    [SalesforceSDKManager setInstanceClass:[SalesforceReactSDKManager class]];
-    if (self != nil) {
-         [SFSDKLogger log:[self class] level:DDLogLevelDebug message:@"Setting up auth credentials."];
-        [SalesforceSDKManager sharedManager].appConfig = [self stageTestCredentials];
-    }
-    return self;
-}
-
-#pragma mark - App lifecycle
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.autoresizesSubviews = YES;
-    [self initializeAppViewState];
+    // Override point for customization after application launch.
     return YES;
+}
+
+- (void)applicationWillResignActive:(UIApplication *)application
+{
+    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
+    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+}
+
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
+    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application
+{
+    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    BOOL runningOctest = [self isRunningOctest];
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"octest running: %d", runningOctest];
+    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
 
-#pragma mark - Private methods
-
-
-- (SFSDKAppConfig *)stageTestCredentials {
-    SFSDKTestCredentialsData *credsData = [TestSetupUtils populateAuthCredentialsFromConfigFileForClass:[self class]];
-    SFSDKAppConfig *appConfig = [[SFSDKAppConfig alloc] init];
-    appConfig.remoteAccessConsumerKey = credsData.clientId;
-    appConfig.oauthRedirectURI = credsData.redirectUri;
-    appConfig.oauthScopes = [NSSet setWithObjects:@"web", @"api", nil];
-    return appConfig;
-}
-
-
-- (BOOL) isRunningOctest
+- (void)applicationWillTerminate:(UIApplication *)application
 {
-    BOOL result = NO;
-    NSDictionary *processEnv = [[NSProcessInfo processInfo] environment];
-    NSString *injectBundle = [processEnv valueForKey:@"XCInjectBundle"];
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"XCInjectBundle: %@", injectBundle];
-    if (nil != injectBundle) {
-        NSRange found = [injectBundle rangeOfString:@".octest"];
-        if (NSNotFound != found.location) {
-            result = YES;
-        }
-    }
-    return result;
-}
-
-- (void)initializeAppViewState
-{
-    if (![NSThread isMainThread]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self initializeAppViewState];
-        });
-        return;
-    }
-    [TestSetupUtils synchronousAuthRefresh];
-    
-    UIViewController *rootViewController = [[UIViewController alloc] init];
-    self.window.rootViewController = rootViewController;
+    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
 @end
 
-//The following are required for code coverage to work:
-FILE *fopen$UNIX2003(const char *filename, const char *mode) {
-    return fopen(filename, mode);
-}
-
-size_t fwrite$UNIX2003(const void *a, size_t b, size_t c, FILE *d) {
-    return fwrite(a, b, c, d);
-}
-SFSDK_USE_DEPRECATED_END
