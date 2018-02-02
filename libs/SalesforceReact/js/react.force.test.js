@@ -33,7 +33,7 @@ const componentForTest = (test) => {
     return createReactClass({
         componentDidMount() {
             if (test() != false) {
-                testDone(true);
+                testDone();
             }
         },
         
@@ -47,6 +47,6 @@ export const registerTest = (test) => {
     AppRegistry.registerComponent(test.name.substring("test".length), () => componentForTest(test));
 };
 
-export const testDone = (result) => {
-    TestModule.markTestPassed(result);
+export const testDone = () => {
+    TestModule.markTestCompleted();
 };

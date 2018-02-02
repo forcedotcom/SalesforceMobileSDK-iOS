@@ -32,7 +32,7 @@ testGetAuthCredentials = () => {
     oauth.getAuthCredentials(
         (creds) => {
             assert.deepEqual(Object.keys(creds).sort(), ["accessToken","clientId","instanceUrl","loginUrl","orgId","refreshToken","userAgent","userId"], 'Wrong keys in credentials');
-            testDone(true);
+            testDone();
         },
         (error) => { throw error; }
     );

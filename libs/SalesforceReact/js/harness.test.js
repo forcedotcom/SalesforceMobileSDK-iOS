@@ -38,7 +38,7 @@ testFailing = () => {
 
 testAsyncPassing = () => {
     oauth.getAuthCredentials(
-        (creds) => { testDone(true); },
+        (creds) => { testDone(); },
         (error) => { throw error; }
     );
     

@@ -38,7 +38,7 @@ testVersions = () => {
     net.versions(
         (response) => {
             assert.deepEqual(response[response.length-1], {'label':'Spring ’18','url':'/services/data/v42.0','version':'42.0'}, 'Wrong latest version');
-            testDone(true);
+            testDone();
         },
         (error) => { throw error; }
     );
@@ -50,7 +50,7 @@ testResources = () => {
     net.resources(
         (response) => {
             assert.equal(response.connect, '/services/data/' + apiVersion + '/connect', 'Wrong url for connect resource');
-            testDone(true);
+            testDone();
         },
         (error) => { throw error; }
     );
@@ -62,7 +62,7 @@ testDescribeGlobal = () => {
     net.describeGlobal(
         (response) => {
             assert.isArray(response.sobjects, 'Expected sobjects array');
-            testDone(true);
+            testDone();
         },
         (error) => { throw error; }
     );
@@ -76,7 +76,7 @@ testMetaData = () => {
         (response) => {
             assert.isObject(response.objectDescribe, 'Expected objectDescribe object');
             assert.isArray(response.recentItems, 'Expected recentItems array');
-            testDone(true);
+            testDone();
         },
         (error) => { throw error; }
     );
@@ -90,7 +90,7 @@ testDescribe = () => {
         (response) => {
             assert.isFalse(response.custom, 'Expected custom to be false');
             assert.isArray(response.fields, 'Expected fields array');
-            testDone(true);
+            testDone();
         },
         (error) => { throw error; }
     );
@@ -107,8 +107,8 @@ testDescribeLayout = () => {
                 'account',
                 recordId,
                 (response) => {
-                    assert.isArray(response.relatedLists, 'Expected relatedLists object');
-                    testDone(true);
+                    assert.isArray(response.relatedLists, 'Expected relatedLists array');
+                    testDone();
                 },
                 (error) => { throw error; }
             );
@@ -116,6 +116,143 @@ testDescribeLayout = () => {
         (error) => { throw error; }
     );
     
+    return false; // not done
+};
+
+testCreateRetrieve = () => {
+    const uniq = Math.floor(Math.random() * 1000000);
+    const firstName = 'First_' + uniq;
+    const lastName = 'Last_' + uniq;
+    
+    net.create(
+        'contact',
+        {FirstName: firstName, LastName: lastName},
+        (response) => {
+            assert.isTrue(response.success, 'Create failed');
+            const contactId = response.id;
+            net.retrieve(
+                'contact',
+                contactId,
+                'firstName,lastName',
+                (response) => {
+                    assert.equal(response.Id, contactId, 'Wrong id');
+                    assert.equal(response.FirstName, firstName, 'Wrong first name');
+                    assert.equal(response.LastName, lastName, 'Wrong last name');
+                    testDone();
+                },
+                (error) => { throw error; }
+            );
+        },
+        (error) => { throw error; }
+    );
+
+    return false; // not done
+};
+
+testUpsertUpdateRetrieve = () => {
+    const uniq = Math.floor(Math.random() * 1000000);
+    const firstName = 'First_' + uniq;
+    const lastName = 'Last_' + uniq;
+    const lastNameUpdated = lastName + '_updated';
+    
+    net.upsert(
+        'contact',
+        'Id',
+        '',
+        {FirstName: firstName, LastName: lastName},
+        (response) => {
+            assert.isTrue(response.success, 'Upsert failed');
+            const contactId = response.id;
+            net.update(
+                'Contact',
+                contactId,
+                {LastName: lastNameUpdated},
+                () => {
+                    net.retrieve(
+                        'contact',
+                        contactId,
+                        'firstName,lastName',
+                        (response) => {
+                            assert.equal(response.Id, contactId, 'Wrong id');
+                            assert.equal(response.FirstName, firstName, 'Wrong first name');
+                            assert.equal(response.LastName, lastNameUpdated, 'Wrong last name');
+                            testDone();
+                        },
+                        (error) => { throw error; }
+                    );
+                },
+                (error) => { throw error; }
+            );
+        },
+        (error) => { throw error; }
+    );
+
+    return false; // not done
+};
+
+testCreateDelRetrieve = () => {
+    const uniq = Math.floor(Math.random() * 1000000);
+    const firstName = 'First_' + uniq;
+    const lastName = 'Last_' + uniq;
+    
+    net.create(
+        'contact',
+        {FirstName: firstName, LastName: lastName},
+        (response) => {
+            assert.isTrue(response.success, 'Create failed');
+            const contactId = response.id;
+            net.del(
+                'contact',
+                contactId,
+                () => {
+                    net.retrieve(
+                        'contact',
+                        contactId,
+                        'firstName,lastName',
+                        (response) => {
+                            assert.fail('Retrieve following delete should have 404ed');
+                        },
+                        (error) => {
+                            assert.include(error.message, 'Code=404', 'Retrieve following delete should have 404ed');
+                            testDone();
+                        }
+                    );
+
+                },
+                (error) => { throw error; }
+            );
+        },
+        (error) => { throw error; }
+    );
+
+    return false; // not done
+};
+
+testQuery = () => {
+    net.query(
+        'SELECT FirstName, LastName FROM Contact LIMIT 5',
+        (response) => {
+            assert.isArray(response.records, 'Expected records');
+            assert.isTrue(response.done, 'Expected done to be true');
+            assert.isNumber(response.totalSize, 'Expected totalSize');
+            testDone();
+        },
+        (error) => { throw error; }
+    );
+
+    return false; // not done
+};
+
+testSearch = () => {
+    net.search(
+        'FIND {Joe} IN NAME FIELDS RETURNING Contact',
+        (response) => {
+            assert.isArray(response.searchRecords, 'Expected searchRecords');
+            testDone();
+        },
+        (error) => { throw error; }
+    );
+
     return false; // not done
 };
 
@@ -127,3 +264,8 @@ registerTest(testDescribeGlobal);
 registerTest(testMetaData);
 registerTest(testDescribe);
 registerTest(testDescribeLayout);
+registerTest(testCreateRetrieve);
+registerTest(testUpsertUpdateRetrieve);
+registerTest(testCreateDelRetrieve);
+registerTest(testQuery);
+registerTest(testSearch);

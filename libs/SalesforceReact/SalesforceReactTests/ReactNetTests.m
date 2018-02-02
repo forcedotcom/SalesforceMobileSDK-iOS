@@ -45,6 +45,11 @@ RCT_TEST(DescribeGlobal)
 RCT_TEST(MetaData)
 RCT_TEST(Describe)
 RCT_TEST(DescribeLayout)
+RCT_TEST(CreateRetrieve)
+RCT_TEST(UpsertUpdateRetrieve)
+RCT_TEST(CreateDelRetrieve)
+RCT_TEST(Query)
+RCT_TEST(Search)
 
 @end
 
