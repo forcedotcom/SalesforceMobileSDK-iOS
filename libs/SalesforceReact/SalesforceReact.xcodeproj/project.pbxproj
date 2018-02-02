@@ -21,6 +21,7 @@
 
 /* Begin PBXBuildFile section */
 		4F7C84192021470D00E09ACF /* SalesforceReact.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2F81C0E4673009F6029 /* SalesforceReact.framework */; };
+		4FA08DDC2024E8E50055FD7C /* ReactNetTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA08DDB2024E8E50055FD7C /* ReactNetTests.m */; };
 		4FA796982020E6D500CA9759 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA796972020E6D500CA9759 /* AppDelegate.m */; };
 		4FA796A62020E6D500CA9759 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA796A52020E6D500CA9759 /* main.m */; };
 		4FA796B02020E6D500CA9759 /* ReactHarnessTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA796AF2020E6D500CA9759 /* ReactHarnessTests.m */; };
@@ -274,6 +275,7 @@
 		4F67FECF1B7970CE00A957A3 /* SalesforceReact-Static-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceReact-Static-iOS-Release.xcconfig"; path = "Configuration/SalesforceReact-Static-iOS-Release.xcconfig"; sourceTree = "<group>"; };
 		4F67FED01B7970CE00A957A3 /* SalesforceReact-Test.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceReact-Test.xcconfig"; path = "Configuration/SalesforceReact-Test.xcconfig"; sourceTree = "<group>"; };
 		4F7C84512021555900E09ACF /* test_credentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test_credentials.json; path = ../../../shared/test/test_credentials.json; sourceTree = "<group>"; };
+		4FA08DDB2024E8E50055FD7C /* ReactNetTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReactNetTests.m; sourceTree = "<group>"; };
 		4FA796942020E6D400CA9759 /* SalesforceReactTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SalesforceReactTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FA796962020E6D500CA9759 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		4FA796972020E6D500CA9759 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -415,6 +417,7 @@
 				4FEBA7632024DB1000F3BC83 /* ReactTestCase.h */,
 				4FEBA77A2024DB2400F3BC83 /* ReactTestCase.m */,
 				4FEBA77C2024DDED00F3BC83 /* ReactOauthTests.m */,
+				4FA08DDB2024E8E50055FD7C /* ReactNetTests.m */,
 			);
 			path = SalesforceReactTests;
 			sourceTree = "<group>";
@@ -938,6 +941,7 @@
 				4FA796B02020E6D500CA9759 /* ReactHarnessTests.m in Sources */,
 				4FEBA77D2024DDED00F3BC83 /* ReactOauthTests.m in Sources */,
 				4FEBA77B2024DB2400F3BC83 /* ReactTestCase.m in Sources */,
+				4FA08DDC2024E8E50055FD7C /* ReactNetTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

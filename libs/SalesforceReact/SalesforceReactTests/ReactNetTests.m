@@ -25,21 +25,27 @@
 #import <UIKit/UIKit.h>
 #import "ReactTestCase.h"
 
-@interface ReactOauthTests : ReactTestCase
+@interface ReactNetTests : ReactTestCase
 
 @end
 
-@implementation ReactOauthTests
+@implementation ReactNetTests
 
 - (void)setUp {
-    self.jsSuitePath = @"js/oauth.test";
+    self.jsSuitePath = @"js/net.test";
     [super setUp];
 }
 
 #pragma mark - JS tests
 
-RCT_TEST(GetAuthCredentials)
+RCT_TEST(GetApiVersion)
+RCT_TEST(Versions)
+RCT_TEST(Resources)
+RCT_TEST(DescribeGlobal)
+RCT_TEST(MetaData)
+RCT_TEST(Describe)
 
 @end
+
 
 
