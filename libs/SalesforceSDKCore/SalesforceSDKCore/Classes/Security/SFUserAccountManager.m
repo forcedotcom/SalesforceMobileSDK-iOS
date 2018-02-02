@@ -277,7 +277,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 - (BOOL)authenticateWithCompletion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock credentials:(SFOAuthCredentials *)credentials{
     NSAssert(self.useLegacyAuthenticationManager==false, kSFIncompatibleAuthError);
     [SFSDKWebViewStateManager removeSession];
-    SFSDKOAuthClient *client = [self fetchOAuthClient:credentials completion:completionBlock failure:failureBlock];
+    SFSDKOAuthClient *client = [self fetchOAuthClient:credentials cached:NO completion:completionBlock failure:failureBlock];
     [[SFSDKOAuthClientCache sharedInstance] addClient:client];
     return [client refreshCredentials];
 }
@@ -1212,10 +1212,14 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 }
 
 - (SFSDKOAuthClient *)fetchOAuthClient:(SFOAuthCredentials *)credentials completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
+    return [self fetchOAuthClient:credentials cached:YES completion:completionBlock failure:failureBlock];
+}
+
+- (SFSDKOAuthClient *)fetchOAuthClient:(SFOAuthCredentials *)credentials cached:(BOOL)cachedClient completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
     
     NSString *key = [SFSDKOAuthClientCache keyFromCredentials:credentials];
     SFSDKOAuthClient *client = [[SFSDKOAuthClientCache sharedInstance] clientForKey:key];
-    if (!client) {
+    if (!cachedClient || !client) {
         __weak typeof(self) weakSelf = self;
         client = [SFSDKOAuthClient clientWithCredentials:credentials configBlock:^(SFSDKOAuthClientConfig *config) {
             __strong typeof(self) strongSelf = weakSelf;
