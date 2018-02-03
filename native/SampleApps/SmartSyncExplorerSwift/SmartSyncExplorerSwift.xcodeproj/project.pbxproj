@@ -40,10 +40,18 @@
 		A465C4B5201043BB006AC8D5 /* SalesforceSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A465C4AB2010432A006AC8D5 /* SalesforceSans-Regular.ttf */; };
 		A465C4B6201043BB006AC8D5 /* SalesforceSans-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A465C4A520104328006AC8D5 /* SalesforceSans-Thin.ttf */; };
 		A465C4B7201043BB006AC8D5 /* SalesforceSans-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A465C4AA2010432A006AC8D5 /* SalesforceSans-ThinItalic.ttf */; };
-		A465C4D920116B37006AC8D5 /* userstore.json in Resources */ = {isa = PBXBuildFile; fileRef = A465C4D720116B37006AC8D5 /* userstore.json */; };
-		A465C4DA20116B37006AC8D5 /* usersyncs.json in Resources */ = {isa = PBXBuildFile; fileRef = A465C4D820116B37006AC8D5 /* usersyncs.json */; };
+		A46643F720224A81003FF0CB /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46643F520224A81003FF0CB /* Record.swift */; };
+		A46643F820224A81003FF0CB /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46643F620224A81003FF0CB /* Store.swift */; };
+		A46643FA20224AA6003FF0CB /* ContactRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46643F920224AA6003FF0CB /* ContactRecord.swift */; };
+		A46643FC20224AB4003FF0CB /* ContactStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46643FB20224AB4003FF0CB /* ContactStore.swift */; };
+		A46643FE2025BD20003FF0CB /* AdditionalActionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46643FD2025BD20003FF0CB /* AdditionalActionsViewController.swift */; };
 		A46870A920128E9F00096408 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A46870A820128E9F00096408 /* PromiseKit.framework */; };
 		A46870AA20128E9F00096408 /* PromiseKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A46870A820128E9F00096408 /* PromiseKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A46870AC2012B4AA00096408 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46870AB2012B4AA00096408 /* Constants.swift */; };
+		A46870CD2016655600096408 /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46870CC2016655600096408 /* ContactTableViewCell.swift */; };
+		A46870CF201674DE00096408 /* ContactDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46870CE201674DE00096408 /* ContactDetailViewController.swift */; };
+		A46870D120167EEE00096408 /* ContactHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46870D020167EEE00096408 /* ContactHelpers.swift */; };
+		A46870D32016A5B600096408 /* UniversalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46870D22016A5B600096408 /* UniversalViewController.swift */; };
 		A483D405200EA27700713510 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A483D404200EA27700713510 /* AppDelegate.swift */; };
 		A483D407200EA27700713510 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A483D406200EA27700713510 /* RootViewController.swift */; };
 		A483D40C200EA27700713510 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A483D40B200EA27700713510 /* Assets.xcassets */; };
@@ -99,9 +107,17 @@
 		A465C4AB2010432A006AC8D5 /* SalesforceSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SalesforceSans-Regular.ttf"; sourceTree = "<group>"; };
 		A465C4AC20104342006AC8D5 /* UIColors+helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColors+helper.swift"; sourceTree = "<group>"; };
 		A465C4AD20104342006AC8D5 /* UIFont+helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+helper.swift"; sourceTree = "<group>"; };
-		A465C4D720116B37006AC8D5 /* userstore.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = userstore.json; sourceTree = "<group>"; };
-		A465C4D820116B37006AC8D5 /* usersyncs.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = usersyncs.json; sourceTree = "<group>"; };
+		A46643F520224A81003FF0CB /* Record.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
+		A46643F620224A81003FF0CB /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		A46643F920224AA6003FF0CB /* ContactRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactRecord.swift; sourceTree = "<group>"; };
+		A46643FB20224AB4003FF0CB /* ContactStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactStore.swift; sourceTree = "<group>"; };
+		A46643FD2025BD20003FF0CB /* AdditionalActionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalActionsViewController.swift; sourceTree = "<group>"; };
 		A46870A820128E9F00096408 /* PromiseKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PromiseKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A46870AB2012B4AA00096408 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		A46870CC2016655600096408 /* ContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
+		A46870CE201674DE00096408 /* ContactDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailViewController.swift; sourceTree = "<group>"; };
+		A46870D020167EEE00096408 /* ContactHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactHelpers.swift; sourceTree = "<group>"; };
+		A46870D22016A5B600096408 /* UniversalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalViewController.swift; sourceTree = "<group>"; };
 		A483D401200EA27700713510 /* SmartSyncExplorerSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartSyncExplorerSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A483D404200EA27700713510 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A483D406200EA27700713510 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
@@ -157,6 +173,9 @@
 			children = (
 				A432DE0D20100FDB00A7A8D4 /* InitialViewController.swift */,
 				A483D406200EA27700713510 /* RootViewController.swift */,
+				A46870CE201674DE00096408 /* ContactDetailViewController.swift */,
+				A46870D22016A5B600096408 /* UniversalViewController.swift */,
+				A46643FD2025BD20003FF0CB /* AdditionalActionsViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -166,6 +185,8 @@
 			children = (
 				A465C4AC20104342006AC8D5 /* UIColors+helper.swift */,
 				A465C4AD20104342006AC8D5 /* UIFont+helper.swift */,
+				A46870AB2012B4AA00096408 /* Constants.swift */,
+				A46870D020167EEE00096408 /* ContactHelpers.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -173,6 +194,7 @@
 		A432DE11201042A400A7A8D4 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				A46870CC2016655600096408 /* ContactTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -180,8 +202,6 @@
 		A432DE12201042B100A7A8D4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				A465C4D720116B37006AC8D5 /* userstore.json */,
-				A465C4D820116B37006AC8D5 /* usersyncs.json */,
 				A465C4A92010432A006AC8D5 /* SalesforceSans-Bold.ttf */,
 				A465C4A720104329006AC8D5 /* SalesforceSans-BoldItalic.ttf */,
 				A465C4A620104329006AC8D5 /* SalesforceSans-Italic.ttf */,
@@ -194,6 +214,17 @@
 				A483D40B200EA27700713510 /* Assets.xcassets */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		A46643F420224A60003FF0CB /* SmartSyncExplorerSwiftCommon */ = {
+			isa = PBXGroup;
+			children = (
+				A46643F520224A81003FF0CB /* Record.swift */,
+				A46643F620224A81003FF0CB /* Store.swift */,
+				A46643F920224AA6003FF0CB /* ContactRecord.swift */,
+				A46643FB20224AB4003FF0CB /* ContactStore.swift */,
+			);
+			path = SmartSyncExplorerSwiftCommon;
 			sourceTree = "<group>";
 		};
 		A483D3F8200EA27700713510 = {
@@ -224,6 +255,7 @@
 		A483D403200EA27700713510 /* SmartSyncExplorerSwift */ = {
 			isa = PBXGroup;
 			children = (
+				A46643F420224A60003FF0CB /* SmartSyncExplorerSwiftCommon */,
 				A432DE0F2010112900A7A8D4 /* SmartSyncExplorerSwift.entitlements */,
 				A432DE12201042B100A7A8D4 /* Resources */,
 				A432DE11201042A400A7A8D4 /* Views */,
@@ -304,11 +336,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				A465C4B0201043BB006AC8D5 /* SalesforceSans-Bold.ttf in Resources */,
-				A465C4DA20116B37006AC8D5 /* usersyncs.json in Resources */,
 				A465C4B1201043BB006AC8D5 /* SalesforceSans-BoldItalic.ttf in Resources */,
 				A465C4B2201043BB006AC8D5 /* SalesforceSans-Italic.ttf in Resources */,
 				A465C4B3201043BB006AC8D5 /* SalesforceSans-Light.ttf in Resources */,
-				A465C4D920116B37006AC8D5 /* userstore.json in Resources */,
 				A465C4B4201043BB006AC8D5 /* SalesforceSans-LightItalic.ttf in Resources */,
 				A465C4B5201043BB006AC8D5 /* SalesforceSans-Regular.ttf in Resources */,
 				A465C4B6201043BB006AC8D5 /* SalesforceSans-Thin.ttf in Resources */,
@@ -326,10 +356,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				A432DE0E20100FDB00A7A8D4 /* InitialViewController.swift in Sources */,
+				A46643FE2025BD20003FF0CB /* AdditionalActionsViewController.swift in Sources */,
+				A46643FA20224AA6003FF0CB /* ContactRecord.swift in Sources */,
 				A483D407200EA27700713510 /* RootViewController.swift in Sources */,
+				A46870D32016A5B600096408 /* UniversalViewController.swift in Sources */,
+				A46643F820224A81003FF0CB /* Store.swift in Sources */,
 				A483D405200EA27700713510 /* AppDelegate.swift in Sources */,
 				A465C4AF20104342006AC8D5 /* UIFont+helper.swift in Sources */,
+				A46870D120167EEE00096408 /* ContactHelpers.swift in Sources */,
+				A46643F720224A81003FF0CB /* Record.swift in Sources */,
+				A46870CD2016655600096408 /* ContactTableViewCell.swift in Sources */,
 				A465C4AE20104342006AC8D5 /* UIColors+helper.swift in Sources */,
+				A46870CF201674DE00096408 /* ContactDetailViewController.swift in Sources */,
+				A46643FC20224AB4003FF0CB /* ContactStore.swift in Sources */,
+				A46870AC2012B4AA00096408 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
