@@ -20,6 +20,7 @@ protocol StoreProtocol {
     var locallyUpdated: Bool {get set}
     var locallyDeleted: Bool {get set}
     var soupEntryId: Int? {get}
+    static var dataSpec: [RecordDataSpec] {get}
     static var indexes: [[String:String]] {get}
     static var orderPath: String {get}
     static var readFields: [String] {get}
@@ -28,6 +29,7 @@ protocol StoreProtocol {
     static func from<T:StoreProtocol>(_ records: [Any]) -> T
     static func from<T:StoreProtocol>(_ records: [Any]) -> [T]
     static func from<T:StoreProtocol>(_ records: Dictionary<String, Any>) -> T
+    func fieldValue(_ forField:String) -> Any?
 }
 
 class Record {
@@ -58,7 +60,9 @@ class Record {
     }
 
     private(set) lazy var soupEntryId: Int? = self.data[Field.soupEntryId.rawValue] as? Int
+    
     private(set) lazy var id: String? = self.data[Field.id.rawValue] as? String
+    
     var objectType: String? {
         get { return (data[Field.attributes.rawValue] as! Dictionary<String, Any>)[Field.objectType.rawValue] as? String }
         set {
@@ -69,10 +73,12 @@ class Record {
             }
         }
     }
+
     var local: Bool {
         get { return (data[Field.local.rawValue] as! String) == "1" }
         set { data[Field.local.rawValue] = newValue ? "1" : "0" }
     }
+
     var locallyCreated: Bool {
         get { return (data[Field.locallyCreated.rawValue] as? String) ?? "0" == "1" }
         set {
@@ -80,6 +86,7 @@ class Record {
             data[Field.local.rawValue] = newValue ? "1" : "0"
         }
     }
+
     var locallyUpdated: Bool {
         get { return (data[Field.locallyUpdated.rawValue] as? String) ?? "0" == "1" }
         set {
@@ -88,6 +95,7 @@ class Record {
         }
 
     }
+
     var locallyDeleted: Bool {
         get { return (data[Field.locallyDeleted.rawValue] as? String) ?? "0" == "1" }
         set {
@@ -96,6 +104,7 @@ class Record {
         }
 
     }
+
     class var indexes: [[String:String]] {
          return [["path" : Field.id.rawValue, "type" : kSoupIndexTypeString],
                  ["path" : Field.modificationDate.rawValue, "type" : kSoupIndexTypeInteger],
@@ -106,14 +115,25 @@ class Record {
                  ["path" : Field.locallyDeleted.rawValue, "type" : kSoupIndexTypeInteger],
         ]
     }
+    
     class var readFields: [String] {
         return Field.allFields + [Field.soupEntryId.rawValue]
     }
+    
     class var createFields: [String] {
         return Field.allFields
     }
+    
     class var updateFields: [String] {
         return []
+    }
+    
+    class var dataSpec: [RecordDataSpec] {
+        return []
+    }
+    
+    func fieldValue(_ forField:String) -> Any? {
+        return data[forField]
     }
 }
 
@@ -145,8 +165,6 @@ extension StoreProtocol {
             } else {
                 return T()
             }
-//            return T.from($0 as! Dictionary<String, Any>)
-            
         }
     }
     

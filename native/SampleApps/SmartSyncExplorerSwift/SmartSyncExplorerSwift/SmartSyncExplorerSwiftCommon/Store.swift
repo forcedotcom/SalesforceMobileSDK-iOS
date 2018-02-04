@@ -188,4 +188,25 @@ class Store<objectType: StoreProtocol> {
         }
         return objectType.from(results)
     }
+    
+    func filter(_ searchTerm:String) -> [objectType] {
+        let allRecords = self.getRecords()
+        var matches:[objectType] = []
+        if searchTerm.count > 0 {
+            for record in allRecords {
+                let specs = type(of: record).dataSpec
+                for spec in specs {
+                    if spec.isSearchable {
+                        if let fieldValue = record.fieldValue(spec.fieldName) as? String {
+                            if let _ = fieldValue.range(of: searchTerm, options: [.caseInsensitive, .diacriticInsensitive], range: fieldValue.startIndex..<fieldValue.endIndex, locale: nil) {
+                                matches.append(record)
+                                break
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return matches
+    }
 }

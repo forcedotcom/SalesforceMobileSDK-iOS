@@ -84,6 +84,16 @@ class ContactRecord: Record, StoreProtocol {
     
     static var orderPath: String = Field.firstName.rawValue
     
+    override static var dataSpec: [RecordDataSpec] {
+        return super.dataSpec + [RecordDataSpec(fieldName:Field.firstName.rawValue, isSearchable:true),
+                                 RecordDataSpec(fieldName:Field.lastName.rawValue, isSearchable:true),
+                                 RecordDataSpec(fieldName:Field.title.rawValue, isSearchable:true),
+                                 RecordDataSpec(fieldName:Field.mobilePhone.rawValue, isSearchable:false),
+                                 RecordDataSpec(fieldName:Field.email.rawValue, isSearchable:false),
+                                 RecordDataSpec(fieldName:Field.department.rawValue, isSearchable:false),
+                                 RecordDataSpec(fieldName:Field.homePhone.rawValue, isSearchable:false)]
+    }
+    
     required init(data: [Any]) {
         super.init(data: data)
         self.objectType = ContactRecord.objectName

@@ -169,7 +169,13 @@ class RootViewController: UniversalViewController {
 
 extension RootViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        
+        if let search = searchController.searchBar.text, search.isEmpty == false {
+            let searchRecords = ContactStore.instance.filter(search)
+            self.contacts = searchRecords
+        } else {
+            self.contacts = ContactStore.instance.getRecords()
+        }
+        self.tableView.reloadData()
     }
 }
 

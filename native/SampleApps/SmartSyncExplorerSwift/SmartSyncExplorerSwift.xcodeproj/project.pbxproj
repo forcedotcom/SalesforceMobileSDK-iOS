@@ -45,6 +45,7 @@
 		A46643FA20224AA6003FF0CB /* ContactRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46643F920224AA6003FF0CB /* ContactRecord.swift */; };
 		A46643FC20224AB4003FF0CB /* ContactStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46643FB20224AB4003FF0CB /* ContactStore.swift */; };
 		A46643FE2025BD20003FF0CB /* AdditionalActionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46643FD2025BD20003FF0CB /* AdditionalActionsViewController.swift */; };
+		A46644002026E6B2003FF0CB /* RecordDataSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46643FF2026E6B2003FF0CB /* RecordDataSpec.swift */; };
 		A46870A920128E9F00096408 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A46870A820128E9F00096408 /* PromiseKit.framework */; };
 		A46870AA20128E9F00096408 /* PromiseKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A46870A820128E9F00096408 /* PromiseKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A46870AC2012B4AA00096408 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46870AB2012B4AA00096408 /* Constants.swift */; };
@@ -112,6 +113,7 @@
 		A46643F920224AA6003FF0CB /* ContactRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactRecord.swift; sourceTree = "<group>"; };
 		A46643FB20224AB4003FF0CB /* ContactStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactStore.swift; sourceTree = "<group>"; };
 		A46643FD2025BD20003FF0CB /* AdditionalActionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalActionsViewController.swift; sourceTree = "<group>"; };
+		A46643FF2026E6B2003FF0CB /* RecordDataSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordDataSpec.swift; sourceTree = "<group>"; };
 		A46870A820128E9F00096408 /* PromiseKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PromiseKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A46870AB2012B4AA00096408 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		A46870CC2016655600096408 /* ContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
@@ -223,6 +225,7 @@
 				A46643F620224A81003FF0CB /* Store.swift */,
 				A46643F920224AA6003FF0CB /* ContactRecord.swift */,
 				A46643FB20224AB4003FF0CB /* ContactStore.swift */,
+				A46643FF2026E6B2003FF0CB /* RecordDataSpec.swift */,
 			);
 			path = SmartSyncExplorerSwiftCommon;
 			sourceTree = "<group>";
@@ -358,6 +361,7 @@
 				A432DE0E20100FDB00A7A8D4 /* InitialViewController.swift in Sources */,
 				A46643FE2025BD20003FF0CB /* AdditionalActionsViewController.swift in Sources */,
 				A46643FA20224AA6003FF0CB /* ContactRecord.swift in Sources */,
+				A46644002026E6B2003FF0CB /* RecordDataSpec.swift in Sources */,
 				A483D407200EA27700713510 /* RootViewController.swift in Sources */,
 				A46870D32016A5B600096408 /* UniversalViewController.swift in Sources */,
 				A46643F820224A81003FF0CB /* Store.swift in Sources */,
