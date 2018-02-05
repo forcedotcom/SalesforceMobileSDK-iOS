@@ -41,9 +41,9 @@ class Store<objectType: StoreProtocol> {
     
     init() {
         // use the following to clear db during debug
-        self.store.removeAllSoups()
-        self.store.clearSoup(objectType.objectName)
-        self.store.removeSoup(objectType.objectName)
+//        self.store.removeAllSoups()
+//        self.store.clearSoup(objectType.objectName)
+//        self.store.removeSoup(objectType.objectName)
     }
 
     let sqlQueryString: String = SFRestAPI.soqlQuery(withFields: objectType.createFields, sObject: objectType.objectName, whereClause: nil, groupBy: nil, having: nil, orderBy: [objectType.orderPath], limit: 100)!
