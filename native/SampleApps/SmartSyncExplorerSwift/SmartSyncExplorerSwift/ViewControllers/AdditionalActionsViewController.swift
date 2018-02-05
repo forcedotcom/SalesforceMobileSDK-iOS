@@ -12,6 +12,7 @@ class AdditionalActionsViewController: UITableViewController {
     
     var onLogoutSelected: (() -> ())?
     var onSwitchUserSelected : (() -> ())?
+    var onDBInspectorSelected : (() -> ())?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +32,7 @@ class AdditionalActionsViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return 3
     }
 
     
@@ -45,6 +46,8 @@ class AdditionalActionsViewController: UITableViewController {
             cell.textLabel?.text = "Logout"
         } else if indexPath.row == 1 {
             cell.textLabel?.text = "Switch User"
+        } else if indexPath.row == 2 {
+            cell.textLabel?.text = "Inspect DB"
         }
 
         return cell
@@ -55,6 +58,8 @@ class AdditionalActionsViewController: UITableViewController {
             self.onLogoutSelected?()
         } else if indexPath.row == 1 {
             self.onSwitchUserSelected?()
+        } else if indexPath.row == 2 {
+            self.onDBInspectorSelected?()
         }
     }
 

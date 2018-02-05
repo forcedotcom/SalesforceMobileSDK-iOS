@@ -16,8 +16,9 @@ import SmartStore.SFSmartStoreInspectorViewController
 import SmartSyncExplorerCommon
 
 class RootViewController: UniversalViewController {
+    weak var presentedActions:AdditionalActionsViewController?
+    weak var logoutAlert:UIAlertController?
     
-    fileprivate var isSearching = false
     fileprivate var searchText:String = ""
     fileprivate let tableView = UITableView(frame: .zero, style: .plain)
     fileprivate let searchController = UISearchController(searchResultsController: nil)
@@ -71,7 +72,7 @@ class RootViewController: UniversalViewController {
     @objc func showAdditionalActions(_ sender: UIBarButtonItem) {
         let table = AdditionalActionsViewController()
         table.modalPresentationStyle = .popover
-        table.preferredContentSize = CGSize(width: 200.0, height: 88.0)
+        table.preferredContentSize = CGSize(width: 200.0, height: 132.0)
         table.onLogoutSelected = {
             table.dismiss(animated: true, completion: {
                 self.showLogoutActionSheet()
@@ -82,9 +83,14 @@ class RootViewController: UniversalViewController {
                 self.showSwitchUserController()
             })
         }
+        table.onDBInspectorSelected = {
+            table.dismiss(animated: true, completion: {
+                self.showDBInspector()
+            })
+        }
         
         self.present(table, animated: true, completion: nil)
-        
+        self.presentedActions = table
         let popover = table.popoverPresentationController
         popover?.barButtonItem = sender
     }
@@ -116,7 +122,20 @@ class RootViewController: UniversalViewController {
     @objc func clearPopoversForPasscode() {
         SFSDKLogger.log(type(of: self), level: .debug, message: "Passcode screen loading. Clearing popovers")
         
-        // TODO
+        if let alert = self.logoutAlert {
+            alert.dismiss(animated: true, completion: nil)
+        }
+        
+        self.dismissPopover()
+    }
+    
+    func dismissPopover() {
+        if let p = self.presentedActions {
+            p.dismiss(animated: true, completion: nil)
+        }
+        if let l = self.logoutAlert {
+            l.dismiss(animated: true, completion: nil)
+        }
     }
     
     fileprivate func showAlert(_ title:String, message:String) -> UIAlertController {
@@ -148,6 +167,7 @@ class RootViewController: UniversalViewController {
         let logout = UIAlertAction(title: "Logout", style: .destructive) { (action) in
             SFUserAccountManager.sharedInstance().logout()
         }
+        self.logoutAlert = alert
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alert.addAction(logout)
         alert.addAction(cancel)
@@ -159,6 +179,11 @@ class RootViewController: UniversalViewController {
             self.dismiss(animated: true, completion: nil)
         }
         self.present(controller, animated: true, completion: nil)
+    }
+    
+    fileprivate func showDBInspector() {
+        let inspector = SFSmartStoreInspectorViewController(store: ContactStore.instance.store)
+        self.present(inspector, animated: true, completion: nil)
     }
     
     override func didReceiveMemoryWarning() {
