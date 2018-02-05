@@ -10,7 +10,7 @@ ENV['IOS_VERSION'] = ' (11.2)' unless ENV.has_key?('IOS_VERSION')
 $Jenkins = ENV.has_key?('JENKINS_URL')
 
 $GITPRAPI = "https://api.github.com/repos/%s/SalesforceMobileSDK-iOS/pulls/%s/files"
-$schemes = ['SalesforceAnalytics', 'SalesforceHybridSDK', 'SalesforceReact', 'SalesforceSDKCore', 'SmartStore', 'SmartSync']
+$schemes = ['SalesforceAnalytics', 'SalesforceHybridSDK', 'SalesforceReact', 'SalesforceSDKCore', 'SmartStore', 'SmartSync', 'SalesforceSwiftSDK']
 $schemesWithUnitTests = Array.new($schemes)
 $schemesWithUnitTests.push("UnitTests")
 
@@ -31,19 +31,6 @@ def combinePackagesOfXML(toFile, files)
   end
   File.write(toFile, toDoc.to_xml)
 end
-
-def runDanger
-  begin
-    danger(
-        danger_id: "CI-result",
-        dangerfile: ".circleci/Dangerfile-Lib.rb",
-        github_api_token: ENV["DANGER_GITHUB_API_TOKEN"]
-    )
-  rescue => ex
-    UI.error(ex)
-  end
-end
-
 
 def testScheme(scheme)
   begin
@@ -165,9 +152,24 @@ lane :PR do |options|
   lib_to_test = options[:lib]
   if lib_to_test.nil?
     # The old Jenkins way
+    danger(
+        danger_id: "PR-Check",
+        dangerfile: ".circleci/Dangerfile-PR.rb",
+        github_api_token: ENV["DANGER_GITHUB_API_TOKEN"]
+    )
+
     for scheme in schemes
       testScheme(scheme)
-      runDanger
+
+      begin
+        danger(
+            danger_id: "CI-Result-#{scheme}",
+            dangerfile: ".circleci/Dangerfile-Lib.rb",
+            github_api_token: ENV["DANGER_GITHUB_API_TOKEN"]
+        )
+      rescue => ex
+        UI.error(ex)
+      end
     end
   else
     # The new CircleCI way
