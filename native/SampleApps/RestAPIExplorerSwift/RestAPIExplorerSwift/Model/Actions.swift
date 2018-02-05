@@ -1,11 +1,9 @@
-//
-//  Actions.swift
-//  RestAPIExplorerSwift
-//
-//  Created by Nicholas McDonald on 1/10/18.
-//  Copyright © 2018 Salesforce. All rights reserved.
-//
 /*
+ Actions.swift
+ RestAPIExplorerSwift
+
+ Created by Nicholas McDonald on 1/10/18.
+ 
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,

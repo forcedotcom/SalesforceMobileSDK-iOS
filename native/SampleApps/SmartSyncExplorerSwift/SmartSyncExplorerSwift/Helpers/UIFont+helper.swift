@@ -1,11 +1,9 @@
-//
-//  UIFont+helper.swift
-//  SmartSyncExplorerSwift
-//
-//  Created by Nicholas McDonald on 12/6/17.
-//  Copyright © 2017 Salesforce. All rights reserved.
-//
 /*
+ UIFont+helper.swift
+ SmartSyncExplorerSwift
+
+ Created by Nicholas McDonald on 12/6/17.
+
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,

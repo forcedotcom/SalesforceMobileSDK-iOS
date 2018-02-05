@@ -1,11 +1,9 @@
-//
-//  IDPLoginNavViewController.swift
-//  RestAPIExplorerSwift
-//
-//  Created by Nicholas McDonald on 1/15/18.
-//  Copyright © 2018 Salesforce. All rights reserved.
-//
 /*
+ IDPLoginNavViewController.swift
+ RestAPIExplorerSwift
+
+ Created by Nicholas McDonald on 1/15/18.
+
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,

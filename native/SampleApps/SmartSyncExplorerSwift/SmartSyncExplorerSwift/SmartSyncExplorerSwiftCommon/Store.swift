@@ -1,9 +1,9 @@
-//
-//  Store.swift
-//  SmartSyncExplorerSwift
-//
-//  Created by David Vieser on 9/27/17.
 /*
+ Store.swift
+ SmartSyncExplorerSwift
+
+ Created by David Vieser on 9/27/17.
+ 
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
