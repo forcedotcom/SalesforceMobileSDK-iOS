@@ -41,6 +41,7 @@ class ContactDetailViewController: UniversalViewController {
     fileprivate var isEditingContact:Bool = false
     fileprivate var isContactUpdated:Bool = false
     fileprivate var contact:ContactRecord?
+    fileprivate var store:ContactStore
     fileprivate var completion: ContactDetailEditCompletion?
     
     fileprivate var firstNameField:UITextField!
@@ -51,7 +52,8 @@ class ContactDetailViewController: UniversalViewController {
     fileprivate var emailField:UITextField!
     fileprivate var departmentField:UITextField!
     
-    init(_ contact: ContactRecord?, completion:ContactDetailEditCompletion?) {
+    init(_ contact: ContactRecord?, store:ContactStore, completion:ContactDetailEditCompletion?) {
+        self.store = store
         super.init(nibName: nil, bundle: nil)
         self.completion = completion
         if let c = contact {
@@ -236,7 +238,7 @@ class ContactDetailViewController: UniversalViewController {
     @objc func userDidPressDelete() {
         self.endEditingFields()
         if let c = self.contact {
-            ContactStore.instance.deleteEntryLocally(entry: c)
+            self.store.deleteEntryLocally(entry: c)
         }
         self.completeEditing()
     }
@@ -244,7 +246,7 @@ class ContactDetailViewController: UniversalViewController {
     @objc func userDidPressUndelete() {
         self.endEditingFields()
         if let c = self.contact {
-            ContactStore.instance.undeleteEntryLocally(entry: c)
+            self.store.undeleteEntryLocally(entry: c)
         }
         self.completeEditing()
     }
@@ -284,9 +286,9 @@ class ContactDetailViewController: UniversalViewController {
         
         if contactUpdated {
             if self.isNewContact {
-                ContactStore.instance.createEntryLocally(entry: c)
+                self.store.createEntryLocally(entry: c)
             } else {
-                ContactStore.instance.updateEntryLocally(entry: c)
+                self.store.updateEntryLocally(entry: c)
             }
             self.completeEditing()
         } else {

@@ -40,6 +40,7 @@ class RootViewController: UniversalViewController {
     weak var presentedActions:AdditionalActionsViewController?
     weak var logoutAlert:UIAlertController?
     
+    fileprivate var store:ContactStore
     fileprivate var searchText:String = ""
     fileprivate let tableView = UITableView(frame: .zero, style: .plain)
     fileprivate let searchController = UISearchController(searchResultsController: nil)
@@ -47,6 +48,15 @@ class RootViewController: UniversalViewController {
 
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    init(_ store:ContactStore) {
+        self.store = store
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
@@ -117,7 +127,7 @@ class RootViewController: UniversalViewController {
     }
     
     @objc func didPressAddContact() {
-        let detailVC = ContactDetailViewController(nil) {
+        let detailVC = ContactDetailViewController(nil, store: self.store) {
             self.refreshList()
         }
         self.navigationController?.pushViewController(detailVC, animated: true)
@@ -125,7 +135,7 @@ class RootViewController: UniversalViewController {
     
     @objc func didPressSyncUpDown() {
         let alert = self.showAlert("Syncing", message: "Syncing with Salesforce")
-        ContactStore.instance.syncUp { (syncState) in
+        self.store.syncUp { (syncState) in
             DispatchQueue.main.async {
                 guard let state = syncState else {return}
                 if state.isDone() {
@@ -174,8 +184,8 @@ class RootViewController: UniversalViewController {
     }
     
     fileprivate func refreshList() {
-        ContactStore.instance.syncDown { (syncState) in
-            let storeRows = ContactStore.instance.getRecords()
+        self.store.syncDown { (syncState) in
+            let storeRows = self.store.getRecords()
             DispatchQueue.main.async {
                 self.contacts = storeRows
                 self.tableView.reloadData()
@@ -203,7 +213,7 @@ class RootViewController: UniversalViewController {
     }
     
     fileprivate func showDBInspector() {
-        let inspector = SFSmartStoreInspectorViewController(store: ContactStore.instance.store)
+        let inspector = SFSmartStoreInspectorViewController(store: self.store.store)
         self.present(inspector, animated: true, completion: nil)
     }
     
@@ -216,10 +226,10 @@ class RootViewController: UniversalViewController {
 extension RootViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         if let search = searchController.searchBar.text, search.isEmpty == false {
-            let searchRecords = ContactStore.instance.filter(search)
+            let searchRecords = self.store.filter(search)
             self.contacts = searchRecords
         } else {
-            self.contacts = ContactStore.instance.getRecords()
+            self.contacts = self.store.getRecords()
         }
         self.tableView.reloadData()
     }
@@ -232,7 +242,7 @@ extension RootViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let contact = self.contacts[indexPath.row]
-        let detail = ContactDetailViewController(contact) {
+        let detail = ContactDetailViewController(contact, store:self.store) {
             tableView.beginUpdates()
             tableView.reloadRows(at: [indexPath], with: .automatic)
             tableView.endUpdates()

@@ -30,5 +30,4 @@
 import Foundation
 
 class ContactStore: Store<ContactRecord> {
-    static let instance = ContactStore()
 }
