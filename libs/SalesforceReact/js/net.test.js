@@ -122,6 +122,11 @@ testCreateRetrieve = () => {
             assert.equal(response.Id, contactId, 'Wrong id');
             assert.equal(response.FirstName, firstName, 'Wrong first name');
             assert.equal(response.LastName, lastName, 'Wrong last name');
+
+            // Cleanup
+            return netDel('contact', contactId);
+        })
+        .then(() => {
             testDone();
         });
 };
@@ -146,6 +151,11 @@ testUpsertUpdateRetrieve = () => {
             assert.equal(response.Id, contactId, 'Wrong id');
             assert.equal(response.FirstName, firstName, 'Wrong first name');
             assert.equal(response.LastName, lastNameUpdated, 'Wrong last name');
+
+            // Cleanup
+            return netDel('contact', contactId);
+        })
+        .then(() => {
             testDone();
         });
 };
