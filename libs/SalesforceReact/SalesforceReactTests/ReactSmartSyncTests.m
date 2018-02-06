@@ -50,7 +50,8 @@
 
 #pragma mark - JS tests
 
-RCT_TEST(PlaceHolder)
+RCT_TEST(SyncUp)
+RCT_TEST(SyncDown)
 
 @end
 
