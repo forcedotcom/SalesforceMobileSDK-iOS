@@ -26,127 +26,104 @@
 
 import { assert } from 'chai';
 import { registerTest, testDone } from './react.force.test';
+import { promiser }  from './react.force.util';
 import { net } from 'react-native-force';
+
+// Promised based bridge functions for more readable tests
+netVersions = promiser(net.versions);
+netResources = promiser(net.resources);
+netDescribeGlobal = promiser(net.describeGlobal);
+netMetadata = promiser(net.metadata);
+netDescribe = promiser(net.describe);
+netDescribeLayout = promiser(net.describeLayout);
+netCreate = promiser(net.create);
+netRetrieve = promiser(net.retrieve);
+netUpsert = promiser(net.upsert);
+netUpdate = promiser(net.update);
+netDel = promiser(net.del);
+netQuery = promiser(net.query);
+netSearch = promiser(net.search);
+
 
 const apiVersion = 'v42.0';
 
 testGetApiVersion = () => {
     assert.equal(net.getApiVersion(), apiVersion);
+    testDone();
 };
 
 testVersions = () => {
-    net.versions(
-        (response) => {
+    netVersions()
+        .then((response) => {
             assert.deepEqual(response[response.length-1], {'label':'Spring ’18','url':'/services/data/v42.0','version':'42.0'}, 'Wrong latest version');
             testDone();
-        },
-        (error) => { throw error; }
-    );
-    
-    return false; // not done
+        });
 };
 
 testResources = () => {
-    net.resources(
-        (response) => {
+    netResources()
+        .then((response) => {
             assert.equal(response.connect, '/services/data/' + apiVersion + '/connect', 'Wrong url for connect resource');
             testDone();
-        },
-        (error) => { throw error; }
-    );
-    
-    return false; // not done
+        });
 };
 
 testDescribeGlobal = () => {
-    net.describeGlobal(
-        (response) => {
+    netDescribeGlobal()
+        .then((response) => {
             assert.isArray(response.sobjects, 'Expected sobjects array');
             testDone();
-        },
-        (error) => { throw error; }
-    );
-    
-    return false; // not done
+        });
 };
 
 testMetaData = () => {
-    net.metadata(
-        'account',
-        (response) => {
+    netMetadata('account')
+        .then((response) => {
             assert.isObject(response.objectDescribe, 'Expected objectDescribe object');
             assert.isArray(response.recentItems, 'Expected recentItems array');
             testDone();
-        },
-        (error) => { throw error; }
-    );
-    
-    return false; // not done
+        });
 };
 
 testDescribe = () => {
-    net.describe(
-        'account',
-        (response) => {
+    netDescribe('account')
+        .then((response) => {
             assert.isFalse(response.custom, 'Expected custom to be false');
             assert.isArray(response.fields, 'Expected fields array');
             testDone();
-        },
-        (error) => { throw error; }
-    );
-    
-    return false; // not done
+        });
 };
 
 testDescribeLayout = () => {
-    net.describe(
-        'account',
-        (response) => {
+    netDescribe('account')
+        .then((response) => {
             const recordId = response.recordTypeInfos[0].recordTypeId;
-            net.describeLayout(
-                'account',
-                recordId,
-                (response) => {
-                    assert.isArray(response.relatedLists, 'Expected relatedLists array');
-                    testDone();
-                },
-                (error) => { throw error; }
-            );
-        },
-        (error) => { throw error; }
-    );
-    
-    return false; // not done
+            return netDescribeLayout('account', recordId);
+        })
+        .then((response) => {
+            assert.isArray(response.relatedLists, 'Expected relatedLists array');
+            testDone();
+        });
 };
 
 testCreateRetrieve = () => {
     const uniq = Math.floor(Math.random() * 1000000);
     const firstName = 'First_' + uniq;
     const lastName = 'Last_' + uniq;
+    var contactId;
     
-    net.create(
-        'contact',
-        {FirstName: firstName, LastName: lastName},
-        (response) => {
+    netCreate('contact', {FirstName: firstName, LastName: lastName})
+        .then((response) => {
             assert.isTrue(response.success, 'Create failed');
-            const contactId = response.id;
-            net.retrieve(
-                'contact',
-                contactId,
-                'firstName,lastName',
-                (response) => {
-                    assert.equal(response.Id, contactId, 'Wrong id');
-                    assert.equal(response.FirstName, firstName, 'Wrong first name');
-                    assert.equal(response.LastName, lastName, 'Wrong last name');
-                    testDone();
-                },
-                (error) => { throw error; }
-            );
-        },
-        (error) => { throw error; }
-    );
-
-    return false; // not done
+            contactId = response.id;
+            return netRetrieve('contact', contactId, 'firstName,lastName');
+        })
+        .then((response) => {
+            assert.equal(response.Id, contactId, 'Wrong id');
+            assert.equal(response.FirstName, firstName, 'Wrong first name');
+            assert.equal(response.LastName, lastName, 'Wrong last name');
+            testDone();
+        });
 };
 
 testUpsertUpdateRetrieve = () => {
@@ -154,106 +131,65 @@ testUpsertUpdateRetrieve = () => {
     const firstName = 'First_' + uniq;
     const lastName = 'Last_' + uniq;
     const lastNameUpdated = lastName + '_updated';
+    var contactId;
     
-    net.upsert(
-        'contact',
-        'Id',
-        '',
-        {FirstName: firstName, LastName: lastName},
-        (response) => {
+    netUpsert('contact', 'Id', '', {FirstName: firstName, LastName: lastName})
+        .then((response) => {
             assert.isTrue(response.success, 'Upsert failed');
-            const contactId = response.id;
-            net.update(
-                'Contact',
-                contactId,
-                {LastName: lastNameUpdated},
-                () => {
-                    net.retrieve(
-                        'contact',
-                        contactId,
-                        'firstName,lastName',
-                        (response) => {
-                            assert.equal(response.Id, contactId, 'Wrong id');
-                            assert.equal(response.FirstName, firstName, 'Wrong first name');
-                            assert.equal(response.LastName, lastNameUpdated, 'Wrong last name');
-                            testDone();
-                        },
-                        (error) => { throw error; }
-                    );
-                },
-                (error) => { throw error; }
-            );
-        },
-        (error) => { throw error; }
-    );
-
-    return false; // not done
+            contactId = response.id;
+            return netUpdate('Contact', contactId, {LastName: lastNameUpdated});
+        })
+        .then(() => {
+            return netRetrieve('contact', contactId, 'firstName,lastName');
+        })
+        .then((response) => {
+            assert.equal(response.Id, contactId, 'Wrong id');
+            assert.equal(response.FirstName, firstName, 'Wrong first name');
+            assert.equal(response.LastName, lastNameUpdated, 'Wrong last name');
+            testDone();
+        });
 };
 
 testCreateDelRetrieve = () => {
     const uniq = Math.floor(Math.random() * 1000000);
     const firstName = 'First_' + uniq;
     const lastName = 'Last_' + uniq;
+    var contactId;
     
-    net.create(
-        'contact',
-        {FirstName: firstName, LastName: lastName},
-        (response) => {
+    netCreate('contact', {FirstName: firstName, LastName: lastName})
+        .then((response) => {
             assert.isTrue(response.success, 'Create failed');
-            const contactId = response.id;
-            net.del(
-                'contact',
-                contactId,
-                () => {
-                    net.retrieve(
-                        'contact',
-                        contactId,
-                        'firstName,lastName',
-                        (response) => {
-                            assert.fail('Retrieve following delete should have 404ed');
-                        },
-                        (error) => {
-                            assert.include(error.message, 'Code=404', 'Retrieve following delete should have 404ed');
-                            testDone();
-                        }
-                    );
-
-                },
-                (error) => { throw error; }
-            );
-        },
-        (error) => { throw error; }
-    );
-
-    return false; // not done
+            contactId = response.id;
+            return netDel('contact', contactId);
+        })
+        .then(() => {
+            return netRetrieve('contact', contactId, 'firstName,lastName');
+        })
+        .then((response) => {
+            throw 'Retrieve following delete should have 404ed';
+        })
+        .catch((error) => {
+            assert.include(error.message, 'Code=404', 'Retrieve following delete should have 404ed');
+            testDone();
+        });
 };
 
 testQuery = () => {
-    net.query(
-        'SELECT FirstName, LastName FROM Contact LIMIT 5',
-        (response) => {
+    netQuery('SELECT FirstName, LastName FROM Contact LIMIT 5')
+        .then((response) => {
             assert.isArray(response.records, 'Expected records');
             assert.isTrue(response.done, 'Expected done to be true');
             assert.isNumber(response.totalSize, 'Expected totalSize');
             testDone();
-        },
-        (error) => { throw error; }
-    );
-
-    return false; // not done
+        });
 };
 
 testSearch = () => {
-    net.search(
-        'FIND {Joe} IN NAME FIELDS RETURNING Contact',
-        (response) => {
+    netSearch('FIND {Joe} IN NAME FIELDS RETURNING Contact')
+        .then((response) => {
             assert.isArray(response.searchRecords, 'Expected searchRecords');
             testDone();
-        },
-        (error) => { throw error; }
-    );
-
-    return false; // not done
+        });
 };
 
 

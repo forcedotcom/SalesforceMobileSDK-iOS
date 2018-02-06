@@ -24,34 +24,36 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import { assert } from 'chai';
-import { registerTest, testDone } from './react.force.test';
-import { oauth } from 'react-native-force';
+import React from 'react';
+export const promiser = (func) => {
+    var retfn = function() {
+        var args = Array.prototype.slice.call(arguments);
 
-testPassing = () => {
-    assert(true, "testPassing should have succeeded");
-    testDone();
+        return new Promise(function(resolve, reject) {
+            args.push(function() {
+                console.debug("------> Calling successCB for " + func.name);
+                try {
+                    resolve.apply(null, arguments);
+                }
+                catch (err) {
+                    console.error("------> Error when calling successCB for " + func.name);
+                    console.error(err.stack);
+                }
+            });
+            args.push(function() {
+                console.debug("------> Calling errorCB for " + func.name);
+                try {
+                    reject.apply(null, arguments);
+                }
+                catch (err) {
+                    console.error("------> Error when calling errorCB for " + func.name);
+                    console.error(err.stack);
+                }
+            });
+            console.debug("-----> Calling " + func.name);
+            func.apply(null, args);
+        });
+    };
+    return retfn;
 };
 
-testFailing = () => {
-    assert(false, "FAKE_FAILURE");
-};
-
-testAsyncPassing = () => {
-    oauth.getAuthCredentials(
-        (creds) => { testDone(); },
-        (error) => { throw error; }
-    );
-};
-
-testAsyncFailing = () => {
-    oauth.getAuthCredentials(
-        (creds) => { assert(false, "FAKE_FAILURE"); },
-        (error) => { throw error; }
-    );
-};
-
-registerTest(testPassing);
-registerTest(testFailing);
-registerTest(testAsyncPassing);
-registerTest(testAsyncFailing);

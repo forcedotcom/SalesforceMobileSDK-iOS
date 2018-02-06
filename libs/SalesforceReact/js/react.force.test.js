@@ -32,9 +32,7 @@ const createReactClass = require('create-react-class');
 const componentForTest = (test) => {
     return createReactClass({
         componentDidMount() {
-            if (test() != false) {
-                testDone();
-            }
+            test(); // NB: test must call testDone() when it completes
         },
         
         render() {
