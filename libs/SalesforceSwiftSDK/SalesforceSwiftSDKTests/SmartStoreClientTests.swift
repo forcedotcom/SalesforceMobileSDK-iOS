@@ -158,5 +158,111 @@ class SmartStoreClientTests: SalesforceSwiftSDKBaseTest {
         self.wait(for: [expectation], timeout: 10)
     }
     
+    func testCountQuerySpecBuilder() {
+        let spec =  SFQuerySpec.Builder(soupName: "chickensoup")
+            .queryType(value: "range")
+            .path(value: "wings")
+            .beginKey(value: "1")
+            .endKey(value: "2")
+            .pageSize(value: 1)
+            .build()
+        XCTAssertEqual("SELECT count(*) FROM {chickensoup} WHERE {chickensoup:wings} >= ? AND {chickensoup:wings} <= ?", spec.countSmartSql.trimmingCharacters(in: .whitespacesAndNewlines))
+    }
+    
+    func testSmartSqlWithSelectPathsQuerySpecBuilder() {
+        let spec =  SFQuerySpec.Builder(soupName: "chickensoup")
+            .queryType(value: "range")
+            .selectedPaths(value: ["wings", "legs", "qty"])
+            .orderPath(value: "qty")
+            .order(value: "ascending")
+            .pageSize(value: 1)
+            .build()
+        XCTAssertEqual("SELECT {chickensoup:wings}, {chickensoup:legs}, {chickensoup:qty} FROM {chickensoup} ORDER BY {chickensoup:qty} ASC", spec.smartSql.trimmingCharacters(in: .whitespacesAndNewlines))
+    }
+    
+    func testAllQuerySmartSql() {
+        let spec =  SFQuerySpec.Builder(soupName: "chickensoup")
+            .queryType(value: "range")
+            .orderPath(value: "wings")
+            .order(value: "descending")
+            .pageSize(value: 1)
+            .build()
+        
+        XCTAssertEqual("SELECT {chickensoup:_soup} FROM {chickensoup} ORDER BY {chickensoup:wings} DESC", spec.smartSql.trimmingCharacters(in: .whitespacesAndNewlines))
+    }
+    
+    func testAllQuerySmartSqlWithSelectPaths() {
+        let spec =  SFQuerySpec.Builder(soupName: "chickensoup")
+            .queryType(value: "range")
+            .selectedPaths(value: ["wings", "legs", "qty"])
+            .orderPath(value: "qty")
+            .order(value: "descending")
+            .pageSize(value: 1)
+            .build()
+        
+        XCTAssertEqual("SELECT {chickensoup:wings}, {chickensoup:legs}, {chickensoup:qty} FROM {chickensoup} ORDER BY {chickensoup:qty} DESC", spec.smartSql.trimmingCharacters(in: .whitespacesAndNewlines))
+    }
+    
+    func testAllQueryCountSmartSql() {
+        let spec =  SFQuerySpec.Builder(soupName: "chickensoup")
+            .queryType(value: "range")
+            .path(value: "qty")
+            .orderPath(value: "qty")
+            .order(value: "descending")
+            .pageSize(value: 1)
+            .build()
+        XCTAssertEqual("SELECT count(*) FROM {chickensoup}", spec.countSmartSql.trimmingCharacters(in: .whitespacesAndNewlines))
+    }
+    
+    func testAllQueryIdsSmartSql() {
+        let spec =  SFQuerySpec.Builder(soupName: "chickensoup")
+            .queryType(value: "range")
+            .path(value: "qty")
+            .orderPath(value: "qty")
+            .order(value: "descending")
+            .pageSize(value: 1)
+            .build()
+        
+        XCTAssertEqual("SELECT id FROM {chickensoup} ORDER BY {chickensoup:qty} DESC", spec.idsSmartSql.trimmingCharacters(in: .whitespacesAndNewlines))
+    }
+    
+    
+    func testExactQueryIdsSmartSql() {
+        let spec =  SFQuerySpec.Builder(soupName: "chickensoup")
+            .queryType(value: "exact")
+            .path(value: "wings")
+            .beginKey(value: "1")
+            .endKey(value: "2")
+            .pageSize(value: 1)
+            .build()
+        XCTAssertEqual("SELECT id FROM {chickensoup} WHERE {chickensoup:wings} = ?", spec.idsSmartSql.trimmingCharacters(in: .whitespacesAndNewlines))
+    }
+    
+    func testMatchQuerySmartSql() {
+        let spec =  SFQuerySpec.Builder(soupName: "chickensoup")
+            .queryType(value: "match")
+            .path(value: "wings")
+            .orderPath(value: "wings")
+            .order(value: "ascending")
+            .matchKey(value: "2")
+            .pageSize(value: 1)
+            .build()
+        XCTAssertEqual("SELECT {chickensoup:_soup} FROM {chickensoup} WHERE {chickensoup:_soupEntryId} IN (SELECT rowid FROM {chickensoup}_fts WHERE {chickensoup}_fts MATCH '{chickensoup:wings}:2') ORDER BY {chickensoup:wings} ASC", spec.smartSql.trimmingCharacters(in: .whitespacesAndNewlines))
+    }
+    
+    func testMatchQuerySmartSqlWithSelectPaths() {
+        let spec =  SFQuerySpec.Builder(soupName: "chickensoup")
+            .queryType(value: "match")
+            .selectedPaths(value: ["wings", "legs", "qty"])
+            .path(value: "wings")
+            .matchKey(value: "2")
+            .order(value: "ascending")
+            .orderPath(value: "legs")
+            .pageSize(value: 1)
+            .build()
+        
+        XCTAssertEqual("SELECT {chickensoup:wings}, {chickensoup:legs}, {chickensoup:qty} FROM {chickensoup} WHERE {chickensoup:_soupEntryId} IN (SELECT rowid FROM {chickensoup}_fts WHERE {chickensoup}_fts MATCH '{chickensoup:wings}:2') ORDER BY {chickensoup:legs} ASC", spec.smartSql.trimmingCharacters(in: .whitespacesAndNewlines))
+    }
+    
 }
 

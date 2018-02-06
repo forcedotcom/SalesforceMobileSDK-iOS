@@ -38,13 +38,13 @@ extension SFQuerySpec {
      Builder class to build a querySpec
      
      ```
-      var querySpec =  SFQuerySpec.Builder().
-                                 .queryType()
-                                 .smartSql()
-                                 .pageSize()
-                                 .soupName()
-                                 .selectedPaths()
-                                 ....
+     var querySpec =  SFQuerySpec.Builder(soupName: "chickensoup")
+                                 .queryType(value: "match")
+                                 .path(value: "wings")
+                                 .orderPath(value: "wings")
+                                 .order(value: "ascending")
+                                 .matchKey(value: "2")
+                                 .pageSize(value: 1)
                                  .build()
      ```
      */
@@ -71,7 +71,7 @@ extension SFQuerySpec {
             return self
         }
         
-        public func selectedPaths(value: [Any]) -> Self {
+        public func selectedPaths(value: [String]) -> Self {
             queryDict[kQuerySpecParamSelectPaths] = value
             return self
         }
@@ -108,7 +108,7 @@ extension SFQuerySpec {
             return self
         }
         
-        public func order(value: SFSoupQuerySortOrder) ->Self {
+        public func order(value: String) -> Self {
             queryDict[kQuerySpecParamOrder] = value
             return self
         }
@@ -287,7 +287,7 @@ extension SFSmartStore {
             - pageIndex: Page number for records.
          - Returns: Integer wrapped in a promise indicating count.
          */
-        public func query(querySpec: SFQuerySpec, pageIndex: UInt) throws -> Promise<[Any]> {
+        public func query(querySpec: SFQuerySpec, pageIndex: UInt)  -> Promise<[Any]> {
             return Promise(.pending) {  resolver in
                 var result: [Any]?
                 var error: NSError?
@@ -318,11 +318,11 @@ extension SFSmartStore {
              - soupName: Nameof Soup.
          - Returns: Upserted entries wrapped in a promise.
          */
-        public func upsertEntries(entries: [Any],soupName: String) -> Promise<[Any]> {
+        public func upsertEntries(entries: [Any],soupName: String) -> Promise<[[String:Any]]> {
             return Promise(.pending) {  resolver in
                 var result: [Any] = []
                 result = self.api!.upsertEntries(entries, toSoup: soupName)
-                resolver.fulfill(result)
+                resolver.fulfill(result as! [[String:Any]])
             }
         }
         
@@ -341,7 +341,7 @@ extension SFSmartStore {
              - externalIdPath: External ID Path
          - Returns: Upserted entries wrapped in a promise.
          */
-        public func upsertEntries(entries: [Any], soupName: String, externalIdPath: String)  -> Promise<[Any]> {
+        public func upsertEntries(entries: [Any], soupName: String, externalIdPath: String)  -> Promise<[[String:Any]]> {
             return Promise(.pending) {  resolver in
                  var result: [Any] = []
                  var error: NSError?
@@ -349,7 +349,7 @@ extension SFSmartStore {
                 if let error = error {
                     resolver.reject(error)
                 } else {
-                    resolver.fulfill(result)
+                    resolver.fulfill(result as! [[String:Any]])
                 }
             }
         }
