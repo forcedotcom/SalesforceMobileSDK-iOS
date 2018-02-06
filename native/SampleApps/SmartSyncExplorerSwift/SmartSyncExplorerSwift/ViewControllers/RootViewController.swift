@@ -79,7 +79,7 @@ class RootViewController: UniversalViewController {
         self.navigationItem.rightBarButtonItems = [settingsButton, syncButton, addButton]
         
         self.searchController.searchResultsUpdater = self
-        self.searchController.dimsBackgroundDuringPresentation = true
+        self.searchController.dimsBackgroundDuringPresentation = false
         self.definesPresentationContext = true
         
         self.tableView.tableHeaderView = self.searchController.searchBar
@@ -266,6 +266,7 @@ extension RootViewController: UITableViewDataSource {
             cell.backgroundColor = UIColor.clear
         }
         cell.showRefresh = contact.locallyUpdated
+        cell.showCreated = contact.locallyCreated
         cell.title = ContactHelper.nameStringFromContact(contact)
         cell.subtitle = ContactHelper.titleStringFromContact(contact)
         cell.leftImage = ContactHelper.initialsImage(ContactHelper.colorFromContact(contact), initials: ContactHelper.initialsStringFromContact(contact))

@@ -54,10 +54,17 @@ class ContactTableViewCell: UITableViewCell {
         }
     }
     
+    var showCreated:Bool = false {
+        didSet {
+            self.rightCreatedImageView.alpha = showCreated ? 1.0 : 0.0
+        }
+    }
+    
     fileprivate var leftImageView = UIImageView()
     fileprivate var titleLabel = UILabel()
     fileprivate var detailLabel = UILabel()
     fileprivate var rightRefreshImageView = UIImageView()
+    fileprivate var rightCreatedImageView = UIImageView()
     fileprivate var rightArrowImageView = UIImageView()
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -67,19 +74,24 @@ class ContactTableViewCell: UITableViewCell {
         self.titleLabel.translatesAutoresizingMaskIntoConstraints = false
         self.detailLabel.translatesAutoresizingMaskIntoConstraints = false
         self.rightRefreshImageView.translatesAutoresizingMaskIntoConstraints = false
+        self.rightCreatedImageView.translatesAutoresizingMaskIntoConstraints = false
         self.rightArrowImageView.translatesAutoresizingMaskIntoConstraints = false
         
         self.titleLabel.font = UIFont.appRegularFont(16)
         self.titleLabel.textColor = UIColor.contactCellTitle
         self.detailLabel.font = UIFont.appRegularFont(12)
         self.detailLabel.textColor = UIColor.contactCellSubtitle
-        self.rightRefreshImageView.image = UIImage(named: "sync")
+        self.rightRefreshImageView.image = UIImage(named: "sync")?.withRenderingMode(.alwaysTemplate)
+        self.rightRefreshImageView.tintColor = UIColor.appBlue
+        self.rightCreatedImageView.image = UIImage(named: "plusButton")?.withRenderingMode(.alwaysTemplate)
+        self.rightCreatedImageView.tintColor = UIColor.appBlue
         self.rightArrowImageView.image = UIImage(named: "rightArrow")
         
         self.contentView.addSubview(self.leftImageView)
         self.contentView.addSubview(self.titleLabel)
         self.contentView.addSubview(self.detailLabel)
         self.contentView.addSubview(self.rightRefreshImageView)
+        self.contentView.addSubview(self.rightCreatedImageView)
         self.contentView.addSubview(self.rightArrowImageView)
         
         self.leftImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 24).isActive = true
@@ -90,10 +102,14 @@ class ContactTableViewCell: UITableViewCell {
         self.detailLabel.topAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant:3).isActive = true
         self.rightArrowImageView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant:-24).isActive = true
         self.rightArrowImageView.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
-        self.rightRefreshImageView.rightAnchor.constraint(equalTo: self.rightArrowImageView.leftAnchor, constant: -10.0).isActive = true
+        self.rightRefreshImageView.rightAnchor.constraint(equalTo: self.rightArrowImageView.leftAnchor, constant: -12.0).isActive = true
         self.rightRefreshImageView.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
         self.rightRefreshImageView.heightAnchor.constraint(equalToConstant: 16.0).isActive = true
         self.rightRefreshImageView.widthAnchor.constraint(equalToConstant: 16.0).isActive = true
+        self.rightCreatedImageView.rightAnchor.constraint(equalTo: self.rightRefreshImageView.leftAnchor, constant: -12.0).isActive = true
+        self.rightCreatedImageView.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
+        self.rightCreatedImageView.heightAnchor.constraint(equalToConstant: 16.0).isActive = true
+        self.rightCreatedImageView.widthAnchor.constraint(equalToConstant: 16.0).isActive = true
         
     }
     

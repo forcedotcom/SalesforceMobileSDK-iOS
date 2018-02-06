@@ -200,7 +200,7 @@ class Store<objectType: StoreProtocol> {
     }
     
     func getRecords() -> [objectType] {
-        let query:SFQuerySpec = SFQuerySpec.newSmartQuerySpec(queryString, withPageSize: pageSize)!
+        let query = SFQuerySpec.newAllQuerySpec(objectType.objectName, withOrderPath: objectType.orderPath, with: .ascending, withPageSize: self.pageSize)
         var error: NSError? = nil
         let results: [Any] = store.query(with: query, pageIndex: 0, error: &error)
         guard error == nil else {
