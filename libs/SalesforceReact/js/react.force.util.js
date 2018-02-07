@@ -25,13 +25,14 @@
  */
 
 import React from 'react';
+const timer = require('react-native-timer');
+
 export const promiser = (func) => {
     var retfn = function() {
         var args = Array.prototype.slice.call(arguments);
 
         return new Promise(function(resolve, reject) {
             args.push(function() {
-                console.debug("------> Calling successCB for " + func.name);
                 try {
                     resolve.apply(null, arguments);
                 }
@@ -41,7 +42,6 @@ export const promiser = (func) => {
                 }
             });
             args.push(function() {
-                console.debug("------> Calling errorCB for " + func.name);
                 try {
                     reject.apply(null, arguments);
                 }
@@ -57,3 +57,13 @@ export const promiser = (func) => {
     return retfn;
 };
 
+
+export const timeoutPromiser = (millis) => {
+    return new Promise((resolve, reject) => {
+        timer.setTimeout(
+            'timeoutTimer',
+            () => {resolve(); },
+            millis
+        );
+    });
+};

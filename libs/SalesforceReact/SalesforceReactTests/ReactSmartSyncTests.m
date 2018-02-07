@@ -24,6 +24,7 @@
 
 #import <UIKit/UIKit.h>
 #import <SmartStore/SmartStore.h>
+#import <SmartSync/SmartSync.h>
 #import "ReactTestCase.h"
 
 @interface ReactSmartSyncTests : ReactTestCase
@@ -44,6 +45,7 @@
 }
 
 - (void)tearDown {
+    [SFSmartSyncSyncManager removeSharedInstances];
     [SFSmartStore removeAllStores];
     [super tearDown];
 }
@@ -52,6 +54,9 @@
 
 RCT_TEST(SyncUp)
 RCT_TEST(SyncDown)
+RCT_TEST(ReSync)
+RCT_TEST(CleanResyncGhosts)
+RCT_TEST(GetSyncStatusDeleteSync)
 
 @end
 
