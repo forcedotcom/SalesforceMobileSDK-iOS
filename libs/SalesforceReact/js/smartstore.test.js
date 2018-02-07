@@ -118,17 +118,17 @@ testUpsertRetrieve = () => {
             return upsertSoupEntries(storeConfig, soupName, [{Name:'Aaa'}, {Name:'Bbb'}, {Name:'Ccc'}]);
         })
         .then((result) => {
-            assert.equal(3, result.length, 'Wrong number of entries');
-            assert.equal('Aaa', result[0].Name);
-            assert.equal('Bbb', result[1].Name);
-            assert.equal('Ccc', result[2].Name);
+            assert.equal(result.length, 3, 'Wrong number of entries');
+            assert.equal(result[0].Name, 'Aaa');
+            assert.equal(result[1].Name, 'Bbb');
+            assert.equal(result[2].Name, 'Ccc');
 
             return retrieveSoupEntries(storeConfig, soupName, [result[0]._soupEntryId,result[2]._soupEntryId]);
         })
         .then((result) => {
-            assert.equal(2, result.length, 'Wrong number of entries');
-            assert.equal('Aaa', result[0].Name);
-            assert.equal('Ccc', result[1].Name);
+            assert.equal(result.length, 2, 'Wrong number of entries');
+            assert.equal(result[0].Name, 'Aaa');
+            assert.equal(result[1].Name, 'Ccc');
             testDone();
         });
 };
@@ -146,13 +146,12 @@ testQuerySoup = () => {
             return querySoup(storeConfig, soupName, {queryType:'exact', indexPath:'Name', matchKey:'Bbb', order: 'ascending', pageSize:32});
         })
         .then((result) => {
-            assert.equal(1, result.totalPages);
-            assert.equal(1, result.totalPages);
+            assert.equal(result.totalPages, 1);
             assert.isDefined(result.cursorId);
-            assert.equal(0, result.currentPageIndex);
-            assert.equal(32, result.pageSize);
-            assert.equal(1, result.currentPageOrderedEntries.length);
-            assert.equal('Bbb', result.currentPageOrderedEntries[0].Name);
+            assert.equal(result.currentPageIndex, 0);
+            assert.equal(result.pageSize, 32);
+            assert.equal(result.currentPageOrderedEntries.length, 1);
+            assert.equal(result.currentPageOrderedEntries[0].Name, 'Bbb');
             testDone();
         });
 };
@@ -170,12 +169,11 @@ testSmartQuerySoup = () => {
             return runSmartQuery(storeConfig, {queryType:'smart', smartSql:'select {' + soupName + ':Name} from {' + soupName + '} where {' + soupName + ':Name} = "Ccc"', pageSize:32});
         })
         .then((result) => {
-            assert.equal(1, result.totalPages);
-            assert.equal(1, result.totalPages);
+            assert.equal(result.totalPages, 1);
             assert.isDefined(result.cursorId);
-            assert.equal(0, result.currentPageIndex);
-            assert.equal(32, result.pageSize);
-            assert.deepEqual([['Ccc']], result.currentPageOrderedEntries);
+            assert.equal(result.currentPageIndex, 0);
+            assert.equal(result.pageSize, 32);
+            assert.deepEqual(result.currentPageOrderedEntries, [['Ccc']]);
             testDone();
         });
 };
@@ -196,7 +194,7 @@ testRemoveFromSoup = () => {
             return runSmartQuery(storeConfig, {queryType:'smart', smartSql:'select {' + soupName + ':Name} from {' + soupName + '} order by {' + soupName + ':Name}', pageSize:32});
         })
         .then((result) => {
-            assert.deepEqual([['Aaa'], ['Ccc']], result.currentPageOrderedEntries);
+            assert.deepEqual(result.currentPageOrderedEntries, [['Aaa'], ['Ccc']]);
             testDone();
         });
 };
@@ -217,7 +215,7 @@ testClearSoup = () => {
             return runSmartQuery(storeConfig, {queryType:'smart', smartSql:'select {' + soupName + ':Name} from {' + soupName + '} order by {' + soupName + ':Name}', pageSize:32});
         })
         .then((result) => {
-            assert.deepEqual([], result.currentPageOrderedEntries);
+            assert.deepEqual(result.currentPageOrderedEntries, []);
             testDone();
         });
 };
