@@ -251,8 +251,7 @@ testCleanResyncGhosts = () => {
         .then((result) => {
             return cleanResyncGhosts(storeConfig, syncId);
         })
-        .then((result) => {
-            assert.equal('DONE', result);
+        .then(() => {
             return runSmartQuery(storeConfig, querySpec);
         })
         .then((result) => {

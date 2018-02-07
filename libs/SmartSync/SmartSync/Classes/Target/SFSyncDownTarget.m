@@ -107,7 +107,8 @@ ABSTRACT_METHOD
 }
 
 - (void)cleanGhosts:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName syncId:(NSNumber *)syncId errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
-
+    __weak typeof(self) weakSelf = self;
+    
     // Fetches list of IDs present in local soup that have not been modified locally.
     NSMutableOrderedSet *localIds = [NSMutableOrderedSet orderedSetWithOrderedSet:[self getNonDirtyRecordIds:syncManager
                                                                                                     soupName:soupName
@@ -121,10 +122,10 @@ ABSTRACT_METHOD
               localIds:localIdsArr
             errorBlock:errorBlock
          completeBlock:^(NSArray *remoteIds) {
+             __strong typeof(weakSelf) strongSelf = weakSelf;
              [localIds removeObjectsInArray:remoteIds];
-
              // Deletes extra IDs from SmartStore.
-             [self deleteRecordsFromLocalStore:syncManager soupName:soupName ids:localIdsArr idField:self.idFieldName];
+             [strongSelf deleteRecordsFromLocalStore:syncManager soupName:soupName ids:localIdsArr idField:strongSelf.idFieldName];
              completeBlock(localIdsArr);
          }];
 }
