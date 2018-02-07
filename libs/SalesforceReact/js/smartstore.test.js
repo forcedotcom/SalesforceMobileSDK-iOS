@@ -45,6 +45,9 @@ clearSoup = promiser(smartstore.clearSoup);
 getAllStores = promiser(smartstore.getAllStores);
 getAllGlobalStores = promiser(smartstore.getAllGlobalStores);
 removeStore = promiser(smartstore.removeStore);
+removeAllStores = promiser(smartstore.removeAllStores);
+removeAllGlobalStores = promiser(smartstore.removeAllGlobalStores);
+
 
 const storeConfig = {isGlobalStore:false};
 
@@ -220,50 +223,70 @@ testClearSoup = () => {
         });
 };
 
-testGetAllStoresRemoveStore = () => {
+testGetRemoveStores = () => {
     const uniq = Math.floor(Math.random() * 1000000);
-    const storeName = 'store_' + uniq;
-    const newStoreConfig = {isGlobalStore:false, storeName:storeName};
+    const firstStoreConfig = {isGlobalStore:false, storeName:'store_1_' + uniq};
+    const secondStoreConfig = {isGlobalStore:false, storeName:'store_2_' + uniq};
+    const thirdStoreConfig = {isGlobalStore:false, storeName:'store_3_' + uniq};
     const soupName = 'soup_' + uniq;
     const indexSpecs = [{path:'Name', type:'string'}];
-    registerSoup(newStoreConfig, soupName, indexSpecs)
+    Promise.all([registerSoup(firstStoreConfig, soupName, indexSpecs),
+                 registerSoup(secondStoreConfig, soupName, indexSpecs),
+                 registerSoup(thirdStoreConfig, soupName, indexSpecs)])
         .then((result) => {
-            assert.equal(result, soupName, 'Expected soupName');
+            assert.deepEqual(result, [soupName, soupName, soupName]);
             return getAllStores();
         })
         .then((result) => {
-            assert.deepEqual([newStoreConfig], result);
-            return removeStore(newStoreConfig);
+            assert.sameDeepMembers(result, [firstStoreConfig, secondStoreConfig, thirdStoreConfig]);
+            return removeStore(secondStoreConfig);
         })
         .then((result) => {
             return getAllStores();
         })
         .then((result) => {
-            assert.deepEqual([], result);
+            assert.sameDeepMembers(result, [firstStoreConfig, thirdStoreConfig]);
+            return removeAllStores();
+        })
+        .then((result) => {
+            return getAllStores();
+        })
+        .then((result) => {
+            assert.deepEqual(result, []);
             testDone();
         });
 };
 
-testGetAllGlobalStoresRemoveStore = () => {
+testGetRemoveGlobalStores = () => {
     const uniq = Math.floor(Math.random() * 1000000);
-    const storeName = 'store_' + uniq;
-    const newStoreConfig = {isGlobalStore:true, storeName:storeName};
+    const firstStoreConfig = {isGlobalStore:true, storeName:'store_1_' + uniq};
+    const secondStoreConfig = {isGlobalStore:true, storeName:'store_2_' + uniq};
+    const thirdStoreConfig = {isGlobalStore:true, storeName:'store_3_' + uniq};
     const soupName = 'soup_' + uniq;
     const indexSpecs = [{path:'Name', type:'string'}];
-    registerSoup(newStoreConfig, soupName, indexSpecs)
+    Promise.all([registerSoup(firstStoreConfig, soupName, indexSpecs),
+                 registerSoup(secondStoreConfig, soupName, indexSpecs),
+                 registerSoup(thirdStoreConfig, soupName, indexSpecs)])
         .then((result) => {
-            assert.equal(result, soupName, 'Expected soupName');
+            assert.deepEqual(result, [soupName, soupName, soupName]);
             return getAllGlobalStores();
         })
         .then((result) => {
-            assert.deepEqual([newStoreConfig], result);
-            return removeStore(newStoreConfig);
+            assert.sameDeepMembers(result, [firstStoreConfig, secondStoreConfig, thirdStoreConfig]);
+            return removeStore(secondStoreConfig);
         })
         .then((result) => {
             return getAllGlobalStores();
         })
         .then((result) => {
-            assert.deepEqual([], result);
+            assert.sameDeepMembers(result, [firstStoreConfig, thirdStoreConfig]);
+            return removeAllGlobalStores();
+        })
+        .then((result) => {
+            return getAllGlobalStores();
+        })
+        .then((result) => {
+            assert.deepEqual(result, []);
             testDone();
         });
 };
@@ -278,5 +301,5 @@ registerTest(testQuerySoup);
 registerTest(testSmartQuerySoup);
 registerTest(testRemoveFromSoup);
 registerTest(testClearSoup);
-registerTest(testGetAllStoresRemoveStore);
-registerTest(testGetAllGlobalStoresRemoveStore);
+registerTest(testGetRemoveStores);
+registerTest(testGetRemoveGlobalStores);

@@ -61,8 +61,8 @@ RCT_TEST(QuerySoup)
 RCT_TEST(SmartQuerySoup)
 RCT_TEST(RemoveFromSoup)
 RCT_TEST(ClearSoup)
-RCT_TEST(GetAllStoresRemoveStore)
-RCT_TEST(GetAllGlobalStoresRemoveStore)
+RCT_TEST(GetRemoveStores)
+RCT_TEST(GetRemoveGlobalStores)
 
 @end
 
