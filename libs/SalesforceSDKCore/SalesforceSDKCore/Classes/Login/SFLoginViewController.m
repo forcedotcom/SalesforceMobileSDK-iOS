@@ -206,7 +206,7 @@ SFSDK_USE_DEPRECATED_END
     [self showHostListView];
 }
 
-- (IBAction)backToPreviousHost:(id)sender {
+- (void)backToPreviousHost:(id)sender {
     if (![SFUserAccountManager sharedInstance].idpEnabled) {
         [[SFSDKWindowManager sharedManager].authWindow dismissWindow];
     }else {
