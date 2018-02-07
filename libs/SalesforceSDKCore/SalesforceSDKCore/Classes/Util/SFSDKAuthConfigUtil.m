@@ -27,3 +27,55 @@
  */
 
 #import "SFSDKAuthConfigUtil.h"
+#import "SFNetwork.h"
+
+static NSString * const kSFOAuthEndPointAuthConfiguration = @"/.well-known/auth-configuration";
+
+@implementation SFSDKAuthConfigUtil
+
++ (void)getMyDomainAuthConfig:(MyDomainAuthConfigBlock)authConfigBlock oauthCredentials:(SFOAuthCredentials *)oauthCredentials {
+    NSString *orgConfigUrl = [NSString stringWithFormat:@"%@://%@%@", oauthCredentials.protocol, oauthCredentials.domain, kSFOAuthEndPointAuthConfiguration];
+    [SFSDKCoreLogger d:[self class] format:@"%@ Advanced authentication configured. Retrieving auth configuration from %@", NSStringFromSelector(_cmd), orgConfigUrl];
+    NSMutableURLRequest *orgConfigRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:orgConfigUrl]];
+    SFNetwork *network = [[SFNetwork alloc] init];
+    __weak __typeof(self) weakSelf = self;
+    [network sendRequest:orgConfigRequest dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (error) {
+            [SFSDKCoreLogger d:[strongSelf class] format:@"Org config request failed with error: Error Code: %ld, Description: %@", (long) error.code, error.localizedDescription];
+            authConfigBlock(nil, error);
+            return;
+        }
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+
+        // 2xx indicates success.
+        if (statusCode >= 200 && statusCode <= 299) {
+
+            // Checks if the server returned any data.
+            if (data == nil) {
+                [SFSDKCoreLogger d:[strongSelf class] format:@"No org auth config data returned from %@", orgConfigUrl];
+                authConfigBlock(nil, nil);
+                return;
+            }
+
+            // Attempts to parse the data returned by the server.
+            NSError *jsonParseError = nil;
+            NSDictionary *configDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonParseError];
+            if (jsonParseError) {
+                [SFSDKCoreLogger d:[strongSelf class] format:@"Could not parse org auth config response from %@: %@", orgConfigUrl, [jsonParseError localizedDescription]];
+                authConfigBlock(nil, jsonParseError);
+                return;
+            }
+
+            // Passes the retrieved auth config back.
+            [SFSDKCoreLogger d:[strongSelf class] format:@"Successfully retrieved org auth config data from %@", orgConfigUrl];
+            SFOAuthOrgAuthConfiguration *orgAuthConfig = [[SFOAuthOrgAuthConfiguration alloc] initWithConfigDict:configDict];
+            authConfigBlock(orgAuthConfig, nil);
+        } else {
+            [SFSDKCoreLogger d:[strongSelf class] format:@"Org config request failed with error: Status Code: %ld", statusCode];
+            authConfigBlock(nil, nil);
+        }
+    }];
+}
+
+@end

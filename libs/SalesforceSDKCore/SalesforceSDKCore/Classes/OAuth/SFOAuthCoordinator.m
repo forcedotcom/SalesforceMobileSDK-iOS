@@ -55,7 +55,6 @@ static NSString * const kSFOAuthEndPointAuthorize               = @"/services/oa
 static NSString * const kSFOAuthEndPointToken                   = @"/services/oauth2/token";        // token refresh flow
 
 // Advanced auth constants
-static NSString * const kSFOAuthEndPointAuthConfiguration       = @"/.well-known/auth-configuration";
 static NSUInteger const kSFOAuthCodeVerifierByteLength          = 128;
 static NSString * const kSFOAuthCodeVerifierParamName           = @"code_verifier";
 static NSString * const kSFOAuthCodeChallengeParamName          = @"code_challenge";

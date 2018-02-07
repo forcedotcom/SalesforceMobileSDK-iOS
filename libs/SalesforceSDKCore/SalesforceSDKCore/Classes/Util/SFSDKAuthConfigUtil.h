@@ -25,3 +25,14 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
+#import "SFOAuthOrgAuthConfiguration.h"
+#import "SFOAuthCredentials.h"
+
+@interface SFSDKAuthConfigUtil : NSObject
+
+typedef void (^ _Nonnull MyDomainAuthConfigBlock)(SFOAuthOrgAuthConfiguration * _Nullable authConfig, NSError * _Nullable error);
+
++ (void)getMyDomainAuthConfig:(nonnull MyDomainAuthConfigBlock)authConfigBlock oauthCredentials:(nonnull SFOAuthCredentials *)oauthCredentials;
+
+@end
