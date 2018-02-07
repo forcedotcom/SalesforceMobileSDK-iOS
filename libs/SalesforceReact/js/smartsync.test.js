@@ -128,7 +128,7 @@ testSyncDown = () => {
             return runSmartQuery(storeConfig, {queryType:'smart', smartSql:'select {' + soupName + ':FirstName} from {' + soupName + '} where {' + soupName + ':Id} = "' + contactId + '"', pageSize:32});
         })
         .then((result) => {
-            assert.deepEqual([[firstName]], result.currentPageOrderedEntries);
+            assert.deepEqual(result.currentPageOrderedEntries, [[firstName]]);
 
             // Cleanup
             return netDel('contact', contactId);
@@ -176,7 +176,7 @@ testReSync = () => {
             return runSmartQuery(storeConfig, querySpec);
         })
         .then((result) => {
-            assert.deepEqual([[firstName],[otherFirstName]], result.currentPageOrderedEntries);
+            assert.deepEqual(result.currentPageOrderedEntries, [[firstName],[otherFirstName]]);
 
             // Wait a bit before doing update
             return timeoutPromiser(1000);
@@ -193,14 +193,10 @@ testReSync = () => {
             return runSmartQuery(storeConfig, querySpec);
         })
         .then((result) => {
-            assert.deepEqual([[firstName],[otherFirstNameUpdated]], result.currentPageOrderedEntries);
+            assert.deepEqual(result.currentPageOrderedEntries, [[firstName],[otherFirstNameUpdated]]);
 
             // Cleanup
-            return netDel('contact', contactId);
-        })
-        .then((result) => {
-            // Cleanup
-            return netDel('contact', otherContactId);
+            return Promise.all([netDel('contact', contactId), netDel('contact', otherContactId)]);
         })
         .then((result) => { 
             testDone();
@@ -244,7 +240,7 @@ testCleanResyncGhosts = () => {
             return runSmartQuery(storeConfig, querySpec);
         })
         .then((result) => {
-            assert.deepEqual([[firstName],[otherFirstName]], result.currentPageOrderedEntries);
+            assert.deepEqual(result.currentPageOrderedEntries, [[firstName],[otherFirstName]]);
 
             return netDel('contact', otherContactId);
         })
@@ -255,7 +251,7 @@ testCleanResyncGhosts = () => {
             return runSmartQuery(storeConfig, querySpec);
         })
         .then((result) => {
-            assert.deepEqual([[firstName]], result.currentPageOrderedEntries);
+            assert.deepEqual(result.currentPageOrderedEntries, [[firstName]]);
 
             // Cleanup
             return netDel('contact', contactId);
