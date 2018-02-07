@@ -35,6 +35,7 @@
 + (void)setUp
 {
     [SFSmartStore removeAllStores];
+    [SFSmartStore removeAllGlobalStores];
     [super setUp];
 }
 
@@ -45,6 +46,7 @@
 
 - (void)tearDown {
     [SFSmartStore removeAllStores];
+    [SFSmartStore removeAllGlobalStores];
     [super tearDown];
 }
 
@@ -59,6 +61,8 @@ RCT_TEST(QuerySoup)
 RCT_TEST(SmartQuerySoup)
 RCT_TEST(RemoveFromSoup)
 RCT_TEST(ClearSoup)
+RCT_TEST(GetAllStoresRemoveStore)
+RCT_TEST(GetAllGlobalStoresRemoveStore)
 
 @end
 

@@ -42,7 +42,9 @@ querySoup = promiser(smartstore.querySoup);
 runSmartQuery = promiser(smartstore.runSmartQuery);
 removeFromSoup = promiser(smartstore.removeFromSoup);
 clearSoup = promiser(smartstore.clearSoup);
-
+getAllStores = promiser(smartstore.getAllStores);
+getAllGlobalStores = promiser(smartstore.getAllGlobalStores);
+removeStore = promiser(smartstore.removeStore);
 
 const storeConfig = {isGlobalStore:false};
 
@@ -220,6 +222,54 @@ testClearSoup = () => {
         });
 };
 
+testGetAllStoresRemoveStore = () => {
+    const uniq = Math.floor(Math.random() * 1000000);
+    const storeName = 'store_' + uniq;
+    const newStoreConfig = {isGlobalStore:false, storeName:storeName};
+    const soupName = 'soup_' + uniq;
+    const indexSpecs = [{path:'Name', type:'string'}];
+    registerSoup(newStoreConfig, soupName, indexSpecs)
+        .then((result) => {
+            assert.equal(result, soupName, 'Expected soupName');
+            return getAllStores();
+        })
+        .then((result) => {
+            assert.deepEqual([newStoreConfig], result);
+            return removeStore(newStoreConfig);
+        })
+        .then((result) => {
+            return getAllStores();
+        })
+        .then((result) => {
+            assert.deepEqual([], result);
+            testDone();
+        });
+};
+
+testGetAllGlobalStoresRemoveStore = () => {
+    const uniq = Math.floor(Math.random() * 1000000);
+    const storeName = 'store_' + uniq;
+    const newStoreConfig = {isGlobalStore:true, storeName:storeName};
+    const soupName = 'soup_' + uniq;
+    const indexSpecs = [{path:'Name', type:'string'}];
+    registerSoup(newStoreConfig, soupName, indexSpecs)
+        .then((result) => {
+            assert.equal(result, soupName, 'Expected soupName');
+            return getAllGlobalStores();
+        })
+        .then((result) => {
+            assert.deepEqual([newStoreConfig], result);
+            return removeStore(newStoreConfig);
+        })
+        .then((result) => {
+            return getAllGlobalStores();
+        })
+        .then((result) => {
+            assert.deepEqual([], result);
+            testDone();
+        });
+};
+
 
 registerTest(testGetDatabaseSize);
 registerTest(testRegisterExistsRemoveExists);
@@ -230,3 +280,5 @@ registerTest(testQuerySoup);
 registerTest(testSmartQuerySoup);
 registerTest(testRemoveFromSoup);
 registerTest(testClearSoup);
+registerTest(testGetAllStoresRemoveStore);
+registerTest(testGetAllGlobalStoresRemoveStore);
