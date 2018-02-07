@@ -243,4 +243,40 @@
     XCTAssertFalse([privateKeyData3 isEqualToData:privateKeyData1], @"should get different private key strings with different sizes");
 
 }
+
+- (void)testRSAEncryptionAndDecryption
+{
+    size_t keySize = 2048;
+    
+    SecKeyRef publicKeyRef = [SFSDKCryptoUtils getRSAPublicKeyRefWithName:@"test" keyLength:keySize];
+    SecKeyRef privateKeyRef = [SFSDKCryptoUtils getRSAPrivateKeyRefWithName:@"test" keyLength:keySize];
+    
+    // Encrypt data
+    NSString *testString = @"This is a test";
+    NSData *testData = [testString dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *encryptedData = [SFSDKCryptoUtils encryptUsingRSAforData:testData withKeyRef:publicKeyRef];
+    
+    // Decrypt data
+    NSData *decryptedData = [SFSDKCryptoUtils decryptUsingRSAforData:encryptedData withKeyRef:privateKeyRef];
+    NSString *result = [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
+    XCTAssertTrue([testString isEqualToString:result]);
+}
+
+- (void)testRSAEncryptionAndDecryptionWrongKeys
+{
+    size_t keySize = 2048;
+    
+    SecKeyRef publicKeyRef = [SFSDKCryptoUtils getRSAPublicKeyRefWithName:@"test1" keyLength:keySize];
+    SecKeyRef privateKeyRef = [SFSDKCryptoUtils getRSAPrivateKeyRefWithName:@"test" keyLength:keySize];
+    
+    // Encrypt data
+    NSString *testString = @"This is a test";
+    NSData *testData = [testString dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *encryptedData = [SFSDKCryptoUtils encryptUsingRSAforData:testData withKeyRef:publicKeyRef];
+    
+    // Decrypt data
+    NSData *decryptedData = [SFSDKCryptoUtils decryptUsingRSAforData:encryptedData withKeyRef:privateKeyRef];
+    NSString *result = [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
+    XCTAssertFalse([testString isEqualToString:result]);
+}
 @end

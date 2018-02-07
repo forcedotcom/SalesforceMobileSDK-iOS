@@ -197,7 +197,7 @@ extension SFRestAPI {
          ```
          - Returns: SFRestRequest wrapped in a promise.
          */
-        public func create(objectType: String, fields: [String:String]) -> Promise<SFRestRequest> {
+        public func create(objectType: String, fields: [String:Any]) -> Promise<SFRestRequest> {
             return  Promise(.pending) {  resolver in
                 resolver.fulfill(self.api!
                     .requestForCreate(withObjectType: objectType, fields: fields))
@@ -215,7 +215,7 @@ extension SFRestAPI {
          ```
          - Returns: SFRestRequest wrapped in a promise.
          */
-        public func upsert(objectType: String,externalIdField: String, externalId: String, fieldList: Dictionary<String,String>?) -> Promise<SFRestRequest> {
+        public func upsert(objectType: String,externalIdField: String, externalId: String, fieldList: Dictionary<String,Any>?) -> Promise<SFRestRequest> {
             return  Promise(.pending) {  resolver in
                 resolver.fulfill(self.api!
                     .requestForUpsert(withObjectType: objectType, externalIdField: externalId, externalId: externalId, fields: fieldList!))

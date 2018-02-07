@@ -20,6 +20,9 @@ Pod::Spec.new do |s|
   s.subspec 'SalesforceSwiftSDK' do |salesforceswift|
 
       salesforceswift.dependency 'SmartSync'
+      salesforceswift.dependency 'SmartStore'
+      salesforceswift.dependency 'SalesforceSDKCore'
+      salesforceswift.dependency 'SalesforceAnalytics'
       salesforceswift.dependency 'PromiseKit', '~> 5.0'
       salesforceswift.source_files = 'libs/SalesforceSwiftSDK/SalesforceSwiftSDK/**/*.{h,m,swift}'
       salesforceswift.requires_arc = true
