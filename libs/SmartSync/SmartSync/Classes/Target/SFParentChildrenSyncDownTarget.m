@@ -260,8 +260,15 @@
     __block NSMutableSet *remoteChildrenIds = [NSMutableSet new];
     __block SFSyncDownTargetFetchCompleteBlock fetchBlockRecurse = ^(NSArray *records) {
     };
+    
+    SFSyncDownTargetFetchErrorBlock fetchErrorBlock = ^(NSError *error) {
+        fetchBlockRecurse = nil;
+        errorBlock(error);
+    };
+
     SFSyncDownTargetFetchCompleteBlock fetchBlock = ^(NSArray *records) {
         if (records == nil) {
+            fetchBlockRecurse = nil;
             completeBlock([remoteChildrenIds allObjects]);
             return;
         }
@@ -269,7 +276,7 @@
         [self continueFetch:syncManager errorBlock:errorBlock completeBlock:fetchBlockRecurse];
     };
     fetchBlockRecurse = fetchBlock;
-    [self startFetch:syncManager queryToRun:soqlForChildrenRemoteIds errorBlock:errorBlock completeBlock:fetchBlock];
+    [self startFetch:syncManager queryToRun:soqlForChildrenRemoteIds errorBlock:fetchErrorBlock completeBlock:fetchBlock];
 }
 
 - (NSSet<NSString*>*) parseChildrenIdsFromResponse:(NSArray*)records {

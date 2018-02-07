@@ -124,9 +124,10 @@ static NSString * const kSFSyncTargetFieldlist = @"fieldlist";
         completeBlock(nil);
         return;
     }
-    NSString* inPredicate = [@[ self.idFieldName, @" IN ('", [localIds componentsJoinedByString:@"', '"], @"')"]
+    NSString* idFieldName = self.idFieldName;
+    NSString* inPredicate = [@[idFieldName, @" IN ('", [localIds componentsJoinedByString:@"', '"], @"')"]
                              componentsJoinedByString:@""];
-    NSString* soql = [[[[SFSDKSoqlBuilder withFields:self.idFieldName]
+    NSString* soql = [[[[SFSDKSoqlBuilder withFields:idFieldName]
                         from:self.objectType]
                        whereClause:inPredicate]
                       build];
@@ -134,7 +135,7 @@ static NSString * const kSFSyncTargetFieldlist = @"fieldlist";
     SFSyncDownTargetFetchCompleteBlock fetchBlock = ^(NSArray* records) {
         NSMutableArray * remoteIds = [NSMutableArray new];
         for (NSDictionary * record in records) {
-            [remoteIds addObject:record[self.idFieldName]];
+            [remoteIds addObject:record[idFieldName]];
         }
         completeBlock(remoteIds);
     };
