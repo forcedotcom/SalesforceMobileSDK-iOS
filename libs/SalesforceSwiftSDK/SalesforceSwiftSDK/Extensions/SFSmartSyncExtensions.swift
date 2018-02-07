@@ -59,9 +59,9 @@ extension SFSmartSyncSyncManager {
          - parameter syncId: Id for sync.
          - Returns: SFSyncState wrapped in a promise.
          */
-        public func getSyncStatus(syncId: NSNumber) -> Promise<SFSyncState?> {
+        public func getSyncStatus(syncId: UInt) -> Promise<SFSyncState?> {
             return Promise(.pending) {  resolver in
-                resolver.fulfill(self.api!.getSyncStatus(syncId))
+                resolver.fulfill(self.api!.getSyncStatus(NSNumber(value: syncId)))
             }
         }
 
@@ -112,9 +112,9 @@ extension SFSmartSyncSyncManager {
          ```
          - parameter name: Name of sync.
          */
-        public func deleteSync(syncId: NSNumber) -> Promise<Void>  {
+        public func deleteSync(syncId: UInt) -> Promise<Void>  {
             return Promise(.pending) {  resolver in
-                resolver.fulfill(self.api!.deleteSync(byId: syncId))
+                resolver.fulfill(self.api!.deleteSync(byId: NSNumber(value: syncId)))
             }
         }
 
@@ -261,9 +261,9 @@ extension SFSmartSyncSyncManager {
          - Returns: SFSyncState wrapped in a promise.
          */
 
-        public func reSync(syncId: NSNumber) -> Promise<SFSyncState> {
+        public func reSync(syncId: UInt) -> Promise<SFSyncState> {
             return Promise(.pending) {  resolver in
-                self.api!.reSync(syncId, update: { (syncState) in
+                self.api!.reSync(NSNumber(value: syncId), update: { (syncState) in
                     if syncState.status == .done  {
                         resolver.fulfill(syncState)
                     } else if syncState.status == .failed {
@@ -421,9 +421,9 @@ extension SFSmartSyncSyncManager {
          -parameter syncId: Sync ID.
          -Returns: The SFSyncState wrapped in a promise
          */
-        public func cleanResyncGhosts(syncId: NSNumber) -> Promise<SFSyncStateStatus> {
+        public func cleanResyncGhosts(syncId: UInt) -> Promise<SFSyncStateStatus> {
             return Promise(.pending) {  resolver in
-                self.api!.cleanResyncGhosts(syncId, completionStatusBlock: { (syncStatus) in
+                self.api!.cleanResyncGhosts(NSNumber(value: syncId), completionStatusBlock: { (syncStatus) in
                     if syncStatus == .done  {
                         resolver.fulfill(syncStatus)
                     } else if syncStatus == .failed {
