@@ -148,7 +148,11 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     
     __block BOOL needEncrypting = NO;
     [[FMDatabaseQueue databaseQueueWithPath:fullDbFilePath] inDatabase:^(FMDatabase* db) {
+        // In the normal case, the db will not be readable - we don't want to be logging any errors
+        BOOL logsErrors = db.logsErrors;
+        db.logsErrors = NO;
         needEncrypting = [[self class] verifyDatabaseAccess:db error:nil];
+        db.logsErrors = logsErrors;
     }];
     
     if (needEncrypting) {
