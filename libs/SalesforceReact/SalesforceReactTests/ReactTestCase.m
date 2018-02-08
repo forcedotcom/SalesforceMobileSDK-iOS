@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -23,8 +23,44 @@
  */
 
 
-#import "SFPluginTestSuite.h"
+#import <SalesforceSDKCore/TestSetupUtils.h>
+#import "ReactTestCase.h"
 
+static NSException *authException = nil;
 
-@interface SmartSyncTestSuite : SFPluginTestSuite
+@implementation ReactTestCase
+
++ (void)setUp
+{
+    @try {
+        [SFSDKReactLogger setLogLevel:DDLogLevelDebug];
+        [TestSetupUtils populateAuthCredentialsFromConfigFileForClass:[self class]];
+        [TestSetupUtils synchronousAuthRefresh];
+        
+    } @catch (NSException *exception) {
+        [SFSDKReactLogger d:[self class] format:@"Populating auth from config failed: %@", exception];
+        authException = exception;
+    }
+    [super setUp];
+}
+
+- (void)setUp
+{
+    if (authException) {
+        XCTFail(@"Setting up authentication failed: %@", authException);
+    }
+    if (self.jsSuitePath == nil) {
+        XCTFail(@"jsSuitePath not defined");
+    }
+    
+    self.runner = RCTInitRunnerForApp(self.jsSuitePath, nil);
+    [super setUp];
+}
+
+- (void)tearDown
+{
+    [super tearDown];
+}
+
 @end
+

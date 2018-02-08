@@ -122,7 +122,6 @@ ABSTRACT_METHOD
             errorBlock:errorBlock
          completeBlock:^(NSArray *remoteIds) {
              [localIds removeObjectsInArray:remoteIds];
-
              // Deletes extra IDs from SmartStore.
              [self deleteRecordsFromLocalStore:syncManager soupName:soupName ids:localIdsArr idField:self.idFieldName];
              completeBlock(localIdsArr);

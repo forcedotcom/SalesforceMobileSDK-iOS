@@ -25,7 +25,11 @@
 
 #import <UIKit/UIKit.h>
 
-#import "SDKInfoTestSuite.h"
+#import "SFPluginTestSuite.h"
+
+
+@interface SDKInfoTestSuite : SFPluginTestSuite
+@end
 
 
 @implementation SDKInfoTestSuite

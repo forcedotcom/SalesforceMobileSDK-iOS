@@ -19,4 +19,5 @@ shared/test/test_credentials.json
 node_modules/
 .github/
 .idea/
-
+package-lock.json
+npm-debug.log

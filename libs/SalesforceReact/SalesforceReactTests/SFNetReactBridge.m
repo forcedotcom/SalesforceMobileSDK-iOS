@@ -1,6 +1,5 @@
 /*
- Copyright (c) 2012-present, salesforce.com, inc. All rights reserved.
- Author: Todd Stellanova
+ Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -24,66 +23,50 @@
  */
 
 #import <UIKit/UIKit.h>
-#import <SmartStore/Smartstore.h>
-#import <SalesforceHybridSDK/SalesforceHybridSDK.h>
-#import <SalesforceSDKCore/SFApplicationHelper.h>
 
-#import "AppDelegate.h"
-#import "SFTestRunnerPlugin.h"
-
-#import "SFPluginTestSuite.h"
+#import <XCTest/XCTest.h>
+#import <RCTTest/RCTTestRunner.h>
 
 
-@interface SmartStoreLoadTestSuite : SFPluginTestSuite
-@end
-
-@implementation SmartStoreLoadTestSuite
-
-
-- (void)setUp
-{
-    [super setUp];
-    self.jsSuiteName = @"SmartStoreLoadTestSuite";
-    if ([self isTestRunnerReady]) {
-        [SFSmartStore removeSharedStoreWithName:kDefaultSmartStoreName];
-        AppDelegate *appDelegate = (AppDelegate *)[SFApplicationHelper sharedApplication].delegate;
-        SFSmartStorePlugin *pluginInstance = [appDelegate.viewController.commandDelegate getCommandInstance:kSmartStorePluginIdentifier];
-        [pluginInstance resetCursorCaches];
-    }
-    
+#define RCT_TEST(name)                  \
+- (void)test##name                      \
+{                                       \
+[_runner runTest:_cmd module:@#name]; \
 }
 
-- (void)tearDown
+
+
+@interface SFNetReactBridgeTests : XCTestCase
+
+@end
+
+@implementation SFNetReactBridgeTests
 {
-    [SFSmartStore removeSharedStoreWithName:kDefaultSmartStoreName];
-    
+    RCTTestRunner *_runner;
+}
+
+
+- (void)setUp {
+    [super setUp];
+    _runner = RCTInitRunnerForApp(@"js/SFNetReactBridgeTests", nil);
+}
+
+- (void)tearDown {
     [super tearDown];
 }
 
 
-- (void)testUpsertManyEntries {
-    [self runTest:@"testUpsertManyEntries"];
+- (void)testPerformanceExample {
+    // This is an example of a performance test case.
+    [self measureBlock:^{
+        // Put the code you want to measure the time of here.
+    }];
 }
 
-- (void)testNumerousFields {
-    [self runTest:@"testNumerousFields"];
-}
 
-- (void)testIncreasingFieldLength {
-    [self runTest:@"testIncreasingFieldLength"];
-}
+#pragma mark - JS tests
 
-- (void)testAddAndRetrieveManyEntries {
-    [self runTest:@"testAddAndRetrieveManyEntries"];
-}
-
-- (void) testUpsertAndQueryEntries {
-    [self runTest:@"testUpsertAndQueryEntries"];
-}
-
-- (void)testUpsertConcurrentEntries {
-    [self runTest:@"testUpsertConcurrentEntries"];
-}
-
+RCT_TEST(IntegrationHarnessTest)
 
 @end
+
