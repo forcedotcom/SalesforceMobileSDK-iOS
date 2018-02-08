@@ -93,7 +93,7 @@ RCT_EXPORT_METHOD(syncDown:(NSDictionary *)args callback:(RCTResponseSenderBlock
     SFSyncOptions *options = [SFSyncOptions newFromDict:[args nonNullObjectForKey:kSyncOptionsArg]];
     SFSyncDownTarget *target = [SFSyncDownTarget newFromDict:[args nonNullObjectForKey:kSyncTargetArg]];
     __weak typeof(self) weakSelf = self;
-    SFSyncState* sync = [[self getSyncManagerInst:args]  syncDownWithTarget:target options:options soupName:soupName syncName:syncName updateBlock:^(SFSyncState* sync) {
+    SFSyncState* sync = [[self getSyncManagerInst:args] syncDownWithTarget:target options:options soupName:soupName syncName:syncName updateBlock:^(SFSyncState* sync) {
         [weakSelf handleSyncUpdate:sync withArgs:args callback:callback];
     }];
     if (sync) {
@@ -135,8 +135,9 @@ RCT_EXPORT_METHOD(cleanResyncGhosts:(NSDictionary *)args callback:(RCTResponseSe
 {
     NSNumber* syncId = (NSNumber*) [args nonNullObjectForKey:kSyncIdArg];
     [SFSDKReactLogger d:[self class] format:@"cleanResyncGhosts with sync id: %@", syncId];
+    __weak typeof(self) weakSelf = self;
     [[self getSyncManagerInst:args] cleanResyncGhosts:syncId completionStatusBlock:^void(SFSyncStateStatus syncStatus){
-        callback(@[[NSNull null], [SFSyncState syncStatusToString:syncStatus]]);
+        [weakSelf handleCleanReSyncGhosts:syncStatus callback:callback];
     }];
 }
 
@@ -171,6 +172,15 @@ RCT_EXPORT_METHOD(syncUp:(NSDictionary *)args callback:(RCTResponseSenderBlock)c
 - (BOOL)isGlobal:(NSDictionary *)args
 {
     return args[kSyncIsGlobalStoreArg] != nil && [args[kSyncIsGlobalStoreArg] boolValue];
+}
+
+- (void)handleCleanReSyncGhosts:(SFSyncStateStatus)syncStatus callback:(RCTResponseSenderBlock)callback
+{
+    if (syncStatus == SFSyncStateStatusDone) {
+        callback(@[[NSNull null], @"OK"]);
+    } else {
+        callback(@[RCTMakeError(@"cleanResyncGhosts failed", nil, nil)]);
+    }
 }
 
 - (void)handleSyncUpdate:(SFSyncState *)sync withArgs:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback
