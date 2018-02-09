@@ -260,6 +260,7 @@
 		BE2B46341DB03A10004DA618 /* NSObject+SFBlocks.h in Headers */ = {isa = PBXBuildFile; fileRef = BE2B45951DAFFB1E004DA618 /* NSObject+SFBlocks.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BE2B46491DB03A1D004DA618 /* NSObject+SFBlocks.m in Sources */ = {isa = PBXBuildFile; fileRef = BE2B45961DAFFB1E004DA618 /* NSObject+SFBlocks.m */; };
 		BE2B464A1DB03B52004DA618 /* UIColor+SFColors.h in Headers */ = {isa = PBXBuildFile; fileRef = E1DDC0EE1CAA29A1002F51DD /* UIColor+SFColors.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE02ACEE202E19CF00C6A714 /* SFSDKAuthConfigUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CE02ACD6202E19B100C6A714 /* SFSDKAuthConfigUtilTests.m */; };
 		CE0CDEF51D7F765E005AAFAB /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0CDEEB1D7F753D005AAFAB /* libOCMock.a */; };
 		CE145A9C1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CE145A9A1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE145A9D1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CE145A9B1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.m */; };
@@ -1254,6 +1255,7 @@
 		BE2B45951DAFFB1E004DA618 /* NSObject+SFBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SFBlocks.h"; sourceTree = "<group>"; };
 		BE2B45961DAFFB1E004DA618 /* NSObject+SFBlocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SFBlocks.m"; sourceTree = "<group>"; };
 		CE0021551C03DBB70079DCA4 /* Lumberjack.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Lumberjack.xcodeproj; path = ../../external/CocoaLumberjack/Lumberjack.xcodeproj; sourceTree = "<group>"; };
+		CE02ACD6202E19B100C6A714 /* SFSDKAuthConfigUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKAuthConfigUtilTests.m; path = SalesforceSDKCoreTests/SFSDKAuthConfigUtilTests.m; sourceTree = SOURCE_ROOT; };
 		CE0CDED11D7F753D005AAFAB /* OCMock.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OCMock.xcodeproj; path = ../../external/ocmock/Source/OCMock.xcodeproj; sourceTree = "<group>"; };
 		CE145A9A1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSDKSalesforceAnalyticsManager.h; path = Analytics/SFSDKSalesforceAnalyticsManager.h; sourceTree = "<group>"; };
 		CE145A9B1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKSalesforceAnalyticsManager.m; path = Analytics/SFSDKSalesforceAnalyticsManager.m; sourceTree = "<group>"; };
@@ -1380,6 +1382,7 @@
 		4F7EB3F61BFFC84700768720 /* SalesforceSDKCoreTests */ = {
 			isa = PBXGroup;
 			children = (
+				CE02ACD6202E19B100C6A714 /* SFSDKAuthConfigUtilTests.m */,
 				CEB98EE41F86F08F0083AB9C /* SFOAuthClientCacheTests.m */,
 				CEB98ED51F86E76A0083AB9C /* SFSDKAuthClientTests.m */,
 				CEB98ED31F86E76A0083AB9C /* SFSDKAuthErrorCommandTest.m */,
@@ -2802,6 +2805,7 @@
 				CEB98EE01F86E7CF0083AB9C /* SFSDKAuthRequestCommandTest.m in Sources */,
 				010A9B591CC1A147002AF4D3 /* SFCryptoStreamTestUtils.m in Sources */,
 				E1DDC1441CAEEB34002F51DD /* SFSDKLoginHostTests.m in Sources */,
+				CE02ACEE202E19CF00C6A714 /* SFSDKAuthConfigUtilTests.m in Sources */,
 				4F06AF941C49A18E00F70798 /* SFTestSDKManagerFlow.m in Sources */,
 				44D1FCE31EE9C31D006E2633 /* SFSDKSafeMutableDictionaryTests.m in Sources */,
 				4F7EB4161BFFC8D700768720 /* SDKCommonNSDataTests.m in Sources */,
