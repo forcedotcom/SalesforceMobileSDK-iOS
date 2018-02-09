@@ -74,7 +74,7 @@ static NSString * const kSFSandboxEndpoint = @"test.salesforce.com";
     [credentials setDomain:kSFSandboxEndpoint];
     XCTestExpectation *expect = [self expectationWithDescription:@"testGetNoAuthConfig"];
     [SFSDKAuthConfigUtil getMyDomainAuthConfig:^(SFOAuthOrgAuthConfiguration *authConfig, NSError *error) {
-        XCTAssertNotNil(authConfig, @"Auth config should be nil");
+        XCTAssertNil(authConfig, @"Auth config should be nil");
         [expect fulfill];
     } oauthCredentials:credentials];
     [self waitForExpectationsWithTimeout:20 handler:nil];
