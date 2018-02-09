@@ -1,5 +1,9 @@
 /*
- Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
+ SFSDKAuthConfigUtil.h
+ SalesforceSDKCore
+ 
+ Created by Bharath Hariharan on 2/4/18.
+ Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,26 +26,13 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-#import <SalesforceSDKCore/SalesforceSDKCore.h>
-#import "SFOAuthCoordinator+Internal.h"
+#import "SFOAuthOrgAuthConfiguration.h"
+#import "SFOAuthCredentials.h"
 
-@class SFOAuthInfo;
+@interface SFSDKAuthConfigUtil : NSObject
 
-@interface SFOAuthTestFlow : NSObject <SFOAuthCoordinatorFlow>
+typedef void (^ _Nonnull MyDomainAuthConfigBlock)(SFOAuthOrgAuthConfiguration * _Nullable authConfig, NSError * _Nullable error);
 
-@property (nonatomic, assign) BOOL beginUserAgentFlowCalled;
-@property (nonatomic, assign) BOOL beginTokenEndpointFlowCalled;
-@property (nonatomic, assign) BOOL beginNativeBrowserFlowCalled;
-@property (nonatomic, assign) BOOL beginJwtTokenExchangeFlowCalled;
-@property (nonatomic, assign) SFOAuthTokenEndpointFlow tokenEndpointFlowType;
-@property (nonatomic, assign) BOOL handleTokenEndpointResponseCalled;
-
-@property (nonatomic, assign) NSTimeInterval timeBeforeUserAgentCompletion;
-@property (nonatomic, assign) NSTimeInterval timeBeforeRefreshTokenCompletion;
-@property (nonatomic, assign) BOOL userAgentFlowIsSuccessful;
-@property (nonatomic, assign) BOOL refreshTokenFlowIsSuccessful;
-
-- (id)initWithCoordinator:(SFOAuthCoordinator *)coordinator;
++ (void)getMyDomainAuthConfig:(nonnull MyDomainAuthConfigBlock)authConfigBlock oauthCredentials:(nonnull SFOAuthCredentials *)oauthCredentials;
 
 @end

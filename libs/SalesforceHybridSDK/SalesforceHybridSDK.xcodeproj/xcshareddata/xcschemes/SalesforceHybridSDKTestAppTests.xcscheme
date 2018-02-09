@@ -40,6 +40,15 @@
             </BuildableReference>
          </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "8222729C19C39F4500FC537E"
+            BuildableName = "SalesforceHybridSDKTests.xctest"
+            BlueprintName = "SalesforceHybridSDKTests"
+            ReferencedContainer = "container:SalesforceHybridSDK.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
