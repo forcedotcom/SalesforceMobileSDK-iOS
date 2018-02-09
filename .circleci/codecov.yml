@@ -4,13 +4,15 @@ codecov:
 coverage:
   precision: 2
   round: down
-  range: "35...85"
+  range: "25...75"
 
 ignore:
   - "shared"
   - "hybrid"
   - "native"
   - "libs/**/*Test*/*"
+  - "libs/SalesforceReact/js"
+  - "libs/SalesforceReact/node_modules"
 
 comment:
   layout: "reach, diff"
@@ -41,3 +43,11 @@ coverage:
         target: auto
         paths: "libs/SmartSync/SmartSync/"
         flags: SmartSync
+      SalesforceReact:
+        target: auto
+        paths: "libs/SalesforceReact/SalesforceReact/"
+        flags: SalesforceReact
+      SalesforceSwiftSDK:
+        target: auto
+        paths: "libs/SalesforceSwiftSDK/SalesforceSwiftSDK/"
+        flags: SalesforceSwiftSDK
