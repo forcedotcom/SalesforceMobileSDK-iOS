@@ -51,63 +51,61 @@ def testScheme(scheme)
     system("mv ../libs/SmartSync/clangReport/StaticAnalyzer/SmartSync ../clangReport/StaticAnalyzer/")
   end
 
-  if (scheme != 'SalesforceReact')
-    begin
-      scan(
-          workspace: "SalesforceMobileSDK.xcworkspace",
-          scheme: scheme,
-          device: ENV['DEVICE'] + ENV['IOS_VERSION'],
-          output_directory: "test_output",
-          code_coverage: true,
-          clean: true
-      )
-    ensure
-      system('cp ../test_output/report.junit ../test_output/results.xml')
+  begin
+    scan(
+        workspace: "SalesforceMobileSDK.xcworkspace",
+        scheme: scheme,
+        device: ENV['DEVICE'] + ENV['IOS_VERSION'],
+        output_directory: "test_output",
+        code_coverage: true,
+        clean: true
+    )
+  ensure
+    system('cp ../test_output/report.junit ../test_output/results.xml')
 
-      xcov(
-          workspace: "SalesforceMobileSDK.xcworkspace",
-          scheme: scheme,
-          output_directory: "xcov_output",
-          exclude_targets: "CocoaLumberjack.framework,SalesforceSDKCoreTestApp.app,SmartStoreTestApp.app,SmartSyncTestApp.app,SalesforceHybridSDKTestApp.app,SalesforceAnalyticsTestApp.app,RestAPIExplorer.app,AccountEditor.app,NoteSync.app,SmartSyncExplorerHybrid.app,SmartSyncExplorer.app,SmartSyncExplorerCommon.framework,RecentContactsTodayExtension.appex,Cordova.framework,SalesforceReact.framework"
-      )
+    xcov(
+        workspace: "SalesforceMobileSDK.xcworkspace",
+        scheme: scheme,
+        output_directory: "xcov_output",
+        exclude_targets: "CocoaLumberjack.framework,SalesforceSDKCoreTestApp.app,SmartStoreTestApp.app,SmartSyncTestApp.app,SalesforceHybridSDKTestApp.app,SalesforceAnalyticsTestApp.app,RestAPIExplorer.app,AccountEditor.app,NoteSync.app,SmartSyncExplorerHybrid.app,SmartSyncExplorer.app,SmartSyncExplorerCommon.framework,RecentContactsTodayExtension.appex,Cordova.framework,SalesforceReact.framework,PromiseKit.framework,SalesforceSwiftSDKTestApp.app,SalesforceReactTestApp.app"
+    )
 
-      schemes = [scheme]
-      if scheme.include?("UnitTests")
-        schemes = $schemes
-      end
-      for oneScheme in schemes
-        begin
-          slather(
-              workspace: "SalesforceMobileSDK.xcworkspace",
-              scheme: oneScheme,
-              output_directory: "slather_output_temp/#{oneScheme}",
-              html: true,
-              jenkins: $Jenkins,
-              cobertura_xml: true,
-              ignore: ["../*", "external/*"],
-              proj: "./libs/%s/%s.xcodeproj" %[oneScheme, oneScheme],
-              verbose: true
-          )
-        rescue => ex
-          UI.error(ex)
-        end
-      end
-
-      system("mkdir -p ../slather_output")
-      desFile = "../slather_output/cobertura.xml"
-      system("rm #{desFile}") #remove existing file first
-      coberturaXmls = Dir["../slather_output_temp/**/cobertura*.xml"]
-      mergeFiles = Array.new
-      for i in 0..coberturaXmls.size-1
-        coberturaXml = coberturaXmls[i]
-        if i == 0
-          system("cp #{coberturaXml} #{desFile}")
-        else
-          mergeFiles.push(coberturaXml)
-        end
-      end
-      combinePackagesOfXML(desFile, mergeFiles)
+    schemes = [scheme]
+    if scheme.include?("UnitTests")
+      schemes = $schemes
     end
+    for oneScheme in schemes
+      begin
+        slather(
+            workspace: "SalesforceMobileSDK.xcworkspace",
+            scheme: oneScheme,
+            output_directory: "slather_output_temp/#{oneScheme}",
+            html: true,
+            jenkins: $Jenkins,
+            cobertura_xml: true,
+            ignore: ["../*", "external/*"],
+            proj: "./libs/%s/%s.xcodeproj" %[oneScheme, oneScheme],
+            verbose: true
+        )
+      rescue => ex
+        UI.error(ex)
+      end
+    end
+
+    system("mkdir -p ../slather_output")
+    desFile = "../slather_output/cobertura.xml"
+    system("rm #{desFile}") #remove existing file first
+    coberturaXmls = Dir["../slather_output_temp/**/cobertura*.xml"]
+    mergeFiles = Array.new
+    for i in 0..coberturaXmls.size-1
+      coberturaXml = coberturaXmls[i]
+      if i == 0
+        system("cp #{coberturaXml} #{desFile}")
+      else
+        mergeFiles.push(coberturaXml)
+      end
+    end
+    combinePackagesOfXML(desFile, mergeFiles)
   end
 end
 
