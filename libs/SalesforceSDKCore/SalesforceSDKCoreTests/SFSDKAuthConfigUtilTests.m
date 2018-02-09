@@ -45,30 +45,39 @@ static NSString * const kSFSandboxEndpoint = @"test.salesforce.com";
 - (void)testGetAuthConfig {
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:kSFTestId clientId:kSFTestClientId encrypted:YES];
     [credentials setDomain:kSFMyDomainEndpoint];
+    XCTestExpectation *expect = [self expectationWithDescription:@"testGetAuthConfig"];
     [SFSDKAuthConfigUtil getMyDomainAuthConfig:^(SFOAuthOrgAuthConfiguration *authConfig, NSError *error) {
         XCTAssertNil(error, @"Error should be nil");
         XCTAssertNotNil(authConfig, @"Auth config should not be nil");
         XCTAssertNotNil(authConfig.authConfigDict, @"Auth config dictionary should not be nil");
+        [expect fulfill];
     } oauthCredentials:credentials];
+    [self waitForExpectationsWithTimeout:20 handler:nil];
 }
 
 - (void)testBrowserBasedLoginEnabled {
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:kSFTestId clientId:kSFTestClientId encrypted:YES];
     [credentials setDomain:kSFMyDomainEndpoint];
+    XCTestExpectation *expect = [self expectationWithDescription:@"testBrowserBasedLoginEnabled"];
     [SFSDKAuthConfigUtil getMyDomainAuthConfig:^(SFOAuthOrgAuthConfiguration *authConfig, NSError *error) {
         XCTAssertNil(error, @"Error should be nil");
         XCTAssertNotNil(authConfig, @"Auth config should not be nil");
         XCTAssertNotNil(authConfig.authConfigDict, @"Auth config dictionary should not be nil");
         XCTAssertTrue(authConfig.useNativeBrowserForAuth, @"Browser based login should be enabled");
+        [expect fulfill];
     } oauthCredentials:credentials];
+    [self waitForExpectationsWithTimeout:20 handler:nil];
 }
 
 - (void)testGetNoAuthConfig {
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:kSFTestId clientId:kSFTestClientId encrypted:YES];
     [credentials setDomain:kSFSandboxEndpoint];
+    XCTestExpectation *expect = [self expectationWithDescription:@"testGetNoAuthConfig"];
     [SFSDKAuthConfigUtil getMyDomainAuthConfig:^(SFOAuthOrgAuthConfiguration *authConfig, NSError *error) {
         XCTAssertNotNil(authConfig, @"Auth config should be nil");
+        [expect fulfill];
     } oauthCredentials:credentials];
+    [self waitForExpectationsWithTimeout:20 handler:nil];
 }
 
 @end
