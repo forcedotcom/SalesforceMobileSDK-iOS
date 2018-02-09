@@ -65,7 +65,7 @@ static NSString * const kSFSandboxEndpoint = @"test.salesforce.com";
 
 - (void)testGetNoAuthConfig {
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:kSFTestId clientId:kSFTestClientId encrypted:YES];
-    [credentials setDomain:kSFMyDomainEndpoint];
+    [credentials setDomain:kSFSandboxEndpoint];
     [SFSDKAuthConfigUtil getMyDomainAuthConfig:^(SFOAuthOrgAuthConfiguration *authConfig, NSError *error) {
         XCTAssertNotNil(authConfig, @"Auth config should be nil");
     } oauthCredentials:credentials];
