@@ -248,7 +248,7 @@ jobs:
           path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
           destination: Test-Results
       - store_artifacts:
-          path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
+          path: /Users/distiller/SalesforceMobileSDK-iOS/swiftlint.result.json
           destination: Static-Analysis
       - store_artifacts:
           path: /Users/distiller/SalesforceMobileSDK-iOS/slather_output/
@@ -277,6 +277,9 @@ jobs:
         path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
         destination: Static-Analysis
     - store_artifacts:
+        path: /Users/distiller/SalesforceMobileSDK-iOS/swiftlint.result.json
+        destination: Static-Analysis
+    - store_artifacts:
         path: /Users/distiller/SalesforceMobileSDK-iOS/slather_output/
         destination: Code-Coverage
     - run: *codecov
@@ -300,6 +303,9 @@ jobs:
         destination: Test-Results
     - store_artifacts:
         path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
+        destination: Static-Analysis
+    - store_artifacts:
+        path: /Users/distiller/SalesforceMobileSDK-iOS/swiftlint.result.json
         destination: Static-Analysis
     - store_artifacts:
         path: /Users/distiller/SalesforceMobileSDK-iOS/slather_output/
