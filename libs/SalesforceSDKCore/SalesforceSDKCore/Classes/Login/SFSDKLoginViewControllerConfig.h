@@ -29,6 +29,12 @@
 
 #import <Foundation/Foundation.h>
 @protocol SFLoginViewControllerDelegate;
+@class SFLoginViewController;
+
+/**
+ Block typedef for setting up a custom SFLoginViewController.
+ */
+typedef SFLoginViewController * _Nonnull (^SFLoginViewControllerCreationBlock)(void);
 
 @interface SFSDKLoginViewControllerConfig : NSObject
 
@@ -54,5 +60,6 @@
 /** Specifiy a delegate for LoginViewController. */
 @property (nonatomic, weak, nullable) id<SFLoginViewControllerDelegate> delegate;
 
+@property (nonatomic,copy) SFLoginViewControllerCreationBlock _Nullable loginViewControllerCreationBlock;
 
 @end

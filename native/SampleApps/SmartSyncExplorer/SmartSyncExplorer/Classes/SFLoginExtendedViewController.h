@@ -1,10 +1,9 @@
 /*
- SFSDKOAuthViewHandler.m
- SalesforceSDKCore
+ SFLoginExtendedViewController.h
  
- Created by Raj Rao on 7/25/17.
+ Created by Raj Rao on 02/09/18.
  
- Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -26,27 +25,33 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#import "SFSDKAuthViewHandler.h"
-#import "SFLoginViewController.h"
-@implementation SFSDKAuthViewHolder
+#import <SalesforceSDKCore/SalesforceSDKCore.h>
 
-- (WKWebView *)wkWebView {
-    return (WKWebView *) self.loginController.oauthView;
-}
+@interface SFLoginExtendedViewController : SFLoginViewController
 
-- (void)setWkWebView:(WKWebView *)webView {
-   self.loginController.oauthView = webView;
-}
+/** Factory Method to create the back button.
+ */
+- (UIBarButtonItem *_Nonnull)createBackButton;
 
-@end
-@implementation SFSDKAuthViewHandler
-- (id)initWithDisplayBlock:(SFSDKAuthViewDisplayBlock)authViewDisplayBlock  dismissBlock:(SFSDKAuthViewDismissBlock)dismissBlock {
-    self = [super init];
-    if (self) {
-        self.authViewDisplayBlock = authViewDisplayBlock ;
-        self.authViewDismissBlock = dismissBlock;
-    }
-    return self;
-}
+/** Factory Method to create the settings button.
+ */
+- (UIBarButtonItem *_Nonnull)createSettingsButton;
+
+/** Factory Method to create the navigation title.
+ */
+- (UINavigationItem *_Nonnull)createTitleItem;
+
+/** Logic to show back button.
+ */
+- (BOOL)shouldShowBackButton;
+
+/** Back Button was pressed by user
+ */
+- (void)handleBackButtonAction;
+
+/** User Selected a host from the host list
+ @param host SFSDKLoginHost
+ */
+- (void)handleLoginHostSelectedAction:(SFSDKLoginHost *_Nonnull)host;
 
 @end
