@@ -37,6 +37,7 @@
 #import <SmartSyncExplorerCommon/SmartSyncExplorerConfig.h>
 #import "IDPLoginNavViewController.h"
 
+#import "SFLoginExtendedViewController.h"
 @interface AppDelegate () <SalesforceSDKManagerDelegate>
 
 /**
@@ -70,7 +71,13 @@
         [SalesforceSDKManager sharedManager].appConfig.remoteAccessConsumerKey = config.remoteAccessConsumerKey;
         [SalesforceSDKManager sharedManager].appConfig.oauthRedirectURI = config.oauthRedirectURI;
         [SalesforceSDKManager sharedManager].appConfig.oauthScopes = [NSSet setWithArray:config.oauthScopes];
+        SFSDKLoginViewControllerConfig *loginConfig = [[SFSDKLoginViewControllerConfig alloc] init];
+        loginConfig.loginViewControllerCreationBlock = ^SFLoginViewController * _Nonnull{
+            SFLoginExtendedViewController *controller = [[SFLoginExtendedViewController alloc] init];
+            return controller;
+        };
         
+        [SFUserAccountManager sharedInstance].loginViewControllerConfig = loginConfig;
         __weak typeof(self) weakSelf = self;
         
         [[SalesforceSDKManager sharedManager] addDelegate:self];
