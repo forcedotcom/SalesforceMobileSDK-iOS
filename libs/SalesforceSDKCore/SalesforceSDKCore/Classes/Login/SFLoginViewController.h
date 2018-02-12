@@ -127,16 +127,4 @@
  @param host SFSDKLoginHost
  */
 - (void)handleLoginHostSelectedAction:(SFSDKLoginHost *_Nonnull)host;
-
-
-/** Determine whether or not the back button should be shown on navigation bar
- */
-- (BOOL)shouldShowBackButton;
-
-/** Go back to the previous host
- @param sender The sender of this action
- */
-- (void)backToPreviousHost:(nonnull id)sender;
-
-
 @end
