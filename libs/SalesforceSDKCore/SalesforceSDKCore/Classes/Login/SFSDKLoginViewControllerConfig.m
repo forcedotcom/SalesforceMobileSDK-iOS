@@ -29,8 +29,15 @@
 #import <Foundation/Foundation.h>
 #import "SFSDKLoginViewControllerConfig.h"
 #import "UIColor+SFColors.h"
-@implementation SFSDKLoginViewControllerConfig
+#import "SFSDKAppConfig.h"
 
+@interface SFSDKLoginViewControllerConfig()
+@property (nonatomic,strong) SFSDKAppConfig *appConfig;
+@end
+
+@implementation SFSDKLoginViewControllerConfig
+@synthesize shouldDisplayBackButton;
+    
 - (instancetype)init {
 
     self = [super init];
@@ -40,8 +47,13 @@
         _navBarTextColor = [UIColor whiteColor];
         _showNavbar = YES;
         _showSettingsIcon = YES;
+        _appConfig = [[SFSDKAppConfig alloc] init];
     }
     return self;
 }
 
+- (BOOL)shouldDisplayBackButton {
+    return !self.appConfig.shouldAuthenticate;
+}
+    
 @end
