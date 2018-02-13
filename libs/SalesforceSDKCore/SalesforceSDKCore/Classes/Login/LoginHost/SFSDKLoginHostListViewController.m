@@ -31,7 +31,6 @@
 #import "SFSDKLoginHostStorage.h"
 #import "SFSDKLoginHost.h"
 #import "SFSDKResourceUtils.h"
-#import "SFLoginViewController.h"
 #import "SFManagedPreferences.h"
 #import "SFUserAccountManager.h"
 
