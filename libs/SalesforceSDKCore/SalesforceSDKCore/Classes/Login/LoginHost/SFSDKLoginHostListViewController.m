@@ -132,7 +132,7 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
     SFManagedPreferences *managedPreferences = [SFManagedPreferences sharedPreferences];
     if (!(managedPreferences.hasManagedPreferences && managedPreferences.onlyShowAuthorizedHosts)) {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(showAddLoginHost:)];
-        [self.navigationItem.rightBarButtonItem setTintColor:[SFLoginViewController sharedInstance].navBarTextColor];
+        [self.navigationItem.rightBarButtonItem setTintColor:[SFUserAccountManager  sharedInstance].loginViewControllerConfig.navBarTextColor];
     }
     self.title = [SFSDKResourceUtils localizedString:@"LOGIN_CHOOSE_SERVER"];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]
@@ -167,9 +167,6 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
     [self.tableView reloadData];
     [self resizeContentForPopover];
     // style navigiation bar
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    [[SFLoginViewController sharedInstance] styleNavigationBar:self.navigationController.navigationBar];
-    
     [super viewWillAppear:animated];
 }
 
