@@ -70,17 +70,6 @@
         [SalesforceSDKManager sharedManager].appConfig.remoteAccessConsumerKey = config.remoteAccessConsumerKey;
         [SalesforceSDKManager sharedManager].appConfig.oauthRedirectURI = config.oauthRedirectURI;
         [SalesforceSDKManager sharedManager].appConfig.oauthScopes = [NSSet setWithArray:config.oauthScopes];
-        
-        //e.g. of how to subclass and customize SFLoginViewController
-        /*
-        SFSDKLoginViewControllerConfig *loginConfig = [[SFSDKLoginViewControllerConfig alloc] init];
-        loginConfig.loginViewControllerCreationBlock = ^SFLoginViewController * _Nonnull{
-            SFLoginExtendedViewController *controller = [[SFLoginExtendedViewController alloc] init];
-            return controller;
-        };
-        
-        [SFUserAccountManager sharedInstance].loginViewControllerConfig = loginConfig;
-          */
         __weak typeof(self) weakSelf = self;
         [[SalesforceSDKManager sharedManager] addDelegate:self];
         
