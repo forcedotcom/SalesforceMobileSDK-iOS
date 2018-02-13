@@ -86,8 +86,8 @@
  a config object */
 @property (nonatomic, strong, nonnull) SFSDKLoginViewControllerConfig *config;
 
-/** Get the instance of nav bar. Use thi property to get the instance of navBar*/
-@property (nonatomic, strong, readonly,nullable) UINavigationBar *navBar;
+/** Get the instance of nav bar. Use this property to get the instance of navBar*/
+@property (nonatomic, strong, readonly, nullable) UINavigationBar *navBar;
 
 /** Applies the view's style attributes to the given navigation bar.
  @param navigationBar The navigation bar that the style is applied to.
@@ -105,15 +105,15 @@
 
 /** Factory Method to create the back button.
  */
-- (UIBarButtonItem *_Nonnull)createBackButton;
+- (nonnull UIBarButtonItem *)createBackButton;
 
 /** Factory Method to create the settings button.
  */
-- (UIBarButtonItem *_Nonnull)createSettingsButton;
+- (nonnull UIBarButtonItem *)createSettingsButton;
 
 /** Factory Method to create the navigation title.
  */
-- (UINavigationItem *_Nonnull)createTitleItem;
+- (nonnull UINavigationItem *)createTitleItem;
 
 /** Logic to show back button.
  */
@@ -126,5 +126,5 @@
 /** User Selected a host from the host list
  @param host SFSDKLoginHost
  */
-- (void)handleLoginHostSelectedAction:(SFSDKLoginHost *_Nonnull)host;
+- (void)handleLoginHostSelectedAction:(nonnull SFSDKLoginHost *)host;
 @end

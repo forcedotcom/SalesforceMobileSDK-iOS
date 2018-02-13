@@ -60,6 +60,6 @@ typedef SFLoginViewController * _Nonnull (^SFLoginViewControllerCreationBlock)(v
 /** Specifiy a delegate for LoginViewController. */
 @property (nonatomic, weak, nullable) id<SFLoginViewControllerDelegate> delegate;
 
-@property (nonatomic,copy) SFLoginViewControllerCreationBlock _Nullable loginViewControllerCreationBlock;
+@property (nonatomic, copy, nullable) SFLoginViewControllerCreationBlock  loginViewControllerCreationBlock;
 
 @end
