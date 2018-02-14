@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 
 @interface SalesforceHybridSDKManager : SmartSyncSDKManager
-@property (nonatomic, strong, nullable) SFSDKAppConfig *appConfig;
+
 @end
 
 NS_ASSUME_NONNULL_END
