@@ -31,8 +31,6 @@
 #import "UIColor+SFColors.h"
 #import "SFSDKAppConfig.h"
 #import "SalesforceSDKManager.h"
-@interface SFSDKLoginViewControllerConfig()
-@end
 
 @implementation SFSDKLoginViewControllerConfig
 @synthesize shouldDisplayBackButton;
