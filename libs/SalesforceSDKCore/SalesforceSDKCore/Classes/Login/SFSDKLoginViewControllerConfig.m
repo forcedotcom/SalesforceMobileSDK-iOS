@@ -32,7 +32,6 @@
 #import "SFSDKAppConfig.h"
 #import "SalesforceSDKManager.h"
 @interface SFSDKLoginViewControllerConfig()
-@property (nonatomic,strong) SFSDKAppConfig *appConfig;
 @end
 
 @implementation SFSDKLoginViewControllerConfig
@@ -47,7 +46,6 @@
         _navBarTextColor = [UIColor whiteColor];
         _showNavbar = YES;
         _showSettingsIcon = YES;
-        _appConfig = [[SFSDKAppConfig alloc] init];
     }
     return self;
 }
