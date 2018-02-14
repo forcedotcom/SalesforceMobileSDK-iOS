@@ -30,14 +30,14 @@
 #import "SFSDKLoginViewControllerConfig.h"
 #import "UIColor+SFColors.h"
 #import "SFSDKAppConfig.h"
-
+#import "SalesforceSDKManager.h"
 @interface SFSDKLoginViewControllerConfig()
 @property (nonatomic,strong) SFSDKAppConfig *appConfig;
 @end
 
 @implementation SFSDKLoginViewControllerConfig
 @synthesize shouldDisplayBackButton;
-    
+
 - (instancetype)init {
 
     self = [super init];
@@ -53,7 +53,7 @@
 }
 
 - (BOOL)shouldDisplayBackButton {
-    return !self.appConfig.shouldAuthenticate;
+    return ![SalesforceSDKManager sharedManager].appConfig.shouldAuthenticate;
 }
-    
+
 @end
