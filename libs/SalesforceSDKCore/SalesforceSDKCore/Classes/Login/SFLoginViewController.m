@@ -199,7 +199,7 @@ SFSDK_USE_DEPRECATED_END
 }
 
 - (BOOL)shouldShowBackButton {
-    if ([SFUserAccountManager sharedInstance].idpEnabled) {
+    if (self.config.shouldDisplayBackButton || [SFUserAccountManager sharedInstance].idpEnabled) {
         return YES;
     }
     NSInteger totalAccounts = [SFUserAccountManager sharedInstance].allUserAccounts.count;
