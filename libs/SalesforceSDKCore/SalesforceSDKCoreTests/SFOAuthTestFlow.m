@@ -23,14 +23,11 @@
  */
 
 #import "SFOAuthTestFlow.h"
-#import "SFOAuthOrgAuthConfiguration.h"
 #import "SFOAuthInfo.h"
 
 @interface SFOAuthTestFlow ()
 
 @property (nonatomic, weak) SFOAuthCoordinator *coordinator;
-@property (nonatomic, strong) SFOAuthOrgAuthConfiguration *retrieveOrgConf;
-@property (nonatomic, strong) NSError *retrieveOrgConfError;
 
 @end
 
@@ -48,11 +45,6 @@
         self.refreshTokenFlowIsSuccessful = YES;
     }
     return self;
-}
-
-- (void)setRetrieveOrgAuthConfigurationData:(SFOAuthOrgAuthConfiguration *)config error:(NSError *)error {
-    self.retrieveOrgConf = config;
-    self.retrieveOrgConfError = error;
 }
 
 #pragma mark - Private methods
@@ -137,13 +129,6 @@
 - (void)beginNativeBrowserFlow {
     [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
     self.beginNativeBrowserFlowCalled = YES;
-}
-
-- (void)retrieveOrgAuthConfiguration:(void (^)(SFOAuthOrgAuthConfiguration *orgAuthConfig, NSError *error))retrievedAuthConfigBlock {
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
-    if (retrievedAuthConfigBlock) {
-        retrievedAuthConfigBlock(self.retrieveOrgConf, self.retrieveOrgConfError);
-    }
 }
 
 - (void)handleTokenEndpointResponse:(NSMutableData *) data{

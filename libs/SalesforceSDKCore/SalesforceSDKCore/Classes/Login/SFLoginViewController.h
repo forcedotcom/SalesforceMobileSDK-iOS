@@ -86,11 +86,8 @@
  a config object */
 @property (nonatomic, strong, nonnull) SFSDKLoginViewControllerConfig *config;
 
-/** This property will give access to the Navigation Bar */
+/** Get the instance of nav bar. Use this property to get the instance of navBar*/
 @property (nonatomic, strong, readonly, nullable) UINavigationBar *navBar;
-
-/** This property will give access to the SFSDKLoginHostListViewController */
-@property (nonatomic, strong, readonly, nonnull) SFSDKLoginHostListViewController *loginHostListViewController;
 
 /** Applies the view's style attributes to the given navigation bar.
  @param navigationBar The navigation bar that the style is applied to.
@@ -106,14 +103,28 @@
  */
 - (void)hideHostListView:(BOOL)animated;
 
-/** Determine whether or not the back button should be shown on navigation bar
+/** Factory Method to create the back button.
+ */
+- (nonnull UIBarButtonItem *)createBackButton;
+
+/** Factory Method to create the settings button.
+ */
+- (nonnull UIBarButtonItem *)createSettingsButton;
+
+/** Factory Method to create the navigation title.
+ */
+- (nonnull UINavigationItem *)createTitleItem;
+
+/** Logic to show back button.
  */
 - (BOOL)shouldShowBackButton;
 
-/** Go back to the previous host
- @param sender The sender of this action
+/** Back Button was pressed by user
  */
-- (void)backToPreviousHost:(nonnull id)sender;
+- (void)handleBackButtonAction;
 
-
+/** User Selected a host from the host list
+ @param host SFSDKLoginHost
+ */
+- (void)handleLoginHostSelectedAction:(nonnull SFSDKLoginHost *)host;
 @end

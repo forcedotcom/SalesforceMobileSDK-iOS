@@ -27,9 +27,9 @@ import SmartSync
 import PromiseKit
 
 enum SFSmartSyncError : Error {
-    case SyncDownFailed
-    case SyncUpFailed
-    case ReSyncFailed
+    case SyncDownFailed(syncState: SFSyncState)
+    case SyncUpFailed(syncState: SFSyncState)
+    case ReSyncFailed(syncState: SFSyncState)
     case CleanResyncGhostsFailed
 }
 
@@ -180,7 +180,7 @@ extension SFSmartSyncSyncManager {
                     if syncState.status == .done  {
                         resolver.fulfill(syncState)
                     } else if syncState.status == .failed {
-                        resolver.reject(SFSmartSyncError.SyncDownFailed)
+                        resolver.reject(SFSmartSyncError.SyncDownFailed(syncState: syncState))
                     }
                 })
             }
@@ -209,7 +209,7 @@ extension SFSmartSyncSyncManager {
                     if syncState.status == .done  {
                         resolver.fulfill(syncState)
                     } else if syncState.status == .failed {
-                        resolver.reject(SFSmartSyncError.SyncDownFailed)
+                        resolver.reject(SFSmartSyncError.SyncDownFailed(syncState: syncState))
                     }
                 })
             }
@@ -238,7 +238,7 @@ extension SFSmartSyncSyncManager {
                     if syncState.status == .done  {
                         resolver.fulfill(syncState)
                     } else if syncState.status == .failed {
-                        resolver.reject(SFSmartSyncError.SyncDownFailed)
+                        resolver.reject(SFSmartSyncError.SyncDownFailed(syncState: syncState))
                     }
                 })
             }
@@ -267,7 +267,7 @@ extension SFSmartSyncSyncManager {
                     if syncState.status == .done  {
                         resolver.fulfill(syncState)
                     } else if syncState.status == .failed {
-                        resolver.reject(SFSmartSyncError.ReSyncFailed)
+                        resolver.reject(SFSmartSyncError.ReSyncFailed(syncState: syncState))
                     }
                 })
             }
@@ -295,7 +295,7 @@ extension SFSmartSyncSyncManager {
                     if syncState.status == .done  {
                         resolver.fulfill(syncState)
                     } else if syncState.status == .failed {
-                         resolver.reject(SFSmartSyncError.ReSyncFailed)
+                         resolver.reject(SFSmartSyncError.ReSyncFailed(syncState: syncState))
                     }
                 })
             }
@@ -343,7 +343,7 @@ extension SFSmartSyncSyncManager {
                     if syncState.status == .done  {
                         resolver.fulfill(syncState)
                     } else if syncState.status == .failed {
-                        resolver.reject(SFSmartSyncError.SyncUpFailed)
+                        resolver.reject(SFSmartSyncError.SyncUpFailed(syncState: syncState))
                     }
                 }
             }
@@ -373,7 +373,7 @@ extension SFSmartSyncSyncManager {
                     if syncState.status == .done  {
                         resolver.fulfill(syncState)
                     } else if syncState.status == .failed {
-                        resolver.reject(SFSmartSyncError.SyncUpFailed)
+                        resolver.reject(SFSmartSyncError.SyncUpFailed(syncState: syncState))
                     }
                 })
             }
@@ -402,7 +402,7 @@ extension SFSmartSyncSyncManager {
                     if syncState.status == .done  {
                         resolver.fulfill(syncState)
                     } else if syncState.status == .failed {
-                        resolver.reject(SFSmartSyncError.SyncUpFailed)
+                        resolver.reject(SFSmartSyncError.SyncUpFailed(syncState: syncState))
                     }
                 })
             }

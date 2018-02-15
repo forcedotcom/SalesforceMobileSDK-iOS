@@ -121,23 +121,17 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
                     } dismissBlock:nil];
         } else {
             self.config.authViewHandler = [[SFSDKAuthViewHandler alloc]
-                    initWithDisplayBlock:^(SFSDKAuthViewHolder *viewHandler) {
+                    initWithDisplayBlock:^(SFSDKAuthViewHolder *viewHolder) {
                         __strong typeof(weakSelf) strongSelf = weakSelf;
-                        if (strongSelf.config.authViewController == nil) {
-                            strongSelf.config.authViewController = [[SFLoginViewController alloc] initWithNibName:nil bundle:nil];
-                            strongSelf.config.authViewController.delegate = strongSelf;
-                        }
-                        strongSelf.config.authViewController.config = strongSelf.config.loginViewControllerConfig;
-                        [strongSelf.config.authViewController setOauthView:viewHandler.wkWebView];
                         
                         if (!strongSelf.config.idpEnabled) {
                             strongSelf.authWindow.viewController = strongSelf.config.authViewController;
                             
                         } else {
                             if ([strongSelf.authWindow.window.rootViewController isViewLoaded]) {
-                                [strongSelf.authWindow.window.rootViewController  presentViewController:strongSelf.config.authViewController  animated:NO completion:nil];
+                                [strongSelf.authWindow.window.rootViewController  presentViewController:viewHolder.loginController   animated:NO completion:nil];
                             }else {
-                                strongSelf.authWindow.viewController = strongSelf.config.authViewController;
+                                strongSelf.authWindow.viewController = viewHolder.loginController;
                             }
                         }
                         [[SFSDKWindowManager sharedManager].authWindow presentWindow];
@@ -445,9 +439,12 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
     if ([self.config.webViewDelegate respondsToSelector:@selector(authClient:willDisplayAuthWebView:)]) {
         [self.config.webViewDelegate authClient:self willDisplayAuthWebView:view];
     }
+    SFLoginViewController *loginViewController = [self createLoginViewControllerInstance];
+    loginViewController.oauthView = view;
     SFSDKAuthViewHolder *viewHolder = [SFSDKAuthViewHolder new];
-    viewHolder.wkWebView = view;
+    viewHolder.loginController = self.config.authViewController;
     viewHolder.isAdvancedAuthFlow = NO;
+    self.config.authViewController  = loginViewController;
     // Ensure this runs on the main thread.  Has to be sync, because the coordinator expects the auth view
     // to be added to a superview by the end of this method.
     if (![NSThread isMainThread]) {
@@ -584,6 +581,20 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
     [SFSDKCoreLogger i:[self class] format:@"%@: Restarting in-progress authentication process.", NSStringFromSelector(_cmd)];
     [self.coordinator stopAuthentication];
     [self refreshCredentials];
+}
+
+- (SFLoginViewController *) createLoginViewControllerInstance {
+    SFLoginViewController *controller = nil;
+   
+    if (self.config.loginViewControllerConfig.loginViewControllerCreationBlock) {
+        controller = self.config.loginViewControllerConfig.loginViewControllerCreationBlock();
+    }else {
+        controller = [[SFLoginViewController alloc] initWithNibName:nil bundle:nil];
+    }
+    
+    [controller setConfig:self.config.loginViewControllerConfig];
+    [controller setDelegate:self];
+    return controller;
 }
 
 #pragma mark - SFSDKOAuthClientProvider

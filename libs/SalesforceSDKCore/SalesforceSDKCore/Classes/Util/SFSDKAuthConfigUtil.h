@@ -1,10 +1,9 @@
 /*
- SFSDKOAuthViewHandler.m
+ SFSDKAuthConfigUtil.h
  SalesforceSDKCore
  
- Created by Raj Rao on 7/25/17.
- 
- Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
+ Created by Bharath Hariharan on 2/4/18.
+ Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -26,27 +25,14 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#import "SFSDKAuthViewHandler.h"
-#import "SFLoginViewController.h"
-@implementation SFSDKAuthViewHolder
 
-- (WKWebView *)wkWebView {
-    return (WKWebView *) self.loginController.oauthView;
-}
+#import "SFOAuthOrgAuthConfiguration.h"
+#import "SFOAuthCredentials.h"
 
-- (void)setWkWebView:(WKWebView *)webView {
-   self.loginController.oauthView = webView;
-}
+@interface SFSDKAuthConfigUtil : NSObject
 
-@end
-@implementation SFSDKAuthViewHandler
-- (id)initWithDisplayBlock:(SFSDKAuthViewDisplayBlock)authViewDisplayBlock  dismissBlock:(SFSDKAuthViewDismissBlock)dismissBlock {
-    self = [super init];
-    if (self) {
-        self.authViewDisplayBlock = authViewDisplayBlock ;
-        self.authViewDismissBlock = dismissBlock;
-    }
-    return self;
-}
+typedef void (^ _Nonnull MyDomainAuthConfigBlock)(SFOAuthOrgAuthConfiguration * _Nullable authConfig, NSError * _Nullable error);
+
++ (void)getMyDomainAuthConfig:(nonnull MyDomainAuthConfigBlock)authConfigBlock oauthCredentials:(nonnull SFOAuthCredentials *)oauthCredentials;
 
 @end

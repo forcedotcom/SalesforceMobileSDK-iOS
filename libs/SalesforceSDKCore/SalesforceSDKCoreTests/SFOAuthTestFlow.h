@@ -26,7 +26,6 @@
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import "SFOAuthCoordinator+Internal.h"
 
-@class SFOAuthOrgAuthConfiguration;
 @class SFOAuthInfo;
 
 @interface SFOAuthTestFlow : NSObject <SFOAuthCoordinatorFlow>
@@ -44,6 +43,5 @@
 @property (nonatomic, assign) BOOL refreshTokenFlowIsSuccessful;
 
 - (id)initWithCoordinator:(SFOAuthCoordinator *)coordinator;
-- (void)setRetrieveOrgAuthConfigurationData:(SFOAuthOrgAuthConfiguration *)config error:(NSError *)error;
 
 @end

@@ -29,6 +29,12 @@
 
 #import <Foundation/Foundation.h>
 @protocol SFLoginViewControllerDelegate;
+@class SFLoginViewController;
+
+/**
+ Block typedef for setting up a custom SFLoginViewController.
+ */
+typedef SFLoginViewController * _Nonnull (^SFLoginViewControllerCreationBlock)(void);
 
 @interface SFSDKLoginViewControllerConfig : NSObject
 
@@ -48,11 +54,13 @@
 /** Specifiy the visibility of the settings icon. This property will be used to hide/show the settings icon*/
 @property (nonatomic) BOOL showSettingsIcon;
 
-/** Specifiy the visibility of the back icon. This property will be used to hide/show the settings icon*/
-@property (nonatomic) BOOL shouldDisplayBackButton;
+/** Specifiy the visibility of the back icon. This property value can be changed by changing the value of shouldAuthenticate in bootconfig or by subclasssing SFLoginViewController.
+ */
+@property (nonatomic,readonly) BOOL shouldDisplayBackButton;
 
 /** Specifiy a delegate for LoginViewController. */
 @property (nonatomic, weak, nullable) id<SFLoginViewControllerDelegate> delegate;
 
+@property (nonatomic, copy, nullable) SFLoginViewControllerCreationBlock  loginViewControllerCreationBlock;
 
 @end

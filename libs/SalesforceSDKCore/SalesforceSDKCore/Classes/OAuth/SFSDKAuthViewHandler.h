@@ -30,7 +30,7 @@
 @class WKWebView;
 @class SFSafariViewController;
 @class SFSDKAuthViewHolder;
-
+@class SFLoginViewController;
 NS_ASSUME_NONNULL_BEGIN
 /**
  Block definition for displaying the auth view.
@@ -44,7 +44,9 @@ typedef void (^SFSDKAuthViewDismissBlock)(void);
 
 @interface SFSDKAuthViewHolder : NSObject
 
-@property (nonatomic,weak,nullable) WKWebView * wkWebView;
+@property (nonatomic,weak,nullable) WKWebView *wkWebView;
+
+@property (nonatomic,weak) SFLoginViewController *loginController;
 
 @property (nonatomic,weak,nullable) SFSafariViewController *safariViewController;
 

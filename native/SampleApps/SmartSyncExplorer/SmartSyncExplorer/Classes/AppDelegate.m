@@ -70,9 +70,7 @@
         [SalesforceSDKManager sharedManager].appConfig.remoteAccessConsumerKey = config.remoteAccessConsumerKey;
         [SalesforceSDKManager sharedManager].appConfig.oauthRedirectURI = config.oauthRedirectURI;
         [SalesforceSDKManager sharedManager].appConfig.oauthScopes = [NSSet setWithArray:config.oauthScopes];
-        
         __weak typeof(self) weakSelf = self;
-        
         [[SalesforceSDKManager sharedManager] addDelegate:self];
         
         //Uncomment following block to enable IDP Login flow.

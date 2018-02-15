@@ -214,7 +214,8 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
 
 - (SFSDKAppConfig *)appConfig {
     if (_appConfig == nil) {
-        _appConfig = [[SFSDKAppConfig alloc] init];
+        SFSDKAppConfig *config = [SFSDKAppConfig fromDefaultConfigFile];
+        _appConfig = config?:[[SFSDKAppConfig alloc] init];
     }
     return _appConfig;
 }
@@ -510,13 +511,6 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
 {
     BOOL validInputs = YES;
     NSMutableArray *launchStateErrorMessages = [NSMutableArray array];
-    
-    // Attempt to load a default configuration, if one has not been configured.
-    if (_appConfig == nil) {
-        Class appConfigClass = (self.appType == kSFAppTypeHybrid ? NSClassFromString(@"SFHybridViewConfig") : [SFSDKAppConfig class]);
-        self.appConfig = [appConfigClass fromDefaultConfigFile];
-    }
-    
     // Managed settings should override any equivalent local app settings.
     [self configureManagedSettings];
     
