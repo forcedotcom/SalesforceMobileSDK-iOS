@@ -84,7 +84,7 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
  */
 - (SFRestRequest *) performSOSLSearch:(NSString *)search 
                             failBlock:(SFRestFailBlock)failBlock 
-                        completeBlock:(SFRestArrayResponseBlock)completeBlock;
+                        completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
 
 /**
  * Executes a global describe.
