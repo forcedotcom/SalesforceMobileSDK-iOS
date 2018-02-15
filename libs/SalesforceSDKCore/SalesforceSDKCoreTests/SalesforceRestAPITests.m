@@ -1470,6 +1470,7 @@ static NSException *authException = nil;
 
     // An success block that we expected to succeed
     SFRestDictionaryResponseBlock dictSuccessBlock = ^(NSDictionary *d, NSURLResponse *rawResponse) {
+        [XCTAssertTrue([d isKindOfClass:[NSDictionary class]], @"Response should be a dictionary")];
         [self.currentExpectation fulfill];
     };
 
