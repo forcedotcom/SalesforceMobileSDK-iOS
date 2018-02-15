@@ -101,8 +101,8 @@ static NSString * const kUserAccountIdentityOrgIdKey = @"orgIdKey";
     
     SFUserAccountIdentity *objectToCompare = (SFUserAccountIdentity *)object;
     
-    BOOL userIdsEqual = ((objectToCompare.userId == nil && self.userId == nil) || [objectToCompare.userId isEqualToEntityId:self.userId]);
-    BOOL orgIdsEqual = ((objectToCompare.orgId == nil && self.orgId == nil) || [objectToCompare.orgId isEqualToEntityId:self.orgId]);
+    BOOL userIdsEqual = [objectToCompare.userId isEqualToEntityId:self.userId];
+    BOOL orgIdsEqual = [objectToCompare.orgId isEqualToEntityId:self.orgId];
     return userIdsEqual && orgIdsEqual;
 }
 
