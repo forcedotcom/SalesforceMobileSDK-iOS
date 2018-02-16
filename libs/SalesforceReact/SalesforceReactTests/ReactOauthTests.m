@@ -32,7 +32,7 @@
 @implementation ReactOauthTests
 
 - (void)setUp {
-    self.jsSuitePath = @"js/oauth.test";
+    self.jsSuitePath = @"node_modules/react-native-force/test/oauth.test";
     [super setUp];
 }
 

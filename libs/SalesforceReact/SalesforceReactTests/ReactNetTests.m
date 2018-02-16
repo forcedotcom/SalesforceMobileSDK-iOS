@@ -32,7 +32,7 @@
 @implementation ReactNetTests
 
 - (void)setUp {
-    self.jsSuitePath = @"js/net.test";
+    self.jsSuitePath = @"node_modules/react-native-force/test/net.test";
     [super setUp];
 }
 

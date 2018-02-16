@@ -40,7 +40,7 @@
 }
 
 - (void)setUp {
-    self.jsSuitePath = @"js/smartstore.test";
+    self.jsSuitePath = @"node_modules/react-native-force/test/smartstore.test";
     [super setUp];
 }
 
