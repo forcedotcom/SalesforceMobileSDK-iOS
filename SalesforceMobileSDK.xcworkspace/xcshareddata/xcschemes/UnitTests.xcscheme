@@ -468,6 +468,16 @@
                ReferencedContainer = "container:native/SampleApps/SmartSyncExplorer/SmartSyncExplorer.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "B7DA7AC31FCDE08F0098C1EA"
+               BuildableName = "SalesforceSwiftSDKTests.xctest"
+               BlueprintName = "SalesforceSwiftSDKTests"
+               ReferencedContainer = "container:libs/SalesforceSwiftSDK/SalesforceSwiftSDK.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

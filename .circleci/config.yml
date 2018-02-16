@@ -38,7 +38,7 @@ aliases:
 
   - &codecov
     name: Codecov Uplaod
-    command: bash <(curl -s https://codecov.io/bash) -f slather_output/cobertura.xml -X gcov -X xcode
+    command: bash <(curl -s https://codecov.io/bash) -X gcov -X xcode
     when: always
 
 defaults: &defaults
@@ -205,6 +205,56 @@ jobs:
           destination: Code-Coverage
       - run: *codecov
 
+  test-SmartSync:
+    <<: *defaults
+    environment:
+      - FASTLANE_LANE: "PR lib:SmartSync"
+      - LIB: "SmartSync"
+    steps:
+      - checkout
+      - restore_cache: *restore-gem-cache
+      - run: *install-dependecies
+      - save_cache: *save-gem-cache
+      - run: *run-tests
+      - run: *danger-lib
+      - store_test_results:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
+      - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
+          destination: Test-Results
+      - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
+          destination: Static-Analysis
+      - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/slather_output/
+          destination: Code-Coverage
+      - run: *codecov
+
+  test-SalesforceReact:
+    <<: *defaults
+    environment:
+      - FASTLANE_LANE: "PR lib:SalesforceReact"
+      - LIB: "SalesforceReact"
+    steps:
+      - checkout
+      - restore_cache: *restore-gem-cache
+      - run: *install-dependecies
+      - save_cache: *save-gem-cache
+      - run: *run-tests
+      - run: *danger-lib
+      - store_test_results:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
+      - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
+          destination: Test-Results
+      - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
+          destination: Static-Analysis
+      - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/slather_output/
+          destination: Code-Coverage
+      - run: *codecov
+
 
   test-ios-11:
     <<: *defaults
@@ -225,6 +275,9 @@ jobs:
         destination: Test-Results
     - store_artifacts:
         path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
+        destination: Static-Analysis
+    - store_artifacts:
+        path: /Users/distiller/SalesforceMobileSDK-iOS/swiftlint.result.json
         destination: Static-Analysis
     - store_artifacts:
         path: /Users/distiller/SalesforceMobileSDK-iOS/slather_output/
@@ -250,6 +303,9 @@ jobs:
         destination: Test-Results
     - store_artifacts:
         path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
+        destination: Static-Analysis
+    - store_artifacts:
+        path: /Users/distiller/SalesforceMobileSDK-iOS/swiftlint.result.json
         destination: Static-Analysis
     - store_artifacts:
         path: /Users/distiller/SalesforceMobileSDK-iOS/slather_output/
