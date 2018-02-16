@@ -1470,14 +1470,14 @@ static NSException *authException = nil;
 
     // An success block that we expected to succeed
     SFRestDictionaryResponseBlock dictSuccessBlock = ^(NSDictionary *d, NSURLResponse *rawResponse) {
-        [XCTAssertTrue([d isKindOfClass:[NSDictionary class]], @"Response should be a dictionary")];
+        XCTAssertTrue([d isKindOfClass:[NSDictionary class]], @"Response should be a dictionary");
         [self.currentExpectation fulfill];
     };
 
     // Class helper function that creates an error.
     NSString *errorStr = @"Sample error.";
-    XCTAssertTrue( [errorStr isEqualToString:[[SFRestAPI errorWithDescription:errorStr] localizedDescription]],
-                  @"Generated error should match description." );
+    XCTAssertTrue([errorStr isEqualToString:[[SFRestAPI errorWithDescription:errorStr] localizedDescription]],
+                  @"Generated error should match description.");
     
     // Block functions that should always fail
     self.currentExpectation = [self expectationWithDescription:@"performDeleteWithObjectType-nil"];
