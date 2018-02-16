@@ -1450,7 +1450,7 @@ static NSException *authException = nil;
 
 - (void) testBlocks {
     SFRestAPI *api = [SFRestAPI sharedInstance];
-    
+
     // A fail block that we expected to fail
     SFRestFailBlock failWithExpectedFail = ^(NSError *e, NSURLResponse *rawResponse) {
         [self.currentExpectation fulfill];
@@ -1461,28 +1461,23 @@ static NSException *authException = nil;
         XCTFail(@"Unexpected error %@", e);
         [self.currentExpectation fulfill];
     };
-    
-    
+
     // A success block that should not have succeeded
     SFRestDictionaryResponseBlock successWithUnexpectedSuccessBlock = ^(NSDictionary *d, NSURLResponse *rawResponse) {
         XCTFail(@"Unexpected success %@", d);
         [self.currentExpectation fulfill];
     };
-    
+
     // An success block that we expected to succeed
     SFRestDictionaryResponseBlock dictSuccessBlock = ^(NSDictionary *d, NSURLResponse *rawResponse) {
+        XCTAssertTrue([d isKindOfClass:[NSDictionary class]], @"Response should be a dictionary");
         [self.currentExpectation fulfill];
     };
-    
-    // An array success block that we expected to succeed
-    SFRestArrayResponseBlock arraySuccessBlock = ^(NSArray *arr, NSURLResponse *rawResponse) {
-        [self.currentExpectation fulfill];
-    };
-    
+
     // Class helper function that creates an error.
     NSString *errorStr = @"Sample error.";
-    XCTAssertTrue( [errorStr isEqualToString:[[SFRestAPI errorWithDescription:errorStr] localizedDescription]],
-                  @"Generated error should match description." );
+    XCTAssertTrue([errorStr isEqualToString:[[SFRestAPI errorWithDescription:errorStr] localizedDescription]],
+                  @"Generated error should match description.");
     
     // Block functions that should always fail
     self.currentExpectation = [self expectationWithDescription:@"performDeleteWithObjectType-nil"];
@@ -1490,58 +1485,55 @@ static NSException *authException = nil;
                            failBlock:failWithExpectedFail
                        completeBlock:successWithUnexpectedSuccessBlock];
     [self waitForExpectation];
-    
+
     self.currentExpectation = [self expectationWithDescription:@"performCreateWithObjectType-nil"];
     [api performCreateWithObjectType:(NSString* _Nonnull)nil fields:(NSDictionary<NSString*, id>* _Nonnull)nil
                            failBlock:failWithExpectedFail
                        completeBlock:successWithUnexpectedSuccessBlock];
     [self waitForExpectation];
-    
+
     self.currentExpectation = [self expectationWithDescription:@"performMetadataWithObjectType-nil"];
     [api performMetadataWithObjectType:(NSString* _Nonnull)nil
                              failBlock:failWithExpectedFail
                          completeBlock:successWithUnexpectedSuccessBlock];
     [self waitForExpectation];
-    
+
     self.currentExpectation = [self expectationWithDescription:@"performDescribeWithObjectType-nil"];
     [api performDescribeWithObjectType:(NSString* _Nonnull)nil
                              failBlock:failWithExpectedFail
                          completeBlock:successWithUnexpectedSuccessBlock];
     [self waitForExpectation];
-    
+
     self.currentExpectation = [self expectationWithDescription:@"performRetrieveWithObjectType-nil"];
     [api performRetrieveWithObjectType:(NSString* _Nonnull)nil objectId:(NSString* _Nonnull)nil fieldList:(NSArray<NSString*>* _Nonnull)nil
                              failBlock:failWithExpectedFail
                          completeBlock:successWithUnexpectedSuccessBlock];
     [self waitForExpectation];
-    
+
     self.currentExpectation = [self expectationWithDescription:@"performUpdateWithObjectType-nil"];
     [api performUpdateWithObjectType:(NSString* _Nonnull)nil objectId:(NSString* _Nonnull)nil fields:(NSDictionary<NSString*, id>* _Nonnull)nil
                            failBlock:failWithExpectedFail
                        completeBlock:successWithUnexpectedSuccessBlock];
     [self waitForExpectation];
-    
+
     self.currentExpectation = [self expectationWithDescription:@"performUpsertWithObjectType-nil"];
     [api performUpsertWithObjectType:(NSString* _Nonnull)nil externalIdField:(NSString* _Nonnull)nil externalId:(NSString* _Nonnull)nil
                               fields:(NSDictionary<NSString*, id>* _Nonnull)nil
                            failBlock:failWithExpectedFail
                        completeBlock:successWithUnexpectedSuccessBlock];
     [self waitForExpectation];
-    
+
     self.currentExpectation = [self expectationWithDescription:@"performSOQLQuery-nil"];
     [api performSOQLQuery:(NSString* _Nonnull)nil
                 failBlock:failWithExpectedFail
             completeBlock:successWithUnexpectedSuccessBlock];
     [self waitForExpectation];
-    
+
     self.currentExpectation = [self expectationWithDescription:@"performSOQLQueryAll-nil"];
     [api performSOQLQueryAll:(NSString* _Nonnull)nil
                    failBlock:failWithExpectedFail
                completeBlock:successWithUnexpectedSuccessBlock];
     [self waitForExpectation];
-
-    // NB: sosl with nil used to fail but now returns the dict { layout = "/services/data/v42.0/search/layout" ... }
-    //     as a result performSOSLSearch can't be used since it expects an array in the response
     
     // Block functions that should always succeed
     self.currentExpectation = [self expectationWithDescription:@"performRequestForResourcesWithFailBlock"];
@@ -1574,7 +1566,7 @@ static NSException *authException = nil;
     self.currentExpectation = [self expectationWithDescription:@"performSOSLSearch-find {batman}"];
     [api performSOSLSearch:@"find {batman}"
                  failBlock:failWithUnexpectedFail
-             completeBlock:arraySuccessBlock];
+             completeBlock:dictSuccessBlock];
     [self waitForExpectation];
 
     self.currentExpectation = [self expectationWithDescription:@"performDescribeWithObjectType-Contact"];
@@ -1589,7 +1581,6 @@ static NSException *authException = nil;
                          completeBlock:dictSuccessBlock];
     [self waitForExpectation];
 }
-
 
 - (void)testBlocksCancel {
     self.currentExpectation = [self expectationWithDescription:@"performRequestForResourcesWithFailBlock-with-cancel"];
