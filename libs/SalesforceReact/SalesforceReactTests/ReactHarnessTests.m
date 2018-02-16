@@ -32,7 +32,7 @@
 @implementation ReactHarnessTests
 
 - (void)setUp {
-    self.jsSuitePath = @"js/harness.test";
+    self.jsSuitePath = @"node_modules/react-native-force/test/harness.test";
     [super setUp];
 }
 

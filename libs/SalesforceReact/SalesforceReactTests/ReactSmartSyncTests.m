@@ -40,7 +40,7 @@
 }
 
 - (void)setUp {
-    self.jsSuitePath = @"js/smartsync.test";
+    self.jsSuitePath = @"node_modules/react-native-force/test/smartsync.test";
     [super setUp];
 }
 
