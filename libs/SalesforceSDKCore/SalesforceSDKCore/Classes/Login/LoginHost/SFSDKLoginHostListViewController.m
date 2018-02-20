@@ -131,7 +131,6 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
     SFManagedPreferences *managedPreferences = [SFManagedPreferences sharedPreferences];
     if (!(managedPreferences.hasManagedPreferences && managedPreferences.onlyShowAuthorizedHosts)) {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(showAddLoginHost:)];
-        [self.navigationItem.rightBarButtonItem setTintColor:[SFUserAccountManager  sharedInstance].loginViewControllerConfig.navBarTextColor];
     }
     self.title = [SFSDKResourceUtils localizedString:@"LOGIN_CHOOSE_SERVER"];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]
@@ -167,6 +166,11 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
     [self resizeContentForPopover];
     // style navigiation bar
     [super viewWillAppear:animated];
+    
+    SFSDKLoginViewControllerConfig *config = [SFUserAccountManager sharedInstance].loginViewControllerConfig;
+    [self.navigationController.navigationBar setBarTintColor:config.navBarColor];
+    self.navigationController.navigationBar.tintColor = config.navBarTextColor;
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName: config.navBarTitleColor, NSFontAttributeName: config.navBarFont}];
 }
 
 #pragma mark - Action Methods
