@@ -48,6 +48,10 @@ typedef SFLoginViewController * _Nonnull (^SFLoginViewControllerCreationBlock)(v
  */
 @property (nonatomic, strong, nullable) UIColor *navBarColor;
 
+/** Specify navigation bar title color. This color will be used by the login view header.
+ */
+@property (nonatomic, strong, nullable) UIColor *navBarTitleColor;
+
 /** Specify visibility of nav bar. This property will be used to hide/show the nav bar*/
 @property (nonatomic) BOOL showNavbar;
 

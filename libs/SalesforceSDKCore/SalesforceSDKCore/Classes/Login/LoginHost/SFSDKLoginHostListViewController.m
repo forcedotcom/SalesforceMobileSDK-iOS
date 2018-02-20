@@ -131,7 +131,6 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
     SFManagedPreferences *managedPreferences = [SFManagedPreferences sharedPreferences];
     if (!(managedPreferences.hasManagedPreferences && managedPreferences.onlyShowAuthorizedHosts)) {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(showAddLoginHost:)];
-        [self.navigationItem.rightBarButtonItem setTintColor:[SFUserAccountManager  sharedInstance].loginViewControllerConfig.navBarTextColor];
     }
     self.title = [SFSDKResourceUtils localizedString:@"LOGIN_CHOOSE_SERVER"];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]
@@ -141,6 +140,11 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
                                              action:nil];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelLoginPicker:)];
 
+    SFSDKLoginViewControllerConfig *config = [SFUserAccountManager sharedInstance].loginViewControllerConfig;
+    [self.navigationController.navigationBar setBarTintColor:config.navBarColor];
+    self.navigationController.navigationBar.tintColor = config.navBarTextColor;
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName: config.navBarTitleColor, NSFontAttributeName: config.navBarFont}];
+    
     // Make sure the current login host exists.
     NSUInteger index = [self indexOfCurrentLoginHost];
     if (NSNotFound == index) {
