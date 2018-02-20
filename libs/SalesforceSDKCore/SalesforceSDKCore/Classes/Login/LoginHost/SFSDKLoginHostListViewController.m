@@ -145,6 +145,18 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
     self.navigationController.navigationBar.tintColor = config.navBarTextColor;
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName: config.navBarTitleColor, NSFontAttributeName: config.navBarFont}];
     
+    if (!config.navBarColor) {
+        [self.navigationController.navigationBar setBarTintColor:config.navBarColor];
+    }
+    
+    if (!config.navBarTextColor) {
+         self.navigationController.navigationBar.tintColor = config.navBarTextColor;
+    }
+    
+    if (!config.navBarFont && !config.navBarTitleColor) {
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName: config.navBarTitleColor, NSFontAttributeName: config.navBarFont}];
+    }
+    
     // Make sure the current login host exists.
     NSUInteger index = [self indexOfCurrentLoginHost];
     if (NSNotFound == index) {
