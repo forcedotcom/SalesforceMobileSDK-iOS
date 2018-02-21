@@ -117,6 +117,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 @synthesize currentUser = _currentUser;
 @synthesize userAccountMap = _userAccountMap;
 @synthesize accountPersister = _accountPersister;
+@synthesize loginViewControllerConfig = _loginViewControllerConfig;
 
 + (instancetype)sharedInstance {
     static dispatch_once_t pred;
@@ -248,6 +249,19 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
         [SFSDKAppFeatureMarkers unregisterAppFeature:kSFSPAppFeatureIDPLogin];
     }
     self.authPreferences.idpAppURIScheme = idpAppURIScheme;
+}
+
+- (SFSDKLoginViewControllerConfig *) loginViewControllerConfig {
+    if (!_loginViewControllerConfig) {
+        _loginViewControllerConfig = [[SFSDKLoginViewControllerConfig alloc] init];
+    }
+    return _loginViewControllerConfig;
+}
+
+- (void) setLoginViewControllerConfig:(SFSDKLoginViewControllerConfig *)config {
+    if (_loginViewControllerConfig != config) {
+        _loginViewControllerConfig = config;
+    }
 }
 
 #pragma  mark - login & logout
@@ -495,10 +509,11 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     NSString *key = [SFSDKOAuthClientCache keyFromClient:client];
     [options setObject:key forKey:kOptionsClientKey];
     controller.appOptions = options;
-    client.authWindow.viewController = controller;
-    
-    [[SFSDKOAuthClientCache sharedInstance] addClient:client];
-    [client.authWindow presentWindowAnimated:YES withCompletion:nil];
+    [client.authWindow presentWindowAnimated:YES withCompletion:^{
+        [client.authWindow.viewController presentViewController:controller animated:YES completion:^{
+            [[SFSDKOAuthClientCache sharedInstance] addClient:client];
+        }];
+    }];
 }
 
 #pragma mark - SFSDKLoginFlowSelectionViewControllerDelegate
@@ -1243,11 +1258,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
             config.idpLoginFlowSelectionBlock = strongSelf.idpLoginFlowSelectionAction;
             config.idpUserSelectionBlock = strongSelf.idpUserSelectionAction;
             config.authViewHandler = strongSelf.authViewHandler;
-            if ([strongSelf loginViewControllerConfig]) {
-                config.loginViewControllerConfig = [strongSelf loginViewControllerConfig];
-            } else {
-                config.loginViewControllerConfig = [[SFSDKLoginViewControllerConfig alloc] init];
-            }
+            config.loginViewControllerConfig = strongSelf.loginViewControllerConfig;
         }];
         [[SFSDKOAuthClientCache sharedInstance] addClient:client];
     }
@@ -1364,6 +1375,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
                                                               userInfo:userInfo];
         }
        
+       [self disposeOAuthClient:client];
     }
 }
 

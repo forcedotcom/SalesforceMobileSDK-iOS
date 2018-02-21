@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SFSDKAlertView : NSObject
 
 @property (nonatomic,readonly) UIAlertController *controller;
-@property (nonatomic,readonly) SFSDKWindowContainer *window;
+@property (nonatomic,readonly,weak) SFSDKWindowContainer *window;
 
 - (void)presentViewController:(BOOL)animated completion:(void (^ __nullable)(void))completion;
 
