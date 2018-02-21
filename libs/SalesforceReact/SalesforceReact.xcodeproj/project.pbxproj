@@ -672,6 +672,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4FA796C82020E6D500CA9759 /* Build configuration list for PBXNativeTarget "SalesforceReactTests" */;
 			buildPhases = (
+				4F86F00D203E3C3D00C1F438 /* ShellScript */,
 				4FA796A72020E6D500CA9759 /* Sources */,
 				4FA796A82020E6D500CA9759 /* Frameworks */,
 				4FA796A92020E6D500CA9759 /* Resources */,
@@ -997,6 +998,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		4F86F00D203E3C3D00C1F438 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "$SRCROOT/node_modules/.bin/react-native bundle --platform ios --dev true --entry-file node_modules/react-native-force/test/alltests.js --bundle-output SalesforceReactTests/index.ios.bundle\n";
+		};
 		829DA2BF1C126C870040F5F1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
