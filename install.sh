@@ -49,6 +49,7 @@ git submodule update --init --recursive
 
 # Get react native
 pushd "libs/SalesforceReact"
+rm -rf node_modules
 npm install
 popd
 

@@ -52,13 +52,29 @@ static NSException *authException = nil;
     if (self.jsSuitePath == nil) {
         XCTFail(@"jsSuitePath not defined");
     }
-    self.runner = RCTInitRunnerForApp(self.jsSuitePath, nil, nil);
+    
+    NSURL* scriptUrl = [self usePackager]
+      ? [NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:8081/%@.bundle?platform=ios&dev=true", self.jsSuitePath]]
+      : [[NSBundle bundleForClass:[self class]] URLForResource:@"index.ios" withExtension:@"bundle"];
+    
+    self.runner = RCTInitRunnerForApp(self.jsSuitePath, nil, scriptUrl);
     [super setUp];
 }
 
 - (void)tearDown
 {
     [super tearDown];
+}
+
+/**
+ * When modifying javascript tests, change this to return YES, and run packager (with npm start)
+ * Once done, run ./build/generate_react_test_bundle.sh to update index.ios.bundle
+ *
+ * @return YES if javascript should be loaded from packager or from asset
+ */
+-(bool) usePackager
+{
+    return NO;
 }
 
 @end
