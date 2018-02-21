@@ -52,8 +52,7 @@ static NSException *authException = nil;
     if (self.jsSuitePath == nil) {
         XCTFail(@"jsSuitePath not defined");
     }
-    
-    self.runner = RCTInitRunnerForApp(self.jsSuitePath, nil);
+    self.runner = RCTInitRunnerForApp(self.jsSuitePath, nil, nil);
     [super setUp];
 }
 
