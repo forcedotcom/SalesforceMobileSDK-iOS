@@ -591,13 +591,6 @@
             ReferencedContainer = "container:libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
-      <EnvironmentVariables>
-         <EnvironmentVariable
-            key = "CI_USE_PACKAGER"
-            value = "1"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-      </EnvironmentVariables>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
