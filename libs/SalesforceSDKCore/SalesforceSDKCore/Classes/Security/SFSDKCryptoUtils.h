@@ -148,6 +148,20 @@ extern NSUInteger const kSFPBKDFDefaultSaltByteLength;
 + (nullable SecKeyRef)getRSAPrivateKeyRefWithName:(NSString *)keyName keyLength:(NSUInteger)length;
 
 /**
+ * Updates a private key's accessibility to given attribute
+ * @param keyName The name string used to generate the key.
+ * @param accessibleAttribute The accessibility attributed to use for keys
+ */
++ (void)updateRSAPrivateKeyStringWithName:(NSString *)keyName keyLength:(NSUInteger)length withAccessiblity:(CFTypeRef)accessibleAttribute;
+
+/**
+ * Updates a public key's accessibility to given attribute
+ * @param keyName The name string used to generate the key.
+ * @param accessibleAttribute The accessibility attributed to use for keys
+ */
++ (void)updateRSAPublicKeyStringWithName:(NSString *)keyName keyLength:(NSUInteger)length withAccessiblity:(CFTypeRef)accessibleAttribute;
+
+/**
  * Encrypt data with givien SecKeyRef using RSA pkcs1 algorithm
  * @param data The data to encrypt
  * @param keyRef The keyref used in encryption

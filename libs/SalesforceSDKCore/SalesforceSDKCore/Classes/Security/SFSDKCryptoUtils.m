@@ -379,6 +379,51 @@ static NSString * const kSFRSAPrivateKeyTagPrefix = @"com.salesforce.rsakey.priv
     }
 }
 
++ (void)updateRSAPublicKeyStringWithName:(NSString *)keyName keyLength:(NSUInteger)length withAccessiblity:(CFTypeRef)accessibleAttribute {
+    NSString *keyTagString = [NSString stringWithFormat:@"%@.%@", kSFRSAPublicKeyTagPrefix, keyName];
+    [SFSDKCryptoUtils updateRSAKeyWithTag:keyTagString keyLength:length withAccessiblity:accessibleAttribute];
+    
+}
+
++ (void)updateRSAPrivateKeyStringWithName:(NSString *)keyName keyLength:(NSUInteger)length withAccessiblity:(CFTypeRef)accessibleAttribute {
+    NSString *keyTagString = [NSString stringWithFormat:@"%@.%@", kSFRSAPrivateKeyTagPrefix, keyName];
+    [SFSDKCryptoUtils updateRSAKeyWithTag:keyTagString keyLength:length withAccessiblity:accessibleAttribute];
+}
+
++ (void)updateRSAKeyWithTag:(NSString *)keyTagString keyLength:(NSUInteger)length withAccessiblity:(CFTypeRef)accessibleAttribute {
+    NSData *tag = [keyTagString dataUsingEncoding:NSUTF8StringEncoding];
+    
+    NSDictionary *getquery = @{ (id)kSecClass: (id)kSecClassKey,
+                                (id)kSecAttrApplicationTag: tag,
+                                (id)kSecAttrKeyType: (id)kSecAttrKeyTypeRSA,
+                                (id)kSecReturnData: @YES,
+                                (id)kSecAttrKeySizeInBits: [NSNumber numberWithUnsignedInteger:length],
+                                };
+    
+    CFTypeRef result = NULL;
+    OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef)getquery,
+                                          (CFTypeRef *)&result);
+    if (status != errSecSuccess) {
+        NSError *error = [NSError errorWithDomain:NSOSStatusErrorDomain code:status userInfo:nil];
+        [SFSDKCoreLogger e:[self class] format:@"Error getting RSA key with tag %@ and length %d. Error code: %@", keyTagString, length, error.localizedDescription];
+        return;
+    }
+
+    NSDictionary *updatedAttributes = @{ (id)kSecAttrAccessible: (__bridge id)accessibleAttribute,
+                                         (id)kSecValueData: (__bridge id)result,};
+
+    NSDictionary *updateQuery = @{(id)kSecClass: (id)kSecClassKey,
+                                  (id)kSecAttrApplicationTag: tag,
+                                  (id)kSecAttrKeyType: (id)kSecAttrKeyTypeRSA,
+                                  (id)kSecAttrKeySizeInBits: [NSNumber numberWithUnsignedInteger:length],};
+    OSStatus updateItemStatus = SecItemUpdate((CFDictionaryRef)updateQuery,
+                                                  (CFDictionaryRef)updatedAttributes);
+    if (updateItemStatus != errSecSuccess) {
+        NSError *error = [NSError errorWithDomain:NSOSStatusErrorDomain code:status userInfo:nil];
+        [SFSDKCoreLogger e:[self class] format:@"Error updating RSA key with tag %@ and length %d. Error code: %@", keyTagString, length, error.localizedDescription];
+    }
+}
+
 +(nullable NSData *)getRSAKeyDataWithTag:(NSString *)keyTagString keyLength:(NSUInteger)length {
     NSData *tag = [keyTagString dataUsingEncoding:NSUTF8StringEncoding];
     
