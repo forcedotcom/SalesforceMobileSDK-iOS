@@ -191,8 +191,9 @@ FOUNDATION_EXTERN NSString * const kSFUserInfoAddlOptionsKey;
  * @param userAccountManager The instance of SFUserAccountManager
  * @param error The Error that occurred
  * @param info  The info for the auth request
+ * @return YES if the error has been handled by the delegate. SDK will attempt to handle the error if the result is NO.
  */
-- (void)userAccountManager:(SFUserAccountManager *)userAccountManager error:(NSError*)error info:(SFOAuthInfo *)info;
+- (BOOL)userAccountManager:(SFUserAccountManager *)userAccountManager error:(NSError*)error info:(SFOAuthInfo *)info;
 
 /**
  Called before the user account manager switches from one user to another.
