@@ -78,7 +78,8 @@
         if (!strongSelf.window.viewController)
             strongSelf.window.viewController = [strongSelf blankViewController];
         [strongSelf.window presentWindowAnimated:YES withCompletion:^{
-            [strongSelf.window.viewController presentViewController:weakSelf.controller animated:animated completion:completion];
+            UIViewController *controller = strongSelf.window.viewController.presentedViewController?:strongSelf.window.viewController;
+            [controller presentViewController:weakSelf.controller animated:animated completion:completion];
         }];
     });
 }

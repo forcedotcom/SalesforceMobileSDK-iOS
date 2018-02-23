@@ -124,10 +124,10 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
                                            }
                                            if ([strongSelf.authWindow.viewController presentedViewController]) {
                                                [strongSelf.authWindow.viewController.presentedViewController dismissViewControllerAnimated:NO completion:^{
-                                                       [strongSelf.authWindow.viewController  presentViewController:controllerToPresent animated:YES completion:nil];
+                                                       [strongSelf.authWindow.viewController  presentViewController:controllerToPresent animated:NO completion:nil];
                                                }];
                                             }else {
-                                                [strongSelf.authWindow.viewController  presentViewController:controllerToPresent animated:YES completion:nil];
+                                                [strongSelf.authWindow.viewController  presentViewController:controllerToPresent animated:NO completion:nil];
                                             }
                                        } dismissBlock:^() {
                                            __strong typeof(weakSelf) strongSelf = weakSelf;
