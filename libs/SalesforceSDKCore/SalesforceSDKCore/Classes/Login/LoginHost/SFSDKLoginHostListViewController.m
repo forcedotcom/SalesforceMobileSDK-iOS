@@ -142,15 +142,15 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
 
     SFSDKLoginViewControllerConfig *config = [SFUserAccountManager sharedInstance].loginViewControllerConfig;
     
-    if (!config.navBarColor) {
+    if (config.navBarColor) {
         [self.navigationController.navigationBar setBarTintColor:config.navBarColor];
     }
     
-    if (!config.navBarTextColor) {
+    if (config.navBarTextColor) {
          self.navigationController.navigationBar.tintColor = config.navBarTextColor;
     }
     
-    if (!config.navBarFont && !config.navBarTitleColor) {
+    if (config.navBarFont && config.navBarTitleColor) {
         [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName: config.navBarTitleColor, NSFontAttributeName: config.navBarFont}];
     }
     
