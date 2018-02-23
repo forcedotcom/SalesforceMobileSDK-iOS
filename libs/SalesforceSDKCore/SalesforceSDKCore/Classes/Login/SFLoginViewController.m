@@ -159,14 +159,11 @@ SFSDK_USE_DEPRECATED_END
 #pragma mark - Setup Navigation bar
 
 - (void)setupNavigationBar {
-    NSString *title = [SFSDKResourceUtils localizedString:@"TITLE_LOGIN"];
-    UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:title];
-    
     if (self.navigationController != nil) {
         self.navBar = self.navigationController.navigationBar;
     } else {
         self.navBar = [[UINavigationBar alloc] initWithFrame:CGRectZero];
-        self.navBar.items = @[item];
+        self.navBar.items = @[[self createTitleItem]];
     }
     
     // Hides the gear icon if there are no hosts to switch to.
