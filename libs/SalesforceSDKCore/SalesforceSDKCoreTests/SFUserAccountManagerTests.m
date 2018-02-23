@@ -75,8 +75,9 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     self.didLoginUserAccount = userAccount;
 }
 
-- (void)userAccountManager:(SFUserAccountManager *)userAccountManager error:(NSError *)error info:(SFOAuthInfo *)info {
+- (BOOL)userAccountManager:(SFUserAccountManager *)userAccountManager error:(NSError *)error info:(SFOAuthInfo *)info {
     self.error = error;
+    return NO;
 }
 
 
