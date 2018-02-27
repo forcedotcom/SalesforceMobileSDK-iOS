@@ -66,7 +66,7 @@
  *
  * @return Device attributes.
  */
-+ (nonnull SFSDKDeviceAppAttributes *) buildDeviceAppAttributes;
++ (nonnull SFSDKDeviceAppAttributes *) getDeviceAppAttributes;
 
 /**
  * Publishes all stored events to all registered network endpoints after
