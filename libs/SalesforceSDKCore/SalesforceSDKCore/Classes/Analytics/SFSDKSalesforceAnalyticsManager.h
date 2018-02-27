@@ -62,6 +62,13 @@
 + (void) removeSharedInstanceWithUser:(nonnull SFUserAccount *) userAccount;
 
 /**
+ * Builds device attributes associated with this device.
+ *
+ * @return Device attributes.
+ */
++ (nonnull SFSDKDeviceAppAttributes *) buildDeviceAppAttributes;
+
+/**
  * Publishes all stored events to all registered network endpoints after
  * applying the required event format transforms. Stored events will be
  * deleted if publishing was successful for all registered endpoints.

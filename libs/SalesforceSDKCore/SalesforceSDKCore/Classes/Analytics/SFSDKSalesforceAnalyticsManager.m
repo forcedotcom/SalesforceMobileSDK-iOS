@@ -122,7 +122,7 @@ SFSDK_USE_DEPRECATED_END
     self = [super init];
     if (self) {
         self.userAccount = userAccount;
-        SFSDKDeviceAppAttributes *deviceAttributes = [self buildDeviceAppAttributes];
+        SFSDKDeviceAppAttributes *deviceAttributes = [[self class] buildDeviceAppAttributes];
         NSString *rootStoreDir = [[SFDirectoryManager sharedManager] directoryForUser:userAccount type:NSDocumentDirectory components:@[ kEventStoresDirectory ]];
         SFEncryptionKey *encKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kEventStoreEncryptionKeyLabel autoCreate:YES];
         DataEncryptorBlock dataEncryptorBlock = ^NSData*(NSData *data) {
@@ -249,7 +249,7 @@ SFSDK_USE_DEPRECATED_END
     [self.remotes addObject:tpp];
 }
 
-- (SFSDKDeviceAppAttributes *) buildDeviceAppAttributes {
++ (SFSDKDeviceAppAttributes *) buildDeviceAppAttributes {
     SalesforceSDKManager *sdkManager = [SalesforceSDKManager sharedManager];
     NSString *prodAppVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     NSString *buildNumber = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
