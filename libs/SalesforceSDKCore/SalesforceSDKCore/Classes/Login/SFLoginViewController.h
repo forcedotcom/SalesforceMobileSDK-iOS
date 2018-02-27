@@ -113,7 +113,7 @@
 
 /** Factory Method to create the navigation title.
  */
-- (nonnull UINavigationItem *)createTitleItem;
+- (nonnull UIView *)createTitleItem;
 
 /** Logic to show back button.
  */

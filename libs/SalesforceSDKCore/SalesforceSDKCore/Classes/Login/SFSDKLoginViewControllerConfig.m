@@ -40,7 +40,7 @@
     self = [super init];
     if (self) {
         _navBarColor = [UIColor salesforceBlueColor];
-        _navBarTitleColor = [UIColor blackColor];
+        _navBarTitleColor = [UIColor whiteColor];
         _navBarFont = nil;
         _navBarTextColor = [UIColor whiteColor];
         _showNavbar = YES;

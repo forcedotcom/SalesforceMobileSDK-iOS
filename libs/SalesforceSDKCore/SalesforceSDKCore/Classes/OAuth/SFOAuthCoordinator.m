@@ -971,7 +971,6 @@ static NSString * const kSFECParameter = @"ec";
     if (!self.initialRequestLoaded) {
         self.initialRequestLoaded = YES;
         [self.delegate oauthCoordinator:self didBeginAuthenticationWithView:self.view];
-        NSAssert((nil != [self.view superview]), @"No superview for oauth web view after didBeginAuthenticationWithView");
     }
 }
 
