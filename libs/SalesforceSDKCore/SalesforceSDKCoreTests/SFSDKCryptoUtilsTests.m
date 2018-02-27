@@ -196,6 +196,44 @@
     XCTAssertNotNil(publicKeyString);
 }
 
+- (NSString *)accessibleAttributeForKeyWithName:(NSString*)name andIsPrivate:(BOOL)privateKey {
+    
+    NSString *prefix = privateKey ? @"com.salesforce.rsakey.private" : @"com.salesforce.rsakey.public";
+    NSString *keyTagString = [NSString stringWithFormat:@"%@.%@", prefix, name];
+    NSData *tag = [keyTagString dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *attribute = nil;
+
+    NSDictionary *getquery = @{ (id)kSecClass: (id)kSecClassKey,
+                                (id)kSecAttrApplicationTag: tag,
+                                (id)kSecAttrKeyType: (id)kSecAttrKeyTypeRSA,
+                                (id)kSecReturnAttributes: @YES,
+                                (id)kSecAttrKeySizeInBits: [NSNumber numberWithUnsignedInteger:2048],
+                                };
+    
+    CFTypeRef result = NULL;
+    OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef)getquery,
+                                          (CFTypeRef *)&result);
+    if (status == errSecSuccess) {
+        NSDictionary *keychainItem = (__bridge NSDictionary *)result;
+        CFStringRef accessibleAttribute = (__bridge CFStringRef)keychainItem[(id)kSecAttrAccessible];
+        attribute = (__bridge NSString *)accessibleAttribute;
+    }
+    return attribute;
+}
+
+- (void)testRSAKeyUpdate
+{
+    NSString *rsaPublicKey = [SFSDKCryptoUtils getRSAPublicKeyStringWithName:@"updatetest" keyLength:2048];
+    XCTAssertNotNil(rsaPublicKey);
+    [SFSDKCryptoUtils updateRSAPublicKeyStringWithName:@"updatetest" keyLength:2048 withAccessiblity:kSecAttrAccessibleAlways];
+    [SFSDKCryptoUtils updateRSAPrivateKeyStringWithName:@"updatetest" keyLength:2048 withAccessiblity:kSecAttrAccessibleAlways];
+
+    NSString *accessattribute = [self accessibleAttributeForKeyWithName:@"updatetest" andIsPrivate:NO];
+    XCTAssertTrue([accessattribute isEqualToString:(__bridge NSString *)kSecAttrAccessibleAlways]);
+    accessattribute = [self accessibleAttributeForKeyWithName:@"updatetest" andIsPrivate:YES];
+    XCTAssertTrue([accessattribute isEqualToString:(__bridge NSString *)kSecAttrAccessibleAlways]);
+}
+
 - (void)testRSAKeyGenerationSameKey
 {
     NSData *privateKeyData1 = [SFSDKCryptoUtils getRSAPrivateKeyDataWithName:@"testSameKey" keyLength:2048];
