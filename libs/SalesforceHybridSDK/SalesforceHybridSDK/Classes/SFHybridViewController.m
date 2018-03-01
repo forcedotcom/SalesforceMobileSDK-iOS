@@ -62,6 +62,7 @@ static NSInteger  const kErrorCodeNoCredentials = 2;
 static NSString * const kErrorContextAppLoading = @"AppLoading";
 static NSString * const kErrorContextAuthExpiredSessionRefresh = @"AuthRefreshExpiredSession";
 static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
+static NSString * const kVFSessionPrefix = @"%2Fvisualforce%2Fsession%3Furl%3D";
 
 // App feature constant.
 static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
@@ -333,10 +334,8 @@ SFSDK_USE_DEPRECATED_BEGIN
             failureBlock(authInfo, error);
         }
     };
-
     if (![SFUserAccountManager sharedInstance].currentUser) {
-        [self loginWithCompletion:authCompletionBlock
-                                                             failure:authFailureBlock];
+        [self loginWithCompletion:authCompletionBlock failure:authFailureBlock];
     } else {
         [self refreshCredentials:[SFUserAccountManager sharedInstance].currentUser.credentials
                                                          completion:authCompletionBlock
@@ -416,15 +415,15 @@ SFSDK_USE_DEPRECATED_BEGIN
 
 - (NSURL *)frontDoorUrlWithReturnUrl:(NSString *)returnUrlString returnUrlIsEncoded:(BOOL)isEncoded createAbsUrl:(BOOL)createAbsUrl
 {
+
     // Special case: if returnUrlString itself is a frontdoor.jsp URL, parse its parameters and rebuild.
     if ([returnUrlString containsString:@"frontdoor.jsp"]) {
         return [self parseFrontDoorReturnUrlString:returnUrlString encoded:isEncoded];
     }
-    
     SFOAuthCredentials *creds = [SFUserAccountManager sharedInstance].currentUser.credentials;
     NSURL *instUrl = creds.apiUrl;
     NSString *fullReturnUrlString = returnUrlString;
-    
+
     /*
      * We need to use the absolute URL in some cases and relative URL in some
      * other cases, because of differences between instance URL and community URL.
@@ -434,17 +433,16 @@ SFSDK_USE_DEPRECATED_BEGIN
         retUrlComponents.path = [retUrlComponents.path stringByAppendingPathComponent:returnUrlString];
         fullReturnUrlString = retUrlComponents.string;
     }
-    
+
     // Create frontDoor path based on credentials API URL.
     NSURLComponents *frontDoorUrlComponents = [NSURLComponents componentsWithURL:instUrl resolvingAgainstBaseURL:NO];
     frontDoorUrlComponents.path = [frontDoorUrlComponents.path stringByAppendingPathComponent:@"/secur/frontdoor.jsp"];
-    
+
     // NB: We're not using NSURLComponents.queryItems here, because it unsufficiently encodes query params.
     NSMutableString *frontDoorUrlString = [NSMutableString stringWithString:frontDoorUrlComponents.string];
     NSString *encodedRetUrlValue = (isEncoded ? fullReturnUrlString : [fullReturnUrlString stringByURLEncoding]);
     NSString *encodedSidValue = [creds.accessToken stringByURLEncoding];
     [frontDoorUrlString appendFormat:@"?sid=%@&retURL=%@&display=touch", encodedSidValue, encodedRetUrlValue];
-    
     return [NSURL URLWithString:frontDoorUrlString];
 }
 
@@ -472,6 +470,9 @@ SFSDK_USE_DEPRECATED_BEGIN
         BOOL foundStartURL = (startUrlValue != nil);
         BOOL foundValidEcValue = ([ecValue isEqualToString:@"301"] || [ecValue isEqualToString:@"302"]);
         if (foundStartURL && foundValidEcValue) {
+            if ([startUrlValue containsString:kVFSessionPrefix]) {
+                startUrlValue = [startUrlValue stringByReplacingOccurrencesOfString:kVFSessionPrefix withString:@""];
+            }
             return startUrlValue;
         }
     }
@@ -591,6 +592,7 @@ SFSDK_USE_DEPRECATED_BEGIN
             [self refreshCredentials:[SFUserAccountManager sharedInstance].currentUser.credentials
              completion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
                  [SFUserAccountManager sharedInstance].currentUser = userAccount;
+
                  // Reset the user agent back to Cordova.
                  [weakSelf authenticationCompletion:refreshUrl authInfo:authInfo];
              } failure:^(SFOAuthInfo *authInfo, NSError *error) {
@@ -887,11 +889,9 @@ SFSDK_USE_DEPRECATED_BEGIN
                   failure:(SFOAuthFlowFailureCallbackBlock)failureBlock {
     if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
         [[SFAuthenticationManager sharedManager] refreshCredentials:credentials completion:completionBlock failure:failureBlock];
-    }else {
+    } else {
         [[SFUserAccountManager sharedInstance] refreshCredentials:credentials completion:completionBlock failure:failureBlock];
     }
-
-    
 }
 
 - (void)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
@@ -899,9 +899,8 @@ SFSDK_USE_DEPRECATED_BEGIN
     if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
         [[SFAuthenticationManager sharedManager] loginWithCompletion:completionBlock failure:failureBlock];
     } else {
-           [[SFUserAccountManager sharedInstance] loginWithCompletion:completionBlock failure:failureBlock];
+        [[SFUserAccountManager sharedInstance] loginWithCompletion:completionBlock failure:failureBlock];
     }
-
 }
 
 - (void)logout {
