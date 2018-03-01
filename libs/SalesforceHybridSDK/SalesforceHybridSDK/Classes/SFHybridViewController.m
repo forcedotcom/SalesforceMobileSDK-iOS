@@ -425,6 +425,15 @@ SFSDK_USE_DEPRECATED_BEGIN
     NSURL *instUrl = creds.apiUrl;
     NSString *fullReturnUrlString = returnUrlString;
     
+    // Catch if we have a absoute URL, if we do then url decode to avoid
+    // errors with 'Invalid page redirection'
+    if(createAbsUrl && [returnUrlString hasPrefix:@"http"]) {
+        NSString *decodedUrlString = [(NSString *)returnUrlString stringByReplacingOccurrencesOfString:@"+" withString:@" "];
+        decodedUrlString = [decodedUrlString stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSURL *nsUrl = [NSURL URLWithString:decodedUrlString];
+        fullReturnUrlString = nsUrl.path;
+    }
+  
     /*
      * We need to use the absolute URL in some cases and relative URL in some
      * other cases, because of differences between instance URL and community URL.
@@ -591,8 +600,10 @@ SFSDK_USE_DEPRECATED_BEGIN
             [self refreshCredentials:[SFUserAccountManager sharedInstance].currentUser.credentials
              completion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
                  [SFUserAccountManager sharedInstance].currentUser = userAccount;
+                 //Remove the session URL from the return URL as we have taken over the refresh process
+                 NSString *sessionRemovedRefreshUrl = [refreshUrl stringByReplacingOccurrencesOfString:@"%2Fvisualforce%2Fsession%3Furl%3D" withString:@""];
                  // Reset the user agent back to Cordova.
-                 [weakSelf authenticationCompletion:refreshUrl authInfo:authInfo];
+                 [weakSelf authenticationCompletion:sessionRemovedRefreshUrl authInfo:authInfo];
              } failure:^(SFOAuthInfo *authInfo, NSError *error) {
                  __strong typeof(weakSelf) strongSelf = weakSelf;
                  if ([strongSelf logoutOnInvalidCredentials:error]) {
