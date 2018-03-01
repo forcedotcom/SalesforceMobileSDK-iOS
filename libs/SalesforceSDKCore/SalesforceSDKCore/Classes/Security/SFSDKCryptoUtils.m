@@ -340,12 +340,12 @@ static NSString * const kSFRSAPrivateKeyTagPrefix = @"com.salesforce.rsakey.priv
        (id)kSecPrivateKeyAttrs:
            @{ (id)kSecAttrIsPermanent:    @YES,
               (id)kSecAttrApplicationTag: privateTag,
-              (id)kSecAttrAccessible: (id)accessibleAttribute,
+              (id)kSecAttrAccessible: (__bridge id)accessibleAttribute,
               },
        (id)kSecPublicKeyAttrs:
            @{ (id)kSecAttrIsPermanent:    @YES,
               (id)kSecAttrApplicationTag: publicTag,
-              (id)kSecAttrAccessible: (id)accessibleAttribute,
+              (id)kSecAttrAccessible: (__bridge id)accessibleAttribute,
               },
 
        };
