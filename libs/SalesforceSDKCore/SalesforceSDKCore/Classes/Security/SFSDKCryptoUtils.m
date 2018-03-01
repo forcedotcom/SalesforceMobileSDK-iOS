@@ -69,13 +69,6 @@ static NSString * const kSFRSAPrivateKeyTagPrefix = @"com.salesforce.rsakey.priv
 + (nullable NSData *)aesDecryptData:(NSData *)data withKey:(NSData *)key keyLength:(NSInteger)keyLength iv:(NSData *)iv;
 
 /**
- * Create asymmetric keys (public/private key pairs) using RSA algorithm with given keyName and length
- * @param keyName The name string used to generate the key.
- * @param length The key length used for key
- */
-+ (void)createRSAKeyPairWithName:(NSString *)keyName keyLength:(NSUInteger)length;
-
-/**
  * Get RSA key as NSString with given keyTagString and length
  * @param keyTagString The key tag string used to generate the key.
  * @param length The key length used for key
@@ -333,7 +326,7 @@ static NSString * const kSFRSAPrivateKeyTagPrefix = @"com.salesforce.rsakey.priv
     return (executeCryptSuccess ? resultData : nil);
 }
 
-+ (void)createRSAKeyPairWithName:(NSString *)keyName keyLength:(NSUInteger)length
++ (void)createRSAKeyPairWithName:(NSString *)keyName keyLength:(NSUInteger)length accessibleAttribute:(CFTypeRef)accessibleAttribute;
 {
     NSString *privateTagString = [NSString stringWithFormat:@"%@.%@", kSFRSAPrivateKeyTagPrefix, keyName];
     NSData *privateTag = [privateTagString dataUsingEncoding:NSUTF8StringEncoding];
@@ -347,10 +340,12 @@ static NSString * const kSFRSAPrivateKeyTagPrefix = @"com.salesforce.rsakey.priv
        (id)kSecPrivateKeyAttrs:
            @{ (id)kSecAttrIsPermanent:    @YES,
               (id)kSecAttrApplicationTag: privateTag,
+              (id)kSecAttrAccessible: (__bridge id)accessibleAttribute,
               },
        (id)kSecPublicKeyAttrs:
            @{ (id)kSecAttrIsPermanent:    @YES,
               (id)kSecAttrApplicationTag: publicTag,
+              (id)kSecAttrAccessible: (__bridge id)accessibleAttribute,
               },
 
        };
@@ -395,10 +390,7 @@ static NSString * const kSFRSAPrivateKeyTagPrefix = @"com.salesforce.rsakey.priv
                                           (CFTypeRef *)&result);
     if (status != errSecSuccess) {
         if (status == errSecItemNotFound) {
-            NSString *keyName = [[keyTagString componentsSeparatedByString:@"."] lastObject];
-            [self createRSAKeyPairWithName:keyName keyLength:length];
-            status = SecItemCopyMatching((__bridge CFDictionaryRef)getquery,
-                                         (CFTypeRef *)&result);
+            return nil;
         }
         if (status != errSecSuccess) {
             // Handle the error. . .
@@ -429,10 +421,7 @@ static NSString * const kSFRSAPrivateKeyTagPrefix = @"com.salesforce.rsakey.priv
                                           (CFTypeRef *)&keyRef);
     if (status != errSecSuccess) {
         if (status == errSecItemNotFound) {
-            NSString *keyName = [[keyTagString componentsSeparatedByString:@"."] lastObject];
-            [self createRSAKeyPairWithName:keyName keyLength:length];
-            status = SecItemCopyMatching((__bridge CFDictionaryRef)getquery,
-                                         (CFTypeRef *)&keyRef);
+            return nil;
         }
         if (status != errSecSuccess) {
             // Handle the error. . .

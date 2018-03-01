@@ -190,33 +190,18 @@
 
 - (void)testRSAKeyGeneration
 {
+    [SFSDKCryptoUtils createRSAKeyPairWithName:@"test" keyLength:2048 accessibleAttribute:kSecAttrAccessibleAlways];
     NSData *privateKeyData = [SFSDKCryptoUtils getRSAPrivateKeyDataWithName:@"test" keyLength:2048];
     XCTAssertNotNil(privateKeyData);
     NSString *publicKeyString = [SFSDKCryptoUtils getRSAPublicKeyStringWithName:@"test" keyLength:2048];
     XCTAssertNotNil(publicKeyString);
 }
 
-- (void)testRSAKeyGenerationSameKey
-{
-    NSData *privateKeyData1 = [SFSDKCryptoUtils getRSAPrivateKeyDataWithName:@"testSameKey" keyLength:2048];
-    XCTAssertNotNil(privateKeyData1);
-
-    NSData *privateKeyData2 = [SFSDKCryptoUtils getRSAPrivateKeyDataWithName:@"testSameKey" keyLength:2048];
-    XCTAssertNotNil(privateKeyData2);
-
-    XCTAssertTrue([privateKeyData1 isEqualToData:privateKeyData2], @"should get same private key data with same keyname and size");
-
-    NSString *public1KeyString = [SFSDKCryptoUtils getRSAPublicKeyStringWithName:@"testSameKey" keyLength:2048];
-    XCTAssertFalse([public1KeyString isEqualToString:@""]);
-
-    NSString *public2KeyString = [SFSDKCryptoUtils getRSAPublicKeyStringWithName:@"testSameKey" keyLength:2048];
-    XCTAssertFalse([public2KeyString isEqualToString:@""]);
-
-    XCTAssertTrue([public1KeyString isEqualToString:public2KeyString], @"should get same public key string with same keyname and size");
-}
-
 - (void)testRSAKeyGenerationDifferentKey
 {
+    [SFSDKCryptoUtils createRSAKeyPairWithName:@"test1" keyLength:2048 accessibleAttribute:kSecAttrAccessibleAlways];
+    [SFSDKCryptoUtils createRSAKeyPairWithName:@"test2" keyLength:2048 accessibleAttribute:kSecAttrAccessibleAlways];
+
     NSData *privateKeyData1 = [SFSDKCryptoUtils getRSAPrivateKeyDataWithName:@"test1" keyLength:2048];
     XCTAssertNotNil(privateKeyData1);
 
@@ -233,6 +218,8 @@
 
     XCTAssertFalse([public1KeyString isEqualToString:public2KeyString], @"should get different public key strings with different keynames");
 
+    [SFSDKCryptoUtils createRSAKeyPairWithName:@"test1" keyLength:1024 accessibleAttribute:kSecAttrAccessibleAlways];
+
     NSData *privateKeyData3 = [SFSDKCryptoUtils getRSAPrivateKeyDataWithName:@"test1" keyLength:1024];
     XCTAssertNotNil(privateKeyData3);
 
@@ -247,7 +234,9 @@
 - (void)testRSAEncryptionAndDecryption
 {
     size_t keySize = 2048;
-    
+
+    [SFSDKCryptoUtils createRSAKeyPairWithName:@"test" keyLength:keySize accessibleAttribute:kSecAttrAccessibleAlways];
+
     SecKeyRef publicKeyRef = [SFSDKCryptoUtils getRSAPublicKeyRefWithName:@"test" keyLength:keySize];
     SecKeyRef privateKeyRef = [SFSDKCryptoUtils getRSAPrivateKeyRefWithName:@"test" keyLength:keySize];
     
@@ -265,7 +254,10 @@
 - (void)testRSAEncryptionAndDecryptionWrongKeys
 {
     size_t keySize = 2048;
-    
+
+    [SFSDKCryptoUtils createRSAKeyPairWithName:@"test1" keyLength:keySize accessibleAttribute:kSecAttrAccessibleAlways];
+    [SFSDKCryptoUtils createRSAKeyPairWithName:@"test" keyLength:keySize accessibleAttribute:kSecAttrAccessibleAlways];
+
     SecKeyRef publicKeyRef = [SFSDKCryptoUtils getRSAPublicKeyRefWithName:@"test1" keyLength:keySize];
     SecKeyRef privateKeyRef = [SFSDKCryptoUtils getRSAPrivateKeyRefWithName:@"test" keyLength:keySize];
     
