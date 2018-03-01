@@ -116,6 +116,13 @@ extern NSUInteger const kSFPBKDFDefaultSaltByteLength;
 + (nullable NSData *)aes256DecryptData:(NSData *)data withKey:(NSData *)key iv:(NSData *)iv;
 
 /**
+ * Create asymmetric keys (public/private key pairs) using RSA algorithm with given keyName and length
+ * @param keyName The name string used to generate the key.
+ * @param length The key length used for key
+ */
++ (void)createRSAKeyPairWithName:(NSString *)keyName keyLength:(NSUInteger)length accessibleAttribute:(CFTypeRef)accessibleAttribute;
+
+/**
  * Get RSA public key as NSString with given keyName and length
  * @param keyName The name string used to generate the key.
  * @param length The key length used for key
