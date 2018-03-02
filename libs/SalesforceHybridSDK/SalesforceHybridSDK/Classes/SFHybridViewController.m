@@ -62,7 +62,6 @@ static NSInteger  const kErrorCodeNoCredentials = 2;
 static NSString * const kErrorContextAppLoading = @"AppLoading";
 static NSString * const kErrorContextAuthExpiredSessionRefresh = @"AuthRefreshExpiredSession";
 static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
-static NSString * const kVFSessionPrefix = @"%2Fvisualforce%2Fsession%3Furl%3D";
 
 // App feature constant.
 static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
@@ -428,7 +427,7 @@ SFSDK_USE_DEPRECATED_BEGIN
      * We need to use the absolute URL in some cases and relative URL in some
      * other cases, because of differences between instance URL and community URL.
      */
-    if (createAbsUrl && ![returnUrlString hasPrefix:@"http"]) {
+    if (createAbsUrl && ![returnUrlString containsString:@"http"]) {
         NSURLComponents *retUrlComponents = [NSURLComponents componentsWithURL:instUrl resolvingAgainstBaseURL:NO];
         retUrlComponents.path = [retUrlComponents.path stringByAppendingPathComponent:returnUrlString];
         fullReturnUrlString = retUrlComponents.string;
@@ -470,9 +469,6 @@ SFSDK_USE_DEPRECATED_BEGIN
         BOOL foundStartURL = (startUrlValue != nil);
         BOOL foundValidEcValue = ([ecValue isEqualToString:@"301"] || [ecValue isEqualToString:@"302"]);
         if (foundStartURL && foundValidEcValue) {
-            if ([startUrlValue containsString:kVFSessionPrefix]) {
-                startUrlValue = [startUrlValue stringByReplacingOccurrencesOfString:kVFSessionPrefix withString:@""];
-            }
             return startUrlValue;
         }
     }
