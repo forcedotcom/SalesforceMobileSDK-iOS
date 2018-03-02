@@ -649,7 +649,7 @@ SFSDK_USE_DEPRECATED_BEGIN
 
 - (BOOL) webView:(UIWebView *) webView shouldStartLoadWithRequest:(NSURLRequest *) request navigationType:(UIWebViewNavigationType) navigationType
 {
-    [SFSDKHybridLogger d:[self class] format:@"webView:shouldStartLoadWithRequest:navigationType: Loading URL '%@'", [webView.request.URL redactedAbsoluteString:@[@"sid"]]];
+    [SFSDKHybridLogger d:[self class] format:@"webView:shouldStartLoadWithRequest:navigationType: Loading URL '%@'", [request.URL redactedAbsoluteString:@[@"sid"]]];
 
     // Hidden ping page load.
     if ([webView isEqual:self.vfPingPageHiddenUIWebView]) {
@@ -659,7 +659,7 @@ SFSDK_USE_DEPRECATED_BEGIN
 
     // Local error page load.
     if ([webView isEqual:self.errorPageUIWebView]) {
-        [SFSDKHybridLogger d:[self class] format:@"Local error page ('%@') is loading.", webView.request.URL.absoluteString];
+        [SFSDKHybridLogger d:[self class] format:@"Local error page ('%@') is loading.", request.URL.absoluteString];
         return YES;
     }
 
@@ -670,7 +670,7 @@ SFSDK_USE_DEPRECATED_BEGIN
          * If the request is attempting to refresh an invalid session, take over
          * the refresh process via the OAuth refresh flow in the container.
          */
-        NSString *refreshUrl = [self isLoginRedirectUrl:webView.request.URL];
+        NSString *refreshUrl = [self isLoginRedirectUrl:request.URL];
         if (refreshUrl != nil) {
             [SFSDKHybridLogger w:[self class] message:@"Caught login redirect from session timeout. Reauthenticating."];
             
