@@ -36,7 +36,7 @@
 
 @property (nonatomic, readonly, strong, nonnull) SFSDKEventStoreManager *eventStoreManager;
 @property (nonatomic, readonly, strong, nonnull) SFSDKAnalyticsManager *analyticsManager;
-@property (nonatomic, readonly, strong, nonnull) SFUserAccount *userAccount;
+@property (nonatomic, readonly, strong, nullable) SFUserAccount *userAccount;
 
 /**
  * Disables or enables logging of events.
@@ -60,6 +60,13 @@
  * @param userAccount User account.
  */
 + (void) removeSharedInstanceWithUser:(nonnull SFUserAccount *) userAccount;
+
+/**
+ * Returns an instance of this class associated with an unauthenticated context (no authenticated user account).
+ *
+ * @return Instance of this class.
+ */
++ (nonnull instancetype) sharedUnauthenticatedInstance;
 
 /**
  * Builds device attributes associated with this device.
