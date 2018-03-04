@@ -699,7 +699,7 @@ SFSDK_USE_DEPRECATED_BEGIN
              }];
             return NO;
         }
-        NSURL* url = [request URL];
+        NSURL* url = request.URL;
 
         /*
          * Execute any commands queued with cordova.exec() on the JS side.
@@ -709,33 +709,9 @@ SFSDK_USE_DEPRECATED_BEGIN
             [self.commandQueue fetchCommandsFromJs];
             [self.commandQueue executePending];
             return NO;
-        }
-
-        /*
-         * Give plugins the chance to handle the URL.
-         */
-        BOOL anyPluginsResponded = NO;
-        BOOL shouldAllowRequest = NO;
-        for (NSString* pluginName in self.pluginObjects) {
-            CDVPlugin* plugin = [self.pluginObjects objectForKey:pluginName];
-            SEL selector = NSSelectorFromString(@"shouldOverrideLoadWithRequest:navigationType:");
-            if ([plugin respondsToSelector:selector]) {
-                anyPluginsResponded = YES;
-                shouldAllowRequest = (((BOOL (*)(id, SEL, id, int)) objc_msgSend)(plugin, selector, request, navigationType));
-                if (!shouldAllowRequest) {
-                    break;
-                }
-            }
-        }
-        if (anyPluginsResponded) {
-            return shouldAllowRequest;
-        }
-        if ([url isFileURL]) {
-            return YES;
         } else {
             [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginHandleOpenURLNotification object:url]];
         }
-        return NO;
     }
     return YES;
 }
