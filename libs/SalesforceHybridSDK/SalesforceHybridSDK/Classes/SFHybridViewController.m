@@ -427,7 +427,7 @@ SFSDK_USE_DEPRECATED_BEGIN
      * We need to use the absolute URL in some cases and relative URL in some
      * other cases, because of differences between instance URL and community URL.
      */
-    if (createAbsUrl && ![returnUrlString containsString:@"http"]) {
+    if (createAbsUrl && ![returnUrlString hasPrefix:@"http"]) {
         NSURLComponents *retUrlComponents = [NSURLComponents componentsWithURL:instUrl resolvingAgainstBaseURL:NO];
         retUrlComponents.path = [retUrlComponents.path stringByAppendingPathComponent:returnUrlString];
         fullReturnUrlString = retUrlComponents.string;
