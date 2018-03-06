@@ -26,12 +26,26 @@ import Foundation
 import PromiseKit
 import SalesforceSDKCore
 
+/** An Extension of SFUserAccountManager. Provides SFUserAccountMnager api(s) wrapped in Promises.
+ ```
+ var userManager = SFUserAccountManager.sharedInstance()
+ userManager.Promises.login()
+ .then { account in
+    //account represents the logged in user
+    // SFUserAccountManager.sharedInstance().currentUser = account
+ }
+ .then {
+    userManager.Promises.logout()
+ }
+ ```
+ */
 extension SFUserAccountManager {
     
     public var Promises : SFUserAccountManagerPromises {
         return SFUserAccountManagerPromises()
     }
     
+    /// SFUserAccountManagerPromises Available api(s) wrapped in promises
     public class SFUserAccountManagerPromises {
        
         init() {

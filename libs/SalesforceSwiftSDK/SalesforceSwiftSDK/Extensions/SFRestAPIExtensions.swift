@@ -26,6 +26,23 @@ import Foundation
 import PromiseKit
 import SalesforceSDKCore
 
+/** SFRestResponse is  a struct representing the response for all SFRestAPI promise api(s).
+ 
+ ```
+ let restApi  = SFRestAPI.sharedInstance()
+ restApi.Promises.query(soql: "SELECT Id,FirstName,LastName FROM User")
+ .then { request in
+ restApi.Promises.send(request: request)
+ }
+ .done { sfRestResponse in
+    restResonse = sfRestResponse.asJsonDictionary()
+ ...
+ }
+ .catch { error in
+ //handle error
+ }
+ ```
+ */
 public struct SFRestResponse {
     
     private (set) var data : Data?
@@ -36,6 +53,9 @@ public struct SFRestResponse {
         self.urlResponse = response
     }
     
+    /// Parse response as a Dictionary
+    ///
+    /// - Returns: Dictionary of Name/Values
     public func asJsonDictionary() -> [String: Any] {
         guard let rawData = data,data!.count > 0 else {
             return [String:Any]()
@@ -44,6 +64,10 @@ public struct SFRestResponse {
         return jsonData
     }
     
+    
+    /// Parse response as an Array of Dictionaries
+    ///
+    /// - Returns: response as an Array of Dictionaries
     public func asJsonArray() -> [[String: Any]] {
         guard let rawData = data,data!.count > 0 else {
             return [[String: Any]]()
@@ -52,10 +76,16 @@ public struct SFRestResponse {
         return jsonData
     }
     
+    /// Return the raw data response
+    ///
+    /// - Returns: Raw Data
     public func asData() -> Data? {
        return self.data
     }
     
+    /// Parse response as String
+    ///
+    /// - Returns: String
     public func asString() -> String {
         guard let rawData = data,data!.count > 0 else {
             return ""
@@ -64,6 +94,10 @@ public struct SFRestResponse {
         return jsonData!
     }
     
+    /// Parse and unmarshall the response as a Decodable
+    ///
+    /// - Parameter type: type of Decodable
+    /// - Returns: Decodable
     public func asDecodable<T:Decodable>(type: T.Type) -> Decodable? {
         guard let rawData = data,data!.count > 0 else {
             return nil
@@ -73,12 +107,30 @@ public struct SFRestResponse {
     }
 }
 
+/** Extension for SFRestAPI. Provides api(s) wrapped in promises.
+ 
+ ```
+ let restApi  = SFRestAPI.sharedInstance()
+ restApi.Promises.query(soql: "SELECT Id,FirstName,LastName FROM User")
+ .then { request in
+    restApi.Promises.send(request: request)
+ }
+ .done { sfRestResponse in
+    restResonse = sfRestResponse.asJsonDictionary()
+    ...
+ }
+ .catch { error in
+   //handle error
+ }
+ ```
+ */
 extension SFRestAPI {
     
     public var Promises : SFRestAPIPromises {
         return SFRestAPIPromises(api: self)
     }
     
+    /// SFRestAPI promise api(s)
     public class SFRestAPIPromises {
         
         weak var api: SFRestAPI?

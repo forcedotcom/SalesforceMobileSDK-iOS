@@ -26,6 +26,12 @@ import Foundation
 import SmartSync
 import PromiseKit
 
+/// SFSmartSyncError representation.
+///
+/// - SyncDownFailed: Thrown when the sync down fails.
+/// - SyncUpFailed: Thrown when the sync up fails.
+/// - ReSyncFailed: Thrown when the resync fails.
+/// - CleanResyncGhostsFailed: Thrown when the cleanresyncghosts fails.
 enum SFSmartSyncError : Error {
     case SyncDownFailed(syncState: SFSyncState)
     case SyncUpFailed(syncState: SFSyncState)
@@ -33,12 +39,35 @@ enum SFSmartSyncError : Error {
     case CleanResyncGhostsFailed
 }
 
+/** SFSmartSyncSyncManager provides sync api(s) wrapped in promises.
+```
+firstly {
+     let syncDownTarget = SFSoqlSyncDownTarget.newSyncTarget(soqlQuery)
+     let syncOptions    = SFSyncOptions.newSyncOptions(forSyncDown: SFSyncStateMergeMode.overwrite)
+     return (self.syncManager.Promises.syncDown(target: syncDownTarget, options: syncOptions, soupName: CONTACTS_SOUP))
+}
+.then { syncState -> Promise<UInt> in
+     let querySpec =  SFQuerySpec.Builder(soupName: CONTACTS_SOUP)
+     .queryType(value: "range")
+     .build()
+     return (store.Promises.count(querySpec: querySpec))!
+}
+.then { count -> Promise<Void>  in
+     return new Promise(())
+}
+.done { syncStateStatus in
+}
+.catch { error in
+}
+```
+ */
 extension SFSmartSyncSyncManager {
     
     public var Promises : SFSmartSyncSyncManagerPromises {
         return SFSmartSyncSyncManagerPromises(api: self)
     }
     
+    /// SF SmartSyncSyncManager api(s) wrapped in promises.
     public class SFSmartSyncSyncManagerPromises {
 
         weak var api: SFSmartSyncSyncManager?
