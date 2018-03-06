@@ -219,47 +219,65 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
     if (self.isSimulator) {
         return YES;  // "Successful".  Simulator does not register/unregister for notifications.
     } else {
-        return [self unregisterSalesforceNotifications:[SFUserAccountManager sharedInstance].currentUser];
+        return [self unregisterSalesforceNotificationsWithCompletionBlock:[SFUserAccountManager sharedInstance].currentUser completionBlock:nil];
     }
 }
 
 - (BOOL)unregisterSalesforceNotifications:(SFUserAccount*)user
 {
+    return [self unregisterSalesforceNotificationsWithCompletionBlock:[SFUserAccountManager sharedInstance].currentUser completionBlock:nil];
+}
+
+- (BOOL)unregisterSalesforceNotificationsWithCompletionBlock:(SFUserAccount*)user completionBlock:(^void)completionBlock
+{
     if (self.isSimulator) {
+        [self postPushNotificationUnregistration:completionBlock];
         return YES;  // "Successful".  Simulator does not register/unregister for notifications.
     }
-    
     SFOAuthCredentials *credentials = user.credentials;
     if (!credentials) {
         [SFSDKCoreLogger e:[self class] format:@"Cannot unregister from notifications with Salesforce: not authenticated"];
+        [self postPushNotificationUnregistration:completionBlock];
         return NO;
     }
     SFPreferences *pref = [SFPreferences sharedPreferencesForScope:SFUserAccountScopeUser user:user];
     if (!pref) {
         [SFSDKCoreLogger e:[self class] format:@"Cannot unregister from notifications with Salesforce: no user pref"];
+        [self postPushNotificationUnregistration:completionBlock];
         return NO;
     }
-
     if (![pref stringForKey:kSFDeviceSalesforceId]) {
         [SFSDKCoreLogger e:[self class] format:@"Cannot unregister from notifications with Salesforce: no deviceSalesforceId"];
+        [self postPushNotificationUnregistration:completionBlock];
         return NO;
     }
     NSString *deviceSFID = [[NSString alloc] initWithString:[pref stringForKey:kSFDeviceSalesforceId]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    
+
     // URL and method
     [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kSFPushNotificationEndPoint, deviceSFID] relativeToURL:credentials.instanceUrl]];
     [request setHTTPMethod:@"DELETE"];
-    
+
     // Headers
     [request setValue:[NSString stringWithFormat:@"Bearer %@", credentials.accessToken] forHTTPHeaderField:@"Authorization"];
     [request setHTTPShouldHandleCookies:NO];
-    
-    // Send (fire and forget)
+
+    // Send
     SFNetwork *network = [[SFNetwork alloc] init];
-    [network sendRequest:request dataResponseBlock:nil];
+    __weak typeof(self) weakSelf = self;
+    [network sendRequest:request dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf postPushNotificationUnregistration:completionBlock];
+    }];
     [SFSDKCoreLogger i:[self class] format:@"Unregister from notifications with Salesforce sent"];
     return YES;
+}
+
+- (BOOL) postPushNotificationUnregistration:(^void)completionBlock
+{
+    if (completionBlock != nil) {
+        completionBlock();
+    }
 }
 
 #pragma mark - Events observers
