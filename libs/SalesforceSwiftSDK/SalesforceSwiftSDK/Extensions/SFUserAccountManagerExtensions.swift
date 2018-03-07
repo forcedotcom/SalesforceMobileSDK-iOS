@@ -76,7 +76,7 @@ extension SFUserAccountManager {
          Refresh Credentials API wrapped in a promise.
          
          ```
-         SFUserAccountManager.sharedInstance().refresh(credentials)
+         SFUserAccountManager.sharedInstance().Promises.refresh(credentials)
          .then { account in
          ...
          }
@@ -99,7 +99,7 @@ extension SFUserAccountManager {
          Logout wrapped in a promise.
          
          ```
-         SFUserAccountManager.sharedInstance().logout()
+         SFUserAccountManager.sharedInstance().Promises.logout()
          .then {
             // cleanup
          }
@@ -118,7 +118,7 @@ extension SFUserAccountManager {
          LogoutAllusers wrapped in a promise.
          
          ```
-         SFUserAccountManager.sharedInstance().logoutAllUsers()
+         SFUserAccountManager.sharedInstance().Promises.logoutAllUsers()
          .then {
             // cleanup
          }
@@ -137,7 +137,7 @@ extension SFUserAccountManager {
          LogoutUser API wrapped in a promise.
          
          ```
-         SFUserAccountManager.sharedInstance().logoutUser(user)
+         SFUserAccountManager.sharedInstance().Promises.logoutUser(user)
          .then {
              // cleanup
          }
@@ -157,7 +157,7 @@ extension SFUserAccountManager {
          SwitchToUser API wrapped in a promise.
          
          ```
-         SFUserAccountManager.sharedInstance().switchToUser(user)
+         SFUserAccountManager.sharedInstance().Promises.switchToUser(user)
          .then { switchedUser in
             ...
          }
@@ -177,7 +177,7 @@ extension SFUserAccountManager {
          SwitchToNewUser API wrapped in a promise.
          
          ```
-         SFUserAccountManager.sharedInstance().switchToNewUser()
+         SFUserAccountManager.sharedInstance().Promises.switchToNewUser()
          .then { newUser in
          ...
          }
