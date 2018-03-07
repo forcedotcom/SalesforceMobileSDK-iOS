@@ -32,14 +32,14 @@ import SalesforceSDKCore
  let restApi  = SFRestAPI.sharedInstance()
  restApi.Promises.query(soql: "SELECT Id,FirstName,LastName FROM User")
  .then { request in
- restApi.Promises.send(request: request)
+    restApi.Promises.send(request: request)
  }
  .done { sfRestResponse in
     restResonse = sfRestResponse.asJsonDictionary()
- ...
+    ...
  }
  .catch { error in
- //handle error
+    //handle error
  }
  ```
  */

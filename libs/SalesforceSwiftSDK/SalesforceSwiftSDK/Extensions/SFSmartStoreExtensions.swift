@@ -527,19 +527,23 @@ extension SFSmartStore {
 /** SFSmartStoreClient provides store api(s) wrapped in promises.
  ```
  SFSmartStoreClient.store(withName: lclStoreName)
- .then { store -> Promise<Bool>  in
-    return store.Promises.registerSoup(soupName: soupName, indexSpecs: indexSpecs)
+ .then { localStore -> Promise<SFSmartStore> in
+    return Promise(value: localStore)
  }
- .then { soupCreated -> Promise<Void> in
-    return SFSmartStoreClient.removeSharedStore(withName: lclStoreName)
+ .then { store -> Promise<(Bool,SFSmartStore)>  in
+     let result  = store.soupExists(soupName)
+     return Promise(value:(result,store))
+ }
+ .then { (result,store) -> Promise<Void> in
+     if (result==true) {
+        .. //perform operations on store
+     }
  }
  .done {
     ...
  }
  .catch { error in
     //handle Error
- }
- ...
  }
  ```
  */
