@@ -67,14 +67,22 @@ NS_ASSUME_NONNULL_BEGIN
  * Unregister from notifications with Salesforce for all users. This method is called at logout.
  * @return YES for successful unregistration call being made.
  */
-- (BOOL)unregisterSalesforceNotifications;
+- (BOOL) SFSDK_DEPRECATED(6.1, 7.0, "Use 'unregisterSalesforceNotificationsWithCompletionBlock' instead.") unregisterSalesforceNotifications;
 
 /**
  * Unregister from notifications with Salesforce for a specific user. This method is called at logout.
  * @param user User account.
  * @return YES for successful unregistration call being made.
  */
-- (BOOL)unregisterSalesforceNotifications:(SFUserAccount*)user;
+- (BOOL) SFSDK_DEPRECATED(6.1, 7.0, "Use 'unregisterSalesforceNotificationsWithCompletionBlock' instead.") unregisterSalesforceNotifications:(SFUserAccount*)user;
+
+/**
+ * Unregister from notifications with Salesforce for a specific user. This method is called at logout.
+ * @param user User account.
+ * @param completionBlock Completion block.
+ * @return YES for successful unregistration call being made.
+ */
+- (BOOL)unregisterSalesforceNotificationsWithCompletionBlock:(SFUserAccount*)user completionBlock:(nullable void (^)(void))completionBlock;
 
 @end
 

@@ -30,11 +30,11 @@
 #import "SFJsonUtils.h"
 #import "SFApplicationHelper.h"
 #import "SFSDKAppFeatureMarkers.h"
-#import "SFNetwork.h"
+#import "SFRestAPI+Blocks.h"
 
 static NSString* const kSFDeviceToken = @"deviceToken";
 static NSString* const kSFDeviceSalesforceId = @"deviceSalesforceId";
-static NSString* const kSFPushNotificationEndPoint = @"services/data/v42.0/sobjects/MobilePushServiceDevice";
+static NSString* const kSFPushNotificationEndPoint = @"sobjects/MobilePushServiceDevice";
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-const-variable"
@@ -52,7 +52,6 @@ static NSString* const kSFPushNotificationEndPoint = @"services/data/v42.0/sobje
 static NSUInteger const kiOS8UserNotificationTypes = ((1 << 0) | (1 << 1) | (1 << 2));
 
 static NSString * const kSFAppFeaturePushNotifications = @"PN";
-
 
 #pragma clang diagnostic pop
 
@@ -73,6 +72,7 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
 @synthesize deviceSalesforceId = _deviceSalesforceId;
 
 #pragma mark - Initialization
+
 - (id)init
 {
     self = [super init];
@@ -100,7 +100,6 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
     return self;
 }
 
-
 + (SFPushNotificationManager *) sharedInstance
 {
     static dispatch_once_t pred;
@@ -119,7 +118,7 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
         [SFSDKCoreLogger i:[self class] format:@"Skipping push notification registration with Apple because push isn't supported on the simulator"];
         return;
     }
-    
+
     // register with Apple for remote notifications
     [SFSDKCoreLogger i:[self class] format:@"Registering with Apple for remote push notifications"];
     [self registerNotifications];
@@ -131,7 +130,6 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
     // we switch to building libraries with Xcode 6, this can go away.
     NSSet *categories = nil;
     NSUInteger notificationTypes = kiOS8UserNotificationTypes;
-    
     Class userNotificationSettings = NSClassFromString(@"UIUserNotificationSettings");
     NSMethodSignature *settingsForTypesSig = [userNotificationSettings methodSignatureForSelector:@selector(settingsForTypes:categories:)];
     NSInvocation *settingsForTypesInv = [NSInvocation invocationWithMethodSignature:settingsForTypesSig];
@@ -140,12 +138,11 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
     [settingsForTypesInv setArgument:&notificationTypes atIndex:2];
     [settingsForTypesInv setArgument:&categories atIndex:3];
     [settingsForTypesInv invoke];
-    
     CFTypeRef settingsForTypesRetVal;
     [settingsForTypesInv getReturnValue:&settingsForTypesRetVal];
-    if (settingsForTypesRetVal)
+    if (settingsForTypesRetVal) {
         CFRetain(settingsForTypesRetVal);
-    
+    }
     [[SFApplicationHelper sharedApplication] performSelector:@selector(registerUserNotificationSettings:) withObject:(__bridge_transfer id)settingsForTypesRetVal];
     [[SFApplicationHelper sharedApplication] performSelector:@selector(registerForRemoteNotifications)];
 }
@@ -174,41 +171,31 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
         [SFSDKCoreLogger e:[self class] format:@"Cannot register for notifications with Salesforce: no deviceToken"];
         return NO;
     }
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    
-    // URL and method
-    [request setURL:[NSURL URLWithString:kSFPushNotificationEndPoint relativeToURL:credentials.instanceUrl]];
-    [request setHTTPMethod:@"POST"];
-    
-    // Headers
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request setValue:[NSString stringWithFormat:@"Bearer %@", credentials.accessToken] forHTTPHeaderField:@"Authorization"];
-    [request setHTTPShouldHandleCookies:NO];
-    
-    // Body
+    NSString *path = [NSString stringWithFormat:@"/%@/%@", [SFRestAPI sharedInstance].apiVersion, kSFPushNotificationEndPoint];
+    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
     NSString *bundleId = [NSBundle mainBundle].bundleIdentifier;
     NSDictionary* bodyDict = @{@"ConnectionToken":_deviceToken, @"ServiceType":@"Apple", @"ApplicationBundle":bundleId};
-    [request setHTTPBody:[SFJsonUtils JSONDataRepresentation:bodyDict]];
-    
-    // Send
-    SFNetwork *network = [[SFNetwork alloc] init];
-    [network sendRequest:request dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
-        if (error != nil) {
-            [SFSDKCoreLogger e:[self class] format:@"Registration for notifications with Salesforce failed with error %@", error];
+    [request setCustomRequestBodyDictionary:bodyDict contentType:@"application/json"];
+    __weak typeof(self) weakSelf = self;
+    [[SFRestAPI sharedInstance] sendRESTRequest:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (e != nil) {
+            [SFSDKCoreLogger e:[strongSelf class] format:@"Registration for notifications with Salesforce failed with error %@", e];
+        }
+    } completeBlock:^(id response, NSURLResponse *rawResponse) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeaturePushNotifications];
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) response;
+        NSInteger statusCode = httpResponse.statusCode;
+        if (statusCode < 200 || statusCode >= 300) {
+            [SFSDKCoreLogger e:[strongSelf class] format:@"Registration for notifications with Salesforce failed with status %ld", statusCode];
+            [SFSDKCoreLogger e:[strongSelf class] format:@"Response:%@", response];
         } else {
-            [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeaturePushNotifications];
-            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) response;
-            NSInteger statusCode = httpResponse.statusCode;
-            if (statusCode < 200 || statusCode >= 300) {
-                [SFSDKCoreLogger e:[self class] format:@"Registration for notifications with Salesforce failed with status %ld", statusCode];
-                [SFSDKCoreLogger e:[self class] format:@"Response:%@", [SFJsonUtils objectFromJSONData:data]];
-            } else {
-                [SFSDKCoreLogger i:[self class] format:@"Registration for notifications with Salesforce succeeded"];
-                NSDictionary *responseAsJson = (NSDictionary*) [SFJsonUtils objectFromJSONData:data];
-                self->_deviceSalesforceId = (NSString*) responseAsJson[@"id"];
-                [[SFPreferences currentUserLevelPreferences] setObject:self->_deviceSalesforceId forKey:kSFDeviceSalesforceId];
-                [SFSDKCoreLogger i:[self class] format:@"Response:%@", responseAsJson];
-            }
+            [SFSDKCoreLogger i:[strongSelf class] format:@"Registration for notifications with Salesforce succeeded"];
+            NSDictionary *responseAsJson = (NSDictionary*) response;
+            strongSelf->_deviceSalesforceId = (NSString*) responseAsJson[@"id"];
+            [[SFPreferences currentUserLevelPreferences] setObject:strongSelf->_deviceSalesforceId forKey:kSFDeviceSalesforceId];
+            [SFSDKCoreLogger i:[strongSelf class] format:@"Response:%@", responseAsJson];
         }
     }];
     return YES;
@@ -219,47 +206,61 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
     if (self.isSimulator) {
         return YES;  // "Successful".  Simulator does not register/unregister for notifications.
     } else {
-        return [self unregisterSalesforceNotifications:[SFUserAccountManager sharedInstance].currentUser];
+        return [self unregisterSalesforceNotificationsWithCompletionBlock:[SFUserAccountManager sharedInstance].currentUser completionBlock:nil];
     }
 }
 
 - (BOOL)unregisterSalesforceNotifications:(SFUserAccount*)user
 {
+    return [self unregisterSalesforceNotificationsWithCompletionBlock:[SFUserAccountManager sharedInstance].currentUser completionBlock:nil];
+}
+
+- (BOOL)unregisterSalesforceNotificationsWithCompletionBlock:(SFUserAccount*)user completionBlock:(void (^)(void))completionBlock
+{
     if (self.isSimulator) {
+        [self postPushNotificationUnregistration:completionBlock];
         return YES;  // "Successful".  Simulator does not register/unregister for notifications.
     }
-    
     SFOAuthCredentials *credentials = user.credentials;
     if (!credentials) {
         [SFSDKCoreLogger e:[self class] format:@"Cannot unregister from notifications with Salesforce: not authenticated"];
+        [self postPushNotificationUnregistration:completionBlock];
         return NO;
     }
     SFPreferences *pref = [SFPreferences sharedPreferencesForScope:SFUserAccountScopeUser user:user];
     if (!pref) {
         [SFSDKCoreLogger e:[self class] format:@"Cannot unregister from notifications with Salesforce: no user pref"];
+        [self postPushNotificationUnregistration:completionBlock];
         return NO;
     }
-
     if (![pref stringForKey:kSFDeviceSalesforceId]) {
         [SFSDKCoreLogger e:[self class] format:@"Cannot unregister from notifications with Salesforce: no deviceSalesforceId"];
+        [self postPushNotificationUnregistration:completionBlock];
         return NO;
     }
     NSString *deviceSFID = [[NSString alloc] initWithString:[pref stringForKey:kSFDeviceSalesforceId]];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    
-    // URL and method
-    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kSFPushNotificationEndPoint, deviceSFID] relativeToURL:credentials.instanceUrl]];
-    [request setHTTPMethod:@"DELETE"];
-    
-    // Headers
-    [request setValue:[NSString stringWithFormat:@"Bearer %@", credentials.accessToken] forHTTPHeaderField:@"Authorization"];
-    [request setHTTPShouldHandleCookies:NO];
-    
-    // Send (fire and forget)
-    SFNetwork *network = [[SFNetwork alloc] init];
-    [network sendRequest:request dataResponseBlock:nil];
+    NSString *path = [NSString stringWithFormat:@"/%@/%@/%@", [SFRestAPI sharedInstance].apiVersion, kSFPushNotificationEndPoint, deviceSFID];
+    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodDELETE path:path queryParams:nil];
+    __weak typeof(self) weakSelf = self;
+    [[SFRestAPI sharedInstance] sendRESTRequest:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (e) {
+            [SFSDKCoreLogger e:[strongSelf class] format:@"Push notification unregistration failed %ld %@", (long)[e code], [e localizedDescription]];
+        }
+        [strongSelf postPushNotificationUnregistration:completionBlock];
+    } completeBlock:^(id response, NSURLResponse *rawResponse) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf postPushNotificationUnregistration:completionBlock];
+    }];
     [SFSDKCoreLogger i:[self class] format:@"Unregister from notifications with Salesforce sent"];
     return YES;
+}
+
+- (void)postPushNotificationUnregistration:(void (^)(void))completionBlock
+{
+    if (completionBlock != nil) {
+        completionBlock();
+    }
 }
 
 #pragma mark - Events observers
@@ -271,7 +272,6 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
         [self registerForSalesforceNotifications];
     }
 }
-
 
 - (void)onAppWillEnterForeground:(NSNotification *)notification
 {

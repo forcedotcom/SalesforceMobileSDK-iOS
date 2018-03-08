@@ -297,7 +297,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 }
 
 - (BOOL)loginWithJwtToken:(NSString *)jwtToken completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
-    NSAssert(self.useLegacyAuthenticationManager==false, kSFIncompatibleAuthError);
+    NSAssert(self.useLegacyAuthenticationManager == false, kSFIncompatibleAuthError);
     NSAssert(jwtToken.length > 0, @"JWT token value required.");
     SFOAuthCredentials *credentials = [self newClientCredentials];
     credentials.jwt = jwtToken;
@@ -305,58 +305,67 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 }
 
 - (void)logout {
-    NSAssert(self.useLegacyAuthenticationManager==false, kSFIncompatibleAuthError);
+    NSAssert(self.useLegacyAuthenticationManager == false, kSFIncompatibleAuthError);
     [self logoutUser:[SFUserAccountManager sharedInstance].currentUser];
 }
 
 - (void)logoutUser:(SFUserAccount *)user {
-    NSAssert(self.useLegacyAuthenticationManager==false, kSFIncompatibleAuthError);
+    NSAssert(self.useLegacyAuthenticationManager == false, kSFIncompatibleAuthError);
+
     // No-op, if the user is not valid.
     if (user == nil) {
-        [SFSDKCoreLogger i:[self class] format:@"logoutUser: user is nil.  No action taken."];
+        [SFSDKCoreLogger i:[self class] format:@"logoutUser: user is nil. No action taken."];
         return;
     }
-
     BOOL loggingOutTransitionSucceeded = [user transitionToLoginState:SFUserAccountLoginStateLoggingOut];
     if (!loggingOutTransitionSucceeded) {
+
         // SFUserAccount already logs the transition failure.
         return;
     }
-    
-    BOOL isCurrentUser = [user isEqual:self.currentUser];
     [SFSDKCoreLogger d:[self class] format:@"Logging out user '%@'.", user.userName];
     NSDictionary *userInfo = @{ kSFNotificationUserInfoAccountKey : user };
     [[NSNotificationCenter defaultCenter]  postNotificationName:kSFNotificationUserWillLogout
                                                         object:self
                                                       userInfo:userInfo];
+    if ([SFPushNotificationManager sharedInstance].deviceSalesforceId) {
+        __weak typeof(self) weakSelf = self;
+        [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotificationsWithCompletionBlock:user completionBlock:^void() {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            [strongSelf postPushUnregistration:userInfo user:user];
+        }];
+    } else {
+        [self postPushUnregistration:userInfo user:user];
+    }
+}
+
+- (void)postPushUnregistration:(NSDictionary *)userInfo user:(SFUserAccount *)user {
     SFSDKOAuthClient *client = [self fetchOAuthClient:user.credentials completion:nil failure:nil];
     [self deleteAccountForUser:user error:nil];
     [client cancelAuthentication:NO];
     [client revokeCredentials];
-    if ([SFPushNotificationManager sharedInstance].deviceSalesforceId) {
-        [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotifications:user];
-    }
+    BOOL isCurrentUser = [user isEqual:self.currentUser];
     if (isCurrentUser) {
         self.currentUser = nil;
     }
-    //need to reset Passcode if no other users are around.
+
+    // Need to reset Passcode if no other users are around.
     if ([[self allUserAccounts] count] < 1 ) {
         [SFSecurityLockout clearPasscodeState];
     }
     [SFSDKWebViewStateManager removeSession];
     NSNotification *logoutNotification = [NSNotification notificationWithName:kSFNotificationUserDidLogout object:self userInfo:userInfo];
-    
     [[NSNotificationCenter defaultCenter] postNotification:logoutNotification];
-    
+
     // NB: There's no real action that can be taken if this login state transition fails.  At any rate,
     // it's an unlikely scenario.
     [user transitionToLoginState:SFUserAccountLoginStateNotLoggedIn];
     [self disposeOAuthClient:client];
-    
 }
 
 - (void)logoutAllUsers {
-    NSAssert(self.useLegacyAuthenticationManager==false, kSFIncompatibleAuthError);
+    NSAssert(self.useLegacyAuthenticationManager == false, kSFIncompatibleAuthError);
+
     // Log out all other users, then the current user.
     NSArray *userAccounts = [self allUserAccounts];
     for (SFUserAccount *account in userAccounts) {
