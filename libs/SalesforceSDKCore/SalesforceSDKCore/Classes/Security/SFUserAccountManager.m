@@ -297,7 +297,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 }
 
 - (BOOL)loginWithJwtToken:(NSString *)jwtToken completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
-    NSAssert(self.useLegacyAuthenticationManager==false, kSFIncompatibleAuthError);
+    NSAssert(self.useLegacyAuthenticationManager == false, kSFIncompatibleAuthError);
     NSAssert(jwtToken.length > 0, @"JWT token value required.");
     SFOAuthCredentials *credentials = [self newClientCredentials];
     credentials.jwt = jwtToken;
@@ -328,22 +328,22 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     [[NSNotificationCenter defaultCenter]  postNotificationName:kSFNotificationUserWillLogout
                                                         object:self
                                                       userInfo:userInfo];
-    SFSDKOAuthClient *client = [self fetchOAuthClient:user.credentials completion:nil failure:nil];
-    [self deleteAccountForUser:user error:nil];
-    [client cancelAuthentication:NO];
-    [client revokeCredentials];
     if ([SFPushNotificationManager sharedInstance].deviceSalesforceId) {
         __weak typeof(self) weakSelf = self;
         [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotificationsWithCompletionBlock:user completionBlock:^void() {
             __strong typeof(weakSelf) strongSelf = weakSelf;
-            [strongSelf postPushUnregistration:userInfo user:user client:client];
+            [strongSelf postPushUnregistration:userInfo user:user];
         }];
     } else {
-        [self postPushUnregistration:userInfo user:user client:client];
+        [self postPushUnregistration:userInfo user:user];
     }
 }
 
-- (void)postPushUnregistration:(NSDictionary *)userInfo user:(SFUserAccount *)user client:(SFSDKOAuthClient *)client {
+- (void)postPushUnregistration:(NSDictionary *)userInfo user:(SFUserAccount *)user {
+    SFSDKOAuthClient *client = [self fetchOAuthClient:user.credentials completion:nil failure:nil];
+    [self deleteAccountForUser:user error:nil];
+    [client cancelAuthentication:NO];
+    [client revokeCredentials];
     BOOL isCurrentUser = [user isEqual:self.currentUser];
     if (isCurrentUser) {
         self.currentUser = nil;
