@@ -334,7 +334,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     [client revokeCredentials];
     if ([SFPushNotificationManager sharedInstance].deviceSalesforceId) {
         __weak typeof(self) weakSelf = self;
-        [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotificationsWithCompletionBlock:user completionBlock:^(void) {
+        [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotificationsWithCompletionBlock:user completionBlock:^void() {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [strongSelf postPushUnregistration:userInfo user:user client:client];
         }];

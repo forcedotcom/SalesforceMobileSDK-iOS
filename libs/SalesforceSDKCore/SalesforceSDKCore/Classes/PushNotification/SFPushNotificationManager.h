@@ -82,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param completionBlock Completion block.
  * @return YES for successful unregistration call being made.
  */
-- (BOOL)unregisterSalesforceNotificationsWithCompletionBlock:(SFUserAccount*)user completionBlock:(void)completionBlock;
+- (BOOL)unregisterSalesforceNotificationsWithCompletionBlock:(SFUserAccount*)user completionBlock:(void (^)(void))completionBlock;
 
 @end
 

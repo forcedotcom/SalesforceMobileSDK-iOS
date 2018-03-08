@@ -228,7 +228,7 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
     return [self unregisterSalesforceNotificationsWithCompletionBlock:[SFUserAccountManager sharedInstance].currentUser completionBlock:nil];
 }
 
-- (BOOL)unregisterSalesforceNotificationsWithCompletionBlock:(SFUserAccount*)user completionBlock:(^void)completionBlock
+- (BOOL)unregisterSalesforceNotificationsWithCompletionBlock:(SFUserAccount*)user completionBlock:(void (^)(void))completionBlock
 {
     if (self.isSimulator) {
         [self postPushNotificationUnregistration:completionBlock];
@@ -273,7 +273,7 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
     return YES;
 }
 
-- (BOOL)postPushNotificationUnregistration:completionBlock
+- (void)postPushNotificationUnregistration:(void (^)(void))completionBlock
 {
     if (completionBlock != nil) {
         completionBlock();
