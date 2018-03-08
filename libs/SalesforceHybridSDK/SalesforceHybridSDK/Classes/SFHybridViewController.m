@@ -38,6 +38,7 @@
 #import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
 #import <SalesforceSDKCore/NSString+SFAdditions.h>
 #import <SalesforceSDKCore/SFSDKWebViewStateManager.h>
+#import <SalesforceSDKCore/SFRestAPI+Blocks.h>
 #import <Cordova/NSDictionary+CordovaPreferences.h>
 #import <Cordova/CDVUserAgentUtil.h>
 #import <objc/message.h>
@@ -300,6 +301,7 @@ SFSDK_USE_DEPRECATED_BEGIN
 
 - (void)authenticateWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock
 {
+
     /*
      * Reconfigure user agent. Basically this ensures that Cordova whitelisting won't apply to the
      * WKWebView that hosts the login screen (important for SSO outside of Salesforce domains).
@@ -310,7 +312,6 @@ SFSDK_USE_DEPRECATED_BEGIN
         __strong typeof(weakSelf) strongSelf = weakSelf;
         [SFUserAccountManager sharedInstance].currentUser = userAccount;
         [strongSelf authenticationCompletion:nil authInfo:authInfo];
-        
         if (authInfo.authType == SFOAuthTypeRefresh) {
             [strongSelf loadVFPingPage];
         }
@@ -319,7 +320,6 @@ SFSDK_USE_DEPRECATED_BEGIN
             completionBlock(authInfo, authDict);
         }
     };
-
     SFOAuthFlowFailureCallbackBlock authFailureBlock = ^(SFOAuthInfo *authInfo, NSError *error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if ([strongSelf logoutOnInvalidCredentials:error]) {
@@ -487,8 +487,7 @@ SFSDK_USE_DEPRECATED_BEGIN
     if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
         return ([SFAuthenticationManager errorIsInvalidAuthCredentials:error]
                 && [[SFAuthenticationManager sharedManager].authErrorHandlerList authErrorHandlerInList:[SFAuthenticationManager sharedManager].invalidCredentialsAuthErrorHandler]);
-    }
-   else {
+    } else {
        return [SFUserAccountManager errorIsInvalidAuthCredentials:error];
    }
 }
@@ -859,11 +858,19 @@ SFSDK_USE_DEPRECATED_BEGIN
 - (void)refreshCredentials:(SFOAuthCredentials *)credentials
                  completion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
                   failure:(SFOAuthFlowFailureCallbackBlock)failureBlock {
-    if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
-        [[SFAuthenticationManager sharedManager] refreshCredentials:credentials completion:completionBlock failure:failureBlock];
-    } else {
-        [[SFUserAccountManager sharedInstance] refreshCredentials:credentials completion:completionBlock failure:failureBlock];
-    }
+
+    /*
+     * Performs a cheap REST call to refresh the access token if needed
+     * instead of going through the entire OAuth dance all over again.
+     */
+    SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh];
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForResources];
+    [[SFRestAPI sharedInstance] sendRESTRequest:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+        failureBlock(authInfo, e);
+    } completeBlock:^(id response, NSURLResponse *rawResponse) {
+        SFUserAccount *currentAccount = [SFUserAccountManager sharedInstance].currentUser;
+        completionBlock(authInfo, currentAccount);
+    }];
 }
 
 - (void)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
