@@ -863,7 +863,6 @@ SFSDK_USE_DEPRECATED_BEGIN
      * Performs a cheap REST call to refresh the access token if needed
      * instead of going through the entire OAuth dance all over again.
      */
-    __weak __typeof(self) weakSelf = self;
     SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh];
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForResources];
     [[SFRestAPI sharedInstance] sendRESTRequest:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
