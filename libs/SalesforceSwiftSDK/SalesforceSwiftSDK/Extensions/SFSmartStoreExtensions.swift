@@ -26,88 +26,129 @@ import Foundation
 import SmartStore
 import PromiseKit
 
+/// SmartStoreError types
+///
+/// - StoreNotFoundError: Thrown when store is not found
+/// - SoupNotFoundError:  Thrown when the soup int the is not found
+/// - IndicesNotFoundError: Thrown when the indices are not found
 enum SmartStoreError : Error {
     case StoreNotFoundError
     case SoupNotFoundError
     case IndicesNotFoundError
 }
 
+/** Extension of SFQuerySpec with a Builder.
+ 
+ ```
+     var querySpec =  SFQuerySpec.Builder(soupName: "chickensoup")
+     .queryType(value: "match")
+     .path(value: "wings")
+     .orderPath(value: "wings")
+     .order(value: "ascending")
+     .matchKey(value: "2")
+     .pageSize(value: 1)
+     .build()
+ ```
+ */
 extension SFQuerySpec {
     
-    /**
-     Builder class to build a querySpec
-     
-     ```
-     var querySpec =  SFQuerySpec.Builder(soupName: "chickensoup")
-                                 .queryType(value: "match")
-                                 .path(value: "wings")
-                                 .orderPath(value: "wings")
-                                 .order(value: "ascending")
-                                 .matchKey(value: "2")
-                                 .pageSize(value: 1)
-                                 .build()
-     ```
-     */
+    /// Builder class
     public class Builder {
         var queryDict: Dictionary<String,Any> = Dictionary<String,Any>()
         let soupName: String
         
+        /// create instance with soup name
+        /// - Parameter soupName: Name of the soup
         public required init(soupName: String) {
             self.soupName = soupName
         }
         
+        /// Set the query type
+        /// - Parameter value: type of query
+        /// - Returns: SFQuerySpec.Builder instance
         public func queryType(value: String) -> Self {
             queryDict[kQuerySpecParamQueryType] = value
             return self
         }
         
+        /// The smart sql
+        /// - Parameter value: smart sql string
+        /// - Returns: SFQuerySpec.Builder instance
         public func smartSql(value: String) -> Self {
             queryDict[kQuerySpecParamSmartSql] = value
             return self
         }
         
+        /// Page Size for the query
+        /// - Parameter value:  page size
+        /// - Returns: SFQuerySpec.Builder instance
         public func pageSize(value: UInt) -> Self {
              queryDict[kQuerySpecParamPageSize] = value
             return self
         }
         
+        
+        /// Selected Paths for the smart sql query
+        /// - Parameter value: Array of selected paths
+        /// - Returns: SFQuerySpec.Builder instance
         public func selectedPaths(value: [String]) -> Self {
             queryDict[kQuerySpecParamSelectPaths] = value
             return self
         }
         
+        /// Path for the smart sql query
+        /// - Parameter value: path
+        /// - Returns: SFQuerySpec.Builder instance
         public func path(value: String) -> Self {
              queryDict[kQuerySpecParamIndexPath] = value
             return self
         }
         
+        /// Begin Key for the smart sql query
+        /// - Parameter value: begin Key
+        /// - Returns: SFQuerySpec.Builder instance
         public func beginKey(value: String) -> Self {
             queryDict[kQuerySpecParamBeginKey] = value
             return self
         }
-        
+       
+        /// End Key for the smart sql query
+        /// - Parameter value: end Key
+        /// - Returns: SFQuerySpec.Builder instance
         public func endKey(value: String) -> Self {
              queryDict[kQuerySpecParamEndKey] = value
             return self
         }
         
+        /// Like Key for the smart sql query
+        /// - Parameter value: like Key
+        /// - Returns: SFQuerySpec.Builder instance
         public func likeKey(value: String) -> Self {
             queryDict[kQuerySpecParamQueryType] = kQuerySpecTypeLike
             queryDict[kQuerySpecParamLikeKey] = value
             return self
         }
         
+        /// Match Key for the smart sql query
+        /// - Parameter value: match Key
+        /// - Returns: SFQuerySpec.Builder instance
         public func matchKey(value: String) -> Self {
             queryDict[kQuerySpecParamQueryType] = kQuerySpecTypeMatch
             queryDict[kQuerySpecParamMatchKey] = value
             return self
         }
         
+        /// Order Path for the smart sql query
+        /// - Parameter value: order path
+        /// - Returns: SFQuerySpec.Builder instance
         public func orderPath(value: String) -> Self {
              queryDict[kQuerySpecParamOrderPath] = value
             return self
         }
         
+        /// Order by for the smart sql query
+        /// - Parameter value: string representing ascending/descending
+        /// - Returns: SFQuerySpec.Builder instance
         public func order(value: String) -> Self {
             queryDict[kQuerySpecParamOrder] = value
             return self
@@ -119,12 +160,14 @@ extension SFQuerySpec {
     }
 }
 
+/// Extension of SFSmartStore.
 extension SFSmartStore {
     
     public var Promises : SFSmartStorePromises {
         return SFSmartStorePromises(api: self)
     }
     
+    /// Smart Store api(s) wrapped in promises.
     public class SFSmartStorePromises {
         
         weak var api: SFSmartStore?
@@ -481,7 +524,29 @@ extension SFSmartStore {
     }
  
 }
-
+/** SFSmartStoreClient provides store api(s) wrapped in promises.
+ ```
+ SFSmartStoreClient.store(withName: lclStoreName)
+ .then { localStore -> Promise<SFSmartStore> in
+    return Promise(value: localStore)
+ }
+ .then { store -> Promise<(Bool,SFSmartStore)>  in
+     let result  = store.soupExists(soupName)
+     return Promise(value:(result,store))
+ }
+ .then { (result,store) -> Promise<Void> in
+     if (result==true) {
+        .. //perform operations on store
+     }
+ }
+ .done {
+    ...
+ }
+ .catch { error in
+    //handle Error
+ }
+ ```
+ */
 public class SFSmartStoreClient {
     
     /**
@@ -597,8 +662,7 @@ public class SFSmartStoreClient {
      ..
      }
      ```
-     - parameter withName: Name of Store.
-     - Returns: SFSmartStore wrapped in a promise.
+     - Returns:  A Void Promise
      */
     public class func removeAllSharedStores() -> Promise<Void> {
         return Promise(.pending) { resolver in
@@ -616,8 +680,7 @@ public class SFSmartStoreClient {
      ..
      }
      ```
-     - parameter withName: Name of Store.
-     - Returns: SFSmartStore wrapped in a promise.
+     - Returns:  A Void Promise
      */
     public class func removeAllGlobalStores() -> Promise<Void> {
         return Promise(.pending) { resolver in

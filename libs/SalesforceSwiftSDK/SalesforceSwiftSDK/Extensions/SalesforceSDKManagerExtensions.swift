@@ -29,6 +29,7 @@ import PromiseKit
 
 extension SalesforceSwiftSDKManager {
     
+    /// instance of SalesforceSDKManagerBuilder
     public static var Builder:SalesforceSDKManagerBuilder.Type {
         get {
            _ = SalesforceSwiftSDKManager.initSDK()
@@ -36,6 +37,7 @@ extension SalesforceSwiftSDKManager {
         }
     }
    
+    /// SalesforceSDKManagerBuilder class.
     public class SalesforceSDKManagerBuilder {
         
         /**
@@ -82,9 +84,8 @@ extension SalesforceSwiftSDKManager {
              appconfig.oauthRedirectURI = OAuthRedirectURI
              appconfig.oauthScopes = ["web", "api"]
          }
-         .postLaunch {  [unowned self] (launchActionList: SFSDKLaunchAction) in
-             let launchActionString = SalesforceSDKManager.launchActionsStringRepresentation(launchActionList)
-             SalesforceSwiftLogger.log(type(of:self), level:.info, message:"Post-launch: launch actions taken: \(launchActionString)")
+         .postLaunch { (launchActionList: SFSDKLaunchAction) in
+             //Some post launch code.
          }.done()
          ```
          - Parameter action: The block which will be invoked after a succesfull SDK Launch.
@@ -170,7 +171,7 @@ extension SalesforceSwiftSDKManager {
          */
         public class func launchError(action : @escaping SFSDKLaunchErrorCallbackBlock) -> SalesforceSDKManagerBuilder.Type {
             SalesforceSwiftSDKManager.shared().launchErrorAction = action
-            SalesforceSwiftLogger.d(SalesforceSDKManager.self, message: "error")
+            SalesforceSwiftLogger.sharedInstance().e(SalesforceSwiftSDKManager.self, message: "Error occured during launch")
             return self
         }
         
