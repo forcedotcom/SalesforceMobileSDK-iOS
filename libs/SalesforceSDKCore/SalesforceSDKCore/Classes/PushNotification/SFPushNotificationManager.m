@@ -273,7 +273,7 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
     return YES;
 }
 
-- (BOOL) postPushNotificationUnregistration:(^void)completionBlock
+- (BOOL)postPushNotificationUnregistration:completionBlock
 {
     if (completionBlock != nil) {
         completionBlock();

@@ -76,6 +76,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (BOOL)unregisterSalesforceNotifications:(SFUserAccount*)user;
 
+/**
+ * Unregister from notifications with Salesforce for a specific user. This method is called at logout.
+ * @param user User account.
+ * @param completionBlock Completion block.
+ * @return YES for successful unregistration call being made.
+ */
+- (BOOL)unregisterSalesforceNotificationsWithCompletionBlock:(SFUserAccount*)user completionBlock:(void)completionBlock;
+
 @end
 
 NS_ASSUME_NONNULL_END
