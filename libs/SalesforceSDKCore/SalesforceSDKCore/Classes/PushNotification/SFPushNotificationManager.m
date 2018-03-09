@@ -185,7 +185,7 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
     } completeBlock:^(id response, NSURLResponse *rawResponse) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeaturePushNotifications];
-        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) response;
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) rawResponse;
         NSInteger statusCode = httpResponse.statusCode;
         if (statusCode < 200 || statusCode >= 300) {
             [SFSDKCoreLogger e:[strongSelf class] format:@"Registration for notifications with Salesforce failed with status %ld", statusCode];
