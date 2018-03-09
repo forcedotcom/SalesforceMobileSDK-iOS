@@ -27,7 +27,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSDKSalesforceAnalyticsManager.h"
+#import "SFSDKSalesforceAnalyticsManager+Internal.h"
 #import "SFUserAccountManager.h"
 #import "SalesforceSDKManager.h"
 #import "SFDirectoryManager.h"
@@ -37,7 +37,6 @@
 #import "UIDevice+SFHardware.h"
 #import "SFIdentityData.h"
 #import "SFApplicationHelper.h"
-#import "SFAuthenticationManager.h"
 #import <SalesforceAnalytics/SFSDKAILTNTransform.h>
 #import <SalesforceAnalytics/SFSDKDeviceAppAttributes.h>
 #import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
@@ -51,26 +50,6 @@ static NSString * const kAnalyticsOnOffKey = @"ailtn_enabled";
 static NSString * const kSFAppFeatureAiltnEnabled = @"AI";
 
 static NSMutableDictionary *analyticsManagerList = nil;
-
-@interface SFSDKAnalyticsTransformPublisherPair : NSObject
-
-@property (nonnull, nonatomic, readonly, strong) id<SFSDKTransform> transform;
-@property (nonnull, nonatomic, readonly, strong) id<SFSDKAnalyticsPublisher> publisher;
-
-- (instancetype)initWithTransform:(id<SFSDKTransform>)transform publisher:(id<SFSDKAnalyticsPublisher>)publisher;
-
-@end
-SFSDK_USE_DEPRECATED_BEGIN
-
-@interface SFSDKSalesforceAnalyticsManager () <SFAuthenticationManagerDelegate>
-
-SFSDK_USE_DEPRECATED_END
-@property (nonatomic, readwrite, strong) SFSDKAnalyticsManager *analyticsManager;
-@property (nonatomic, readwrite, strong) SFSDKEventStoreManager *eventStoreManager;
-@property (nonatomic, readwrite, strong, nullable) SFUserAccount *userAccount;
-@property (nonatomic, readwrite, strong) NSMutableArray<SFSDKAnalyticsTransformPublisherPair *> *remotes;
-
-@end
 
 @implementation SFSDKSalesforceAnalyticsManager
 
@@ -155,8 +134,14 @@ SFSDK_USE_DEPRECATED_END
         _analyticsManager = [[SFSDKAnalyticsManager alloc] initWithStoreDirectory:rootStoreDir dataEncryptorBlock:dataEncryptorBlock dataDecryptorBlock:dataDecryptorBlock deviceAttributes:deviceAttributes];
         _eventStoreManager = self.analyticsManager.storeManager;
         _remotes = [[NSMutableArray alloc] init];
-        SFSDKAnalyticsTransformPublisherPair *tpp = [[SFSDKAnalyticsTransformPublisherPair alloc] initWithTransform:[[SFSDKAILTNTransform alloc] init] publisher:[[SFSDKAILTNPublisher alloc] init]];
-        [_remotes addObject:tpp];
+        
+        // There's no standard for unauthenticated instrumentation publishing, currently.  Consumers
+        // should explicitly specify their own.
+        if (_userAccount != nil) {
+            SFSDKAnalyticsTransformPublisherPair *tpp = [[SFSDKAnalyticsTransformPublisherPair alloc] initWithTransform:[[SFSDKAILTNTransform alloc] init] publisher:[[SFSDKAILTNPublisher alloc] init]];
+            [_remotes addObject:tpp];
+        }
+        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(publishOnAppBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
         // Only work with auth-based notifications for an authenticated context.
         if (userAccount != nil) {
@@ -203,7 +188,7 @@ SFSDK_USE_DEPRECATED_END
 }
 
 - (void) publishEvents:(NSArray<SFSDKInstrumentationEvent *> *) events {
-    if (!events || events.count == 0) {
+    if (events.count == 0 || self.remotes.count == 0) {
         return;
     }
     @synchronized (self) {
