@@ -154,6 +154,14 @@ SFSDK_USE_DEPRECATED_END
     }
 }
 
+- (BOOL)shouldAutorotate {
+    return NO;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
+
 #pragma mark - Setup Navigation bar
 
 - (void)setupNavigationBar {
@@ -224,7 +232,7 @@ SFSDK_USE_DEPRECATED_END
     NSString *title = [SFSDKResourceUtils localizedString:@"TITLE_LOGIN"];
     // Setup top item.
     UILabel *item = [[UILabel alloc] init];
-    if (self.config.navBarTitleColor) {
+    if (self.config.navBarTextColor) {
         item.textColor = self.config.navBarTextColor;
     }
     if (self.config.navBarFont) {
