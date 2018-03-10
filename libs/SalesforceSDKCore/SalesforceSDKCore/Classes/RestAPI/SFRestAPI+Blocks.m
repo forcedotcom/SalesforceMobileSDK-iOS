@@ -165,7 +165,7 @@ static char CompleteBlockKey;
     return request;
 }
 
-- (SFRestRequest *) performRequestForVersionsWithFailBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestDictionaryResponseBlock)completeBlock {
+- (SFRestRequest *) performRequestForVersionsWithFailBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestArrayResponseBlock)completeBlock {
     SFRestRequest *request = [self requestForVersions];
     [self sendRESTRequest:request
                 failBlock:failBlock

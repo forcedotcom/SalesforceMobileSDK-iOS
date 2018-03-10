@@ -1474,6 +1474,13 @@ static NSException *authException = nil;
         [self.currentExpectation fulfill];
     };
 
+    // An success block that we expected to succeed
+    SFRestArrayResponseBlock arraySuccessBlock = ^(NSArray *a, NSURLResponse *rawResponse) {
+        XCTAssertTrue([a isKindOfClass:[NSArray class]], @"Response should be an array");
+        [self.currentExpectation fulfill];
+    };
+
+    
     // Class helper function that creates an error.
     NSString *errorStr = @"Sample error.";
     XCTAssertTrue([errorStr isEqualToString:[[SFRestAPI errorWithDescription:errorStr] localizedDescription]],
@@ -1543,7 +1550,7 @@ static NSException *authException = nil;
 
     self.currentExpectation = [self expectationWithDescription:@"performRequestForVersionsWithFailBlock"];
     [api performRequestForVersionsWithFailBlock:failWithUnexpectedFail
-                                  completeBlock:dictSuccessBlock];
+                                  completeBlock:arraySuccessBlock];
     [self waitForExpectation];
 
     self.currentExpectation = [self expectationWithDescription:@"performDescribeGlobalWithFailBlock"];
