@@ -217,6 +217,12 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
 
 - (BOOL)unregisterSalesforceNotificationsWithCompletionBlock:(SFUserAccount*)user completionBlock:(void (^)(void))completionBlock
 {
+    if (!_deviceSalesforceId) {
+        // Nothing to do - we have not registered for push notifications
+        [self postPushNotificationUnregistration:completionBlock];
+        return YES;
+    }
+    
     if (self.isSimulator) {
         [self postPushNotificationUnregistration:completionBlock];
         return YES;  // "Successful".  Simulator does not register/unregister for notifications.
