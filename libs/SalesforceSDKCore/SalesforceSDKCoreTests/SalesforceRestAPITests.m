@@ -1421,25 +1421,6 @@ static NSException *authException = nil;
                              [self.currentExpectation fulfill];
                          }];
     [self waitForExpectation];
-    self.currentExpectation = [self expectationWithDescription:@"performUpsertWithObjectType-upserting contact"];
-    fields[LAST_NAME] = lastName;
-    [api performUpsertWithObjectType:CONTACT
-                     externalIdField:ID
-                          externalId:recordId
-                              fields:fields
-                           failBlock:failWithUnexpectedFail
-                       completeBlock:responseSuccessBlock];
-    [self waitForExpectation];
-    self.currentExpectation = [self expectationWithDescription:@"performRetrieveWithObjectType-retrieving contact"];
-    [api performRetrieveWithObjectType:CONTACT
-                              objectId:recordId
-                             fieldList:@[LAST_NAME]
-                             failBlock:failWithUnexpectedFail
-                         completeBlock:^(NSDictionary *d, NSURLResponse *rawResponse) {
-                             XCTAssertEqualObjects(lastName, d[LAST_NAME]);
-                             [self.currentExpectation fulfill];
-                         }];
-    [self waitForExpectation];
     self.currentExpectation = [self expectationWithDescription:@"performDeleteWithObjectType-deleting contact"];
     [api performDeleteWithObjectType:CONTACT
                             objectId:recordId
