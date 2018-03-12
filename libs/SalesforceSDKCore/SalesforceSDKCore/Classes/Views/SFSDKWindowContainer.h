@@ -132,6 +132,11 @@ typedef NS_ENUM(NSInteger, SFSDKWindowType) {
  * Tries to return top view controller of this window
  */
 - (UIViewController*) topViewController;
+
+/**
+ * Tries to return top view controller given a root view Controller
+ */
++ (UIViewController*)topViewControllerWithRootViewController:(UIViewController*)viewController;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -106,10 +106,10 @@
 }
 
 - (UIViewController*)topViewController {
-    return [self topViewControllerWithRootViewController:self.window.rootViewController];
+    return [SFSDKWindowContainer  topViewControllerWithRootViewController:self.window.rootViewController];
 }
 
-- (UIViewController*)topViewControllerWithRootViewController:(UIViewController*)viewController {
++ (UIViewController*)topViewControllerWithRootViewController:(UIViewController*)viewController {
     if ([viewController isKindOfClass:[UITabBarController class]]) {
         UITabBarController* tabBarController = (UITabBarController*)viewController;
         return [self topViewControllerWithRootViewController:tabBarController.selectedViewController];
