@@ -206,7 +206,7 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
  * @return the newly sent SFRestRequest
  */
 - (SFRestRequest *) performRequestForVersionsWithFailBlock:(SFRestFailBlock)failBlock 
-                                             completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
+                                             completeBlock:(SFRestArrayResponseBlock)completeBlock;
 
 /**
  * Executes a request to get a file rendition

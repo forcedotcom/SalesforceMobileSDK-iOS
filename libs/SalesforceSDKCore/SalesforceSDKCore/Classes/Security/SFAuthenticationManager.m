@@ -406,9 +406,26 @@ static Class InstanceClass = nil;
         // SFUserAccount already logs the transition failure.
         return;
     }
+
+    // Before starting actual logout (which will tear down SFRestAPI), first unregister from push notifications if needed
+    __weak typeof(self) weakSelf = self;
+    [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotificationsWithCompletionBlock:user completionBlock:^void() {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf postPushUnregistration:user];
+    }];
+}
+
+- (void)postPushUnregistration:(SFUserAccount *)user {
     
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self postPushUnregistration:user];
+        });
+        return;
+    }
+    
+    NSDictionary *userInfo = @{ kSFNotificationUserInfoAccountKey : user };
     [SFSDKCoreLogger d:[self class] format:@"Logging out user '%@'.", user.userName];
-    NSDictionary *userInfo = @{ @"account" : user };
     [[NSNotificationCenter defaultCenter] postNotificationName:kSFUserWillLogoutNotification
                                                         object:self
                                                       userInfo:userInfo];
@@ -423,16 +440,12 @@ static Class InstanceClass = nil;
     // If it's not the current user, this is really just about clearing the account data and
     // user-specific state for the given account.
     if (![user isEqual:userAccountManager.currentUser]) {
-        [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotifications:user];
         [userAccountManager deleteAccountForUser:user error:nil];
         [self revokeRefreshToken:user];
     }else {
         // Otherwise, the current user is being logged out.  Supply the user account to the
         // "Will Logout" notification before the credentials are revoked.  This will ensure
         // that databases and other resources keyed off of the userID can be destroyed/cleaned up.
-        if ([SFPushNotificationManager sharedInstance].deviceSalesforceId) {
-            [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotifications];
-        }
         [self cancelAuthentication];
         [self clearAccountState:YES];
 

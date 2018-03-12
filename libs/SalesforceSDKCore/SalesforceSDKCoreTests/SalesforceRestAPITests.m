@@ -1421,25 +1421,6 @@ static NSException *authException = nil;
                              [self.currentExpectation fulfill];
                          }];
     [self waitForExpectation];
-    self.currentExpectation = [self expectationWithDescription:@"performUpsertWithObjectType-upserting contact"];
-    fields[LAST_NAME] = lastName;
-    [api performUpsertWithObjectType:CONTACT
-                     externalIdField:ID
-                          externalId:recordId
-                              fields:fields
-                           failBlock:failWithUnexpectedFail
-                       completeBlock:responseSuccessBlock];
-    [self waitForExpectation];
-    self.currentExpectation = [self expectationWithDescription:@"performRetrieveWithObjectType-retrieving contact"];
-    [api performRetrieveWithObjectType:CONTACT
-                              objectId:recordId
-                             fieldList:@[LAST_NAME]
-                             failBlock:failWithUnexpectedFail
-                         completeBlock:^(NSDictionary *d, NSURLResponse *rawResponse) {
-                             XCTAssertEqualObjects(lastName, d[LAST_NAME]);
-                             [self.currentExpectation fulfill];
-                         }];
-    [self waitForExpectation];
     self.currentExpectation = [self expectationWithDescription:@"performDeleteWithObjectType-deleting contact"];
     [api performDeleteWithObjectType:CONTACT
                             objectId:recordId
@@ -1474,6 +1455,13 @@ static NSException *authException = nil;
         [self.currentExpectation fulfill];
     };
 
+    // An success block that we expected to succeed
+    SFRestArrayResponseBlock arraySuccessBlock = ^(NSArray *a, NSURLResponse *rawResponse) {
+        XCTAssertTrue([a isKindOfClass:[NSArray class]], @"Response should be an array");
+        [self.currentExpectation fulfill];
+    };
+
+    
     // Class helper function that creates an error.
     NSString *errorStr = @"Sample error.";
     XCTAssertTrue([errorStr isEqualToString:[[SFRestAPI errorWithDescription:errorStr] localizedDescription]],
@@ -1543,7 +1531,7 @@ static NSException *authException = nil;
 
     self.currentExpectation = [self expectationWithDescription:@"performRequestForVersionsWithFailBlock"];
     [api performRequestForVersionsWithFailBlock:failWithUnexpectedFail
-                                  completeBlock:dictSuccessBlock];
+                                  completeBlock:arraySuccessBlock];
     [self waitForExpectation];
 
     self.currentExpectation = [self expectationWithDescription:@"performDescribeGlobalWithFailBlock"];

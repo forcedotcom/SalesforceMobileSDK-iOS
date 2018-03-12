@@ -323,23 +323,30 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
         // SFUserAccount already logs the transition failure.
         return;
     }
+    
+    // Before starting actual logout (which will tear down SFRestAPI), first unregister from push notifications if needed
+    __weak typeof(self) weakSelf = self;
+    [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotificationsWithCompletionBlock:user completionBlock:^void() {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf postPushUnregistration:user];
+    }];
+}
+
+- (void)postPushUnregistration:(SFUserAccount *)user {
+    
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self postPushUnregistration:user];
+        });
+        return;
+    }
+
     [SFSDKCoreLogger d:[self class] format:@"Logging out user '%@'.", user.userName];
     NSDictionary *userInfo = @{ kSFNotificationUserInfoAccountKey : user };
     [[NSNotificationCenter defaultCenter]  postNotificationName:kSFNotificationUserWillLogout
-                                                        object:self
-                                                      userInfo:userInfo];
-    if ([SFPushNotificationManager sharedInstance].deviceSalesforceId) {
-        __weak typeof(self) weakSelf = self;
-        [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotificationsWithCompletionBlock:user completionBlock:^void() {
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            [strongSelf postPushUnregistration:userInfo user:user];
-        }];
-    } else {
-        [self postPushUnregistration:userInfo user:user];
-    }
-}
+                                                         object:self
+                                                       userInfo:userInfo];
 
-- (void)postPushUnregistration:(NSDictionary *)userInfo user:(SFUserAccount *)user {
     SFSDKOAuthClient *client = [self fetchOAuthClient:user.credentials completion:nil failure:nil];
     [self deleteAccountForUser:user error:nil];
     [client cancelAuthentication:NO];
