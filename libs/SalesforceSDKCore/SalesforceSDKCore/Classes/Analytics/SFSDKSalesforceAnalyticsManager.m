@@ -123,7 +123,14 @@ static NSMutableDictionary *analyticsManagerList = nil;
     if (self) {
         _userAccount = userAccount;
         SFSDKDeviceAppAttributes *deviceAttributes = [[self class] getDeviceAppAttributes];
-        NSString *rootStoreDir = [[SFDirectoryManager sharedManager] directoryForUser:userAccount type:NSDocumentDirectory components:@[ kEventStoresDirectory ]];
+        
+        NSString *rootStoreDir;
+        if (_userAccount != nil) {
+            rootStoreDir = [[SFDirectoryManager sharedManager] directoryForUser:userAccount type:NSDocumentDirectory components:@[ kEventStoresDirectory ]];
+        } else {
+            rootStoreDir = [[SFDirectoryManager sharedManager] globalDirectoryOfType:NSDocumentDirectory components:@[ kEventStoresDirectory ]];
+        }
+        
         SFEncryptionKey *encKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kEventStoreEncryptionKeyLabel autoCreate:YES];
         DataEncryptorBlock dataEncryptorBlock = ^NSData*(NSData *data) {
             return [SFSDKCryptoUtils aes256EncryptData:data withKey:encKey.key iv:encKey.initializationVector];
@@ -298,8 +305,8 @@ static NSMutableDictionary *analyticsManagerList = nil;
 
 - (void) publishOnAppBackground {
 
-    // Publishing should only happen for the current user, and any anonymous stats, not for all users signed in.
-    if (self.userAccount != nil && ![self.userAccount.accountIdentity isEqual:[SFUserAccountManager sharedInstance].currentUser.accountIdentity]) {
+    // Publishing should only happen for the current user, not for all users signed in.
+    if (![self.userAccount.accountIdentity isEqual:[SFUserAccountManager sharedInstance].currentUser.accountIdentity]) {
         return;
     }
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
