@@ -1,4 +1,4 @@
-Mobile SDK 6.1 enhances its Swift offering with PromiseKit adaptations. You can now use promises for these SDK components:
+Mobile SDK enhances its Swift offering with PromiseKit adaptations. You can now use promises for these SDK components:
 
 * [SalesforceSwiftSDKManager](Classes/SalesforceSwiftSDKManager.html)
 * [SFRestAPI](Extensions/SFRestAPI.html)
