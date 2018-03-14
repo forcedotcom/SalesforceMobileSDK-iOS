@@ -338,12 +338,12 @@ extension SFSmartSyncSyncManager {
          ..
          }
          ```
-         -parameters:
-            -target: The sync up target that will manage the sync up process.
-            -options: The options associated with this sync up.
-            -soupName: The soup name where the local entries are stored.
-            -syncName: The name for this sync.
-         -Returns: SFSyncState wrapped in a promise.
+         - parameters:
+            - target: The sync up target that will manage the sync up process.
+            - options: The options associated with this sync up.
+            - soupName: The soup name where the local entries are stored.
+            - syncName: The name for this sync.
+         - Returns: SFSyncState wrapped in a promise.
          */
         public func createSyncUp(target: SFSyncUpTarget, options: SFSyncOptions, soupName: String, syncName: String?) -> Promise<SFSyncState> {
             return Promise(.pending) {  resolver in
@@ -361,10 +361,10 @@ extension SFSmartSyncSyncManager {
          
          }
          ```
-         -parameters:
-             -options: The options associated with this sync up.
-             -soupName: The soup name where the local entries are stored.
-         -Returns: SFSyncState wrapped in a promise.
+         - parameters:
+             - options: The options associated with this sync up.
+             - soupName: The soup name where the local entries are stored.
+         - Returns: SFSyncState wrapped in a promise.
          */
         public func syncUp(options: SFSyncOptions, soupName: String) -> Promise<SFSyncState> {
             return Promise(.pending) {  resolver in
@@ -390,11 +390,11 @@ extension SFSmartSyncSyncManager {
          
          }
          ```
-         -parameters:
-             -target: The options associated with this sync up.
-             -options: The options associated with this sync up.
-             -soupName: The soup name where the local entries are stored.
-         -Returns: The sync state associated with this sync up.
+         - parameters:
+             - target: The options associated with this sync up.
+             - options: The options associated with this sync up.
+             - soupName: The soup name where the local entries are stored.
+         - Returns: The sync state associated with this sync up.
          */
         public func syncUp(target: SFSyncUpTarget, options: SFSyncOptions, soupName: String) -> Promise<SFSyncState> {
             return Promise(.pending) {  resolver in
@@ -418,12 +418,12 @@ extension SFSmartSyncSyncManager {
          
          }
          ```
-         -parameters:
-             -target: The options associated with this sync up.
-             -options: The options associated with this sync up.
-             -soupName: The soup name where the local entries are stored.
-             -syncName: The name for this sync.
-        -Returns: The SFSyncState wrapped in a promise
+         - parameters:
+             - target: The options associated with this sync up.
+             - options: The options associated with this sync up.
+             - soupName: The soup name where the local entries are stored.
+             - syncName: The name for this sync.
+        - Returns: The SFSyncState wrapped in a promise
          */
         public func syncUp(with target: SFSyncUpTarget, options: SFSyncOptions, soupName: String, syncName: String?) -> Promise<SFSyncState> {
             return Promise(.pending) {  resolver in
@@ -447,8 +447,8 @@ extension SFSmartSyncSyncManager {
          
          }
          ```
-         -parameter syncId: Sync ID.
-         -Returns: The SFSyncState wrapped in a promise
+         - parameter syncId: Sync ID.
+         - Returns: The SFSyncState wrapped in a promise
          */
         public func cleanResyncGhosts(syncId: UInt) -> Promise<SFSyncStateStatus> {
             return Promise(.pending) {  resolver in

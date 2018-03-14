@@ -143,7 +143,7 @@ extension SFUserAccountManager {
          }
          
          ```
-         - Parameter user: The user to logout.
+         - Parameter userAccount: The user to logout.
          - Returns: A Promise in order to allow further chaining
          */
         public func logoutUser(userAccount: SFUserAccount) -> Promise<Void> {
@@ -163,7 +163,7 @@ extension SFUserAccountManager {
          }
          
          ```
-         - Parameter user: The user to logout.
+         - Parameter userAccount: The user to logout.
          - Returns: A Promise with the newly switched current user
          */
         public func switchToUser(userAccount: SFUserAccount) -> Promise<SFUserAccount> {
@@ -174,7 +174,7 @@ extension SFUserAccountManager {
         }
         
         /**
-         SwitchToNewUser API wrapped in a promise.
+         SwitchToNewUser API wrapped in a promise. Clears current user if the switch
          
          ```
          SFUserAccountManager.sharedInstance().Promises.switchToNewUser()
@@ -183,7 +183,6 @@ extension SFUserAccountManager {
          }
          
          ```
-         - Parameter user: The user to logout.
          - Returns: A Promise with the newly logged-in current user
          */
         public func switchToNewUser() -> Promise<SFUserAccount> {

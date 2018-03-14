@@ -209,7 +209,7 @@ extension SFSmartStore {
          }
          ```
          - parameter soupName: The name of the soup
-         - Returns: [Any] of indices wrapped in a promise.
+         - Returns: Array of indices wrapped in a promise.
          */
         public func indices(soupName: String) -> Promise<[Any]> {
             return Promise(.pending) {  resolver in
@@ -300,7 +300,7 @@ extension SFSmartStore {
             ..
          }
          ```
-         - parameter soupSpec: SFSoupSpec Specification of the Soup
+         - parameter querySpec: SFQuerySpec query specification
          - Returns: Integer wrapped in a promise indicating count.
          */
         public func count(querySpec: SFQuerySpec) -> Promise<UInt> {
@@ -326,7 +326,7 @@ extension SFSmartStore {
          }
          ```
          - parameters:
-            - querySpec: SFSoupSpec Specification of the Soup
+            - querySpec: SFQuerySpec query specification
             - pageIndex: Page number for records.
          - Returns: Integer wrapped in a promise indicating count.
          */
@@ -358,7 +358,7 @@ extension SFSmartStore {
          ```
          - parameters:
              - entries: Entries to upsert in the soup
-             - soupName: Nameof Soup.
+             - soupName: Name of soup.
          - Returns: Upserted entries wrapped in a promise.
          */
         public func upsertEntries(entries: [Any],soupName: String) -> Promise<[[String:Any]]> {
@@ -380,7 +380,7 @@ extension SFSmartStore {
          ```
          - parameters:
              - entries: Entries to upsert in the soup
-             - soupName: Nameof Soup.
+             - soupName: Name of soup.
              - externalIdPath: External ID Path
          - Returns: Upserted entries wrapped in a promise.
          */
@@ -408,7 +408,7 @@ extension SFSmartStore {
          ```
          - parameters:
              - entries: Entries to upsert in the soup
-             - soupName: Nameof Soup.
+             - soupName: Name of soup.
              - fieldPath: Field Path
              - fieldValue: Value for the field.
          - Returns: EntryId wrapped in promise
@@ -558,7 +558,7 @@ public class SFSmartStoreClient {
      ..
      }
      ```
-     - parameter storeName: Name of Store.
+     - parameter withName: Name of Store.
      - Returns: SFSmartStore wrapped in a promise.
      */
     
@@ -582,8 +582,8 @@ public class SFSmartStoreClient {
      }
      ```
      - parameters:
-        -storeName: Name of Store.
-        -user: User associated with the store.
+        - withName: Name of Store.
+        - user: User associated with the store.
      - Returns: SFSmartStore wrapped in a promise.
      */
     public class func store(withName: String,user: SFUserAccount) -> Promise<SFSmartStore> {
