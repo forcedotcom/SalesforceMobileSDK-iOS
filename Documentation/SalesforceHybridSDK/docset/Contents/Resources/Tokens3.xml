@@ -1,16 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SDKInfoTestSuite.html">
+	<File path="Classes/SFForcePlugin.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SDKInfoTestSuite</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFForcePlugin</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SDKInfoTestSuite.h</DeclaredIn>
+			<DeclaredIn>SFForcePlugin.h</DeclaredIn>
             
 			
 			<NodeRef refid="3"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFForcePlugin/runCommand:command:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFForcePlugin.h</DeclaredIn>
+			
+			<Declaration>- (void)runCommand:(CDVPluginResult *( ^ ) ( NSDictionary *argsDict ))block command:(CDVInvokedUrlCommand *)command</Declaration>
+			
+			
+			<Anchor>//api/name/runCommand:command:</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
 		
         
         

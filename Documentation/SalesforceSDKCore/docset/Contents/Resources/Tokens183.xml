@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SalesforceSDKManagerFlow.html">
+	<File path="Protocols/SalesforceSDKManagerDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SalesforceSDKManagerFlow</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SalesforceSDKManagerDelegate</TokenIdentifier>
+			<Abstract type="html">Delegate protocol for handling foregrounding and backgrounding in Mobile SDK apps.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="183"/>
@@ -13,170 +13,50 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/passcodeValidationAtLaunch</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerDelegate/sdkManagerWillResignActive</TokenIdentifier>
+			<Abstract type="html">Called after UIApplicationWillResignActiveNotification is received</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
 			
-			<Declaration>- (void)passcodeValidationAtLaunch</Declaration>
+			<Declaration>- (void)sdkManagerWillResignActive</Declaration>
 			
 			
-			<Anchor>//api/name/passcodeValidationAtLaunch</Anchor>
+			<Anchor>//api/name/sdkManagerWillResignActive</Anchor>
             <NodeRef refid="183"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/authAtLaunch</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerDelegate/sdkManagerDidBecomeActive</TokenIdentifier>
+			<Abstract type="html">Called after UIApplicationDidBecomeActiveNotification is received.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
 			
-			<Declaration>- (void)authAtLaunch</Declaration>
+			<Declaration>- (void)sdkManagerDidBecomeActive</Declaration>
 			
 			
-			<Anchor>//api/name/authAtLaunch</Anchor>
+			<Anchor>//api/name/sdkManagerDidBecomeActive</Anchor>
             <NodeRef refid="183"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/authBypassAtLaunch</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerDelegate/sdkManagerWillEnterForeground</TokenIdentifier>
+			<Abstract type="html">Called after UIApplicationWillEnterForegroundNotification is received.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
 			
-			<Declaration>- (void)authBypassAtLaunch</Declaration>
+			<Declaration>- (void)sdkManagerWillEnterForeground</Declaration>
 			
 			
-			<Anchor>//api/name/authBypassAtLaunch</Anchor>
+			<Anchor>//api/name/sdkManagerWillEnterForeground</Anchor>
             <NodeRef refid="183"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppForeground:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerDelegate/sdkManagerDidEnterBackground</TokenIdentifier>
+			<Abstract type="html">Called after UIApplicationDidEnterBackgroundNotification is received</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
 			
-			<Declaration>- (void)handleAppForeground:(nonnull NSNotification *)notification</Declaration>
-			
-			
-			<Anchor>//api/name/handleAppForeground:</Anchor>
-            <NodeRef refid="183"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppBackground:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleAppBackground:(nonnull NSNotification *)notification</Declaration>
+			<Declaration>- (void)sdkManagerDidEnterBackground</Declaration>
 			
 			
-			<Anchor>//api/name/handleAppBackground:</Anchor>
-            <NodeRef refid="183"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppTerminate:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleAppTerminate:(nonnull NSNotification *)notification</Declaration>
-			
-			
-			<Anchor>//api/name/handleAppTerminate:</Anchor>
-            <NodeRef refid="183"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppDidBecomeActive:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleAppDidBecomeActive:(nonnull NSNotification *)notification</Declaration>
-			
-			
-			<Anchor>//api/name/handleAppDidBecomeActive:</Anchor>
-            <NodeRef refid="183"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppWillResignActive:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleAppWillResignActive:(nonnull NSNotification *)notification</Declaration>
-			
-			
-			<Anchor>//api/name/handleAppWillResignActive:</Anchor>
-            <NodeRef refid="183"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handlePostLogout</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handlePostLogout</Declaration>
-			
-			
-			<Anchor>//api/name/handlePostLogout</Anchor>
-            <NodeRef refid="183"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAuthCompleted:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleAuthCompleted:(nonnull NSNotification *)notification</Declaration>
-			
-			
-			<Anchor>//api/name/handleAuthCompleted:</Anchor>
-            <NodeRef refid="183"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleIDPInitiatedAuthCompleted:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleIDPInitiatedAuthCompleted:(nonnull NSNotification *)notification</Declaration>
-			
-			
-			<Anchor>//api/name/handleIDPInitiatedAuthCompleted:</Anchor>
-            <NodeRef refid="183"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleUserDidLogout:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleUserDidLogout:(nonnull NSNotification *)notification</Declaration>
-			
-			
-			<Anchor>//api/name/handleUserDidLogout:</Anchor>
-            <NodeRef refid="183"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleUserWillSwitch:toUser:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleUserWillSwitch:(nullable SFUserAccount *)fromUser toUser:(nullable SFUserAccount *)toUser</Declaration>
-			
-			
-			<Anchor>//api/name/handleUserWillSwitch:toUser:</Anchor>
-            <NodeRef refid="183"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleUserDidSwitch:toUser:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleUserDidSwitch:(nullable SFUserAccount *)fromUser toUser:(nullable SFUserAccount *)toUser</Declaration>
-			
-			
-			<Anchor>//api/name/handleUserDidSwitch:toUser:</Anchor>
+			<Anchor>//api/name/sdkManagerDidEnterBackground</Anchor>
             <NodeRef refid="183"/>
 		</Token>
 		

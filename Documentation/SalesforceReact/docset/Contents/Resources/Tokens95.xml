@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTJSCSamplingProfiler.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTJSCSamplingProfiler</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTJSCSamplingProfiler.h</DeclaredIn>
+            
+			
+			<NodeRef refid="95"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTJSCSamplingProfiler/operationCompletedWithResults:</TokenIdentifier>
+			<Abstract type="html">Receives a JSON string containing the result of a JSC CPU Profiling run,
+and sends them to the packager to be symbolicated and saved to disk.
+It is safe to call this method from any thread.</Abstract>
+			<DeclaredIn>RCTJSCSamplingProfiler.h</DeclaredIn>
+			
+			<Declaration>- (void)operationCompletedWithResults:(NSString *)results</Declaration>
+			
+			
+			<Anchor>//api/name/operationCompletedWithResults:</Anchor>
+            <NodeRef refid="95"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKInfoPlugin.html">
+	<File path="Classes/SFSmartSyncPlugin.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKInfoPlugin</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKInfoPlugin.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSmartSyncPlugin</TokenIdentifier>
+			<Abstract type="html">String used with Cordova to uniquely identify this plugin.</Abstract>
+			<DeclaredIn>SFSmartSyncPlugin.h</DeclaredIn>
             
 			
 			<NodeRef refid="13"/>
@@ -13,38 +13,99 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInfoPlugin/getInfo:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKInfoPlugin.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPlugin/resetSyncManager</TokenIdentifier>
+			<Abstract type="html">Used for unit testing purposes only: allows the shared sync manager instance to be reset.</Abstract>
+			<DeclaredIn>SFSmartSyncPlugin.h</DeclaredIn>
 			
-			<Declaration>- (void)getInfo:(CDVInvokedUrlCommand *)command</Declaration>
+			<Declaration>- (void)resetSyncManager</Declaration>
 			
 			
-			<Anchor>//api/name/getInfo:</Anchor>
+			<Anchor>//api/name/resetSyncManager</Anchor>
             <NodeRef refid="13"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInfoPlugin/registerAppFeature:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKInfoPlugin.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPlugin/getSyncStatus:</TokenIdentifier>
+			<Abstract type="html">Return details about a sync operation previously created. See [SFSmartSyncSyncManager:getSyncStatus].</Abstract>
+			<DeclaredIn>SFSmartSyncPlugin.h</DeclaredIn>
 			
-			<Declaration>- (void)registerAppFeature:(CDVInvokedUrlCommand *)command</Declaration>
+			<Declaration>- (void)getSyncStatus:(CDVInvokedUrlCommand *)command</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>command</Name>
+					<Abstract type="html">Cordova arguments object containing &quot;syncId&quot;.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/registerAppFeature:</Anchor>
+			<Anchor>//api/name/getSyncStatus:</Anchor>
             <NodeRef refid="13"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInfoPlugin/unregisterAppFeature:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKInfoPlugin.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPlugin/syncUp:</TokenIdentifier>
+			<Abstract type="html">Starts a sync up operation. See [SFSmartSyncSyncManager syncUp].</Abstract>
+			<DeclaredIn>SFSmartSyncPlugin.h</DeclaredIn>
 			
-			<Declaration>- (void)unregisterAppFeature:(CDVInvokedUrlCommand *)command</Declaration>
+			<Declaration>- (void)syncUp:(CDVInvokedUrlCommand *)command</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>command</Name>
+					<Abstract type="html">Cordova arguments object containing &quot;soupName&quot; and &quot;options&quot;.</Abstract>
+				</Parameter>
+			</Parameters>
 			
+			<Anchor>//api/name/syncUp:</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPlugin/syncDown:</TokenIdentifier>
+			<Abstract type="html">Starts a sync down operation. See [SFSmartSyncSyncManager syncDown].</Abstract>
+			<DeclaredIn>SFSmartSyncPlugin.h</DeclaredIn>
 			
-			<Anchor>//api/name/unregisterAppFeature:</Anchor>
+			<Declaration>- (void)syncDown:(CDVInvokedUrlCommand *)command</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>command</Name>
+					<Abstract type="html">Cordova arguments object containing &quot;soupName&quot;, &quot;target&quot; and &quot;options&quot;.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/syncDown:</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPlugin/reSync:</TokenIdentifier>
+			<Abstract type="html">Starts a re-sync operation. See [SFSmartSyncSyncManager reSync].</Abstract>
+			<DeclaredIn>SFSmartSyncPlugin.h</DeclaredIn>
+			
+			<Declaration>- (void)reSync:(CDVInvokedUrlCommand *)command</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>command</Name>
+					<Abstract type="html">Cordova arguments object containing &quot;syncId&quot;.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/reSync:</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPlugin/cleanResyncGhosts:</TokenIdentifier>
+			<Abstract type="html">Starts a ghost record clean operation. See [SFSmartSyncSyncManager cleanResyncGhosts].</Abstract>
+			<DeclaredIn>SFSmartSyncPlugin.h</DeclaredIn>
+			
+			<Declaration>- (void)cleanResyncGhosts:(CDVInvokedUrlCommand *)command</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>command</Name>
+					<Abstract type="html">Cordova arguments object containing &quot;syncId&quot;.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/cleanResyncGhosts:</Anchor>
             <NodeRef refid="13"/>
 		</Token>
 		

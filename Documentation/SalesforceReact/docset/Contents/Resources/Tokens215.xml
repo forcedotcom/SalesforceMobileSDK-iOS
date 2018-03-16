@@ -1,0 +1,1228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTView.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTView</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+            
+			
+			<NodeRef refid="215"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/setOnAccessibilityAction:</TokenIdentifier>
+			<Abstract type="html">Accessibility event handlers</Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) RCTDirectEventBlock onAccessibilityAction</Declaration>
+			
+			
+			<Anchor>//api/name/onAccessibilityAction</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/onAccessibilityAction</TokenIdentifier>
+			<Abstract type="html">Accessibility event handlers</Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) RCTDirectEventBlock onAccessibilityAction</Declaration>
+			
+			
+			<Anchor>//api/name/onAccessibilityAction</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTView/onAccessibilityAction</TokenIdentifier>
+			<Abstract type="html">Accessibility event handlers</Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) RCTDirectEventBlock onAccessibilityAction</Declaration>
+			
+			
+			<Anchor>//api/name/onAccessibilityAction</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/setOnAccessibilityTap:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) RCTDirectEventBlock onAccessibilityTap</Declaration>
+			
+			
+			<Anchor>//api/name/onAccessibilityTap</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/onAccessibilityTap</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) RCTDirectEventBlock onAccessibilityTap</Declaration>
+			
+			
+			<Anchor>//api/name/onAccessibilityTap</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTView/onAccessibilityTap</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) RCTDirectEventBlock onAccessibilityTap</Declaration>
+			
+			
+			<Anchor>//api/name/onAccessibilityTap</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/setOnMagicTap:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) RCTDirectEventBlock onMagicTap</Declaration>
+			
+			
+			<Anchor>//api/name/onMagicTap</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/onMagicTap</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) RCTDirectEventBlock onMagicTap</Declaration>
+			
+			
+			<Anchor>//api/name/onMagicTap</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTView/onMagicTap</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) RCTDirectEventBlock onMagicTap</Declaration>
+			
+			
+			<Anchor>//api/name/onMagicTap</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/setAccessibilityActions:</TokenIdentifier>
+			<Abstract type="html">Accessibility properties</Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSArray&lt;NSString*&gt; *accessibilityActions</Declaration>
+			
+			
+			<Anchor>//api/name/accessibilityActions</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/accessibilityActions</TokenIdentifier>
+			<Abstract type="html">Accessibility properties</Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSArray&lt;NSString*&gt; *accessibilityActions</Declaration>
+			
+			
+			<Anchor>//api/name/accessibilityActions</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTView/accessibilityActions</TokenIdentifier>
+			<Abstract type="html">Accessibility properties</Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSArray&lt;NSString*&gt; *accessibilityActions</Declaration>
+			
+			
+			<Anchor>//api/name/accessibilityActions</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/setPointerEvents:</TokenIdentifier>
+			<Abstract type="html">Used to control how touch events are processed.</Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) RCTPointerEvents pointerEvents</Declaration>
+			
+			
+			<Anchor>//api/name/pointerEvents</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/pointerEvents</TokenIdentifier>
+			<Abstract type="html">Used to control how touch events are processed.</Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) RCTPointerEvents pointerEvents</Declaration>
+			
+			
+			<Anchor>//api/name/pointerEvents</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTView/pointerEvents</TokenIdentifier>
+			<Abstract type="html">Used to control how touch events are processed.</Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) RCTPointerEvents pointerEvents</Declaration>
+			
+			
+			<Anchor>//api/name/pointerEvents</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTView/autoAdjustInsetsForView:withScrollView:updateOffset:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>+ (void)autoAdjustInsetsForView:(UIView&lt;RCTAutoInsetsProtocol&gt; *)parentView withScrollView:(UIScrollView *)scrollView updateOffset:(BOOL)updateOffset</Declaration>
+			
+			
+			<Anchor>//api/name/autoAdjustInsetsForView:withScrollView:updateOffset:</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTView/contentInsetsForView:</TokenIdentifier>
+			<Abstract type="html">Find the first view controller whose view, or any subview is the specified view.</Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>+ (UIEdgeInsets)contentInsetsForView:(UIView *)curView</Declaration>
+			
+			
+			<Anchor>//api/name/contentInsetsForView:</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/setReactLayoutDirection:</TokenIdentifier>
+			<Abstract type="html">Layout direction of the view.
+This is inherited from UIView+React, but we override it here
+to improve perfomance and make subclassing/overriding possible/easier.</Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UIUserInterfaceLayoutDirection reactLayoutDirection</Declaration>
+			
+			
+			<Anchor>//api/name/reactLayoutDirection</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/reactLayoutDirection</TokenIdentifier>
+			<Abstract type="html">Layout direction of the view.
+This is inherited from UIView+React, but we override it here
+to improve perfomance and make subclassing/overriding possible/easier.</Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UIUserInterfaceLayoutDirection reactLayoutDirection</Declaration>
+			
+			
+			<Anchor>//api/name/reactLayoutDirection</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTView/reactLayoutDirection</TokenIdentifier>
+			<Abstract type="html">Layout direction of the view.
+This is inherited from UIView+React, but we override it here
+to improve perfomance and make subclassing/overriding possible/easier.</Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UIUserInterfaceLayoutDirection reactLayoutDirection</Declaration>
+			
+			
+			<Anchor>//api/name/reactLayoutDirection</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/setRemoveClippedSubviews:</TokenIdentifier>
+			<Abstract type="html">This is an optimization used to improve performance
+for large scrolling views with many subviews, such as a
+list or table. If set to YES, any clipped subviews will
+be removed from the view hierarchy whenever updateClippedSubviews
+is called. This would typically be triggered by a scroll event</Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL removeClippedSubviews</Declaration>
+			
+			
+			<Anchor>//api/name/removeClippedSubviews</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/removeClippedSubviews</TokenIdentifier>
+			<Abstract type="html">This is an optimization used to improve performance
+for large scrolling views with many subviews, such as a
+list or table. If set to YES, any clipped subviews will
+be removed from the view hierarchy whenever updateClippedSubviews
+is called. This would typically be triggered by a scroll event</Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL removeClippedSubviews</Declaration>
+			
+			
+			<Anchor>//api/name/removeClippedSubviews</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTView/removeClippedSubviews</TokenIdentifier>
+			<Abstract type="html">This is an optimization used to improve performance
+for large scrolling views with many subviews, such as a
+list or table. If set to YES, any clipped subviews will
+be removed from the view hierarchy whenever updateClippedSubviews
+is called. This would typically be triggered by a scroll event</Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL removeClippedSubviews</Declaration>
+			
+			
+			<Anchor>//api/name/removeClippedSubviews</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/updateClippedSubviews</TokenIdentifier>
+			<Abstract type="html">Hide subviews if they are outside the view bounds.
+This is an optimisation used predominantly with RKScrollViews
+but it is applied recursively to all subviews that have
+removeClippedSubviews set to YES</Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>- (void)updateClippedSubviews</Declaration>
+			
+			
+			<Anchor>//api/name/updateClippedSubviews</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/setBorderRadius:</TokenIdentifier>
+			<Abstract type="html">Border radii.</Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderRadius</Declaration>
+			
+			
+			<Anchor>//api/name/borderRadius</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/borderRadius</TokenIdentifier>
+			<Abstract type="html">Border radii.</Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderRadius</Declaration>
+			
+			
+			<Anchor>//api/name/borderRadius</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTView/borderRadius</TokenIdentifier>
+			<Abstract type="html">Border radii.</Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderRadius</Declaration>
+			
+			
+			<Anchor>//api/name/borderRadius</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/setBorderTopLeftRadius:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderTopLeftRadius</Declaration>
+			
+			
+			<Anchor>//api/name/borderTopLeftRadius</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/borderTopLeftRadius</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderTopLeftRadius</Declaration>
+			
+			
+			<Anchor>//api/name/borderTopLeftRadius</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTView/borderTopLeftRadius</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderTopLeftRadius</Declaration>
+			
+			
+			<Anchor>//api/name/borderTopLeftRadius</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/setBorderTopRightRadius:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderTopRightRadius</Declaration>
+			
+			
+			<Anchor>//api/name/borderTopRightRadius</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/borderTopRightRadius</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderTopRightRadius</Declaration>
+			
+			
+			<Anchor>//api/name/borderTopRightRadius</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTView/borderTopRightRadius</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderTopRightRadius</Declaration>
+			
+			
+			<Anchor>//api/name/borderTopRightRadius</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/setBorderTopStartRadius:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderTopStartRadius</Declaration>
+			
+			
+			<Anchor>//api/name/borderTopStartRadius</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/borderTopStartRadius</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderTopStartRadius</Declaration>
+			
+			
+			<Anchor>//api/name/borderTopStartRadius</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTView/borderTopStartRadius</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderTopStartRadius</Declaration>
+			
+			
+			<Anchor>//api/name/borderTopStartRadius</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/setBorderTopEndRadius:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderTopEndRadius</Declaration>
+			
+			
+			<Anchor>//api/name/borderTopEndRadius</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/borderTopEndRadius</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderTopEndRadius</Declaration>
+			
+			
+			<Anchor>//api/name/borderTopEndRadius</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTView/borderTopEndRadius</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderTopEndRadius</Declaration>
+			
+			
+			<Anchor>//api/name/borderTopEndRadius</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/setBorderBottomLeftRadius:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderBottomLeftRadius</Declaration>
+			
+			
+			<Anchor>//api/name/borderBottomLeftRadius</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/borderBottomLeftRadius</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderBottomLeftRadius</Declaration>
+			
+			
+			<Anchor>//api/name/borderBottomLeftRadius</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTView/borderBottomLeftRadius</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderBottomLeftRadius</Declaration>
+			
+			
+			<Anchor>//api/name/borderBottomLeftRadius</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/setBorderBottomRightRadius:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderBottomRightRadius</Declaration>
+			
+			
+			<Anchor>//api/name/borderBottomRightRadius</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/borderBottomRightRadius</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderBottomRightRadius</Declaration>
+			
+			
+			<Anchor>//api/name/borderBottomRightRadius</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTView/borderBottomRightRadius</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderBottomRightRadius</Declaration>
+			
+			
+			<Anchor>//api/name/borderBottomRightRadius</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/setBorderBottomStartRadius:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderBottomStartRadius</Declaration>
+			
+			
+			<Anchor>//api/name/borderBottomStartRadius</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/borderBottomStartRadius</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderBottomStartRadius</Declaration>
+			
+			
+			<Anchor>//api/name/borderBottomStartRadius</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTView/borderBottomStartRadius</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderBottomStartRadius</Declaration>
+			
+			
+			<Anchor>//api/name/borderBottomStartRadius</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/setBorderBottomEndRadius:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderBottomEndRadius</Declaration>
+			
+			
+			<Anchor>//api/name/borderBottomEndRadius</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/borderBottomEndRadius</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderBottomEndRadius</Declaration>
+			
+			
+			<Anchor>//api/name/borderBottomEndRadius</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTView/borderBottomEndRadius</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderBottomEndRadius</Declaration>
+			
+			
+			<Anchor>//api/name/borderBottomEndRadius</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/setBorderTopColor:</TokenIdentifier>
+			<Abstract type="html">Border colors (actually retained).</Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGColorRef borderTopColor</Declaration>
+			
+			
+			<Anchor>//api/name/borderTopColor</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/borderTopColor</TokenIdentifier>
+			<Abstract type="html">Border colors (actually retained).</Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGColorRef borderTopColor</Declaration>
+			
+			
+			<Anchor>//api/name/borderTopColor</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTView/borderTopColor</TokenIdentifier>
+			<Abstract type="html">Border colors (actually retained).</Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGColorRef borderTopColor</Declaration>
+			
+			
+			<Anchor>//api/name/borderTopColor</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/setBorderRightColor:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGColorRef borderRightColor</Declaration>
+			
+			
+			<Anchor>//api/name/borderRightColor</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/borderRightColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGColorRef borderRightColor</Declaration>
+			
+			
+			<Anchor>//api/name/borderRightColor</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTView/borderRightColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGColorRef borderRightColor</Declaration>
+			
+			
+			<Anchor>//api/name/borderRightColor</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/setBorderBottomColor:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGColorRef borderBottomColor</Declaration>
+			
+			
+			<Anchor>//api/name/borderBottomColor</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/borderBottomColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGColorRef borderBottomColor</Declaration>
+			
+			
+			<Anchor>//api/name/borderBottomColor</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTView/borderBottomColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGColorRef borderBottomColor</Declaration>
+			
+			
+			<Anchor>//api/name/borderBottomColor</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/setBorderLeftColor:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGColorRef borderLeftColor</Declaration>
+			
+			
+			<Anchor>//api/name/borderLeftColor</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/borderLeftColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGColorRef borderLeftColor</Declaration>
+			
+			
+			<Anchor>//api/name/borderLeftColor</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTView/borderLeftColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGColorRef borderLeftColor</Declaration>
+			
+			
+			<Anchor>//api/name/borderLeftColor</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/setBorderStartColor:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGColorRef borderStartColor</Declaration>
+			
+			
+			<Anchor>//api/name/borderStartColor</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/borderStartColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGColorRef borderStartColor</Declaration>
+			
+			
+			<Anchor>//api/name/borderStartColor</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTView/borderStartColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGColorRef borderStartColor</Declaration>
+			
+			
+			<Anchor>//api/name/borderStartColor</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/setBorderEndColor:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGColorRef borderEndColor</Declaration>
+			
+			
+			<Anchor>//api/name/borderEndColor</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/borderEndColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGColorRef borderEndColor</Declaration>
+			
+			
+			<Anchor>//api/name/borderEndColor</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTView/borderEndColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGColorRef borderEndColor</Declaration>
+			
+			
+			<Anchor>//api/name/borderEndColor</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/setBorderColor:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGColorRef borderColor</Declaration>
+			
+			
+			<Anchor>//api/name/borderColor</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/borderColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGColorRef borderColor</Declaration>
+			
+			
+			<Anchor>//api/name/borderColor</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTView/borderColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGColorRef borderColor</Declaration>
+			
+			
+			<Anchor>//api/name/borderColor</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/setBorderTopWidth:</TokenIdentifier>
+			<Abstract type="html">Border widths.</Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderTopWidth</Declaration>
+			
+			
+			<Anchor>//api/name/borderTopWidth</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/borderTopWidth</TokenIdentifier>
+			<Abstract type="html">Border widths.</Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderTopWidth</Declaration>
+			
+			
+			<Anchor>//api/name/borderTopWidth</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTView/borderTopWidth</TokenIdentifier>
+			<Abstract type="html">Border widths.</Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderTopWidth</Declaration>
+			
+			
+			<Anchor>//api/name/borderTopWidth</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/setBorderRightWidth:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderRightWidth</Declaration>
+			
+			
+			<Anchor>//api/name/borderRightWidth</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/borderRightWidth</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderRightWidth</Declaration>
+			
+			
+			<Anchor>//api/name/borderRightWidth</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTView/borderRightWidth</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderRightWidth</Declaration>
+			
+			
+			<Anchor>//api/name/borderRightWidth</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/setBorderBottomWidth:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderBottomWidth</Declaration>
+			
+			
+			<Anchor>//api/name/borderBottomWidth</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/borderBottomWidth</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderBottomWidth</Declaration>
+			
+			
+			<Anchor>//api/name/borderBottomWidth</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTView/borderBottomWidth</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderBottomWidth</Declaration>
+			
+			
+			<Anchor>//api/name/borderBottomWidth</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/setBorderLeftWidth:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderLeftWidth</Declaration>
+			
+			
+			<Anchor>//api/name/borderLeftWidth</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/borderLeftWidth</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderLeftWidth</Declaration>
+			
+			
+			<Anchor>//api/name/borderLeftWidth</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTView/borderLeftWidth</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderLeftWidth</Declaration>
+			
+			
+			<Anchor>//api/name/borderLeftWidth</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/setBorderStartWidth:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderStartWidth</Declaration>
+			
+			
+			<Anchor>//api/name/borderStartWidth</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/borderStartWidth</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderStartWidth</Declaration>
+			
+			
+			<Anchor>//api/name/borderStartWidth</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTView/borderStartWidth</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderStartWidth</Declaration>
+			
+			
+			<Anchor>//api/name/borderStartWidth</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/setBorderEndWidth:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderEndWidth</Declaration>
+			
+			
+			<Anchor>//api/name/borderEndWidth</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/borderEndWidth</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderEndWidth</Declaration>
+			
+			
+			<Anchor>//api/name/borderEndWidth</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTView/borderEndWidth</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderEndWidth</Declaration>
+			
+			
+			<Anchor>//api/name/borderEndWidth</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/setBorderWidth:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderWidth</Declaration>
+			
+			
+			<Anchor>//api/name/borderWidth</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/borderWidth</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderWidth</Declaration>
+			
+			
+			<Anchor>//api/name/borderWidth</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTView/borderWidth</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat borderWidth</Declaration>
+			
+			
+			<Anchor>//api/name/borderWidth</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/setBorderStyle:</TokenIdentifier>
+			<Abstract type="html">Border styles.</Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) RCTBorderStyle borderStyle</Declaration>
+			
+			
+			<Anchor>//api/name/borderStyle</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/borderStyle</TokenIdentifier>
+			<Abstract type="html">Border styles.</Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) RCTBorderStyle borderStyle</Declaration>
+			
+			
+			<Anchor>//api/name/borderStyle</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTView/borderStyle</TokenIdentifier>
+			<Abstract type="html">Border styles.</Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) RCTBorderStyle borderStyle</Declaration>
+			
+			
+			<Anchor>//api/name/borderStyle</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/setHitTestEdgeInsets:</TokenIdentifier>
+			<Abstract type="html">Insets used when hit testing inside this view.</Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UIEdgeInsets hitTestEdgeInsets</Declaration>
+			
+			
+			<Anchor>//api/name/hitTestEdgeInsets</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTView/hitTestEdgeInsets</TokenIdentifier>
+			<Abstract type="html">Insets used when hit testing inside this view.</Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UIEdgeInsets hitTestEdgeInsets</Declaration>
+			
+			
+			<Anchor>//api/name/hitTestEdgeInsets</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTView/hitTestEdgeInsets</TokenIdentifier>
+			<Abstract type="html">Insets used when hit testing inside this view.</Abstract>
+			<DeclaredIn>RCTView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UIEdgeInsets hitTestEdgeInsets</Declaration>
+			
+			
+			<Anchor>//api/name/hitTestEdgeInsets</Anchor>
+            <NodeRef refid="215"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

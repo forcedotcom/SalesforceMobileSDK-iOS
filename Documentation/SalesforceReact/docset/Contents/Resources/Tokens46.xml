@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTCxxConvert.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTCxxConvert</TokenIdentifier>
+			<Abstract type="html">This class provides a collection of conversion functions for mapping
+JSON objects to cxx types. Extensible via categories.
+Convert methods are expected to return cxx objects wraped in RCTManagedPointer.</Abstract>
+			<DeclaredIn>RCTCxxConvert.h</DeclaredIn>
+            
+			
+			<NodeRef refid="46"/>
+		</Token>
+		
+		
+        
+        
+	</File>
+</Tokens>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Protocols/RCTFrameUpdateObserver.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intf/RCTFrameUpdateObserver</TokenIdentifier>
+			<Abstract type="html">Protocol that must be implemented for subscribing to display refreshes (DisplayLink updates)</Abstract>
+			<DeclaredIn>RCTFrameUpdate.h</DeclaredIn>
+            
+			
+			<NodeRef refid="263"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTFrameUpdateObserver/didUpdateFrame:</TokenIdentifier>
+			<Abstract type="html">Method called on every screen refresh (if paused != YES)</Abstract>
+			<DeclaredIn>RCTFrameUpdate.h</DeclaredIn>
+			
+			<Declaration>- (void)didUpdateFrame:(RCTFrameUpdate *)update</Declaration>
+			
+			
+			<Anchor>//api/name/didUpdateFrame:</Anchor>
+            <NodeRef refid="263"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTFrameUpdateObserver/setPaused:</TokenIdentifier>
+			<Abstract type="html">Synthesize and set to true to pause the calls to -[didUpdateFrame:]</Abstract>
+			<DeclaredIn>RCTFrameUpdate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, getter=isPaused) BOOL paused</Declaration>
+			
+			
+			<Anchor>//api/name/paused</Anchor>
+            <NodeRef refid="263"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTFrameUpdateObserver/isPaused</TokenIdentifier>
+			<Abstract type="html">Synthesize and set to true to pause the calls to -[didUpdateFrame:]</Abstract>
+			<DeclaredIn>RCTFrameUpdate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, getter=isPaused) BOOL paused</Declaration>
+			
+			
+			<Anchor>//api/name/paused</Anchor>
+            <NodeRef refid="263"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfp/RCTFrameUpdateObserver/paused</TokenIdentifier>
+			<Abstract type="html">Synthesize and set to true to pause the calls to -[didUpdateFrame:]</Abstract>
+			<DeclaredIn>RCTFrameUpdate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, getter=isPaused) BOOL paused</Declaration>
+			
+			
+			<Anchor>//api/name/paused</Anchor>
+            <NodeRef refid="263"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTFrameUpdateObserver/setPauseCallback:</TokenIdentifier>
+			<Abstract type="html">Callback for pause/resume observer.
+Observer should call it when paused property is changed.</Abstract>
+			<DeclaredIn>RCTFrameUpdate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) dispatch_block_t pauseCallback</Declaration>
+			
+			
+			<Anchor>//api/name/pauseCallback</Anchor>
+            <NodeRef refid="263"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTFrameUpdateObserver/pauseCallback</TokenIdentifier>
+			<Abstract type="html">Callback for pause/resume observer.
+Observer should call it when paused property is changed.</Abstract>
+			<DeclaredIn>RCTFrameUpdate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) dispatch_block_t pauseCallback</Declaration>
+			
+			
+			<Anchor>//api/name/pauseCallback</Anchor>
+            <NodeRef refid="263"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfp/RCTFrameUpdateObserver/pauseCallback</TokenIdentifier>
+			<Abstract type="html">Callback for pause/resume observer.
+Observer should call it when paused property is changed.</Abstract>
+			<DeclaredIn>RCTFrameUpdate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) dispatch_block_t pauseCallback</Declaration>
+			
+			
+			<Anchor>//api/name/pauseCallback</Anchor>
+            <NodeRef refid="263"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

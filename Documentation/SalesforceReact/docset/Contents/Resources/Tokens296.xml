@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Constants/RCTNetworkTaskStatus.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/c/tdef/RCTNetworkTaskStatus</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+            
+			
+			<NodeRef refid="296"/>
+		</Token>
+		
+		
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTNetworkTaskPending</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTNetworkTaskPending</Declaration>
+            
+            <DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+            
+            <NodeRef refid="296"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTNetworkTaskInProgress</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTNetworkTaskInProgress</Declaration>
+            
+            <DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+            
+            <NodeRef refid="296"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTNetworkTaskFinished</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTNetworkTaskFinished</Declaration>
+            
+            <DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+            
+            <NodeRef refid="296"/>
+        </Token>
+        
+        
+	</File>
+</Tokens>

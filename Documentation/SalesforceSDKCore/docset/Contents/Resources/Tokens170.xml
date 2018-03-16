@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKOAuthClientProvider.html">
+	<File path="Protocols/SFSDKOAuthClientDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKOAuthClientProvider</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKOAuthClientDelegate</TokenIdentifier>
+			<Abstract type="html">Delegate that will be used to notify of all the OAuth Client events.</Abstract>
 			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
             
 			
@@ -13,38 +13,204 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientProvider/idpAuthInstance:</TokenIdentifier>
-			<Abstract type="html">Provide an instance of SFSDKOAuthClient for idp Authentication</Abstract>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientDelegate/authClient:displayMessage:</TokenIdentifier>
+			<Abstract type="html">Alert Messaging. The consumer of OAuthClient controls the visual display of messages in a form suited best for the consumer.</Abstract>
 			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
 			
-			<Declaration>+ (SFSDKOAuthClient *)idpAuthInstance:(SFSDKOAuthClientConfig *_Nullable)config</Declaration>
+			<Declaration>- (void)authClient:(SFSDKOAuthClient *_Nonnull)client displayMessage:(SFSDKAlertMessage *)message</Declaration>
 			
-			<ReturnValue><Abstract type="html">Provide an instance of SFSDKOAuthClient for idp Authentication</Abstract></ReturnValue>
-			<Anchor>//api/name/idpAuthInstance:</Anchor>
+			
+			<Anchor>//api/name/authClient:displayMessage:</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientProvider/nativeBrowserAuthInstance:</TokenIdentifier>
-			<Abstract type="html">Provide an instance of SFSDKOAuthClient for native browser Authentication</Abstract>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientDelegate/authClientWillBeginAuthentication:</TokenIdentifier>
+			<Abstract type="html">Called when client will begin authentication.</Abstract>
 			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
 			
-			<Declaration>+ (SFSDKOAuthClient *)nativeBrowserAuthInstance:(SFSDKOAuthClientConfig *_Nullable)config</Declaration>
+			<Declaration>- (void)authClientWillBeginAuthentication:(SFSDKOAuthClient *)client</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>client</Name>
+					<Abstract type="html">initiating the request</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			<ReturnValue><Abstract type="html">Provide an instance of SFSDKOAuthClient for native browser Authentication</Abstract></ReturnValue>
-			<Anchor>//api/name/nativeBrowserAuthInstance:</Anchor>
+			<Anchor>//api/name/authClientWillBeginAuthentication:</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientProvider/webviewAuthInstance:</TokenIdentifier>
-			<Abstract type="html">Provide a newInstance</Abstract>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientDelegate/authClientWillRefreshCredentials:</TokenIdentifier>
+			<Abstract type="html">Called when client will begin authentication.</Abstract>
 			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
 			
-			<Declaration>+ (SFSDKOAuthClient *)webviewAuthInstance:(SFSDKOAuthClientConfig *_Nullable)config</Declaration>
+			<Declaration>- (void)authClientWillRefreshCredentials:(SFSDKOAuthClient *)client</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>client</Name>
+					<Abstract type="html">making the call prior to refresh credentials</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			<ReturnValue><Abstract type="html">Provide a newInstance</Abstract></ReturnValue>
-			<Anchor>//api/name/webviewAuthInstance:</Anchor>
+			<Anchor>//api/name/authClientWillRefreshCredentials:</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientDelegate/authClientWillRevokeCredentials:</TokenIdentifier>
+			<Abstract type="html">Called when client will begin authentication.</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>- (void)authClientWillRevokeCredentials:(SFSDKOAuthClient *)client</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>client</Name>
+					<Abstract type="html">making the call prior to revoke credentials</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/authClientWillRevokeCredentials:</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientDelegate/authClientDidRevokeCredentials:</TokenIdentifier>
+			<Abstract type="html">Called when client will begin authentication.</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>- (void)authClientDidRevokeCredentials:(SFSDKOAuthClient *)client</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>client</Name>
+					<Abstract type="html">making the call prior after the  revoke of credentials</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/authClientDidRevokeCredentials:</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientDelegate/authClientDidFail:error:</TokenIdentifier>
+			<Abstract type="html">Called when client will begin authentication.</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>- (void)authClientDidFail:(SFSDKOAuthClient *)client error:(NSError *_Nullable)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>client</Name>
+					<Abstract type="html">making the call</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">describes the error that occurred</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/authClientDidFail:error:</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientDelegate/authClientIsNetworkAvailable:</TokenIdentifier>
+			<Abstract type="html">Called by the underlying mechanism allow for detection of network state</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)authClientIsNetworkAvailable:(SFSDKOAuthClient *)client</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>client</Name>
+					<Abstract type="html">making the call</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/authClientIsNetworkAvailable:</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientDelegate/authClientDidFinish:</TokenIdentifier>
+			<Abstract type="html">Called when client did finish authentication.</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>- (void)authClientDidFinish:(SFSDKOAuthClient *)client</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>client</Name>
+					<Abstract type="html">making the call</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/authClientDidFinish:</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientDelegate/authClientContinueOfflineMode:</TokenIdentifier>
+			<Abstract type="html">Called when error occurs offline.</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>- (void)authClientContinueOfflineMode:(SFSDKOAuthClient *)client</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>client</Name>
+					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/authClientContinueOfflineMode:</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientDelegate/authClientDidChangeLoginHost:loginHost:</TokenIdentifier>
+			<Abstract type="html">Called when a generic flow authentication is cancelled.</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>- (void)authClientDidChangeLoginHost:(SFSDKOAuthClient *)client loginHost:(NSString *)newLoginHost</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>client</Name>
+					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/authClientDidChangeLoginHost:loginHost:</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientDelegate/authClientRestartAuthentication:</TokenIdentifier>
+			<Abstract type="html">Called when a generic flow authentication is cancelled.</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>- (void)authClientRestartAuthentication:(SFSDKOAuthClient *)client</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>client</Name>
+					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/authClientRestartAuthentication:</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientDelegate/authClientDidCancelGenericFlow:</TokenIdentifier>
+			<Abstract type="html">Called when a generic flow authentication is cancelled.</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>- (void)authClientDidCancelGenericFlow:(SFSDKOAuthClient *)client</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>client</Name>
+					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/authClientDidCancelGenericFlow:</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		

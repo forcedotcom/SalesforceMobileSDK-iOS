@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTNetworkTask.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTNetworkTask</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+            
+			
+			<NodeRef refid="132"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNetworkTask/setRequest:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSURLRequest *request</Declaration>
+			
+			
+			<Anchor>//api/name/request</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNetworkTask/request</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSURLRequest *request</Declaration>
+			
+			
+			<Anchor>//api/name/request</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTNetworkTask/request</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSURLRequest *request</Declaration>
+			
+			
+			<Anchor>//api/name/request</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNetworkTask/setRequestID:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSNumber *requestID</Declaration>
+			
+			
+			<Anchor>//api/name/requestID</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNetworkTask/requestID</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSNumber *requestID</Declaration>
+			
+			
+			<Anchor>//api/name/requestID</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTNetworkTask/requestID</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSNumber *requestID</Declaration>
+			
+			
+			<Anchor>//api/name/requestID</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNetworkTask/setRequestToken:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, weak) id requestToken</Declaration>
+			
+			
+			<Anchor>//api/name/requestToken</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNetworkTask/requestToken</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, weak) id requestToken</Declaration>
+			
+			
+			<Anchor>//api/name/requestToken</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTNetworkTask/requestToken</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, weak) id requestToken</Declaration>
+			
+			
+			<Anchor>//api/name/requestToken</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNetworkTask/setResponse:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSURLResponse *response</Declaration>
+			
+			
+			<Anchor>//api/name/response</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNetworkTask/response</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSURLResponse *response</Declaration>
+			
+			
+			<Anchor>//api/name/response</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTNetworkTask/response</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSURLResponse *response</Declaration>
+			
+			
+			<Anchor>//api/name/response</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNetworkTask/setCompletionBlock:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) RCTURLRequestCompletionBlock completionBlock</Declaration>
+			
+			
+			<Anchor>//api/name/completionBlock</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNetworkTask/completionBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) RCTURLRequestCompletionBlock completionBlock</Declaration>
+			
+			
+			<Anchor>//api/name/completionBlock</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTNetworkTask/completionBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) RCTURLRequestCompletionBlock completionBlock</Declaration>
+			
+			
+			<Anchor>//api/name/completionBlock</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNetworkTask/setDownloadProgressBlock:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) RCTURLRequestProgressBlock downloadProgressBlock</Declaration>
+			
+			
+			<Anchor>//api/name/downloadProgressBlock</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNetworkTask/downloadProgressBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) RCTURLRequestProgressBlock downloadProgressBlock</Declaration>
+			
+			
+			<Anchor>//api/name/downloadProgressBlock</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTNetworkTask/downloadProgressBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) RCTURLRequestProgressBlock downloadProgressBlock</Declaration>
+			
+			
+			<Anchor>//api/name/downloadProgressBlock</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNetworkTask/setIncrementalDataBlock:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) RCTURLRequestIncrementalDataBlock incrementalDataBlock</Declaration>
+			
+			
+			<Anchor>//api/name/incrementalDataBlock</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNetworkTask/incrementalDataBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) RCTURLRequestIncrementalDataBlock incrementalDataBlock</Declaration>
+			
+			
+			<Anchor>//api/name/incrementalDataBlock</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTNetworkTask/incrementalDataBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) RCTURLRequestIncrementalDataBlock incrementalDataBlock</Declaration>
+			
+			
+			<Anchor>//api/name/incrementalDataBlock</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNetworkTask/setResponseBlock:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) RCTURLRequestResponseBlock responseBlock</Declaration>
+			
+			
+			<Anchor>//api/name/responseBlock</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNetworkTask/responseBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) RCTURLRequestResponseBlock responseBlock</Declaration>
+			
+			
+			<Anchor>//api/name/responseBlock</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTNetworkTask/responseBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) RCTURLRequestResponseBlock responseBlock</Declaration>
+			
+			
+			<Anchor>//api/name/responseBlock</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNetworkTask/setUploadProgressBlock:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) RCTURLRequestProgressBlock uploadProgressBlock</Declaration>
+			
+			
+			<Anchor>//api/name/uploadProgressBlock</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNetworkTask/uploadProgressBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) RCTURLRequestProgressBlock uploadProgressBlock</Declaration>
+			
+			
+			<Anchor>//api/name/uploadProgressBlock</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTNetworkTask/uploadProgressBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) RCTURLRequestProgressBlock uploadProgressBlock</Declaration>
+			
+			
+			<Anchor>//api/name/uploadProgressBlock</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNetworkTask/setStatus:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) RCTNetworkTaskStatus status</Declaration>
+			
+			
+			<Anchor>//api/name/status</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNetworkTask/status</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) RCTNetworkTaskStatus status</Declaration>
+			
+			
+			<Anchor>//api/name/status</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTNetworkTask/status</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) RCTNetworkTaskStatus status</Declaration>
+			
+			
+			<Anchor>//api/name/status</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNetworkTask/initWithRequest:handler:callbackQueue:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithRequest:(NSURLRequest *)request handler:(id&lt;RCTURLRequestHandler&gt;)handler callbackQueue:(dispatch_queue_t)callbackQueue</Declaration>
+			
+			
+			<Anchor>//api/name/initWithRequest:handler:callbackQueue:</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNetworkTask/start</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+			
+			<Declaration>- (void)start</Declaration>
+			
+			
+			<Anchor>//api/name/start</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNetworkTask/cancel</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworkTask.h</DeclaredIn>
+			
+			<Declaration>- (void)cancel</Declaration>
+			
+			
+			<Anchor>//api/name/cancel</Anchor>
+            <NodeRef refid="132"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

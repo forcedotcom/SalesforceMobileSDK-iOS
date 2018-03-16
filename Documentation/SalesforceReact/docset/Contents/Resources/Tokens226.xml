@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTWrapperView.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTWrapperView</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWrapperView.h</DeclaredIn>
+            
+			
+			<NodeRef refid="226"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWrapperView/setContentView:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWrapperView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, retain, nullable) UIView *contentView</Declaration>
+			
+			
+			<Anchor>//api/name/contentView</Anchor>
+            <NodeRef refid="226"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWrapperView/contentView</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWrapperView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, retain, nullable) UIView *contentView</Declaration>
+			
+			
+			<Anchor>//api/name/contentView</Anchor>
+            <NodeRef refid="226"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTWrapperView/contentView</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWrapperView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, retain, nullable) UIView *contentView</Declaration>
+			
+			
+			<Anchor>//api/name/contentView</Anchor>
+            <NodeRef refid="226"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWrapperView/setMeasureBlock:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWrapperView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) RCTWrapperMeasureBlock measureBlock</Declaration>
+			
+			
+			<Anchor>//api/name/measureBlock</Anchor>
+            <NodeRef refid="226"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWrapperView/measureBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWrapperView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) RCTWrapperMeasureBlock measureBlock</Declaration>
+			
+			
+			<Anchor>//api/name/measureBlock</Anchor>
+            <NodeRef refid="226"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTWrapperView/measureBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWrapperView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) RCTWrapperMeasureBlock measureBlock</Declaration>
+			
+			
+			<Anchor>//api/name/measureBlock</Anchor>
+            <NodeRef refid="226"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWrapperView/initWithBridge:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWrapperView.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithBridge:(RCTBridge *)bridge</Declaration>
+			
+			
+			<Anchor>//api/name/initWithBridge:</Anchor>
+            <NodeRef refid="226"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWrapperView/init</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWrapperView.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)init</Declaration>
+			
+			
+			<Anchor>//api/name/init</Anchor>
+            <NodeRef refid="226"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWrapperView/initWithFrame:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWrapperView.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithFrame:(CGRect)frame</Declaration>
+			
+			
+			<Anchor>//api/name/initWithFrame:</Anchor>
+            <NodeRef refid="226"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWrapperView/initWithCoder:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWrapperView.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithCoder:(NSCoder *)decoder</Declaration>
+			
+			
+			<Anchor>//api/name/initWithCoder:</Anchor>
+            <NodeRef refid="226"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWrapperView/addSubview:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWrapperView.h</DeclaredIn>
+			
+			<Declaration>- (void)addSubview:(UIView *)view</Declaration>
+			
+			
+			<Anchor>//api/name/addSubview:</Anchor>
+            <NodeRef refid="226"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWrapperView/insertSubview:atIndex:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWrapperView.h</DeclaredIn>
+			
+			<Declaration>- (void)insertSubview:(UIView *)view atIndex:(NSInteger)index</Declaration>
+			
+			
+			<Anchor>//api/name/insertSubview:atIndex:</Anchor>
+            <NodeRef refid="226"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWrapperView/insertSubview:aboveSubview:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWrapperView.h</DeclaredIn>
+			
+			<Declaration>- (void)insertSubview:(UIView *)view aboveSubview:(UIView *)siblingSubview</Declaration>
+			
+			
+			<Anchor>//api/name/insertSubview:aboveSubview:</Anchor>
+            <NodeRef refid="226"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWrapperView/insertSubview:belowSubview:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWrapperView.h</DeclaredIn>
+			
+			<Declaration>- (void)insertSubview:(UIView *)view belowSubview:(UIView *)siblingSubview</Declaration>
+			
+			
+			<Anchor>//api/name/insertSubview:belowSubview:</Anchor>
+            <NodeRef refid="226"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

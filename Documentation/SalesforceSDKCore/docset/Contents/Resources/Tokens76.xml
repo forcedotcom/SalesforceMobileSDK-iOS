@@ -1,16 +1,160 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKCoreLogger.html">
+	<File path="Classes/SFSDKAuthViewHolder.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKCoreLogger</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAuthViewHolder</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCoreLogger.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
             
 			
 			<NodeRef refid="76"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/setWkWebView:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, nullable) WKWebView *wkWebView</Declaration>
+			
+			
+			<Anchor>//api/name/wkWebView</Anchor>
+            <NodeRef refid="76"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/wkWebView</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, nullable) WKWebView *wkWebView</Declaration>
+			
+			
+			<Anchor>//api/name/wkWebView</Anchor>
+            <NodeRef refid="76"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthViewHolder/wkWebView</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, nullable) WKWebView *wkWebView</Declaration>
+			
+			
+			<Anchor>//api/name/wkWebView</Anchor>
+            <NodeRef refid="76"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/setLoginController:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) SFLoginViewController *loginController</Declaration>
+			
+			
+			<Anchor>//api/name/loginController</Anchor>
+            <NodeRef refid="76"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/loginController</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) SFLoginViewController *loginController</Declaration>
+			
+			
+			<Anchor>//api/name/loginController</Anchor>
+            <NodeRef refid="76"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthViewHolder/loginController</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) SFLoginViewController *loginController</Declaration>
+			
+			
+			<Anchor>//api/name/loginController</Anchor>
+            <NodeRef refid="76"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/setSafariViewController:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, nullable) SFSafariViewController *safariViewController</Declaration>
+			
+			
+			<Anchor>//api/name/safariViewController</Anchor>
+            <NodeRef refid="76"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/safariViewController</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, nullable) SFSafariViewController *safariViewController</Declaration>
+			
+			
+			<Anchor>//api/name/safariViewController</Anchor>
+            <NodeRef refid="76"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthViewHolder/safariViewController</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, nullable) SFSafariViewController *safariViewController</Declaration>
+			
+			
+			<Anchor>//api/name/safariViewController</Anchor>
+            <NodeRef refid="76"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/setIsAdvancedAuthFlow:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isAdvancedAuthFlow</Declaration>
+			
+			
+			<Anchor>//api/name/isAdvancedAuthFlow</Anchor>
+            <NodeRef refid="76"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/isAdvancedAuthFlow</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isAdvancedAuthFlow</Declaration>
+			
+			
+			<Anchor>//api/name/isAdvancedAuthFlow</Anchor>
+            <NodeRef refid="76"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthViewHolder/isAdvancedAuthFlow</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isAdvancedAuthFlow</Declaration>
+			
+			
+			<Anchor>//api/name/isAdvancedAuthFlow</Anchor>
+            <NodeRef refid="76"/>
+		</Token>
 		
         
         

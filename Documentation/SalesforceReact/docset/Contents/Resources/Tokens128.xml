@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTNavItemManager.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTNavItemManager</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNavItemManager.h</DeclaredIn>
+            
+			
+			<NodeRef refid="128"/>
+		</Token>
+		
+		
+        
+        
+	</File>
+</Tokens>

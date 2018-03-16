@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/UIScreen+SFAdditions.html">
+	<File path="Categories/UIDevice+SFHardware.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/UIScreen(SFAdditions)</TokenIdentifier>
-			<Abstract type="html">Salesforce Mobile SDK additions to the UIScreen class.</Abstract>
-			<DeclaredIn>UIScreen+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/UIDevice(SFHardware)</TokenIdentifier>
+			<Abstract type="html">Extension to UIDevice class to provide more hardware related information, including hardware model, capability and also most importantly current device&apos;s orientation</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
             
 			
 			<NodeRef refid="152"/>
@@ -13,14 +13,316 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIScreen/portraitScreenBounds</TokenIdentifier>
-			<Abstract type="html">Returns the rectangle that describes the screen boundaries in portrait orientation.</Abstract>
-			<DeclaredIn>UIScreen+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/platform</TokenIdentifier>
+			<Abstract type="html">Platform for the Device</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
 			
-			<Declaration>- (CGRect)portraitScreenBounds</Declaration>
+			<Declaration>- (nullable NSString *)platform</Declaration>
 			
-			<ReturnValue><Abstract type="html">Screen boundaries in portrait orientation.</Abstract></ReturnValue>
-			<Anchor>//api/name/portraitScreenBounds</Anchor>
+			
+			<Anchor>//api/name/platform</Anchor>
+            <NodeRef refid="152"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/hwmodel</TokenIdentifier>
+			<Abstract type="html">Hardware model</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (nullable NSString *)hwmodel</Declaration>
+			
+			
+			<Anchor>//api/name/hwmodel</Anchor>
+            <NodeRef refid="152"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/platformType</TokenIdentifier>
+			<Abstract type="html">Platform type
+See UIDevicePlatform</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (UIDevicePlatform)platformType</Declaration>
+			
+			
+			<Anchor>//api/name/platformType</Anchor>
+            <NodeRef refid="152"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/systemVersionNumber</TokenIdentifier>
+			<Abstract type="html">Returns the system-dependent version number.</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (double)systemVersionNumber</Declaration>
+			
+			<ReturnValue><Abstract type="html">The system version number.</Abstract></ReturnValue>
+			<Anchor>//api/name/systemVersionNumber</Anchor>
+            <NodeRef refid="152"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/platformString</TokenIdentifier>
+			<Abstract type="html">Platform string</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)platformString</Declaration>
+			
+			
+			<Anchor>//api/name/platformString</Anchor>
+            <NodeRef refid="152"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/cpuFrequency</TokenIdentifier>
+			<Abstract type="html">CPU Frequency</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (NSUInteger)cpuFrequency</Declaration>
+			
+			
+			<Anchor>//api/name/cpuFrequency</Anchor>
+            <NodeRef refid="152"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/busFrequency</TokenIdentifier>
+			<Abstract type="html">Bus frequency</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (NSUInteger)busFrequency</Declaration>
+			
+			
+			<Anchor>//api/name/busFrequency</Anchor>
+            <NodeRef refid="152"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/cpuCount</TokenIdentifier>
+			<Abstract type="html">CPU Count</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (NSUInteger)cpuCount</Declaration>
+			
+			
+			<Anchor>//api/name/cpuCount</Anchor>
+            <NodeRef refid="152"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/totalCPU</TokenIdentifier>
+			<Abstract type="html">Total CUP</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (float)totalCPU</Declaration>
+			
+			
+			<Anchor>//api/name/totalCPU</Anchor>
+            <NodeRef refid="152"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/totalMemory</TokenIdentifier>
+			<Abstract type="html">Total memory</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (NSUInteger)totalMemory</Declaration>
+			
+			
+			<Anchor>//api/name/totalMemory</Anchor>
+            <NodeRef refid="152"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/userMemory</TokenIdentifier>
+			<Abstract type="html">User Memory</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (NSUInteger)userMemory</Declaration>
+			
+			
+			<Anchor>//api/name/userMemory</Anchor>
+            <NodeRef refid="152"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/applicationMemory</TokenIdentifier>
+			<Abstract type="html">Memory used by application (in bytes)</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (NSUInteger)applicationMemory</Declaration>
+			
+			
+			<Anchor>//api/name/applicationMemory</Anchor>
+            <NodeRef refid="152"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/freeMemory</TokenIdentifier>
+			<Abstract type="html">Free VM page space available to application (in bytes)</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (NSUInteger)freeMemory</Declaration>
+			
+			
+			<Anchor>//api/name/freeMemory</Anchor>
+            <NodeRef refid="152"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/totalDiskSpace</TokenIdentifier>
+			<Abstract type="html">Total disk space</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (NSNumber *)totalDiskSpace</Declaration>
+			
+			
+			<Anchor>//api/name/totalDiskSpace</Anchor>
+            <NodeRef refid="152"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/freeDiskSpace</TokenIdentifier>
+			<Abstract type="html">Total free space</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (NSNumber *)freeDiskSpace</Declaration>
+			
+			
+			<Anchor>//api/name/freeDiskSpace</Anchor>
+            <NodeRef refid="152"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/macaddress</TokenIdentifier>
+			<Abstract type="html">Mac address</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (nullable NSString *)macaddress</Declaration>
+			
+			
+			<Anchor>//api/name/macaddress</Anchor>
+            <NodeRef refid="152"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/hasRetinaDisplay</TokenIdentifier>
+			<Abstract type="html">Returns whether the device has a retina display</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)hasRetinaDisplay</Declaration>
+			
+			
+			<Anchor>//api/name/hasRetinaDisplay</Anchor>
+            <NodeRef refid="152"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/deviceFamily</TokenIdentifier>
+			<Abstract type="html">Device Family</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (UIDeviceFamily)deviceFamily</Declaration>
+			
+			
+			<Anchor>//api/name/deviceFamily</Anchor>
+            <NodeRef refid="152"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/interfaceOrientation</TokenIdentifier>
+			<Abstract type="html">Device&apos;s current orientation
+This method will first try to retrieve orientation using UIDevice currentOrientation, if return value is an invalid orientation, it will try to use status bar orientation as fallback</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (UIInterfaceOrientation)interfaceOrientation</Declaration>
+			
+			
+			<Anchor>//api/name/interfaceOrientation</Anchor>
+            <NodeRef refid="152"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/isSimulator</TokenIdentifier>
+			<Abstract type="html">Determine if current device is simulator or not</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)isSimulator</Declaration>
+			
+			<ReturnValue><Abstract type="html">Return YES if current device is simulator, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/isSimulator</Anchor>
+            <NodeRef refid="152"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/canDevicePlaceAPhoneCall</TokenIdentifier>
+			<Abstract type="html">Determines whether the current device can place phone calls.</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)canDevicePlaceAPhoneCall</Declaration>
+			
+			<ReturnValue><Abstract type="html">Returns YES if the current device can make a phone call, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/canDevicePlaceAPhoneCall</Anchor>
+            <NodeRef refid="152"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/hasIphone6ScreenSize</TokenIdentifier>
+			<Abstract type="html">Determine if the current device has the screen size of an iPhone 6.</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)hasIphone6ScreenSize</Declaration>
+			
+			<ReturnValue><Abstract type="html">Returns YES if so, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/hasIphone6ScreenSize</Anchor>
+            <NodeRef refid="152"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/hasIphone6PlusScreenSize</TokenIdentifier>
+			<Abstract type="html">Determine if the current device has the screen size of an iPhone 6 plus.</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)hasIphone6PlusScreenSize</Declaration>
+			
+			<ReturnValue><Abstract type="html">Returns YES if so, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/hasIphone6PlusScreenSize</Anchor>
+            <NodeRef refid="152"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/hasIphoneXScreenSize</TokenIdentifier>
+			<Abstract type="html">Determine if the current device has the screen size of an iPhone X.</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)hasIphoneXScreenSize</Declaration>
+			
+			<ReturnValue><Abstract type="html">Returns YES if so, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/hasIphoneXScreenSize</Anchor>
+            <NodeRef refid="152"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/currentDeviceIsIPad</TokenIdentifier>
+			<Abstract type="html">Return YES if device is iPad</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)currentDeviceIsIPad</Declaration>
+			
+			
+			<Anchor>//api/name/currentDeviceIsIPad</Anchor>
+            <NodeRef refid="152"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/currentDeviceIsIPhone</TokenIdentifier>
+			<Abstract type="html">Return YES if device is iPhone</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)currentDeviceIsIPhone</Declaration>
+			
+			
+			<Anchor>//api/name/currentDeviceIsIPhone</Anchor>
             <NodeRef refid="152"/>
 		</Token>
 		

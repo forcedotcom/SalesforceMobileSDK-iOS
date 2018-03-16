@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Protocols/RCTUIManagerObserver.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intf/RCTUIManagerObserver</TokenIdentifier>
+			<Abstract type="html">Allows hooking into UIManager internals. This can be used to execute code at
+specific points during the view updating process.
+New observers must not be added inside observer handlers.
+The particular order of handler invocation is not guaranteed.
+All observer handlers are called on UIManager queue.</Abstract>
+			<DeclaredIn>RCTUIManagerObserverCoordinator.h</DeclaredIn>
+            
+			
+			<NodeRef refid="280"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTUIManagerObserver/uiManagerWillPerformLayout:</TokenIdentifier>
+			<Abstract type="html">Called just before the UIManager layout views.
+It allows performing some operation for components which contain custom
+layout logic right before regular Yoga based layout. So, for instance,
+some components which have own React-independent state can compute and cache
+own intrinsic content size (which will be used by Yoga) at this point.</Abstract>
+			<DeclaredIn>RCTUIManagerObserverCoordinator.h</DeclaredIn>
+			
+			<Declaration>- (void)uiManagerWillPerformLayout:(RCTUIManager *)manager</Declaration>
+			
+			
+			<Anchor>//api/name/uiManagerWillPerformLayout:</Anchor>
+            <NodeRef refid="280"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTUIManagerObserver/uiManagerDidPerformLayout:</TokenIdentifier>
+			<Abstract type="html">Called just after the UIManager layout views.
+It allows performing custom layout logic right after regular Yoga based layout.
+So, for instance, this can be used for computing final layout for a component,
+since it has its final frame set by Yoga at this point.</Abstract>
+			<DeclaredIn>RCTUIManagerObserverCoordinator.h</DeclaredIn>
+			
+			<Declaration>- (void)uiManagerDidPerformLayout:(RCTUIManager *)manager</Declaration>
+			
+			
+			<Anchor>//api/name/uiManagerDidPerformLayout:</Anchor>
+            <NodeRef refid="280"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTUIManagerObserver/uiManagerWillPerformMounting:</TokenIdentifier>
+			<Abstract type="html">Called before flushing UI blocks at the end of a batch.
+This is called from the UIManager queue. Can be used to add UI operations in that batch.</Abstract>
+			<DeclaredIn>RCTUIManagerObserverCoordinator.h</DeclaredIn>
+			
+			<Declaration>- (void)uiManagerWillPerformMounting:(RCTUIManager *)manager</Declaration>
+			
+			
+			<Anchor>//api/name/uiManagerWillPerformMounting:</Anchor>
+            <NodeRef refid="280"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTUIManagerObserver/uiManagerDidPerformMounting:</TokenIdentifier>
+			<Abstract type="html">Called just after flushing UI blocks.
+This is called from the UIManager queue.</Abstract>
+			<DeclaredIn>RCTUIManagerObserverCoordinator.h</DeclaredIn>
+			
+			<Declaration>- (void)uiManagerDidPerformMounting:(RCTUIManager *)manager</Declaration>
+			
+			
+			<Anchor>//api/name/uiManagerDidPerformMounting:</Anchor>
+            <NodeRef refid="280"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

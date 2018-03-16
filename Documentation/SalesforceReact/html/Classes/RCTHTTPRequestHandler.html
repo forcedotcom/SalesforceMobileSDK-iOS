@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>RCTHTTPRequestHandler Class Reference</title>
+
+	<link rel="stylesheet" href="../css/style.css">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
+	<meta name="generator" content="appledoc 2.2.1 (build 1334)">
+</head>
+<body class="appledoc">
+	<header>
+		<div class="container" class="hide-in-xcode">
+			
+			<h1 id="library-title">
+				<a href="../index.html">SalesforceReact </a>
+			</h1>
+
+			<p id="developer-home">
+				<a href="../index.html">Salesforce.com</a>
+			</p>
+			
+		</div>
+	</header>
+
+	<aside>
+		<div class="container">
+			<nav>
+				<ul id="header-buttons" role="toolbar">
+					<li><a href="../index.html">Index</a></li>
+<li><a href="../hierarchy.html">Hierarchy</a></li>
+
+					<li id="on-this-page" role="navigation">
+						<label>
+							On This Page
+
+							<div class="chevron">
+								<div class="chevy chevron-left"></div>
+								<div class="chevy chevron-right"></div>
+							</div>
+
+							<select id="jump-to">
+	<option value="top">Jump To&#133;</option>
+	
+	<option value="overview">Overview</option>
+	
+
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+
+	
+	
+
+	
+
+	
+	<optgroup label="Instance Methods">
+		
+		<option value="//api/name/URLSession:dataTask:didReceiveData:">- URLSession:dataTask:didReceiveData:</option>
+		
+		<option value="//api/name/URLSession:dataTask:didReceiveResponse:completionHandler:">- URLSession:dataTask:didReceiveResponse:completionHandler:</option>
+		
+		<option value="//api/name/URLSession:task:didCompleteWithError:">- URLSession:task:didCompleteWithError:</option>
+		
+		<option value="//api/name/URLSession:task:didSendBodyData:totalBytesSent:totalBytesExpectedToSend:">- URLSession:task:didSendBodyData:totalBytesSent:totalBytesExpectedToSend:</option>
+		
+		<option value="//api/name/canHandleRequest:">- canHandleRequest:</option>
+		
+		<option value="//api/name/cancelRequest:">- cancelRequest:</option>
+		
+		<option value="//api/name/invalidate">- invalidate</option>
+		
+		<option value="//api/name/isValid">- isValid</option>
+		
+		<option value="//api/name/sendRequest:withDelegate:">- sendRequest:withDelegate:</option>
+		
+	</optgroup>
+	
+	
+</select>
+						</label>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</aside>
+
+	<article>
+		<div id="overview_contents" class="container">
+			<div id="content">
+				<main role="main">
+					<h1 class="title">RCTHTTPRequestHandler Class Reference</h1>
+
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<th>Inherits from</th>
+	<td>NSObject</td>
+</tr><tr>
+	<th>Conforms to</th>
+	<td><a href="../Protocols/RCTInvalidating.html">RCTInvalidating</a><br /><a href="../Protocols/RCTURLRequestHandler.html">RCTURLRequestHandler</a></td>
+</tr><tr>
+	<th>Declared in</th>
+	<td>RCTHTTPRequestHandler.h<br />RCTHTTPRequestHandler.mm</td>
+</tr>
+						</tbody></table></div>
+					
+
+                    
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>This is the default <a href="../Protocols/RCTURLRequestHandler.html">RCTURLRequestHandler</a> implementation for HTTP requests.</p>
+
+<p>Copyright &copy; 2015-present, Facebook, Inc.
+All rights reserved.</p>
+
+<p>This source code is licensed under the BSD-style license found in the
+LICENSE file in the root directory of this source tree. An additional grant
+of patent rights can be found in the PATENTS file in the same directory.</p>
+					</div>
+					
+					
+
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						
+
+						
+						
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/invalidate" title="invalidate"></a>
+	<h3 class="method-title"><code><a href="#//api/name/invalidate">&ndash;&nbsp;invalidate</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)invalidate</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/isValid" title="isValid"></a>
+	<h3 class="method-title"><code><a href="#//api/name/isValid">&ndash;&nbsp;isValid</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)isValid</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/canHandleRequest:" title="canHandleRequest:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/canHandleRequest:">&ndash;&nbsp;canHandleRequest:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Indicates whether this handler is capable of processing the specified
+request. Typically the handler would examine the scheme/protocol of the
+request URL (and possibly the HTTP method and/or headers) to determine this.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)canHandleRequest:(NSURLRequest *)<em>request</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTURLRequestHandler.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/sendRequest:withDelegate:" title="sendRequest:withDelegate:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sendRequest:withDelegate:">&ndash;&nbsp;sendRequest:withDelegate:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Send a network request and call the delegate with the response data. The
+method should return a token, which can be anything, including the request
+itself. This will be used later to refer to the request in callbacks. The
+<code>sendRequest:withDelegate:</code> method <em>must</em> return before calling any of the
+delegate methods, or the delegate won&rsquo;t recognize the token.
+Following common Objective-C pattern, <code>delegate</code> will not be retained.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (NSURLSessionDataTask *)sendRequest:(NSURLRequest *)<em>request</em> withDelegate:(id&lt;RCTURLRequestDelegate&gt;)<em>delegate</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTURLRequestHandler.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/cancelRequest:" title="cancelRequest:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/cancelRequest:">&ndash;&nbsp;cancelRequest:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Not all request types can be cancelled, but this method can be implemented
+for ones that can. It should be used to free up any resources on ongoing
+processes associated with the request.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)cancelRequest:(NSURLSessionDataTask *)<em>task</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTURLRequestHandler.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/URLSession:task:didSendBodyData:totalBytesSent:totalBytesExpectedToSend:" title="URLSession:task:didSendBodyData:totalBytesSent:totalBytesExpectedToSend:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/URLSession:task:didSendBodyData:totalBytesSent:totalBytesExpectedToSend:">&ndash;&nbsp;URLSession:task:didSendBodyData:totalBytesSent:totalBytesExpectedToSend:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)URLSession:(NSURLSession *)<em>session</em> task:(NSURLSessionTask *)<em>task</em> didSendBodyData:(int64_t)<em>bytesSent</em> totalBytesSent:(int64_t)<em>totalBytesSent</em> totalBytesExpectedToSend:(int64_t)<em>totalBytesExpectedToSend</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/URLSession:dataTask:didReceiveResponse:completionHandler:" title="URLSession:dataTask:didReceiveResponse:completionHandler:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/URLSession:dataTask:didReceiveResponse:completionHandler:">&ndash;&nbsp;URLSession:dataTask:didReceiveResponse:completionHandler:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)URLSession:(NSURLSession *)<em>session</em> dataTask:(NSURLSessionDataTask *)<em>task</em> didReceiveResponse:(NSURLResponse *)<em>response</em> completionHandler:(void ( ^ ) ( NSURLSessionResponseDisposition ))<em>completionHandler</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/URLSession:dataTask:didReceiveData:" title="URLSession:dataTask:didReceiveData:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/URLSession:dataTask:didReceiveData:">&ndash;&nbsp;URLSession:dataTask:didReceiveData:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)URLSession:(NSURLSession *)<em>session</em> dataTask:(NSURLSessionDataTask *)<em>task</em> didReceiveData:(NSData *)<em>data</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/URLSession:task:didCompleteWithError:" title="URLSession:task:didCompleteWithError:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/URLSession:task:didCompleteWithError:">&ndash;&nbsp;URLSession:task:didCompleteWithError:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)URLSession:(NSURLSession *)<em>session</em> task:(NSURLSessionTask *)<em>task</em> didCompleteWithError:(NSError *)<em>error</em></code></div>
+
+		    
+		</div>
+	</div>
+</div>
+						</div>
+						
+					</div>
+					
+					
+
+                    
+                    
+          
+				</main>
+
+				<footer>
+					<div class="footer-copyright">
+						
+						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-03-16</p>
+						
+						
+						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>
+						
+					</div>
+				</footer>
+			</div>
+		</div>
+	</article>
+
+	<script src="../js/script.js"></script>
+</body>
+</html>

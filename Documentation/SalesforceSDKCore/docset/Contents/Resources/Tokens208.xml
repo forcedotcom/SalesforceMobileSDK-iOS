@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFUserAccountDataChange.html">
+	<File path="Constants/SFUserAccountChange.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountDataChange</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountChange</TokenIdentifier>
 			<Abstract type="html">The various changes that can affect a user account</Abstract>
 			<DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
@@ -14,10 +14,10 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountDataChangeUnknown</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeUnknown</TokenIdentifier>
             <Abstract type="html">Unknown change
      </Abstract>
-            <Declaration>SFUserAccountDataChangeUnknown</Declaration>
+            <Declaration>SFUserAccountChangeUnknown</Declaration>
             
             <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
@@ -25,43 +25,21 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountDataChangeCommunityId</TokenIdentifier>
-            <Abstract type="html">The community ID changed
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeNewUser</TokenIdentifier>
+            <Abstract type="html">New User
+      </Abstract>
+            <Declaration>SFUserAccountChangeNewUser</Declaration>
+            
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            
+            <NodeRef refid="208"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeCurrentUser</TokenIdentifier>
+            <Abstract type="html">Change of Current User
      </Abstract>
-            <Declaration>SFUserAccountDataChangeCommunityId</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
-            <NodeRef refid="208"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountDataChangeIdData</TokenIdentifier>
-            <Abstract type="html">The ID data changed
-     </Abstract>
-            <Declaration>SFUserAccountDataChangeIdData</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
-            <NodeRef refid="208"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountDataChangeInstanceURL</TokenIdentifier>
-            <Abstract type="html">InstanceURL Changed
-    </Abstract>
-            <Declaration>SFUserAccountDataChangeInstanceURL</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
-            <NodeRef refid="208"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountDataChangeAccessToken</TokenIdentifier>
-            <Abstract type="html">AccessToken Changed
-    </Abstract>
-            <Declaration>SFUserAccountDataChangeAccessToken</Declaration>
+            <Declaration>SFUserAccountChangeCurrentUser</Declaration>
             
             <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             

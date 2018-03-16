@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Protocols/RCTSRWebSocketDelegate.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intf/RCTSRWebSocketDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+            
+			
+			<NodeRef refid="276"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTSRWebSocketDelegate/webSocket:didReceiveMessage:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>- (void)webSocket:(RCTSRWebSocket *)webSocket didReceiveMessage:(id)message</Declaration>
+			
+			
+			<Anchor>//api/name/webSocket:didReceiveMessage:</Anchor>
+            <NodeRef refid="276"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTSRWebSocketDelegate/webSocketDidOpen:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>- (void)webSocketDidOpen:(RCTSRWebSocket *)webSocket</Declaration>
+			
+			
+			<Anchor>//api/name/webSocketDidOpen:</Anchor>
+            <NodeRef refid="276"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTSRWebSocketDelegate/webSocket:didFailWithError:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>- (void)webSocket:(RCTSRWebSocket *)webSocket didFailWithError:(NSError *)error</Declaration>
+			
+			
+			<Anchor>//api/name/webSocket:didFailWithError:</Anchor>
+            <NodeRef refid="276"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTSRWebSocketDelegate/webSocket:didCloseWithCode:reason:wasClean:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>- (void)webSocket:(RCTSRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean</Declaration>
+			
+			
+			<Anchor>//api/name/webSocket:didCloseWithCode:reason:wasClean:</Anchor>
+            <NodeRef refid="276"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTSRWebSocketDelegate/webSocket:didReceivePong:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>- (void)webSocket:(RCTSRWebSocket *)webSocket didReceivePong:(NSData *)pongPayload</Declaration>
+			
+			
+			<Anchor>//api/name/webSocket:didReceivePong:</Anchor>
+            <NodeRef refid="276"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

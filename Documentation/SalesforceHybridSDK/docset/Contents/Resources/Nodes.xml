@@ -28,11 +28,6 @@
 						<NodeRef refid="15"/>
 						<NodeRef refid="16"/>
 						<NodeRef refid="17"/>
-						<NodeRef refid="18"/>
-						<NodeRef refid="19"/>
-						<NodeRef refid="20"/>
-						<NodeRef refid="21"/>
-						<NodeRef refid="22"/>
 						
 					</Subnodes>
 				</Node>
@@ -42,7 +37,7 @@
 					<Name>Categories</Name>
 					<Path>index.html</Path>
 					<Subnodes>
-						<NodeRef refid="23"/>
+						<NodeRef refid="18"/>
 						
 					</Subnodes>
 				</Node>
@@ -53,7 +48,7 @@
 					<Name>Constants</Name>
 					<Path>index.html</Path>
 					<Subnodes>
-						<NodeRef refid="24"/>
+						<NodeRef refid="19"/>
 						
 					</Subnodes>
 				</Node>
@@ -63,7 +58,7 @@
                     <Name>Blocks</Name>
                     <Path>index.html</Path>
                     <Subnodes>
-                        <NodeRef refid="25"/>
+                        <NodeRef refid="20"/>
                         
                     </Subnodes>
                 </Node>
@@ -107,16 +102,6 @@
             
         </Node>
 		<Node id="2" type="file" documentType="reference">
-            <Name>ForceJSTestSuite</Name>
-            <Path>Classes/ForceJSTestSuite.html</Path>
-            
-        </Node>
-		<Node id="3" type="file" documentType="reference">
-            <Name>SDKInfoTestSuite</Name>
-            <Path>Classes/SDKInfoTestSuite.html</Path>
-            
-        </Node>
-		<Node id="4" type="file" documentType="reference">
             <Name>SFAccountManagerPlugin</Name>
             <Path>Classes/SFAccountManagerPlugin.html</Path>
             
@@ -143,7 +128,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="5" type="file" documentType="reference">
+		<Node id="3" type="file" documentType="reference">
             <Name>SFForcePlugin</Name>
             <Path>Classes/SFForcePlugin.html</Path>
             
@@ -170,7 +155,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="6" type="file" documentType="reference">
+		<Node id="4" type="file" documentType="reference">
             <Name>SFHybridConnectionMonitor</Name>
             <Path>Classes/SFHybridConnectionMonitor.html</Path>
             
@@ -203,7 +188,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="7" type="file" documentType="reference">
+		<Node id="5" type="file" documentType="reference">
             <Name>SFHybridViewConfig</Name>
             <Path>Classes/SFHybridViewConfig.html</Path>
             
@@ -236,7 +221,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="8" type="file" documentType="reference">
+		<Node id="6" type="file" documentType="reference">
             <Name>SFHybridViewController</Name>
             <Path>Classes/SFHybridViewController.html</Path>
             
@@ -275,12 +260,12 @@
             </Subnodes>
             
         </Node>
-		<Node id="9" type="file" documentType="reference">
+		<Node id="7" type="file" documentType="reference">
             <Name>SFLocalhostSubstitutionCache</Name>
             <Path>Classes/SFLocalhostSubstitutionCache.html</Path>
             
         </Node>
-		<Node id="10" type="file" documentType="reference">
+		<Node id="8" type="file" documentType="reference">
             <Name>SFNetworkPlugin</Name>
             <Path>Classes/SFNetworkPlugin.html</Path>
             
@@ -307,7 +292,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="11" type="file" documentType="reference">
+		<Node id="9" type="file" documentType="reference">
             <Name>SFPluginTestSuite</Name>
             <Path>Classes/SFPluginTestSuite.html</Path>
             
@@ -340,12 +325,12 @@
             </Subnodes>
             
         </Node>
-		<Node id="12" type="file" documentType="reference">
+		<Node id="10" type="file" documentType="reference">
             <Name>SFSDKHybridLogger</Name>
             <Path>Classes/SFSDKHybridLogger.html</Path>
             
         </Node>
-		<Node id="13" type="file" documentType="reference">
+		<Node id="11" type="file" documentType="reference">
             <Name>SFSDKInfoPlugin</Name>
             <Path>Classes/SFSDKInfoPlugin.html</Path>
             
@@ -372,7 +357,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="14" type="file" documentType="reference">
+		<Node id="12" type="file" documentType="reference">
             <Name>SFSmartStorePlugin</Name>
             <Path>Classes/SFSmartStorePlugin.html</Path>
             
@@ -399,7 +384,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="15" type="file" documentType="reference">
+		<Node id="13" type="file" documentType="reference">
             <Name>SFSmartSyncPlugin</Name>
             <Path>Classes/SFSmartSyncPlugin.html</Path>
             
@@ -426,7 +411,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="16" type="file" documentType="reference">
+		<Node id="14" type="file" documentType="reference">
             <Name>SFTestResult</Name>
             <Path>Classes/SFTestResult.html</Path>
             
@@ -459,7 +444,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="17" type="file" documentType="reference">
+		<Node id="15" type="file" documentType="reference">
             <Name>SFTestRunnerPlugin</Name>
             <Path>Classes/SFTestRunnerPlugin.html</Path>
             
@@ -492,12 +477,12 @@
             </Subnodes>
             
         </Node>
-		<Node id="18" type="file" documentType="reference">
+		<Node id="16" type="file" documentType="reference">
             <Name>SalesforceHybridSDKManager</Name>
             <Path>Classes/SalesforceHybridSDKManager.html</Path>
             
         </Node>
-		<Node id="19" type="file" documentType="reference">
+		<Node id="17" type="file" documentType="reference">
             <Name>SalesforceOAuthPlugin</Name>
             <Path>Classes/SalesforceOAuthPlugin.html</Path>
             
@@ -524,23 +509,8 @@
             </Subnodes>
             
         </Node>
-		<Node id="20" type="file" documentType="reference">
-            <Name>SmartStoreLoadTestSuite</Name>
-            <Path>Classes/SmartStoreLoadTestSuite.html</Path>
-            
-        </Node>
-		<Node id="21" type="file" documentType="reference">
-            <Name>SmartStoreTestSuite</Name>
-            <Path>Classes/SmartStoreTestSuite.html</Path>
-            
-        </Node>
-		<Node id="22" type="file" documentType="reference">
-            <Name>SmartSyncTestSuite</Name>
-            <Path>Classes/SmartSyncTestSuite.html</Path>
-            
-        </Node>
 		
-		<Node id="23" type="file" documentType="reference">
+		<Node id="18" type="file" documentType="reference">
             <Name>CDVPlugin(SFAdditions)</Name>
             <Path>Categories/CDVPlugin+SFAdditions.html</Path>
             
@@ -569,13 +539,13 @@
         </Node>
 		
         
-        <Node id="24" type="file" documentType="reference">
+        <Node id="19" type="file" documentType="reference">
             <Name>SFSDKHybridAppConfigErrorCode</Name>
             <Path>Constants/SFSDKHybridAppConfigErrorCode.html</Path>
             
         </Node>
 		
-        <Node id="25" type="file" documentType="reference">
+        <Node id="20" type="file" documentType="reference">
             <Name>SFOAuthPluginAuthSuccessBlock</Name>
             <Path>Blocks/SFOAuthPluginAuthSuccessBlock.html</Path>
             

@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSecurityLockoutAction.html">
+	<File path="Constants/SFSDKWindowType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSecurityLockoutAction</TokenIdentifier>
-			<Abstract type="html">The action that was taken as the result of calling into the security lockout functionality.
-Note: This value should denote the action actually taken, as opposed to an expected action
-going in.  Callbacks will use this value to determine what action took place.</Abstract>
-			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSDKWindowType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
             
 			
 			<NodeRef refid="205"/>
@@ -16,56 +14,51 @@ going in.  Callbacks will use this value to determine what action took place.</A
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSecurityLockoutActionNone</TokenIdentifier>
-            <Abstract type="html">     No action taken
-     </Abstract>
-            <Declaration>SFSecurityLockoutActionNone</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeMain</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKWindowTypeMain</Declaration>
             
-            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
-            
-            <NodeRef refid="205"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSecurityLockoutActionPasscodeCreated</TokenIdentifier>
-            <Abstract type="html">     Passcode creation functionality was called.
-     </Abstract>
-            <Declaration>SFSecurityLockoutActionPasscodeCreated</Declaration>
-            
-            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
             
             <NodeRef refid="205"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSecurityLockoutActionPasscodeChanged</TokenIdentifier>
-            <Abstract type="html">     Passcode change functionality was called.
-     </Abstract>
-            <Declaration>SFSecurityLockoutActionPasscodeChanged</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeAuth</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKWindowTypeAuth</Declaration>
             
-            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
-            
-            <NodeRef refid="205"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSecurityLockoutActionPasscodeVerified</TokenIdentifier>
-            <Abstract type="html">     Passcode verification functionality was called.
-     </Abstract>
-            <Declaration>SFSecurityLockoutActionPasscodeVerified</Declaration>
-            
-            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
             
             <NodeRef refid="205"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSecurityLockoutActionPasscodeRemoved</TokenIdentifier>
-            <Abstract type="html">     Passcode removal functionality was called.
-     </Abstract>
-            <Declaration>SFSecurityLockoutActionPasscodeRemoved</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypePasscode</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKWindowTypePasscode</Declaration>
             
-            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            
+            <NodeRef refid="205"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeSnapshot</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKWindowTypeSnapshot</Declaration>
+            
+            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            
+            <NodeRef refid="205"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeOther</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKWindowTypeOther</Declaration>
+            
+            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
             
             <NodeRef refid="205"/>
         </Token>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTJSContextProvider.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTJSContextProvider</TokenIdentifier>
+			<Abstract type="html">@experimental
+May be used to pre-create the JSContext to make RCTJSCExecutor creation less costly.
+Avoid using this; it&apos;s experimental and is not likely to be supported long-term.</Abstract>
+			<DeclaredIn>RCTJSCExecutor.h</DeclaredIn>
+            
+			
+			<NodeRef refid="96"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTJSContextProvider/initWithUseCustomJSCLibrary:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTJSCExecutor.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithUseCustomJSCLibrary:(BOOL)useCustomJSCLibrary</Declaration>
+			
+			
+			<Anchor>//api/name/initWithUseCustomJSCLibrary:</Anchor>
+            <NodeRef refid="96"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTJSContextProvider/setUseCustomJSCLibrary:</TokenIdentifier>
+			<Abstract type="html">Marks whether the provider uses the custom implementation of JSC and not the system one.</Abstract>
+			<DeclaredIn>RCTJSCExecutor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL useCustomJSCLibrary</Declaration>
+			
+			
+			<Anchor>//api/name/useCustomJSCLibrary</Anchor>
+            <NodeRef refid="96"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTJSContextProvider/useCustomJSCLibrary</TokenIdentifier>
+			<Abstract type="html">Marks whether the provider uses the custom implementation of JSC and not the system one.</Abstract>
+			<DeclaredIn>RCTJSCExecutor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL useCustomJSCLibrary</Declaration>
+			
+			
+			<Anchor>//api/name/useCustomJSCLibrary</Anchor>
+            <NodeRef refid="96"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTJSContextProvider/useCustomJSCLibrary</TokenIdentifier>
+			<Abstract type="html">Marks whether the provider uses the custom implementation of JSC and not the system one.</Abstract>
+			<DeclaredIn>RCTJSCExecutor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL useCustomJSCLibrary</Declaration>
+			
+			
+			<Anchor>//api/name/useCustomJSCLibrary</Anchor>
+            <NodeRef refid="96"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTJSContextProvider/createExecutorWithContext:</TokenIdentifier>
+			<Abstract type="html">@experimental
+Create an RCTJSCExecutor from an provider instance. This may only be called once.
+The underlying JSContext will be returned in the JSContext pointer if it is non-NULL.</Abstract>
+			<DeclaredIn>RCTJSCExecutor.h</DeclaredIn>
+			
+			<Declaration>- (RCTJSCExecutor *)createExecutorWithContext:(JSContext **)JSContext</Declaration>
+			
+			
+			<Anchor>//api/name/createExecutorWithContext:</Anchor>
+            <NodeRef refid="96"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTJSContextProvider/_createContext</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTJSCExecutor.mm</DeclaredIn>
+			
+			<Declaration>- (void)_createContext</Declaration>
+			
+			
+			<Anchor>//api/name/_createContext</Anchor>
+            <NodeRef refid="96"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTJSContextProvider/data</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTJSCExecutor.mm</DeclaredIn>
+			
+			<Declaration>- (RCTJSContextData)data</Declaration>
+			
+			
+			<Anchor>//api/name/data</Anchor>
+            <NodeRef refid="96"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

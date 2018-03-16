@@ -409,6 +409,18 @@
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/checkDbExists:ids:idField:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
+			
+			<Declaration>- (void)checkDbExists:(NSString *)soupName ids:(NSArray *)ids idField:(NSString *)idField</Declaration>
+			
+			
+			<Anchor>//api/name/checkDbExists:ids:idField:</Anchor>
+            <NodeRef refid="31"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/checkDb:soupName:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
@@ -429,6 +441,18 @@
 			
 			
 			<Anchor>//api/name/checkDbStateFlags:soupName:expectedLocallyCreated:expectedLocallyUpdated:expectedLocallyDeleted:</Anchor>
+            <NodeRef refid="31"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/checkDbSyncIdField:soupName:syncId:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
+			
+			<Declaration>- (void)checkDbSyncIdField:(NSArray *)ids soupName:(NSString *)soupName syncId:(NSNumber *)syncId</Declaration>
+			
+			
+			<Anchor>//api/name/checkDbSyncIdField:soupName:syncId:</Anchor>
             <NodeRef refid="31"/>
 		</Token>
 		

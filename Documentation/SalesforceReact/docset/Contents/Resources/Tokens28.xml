@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTAnimatedNode.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTAnimatedNode</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTAnimatedNode.h</DeclaredIn>
+            
+			
+			<NodeRef refid="28"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTAnimatedNode/initWithTag:config:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTAnimatedNode.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithTag:(NSNumber *)tag config:(NSDictionary&lt;NSString*,id&gt; *)config</Declaration>
+			
+			
+			<Anchor>//api/name/initWithTag:config:</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTAnimatedNode/setNodeTag:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTAnimatedNode.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSNumber *nodeTag</Declaration>
+			
+			
+			<Anchor>//api/name/nodeTag</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTAnimatedNode/nodeTag</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTAnimatedNode.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSNumber *nodeTag</Declaration>
+			
+			
+			<Anchor>//api/name/nodeTag</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTAnimatedNode/nodeTag</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTAnimatedNode.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSNumber *nodeTag</Declaration>
+			
+			
+			<Anchor>//api/name/nodeTag</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTAnimatedNode/setConfig:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTAnimatedNode.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly) NSDictionary&lt;NSString*id&gt; *config</Declaration>
+			
+			
+			<Anchor>//api/name/config</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTAnimatedNode/config</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTAnimatedNode.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly) NSDictionary&lt;NSString*id&gt; *config</Declaration>
+			
+			
+			<Anchor>//api/name/config</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTAnimatedNode/config</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTAnimatedNode.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly) NSDictionary&lt;NSString*id&gt; *config</Declaration>
+			
+			
+			<Anchor>//api/name/config</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTAnimatedNode/setChildNodes:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTAnimatedNode.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly) NSMapTable&lt;NSNumber*RCTAnimatedNode*&gt; *childNodes</Declaration>
+			
+			
+			<Anchor>//api/name/childNodes</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTAnimatedNode/childNodes</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTAnimatedNode.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly) NSMapTable&lt;NSNumber*RCTAnimatedNode*&gt; *childNodes</Declaration>
+			
+			
+			<Anchor>//api/name/childNodes</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTAnimatedNode/childNodes</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTAnimatedNode.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly) NSMapTable&lt;NSNumber*RCTAnimatedNode*&gt; *childNodes</Declaration>
+			
+			
+			<Anchor>//api/name/childNodes</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTAnimatedNode/setParentNodes:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTAnimatedNode.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly) NSMapTable&lt;NSNumber*RCTAnimatedNode*&gt; *parentNodes</Declaration>
+			
+			
+			<Anchor>//api/name/parentNodes</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTAnimatedNode/parentNodes</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTAnimatedNode.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly) NSMapTable&lt;NSNumber*RCTAnimatedNode*&gt; *parentNodes</Declaration>
+			
+			
+			<Anchor>//api/name/parentNodes</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTAnimatedNode/parentNodes</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTAnimatedNode.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly) NSMapTable&lt;NSNumber*RCTAnimatedNode*&gt; *parentNodes</Declaration>
+			
+			
+			<Anchor>//api/name/parentNodes</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTAnimatedNode/setNeedsUpdate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTAnimatedNode.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL needsUpdate</Declaration>
+			
+			
+			<Anchor>//api/name/needsUpdate</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTAnimatedNode/needsUpdate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTAnimatedNode.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL needsUpdate</Declaration>
+			
+			
+			<Anchor>//api/name/needsUpdate</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTAnimatedNode/needsUpdate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTAnimatedNode.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL needsUpdate</Declaration>
+			
+			
+			<Anchor>//api/name/needsUpdate</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTAnimatedNode/setNeedsUpdate</TokenIdentifier>
+			<Abstract type="html">Marks a node and its children as needing update.</Abstract>
+			<DeclaredIn>RCTAnimatedNode.h</DeclaredIn>
+			
+			<Declaration>- (void)setNeedsUpdate</Declaration>
+			
+			
+			<Anchor>//api/name/setNeedsUpdate</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTAnimatedNode/updateNodeIfNecessary</TokenIdentifier>
+			<Abstract type="html">The node will update its value if necesarry and only after its parents have updated.</Abstract>
+			<DeclaredIn>RCTAnimatedNode.h</DeclaredIn>
+			
+			<Declaration>- (void)updateNodeIfNecessary</Declaration>
+			
+			
+			<Anchor>//api/name/updateNodeIfNecessary</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTAnimatedNode/performUpdate</TokenIdentifier>
+			<Abstract type="html">Where the actual update code lives. Called internally from updateNodeIfNecessary</Abstract>
+			<DeclaredIn>RCTAnimatedNode.h</DeclaredIn>
+			
+			<Declaration>- (void)performUpdate</Declaration>
+			
+			
+			<Anchor>//api/name/performUpdate</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTAnimatedNode/addChild:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTAnimatedNode.h</DeclaredIn>
+			
+			<Declaration>- (void)addChild:(RCTAnimatedNode *)child</Declaration>
+			
+			
+			<Anchor>//api/name/addChild:</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTAnimatedNode/removeChild:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTAnimatedNode.h</DeclaredIn>
+			
+			<Declaration>- (void)removeChild:(RCTAnimatedNode *)child</Declaration>
+			
+			
+			<Anchor>//api/name/removeChild:</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTAnimatedNode/onAttachedToNode:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTAnimatedNode.h</DeclaredIn>
+			
+			<Declaration>- (void)onAttachedToNode:(RCTAnimatedNode *)parent</Declaration>
+			
+			
+			<Anchor>//api/name/onAttachedToNode:</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTAnimatedNode/onDetachedFromNode:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTAnimatedNode.h</DeclaredIn>
+			
+			<Declaration>- (void)onDetachedFromNode:(RCTAnimatedNode *)parent</Declaration>
+			
+			
+			<Anchor>//api/name/onDetachedFromNode:</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTAnimatedNode/detachNode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTAnimatedNode.h</DeclaredIn>
+			
+			<Declaration>- (void)detachNode</Declaration>
+			
+			
+			<Anchor>//api/name/detachNode</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

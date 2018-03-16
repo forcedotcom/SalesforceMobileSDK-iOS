@@ -1,85 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SalesforceOAuthPlugin.html">
+	<File path="Constants/SFSDKHybridAppConfigErrorCode.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SalesforceOAuthPlugin</TokenIdentifier>
-			<Abstract type="html">Cordova plugin for managing authentication with the Salesforce service, via OAuth.</Abstract>
-			<DeclaredIn>SalesforceOAuthPlugin.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSDKHybridAppConfigErrorCode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFHybridViewConfig.h</DeclaredIn>
             
 			
 			<NodeRef refid="19"/>
 		</Token>
 		
 		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthPlugin/getAuthCredentials:</TokenIdentifier>
-			<Abstract type="html">Cordova plug-in method to obtain the current login credentials.</Abstract>
-			<DeclaredIn>SalesforceOAuthPlugin.h</DeclaredIn>
-			
-			<Declaration>- (void)getAuthCredentials:(CDVInvokedUrlCommand *)command</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>command</Name>
-					<Abstract type="html">Cordova plugin command object, containing input parameters.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/getAuthCredentials:</Anchor>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKHybridAppConfigErrorCodeNoStartPage</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKHybridAppConfigErrorCodeNoStartPage</Declaration>
+            
+            <DeclaredIn>SFHybridViewConfig.h</DeclaredIn>
+            
             <NodeRef refid="19"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthPlugin/authenticate:</TokenIdentifier>
-			<Abstract type="html">Cordova plug-in method to authenticate a user to the application.</Abstract>
-			<DeclaredIn>SalesforceOAuthPlugin.h</DeclaredIn>
-			
-			<Declaration>- (void)authenticate:(CDVInvokedUrlCommand *)command</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>command</Name>
-					<Abstract type="html">Cordova plugin command object, containing the OAuth configuration properties.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/authenticate:</Anchor>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKHybridAppConfigErrorCodeStartPageAbsoluteURL</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKHybridAppConfigErrorCodeStartPageAbsoluteURL</Declaration>
+            
+            <DeclaredIn>SFHybridViewConfig.h</DeclaredIn>
+            
             <NodeRef refid="19"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthPlugin/logoutCurrentUser:</TokenIdentifier>
-			<Abstract type="html">Clear the current user&apos;s authentication credentials.</Abstract>
-			<DeclaredIn>SalesforceOAuthPlugin.h</DeclaredIn>
-			
-			<Declaration>- (void)logoutCurrentUser:(CDVInvokedUrlCommand *)command</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>command</Name>
-					<Abstract type="html">Standard Cordova plugin arguments, not used in this method.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/logoutCurrentUser:</Anchor>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKHybridAppConfigErrorCodeUnauthenticatedStartPageNotAbsoluteURL</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKHybridAppConfigErrorCodeUnauthenticatedStartPageNotAbsoluteURL</Declaration>
+            
+            <DeclaredIn>SFHybridViewConfig.h</DeclaredIn>
+            
             <NodeRef refid="19"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthPlugin/getAppHomeUrl:</TokenIdentifier>
-			<Abstract type="html">Get the app&apos;s homepage URL, which can be used for loading the app in scenarios where it&apos;s offline.</Abstract>
-			<DeclaredIn>SalesforceOAuthPlugin.h</DeclaredIn>
-			
-			<Declaration>- (void)getAppHomeUrl:(CDVInvokedUrlCommand *)command</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>command</Name>
-					<Abstract type="html">Standard Cordova plugin arguments, nominally used in this method.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/getAppHomeUrl:</Anchor>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKHybridAppConfigErrorCodeNoUnauthenticatedStartPage</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKHybridAppConfigErrorCodeNoUnauthenticatedStartPage</Declaration>
+            
+            <DeclaredIn>SFHybridViewConfig.h</DeclaredIn>
+            
             <NodeRef refid="19"/>
-		</Token>
-		
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKHybridAppConfigErrorCodeAbsoluteURLNoAuth</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKHybridAppConfigErrorCodeAbsoluteURLNoAuth</Declaration>
+            
+            <DeclaredIn>SFHybridViewConfig.h</DeclaredIn>
+            
+            <NodeRef refid="19"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKHybridAppConfigErrorCodeRelativeURLAuth</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKHybridAppConfigErrorCodeRelativeURLAuth</Declaration>
+            
+            <DeclaredIn>SFHybridViewConfig.h</DeclaredIn>
+            
+            <NodeRef refid="19"/>
+        </Token>
         
         
 	</File>

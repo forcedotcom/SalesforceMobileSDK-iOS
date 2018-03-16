@@ -53,7 +53,7 @@
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) SFSDKWindowContainer *window</Declaration>
+			<Declaration>@property (nonatomic, readonly, weak) SFSDKWindowContainer *window</Declaration>
 			
 			
 			<Anchor>//api/name/window</Anchor>
@@ -65,7 +65,7 @@
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) SFSDKWindowContainer *window</Declaration>
+			<Declaration>@property (nonatomic, readonly, weak) SFSDKWindowContainer *window</Declaration>
 			
 			
 			<Anchor>//api/name/window</Anchor>
@@ -77,7 +77,7 @@
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) SFSDKWindowContainer *window</Declaration>
+			<Declaration>@property (nonatomic, readonly, weak) SFSDKWindowContainer *window</Declaration>
 			
 			
 			<Anchor>//api/name/window</Anchor>

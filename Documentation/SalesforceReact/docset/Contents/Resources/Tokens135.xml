@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTPackagerConnection.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTPackagerConnection</TokenIdentifier>
+			<Abstract type="html">Encapsulates singleton connection to React Native packager.</Abstract>
+			<DeclaredIn>RCTPackagerConnection.h</DeclaredIn>
+            
+			
+			<NodeRef refid="135"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTPackagerConnection/sharedPackagerConnection</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTPackagerConnection.h</DeclaredIn>
+			
+			<Declaration>+ (instancetype)sharedPackagerConnection</Declaration>
+			
+			
+			<Anchor>//api/name/sharedPackagerConnection</Anchor>
+            <NodeRef refid="135"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTPackagerConnection/addNotificationHandler:queue:forMethod:</TokenIdentifier>
+			<Abstract type="html">Registers a handler for a notification broadcast from the packager. An
+example is &quot;reload&quot; - an instruction to reload from the packager.
+If multiple notification handlers are registered for the same method, they
+will all be invoked sequentially.</Abstract>
+			<DeclaredIn>RCTPackagerConnection.h</DeclaredIn>
+			
+			<Declaration>- (RCTHandlerToken)addNotificationHandler:(RCTNotificationHandler)handler queue:(dispatch_queue_t)queue forMethod:(NSString *)method</Declaration>
+			
+			
+			<Anchor>//api/name/addNotificationHandler:queue:forMethod:</Anchor>
+            <NodeRef refid="135"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTPackagerConnection/addRequestHandler:queue:forMethod:</TokenIdentifier>
+			<Abstract type="html">Registers a handler for a request from the packager. An example is
+pokeSamplingProfiler; it asks for profile data from the client.
+Only one handler can be registered for a given method; calling this
+displaces any previous request handler registered for that method.</Abstract>
+			<DeclaredIn>RCTPackagerConnection.h</DeclaredIn>
+			
+			<Declaration>- (RCTHandlerToken)addRequestHandler:(RCTRequestHandler)handler queue:(dispatch_queue_t)queue forMethod:(NSString *)method</Declaration>
+			
+			
+			<Anchor>//api/name/addRequestHandler:queue:forMethod:</Anchor>
+            <NodeRef refid="135"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTPackagerConnection/addConnectedHandler:queue:</TokenIdentifier>
+			<Abstract type="html">Registers a handler that runs at most once, when the connection to the
+packager has been established. The handler will be dispatched immediately
+if the connection is already established.</Abstract>
+			<DeclaredIn>RCTPackagerConnection.h</DeclaredIn>
+			
+			<Declaration>- (RCTHandlerToken)addConnectedHandler:(RCTConnectedHandler)handler queue:(dispatch_queue_t)queue</Declaration>
+			
+			
+			<Anchor>//api/name/addConnectedHandler:queue:</Anchor>
+            <NodeRef refid="135"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTPackagerConnection/removeHandler:</TokenIdentifier>
+			<Abstract type="html">Removes a handler. Silently does nothing if the token is not valid.</Abstract>
+			<DeclaredIn>RCTPackagerConnection.h</DeclaredIn>
+			
+			<Declaration>- (void)removeHandler:(RCTHandlerToken)token</Declaration>
+			
+			
+			<Anchor>//api/name/removeHandler:</Anchor>
+            <NodeRef refid="135"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTPackagerConnection/stop</TokenIdentifier>
+			<Abstract type="html">Disconnects and removes all handlers.</Abstract>
+			<DeclaredIn>RCTPackagerConnection.h</DeclaredIn>
+			
+			<Declaration>- (void)stop</Declaration>
+			
+			
+			<Anchor>//api/name/stop</Anchor>
+            <NodeRef refid="135"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTPackagerConnection/addHandler:forMethod:</TokenIdentifier>
+			<Abstract type="html">Historically no distinction was made between notification and request
+handlers. If you use this method, it will be registered as both a
+notification handler and a request handler. You should migrate to the
+new block-based API instead.</Abstract>
+			<DeclaredIn>RCTPackagerConnection.h</DeclaredIn>
+			
+			<Declaration>- (void)addHandler:(id&lt;RCTPackagerClientMethod&gt;)handler forMethod:(NSString *)method</Declaration>
+			
+			
+			<Anchor>//api/name/addHandler:forMethod:</Anchor>
+            <NodeRef refid="135"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTPackagerConnection/init</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTPackagerConnection.mm</DeclaredIn>
+			
+			<Declaration>- (instancetype)init</Declaration>
+			
+			
+			<Anchor>//api/name/init</Anchor>
+            <NodeRef refid="135"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTPackagerConnection/bundleURLSettingsChanged</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTPackagerConnection.mm</DeclaredIn>
+			
+			<Declaration>- (void)bundleURLSettingsChanged</Declaration>
+			
+			
+			<Anchor>//api/name/bundleURLSettingsChanged</Anchor>
+            <NodeRef refid="135"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTPackagerConnection/reconnectingWebSocketDidOpen:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTPackagerConnection.mm</DeclaredIn>
+			
+			<Declaration>- (void)reconnectingWebSocketDidOpen:(RCTReconnectingWebSocket *)webSocket</Declaration>
+			
+			
+			<Anchor>//api/name/reconnectingWebSocketDidOpen:</Anchor>
+            <NodeRef refid="135"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTPackagerConnection/reconnectingWebSocket:didReceiveMessage:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTPackagerConnection.mm</DeclaredIn>
+			
+			<Declaration>- (void)reconnectingWebSocket:(RCTReconnectingWebSocket *)webSocket didReceiveMessage:(id)message</Declaration>
+			
+			
+			<Anchor>//api/name/reconnectingWebSocket:didReceiveMessage:</Anchor>
+            <NodeRef refid="135"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTPackagerConnection/reconnectingWebSocketDidClose:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTPackagerConnection.mm</DeclaredIn>
+			
+			<Declaration>- (void)reconnectingWebSocketDidClose:(RCTReconnectingWebSocket *)webSocket</Declaration>
+			
+			
+			<Anchor>//api/name/reconnectingWebSocketDidClose:</Anchor>
+            <NodeRef refid="135"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

@@ -1,28 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSwiftDetectUtil.html">
+	<File path="Classes/SFSecurityLockoutTests.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSwiftDetectUtil</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSecurityLockoutTests</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSwiftDetectUtil.h</DeclaredIn>
+			<DeclaredIn>SFSecurityLockoutTests.h</DeclaredIn>
             
 			
 			<NodeRef refid="121"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSwiftDetectUtil/isSwiftApp</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSwiftDetectUtil.h</DeclaredIn>
-			
-			<Declaration>+ (BOOL)isSwiftApp</Declaration>
-			
-			
-			<Anchor>//api/name/isSwiftApp</Anchor>
-            <NodeRef refid="121"/>
-		</Token>
 		
         
         

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTNetworking.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTNetworking</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTNetworking.h</DeclaredIn>
+            
+			
+			<NodeRef refid="133"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNetworking/canHandleRequest:</TokenIdentifier>
+			<Abstract type="html">Does a handler exist for the specified request?</Abstract>
+			<DeclaredIn>RCTNetworking.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)canHandleRequest:(NSURLRequest *)request</Declaration>
+			
+			
+			<Anchor>//api/name/canHandleRequest:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNetworking/networkTaskWithRequest:completionBlock:</TokenIdentifier>
+			<Abstract type="html">Return an RCTNetworkTask for the specified request. This is useful for
+invoking the React Native networking stack from within native code.</Abstract>
+			<DeclaredIn>RCTNetworking.h</DeclaredIn>
+			
+			<Declaration>- (RCTNetworkTask *)networkTaskWithRequest:(NSURLRequest *)request completionBlock:(RCTURLRequestCompletionBlock)completionBlock</Declaration>
+			
+			
+			<Anchor>//api/name/networkTaskWithRequest:completionBlock:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNetworking/supportedEvents</TokenIdentifier>
+			<Abstract type="html">Override this method to return an array of supported event names. Attempting
+to observe or send an event that isn&apos;t included in this list will result in
+an error.</Abstract>
+			<DeclaredIn>RCTNetworking.mm</DeclaredIn>
+			
+			<Declaration>- (NSArray&lt;NSString*&gt; *)supportedEvents</Declaration>
+			
+			
+			<Anchor>//api/name/supportedEvents</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNetworking/handlerForRequest:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworking.mm</DeclaredIn>
+			
+			<Declaration>- (id&lt;RCTURLRequestHandler&gt;)handlerForRequest:(NSURLRequest *)request</Declaration>
+			
+			
+			<Anchor>//api/name/handlerForRequest:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNetworking/stripNullsInRequestHeaders:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworking.mm</DeclaredIn>
+			
+			<Declaration>- (NSDictionary&lt;NSString*,id&gt; *)stripNullsInRequestHeaders:(NSDictionary&lt;NSString*,id&gt; *)headers</Declaration>
+			
+			
+			<Anchor>//api/name/stripNullsInRequestHeaders:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNetworking/buildRequest:completionBlock:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworking.mm</DeclaredIn>
+			
+			<Declaration>- (RCTURLRequestCancellationBlock)buildRequest:(NSDictionary&lt;NSString*,id&gt; *)query completionBlock:(void ( ^ ) ( NSURLRequest *request ))block</Declaration>
+			
+			
+			<Anchor>//api/name/buildRequest:completionBlock:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNetworking/processDataForHTTPQuery:callback:</TokenIdentifier>
+			<Abstract type="html">Process the &apos;data&apos; part of an HTTP query.</Abstract>
+			<DeclaredIn>RCTNetworking.mm</DeclaredIn>
+			
+			<Declaration>- (RCTURLRequestCancellationBlock)processDataForHTTPQuery:(nullable NSDictionary&lt;NSString*,id&gt; *)query callback:(RCTURLRequestCancellationBlock ( ^ ) ( NSError *error , NSDictionary&lt;NSString*,id&gt; *result ))callback</Declaration>
+			
+			
+			<Anchor>//api/name/processDataForHTTPQuery:callback:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTNetworking/decodeTextData:fromResponse:withCarryData:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworking.mm</DeclaredIn>
+			
+			<Declaration>+ (NSString *)decodeTextData:(NSData *)data fromResponse:(NSURLResponse *)response withCarryData:(NSMutableData *)inputCarryData</Declaration>
+			
+			
+			<Anchor>//api/name/decodeTextData:fromResponse:withCarryData:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNetworking/sendData:responseType:forTask:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworking.mm</DeclaredIn>
+			
+			<Declaration>- (void)sendData:(NSData *)data responseType:(NSString *)responseType forTask:(RCTNetworkTask *)task</Declaration>
+			
+			
+			<Anchor>//api/name/sendData:responseType:forTask:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNetworking/sendRequest:responseType:incrementalUpdates:responseSender:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworking.mm</DeclaredIn>
+			
+			<Declaration>- (void)sendRequest:(NSURLRequest *)request responseType:(NSString *)responseType incrementalUpdates:(BOOL)incrementalUpdates responseSender:(RCTResponseSenderBlock)responseSender</Declaration>
+			
+			
+			<Anchor>//api/name/sendRequest:responseType:incrementalUpdates:responseSender:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

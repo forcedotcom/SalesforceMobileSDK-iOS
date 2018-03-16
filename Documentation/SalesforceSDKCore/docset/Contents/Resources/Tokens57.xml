@@ -139,31 +139,34 @@ Call this method after authenticating with Salesforce and registering with APNS.
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/unregisterSalesforceNotifications</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/SFSDK_DEPRECATED</TokenIdentifier>
 			<Abstract type="html">Unregister from notifications with Salesforce for all users. This method is called at logout.</Abstract>
 			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)unregisterSalesforceNotifications</Declaration>
+			<Declaration>- (BOOL)SFSDK_DEPRECATED</Declaration>
 			
 			<ReturnValue><Abstract type="html">YES for successful unregistration call being made.</Abstract></ReturnValue>
-			<Anchor>//api/name/unregisterSalesforceNotifications</Anchor>
+			<Anchor>//api/name/SFSDK_DEPRECATED</Anchor>
             <NodeRef refid="57"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/unregisterSalesforceNotifications:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/unregisterSalesforceNotificationsWithCompletionBlock:completionBlock:</TokenIdentifier>
 			<Abstract type="html">Unregister from notifications with Salesforce for a specific user. This method is called at logout.</Abstract>
 			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)unregisterSalesforceNotifications:(SFUserAccount *)user</Declaration>
+			<Declaration>- (BOOL)unregisterSalesforceNotificationsWithCompletionBlock:(SFUserAccount *)user completionBlock:(nullable void ( ^ ) ( void ))completionBlock</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>user</Name>
 					<Abstract type="html">User account.</Abstract>
+				</Parameter><Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">Completion block.</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">YES for successful unregistration call being made.</Abstract></ReturnValue>
-			<Anchor>//api/name/unregisterSalesforceNotifications:</Anchor>
+			<Anchor>//api/name/unregisterSalesforceNotificationsWithCompletionBlock:completionBlock:</Anchor>
             <NodeRef refid="57"/>
 		</Token>
 		

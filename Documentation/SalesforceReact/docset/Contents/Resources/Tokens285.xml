@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Protocols/RCTWebViewDelegate.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intf/RCTWebViewDelegate</TokenIdentifier>
+			<Abstract type="html">Special scheme used to pass messages to the injectedJavaScript
+code without triggering a page load. Usage:</Abstract>
+			<DeclaredIn>RCTWebView.h</DeclaredIn>
+            
+			
+			<NodeRef refid="285"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTWebViewDelegate/webView:shouldStartLoadForRequest:withCallback:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWebView.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)webView:(RCTWebView *)webView shouldStartLoadForRequest:(NSMutableDictionary&lt;NSString*,id&gt; *)request withCallback:(RCTDirectEventBlock)callback</Declaration>
+			
+			
+			<Anchor>//api/name/webView:shouldStartLoadForRequest:withCallback:</Anchor>
+            <NodeRef refid="285"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

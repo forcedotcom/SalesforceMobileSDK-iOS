@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>RCTImageStoreManager Class Reference</title>
+
+	<link rel="stylesheet" href="../css/style.css">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
+	<meta name="generator" content="appledoc 2.2.1 (build 1334)">
+</head>
+<body class="appledoc">
+	<header>
+		<div class="container" class="hide-in-xcode">
+			
+			<h1 id="library-title">
+				<a href="../index.html">SalesforceReact </a>
+			</h1>
+
+			<p id="developer-home">
+				<a href="../index.html">Salesforce.com</a>
+			</p>
+			
+		</div>
+	</header>
+
+	<aside>
+		<div class="container">
+			<nav>
+				<ul id="header-buttons" role="toolbar">
+					<li><a href="../index.html">Index</a></li>
+<li><a href="../hierarchy.html">Hierarchy</a></li>
+
+					<li id="on-this-page" role="navigation">
+						<label>
+							On This Page
+
+							<div class="chevron">
+								<div class="chevy chevron-left"></div>
+								<div class="chevy chevron-right"></div>
+							</div>
+
+							<select id="jump-to">
+	<option value="top">Jump To&#133;</option>
+	
+
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+
+	
+	
+
+	
+
+	
+	<optgroup label="Instance Methods">
+		
+		<option value="//api/name/getImageDataForTag:withBlock:">- getImageDataForTag:withBlock:</option>
+		
+		<option value="//api/name/getImageForTag:withBlock:">- getImageForTag:withBlock:</option>
+		
+		<option value="//api/name/imageForTag:">- imageForTag:</option>
+		
+		<option value="//api/name/removeImageForTag:withBlock:">- removeImageForTag:withBlock:</option>
+		
+		<option value="//api/name/storeImage:">- storeImage:</option>
+		
+		<option value="//api/name/storeImage:withBlock:">- storeImage:withBlock:</option>
+		
+		<option value="//api/name/storeImageData:withBlock:">- storeImageData:withBlock:</option>
+		
+	</optgroup>
+	
+	
+</select>
+						</label>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</aside>
+
+	<article>
+		<div id="overview_contents" class="container">
+			<div id="content">
+				<main role="main">
+					<h1 class="title">RCTImageStoreManager Class Reference</h1>
+
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<th>Inherits from</th>
+	<td>NSObject</td>
+</tr><tr>
+	<th>Conforms to</th>
+	<td><a href="../Protocols/RCTURLRequestHandler.html">RCTURLRequestHandler</a></td>
+</tr><tr>
+	<th>Declared in</th>
+	<td>RCTImageStoreManager.h</td>
+</tr>
+						</tbody></table></div>
+					
+
+                    
+
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						
+
+						
+						<h2 class="task-title">Other Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/removeImageForTag:withBlock:" title="removeImageForTag:withBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/removeImageForTag:withBlock:">&ndash;&nbsp;removeImageForTag:withBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Set and get cached image data asynchronously. It is safe to call these from any
+thread. The callbacks will be called on an unspecified thread.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)removeImageForTag:(NSString *)<em>imageTag</em> withBlock:(void ( ^ ) ( void ))<em>block</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTImageStoreManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/storeImageData:withBlock:" title="storeImageData:withBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/storeImageData:withBlock:">&ndash;&nbsp;storeImageData:withBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)storeImageData:(NSData *)<em>imageData</em> withBlock:(void ( ^ ) ( NSString *imageTag ))<em>block</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/getImageDataForTag:withBlock:" title="getImageDataForTag:withBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/getImageDataForTag:withBlock:">&ndash;&nbsp;getImageDataForTag:withBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)getImageDataForTag:(NSString *)<em>imageTag</em> withBlock:(void ( ^ ) ( NSData *imageData ))<em>block</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/storeImage:withBlock:" title="storeImage:withBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/storeImage:withBlock:">&ndash;&nbsp;storeImage:withBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Convenience method to store an image directly (image is converted to data
+internally, so any metadata such as scale or orientation will be lost).</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)storeImage:(UIImage *)<em>image</em> withBlock:(void ( ^ ) ( NSString *imageTag ))<em>block</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTImageStoreManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="Deprecated Methods" name="task_Deprecated Methods"></a>
+						<h2 class="task-title">Deprecated Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/storeImage:" title="storeImage:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/storeImage:">&ndash;&nbsp;storeImage:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>These methods are deprecated - use the data-based alternatives instead.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (NSString *)storeImage:(UIImage *)<em>image</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTImageStoreManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/imageForTag:" title="imageForTag:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/imageForTag:">&ndash;&nbsp;imageForTag:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (UIImage *)imageForTag:(NSString *)<em>imageTag</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/getImageForTag:withBlock:" title="getImageForTag:withBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/getImageForTag:withBlock:">&ndash;&nbsp;getImageForTag:withBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)getImageForTag:(NSString *)<em>imageTag</em> withBlock:(void ( ^ ) ( UIImage *image ))<em>block</em></code></div>
+
+		    
+		</div>
+	</div>
+</div>
+						</div>
+						
+					</div>
+					
+					
+
+                    
+                    
+          
+				</main>
+
+				<footer>
+					<div class="footer-copyright">
+						
+						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-03-16</p>
+						
+						
+						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>
+						
+					</div>
+				</footer>
+			</div>
+		</div>
+	</article>
+
+	<script src="../js/script.js"></script>
+</body>
+</html>

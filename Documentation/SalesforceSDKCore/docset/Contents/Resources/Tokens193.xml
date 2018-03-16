@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFOAuthClientKeyType.html">
+	<File path="Constants/SFOAuthAdvancedAuthState.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthClientKeyType</TokenIdentifier>
-			<Abstract type="html">Enumeration of types of different types of client maintained in cache.</Abstract>
-			<DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthAdvancedAuthState</TokenIdentifier>
+			<Abstract type="html">Enumeration of different advanced authentication stages.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
             
 			
 			<NodeRef refid="193"/>
@@ -14,34 +14,35 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthClientKeyTypeBasic</TokenIdentifier>
-            <Abstract type="html">     The default server target, which uses standard REST requests to post updates.
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthStateNotStarted</TokenIdentifier>
+            <Abstract type="html">     No advanced authentication is currently under way.
      </Abstract>
-            <Declaration>SFOAuthClientKeyTypeBasic</Declaration>
+            <Declaration>SFOAuthAdvancedAuthStateNotStarted</Declaration>
             
-            <DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
+            <DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
             
             <NodeRef refid="193"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthClientKeyTypeAdvanced</TokenIdentifier>
-            <Abstract type="html">     Server target is a custom target, that manages its own server update logic.
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthStateBrowserRequestInitiated</TokenIdentifier>
+            <Abstract type="html">     The advanced authentication flow has initiated a request through Safari view controller.
      </Abstract>
-            <Declaration>SFOAuthClientKeyTypeAdvanced</Declaration>
+            <Declaration>SFOAuthAdvancedAuthStateBrowserRequestInitiated</Declaration>
             
-            <DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
+            <DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
             
             <NodeRef refid="193"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthClientKeyTypeIDP</TokenIdentifier>
-            <Abstract type="html">     Server target is a custom target, that manages its own server update logic.
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthStateTokenRequestInitiated</TokenIdentifier>
+            <Abstract type="html">     The advanced authentication flow has received a response from Safari view controller, and has
+     initiated a token exchange request.
      </Abstract>
-            <Declaration>SFOAuthClientKeyTypeIDP</Declaration>
+            <Declaration>SFOAuthAdvancedAuthStateTokenRequestInitiated</Declaration>
             
-            <DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
+            <DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
             
             <NodeRef refid="193"/>
         </Token>

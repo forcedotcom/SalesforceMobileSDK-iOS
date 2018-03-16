@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKSoslBuilder.html">
+	<File path="Classes/SFSDKSoqlBuilder.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKSoslBuilder</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKSoqlBuilder</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
             
 			
 			<NodeRef refid="104"/>
@@ -13,100 +13,151 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSoslBuilder/withSearchTerm:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOSL statement.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSoqlBuilder/withFields:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
 			
-			<Declaration>+ (SFSDKSoslBuilder *)withSearchTerm:(NSString *)searchTerm</Declaration>
+			<Declaration>+ (SFSDKSoqlBuilder *)withFields:(NSString *)fields</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>searchTerm</Name>
-					<Abstract type="html">text or word phrases to search for</Abstract>
+					<Name>fields</Name>
+					<Abstract type="html">a list of one or more fields, separated by commas, that are to be retrieved from the specified object</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/withSearchTerm:</Anchor>
+			<Anchor>//api/name/withFields:</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/searchGroup:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOSL statement.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSoqlBuilder/withFieldsArray:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoslBuilder *)searchGroup:(NSString *)searchGroup</Declaration>
+			<Declaration>+ (SFSDKSoqlBuilder *)withFieldsArray:(NSArray *)fields</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>searchGroup</Name>
-					<Abstract type="html">scope of fields to search. Values may be: ALL FIELDS, NAME FIELDS, EMAIL FIELDS, PHONE FIELDS, SIDEBAR FIELDS</Abstract>
+					<Name>fields</Name>
+					<Abstract type="html">an array of one or more fields, that are to be retrieved from the specified object</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/searchGroup:</Anchor>
+			<Anchor>//api/name/withFieldsArray:</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/returning:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOSL statement.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/from:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoslBuilder *)returning:(SFSDKSoslReturningBuilder *)returningSpec</Declaration>
+			<Declaration>- (SFSDKSoqlBuilder *)from:(NSString *)from</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>returningSpec</Name>
-					<Abstract type="html">information to return in the search result. List of one or more objects and, within each object, list of one or more fields, with optional values to filter against. If unspecified, then the search results contain the IDs of all objects found</Abstract>
+					<Name>from</Name>
+					<Abstract type="html">the object to be queried</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/returning:</Anchor>
+			<Anchor>//api/name/from:</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/divisionFilter:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOSL statement.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/whereClause:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoslBuilder *)divisionFilter:(NSString *)divisionFilter</Declaration>
+			<Declaration>- (SFSDKSoqlBuilder *)whereClause:(NSString *)whereClause</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>divisionFilter</Name>
-					<Abstract type="html">if an organization uses divisions, filters all search results based on values for the Division field</Abstract>
+					<Name>whereClause</Name>
+					<Abstract type="html">a conditional statement</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/divisionFilter:</Anchor>
+			<Anchor>//api/name/whereClause:</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/dataCategory:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOSL statement.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/with:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoslBuilder *)dataCategory:(NSString *)dataCategory</Declaration>
+			<Declaration>- (SFSDKSoqlBuilder *)with:(NSString *)with</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>dataCategory</Name>
-					<Abstract type="html">if an organization uses Salesforce Knowledge articles or answers, filters all search results based on one or more data categories</Abstract>
+					<Name>with</Name>
+					<Abstract type="html">used to filter records based on field values.</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/dataCategory:</Anchor>
+			<Anchor>//api/name/with:</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/limit:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOSL statement.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/groupBy:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoslBuilder *)limit:(NSInteger)limit</Declaration>
+			<Declaration>- (SFSDKSoqlBuilder *)groupBy:(NSString *)groupBy</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>groupBy</Name>
+					<Abstract type="html">a list of one or more fields, separated by commas, the resutls are to be grouped by</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/groupBy:</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/having:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			
+			<Declaration>- (SFSDKSoqlBuilder *)having:(NSString *)having</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>having</Name>
+					<Abstract type="html">specifies one or more conditional expressions using aggregate functions to filter the query results</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/having:</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/orderBy:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			
+			<Declaration>- (SFSDKSoqlBuilder *)orderBy:(NSString *)orderBy</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>orderBy</Name>
+					<Abstract type="html">controls the order of the query results</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/orderBy:</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/limit:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			
+			<Declaration>- (SFSDKSoqlBuilder *)limit:(NSInteger)limit</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>limit</Name>
-					<Abstract type="html">the maximum number of rows returned in the text query, up to 200. If unspecified, the default is 200, the largest number of rows that can be returned</Abstract>
+					<Abstract type="html">specifies the maximum number of rows to return</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
@@ -115,9 +166,26 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/encodeAndBuild</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/offset:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			
+			<Declaration>- (SFSDKSoqlBuilder *)offset:(NSInteger)offset</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>offset</Name>
+					<Abstract type="html">specifies the starting row offset into the result set returned by the query</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/offset:</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/encodeAndBuild</TokenIdentifier>
 			<Abstract type="html">Builds an encoded query from the builder.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
 			
 			<Declaration>- (NSString *)encodeAndBuild</Declaration>
 			
@@ -127,9 +195,9 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/encodeAndBuildWithPath:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/encodeAndBuildWithPath:</TokenIdentifier>
 			<Abstract type="html">Builds an enoded query from the builder.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
 			
 			<Declaration>- (NSString *)encodeAndBuildWithPath:(NSString *)path</Declaration>
 			<Parameters>
@@ -144,9 +212,9 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/buildWithPath:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/buildWithPath:</TokenIdentifier>
 			<Abstract type="html">Builds a raw (unencoded) query from the builder.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
 			
 			<Declaration>- (NSString *)buildWithPath:(NSString *)path</Declaration>
 			<Parameters>
@@ -161,9 +229,9 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/build</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/build</TokenIdentifier>
 			<Abstract type="html">Builds a raw (unencoded) query from the builder.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
 			
 			<Declaration>- (nullable NSString *)build</Declaration>
 			

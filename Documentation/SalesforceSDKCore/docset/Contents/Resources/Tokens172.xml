@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKOAuthClientWebViewDelegate.html">
+	<File path="Protocols/SFSDKOAuthClientSafariViewDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKOAuthClientWebViewDelegate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKOAuthClientSafariViewDelegate</TokenIdentifier>
 			<Abstract type="html">Delegate that will be used to notify of all the OAuth Client WebView Events.</Abstract>
 			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
             
@@ -13,11 +13,23 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientWebViewDelegate/authClientWillBeginAuthWithView:</TokenIdentifier>
-			<Abstract type="html">Called when the Oauth Client is starting the auth process with an auth view.</Abstract>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientSafariViewDelegate/authClient:willBeginBrowserAuthentication:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
 			
-			<Declaration>- (void)authClientWillBeginAuthWithView:(SFSDKOAuthClient *_Nonnull)client</Declaration>
+			<Declaration>- (void)authClient:(SFSDKOAuthClient *)client willBeginBrowserAuthentication:(SFOAuthBrowserFlowCallbackBlock)callbackBlock</Declaration>
+			
+			
+			<Anchor>//api/name/authClient:willBeginBrowserAuthentication:</Anchor>
+            <NodeRef refid="172"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientSafariViewDelegate/authClientDidProceedWithBrowserFlow:</TokenIdentifier>
+			<Abstract type="html">Called when a browser flow authentication is proceeded.</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>- (void)authClientDidProceedWithBrowserFlow:(SFSDKOAuthClient *)client</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>client</Name>
@@ -25,16 +37,16 @@
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/authClientWillBeginAuthWithView:</Anchor>
+			<Anchor>//api/name/authClientDidProceedWithBrowserFlow:</Anchor>
             <NodeRef refid="172"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientWebViewDelegate/authClientDidStartAuthWebViewLoad:</TokenIdentifier>
-			<Abstract type="html">Called when the auth view starts its load.</Abstract>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientSafariViewDelegate/authClientDidCancelBrowserFlow:</TokenIdentifier>
+			<Abstract type="html">Called when a browser flow authentication is cancelled.</Abstract>
 			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
 			
-			<Declaration>- (void)authClientDidStartAuthWebViewLoad:(SFSDKOAuthClient *_Nonnull)client</Declaration>
+			<Declaration>- (BOOL)authClientDidCancelBrowserFlow:(SFSDKOAuthClient *)client</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>client</Name>
@@ -42,44 +54,27 @@
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/authClientDidStartAuthWebViewLoad:</Anchor>
+			<Anchor>//api/name/authClientDidCancelBrowserFlow:</Anchor>
             <NodeRef refid="172"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientWebViewDelegate/authClientDidFinishAuthWebViewLoad:</TokenIdentifier>
-			<Abstract type="html">Called when the auth view load has finished.</Abstract>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientSafariViewDelegate/authClient:willDisplayAuthSafariViewController:</TokenIdentifier>
+			<Abstract type="html">Called when the auth client is going to present the safari view controller.</Abstract>
 			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
 			
-			<Declaration>- (void)authClientDidFinishAuthWebViewLoad:(SFSDKOAuthClient *_Nonnull)client</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/authClientDidFinishAuthWebViewLoad:</Anchor>
-            <NodeRef refid="172"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientWebViewDelegate/authClient:willDisplayAuthWebView:</TokenIdentifier>
-			<Abstract type="html">Called when the OAuth Client is going to display the auth view.</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
-			
-			<Declaration>- (void)authClient:(SFSDKOAuthClient *_Nonnull)client willDisplayAuthWebView:(WKWebView *_Nonnull)view</Declaration>
+			<Declaration>- (void)authClient:(SFSDKOAuthClient *)client willDisplayAuthSafariViewController:(SFSafariViewController *_Nonnull)svc</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>client</Name>
 					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
 				</Parameter><Parameter>
-					<Name>view</Name>
-					<Abstract type="html">The instance of the auth view to be displayed.</Abstract>
+					<Name>svc</Name>
+					<Abstract type="html">The instance of the safari view controller to be presented.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/authClient:willDisplayAuthWebView:</Anchor>
+			<Anchor>//api/name/authClient:willDisplayAuthSafariViewController:</Anchor>
             <NodeRef refid="172"/>
 		</Token>
 		

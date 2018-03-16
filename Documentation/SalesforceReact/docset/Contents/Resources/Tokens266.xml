@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Protocols/RCTImageRedirectProtocol.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intf/RCTImageRedirectProtocol</TokenIdentifier>
+			<Abstract type="html">If available, RCTImageRedirectProtocol is invoked before loading an asset.
+Implementation should return either a new URL or nil when redirection is
+not needed.</Abstract>
+			<DeclaredIn>RCTImageLoader.h</DeclaredIn>
+            
+			
+			<NodeRef refid="266"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTImageRedirectProtocol/redirectAssetsURL:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTImageLoader.h</DeclaredIn>
+			
+			<Declaration>- (NSURL *)redirectAssetsURL:(NSURL *)URL</Declaration>
+			
+			
+			<Anchor>//api/name/redirectAssetsURL:</Anchor>
+            <NodeRef refid="266"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

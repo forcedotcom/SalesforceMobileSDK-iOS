@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>RCTPerformanceLogger Class Reference</title>
+
+	<link rel="stylesheet" href="../css/style.css">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
+	<meta name="generator" content="appledoc 2.2.1 (build 1334)">
+</head>
+<body class="appledoc">
+	<header>
+		<div class="container" class="hide-in-xcode">
+			
+			<h1 id="library-title">
+				<a href="../index.html">SalesforceReact </a>
+			</h1>
+
+			<p id="developer-home">
+				<a href="../index.html">Salesforce.com</a>
+			</p>
+			
+		</div>
+	</header>
+
+	<aside>
+		<div class="container">
+			<nav>
+				<ul id="header-buttons" role="toolbar">
+					<li><a href="../index.html">Index</a></li>
+<li><a href="../hierarchy.html">Hierarchy</a></li>
+
+					<li id="on-this-page" role="navigation">
+						<label>
+							On This Page
+
+							<div class="chevron">
+								<div class="chevy chevron-left"></div>
+								<div class="chevy chevron-right"></div>
+							</div>
+
+							<select id="jump-to">
+	<option value="top">Jump To&#133;</option>
+	
+
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+
+	
+	
+
+	
+
+	
+	<optgroup label="Instance Methods">
+		
+		<option value="//api/name/addValue:forTag:">- addValue:forTag:</option>
+		
+		<option value="//api/name/appendStartForTag:">- appendStartForTag:</option>
+		
+		<option value="//api/name/appendStopForTag:">- appendStopForTag:</option>
+		
+		<option value="//api/name/durationForTag:">- durationForTag:</option>
+		
+		<option value="//api/name/labelsForTags">- labelsForTags</option>
+		
+		<option value="//api/name/markStartForTag:">- markStartForTag:</option>
+		
+		<option value="//api/name/markStopForTag:">- markStopForTag:</option>
+		
+		<option value="//api/name/setValue:forTag:">- setValue:forTag:</option>
+		
+		<option value="//api/name/valueForTag:">- valueForTag:</option>
+		
+		<option value="//api/name/valuesForTags">- valuesForTags</option>
+		
+	</optgroup>
+	
+	
+</select>
+						</label>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</aside>
+
+	<article>
+		<div id="overview_contents" class="container">
+			<div id="content">
+				<main role="main">
+					<h1 class="title">RCTPerformanceLogger Class Reference</h1>
+
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<th>Inherits from</th>
+	<td>NSObject</td>
+</tr><tr>
+	<th>Declared in</th>
+	<td>RCTPerformanceLogger.h</td>
+</tr>
+						</tbody></table></div>
+					
+
+                    
+
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						
+
+						
+						
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/markStartForTag:" title="markStartForTag:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/markStartForTag:">&ndash;&nbsp;markStartForTag:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Starts measuring a metric with the given tag.
+Overrides previous value if the measurement has been already started.
+If RCTProfile is enabled it also begins appropriate async event.
+All work is scheduled on the background queue so this doesn&rsquo;t block current thread.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)markStartForTag:(RCTPLTag)<em>tag</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTPerformanceLogger.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/markStopForTag:" title="markStopForTag:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/markStopForTag:">&ndash;&nbsp;markStopForTag:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Stops measuring a metric with given tag.
+Checks if RCTPerformanceLoggerStart() has been called before
+and doesn&rsquo;t do anything and log a message if it hasn&rsquo;t.
+If RCTProfile is enabled it also ends appropriate async event.
+All work is scheduled on the background queue so this doesn&rsquo;t block current thread.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)markStopForTag:(RCTPLTag)<em>tag</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTPerformanceLogger.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setValue:forTag:" title="setValue:forTag:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setValue:forTag:">&ndash;&nbsp;setValue:forTag:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Sets given value for a metric with given tag.
+All work is scheduled on the background queue so this doesn&rsquo;t block current thread.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)setValue:(int64_t)<em>value</em> forTag:(RCTPLTag)<em>tag</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTPerformanceLogger.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/addValue:forTag:" title="addValue:forTag:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/addValue:forTag:">&ndash;&nbsp;addValue:forTag:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Adds given value to the current value for a metric with given tag.
+All work is scheduled on the background queue so this doesn&rsquo;t block current thread.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)addValue:(int64_t)<em>value</em> forTag:(RCTPLTag)<em>tag</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTPerformanceLogger.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/appendStartForTag:" title="appendStartForTag:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/appendStartForTag:">&ndash;&nbsp;appendStartForTag:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Starts an additional measurement for a metric with given tag.
+It doesn&rsquo;t override previous measurement, instead it&rsquo;ll append a new value
+to the old one.
+All work is scheduled on the background queue so this doesn&rsquo;t block current thread.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)appendStartForTag:(RCTPLTag)<em>tag</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTPerformanceLogger.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/appendStopForTag:" title="appendStopForTag:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/appendStopForTag:">&ndash;&nbsp;appendStopForTag:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Stops measurement and appends the result to the metric with given tag.
+Checks if RCTPerformanceLoggerAppendStart() has been called before
+and doesn&rsquo;t do anything and log a message if it hasn&rsquo;t.
+All work is scheduled on the background queue so this doesn&rsquo;t block current thread.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)appendStopForTag:(RCTPLTag)<em>tag</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTPerformanceLogger.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/valuesForTags" title="valuesForTags"></a>
+	<h3 class="method-title"><code><a href="#//api/name/valuesForTags">&ndash;&nbsp;valuesForTags</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns an array with values for all tags.
+Use <a href="../Constants/RCTPLTag.html">RCTPLTag</a> to go over the array, there&rsquo;s a pair of values
+for each tag: start and stop (with indexes 2 * tag and 2 * tag + 1).</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (NSArray&lt;NSNumber*&gt; *)valuesForTags</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTPerformanceLogger.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/durationForTag:" title="durationForTag:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/durationForTag:">&ndash;&nbsp;durationForTag:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns a duration in ms (stop_time - start_time) for given <a href="../Constants/RCTPLTag.html">RCTPLTag</a>.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (int64_t)durationForTag:(RCTPLTag)<em>tag</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTPerformanceLogger.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/valueForTag:" title="valueForTag:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/valueForTag:">&ndash;&nbsp;valueForTag:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns a value for given <a href="../Constants/RCTPLTag.html">RCTPLTag</a>.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (int64_t)valueForTag:(RCTPLTag)<em>tag</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTPerformanceLogger.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/labelsForTags" title="labelsForTags"></a>
+	<h3 class="method-title"><code><a href="#//api/name/labelsForTags">&ndash;&nbsp;labelsForTags</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns an array with values for all tags.
+Use <a href="../Constants/RCTPLTag.html">RCTPLTag</a> to go over the array.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (NSArray&lt;NSString*&gt; *)labelsForTags</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTPerformanceLogger.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+					</div>
+					
+					
+
+                    
+                    
+          
+				</main>
+
+				<footer>
+					<div class="footer-copyright">
+						
+						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-03-16</p>
+						
+						
+						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>
+						
+					</div>
+				</footer>
+			</div>
+		</div>
+	</article>
+
+	<script src="../js/script.js"></script>
+</body>
+</html>

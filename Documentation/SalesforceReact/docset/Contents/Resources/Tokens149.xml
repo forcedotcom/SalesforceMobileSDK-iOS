@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTRedBoxExtraDataViewController.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTRedBoxExtraDataViewController</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTRedBoxExtraDataViewController.h</DeclaredIn>
+            
+			
+			<NodeRef refid="149"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTRedBoxExtraDataViewController/setActionDelegate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTRedBoxExtraDataViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;RCTRedBoxExtraDataActionDelegate&gt; actionDelegate</Declaration>
+			
+			
+			<Anchor>//api/name/actionDelegate</Anchor>
+            <NodeRef refid="149"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTRedBoxExtraDataViewController/actionDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTRedBoxExtraDataViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;RCTRedBoxExtraDataActionDelegate&gt; actionDelegate</Declaration>
+			
+			
+			<Anchor>//api/name/actionDelegate</Anchor>
+            <NodeRef refid="149"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTRedBoxExtraDataViewController/actionDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTRedBoxExtraDataViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;RCTRedBoxExtraDataActionDelegate&gt; actionDelegate</Declaration>
+			
+			
+			<Anchor>//api/name/actionDelegate</Anchor>
+            <NodeRef refid="149"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTRedBoxExtraDataViewController/addExtraData:forIdentifier:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTRedBoxExtraDataViewController.h</DeclaredIn>
+			
+			<Declaration>- (void)addExtraData:(NSDictionary *)data forIdentifier:(NSString *)identifier</Declaration>
+			
+			
+			<Anchor>//api/name/addExtraData:forIdentifier:</Anchor>
+            <NodeRef refid="149"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

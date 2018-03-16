@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTPropsAnimatedNode.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTPropsAnimatedNode</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTPropsAnimatedNode.h</DeclaredIn>
+            
+			
+			<NodeRef refid="143"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTPropsAnimatedNode/connectToView:viewName:uiManager:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTPropsAnimatedNode.h</DeclaredIn>
+			
+			<Declaration>- (void)connectToView:(NSNumber *)viewTag viewName:(NSString *)viewName uiManager:(RCTUIManager *)uiManager</Declaration>
+			
+			
+			<Anchor>//api/name/connectToView:viewName:uiManager:</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTPropsAnimatedNode/disconnectFromView:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTPropsAnimatedNode.h</DeclaredIn>
+			
+			<Declaration>- (void)disconnectFromView:(NSNumber *)viewTag</Declaration>
+			
+			
+			<Anchor>//api/name/disconnectFromView:</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTPropsAnimatedNode/restoreDefaultValues</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTPropsAnimatedNode.h</DeclaredIn>
+			
+			<Declaration>- (void)restoreDefaultValues</Declaration>
+			
+			
+			<Anchor>//api/name/restoreDefaultValues</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

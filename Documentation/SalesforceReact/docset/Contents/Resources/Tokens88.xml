@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTInspectorDevServerHelper.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTInspectorDevServerHelper</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTInspectorDevServerHelper.h</DeclaredIn>
+            
+			
+			<NodeRef refid="88"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTInspectorDevServerHelper/connectWithBundleURL:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTInspectorDevServerHelper.h</DeclaredIn>
+			
+			<Declaration>+ (void)connectWithBundleURL:(NSURL *)bundleURL</Declaration>
+			
+			
+			<Anchor>//api/name/connectWithBundleURL:</Anchor>
+            <NodeRef refid="88"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTInspectorDevServerHelper/disableDebugger</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTInspectorDevServerHelper.h</DeclaredIn>
+			
+			<Declaration>+ (void)disableDebugger</Declaration>
+			
+			
+			<Anchor>//api/name/disableDebugger</Anchor>
+            <NodeRef refid="88"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTInspectorDevServerHelper/attachDebugger:withBundleURL:withView:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTInspectorDevServerHelper.h</DeclaredIn>
+			
+			<Declaration>+ (void)attachDebugger:(NSString *)owner withBundleURL:(NSURL *)bundleURL withView:(UIViewController *)view</Declaration>
+			
+			
+			<Anchor>//api/name/attachDebugger:withBundleURL:withView:</Anchor>
+            <NodeRef refid="88"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTInspectorDevServerHelper/init</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTInspectorDevServerHelper.mm</DeclaredIn>
+			
+			<Declaration>- (instancetype)init</Declaration>
+			
+			
+			<Anchor>//api/name/init</Anchor>
+            <NodeRef refid="88"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Categories/UIImage+Compare.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cat/UIImage(Compare)</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIImage+Compare.h</DeclaredIn>
+            
+			
+			<NodeRef refid="241"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIImage/compareWithImage:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIImage+Compare.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)compareWithImage:(UIImage *)image</Declaration>
+			
+			
+			<Anchor>//api/name/compareWithImage:</Anchor>
+            <NodeRef refid="241"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

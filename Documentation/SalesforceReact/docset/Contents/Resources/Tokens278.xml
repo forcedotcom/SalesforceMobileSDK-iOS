@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Protocols/RCTSurfaceDelegate.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intf/RCTSurfaceDelegate</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTSurfaceDelegate.h</DeclaredIn>
+            
+			
+			<NodeRef refid="278"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTSurfaceDelegate/surface:didChangeStage:</TokenIdentifier>
+			<Abstract type="html">Notifies a receiver that a surface transitioned to a new stage.
+See RCTSurfaceStage for more details.</Abstract>
+			<DeclaredIn>RCTSurfaceDelegate.h</DeclaredIn>
+			
+			<Declaration>- (void)surface:(RCTSurface *)surface didChangeStage:(RCTSurfaceStage)stage</Declaration>
+			
+			
+			<Anchor>//api/name/surface:didChangeStage:</Anchor>
+            <NodeRef refid="278"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTSurfaceDelegate/surface:didChangeIntrinsicSize:</TokenIdentifier>
+			<Abstract type="html">Notifies a receiver that root view got a new (intrinsic) size during the last
+layout pass.</Abstract>
+			<DeclaredIn>RCTSurfaceDelegate.h</DeclaredIn>
+			
+			<Declaration>- (void)surface:(RCTSurface *)surface didChangeIntrinsicSize:(CGSize)intrinsicSize</Declaration>
+			
+			
+			<Anchor>//api/name/surface:didChangeIntrinsicSize:</Anchor>
+            <NodeRef refid="278"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

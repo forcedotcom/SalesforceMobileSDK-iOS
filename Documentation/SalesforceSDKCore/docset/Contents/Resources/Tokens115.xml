@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKWindowContainer.html">
+	<File path="Classes/SFSDKWebViewStateManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKWindowContainer</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKWebViewStateManager</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="115"/>
@@ -13,322 +13,78 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/setWindow:</TokenIdentifier>
-			<Abstract type="html">Underlying Window that is wrapped by this container</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKWebViewStateManager/resetSessionWithNewAccessToken:isSecureProtocol:</TokenIdentifier>
+			<Abstract type="html">  Reset some associated state with WKWebView and UIWebView e.g. Remove Cookies then add SID cookie</Abstract>
+			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UIWindow *window</Declaration>
+			<Declaration>+ (void)resetSessionWithNewAccessToken:(NSString *)accessToken isSecureProtocol:(BOOL)isSecure</Declaration>
 			
 			
-			<Anchor>//api/name/window</Anchor>
+			<Anchor>//api/name/resetSessionWithNewAccessToken:isSecureProtocol:</Anchor>
             <NodeRef refid="115"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/window</TokenIdentifier>
-			<Abstract type="html">Underlying Window that is wrapped by this container</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKWebViewStateManager/removeSession</TokenIdentifier>
+			<Abstract type="html">  Remove all associated state with WKWebView and UIWebView e.g. Remove Cookies, reset WKProcessPool</Abstract>
+			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UIWindow *window</Declaration>
+			<Declaration>+ (void)removeSession</Declaration>
 			
 			
-			<Anchor>//api/name/window</Anchor>
+			<Anchor>//api/name/removeSession</Anchor>
             <NodeRef refid="115"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKWindowContainer/window</TokenIdentifier>
-			<Abstract type="html">Underlying Window that is wrapped by this container</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWebViewStateManager/setSharedProcessPool:</TokenIdentifier>
+			<Abstract type="html">Gets or sets an instance of WKProcessPool that will be used during instantiation of any WKWebView instances @discussion
+  Use the default instance or provide an instance to share state between WKWebView instances</Abstract>
+			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UIWindow *window</Declaration>
+			<Declaration>@property (class, strong, nonatomic, nullable) WKProcessPool *sharedProcessPool</Declaration>
 			
 			
-			<Anchor>//api/name/window</Anchor>
+			<Anchor>//api/name/sharedProcessPool</Anchor>
             <NodeRef refid="115"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/setWindowType:</TokenIdentifier>
-			<Abstract type="html">SFSDKWindowType for the window</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWebViewStateManager/sharedProcessPool</TokenIdentifier>
+			<Abstract type="html">Gets or sets an instance of WKProcessPool that will be used during instantiation of any WKWebView instances @discussion
+  Use the default instance or provide an instance to share state between WKWebView instances</Abstract>
+			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) SFSDKWindowType windowType</Declaration>
+			<Declaration>@property (class, strong, nonatomic, nullable) WKProcessPool *sharedProcessPool</Declaration>
 			
 			
-			<Anchor>//api/name/windowType</Anchor>
+			<Anchor>//api/name/sharedProcessPool</Anchor>
             <NodeRef refid="115"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/windowType</TokenIdentifier>
-			<Abstract type="html">SFSDKWindowType for the window</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKWebViewStateManager/sharedProcessPool</TokenIdentifier>
+			<Abstract type="html">Gets or sets an instance of WKProcessPool that will be used during instantiation of any WKWebView instances @discussion
+  Use the default instance or provide an instance to share state between WKWebView instances</Abstract>
+			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) SFSDKWindowType windowType</Declaration>
+			<Declaration>@property (class, strong, nonatomic, nullable) WKProcessPool *sharedProcessPool</Declaration>
 			
 			
-			<Anchor>//api/name/windowType</Anchor>
+			<Anchor>//api/name/sharedProcessPool</Anchor>
             <NodeRef refid="115"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKWindowContainer/windowType</TokenIdentifier>
-			<Abstract type="html">SFSDKWindowType for the window</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKWebViewStateManager/resetSessionCookie</TokenIdentifier>
+			<Abstract type="html">Clears session cookie data from the cookie store, and sets a new session cookie based on the
+OAuth credentials.</Abstract>
+			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) SFSDKWindowType windowType</Declaration>
-			
-			
-			<Anchor>//api/name/windowType</Anchor>
-            <NodeRef refid="115"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/setWindowName:</TokenIdentifier>
-			<Abstract type="html">SFSDKWindowType windowName</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, readonly) NSString *windowName</Declaration>
+			<Declaration>+ (void)resetSessionCookie</Declaration>
 			
 			
-			<Anchor>//api/name/windowName</Anchor>
-            <NodeRef refid="115"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/windowName</TokenIdentifier>
-			<Abstract type="html">SFSDKWindowType windowName</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, readonly) NSString *windowName</Declaration>
-			
-			
-			<Anchor>//api/name/windowName</Anchor>
-            <NodeRef refid="115"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKWindowContainer/windowName</TokenIdentifier>
-			<Abstract type="html">SFSDKWindowType windowName</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, readonly) NSString *windowName</Declaration>
-			
-			
-			<Anchor>//api/name/windowName</Anchor>
-            <NodeRef refid="115"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/setViewController:</TokenIdentifier>
-			<Abstract type="html">UIViewController viewController</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) UIViewController *viewController</Declaration>
-			
-			
-			<Anchor>//api/name/viewController</Anchor>
-            <NodeRef refid="115"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/viewController</TokenIdentifier>
-			<Abstract type="html">UIViewController viewController</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) UIViewController *viewController</Declaration>
-			
-			
-			<Anchor>//api/name/viewController</Anchor>
-            <NodeRef refid="115"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKWindowContainer/viewController</TokenIdentifier>
-			<Abstract type="html">UIViewController viewController</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) UIViewController *viewController</Declaration>
-			
-			
-			<Anchor>//api/name/viewController</Anchor>
-            <NodeRef refid="115"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/setWindowDelegate:</TokenIdentifier>
-			<Abstract type="html">SFSDKWindowContainerDelegate window Delegate</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKWindowContainerDelegate&gt; _Nullable windowDelegate</Declaration>
-			
-			
-			<Anchor>//api/name/windowDelegate</Anchor>
-            <NodeRef refid="115"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/windowDelegate</TokenIdentifier>
-			<Abstract type="html">SFSDKWindowContainerDelegate window Delegate</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKWindowContainerDelegate&gt; _Nullable windowDelegate</Declaration>
-			
-			
-			<Anchor>//api/name/windowDelegate</Anchor>
-            <NodeRef refid="115"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKWindowContainer/windowDelegate</TokenIdentifier>
-			<Abstract type="html">SFSDKWindowContainerDelegate window Delegate</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKWindowContainerDelegate&gt; _Nullable windowDelegate</Declaration>
-			
-			
-			<Anchor>//api/name/windowDelegate</Anchor>
-            <NodeRef refid="115"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/initWithWindow:name:</TokenIdentifier>
-			<Abstract type="html">Create an instance of a Window</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithWindow:(UIWindow *)window name:(NSString *)windowName</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>window</Name>
-					<Abstract type="html">An instance of UIWindow</Abstract>
-				</Parameter><Parameter>
-					<Name>windowName</Name>
-					<Abstract type="html">key for the UIWindow</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">SFSDKWindowComtainer</Abstract></ReturnValue>
-			<Anchor>//api/name/initWithWindow:name:</Anchor>
-            <NodeRef refid="115"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/isEnabled</TokenIdentifier>
-			<Abstract type="html">Returns true if window alpha is set to 1.0</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isEnabled</Declaration>
-			
-			
-			<Anchor>//api/name/isEnabled</Anchor>
-            <NodeRef refid="115"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/presentWindow</TokenIdentifier>
-			<Abstract type="html">Make window visible, set alpha to 1.0</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>- (void)presentWindow</Declaration>
-			
-			
-			<Anchor>//api/name/presentWindow</Anchor>
-            <NodeRef refid="115"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/presentWindowAnimated:withCompletion:</TokenIdentifier>
-			<Abstract type="html">Make window visible, set alpha to 1.0 invoke completion block</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>- (void)presentWindowAnimated:(BOOL)animated withCompletion:(void ( ^ _Nullable ) ( void ))completion</Declaration>
-			
-			
-			<Anchor>//api/name/presentWindowAnimated:withCompletion:</Anchor>
-            <NodeRef refid="115"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/dismissWindowAnimated:withCompletion:</TokenIdentifier>
-			<Abstract type="html">Make window visible</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>- (void)dismissWindowAnimated:(BOOL)animated withCompletion:(void ( ^ _Nullable ) ( void ))completion</Declaration>
-			
-			
-			<Anchor>//api/name/dismissWindowAnimated:withCompletion:</Anchor>
-            <NodeRef refid="115"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/dismissWindow</TokenIdentifier>
-			<Abstract type="html">Make window invisible</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>- (void)dismissWindow</Declaration>
-			
-			
-			<Anchor>//api/name/dismissWindow</Anchor>
-            <NodeRef refid="115"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/isMainWindow</TokenIdentifier>
-			<Abstract type="html">Convenience API returns true if the SFSDKWindowType is main</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isMainWindow</Declaration>
-			
-			<ReturnValue><Abstract type="html">YES if this is the main Window</Abstract></ReturnValue>
-			<Anchor>//api/name/isMainWindow</Anchor>
-            <NodeRef refid="115"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/isAuthWindow</TokenIdentifier>
-			<Abstract type="html">Convenience API returns true if the SFSDKWindowType is auth</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isAuthWindow</Declaration>
-			
-			<ReturnValue><Abstract type="html">YES if this is the auth Window</Abstract></ReturnValue>
-			<Anchor>//api/name/isAuthWindow</Anchor>
-            <NodeRef refid="115"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/isSnapshotWindow</TokenIdentifier>
-			<Abstract type="html">Convenience API returns true if the SFSDKWindowType is snapshot</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isSnapshotWindow</Declaration>
-			
-			<ReturnValue><Abstract type="html">YES if this is the snapshot Window</Abstract></ReturnValue>
-			<Anchor>//api/name/isSnapshotWindow</Anchor>
-            <NodeRef refid="115"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/isPasscodeWindow</TokenIdentifier>
-			<Abstract type="html">Convenience API returns true if the SFSDKWindowType is passcode</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isPasscodeWindow</Declaration>
-			
-			<ReturnValue><Abstract type="html">YES if this is the passcode Window</Abstract></ReturnValue>
-			<Anchor>//api/name/isPasscodeWindow</Anchor>
-            <NodeRef refid="115"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/topViewController</TokenIdentifier>
-			<Abstract type="html">Tries to return top view controller of this window</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>- (UIViewController *)topViewController</Declaration>
-			
-			
-			<Anchor>//api/name/topViewController</Anchor>
+			<Anchor>//api/name/resetSessionCookie</Anchor>
             <NodeRef refid="115"/>
 		</Token>
 		

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Protocols/RCTErrorCustomizer.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intf/RCTErrorCustomizer</TokenIdentifier>
+			<Abstract type="html">Provides an interface to customize React Native error messages and stack
+traces from exceptions.</Abstract>
+			<DeclaredIn>RCTErrorCustomizer.h</DeclaredIn>
+            
+			
+			<NodeRef refid="258"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTErrorCustomizer/customizeErrorInfo:</TokenIdentifier>
+			<Abstract type="html">Customizes the given error, returning the passed info argument if no
+customization is required.</Abstract>
+			<DeclaredIn>RCTErrorCustomizer.h</DeclaredIn>
+			
+			<Declaration>- (nonnull RCTErrorInfo *)customizeErrorInfo:(nonnull RCTErrorInfo *)info</Declaration>
+			
+			
+			<Anchor>//api/name/customizeErrorInfo:</Anchor>
+            <NodeRef refid="258"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

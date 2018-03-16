@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTLinkingManager.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTLinkingManager</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTLinkingManager.h</DeclaredIn>
+            
+			
+			<NodeRef refid="104"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTLinkingManager/application:openURL:options:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTLinkingManager.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)application:(UIApplication *)app openURL:(NSURL *)URL options:(NSDictionary&lt;UIApplicationOpenURLOptionsKey,id&gt; *)options</Declaration>
+			
+			
+			<Anchor>//api/name/application:openURL:options:</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTLinkingManager/application:openURL:sourceApplication:annotation:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTLinkingManager.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)application:(UIApplication *)application openURL:(NSURL *)URL sourceApplication:(NSString *)sourceApplication annotation:(id)annotation</Declaration>
+			
+			
+			<Anchor>//api/name/application:openURL:sourceApplication:annotation:</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTLinkingManager/application:continueUserActivity:restorationHandler:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTLinkingManager.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void ( ^ ) ( NSArray *))restorationHandler</Declaration>
+			
+			
+			<Anchor>//api/name/application:continueUserActivity:restorationHandler:</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

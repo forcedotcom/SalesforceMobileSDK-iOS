@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Constants/RCTRootViewSizeFlexibility.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/c/tdef/RCTRootViewSizeFlexibility</TokenIdentifier>
+			<Abstract type="html">This enum is used to define size flexibility type of the root view.
+If a dimension is flexible, the view will recalculate that dimension
+so the content fits. Recalculations are performed when the root&apos;s frame,
+size flexibility mode or content size changes. After a recalculation,
+rootViewDidChangeIntrinsicSize method of the RCTRootViewDelegate will be called.</Abstract>
+			<DeclaredIn>RCTRootView.h</DeclaredIn>
+            
+			
+			<NodeRef refid="301"/>
+		</Token>
+		
+		
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTRootViewSizeFlexibilityNone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTRootViewSizeFlexibilityNone</Declaration>
+            
+            <DeclaredIn>RCTRootView.h</DeclaredIn>
+            
+            <NodeRef refid="301"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTRootViewSizeFlexibilityWidth</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTRootViewSizeFlexibilityWidth</Declaration>
+            
+            <DeclaredIn>RCTRootView.h</DeclaredIn>
+            
+            <NodeRef refid="301"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTRootViewSizeFlexibilityHeight</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTRootViewSizeFlexibilityHeight</Declaration>
+            
+            <DeclaredIn>RCTRootView.h</DeclaredIn>
+            
+            <NodeRef refid="301"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTRootViewSizeFlexibilityWidthAndHeight</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTRootViewSizeFlexibilityWidthAndHeight</Declaration>
+            
+            <DeclaredIn>RCTRootView.h</DeclaredIn>
+            
+            <NodeRef refid="301"/>
+        </Token>
+        
+        
+	</File>
+</Tokens>

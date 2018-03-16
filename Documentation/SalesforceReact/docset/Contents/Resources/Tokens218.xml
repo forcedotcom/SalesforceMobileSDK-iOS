@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTWebSocketModule.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTWebSocketModule</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWebSocketModule.h</DeclaredIn>
+            
+			
+			<NodeRef refid="218"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWebSocketModule/setContentHandler:forSocketID:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWebSocketModule.h</DeclaredIn>
+			
+			<Declaration>- (void)setContentHandler:(id&lt;RCTWebSocketContentHandler&gt; __nullable)handler forSocketID:(NSNumber *)socketID</Declaration>
+			
+			
+			<Anchor>//api/name/setContentHandler:forSocketID:</Anchor>
+            <NodeRef refid="218"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWebSocketModule/sendData:forSocketID:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWebSocketModule.h</DeclaredIn>
+			
+			<Declaration>- (void)sendData:(NSData *)data forSocketID:(nonnull NSNumber *)socketID</Declaration>
+			
+			
+			<Anchor>//api/name/sendData:forSocketID:</Anchor>
+            <NodeRef refid="218"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

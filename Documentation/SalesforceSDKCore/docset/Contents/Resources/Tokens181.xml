@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFUserAccountPersister.html">
+	<File path="Protocols/SFUserAccountManagerDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFUserAccountPersister</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<TokenIdentifier>//apple_ref/occ/intf/SFUserAccountManagerDelegate</TokenIdentifier>
+			<Abstract type="html">Protocol for handling callbacks from SFUserAccountManager.</Abstract>
 			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
             
 			
@@ -13,62 +13,90 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFUserAccountPersister/saveAccountForUser:error:</TokenIdentifier>
-			<Abstract type="html">Called when the Account manager requires to save the state of an account.</Abstract>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFUserAccountManagerDelegate/userAccountManagerIsNetworkAvailable:</TokenIdentifier>
+			<Abstract type="html">Called when the account manager wants to determine if the network is available.</Abstract>
 			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)saveAccountForUser:(SFUserAccount *)userAccount error:(NSError **)error</Declaration>
+			<Declaration>- (BOOL)userAccountManagerIsNetworkAvailable:(SFUserAccountManager *)userAccountManager</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>userAccount</Name>
-					<Abstract type="html">The instance of SFUserAccount making the call.</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">On output, the error if the return value is NO</Abstract>
+					<Name>userAccountManager</Name>
+					<Abstract type="html">The instance of SFUserAccountManager making the call.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the account was saved properly, NO in case of error</Abstract></ReturnValue>
-			<Anchor>//api/name/saveAccountForUser:error:</Anchor>
+			<ReturnValue><Abstract type="html">YES if the network is available, NO otherwise</Abstract></ReturnValue>
+			<Anchor>//api/name/userAccountManagerIsNetworkAvailable:</Anchor>
             <NodeRef refid="181"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFUserAccountPersister/fetchAllAccounts:</TokenIdentifier>
-			<Abstract type="html">Fetches all the accounts.</Abstract>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFUserAccountManagerDelegate/userAccountManager:error:info:</TokenIdentifier>
+			<Abstract type="html">The instance of SFUserAccountManager</Abstract>
 			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>- (NSDictionary&lt;SFUserAccountIdentity*,SFUserAccount*&gt; *)fetchAllAccounts:(NSError **)error</Declaration>
+			<Declaration>- (BOOL)userAccountManager:(SFUserAccountManager *)userAccountManager error:(NSError *)error info:(SFOAuthInfo *)info</Declaration>
 			<Parameters>
 				<Parameter>
+					<Name>userAccountManager</Name>
+					<Abstract type="html">The instance of SFUserAccountManager</Abstract>
+				</Parameter><Parameter>
 					<Name>error</Name>
-					<Abstract type="html">On output, the error if the return value is NO</Abstract>
+					<Abstract type="html">The Error that occurred</Abstract>
+				</Parameter><Parameter>
+					<Name>info</Name>
+					<Abstract type="html">The info for the auth request</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">NSDictionary with SFUserAccountIdentity as keys and SFUserAccount as values
-  </Abstract></ReturnValue>
-			<Anchor>//api/name/fetchAllAccounts:</Anchor>
+			<ReturnValue><Abstract type="html">YES if the error has been handled by the delegate. SDK will attempt to handle the error if the result is NO.</Abstract></ReturnValue>
+			<Anchor>//api/name/userAccountManager:error:info:</Anchor>
             <NodeRef refid="181"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFUserAccountPersister/deleteAccountForUser:error:</TokenIdentifier>
-			<Abstract type="html">Allows you to remove the given user account.</Abstract>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFUserAccountManagerDelegate/userAccountManager:willSwitchFromUser:toUser:</TokenIdentifier>
+			<Abstract type="html">Called before the user account manager switches from one user to another.</Abstract>
 			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)deleteAccountForUser:(SFUserAccount *)user error:(NSError **)error</Declaration>
+			<Declaration>- (void)userAccountManager:(SFUserAccountManager *)userAccountManager willSwitchFromUser:(SFUserAccount *)fromUser toUser:(nullable SFUserAccount *)toUser</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>user</Name>
-					<Abstract type="html">The user account to remove.</Abstract>
+					<Name>userAccountManager</Name>
+					<Abstract type="html">The SFUserAccountManager instance making the switch.</Abstract>
 				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">Output error parameter, populated if there was an error deleting
-the account (likely from the filesystem operations).</Abstract>
+					<Name>fromUser</Name>
+					<Abstract type="html">The user being switched away from.</Abstract>
+				</Parameter><Parameter>
+					<Name>toUser</Name>
+					<Abstract type="html">The user to be switched to.  nil if the user context is being switched back
+to no user.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the deletion was successful, NO otherwise.  Note: If no persisted account matching
-the user parameter is found, no action will be taken, and deletion will be reported as successful.</Abstract></ReturnValue>
-			<Anchor>//api/name/deleteAccountForUser:error:</Anchor>
+			
+			<Anchor>//api/name/userAccountManager:willSwitchFromUser:toUser:</Anchor>
+            <NodeRef refid="181"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFUserAccountManagerDelegate/userAccountManager:didSwitchFromUser:toUser:</TokenIdentifier>
+			<Abstract type="html">Called after the user account manager switches from one user to another.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>- (void)userAccountManager:(SFUserAccountManager *)userAccountManager didSwitchFromUser:(SFUserAccount *)fromUser toUser:(nullable SFUserAccount *)toUser</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>userAccountManager</Name>
+					<Abstract type="html">The SFUserAccountManager instance making the switch.</Abstract>
+				</Parameter><Parameter>
+					<Name>fromUser</Name>
+					<Abstract type="html">The user that was switched away from.</Abstract>
+				</Parameter><Parameter>
+					<Name>toUser</Name>
+					<Abstract type="html">The user that was switched to.  nil if the user context is being switched back
+to no user.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/userAccountManager:didSwitchFromUser:toUser:</Anchor>
             <NodeRef refid="181"/>
 		</Token>
 		

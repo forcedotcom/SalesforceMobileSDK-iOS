@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTWebSocketExecutor.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTWebSocketExecutor</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTWebSocketExecutor.h</DeclaredIn>
+            
+			
+			<NodeRef refid="217"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWebSocketExecutor/initWithURL:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWebSocketExecutor.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithURL:(NSURL *)URL</Declaration>
+			
+			
+			<Anchor>//api/name/initWithURL:</Anchor>
+            <NodeRef refid="217"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

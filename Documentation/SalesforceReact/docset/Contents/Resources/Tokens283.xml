@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Protocols/RCTValueAnimatedNodeObserver.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intf/RCTValueAnimatedNodeObserver</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTValueAnimatedNode.h</DeclaredIn>
+            
+			
+			<NodeRef refid="283"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTValueAnimatedNodeObserver/animatedNode:didUpdateValue:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTValueAnimatedNode.h</DeclaredIn>
+			
+			<Declaration>- (void)animatedNode:(RCTValueAnimatedNode *)node didUpdateValue:(CGFloat)value</Declaration>
+			
+			
+			<Anchor>//api/name/animatedNode:didUpdateValue:</Anchor>
+            <NodeRef refid="283"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

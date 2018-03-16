@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKAuthViewHandler.html">
+	<File path="Classes/SFSDKAuthResponseCommand.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAuthViewHandler</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAuthResponseCommand</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
             
 			
 			<NodeRef refid="74"/>
@@ -13,94 +13,110 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHandler/setAuthViewDisplayBlock:</TokenIdentifier>
-			<Abstract type="html">The block used to display the auth view.</Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthResponseCommand/setState:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKAuthViewDisplayBlock authViewDisplayBlock</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *state</Declaration>
 			
 			
-			<Anchor>//api/name/authViewDisplayBlock</Anchor>
+			<Anchor>//api/name/state</Anchor>
             <NodeRef refid="74"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHandler/authViewDisplayBlock</TokenIdentifier>
-			<Abstract type="html">The block used to display the auth view.</Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthResponseCommand/state</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKAuthViewDisplayBlock authViewDisplayBlock</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *state</Declaration>
 			
 			
-			<Anchor>//api/name/authViewDisplayBlock</Anchor>
+			<Anchor>//api/name/state</Anchor>
             <NodeRef refid="74"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthViewHandler/authViewDisplayBlock</TokenIdentifier>
-			<Abstract type="html">The block used to display the auth view.</Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthResponseCommand/state</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKAuthViewDisplayBlock authViewDisplayBlock</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *state</Declaration>
 			
 			
-			<Anchor>//api/name/authViewDisplayBlock</Anchor>
+			<Anchor>//api/name/state</Anchor>
             <NodeRef refid="74"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHandler/setAuthViewDismissBlock:</TokenIdentifier>
-			<Abstract type="html">The block used to dismiss the auth view.</Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthResponseCommand/setAuthCode:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKAuthViewDismissBlock authViewDismissBlock</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *authCode</Declaration>
 			
 			
-			<Anchor>//api/name/authViewDismissBlock</Anchor>
+			<Anchor>//api/name/authCode</Anchor>
             <NodeRef refid="74"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHandler/authViewDismissBlock</TokenIdentifier>
-			<Abstract type="html">The block used to dismiss the auth view.</Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthResponseCommand/authCode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKAuthViewDismissBlock authViewDismissBlock</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *authCode</Declaration>
 			
 			
-			<Anchor>//api/name/authViewDismissBlock</Anchor>
+			<Anchor>//api/name/authCode</Anchor>
             <NodeRef refid="74"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthViewHandler/authViewDismissBlock</TokenIdentifier>
-			<Abstract type="html">The block used to dismiss the auth view.</Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthResponseCommand/authCode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKAuthViewDismissBlock authViewDismissBlock</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *authCode</Declaration>
 			
 			
-			<Anchor>//api/name/authViewDismissBlock</Anchor>
+			<Anchor>//api/name/authCode</Anchor>
             <NodeRef refid="74"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHandler/initWithDisplayBlock:dismissBlock:</TokenIdentifier>
-			<Abstract type="html">Designated initializer for the class.</Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthResponseCommand/setDomain:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithDisplayBlock:(SFSDKAuthViewDisplayBlock)displayBlock dismissBlock:(SFSDKAuthViewDismissBlock _Nullable)dismissBlock</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>displayBlock</Name>
-					<Abstract type="html">The block used to display the auth view.</Abstract>
-				</Parameter><Parameter>
-					<Name>dismissBlock</Name>
-					<Abstract type="html">The block used to dismiss the auth view.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, copy) NSString *domain</Declaration>
 			
-			<Anchor>//api/name/initWithDisplayBlock:dismissBlock:</Anchor>
+			
+			<Anchor>//api/name/domain</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthResponseCommand/domain</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *domain</Declaration>
+			
+			
+			<Anchor>//api/name/domain</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthResponseCommand/domain</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *domain</Declaration>
+			
+			
+			<Anchor>//api/name/domain</Anchor>
             <NodeRef refid="74"/>
 		</Token>
 		

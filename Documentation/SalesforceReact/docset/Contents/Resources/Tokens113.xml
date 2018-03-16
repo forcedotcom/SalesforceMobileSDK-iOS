@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTModalHostViewController.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTModalHostViewController</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTModalHostViewController.h</DeclaredIn>
+            
+			
+			<NodeRef refid="113"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModalHostViewController/setBoundsDidChangeBlock:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModalHostViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) void ( ^ ) ( CGRect newBounds ) boundsDidChangeBlock</Declaration>
+			
+			
+			<Anchor>//api/name/boundsDidChangeBlock</Anchor>
+            <NodeRef refid="113"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModalHostViewController/boundsDidChangeBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModalHostViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) void ( ^ ) ( CGRect newBounds ) boundsDidChangeBlock</Declaration>
+			
+			
+			<Anchor>//api/name/boundsDidChangeBlock</Anchor>
+            <NodeRef refid="113"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTModalHostViewController/boundsDidChangeBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModalHostViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) void ( ^ ) ( CGRect newBounds ) boundsDidChangeBlock</Declaration>
+			
+			
+			<Anchor>//api/name/boundsDidChangeBlock</Anchor>
+            <NodeRef refid="113"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModalHostViewController/setSupportedInterfaceOrientations:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModalHostViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UIInterfaceOrientationMask supportedInterfaceOrientations</Declaration>
+			
+			
+			<Anchor>//api/name/supportedInterfaceOrientations</Anchor>
+            <NodeRef refid="113"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModalHostViewController/supportedInterfaceOrientations</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModalHostViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UIInterfaceOrientationMask supportedInterfaceOrientations</Declaration>
+			
+			
+			<Anchor>//api/name/supportedInterfaceOrientations</Anchor>
+            <NodeRef refid="113"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTModalHostViewController/supportedInterfaceOrientations</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModalHostViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UIInterfaceOrientationMask supportedInterfaceOrientations</Declaration>
+			
+			
+			<Anchor>//api/name/supportedInterfaceOrientations</Anchor>
+            <NodeRef refid="113"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

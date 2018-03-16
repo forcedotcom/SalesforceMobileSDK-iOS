@@ -316,6 +316,42 @@ a config object</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setNavBar:</TokenIdentifier>
+			<Abstract type="html">Get the instance of nav bar. Use this property to get the instance of navBar</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) UINavigationBar *navBar</Declaration>
+			
+			
+			<Anchor>//api/name/navBar</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/navBar</TokenIdentifier>
+			<Abstract type="html">Get the instance of nav bar. Use this property to get the instance of navBar</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) UINavigationBar *navBar</Declaration>
+			
+			
+			<Anchor>//api/name/navBar</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/navBar</TokenIdentifier>
+			<Abstract type="html">Get the instance of nav bar. Use this property to get the instance of navBar</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) UINavigationBar *navBar</Declaration>
+			
+			
+			<Anchor>//api/name/navBar</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/styleNavigationBar:</TokenIdentifier>
 			<Abstract type="html">Applies the view&apos;s style attributes to the given navigation bar.</Abstract>
 			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
@@ -329,6 +365,112 @@ a config object</Abstract>
 			</Parameters>
 			
 			<Anchor>//api/name/styleNavigationBar:</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/showHostListView</TokenIdentifier>
+			<Abstract type="html">Present the Host List View.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>- (void)showHostListView</Declaration>
+			
+			
+			<Anchor>//api/name/showHostListView</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/hideHostListView:</TokenIdentifier>
+			<Abstract type="html">Hide the Host List View.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>- (void)hideHostListView:(BOOL)animated</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>animated</Name>
+					<Abstract type="html">Indicates whether or not the hiding should be animated.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/hideHostListView:</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/createBackButton</TokenIdentifier>
+			<Abstract type="html">Factory Method to create the back button.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>- (nonnull UIBarButtonItem *)createBackButton</Declaration>
+			
+			
+			<Anchor>//api/name/createBackButton</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/createSettingsButton</TokenIdentifier>
+			<Abstract type="html">Factory Method to create the settings button.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>- (nonnull UIBarButtonItem *)createSettingsButton</Declaration>
+			
+			
+			<Anchor>//api/name/createSettingsButton</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/createTitleItem</TokenIdentifier>
+			<Abstract type="html">Factory Method to create the navigation title.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>- (nonnull UIView *)createTitleItem</Declaration>
+			
+			
+			<Anchor>//api/name/createTitleItem</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/shouldShowBackButton</TokenIdentifier>
+			<Abstract type="html">Logic to show back button.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)shouldShowBackButton</Declaration>
+			
+			
+			<Anchor>//api/name/shouldShowBackButton</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/handleBackButtonAction</TokenIdentifier>
+			<Abstract type="html">Back Button was pressed by user</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>- (void)handleBackButtonAction</Declaration>
+			
+			
+			<Anchor>//api/name/handleBackButtonAction</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/handleLoginHostSelectedAction:</TokenIdentifier>
+			<Abstract type="html">User Selected a host from the host list</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>- (void)handleLoginHostSelectedAction:(nonnull SFSDKLoginHost *)host</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>host</Name>
+					<Abstract type="html">SFSDKLoginHost</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/handleLoginHostSelectedAction:</Anchor>
             <NodeRef refid="35"/>
 		</Token>
 		

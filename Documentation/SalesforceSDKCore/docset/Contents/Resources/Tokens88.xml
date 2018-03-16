@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKLoginFlowSelectionViewController.html">
+	<File path="Classes/SFSDKInstrumentationPostExecutionData.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKLoginFlowSelectionViewController</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKLoginFlowSelectionViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKInstrumentationPostExecutionData</TokenIdentifier>
+			<Abstract type="html">Class containing the perf data associated with a selector execution.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
             
 			
 			<NodeRef refid="88"/>
@@ -13,74 +13,218 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginFlowSelectionViewController/setSelectionFlowDelegate:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKLoginFlowSelectionViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationPostExecutionData/setClassName:</TokenIdentifier>
+			<Abstract type="html">The name of the class associated with the selector.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (weak, nonatomic) id&lt;SFSDKLoginFlowSelectionViewDelegate&gt; selectionFlowDelegate</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *className</Declaration>
 			
 			
-			<Anchor>//api/name/selectionFlowDelegate</Anchor>
+			<Anchor>//api/name/className</Anchor>
             <NodeRef refid="88"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginFlowSelectionViewController/selectionFlowDelegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKLoginFlowSelectionViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationPostExecutionData/className</TokenIdentifier>
+			<Abstract type="html">The name of the class associated with the selector.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (weak, nonatomic) id&lt;SFSDKLoginFlowSelectionViewDelegate&gt; selectionFlowDelegate</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *className</Declaration>
 			
 			
-			<Anchor>//api/name/selectionFlowDelegate</Anchor>
+			<Anchor>//api/name/className</Anchor>
             <NodeRef refid="88"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginFlowSelectionViewController/selectionFlowDelegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKLoginFlowSelectionViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationPostExecutionData/className</TokenIdentifier>
+			<Abstract type="html">The name of the class associated with the selector.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (weak, nonatomic) id&lt;SFSDKLoginFlowSelectionViewDelegate&gt; selectionFlowDelegate</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *className</Declaration>
 			
 			
-			<Anchor>//api/name/selectionFlowDelegate</Anchor>
+			<Anchor>//api/name/className</Anchor>
             <NodeRef refid="88"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginFlowSelectionViewController/setAppOptions:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKLoginFlowSelectionViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationPostExecutionData/setSelectorName:</TokenIdentifier>
+			<Abstract type="html">The name of the original selector executed.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSDictionary *appOptions</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *selectorName</Declaration>
 			
 			
-			<Anchor>//api/name/appOptions</Anchor>
+			<Anchor>//api/name/selectorName</Anchor>
             <NodeRef refid="88"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginFlowSelectionViewController/appOptions</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKLoginFlowSelectionViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationPostExecutionData/selectorName</TokenIdentifier>
+			<Abstract type="html">The name of the original selector executed.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSDictionary *appOptions</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *selectorName</Declaration>
 			
 			
-			<Anchor>//api/name/appOptions</Anchor>
+			<Anchor>//api/name/selectorName</Anchor>
             <NodeRef refid="88"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginFlowSelectionViewController/appOptions</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKLoginFlowSelectionViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationPostExecutionData/selectorName</TokenIdentifier>
+			<Abstract type="html">The name of the original selector executed.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSDictionary *appOptions</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *selectorName</Declaration>
 			
 			
-			<Anchor>//api/name/appOptions</Anchor>
+			<Anchor>//api/name/selectorName</Anchor>
+            <NodeRef refid="88"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationPostExecutionData/setIsInstanceMethod:</TokenIdentifier>
+			<Abstract type="html">Whether or not the selector is an instance method.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isInstanceMethod</Declaration>
+			
+			
+			<Anchor>//api/name/isInstanceMethod</Anchor>
+            <NodeRef refid="88"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationPostExecutionData/isInstanceMethod</TokenIdentifier>
+			<Abstract type="html">Whether or not the selector is an instance method.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isInstanceMethod</Declaration>
+			
+			
+			<Anchor>//api/name/isInstanceMethod</Anchor>
+            <NodeRef refid="88"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationPostExecutionData/isInstanceMethod</TokenIdentifier>
+			<Abstract type="html">Whether or not the selector is an instance method.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isInstanceMethod</Declaration>
+			
+			
+			<Anchor>//api/name/isInstanceMethod</Anchor>
+            <NodeRef refid="88"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationPostExecutionData/setExecutionStartDate:</TokenIdentifier>
+			<Abstract type="html">The start date of the selector&apos;s execution.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDate *executionStartDate</Declaration>
+			
+			
+			<Anchor>//api/name/executionStartDate</Anchor>
+            <NodeRef refid="88"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationPostExecutionData/executionStartDate</TokenIdentifier>
+			<Abstract type="html">The start date of the selector&apos;s execution.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDate *executionStartDate</Declaration>
+			
+			
+			<Anchor>//api/name/executionStartDate</Anchor>
+            <NodeRef refid="88"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationPostExecutionData/executionStartDate</TokenIdentifier>
+			<Abstract type="html">The start date of the selector&apos;s execution.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDate *executionStartDate</Declaration>
+			
+			
+			<Anchor>//api/name/executionStartDate</Anchor>
+            <NodeRef refid="88"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationPostExecutionData/setExecutionEndDate:</TokenIdentifier>
+			<Abstract type="html">The end date of the selector&apos;s execution.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDate *executionEndDate</Declaration>
+			
+			
+			<Anchor>//api/name/executionEndDate</Anchor>
+            <NodeRef refid="88"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationPostExecutionData/executionEndDate</TokenIdentifier>
+			<Abstract type="html">The end date of the selector&apos;s execution.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDate *executionEndDate</Declaration>
+			
+			
+			<Anchor>//api/name/executionEndDate</Anchor>
+            <NodeRef refid="88"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationPostExecutionData/executionEndDate</TokenIdentifier>
+			<Abstract type="html">The end date of the selector&apos;s execution.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDate *executionEndDate</Declaration>
+			
+			
+			<Anchor>//api/name/executionEndDate</Anchor>
+            <NodeRef refid="88"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationPostExecutionData/setExecutionTime:</TokenIdentifier>
+			<Abstract type="html">The amount of execution time for the selector, in seconds.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSTimeInterval executionTime</Declaration>
+			
+			
+			<Anchor>//api/name/executionTime</Anchor>
+            <NodeRef refid="88"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationPostExecutionData/executionTime</TokenIdentifier>
+			<Abstract type="html">The amount of execution time for the selector, in seconds.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSTimeInterval executionTime</Declaration>
+			
+			
+			<Anchor>//api/name/executionTime</Anchor>
+            <NodeRef refid="88"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationPostExecutionData/executionTime</TokenIdentifier>
+			<Abstract type="html">The amount of execution time for the selector, in seconds.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSTimeInterval executionTime</Declaration>
+			
+			
+			<Anchor>//api/name/executionTime</Anchor>
             <NodeRef refid="88"/>
 		</Token>
 		

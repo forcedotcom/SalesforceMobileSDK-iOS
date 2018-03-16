@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFPasscodeControllerMode.html">
+	<File path="Constants/SFOAuthType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFPasscodeControllerMode</TokenIdentifier>
-			<Abstract type="html">Mode constants indicating whether to create or verify an existing passcode.</Abstract>
-			<DeclaredIn>SFPasscodeViewControllerTypes.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthType</TokenIdentifier>
+			<Abstract type="html">The type of authentication being attempted, in a given OAuth coordinator cycle.</Abstract>
+			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>
             
 			
 			<NodeRef refid="200"/>
@@ -14,31 +14,61 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFPasscodeControllerModeCreate</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTypeUnknown</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFPasscodeControllerModeCreate</Declaration>
+            <Declaration>SFOAuthTypeUnknown</Declaration>
             
-            <DeclaredIn>SFPasscodeViewControllerTypes.h</DeclaredIn>
+            <DeclaredIn>SFOAuthInfo.h</DeclaredIn>
             
             <NodeRef refid="200"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFPasscodeControllerModeVerify</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTypeUserAgent</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFPasscodeControllerModeVerify</Declaration>
+            <Declaration>SFOAuthTypeUserAgent</Declaration>
             
-            <DeclaredIn>SFPasscodeViewControllerTypes.h</DeclaredIn>
+            <DeclaredIn>SFOAuthInfo.h</DeclaredIn>
             
             <NodeRef refid="200"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFPasscodeControllerModeChange</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTypeRefresh</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFPasscodeControllerModeChange</Declaration>
+            <Declaration>SFOAuthTypeRefresh</Declaration>
             
-            <DeclaredIn>SFPasscodeViewControllerTypes.h</DeclaredIn>
+            <DeclaredIn>SFOAuthInfo.h</DeclaredIn>
+            
+            <NodeRef refid="200"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTypeAdvancedBrowser</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFOAuthTypeAdvancedBrowser</Declaration>
+            
+            <DeclaredIn>SFOAuthInfo.h</DeclaredIn>
+            
+            <NodeRef refid="200"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTypeJwtTokenExchange</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFOAuthTypeJwtTokenExchange</Declaration>
+            
+            <DeclaredIn>SFOAuthInfo.h</DeclaredIn>
+            
+            <NodeRef refid="200"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTypeIDP</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFOAuthTypeIDP</Declaration>
+            
+            <DeclaredIn>SFOAuthInfo.h</DeclaredIn>
             
             <NodeRef refid="200"/>
         </Token>

@@ -1,0 +1,743 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTBatchedBridge.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTBatchedBridge</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+            
+			
+			<NodeRef refid="36"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/initWithParentBridge:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithParentBridge:(RCTBridge *)bridge</Declaration>
+			
+			
+			<Anchor>//api/name/initWithParentBridge:</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/initWithDelegate:bundleURL:moduleProvider:launchOptions:):</TokenIdentifier>
+			<Abstract type="html">Set Initial State
+     </Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithDelegate:(__unused id&lt;RCTBridgeDelegate&gt;)delegate bundleURL:(__unused NSURL *)bundleURL moduleProvider:(__unused RCTBridgeModuleListProvider)block launchOptions:(__unused NSDictionary *)launchOptions )</Declaration>
+			
+			
+			<Anchor>//api/name/initWithDelegate:bundleURL:moduleProvider:launchOptions:):</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/loadSource:onProgress:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)loadSource:(RCTSourceLoadBlock)_onSourceLoad onProgress:(RCTSourceLoadProgressBlock)onProgress</Declaration>
+			
+			
+			<Anchor>//api/name/loadSource:onProgress:</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/moduleClasses</TokenIdentifier>
+			<Abstract type="html">All registered bridge module classes.</Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (NSArray&lt;Class&gt; *)moduleClasses</Declaration>
+			
+			
+			<Anchor>//api/name/moduleClasses</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/moduleDataForName:</TokenIdentifier>
+			<Abstract type="html">Used by RCTUIManager</Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (RCTModuleData *)moduleDataForName:(NSString *)moduleName</Declaration>
+			
+			
+			<Anchor>//api/name/moduleDataForName:</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/moduleForName:</TokenIdentifier>
+			<Abstract type="html">Retrieve a bridge module instance by name or class. Note that modules are
+lazily instantiated, so calling these methods for the first time with a given
+module name/class may cause the class to be sychronously instantiated,
+potentially blocking both the calling thread and main thread for a short time.</Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (id)moduleForName:(NSString *)moduleName</Declaration>
+			
+			
+			<Anchor>//api/name/moduleForName:</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/moduleIsInitialized:</TokenIdentifier>
+			<Abstract type="html">Test if a module has been initialized. Use this prior to calling
+moduleForClass: or moduleForName: if you do not want to cause the module
+to be instantiated if it hasn&apos;t been already.</Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (BOOL)moduleIsInitialized:(Class)moduleClass</Declaration>
+			
+			
+			<Anchor>//api/name/moduleIsInitialized:</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/configForModuleName:</TokenIdentifier>
+			<Abstract type="html">Exposed for the RCTJSCExecutor for lazily loading native modules</Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (NSArray *)configForModuleName:(NSString *)moduleName</Declaration>
+			
+			
+			<Anchor>//api/name/configForModuleName:</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/initModulesWithDispatchGroup:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)initModulesWithDispatchGroup:(dispatch_group_t)dispatchGroup</Declaration>
+			
+			
+			<Anchor>//api/name/initModulesWithDispatchGroup:</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/prepareModulesWithDispatchGroup:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)prepareModulesWithDispatchGroup:(dispatch_group_t)dispatchGroup</Declaration>
+			
+			
+			<Anchor>//api/name/prepareModulesWithDispatchGroup:</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/setUpExecutor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)setUpExecutor</Declaration>
+			
+			
+			<Anchor>//api/name/setUpExecutor</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/registerModuleForFrameUpdates:withModuleData:</TokenIdentifier>
+			<Abstract type="html">Used by RCTModuleData to register the module for frame updates after it is
+lazily initialized.</Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)registerModuleForFrameUpdates:(id&lt;RCTBridgeModule&gt;)module withModuleData:(RCTModuleData *)moduleData</Declaration>
+			
+			
+			<Anchor>//api/name/registerModuleForFrameUpdates:withModuleData:</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/moduleConfig</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (NSString *)moduleConfig</Declaration>
+			
+			
+			<Anchor>//api/name/moduleConfig</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/injectJSONConfiguration:onComplete:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)injectJSONConfiguration:(NSString *)configJSON onComplete:(void ( ^ ) ( NSError *))onComplete</Declaration>
+			
+			
+			<Anchor>//api/name/injectJSONConfiguration:onComplete:</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/executeSourceCode:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)executeSourceCode:(NSData *)sourceCode</Declaration>
+			
+			
+			<Anchor>//api/name/executeSourceCode:</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/_flushPendingCalls</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)_flushPendingCalls</Declaration>
+			
+			
+			<Anchor>//api/name/_flushPendingCalls</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/stopLoadingWithError:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)stopLoadingWithError:(NSError *)error</Declaration>
+			
+			
+			<Anchor>//api/name/stopLoadingWithError:</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/setUp</TokenIdentifier>
+			<Abstract type="html">Prevent super from calling setUp (that&apos;d create another batchedBridge)</Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)setUp</Declaration>
+			
+			
+			<Anchor>//api/name/setUp</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/reload</TokenIdentifier>
+			<Abstract type="html">Reload the bundle and reset executor &amp;amp; modules. Safe to call from any thread.</Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)reload</Declaration>
+			
+			
+			<Anchor>//api/name/reload</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/requestReload</TokenIdentifier>
+			<Abstract type="html">Inform the bridge, and anything subscribing to it, that it should reload.</Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)requestReload</Declaration>
+			
+			
+			<Anchor>//api/name/requestReload</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/executorClass</TokenIdentifier>
+			<Abstract type="html">The class of the executor currently being used. Changes to this value will
+take effect after the bridge is reloaded.</Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (Class)executorClass</Declaration>
+			
+			
+			<Anchor>//api/name/executorClass</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/setExecutorClass:</TokenIdentifier>
+			<Abstract type="html">The class of the executor currently being used. Changes to this value will
+take effect after the bridge is reloaded.</Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)setExecutorClass:(Class)executorClass</Declaration>
+			
+			
+			<Anchor>//api/name/setExecutorClass:</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/bundleURL</TokenIdentifier>
+			<Abstract type="html">URL of the script that was loaded into the bridge.</Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (NSURL *)bundleURL</Declaration>
+			
+			
+			<Anchor>//api/name/bundleURL</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/setBundleURL:</TokenIdentifier>
+			<Abstract type="html">URL of the script that was loaded into the bridge.</Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)setBundleURL:(NSURL *)bundleURL</Declaration>
+			
+			
+			<Anchor>//api/name/setBundleURL:</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/delegate</TokenIdentifier>
+			<Abstract type="html">The delegate provided during the bridge initialization</Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (id&lt;RCTBridgeDelegate&gt;)delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/isLoading</TokenIdentifier>
+			<Abstract type="html">Use this to check if the bridge is currently loading.</Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (BOOL)isLoading</Declaration>
+			
+			
+			<Anchor>//api/name/isLoading</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/isValid</TokenIdentifier>
+			<Abstract type="html">Use this to check if the bridge has been invalidated.</Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (BOOL)isValid</Declaration>
+			
+			
+			<Anchor>//api/name/isValid</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/dispatchBlock:queue:</TokenIdentifier>
+			<Abstract type="html">Dispatch work to a module&apos;s queue - this is also suports the fake RCTJSThread
+queue. Exposed for the RCTProfiler</Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)dispatchBlock:(dispatch_block_t)block queue:(dispatch_queue_t)queue</Declaration>
+			
+			
+			<Anchor>//api/name/dispatchBlock:queue:</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/invalidate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)invalidate</Declaration>
+			
+			
+			<Anchor>//api/name/invalidate</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/logMessage:level:</TokenIdentifier>
+			<Abstract type="html">Hook exposed for RCTLog to send logs to JavaScript when not running in JSC</Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)logMessage:(NSString *)message level:(NSString *)level</Declaration>
+			
+			
+			<Anchor>//api/name/logMessage:level:</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/enqueueJSCall:method:args:completion:</TokenIdentifier>
+			<Abstract type="html">Public. Can be invoked from any thread.</Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)enqueueJSCall:(NSString *)module method:(NSString *)method args:(NSArray *)args completion:(dispatch_block_t)completion</Declaration>
+			
+			
+			<Anchor>//api/name/enqueueJSCall:method:args:completion:</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/enqueueCallback:args:</TokenIdentifier>
+			<Abstract type="html">Called by RCTModuleMethod from any thread.</Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)enqueueCallback:(NSNumber *)cbID args:(NSArray *)args</Declaration>
+			
+			
+			<Anchor>//api/name/enqueueCallback:args:</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/callFunctionOnModule:method:arguments:error:</TokenIdentifier>
+			<Abstract type="html">JS thread only</Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (JSValue *)callFunctionOnModule:(NSString *)module method:(NSString *)method arguments:(NSArray *)arguments error:(NSError __autoreleasing **)error</Declaration>
+			
+			
+			<Anchor>//api/name/callFunctionOnModule:method:arguments:error:</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/_immediatelyCallTimer:</TokenIdentifier>
+			<Abstract type="html">Private hack to support setTimeout(fn, 0)</Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)_immediatelyCallTimer:(NSNumber *)timer</Declaration>
+			
+			
+			<Anchor>//api/name/_immediatelyCallTimer:</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/enqueueApplicationScript:url:onComplete:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)enqueueApplicationScript:(NSData *)script url:(NSURL *)url onComplete:(RCTJavaScriptCompleteBlock)onComplete</Declaration>
+			
+			
+			<Anchor>//api/name/enqueueApplicationScript:url:onComplete:</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/_actuallyInvokeAndProcessModule:method:arguments:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)_actuallyInvokeAndProcessModule:(NSString *)module method:(NSString *)method arguments:(NSArray *)args</Declaration>
+			
+			
+			<Anchor>//api/name/_actuallyInvokeAndProcessModule:method:arguments:</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/_actuallyInvokeCallback:arguments:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)_actuallyInvokeCallback:(NSNumber *)cbID arguments:(NSArray *)args</Declaration>
+			
+			
+			<Anchor>//api/name/_actuallyInvokeCallback:arguments:</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/_processResponse:error:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)_processResponse:(id)json error:(NSError *)error</Declaration>
+			
+			
+			<Anchor>//api/name/_processResponse:error:</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/handleBuffer:batchEnded:</TokenIdentifier>
+			<Abstract type="html">Exposed for the RCTJSCExecutor for sending native methods called from
+JavaScript in the middle of a batch.</Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)handleBuffer:(id)buffer batchEnded:(BOOL)batchEnded</Declaration>
+			
+			
+			<Anchor>//api/name/handleBuffer:batchEnded:</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/handleBuffer:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)handleBuffer:(NSArray *)buffer</Declaration>
+			
+			
+			<Anchor>//api/name/handleBuffer:</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/partialBatchDidFlush</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)partialBatchDidFlush</Declaration>
+			
+			
+			<Anchor>//api/name/partialBatchDidFlush</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/batchDidComplete</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)batchDidComplete</Declaration>
+			
+			
+			<Anchor>//api/name/batchDidComplete</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/callNativeModule:method:params:</TokenIdentifier>
+			<Abstract type="html">Synchronously call a specific native module&apos;s method and return the result</Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (id)callNativeModule:(NSUInteger)moduleID method:(NSUInteger)methodID params:(NSArray *)params</Declaration>
+			
+			
+			<Anchor>//api/name/callNativeModule:method:params:</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/startProfiling</TokenIdentifier>
+			<Abstract type="html">Systrace profiler toggling methods exposed for the RCTDevMenu</Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)startProfiling</Declaration>
+			
+			
+			<Anchor>//api/name/startProfiling</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/stopProfiling:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)stopProfiling:(void ( ^ ) ( NSData *))callback</Declaration>
+			
+			
+			<Anchor>//api/name/stopProfiling:</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/isBatchActive</TokenIdentifier>
+			<Abstract type="html">Says whether bridge has started recieving calls from javascript.</Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (BOOL)isBatchActive</Declaration>
+			
+			
+			<Anchor>//api/name/isBatchActive</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/jsContextRef</TokenIdentifier>
+			<Abstract type="html">The raw JSGlobalContextRef used by the bridge.</Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (JSGlobalContextRef)jsContextRef</Declaration>
+			
+			
+			<Anchor>//api/name/jsContextRef</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/jsContext</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (JSContext *)jsContext</Declaration>
+			
+			
+			<Anchor>//api/name/jsContext</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/isInspectable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBatchedBridge.mm</DeclaredIn>
+			
+			<Declaration>- (BOOL)isInspectable</Declaration>
+			
+			
+			<Anchor>//api/name/isInspectable</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/setParentBridge:</TokenIdentifier>
+			<Abstract type="html">Used by RCTModuleData</Abstract>
+			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, readonly) RCTBridge *parentBridge</Declaration>
+			
+			
+			<Anchor>//api/name/parentBridge</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/parentBridge</TokenIdentifier>
+			<Abstract type="html">Used by RCTModuleData</Abstract>
+			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, readonly) RCTBridge *parentBridge</Declaration>
+			
+			
+			<Anchor>//api/name/parentBridge</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTBatchedBridge/parentBridge</TokenIdentifier>
+			<Abstract type="html">Used by RCTModuleData</Abstract>
+			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, readonly) RCTBridge *parentBridge</Declaration>
+			
+			
+			<Anchor>//api/name/parentBridge</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/setJavaScriptExecutor:</TokenIdentifier>
+			<Abstract type="html">Access the underlying JavaScript executor. You can use this in unit tests to detect
+when the executor has been invalidated, or when you want to schedule calls on the
+JS VM outside of React Native. Use with care!</Abstract>
+			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, readonly) id&lt;RCTJavaScriptExecutor&gt; javaScriptExecutor</Declaration>
+			
+			
+			<Anchor>//api/name/javaScriptExecutor</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/javaScriptExecutor</TokenIdentifier>
+			<Abstract type="html">Access the underlying JavaScript executor. You can use this in unit tests to detect
+when the executor has been invalidated, or when you want to schedule calls on the
+JS VM outside of React Native. Use with care!</Abstract>
+			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, readonly) id&lt;RCTJavaScriptExecutor&gt; javaScriptExecutor</Declaration>
+			
+			
+			<Anchor>//api/name/javaScriptExecutor</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTBatchedBridge/javaScriptExecutor</TokenIdentifier>
+			<Abstract type="html">Access the underlying JavaScript executor. You can use this in unit tests to detect
+when the executor has been invalidated, or when you want to schedule calls on the
+JS VM outside of React Native. Use with care!</Abstract>
+			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, readonly) id&lt;RCTJavaScriptExecutor&gt; javaScriptExecutor</Declaration>
+			
+			
+			<Anchor>//api/name/javaScriptExecutor</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/setModuleSetupComplete:</TokenIdentifier>
+			<Abstract type="html">Used by RCTModuleData</Abstract>
+			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) BOOL moduleSetupComplete</Declaration>
+			
+			
+			<Anchor>//api/name/moduleSetupComplete</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/moduleSetupComplete</TokenIdentifier>
+			<Abstract type="html">Used by RCTModuleData</Abstract>
+			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) BOOL moduleSetupComplete</Declaration>
+			
+			
+			<Anchor>//api/name/moduleSetupComplete</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTBatchedBridge/moduleSetupComplete</TokenIdentifier>
+			<Abstract type="html">Used by RCTModuleData</Abstract>
+			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) BOOL moduleSetupComplete</Declaration>
+			
+			
+			<Anchor>//api/name/moduleSetupComplete</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBatchedBridge/start</TokenIdentifier>
+			<Abstract type="html">Called on the child bridge to run the executor and start loading.</Abstract>
+			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			
+			<Declaration>- (void)start</Declaration>
+			
+			
+			<Anchor>//api/name/start</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

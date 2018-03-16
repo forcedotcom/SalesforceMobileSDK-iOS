@@ -1,16 +1,256 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSHA256PasscodeProvider.html">
+	<File path="Classes/SFSDKWindowManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSHA256PasscodeProvider</TokenIdentifier>
-			<Abstract type="html">Passcode provider for passcodes hashed with the SHA-256 algorithm.</Abstract>
-			<DeclaredIn>SFSHA256PasscodeProvider.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKWindowManager</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="117"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/setAuthWindow:</TokenIdentifier>
+			<Abstract type="html">SDK uses this window to present the login flow.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>@property (readonly, nonatomic, strong) SFSDKWindowContainer *authWindow</Declaration>
+			
+			
+			<Anchor>//api/name/authWindow</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/authWindow</TokenIdentifier>
+			<Abstract type="html">SDK uses this window to present the login flow.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>@property (readonly, nonatomic, strong) SFSDKWindowContainer *authWindow</Declaration>
+			
+			
+			<Anchor>//api/name/authWindow</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKWindowManager/authWindow</TokenIdentifier>
+			<Abstract type="html">SDK uses this window to present the login flow.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>@property (readonly, nonatomic, strong) SFSDKWindowContainer *authWindow</Declaration>
+			
+			
+			<Anchor>//api/name/authWindow</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/setSnapshotWindow:</TokenIdentifier>
+			<Abstract type="html">SDK uses this window to present the snapshot View.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>@property (readonly, nonatomic, strong) SFSDKWindowContainer *snapshotWindow</Declaration>
+			
+			
+			<Anchor>//api/name/snapshotWindow</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/snapshotWindow</TokenIdentifier>
+			<Abstract type="html">SDK uses this window to present the snapshot View.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>@property (readonly, nonatomic, strong) SFSDKWindowContainer *snapshotWindow</Declaration>
+			
+			
+			<Anchor>//api/name/snapshotWindow</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKWindowManager/snapshotWindow</TokenIdentifier>
+			<Abstract type="html">SDK uses this window to present the snapshot View.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>@property (readonly, nonatomic, strong) SFSDKWindowContainer *snapshotWindow</Declaration>
+			
+			
+			<Anchor>//api/name/snapshotWindow</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/setPasscodeWindow:</TokenIdentifier>
+			<Abstract type="html">SDK uses this window to present the passocde View.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>@property (readonly, nonatomic, strong) SFSDKWindowContainer *passcodeWindow</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeWindow</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/passcodeWindow</TokenIdentifier>
+			<Abstract type="html">SDK uses this window to present the passocde View.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>@property (readonly, nonatomic, strong) SFSDKWindowContainer *passcodeWindow</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeWindow</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKWindowManager/passcodeWindow</TokenIdentifier>
+			<Abstract type="html">SDK uses this window to present the passocde View.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>@property (readonly, nonatomic, strong) SFSDKWindowContainer *passcodeWindow</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeWindow</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/setMainWindow:</TokenIdentifier>
+			<Abstract type="html">Returns the SFSDKWindowContainer window representing the mainWindow that has been set</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>@property (readonly, nonatomic, strong) SFSDKWindowContainer *mainWindow</Declaration>
+			
+			
+			<Anchor>//api/name/mainWindow</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/mainWindow</TokenIdentifier>
+			<Abstract type="html">Returns the SFSDKWindowContainer window representing the mainWindow that has been set</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>@property (readonly, nonatomic, strong) SFSDKWindowContainer *mainWindow</Declaration>
+			
+			
+			<Anchor>//api/name/mainWindow</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKWindowManager/mainWindow</TokenIdentifier>
+			<Abstract type="html">Returns the SFSDKWindowContainer window representing the mainWindow that has been set</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>@property (readonly, nonatomic, strong) SFSDKWindowContainer *mainWindow</Declaration>
+			
+			
+			<Anchor>//api/name/mainWindow</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/activeWindow</TokenIdentifier>
+			<Abstract type="html">Returns the SFSDKWindowContainer window representing the active presented Window that has been set</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>- (SFSDKWindowContainer *_Nullable)activeWindow</Declaration>
+			
+			
+			<Anchor>//api/name/activeWindow</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/setMainUIWindow:</TokenIdentifier>
+			<Abstract type="html">Used to setup the main application window.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>- (void)setMainUIWindow:(UIWindow *_Nonnull)window</Declaration>
+			
+			
+			<Anchor>//api/name/setMainUIWindow:</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/createNewNamedWindow:</TokenIdentifier>
+			<Abstract type="html">Used to create a new Window keyed by a  specified name</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>- (SFSDKWindowContainer *_Nullable)createNewNamedWindow:(NSString *_Nonnull)windowName</Declaration>
+			
+			
+			<Anchor>//api/name/createNewNamedWindow:</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/removeNamedWindow:</TokenIdentifier>
+			<Abstract type="html">Used to remove a  Window by a  specified name</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)removeNamedWindow:(NSString *_Nonnull)windowName</Declaration>
+			
+			
+			<Anchor>//api/name/removeNamedWindow:</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/windowWithName:</TokenIdentifier>
+			<Abstract type="html">Used to retrieve a Window by a  specified name</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>- (SFSDKWindowContainer *_Nullable)windowWithName:(NSString *_Nonnull)name</Declaration>
+			
+			
+			<Anchor>//api/name/windowWithName:</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/addDelegate:</TokenIdentifier>
+			<Abstract type="html">Add a Window Manager Delegate</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>- (void)addDelegate:(id&lt;SFSDKWindowManagerDelegate&gt; _Nonnull)delegate</Declaration>
+			
+			
+			<Anchor>//api/name/addDelegate:</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/removeDelegate:</TokenIdentifier>
+			<Abstract type="html">Remove a Window Manager Delegate</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>- (void)removeDelegate:(id&lt;SFSDKWindowManagerDelegate&gt; _Nonnull)delegate</Declaration>
+			
+			
+			<Anchor>//api/name/removeDelegate:</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKWindowManager/sharedManager</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>+ (instancetype _Nonnull)sharedManager</Declaration>
+			
+			
+			<Anchor>//api/name/sharedManager</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
 		
         
         

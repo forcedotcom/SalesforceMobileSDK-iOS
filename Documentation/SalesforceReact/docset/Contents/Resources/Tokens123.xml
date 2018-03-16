@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTMultipartStreamReader.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTMultipartStreamReader</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTMultipartStreamReader.h</DeclaredIn>
+            
+			
+			<NodeRef refid="123"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTMultipartStreamReader/initWithInputStream:boundary:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTMultipartStreamReader.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithInputStream:(NSInputStream *)stream boundary:(NSString *)boundary</Declaration>
+			
+			
+			<Anchor>//api/name/initWithInputStream:boundary:</Anchor>
+            <NodeRef refid="123"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTMultipartStreamReader/readAllPartsWithCompletionCallback:progressCallback:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTMultipartStreamReader.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)readAllPartsWithCompletionCallback:(RCTMultipartCallback)callback progressCallback:(RCTMultipartProgressCallback)progressCallback</Declaration>
+			
+			
+			<Anchor>//api/name/readAllPartsWithCompletionCallback:progressCallback:</Anchor>
+            <NodeRef refid="123"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

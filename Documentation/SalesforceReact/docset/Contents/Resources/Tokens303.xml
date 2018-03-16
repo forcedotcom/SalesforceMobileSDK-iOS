@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Constants/RCTSizeComparison.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/c/tdef/RCTSizeComparison</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+            
+			
+			<NodeRef refid="303"/>
+		</Token>
+		
+		
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTSizeTooLarge</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTSizeTooLarge</Declaration>
+            
+            <DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+            
+            <NodeRef refid="303"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTSizeTooSmall</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTSizeTooSmall</Declaration>
+            
+            <DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+            
+            <NodeRef refid="303"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTSizeWithinRange</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTSizeWithinRange</Declaration>
+            
+            <DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+            
+            <NodeRef refid="303"/>
+        </Token>
+        
+        
+	</File>
+</Tokens>

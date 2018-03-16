@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFOAuthCredentialsStorageType.html">
+	<File path="Constants/SFOAuthClientKeyType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthCredentialsStorageType</TokenIdentifier>
-			<Abstract type="html">@enum OAuth credential storage type</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthClientKeyType</TokenIdentifier>
+			<Abstract type="html">Enumeration of types of different types of client maintained in cache.</Abstract>
+			<DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
             
 			
 			<NodeRef refid="194"/>
@@ -14,23 +14,34 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthCredentialsStorageTypeNone</TokenIdentifier>
-            <Abstract type="html">     No storage or persistence of OAuth credentials will be attempted
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthClientKeyTypeBasic</TokenIdentifier>
+            <Abstract type="html">     The default server target, which uses standard REST requests to post updates.
      </Abstract>
-            <Declaration>SFOAuthCredentialsStorageTypeNone</Declaration>
+            <Declaration>SFOAuthClientKeyTypeBasic</Declaration>
             
-            <DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+            <DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
             
             <NodeRef refid="194"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthCredentialsStorageTypeKeychain</TokenIdentifier>
-            <Abstract type="html">     OAuth credentials will be stored securely within the keychain.
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthClientKeyTypeAdvanced</TokenIdentifier>
+            <Abstract type="html">     Server target is a custom target, that manages its own server update logic.
      </Abstract>
-            <Declaration>SFOAuthCredentialsStorageTypeKeychain</Declaration>
+            <Declaration>SFOAuthClientKeyTypeAdvanced</Declaration>
             
-            <DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+            <DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
+            
+            <NodeRef refid="194"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthClientKeyTypeIDP</TokenIdentifier>
+            <Abstract type="html">     Server target is a custom target, that manages its own server update logic.
+     </Abstract>
+            <Declaration>SFOAuthClientKeyTypeIDP</Declaration>
+            
+            <DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
             
             <NodeRef refid="194"/>
         </Token>

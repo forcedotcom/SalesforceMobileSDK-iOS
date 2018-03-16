@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKURLHandler.html">
+	<File path="Protocols/SFSDKOAuthClientWebViewDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKURLHandler</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKURLHandler.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKOAuthClientWebViewDelegate</TokenIdentifier>
+			<Abstract type="html">Delegate that will be used to notify of all the OAuth Client WebView Events.</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
             
 			
 			<NodeRef refid="173"/>
@@ -13,26 +13,73 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKURLHandler/canHandleRequest:options:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKURLHandler.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientWebViewDelegate/authClientWillBeginAuthWithView:</TokenIdentifier>
+			<Abstract type="html">Called when the Oauth Client is starting the auth process with an auth view.</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options</Declaration>
+			<Declaration>- (void)authClientWillBeginAuthWithView:(SFSDKOAuthClient *_Nonnull)client</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>client</Name>
+					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/canHandleRequest:options:</Anchor>
+			<Anchor>//api/name/authClientWillBeginAuthWithView:</Anchor>
             <NodeRef refid="173"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKURLHandler/processRequest:options:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKURLHandler.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientWebViewDelegate/authClientDidStartAuthWebViewLoad:</TokenIdentifier>
+			<Abstract type="html">Called when the auth view starts its load.</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options</Declaration>
+			<Declaration>- (void)authClientDidStartAuthWebViewLoad:(SFSDKOAuthClient *_Nonnull)client</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>client</Name>
+					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
+				</Parameter>
+			</Parameters>
 			
+			<Anchor>//api/name/authClientDidStartAuthWebViewLoad:</Anchor>
+            <NodeRef refid="173"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientWebViewDelegate/authClientDidFinishAuthWebViewLoad:</TokenIdentifier>
+			<Abstract type="html">Called when the auth view load has finished.</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
 			
-			<Anchor>//api/name/processRequest:options:</Anchor>
+			<Declaration>- (void)authClientDidFinishAuthWebViewLoad:(SFSDKOAuthClient *_Nonnull)client</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>client</Name>
+					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/authClientDidFinishAuthWebViewLoad:</Anchor>
+            <NodeRef refid="173"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientWebViewDelegate/authClient:willDisplayAuthWebView:</TokenIdentifier>
+			<Abstract type="html">Called when the OAuth Client is going to display the auth view.</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>- (void)authClient:(SFSDKOAuthClient *_Nonnull)client willDisplayAuthWebView:(WKWebView *_Nonnull)view</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>client</Name>
+					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
+				</Parameter><Parameter>
+					<Name>view</Name>
+					<Abstract type="html">The instance of the auth view to be displayed.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/authClient:willDisplayAuthWebView:</Anchor>
             <NodeRef refid="173"/>
 		</Token>
 		

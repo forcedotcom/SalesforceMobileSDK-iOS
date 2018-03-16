@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKMutableOAuthClientContext.html">
+	<File path="Classes/SFSDKLoginViewControllerConfig.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKMutableOAuthClientContext</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKLoginViewControllerConfig</TokenIdentifier>
+			<Abstract type="html">Block typedef for setting up a custom SFLoginViewController.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
             
 			
 			<NodeRef refid="93"/>
@@ -13,182 +13,326 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/setCredentials:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/setNavBarFont:</TokenIdentifier>
+			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readwrite, nullable) SFOAuthCredentials *credentials</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIFont *navBarFont</Declaration>
 			
 			
-			<Anchor>//api/name/credentials</Anchor>
+			<Anchor>//api/name/navBarFont</Anchor>
             <NodeRef refid="93"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/credentials</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/navBarFont</TokenIdentifier>
+			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readwrite, nullable) SFOAuthCredentials *credentials</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIFont *navBarFont</Declaration>
 			
 			
-			<Anchor>//api/name/credentials</Anchor>
+			<Anchor>//api/name/navBarFont</Anchor>
             <NodeRef refid="93"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKMutableOAuthClientContext/credentials</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginViewControllerConfig/navBarFont</TokenIdentifier>
+			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readwrite, nullable) SFOAuthCredentials *credentials</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIFont *navBarFont</Declaration>
 			
 			
-			<Anchor>//api/name/credentials</Anchor>
+			<Anchor>//api/name/navBarFont</Anchor>
             <NodeRef refid="93"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/setAuthInfo:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/setNavBarTextColor:</TokenIdentifier>
+			<Abstract type="html">Specify the text color to use for navigation bar header text.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readwrite, nullable) SFOAuthInfo *authInfo</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarTextColor</Declaration>
 			
 			
-			<Anchor>//api/name/authInfo</Anchor>
+			<Anchor>//api/name/navBarTextColor</Anchor>
             <NodeRef refid="93"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/authInfo</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/navBarTextColor</TokenIdentifier>
+			<Abstract type="html">Specify the text color to use for navigation bar header text.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readwrite, nullable) SFOAuthInfo *authInfo</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarTextColor</Declaration>
 			
 			
-			<Anchor>//api/name/authInfo</Anchor>
+			<Anchor>//api/name/navBarTextColor</Anchor>
             <NodeRef refid="93"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKMutableOAuthClientContext/authInfo</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginViewControllerConfig/navBarTextColor</TokenIdentifier>
+			<Abstract type="html">Specify the text color to use for navigation bar header text.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readwrite, nullable) SFOAuthInfo *authInfo</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarTextColor</Declaration>
 			
 			
-			<Anchor>//api/name/authInfo</Anchor>
+			<Anchor>//api/name/navBarTextColor</Anchor>
             <NodeRef refid="93"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/setAuthError:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/setNavBarColor:</TokenIdentifier>
+			<Abstract type="html">Specify navigation bar color. This color will be used by the login view header.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readwrite, nullable) NSError *authError</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarColor</Declaration>
 			
 			
-			<Anchor>//api/name/authError</Anchor>
+			<Anchor>//api/name/navBarColor</Anchor>
             <NodeRef refid="93"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/authError</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/navBarColor</TokenIdentifier>
+			<Abstract type="html">Specify navigation bar color. This color will be used by the login view header.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readwrite, nullable) NSError *authError</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarColor</Declaration>
 			
 			
-			<Anchor>//api/name/authError</Anchor>
+			<Anchor>//api/name/navBarColor</Anchor>
             <NodeRef refid="93"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKMutableOAuthClientContext/authError</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginViewControllerConfig/navBarColor</TokenIdentifier>
+			<Abstract type="html">Specify navigation bar color. This color will be used by the login view header.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readwrite, nullable) NSError *authError</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarColor</Declaration>
 			
 			
-			<Anchor>//api/name/authError</Anchor>
+			<Anchor>//api/name/navBarColor</Anchor>
             <NodeRef refid="93"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/setUserHint:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/setNavBarTitleColor:</TokenIdentifier>
+			<Abstract type="html">Specify navigation bar title color. This color will be used by the login view header.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, readwrite) NSString *userHint</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarTitleColor</Declaration>
 			
 			
-			<Anchor>//api/name/userHint</Anchor>
+			<Anchor>//api/name/navBarTitleColor</Anchor>
             <NodeRef refid="93"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/userHint</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/navBarTitleColor</TokenIdentifier>
+			<Abstract type="html">Specify navigation bar title color. This color will be used by the login view header.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, readwrite) NSString *userHint</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarTitleColor</Declaration>
 			
 			
-			<Anchor>//api/name/userHint</Anchor>
+			<Anchor>//api/name/navBarTitleColor</Anchor>
             <NodeRef refid="93"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKMutableOAuthClientContext/userHint</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginViewControllerConfig/navBarTitleColor</TokenIdentifier>
+			<Abstract type="html">Specify navigation bar title color. This color will be used by the login view header.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, readwrite) NSString *userHint</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarTitleColor</Declaration>
 			
 			
-			<Anchor>//api/name/userHint</Anchor>
+			<Anchor>//api/name/navBarTitleColor</Anchor>
             <NodeRef refid="93"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/setCallingAppOptions:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/setShowNavbar:</TokenIdentifier>
+			<Abstract type="html">Specify visibility of nav bar. This property will be used to hide/show the nav bar</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readwrite, nonnull) NSDictionary *callingAppOptions</Declaration>
+			<Declaration>@property (nonatomic) BOOL showNavbar</Declaration>
 			
 			
-			<Anchor>//api/name/callingAppOptions</Anchor>
+			<Anchor>//api/name/showNavbar</Anchor>
             <NodeRef refid="93"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/callingAppOptions</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/showNavbar</TokenIdentifier>
+			<Abstract type="html">Specify visibility of nav bar. This property will be used to hide/show the nav bar</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readwrite, nonnull) NSDictionary *callingAppOptions</Declaration>
+			<Declaration>@property (nonatomic) BOOL showNavbar</Declaration>
 			
 			
-			<Anchor>//api/name/callingAppOptions</Anchor>
+			<Anchor>//api/name/showNavbar</Anchor>
             <NodeRef refid="93"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKMutableOAuthClientContext/callingAppOptions</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginViewControllerConfig/showNavbar</TokenIdentifier>
+			<Abstract type="html">Specify visibility of nav bar. This property will be used to hide/show the nav bar</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL showNavbar</Declaration>
+			
+			
+			<Anchor>//api/name/showNavbar</Anchor>
+            <NodeRef refid="93"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/setShowSettingsIcon:</TokenIdentifier>
+			<Abstract type="html">Specifiy the visibility of the settings icon. This property will be used to hide/show the settings icon</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL showSettingsIcon</Declaration>
+			
+			
+			<Anchor>//api/name/showSettingsIcon</Anchor>
+            <NodeRef refid="93"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/showSettingsIcon</TokenIdentifier>
+			<Abstract type="html">Specifiy the visibility of the settings icon. This property will be used to hide/show the settings icon</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL showSettingsIcon</Declaration>
+			
+			
+			<Anchor>//api/name/showSettingsIcon</Anchor>
+            <NodeRef refid="93"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginViewControllerConfig/showSettingsIcon</TokenIdentifier>
+			<Abstract type="html">Specifiy the visibility of the settings icon. This property will be used to hide/show the settings icon</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL showSettingsIcon</Declaration>
+			
+			
+			<Anchor>//api/name/showSettingsIcon</Anchor>
+            <NodeRef refid="93"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/setShouldDisplayBackButton:</TokenIdentifier>
+			<Abstract type="html">Specifiy the visibility of the back icon. This property value can be changed by changing the value of shouldAuthenticate in bootconfig or by subclasssing SFLoginViewController.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL shouldDisplayBackButton</Declaration>
+			
+			
+			<Anchor>//api/name/shouldDisplayBackButton</Anchor>
+            <NodeRef refid="93"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/shouldDisplayBackButton</TokenIdentifier>
+			<Abstract type="html">Specifiy the visibility of the back icon. This property value can be changed by changing the value of shouldAuthenticate in bootconfig or by subclasssing SFLoginViewController.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL shouldDisplayBackButton</Declaration>
+			
+			
+			<Anchor>//api/name/shouldDisplayBackButton</Anchor>
+            <NodeRef refid="93"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginViewControllerConfig/shouldDisplayBackButton</TokenIdentifier>
+			<Abstract type="html">Specifiy the visibility of the back icon. This property value can be changed by changing the value of shouldAuthenticate in bootconfig or by subclasssing SFLoginViewController.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL shouldDisplayBackButton</Declaration>
+			
+			
+			<Anchor>//api/name/shouldDisplayBackButton</Anchor>
+            <NodeRef refid="93"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/setDelegate:</TokenIdentifier>
+			<Abstract type="html">Specifiy a delegate for LoginViewController.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="93"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/delegate</TokenIdentifier>
+			<Abstract type="html">Specifiy a delegate for LoginViewController.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="93"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginViewControllerConfig/delegate</TokenIdentifier>
+			<Abstract type="html">Specifiy a delegate for LoginViewController.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="93"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/setLoginViewControllerCreationBlock:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readwrite, nonnull) NSDictionary *callingAppOptions</Declaration>
+			<Declaration>@property (nonatomic, copy, nullable) SFLoginViewControllerCreationBlock loginViewControllerCreationBlock</Declaration>
 			
 			
-			<Anchor>//api/name/callingAppOptions</Anchor>
+			<Anchor>//api/name/loginViewControllerCreationBlock</Anchor>
+            <NodeRef refid="93"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/loginViewControllerCreationBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) SFLoginViewControllerCreationBlock loginViewControllerCreationBlock</Declaration>
+			
+			
+			<Anchor>//api/name/loginViewControllerCreationBlock</Anchor>
+            <NodeRef refid="93"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginViewControllerConfig/loginViewControllerCreationBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) SFLoginViewControllerCreationBlock loginViewControllerCreationBlock</Declaration>
+			
+			
+			<Anchor>//api/name/loginViewControllerCreationBlock</Anchor>
             <NodeRef refid="93"/>
 		</Token>
 		

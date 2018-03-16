@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFPluginTestSuite.html">
+	<File path="Classes/SFSDKInfoPlugin.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFPluginTestSuite</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKInfoPlugin</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPluginTestSuite.h</DeclaredIn>
+			<DeclaredIn>SFSDKInfoPlugin.h</DeclaredIn>
             
 			
 			<NodeRef refid="11"/>
@@ -13,122 +13,38 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPluginTestSuite/setJsTestName:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInfoPlugin/getInfo:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPluginTestSuite.h</DeclaredIn>
+			<DeclaredIn>SFSDKInfoPlugin.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *jsTestName</Declaration>
+			<Declaration>- (void)getInfo:(CDVInvokedUrlCommand *)command</Declaration>
 			
 			
-			<Anchor>//api/name/jsTestName</Anchor>
+			<Anchor>//api/name/getInfo:</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPluginTestSuite/jsTestName</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInfoPlugin/registerAppFeature:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPluginTestSuite.h</DeclaredIn>
+			<DeclaredIn>SFSDKInfoPlugin.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *jsTestName</Declaration>
+			<Declaration>- (void)registerAppFeature:(CDVInvokedUrlCommand *)command</Declaration>
 			
 			
-			<Anchor>//api/name/jsTestName</Anchor>
+			<Anchor>//api/name/registerAppFeature:</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPluginTestSuite/jsTestName</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInfoPlugin/unregisterAppFeature:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPluginTestSuite.h</DeclaredIn>
+			<DeclaredIn>SFSDKInfoPlugin.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *jsTestName</Declaration>
-			
-			
-			<Anchor>//api/name/jsTestName</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPluginTestSuite/setJsSuiteName:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPluginTestSuite.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *jsSuiteName</Declaration>
+			<Declaration>- (void)unregisterAppFeature:(CDVInvokedUrlCommand *)command</Declaration>
 			
 			
-			<Anchor>//api/name/jsSuiteName</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPluginTestSuite/jsSuiteName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPluginTestSuite.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *jsSuiteName</Declaration>
-			
-			
-			<Anchor>//api/name/jsSuiteName</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPluginTestSuite/jsSuiteName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPluginTestSuite.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *jsSuiteName</Declaration>
-			
-			
-			<Anchor>//api/name/jsSuiteName</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPluginTestSuite/waitForTestRunnerReady</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPluginTestSuite.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)waitForTestRunnerReady</Declaration>
-			
-			
-			<Anchor>//api/name/waitForTestRunnerReady</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPluginTestSuite/runTest:inSuite:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPluginTestSuite.h</DeclaredIn>
-			
-			<Declaration>- (void)runTest:(NSString *)testName inSuite:(NSString *)suiteName</Declaration>
-			
-			
-			<Anchor>//api/name/runTest:inSuite:</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPluginTestSuite/runTest:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPluginTestSuite.h</DeclaredIn>
-			
-			<Declaration>- (void)runTest:(NSString *)testName</Declaration>
-			
-			
-			<Anchor>//api/name/runTest:</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPluginTestSuite/isTestRunnerReady</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPluginTestSuite.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isTestRunnerReady</Declaration>
-			
-			
-			<Anchor>//api/name/isTestRunnerReady</Anchor>
+			<Anchor>//api/name/unregisterAppFeature:</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		

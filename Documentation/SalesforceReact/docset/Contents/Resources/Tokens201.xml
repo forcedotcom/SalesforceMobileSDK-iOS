@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTTextSelection.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTTextSelection</TokenIdentifier>
+			<Abstract type="html">Object containing information about a TextInput&apos;s selection.</Abstract>
+			<DeclaredIn>RCTTextSelection.h</DeclaredIn>
+            
+			
+			<NodeRef refid="201"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextSelection/setStart:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextSelection.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) NSInteger start</Declaration>
+			
+			
+			<Anchor>//api/name/start</Anchor>
+            <NodeRef refid="201"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextSelection/start</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextSelection.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) NSInteger start</Declaration>
+			
+			
+			<Anchor>//api/name/start</Anchor>
+            <NodeRef refid="201"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTextSelection/start</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextSelection.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) NSInteger start</Declaration>
+			
+			
+			<Anchor>//api/name/start</Anchor>
+            <NodeRef refid="201"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextSelection/setEnd:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextSelection.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) NSInteger end</Declaration>
+			
+			
+			<Anchor>//api/name/end</Anchor>
+            <NodeRef refid="201"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextSelection/end</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextSelection.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) NSInteger end</Declaration>
+			
+			
+			<Anchor>//api/name/end</Anchor>
+            <NodeRef refid="201"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTextSelection/end</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextSelection.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) NSInteger end</Declaration>
+			
+			
+			<Anchor>//api/name/end</Anchor>
+            <NodeRef refid="201"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextSelection/initWithStart:end:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextSelection.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithStart:(NSInteger)start end:(NSInteger)end</Declaration>
+			
+			
+			<Anchor>//api/name/initWithStart:end:</Anchor>
+            <NodeRef refid="201"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

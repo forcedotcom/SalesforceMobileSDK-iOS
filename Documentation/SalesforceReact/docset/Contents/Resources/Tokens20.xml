@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/FBSnapshotTestCase.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/FBSnapshotTestCase</TokenIdentifier>
+			<Abstract type="html">The base class of view snapshotting tests. If you have small UI component, it&apos;s often easier to configure it in a test
+and compare an image of the view to a reference image that write lots of complex layout-code tests.</Abstract>
+			<DeclaredIn>FBSnapshotTestCase.h</DeclaredIn>
+            
+			
+			<NodeRef refid="20"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/FBSnapshotTestCase/setRecordMode:</TokenIdentifier>
+			<Abstract type="html">When YES, the test macros will save reference images, rather than performing an actual test.</Abstract>
+			<DeclaredIn>FBSnapshotTestCase.h</DeclaredIn>
+			
+			<Declaration>@property (readwrite, nonatomic, assign) BOOL recordMode</Declaration>
+			
+			
+			<Anchor>//api/name/recordMode</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/FBSnapshotTestCase/recordMode</TokenIdentifier>
+			<Abstract type="html">When YES, the test macros will save reference images, rather than performing an actual test.</Abstract>
+			<DeclaredIn>FBSnapshotTestCase.h</DeclaredIn>
+			
+			<Declaration>@property (readwrite, nonatomic, assign) BOOL recordMode</Declaration>
+			
+			
+			<Anchor>//api/name/recordMode</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/FBSnapshotTestCase/recordMode</TokenIdentifier>
+			<Abstract type="html">When YES, the test macros will save reference images, rather than performing an actual test.</Abstract>
+			<DeclaredIn>FBSnapshotTestCase.h</DeclaredIn>
+			
+			<Declaration>@property (readwrite, nonatomic, assign) BOOL recordMode</Declaration>
+			
+			
+			<Anchor>//api/name/recordMode</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/FBSnapshotTestCase/compareSnapshotOfView:referenceImagesDirectory:identifier:error:</TokenIdentifier>
+			<Abstract type="html">Performs the comparisons or records a snapshot of the view if recordMode is YES.</Abstract>
+			<DeclaredIn>FBSnapshotTestCase.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)compareSnapshotOfView:(UIView *)view referenceImagesDirectory:(NSString *)referenceImagesDirectory identifier:(NSString *)identifier error:(NSError **)errorPtr</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>view</Name>
+					<Abstract type="html">The view to snapshot</Abstract>
+				</Parameter><Parameter>
+					<Name>referenceImagesDirectory</Name>
+					<Abstract type="html">The directory in which reference images are stored.</Abstract>
+				</Parameter><Parameter>
+					<Name>identifier</Name>
+					<Abstract type="html">An optional identifier, used if there are multiple snapshot tests in a given -test method.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">An error to log in an XCTAssert() macro if the method fails (missing reference image, images differ, etc).</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the comparison (or saving of the reference image) succeeded.</Abstract></ReturnValue>
+			<Anchor>//api/name/compareSnapshotOfView:referenceImagesDirectory:identifier:error:</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

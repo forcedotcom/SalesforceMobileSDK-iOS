@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTWebView.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTWebView</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWebView.h</DeclaredIn>
+            
+			
+			<NodeRef refid="219"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWebView/setDelegate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWebView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;RCTWebViewDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="219"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWebView/delegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWebView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;RCTWebViewDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="219"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTWebView/delegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWebView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;RCTWebViewDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="219"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWebView/setSource:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWebView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSDictionary *source</Declaration>
+			
+			
+			<Anchor>//api/name/source</Anchor>
+            <NodeRef refid="219"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWebView/source</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWebView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSDictionary *source</Declaration>
+			
+			
+			<Anchor>//api/name/source</Anchor>
+            <NodeRef refid="219"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTWebView/source</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWebView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSDictionary *source</Declaration>
+			
+			
+			<Anchor>//api/name/source</Anchor>
+            <NodeRef refid="219"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWebView/setContentInset:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWebView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UIEdgeInsets contentInset</Declaration>
+			
+			
+			<Anchor>//api/name/contentInset</Anchor>
+            <NodeRef refid="219"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWebView/contentInset</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWebView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UIEdgeInsets contentInset</Declaration>
+			
+			
+			<Anchor>//api/name/contentInset</Anchor>
+            <NodeRef refid="219"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTWebView/contentInset</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWebView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UIEdgeInsets contentInset</Declaration>
+			
+			
+			<Anchor>//api/name/contentInset</Anchor>
+            <NodeRef refid="219"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWebView/setAutomaticallyAdjustContentInsets:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWebView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL automaticallyAdjustContentInsets</Declaration>
+			
+			
+			<Anchor>//api/name/automaticallyAdjustContentInsets</Anchor>
+            <NodeRef refid="219"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWebView/automaticallyAdjustContentInsets</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWebView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL automaticallyAdjustContentInsets</Declaration>
+			
+			
+			<Anchor>//api/name/automaticallyAdjustContentInsets</Anchor>
+            <NodeRef refid="219"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTWebView/automaticallyAdjustContentInsets</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWebView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL automaticallyAdjustContentInsets</Declaration>
+			
+			
+			<Anchor>//api/name/automaticallyAdjustContentInsets</Anchor>
+            <NodeRef refid="219"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWebView/setMessagingEnabled:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWebView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL messagingEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/messagingEnabled</Anchor>
+            <NodeRef refid="219"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWebView/messagingEnabled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWebView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL messagingEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/messagingEnabled</Anchor>
+            <NodeRef refid="219"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTWebView/messagingEnabled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWebView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL messagingEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/messagingEnabled</Anchor>
+            <NodeRef refid="219"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWebView/setInjectedJavaScript:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWebView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *injectedJavaScript</Declaration>
+			
+			
+			<Anchor>//api/name/injectedJavaScript</Anchor>
+            <NodeRef refid="219"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWebView/injectedJavaScript</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWebView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *injectedJavaScript</Declaration>
+			
+			
+			<Anchor>//api/name/injectedJavaScript</Anchor>
+            <NodeRef refid="219"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTWebView/injectedJavaScript</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWebView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *injectedJavaScript</Declaration>
+			
+			
+			<Anchor>//api/name/injectedJavaScript</Anchor>
+            <NodeRef refid="219"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWebView/setScalesPageToFit:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWebView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL scalesPageToFit</Declaration>
+			
+			
+			<Anchor>//api/name/scalesPageToFit</Anchor>
+            <NodeRef refid="219"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWebView/scalesPageToFit</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWebView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL scalesPageToFit</Declaration>
+			
+			
+			<Anchor>//api/name/scalesPageToFit</Anchor>
+            <NodeRef refid="219"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTWebView/scalesPageToFit</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWebView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL scalesPageToFit</Declaration>
+			
+			
+			<Anchor>//api/name/scalesPageToFit</Anchor>
+            <NodeRef refid="219"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWebView/goForward</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWebView.h</DeclaredIn>
+			
+			<Declaration>- (void)goForward</Declaration>
+			
+			
+			<Anchor>//api/name/goForward</Anchor>
+            <NodeRef refid="219"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWebView/goBack</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWebView.h</DeclaredIn>
+			
+			<Declaration>- (void)goBack</Declaration>
+			
+			
+			<Anchor>//api/name/goBack</Anchor>
+            <NodeRef refid="219"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWebView/reload</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWebView.h</DeclaredIn>
+			
+			<Declaration>- (void)reload</Declaration>
+			
+			
+			<Anchor>//api/name/reload</Anchor>
+            <NodeRef refid="219"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWebView/stopLoading</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWebView.h</DeclaredIn>
+			
+			<Declaration>- (void)stopLoading</Declaration>
+			
+			
+			<Anchor>//api/name/stopLoading</Anchor>
+            <NodeRef refid="219"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWebView/postMessage:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWebView.h</DeclaredIn>
+			
+			<Declaration>- (void)postMessage:(NSString *)message</Declaration>
+			
+			
+			<Anchor>//api/name/postMessage:</Anchor>
+            <NodeRef refid="219"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWebView/injectJavaScript:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWebView.h</DeclaredIn>
+			
+			<Declaration>- (void)injectJavaScript:(NSString *)script</Declaration>
+			
+			
+			<Anchor>//api/name/injectJavaScript:</Anchor>
+            <NodeRef refid="219"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

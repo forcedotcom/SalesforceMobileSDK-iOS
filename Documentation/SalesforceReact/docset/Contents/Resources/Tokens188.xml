@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTSurfaceRootView.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTSurfaceRootView</TokenIdentifier>
+			<Abstract type="html">Internal class represents Surface&apos;s root view.</Abstract>
+			<DeclaredIn>RCTSurfaceRootView.h</DeclaredIn>
+            
+			
+			<NodeRef refid="188"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceRootView/initWithCoder:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceRootView.mm</DeclaredIn>
+			
+			<Declaration>- (nullable instancetype)initWithCoder:(NSCoder *)coder</Declaration>
+			
+			
+			<Anchor>//api/name/initWithCoder:</Anchor>
+            <NodeRef refid="188"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

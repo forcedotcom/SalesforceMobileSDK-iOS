@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKTestRequestListener.html">
+	<File path="Classes/SFSDKTestCredentialsData.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKTestRequestListener</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKTestCredentialsData</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
             
 			
 			<NodeRef refid="108"/>
@@ -13,183 +13,302 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/setDataResponse:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/initWithDict:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, retain) id dataResponse</Declaration>
+			<Declaration>- (id)initWithDict:(NSDictionary *)credentialsDict</Declaration>
 			
 			
-			<Anchor>//api/name/dataResponse</Anchor>
+			<Anchor>//api/name/initWithDict:</Anchor>
             <NodeRef refid="108"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/dataResponse</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setAccessToken:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, retain) id dataResponse</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *accessToken</Declaration>
 			
 			
-			<Anchor>//api/name/dataResponse</Anchor>
+			<Anchor>//api/name/accessToken</Anchor>
             <NodeRef refid="108"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestRequestListener/dataResponse</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/accessToken</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, retain) id dataResponse</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *accessToken</Declaration>
 			
 			
-			<Anchor>//api/name/dataResponse</Anchor>
+			<Anchor>//api/name/accessToken</Anchor>
             <NodeRef refid="108"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/setLastError:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/accessToken</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, retain) NSError *lastError</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *accessToken</Declaration>
 			
 			
-			<Anchor>//api/name/lastError</Anchor>
+			<Anchor>//api/name/accessToken</Anchor>
             <NodeRef refid="108"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/lastError</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setRefreshToken:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, retain) NSError *lastError</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *refreshToken</Declaration>
 			
 			
-			<Anchor>//api/name/lastError</Anchor>
+			<Anchor>//api/name/refreshToken</Anchor>
             <NodeRef refid="108"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestRequestListener/lastError</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/refreshToken</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, retain) NSError *lastError</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *refreshToken</Declaration>
 			
 			
-			<Anchor>//api/name/lastError</Anchor>
+			<Anchor>//api/name/refreshToken</Anchor>
             <NodeRef refid="108"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/setReturnStatus:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/refreshToken</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, retain) NSString *returnStatus</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *refreshToken</Declaration>
 			
 			
-			<Anchor>//api/name/returnStatus</Anchor>
+			<Anchor>//api/name/refreshToken</Anchor>
             <NodeRef refid="108"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/returnStatus</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setIdentityUrl:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, retain) NSString *returnStatus</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *identityUrl</Declaration>
 			
 			
-			<Anchor>//api/name/returnStatus</Anchor>
+			<Anchor>//api/name/identityUrl</Anchor>
             <NodeRef refid="108"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestRequestListener/returnStatus</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/identityUrl</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, retain) NSString *returnStatus</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *identityUrl</Declaration>
 			
 			
-			<Anchor>//api/name/returnStatus</Anchor>
+			<Anchor>//api/name/identityUrl</Anchor>
             <NodeRef refid="108"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/setMaxWaitTime:</TokenIdentifier>
-			<Abstract type="html">Max time to wait for request completion</Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) NSTimeInterval maxWaitTime</Declaration>
-			
-			
-			<Anchor>//api/name/maxWaitTime</Anchor>
-            <NodeRef refid="108"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/maxWaitTime</TokenIdentifier>
-			<Abstract type="html">Max time to wait for request completion</Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) NSTimeInterval maxWaitTime</Declaration>
-			
-			
-			<Anchor>//api/name/maxWaitTime</Anchor>
-            <NodeRef refid="108"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestRequestListener/maxWaitTime</TokenIdentifier>
-			<Abstract type="html">Max time to wait for request completion</Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) NSTimeInterval maxWaitTime</Declaration>
-			
-			
-			<Anchor>//api/name/maxWaitTime</Anchor>
-            <NodeRef refid="108"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/initWithServiceType:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/identityUrl</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithServiceType:(SFAccountManagerServiceType)serviceType</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *identityUrl</Declaration>
 			
 			
-			<Anchor>//api/name/initWithServiceType:</Anchor>
+			<Anchor>//api/name/identityUrl</Anchor>
             <NodeRef refid="108"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/waitForCompletion</TokenIdentifier>
-			<Abstract type="html">Wait for the request to complete (success or fail)
-Waits for up to maxWaitTime.</Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)waitForCompletion</Declaration>
-			
-			<ReturnValue><Abstract type="html">returnStatus:  kTestRequestStatusDidTimeout if maxWaitTime was exceeded</Abstract></ReturnValue>
-			<Anchor>//api/name/waitForCompletion</Anchor>
-            <NodeRef refid="108"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/serviceTypeDescription</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setInstanceUrl:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)serviceTypeDescription</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *instanceUrl</Declaration>
 			
 			
-			<Anchor>//api/name/serviceTypeDescription</Anchor>
+			<Anchor>//api/name/instanceUrl</Anchor>
+            <NodeRef refid="108"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/instanceUrl</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *instanceUrl</Declaration>
+			
+			
+			<Anchor>//api/name/instanceUrl</Anchor>
+            <NodeRef refid="108"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/instanceUrl</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *instanceUrl</Declaration>
+			
+			
+			<Anchor>//api/name/instanceUrl</Anchor>
+            <NodeRef refid="108"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setClientId:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *clientId</Declaration>
+			
+			
+			<Anchor>//api/name/clientId</Anchor>
+            <NodeRef refid="108"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/clientId</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *clientId</Declaration>
+			
+			
+			<Anchor>//api/name/clientId</Anchor>
+            <NodeRef refid="108"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/clientId</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *clientId</Declaration>
+			
+			
+			<Anchor>//api/name/clientId</Anchor>
+            <NodeRef refid="108"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setRedirectUri:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *redirectUri</Declaration>
+			
+			
+			<Anchor>//api/name/redirectUri</Anchor>
+            <NodeRef refid="108"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/redirectUri</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *redirectUri</Declaration>
+			
+			
+			<Anchor>//api/name/redirectUri</Anchor>
+            <NodeRef refid="108"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/redirectUri</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *redirectUri</Declaration>
+			
+			
+			<Anchor>//api/name/redirectUri</Anchor>
+            <NodeRef refid="108"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setLoginHost:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *loginHost</Declaration>
+			
+			
+			<Anchor>//api/name/loginHost</Anchor>
+            <NodeRef refid="108"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/loginHost</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *loginHost</Declaration>
+			
+			
+			<Anchor>//api/name/loginHost</Anchor>
+            <NodeRef refid="108"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/loginHost</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *loginHost</Declaration>
+			
+			
+			<Anchor>//api/name/loginHost</Anchor>
+            <NodeRef refid="108"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setCommunityUrl:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *communityUrl</Declaration>
+			
+			
+			<Anchor>//api/name/communityUrl</Anchor>
+            <NodeRef refid="108"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/communityUrl</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *communityUrl</Declaration>
+			
+			
+			<Anchor>//api/name/communityUrl</Anchor>
+            <NodeRef refid="108"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/communityUrl</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *communityUrl</Declaration>
+			
+			
+			<Anchor>//api/name/communityUrl</Anchor>
             <NodeRef refid="108"/>
 		</Token>
 		

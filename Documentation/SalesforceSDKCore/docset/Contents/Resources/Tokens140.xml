@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSData+SFMD5.html">
+	<File path="Categories/NSData+SFHexSupport.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFMD5)</TokenIdentifier>
-			<Abstract type="html">Provides MD5 conversion support.</Abstract>
+			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFHexSupport)</TokenIdentifier>
+			<Abstract type="html">Provides hex string conversion support.</Abstract>
 			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
             
 			
@@ -13,14 +13,14 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/md5</TokenIdentifier>
-			<Abstract type="html">Converts this NSData to md5 format.</Abstract>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/newHexStringFromBytes</TokenIdentifier>
+			<Abstract type="html">Creates a hex string representation of this object&apos;s data.</Abstract>
 			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)md5</Declaration>
+			<Declaration>- (NSString *)newHexStringFromBytes</Declaration>
 			
-			<ReturnValue><Abstract type="html">md5 version of data.</Abstract></ReturnValue>
-			<Anchor>//api/name/md5</Anchor>
+			<ReturnValue><Abstract type="html">Hex string representation of this object&apos;s data.</Abstract></ReturnValue>
+			<Anchor>//api/name/newHexStringFromBytes</Anchor>
             <NodeRef refid="140"/>
 		</Token>
 		
