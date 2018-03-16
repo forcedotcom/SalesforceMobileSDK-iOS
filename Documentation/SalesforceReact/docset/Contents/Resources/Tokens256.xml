@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Protocols/RCTCxxBridgeDelegate.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intf/RCTCxxBridgeDelegate</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTCxxBridgeDelegate.h</DeclaredIn>
+            
+			
+			<NodeRef refid="256"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTCxxBridgeDelegate/jsExecutorFactoryForBridge:</TokenIdentifier>
+			<Abstract type="html">In the RCTCxxBridge, if this method is implemented, return a
+ExecutorFactory instance which can be used to create the executor.
+If not implemented, or returns an empty pointer, JSCExecutorFactory
+will be used.</Abstract>
+			<DeclaredIn>RCTCxxBridgeDelegate.h</DeclaredIn>
+			
+			<Declaration>- (std : : unique_ptr&lt;facebook::react::JSExecutorFactory&gt;)jsExecutorFactoryForBridge:(RCTBridge *)bridge</Declaration>
+			
+			
+			<Anchor>//api/name/jsExecutorFactoryForBridge:</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

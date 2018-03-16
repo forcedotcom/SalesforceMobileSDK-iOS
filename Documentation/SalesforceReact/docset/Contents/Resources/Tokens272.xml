@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Protocols/RCTReconnectingWebSocketDelegate.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intf/RCTReconnectingWebSocketDelegate</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTReconnectingWebSocket.h</DeclaredIn>
+            
+			
+			<NodeRef refid="272"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTReconnectingWebSocketDelegate/reconnectingWebSocketDidOpen:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTReconnectingWebSocket.h</DeclaredIn>
+			
+			<Declaration>- (void)reconnectingWebSocketDidOpen:(RCTReconnectingWebSocket *)webSocket</Declaration>
+			
+			
+			<Anchor>//api/name/reconnectingWebSocketDidOpen:</Anchor>
+            <NodeRef refid="272"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTReconnectingWebSocketDelegate/reconnectingWebSocket:didReceiveMessage:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTReconnectingWebSocket.h</DeclaredIn>
+			
+			<Declaration>- (void)reconnectingWebSocket:(RCTReconnectingWebSocket *)webSocket didReceiveMessage:(id)message</Declaration>
+			
+			
+			<Anchor>//api/name/reconnectingWebSocket:didReceiveMessage:</Anchor>
+            <NodeRef refid="272"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTReconnectingWebSocketDelegate/reconnectingWebSocketDidClose:</TokenIdentifier>
+			<Abstract type="html">Sent when the socket has closed due to error or clean shutdown. An automatic reconnect will start shortly.</Abstract>
+			<DeclaredIn>RCTReconnectingWebSocket.h</DeclaredIn>
+			
+			<Declaration>- (void)reconnectingWebSocketDidClose:(RCTReconnectingWebSocket *)webSocket</Declaration>
+			
+			
+			<Anchor>//api/name/reconnectingWebSocketDidClose:</Anchor>
+            <NodeRef refid="272"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

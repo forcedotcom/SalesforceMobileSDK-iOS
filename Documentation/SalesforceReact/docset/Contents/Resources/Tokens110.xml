@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTMaskedViewManager.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTMaskedViewManager</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTMaskedViewManager.h</DeclaredIn>
+            
+			
+			<NodeRef refid="110"/>
+		</Token>
+		
+		
+        
+        
+	</File>
+</Tokens>

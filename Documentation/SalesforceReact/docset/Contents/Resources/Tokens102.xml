@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTLayoutAnimation.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTLayoutAnimation</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTLayoutAnimation.h</DeclaredIn>
+            
+			
+			<NodeRef refid="102"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTLayoutAnimation/setDuration:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTLayoutAnimation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSTimeInterval duration</Declaration>
+			
+			
+			<Anchor>//api/name/duration</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTLayoutAnimation/duration</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTLayoutAnimation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSTimeInterval duration</Declaration>
+			
+			
+			<Anchor>//api/name/duration</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTLayoutAnimation/duration</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTLayoutAnimation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSTimeInterval duration</Declaration>
+			
+			
+			<Anchor>//api/name/duration</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTLayoutAnimation/setDelay:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTLayoutAnimation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSTimeInterval delay</Declaration>
+			
+			
+			<Anchor>//api/name/delay</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTLayoutAnimation/delay</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTLayoutAnimation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSTimeInterval delay</Declaration>
+			
+			
+			<Anchor>//api/name/delay</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTLayoutAnimation/delay</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTLayoutAnimation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSTimeInterval delay</Declaration>
+			
+			
+			<Anchor>//api/name/delay</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTLayoutAnimation/setProperty:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTLayoutAnimation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, copy) NSString *property</Declaration>
+			
+			
+			<Anchor>//api/name/property</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTLayoutAnimation/property</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTLayoutAnimation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, copy) NSString *property</Declaration>
+			
+			
+			<Anchor>//api/name/property</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTLayoutAnimation/property</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTLayoutAnimation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, copy) NSString *property</Declaration>
+			
+			
+			<Anchor>//api/name/property</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTLayoutAnimation/setSpringDamping:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTLayoutAnimation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) CGFloat springDamping</Declaration>
+			
+			
+			<Anchor>//api/name/springDamping</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTLayoutAnimation/springDamping</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTLayoutAnimation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) CGFloat springDamping</Declaration>
+			
+			
+			<Anchor>//api/name/springDamping</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTLayoutAnimation/springDamping</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTLayoutAnimation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) CGFloat springDamping</Declaration>
+			
+			
+			<Anchor>//api/name/springDamping</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTLayoutAnimation/setInitialVelocity:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTLayoutAnimation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) CGFloat initialVelocity</Declaration>
+			
+			
+			<Anchor>//api/name/initialVelocity</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTLayoutAnimation/initialVelocity</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTLayoutAnimation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) CGFloat initialVelocity</Declaration>
+			
+			
+			<Anchor>//api/name/initialVelocity</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTLayoutAnimation/initialVelocity</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTLayoutAnimation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) CGFloat initialVelocity</Declaration>
+			
+			
+			<Anchor>//api/name/initialVelocity</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTLayoutAnimation/setAnimationType:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTLayoutAnimation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) RCTAnimationType animationType</Declaration>
+			
+			
+			<Anchor>//api/name/animationType</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTLayoutAnimation/animationType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTLayoutAnimation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) RCTAnimationType animationType</Declaration>
+			
+			
+			<Anchor>//api/name/animationType</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTLayoutAnimation/animationType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTLayoutAnimation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) RCTAnimationType animationType</Declaration>
+			
+			
+			<Anchor>//api/name/animationType</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTLayoutAnimation/initializeStatics</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTLayoutAnimation.h</DeclaredIn>
+			
+			<Declaration>+ (void)initializeStatics</Declaration>
+			
+			
+			<Anchor>//api/name/initializeStatics</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTLayoutAnimation/initWithDuration:delay:property:springDamping:initialVelocity:animationType:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTLayoutAnimation.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay property:(NSString *)property springDamping:(CGFloat)springDamping initialVelocity:(CGFloat)initialVelocity animationType:(RCTAnimationType)animationType</Declaration>
+			
+			
+			<Anchor>//api/name/initWithDuration:delay:property:springDamping:initialVelocity:animationType:</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTLayoutAnimation/initWithDuration:config:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTLayoutAnimation.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithDuration:(NSTimeInterval)duration config:(NSDictionary *)config</Declaration>
+			
+			
+			<Anchor>//api/name/initWithDuration:config:</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTLayoutAnimation/performAnimations:withCompletionBlock:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTLayoutAnimation.h</DeclaredIn>
+			
+			<Declaration>- (void)performAnimations:(void ( ^ ) ( void ))animations withCompletionBlock:(void ( ^ ) ( BOOL completed ))completionBlock</Declaration>
+			
+			
+			<Anchor>//api/name/performAnimations:withCompletionBlock:</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

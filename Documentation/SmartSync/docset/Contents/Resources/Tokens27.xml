@@ -139,11 +139,11 @@ dictionary along the way.</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/saveRecordsToLocalStore:soupName:records:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/saveRecordsToLocalStore:soupName:records:syncId:</TokenIdentifier>
 			<Abstract type="html">Save records in local store</Abstract>
 			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
 			
-			<Declaration>- (void)saveRecordsToLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName records:(NSArray *)records</Declaration>
+			<Declaration>- (void)saveRecordsToLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName records:(NSArray *)records syncId:(NSNumber *)syncId</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>syncManager</Name>
@@ -154,10 +154,13 @@ dictionary along the way.</Abstract>
 				</Parameter><Parameter>
 					<Name>records</Name>
 					<Abstract type="html">The records to save</Abstract>
+				</Parameter><Parameter>
+					<Name>syncId</Name>
+					<Abstract type="html">The sync id</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/saveRecordsToLocalStore:soupName:records:</Anchor>
+			<Anchor>//api/name/saveRecordsToLocalStore:soupName:records:syncId:</Anchor>
             <NodeRef refid="27"/>
 		</Token>
 		
@@ -335,14 +338,14 @@ dictionary along the way.</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/cleanAndSaveInSmartStore:soupName:records:idFieldName:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/cleanAndSaveInSmartStore:soupName:records:idFieldName:syncId:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSyncTarget+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)cleanAndSaveInSmartStore:(SFSmartStore *)smartStore soupName:(NSString *)soupName records:(NSArray *)record idFieldName:(NSString *)idFieldName</Declaration>
+			<Declaration>- (void)cleanAndSaveInSmartStore:(SFSmartStore *)smartStore soupName:(NSString *)soupName records:(NSArray *)record idFieldName:(NSString *)idFieldName syncId:(NSNumber *)syncId</Declaration>
 			
 			
-			<Anchor>//api/name/cleanAndSaveInSmartStore:soupName:records:idFieldName:</Anchor>
+			<Anchor>//api/name/cleanAndSaveInSmartStore:soupName:records:idFieldName:syncId:</Anchor>
             <NodeRef refid="27"/>
 		</Token>
 		

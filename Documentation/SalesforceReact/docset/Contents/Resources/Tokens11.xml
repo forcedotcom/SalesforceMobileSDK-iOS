@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/ARTShape.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/ARTShape</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>ARTShape.h</DeclaredIn>
+            
+			
+			<NodeRef refid="11"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/ARTShape/setD:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>ARTShape.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGPathRef d</Declaration>
+			
+			
+			<Anchor>//api/name/d</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/ARTShape/d</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>ARTShape.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGPathRef d</Declaration>
+			
+			
+			<Anchor>//api/name/d</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/ARTShape/d</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>ARTShape.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGPathRef d</Declaration>
+			
+			
+			<Anchor>//api/name/d</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

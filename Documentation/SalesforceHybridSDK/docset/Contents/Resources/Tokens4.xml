@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFAccountManagerPlugin.html">
+	<File path="Classes/SFHybridConnectionMonitor.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFAccountManagerPlugin</TokenIdentifier>
-			<Abstract type="html">Plugin for managing accounts, account switching, etc.</Abstract>
-			<DeclaredIn>SFAccountManagerPlugin.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFHybridConnectionMonitor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFHybridConnectionMonitor.h</DeclaredIn>
             
 			
 			<NodeRef refid="4"/>
@@ -13,73 +13,86 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAccountManagerPlugin/getUsers:</TokenIdentifier>
-			<Abstract type="html">Cordova plug-in method to get the users that have been associated with the app on
-this device.</Abstract>
-			<DeclaredIn>SFAccountManagerPlugin.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFHybridConnectionMonitor/setConnectionType:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFHybridConnectionMonitor.h</DeclaredIn>
 			
-			<Declaration>- (void)getUsers:(CDVInvokedUrlCommand *)command</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>command</Name>
-					<Abstract type="html">Cordova plugin command object, containing input parameters.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (copy) NSString *connectionType</Declaration>
 			
-			<Anchor>//api/name/getUsers:</Anchor>
+			
+			<Anchor>//api/name/connectionType</Anchor>
             <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAccountManagerPlugin/getCurrentUser:</TokenIdentifier>
-			<Abstract type="html">Cordova plug-in method to get information about the current user of the app.</Abstract>
-			<DeclaredIn>SFAccountManagerPlugin.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFHybridConnectionMonitor/connectionType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFHybridConnectionMonitor.h</DeclaredIn>
 			
-			<Declaration>- (void)getCurrentUser:(CDVInvokedUrlCommand *)command</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>command</Name>
-					<Abstract type="html">Cordova plugin command object, containing input parameters.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (copy) NSString *connectionType</Declaration>
 			
-			<Anchor>//api/name/getCurrentUser:</Anchor>
+			
+			<Anchor>//api/name/connectionType</Anchor>
             <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAccountManagerPlugin/switchToUser:</TokenIdentifier>
-			<Abstract type="html">Cordova plug-in method to switch to a different user.  If no user information is given
-or the user isn&apos;t found, switch to a new user.</Abstract>
-			<DeclaredIn>SFAccountManagerPlugin.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFHybridConnectionMonitor/connectionType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFHybridConnectionMonitor.h</DeclaredIn>
 			
-			<Declaration>- (void)switchToUser:(CDVInvokedUrlCommand *)command</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>command</Name>
-					<Abstract type="html">Cordova plugin command object, containing input parameters.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (copy) NSString *connectionType</Declaration>
 			
-			<Anchor>//api/name/switchToUser:</Anchor>
+			
+			<Anchor>//api/name/connectionType</Anchor>
             <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAccountManagerPlugin/logout:</TokenIdentifier>
-			<Abstract type="html">Cordova plug-in method to log out a user.  If no user information is given
-or the user isn&apos;t found, logout the current user.</Abstract>
-			<DeclaredIn>SFAccountManagerPlugin.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFHybridConnectionMonitor/setInternetReach:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFHybridConnectionMonitor.h</DeclaredIn>
 			
-			<Declaration>- (void)logout:(CDVInvokedUrlCommand *)command</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>command</Name>
-					<Abstract type="html">Cordova plugin command object, containing input parameters.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (strong) SFSDKReachability *internetReach</Declaration>
 			
-			<Anchor>//api/name/logout:</Anchor>
+			
+			<Anchor>//api/name/internetReach</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFHybridConnectionMonitor/internetReach</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFHybridConnectionMonitor.h</DeclaredIn>
+			
+			<Declaration>@property (strong) SFSDKReachability *internetReach</Declaration>
+			
+			
+			<Anchor>//api/name/internetReach</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFHybridConnectionMonitor/internetReach</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFHybridConnectionMonitor.h</DeclaredIn>
+			
+			<Declaration>@property (strong) SFSDKReachability *internetReach</Declaration>
+			
+			
+			<Anchor>//api/name/internetReach</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFHybridConnectionMonitor/sharedInstance</TokenIdentifier>
+			<Abstract type="html">Returns the singleton instance of SFConnection</Abstract>
+			<DeclaredIn>SFHybridConnectionMonitor.h</DeclaredIn>
+			
+			<Declaration>+ (SFHybridConnectionMonitor *)sharedInstance</Declaration>
+			
+			
+			<Anchor>//api/name/sharedInstance</Anchor>
             <NodeRef refid="4"/>
 		</Token>
 		

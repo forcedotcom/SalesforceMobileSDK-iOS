@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/ARTSurfaceViewManager.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/ARTSurfaceViewManager</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>ARTSurfaceViewManager.h</DeclaredIn>
+            
+			
+			<NodeRef refid="15"/>
+		</Token>
+		
+		
+        
+        
+	</File>
+</Tokens>

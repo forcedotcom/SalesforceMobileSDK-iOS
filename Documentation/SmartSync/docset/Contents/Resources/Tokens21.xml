@@ -260,7 +260,7 @@ store will be the store with the given name for the given user.</Abstract>
 			<Abstract type="html">Creates a sync down without running it.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
-			<Declaration>- (SFSyncState *)createSyncDown:(SFSyncDownTarget *)target options:(SFSyncOptions *)options soupName:(NSString *)soupName syncName:(NSString *)syncName</Declaration>
+			<Declaration>- (SFSyncState *)createSyncDown:(SFSyncDownTarget *)target options:(SFSyncOptions *)options soupName:(NSString *)soupName syncName:(nullable NSString *)syncName</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>target</Name>
@@ -335,7 +335,7 @@ store will be the store with the given name for the given user.</Abstract>
 			<Abstract type="html">Creates and runs a named sync down.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
-			<Declaration>- (SFSyncState *)syncDownWithTarget:(SFSyncDownTarget *)target options:(SFSyncOptions *)options soupName:(NSString *)soupName syncName:(NSString *__nullable)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock</Declaration>
+			<Declaration>- (SFSyncState *)syncDownWithTarget:(SFSyncDownTarget *)target options:(SFSyncOptions *)options soupName:(NSString *)soupName syncName:(nullable NSString *)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>target</Name>
@@ -404,7 +404,7 @@ store will be the store with the given name for the given user.</Abstract>
 			<Abstract type="html">Create a sync up without running it.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
-			<Declaration>- (SFSyncState *)createSyncUp:(SFSyncUpTarget *)target options:(SFSyncOptions *)options soupName:(NSString *)soupName syncName:(NSString *)syncName</Declaration>
+			<Declaration>- (SFSyncState *)createSyncUp:(SFSyncUpTarget *)target options:(SFSyncOptions *)options soupName:(NSString *)soupName syncName:(nullable NSString *)syncName</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>target</Name>
@@ -479,7 +479,7 @@ store will be the store with the given name for the given user.</Abstract>
 			<Abstract type="html">Creates and runs a named sync up.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
-			<Declaration>- (SFSyncState *)syncUpWithTarget:(SFSyncUpTarget *)target options:(SFSyncOptions *)options soupName:(NSString *)soupName syncName:(NSString *)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock</Declaration>
+			<Declaration>- (SFSyncState *)syncUpWithTarget:(SFSyncUpTarget *)target options:(SFSyncOptions *)options soupName:(NSString *)soupName syncName:(nullable NSString *)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>target</Name>

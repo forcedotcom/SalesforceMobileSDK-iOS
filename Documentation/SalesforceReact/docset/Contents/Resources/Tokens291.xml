@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Constants/RCTBorderStyle.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/c/tdef/RCTBorderStyle</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTBorderStyle.h</DeclaredIn>
+            
+			
+			<NodeRef refid="291"/>
+		</Token>
+		
+		
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTBorderStyleUnset</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTBorderStyleUnset</Declaration>
+            
+            <DeclaredIn>RCTBorderStyle.h</DeclaredIn>
+            
+            <NodeRef refid="291"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTBorderStyleSolid</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTBorderStyleSolid</Declaration>
+            
+            <DeclaredIn>RCTBorderStyle.h</DeclaredIn>
+            
+            <NodeRef refid="291"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTBorderStyleDotted</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTBorderStyleDotted</Declaration>
+            
+            <DeclaredIn>RCTBorderStyle.h</DeclaredIn>
+            
+            <NodeRef refid="291"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTBorderStyleDashed</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTBorderStyleDashed</Declaration>
+            
+            <DeclaredIn>RCTBorderStyle.h</DeclaredIn>
+            
+            <NodeRef refid="291"/>
+        </Token>
+        
+        
+	</File>
+</Tokens>

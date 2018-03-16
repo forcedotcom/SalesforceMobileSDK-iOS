@@ -17,7 +17,7 @@
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSoqlSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *query</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *query</Declaration>
 			
 			
 			<Anchor>//api/name/query</Anchor>
@@ -29,7 +29,7 @@
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSoqlSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *query</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *query</Declaration>
 			
 			
 			<Anchor>//api/name/query</Anchor>
@@ -41,7 +41,7 @@
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSoqlSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *query</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *query</Declaration>
 			
 			
 			<Anchor>//api/name/query</Anchor>

@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTBundleURLProvider.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTBundleURLProvider</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTBundleURLProvider.h</DeclaredIn>
+            
+			
+			<NodeRef refid="39"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBundleURLProvider/setDefaults</TokenIdentifier>
+			<Abstract type="html">Set default settings on NSUserDefaults.</Abstract>
+			<DeclaredIn>RCTBundleURLProvider.h</DeclaredIn>
+			
+			<Declaration>- (void)setDefaults</Declaration>
+			
+			
+			<Anchor>//api/name/setDefaults</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBundleURLProvider/resetToDefaults</TokenIdentifier>
+			<Abstract type="html">Reset every settings to default.</Abstract>
+			<DeclaredIn>RCTBundleURLProvider.h</DeclaredIn>
+			
+			<Declaration>- (void)resetToDefaults</Declaration>
+			
+			
+			<Anchor>//api/name/resetToDefaults</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBundleURLProvider/jsBundleURLForBundleRoot:fallbackResource:fallbackExtension:</TokenIdentifier>
+			<Abstract type="html">Returns the jsBundleURL for a given bundle entrypoint and
+the fallback offline JS bundle if the packager is not running.
+if resourceName or extension are nil, &quot;main&quot; and &quot;jsbundle&quot; will be
+used, respectively.</Abstract>
+			<DeclaredIn>RCTBundleURLProvider.h</DeclaredIn>
+			
+			<Declaration>- (NSURL *)jsBundleURLForBundleRoot:(NSString *)bundleRoot fallbackResource:(NSString *)resourceName fallbackExtension:(NSString *)extension</Declaration>
+			
+			
+			<Anchor>//api/name/jsBundleURLForBundleRoot:fallbackResource:fallbackExtension:</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBundleURLProvider/jsBundleURLForBundleRoot:fallbackResource:</TokenIdentifier>
+			<Abstract type="html">Returns the jsBundleURL for a given bundle entrypoint and
+the fallback offline JS bundle if the packager is not running.</Abstract>
+			<DeclaredIn>RCTBundleURLProvider.h</DeclaredIn>
+			
+			<Declaration>- (NSURL *)jsBundleURLForBundleRoot:(NSString *)bundleRoot fallbackResource:(NSString *)resourceName</Declaration>
+			
+			
+			<Anchor>//api/name/jsBundleURLForBundleRoot:fallbackResource:</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBundleURLProvider/jsBundleURLForFallbackResource:fallbackExtension:</TokenIdentifier>
+			<Abstract type="html">Returns the jsBundleURL for a given bundle entrypoint and
+the fallback offline JS bundle. If resourceName or extension
+are nil, &quot;main&quot; and &quot;jsbundle&quot; will be used, respectively.</Abstract>
+			<DeclaredIn>RCTBundleURLProvider.h</DeclaredIn>
+			
+			<Declaration>- (NSURL *)jsBundleURLForFallbackResource:(NSString *)resourceName fallbackExtension:(NSString *)extension</Declaration>
+			
+			
+			<Anchor>//api/name/jsBundleURLForFallbackResource:fallbackExtension:</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBundleURLProvider/resourceURLForResourceRoot:resourceName:resourceExtension:offlineBundle:</TokenIdentifier>
+			<Abstract type="html">Returns the resourceURL for a given bundle entrypoint and
+the fallback offline resource file if the packager is not running.</Abstract>
+			<DeclaredIn>RCTBundleURLProvider.h</DeclaredIn>
+			
+			<Declaration>- (NSURL *)resourceURLForResourceRoot:(NSString *)root resourceName:(NSString *)name resourceExtension:(NSString *)extension offlineBundle:(NSBundle *)offlineBundle</Declaration>
+			
+			
+			<Anchor>//api/name/resourceURLForResourceRoot:resourceName:resourceExtension:offlineBundle:</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBundleURLProvider/setJsLocation:</TokenIdentifier>
+			<Abstract type="html">The IP address or hostname of the packager.</Abstract>
+			<DeclaredIn>RCTBundleURLProvider.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *jsLocation</Declaration>
+			
+			
+			<Anchor>//api/name/jsLocation</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBundleURLProvider/jsLocation</TokenIdentifier>
+			<Abstract type="html">The IP address or hostname of the packager.</Abstract>
+			<DeclaredIn>RCTBundleURLProvider.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *jsLocation</Declaration>
+			
+			
+			<Anchor>//api/name/jsLocation</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTBundleURLProvider/jsLocation</TokenIdentifier>
+			<Abstract type="html">The IP address or hostname of the packager.</Abstract>
+			<DeclaredIn>RCTBundleURLProvider.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *jsLocation</Declaration>
+			
+			
+			<Anchor>//api/name/jsLocation</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBundleURLProvider/setEnableLiveReload:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBundleURLProvider.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL enableLiveReload</Declaration>
+			
+			
+			<Anchor>//api/name/enableLiveReload</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBundleURLProvider/enableLiveReload</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBundleURLProvider.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL enableLiveReload</Declaration>
+			
+			
+			<Anchor>//api/name/enableLiveReload</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTBundleURLProvider/enableLiveReload</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBundleURLProvider.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL enableLiveReload</Declaration>
+			
+			
+			<Anchor>//api/name/enableLiveReload</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBundleURLProvider/setEnableMinification:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBundleURLProvider.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL enableMinification</Declaration>
+			
+			
+			<Anchor>//api/name/enableMinification</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBundleURLProvider/enableMinification</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBundleURLProvider.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL enableMinification</Declaration>
+			
+			
+			<Anchor>//api/name/enableMinification</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTBundleURLProvider/enableMinification</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBundleURLProvider.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL enableMinification</Declaration>
+			
+			
+			<Anchor>//api/name/enableMinification</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBundleURLProvider/setEnableDev:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBundleURLProvider.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL enableDev</Declaration>
+			
+			
+			<Anchor>//api/name/enableDev</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBundleURLProvider/enableDev</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBundleURLProvider.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL enableDev</Declaration>
+			
+			
+			<Anchor>//api/name/enableDev</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTBundleURLProvider/enableDev</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBundleURLProvider.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL enableDev</Declaration>
+			
+			
+			<Anchor>//api/name/enableDev</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTBundleURLProvider/sharedSettings</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBundleURLProvider.h</DeclaredIn>
+			
+			<Declaration>+ (instancetype)sharedSettings</Declaration>
+			
+			
+			<Anchor>//api/name/sharedSettings</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTBundleURLProvider/jsBundleURLForBundleRoot:packagerHost:enableDev:enableMinification:</TokenIdentifier>
+			<Abstract type="html">Given a hostname for the packager and a bundle root, returns the URL to the js bundle. Generally you should use the
+instance method jsBundleURLForBundleRoot:fallbackResource: which includes logic to guess if the packager is running
+and fall back to a pre-packaged bundle if it is not.</Abstract>
+			<DeclaredIn>RCTBundleURLProvider.h</DeclaredIn>
+			
+			<Declaration>+ (NSURL *)jsBundleURLForBundleRoot:(NSString *)bundleRoot packagerHost:(NSString *)packagerHost enableDev:(BOOL)enableDev enableMinification:(BOOL)enableMinification</Declaration>
+			
+			
+			<Anchor>//api/name/jsBundleURLForBundleRoot:packagerHost:enableDev:enableMinification:</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTBundleURLProvider/resourceURLForResourcePath:packagerHost:query:</TokenIdentifier>
+			<Abstract type="html">Given a hostname for the packager and a resource path (including &quot;/&quot;), return the URL to the resource.
+In general, please use the instance method to decide if the packager is running and fallback to the pre-packaged
+resource if it is not: resourceURLForResourceRoot:resourceName:resourceExtension:offlineBundle:</Abstract>
+			<DeclaredIn>RCTBundleURLProvider.h</DeclaredIn>
+			
+			<Declaration>+ (NSURL *)resourceURLForResourcePath:(NSString *)path packagerHost:(NSString *)packagerHost query:(NSString *)query</Declaration>
+			
+			
+			<Anchor>//api/name/resourceURLForResourcePath:packagerHost:query:</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

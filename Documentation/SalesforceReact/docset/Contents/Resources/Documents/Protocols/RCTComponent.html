@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>RCTComponent Protocol Reference</title>
+
+	<link rel="stylesheet" href="../css/style.css">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
+	<meta name="generator" content="appledoc 2.2.1 (build 1334)">
+</head>
+<body class="appledoc">
+	<header>
+		<div class="container" class="hide-in-xcode">
+			
+			<h1 id="library-title">
+				<a href="../index.html">SalesforceReact </a>
+			</h1>
+
+			<p id="developer-home">
+				<a href="../index.html">Salesforce.com</a>
+			</p>
+			
+		</div>
+	</header>
+
+	<aside>
+		<div class="container">
+			<nav>
+				<ul id="header-buttons" role="toolbar">
+					<li><a href="../index.html">Index</a></li>
+<li><a href="../hierarchy.html">Hierarchy</a></li>
+
+					<li id="on-this-page" role="navigation">
+						<label>
+							On This Page
+
+							<div class="chevron">
+								<div class="chevy chevron-left"></div>
+								<div class="chevy chevron-right"></div>
+							</div>
+
+							<select id="jump-to">
+	<option value="top">Jump To&#133;</option>
+	
+	<option value="overview">Overview</option>
+	
+
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+
+	
+	
+	<optgroup label="Properties">
+		
+		<option value="//api/name/reactTag">reactTag</option>
+		
+	</optgroup>
+	
+
+	
+
+	
+	<optgroup label="Instance Methods">
+		
+		<option value="//api/name/didSetProps:">- didSetProps:</option>
+		
+		<option value="//api/name/didUpdateReactSubviews">- didUpdateReactSubviews</option>
+		
+		<option value="//api/name/insertReactSubview:atIndex:">- insertReactSubview:atIndex:</option>
+		
+		<option value="//api/name/isReactRootView">- isReactRootView</option>
+		
+		<option value="//api/name/reactSubviews">- reactSubviews</option>
+		
+		<option value="//api/name/reactSuperview">- reactSuperview</option>
+		
+		<option value="//api/name/reactTagAtPoint:">- reactTagAtPoint:</option>
+		
+		<option value="//api/name/removeReactSubview:">- removeReactSubview:</option>
+		
+	</optgroup>
+	
+	
+</select>
+						</label>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</aside>
+
+	<article>
+		<div id="overview_contents" class="container">
+			<div id="content">
+				<main role="main">
+					<h1 class="title">RCTComponent Protocol Reference</h1>
+
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<th>Conforms to</th>
+	<td>NSObject</td>
+</tr><tr>
+	<th>Declared in</th>
+	<td>RCTComponent.h</td>
+</tr>
+						</tbody></table></div>
+					
+
+                    
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>Logical node in a tree of application components. Both <code>ShadowView</code> and
+<code>UIView</code> conforms to this. Allows us to write utilities that reason about
+trees generally.</p>
+					</div>
+					
+					
+
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						
+
+						
+						
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/reactTag" title="reactTag"></a>
+	<h3 class="method-title"><code><a href="#//api/name/reactTag">&nbsp;&nbsp;reactTag</a></code>
+<span class="task-item-suffix">required method</span></h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSNumber *reactTag</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/insertReactSubview:atIndex:" title="insertReactSubview:atIndex:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/insertReactSubview:atIndex:">&ndash;&nbsp;insertReactSubview:atIndex:</a></code>
+<span class="task-item-suffix">required method</span></h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)insertReactSubview:(id&lt;RCTComponent&gt;)<em>subview</em> atIndex:(NSInteger)<em>atIndex</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/removeReactSubview:" title="removeReactSubview:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/removeReactSubview:">&ndash;&nbsp;removeReactSubview:</a></code>
+<span class="task-item-suffix">required method</span></h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)removeReactSubview:(id&lt;RCTComponent&gt;)<em>subview</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/reactSubviews" title="reactSubviews"></a>
+	<h3 class="method-title"><code><a href="#//api/name/reactSubviews">&ndash;&nbsp;reactSubviews</a></code>
+<span class="task-item-suffix">required method</span></h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (NSArray&lt;id&lt;RCTComponent&gt; &gt; *)reactSubviews</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/reactSuperview" title="reactSuperview"></a>
+	<h3 class="method-title"><code><a href="#//api/name/reactSuperview">&ndash;&nbsp;reactSuperview</a></code>
+<span class="task-item-suffix">required method</span></h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (id&lt;RCTComponent&gt;)reactSuperview</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/reactTagAtPoint:" title="reactTagAtPoint:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/reactTagAtPoint:">&ndash;&nbsp;reactTagAtPoint:</a></code>
+<span class="task-item-suffix">required method</span></h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (NSNumber *)reactTagAtPoint:(CGPoint)<em>point</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/isReactRootView" title="isReactRootView"></a>
+	<h3 class="method-title"><code><a href="#//api/name/isReactRootView">&ndash;&nbsp;isReactRootView</a></code>
+<span class="task-item-suffix">required method</span></h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)isReactRootView</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/didSetProps:" title="didSetProps:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/didSetProps:">&ndash;&nbsp;didSetProps:</a></code>
+<span class="task-item-suffix">required method</span></h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Called each time props have been set.
+Not all props have to be set - React can set only changed ones.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)didSetProps:(NSArray&lt;NSString*&gt; *)<em>changedProps</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>changedProps</code></th>
+						<td><p>String names of all set props.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTComponent.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/didUpdateReactSubviews" title="didUpdateReactSubviews"></a>
+	<h3 class="method-title"><code><a href="#//api/name/didUpdateReactSubviews">&ndash;&nbsp;didUpdateReactSubviews</a></code>
+<span class="task-item-suffix">required method</span></h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Called each time subviews have been updated</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)didUpdateReactSubviews</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTComponent.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+					</div>
+					
+					
+
+                    
+                    
+          
+				</main>
+
+				<footer>
+					<div class="footer-copyright">
+						
+						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-03-16</p>
+						
+						
+						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>
+						
+					</div>
+				</footer>
+			</div>
+		</div>
+	</article>
+
+	<script src="../js/script.js"></script>
+</body>
+</html>

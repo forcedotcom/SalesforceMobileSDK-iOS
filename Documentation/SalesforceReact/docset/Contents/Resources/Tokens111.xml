@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTMethodArgument.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTMethodArgument</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTModuleMethod.h</DeclaredIn>
+            
+			
+			<NodeRef refid="111"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTMethodArgument/setType:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModuleMethod.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly) NSString *type</Declaration>
+			
+			
+			<Anchor>//api/name/type</Anchor>
+            <NodeRef refid="111"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTMethodArgument/type</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModuleMethod.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly) NSString *type</Declaration>
+			
+			
+			<Anchor>//api/name/type</Anchor>
+            <NodeRef refid="111"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTMethodArgument/type</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModuleMethod.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly) NSString *type</Declaration>
+			
+			
+			<Anchor>//api/name/type</Anchor>
+            <NodeRef refid="111"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTMethodArgument/setNullability:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModuleMethod.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) RCTNullability nullability</Declaration>
+			
+			
+			<Anchor>//api/name/nullability</Anchor>
+            <NodeRef refid="111"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTMethodArgument/nullability</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModuleMethod.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) RCTNullability nullability</Declaration>
+			
+			
+			<Anchor>//api/name/nullability</Anchor>
+            <NodeRef refid="111"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTMethodArgument/nullability</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModuleMethod.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) RCTNullability nullability</Declaration>
+			
+			
+			<Anchor>//api/name/nullability</Anchor>
+            <NodeRef refid="111"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTMethodArgument/setUnused:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModuleMethod.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL unused</Declaration>
+			
+			
+			<Anchor>//api/name/unused</Anchor>
+            <NodeRef refid="111"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTMethodArgument/unused</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModuleMethod.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL unused</Declaration>
+			
+			
+			<Anchor>//api/name/unused</Anchor>
+            <NodeRef refid="111"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTMethodArgument/unused</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModuleMethod.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL unused</Declaration>
+			
+			
+			<Anchor>//api/name/unused</Anchor>
+            <NodeRef refid="111"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTMethodArgument/initWithType:nullability:unused:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModuleMethod.mm</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithType:(NSString *)type nullability:(RCTNullability)nullability unused:(BOOL)unused</Declaration>
+			
+			
+			<Anchor>//api/name/initWithType:nullability:unused:</Anchor>
+            <NodeRef refid="111"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

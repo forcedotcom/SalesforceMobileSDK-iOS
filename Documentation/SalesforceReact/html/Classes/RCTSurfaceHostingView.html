@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>RCTSurfaceHostingView Class Reference</title>
+
+	<link rel="stylesheet" href="../css/style.css">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
+	<meta name="generator" content="appledoc 2.2.1 (build 1334)">
+</head>
+<body class="appledoc">
+	<header>
+		<div class="container" class="hide-in-xcode">
+			
+			<h1 id="library-title">
+				<a href="../index.html">SalesforceReact </a>
+			</h1>
+
+			<p id="developer-home">
+				<a href="../index.html">Salesforce.com</a>
+			</p>
+			
+		</div>
+	</header>
+
+	<aside>
+		<div class="container">
+			<nav>
+				<ul id="header-buttons" role="toolbar">
+					<li><a href="../index.html">Index</a></li>
+<li><a href="../hierarchy.html">Hierarchy</a></li>
+
+					<li id="on-this-page" role="navigation">
+						<label>
+							On This Page
+
+							<div class="chevron">
+								<div class="chevy chevron-left"></div>
+								<div class="chevy chevron-right"></div>
+							</div>
+
+							<select id="jump-to">
+	<option value="top">Jump To&#133;</option>
+	
+	<option value="overview">Overview</option>
+	
+
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+
+	
+	
+	<optgroup label="Properties">
+		
+		<option value="//api/name/activityIndicatorViewFactory">activityIndicatorViewFactory</option>
+		
+		<option value="//api/name/isActivityIndicatorViewVisible">isActivityIndicatorViewVisible</option>
+		
+		<option value="//api/name/isSurfaceViewVisible">isSurfaceViewVisible</option>
+		
+		<option value="//api/name/sizeMeasureMode">sizeMeasureMode</option>
+		
+		<option value="//api/name/surface">surface</option>
+		
+	</optgroup>
+	
+
+	
+
+	
+	<optgroup label="Instance Methods">
+		
+		<option value="//api/name/_invalidateLayout">- _invalidateLayout</option>
+		
+		<option value="//api/name/_updateViews">- _updateViews</option>
+		
+		<option value="//api/name/didMoveToWindow">- didMoveToWindow</option>
+		
+		<option value="//api/name/init">- init</option>
+		
+		<option value="//api/name/initWithBridge:moduleName:initialProperties:">- initWithBridge:moduleName:initialProperties:</option>
+		
+		<option value="//api/name/initWithSurface:">- initWithSurface:</option>
+		
+		<option value="//api/name/intrinsicContentSize">- intrinsicContentSize</option>
+		
+		<option value="//api/name/setActivityIndicatorViewFactory:">- setActivityIndicatorViewFactory:</option>
+		
+		<option value="//api/name/setIsActivityIndicatorViewVisible:">- setIsActivityIndicatorViewVisible:</option>
+		
+		<option value="//api/name/setIsSurfaceViewVisible:">- setIsSurfaceViewVisible:</option>
+		
+		<option value="//api/name/setSizeMeasureMode:">- setSizeMeasureMode:</option>
+		
+		<option value="//api/name/setStage:">- setStage:</option>
+		
+		<option value="//api/name/sizeThatFits:">- sizeThatFits:</option>
+		
+		<option value="//api/name/surface:didChangeIntrinsicSize:">- surface:didChangeIntrinsicSize:</option>
+		
+		<option value="//api/name/surface:didChangeStage:">- surface:didChangeStage:</option>
+		
+	</optgroup>
+	
+	
+</select>
+						</label>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</aside>
+
+	<article>
+		<div id="overview_contents" class="container">
+			<div id="content">
+				<main role="main">
+					<h1 class="title">RCTSurfaceHostingView Class Reference</h1>
+
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<th>Inherits from</th>
+	<td>UIView</td>
+</tr><tr>
+	<th>Declared in</th>
+	<td>RCTSurfaceHostingView.h<br />RCTSurfaceHostingView.mm</td>
+</tr>
+						</tbody></table></div>
+					
+
+                    
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>UIView subclass which providers interoperability between UIKit and
+Surface regarding layout and life-cycle.
+This class can be used as easy-to-use general purpose integration point
+of ReactNative-powered experiences in UIKit based apps.</p>
+
+<p>Copyright &copy; 2015-present, Facebook, Inc.
+All rights reserved.</p>
+
+<p>This source code is licensed under the BSD-style license found in the
+LICENSE file in the root directory of this source tree. An additional grant
+of patent rights can be found in the PATENTS file in the same directory.</p>
+					</div>
+					
+					
+
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						
+
+						
+						<h2 class="task-title">Other Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/init" title="init"></a>
+	<h3 class="method-title"><code><a href="#//api/name/init">&ndash;&nbsp;init</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (instancetype)init</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/initWithSurface:" title="initWithSurface:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/initWithSurface:">&ndash;&nbsp;initWithSurface:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Designated initializer.
+Instanciates a view with given Surface object.
+Note: The view retains the <a href="#//api/name/surface">surface</a> object.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (instancetype)initWithSurface:(RCTSurface *)<em>surface</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTSurfaceHostingView.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/intrinsicContentSize" title="intrinsicContentSize"></a>
+	<h3 class="method-title"><code><a href="#//api/name/intrinsicContentSize">&ndash;&nbsp;intrinsicContentSize</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (CGSize)intrinsicContentSize</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/sizeThatFits:" title="sizeThatFits:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sizeThatFits:">&ndash;&nbsp;sizeThatFits:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (CGSize)sizeThatFits:(CGSize)<em>size</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setStage:" title="setStage:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setStage:">&ndash;&nbsp;setStage:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)setStage:(RCTSurfaceStage)<em>stage</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setSizeMeasureMode:" title="setSizeMeasureMode:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setSizeMeasureMode:">&ndash;&nbsp;setSizeMeasureMode:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)setSizeMeasureMode:(RCTSurfaceSizeMeasureMode)<em>sizeMeasureMode</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setIsActivityIndicatorViewVisible:" title="setIsActivityIndicatorViewVisible:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setIsActivityIndicatorViewVisible:">&ndash;&nbsp;setIsActivityIndicatorViewVisible:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)setIsActivityIndicatorViewVisible:(BOOL)<em>visible</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setIsSurfaceViewVisible:" title="setIsSurfaceViewVisible:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setIsSurfaceViewVisible:">&ndash;&nbsp;setIsSurfaceViewVisible:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)setIsSurfaceViewVisible:(BOOL)<em>visible</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setActivityIndicatorViewFactory:" title="setActivityIndicatorViewFactory:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setActivityIndicatorViewFactory:">&ndash;&nbsp;setActivityIndicatorViewFactory:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)setActivityIndicatorViewFactory:(RCTSurfaceHostingViewActivityIndicatorViewFactory)<em>activityIndicatorViewFactory</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/_invalidateLayout" title="_invalidateLayout"></a>
+	<h3 class="method-title"><code><a href="#//api/name/_invalidateLayout">&ndash;&nbsp;_invalidateLayout</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)_invalidateLayout</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/_updateViews" title="_updateViews"></a>
+	<h3 class="method-title"><code><a href="#//api/name/_updateViews">&ndash;&nbsp;_updateViews</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)_updateViews</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/didMoveToWindow" title="didMoveToWindow"></a>
+	<h3 class="method-title"><code><a href="#//api/name/didMoveToWindow">&ndash;&nbsp;didMoveToWindow</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)didMoveToWindow</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/surface:didChangeStage:" title="surface:didChangeStage:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/surface:didChangeStage:">&ndash;&nbsp;surface:didChangeStage:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)surface:(RCTSurface *)<em>surface</em> didChangeStage:(RCTSurfaceStage)<em>stage</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/surface:didChangeIntrinsicSize:" title="surface:didChangeIntrinsicSize:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/surface:didChangeIntrinsicSize:">&ndash;&nbsp;surface:didChangeIntrinsicSize:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)surface:(RCTSurface *)<em>surface</em> didChangeIntrinsicSize:(CGSize)<em>intrinsicSize</em></code></div>
+
+		    
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						
+						<h2 class="task-title">Other Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/initWithBridge:moduleName:initialProperties:" title="initWithBridge:moduleName:initialProperties:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/initWithBridge:moduleName:initialProperties:">&ndash;&nbsp;initWithBridge:moduleName:initialProperties:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Convenience initializer.
+Instanciates a Surface object with given <code>bridge</code>, <code>moduleName</code>, and
+<code>initialProperties</code>, and then use it to instanciate a view.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (instancetype)initWithBridge:(RCTBridge *)<em>bridge</em> moduleName:(NSString *)<em>moduleName</em> initialProperties:(NSDictionary *)<em>initialProperties</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTSurfaceHostingView.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/surface" title="surface"></a>
+	<h3 class="method-title"><code><a href="#//api/name/surface">&nbsp;&nbsp;surface</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Surface object which is currently using to power the view.
+Read-only.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, readonly) RCTSurface *surface</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTSurfaceHostingView.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/sizeMeasureMode" title="sizeMeasureMode"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sizeMeasureMode">&nbsp;&nbsp;sizeMeasureMode</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Size measure mode which are defining relationship between UIKit and ReactNative
+layout approaches.
+Defaults to <code>RCTSurfaceSizeMeasureModeWidthAtMost | RCTSurfaceSizeMeasureModeHeightAtMost</code>.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) RCTSurfaceSizeMeasureMode sizeMeasureMode</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTSurfaceHostingView.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/activityIndicatorViewFactory" title="activityIndicatorViewFactory"></a>
+	<h3 class="method-title"><code><a href="#//api/name/activityIndicatorViewFactory">&nbsp;&nbsp;activityIndicatorViewFactory</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Activity indicator factory.
+A hosting view may use this block to instantiate and display custom activity
+(loading) indicator (aka &ldquo;spinner&rdquo;) when it needed.
+Defaults to <code>nil</code> (no activity indicator).</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) RCTSurfaceHostingViewActivityIndicatorViewFactory activityIndicatorViewFactory</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTSurfaceHostingView.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="Extension Methods" name="task_Extension Methods"></a>
+						<h2 class="task-title">Extension Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/isActivityIndicatorViewVisible" title="isActivityIndicatorViewVisible"></a>
+	<h3 class="method-title"><code><a href="#//api/name/isActivityIndicatorViewVisible">&nbsp;&nbsp;isActivityIndicatorViewVisible</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL isActivityIndicatorViewVisible</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/isSurfaceViewVisible" title="isSurfaceViewVisible"></a>
+	<h3 class="method-title"><code><a href="#//api/name/isSurfaceViewVisible">&nbsp;&nbsp;isSurfaceViewVisible</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL isSurfaceViewVisible</code></div>
+
+		    
+		</div>
+	</div>
+</div>
+						</div>
+						
+					</div>
+					
+					
+
+                    
+                    
+          
+				</main>
+
+				<footer>
+					<div class="footer-copyright">
+						
+						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-03-16</p>
+						
+						
+						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>
+						
+					</div>
+				</footer>
+			</div>
+		</div>
+	</article>
+
+	<script src="../js/script.js"></script>
+</body>
+</html>

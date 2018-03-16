@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKWindowManagerDelegate.html">
+	<File path="Protocols/SFSDKWindowContainerDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKWindowManagerDelegate</TokenIdentifier>
-			<Abstract type="html">Delegate of the SFSDKWindowManager</Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKWindowContainerDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
             
 			
 			<NodeRef refid="178"/>
@@ -13,82 +13,36 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKWindowManagerDelegate/windowManager:willPresentWindow:</TokenIdentifier>
-			<Abstract type="html">Called when the window will be made opaque</Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKWindowContainerDelegate/presentWindow:animated:withCompletion:</TokenIdentifier>
+			<Abstract type="html">Called when the window has to be enabled</Abstract>
+			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
 			
-			<Declaration>- (void)windowManager:(SFSDKWindowManager *_Nonnull)windowManager willPresentWindow:(SFSDKWindowContainer *_Nonnull)window</Declaration>
+			<Declaration>- (void)presentWindow:(SFSDKWindowContainer *)window animated:(BOOL)animated withCompletion:(void ( ^ _Nullable ) ( void ))completion</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>windowManager</Name>
-					<Abstract type="html">The window manager making this call</Abstract>
-				</Parameter><Parameter>
 					<Name>window</Name>
-					<Abstract type="html">The window that will be made opaque</Abstract>
+					<Abstract type="html">The window</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/windowManager:willPresentWindow:</Anchor>
+			<Anchor>//api/name/presentWindow:animated:withCompletion:</Anchor>
             <NodeRef refid="178"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKWindowManagerDelegate/windowManager:didPresentWindow:</TokenIdentifier>
-			<Abstract type="html">Called when the window has been made opaque</Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKWindowContainerDelegate/dismissWindow:animated:withCompletion:</TokenIdentifier>
+			<Abstract type="html">Called when the window has to be disabled</Abstract>
+			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
 			
-			<Declaration>- (void)windowManager:(SFSDKWindowManager *_Nonnull)windowManager didPresentWindow:(SFSDKWindowContainer *_Nonnull)window</Declaration>
+			<Declaration>- (void)dismissWindow:(SFSDKWindowContainer *)window animated:(BOOL)animated withCompletion:(void ( ^ _Nullable ) ( void ))completion</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>windowManager</Name>
-					<Abstract type="html">The window manager making this call</Abstract>
-				</Parameter><Parameter>
 					<Name>window</Name>
-					<Abstract type="html">The window that has been made opaque</Abstract>
+					<Abstract type="html">The window</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/windowManager:didPresentWindow:</Anchor>
-            <NodeRef refid="178"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKWindowManagerDelegate/windowManager:willDismissWindow:</TokenIdentifier>
-			<Abstract type="html">Called when the window will be made transparent</Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
-			
-			<Declaration>- (void)windowManager:(SFSDKWindowManager *_Nonnull)windowManager willDismissWindow:(SFSDKWindowContainer *_Nonnull)window</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>windowManager</Name>
-					<Abstract type="html">The window manager making this call</Abstract>
-				</Parameter><Parameter>
-					<Name>window</Name>
-					<Abstract type="html">The window will be made transparent</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/windowManager:willDismissWindow:</Anchor>
-            <NodeRef refid="178"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKWindowManagerDelegate/windowManager:didDismissWindow:</TokenIdentifier>
-			<Abstract type="html">Called when the window is made transparent</Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
-			
-			<Declaration>- (void)windowManager:(SFSDKWindowManager *_Nonnull)windowManager didDismissWindow:(SFSDKWindowContainer *_Nonnull)window</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>windowManager</Name>
-					<Abstract type="html">The window manager making this call</Abstract>
-				</Parameter><Parameter>
-					<Name>window</Name>
-					<Abstract type="html">The window that has been made transparent</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/windowManager:didDismissWindow:</Anchor>
+			<Anchor>//api/name/dismissWindow:animated:withCompletion:</Anchor>
             <NodeRef refid="178"/>
 		</Token>
 		

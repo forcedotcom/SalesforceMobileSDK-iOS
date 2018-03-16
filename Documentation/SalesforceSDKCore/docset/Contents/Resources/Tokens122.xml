@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFTestContext.html">
+	<File path="Classes/SFSwiftDetectUtil.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFTestContext</TokenIdentifier>
-			<Abstract type="html">Helps determine whether we&apos;re currently running tests or not.</Abstract>
-			<DeclaredIn>SFTestContext.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSwiftDetectUtil</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSwiftDetectUtil.h</DeclaredIn>
             
 			
 			<NodeRef refid="122"/>
@@ -13,80 +13,14 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFTestContext/isRunningTests</TokenIdentifier>
-			<Abstract type="html">Return YES if is running test</Abstract>
-			<DeclaredIn>SFTestContext.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSwiftDetectUtil/isSwiftApp</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSwiftDetectUtil.h</DeclaredIn>
 			
-			<Declaration>+ (BOOL)isRunningTests</Declaration>
-			
-			
-			<Anchor>//api/name/isRunningTests</Anchor>
-            <NodeRef refid="122"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFTestContext/setIsRunningTests:</TokenIdentifier>
-			<Abstract type="html">Update SFTestContext to indicate whether it is in testing context or live context</Abstract>
-			<DeclaredIn>SFTestContext.h</DeclaredIn>
-			
-			<Declaration>+ (void)setIsRunningTests:(BOOL)runningTests</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>runningTests</Name>
-					<Abstract type="html">Yes if code is running under testing context</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/setIsRunningTests:</Anchor>
-            <NodeRef refid="122"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFTestContext/setObject:forKey:</TokenIdentifier>
-			<Abstract type="html">Sets an arbitrary object into the test context</Abstract>
-			<DeclaredIn>SFTestContext.h</DeclaredIn>
-			
-			<Declaration>+ (void)setObject:(nullable id)object forKey:(id)key</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>object</Name>
-					<Abstract type="html">The object or nil to remove the object</Abstract>
-				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The key</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/setObject:forKey:</Anchor>
-            <NodeRef refid="122"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFTestContext/objectForKey:</TokenIdentifier>
-			<Abstract type="html">Returns an arbitrary object from the test context</Abstract>
-			<DeclaredIn>SFTestContext.h</DeclaredIn>
-			
-			<Declaration>+ (id)objectForKey:(id)key</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The key</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The object</Abstract></ReturnValue>
-			<Anchor>//api/name/objectForKey:</Anchor>
-            <NodeRef refid="122"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFTestContext/clearObjects</TokenIdentifier>
-			<Abstract type="html">Removes all the stored objects</Abstract>
-			<DeclaredIn>SFTestContext.h</DeclaredIn>
-			
-			<Declaration>+ (void)clearObjects</Declaration>
+			<Declaration>+ (BOOL)isSwiftApp</Declaration>
 			
 			
-			<Anchor>//api/name/clearObjects</Anchor>
+			<Anchor>//api/name/isSwiftApp</Anchor>
             <NodeRef refid="122"/>
 		</Token>
 		

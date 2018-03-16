@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SalesforceSDKManagerDelegate.html">
+	<File path="Protocols/SFUserAccountPersister.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SalesforceSDKManagerDelegate</TokenIdentifier>
-			<Abstract type="html">Delegate protocol for handling foregrounding and backgrounding in Mobile SDK apps.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFUserAccountPersister</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="182"/>
@@ -13,50 +13,62 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerDelegate/sdkManagerWillResignActive</TokenIdentifier>
-			<Abstract type="html">Called after UIApplicationWillResignActiveNotification is received</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFUserAccountPersister/saveAccountForUser:error:</TokenIdentifier>
+			<Abstract type="html">Called when the Account manager requires to save the state of an account.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>- (void)sdkManagerWillResignActive</Declaration>
-			
-			
-			<Anchor>//api/name/sdkManagerWillResignActive</Anchor>
+			<Declaration>- (BOOL)saveAccountForUser:(SFUserAccount *)userAccount error:(NSError **)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>userAccount</Name>
+					<Abstract type="html">The instance of SFUserAccount making the call.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">On output, the error if the return value is NO</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the account was saved properly, NO in case of error</Abstract></ReturnValue>
+			<Anchor>//api/name/saveAccountForUser:error:</Anchor>
             <NodeRef refid="182"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerDelegate/sdkManagerDidBecomeActive</TokenIdentifier>
-			<Abstract type="html">Called after UIApplicationDidBecomeActiveNotification is received.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFUserAccountPersister/fetchAllAccounts:</TokenIdentifier>
+			<Abstract type="html">Fetches all the accounts.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>- (void)sdkManagerDidBecomeActive</Declaration>
-			
-			
-			<Anchor>//api/name/sdkManagerDidBecomeActive</Anchor>
+			<Declaration>- (NSDictionary&lt;SFUserAccountIdentity*,SFUserAccount*&gt; *)fetchAllAccounts:(NSError **)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>error</Name>
+					<Abstract type="html">On output, the error if the return value is NO</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">NSDictionary with SFUserAccountIdentity as keys and SFUserAccount as values
+  </Abstract></ReturnValue>
+			<Anchor>//api/name/fetchAllAccounts:</Anchor>
             <NodeRef refid="182"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerDelegate/sdkManagerWillEnterForeground</TokenIdentifier>
-			<Abstract type="html">Called after UIApplicationWillEnterForegroundNotification is received.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFUserAccountPersister/deleteAccountForUser:error:</TokenIdentifier>
+			<Abstract type="html">Allows you to remove the given user account.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>- (void)sdkManagerWillEnterForeground</Declaration>
-			
-			
-			<Anchor>//api/name/sdkManagerWillEnterForeground</Anchor>
-            <NodeRef refid="182"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerDelegate/sdkManagerDidEnterBackground</TokenIdentifier>
-			<Abstract type="html">Called after UIApplicationDidEnterBackgroundNotification is received</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>- (void)sdkManagerDidEnterBackground</Declaration>
-			
-			
-			<Anchor>//api/name/sdkManagerDidEnterBackground</Anchor>
+			<Declaration>- (BOOL)deleteAccountForUser:(SFUserAccount *)user error:(NSError **)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>user</Name>
+					<Abstract type="html">The user account to remove.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">Output error parameter, populated if there was an error deleting
+the account (likely from the filesystem operations).</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the deletion was successful, NO otherwise.  Note: If no persisted account matching
+the user parameter is found, no action will be taken, and deletion will be reported as successful.</Abstract></ReturnValue>
+			<Anchor>//api/name/deleteAccountForUser:error:</Anchor>
             <NodeRef refid="182"/>
 		</Token>
 		

@@ -323,6 +323,11 @@ The error passed will be a standard <code>RestKit</code> error with an error dom
 </ul>
 
 
+<p>We declare here a set of interfaces that are meant to be used by code running internally
+to SFRestAPI or close &ldquo;friend&rdquo; classes such as unit test helpers. You SHOULD NOT access these interfaces
+from application code.  If you find yourself accessing properties or calling methods
+declared in this file from app code, you&rsquo;re probably doing something wrong.</p>
+
 <p>This category assists with creating SOQL and SOSL queries.</p>
 
 <p>Example SOQL usage:</p>
@@ -339,11 +344,6 @@ limit:10];</p>
 [SFRestAPI SOSLSearchWithSearchTerm:@&ldquo;all of these will be escaped:~{]&rdquo;
                               objectScope:[NSDictionary dictionaryWithObject:@&ldquo;WHERE isactive=true ORDER BY lastname asc limit 5&rdquo;
                                                                       forKey:@&ldquo;User&rdquo;]];</p>
-
-<p>We declare here a set of interfaces that are meant to be used by code running internally
-to SFRestAPI or close &ldquo;friend&rdquo; classes such as unit test helpers. You SHOULD NOT access these interfaces
-from application code.  If you find yourself accessing properties or calling methods
-declared in this file from app code, you&rsquo;re probably doing something wrong.</p>
 					</div>
 					
 					
@@ -370,8 +370,8 @@ declared in this file from app code, you&rsquo;re probably doing something wrong
 			
 			
 			<div class="method-subsection brief-description">
-				<p>The REST API version used for all the calls. This could be &ldquo;v21.0&rdquo;, &ldquo;v22.0&rdquo;&hellip;
-The default value is <code>kSFRestDefaultAPIVersion</code> (currently &ldquo;v41.0&rdquo;)</p>
+				<p>The REST API version used for all the calls.
+The default value is <code>kSFRestDefaultAPIVersion</code> (currently &ldquo;v42.0&rdquo;)</p>
 			</div>
 			
 		    
@@ -2143,6 +2143,129 @@ to return values; for example, &ldquo;Account,Contact&rdquo;.</p></td>
 						</div>
 						
 
+						<a title="Extension Methods" name="task_Extension Methods"></a>
+						<h2 class="task-title">Extension Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/activeRequests" title="activeRequests"></a>
+	<h3 class="method-title"><code><a href="#//api/name/activeRequests">&nbsp;&nbsp;activeRequests</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Active requests property.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, strong) NSMutableSet *activeRequests</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/removeActiveRequestObject:" title="removeActiveRequestObject:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/removeActiveRequestObject:">&ndash;&nbsp;removeActiveRequestObject:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)removeActiveRequestObject:(SFRestRequest *)<em>request</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/forceTimeoutRequest:" title="forceTimeoutRequest:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/forceTimeoutRequest:">&ndash;&nbsp;forceTimeoutRequest:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Force a request to timeout: for testing only!</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)forceTimeoutRequest:(SFRestRequest *)<em>req</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>req</code></th>
+						<td><p>The request to force a timeout on, or nil to grab any active request and force it to timeout</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if we were able to find and timeout the request, NO if the request could not be found</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+
 						<a title="QueryBuilder Methods" name="task_QueryBuilder Methods"></a>
 						<h2 class="task-title">QueryBuilder Methods</h2>
 
@@ -2552,6 +2675,1259 @@ or NSNull to not specify any fields/clauses for that object</li>
 			<div class="method-subsection declared-in-section">
 				<h4 class="method-subtitle">Declared In</h4>
 				<p><code class="declared-in-ref">SFRestAPI+QueryBuilder.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="Blocks Methods" name="task_Blocks Methods"></a>
+						<h2 class="task-title">Blocks Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/errorWithDescription:" title="errorWithDescription:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/errorWithDescription:">+&nbsp;errorWithDescription:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Creates an error object with the given description.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (NSError *)errorWithDescription:(NSString *)<em>description</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>description</code></th>
+						<td><p>Description</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/sendRESTRequest:failBlock:completeBlock:" title="sendRESTRequest:failBlock:completeBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sendRESTRequest:failBlock:completeBlock:">&ndash;&nbsp;sendRESTRequest:failBlock:completeBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Send a request you&rsquo;ve already built, using blocks to return status.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)sendRESTRequest:(SFRestRequest *)<em>request</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestResponseBlock)<em>completeBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>request</code></th>
+						<td><p>the <a href="../Classes/SFRestRequest.html">SFRestRequest</a> to be sent</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failBlock</code></th>
+						<td><p>the block to be executed when the request fails (timeout, cancel, or error)</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completeBlock</code></th>
+						<td><p>the block to be executed when the request successfully completes</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/performSOQLQuery:failBlock:completeBlock:" title="performSOQLQuery:failBlock:completeBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/performSOQLQuery:failBlock:completeBlock:">&ndash;&nbsp;performSOQLQuery:failBlock:completeBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Executes a SOQL query.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performSOQLQuery:(NSString *)<em>query</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>query</code></th>
+						<td><p>the SOQL query to be executed</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failBlock</code></th>
+						<td><p>the block to be executed when the request fails (timeout, cancel, or error)</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completeBlock</code></th>
+						<td><p>the block to be executed when the request successfully completes</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>the newly sent <a href="../Classes/SFRestRequest.html">SFRestRequest</a></p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/performSOQLQueryAll:failBlock:completeBlock:" title="performSOQLQueryAll:failBlock:completeBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/performSOQLQueryAll:failBlock:completeBlock:">&ndash;&nbsp;performSOQLQueryAll:failBlock:completeBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Executes a SOQL query that returns the deleted objects.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performSOQLQueryAll:(NSString *)<em>query</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>query</code></th>
+						<td><p>the SOQL query to be executed</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failBlock</code></th>
+						<td><p>the block to be executed when the request fails (timeout, cancel, or error)</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completeBlock</code></th>
+						<td><p>the block to be executed when the request successfully completes</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>the newly sent <a href="../Classes/SFRestRequest.html">SFRestRequest</a></p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/performSOSLSearch:failBlock:completeBlock:" title="performSOSLSearch:failBlock:completeBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/performSOSLSearch:failBlock:completeBlock:">&ndash;&nbsp;performSOSLSearch:failBlock:completeBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Executes a SOSL search.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performSOSLSearch:(NSString *)<em>search</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>search</code></th>
+						<td><p>the SOSL search to be executed</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failBlock</code></th>
+						<td><p>the block to be executed when the request fails (timeout, cancel, or error)</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completeBlock</code></th>
+						<td><p>the block to be executed when the request successfully completes</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>the newly sent <a href="../Classes/SFRestRequest.html">SFRestRequest</a></p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/performDescribeGlobalWithFailBlock:completeBlock:" title="performDescribeGlobalWithFailBlock:completeBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/performDescribeGlobalWithFailBlock:completeBlock:">&ndash;&nbsp;performDescribeGlobalWithFailBlock:completeBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Executes a global describe.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performDescribeGlobalWithFailBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failBlock</code></th>
+						<td><p>the block to be executed when the request fails (timeout, cancel, or error)</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completeBlock</code></th>
+						<td><p>the block to be executed when the request successfully completes</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>the newly sent <a href="../Classes/SFRestRequest.html">SFRestRequest</a></p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/performDescribeWithObjectType:failBlock:completeBlock:" title="performDescribeWithObjectType:failBlock:completeBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/performDescribeWithObjectType:failBlock:completeBlock:">&ndash;&nbsp;performDescribeWithObjectType:failBlock:completeBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Executes a describe on a single sObject.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performDescribeWithObjectType:(NSString *)<em>objectType</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>objectType</code></th>
+						<td><p>the API name of the object to describe.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failBlock</code></th>
+						<td><p>the block to be executed when the request fails (timeout, cancel, or error)</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completeBlock</code></th>
+						<td><p>the block to be executed when the request successfully completes</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>the newly sent <a href="../Classes/SFRestRequest.html">SFRestRequest</a></p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/performMetadataWithObjectType:failBlock:completeBlock:" title="performMetadataWithObjectType:failBlock:completeBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/performMetadataWithObjectType:failBlock:completeBlock:">&ndash;&nbsp;performMetadataWithObjectType:failBlock:completeBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Executes a metadata describe on a single sObject.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performMetadataWithObjectType:(NSString *)<em>objectType</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>objectType</code></th>
+						<td><p>the API name of the object to describe.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failBlock</code></th>
+						<td><p>the block to be executed when the request fails (timeout, cancel, or error)</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completeBlock</code></th>
+						<td><p>the block to be executed when the request successfully completes</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>the newly sent <a href="../Classes/SFRestRequest.html">SFRestRequest</a></p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/performRetrieveWithObjectType:objectId:fieldList:failBlock:completeBlock:" title="performRetrieveWithObjectType:objectId:fieldList:failBlock:completeBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/performRetrieveWithObjectType:objectId:fieldList:failBlock:completeBlock:">&ndash;&nbsp;performRetrieveWithObjectType:objectId:fieldList:failBlock:completeBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Executes a retrieve for a single record.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performRetrieveWithObjectType:(NSString *)<em>objectType</em> objectId:(NSString *)<em>objectId</em> fieldList:(NSArray&lt;NSString*&gt; *)<em>fieldList</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>objectType</code></th>
+						<td><p>the API name of the object to retrieve</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>objectId</code></th>
+						<td><p>the record ID of the record to retrieve</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>fieldList</code></th>
+						<td><p>an array of fields on this record to retrieve</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failBlock</code></th>
+						<td><p>the block to be executed when the request fails (timeout, cancel, or error)</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completeBlock</code></th>
+						<td><p>the block to be executed when the request successfully completes</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>the newly sent <a href="../Classes/SFRestRequest.html">SFRestRequest</a></p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/performUpdateWithObjectType:objectId:fields:failBlock:completeBlock:" title="performUpdateWithObjectType:objectId:fields:failBlock:completeBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/performUpdateWithObjectType:objectId:fields:failBlock:completeBlock:">&ndash;&nbsp;performUpdateWithObjectType:objectId:fields:failBlock:completeBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Executes a DML update for a single record.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performUpdateWithObjectType:(NSString *)<em>objectType</em> objectId:(NSString *)<em>objectId</em> fields:(NSDictionary&lt;NSString*,id&gt; *)<em>fields</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>objectType</code></th>
+						<td><p>the API name of the object to update</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>objectId</code></th>
+						<td><p>the record ID of the object</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>fields</code></th>
+						<td><p>a dictionary of fields to update.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failBlock</code></th>
+						<td><p>the block to be executed when the request fails (timeout, cancel, or error)</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completeBlock</code></th>
+						<td><p>the block to be executed when the request successfully completes</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>the newly sent <a href="../Classes/SFRestRequest.html">SFRestRequest</a></p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/performUpsertWithObjectType:externalIdField:externalId:fields:failBlock:completeBlock:" title="performUpsertWithObjectType:externalIdField:externalId:fields:failBlock:completeBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/performUpsertWithObjectType:externalIdField:externalId:fields:failBlock:completeBlock:">&ndash;&nbsp;performUpsertWithObjectType:externalIdField:externalId:fields:failBlock:completeBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Executes a DML upsert for a single record.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performUpsertWithObjectType:(NSString *)<em>objectType</em> externalIdField:(NSString *)<em>externalIdField</em> externalId:(NSString *)<em>externalId</em> fields:(NSDictionary&lt;NSString*,id&gt; *)<em>fields</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>objectType</code></th>
+						<td><p>the API name of the object to update</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>externalIdField</code></th>
+						<td><p>the API name of the external ID field to use for updating</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>externalId</code></th>
+						<td><p>the actual external Id</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>fields</code></th>
+						<td><p>a dictionary of fields to include in the upsert</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failBlock</code></th>
+						<td><p>the block to be executed when the request fails (timeout, cancel, or error)</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completeBlock</code></th>
+						<td><p>the block to be executed when the request successfully completes</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>the newly sent <a href="../Classes/SFRestRequest.html">SFRestRequest</a></p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/performDeleteWithObjectType:objectId:failBlock:completeBlock:" title="performDeleteWithObjectType:objectId:failBlock:completeBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/performDeleteWithObjectType:objectId:failBlock:completeBlock:">&ndash;&nbsp;performDeleteWithObjectType:objectId:failBlock:completeBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Executes a DML delete on a single record</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performDeleteWithObjectType:(NSString *)<em>objectType</em> objectId:(NSString *)<em>objectId</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>objectType</code></th>
+						<td><p>the API name of the object to delete</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>objectId</code></th>
+						<td><p>the actual Id of the record to delete</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failBlock</code></th>
+						<td><p>the block to be executed when the request fails (timeout, cancel, or error)</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completeBlock</code></th>
+						<td><p>the block to be executed when the request successfully completes</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>the newly sent <a href="../Classes/SFRestRequest.html">SFRestRequest</a></p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/performCreateWithObjectType:fields:failBlock:completeBlock:" title="performCreateWithObjectType:fields:failBlock:completeBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/performCreateWithObjectType:fields:failBlock:completeBlock:">&ndash;&nbsp;performCreateWithObjectType:fields:failBlock:completeBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Executes a DML insert.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performCreateWithObjectType:(NSString *)<em>objectType</em> fields:(NSDictionary&lt;NSString*,id&gt; *)<em>fields</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>objectType</code></th>
+						<td><p>the API name of the object to insert</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>fields</code></th>
+						<td><p>a dictionary of fields to use in the insert.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failBlock</code></th>
+						<td><p>the block to be executed when the request fails (timeout, cancel, or error)</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completeBlock</code></th>
+						<td><p>the block to be executed when the request successfully completes</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>the newly sent <a href="../Classes/SFRestRequest.html">SFRestRequest</a></p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/performRequestForResourcesWithFailBlock:completeBlock:" title="performRequestForResourcesWithFailBlock:completeBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/performRequestForResourcesWithFailBlock:completeBlock:">&ndash;&nbsp;performRequestForResourcesWithFailBlock:completeBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Executes a request to list REST API resources</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performRequestForResourcesWithFailBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failBlock</code></th>
+						<td><p>the block to be executed when the request fails (timeout, cancel, or error)</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completeBlock</code></th>
+						<td><p>the block to be executed when the request successfully completes</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>the newly sent <a href="../Classes/SFRestRequest.html">SFRestRequest</a></p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/performRequestForVersionsWithFailBlock:completeBlock:" title="performRequestForVersionsWithFailBlock:completeBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/performRequestForVersionsWithFailBlock:completeBlock:">&ndash;&nbsp;performRequestForVersionsWithFailBlock:completeBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Executes a request to list REST API versions</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performRequestForVersionsWithFailBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestArrayResponseBlock)<em>completeBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failBlock</code></th>
+						<td><p>the block to be executed when the request fails (timeout, cancel, or error)</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completeBlock</code></th>
+						<td><p>the block to be executed when the request successfully completes</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>the newly sent <a href="../Classes/SFRestRequest.html">SFRestRequest</a></p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/performRequestForFileRendition:version:renditionType:page:failBlock:completeBlock:" title="performRequestForFileRendition:version:renditionType:page:failBlock:completeBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/performRequestForFileRendition:version:renditionType:page:failBlock:completeBlock:">&ndash;&nbsp;performRequestForFileRendition:version:renditionType:page:failBlock:completeBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Executes a request to get a file rendition</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performRequestForFileRendition:(NSString *)<em>sfdcId</em> version:(NSString *)<em>version</em> renditionType:(NSString *)<em>renditionType</em> page:(NSUInteger)<em>page</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDataResponseBlock)<em>completeBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>sfdcId</code></th>
+						<td><p>The Id of the file</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>version</code></th>
+						<td><p>if nil fetches the most recent version, otherwise fetches this specific version</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>renditionType</code></th>
+						<td><p>What format of rendition do you want to get</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>page</code></th>
+						<td><p>which page to fetch, pages start at 0.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failBlock</code></th>
+						<td><p>the block to be executed when the request fails (timeout, cancel, or error)</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completeBlock</code></th>
+						<td><p>the block to be executed when the request successfully completes</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>the newly sent <a href="../Classes/SFRestRequest.html">SFRestRequest</a></p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/performRequestForSearchScopeAndOrderWithFailBlock:completeBlock:" title="performRequestForSearchScopeAndOrderWithFailBlock:completeBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/performRequestForSearchScopeAndOrderWithFailBlock:completeBlock:">&ndash;&nbsp;performRequestForSearchScopeAndOrderWithFailBlock:completeBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Executes a request to get search scope and order</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performRequestForSearchScopeAndOrderWithFailBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestArrayResponseBlock)<em>completeBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failBlock</code></th>
+						<td><p>the block to be executed when the request fails (timeout, cancel, or error)</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completeBlock</code></th>
+						<td><p>the block to be executed when the request successfully completes</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>the newly sent <a href="../Classes/SFRestRequest.html">SFRestRequest</a></p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/performRequestForSearchResultLayout:failBlock:completeBlock:" title="performRequestForSearchResultLayout:failBlock:completeBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/performRequestForSearchResultLayout:failBlock:completeBlock:">&ndash;&nbsp;performRequestForSearchResultLayout:failBlock:completeBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Executes a request to get search result layout</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performRequestForSearchResultLayout:(NSString *)<em>objectList</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestArrayResponseBlock)<em>completeBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>objectList</code></th>
+						<td><p>comma-separated list of objects for which
+to return values; for example, &ldquo;Account,Contact&rdquo;.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failBlock</code></th>
+						<td><p>the block to be executed when the request fails (timeout, cancel, or error)</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completeBlock</code></th>
+						<td><p>the block to be executed when the request successfully completes</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>the newly sent <a href="../Classes/SFRestRequest.html">SFRestRequest</a></p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
 			</div>
 			
 			
@@ -3286,1382 +4662,6 @@ create a new file at version 1.</p>
 </div>
 						</div>
 						
-
-						<a title="Extension Methods" name="task_Extension Methods"></a>
-						<h2 class="task-title">Extension Methods</h2>
-
-						<div class="task-list">
-							<div class="section-method">
-	<a name="//api/name/activeRequests" title="activeRequests"></a>
-	<h3 class="method-title"><code><a href="#//api/name/activeRequests">&nbsp;&nbsp;activeRequests</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Active requests property.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, strong) NSMutableSet *activeRequests</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Internal.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/removeActiveRequestObject:" title="removeActiveRequestObject:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/removeActiveRequestObject:">&ndash;&nbsp;removeActiveRequestObject:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (void)removeActiveRequestObject:(SFRestRequest *)<em>request</em></code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/forceTimeoutRequest:" title="forceTimeoutRequest:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/forceTimeoutRequest:">&ndash;&nbsp;forceTimeoutRequest:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Force a request to timeout: for testing only!</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (BOOL)forceTimeoutRequest:(SFRestRequest *)<em>req</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>req</code></th>
-						<td><p>The request to force a timeout on, or nil to grab any active request and force it to timeout</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>YES if we were able to find and timeout the request, NO if the request could not be found</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Internal.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div>
-						</div>
-						
-
-						<a title="Blocks Methods" name="task_Blocks Methods"></a>
-						<h2 class="task-title">Blocks Methods</h2>
-
-						<div class="task-list">
-							<div class="section-method">
-	<a name="//api/name/errorWithDescription:" title="errorWithDescription:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/errorWithDescription:">+&nbsp;errorWithDescription:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Creates an error object with the given description.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (NSError *)errorWithDescription:(NSString *)<em>description</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>description</code></th>
-						<td><p>Description</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/sendRESTRequest:failBlock:completeBlock:" title="sendRESTRequest:failBlock:completeBlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/sendRESTRequest:failBlock:completeBlock:">&ndash;&nbsp;sendRESTRequest:failBlock:completeBlock:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Send a request you&rsquo;ve already built, using blocks to return status.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (void)sendRESTRequest:(SFRestRequest *)<em>request</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestResponseBlock)<em>completeBlock</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>request</code></th>
-						<td><p>the <a href="../Classes/SFRestRequest.html">SFRestRequest</a> to be sent</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>failBlock</code></th>
-						<td><p>the block to be executed when the request fails (timeout, cancel, or error)</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>completeBlock</code></th>
-						<td><p>the block to be executed when the request successfully completes</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/performSOQLQuery:failBlock:completeBlock:" title="performSOQLQuery:failBlock:completeBlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/performSOQLQuery:failBlock:completeBlock:">&ndash;&nbsp;performSOQLQuery:failBlock:completeBlock:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Executes a SOQL query.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performSOQLQuery:(NSString *)<em>query</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>query</code></th>
-						<td><p>the SOQL query to be executed</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>failBlock</code></th>
-						<td><p>the block to be executed when the request fails (timeout, cancel, or error)</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>completeBlock</code></th>
-						<td><p>the block to be executed when the request successfully completes</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>the newly sent <a href="../Classes/SFRestRequest.html">SFRestRequest</a></p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/performSOQLQueryAll:failBlock:completeBlock:" title="performSOQLQueryAll:failBlock:completeBlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/performSOQLQueryAll:failBlock:completeBlock:">&ndash;&nbsp;performSOQLQueryAll:failBlock:completeBlock:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Executes a SOQL query that returns the deleted objects.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performSOQLQueryAll:(NSString *)<em>query</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>query</code></th>
-						<td><p>the SOQL query to be executed</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>failBlock</code></th>
-						<td><p>the block to be executed when the request fails (timeout, cancel, or error)</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>completeBlock</code></th>
-						<td><p>the block to be executed when the request successfully completes</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>the newly sent <a href="../Classes/SFRestRequest.html">SFRestRequest</a></p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/performSOSLSearch:failBlock:completeBlock:" title="performSOSLSearch:failBlock:completeBlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/performSOSLSearch:failBlock:completeBlock:">&ndash;&nbsp;performSOSLSearch:failBlock:completeBlock:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Executes a SOSL search.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performSOSLSearch:(NSString *)<em>search</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestArrayResponseBlock)<em>completeBlock</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>search</code></th>
-						<td><p>the SOSL search to be executed</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>failBlock</code></th>
-						<td><p>the block to be executed when the request fails (timeout, cancel, or error)</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>completeBlock</code></th>
-						<td><p>the block to be executed when the request successfully completes</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>the newly sent <a href="../Classes/SFRestRequest.html">SFRestRequest</a></p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/performDescribeGlobalWithFailBlock:completeBlock:" title="performDescribeGlobalWithFailBlock:completeBlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/performDescribeGlobalWithFailBlock:completeBlock:">&ndash;&nbsp;performDescribeGlobalWithFailBlock:completeBlock:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Executes a global describe.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performDescribeGlobalWithFailBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>failBlock</code></th>
-						<td><p>the block to be executed when the request fails (timeout, cancel, or error)</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>completeBlock</code></th>
-						<td><p>the block to be executed when the request successfully completes</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>the newly sent <a href="../Classes/SFRestRequest.html">SFRestRequest</a></p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/performDescribeWithObjectType:failBlock:completeBlock:" title="performDescribeWithObjectType:failBlock:completeBlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/performDescribeWithObjectType:failBlock:completeBlock:">&ndash;&nbsp;performDescribeWithObjectType:failBlock:completeBlock:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Executes a describe on a single sObject.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performDescribeWithObjectType:(NSString *)<em>objectType</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>objectType</code></th>
-						<td><p>the API name of the object to describe.</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>failBlock</code></th>
-						<td><p>the block to be executed when the request fails (timeout, cancel, or error)</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>completeBlock</code></th>
-						<td><p>the block to be executed when the request successfully completes</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>the newly sent <a href="../Classes/SFRestRequest.html">SFRestRequest</a></p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/performMetadataWithObjectType:failBlock:completeBlock:" title="performMetadataWithObjectType:failBlock:completeBlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/performMetadataWithObjectType:failBlock:completeBlock:">&ndash;&nbsp;performMetadataWithObjectType:failBlock:completeBlock:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Executes a metadata describe on a single sObject.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performMetadataWithObjectType:(NSString *)<em>objectType</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>objectType</code></th>
-						<td><p>the API name of the object to describe.</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>failBlock</code></th>
-						<td><p>the block to be executed when the request fails (timeout, cancel, or error)</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>completeBlock</code></th>
-						<td><p>the block to be executed when the request successfully completes</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>the newly sent <a href="../Classes/SFRestRequest.html">SFRestRequest</a></p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/performRetrieveWithObjectType:objectId:fieldList:failBlock:completeBlock:" title="performRetrieveWithObjectType:objectId:fieldList:failBlock:completeBlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/performRetrieveWithObjectType:objectId:fieldList:failBlock:completeBlock:">&ndash;&nbsp;performRetrieveWithObjectType:objectId:fieldList:failBlock:completeBlock:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Executes a retrieve for a single record.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performRetrieveWithObjectType:(NSString *)<em>objectType</em> objectId:(NSString *)<em>objectId</em> fieldList:(NSArray&lt;NSString*&gt; *)<em>fieldList</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>objectType</code></th>
-						<td><p>the API name of the object to retrieve</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>objectId</code></th>
-						<td><p>the record ID of the record to retrieve</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>fieldList</code></th>
-						<td><p>an array of fields on this record to retrieve</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>failBlock</code></th>
-						<td><p>the block to be executed when the request fails (timeout, cancel, or error)</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>completeBlock</code></th>
-						<td><p>the block to be executed when the request successfully completes</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>the newly sent <a href="../Classes/SFRestRequest.html">SFRestRequest</a></p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/performUpdateWithObjectType:objectId:fields:failBlock:completeBlock:" title="performUpdateWithObjectType:objectId:fields:failBlock:completeBlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/performUpdateWithObjectType:objectId:fields:failBlock:completeBlock:">&ndash;&nbsp;performUpdateWithObjectType:objectId:fields:failBlock:completeBlock:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Executes a DML update for a single record.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performUpdateWithObjectType:(NSString *)<em>objectType</em> objectId:(NSString *)<em>objectId</em> fields:(NSDictionary&lt;NSString*,id&gt; *)<em>fields</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>objectType</code></th>
-						<td><p>the API name of the object to update</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>objectId</code></th>
-						<td><p>the record ID of the object</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>fields</code></th>
-						<td><p>a dictionary of fields to update.</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>failBlock</code></th>
-						<td><p>the block to be executed when the request fails (timeout, cancel, or error)</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>completeBlock</code></th>
-						<td><p>the block to be executed when the request successfully completes</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>the newly sent <a href="../Classes/SFRestRequest.html">SFRestRequest</a></p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/performUpsertWithObjectType:externalIdField:externalId:fields:failBlock:completeBlock:" title="performUpsertWithObjectType:externalIdField:externalId:fields:failBlock:completeBlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/performUpsertWithObjectType:externalIdField:externalId:fields:failBlock:completeBlock:">&ndash;&nbsp;performUpsertWithObjectType:externalIdField:externalId:fields:failBlock:completeBlock:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Executes a DML upsert for a single record.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performUpsertWithObjectType:(NSString *)<em>objectType</em> externalIdField:(NSString *)<em>externalIdField</em> externalId:(NSString *)<em>externalId</em> fields:(NSDictionary&lt;NSString*,id&gt; *)<em>fields</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>objectType</code></th>
-						<td><p>the API name of the object to update</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>externalIdField</code></th>
-						<td><p>the API name of the external ID field to use for updating</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>externalId</code></th>
-						<td><p>the actual external Id</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>fields</code></th>
-						<td><p>a dictionary of fields to include in the upsert</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>failBlock</code></th>
-						<td><p>the block to be executed when the request fails (timeout, cancel, or error)</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>completeBlock</code></th>
-						<td><p>the block to be executed when the request successfully completes</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>the newly sent <a href="../Classes/SFRestRequest.html">SFRestRequest</a></p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/performDeleteWithObjectType:objectId:failBlock:completeBlock:" title="performDeleteWithObjectType:objectId:failBlock:completeBlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/performDeleteWithObjectType:objectId:failBlock:completeBlock:">&ndash;&nbsp;performDeleteWithObjectType:objectId:failBlock:completeBlock:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Executes a DML delete on a single record</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performDeleteWithObjectType:(NSString *)<em>objectType</em> objectId:(NSString *)<em>objectId</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>objectType</code></th>
-						<td><p>the API name of the object to delete</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>objectId</code></th>
-						<td><p>the actual Id of the record to delete</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>failBlock</code></th>
-						<td><p>the block to be executed when the request fails (timeout, cancel, or error)</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>completeBlock</code></th>
-						<td><p>the block to be executed when the request successfully completes</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>the newly sent <a href="../Classes/SFRestRequest.html">SFRestRequest</a></p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/performCreateWithObjectType:fields:failBlock:completeBlock:" title="performCreateWithObjectType:fields:failBlock:completeBlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/performCreateWithObjectType:fields:failBlock:completeBlock:">&ndash;&nbsp;performCreateWithObjectType:fields:failBlock:completeBlock:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Executes a DML insert.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performCreateWithObjectType:(NSString *)<em>objectType</em> fields:(NSDictionary&lt;NSString*,id&gt; *)<em>fields</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>objectType</code></th>
-						<td><p>the API name of the object to insert</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>fields</code></th>
-						<td><p>a dictionary of fields to use in the insert.</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>failBlock</code></th>
-						<td><p>the block to be executed when the request fails (timeout, cancel, or error)</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>completeBlock</code></th>
-						<td><p>the block to be executed when the request successfully completes</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>the newly sent <a href="../Classes/SFRestRequest.html">SFRestRequest</a></p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/performRequestForResourcesWithFailBlock:completeBlock:" title="performRequestForResourcesWithFailBlock:completeBlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/performRequestForResourcesWithFailBlock:completeBlock:">&ndash;&nbsp;performRequestForResourcesWithFailBlock:completeBlock:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Executes a request to list REST API resources</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performRequestForResourcesWithFailBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>failBlock</code></th>
-						<td><p>the block to be executed when the request fails (timeout, cancel, or error)</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>completeBlock</code></th>
-						<td><p>the block to be executed when the request successfully completes</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>the newly sent <a href="../Classes/SFRestRequest.html">SFRestRequest</a></p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/performRequestForVersionsWithFailBlock:completeBlock:" title="performRequestForVersionsWithFailBlock:completeBlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/performRequestForVersionsWithFailBlock:completeBlock:">&ndash;&nbsp;performRequestForVersionsWithFailBlock:completeBlock:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Executes a request to list REST API versions</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performRequestForVersionsWithFailBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>failBlock</code></th>
-						<td><p>the block to be executed when the request fails (timeout, cancel, or error)</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>completeBlock</code></th>
-						<td><p>the block to be executed when the request successfully completes</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>the newly sent <a href="../Classes/SFRestRequest.html">SFRestRequest</a></p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/performRequestForFileRendition:version:renditionType:page:failBlock:completeBlock:" title="performRequestForFileRendition:version:renditionType:page:failBlock:completeBlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/performRequestForFileRendition:version:renditionType:page:failBlock:completeBlock:">&ndash;&nbsp;performRequestForFileRendition:version:renditionType:page:failBlock:completeBlock:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Executes a request to get a file rendition</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performRequestForFileRendition:(NSString *)<em>sfdcId</em> version:(NSString *)<em>version</em> renditionType:(NSString *)<em>renditionType</em> page:(NSUInteger)<em>page</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDataResponseBlock)<em>completeBlock</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>sfdcId</code></th>
-						<td><p>The Id of the file</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>version</code></th>
-						<td><p>if nil fetches the most recent version, otherwise fetches this specific version</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>renditionType</code></th>
-						<td><p>What format of rendition do you want to get</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>page</code></th>
-						<td><p>which page to fetch, pages start at 0.</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>failBlock</code></th>
-						<td><p>the block to be executed when the request fails (timeout, cancel, or error)</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>completeBlock</code></th>
-						<td><p>the block to be executed when the request successfully completes</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>the newly sent <a href="../Classes/SFRestRequest.html">SFRestRequest</a></p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/performRequestForSearchScopeAndOrderWithFailBlock:completeBlock:" title="performRequestForSearchScopeAndOrderWithFailBlock:completeBlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/performRequestForSearchScopeAndOrderWithFailBlock:completeBlock:">&ndash;&nbsp;performRequestForSearchScopeAndOrderWithFailBlock:completeBlock:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Executes a request to get search scope and order</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performRequestForSearchScopeAndOrderWithFailBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestArrayResponseBlock)<em>completeBlock</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>failBlock</code></th>
-						<td><p>the block to be executed when the request fails (timeout, cancel, or error)</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>completeBlock</code></th>
-						<td><p>the block to be executed when the request successfully completes</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>the newly sent <a href="../Classes/SFRestRequest.html">SFRestRequest</a></p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/performRequestForSearchResultLayout:failBlock:completeBlock:" title="performRequestForSearchResultLayout:failBlock:completeBlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/performRequestForSearchResultLayout:failBlock:completeBlock:">&ndash;&nbsp;performRequestForSearchResultLayout:failBlock:completeBlock:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Executes a request to get search result layout</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performRequestForSearchResultLayout:(NSString *)<em>objectList</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestArrayResponseBlock)<em>completeBlock</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>objectList</code></th>
-						<td><p>comma-separated list of objects for which
-to return values; for example, &ldquo;Account,Contact&rdquo;.</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>failBlock</code></th>
-						<td><p>the block to be executed when the request fails (timeout, cancel, or error)</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>completeBlock</code></th>
-						<td><p>the block to be executed when the request successfully completes</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>the newly sent <a href="../Classes/SFRestRequest.html">SFRestRequest</a></p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div>
-						</div>
-						
 					</div>
 					
 					
@@ -4674,7 +4674,7 @@ to return values; for example, &ldquo;Account,Contact&rdquo;.</p></td>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-12-18</p>
+						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-03-16</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

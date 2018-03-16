@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Constants/RCTAnimationType.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/c/tdef/RCTAnimationType</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTAnimationType.h</DeclaredIn>
+            
+			
+			<NodeRef refid="290"/>
+		</Token>
+		
+		
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTAnimationTypeSpring</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTAnimationTypeSpring</Declaration>
+            
+            <DeclaredIn>RCTAnimationType.h</DeclaredIn>
+            
+            <NodeRef refid="290"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTAnimationTypeLinear</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTAnimationTypeLinear</Declaration>
+            
+            <DeclaredIn>RCTAnimationType.h</DeclaredIn>
+            
+            <NodeRef refid="290"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTAnimationTypeEaseIn</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTAnimationTypeEaseIn</Declaration>
+            
+            <DeclaredIn>RCTAnimationType.h</DeclaredIn>
+            
+            <NodeRef refid="290"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTAnimationTypeEaseOut</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTAnimationTypeEaseOut</Declaration>
+            
+            <DeclaredIn>RCTAnimationType.h</DeclaredIn>
+            
+            <NodeRef refid="290"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTAnimationTypeEaseInEaseOut</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTAnimationTypeEaseInEaseOut</Declaration>
+            
+            <DeclaredIn>RCTAnimationType.h</DeclaredIn>
+            
+            <NodeRef refid="290"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTAnimationTypeKeyboard</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTAnimationTypeKeyboard</Declaration>
+            
+            <DeclaredIn>RCTAnimationType.h</DeclaredIn>
+            
+            <NodeRef refid="290"/>
+        </Token>
+        
+        
+	</File>
+</Tokens>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTInspectorRemoteConnection.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTInspectorRemoteConnection</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTInspectorPackagerConnection.h</DeclaredIn>
+            
+			
+			<NodeRef refid="92"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTInspectorRemoteConnection/onMessage:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTInspectorPackagerConnection.h</DeclaredIn>
+			
+			<Declaration>- (void)onMessage:(NSString *)message</Declaration>
+			
+			
+			<Anchor>//api/name/onMessage:</Anchor>
+            <NodeRef refid="92"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTInspectorRemoteConnection/onDisconnect</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTInspectorPackagerConnection.h</DeclaredIn>
+			
+			<Declaration>- (void)onDisconnect</Declaration>
+			
+			
+			<Anchor>//api/name/onDisconnect</Anchor>
+            <NodeRef refid="92"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

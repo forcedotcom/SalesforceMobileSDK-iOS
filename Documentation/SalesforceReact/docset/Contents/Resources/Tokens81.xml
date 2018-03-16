@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTImagePickerManager.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTImagePickerManager</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTImagePickerManager.h</DeclaredIn>
+            
+			
+			<NodeRef refid="81"/>
+		</Token>
+		
+		
+        
+        
+	</File>
+</Tokens>

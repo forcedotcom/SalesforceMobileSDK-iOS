@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTStyleAnimatedNode.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTStyleAnimatedNode</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTStyleAnimatedNode.h</DeclaredIn>
+            
+			
+			<NodeRef refid="179"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTStyleAnimatedNode/propsDictionary</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTStyleAnimatedNode.h</DeclaredIn>
+			
+			<Declaration>- (NSDictionary&lt;NSString*,NSObject*&gt; *)propsDictionary</Declaration>
+			
+			
+			<Anchor>//api/name/propsDictionary</Anchor>
+            <NodeRef refid="179"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

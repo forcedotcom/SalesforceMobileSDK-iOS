@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>RCTBaseTextInputView Class Reference</title>
+
+	<link rel="stylesheet" href="../css/style.css">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
+	<meta name="generator" content="appledoc 2.2.1 (build 1334)">
+</head>
+<body class="appledoc">
+	<header>
+		<div class="container" class="hide-in-xcode">
+			
+			<h1 id="library-title">
+				<a href="../index.html">SalesforceReact </a>
+			</h1>
+
+			<p id="developer-home">
+				<a href="../index.html">Salesforce.com</a>
+			</p>
+			
+		</div>
+	</header>
+
+	<aside>
+		<div class="container">
+			<nav>
+				<ul id="header-buttons" role="toolbar">
+					<li><a href="../index.html">Index</a></li>
+<li><a href="../hierarchy.html">Hierarchy</a></li>
+
+					<li id="on-this-page" role="navigation">
+						<label>
+							On This Page
+
+							<div class="chevron">
+								<div class="chevy chevron-left"></div>
+								<div class="chevy chevron-right"></div>
+							</div>
+
+							<select id="jump-to">
+	<option value="top">Jump To&#133;</option>
+	
+	<option value="overview">Overview</option>
+	
+
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+
+	
+	
+	<optgroup label="Properties">
+		
+		<option value="//api/name/backedTextInputView">backedTextInputView</option>
+		
+		<option value="//api/name/blurOnSubmit">blurOnSubmit</option>
+		
+		<option value="//api/name/clearTextOnFocus">clearTextOnFocus</option>
+		
+		<option value="//api/name/contentSize">contentSize</option>
+		
+		<option value="//api/name/fontAttributes">fontAttributes</option>
+		
+		<option value="//api/name/mostRecentEventCount">mostRecentEventCount</option>
+		
+		<option value="//api/name/onContentSizeChange">onContentSizeChange</option>
+		
+		<option value="//api/name/onSelectionChange">onSelectionChange</option>
+		
+		<option value="//api/name/reactBorderInsets">reactBorderInsets</option>
+		
+		<option value="//api/name/reactPaddingInsets">reactPaddingInsets</option>
+		
+		<option value="//api/name/selectTextOnFocus">selectTextOnFocus</option>
+		
+		<option value="//api/name/selection">selection</option>
+		
+	</optgroup>
+	
+
+	
+
+	
+	<optgroup label="Instance Methods">
+		
+		<option value="//api/name/init">- init</option>
+		
+		<option value="//api/name/initWithBridge:">- initWithBridge:</option>
+		
+		<option value="//api/name/initWithCoder:">- initWithCoder:</option>
+		
+		<option value="//api/name/initWithFrame:">- initWithFrame:</option>
+		
+		<option value="//api/name/invalidateContentSize">- invalidateContentSize</option>
+		
+		<option value="//api/name/setFont:">- setFont:</option>
+		
+		<option value="//api/name/textInputDidBeginEditing">- textInputDidBeginEditing</option>
+		
+		<option value="//api/name/textInputDidChangeSelection">- textInputDidChangeSelection</option>
+		
+		<option value="//api/name/textInputDidEndEditing">- textInputDidEndEditing</option>
+		
+		<option value="//api/name/textInputDidReturn">- textInputDidReturn</option>
+		
+		<option value="//api/name/textInputShouldBeginEditing">- textInputShouldBeginEditing</option>
+		
+		<option value="//api/name/textInputShouldEndEditing">- textInputShouldEndEditing</option>
+		
+		<option value="//api/name/textInputShouldReturn">- textInputShouldReturn</option>
+		
+	</optgroup>
+	
+	
+</select>
+						</label>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</aside>
+
+	<article>
+		<div id="overview_contents" class="container">
+			<div id="content">
+				<main role="main">
+					<h1 class="title">RCTBaseTextInputView Class Reference</h1>
+
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<th>Inherits from</th>
+	<td><a href="../Classes/RCTView.html">RCTView</a> : UIView</td>
+</tr><tr>
+	<th>Conforms to</th>
+	<td><a href="../Protocols/RCTFontAttributesDelegate.html">RCTFontAttributesDelegate</a></td>
+</tr><tr>
+	<th>Declared in</th>
+	<td>RCTBaseTextInputView.h</td>
+</tr>
+						</tbody></table></div>
+					
+
+                    
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>Copyright &copy; 2015-present, Facebook, Inc.
+All rights reserved.</p>
+
+<p>This source code is licensed under the BSD-style license found in the
+LICENSE file in the root directory of this source tree. An additional grant
+of patent rights can be found in the PATENTS file in the same directory.</p>
+					</div>
+					
+					
+
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						
+
+						
+						
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/initWithBridge:" title="initWithBridge:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/initWithBridge:">&ndash;&nbsp;initWithBridge:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (instancetype)initWithBridge:(RCTBridge *)<em>bridge</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/init" title="init"></a>
+	<h3 class="method-title"><code><a href="#//api/name/init">&ndash;&nbsp;init</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (instancetype)init</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/initWithCoder:" title="initWithCoder:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/initWithCoder:">&ndash;&nbsp;initWithCoder:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (instancetype)initWithCoder:(NSCoder *)<em>decoder</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/initWithFrame:" title="initWithFrame:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/initWithFrame:">&ndash;&nbsp;initWithFrame:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (instancetype)initWithFrame:(CGRect)<em>frame</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/backedTextInputView" title="backedTextInputView"></a>
+	<h3 class="method-title"><code><a href="#//api/name/backedTextInputView">&nbsp;&nbsp;backedTextInputView</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) UIView&lt;RCTBackedTextInputViewProtocol&gt; *backedTextInputView</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/reactPaddingInsets" title="reactPaddingInsets"></a>
+	<h3 class="method-title"><code><a href="#//api/name/reactPaddingInsets">&nbsp;&nbsp;reactPaddingInsets</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) UIEdgeInsets reactPaddingInsets</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/reactBorderInsets" title="reactBorderInsets"></a>
+	<h3 class="method-title"><code><a href="#//api/name/reactBorderInsets">&nbsp;&nbsp;reactBorderInsets</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) UIEdgeInsets reactBorderInsets</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/contentSize" title="contentSize"></a>
+	<h3 class="method-title"><code><a href="#//api/name/contentSize">&nbsp;&nbsp;contentSize</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign, readonly) CGSize contentSize</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/onContentSizeChange" title="onContentSizeChange"></a>
+	<h3 class="method-title"><code><a href="#//api/name/onContentSizeChange">&nbsp;&nbsp;onContentSizeChange</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) RCTDirectEventBlock onContentSizeChange</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/onSelectionChange" title="onSelectionChange"></a>
+	<h3 class="method-title"><code><a href="#//api/name/onSelectionChange">&nbsp;&nbsp;onSelectionChange</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) RCTDirectEventBlock onSelectionChange</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/fontAttributes" title="fontAttributes"></a>
+	<h3 class="method-title"><code><a href="#//api/name/fontAttributes">&nbsp;&nbsp;fontAttributes</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, strong) RCTFontAttributes *fontAttributes</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/mostRecentEventCount" title="mostRecentEventCount"></a>
+	<h3 class="method-title"><code><a href="#//api/name/mostRecentEventCount">&nbsp;&nbsp;mostRecentEventCount</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) NSInteger mostRecentEventCount</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/blurOnSubmit" title="blurOnSubmit"></a>
+	<h3 class="method-title"><code><a href="#//api/name/blurOnSubmit">&nbsp;&nbsp;blurOnSubmit</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL blurOnSubmit</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/selectTextOnFocus" title="selectTextOnFocus"></a>
+	<h3 class="method-title"><code><a href="#//api/name/selectTextOnFocus">&nbsp;&nbsp;selectTextOnFocus</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL selectTextOnFocus</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/clearTextOnFocus" title="clearTextOnFocus"></a>
+	<h3 class="method-title"><code><a href="#//api/name/clearTextOnFocus">&nbsp;&nbsp;clearTextOnFocus</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL clearTextOnFocus</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/selection" title="selection"></a>
+	<h3 class="method-title"><code><a href="#//api/name/selection">&nbsp;&nbsp;selection</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) RCTTextSelection *selection</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setFont:" title="setFont:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setFont:">&ndash;&nbsp;setFont:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)setFont:(UIFont *)<em>font</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/invalidateContentSize" title="invalidateContentSize"></a>
+	<h3 class="method-title"><code><a href="#//api/name/invalidateContentSize">&ndash;&nbsp;invalidateContentSize</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)invalidateContentSize</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/textInputShouldBeginEditing" title="textInputShouldBeginEditing"></a>
+	<h3 class="method-title"><code><a href="#//api/name/textInputShouldBeginEditing">&ndash;&nbsp;textInputShouldBeginEditing</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)textInputShouldBeginEditing</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/textInputDidBeginEditing" title="textInputDidBeginEditing"></a>
+	<h3 class="method-title"><code><a href="#//api/name/textInputDidBeginEditing">&ndash;&nbsp;textInputDidBeginEditing</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)textInputDidBeginEditing</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/textInputShouldReturn" title="textInputShouldReturn"></a>
+	<h3 class="method-title"><code><a href="#//api/name/textInputShouldReturn">&ndash;&nbsp;textInputShouldReturn</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)textInputShouldReturn</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/textInputDidReturn" title="textInputDidReturn"></a>
+	<h3 class="method-title"><code><a href="#//api/name/textInputDidReturn">&ndash;&nbsp;textInputDidReturn</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)textInputDidReturn</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/textInputDidChangeSelection" title="textInputDidChangeSelection"></a>
+	<h3 class="method-title"><code><a href="#//api/name/textInputDidChangeSelection">&ndash;&nbsp;textInputDidChangeSelection</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)textInputDidChangeSelection</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/textInputShouldEndEditing" title="textInputShouldEndEditing"></a>
+	<h3 class="method-title"><code><a href="#//api/name/textInputShouldEndEditing">&ndash;&nbsp;textInputShouldEndEditing</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)textInputShouldEndEditing</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/textInputDidEndEditing" title="textInputDidEndEditing"></a>
+	<h3 class="method-title"><code><a href="#//api/name/textInputDidEndEditing">&ndash;&nbsp;textInputDidEndEditing</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)textInputDidEndEditing</code></div>
+
+		    
+		</div>
+	</div>
+</div>
+						</div>
+						
+					</div>
+					
+					
+
+                    
+                    
+          
+				</main>
+
+				<footer>
+					<div class="footer-copyright">
+						
+						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-03-16</p>
+						
+						
+						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>
+						
+					</div>
+				</footer>
+			</div>
+		</div>
+	</article>
+
+	<script src="../js/script.js"></script>
+</body>
+</html>

@@ -384,18 +384,6 @@
             <NodeRef refid="47"/>
 		</Token>
 		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/setRetrieveOrgAuthConfigurationData:error:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
-			
-			<Declaration>- (void)setRetrieveOrgAuthConfigurationData:(SFOAuthOrgAuthConfiguration *)config error:(NSError *)error</Declaration>
-			
-			
-			<Anchor>//api/name/setRetrieveOrgAuthConfigurationData:error:</Anchor>
-            <NodeRef refid="47"/>
-		</Token>
-		
         
         
 	</File>

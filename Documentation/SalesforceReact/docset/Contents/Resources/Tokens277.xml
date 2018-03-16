@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Protocols/RCTScrollableProtocol.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intf/RCTScrollableProtocol</TokenIdentifier>
+			<Abstract type="html">Contains any methods related to scrolling. Any RCTView that has scrolling
+features should implement these methods.</Abstract>
+			<DeclaredIn>RCTScrollableProtocol.h</DeclaredIn>
+            
+			
+			<NodeRef refid="277"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTScrollableProtocol/setContentSize:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTScrollableProtocol.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) CGSize contentSize</Declaration>
+			
+			
+			<Anchor>//api/name/contentSize</Anchor>
+            <NodeRef refid="277"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTScrollableProtocol/contentSize</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTScrollableProtocol.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) CGSize contentSize</Declaration>
+			
+			
+			<Anchor>//api/name/contentSize</Anchor>
+            <NodeRef refid="277"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfp/RCTScrollableProtocol/contentSize</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTScrollableProtocol.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) CGSize contentSize</Declaration>
+			
+			
+			<Anchor>//api/name/contentSize</Anchor>
+            <NodeRef refid="277"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTScrollableProtocol/scrollToOffset:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTScrollableProtocol.h</DeclaredIn>
+			
+			<Declaration>- (void)scrollToOffset:(CGPoint)offset</Declaration>
+			
+			
+			<Anchor>//api/name/scrollToOffset:</Anchor>
+            <NodeRef refid="277"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTScrollableProtocol/scrollToOffset:animated:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTScrollableProtocol.h</DeclaredIn>
+			
+			<Declaration>- (void)scrollToOffset:(CGPoint)offset animated:(BOOL)animated</Declaration>
+			
+			
+			<Anchor>//api/name/scrollToOffset:animated:</Anchor>
+            <NodeRef refid="277"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTScrollableProtocol/scrollToEnd:</TokenIdentifier>
+			<Abstract type="html">If this is a vertical scroll view, scrolls to the bottom.
+If this is a horizontal scroll view, scrolls to the right.</Abstract>
+			<DeclaredIn>RCTScrollableProtocol.h</DeclaredIn>
+			
+			<Declaration>- (void)scrollToEnd:(BOOL)animated</Declaration>
+			
+			
+			<Anchor>//api/name/scrollToEnd:</Anchor>
+            <NodeRef refid="277"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTScrollableProtocol/zoomToRect:animated:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTScrollableProtocol.h</DeclaredIn>
+			
+			<Declaration>- (void)zoomToRect:(CGRect)rect animated:(BOOL)animated</Declaration>
+			
+			
+			<Anchor>//api/name/zoomToRect:animated:</Anchor>
+            <NodeRef refid="277"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTScrollableProtocol/addScrollListener:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTScrollableProtocol.h</DeclaredIn>
+			
+			<Declaration>- (void)addScrollListener:(NSObject&lt;UIScrollViewDelegate&gt; *)scrollListener</Declaration>
+			
+			
+			<Anchor>//api/name/addScrollListener:</Anchor>
+            <NodeRef refid="277"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTScrollableProtocol/removeScrollListener:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTScrollableProtocol.h</DeclaredIn>
+			
+			<Declaration>- (void)removeScrollListener:(NSObject&lt;UIScrollViewDelegate&gt; *)scrollListener</Declaration>
+			
+			
+			<Anchor>//api/name/removeScrollListener:</Anchor>
+            <NodeRef refid="277"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

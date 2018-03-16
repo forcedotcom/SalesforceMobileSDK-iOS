@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFTestSDKManagerFlow.html">
+	<File path="Classes/SFTestContext.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFTestSDKManagerFlow</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFTestContext</TokenIdentifier>
+			<Abstract type="html">Helps determine whether we&apos;re currently running tests or not.</Abstract>
+			<DeclaredIn>SFTestContext.h</DeclaredIn>
             
 			
 			<NodeRef refid="123"/>
@@ -13,98 +13,80 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/setPauseInAuth:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFTestContext/isRunningTests</TokenIdentifier>
+			<Abstract type="html">Return YES if is running test</Abstract>
+			<DeclaredIn>SFTestContext.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL pauseInAuth</Declaration>
+			<Declaration>+ (BOOL)isRunningTests</Declaration>
 			
 			
-			<Anchor>//api/name/pauseInAuth</Anchor>
+			<Anchor>//api/name/isRunningTests</Anchor>
             <NodeRef refid="123"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/pauseInAuth</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFTestContext/setIsRunningTests:</TokenIdentifier>
+			<Abstract type="html">Update SFTestContext to indicate whether it is in testing context or live context</Abstract>
+			<DeclaredIn>SFTestContext.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL pauseInAuth</Declaration>
+			<Declaration>+ (void)setIsRunningTests:(BOOL)runningTests</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>runningTests</Name>
+					<Abstract type="html">Yes if code is running under testing context</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/pauseInAuth</Anchor>
+			<Anchor>//api/name/setIsRunningTests:</Anchor>
             <NodeRef refid="123"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFTestSDKManagerFlow/pauseInAuth</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFTestContext/setObject:forKey:</TokenIdentifier>
+			<Abstract type="html">Sets an arbitrary object into the test context</Abstract>
+			<DeclaredIn>SFTestContext.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL pauseInAuth</Declaration>
+			<Declaration>+ (void)setObject:(nullable id)object forKey:(id)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>object</Name>
+					<Abstract type="html">The object or nil to remove the object</Abstract>
+				</Parameter><Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The key</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/pauseInAuth</Anchor>
+			<Anchor>//api/name/setObject:forKey:</Anchor>
             <NodeRef refid="123"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/initWithStepTimeDelaySecs:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFTestContext/objectForKey:</TokenIdentifier>
+			<Abstract type="html">Returns an arbitrary object from the test context</Abstract>
+			<DeclaredIn>SFTestContext.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithStepTimeDelaySecs:(NSTimeInterval)timeDelayInSecs</Declaration>
-			
-			
-			<Anchor>//api/name/initWithStepTimeDelaySecs:</Anchor>
+			<Declaration>+ (id)objectForKey:(id)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The key</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The object</Abstract></ReturnValue>
+			<Anchor>//api/name/objectForKey:</Anchor>
             <NodeRef refid="123"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/resumeAuth</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFTestContext/clearObjects</TokenIdentifier>
+			<Abstract type="html">Removes all the stored objects</Abstract>
+			<DeclaredIn>SFTestContext.h</DeclaredIn>
 			
-			<Declaration>- (void)resumeAuth</Declaration>
-			
-			
-			<Anchor>//api/name/resumeAuth</Anchor>
-            <NodeRef refid="123"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/waitForLaunchCompletion</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)waitForLaunchCompletion</Declaration>
+			<Declaration>+ (void)clearObjects</Declaration>
 			
 			
-			<Anchor>//api/name/waitForLaunchCompletion</Anchor>
-            <NodeRef refid="123"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/setUpUserSwitchState:toUser:completion:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
-			
-			<Declaration>- (void)setUpUserSwitchState:(SFUserAccount *)fromUser toUser:(SFUserAccount *)fromUser completion:(void ( ^ ) ( SFUserAccount *, SFUserAccount *, BOOL before ))switchUserCompletionBlock</Declaration>
-			
-			
-			<Anchor>//api/name/setUpUserSwitchState:toUser:completion:</Anchor>
-            <NodeRef refid="123"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/clearUserSwitchState</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
-			
-			<Declaration>- (void)clearUserSwitchState</Declaration>
-			
-			
-			<Anchor>//api/name/clearUserSwitchState</Anchor>
+			<Anchor>//api/name/clearObjects</Anchor>
             <NodeRef refid="123"/>
 		</Token>
 		

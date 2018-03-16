@@ -1,16 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFOauthReactBridge.html">
+	<File path="Classes/ARTGroup.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFOauthReactBridge</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOauthReactBridge.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/ARTGroup</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>ARTGroup.h</DeclaredIn>
             
 			
 			<NodeRef refid="2"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/ARTGroup/setClipping:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>ARTGroup.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGRect clipping</Declaration>
+			
+			
+			<Anchor>//api/name/clipping</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/ARTGroup/clipping</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>ARTGroup.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGRect clipping</Declaration>
+			
+			
+			<Anchor>//api/name/clipping</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/ARTGroup/clipping</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>ARTGroup.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGRect clipping</Declaration>
+			
+			
+			<Anchor>//api/name/clipping</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
 		
         
         

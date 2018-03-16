@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTSurfaceView.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTSurfaceView</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTSurfaceView.h</DeclaredIn>
+            
+			
+			<NodeRef refid="189"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceView/init</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceView.mm</DeclaredIn>
+			
+			<Declaration>- (instancetype)init</Declaration>
+			
+			
+			<Anchor>//api/name/init</Anchor>
+            <NodeRef refid="189"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceView/setRootView:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceView.mm</DeclaredIn>
+			
+			<Declaration>- (void)setRootView:(RCTSurfaceRootView *)rootView</Declaration>
+			
+			
+			<Anchor>//api/name/setRootView:</Anchor>
+            <NodeRef refid="189"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceView/rootView</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceView.mm</DeclaredIn>
+			
+			<Declaration>- (RCTSurfaceRootView *)rootView</Declaration>
+			
+			
+			<Anchor>//api/name/rootView</Anchor>
+            <NodeRef refid="189"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceView/setStage:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceView.mm</DeclaredIn>
+			
+			<Declaration>- (void)setStage:(RCTSurfaceStage)stage</Declaration>
+			
+			
+			<Anchor>//api/name/setStage:</Anchor>
+            <NodeRef refid="189"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceView/stage</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceView.mm</DeclaredIn>
+			
+			<Declaration>- (RCTSurfaceStage)stage</Declaration>
+			
+			
+			<Anchor>//api/name/stage</Anchor>
+            <NodeRef refid="189"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceView/_updateStage</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceView.mm</DeclaredIn>
+			
+			<Declaration>- (void)_updateStage</Declaration>
+			
+			
+			<Anchor>//api/name/_updateStage</Anchor>
+            <NodeRef refid="189"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceView/initWithSurface:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceView.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithSurface:(RCTSurface *)surface</Declaration>
+			
+			
+			<Anchor>//api/name/initWithSurface:</Anchor>
+            <NodeRef refid="189"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceView/setSurface:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, readonly, nullable) RCTSurface *surface</Declaration>
+			
+			
+			<Anchor>//api/name/surface</Anchor>
+            <NodeRef refid="189"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceView/surface</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, readonly, nullable) RCTSurface *surface</Declaration>
+			
+			
+			<Anchor>//api/name/surface</Anchor>
+            <NodeRef refid="189"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTSurfaceView/surface</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, readonly, nullable) RCTSurface *surface</Declaration>
+			
+			
+			<Anchor>//api/name/surface</Anchor>
+            <NodeRef refid="189"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceView/setRootView:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceView+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) RCTSurfaceRootView *rootView</Declaration>
+			
+			
+			<Anchor>//api/name/rootView</Anchor>
+            <NodeRef refid="189"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceView/rootView</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceView+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) RCTSurfaceRootView *rootView</Declaration>
+			
+			
+			<Anchor>//api/name/rootView</Anchor>
+            <NodeRef refid="189"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTSurfaceView/rootView</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceView+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) RCTSurfaceRootView *rootView</Declaration>
+			
+			
+			<Anchor>//api/name/rootView</Anchor>
+            <NodeRef refid="189"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceView/setStage:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceView+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) RCTSurfaceStage stage</Declaration>
+			
+			
+			<Anchor>//api/name/stage</Anchor>
+            <NodeRef refid="189"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceView/stage</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceView+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) RCTSurfaceStage stage</Declaration>
+			
+			
+			<Anchor>//api/name/stage</Anchor>
+            <NodeRef refid="189"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTSurfaceView/stage</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceView+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) RCTSurfaceStage stage</Declaration>
+			
+			
+			<Anchor>//api/name/stage</Anchor>
+            <NodeRef refid="189"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

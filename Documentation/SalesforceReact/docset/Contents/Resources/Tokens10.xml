@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/ARTRenderableManager.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/ARTRenderableManager</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>ARTRenderableManager.h</DeclaredIn>
+            
+			
+			<NodeRef refid="10"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/ARTRenderableManager/node</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>ARTRenderableManager.h</DeclaredIn>
+			
+			<Declaration>- (ARTRenderable *)node</Declaration>
+			
+			
+			<Anchor>//api/name/node</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

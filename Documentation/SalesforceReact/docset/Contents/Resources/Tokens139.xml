@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTPicker.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTPicker</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTPicker.h</DeclaredIn>
+            
+			
+			<NodeRef refid="139"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTPicker/setItems:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTPicker.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSArray&lt;NSDictionary*&gt; *items</Declaration>
+			
+			
+			<Anchor>//api/name/items</Anchor>
+            <NodeRef refid="139"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTPicker/items</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTPicker.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSArray&lt;NSDictionary*&gt; *items</Declaration>
+			
+			
+			<Anchor>//api/name/items</Anchor>
+            <NodeRef refid="139"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTPicker/items</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTPicker.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSArray&lt;NSDictionary*&gt; *items</Declaration>
+			
+			
+			<Anchor>//api/name/items</Anchor>
+            <NodeRef refid="139"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTPicker/setSelectedIndex:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTPicker.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSInteger selectedIndex</Declaration>
+			
+			
+			<Anchor>//api/name/selectedIndex</Anchor>
+            <NodeRef refid="139"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTPicker/selectedIndex</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTPicker.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSInteger selectedIndex</Declaration>
+			
+			
+			<Anchor>//api/name/selectedIndex</Anchor>
+            <NodeRef refid="139"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTPicker/selectedIndex</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTPicker.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSInteger selectedIndex</Declaration>
+			
+			
+			<Anchor>//api/name/selectedIndex</Anchor>
+            <NodeRef refid="139"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTPicker/setColor:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTPicker.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIColor *color</Declaration>
+			
+			
+			<Anchor>//api/name/color</Anchor>
+            <NodeRef refid="139"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTPicker/color</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTPicker.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIColor *color</Declaration>
+			
+			
+			<Anchor>//api/name/color</Anchor>
+            <NodeRef refid="139"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTPicker/color</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTPicker.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIColor *color</Declaration>
+			
+			
+			<Anchor>//api/name/color</Anchor>
+            <NodeRef refid="139"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTPicker/setFont:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTPicker.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIFont *font</Declaration>
+			
+			
+			<Anchor>//api/name/font</Anchor>
+            <NodeRef refid="139"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTPicker/font</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTPicker.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIFont *font</Declaration>
+			
+			
+			<Anchor>//api/name/font</Anchor>
+            <NodeRef refid="139"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTPicker/font</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTPicker.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIFont *font</Declaration>
+			
+			
+			<Anchor>//api/name/font</Anchor>
+            <NodeRef refid="139"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTPicker/setTextAlign:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTPicker.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSTextAlignment textAlign</Declaration>
+			
+			
+			<Anchor>//api/name/textAlign</Anchor>
+            <NodeRef refid="139"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTPicker/textAlign</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTPicker.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSTextAlignment textAlign</Declaration>
+			
+			
+			<Anchor>//api/name/textAlign</Anchor>
+            <NodeRef refid="139"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTPicker/textAlign</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTPicker.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSTextAlignment textAlign</Declaration>
+			
+			
+			<Anchor>//api/name/textAlign</Anchor>
+            <NodeRef refid="139"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTPicker/setOnChange:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTPicker.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) RCTBubblingEventBlock onChange</Declaration>
+			
+			
+			<Anchor>//api/name/onChange</Anchor>
+            <NodeRef refid="139"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTPicker/onChange</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTPicker.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) RCTBubblingEventBlock onChange</Declaration>
+			
+			
+			<Anchor>//api/name/onChange</Anchor>
+            <NodeRef refid="139"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTPicker/onChange</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTPicker.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) RCTBubblingEventBlock onChange</Declaration>
+			
+			
+			<Anchor>//api/name/onChange</Anchor>
+            <NodeRef refid="139"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

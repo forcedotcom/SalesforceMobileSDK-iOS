@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFEntityIdLength.html">
+	<File path="Constants/SFCryptoOperation.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFEntityIdLength</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFCryptoOperation</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
             
 			
 			<NodeRef refid="189"/>
@@ -14,41 +14,21 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFEntityIdLength15</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFCryptoOperationEncrypt</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFEntityIdLength15</Declaration>
+            <Declaration>SFCryptoOperationEncrypt</Declaration>
             
-            <DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+            <DeclaredIn>SFCrypto.h</DeclaredIn>
             
             <NodeRef refid="189"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFEntityIdLength18</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFCryptoOperationDecrypt</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFEntityIdLength18</Declaration>
+            <Declaration>SFCryptoOperationDecrypt</Declaration>
             
-            <DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-            
-            <NodeRef refid="189"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFEntityIdLengthMin</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFEntityIdLengthMin</Declaration>
-            
-            <DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-            
-            <NodeRef refid="189"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFEntityIdLengthMax</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFEntityIdLengthMax</Declaration>
-            
-            <DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+            <DeclaredIn>SFCrypto.h</DeclaredIn>
             
             <NodeRef refid="189"/>
         </Token>

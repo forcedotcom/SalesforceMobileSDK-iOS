@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSObject+SFBlocks.html">
+	<File path="Categories/NSNotificationCenter+SFAdditions.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSObject(SFBlocks)</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>NSObject+SFBlocks.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSNotificationCenter(SFAdditions)</TokenIdentifier>
+			<Abstract type="html">Posts notifications either once with a run loop, or on the main thread.</Abstract>
+			<DeclaredIn>NSNotificationCenter+SFAdditions.h</DeclaredIn>
             
 			
 			<NodeRef refid="146"/>
@@ -13,138 +13,48 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSObject/performBlock:onThread:waitUntilDone:</TokenIdentifier>
-			<Abstract type="html">Perform a block on a specific thread.</Abstract>
-			<DeclaredIn>NSObject+SFBlocks.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSNotificationCenter/postNotificationOnceWithName:object:userInfo:</TokenIdentifier>
+			<Abstract type="html">Posts a notification once within a runloop - coalescing on the name.</Abstract>
+			<DeclaredIn>NSNotificationCenter+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>- (void)performBlock:(SFThreadBlock)block onThread:(NSThread *)thread waitUntilDone:(BOOL)waitUntilDone</Declaration>
+			<Declaration>+ (void)postNotificationOnceWithName:(NSString *)notificationName object:(id)object userInfo:(nullable NSDictionary *)userInfo</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>block</Name>
-					<Abstract type="html">The block to execute on the thread</Abstract>
+					<Name>notificationName</Name>
+					<Abstract type="html">The name of the notification.</Abstract>
 				</Parameter><Parameter>
-					<Name>thread</Name>
-					<Abstract type="html">The thread in which to execute the block</Abstract>
+					<Name>object</Name>
+					<Abstract type="html">The object for the new notification.</Abstract>
 				</Parameter><Parameter>
-					<Name>waitUntilDone</Name>
-					<Abstract type="html">Flag that indicates if this method should block until the block is done executing</Abstract>
+					<Name>userInfo</Name>
+					<Abstract type="html">The user information dictionary for the new notification. May be nil.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/performBlock:onThread:waitUntilDone:</Anchor>
+			<Anchor>//api/name/postNotificationOnceWithName:object:userInfo:</Anchor>
             <NodeRef refid="146"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSObject/performBlockOnGlobalQueue:afterDelay:</TokenIdentifier>
-			<Abstract type="html">Perform a block on a global queue thread after a delay.</Abstract>
-			<DeclaredIn>NSObject+SFBlocks.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSNotificationCenter/postNotificationOnMainThreadWithName:object:userInfo:</TokenIdentifier>
+			<Abstract type="html">Posts a notification on the main thread.</Abstract>
+			<DeclaredIn>NSNotificationCenter+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>- (void)performBlockOnGlobalQueue:(SFThreadBlock)block afterDelay:(NSTimeInterval)delay</Declaration>
+			<Declaration>- (void)postNotificationOnMainThreadWithName:(NSString *)notificationName object:(id)object userInfo:(nullable NSDictionary *)userInfo</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>block</Name>
-					<Abstract type="html">The block to execute</Abstract>
+					<Name>notificationName</Name>
+					<Abstract type="html">The name of the notification.</Abstract>
 				</Parameter><Parameter>
-					<Name>delay</Name>
-					<Abstract type="html">The delay before executing the block</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/performBlockOnGlobalQueue:afterDelay:</Anchor>
-            <NodeRef refid="146"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSObject/performBlockOnMainThread:afterDelay:</TokenIdentifier>
-			<Abstract type="html">Perform a block on the main thread after a delay.</Abstract>
-			<DeclaredIn>NSObject+SFBlocks.h</DeclaredIn>
-			
-			<Declaration>- (void)performBlockOnMainThread:(SFThreadBlock)block afterDelay:(NSTimeInterval)delay</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>block</Name>
-					<Abstract type="html">The block to execute</Abstract>
+					<Name>object</Name>
+					<Abstract type="html">The object for the new notificaiton.</Abstract>
 				</Parameter><Parameter>
-					<Name>delay</Name>
-					<Abstract type="html">The delay before executing the block</Abstract>
+					<Name>userInfo</Name>
+					<Abstract type="html">The user information dictionary for the new notification. May be nil.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/performBlockOnMainThread:afterDelay:</Anchor>
-            <NodeRef refid="146"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSObject/waitForBlockCondition:timeout:</TokenIdentifier>
-			<Abstract type="html">Wait until a block return value is YES or a time-out happens.</Abstract>
-			<DeclaredIn>NSObject+SFBlocks.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)waitForBlockCondition:(BOOL ( ^ ) ( void ))block timeout:(NSTimeInterval)duration</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>block</Name>
-					<Abstract type="html">The block that will be invoked regularily until it returns YES or a time-out happen.</Abstract>
-				</Parameter><Parameter>
-					<Name>duration</Name>
-					<Abstract type="html">Time-out duration.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the block returned YES or NO if a time-out happened</Abstract></ReturnValue>
-			<Anchor>//api/name/waitForBlockCondition:timeout:</Anchor>
-            <NodeRef refid="146"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSObject/synchronouslyExecuteBlockOnMainThread:</TokenIdentifier>
-			<Abstract type="html">Executes the given block directly if called from the main thread. Otherwise the block
-is synchronously dispatched for execution on the main thread.</Abstract>
-			<DeclaredIn>NSObject+SFBlocks.h</DeclaredIn>
-			
-			<Declaration>- (void)synchronouslyExecuteBlockOnMainThread:(void ( ^ ) ( void ))block</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>block</Name>
-					<Abstract type="html">The block to execute</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/synchronouslyExecuteBlockOnMainThread:</Anchor>
-            <NodeRef refid="146"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSObject/asynchronouslyExecuteBlockOnMainThread:</TokenIdentifier>
-			<Abstract type="html">The block is asynchronously dispatched for execution on the main thread.</Abstract>
-			<DeclaredIn>NSObject+SFBlocks.h</DeclaredIn>
-			
-			<Declaration>- (void)asynchronouslyExecuteBlockOnMainThread:(void ( ^ ) ( void ))block</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>block</Name>
-					<Abstract type="html">The block to execute</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/asynchronouslyExecuteBlockOnMainThread:</Anchor>
-            <NodeRef refid="146"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSObject/executeBlockOrDispatchIfNotMainThread:</TokenIdentifier>
-			<Abstract type="html">Executes the given block directly if called from the main thread. Otherwise the block
-is asynchronously dispatched for execution on the main thread.</Abstract>
-			<DeclaredIn>NSObject+SFBlocks.h</DeclaredIn>
-			
-			<Declaration>- (void)executeBlockOrDispatchIfNotMainThread:(void ( ^ ) ( void ))block</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>block</Name>
-					<Abstract type="html">The block to execute</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/executeBlockOrDispatchIfNotMainThread:</Anchor>
+			<Anchor>//api/name/postNotificationOnMainThreadWithName:object:userInfo:</Anchor>
             <NodeRef refid="146"/>
 		</Token>
 		

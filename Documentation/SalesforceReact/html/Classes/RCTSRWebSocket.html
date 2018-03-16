@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>RCTSRWebSocket Class Reference</title>
+
+	<link rel="stylesheet" href="../css/style.css">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
+	<meta name="generator" content="appledoc 2.2.1 (build 1334)">
+</head>
+<body class="appledoc">
+	<header>
+		<div class="container" class="hide-in-xcode">
+			
+			<h1 id="library-title">
+				<a href="../index.html">SalesforceReact </a>
+			</h1>
+
+			<p id="developer-home">
+				<a href="../index.html">Salesforce.com</a>
+			</p>
+			
+		</div>
+	</header>
+
+	<aside>
+		<div class="container">
+			<nav>
+				<ul id="header-buttons" role="toolbar">
+					<li><a href="../index.html">Index</a></li>
+<li><a href="../hierarchy.html">Hierarchy</a></li>
+
+					<li id="on-this-page" role="navigation">
+						<label>
+							On This Page
+
+							<div class="chevron">
+								<div class="chevy chevron-left"></div>
+								<div class="chevy chevron-right"></div>
+							</div>
+
+							<select id="jump-to">
+	<option value="top">Jump To&#133;</option>
+	
+
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+
+	
+	
+	<optgroup label="Properties">
+		
+		<option value="//api/name/delegate">delegate</option>
+		
+		<option value="//api/name/protocol">protocol</option>
+		
+		<option value="//api/name/readyState">readyState</option>
+		
+		<option value="//api/name/url">url</option>
+		
+	</optgroup>
+	
+
+	
+
+	
+	<optgroup label="Instance Methods">
+		
+		<option value="//api/name/close">- close</option>
+		
+		<option value="//api/name/closeWithCode:reason:">- closeWithCode:reason:</option>
+		
+		<option value="//api/name/initWithURL:">- initWithURL:</option>
+		
+		<option value="//api/name/initWithURL:protocols:">- initWithURL:protocols:</option>
+		
+		<option value="//api/name/initWithURLRequest:">- initWithURLRequest:</option>
+		
+		<option value="//api/name/initWithURLRequest:protocols:">- initWithURLRequest:protocols:</option>
+		
+		<option value="//api/name/open">- open</option>
+		
+		<option value="//api/name/scheduleInRunLoop:forMode:">- scheduleInRunLoop:forMode:</option>
+		
+		<option value="//api/name/send:">- send:</option>
+		
+		<option value="//api/name/sendPing:">- sendPing:</option>
+		
+		<option value="//api/name/setDelegateDispatchQueue:">- setDelegateDispatchQueue:</option>
+		
+		<option value="//api/name/setDelegateOperationQueue:">- setDelegateOperationQueue:</option>
+		
+		<option value="//api/name/unscheduleFromRunLoop:forMode:">- unscheduleFromRunLoop:forMode:</option>
+		
+	</optgroup>
+	
+	
+</select>
+						</label>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</aside>
+
+	<article>
+		<div id="overview_contents" class="container">
+			<div id="content">
+				<main role="main">
+					<h1 class="title">RCTSRWebSocket Class Reference</h1>
+
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<th>Inherits from</th>
+	<td>NSObject</td>
+</tr><tr>
+	<th>Conforms to</th>
+	<td>NSStreamDelegate</td>
+</tr><tr>
+	<th>Declared in</th>
+	<td>RCTSRWebSocket.h</td>
+</tr>
+						</tbody></table></div>
+					
+
+                    
+
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						
+
+						
+						
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/delegate" title="delegate"></a>
+	<h3 class="method-title"><code><a href="#//api/name/delegate">&nbsp;&nbsp;delegate</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, weak) id&lt;RCTSRWebSocketDelegate&gt; delegate</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/readyState" title="readyState"></a>
+	<h3 class="method-title"><code><a href="#//api/name/readyState">&nbsp;&nbsp;readyState</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) RCTSRReadyState readyState</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/url" title="url"></a>
+	<h3 class="method-title"><code><a href="#//api/name/url">&nbsp;&nbsp;url</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, strong) NSURL *url</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/protocol" title="protocol"></a>
+	<h3 class="method-title"><code><a href="#//api/name/protocol">&nbsp;&nbsp;protocol</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, copy) NSString *protocol</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/initWithURLRequest:protocols:" title="initWithURLRequest:protocols:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/initWithURLRequest:protocols:">&ndash;&nbsp;initWithURLRequest:protocols:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (instancetype)initWithURLRequest:(NSURLRequest *)<em>request</em> protocols:(NSArray&lt;NSString*&gt; *)<em>protocols</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/initWithURLRequest:" title="initWithURLRequest:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/initWithURLRequest:">&ndash;&nbsp;initWithURLRequest:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (instancetype)initWithURLRequest:(NSURLRequest *)<em>request</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/initWithURL:protocols:" title="initWithURL:protocols:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/initWithURL:protocols:">&ndash;&nbsp;initWithURL:protocols:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (instancetype)initWithURL:(NSURL *)<em>url</em> protocols:(NSArray&lt;NSString*&gt; *)<em>protocols</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/initWithURL:" title="initWithURL:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/initWithURL:">&ndash;&nbsp;initWithURL:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (instancetype)initWithURL:(NSURL *)<em>url</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setDelegateOperationQueue:" title="setDelegateOperationQueue:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setDelegateOperationQueue:">&ndash;&nbsp;setDelegateOperationQueue:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)setDelegateOperationQueue:(NSOperationQueue *)<em>queue</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setDelegateDispatchQueue:" title="setDelegateDispatchQueue:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setDelegateDispatchQueue:">&ndash;&nbsp;setDelegateDispatchQueue:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)setDelegateDispatchQueue:(dispatch_queue_t)<em>queue</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/scheduleInRunLoop:forMode:" title="scheduleInRunLoop:forMode:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/scheduleInRunLoop:forMode:">&ndash;&nbsp;scheduleInRunLoop:forMode:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)scheduleInRunLoop:(NSRunLoop *)<em>aRunLoop</em> forMode:(NSString *)<em>mode</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/unscheduleFromRunLoop:forMode:" title="unscheduleFromRunLoop:forMode:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/unscheduleFromRunLoop:forMode:">&ndash;&nbsp;unscheduleFromRunLoop:forMode:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)unscheduleFromRunLoop:(NSRunLoop *)<em>aRunLoop</em> forMode:(NSString *)<em>mode</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/open" title="open"></a>
+	<h3 class="method-title"><code><a href="#//api/name/open">&ndash;&nbsp;open</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)open</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/close" title="close"></a>
+	<h3 class="method-title"><code><a href="#//api/name/close">&ndash;&nbsp;close</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)close</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/closeWithCode:reason:" title="closeWithCode:reason:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/closeWithCode:reason:">&ndash;&nbsp;closeWithCode:reason:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)closeWithCode:(NSInteger)<em>code</em> reason:(NSString *)<em>reason</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/send:" title="send:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/send:">&ndash;&nbsp;send:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)send:(id)<em>data</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/sendPing:" title="sendPing:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sendPing:">&ndash;&nbsp;sendPing:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)sendPing:(NSData *)<em>data</em></code></div>
+
+		    
+		</div>
+	</div>
+</div>
+						</div>
+						
+					</div>
+					
+					
+
+                    
+                    
+          
+				</main>
+
+				<footer>
+					<div class="footer-copyright">
+						
+						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-03-16</p>
+						
+						
+						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>
+						
+					</div>
+				</footer>
+			</div>
+		</div>
+	</article>
+
+	<script src="../js/script.js"></script>
+</body>
+</html>

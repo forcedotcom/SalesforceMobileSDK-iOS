@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SalesforceReactSDKManager.html">
+	<File path="Classes/ARTNodeManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SalesforceReactSDKManager</TokenIdentifier>
-			<Abstract type="html">Version of SalesforceSDKManager to be used with all React Native enabled apps.</Abstract>
-			<DeclaredIn>SalesforceReactSDKManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/ARTNodeManager</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>ARTNodeManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="6"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/ARTNodeManager/node</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>ARTNodeManager.h</DeclaredIn>
+			
+			<Declaration>- (ARTNode *)node</Declaration>
+			
+			
+			<Anchor>//api/name/node</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
 		
         
         

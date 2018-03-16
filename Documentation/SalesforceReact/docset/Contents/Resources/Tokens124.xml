@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTMultiplicationAnimatedNode.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTMultiplicationAnimatedNode</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTMultiplicationAnimatedNode.h</DeclaredIn>
+            
+			
+			<NodeRef refid="124"/>
+		</Token>
+		
+		
+        
+        
+	</File>
+</Tokens>

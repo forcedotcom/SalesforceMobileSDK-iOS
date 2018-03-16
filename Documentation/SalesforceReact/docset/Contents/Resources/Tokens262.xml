@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Protocols/RCTFontAttributesDelegate.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intf/RCTFontAttributesDelegate</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTFontAttributesDelegate.h</DeclaredIn>
+            
+			
+			<NodeRef refid="262"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTFontAttributesDelegate/fontAttributesDidChangeWithFont:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFontAttributesDelegate.h</DeclaredIn>
+			
+			<Declaration>- (void)fontAttributesDidChangeWithFont:(UIFont *)font</Declaration>
+			
+			
+			<Anchor>//api/name/fontAttributesDidChangeWithFont:</Anchor>
+            <NodeRef refid="262"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

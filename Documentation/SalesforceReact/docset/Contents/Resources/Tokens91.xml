@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTInspectorPage.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTInspectorPage</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTInspector.h</DeclaredIn>
+            
+			
+			<NodeRef refid="91"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTInspectorPage/setId:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTInspector.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSInteger id</Declaration>
+			
+			
+			<Anchor>//api/name/id</Anchor>
+            <NodeRef refid="91"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTInspectorPage/id</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTInspector.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSInteger id</Declaration>
+			
+			
+			<Anchor>//api/name/id</Anchor>
+            <NodeRef refid="91"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTInspectorPage/id</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTInspector.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSInteger id</Declaration>
+			
+			
+			<Anchor>//api/name/id</Anchor>
+            <NodeRef refid="91"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTInspectorPage/setTitle:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTInspector.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *title</Declaration>
+			
+			
+			<Anchor>//api/name/title</Anchor>
+            <NodeRef refid="91"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTInspectorPage/title</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTInspector.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *title</Declaration>
+			
+			
+			<Anchor>//api/name/title</Anchor>
+            <NodeRef refid="91"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTInspectorPage/title</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTInspector.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *title</Declaration>
+			
+			
+			<Anchor>//api/name/title</Anchor>
+            <NodeRef refid="91"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTInspectorPage/init</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTInspector.mm</DeclaredIn>
+			
+			<Declaration>- (instancetype)init</Declaration>
+			
+			
+			<Anchor>//api/name/init</Anchor>
+            <NodeRef refid="91"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTInspectorPage/initWithId:title:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTInspector.mm</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithId:(NSInteger)id title:(NSString *)title</Declaration>
+			
+			
+			<Anchor>//api/name/initWithId:title:</Anchor>
+            <NodeRef refid="91"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

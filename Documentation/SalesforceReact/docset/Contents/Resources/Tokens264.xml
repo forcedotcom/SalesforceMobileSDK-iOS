@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Protocols/RCTImageCache.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intf/RCTImageCache</TokenIdentifier>
+			<Abstract type="html">Provides an interface to use for providing a image caching strategy.</Abstract>
+			<DeclaredIn>RCTImageLoader.h</DeclaredIn>
+            
+			
+			<NodeRef refid="264"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTImageCache/imageForUrl:size:scale:resizeMode:responseDate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTImageLoader.h</DeclaredIn>
+			
+			<Declaration>- (UIImage *)imageForUrl:(NSString *)url size:(CGSize)size scale:(CGFloat)scale resizeMode:(RCTResizeMode)resizeMode responseDate:(NSString *)responseDate</Declaration>
+			
+			
+			<Anchor>//api/name/imageForUrl:size:scale:resizeMode:responseDate:</Anchor>
+            <NodeRef refid="264"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTImageCache/addImageToCache:URL:size:scale:resizeMode:responseDate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTImageLoader.h</DeclaredIn>
+			
+			<Declaration>- (void)addImageToCache:(UIImage *)image URL:(NSString *)url size:(CGSize)size scale:(CGFloat)scale resizeMode:(RCTResizeMode)resizeMode responseDate:(NSString *)responseDate</Declaration>
+			
+			
+			<Anchor>//api/name/addImageToCache:URL:size:scale:resizeMode:responseDate:</Anchor>
+            <NodeRef refid="264"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

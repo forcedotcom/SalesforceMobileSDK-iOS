@@ -1,0 +1,1002 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTTextShadowView.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTTextShadowView</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+            
+			
+			<NodeRef refid="202"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/setColor:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIColor *color</Declaration>
+			
+			
+			<Anchor>//api/name/color</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/color</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIColor *color</Declaration>
+			
+			
+			<Anchor>//api/name/color</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTextShadowView/color</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIColor *color</Declaration>
+			
+			
+			<Anchor>//api/name/color</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/setBackgroundColor:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIColor *backgroundColor</Declaration>
+			
+			
+			<Anchor>//api/name/backgroundColor</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/backgroundColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIColor *backgroundColor</Declaration>
+			
+			
+			<Anchor>//api/name/backgroundColor</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTextShadowView/backgroundColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIColor *backgroundColor</Declaration>
+			
+			
+			<Anchor>//api/name/backgroundColor</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/setFontFamily:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *fontFamily</Declaration>
+			
+			
+			<Anchor>//api/name/fontFamily</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/fontFamily</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *fontFamily</Declaration>
+			
+			
+			<Anchor>//api/name/fontFamily</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTextShadowView/fontFamily</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *fontFamily</Declaration>
+			
+			
+			<Anchor>//api/name/fontFamily</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/setFontSize:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat fontSize</Declaration>
+			
+			
+			<Anchor>//api/name/fontSize</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/fontSize</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat fontSize</Declaration>
+			
+			
+			<Anchor>//api/name/fontSize</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTextShadowView/fontSize</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat fontSize</Declaration>
+			
+			
+			<Anchor>//api/name/fontSize</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/setFontWeight:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *fontWeight</Declaration>
+			
+			
+			<Anchor>//api/name/fontWeight</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/fontWeight</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *fontWeight</Declaration>
+			
+			
+			<Anchor>//api/name/fontWeight</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTextShadowView/fontWeight</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *fontWeight</Declaration>
+			
+			
+			<Anchor>//api/name/fontWeight</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/setFontStyle:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *fontStyle</Declaration>
+			
+			
+			<Anchor>//api/name/fontStyle</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/fontStyle</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *fontStyle</Declaration>
+			
+			
+			<Anchor>//api/name/fontStyle</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTextShadowView/fontStyle</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *fontStyle</Declaration>
+			
+			
+			<Anchor>//api/name/fontStyle</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/setFontVariant:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSArray *fontVariant</Declaration>
+			
+			
+			<Anchor>//api/name/fontVariant</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/fontVariant</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSArray *fontVariant</Declaration>
+			
+			
+			<Anchor>//api/name/fontVariant</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTextShadowView/fontVariant</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSArray *fontVariant</Declaration>
+			
+			
+			<Anchor>//api/name/fontVariant</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/setIsHighlighted:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isHighlighted</Declaration>
+			
+			
+			<Anchor>//api/name/isHighlighted</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/isHighlighted</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isHighlighted</Declaration>
+			
+			
+			<Anchor>//api/name/isHighlighted</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTextShadowView/isHighlighted</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isHighlighted</Declaration>
+			
+			
+			<Anchor>//api/name/isHighlighted</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/setLetterSpacing:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat letterSpacing</Declaration>
+			
+			
+			<Anchor>//api/name/letterSpacing</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/letterSpacing</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat letterSpacing</Declaration>
+			
+			
+			<Anchor>//api/name/letterSpacing</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTextShadowView/letterSpacing</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat letterSpacing</Declaration>
+			
+			
+			<Anchor>//api/name/letterSpacing</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/setLineHeight:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat lineHeight</Declaration>
+			
+			
+			<Anchor>//api/name/lineHeight</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/lineHeight</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat lineHeight</Declaration>
+			
+			
+			<Anchor>//api/name/lineHeight</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTextShadowView/lineHeight</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat lineHeight</Declaration>
+			
+			
+			<Anchor>//api/name/lineHeight</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/setNumberOfLines:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSUInteger numberOfLines</Declaration>
+			
+			
+			<Anchor>//api/name/numberOfLines</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/numberOfLines</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSUInteger numberOfLines</Declaration>
+			
+			
+			<Anchor>//api/name/numberOfLines</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTextShadowView/numberOfLines</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSUInteger numberOfLines</Declaration>
+			
+			
+			<Anchor>//api/name/numberOfLines</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/setEllipsizeMode:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSLineBreakMode ellipsizeMode</Declaration>
+			
+			
+			<Anchor>//api/name/ellipsizeMode</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/ellipsizeMode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSLineBreakMode ellipsizeMode</Declaration>
+			
+			
+			<Anchor>//api/name/ellipsizeMode</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTextShadowView/ellipsizeMode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSLineBreakMode ellipsizeMode</Declaration>
+			
+			
+			<Anchor>//api/name/ellipsizeMode</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/setShadowOffset:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGSize shadowOffset</Declaration>
+			
+			
+			<Anchor>//api/name/shadowOffset</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/shadowOffset</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGSize shadowOffset</Declaration>
+			
+			
+			<Anchor>//api/name/shadowOffset</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTextShadowView/shadowOffset</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGSize shadowOffset</Declaration>
+			
+			
+			<Anchor>//api/name/shadowOffset</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/setTextAlign:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSTextAlignment textAlign</Declaration>
+			
+			
+			<Anchor>//api/name/textAlign</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/textAlign</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSTextAlignment textAlign</Declaration>
+			
+			
+			<Anchor>//api/name/textAlign</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTextShadowView/textAlign</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSTextAlignment textAlign</Declaration>
+			
+			
+			<Anchor>//api/name/textAlign</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/setWritingDirection:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSWritingDirection writingDirection</Declaration>
+			
+			
+			<Anchor>//api/name/writingDirection</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/writingDirection</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSWritingDirection writingDirection</Declaration>
+			
+			
+			<Anchor>//api/name/writingDirection</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTextShadowView/writingDirection</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSWritingDirection writingDirection</Declaration>
+			
+			
+			<Anchor>//api/name/writingDirection</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/setTextDecorationColor:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIColor *textDecorationColor</Declaration>
+			
+			
+			<Anchor>//api/name/textDecorationColor</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/textDecorationColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIColor *textDecorationColor</Declaration>
+			
+			
+			<Anchor>//api/name/textDecorationColor</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTextShadowView/textDecorationColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIColor *textDecorationColor</Declaration>
+			
+			
+			<Anchor>//api/name/textDecorationColor</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/setTextDecorationStyle:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSUnderlineStyle textDecorationStyle</Declaration>
+			
+			
+			<Anchor>//api/name/textDecorationStyle</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/textDecorationStyle</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSUnderlineStyle textDecorationStyle</Declaration>
+			
+			
+			<Anchor>//api/name/textDecorationStyle</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTextShadowView/textDecorationStyle</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSUnderlineStyle textDecorationStyle</Declaration>
+			
+			
+			<Anchor>//api/name/textDecorationStyle</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/setTextDecorationLine:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) RCTTextDecorationLineType textDecorationLine</Declaration>
+			
+			
+			<Anchor>//api/name/textDecorationLine</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/textDecorationLine</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) RCTTextDecorationLineType textDecorationLine</Declaration>
+			
+			
+			<Anchor>//api/name/textDecorationLine</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTextShadowView/textDecorationLine</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) RCTTextDecorationLineType textDecorationLine</Declaration>
+			
+			
+			<Anchor>//api/name/textDecorationLine</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/setFontSizeMultiplier:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat fontSizeMultiplier</Declaration>
+			
+			
+			<Anchor>//api/name/fontSizeMultiplier</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/fontSizeMultiplier</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat fontSizeMultiplier</Declaration>
+			
+			
+			<Anchor>//api/name/fontSizeMultiplier</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTextShadowView/fontSizeMultiplier</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat fontSizeMultiplier</Declaration>
+			
+			
+			<Anchor>//api/name/fontSizeMultiplier</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/setAllowFontScaling:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL allowFontScaling</Declaration>
+			
+			
+			<Anchor>//api/name/allowFontScaling</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/allowFontScaling</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL allowFontScaling</Declaration>
+			
+			
+			<Anchor>//api/name/allowFontScaling</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTextShadowView/allowFontScaling</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL allowFontScaling</Declaration>
+			
+			
+			<Anchor>//api/name/allowFontScaling</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/setOpacity:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat opacity</Declaration>
+			
+			
+			<Anchor>//api/name/opacity</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/opacity</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat opacity</Declaration>
+			
+			
+			<Anchor>//api/name/opacity</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTextShadowView/opacity</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat opacity</Declaration>
+			
+			
+			<Anchor>//api/name/opacity</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/setTextShadowOffset:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGSize textShadowOffset</Declaration>
+			
+			
+			<Anchor>//api/name/textShadowOffset</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/textShadowOffset</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGSize textShadowOffset</Declaration>
+			
+			
+			<Anchor>//api/name/textShadowOffset</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTextShadowView/textShadowOffset</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGSize textShadowOffset</Declaration>
+			
+			
+			<Anchor>//api/name/textShadowOffset</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/setTextShadowRadius:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat textShadowRadius</Declaration>
+			
+			
+			<Anchor>//api/name/textShadowRadius</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/textShadowRadius</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat textShadowRadius</Declaration>
+			
+			
+			<Anchor>//api/name/textShadowRadius</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTextShadowView/textShadowRadius</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat textShadowRadius</Declaration>
+			
+			
+			<Anchor>//api/name/textShadowRadius</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/setTextShadowColor:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIColor *textShadowColor</Declaration>
+			
+			
+			<Anchor>//api/name/textShadowColor</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/textShadowColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIColor *textShadowColor</Declaration>
+			
+			
+			<Anchor>//api/name/textShadowColor</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTextShadowView/textShadowColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIColor *textShadowColor</Declaration>
+			
+			
+			<Anchor>//api/name/textShadowColor</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/setAdjustsFontSizeToFit:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL adjustsFontSizeToFit</Declaration>
+			
+			
+			<Anchor>//api/name/adjustsFontSizeToFit</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/adjustsFontSizeToFit</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL adjustsFontSizeToFit</Declaration>
+			
+			
+			<Anchor>//api/name/adjustsFontSizeToFit</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTextShadowView/adjustsFontSizeToFit</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL adjustsFontSizeToFit</Declaration>
+			
+			
+			<Anchor>//api/name/adjustsFontSizeToFit</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/setMinimumFontScale:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat minimumFontScale</Declaration>
+			
+			
+			<Anchor>//api/name/minimumFontScale</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/minimumFontScale</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat minimumFontScale</Declaration>
+			
+			
+			<Anchor>//api/name/minimumFontScale</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTextShadowView/minimumFontScale</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat minimumFontScale</Declaration>
+			
+			
+			<Anchor>//api/name/minimumFontScale</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/setSelectable:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL selectable</Declaration>
+			
+			
+			<Anchor>//api/name/selectable</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/selectable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL selectable</Declaration>
+			
+			
+			<Anchor>//api/name/selectable</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTextShadowView/selectable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL selectable</Declaration>
+			
+			
+			<Anchor>//api/name/selectable</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextShadowView/recomputeText</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			
+			<Declaration>- (void)recomputeText</Declaration>
+			
+			
+			<Anchor>//api/name/recomputeText</Anchor>
+            <NodeRef refid="202"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

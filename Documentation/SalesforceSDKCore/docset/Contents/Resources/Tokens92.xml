@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKLoginViewControllerConfig.html">
+	<File path="Classes/SFSDKLoginHostStorage.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKLoginViewControllerConfig</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKLoginHostStorage</TokenIdentifier>
+			<Abstract type="html">This class manages the list of login hosts as well its persistence.
+Currently this list is persisted in the user defaults.</Abstract>
+			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
             
 			
 			<NodeRef refid="92"/>
@@ -13,254 +14,135 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/setNavBarFont:</TokenIdentifier>
-			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
-			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKLoginHostStorage/sharedInstance</TokenIdentifier>
+			<Abstract type="html">Returns the shared instance of this class.</Abstract>
+			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) UIFont *navBarFont</Declaration>
+			<Declaration>+ (SFSDKLoginHostStorage *)sharedInstance</Declaration>
 			
 			
-			<Anchor>//api/name/navBarFont</Anchor>
+			<Anchor>//api/name/sharedInstance</Anchor>
             <NodeRef refid="92"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/navBarFont</TokenIdentifier>
-			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
-			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/addLoginHost:</TokenIdentifier>
+			<Abstract type="html">Adds a new login host.</Abstract>
+			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) UIFont *navBarFont</Declaration>
+			<Declaration>- (void)addLoginHost:(SFSDKLoginHost *)loginHost</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>loginHost</Name>
+					<Abstract type="html">Login host to be added</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/navBarFont</Anchor>
+			<Anchor>//api/name/addLoginHost:</Anchor>
             <NodeRef refid="92"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginViewControllerConfig/navBarFont</TokenIdentifier>
-			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
-			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/removeLoginHostAtIndex:</TokenIdentifier>
+			<Abstract type="html">Removes the login host at the specified index.</Abstract>
+			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) UIFont *navBarFont</Declaration>
+			<Declaration>- (void)removeLoginHostAtIndex:(NSUInteger)index</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>index</Name>
+					<Abstract type="html">Index of the login host</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/navBarFont</Anchor>
+			<Anchor>//api/name/removeLoginHostAtIndex:</Anchor>
             <NodeRef refid="92"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/setNavBarTextColor:</TokenIdentifier>
-			<Abstract type="html">Specify the text color to use for navigation bar header text.</Abstract>
-			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/indexOfLoginHost:</TokenIdentifier>
+			<Abstract type="html">Returns the index of the specified host if exists.</Abstract>
+			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarTextColor</Declaration>
+			<Declaration>- (NSUInteger)indexOfLoginHost:(SFSDKLoginHost *)host</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>host</Name>
+					<Abstract type="html">Requested login host</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/navBarTextColor</Anchor>
+			<Anchor>//api/name/indexOfLoginHost:</Anchor>
             <NodeRef refid="92"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/navBarTextColor</TokenIdentifier>
-			<Abstract type="html">Specify the text color to use for navigation bar header text.</Abstract>
-			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/loginHostAtIndex:</TokenIdentifier>
+			<Abstract type="html">Returns the login host at the specified index.</Abstract>
+			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarTextColor</Declaration>
+			<Declaration>- (SFSDKLoginHost *)loginHostAtIndex:(NSUInteger)index</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>index</Name>
+					<Abstract type="html">Requested index</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/navBarTextColor</Anchor>
+			<Anchor>//api/name/loginHostAtIndex:</Anchor>
             <NodeRef refid="92"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginViewControllerConfig/navBarTextColor</TokenIdentifier>
-			<Abstract type="html">Specify the text color to use for navigation bar header text.</Abstract>
-			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/loginHostForHostAddress:</TokenIdentifier>
+			<Abstract type="html">Returns the login host with a particular host address, if any.</Abstract>
+			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarTextColor</Declaration>
+			<Declaration>- (nullable SFSDKLoginHost *)loginHostForHostAddress:(NSString *)hostAddress</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>hostAddress</Name>
+					<Abstract type="html">Address to be queried</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/navBarTextColor</Anchor>
+			<Anchor>//api/name/loginHostForHostAddress:</Anchor>
             <NodeRef refid="92"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/setNavBarColor:</TokenIdentifier>
-			<Abstract type="html">Specify navigation bar color. This color will be used by the login view header.</Abstract>
-			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/removeAllLoginHosts</TokenIdentifier>
+			<Abstract type="html">Removes all the login hosts.</Abstract>
+			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarColor</Declaration>
+			<Declaration>- (void)removeAllLoginHosts</Declaration>
 			
 			
-			<Anchor>//api/name/navBarColor</Anchor>
+			<Anchor>//api/name/removeAllLoginHosts</Anchor>
             <NodeRef refid="92"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/navBarColor</TokenIdentifier>
-			<Abstract type="html">Specify navigation bar color. This color will be used by the login view header.</Abstract>
-			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/numberOfLoginHosts</TokenIdentifier>
+			<Abstract type="html">Returns the number of login hosts.</Abstract>
+			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarColor</Declaration>
+			<Declaration>- (NSUInteger)numberOfLoginHosts</Declaration>
 			
 			
-			<Anchor>//api/name/navBarColor</Anchor>
+			<Anchor>//api/name/numberOfLoginHosts</Anchor>
             <NodeRef refid="92"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginViewControllerConfig/navBarColor</TokenIdentifier>
-			<Abstract type="html">Specify navigation bar color. This color will be used by the login view header.</Abstract>
-			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/save</TokenIdentifier>
+			<Abstract type="html">Stores all the login host except the non-deletable ones in the user defaults.</Abstract>
+			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarColor</Declaration>
-			
-			
-			<Anchor>//api/name/navBarColor</Anchor>
-            <NodeRef refid="92"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/setShowNavbar:</TokenIdentifier>
-			<Abstract type="html">Specify visibility of nav bar. This property will be used to hide/show the nav bar</Abstract>
-			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL showNavbar</Declaration>
+			<Declaration>- (void)save</Declaration>
 			
 			
-			<Anchor>//api/name/showNavbar</Anchor>
-            <NodeRef refid="92"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/showNavbar</TokenIdentifier>
-			<Abstract type="html">Specify visibility of nav bar. This property will be used to hide/show the nav bar</Abstract>
-			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL showNavbar</Declaration>
-			
-			
-			<Anchor>//api/name/showNavbar</Anchor>
-            <NodeRef refid="92"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginViewControllerConfig/showNavbar</TokenIdentifier>
-			<Abstract type="html">Specify visibility of nav bar. This property will be used to hide/show the nav bar</Abstract>
-			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL showNavbar</Declaration>
-			
-			
-			<Anchor>//api/name/showNavbar</Anchor>
-            <NodeRef refid="92"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/setShowSettingsIcon:</TokenIdentifier>
-			<Abstract type="html">Specifiy the visibility of the settings icon. This property will be used to hide/show the settings icon</Abstract>
-			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL showSettingsIcon</Declaration>
-			
-			
-			<Anchor>//api/name/showSettingsIcon</Anchor>
-            <NodeRef refid="92"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/showSettingsIcon</TokenIdentifier>
-			<Abstract type="html">Specifiy the visibility of the settings icon. This property will be used to hide/show the settings icon</Abstract>
-			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL showSettingsIcon</Declaration>
-			
-			
-			<Anchor>//api/name/showSettingsIcon</Anchor>
-            <NodeRef refid="92"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginViewControllerConfig/showSettingsIcon</TokenIdentifier>
-			<Abstract type="html">Specifiy the visibility of the settings icon. This property will be used to hide/show the settings icon</Abstract>
-			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL showSettingsIcon</Declaration>
-			
-			
-			<Anchor>//api/name/showSettingsIcon</Anchor>
-            <NodeRef refid="92"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/setShouldDisplayBackButton:</TokenIdentifier>
-			<Abstract type="html">Specifiy the visibility of the back icon. This property will be used to hide/show the settings icon</Abstract>
-			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL shouldDisplayBackButton</Declaration>
-			
-			
-			<Anchor>//api/name/shouldDisplayBackButton</Anchor>
-            <NodeRef refid="92"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/shouldDisplayBackButton</TokenIdentifier>
-			<Abstract type="html">Specifiy the visibility of the back icon. This property will be used to hide/show the settings icon</Abstract>
-			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL shouldDisplayBackButton</Declaration>
-			
-			
-			<Anchor>//api/name/shouldDisplayBackButton</Anchor>
-            <NodeRef refid="92"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginViewControllerConfig/shouldDisplayBackButton</TokenIdentifier>
-			<Abstract type="html">Specifiy the visibility of the back icon. This property will be used to hide/show the settings icon</Abstract>
-			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL shouldDisplayBackButton</Declaration>
-			
-			
-			<Anchor>//api/name/shouldDisplayBackButton</Anchor>
-            <NodeRef refid="92"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/setDelegate:</TokenIdentifier>
-			<Abstract type="html">Specifiy a delegate for LoginViewController.</Abstract>
-			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
-			
-			
-			<Anchor>//api/name/delegate</Anchor>
-            <NodeRef refid="92"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/delegate</TokenIdentifier>
-			<Abstract type="html">Specifiy a delegate for LoginViewController.</Abstract>
-			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
-			
-			
-			<Anchor>//api/name/delegate</Anchor>
-            <NodeRef refid="92"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginViewControllerConfig/delegate</TokenIdentifier>
-			<Abstract type="html">Specifiy a delegate for LoginViewController.</Abstract>
-			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
-			
-			
-			<Anchor>//api/name/delegate</Anchor>
+			<Anchor>//api/name/save</Anchor>
             <NodeRef refid="92"/>
 		</Token>
 		

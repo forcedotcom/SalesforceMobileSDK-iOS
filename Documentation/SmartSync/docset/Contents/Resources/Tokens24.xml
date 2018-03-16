@@ -17,7 +17,7 @@
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) SFSyncDownTargetQueryType queryType</Declaration>
+			<Declaration>@property (nonatomic, assign) SFSyncDownTargetQueryType queryType</Declaration>
 			
 			
 			<Anchor>//api/name/queryType</Anchor>
@@ -29,7 +29,7 @@
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) SFSyncDownTargetQueryType queryType</Declaration>
+			<Declaration>@property (nonatomic, assign) SFSyncDownTargetQueryType queryType</Declaration>
 			
 			
 			<Anchor>//api/name/queryType</Anchor>
@@ -41,7 +41,7 @@
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) SFSyncDownTargetQueryType queryType</Declaration>
+			<Declaration>@property (nonatomic, assign) SFSyncDownTargetQueryType queryType</Declaration>
 			
 			
 			<Anchor>//api/name/queryType</Anchor>
@@ -140,14 +140,32 @@ looks at the LastModifiedDate field of each record.</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncDownTarget/cleanGhosts:soupName:errorBlock:completeBlock:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncDownTarget/cleanGhosts:soupName:syncId:errorBlock:completeBlock:</TokenIdentifier>
 			<Abstract type="html">Delete from local store records that a full sync down would no longer download</Abstract>
 			<DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>- (void)cleanGhosts:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock</Declaration>
+			<Declaration>- (void)cleanGhosts:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName syncId:(NSNumber *)syncId errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>syncManager</Name>
+					<Abstract type="html">The sync manager</Abstract>
+				</Parameter><Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">The soup to clean</Abstract>
+				</Parameter><Parameter>
+					<Name>syncId</Name>
+					<Abstract type="html">The sync id</Abstract>
+				</Parameter><Parameter>
+					<Name>errorBlock</Name>
+					<Abstract type="html">Block to execute in case of error</Abstract>
+				</Parameter><Parameter>
+					<Name>completeBlock</Name>
+					<Abstract type="html">Block to execute upon completion
+  </Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/cleanGhosts:soupName:errorBlock:completeBlock:</Anchor>
+			<Anchor>//api/name/cleanGhosts:soupName:syncId:errorBlock:completeBlock:</Anchor>
             <NodeRef refid="24"/>
 		</Token>
 		
@@ -197,26 +215,38 @@ during a sync down with merge mode leave-if-changed</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncDownTarget/getNonDirtyRecordIdsSql:idField:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncDownTarget/buildSyncIdPredicateIfIndexed:soupName:syncId:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSyncDownTarget+Internal.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)getNonDirtyRecordIdsSql:(NSString *)soupName idField:(NSString *)idField</Declaration>
+			<Declaration>- (NSString *)buildSyncIdPredicateIfIndexed:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName syncId:(NSNumber *)syncId</Declaration>
 			
 			
-			<Anchor>//api/name/getNonDirtyRecordIdsSql:idField:</Anchor>
+			<Anchor>//api/name/buildSyncIdPredicateIfIndexed:soupName:syncId:</Anchor>
             <NodeRef refid="24"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncDownTarget/getNonDirtyRecordIds:soupName:idField:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncDownTarget/getNonDirtyRecordIdsSql:idField:additionalPredicate:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSyncDownTarget+Internal.h</DeclaredIn>
 			
-			<Declaration>- (NSOrderedSet *)getNonDirtyRecordIds:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName idField:(NSString *)idField</Declaration>
+			<Declaration>- (NSString *)getNonDirtyRecordIdsSql:(NSString *)soupName idField:(NSString *)idField additionalPredicate:(NSString *)additionalPredicate</Declaration>
 			
 			
-			<Anchor>//api/name/getNonDirtyRecordIds:soupName:idField:</Anchor>
+			<Anchor>//api/name/getNonDirtyRecordIdsSql:idField:additionalPredicate:</Anchor>
+            <NodeRef refid="24"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncDownTarget/getNonDirtyRecordIds:soupName:idField:additionalPredicate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncDownTarget+Internal.h</DeclaredIn>
+			
+			<Declaration>- (NSOrderedSet *)getNonDirtyRecordIds:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName idField:(NSString *)idField additionalPredicate:(NSString *)additionalPredicate</Declaration>
+			
+			
+			<Anchor>//api/name/getNonDirtyRecordIds:soupName:idField:additionalPredicate:</Anchor>
             <NodeRef refid="24"/>
 		</Token>
 		

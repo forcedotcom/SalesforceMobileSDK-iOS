@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTSRWebSocket.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTSRWebSocket</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+            
+			
+			<NodeRef refid="155"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSRWebSocket/setDelegate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;RCTSRWebSocketDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="155"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSRWebSocket/delegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;RCTSRWebSocketDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="155"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTSRWebSocket/delegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;RCTSRWebSocketDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="155"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSRWebSocket/setReadyState:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) RCTSRReadyState readyState</Declaration>
+			
+			
+			<Anchor>//api/name/readyState</Anchor>
+            <NodeRef refid="155"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSRWebSocket/readyState</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) RCTSRReadyState readyState</Declaration>
+			
+			
+			<Anchor>//api/name/readyState</Anchor>
+            <NodeRef refid="155"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTSRWebSocket/readyState</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) RCTSRReadyState readyState</Declaration>
+			
+			
+			<Anchor>//api/name/readyState</Anchor>
+            <NodeRef refid="155"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSRWebSocket/setUrl:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSURL *url</Declaration>
+			
+			
+			<Anchor>//api/name/url</Anchor>
+            <NodeRef refid="155"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSRWebSocket/url</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSURL *url</Declaration>
+			
+			
+			<Anchor>//api/name/url</Anchor>
+            <NodeRef refid="155"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTSRWebSocket/url</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSURL *url</Declaration>
+			
+			
+			<Anchor>//api/name/url</Anchor>
+            <NodeRef refid="155"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSRWebSocket/setProtocol:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, copy) NSString *protocol</Declaration>
+			
+			
+			<Anchor>//api/name/protocol</Anchor>
+            <NodeRef refid="155"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSRWebSocket/protocol</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, copy) NSString *protocol</Declaration>
+			
+			
+			<Anchor>//api/name/protocol</Anchor>
+            <NodeRef refid="155"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTSRWebSocket/protocol</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, copy) NSString *protocol</Declaration>
+			
+			
+			<Anchor>//api/name/protocol</Anchor>
+            <NodeRef refid="155"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSRWebSocket/initWithURLRequest:protocols:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithURLRequest:(NSURLRequest *)request protocols:(NSArray&lt;NSString*&gt; *)protocols</Declaration>
+			
+			
+			<Anchor>//api/name/initWithURLRequest:protocols:</Anchor>
+            <NodeRef refid="155"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSRWebSocket/initWithURLRequest:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithURLRequest:(NSURLRequest *)request</Declaration>
+			
+			
+			<Anchor>//api/name/initWithURLRequest:</Anchor>
+            <NodeRef refid="155"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSRWebSocket/initWithURL:protocols:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithURL:(NSURL *)url protocols:(NSArray&lt;NSString*&gt; *)protocols</Declaration>
+			
+			
+			<Anchor>//api/name/initWithURL:protocols:</Anchor>
+            <NodeRef refid="155"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSRWebSocket/initWithURL:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithURL:(NSURL *)url</Declaration>
+			
+			
+			<Anchor>//api/name/initWithURL:</Anchor>
+            <NodeRef refid="155"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSRWebSocket/setDelegateOperationQueue:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>- (void)setDelegateOperationQueue:(NSOperationQueue *)queue</Declaration>
+			
+			
+			<Anchor>//api/name/setDelegateOperationQueue:</Anchor>
+            <NodeRef refid="155"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSRWebSocket/setDelegateDispatchQueue:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>- (void)setDelegateDispatchQueue:(dispatch_queue_t)queue</Declaration>
+			
+			
+			<Anchor>//api/name/setDelegateDispatchQueue:</Anchor>
+            <NodeRef refid="155"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSRWebSocket/scheduleInRunLoop:forMode:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>- (void)scheduleInRunLoop:(NSRunLoop *)aRunLoop forMode:(NSString *)mode</Declaration>
+			
+			
+			<Anchor>//api/name/scheduleInRunLoop:forMode:</Anchor>
+            <NodeRef refid="155"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSRWebSocket/unscheduleFromRunLoop:forMode:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>- (void)unscheduleFromRunLoop:(NSRunLoop *)aRunLoop forMode:(NSString *)mode</Declaration>
+			
+			
+			<Anchor>//api/name/unscheduleFromRunLoop:forMode:</Anchor>
+            <NodeRef refid="155"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSRWebSocket/open</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>- (void)open</Declaration>
+			
+			
+			<Anchor>//api/name/open</Anchor>
+            <NodeRef refid="155"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSRWebSocket/close</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>- (void)close</Declaration>
+			
+			
+			<Anchor>//api/name/close</Anchor>
+            <NodeRef refid="155"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSRWebSocket/closeWithCode:reason:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>- (void)closeWithCode:(NSInteger)code reason:(NSString *)reason</Declaration>
+			
+			
+			<Anchor>//api/name/closeWithCode:reason:</Anchor>
+            <NodeRef refid="155"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSRWebSocket/send:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>- (void)send:(id)data</Declaration>
+			
+			
+			<Anchor>//api/name/send:</Anchor>
+            <NodeRef refid="155"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSRWebSocket/sendPing:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>- (void)sendPing:(NSData *)data</Declaration>
+			
+			
+			<Anchor>//api/name/sendPing:</Anchor>
+            <NodeRef refid="155"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

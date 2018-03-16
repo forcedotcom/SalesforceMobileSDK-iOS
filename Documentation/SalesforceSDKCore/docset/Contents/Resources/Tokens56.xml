@@ -163,7 +163,7 @@ or nil if there is no current user.</Abstract>
 			<Abstract type="html">Returns the preferences object for the given key.</Abstract>
 			<DeclaredIn>SFPreferences.h</DeclaredIn>
 			
-			<Declaration>- (id)objectForKey:(NSString *)key</Declaration>
+			<Declaration>- (nullable id)objectForKey:(NSString *)key</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>key</Name>

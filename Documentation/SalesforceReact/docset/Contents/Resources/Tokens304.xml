@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Constants/RCTSurfaceSizeMeasureMode.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/c/tdef/RCTSurfaceSizeMeasureMode</TokenIdentifier>
+			<Abstract type="html">Bitmask defines how size constrains from [UIView sizeThatFits:]
+are translated to [RCTSurface sizeThatFitsMinimumSize:maximumSize:].</Abstract>
+			<DeclaredIn>RCTSurfaceSizeMeasureMode.h</DeclaredIn>
+            
+			
+			<NodeRef refid="304"/>
+		</Token>
+		
+		
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTSurfaceSizeMeasureModeWidthUndefined</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTSurfaceSizeMeasureModeWidthUndefined</Declaration>
+            
+            <DeclaredIn>RCTSurfaceSizeMeasureMode.h</DeclaredIn>
+            
+            <NodeRef refid="304"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTSurfaceSizeMeasureModeWidthExact</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTSurfaceSizeMeasureModeWidthExact</Declaration>
+            
+            <DeclaredIn>RCTSurfaceSizeMeasureMode.h</DeclaredIn>
+            
+            <NodeRef refid="304"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTSurfaceSizeMeasureModeWidthAtMost</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTSurfaceSizeMeasureModeWidthAtMost</Declaration>
+            
+            <DeclaredIn>RCTSurfaceSizeMeasureMode.h</DeclaredIn>
+            
+            <NodeRef refid="304"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTSurfaceSizeMeasureModeHeightUndefined</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTSurfaceSizeMeasureModeHeightUndefined</Declaration>
+            
+            <DeclaredIn>RCTSurfaceSizeMeasureMode.h</DeclaredIn>
+            
+            <NodeRef refid="304"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTSurfaceSizeMeasureModeHeightExact</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTSurfaceSizeMeasureModeHeightExact</Declaration>
+            
+            <DeclaredIn>RCTSurfaceSizeMeasureMode.h</DeclaredIn>
+            
+            <NodeRef refid="304"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTSurfaceSizeMeasureModeHeightAtMost</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTSurfaceSizeMeasureModeHeightAtMost</Declaration>
+            
+            <DeclaredIn>RCTSurfaceSizeMeasureMode.h</DeclaredIn>
+            
+            <NodeRef refid="304"/>
+        </Token>
+        
+        
+	</File>
+</Tokens>

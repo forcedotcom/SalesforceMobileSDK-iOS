@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>RCTJavaScriptExecutor Protocol Reference</title>
+
+	<link rel="stylesheet" href="../css/style.css">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
+	<meta name="generator" content="appledoc 2.2.1 (build 1334)">
+</head>
+<body class="appledoc">
+	<header>
+		<div class="container" class="hide-in-xcode">
+			
+			<h1 id="library-title">
+				<a href="../index.html">SalesforceReact </a>
+			</h1>
+
+			<p id="developer-home">
+				<a href="../index.html">Salesforce.com</a>
+			</p>
+			
+		</div>
+	</header>
+
+	<aside>
+		<div class="container">
+			<nav>
+				<ul id="header-buttons" role="toolbar">
+					<li><a href="../index.html">Index</a></li>
+<li><a href="../hierarchy.html">Hierarchy</a></li>
+
+					<li id="on-this-page" role="navigation">
+						<label>
+							On This Page
+
+							<div class="chevron">
+								<div class="chevy chevron-left"></div>
+								<div class="chevy chevron-right"></div>
+							</div>
+
+							<select id="jump-to">
+	<option value="top">Jump To&#133;</option>
+	
+	<option value="overview">Overview</option>
+	
+
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+
+	
+	
+	<optgroup label="Properties">
+		
+		<option value="//api/name/valid">valid</option>
+		
+	</optgroup>
+	
+
+	
+
+	
+	<optgroup label="Instance Methods">
+		
+		<option value="//api/name/callFunctionOnModule:method:arguments:callback:">- callFunctionOnModule:method:arguments:callback:</option>
+		
+		<option value="//api/name/executeApplicationScript:sourceURL:onComplete:">- executeApplicationScript:sourceURL:onComplete:</option>
+		
+		<option value="//api/name/executeAsyncBlockOnJavaScriptQueue:">- executeAsyncBlockOnJavaScriptQueue:</option>
+		
+		<option value="//api/name/executeBlockOnJavaScriptQueue:">- executeBlockOnJavaScriptQueue:</option>
+		
+		<option value="//api/name/flushedQueue:">- flushedQueue:</option>
+		
+		<option value="//api/name/injectJSONText:asGlobalObjectNamed:callback:">- injectJSONText:asGlobalObjectNamed:callback:</option>
+		
+		<option value="//api/name/invokeCallbackID:arguments:callback:">- invokeCallbackID:arguments:callback:</option>
+		
+		<option value="//api/name/setUp">- setUp</option>
+		
+	</optgroup>
+	
+	
+</select>
+						</label>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</aside>
+
+	<article>
+		<div id="overview_contents" class="container">
+			<div id="content">
+				<main role="main">
+					<h1 class="title">RCTJavaScriptExecutor Protocol Reference</h1>
+
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<th>Conforms to</th>
+	<td><a href="../Protocols/RCTBridgeModule.html">RCTBridgeModule</a><br /><a href="../Protocols/RCTInvalidating.html">RCTInvalidating</a></td>
+</tr><tr>
+	<th>Declared in</th>
+	<td>RCTJavaScriptExecutor.h</td>
+</tr>
+						</tbody></table></div>
+					
+
+                    
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>Abstracts away a JavaScript execution context - we may be running code in a
+web view (for debugging purposes), or may be running code in a <code>JSContext</code>.</p>
+					</div>
+					
+					
+
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						
+
+						
+						
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/setUp" title="setUp"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setUp">&ndash;&nbsp;setUp</a></code>
+<span class="task-item-suffix">required method</span></h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Used to set up the executor after the bridge has been fully initialized.
+Do any expensive setup in this method instead of <code>-init</code>.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)setUp</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTJavaScriptExecutor.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/valid" title="valid"></a>
+	<h3 class="method-title"><code><a href="#//api/name/valid">&nbsp;&nbsp;valid</a></code>
+<span class="task-item-suffix">required method</span></h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Whether the executor has been invalidated</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, getter=isValid) BOOL valid</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTJavaScriptExecutor.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/flushedQueue:" title="flushedQueue:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/flushedQueue:">&ndash;&nbsp;flushedQueue:</a></code>
+<span class="task-item-suffix">required method</span></h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Executes BatchedBridge.flushedQueue on JS thread and calls the given callback
+with JSValue, containing the next queue, and JSContext.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)flushedQueue:(RCTJavaScriptCallback)<em>onComplete</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTJavaScriptExecutor.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/callFunctionOnModule:method:arguments:callback:" title="callFunctionOnModule:method:arguments:callback:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/callFunctionOnModule:method:arguments:callback:">&ndash;&nbsp;callFunctionOnModule:method:arguments:callback:</a></code>
+<span class="task-item-suffix">required method</span></h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Executes BatchedBridge.callFunctionReturnFlushedQueue with the module name,
+method name and optional additional arguments on the JS thread and calls the
+given callback with JSValue, containing the next queue, and JSContext.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)callFunctionOnModule:(NSString *)<em>module</em> method:(NSString *)<em>method</em> arguments:(NSArray *)<em>args</em> callback:(RCTJavaScriptCallback)<em>onComplete</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTJavaScriptExecutor.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/invokeCallbackID:arguments:callback:" title="invokeCallbackID:arguments:callback:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/invokeCallbackID:arguments:callback:">&ndash;&nbsp;invokeCallbackID:arguments:callback:</a></code>
+<span class="task-item-suffix">required method</span></h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Executes BatchedBridge.invokeCallbackAndReturnFlushedQueue with the cbID,
+and optional additional arguments on the JS thread and calls the
+given callback with JSValue, containing the next queue, and JSContext.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)invokeCallbackID:(NSNumber *)<em>cbID</em> arguments:(NSArray *)<em>args</em> callback:(RCTJavaScriptCallback)<em>onComplete</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTJavaScriptExecutor.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/executeApplicationScript:sourceURL:onComplete:" title="executeApplicationScript:sourceURL:onComplete:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/executeApplicationScript:sourceURL:onComplete:">&ndash;&nbsp;executeApplicationScript:sourceURL:onComplete:</a></code>
+<span class="task-item-suffix">required method</span></h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Runs an application script, and notifies of the script load being complete via <code>onComplete</code>.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)executeApplicationScript:(NSData *)<em>script</em> sourceURL:(NSURL *)<em>sourceURL</em> onComplete:(RCTJavaScriptCompleteBlock)<em>onComplete</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTJavaScriptExecutor.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/injectJSONText:asGlobalObjectNamed:callback:" title="injectJSONText:asGlobalObjectNamed:callback:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/injectJSONText:asGlobalObjectNamed:callback:">&ndash;&nbsp;injectJSONText:asGlobalObjectNamed:callback:</a></code>
+<span class="task-item-suffix">required method</span></h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)injectJSONText:(NSString *)<em>script</em> asGlobalObjectNamed:(NSString *)<em>objectName</em> callback:(RCTJavaScriptCompleteBlock)<em>onComplete</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/executeBlockOnJavaScriptQueue:" title="executeBlockOnJavaScriptQueue:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/executeBlockOnJavaScriptQueue:">&ndash;&nbsp;executeBlockOnJavaScriptQueue:</a></code>
+<span class="task-item-suffix">required method</span></h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Enqueue a block to run in the executors JS thread. Fallback to <code>dispatch_async</code>
+on the main queue if the executor doesn&rsquo;t own a thread.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)executeBlockOnJavaScriptQueue:(dispatch_block_t)<em>block</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTJavaScriptExecutor.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/executeAsyncBlockOnJavaScriptQueue:" title="executeAsyncBlockOnJavaScriptQueue:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/executeAsyncBlockOnJavaScriptQueue:">&ndash;&nbsp;executeAsyncBlockOnJavaScriptQueue:</a></code>
+<span class="task-item-suffix">required method</span></h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Special case for Timers + ContextExecutor - instead of the default
+if jsthread then call else dispatch call on jsthread
+ensure the call is made async on the jsthread</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)executeAsyncBlockOnJavaScriptQueue:(dispatch_block_t)<em>block</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTJavaScriptExecutor.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+					</div>
+					
+					
+
+                    
+                    
+          
+				</main>
+
+				<footer>
+					<div class="footer-copyright">
+						
+						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-03-16</p>
+						
+						
+						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>
+						
+					</div>
+				</footer>
+			</div>
+		</div>
+	</article>
+
+	<script src="../js/script.js"></script>
+</body>
+</html>

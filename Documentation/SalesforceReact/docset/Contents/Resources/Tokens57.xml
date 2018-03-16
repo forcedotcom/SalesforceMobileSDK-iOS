@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTDevSettingsUserDefaultsDataSource.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTDevSettingsUserDefaultsDataSource</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTDevSettings.mm</DeclaredIn>
+            
+			
+			<NodeRef refid="57"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettingsUserDefaultsDataSource/init</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTDevSettings.mm</DeclaredIn>
+			
+			<Declaration>- (instancetype)init</Declaration>
+			
+			
+			<Anchor>//api/name/init</Anchor>
+            <NodeRef refid="57"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettingsUserDefaultsDataSource/initWithDefaultValues:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTDevSettings.mm</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithDefaultValues:(NSDictionary *)defaultValues</Declaration>
+			
+			
+			<Anchor>//api/name/initWithDefaultValues:</Anchor>
+            <NodeRef refid="57"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettingsUserDefaultsDataSource/updateSettingWithValue:forKey:</TokenIdentifier>
+			<Abstract type="html">Updates the setting with the given key to the given value.
+How the data source&apos;s state changes depends on the implementation.</Abstract>
+			<DeclaredIn>RCTDevSettings.mm</DeclaredIn>
+			
+			<Declaration>- (void)updateSettingWithValue:(id)value forKey:(NSString *)key</Declaration>
+			
+			
+			<Anchor>//api/name/updateSettingWithValue:forKey:</Anchor>
+            <NodeRef refid="57"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettingsUserDefaultsDataSource/settingForKey:</TokenIdentifier>
+			<Abstract type="html">Returns the value for the setting with the given key.</Abstract>
+			<DeclaredIn>RCTDevSettings.mm</DeclaredIn>
+			
+			<Declaration>- (id)settingForKey:(NSString *)key</Declaration>
+			
+			
+			<Anchor>//api/name/settingForKey:</Anchor>
+            <NodeRef refid="57"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettingsUserDefaultsDataSource/_reloadWithDefaults:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTDevSettings.mm</DeclaredIn>
+			
+			<Declaration>- (void)_reloadWithDefaults:(NSDictionary *)defaultValues</Declaration>
+			
+			
+			<Anchor>//api/name/_reloadWithDefaults:</Anchor>
+            <NodeRef refid="57"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

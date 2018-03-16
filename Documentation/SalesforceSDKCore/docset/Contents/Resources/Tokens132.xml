@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SalesforceSDKIdentityTests.html">
+	<File path="Classes/SalesforceRestAPITests.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SalesforceSDKIdentityTests</TokenIdentifier>
-			<Abstract type="html">The unit tests associated with SFIdentityCoordinator requests.</Abstract>
-			<DeclaredIn>SalesforceSDKIdentityTests.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SalesforceRestAPITests</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceRestAPITests.h</DeclaredIn>
             
 			
 			<NodeRef refid="132"/>

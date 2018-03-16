@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Protocols/RCTJavaScriptExecutor.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intf/RCTJavaScriptExecutor</TokenIdentifier>
+			<Abstract type="html">Abstracts away a JavaScript execution context - we may be running code in a
+web view (for debugging purposes), or may be running code in a JSContext.</Abstract>
+			<DeclaredIn>RCTJavaScriptExecutor.h</DeclaredIn>
+            
+			
+			<NodeRef refid="269"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTJavaScriptExecutor/setUp</TokenIdentifier>
+			<Abstract type="html">Used to set up the executor after the bridge has been fully initialized.
+Do any expensive setup in this method instead of -init.</Abstract>
+			<DeclaredIn>RCTJavaScriptExecutor.h</DeclaredIn>
+			
+			<Declaration>- (void)setUp</Declaration>
+			
+			
+			<Anchor>//api/name/setUp</Anchor>
+            <NodeRef refid="269"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTJavaScriptExecutor/setValid:</TokenIdentifier>
+			<Abstract type="html">Whether the executor has been invalidated</Abstract>
+			<DeclaredIn>RCTJavaScriptExecutor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, getter=isValid) BOOL valid</Declaration>
+			
+			
+			<Anchor>//api/name/valid</Anchor>
+            <NodeRef refid="269"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTJavaScriptExecutor/isValid</TokenIdentifier>
+			<Abstract type="html">Whether the executor has been invalidated</Abstract>
+			<DeclaredIn>RCTJavaScriptExecutor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, getter=isValid) BOOL valid</Declaration>
+			
+			
+			<Anchor>//api/name/valid</Anchor>
+            <NodeRef refid="269"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfp/RCTJavaScriptExecutor/valid</TokenIdentifier>
+			<Abstract type="html">Whether the executor has been invalidated</Abstract>
+			<DeclaredIn>RCTJavaScriptExecutor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, getter=isValid) BOOL valid</Declaration>
+			
+			
+			<Anchor>//api/name/valid</Anchor>
+            <NodeRef refid="269"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTJavaScriptExecutor/flushedQueue:</TokenIdentifier>
+			<Abstract type="html">Executes BatchedBridge.flushedQueue on JS thread and calls the given callback
+with JSValue, containing the next queue, and JSContext.</Abstract>
+			<DeclaredIn>RCTJavaScriptExecutor.h</DeclaredIn>
+			
+			<Declaration>- (void)flushedQueue:(RCTJavaScriptCallback)onComplete</Declaration>
+			
+			
+			<Anchor>//api/name/flushedQueue:</Anchor>
+            <NodeRef refid="269"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTJavaScriptExecutor/callFunctionOnModule:method:arguments:callback:</TokenIdentifier>
+			<Abstract type="html">Executes BatchedBridge.callFunctionReturnFlushedQueue with the module name,
+method name and optional additional arguments on the JS thread and calls the
+given callback with JSValue, containing the next queue, and JSContext.</Abstract>
+			<DeclaredIn>RCTJavaScriptExecutor.h</DeclaredIn>
+			
+			<Declaration>- (void)callFunctionOnModule:(NSString *)module method:(NSString *)method arguments:(NSArray *)args callback:(RCTJavaScriptCallback)onComplete</Declaration>
+			
+			
+			<Anchor>//api/name/callFunctionOnModule:method:arguments:callback:</Anchor>
+            <NodeRef refid="269"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTJavaScriptExecutor/invokeCallbackID:arguments:callback:</TokenIdentifier>
+			<Abstract type="html">Executes BatchedBridge.invokeCallbackAndReturnFlushedQueue with the cbID,
+and optional additional arguments on the JS thread and calls the
+given callback with JSValue, containing the next queue, and JSContext.</Abstract>
+			<DeclaredIn>RCTJavaScriptExecutor.h</DeclaredIn>
+			
+			<Declaration>- (void)invokeCallbackID:(NSNumber *)cbID arguments:(NSArray *)args callback:(RCTJavaScriptCallback)onComplete</Declaration>
+			
+			
+			<Anchor>//api/name/invokeCallbackID:arguments:callback:</Anchor>
+            <NodeRef refid="269"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTJavaScriptExecutor/executeApplicationScript:sourceURL:onComplete:</TokenIdentifier>
+			<Abstract type="html">Runs an application script, and notifies of the script load being complete via onComplete.</Abstract>
+			<DeclaredIn>RCTJavaScriptExecutor.h</DeclaredIn>
+			
+			<Declaration>- (void)executeApplicationScript:(NSData *)script sourceURL:(NSURL *)sourceURL onComplete:(RCTJavaScriptCompleteBlock)onComplete</Declaration>
+			
+			
+			<Anchor>//api/name/executeApplicationScript:sourceURL:onComplete:</Anchor>
+            <NodeRef refid="269"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTJavaScriptExecutor/injectJSONText:asGlobalObjectNamed:callback:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTJavaScriptExecutor.h</DeclaredIn>
+			
+			<Declaration>- (void)injectJSONText:(NSString *)script asGlobalObjectNamed:(NSString *)objectName callback:(RCTJavaScriptCompleteBlock)onComplete</Declaration>
+			
+			
+			<Anchor>//api/name/injectJSONText:asGlobalObjectNamed:callback:</Anchor>
+            <NodeRef refid="269"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTJavaScriptExecutor/executeBlockOnJavaScriptQueue:</TokenIdentifier>
+			<Abstract type="html">Enqueue a block to run in the executors JS thread. Fallback to dispatch_async
+on the main queue if the executor doesn&apos;t own a thread.</Abstract>
+			<DeclaredIn>RCTJavaScriptExecutor.h</DeclaredIn>
+			
+			<Declaration>- (void)executeBlockOnJavaScriptQueue:(dispatch_block_t)block</Declaration>
+			
+			
+			<Anchor>//api/name/executeBlockOnJavaScriptQueue:</Anchor>
+            <NodeRef refid="269"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTJavaScriptExecutor/executeAsyncBlockOnJavaScriptQueue:</TokenIdentifier>
+			<Abstract type="html">Special case for Timers + ContextExecutor - instead of the default
+if jsthread then call else dispatch call on jsthread
+ensure the call is made async on the jsthread</Abstract>
+			<DeclaredIn>RCTJavaScriptExecutor.h</DeclaredIn>
+			
+			<Declaration>- (void)executeAsyncBlockOnJavaScriptQueue:(dispatch_block_t)block</Declaration>
+			
+			
+			<Anchor>//api/name/executeAsyncBlockOnJavaScriptQueue:</Anchor>
+            <NodeRef refid="269"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

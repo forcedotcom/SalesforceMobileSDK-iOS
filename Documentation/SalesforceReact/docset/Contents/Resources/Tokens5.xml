@@ -1,16 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSmartSyncReactBridge.html">
+	<File path="Classes/ARTNode.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSmartSyncReactBridge</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSyncReactBridge.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/ARTNode</TokenIdentifier>
+			<Abstract type="html">ART nodes are implemented as empty UIViews but this is just an implementation detail to fit
+into the existing view management. They should also be shadow views and painted on a background
+thread.</Abstract>
+			<DeclaredIn>ARTNode.h</DeclaredIn>
             
 			
 			<NodeRef refid="5"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/ARTNode/setOpacity:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>ARTNode.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat opacity</Declaration>
+			
+			
+			<Anchor>//api/name/opacity</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/ARTNode/opacity</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>ARTNode.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat opacity</Declaration>
+			
+			
+			<Anchor>//api/name/opacity</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/ARTNode/opacity</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>ARTNode.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat opacity</Declaration>
+			
+			
+			<Anchor>//api/name/opacity</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/ARTNode/invalidate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>ARTNode.h</DeclaredIn>
+			
+			<Declaration>- (void)invalidate</Declaration>
+			
+			
+			<Anchor>//api/name/invalidate</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/ARTNode/renderTo:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>ARTNode.h</DeclaredIn>
+			
+			<Declaration>- (void)renderTo:(CGContextRef)context</Declaration>
+			
+			
+			<Anchor>//api/name/renderTo:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/ARTNode/renderLayerTo:</TokenIdentifier>
+			<Abstract type="html">renderTo will take opacity into account and draw renderLayerTo off-screen if there is opacity
+specified, then composite that onto the context. renderLayerTo always draws at opacity=1.
+@abstract</Abstract>
+			<DeclaredIn>ARTNode.h</DeclaredIn>
+			
+			<Declaration>- (void)renderLayerTo:(CGContextRef)context</Declaration>
+			
+			
+			<Anchor>//api/name/renderLayerTo:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
 		
         
         

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTSinglelineTextInputView.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTSinglelineTextInputView</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTSinglelineTextInputView.h</DeclaredIn>
+            
+			
+			<NodeRef refid="170"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSinglelineTextInputView/setCaretHidden:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSinglelineTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL caretHidden</Declaration>
+			
+			
+			<Anchor>//api/name/caretHidden</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSinglelineTextInputView/caretHidden</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSinglelineTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL caretHidden</Declaration>
+			
+			
+			<Anchor>//api/name/caretHidden</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTSinglelineTextInputView/caretHidden</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSinglelineTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL caretHidden</Declaration>
+			
+			
+			<Anchor>//api/name/caretHidden</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSinglelineTextInputView/setMaxLength:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSinglelineTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSNumber *maxLength</Declaration>
+			
+			
+			<Anchor>//api/name/maxLength</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSinglelineTextInputView/maxLength</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSinglelineTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSNumber *maxLength</Declaration>
+			
+			
+			<Anchor>//api/name/maxLength</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTSinglelineTextInputView/maxLength</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSinglelineTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSNumber *maxLength</Declaration>
+			
+			
+			<Anchor>//api/name/maxLength</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

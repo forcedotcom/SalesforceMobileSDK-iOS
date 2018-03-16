@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Protocols/RCTBridgeDelegate.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intf/RCTBridgeDelegate</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTBridgeDelegate.h</DeclaredIn>
+            
+			
+			<NodeRef refid="252"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTBridgeDelegate/sourceURLForBridge:</TokenIdentifier>
+			<Abstract type="html">The location of the JavaScript source file. When running from the packager
+this should be an absolute URL, e.g. http://localhost:8081/index.ios.bundle.
+When running from a locally bundled JS file, this should be a file:// url
+pointing to a path inside the app resources, e.g. file://.../main.jsbundle.</Abstract>
+			<DeclaredIn>RCTBridgeDelegate.h</DeclaredIn>
+			
+			<Declaration>- (NSURL *)sourceURLForBridge:(RCTBridge *)bridge</Declaration>
+			
+			
+			<Anchor>//api/name/sourceURLForBridge:</Anchor>
+            <NodeRef refid="252"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTBridgeDelegate/extraModulesForBridge:</TokenIdentifier>
+			<Abstract type="html">The bridge initializes any registered RCTBridgeModules automatically, however
+if you wish to instantiate your own module instances, you can return them
+from this method.</Abstract>
+			<DeclaredIn>RCTBridgeDelegate.h</DeclaredIn>
+			
+			<Declaration>- (NSArray&lt;id&lt;RCTBridgeModule&gt; &gt; *)extraModulesForBridge:(RCTBridge *)bridge</Declaration>
+			
+			
+			<Anchor>//api/name/extraModulesForBridge:</Anchor>
+            <NodeRef refid="252"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTBridgeDelegate/shouldBridgeUseCustomJSC:</TokenIdentifier>
+			<Abstract type="html">Configure whether the JSCExecutor created should use the system JSC API or
+alternative hooks provided. When returning YES from this method, you must have
+previously called facebook::react::setCustomJSCWrapper.</Abstract>
+			<DeclaredIn>RCTBridgeDelegate.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)shouldBridgeUseCustomJSC:(RCTBridge *)bridge</Declaration>
+			
+			
+			<Anchor>//api/name/shouldBridgeUseCustomJSC:</Anchor>
+            <NodeRef refid="252"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTBridgeDelegate/shouldBridgeUseCxxBridge:</TokenIdentifier>
+			<Abstract type="html">Configure whether the legacy RCTBatchedBridge or new RCTCxxBridge
+should be used.  If this method is implemented and the specified
+bridge is not linked in, startup will fail.  If this method is not
+implemented, the implementation will default to RCTBatchedBridge,
+but if it is not linked in, will try RCTCxxBridge instead.  If
+neither bridge is linked in, startup will fail.  This order will be
+reversed in the near future, as the legacy bridge is closer to
+being removed.</Abstract>
+			<DeclaredIn>RCTBridgeDelegate.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)shouldBridgeUseCxxBridge:(RCTBridge *)bridge</Declaration>
+			
+			
+			<Anchor>//api/name/shouldBridgeUseCxxBridge:</Anchor>
+            <NodeRef refid="252"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTBridgeDelegate/bridge:didNotFindModule:</TokenIdentifier>
+			<Abstract type="html">The bridge will call this method when a module been called from JS
+cannot be found among registered modules.
+It should return YES if the module with name &apos;moduleName&apos; was registered
+in the implementation, and the system must attempt to look for it again among registered.
+If the module was not registered, return NO to prevent further searches.</Abstract>
+			<DeclaredIn>RCTBridgeDelegate.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)bridge:(RCTBridge *)bridge didNotFindModule:(NSString *)moduleName</Declaration>
+			
+			
+			<Anchor>//api/name/bridge:didNotFindModule:</Anchor>
+            <NodeRef refid="252"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTBridgeDelegate/loadSourceForBridge:onProgress:onComplete:</TokenIdentifier>
+			<Abstract type="html">The bridge will automatically attempt to load the JS source code from the
+location specified by the sourceURLForBridge: method, however, if you want
+to handle loading the JS yourself, you can do so by implementing this method.</Abstract>
+			<DeclaredIn>RCTBridgeDelegate.h</DeclaredIn>
+			
+			<Declaration>- (void)loadSourceForBridge:(RCTBridge *)bridge onProgress:(RCTSourceLoadProgressBlock)onProgress onComplete:(RCTSourceLoadBlock)loadCallback</Declaration>
+			
+			
+			<Anchor>//api/name/loadSourceForBridge:onProgress:onComplete:</Anchor>
+            <NodeRef refid="252"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTBridgeDelegate/loadSourceForBridge:withBlock:</TokenIdentifier>
+			<Abstract type="html">Similar to loadSourceForBridge:onProgress:onComplete: but without progress
+reporting.</Abstract>
+			<DeclaredIn>RCTBridgeDelegate.h</DeclaredIn>
+			
+			<Declaration>- (void)loadSourceForBridge:(RCTBridge *)bridge withBlock:(RCTSourceLoadBlock)loadCallback</Declaration>
+			
+			
+			<Anchor>//api/name/loadSourceForBridge:withBlock:</Anchor>
+            <NodeRef refid="252"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

@@ -1,0 +1,709 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTCxxBridge.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTCxxBridge</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+            
+			
+			<NodeRef refid="45"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTCxxBridge/initialize</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>+ (void)initialize</Declaration>
+			
+			
+			<Anchor>//api/name/initialize</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/jsContextRef</TokenIdentifier>
+			<Abstract type="html">The raw JSGlobalContextRef used by the bridge.</Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (JSGlobalContextRef)jsContextRef</Declaration>
+			
+			
+			<Anchor>//api/name/jsContextRef</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/isInspectable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (BOOL)isInspectable</Declaration>
+			
+			
+			<Anchor>//api/name/isInspectable</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/initWithParentBridge:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithParentBridge:(RCTBridge *)bridge</Declaration>
+			
+			
+			<Anchor>//api/name/initWithParentBridge:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTCxxBridge/runRunLoop</TokenIdentifier>
+			<Abstract type="html">Set Initial State
+     </Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>+ (void)runRunLoop</Declaration>
+			
+			
+			<Anchor>//api/name/runRunLoop</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/_tryAndHandleError:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)_tryAndHandleError:(dispatch_block_t)block</Declaration>
+			
+			
+			<Anchor>//api/name/_tryAndHandleError:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/ensureOnJavaScriptThread:</TokenIdentifier>
+			<Abstract type="html">Ensure block is run on the JS thread. If we&apos;re already on the JS thread, the block will execute synchronously.
+If we&apos;re not on the JS thread, the block is dispatched to that thread. Any errors encountered while executing
+the block will go through handleError:</Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)ensureOnJavaScriptThread:(dispatch_block_t)block</Declaration>
+			
+			
+			<Anchor>//api/name/ensureOnJavaScriptThread:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/start</TokenIdentifier>
+			<Abstract type="html">Called on the child bridge to run the executor and start loading.</Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)start</Declaration>
+			
+			
+			<Anchor>//api/name/start</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/loadSource:onProgress:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)loadSource:(RCTSourceLoadBlock)_onSourceLoad onProgress:(RCTSourceLoadProgressBlock)onProgress</Declaration>
+			
+			
+			<Anchor>//api/name/loadSource:onProgress:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/moduleClasses</TokenIdentifier>
+			<Abstract type="html">All registered bridge module classes.</Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (NSArray&lt;Class&gt; *)moduleClasses</Declaration>
+			
+			
+			<Anchor>//api/name/moduleClasses</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/moduleDataForName:</TokenIdentifier>
+			<Abstract type="html">Used by RCTUIManager</Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (RCTModuleData *)moduleDataForName:(NSString *)moduleName</Declaration>
+			
+			
+			<Anchor>//api/name/moduleDataForName:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/moduleForName:</TokenIdentifier>
+			<Abstract type="html">Retrieve a bridge module instance by name or class. Note that modules are
+lazily instantiated, so calling these methods for the first time with a given
+module name/class may cause the class to be sychronously instantiated,
+potentially blocking both the calling thread and main thread for a short time.</Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (id)moduleForName:(NSString *)moduleName</Declaration>
+			
+			
+			<Anchor>//api/name/moduleForName:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/moduleIsInitialized:</TokenIdentifier>
+			<Abstract type="html">Test if a module has been initialized. Use this prior to calling
+moduleForClass: or moduleForName: if you do not want to cause the module
+to be instantiated if it hasn&apos;t been already.</Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (BOOL)moduleIsInitialized:(Class)moduleClass</Declaration>
+			
+			
+			<Anchor>//api/name/moduleIsInitialized:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/_buildModuleRegistry</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (std : : shared_ptr&lt;ModuleRegistry&gt;)_buildModuleRegistry</Declaration>
+			
+			
+			<Anchor>//api/name/_buildModuleRegistry</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/_initializeBridge:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)_initializeBridge:(std : : shared_ptr&lt;JSExecutorFactory&gt;)executorFactory</Declaration>
+			
+			
+			<Anchor>//api/name/_initializeBridge:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/configForModuleName:</TokenIdentifier>
+			<Abstract type="html">Exposed for the RCTJSCExecutor for lazily loading native modules</Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (NSArray *)configForModuleName:(NSString *)moduleName</Declaration>
+			
+			
+			<Anchor>//api/name/configForModuleName:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/registerModulesForClasses:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (NSArray&lt;RCTModuleData*&gt; *)registerModulesForClasses:(NSArray&lt;Class&gt; *)moduleClasses</Declaration>
+			
+			
+			<Anchor>//api/name/registerModulesForClasses:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/registerExtraModules</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)registerExtraModules</Declaration>
+			
+			
+			<Anchor>//api/name/registerExtraModules</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/_initModules:withDispatchGroup:lazilyDiscovered:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)_initModules:(NSArray&lt;id&lt;RCTBridgeModule&gt; &gt; *)modules withDispatchGroup:(dispatch_group_t)dispatchGroup lazilyDiscovered:(BOOL)lazilyDiscovered</Declaration>
+			
+			
+			<Anchor>//api/name/_initModules:withDispatchGroup:lazilyDiscovered:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/registerAdditionalModuleClasses:</TokenIdentifier>
+			<Abstract type="html">Registers additional classes with the ModuleRegistry.</Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)registerAdditionalModuleClasses:(NSArray&lt;Class&gt; *)modules</Declaration>
+			
+			
+			<Anchor>//api/name/registerAdditionalModuleClasses:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/_prepareModulesWithDispatchGroup:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)_prepareModulesWithDispatchGroup:(dispatch_group_t)dispatchGroup</Declaration>
+			
+			
+			<Anchor>//api/name/_prepareModulesWithDispatchGroup:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/registerModuleForFrameUpdates:withModuleData:</TokenIdentifier>
+			<Abstract type="html">Used by RCTModuleData to register the module for frame updates after it is
+lazily initialized.</Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)registerModuleForFrameUpdates:(id&lt;RCTBridgeModule&gt;)module withModuleData:(RCTModuleData *)moduleData</Declaration>
+			
+			
+			<Anchor>//api/name/registerModuleForFrameUpdates:withModuleData:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/executeSourceCode:sync:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)executeSourceCode:(NSData *)sourceCode sync:(BOOL)sync</Declaration>
+			
+			
+			<Anchor>//api/name/executeSourceCode:sync:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/handleError:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)handleError:(NSError *)error</Declaration>
+			
+			
+			<Anchor>//api/name/handleError:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/initWithDelegate:bundleURL:moduleProvider:launchOptions:):</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithDelegate:(__unused id&lt;RCTBridgeDelegate&gt;)delegate bundleURL:(__unused NSURL *)bundleURL moduleProvider:(__unused RCTBridgeModuleListProvider)block launchOptions:(__unused NSDictionary *)launchOptions )</Declaration>
+			
+			
+			<Anchor>//api/name/initWithDelegate:bundleURL:moduleProvider:launchOptions:):</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/reload</TokenIdentifier>
+			<Abstract type="html">Prevent super from calling setUp (that&apos;d create another batchedBridge)</Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)reload</Declaration>
+			
+			
+			<Anchor>//api/name/reload</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/executorClass</TokenIdentifier>
+			<Abstract type="html">The class of the executor currently being used. Changes to this value will
+take effect after the bridge is reloaded.</Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (Class)executorClass</Declaration>
+			
+			
+			<Anchor>//api/name/executorClass</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/setExecutorClass:</TokenIdentifier>
+			<Abstract type="html">The class of the executor currently being used. Changes to this value will
+take effect after the bridge is reloaded.</Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)setExecutorClass:(Class)executorClass</Declaration>
+			
+			
+			<Anchor>//api/name/setExecutorClass:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/bundleURL</TokenIdentifier>
+			<Abstract type="html">URL of the script that was loaded into the bridge.</Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (NSURL *)bundleURL</Declaration>
+			
+			
+			<Anchor>//api/name/bundleURL</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/setBundleURL:</TokenIdentifier>
+			<Abstract type="html">URL of the script that was loaded into the bridge.</Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)setBundleURL:(NSURL *)bundleURL</Declaration>
+			
+			
+			<Anchor>//api/name/setBundleURL:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/delegate</TokenIdentifier>
+			<Abstract type="html">The delegate provided during the bridge initialization</Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (id&lt;RCTBridgeDelegate&gt;)delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/dispatchBlock:queue:</TokenIdentifier>
+			<Abstract type="html">Dispatch work to a module&apos;s queue - this is also suports the fake RCTJSThread
+queue. Exposed for the RCTProfiler</Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)dispatchBlock:(dispatch_block_t)block queue:(dispatch_queue_t)queue</Declaration>
+			
+			
+			<Anchor>//api/name/dispatchBlock:queue:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/invalidate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)invalidate</Declaration>
+			
+			
+			<Anchor>//api/name/invalidate</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/logMessage:level:</TokenIdentifier>
+			<Abstract type="html">Hook exposed for RCTLog to send logs to JavaScript when not running in JSC</Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)logMessage:(NSString *)message level:(NSString *)level</Declaration>
+			
+			
+			<Anchor>//api/name/logMessage:level:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/_runAfterLoad:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)_runAfterLoad:(RCTPendingCall)block</Declaration>
+			
+			
+			<Anchor>//api/name/_runAfterLoad:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/logStartupFinish</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)logStartupFinish</Declaration>
+			
+			
+			<Anchor>//api/name/logStartupFinish</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/_flushPendingCalls</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)_flushPendingCalls</Declaration>
+			
+			
+			<Anchor>//api/name/_flushPendingCalls</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/enqueueJSCall:method:args:completion:</TokenIdentifier>
+			<Abstract type="html">Public. Can be invoked from any thread.</Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)enqueueJSCall:(NSString *)module method:(NSString *)method args:(NSArray *)args completion:(dispatch_block_t)completion</Declaration>
+			
+			
+			<Anchor>//api/name/enqueueJSCall:method:args:completion:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/enqueueCallback:args:</TokenIdentifier>
+			<Abstract type="html">Called by RCTModuleMethod from any thread.</Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)enqueueCallback:(NSNumber *)cbID args:(NSArray *)args</Declaration>
+			
+			
+			<Anchor>//api/name/enqueueCallback:args:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/_immediatelyCallTimer:</TokenIdentifier>
+			<Abstract type="html">Private hack to support setTimeout(fn, 0)</Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)_immediatelyCallTimer:(NSNumber *)timer</Declaration>
+			
+			
+			<Anchor>//api/name/_immediatelyCallTimer:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/enqueueApplicationScript:url:onComplete:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)enqueueApplicationScript:(NSData *)script url:(NSURL *)url onComplete:(dispatch_block_t)onComplete</Declaration>
+			
+			
+			<Anchor>//api/name/enqueueApplicationScript:url:onComplete:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/executeApplicationScriptSync:url:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)executeApplicationScriptSync:(NSData *)script url:(NSURL *)url</Declaration>
+			
+			
+			<Anchor>//api/name/executeApplicationScriptSync:url:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/executeApplicationScript:url:async:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)executeApplicationScript:(NSData *)script url:(NSURL *)url async:(BOOL)async</Declaration>
+			
+			
+			<Anchor>//api/name/executeApplicationScript:url:async:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/callFunctionOnModule:method:arguments:error:</TokenIdentifier>
+			<Abstract type="html">This method is used to call functions in the JavaScript application context
+synchronously.  This is intended for use by applications which do their own
+thread management and are careful to manage multi-threaded access to the JSVM.
+See also [RCTBridgeDelgate shouldBridgeLoadJavaScriptSynchronously], which
+may be needed to ensure that any requires JS code is loaded before this method
+is called.  If the underlying executor is not JSC, this will return nil.  Safe
+to call from any thread.</Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (JSValue *)callFunctionOnModule:(NSString *)module method:(NSString *)method arguments:(NSArray *)arguments error:(NSError **)error</Declaration>
+			
+			
+			<Anchor>//api/name/callFunctionOnModule:method:arguments:error:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/registerSegmentWithId:path:</TokenIdentifier>
+			<Abstract type="html">This method registers the file path of an additional JS segment by its ID.</Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)registerSegmentWithId:(NSUInteger)segmentId path:(NSString *)path</Declaration>
+			
+			
+			<Anchor>//api/name/registerSegmentWithId:path:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/partialBatchDidFlush</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)partialBatchDidFlush</Declaration>
+			
+			
+			<Anchor>//api/name/partialBatchDidFlush</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/batchDidComplete</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)batchDidComplete</Declaration>
+			
+			
+			<Anchor>//api/name/batchDidComplete</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/startProfiling</TokenIdentifier>
+			<Abstract type="html">Systrace profiler toggling methods exposed for the RCTDevMenu</Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)startProfiling</Declaration>
+			
+			
+			<Anchor>//api/name/startProfiling</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/stopProfiling:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (void)stopProfiling:(void ( ^ ) ( NSData *))callback</Declaration>
+			
+			
+			<Anchor>//api/name/stopProfiling:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/isBatchActive</TokenIdentifier>
+			<Abstract type="html">Says whether bridge has started recieving calls from javascript.</Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>- (BOOL)isBatchActive</Declaration>
+			
+			
+			<Anchor>//api/name/isBatchActive</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/setParentBridge:</TokenIdentifier>
+			<Abstract type="html">Used by RCTModuleData</Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, readonly) RCTBridge *parentBridge</Declaration>
+			
+			
+			<Anchor>//api/name/parentBridge</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/parentBridge</TokenIdentifier>
+			<Abstract type="html">Used by RCTModuleData</Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, readonly) RCTBridge *parentBridge</Declaration>
+			
+			
+			<Anchor>//api/name/parentBridge</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTCxxBridge/parentBridge</TokenIdentifier>
+			<Abstract type="html">Used by RCTModuleData</Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, readonly) RCTBridge *parentBridge</Declaration>
+			
+			
+			<Anchor>//api/name/parentBridge</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/setModuleSetupComplete:</TokenIdentifier>
+			<Abstract type="html">Used by RCTModuleData</Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) BOOL moduleSetupComplete</Declaration>
+			
+			
+			<Anchor>//api/name/moduleSetupComplete</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxBridge/moduleSetupComplete</TokenIdentifier>
+			<Abstract type="html">Used by RCTModuleData</Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) BOOL moduleSetupComplete</Declaration>
+			
+			
+			<Anchor>//api/name/moduleSetupComplete</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTCxxBridge/moduleSetupComplete</TokenIdentifier>
+			<Abstract type="html">Used by RCTModuleData</Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) BOOL moduleSetupComplete</Declaration>
+			
+			
+			<Anchor>//api/name/moduleSetupComplete</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

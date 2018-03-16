@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTFont.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTFont</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTFont.h</DeclaredIn>
+            
+			
+			<NodeRef refid="69"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTFont/updateFont:withFamily:size:weight:style:variant:scaleMultiplier:</TokenIdentifier>
+			<Abstract type="html">Update a font with a given font-family, size, weight and style.
+If parameters are not specified, they&apos;ll be kept as-is.
+If font is nil, the default system font of size 14 will be used.</Abstract>
+			<DeclaredIn>RCTFont.h</DeclaredIn>
+			
+			<Declaration>+ (UIFont *)updateFont:(UIFont *)font withFamily:(NSString *)family size:(NSNumber *)size weight:(NSString *)weight style:(NSString *)style variant:(NSArray&lt;NSString*&gt; *)variant scaleMultiplier:(CGFloat)scaleMultiplier</Declaration>
+			
+			
+			<Anchor>//api/name/updateFont:withFamily:size:weight:style:variant:scaleMultiplier:</Anchor>
+            <NodeRef refid="69"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTFont/updateFont:withFamily:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFont.h</DeclaredIn>
+			
+			<Declaration>+ (UIFont *)updateFont:(UIFont *)font withFamily:(NSString *)family</Declaration>
+			
+			
+			<Anchor>//api/name/updateFont:withFamily:</Anchor>
+            <NodeRef refid="69"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTFont/updateFont:withSize:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFont.h</DeclaredIn>
+			
+			<Declaration>+ (UIFont *)updateFont:(UIFont *)font withSize:(NSNumber *)size</Declaration>
+			
+			
+			<Anchor>//api/name/updateFont:withSize:</Anchor>
+            <NodeRef refid="69"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTFont/updateFont:withWeight:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFont.h</DeclaredIn>
+			
+			<Declaration>+ (UIFont *)updateFont:(UIFont *)font withWeight:(NSString *)weight</Declaration>
+			
+			
+			<Anchor>//api/name/updateFont:withWeight:</Anchor>
+            <NodeRef refid="69"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTFont/updateFont:withStyle:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFont.h</DeclaredIn>
+			
+			<Declaration>+ (UIFont *)updateFont:(UIFont *)font withStyle:(NSString *)style</Declaration>
+			
+			
+			<Anchor>//api/name/updateFont:withStyle:</Anchor>
+            <NodeRef refid="69"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

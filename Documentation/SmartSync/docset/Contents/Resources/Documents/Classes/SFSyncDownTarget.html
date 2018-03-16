@@ -76,7 +76,9 @@
 	
 	<optgroup label="Instance Methods">
 		
-		<option value="//api/name/cleanGhosts:soupName:errorBlock:completeBlock:">- cleanGhosts:soupName:errorBlock:completeBlock:</option>
+		<option value="//api/name/buildSyncIdPredicateIfIndexed:soupName:syncId:">- buildSyncIdPredicateIfIndexed:soupName:syncId:</option>
+		
+		<option value="//api/name/cleanGhosts:soupName:syncId:errorBlock:completeBlock:">- cleanGhosts:soupName:syncId:errorBlock:completeBlock:</option>
 		
 		<option value="//api/name/continueFetch:errorBlock:completeBlock:">- continueFetch:errorBlock:completeBlock:</option>
 		
@@ -84,9 +86,9 @@
 		
 		<option value="//api/name/getLatestModificationTimeStamp:">- getLatestModificationTimeStamp:</option>
 		
-		<option value="//api/name/getNonDirtyRecordIds:soupName:idField:">- getNonDirtyRecordIds:soupName:idField:</option>
+		<option value="//api/name/getNonDirtyRecordIds:soupName:idField:additionalPredicate:">- getNonDirtyRecordIds:soupName:idField:additionalPredicate:</option>
 		
-		<option value="//api/name/getNonDirtyRecordIdsSql:idField:">- getNonDirtyRecordIdsSql:idField:</option>
+		<option value="//api/name/getNonDirtyRecordIdsSql:idField:additionalPredicate:">- getNonDirtyRecordIdsSql:idField:additionalPredicate:</option>
 		
 		<option value="//api/name/startFetch:maxTimeStamp:errorBlock:completeBlock:">- startFetch:maxTimeStamp:errorBlock:completeBlock:</option>
 		
@@ -142,7 +144,7 @@
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic) SFSyncDownTargetQueryType queryType</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) SFSyncDownTargetQueryType queryType</code></div>
 
 		    
 		</div>
@@ -347,8 +349,8 @@ looks at the LastModifiedDate field of each record.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/cleanGhosts:soupName:errorBlock:completeBlock:" title="cleanGhosts:soupName:errorBlock:completeBlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/cleanGhosts:soupName:errorBlock:completeBlock:">&ndash;&nbsp;cleanGhosts:soupName:errorBlock:completeBlock:</a></code>
+	<a name="//api/name/cleanGhosts:soupName:syncId:errorBlock:completeBlock:" title="cleanGhosts:soupName:syncId:errorBlock:completeBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/cleanGhosts:soupName:syncId:errorBlock:completeBlock:">&ndash;&nbsp;cleanGhosts:soupName:syncId:errorBlock:completeBlock:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -363,9 +365,41 @@ looks at the LastModifiedDate field of each record.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)cleanGhosts:(SFSmartSyncSyncManager *)<em>syncManager</em> soupName:(NSString *)<em>soupName</em> errorBlock:(SFSyncDownTargetFetchErrorBlock)<em>errorBlock</em> completeBlock:(SFSyncDownTargetFetchCompleteBlock)<em>completeBlock</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)cleanGhosts:(SFSmartSyncSyncManager *)<em>syncManager</em> soupName:(NSString *)<em>soupName</em> syncId:(NSNumber *)<em>syncId</em> errorBlock:(SFSyncDownTargetFetchErrorBlock)<em>errorBlock</em> completeBlock:(SFSyncDownTargetFetchCompleteBlock)<em>completeBlock</em></code></div>
 
 		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>syncManager</code></th>
+						<td><p>The sync manager</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>soupName</code></th>
+						<td><p>The soup to clean</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>syncId</code></th>
+						<td><p>The sync id</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>errorBlock</code></th>
+						<td><p>Block to execute in case of error</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completeBlock</code></th>
+						<td><p>Block to execute upon completion</p></td>
+					</tr>
+				
+				</table>
+			</div>
 			
 
 			
@@ -517,8 +551,8 @@ during a sync down with merge mode leave-if-changed</p>
 
 						<div class="task-list">
 							<div class="section-method">
-	<a name="//api/name/getNonDirtyRecordIdsSql:idField:" title="getNonDirtyRecordIdsSql:idField:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/getNonDirtyRecordIdsSql:idField:">&ndash;&nbsp;getNonDirtyRecordIdsSql:idField:</a></code>
+	<a name="//api/name/buildSyncIdPredicateIfIndexed:soupName:syncId:" title="buildSyncIdPredicateIfIndexed:soupName:syncId:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/buildSyncIdPredicateIfIndexed:soupName:syncId:">&ndash;&nbsp;buildSyncIdPredicateIfIndexed:soupName:syncId:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -527,14 +561,14 @@ during a sync down with merge mode leave-if-changed</p>
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>- (NSString *)getNonDirtyRecordIdsSql:(NSString *)<em>soupName</em> idField:(NSString *)<em>idField</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (NSString *)buildSyncIdPredicateIfIndexed:(SFSmartSyncSyncManager *)<em>syncManager</em> soupName:(NSString *)<em>soupName</em> syncId:(NSNumber *)<em>syncId</em></code></div>
 
 		    
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/getNonDirtyRecordIds:soupName:idField:" title="getNonDirtyRecordIds:soupName:idField:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/getNonDirtyRecordIds:soupName:idField:">&ndash;&nbsp;getNonDirtyRecordIds:soupName:idField:</a></code>
+	<a name="//api/name/getNonDirtyRecordIdsSql:idField:additionalPredicate:" title="getNonDirtyRecordIdsSql:idField:additionalPredicate:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/getNonDirtyRecordIdsSql:idField:additionalPredicate:">&ndash;&nbsp;getNonDirtyRecordIdsSql:idField:additionalPredicate:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -543,7 +577,23 @@ during a sync down with merge mode leave-if-changed</p>
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>- (NSOrderedSet *)getNonDirtyRecordIds:(SFSmartSyncSyncManager *)<em>syncManager</em> soupName:(NSString *)<em>soupName</em> idField:(NSString *)<em>idField</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (NSString *)getNonDirtyRecordIdsSql:(NSString *)<em>soupName</em> idField:(NSString *)<em>idField</em> additionalPredicate:(NSString *)<em>additionalPredicate</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/getNonDirtyRecordIds:soupName:idField:additionalPredicate:" title="getNonDirtyRecordIds:soupName:idField:additionalPredicate:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/getNonDirtyRecordIds:soupName:idField:additionalPredicate:">&ndash;&nbsp;getNonDirtyRecordIds:soupName:idField:additionalPredicate:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (NSOrderedSet *)getNonDirtyRecordIds:(SFSmartSyncSyncManager *)<em>syncManager</em> soupName:(NSString *)<em>soupName</em> idField:(NSString *)<em>idField</em> additionalPredicate:(NSString *)<em>additionalPredicate</em></code></div>
 
 		    
 		</div>
@@ -563,7 +613,7 @@ during a sync down with merge mode leave-if-changed</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2017 Salesforce.com. All rights reserved. Updated: 2017-12-18</p>
+						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-03-16</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTInspectorPackagerConnection.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTInspectorPackagerConnection</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTInspectorPackagerConnection.h</DeclaredIn>
+            
+			
+			<NodeRef refid="90"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTInspectorPackagerConnection/initWithURL:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTInspectorPackagerConnection.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithURL:(NSURL *)url</Declaration>
+			
+			
+			<Anchor>//api/name/initWithURL:</Anchor>
+            <NodeRef refid="90"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTInspectorPackagerConnection/connect</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTInspectorPackagerConnection.h</DeclaredIn>
+			
+			<Declaration>- (void)connect</Declaration>
+			
+			
+			<Anchor>//api/name/connect</Anchor>
+            <NodeRef refid="90"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTInspectorPackagerConnection/closeQuietly</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTInspectorPackagerConnection.h</DeclaredIn>
+			
+			<Declaration>- (void)closeQuietly</Declaration>
+			
+			
+			<Anchor>//api/name/closeQuietly</Anchor>
+            <NodeRef refid="90"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTInspectorPackagerConnection/sendEventToAllConnections:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTInspectorPackagerConnection.h</DeclaredIn>
+			
+			<Declaration>- (void)sendEventToAllConnections:(NSString *)event</Declaration>
+			
+			
+			<Anchor>//api/name/sendEventToAllConnections:</Anchor>
+            <NodeRef refid="90"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

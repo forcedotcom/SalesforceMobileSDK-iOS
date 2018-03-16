@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTBackedTextViewDelegateAdapter.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTBackedTextViewDelegateAdapter</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBackedTextInputDelegateAdapter.h</DeclaredIn>
+            
+			
+			<NodeRef refid="33"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBackedTextViewDelegateAdapter/initWithTextView:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBackedTextInputDelegateAdapter.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithTextView:(UITextView&lt;RCTBackedTextInputViewProtocol&gt; *)backedTextInput</Declaration>
+			
+			
+			<Anchor>//api/name/initWithTextView:</Anchor>
+            <NodeRef refid="33"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBackedTextViewDelegateAdapter/skipNextTextInputDidChangeSelectionEventWithTextRange:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBackedTextInputDelegateAdapter.h</DeclaredIn>
+			
+			<Declaration>- (void)skipNextTextInputDidChangeSelectionEventWithTextRange:(UITextRange *)textRange</Declaration>
+			
+			
+			<Anchor>//api/name/skipNextTextInputDidChangeSelectionEventWithTextRange:</Anchor>
+            <NodeRef refid="33"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

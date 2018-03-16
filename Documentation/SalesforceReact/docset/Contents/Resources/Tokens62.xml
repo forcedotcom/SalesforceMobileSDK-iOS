@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTErrorInfo.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTErrorInfo</TokenIdentifier>
+			<Abstract type="html">An ObjC wrapper for React Native errors.</Abstract>
+			<DeclaredIn>RCTErrorInfo.h</DeclaredIn>
+            
+			
+			<NodeRef refid="62"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTErrorInfo/setErrorMessage:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTErrorInfo.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly) NSString *errorMessage</Declaration>
+			
+			
+			<Anchor>//api/name/errorMessage</Anchor>
+            <NodeRef refid="62"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTErrorInfo/errorMessage</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTErrorInfo.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly) NSString *errorMessage</Declaration>
+			
+			
+			<Anchor>//api/name/errorMessage</Anchor>
+            <NodeRef refid="62"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTErrorInfo/errorMessage</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTErrorInfo.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly) NSString *errorMessage</Declaration>
+			
+			
+			<Anchor>//api/name/errorMessage</Anchor>
+            <NodeRef refid="62"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTErrorInfo/setStack:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTErrorInfo.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly) NSArray&lt;RCTJSStackFrame*&gt; *stack</Declaration>
+			
+			
+			<Anchor>//api/name/stack</Anchor>
+            <NodeRef refid="62"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTErrorInfo/stack</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTErrorInfo.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly) NSArray&lt;RCTJSStackFrame*&gt; *stack</Declaration>
+			
+			
+			<Anchor>//api/name/stack</Anchor>
+            <NodeRef refid="62"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTErrorInfo/stack</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTErrorInfo.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly) NSArray&lt;RCTJSStackFrame*&gt; *stack</Declaration>
+			
+			
+			<Anchor>//api/name/stack</Anchor>
+            <NodeRef refid="62"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTErrorInfo/initWithErrorMessage:stack:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTErrorInfo.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithErrorMessage:(NSString *)errorMessage stack:(NSArray&lt;RCTJSStackFrame*&gt; *)stack</Declaration>
+			
+			
+			<Anchor>//api/name/initWithErrorMessage:stack:</Anchor>
+            <NodeRef refid="62"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

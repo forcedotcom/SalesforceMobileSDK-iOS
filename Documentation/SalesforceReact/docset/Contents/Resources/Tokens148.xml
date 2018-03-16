@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTRedBox.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTRedBox</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTRedBox.h</DeclaredIn>
+            
+			
+			<NodeRef refid="148"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTRedBox/registerErrorCustomizer:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTRedBox.h</DeclaredIn>
+			
+			<Declaration>- (void)registerErrorCustomizer:(id&lt;RCTErrorCustomizer&gt;)errorCustomizer</Declaration>
+			
+			
+			<Anchor>//api/name/registerErrorCustomizer:</Anchor>
+            <NodeRef refid="148"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTRedBox/showError:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTRedBox.h</DeclaredIn>
+			
+			<Declaration>- (void)showError:(NSError *)error</Declaration>
+			
+			
+			<Anchor>//api/name/showError:</Anchor>
+            <NodeRef refid="148"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTRedBox/showErrorMessage:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTRedBox.h</DeclaredIn>
+			
+			<Declaration>- (void)showErrorMessage:(NSString *)message</Declaration>
+			
+			
+			<Anchor>//api/name/showErrorMessage:</Anchor>
+            <NodeRef refid="148"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTRedBox/showErrorMessage:withDetails:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTRedBox.h</DeclaredIn>
+			
+			<Declaration>- (void)showErrorMessage:(NSString *)message withDetails:(NSString *)details</Declaration>
+			
+			
+			<Anchor>//api/name/showErrorMessage:withDetails:</Anchor>
+            <NodeRef refid="148"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTRedBox/showErrorMessage:withRawStack:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTRedBox.h</DeclaredIn>
+			
+			<Declaration>- (void)showErrorMessage:(NSString *)message withRawStack:(NSString *)rawStack</Declaration>
+			
+			
+			<Anchor>//api/name/showErrorMessage:withRawStack:</Anchor>
+            <NodeRef refid="148"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTRedBox/showErrorMessage:withStack:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTRedBox.h</DeclaredIn>
+			
+			<Declaration>- (void)showErrorMessage:(NSString *)message withStack:(NSArray&lt;NSDictionary*&gt; *)stack</Declaration>
+			
+			
+			<Anchor>//api/name/showErrorMessage:withStack:</Anchor>
+            <NodeRef refid="148"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTRedBox/updateErrorMessage:withStack:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTRedBox.h</DeclaredIn>
+			
+			<Declaration>- (void)updateErrorMessage:(NSString *)message withStack:(NSArray&lt;NSDictionary*&gt; *)stack</Declaration>
+			
+			
+			<Anchor>//api/name/updateErrorMessage:withStack:</Anchor>
+            <NodeRef refid="148"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTRedBox/showErrorMessage:withParsedStack:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTRedBox.h</DeclaredIn>
+			
+			<Declaration>- (void)showErrorMessage:(NSString *)message withParsedStack:(NSArray&lt;RCTJSStackFrame*&gt; *)stack</Declaration>
+			
+			
+			<Anchor>//api/name/showErrorMessage:withParsedStack:</Anchor>
+            <NodeRef refid="148"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTRedBox/updateErrorMessage:withParsedStack:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTRedBox.h</DeclaredIn>
+			
+			<Declaration>- (void)updateErrorMessage:(NSString *)message withParsedStack:(NSArray&lt;RCTJSStackFrame*&gt; *)stack</Declaration>
+			
+			
+			<Anchor>//api/name/updateErrorMessage:withParsedStack:</Anchor>
+            <NodeRef refid="148"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTRedBox/dismiss</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTRedBox.h</DeclaredIn>
+			
+			<Declaration>- (void)dismiss</Declaration>
+			
+			
+			<Anchor>//api/name/dismiss</Anchor>
+            <NodeRef refid="148"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTRedBox/setOverrideBundleURL:</TokenIdentifier>
+			<Abstract type="html">Overrides bridge.bundleURL. Modify on main thread only. You shouldn&apos;t need to use this.</Abstract>
+			<DeclaredIn>RCTRedBox.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSURL *overrideBundleURL</Declaration>
+			
+			
+			<Anchor>//api/name/overrideBundleURL</Anchor>
+            <NodeRef refid="148"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTRedBox/overrideBundleURL</TokenIdentifier>
+			<Abstract type="html">Overrides bridge.bundleURL. Modify on main thread only. You shouldn&apos;t need to use this.</Abstract>
+			<DeclaredIn>RCTRedBox.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSURL *overrideBundleURL</Declaration>
+			
+			
+			<Anchor>//api/name/overrideBundleURL</Anchor>
+            <NodeRef refid="148"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTRedBox/overrideBundleURL</TokenIdentifier>
+			<Abstract type="html">Overrides bridge.bundleURL. Modify on main thread only. You shouldn&apos;t need to use this.</Abstract>
+			<DeclaredIn>RCTRedBox.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSURL *overrideBundleURL</Declaration>
+			
+			
+			<Anchor>//api/name/overrideBundleURL</Anchor>
+            <NodeRef refid="148"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTRedBox/setOverrideReloadAction:</TokenIdentifier>
+			<Abstract type="html">Overrides the default behavior of calling [bridge reload] on reload. You shouldn&apos;t need to use this.</Abstract>
+			<DeclaredIn>RCTRedBox.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) dispatch_block_t overrideReloadAction</Declaration>
+			
+			
+			<Anchor>//api/name/overrideReloadAction</Anchor>
+            <NodeRef refid="148"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTRedBox/overrideReloadAction</TokenIdentifier>
+			<Abstract type="html">Overrides the default behavior of calling [bridge reload] on reload. You shouldn&apos;t need to use this.</Abstract>
+			<DeclaredIn>RCTRedBox.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) dispatch_block_t overrideReloadAction</Declaration>
+			
+			
+			<Anchor>//api/name/overrideReloadAction</Anchor>
+            <NodeRef refid="148"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTRedBox/overrideReloadAction</TokenIdentifier>
+			<Abstract type="html">Overrides the default behavior of calling [bridge reload] on reload. You shouldn&apos;t need to use this.</Abstract>
+			<DeclaredIn>RCTRedBox.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) dispatch_block_t overrideReloadAction</Declaration>
+			
+			
+			<Anchor>//api/name/overrideReloadAction</Anchor>
+            <NodeRef refid="148"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

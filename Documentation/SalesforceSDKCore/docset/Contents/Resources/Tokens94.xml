@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKNewLoginHostViewController.html">
+	<File path="Classes/SFSDKMutableOAuthClientContext.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKNewLoginHostViewController</TokenIdentifier>
-			<Abstract type="html">View controller that allows the user to enter a new login host that contains
-a host (the server address) and an optional name.</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKMutableOAuthClientContext</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
             
 			
 			<NodeRef refid="94"/>
@@ -14,113 +13,182 @@ a host (the server address) and an optional name.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/setServer:</TokenIdentifier>
-			<Abstract type="html">The server text field</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/setCredentials:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UITextField *server</Declaration>
+			<Declaration>@property (nonatomic, readwrite, nullable) SFOAuthCredentials *credentials</Declaration>
 			
 			
-			<Anchor>//api/name/server</Anchor>
+			<Anchor>//api/name/credentials</Anchor>
             <NodeRef refid="94"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/server</TokenIdentifier>
-			<Abstract type="html">The server text field</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/credentials</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UITextField *server</Declaration>
+			<Declaration>@property (nonatomic, readwrite, nullable) SFOAuthCredentials *credentials</Declaration>
 			
 			
-			<Anchor>//api/name/server</Anchor>
+			<Anchor>//api/name/credentials</Anchor>
             <NodeRef refid="94"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKNewLoginHostViewController/server</TokenIdentifier>
-			<Abstract type="html">The server text field</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKMutableOAuthClientContext/credentials</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UITextField *server</Declaration>
+			<Declaration>@property (nonatomic, readwrite, nullable) SFOAuthCredentials *credentials</Declaration>
 			
 			
-			<Anchor>//api/name/server</Anchor>
+			<Anchor>//api/name/credentials</Anchor>
             <NodeRef refid="94"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/setName:</TokenIdentifier>
-			<Abstract type="html">The name text field</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/setAuthInfo:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UITextField *name</Declaration>
+			<Declaration>@property (nonatomic, strong, readwrite, nullable) SFOAuthInfo *authInfo</Declaration>
 			
 			
-			<Anchor>//api/name/name</Anchor>
+			<Anchor>//api/name/authInfo</Anchor>
             <NodeRef refid="94"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/name</TokenIdentifier>
-			<Abstract type="html">The name text field</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/authInfo</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UITextField *name</Declaration>
+			<Declaration>@property (nonatomic, strong, readwrite, nullable) SFOAuthInfo *authInfo</Declaration>
 			
 			
-			<Anchor>//api/name/name</Anchor>
+			<Anchor>//api/name/authInfo</Anchor>
             <NodeRef refid="94"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKNewLoginHostViewController/name</TokenIdentifier>
-			<Abstract type="html">The name text field</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKMutableOAuthClientContext/authInfo</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UITextField *name</Declaration>
+			<Declaration>@property (nonatomic, strong, readwrite, nullable) SFOAuthInfo *authInfo</Declaration>
 			
 			
-			<Anchor>//api/name/name</Anchor>
+			<Anchor>//api/name/authInfo</Anchor>
             <NodeRef refid="94"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/setLoginHostListViewController:</TokenIdentifier>
-			<Abstract type="html">A reference to the login host list view controller used to add the host to the list of login hosts
-and to also properly resize the popover controller.</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/setAuthError:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) SFSDKLoginHostListViewController *loginHostListViewController</Declaration>
+			<Declaration>@property (nonatomic, strong, readwrite, nullable) NSError *authError</Declaration>
 			
 			
-			<Anchor>//api/name/loginHostListViewController</Anchor>
+			<Anchor>//api/name/authError</Anchor>
             <NodeRef refid="94"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/loginHostListViewController</TokenIdentifier>
-			<Abstract type="html">A reference to the login host list view controller used to add the host to the list of login hosts
-and to also properly resize the popover controller.</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/authError</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) SFSDKLoginHostListViewController *loginHostListViewController</Declaration>
+			<Declaration>@property (nonatomic, strong, readwrite, nullable) NSError *authError</Declaration>
 			
 			
-			<Anchor>//api/name/loginHostListViewController</Anchor>
+			<Anchor>//api/name/authError</Anchor>
             <NodeRef refid="94"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKNewLoginHostViewController/loginHostListViewController</TokenIdentifier>
-			<Abstract type="html">A reference to the login host list view controller used to add the host to the list of login hosts
-and to also properly resize the popover controller.</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKMutableOAuthClientContext/authError</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) SFSDKLoginHostListViewController *loginHostListViewController</Declaration>
+			<Declaration>@property (nonatomic, strong, readwrite, nullable) NSError *authError</Declaration>
 			
 			
-			<Anchor>//api/name/loginHostListViewController</Anchor>
+			<Anchor>//api/name/authError</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/setUserHint:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readwrite) NSString *userHint</Declaration>
+			
+			
+			<Anchor>//api/name/userHint</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/userHint</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readwrite) NSString *userHint</Declaration>
+			
+			
+			<Anchor>//api/name/userHint</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKMutableOAuthClientContext/userHint</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readwrite) NSString *userHint</Declaration>
+			
+			
+			<Anchor>//api/name/userHint</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/setCallingAppOptions:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readwrite, nonnull) NSDictionary *callingAppOptions</Declaration>
+			
+			
+			<Anchor>//api/name/callingAppOptions</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/callingAppOptions</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readwrite, nonnull) NSDictionary *callingAppOptions</Declaration>
+			
+			
+			<Anchor>//api/name/callingAppOptions</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKMutableOAuthClientContext/callingAppOptions</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readwrite, nonnull) NSDictionary *callingAppOptions</Declaration>
+			
+			
+			<Anchor>//api/name/callingAppOptions</Anchor>
             <NodeRef refid="94"/>
 		</Token>
 		

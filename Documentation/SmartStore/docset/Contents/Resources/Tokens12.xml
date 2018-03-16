@@ -197,7 +197,7 @@
 			<Abstract type="html">Use this method to obtain a shared store instance with a particular name for the current user.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>+ (id)sharedStoreWithName:(NSString *)storeName</Declaration>
+			<Declaration>+ (nullable id)sharedStoreWithName:(NSString *)storeName</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>storeName</Name>

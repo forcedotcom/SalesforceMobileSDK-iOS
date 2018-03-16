@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTTextView.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTTextView</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTTextView.h</DeclaredIn>
+            
+			
+			<NodeRef refid="203"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextView/setContentInset:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UIEdgeInsets contentInset</Declaration>
+			
+			
+			<Anchor>//api/name/contentInset</Anchor>
+            <NodeRef refid="203"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextView/contentInset</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UIEdgeInsets contentInset</Declaration>
+			
+			
+			<Anchor>//api/name/contentInset</Anchor>
+            <NodeRef refid="203"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTextView/contentInset</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UIEdgeInsets contentInset</Declaration>
+			
+			
+			<Anchor>//api/name/contentInset</Anchor>
+            <NodeRef refid="203"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextView/setTextStorage:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSTextStorage *textStorage</Declaration>
+			
+			
+			<Anchor>//api/name/textStorage</Anchor>
+            <NodeRef refid="203"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextView/textStorage</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSTextStorage *textStorage</Declaration>
+			
+			
+			<Anchor>//api/name/textStorage</Anchor>
+            <NodeRef refid="203"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTextView/textStorage</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSTextStorage *textStorage</Declaration>
+			
+			
+			<Anchor>//api/name/textStorage</Anchor>
+            <NodeRef refid="203"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextView/setTextFrame:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGRect textFrame</Declaration>
+			
+			
+			<Anchor>//api/name/textFrame</Anchor>
+            <NodeRef refid="203"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextView/textFrame</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGRect textFrame</Declaration>
+			
+			
+			<Anchor>//api/name/textFrame</Anchor>
+            <NodeRef refid="203"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTextView/textFrame</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGRect textFrame</Declaration>
+			
+			
+			<Anchor>//api/name/textFrame</Anchor>
+            <NodeRef refid="203"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextView/setSelectable:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL selectable</Declaration>
+			
+			
+			<Anchor>//api/name/selectable</Anchor>
+            <NodeRef refid="203"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTextView/selectable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL selectable</Declaration>
+			
+			
+			<Anchor>//api/name/selectable</Anchor>
+            <NodeRef refid="203"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTextView/selectable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTextView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL selectable</Declaration>
+			
+			
+			<Anchor>//api/name/selectable</Anchor>
+            <NodeRef refid="203"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

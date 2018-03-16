@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTSinglelineTextInputViewManager.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTSinglelineTextInputViewManager</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTSinglelineTextInputViewManager.h</DeclaredIn>
+            
+			
+			<NodeRef refid="171"/>
+		</Token>
+		
+		
+        
+        
+	</File>
+</Tokens>

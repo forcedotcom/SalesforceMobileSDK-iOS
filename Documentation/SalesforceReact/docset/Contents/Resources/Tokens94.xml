@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTJSCExecutor.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTJSCExecutor</TokenIdentifier>
+			<Abstract type="html">Uses a JavaScriptCore context as the execution engine.</Abstract>
+			<DeclaredIn>RCTJSCExecutor.h</DeclaredIn>
+            
+			
+			<NodeRef refid="94"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTJSCExecutor/setUseCustomJSCLibrary:</TokenIdentifier>
+			<Abstract type="html">Returns whether executor uses custom JSC library.
+This value is used to initialize RCTJSCWrapper.
+@default is NO.</Abstract>
+			<DeclaredIn>RCTJSCExecutor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL useCustomJSCLibrary</Declaration>
+			
+			
+			<Anchor>//api/name/useCustomJSCLibrary</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTJSCExecutor/useCustomJSCLibrary</TokenIdentifier>
+			<Abstract type="html">Returns whether executor uses custom JSC library.
+This value is used to initialize RCTJSCWrapper.
+@default is NO.</Abstract>
+			<DeclaredIn>RCTJSCExecutor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL useCustomJSCLibrary</Declaration>
+			
+			
+			<Anchor>//api/name/useCustomJSCLibrary</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTJSCExecutor/useCustomJSCLibrary</TokenIdentifier>
+			<Abstract type="html">Returns whether executor uses custom JSC library.
+This value is used to initialize RCTJSCWrapper.
+@default is NO.</Abstract>
+			<DeclaredIn>RCTJSCExecutor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL useCustomJSCLibrary</Declaration>
+			
+			
+			<Anchor>//api/name/useCustomJSCLibrary</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTJSCExecutor/setBytecodeFileFormatVersion:</TokenIdentifier>
+			<Abstract type="html">Returns the bytecode file format that the underlying runtime supports.</Abstract>
+			<DeclaredIn>RCTJSCExecutor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) int32_t bytecodeFileFormatVersion</Declaration>
+			
+			
+			<Anchor>//api/name/bytecodeFileFormatVersion</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTJSCExecutor/bytecodeFileFormatVersion</TokenIdentifier>
+			<Abstract type="html">Returns the bytecode file format that the underlying runtime supports.</Abstract>
+			<DeclaredIn>RCTJSCExecutor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) int32_t bytecodeFileFormatVersion</Declaration>
+			
+			
+			<Anchor>//api/name/bytecodeFileFormatVersion</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTJSCExecutor/bytecodeFileFormatVersion</TokenIdentifier>
+			<Abstract type="html">Returns the bytecode file format that the underlying runtime supports.</Abstract>
+			<DeclaredIn>RCTJSCExecutor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) int32_t bytecodeFileFormatVersion</Declaration>
+			
+			
+			<Anchor>//api/name/bytecodeFileFormatVersion</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTJSCExecutor/setContextName:</TokenIdentifier>
+			<Abstract type="html">Specify a name for the JSContext used, which will be visible in debugging tools
+@default is &quot;RCTJSContext&quot;</Abstract>
+			<DeclaredIn>RCTJSCExecutor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *contextName</Declaration>
+			
+			
+			<Anchor>//api/name/contextName</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTJSCExecutor/contextName</TokenIdentifier>
+			<Abstract type="html">Specify a name for the JSContext used, which will be visible in debugging tools
+@default is &quot;RCTJSContext&quot;</Abstract>
+			<DeclaredIn>RCTJSCExecutor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *contextName</Declaration>
+			
+			
+			<Anchor>//api/name/contextName</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTJSCExecutor/contextName</TokenIdentifier>
+			<Abstract type="html">Specify a name for the JSContext used, which will be visible in debugging tools
+@default is &quot;RCTJSContext&quot;</Abstract>
+			<DeclaredIn>RCTJSCExecutor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *contextName</Declaration>
+			
+			
+			<Anchor>//api/name/contextName</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTJSCExecutor/initWithUseCustomJSCLibrary:</TokenIdentifier>
+			<Abstract type="html">Inits a new executor instance with given flag that&apos;s used
+to initialize RCTJSCWrapper.</Abstract>
+			<DeclaredIn>RCTJSCExecutor.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithUseCustomJSCLibrary:(BOOL)useCustomJSCLibrary</Declaration>
+			
+			
+			<Anchor>//api/name/initWithUseCustomJSCLibrary:</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTJSCExecutor/synchronouslyExecuteApplicationScript:sourceURL:</TokenIdentifier>
+			<Abstract type="html">@experimental
+synchronouslyExecuteApplicationScript:sourceURL:JSContext:error:</Abstract>
+			<DeclaredIn>RCTJSCExecutor.h</DeclaredIn>
+			
+			<Declaration>- (NSError *)synchronouslyExecuteApplicationScript:(NSData *)script sourceURL:(NSURL *)sourceURL</Declaration>
+			
+			
+			<Anchor>//api/name/synchronouslyExecuteApplicationScript:sourceURL:</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTJSCExecutor/callFunctionOnModule:method:arguments:jsValueCallback:</TokenIdentifier>
+			<Abstract type="html">Invokes the given module/method directly. The completion block will be called with the
+JSValue returned by the JS context.</Abstract>
+			<DeclaredIn>RCTJSCExecutor.h</DeclaredIn>
+			
+			<Declaration>- (void)callFunctionOnModule:(NSString *)module method:(NSString *)method arguments:(NSArray *)args jsValueCallback:(RCTJavaScriptValueCallback)onComplete</Declaration>
+			
+			
+			<Anchor>//api/name/callFunctionOnModule:method:arguments:jsValueCallback:</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTJSCExecutor/jsContext</TokenIdentifier>
+			<Abstract type="html">Get the JavaScriptCore context associated with this executor instance.</Abstract>
+			<DeclaredIn>RCTJSCExecutor.h</DeclaredIn>
+			
+			<Declaration>- (JSContext *)jsContext</Declaration>
+			
+			
+			<Anchor>//api/name/jsContext</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTJSCExecutor/runRunLoopThread</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTJSCExecutor.mm</DeclaredIn>
+			
+			<Declaration>+ (void)runRunLoopThread</Declaration>
+			
+			
+			<Anchor>//api/name/runRunLoopThread</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTJSCExecutor/setBridge:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTJSCExecutor.mm</DeclaredIn>
+			
+			<Declaration>- (void)setBridge:(RCTBridge *)bridge</Declaration>
+			
+			
+			<Anchor>//api/name/setBridge:</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTJSCExecutor/init</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTJSCExecutor.mm</DeclaredIn>
+			
+			<Declaration>- (instancetype)init</Declaration>
+			
+			
+			<Anchor>//api/name/init</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTJSCExecutor/initWithJSContextData:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTJSCExecutor.mm</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithJSContextData:(const RCTJSContextData &amp;)data</Declaration>
+			
+			
+			<Anchor>//api/name/initWithJSContextData:</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTJSCExecutor/context</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTJSCExecutor.mm</DeclaredIn>
+			
+			<Declaration>- (RCTJavaScriptContext *)context</Declaration>
+			
+			
+			<Anchor>//api/name/context</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTJSCExecutor/setUp</TokenIdentifier>
+			<Abstract type="html">Used to set up the executor after the bridge has been fully initialized.
+Do any expensive setup in this method instead of -init.</Abstract>
+			<DeclaredIn>RCTJSCExecutor.mm</DeclaredIn>
+			
+			<Declaration>- (void)setUp</Declaration>
+			
+			
+			<Anchor>//api/name/setUp</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTJSCExecutor/toggleProfilingFlag:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTJSCExecutor.mm</DeclaredIn>
+			
+			<Declaration>- (void)toggleProfilingFlag:(NSNotification *)notification</Declaration>
+			
+			
+			<Anchor>//api/name/toggleProfilingFlag:</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTJSCExecutor/invalidate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTJSCExecutor.mm</DeclaredIn>
+			
+			<Declaration>- (void)invalidate</Declaration>
+			
+			
+			<Anchor>//api/name/invalidate</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTJSCExecutor/dealloc</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTJSCExecutor.mm</DeclaredIn>
+			
+			<Declaration>- (void)dealloc</Declaration>
+			
+			
+			<Anchor>//api/name/dealloc</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTJSCExecutor/flushedQueue:</TokenIdentifier>
+			<Abstract type="html">Executes BatchedBridge.flushedQueue on JS thread and calls the given callback
+with JSValue, containing the next queue, and JSContext.</Abstract>
+			<DeclaredIn>RCTJSCExecutor.mm</DeclaredIn>
+			
+			<Declaration>- (void)flushedQueue:(RCTJavaScriptCallback)onComplete</Declaration>
+			
+			
+			<Anchor>//api/name/flushedQueue:</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTJSCExecutor/_callFunctionOnModule:method:arguments:returnValue:unwrapResult:callback:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTJSCExecutor.mm</DeclaredIn>
+			
+			<Declaration>- (void)_callFunctionOnModule:(NSString *)module method:(NSString *)method arguments:(NSArray *)args returnValue:(BOOL)returnValue unwrapResult:(BOOL)unwrapResult callback:(RCTJavaScriptCallback)onComplete</Declaration>
+			
+			
+			<Anchor>//api/name/_callFunctionOnModule:method:arguments:returnValue:unwrapResult:callback:</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTJSCExecutor/callFunctionOnModule:method:arguments:callback:</TokenIdentifier>
+			<Abstract type="html">Executes BatchedBridge.callFunctionReturnFlushedQueue with the module name,
+method name and optional additional arguments on the JS thread and calls the
+given callback with JSValue, containing the next queue, and JSContext.</Abstract>
+			<DeclaredIn>RCTJSCExecutor.mm</DeclaredIn>
+			
+			<Declaration>- (void)callFunctionOnModule:(NSString *)module method:(NSString *)method arguments:(NSArray *)args callback:(RCTJavaScriptCallback)onComplete</Declaration>
+			
+			
+			<Anchor>//api/name/callFunctionOnModule:method:arguments:callback:</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTJSCExecutor/invokeCallbackID:arguments:callback:</TokenIdentifier>
+			<Abstract type="html">Executes BatchedBridge.invokeCallbackAndReturnFlushedQueue with the cbID,
+and optional additional arguments on the JS thread and calls the
+given callback with JSValue, containing the next queue, and JSContext.</Abstract>
+			<DeclaredIn>RCTJSCExecutor.mm</DeclaredIn>
+			
+			<Declaration>- (void)invokeCallbackID:(NSNumber *)cbID arguments:(NSArray *)args callback:(RCTJavaScriptCallback)onComplete</Declaration>
+			
+			
+			<Anchor>//api/name/invokeCallbackID:arguments:callback:</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTJSCExecutor/_executeJSCall:arguments:unwrapResult:callback:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTJSCExecutor.mm</DeclaredIn>
+			
+			<Declaration>- (void)_executeJSCall:(NSString *)method arguments:(NSArray *)arguments unwrapResult:(BOOL)unwrapResult callback:(RCTJavaScriptCallback)onComplete</Declaration>
+			
+			
+			<Anchor>//api/name/_executeJSCall:arguments:unwrapResult:callback:</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTJSCExecutor/executeApplicationScript:sourceURL:onComplete:</TokenIdentifier>
+			<Abstract type="html">Runs an application script, and notifies of the script load being complete via onComplete.</Abstract>
+			<DeclaredIn>RCTJSCExecutor.mm</DeclaredIn>
+			
+			<Declaration>- (void)executeApplicationScript:(NSData *)script sourceURL:(NSURL *)sourceURL onComplete:(RCTJavaScriptCompleteBlock)onComplete</Declaration>
+			
+			
+			<Anchor>//api/name/executeApplicationScript:sourceURL:onComplete:</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTJSCExecutor/executeBlockOnJavaScriptQueue:</TokenIdentifier>
+			<Abstract type="html">Enqueue a block to run in the executors JS thread. Fallback to dispatch_async
+on the main queue if the executor doesn&apos;t own a thread.</Abstract>
+			<DeclaredIn>RCTJSCExecutor.mm</DeclaredIn>
+			
+			<Declaration>- (void)executeBlockOnJavaScriptQueue:(dispatch_block_t)block</Declaration>
+			
+			
+			<Anchor>//api/name/executeBlockOnJavaScriptQueue:</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTJSCExecutor/executeAsyncBlockOnJavaScriptQueue:</TokenIdentifier>
+			<Abstract type="html">Special case for Timers + ContextExecutor - instead of the default
+if jsthread then call else dispatch call on jsthread
+ensure the call is made async on the jsthread</Abstract>
+			<DeclaredIn>RCTJSCExecutor.mm</DeclaredIn>
+			
+			<Declaration>- (void)executeAsyncBlockOnJavaScriptQueue:(dispatch_block_t)block</Declaration>
+			
+			
+			<Anchor>//api/name/executeAsyncBlockOnJavaScriptQueue:</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTJSCExecutor/injectJSONText:asGlobalObjectNamed:callback:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTJSCExecutor.mm</DeclaredIn>
+			
+			<Declaration>- (void)injectJSONText:(NSString *)script asGlobalObjectNamed:(NSString *)objectName callback:(RCTJavaScriptCompleteBlock)onComplete</Declaration>
+			
+			
+			<Anchor>//api/name/injectJSONText:asGlobalObjectNamed:callback:</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTJSCExecutor/_nativeRequire:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTJSCExecutor.mm</DeclaredIn>
+			
+			<Declaration>- (void)_nativeRequire:(NSNumber *)moduleID</Declaration>
+			
+			
+			<Anchor>//api/name/_nativeRequire:</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

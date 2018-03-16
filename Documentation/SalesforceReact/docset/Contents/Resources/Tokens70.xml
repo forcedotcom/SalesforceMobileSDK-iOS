@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTFontAttributes.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTFontAttributes</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTFontAttributes.h</DeclaredIn>
+            
+			
+			<NodeRef refid="70"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTFontAttributes/setDelegate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFontAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;RCTFontAttributesDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTFontAttributes/delegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFontAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;RCTFontAttributesDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTFontAttributes/delegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFontAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;RCTFontAttributesDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTFontAttributes/setFont:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFontAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (readonly, nonatomic, strong) UIFont *font</Declaration>
+			
+			
+			<Anchor>//api/name/font</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTFontAttributes/font</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFontAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (readonly, nonatomic, strong) UIFont *font</Declaration>
+			
+			
+			<Anchor>//api/name/font</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTFontAttributes/font</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFontAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (readonly, nonatomic, strong) UIFont *font</Declaration>
+			
+			
+			<Anchor>//api/name/font</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTFontAttributes/setAllowFontScaling:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFontAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL allowFontScaling</Declaration>
+			
+			
+			<Anchor>//api/name/allowFontScaling</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTFontAttributes/allowFontScaling</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFontAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL allowFontScaling</Declaration>
+			
+			
+			<Anchor>//api/name/allowFontScaling</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTFontAttributes/allowFontScaling</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFontAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL allowFontScaling</Declaration>
+			
+			
+			<Anchor>//api/name/allowFontScaling</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTFontAttributes/setFontFamily:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFontAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *fontFamily</Declaration>
+			
+			
+			<Anchor>//api/name/fontFamily</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTFontAttributes/fontFamily</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFontAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *fontFamily</Declaration>
+			
+			
+			<Anchor>//api/name/fontFamily</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTFontAttributes/fontFamily</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFontAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *fontFamily</Declaration>
+			
+			
+			<Anchor>//api/name/fontFamily</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTFontAttributes/setFontSize:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFontAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSNumber *fontSize</Declaration>
+			
+			
+			<Anchor>//api/name/fontSize</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTFontAttributes/fontSize</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFontAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSNumber *fontSize</Declaration>
+			
+			
+			<Anchor>//api/name/fontSize</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTFontAttributes/fontSize</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFontAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSNumber *fontSize</Declaration>
+			
+			
+			<Anchor>//api/name/fontSize</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTFontAttributes/setFontSizeMultiplier:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFontAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat fontSizeMultiplier</Declaration>
+			
+			
+			<Anchor>//api/name/fontSizeMultiplier</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTFontAttributes/fontSizeMultiplier</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFontAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat fontSizeMultiplier</Declaration>
+			
+			
+			<Anchor>//api/name/fontSizeMultiplier</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTFontAttributes/fontSizeMultiplier</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFontAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat fontSizeMultiplier</Declaration>
+			
+			
+			<Anchor>//api/name/fontSizeMultiplier</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTFontAttributes/setFontStyle:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFontAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *fontStyle</Declaration>
+			
+			
+			<Anchor>//api/name/fontStyle</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTFontAttributes/fontStyle</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFontAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *fontStyle</Declaration>
+			
+			
+			<Anchor>//api/name/fontStyle</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTFontAttributes/fontStyle</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFontAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *fontStyle</Declaration>
+			
+			
+			<Anchor>//api/name/fontStyle</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTFontAttributes/setFontWeight:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFontAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *fontWeight</Declaration>
+			
+			
+			<Anchor>//api/name/fontWeight</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTFontAttributes/fontWeight</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFontAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *fontWeight</Declaration>
+			
+			
+			<Anchor>//api/name/fontWeight</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTFontAttributes/fontWeight</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFontAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *fontWeight</Declaration>
+			
+			
+			<Anchor>//api/name/fontWeight</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTFontAttributes/initWithAccessibilityManager:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFontAttributes.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithAccessibilityManager:(RCTAccessibilityManager *)accessibilityManager</Declaration>
+			
+			
+			<Anchor>//api/name/initWithAccessibilityManager:</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

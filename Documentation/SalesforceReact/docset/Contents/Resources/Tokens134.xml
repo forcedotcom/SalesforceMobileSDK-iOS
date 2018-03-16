@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTPackagerClientResponder.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTPackagerClientResponder</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTPackagerClient.h</DeclaredIn>
+            
+			
+			<NodeRef refid="134"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTPackagerClientResponder/initWithId:socket:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTPackagerClient.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithId:(id)msgId socket:(RCTReconnectingWebSocket *)socket</Declaration>
+			
+			
+			<Anchor>//api/name/initWithId:socket:</Anchor>
+            <NodeRef refid="134"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTPackagerClientResponder/respondWithResult:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTPackagerClient.h</DeclaredIn>
+			
+			<Declaration>- (void)respondWithResult:(id)result</Declaration>
+			
+			
+			<Anchor>//api/name/respondWithResult:</Anchor>
+            <NodeRef refid="134"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTPackagerClientResponder/respondWithError:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTPackagerClient.h</DeclaredIn>
+			
+			<Declaration>- (void)respondWithError:(id)error</Declaration>
+			
+			
+			<Anchor>//api/name/respondWithError:</Anchor>
+            <NodeRef refid="134"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

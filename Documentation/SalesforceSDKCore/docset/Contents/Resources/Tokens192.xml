@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFOAuthAdvancedAuthState.html">
+	<File path="Constants/SFOAuthAdvancedAuthConfiguration.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthAdvancedAuthState</TokenIdentifier>
-			<Abstract type="html">Enumeration of different advanced authentication stages.</Abstract>
+			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthAdvancedAuthConfiguration</TokenIdentifier>
+			<Abstract type="html">Enumeration of advanced auth configuration.</Abstract>
 			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
             
 			
@@ -14,10 +14,10 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthStateNotStarted</TokenIdentifier>
-            <Abstract type="html">     No advanced authentication is currently under way.
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthConfigurationNone</TokenIdentifier>
+            <Abstract type="html">     Advanced authentication is not configured (default)
      </Abstract>
-            <Declaration>SFOAuthAdvancedAuthStateNotStarted</Declaration>
+            <Declaration>SFOAuthAdvancedAuthConfigurationNone</Declaration>
             
             <DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
             
@@ -25,10 +25,11 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthStateBrowserRequestInitiated</TokenIdentifier>
-            <Abstract type="html">     The advanced authentication flow has initiated a request through Safari view controller.
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthConfigurationAllow</TokenIdentifier>
+            <Abstract type="html">     Advanced authentication is allowed.  Coordinator will attempt to retrieve advanced auth
+     configuration from the org, to determine whether to initiate advanced authentication.
      </Abstract>
-            <Declaration>SFOAuthAdvancedAuthStateBrowserRequestInitiated</Declaration>
+            <Declaration>SFOAuthAdvancedAuthConfigurationAllow</Declaration>
             
             <DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
             
@@ -36,11 +37,11 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthStateTokenRequestInitiated</TokenIdentifier>
-            <Abstract type="html">     The advanced authentication flow has received a response from Safari view controller, and has
-     initiated a token exchange request.
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthConfigurationRequire</TokenIdentifier>
+            <Abstract type="html">     Advanced authentication is required.  Coordinator will initiate advanced authentication
+     regardless of org settings.
      </Abstract>
-            <Declaration>SFOAuthAdvancedAuthStateTokenRequestInitiated</Declaration>
+            <Declaration>SFOAuthAdvancedAuthConfigurationRequire</Declaration>
             
             <DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
             

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSDKAppConfigErrorCode.html">
+	<File path="Constants/SFRestMethod.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSDKAppConfigErrorCode</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFRestMethod</TokenIdentifier>
+			<Abstract type="html">HTTP methods for requests</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
             
 			
 			<NodeRef refid="202"/>
@@ -14,31 +14,61 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKAppConfigErrorCodeNoConsumerKey</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodGET</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKAppConfigErrorCodeNoConsumerKey</Declaration>
+            <Declaration>SFRestMethodGET</Declaration>
             
-            <DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
             
             <NodeRef refid="202"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKAppConfigErrorCodeNoRedirectURI</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodPOST</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKAppConfigErrorCodeNoRedirectURI</Declaration>
+            <Declaration>SFRestMethodPOST</Declaration>
             
-            <DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
             
             <NodeRef refid="202"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKAppConfigErrorCodeNoOAuthScopes</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodPUT</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKAppConfigErrorCodeNoOAuthScopes</Declaration>
+            <Declaration>SFRestMethodPUT</Declaration>
             
-            <DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
+            
+            <NodeRef refid="202"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodDELETE</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFRestMethodDELETE</Declaration>
+            
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
+            
+            <NodeRef refid="202"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodHEAD</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFRestMethodHEAD</Declaration>
+            
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
+            
+            <NodeRef refid="202"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodPATCH</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFRestMethodPATCH</Declaration>
+            
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
             
             <NodeRef refid="202"/>
         </Token>

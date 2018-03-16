@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Constants/RCTLogLevel.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/c/tdef/RCTLogLevel</TokenIdentifier>
+			<Abstract type="html">An enum representing the severity of the log message.</Abstract>
+			<DeclaredIn>RCTLog.h</DeclaredIn>
+            
+			
+			<NodeRef refid="294"/>
+		</Token>
+		
+		
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTLogLevelTrace</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTLogLevelTrace</Declaration>
+            
+            <DeclaredIn>RCTLog.h</DeclaredIn>
+            
+            <NodeRef refid="294"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTLogLevelInfo</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTLogLevelInfo</Declaration>
+            
+            <DeclaredIn>RCTLog.h</DeclaredIn>
+            
+            <NodeRef refid="294"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTLogLevelWarning</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTLogLevelWarning</Declaration>
+            
+            <DeclaredIn>RCTLog.h</DeclaredIn>
+            
+            <NodeRef refid="294"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTLogLevelError</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTLogLevelError</Declaration>
+            
+            <DeclaredIn>RCTLog.h</DeclaredIn>
+            
+            <NodeRef refid="294"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTLogLevelFatal</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTLogLevelFatal</Declaration>
+            
+            <DeclaredIn>RCTLog.h</DeclaredIn>
+            
+            <NodeRef refid="294"/>
+        </Token>
+        
+        
+	</File>
+</Tokens>

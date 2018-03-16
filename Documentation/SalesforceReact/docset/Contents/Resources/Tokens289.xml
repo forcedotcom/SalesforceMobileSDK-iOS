@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Constants/RCTAlertViewStyle.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/c/tdef/RCTAlertViewStyle</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTAlertManager.h</DeclaredIn>
+            
+			
+			<NodeRef refid="289"/>
+		</Token>
+		
+		
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTAlertViewStyleDefault</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTAlertViewStyleDefault</Declaration>
+            
+            <DeclaredIn>RCTAlertManager.h</DeclaredIn>
+            
+            <NodeRef refid="289"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTAlertViewStyleSecureTextInput</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTAlertViewStyleSecureTextInput</Declaration>
+            
+            <DeclaredIn>RCTAlertManager.h</DeclaredIn>
+            
+            <NodeRef refid="289"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTAlertViewStylePlainTextInput</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTAlertViewStylePlainTextInput</Declaration>
+            
+            <DeclaredIn>RCTAlertManager.h</DeclaredIn>
+            
+            <NodeRef refid="289"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTAlertViewStyleLoginAndPasswordInput</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTAlertViewStyleLoginAndPasswordInput</Declaration>
+            
+            <DeclaredIn>RCTAlertManager.h</DeclaredIn>
+            
+            <NodeRef refid="289"/>
+        </Token>
+        
+        
+	</File>
+</Tokens>

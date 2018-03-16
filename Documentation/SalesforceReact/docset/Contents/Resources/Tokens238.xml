@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Categories/NSMutableURLRequest+CertificateAdditions.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cat/NSMutableURLRequest(CertificateAdditions)</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+            
+			
+			<NodeRef refid="238"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSMutableURLRequest/setRCTSR_SSLPinnedCertificates:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSArray *RCTSR_SSLPinnedCertificates</Declaration>
+			
+			
+			<Anchor>//api/name/RCTSR_SSLPinnedCertificates</Anchor>
+            <NodeRef refid="238"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSMutableURLRequest/RCTSR_SSLPinnedCertificates</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSArray *RCTSR_SSLPinnedCertificates</Declaration>
+			
+			
+			<Anchor>//api/name/RCTSR_SSLPinnedCertificates</Anchor>
+            <NodeRef refid="238"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/NSMutableURLRequest/RCTSR_SSLPinnedCertificates</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSArray *RCTSR_SSLPinnedCertificates</Declaration>
+			
+			
+			<Anchor>//api/name/RCTSR_SSLPinnedCertificates</Anchor>
+            <NodeRef refid="238"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

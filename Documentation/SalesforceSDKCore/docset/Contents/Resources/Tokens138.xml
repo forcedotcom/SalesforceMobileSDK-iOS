@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSData+SFBase64.html">
+	<File path="Categories/NSArray+SFAdditions.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFBase64)</TokenIdentifier>
-			<Abstract type="html">Extension to NSData class to provide common functions. Added functionality includes:
---base64 encoding of an NSData object
---MD5 version of an NSData object
---Gzip deflated representation of a gzip-compressed NSData object
---Hex version of an NSData object</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSArray(SFAdditions)</TokenIdentifier>
+			<Abstract type="html">Provides Salesforce Mobile SDK filtering for NSArray objects.</Abstract>
+			<DeclaredIn>NSArray+SFAdditions.h</DeclaredIn>
             
 			
 			<NodeRef refid="138"/>
@@ -17,77 +13,59 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/randomDataOfLength:</TokenIdentifier>
-			<Abstract type="html">Returns a specified number of random bytes.</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSArray/filteredArrayWithElementsOfClass:</TokenIdentifier>
+			<Abstract type="html">Returns an array whose elements are guaranteed to be instances of the given class.</Abstract>
+			<DeclaredIn>NSArray+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>- (nullable NSData *)randomDataOfLength:(size_t)length</Declaration>
+			<Declaration>- (NSArray *)filteredArrayWithElementsOfClass:(Class)aClass</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>length</Name>
-					<Abstract type="html">The number of bytes of random data to return.</Abstract>
+					<Name>aClass</Name>
+					<Abstract type="html">The class to filter on.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The specified quantity of random bytes or nil if an error occurs.</Abstract></ReturnValue>
-			<Anchor>//api/name/randomDataOfLength:</Anchor>
+			<ReturnValue><Abstract type="html">An array whose elements are all of the given type (or a subtype).</Abstract></ReturnValue>
+			<Anchor>//api/name/filteredArrayWithElementsOfClass:</Anchor>
             <NodeRef refid="138"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/newBase64Encoding</TokenIdentifier>
-			<Abstract type="html">Creates a base64 encoded string for this NSData object.</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSArray/filteredArrayWithValue:forKeyPath:</TokenIdentifier>
+			<Abstract type="html">Returns an array whose elements have a given value at a given keypath.</Abstract>
+			<DeclaredIn>NSArray+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)newBase64Encoding</Declaration>
-			
-			<ReturnValue><Abstract type="html">A base64 encoded version of the data.</Abstract></ReturnValue>
-			<Anchor>//api/name/newBase64Encoding</Anchor>
-            <NodeRef refid="138"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/base64Encode</TokenIdentifier>
-			<Abstract type="html">Returns a base64 encoded string for this NSData object.</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)base64Encode</Declaration>
-			
-			<ReturnValue><Abstract type="html">A base64 encoded version of the data.</Abstract></ReturnValue>
-			<Anchor>//api/name/base64Encode</Anchor>
-            <NodeRef refid="138"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/initWithBase64String:</TokenIdentifier>
-			<Abstract type="html">Creates a base64 encoding of this NSData. Similar to newBase64Encoding.</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (id)initWithBase64String:(NSString *)base64</Declaration>
+			<Declaration>- (NSArray *)filteredArrayWithValue:(id)value forKeyPath:(NSString *)key</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>base64</Name>
-					<Abstract type="html">The base64 encoding to use in the new NSData object.</Abstract>
+					<Name>value</Name>
+					<Abstract type="html">The value to filter on.</Abstract>
+				</Parameter><Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The key path for the value to filter on.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The base64 encoded NSData object.</Abstract></ReturnValue>
-			<Anchor>//api/name/initWithBase64String:</Anchor>
+			
+			<Anchor>//api/name/filteredArrayWithValue:forKeyPath:</Anchor>
             <NodeRef refid="138"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/dataFromBase64String:</TokenIdentifier>
-			<Abstract type="html">Creates an NSData object from a base64 encoded string.</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSArray/filteredArrayExcludingValue:forKeyPath:</TokenIdentifier>
+			<Abstract type="html">Returns an array whose elements exclude a given value at a given keypath.</Abstract>
+			<DeclaredIn>NSArray+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>+ (NSData *)dataFromBase64String:(NSString *)encoding</Declaration>
+			<Declaration>- (NSArray *)filteredArrayExcludingValue:(id)value forKeyPath:(NSString *)key</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>encoding</Name>
-					<Abstract type="html">The string to convert to NSData.</Abstract>
+					<Name>value</Name>
+					<Abstract type="html">The value to filter on.</Abstract>
+				</Parameter><Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The key path for the value to filter on.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">A base64-encoded string version of this object&apos;s data.</Abstract></ReturnValue>
-			<Anchor>//api/name/dataFromBase64String:</Anchor>
+			
+			<Anchor>//api/name/filteredArrayExcludingValue:forKeyPath:</Anchor>
             <NodeRef refid="138"/>
 		</Token>
 		

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Protocols/RCTWebSocketContentHandler.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intf/RCTWebSocketContentHandler</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTWebSocketModule.h</DeclaredIn>
+            
+			
+			<NodeRef refid="284"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTWebSocketContentHandler/processMessage:forSocketID:withType:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWebSocketModule.h</DeclaredIn>
+			
+			<Declaration>- (id)processMessage:(id __nullable)message forSocketID:(NSNumber *)socketID withType:(NSString *__nonnull __autoreleasing *__nonnull)type</Declaration>
+			
+			
+			<Anchor>//api/name/processMessage:forSocketID:withType:</Anchor>
+            <NodeRef refid="284"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

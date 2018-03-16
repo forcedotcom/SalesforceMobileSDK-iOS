@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTActivityIndicatorView.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTActivityIndicatorView</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTActivityIndicatorView.h</DeclaredIn>
+            
+			
+			<NodeRef refid="24"/>
+		</Token>
+		
+		
+        
+        
+	</File>
+</Tokens>

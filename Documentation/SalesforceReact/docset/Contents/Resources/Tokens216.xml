@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTViewManager.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTViewManager</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTViewManager.h</DeclaredIn>
+            
+			
+			<NodeRef refid="216"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTViewManager/setBridge:</TokenIdentifier>
+			<Abstract type="html">The bridge can be used to access both the RCTUIIManager and the RCTEventDispatcher,
+allowing the manager (or the views that it manages) to manipulate the view
+hierarchy and send events back to the JS context.</Abstract>
+			<DeclaredIn>RCTViewManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) RCTBridge *bridge</Declaration>
+			
+			
+			<Anchor>//api/name/bridge</Anchor>
+            <NodeRef refid="216"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTViewManager/bridge</TokenIdentifier>
+			<Abstract type="html">The bridge can be used to access both the RCTUIIManager and the RCTEventDispatcher,
+allowing the manager (or the views that it manages) to manipulate the view
+hierarchy and send events back to the JS context.</Abstract>
+			<DeclaredIn>RCTViewManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) RCTBridge *bridge</Declaration>
+			
+			
+			<Anchor>//api/name/bridge</Anchor>
+            <NodeRef refid="216"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTViewManager/bridge</TokenIdentifier>
+			<Abstract type="html">The bridge can be used to access both the RCTUIIManager and the RCTEventDispatcher,
+allowing the manager (or the views that it manages) to manipulate the view
+hierarchy and send events back to the JS context.</Abstract>
+			<DeclaredIn>RCTViewManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) RCTBridge *bridge</Declaration>
+			
+			
+			<Anchor>//api/name/bridge</Anchor>
+            <NodeRef refid="216"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTViewManager/view</TokenIdentifier>
+			<Abstract type="html">This method instantiates a native view to be managed by the module. Override
+this to return a custom view instance, which may be preconfigured with default
+properties, subviews, etc. This method will be called many times, and should
+return a fresh instance each time. The view module MUST NOT cache the returned
+view and return the same instance for subsequent calls.</Abstract>
+			<DeclaredIn>RCTViewManager.h</DeclaredIn>
+			
+			<Declaration>- (UIView *)view</Declaration>
+			
+			
+			<Anchor>//api/name/view</Anchor>
+            <NodeRef refid="216"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTViewManager/shadowView</TokenIdentifier>
+			<Abstract type="html">This method instantiates a shadow view to be managed by the module. If omitted,
+an ordinary RCTShadowView instance will be created, which is typically fine for
+most view types. As with the view method, the -shadowView method should return
+a fresh instance each time it is called.</Abstract>
+			<DeclaredIn>RCTViewManager.h</DeclaredIn>
+			
+			<Declaration>- (RCTShadowView *)shadowView</Declaration>
+			
+			
+			<Anchor>//api/name/shadowView</Anchor>
+            <NodeRef refid="216"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTViewManager/customBubblingEventTypes</TokenIdentifier>
+			<Abstract type="html">DEPRECATED: declare properties of type RCTBubblingEventBlock instead</Abstract>
+			<DeclaredIn>RCTViewManager.h</DeclaredIn>
+			
+			<Declaration>- (NSArray&lt;NSString*&gt; *)customBubblingEventTypes</Declaration>
+			
+			
+			<Anchor>//api/name/customBubblingEventTypes</Anchor>
+            <NodeRef refid="216"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTViewManager/uiBlockToAmendWithShadowView:</TokenIdentifier>
+			<Abstract type="html">Called to notify manager that layout has finished, in case any calculated
+properties need to be copied over from shadow view to view.</Abstract>
+			<DeclaredIn>RCTViewManager.h</DeclaredIn>
+			
+			<Declaration>- (RCTViewManagerUIBlock)uiBlockToAmendWithShadowView:(RCTShadowView *)shadowView</Declaration>
+			
+			
+			<Anchor>//api/name/uiBlockToAmendWithShadowView:</Anchor>
+            <NodeRef refid="216"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTViewManager/uiBlockToAmendWithShadowViewRegistry:</TokenIdentifier>
+			<Abstract type="html">Called after view hierarchy manipulation has finished, and all shadow props
+have been set, but before layout has been performed. Useful for performing
+custom layout logic or tasks that involve walking the view hierarchy.
+To be deprecated, hopefully.</Abstract>
+			<DeclaredIn>RCTViewManager.h</DeclaredIn>
+			
+			<Declaration>- (RCTViewManagerUIBlock)uiBlockToAmendWithShadowViewRegistry:(NSDictionary&lt;NSNumber*,RCTShadowView*&gt; *)shadowViewRegistry</Declaration>
+			
+			
+			<Anchor>//api/name/uiBlockToAmendWithShadowViewRegistry:</Anchor>
+            <NodeRef refid="216"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTViewManager/propConfig_</TokenIdentifier>
+			<Abstract type="html">This handles the simple case, where JS and native property names match.</Abstract>
+			<DeclaredIn>RCTViewManager.h</DeclaredIn>
+			
+			<Declaration>+ (NSArray&lt;NSString*&gt; *)propConfig_</Declaration>
+			
+			
+			<Anchor>//api/name/propConfig_</Anchor>
+            <NodeRef refid="216"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTViewManager/set_</TokenIdentifier>
+			<Abstract type="html">This macro can be used when you need to provide custom logic for setting
+view properties. The macro should be followed by a method body, which can
+refer to &quot;json&quot;, &quot;view&quot; and &quot;defaultView&quot; to implement the required logic.</Abstract>
+			<DeclaredIn>RCTViewManager.h</DeclaredIn>
+			
+			<Declaration>- (void)set_</Declaration>
+			
+			
+			<Anchor>//api/name/set_</Anchor>
+            <NodeRef refid="216"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTViewManager/propConfigShadow_</TokenIdentifier>
+			<Abstract type="html">This macro maps a named property to an arbitrary key path in the shadow view.</Abstract>
+			<DeclaredIn>RCTViewManager.h</DeclaredIn>
+			
+			<Declaration>+ (NSArray&lt;NSString*&gt; *)propConfigShadow_</Declaration>
+			
+			
+			<Anchor>//api/name/propConfigShadow_</Anchor>
+            <NodeRef refid="216"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

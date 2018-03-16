@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTSurfaceHostingComponentState.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTSurfaceHostingComponentState</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTSurfaceHostingComponentState.h</DeclaredIn>
+            
+			
+			<NodeRef refid="185"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingComponentState/setIntrinsicSize:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingComponentState.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) CGSize intrinsicSize</Declaration>
+			
+			
+			<Anchor>//api/name/intrinsicSize</Anchor>
+            <NodeRef refid="185"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingComponentState/intrinsicSize</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingComponentState.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) CGSize intrinsicSize</Declaration>
+			
+			
+			<Anchor>//api/name/intrinsicSize</Anchor>
+            <NodeRef refid="185"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTSurfaceHostingComponentState/intrinsicSize</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingComponentState.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) CGSize intrinsicSize</Declaration>
+			
+			
+			<Anchor>//api/name/intrinsicSize</Anchor>
+            <NodeRef refid="185"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingComponentState/setStage:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingComponentState.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) RCTSurfaceStage stage</Declaration>
+			
+			
+			<Anchor>//api/name/stage</Anchor>
+            <NodeRef refid="185"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingComponentState/stage</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingComponentState.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) RCTSurfaceStage stage</Declaration>
+			
+			
+			<Anchor>//api/name/stage</Anchor>
+            <NodeRef refid="185"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTSurfaceHostingComponentState/stage</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingComponentState.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) RCTSurfaceStage stage</Declaration>
+			
+			
+			<Anchor>//api/name/stage</Anchor>
+            <NodeRef refid="185"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTSurfaceHostingComponentState/newWithStage:intrinsicSize:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingComponentState.h</DeclaredIn>
+			
+			<Declaration>+ (instancetype)newWithStage:(RCTSurfaceStage)stage intrinsicSize:(CGSize)intrinsicSize</Declaration>
+			
+			
+			<Anchor>//api/name/newWithStage:intrinsicSize:</Anchor>
+            <NodeRef refid="185"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingComponentState/initWithStage:intrinsicSize:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingComponentState.mm</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithStage:(RCTSurfaceStage)stage intrinsicSize:(CGSize)intrinsicSize</Declaration>
+			
+			
+			<Anchor>//api/name/initWithStage:intrinsicSize:</Anchor>
+            <NodeRef refid="185"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingComponentState/isEqual:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingComponentState.mm</DeclaredIn>
+			
+			<Declaration>- (BOOL)isEqual:(RCTSurfaceHostingComponentState *)other</Declaration>
+			
+			
+			<Anchor>//api/name/isEqual:</Anchor>
+            <NodeRef refid="185"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

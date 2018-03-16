@@ -61,26 +61,26 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncHelper/getNonDirtyRecordIdsSql:childrenInfo:parentFieldToSelect:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncHelper/getNonDirtyRecordIdsSql:childrenInfo:parentFieldToSelect:additionalPredicate:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)getNonDirtyRecordIdsSql:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo parentFieldToSelect:(NSString *)parentFieldToSelect</Declaration>
+			<Declaration>+ (NSString *)getNonDirtyRecordIdsSql:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo parentFieldToSelect:(NSString *)parentFieldToSelect additionalPredicate:(NSString *)additionalPredicate</Declaration>
 			
 			
-			<Anchor>//api/name/getNonDirtyRecordIdsSql:childrenInfo:parentFieldToSelect:</Anchor>
+			<Anchor>//api/name/getNonDirtyRecordIdsSql:childrenInfo:parentFieldToSelect:additionalPredicate:</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncHelper/saveRecordTreesToLocalStore:target:parentInfo:childrenInfo:recordTrees:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncHelper/saveRecordTreesToLocalStore:target:parentInfo:childrenInfo:recordTrees:syncId:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
 			
-			<Declaration>+ (void)saveRecordTreesToLocalStore:(SFSmartSyncSyncManager *)syncManager target:(SFSyncTarget *)target parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo recordTrees:(NSArray *)recordTrees</Declaration>
+			<Declaration>+ (void)saveRecordTreesToLocalStore:(SFSmartSyncSyncManager *)syncManager target:(SFSyncTarget *)target parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo recordTrees:(NSArray *)recordTrees syncId:(NSNumber *)syncId</Declaration>
 			
 			
-			<Anchor>//api/name/saveRecordTreesToLocalStore:target:parentInfo:childrenInfo:recordTrees:</Anchor>
+			<Anchor>//api/name/saveRecordTreesToLocalStore:target:parentInfo:childrenInfo:recordTrees:syncId:</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/ARTRenderable.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/ARTRenderable</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>ARTRenderable.h</DeclaredIn>
+            
+			
+			<NodeRef refid="9"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/ARTRenderable/setFill:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>ARTRenderable.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) ARTBrush *fill</Declaration>
+			
+			
+			<Anchor>//api/name/fill</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/ARTRenderable/fill</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>ARTRenderable.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) ARTBrush *fill</Declaration>
+			
+			
+			<Anchor>//api/name/fill</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/ARTRenderable/fill</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>ARTRenderable.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) ARTBrush *fill</Declaration>
+			
+			
+			<Anchor>//api/name/fill</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/ARTRenderable/setStroke:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>ARTRenderable.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGColorRef stroke</Declaration>
+			
+			
+			<Anchor>//api/name/stroke</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/ARTRenderable/stroke</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>ARTRenderable.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGColorRef stroke</Declaration>
+			
+			
+			<Anchor>//api/name/stroke</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/ARTRenderable/stroke</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>ARTRenderable.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGColorRef stroke</Declaration>
+			
+			
+			<Anchor>//api/name/stroke</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/ARTRenderable/setStrokeWidth:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>ARTRenderable.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat strokeWidth</Declaration>
+			
+			
+			<Anchor>//api/name/strokeWidth</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/ARTRenderable/strokeWidth</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>ARTRenderable.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat strokeWidth</Declaration>
+			
+			
+			<Anchor>//api/name/strokeWidth</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/ARTRenderable/strokeWidth</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>ARTRenderable.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat strokeWidth</Declaration>
+			
+			
+			<Anchor>//api/name/strokeWidth</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/ARTRenderable/setStrokeCap:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>ARTRenderable.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGLineCap strokeCap</Declaration>
+			
+			
+			<Anchor>//api/name/strokeCap</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/ARTRenderable/strokeCap</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>ARTRenderable.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGLineCap strokeCap</Declaration>
+			
+			
+			<Anchor>//api/name/strokeCap</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/ARTRenderable/strokeCap</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>ARTRenderable.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGLineCap strokeCap</Declaration>
+			
+			
+			<Anchor>//api/name/strokeCap</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/ARTRenderable/setStrokeJoin:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>ARTRenderable.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGLineJoin strokeJoin</Declaration>
+			
+			
+			<Anchor>//api/name/strokeJoin</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/ARTRenderable/strokeJoin</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>ARTRenderable.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGLineJoin strokeJoin</Declaration>
+			
+			
+			<Anchor>//api/name/strokeJoin</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/ARTRenderable/strokeJoin</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>ARTRenderable.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGLineJoin strokeJoin</Declaration>
+			
+			
+			<Anchor>//api/name/strokeJoin</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/ARTRenderable/setStrokeDash:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>ARTRenderable.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) ARTCGFloatArray strokeDash</Declaration>
+			
+			
+			<Anchor>//api/name/strokeDash</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/ARTRenderable/strokeDash</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>ARTRenderable.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) ARTCGFloatArray strokeDash</Declaration>
+			
+			
+			<Anchor>//api/name/strokeDash</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/ARTRenderable/strokeDash</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>ARTRenderable.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) ARTCGFloatArray strokeDash</Declaration>
+			
+			
+			<Anchor>//api/name/strokeDash</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

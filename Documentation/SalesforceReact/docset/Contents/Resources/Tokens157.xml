@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTSafeAreaView.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTSafeAreaView</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
+All rights reserved.</Abstract>
+			<DeclaredIn>RCTSafeAreaView.h</DeclaredIn>
+            
+			
+			<NodeRef refid="157"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSafeAreaView/initWithBridge:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSafeAreaView.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithBridge:(RCTBridge *)bridge</Declaration>
+			
+			
+			<Anchor>//api/name/initWithBridge:</Anchor>
+            <NodeRef refid="157"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

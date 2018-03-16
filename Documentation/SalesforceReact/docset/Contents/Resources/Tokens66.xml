@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/RCTExceptionsManager.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTExceptionsManager</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTExceptionsManager.h</DeclaredIn>
+            
+			
+			<NodeRef refid="66"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTExceptionsManager/initWithDelegate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTExceptionsManager.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithDelegate:(id&lt;RCTExceptionsManagerDelegate&gt;)delegate</Declaration>
+			
+			
+			<Anchor>//api/name/initWithDelegate:</Anchor>
+            <NodeRef refid="66"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTExceptionsManager/setDelegate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTExceptionsManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;RCTExceptionsManagerDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="66"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTExceptionsManager/delegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTExceptionsManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;RCTExceptionsManagerDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="66"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTExceptionsManager/delegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTExceptionsManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;RCTExceptionsManagerDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="66"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTExceptionsManager/setMaxReloadAttempts:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTExceptionsManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSUInteger maxReloadAttempts</Declaration>
+			
+			
+			<Anchor>//api/name/maxReloadAttempts</Anchor>
+            <NodeRef refid="66"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTExceptionsManager/maxReloadAttempts</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTExceptionsManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSUInteger maxReloadAttempts</Declaration>
+			
+			
+			<Anchor>//api/name/maxReloadAttempts</Anchor>
+            <NodeRef refid="66"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTExceptionsManager/maxReloadAttempts</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTExceptionsManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSUInteger maxReloadAttempts</Declaration>
+			
+			
+			<Anchor>//api/name/maxReloadAttempts</Anchor>
+            <NodeRef refid="66"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

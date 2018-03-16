@@ -1,0 +1,1824 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>RCTCxxBridge Class Reference</title>
+
+	<link rel="stylesheet" href="../css/style.css">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
+	<meta name="generator" content="appledoc 2.2.1 (build 1334)">
+</head>
+<body class="appledoc">
+	<header>
+		<div class="container" class="hide-in-xcode">
+			
+			<h1 id="library-title">
+				<a href="../index.html">SalesforceReact </a>
+			</h1>
+
+			<p id="developer-home">
+				<a href="../index.html">Salesforce.com</a>
+			</p>
+			
+		</div>
+	</header>
+
+	<aside>
+		<div class="container">
+			<nav>
+				<ul id="header-buttons" role="toolbar">
+					<li><a href="../index.html">Index</a></li>
+<li><a href="../hierarchy.html">Hierarchy</a></li>
+
+					<li id="on-this-page" role="navigation">
+						<label>
+							On This Page
+
+							<div class="chevron">
+								<div class="chevy chevron-left"></div>
+								<div class="chevy chevron-right"></div>
+							</div>
+
+							<select id="jump-to">
+	<option value="top">Jump To&#133;</option>
+	
+	<option value="overview">Overview</option>
+	
+
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+
+	
+	
+	<optgroup label="Properties">
+		
+		<option value="//api/name/moduleSetupComplete">moduleSetupComplete</option>
+		
+		<option value="//api/name/parentBridge">parentBridge</option>
+		
+	</optgroup>
+	
+
+	
+	<optgroup label="Class Methods">
+		
+		<option value="//api/name/initialize">+ initialize</option>
+		
+		<option value="//api/name/runRunLoop">+ runRunLoop</option>
+		
+	</optgroup>
+	
+
+	
+	<optgroup label="Instance Methods">
+		
+		<option value="//api/name/_buildModuleRegistry">- _buildModuleRegistry</option>
+		
+		<option value="//api/name/_flushPendingCalls">- _flushPendingCalls</option>
+		
+		<option value="//api/name/_immediatelyCallTimer:">- _immediatelyCallTimer:</option>
+		
+		<option value="//api/name/_initModules:withDispatchGroup:lazilyDiscovered:">- _initModules:withDispatchGroup:lazilyDiscovered:</option>
+		
+		<option value="//api/name/_initializeBridge:">- _initializeBridge:</option>
+		
+		<option value="//api/name/_prepareModulesWithDispatchGroup:">- _prepareModulesWithDispatchGroup:</option>
+		
+		<option value="//api/name/_runAfterLoad:">- _runAfterLoad:</option>
+		
+		<option value="//api/name/_tryAndHandleError:">- _tryAndHandleError:</option>
+		
+		<option value="//api/name/batchDidComplete">- batchDidComplete</option>
+		
+		<option value="//api/name/bundleURL">- bundleURL</option>
+		
+		<option value="//api/name/callFunctionOnModule:method:arguments:error:">- callFunctionOnModule:method:arguments:error:</option>
+		
+		<option value="//api/name/configForModuleName:">- configForModuleName:</option>
+		
+		<option value="//api/name/delegate">- delegate</option>
+		
+		<option value="//api/name/dispatchBlock:queue:">- dispatchBlock:queue:</option>
+		
+		<option value="//api/name/enqueueApplicationScript:url:onComplete:">- enqueueApplicationScript:url:onComplete:</option>
+		
+		<option value="//api/name/enqueueCallback:args:">- enqueueCallback:args:</option>
+		
+		<option value="//api/name/enqueueJSCall:method:args:completion:">- enqueueJSCall:method:args:completion:</option>
+		
+		<option value="//api/name/ensureOnJavaScriptThread:">- ensureOnJavaScriptThread:</option>
+		
+		<option value="//api/name/executeApplicationScript:url:async:">- executeApplicationScript:url:async:</option>
+		
+		<option value="//api/name/executeApplicationScriptSync:url:">- executeApplicationScriptSync:url:</option>
+		
+		<option value="//api/name/executeSourceCode:sync:">- executeSourceCode:sync:</option>
+		
+		<option value="//api/name/executorClass">- executorClass</option>
+		
+		<option value="//api/name/handleError:">- handleError:</option>
+		
+		<option value="//api/name/initWithDelegate:bundleURL:moduleProvider:launchOptions:):">- initWithDelegate:bundleURL:moduleProvider:launchOptions:):</option>
+		
+		<option value="//api/name/initWithParentBridge:">- initWithParentBridge:</option>
+		
+		<option value="//api/name/invalidate">- invalidate</option>
+		
+		<option value="//api/name/isBatchActive">- isBatchActive</option>
+		
+		<option value="//api/name/isInspectable">- isInspectable</option>
+		
+		<option value="//api/name/jsContextRef">- jsContextRef</option>
+		
+		<option value="//api/name/loadSource:onProgress:">- loadSource:onProgress:</option>
+		
+		<option value="//api/name/logMessage:level:">- logMessage:level:</option>
+		
+		<option value="//api/name/logStartupFinish">- logStartupFinish</option>
+		
+		<option value="//api/name/moduleClasses">- moduleClasses</option>
+		
+		<option value="//api/name/moduleDataForName:">- moduleDataForName:</option>
+		
+		<option value="//api/name/moduleForName:">- moduleForName:</option>
+		
+		<option value="//api/name/moduleIsInitialized:">- moduleIsInitialized:</option>
+		
+		<option value="//api/name/partialBatchDidFlush">- partialBatchDidFlush</option>
+		
+		<option value="//api/name/registerAdditionalModuleClasses:">- registerAdditionalModuleClasses:</option>
+		
+		<option value="//api/name/registerExtraModules">- registerExtraModules</option>
+		
+		<option value="//api/name/registerModuleForFrameUpdates:withModuleData:">- registerModuleForFrameUpdates:withModuleData:</option>
+		
+		<option value="//api/name/registerModulesForClasses:">- registerModulesForClasses:</option>
+		
+		<option value="//api/name/registerSegmentWithId:path:">- registerSegmentWithId:path:</option>
+		
+		<option value="//api/name/reload">- reload</option>
+		
+		<option value="//api/name/setBundleURL:">- setBundleURL:</option>
+		
+		<option value="//api/name/setExecutorClass:">- setExecutorClass:</option>
+		
+		<option value="//api/name/start">- start</option>
+		
+		<option value="//api/name/startProfiling">- startProfiling</option>
+		
+		<option value="//api/name/stopProfiling:">- stopProfiling:</option>
+		
+	</optgroup>
+	
+	
+</select>
+						</label>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</aside>
+
+	<article>
+		<div id="overview_contents" class="container">
+			<div id="content">
+				<main role="main">
+					<h1 class="title">RCTCxxBridge Class Reference</h1>
+
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<th>Inherits from</th>
+	<td><a href="../Classes/RCTBridge.html">RCTBridge</a> : NSObject</td>
+</tr><tr>
+	<th>Declared in</th>
+	<td>RCTCxxBridge.mm</td>
+</tr>
+						</tbody></table></div>
+					
+
+                    
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>Copyright &copy; 2015-present, Facebook, Inc.
+All rights reserved.</p>
+
+<p>This source code is licensed under the BSD-style license found in the
+LICENSE file in the root directory of this source tree. An additional grant
+of patent rights can be found in the PATENTS file in the same directory.</p>
+					</div>
+					
+					
+
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						
+
+						
+						<h2 class="task-title">Other Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/initialize" title="initialize"></a>
+	<h3 class="method-title"><code><a href="#//api/name/initialize">+&nbsp;initialize</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>+ (void)initialize</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/jsContextRef" title="jsContextRef"></a>
+	<h3 class="method-title"><code><a href="#//api/name/jsContextRef">&ndash;&nbsp;jsContextRef</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The raw JSGlobalContextRef used by the bridge.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (JSGlobalContextRef)jsContextRef</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTBridge+Private.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/isInspectable" title="isInspectable"></a>
+	<h3 class="method-title"><code><a href="#//api/name/isInspectable">&ndash;&nbsp;isInspectable</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)isInspectable</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/initWithParentBridge:" title="initWithParentBridge:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/initWithParentBridge:">&ndash;&nbsp;initWithParentBridge:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (instancetype)initWithParentBridge:(RCTBridge *)<em>bridge</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/runRunLoop" title="runRunLoop"></a>
+	<h3 class="method-title"><code><a href="#//api/name/runRunLoop">+&nbsp;runRunLoop</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Set Initial State</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)runRunLoop</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTCxxBridge.mm</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/_tryAndHandleError:" title="_tryAndHandleError:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/_tryAndHandleError:">&ndash;&nbsp;_tryAndHandleError:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)_tryAndHandleError:(dispatch_block_t)<em>block</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/ensureOnJavaScriptThread:" title="ensureOnJavaScriptThread:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/ensureOnJavaScriptThread:">&ndash;&nbsp;ensureOnJavaScriptThread:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Ensure block is run on the JS thread. If we&rsquo;re already on the JS thread, the block will execute synchronously.
+If we&rsquo;re not on the JS thread, the block is dispatched to that thread. Any errors encountered while executing
+the block will go through <a href="#//api/name/handleError:">handleError:</a></p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)ensureOnJavaScriptThread:(dispatch_block_t)<em>block</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTCxxBridge.mm</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/start" title="start"></a>
+	<h3 class="method-title"><code><a href="#//api/name/start">&ndash;&nbsp;start</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Called on the child bridge to run the executor and start <a href="#//api/name/loading">loading</a>.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)start</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTBridge+Private.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/loadSource:onProgress:" title="loadSource:onProgress:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/loadSource:onProgress:">&ndash;&nbsp;loadSource:onProgress:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)loadSource:(RCTSourceLoadBlock)<em>_onSourceLoad</em> onProgress:(RCTSourceLoadProgressBlock)<em>onProgress</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/moduleClasses" title="moduleClasses"></a>
+	<h3 class="method-title"><code><a href="#//api/name/moduleClasses">&ndash;&nbsp;moduleClasses</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>All registered bridge module classes.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (NSArray&lt;Class&gt; *)moduleClasses</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTBridge.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/moduleDataForName:" title="moduleDataForName:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/moduleDataForName:">&ndash;&nbsp;moduleDataForName:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Used by <a href="../Classes/RCTUIManager.html">RCTUIManager</a></p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (RCTModuleData *)moduleDataForName:(NSString *)<em>moduleName</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTCxxBridge.mm</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/moduleForName:" title="moduleForName:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/moduleForName:">&ndash;&nbsp;moduleForName:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Retrieve a bridge module instance by name or class. Note that modules are
+lazily instantiated, so calling these methods for the first time with a given
+module name/class may cause the class to be sychronously instantiated,
+potentially blocking both the calling thread and main thread for a short time.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (id)moduleForName:(NSString *)<em>moduleName</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTBridge.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/moduleIsInitialized:" title="moduleIsInitialized:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/moduleIsInitialized:">&ndash;&nbsp;moduleIsInitialized:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Test if a module has been initialized. Use this prior to calling
+<a href="#//api/name/moduleForClass:"><code>moduleForClass:</code></a> or <a href="#//api/name/moduleForName:"><code>moduleForName:</code></a> if you do not want to cause the module
+to be instantiated if it hasn&rsquo;t been already.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)moduleIsInitialized:(Class)<em>moduleClass</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTBridge.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/_buildModuleRegistry" title="_buildModuleRegistry"></a>
+	<h3 class="method-title"><code><a href="#//api/name/_buildModuleRegistry">&ndash;&nbsp;_buildModuleRegistry</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (std : : shared_ptr&lt;ModuleRegistry&gt;)_buildModuleRegistry</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/_initializeBridge:" title="_initializeBridge:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/_initializeBridge:">&ndash;&nbsp;_initializeBridge:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)_initializeBridge:(std : : shared_ptr&lt;JSExecutorFactory&gt;)<em>executorFactory</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/configForModuleName:" title="configForModuleName:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/configForModuleName:">&ndash;&nbsp;configForModuleName:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Exposed for the <a href="../Classes/RCTJSCExecutor.html">RCTJSCExecutor</a> for lazily <a href="#//api/name/loading">loading</a> native modules</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (NSArray *)configForModuleName:(NSString *)<em>moduleName</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTBridge+Private.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/registerModulesForClasses:" title="registerModulesForClasses:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/registerModulesForClasses:">&ndash;&nbsp;registerModulesForClasses:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (NSArray&lt;RCTModuleData*&gt; *)registerModulesForClasses:(NSArray&lt;Class&gt; *)<em>moduleClasses</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/registerExtraModules" title="registerExtraModules"></a>
+	<h3 class="method-title"><code><a href="#//api/name/registerExtraModules">&ndash;&nbsp;registerExtraModules</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)registerExtraModules</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/_initModules:withDispatchGroup:lazilyDiscovered:" title="_initModules:withDispatchGroup:lazilyDiscovered:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/_initModules:withDispatchGroup:lazilyDiscovered:">&ndash;&nbsp;_initModules:withDispatchGroup:lazilyDiscovered:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)_initModules:(NSArray&lt;id&lt;RCTBridgeModule&gt; &gt; *)<em>modules</em> withDispatchGroup:(dispatch_group_t)<em>dispatchGroup</em> lazilyDiscovered:(BOOL)<em>lazilyDiscovered</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/registerAdditionalModuleClasses:" title="registerAdditionalModuleClasses:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/registerAdditionalModuleClasses:">&ndash;&nbsp;registerAdditionalModuleClasses:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Registers additional classes with the ModuleRegistry.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)registerAdditionalModuleClasses:(NSArray&lt;Class&gt; *)<em>modules</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTBridge+Private.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/_prepareModulesWithDispatchGroup:" title="_prepareModulesWithDispatchGroup:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/_prepareModulesWithDispatchGroup:">&ndash;&nbsp;_prepareModulesWithDispatchGroup:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)_prepareModulesWithDispatchGroup:(dispatch_group_t)<em>dispatchGroup</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/registerModuleForFrameUpdates:withModuleData:" title="registerModuleForFrameUpdates:withModuleData:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/registerModuleForFrameUpdates:withModuleData:">&ndash;&nbsp;registerModuleForFrameUpdates:withModuleData:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Used by <a href="../Classes/RCTModuleData.html">RCTModuleData</a> to register the module for frame updates after it is
+lazily initialized.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)registerModuleForFrameUpdates:(id&lt;RCTBridgeModule&gt;)<em>module</em> withModuleData:(RCTModuleData *)<em>moduleData</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTBridge+Private.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/executeSourceCode:sync:" title="executeSourceCode:sync:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/executeSourceCode:sync:">&ndash;&nbsp;executeSourceCode:sync:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)executeSourceCode:(NSData *)<em>sourceCode</em> sync:(BOOL)<em>sync</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/handleError:" title="handleError:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/handleError:">&ndash;&nbsp;handleError:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)handleError:(NSError *)<em>error</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/initWithDelegate:bundleURL:moduleProvider:launchOptions:):" title="initWithDelegate:bundleURL:moduleProvider:launchOptions:):"></a>
+	<h3 class="method-title"><code><a href="#//api/name/initWithDelegate:bundleURL:moduleProvider:launchOptions:):">&ndash;&nbsp;initWithDelegate:bundleURL:moduleProvider:launchOptions:):</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (instancetype)initWithDelegate:(__unused id&lt;RCTBridgeDelegate&gt;)<em>delegate</em> bundleURL:(__unused NSURL *)<em>bundleURL</em> moduleProvider:(__unused RCTBridgeModuleListProvider)<em>block</em> launchOptions:(__unused NSDictionary *)<em>launchOptions</em> )</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/reload" title="reload"></a>
+	<h3 class="method-title"><code><a href="#//api/name/reload">&ndash;&nbsp;reload</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Prevent super from calling setUp (that&rsquo;d create another batchedBridge)</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)reload</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTCxxBridge.mm</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/executorClass" title="executorClass"></a>
+	<h3 class="method-title"><code><a href="#//api/name/executorClass">&ndash;&nbsp;executorClass</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The class of the executor currently being used. Changes to this value will
+take effect after the bridge is reloaded.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (Class)executorClass</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTBridge.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setExecutorClass:" title="setExecutorClass:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setExecutorClass:">&ndash;&nbsp;setExecutorClass:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The class of the executor currently being used. Changes to this value will
+take effect after the bridge is reloaded.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)setExecutorClass:(Class)<em>executorClass</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTBridge.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/bundleURL" title="bundleURL"></a>
+	<h3 class="method-title"><code><a href="#//api/name/bundleURL">&ndash;&nbsp;bundleURL</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>URL of the script that was loaded into the bridge.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (NSURL *)bundleURL</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTBridge.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setBundleURL:" title="setBundleURL:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setBundleURL:">&ndash;&nbsp;setBundleURL:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>URL of the script that was loaded into the bridge.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)setBundleURL:(NSURL *)<em>bundleURL</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTBridge.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/delegate" title="delegate"></a>
+	<h3 class="method-title"><code><a href="#//api/name/delegate">&ndash;&nbsp;delegate</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The delegate provided during the bridge initialization</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (id&lt;RCTBridgeDelegate&gt;)delegate</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTBridge.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/dispatchBlock:queue:" title="dispatchBlock:queue:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/dispatchBlock:queue:">&ndash;&nbsp;dispatchBlock:queue:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Dispatch work to a module&rsquo;s queue - this is also suports the fake RCTJSThread
+queue. Exposed for the RCTProfiler</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)dispatchBlock:(dispatch_block_t)<em>block</em> queue:(dispatch_queue_t)<em>queue</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTBridge+Private.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/invalidate" title="invalidate"></a>
+	<h3 class="method-title"><code><a href="#//api/name/invalidate">&ndash;&nbsp;invalidate</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)invalidate</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/logMessage:level:" title="logMessage:level:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/logMessage:level:">&ndash;&nbsp;logMessage:level:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Hook exposed for RCTLog to send logs to JavaScript when not running in JSC</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)logMessage:(NSString *)<em>message</em> level:(NSString *)<em>level</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTBridge+Private.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/_runAfterLoad:" title="_runAfterLoad:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/_runAfterLoad:">&ndash;&nbsp;_runAfterLoad:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)_runAfterLoad:(RCTPendingCall)<em>block</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/logStartupFinish" title="logStartupFinish"></a>
+	<h3 class="method-title"><code><a href="#//api/name/logStartupFinish">&ndash;&nbsp;logStartupFinish</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)logStartupFinish</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/_flushPendingCalls" title="_flushPendingCalls"></a>
+	<h3 class="method-title"><code><a href="#//api/name/_flushPendingCalls">&ndash;&nbsp;_flushPendingCalls</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)_flushPendingCalls</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/enqueueJSCall:method:args:completion:" title="enqueueJSCall:method:args:completion:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/enqueueJSCall:method:args:completion:">&ndash;&nbsp;enqueueJSCall:method:args:completion:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Public. Can be invoked from any thread.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)enqueueJSCall:(NSString *)<em>module</em> method:(NSString *)<em>method</em> args:(NSArray *)<em>args</em> completion:(dispatch_block_t)<em>completion</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTCxxBridge.mm</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/enqueueCallback:args:" title="enqueueCallback:args:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/enqueueCallback:args:">&ndash;&nbsp;enqueueCallback:args:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Called by <a href="../Classes/RCTModuleMethod.html">RCTModuleMethod</a> from any thread.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)enqueueCallback:(NSNumber *)<em>cbID</em> args:(NSArray *)<em>args</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTCxxBridge.mm</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/_immediatelyCallTimer:" title="_immediatelyCallTimer:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/_immediatelyCallTimer:">&ndash;&nbsp;_immediatelyCallTimer:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Private hack to support <code>setTimeout(fn, 0)</code></p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)_immediatelyCallTimer:(NSNumber *)<em>timer</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTCxxBridge.mm</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/enqueueApplicationScript:url:onComplete:" title="enqueueApplicationScript:url:onComplete:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/enqueueApplicationScript:url:onComplete:">&ndash;&nbsp;enqueueApplicationScript:url:onComplete:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)enqueueApplicationScript:(NSData *)<em>script</em> url:(NSURL *)<em>url</em> onComplete:(dispatch_block_t)<em>onComplete</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/executeApplicationScriptSync:url:" title="executeApplicationScriptSync:url:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/executeApplicationScriptSync:url:">&ndash;&nbsp;executeApplicationScriptSync:url:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)executeApplicationScriptSync:(NSData *)<em>script</em> url:(NSURL *)<em>url</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/executeApplicationScript:url:async:" title="executeApplicationScript:url:async:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/executeApplicationScript:url:async:">&ndash;&nbsp;executeApplicationScript:url:async:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)executeApplicationScript:(NSData *)<em>script</em> url:(NSURL *)<em>url</em> async:(BOOL)<em>async</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/callFunctionOnModule:method:arguments:error:" title="callFunctionOnModule:method:arguments:error:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/callFunctionOnModule:method:arguments:error:">&ndash;&nbsp;callFunctionOnModule:method:arguments:error:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>This method is used to call functions in the JavaScript application context
+synchronously.  This is intended for use by applications which do their own
+thread management and are careful to manage multi-threaded access to the JSVM.
+See also [RCTBridgeDelgate shouldBridgeLoadJavaScriptSynchronously], which
+may be needed to ensure that any requires JS code is loaded before this method
+is called.  If the underlying executor is not JSC, this will return nil.  Safe
+to call from any thread.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (JSValue *)callFunctionOnModule:(NSString *)<em>module</em> method:(NSString *)<em>method</em> arguments:(NSArray *)<em>arguments</em> error:(NSError **)<em>error</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>@experimental</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTBridge.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/registerSegmentWithId:path:" title="registerSegmentWithId:path:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/registerSegmentWithId:path:">&ndash;&nbsp;registerSegmentWithId:path:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>This method registers the file path of an additional JS segment by its ID.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)registerSegmentWithId:(NSUInteger)<em>segmentId</em> path:(NSString *)<em>path</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>@experimental</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTBridge.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/partialBatchDidFlush" title="partialBatchDidFlush"></a>
+	<h3 class="method-title"><code><a href="#//api/name/partialBatchDidFlush">&ndash;&nbsp;partialBatchDidFlush</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)partialBatchDidFlush</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/batchDidComplete" title="batchDidComplete"></a>
+	<h3 class="method-title"><code><a href="#//api/name/batchDidComplete">&ndash;&nbsp;batchDidComplete</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)batchDidComplete</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/startProfiling" title="startProfiling"></a>
+	<h3 class="method-title"><code><a href="#//api/name/startProfiling">&ndash;&nbsp;startProfiling</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Systrace profiler toggling methods exposed for the <a href="../Classes/RCTDevMenu.html">RCTDevMenu</a></p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)startProfiling</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTBridge+Private.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/stopProfiling:" title="stopProfiling:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/stopProfiling:">&ndash;&nbsp;stopProfiling:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)stopProfiling:(void ( ^ ) ( NSData *))<em>callback</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/isBatchActive" title="isBatchActive"></a>
+	<h3 class="method-title"><code><a href="#//api/name/isBatchActive">&ndash;&nbsp;isBatchActive</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Says whether bridge has started recieving calls from javascript.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)isBatchActive</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTBridge.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="Extension Methods" name="task_Extension Methods"></a>
+						<h2 class="task-title">Extension Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/parentBridge" title="parentBridge"></a>
+	<h3 class="method-title"><code><a href="#//api/name/parentBridge">&nbsp;&nbsp;parentBridge</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Used by <a href="../Classes/RCTModuleData.html">RCTModuleData</a></p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, weak, readonly) RCTBridge *parentBridge</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTBridge+Private.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/moduleSetupComplete" title="moduleSetupComplete"></a>
+	<h3 class="method-title"><code><a href="#//api/name/moduleSetupComplete">&nbsp;&nbsp;moduleSetupComplete</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Used by <a href="../Classes/RCTModuleData.html">RCTModuleData</a></p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign, readonly) BOOL moduleSetupComplete</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTBridge+Private.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+					</div>
+					
+					
+
+                    
+                    
+          
+				</main>
+
+				<footer>
+					<div class="footer-copyright">
+						
+						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-03-16</p>
+						
+						
+						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>
+						
+					</div>
+				</footer>
+			</div>
+		</div>
+	</article>
+
+	<script src="../js/script.js"></script>
+</body>
+</html>
