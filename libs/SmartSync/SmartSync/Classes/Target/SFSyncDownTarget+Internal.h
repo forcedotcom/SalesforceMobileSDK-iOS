@@ -26,7 +26,10 @@
 
 @interface SFSyncDownTarget ()
 
-- (NSString*) getNonDirtyRecordIdsSql:(NSString*)soupName idField:(NSString*)idField;
-- (NSOrderedSet *)getNonDirtyRecordIds:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName idField:(NSString *)idField;
+- (NSString*) buildSyncIdPredicateIfIndexed:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName syncId:(NSNumber *)syncId;
+
+- (NSString *)getNonDirtyRecordIdsSql:(NSString *)soupName idField:(NSString *)idField additionalPredicate:(NSString *)additionalPredicate;
+
+- (NSOrderedSet *)getNonDirtyRecordIds:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName idField:(NSString *)idField additionalPredicate:(NSString *)additionalPredicate;
 
 @end

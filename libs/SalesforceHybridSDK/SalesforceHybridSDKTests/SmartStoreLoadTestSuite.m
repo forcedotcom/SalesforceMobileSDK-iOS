@@ -28,10 +28,14 @@
 #import <SalesforceHybridSDK/SalesforceHybridSDK.h>
 #import <SalesforceSDKCore/SFApplicationHelper.h>
 
-#import "SmartStoreLoadTestSuite.h"
 #import "AppDelegate.h"
 #import "SFTestRunnerPlugin.h"
 
+#import "SFPluginTestSuite.h"
+
+
+@interface SmartStoreLoadTestSuite : SFPluginTestSuite
+@end
 
 @implementation SmartStoreLoadTestSuite
 

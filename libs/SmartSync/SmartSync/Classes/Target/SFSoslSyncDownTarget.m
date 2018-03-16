@@ -101,10 +101,11 @@ static NSString * const kSFSoslSyncTargetQuery = @"query";
            errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
         completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
 
+    NSString* idFieldName = self.idFieldName;
     SFSyncDownTargetFetchCompleteBlock fetchBlock = ^(NSArray* records) {
         NSMutableArray * remoteIds = [NSMutableArray new];
         for (NSDictionary * record in records) {
-            [remoteIds addObject:record[self.idFieldName]];
+            [remoteIds addObject:record[idFieldName]];
         }
         completeBlock(remoteIds);
     };

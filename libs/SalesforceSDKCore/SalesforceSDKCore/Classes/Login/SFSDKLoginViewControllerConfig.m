@@ -29,19 +29,28 @@
 #import <Foundation/Foundation.h>
 #import "SFSDKLoginViewControllerConfig.h"
 #import "UIColor+SFColors.h"
+#import "SFSDKAppConfig.h"
+#import "SalesforceSDKManager.h"
+
 @implementation SFSDKLoginViewControllerConfig
+@synthesize shouldDisplayBackButton;
 
 - (instancetype)init {
 
     self = [super init];
     if (self) {
         _navBarColor = [UIColor salesforceBlueColor];
+        _navBarTitleColor = [UIColor whiteColor];
         _navBarFont = nil;
         _navBarTextColor = [UIColor whiteColor];
         _showNavbar = YES;
         _showSettingsIcon = YES;
     }
     return self;
+}
+
+- (BOOL)shouldDisplayBackButton {
+    return ![SalesforceSDKManager sharedManager].appConfig.shouldAuthenticate;
 }
 
 @end

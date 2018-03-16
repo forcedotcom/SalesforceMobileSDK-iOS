@@ -24,10 +24,19 @@
  */
 import SalesforceAnalytics
 
+/** SalesforceSDK's Swift component logger.
+ 
+ ```
+ SalesforceSwiftLogger.sharedInstance().e(SomeClass.self, message: "Error occured")
+ ```
+ */
 public class SalesforceSwiftLogger: SFSDKLogger {
    
     public static let kSFSDKComponentName = "SalesforceSwiftSDK"
     
+    /// Return a Logger instance
+    ///
+    /// - Returns: instance of the swift component logger.
     override public class func sharedInstance() -> SalesforceSwiftLogger {
          return self.sharedInstance(withComponent: kSFSDKComponentName)
     }

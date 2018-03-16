@@ -84,7 +84,13 @@
          location = "group:external/CocoaLumberjack/Lumberjack.xcodeproj">
       </FileRef>
       <FileRef
-         location = "group:external/react-native/React/React.xcodeproj">
+         location = "group:libs/SalesforceReact/node_modules/react-native/React/React.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:libs/SalesforceReact/node_modules/react-native/Libraries/RCTTest/RCTTest.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:libs/SalesforceReact/node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj">
       </FileRef>
       <FileRef
          location = "group:external/cordova-ios/cordova-ios/CordovaLib/CordovaLib.xcodeproj">

@@ -26,6 +26,23 @@ import Foundation
 import PromiseKit
 import SalesforceSDKCore
 
+/** SFRestResponse is  a struct representing the response for all SFRestAPI promise api(s).
+ 
+ ```
+ let restApi  = SFRestAPI.sharedInstance()
+ restApi.Promises.query(soql: "SELECT Id,FirstName,LastName FROM User")
+ .then { request in
+    restApi.Promises.send(request: request)
+ }
+ .done { sfRestResponse in
+    restResonse = sfRestResponse.asJsonDictionary()
+    ...
+ }
+ .catch { error in
+    //handle error
+ }
+ ```
+ */
 public struct SFRestResponse {
     
     private (set) var data : Data?
@@ -36,6 +53,9 @@ public struct SFRestResponse {
         self.urlResponse = response
     }
     
+    /// Parse response as a Dictionary
+    ///
+    /// - Returns: Dictionary of Name/Values
     public func asJsonDictionary() -> [String: Any] {
         guard let rawData = data,data!.count > 0 else {
             return [String:Any]()
@@ -44,6 +64,10 @@ public struct SFRestResponse {
         return jsonData
     }
     
+    
+    /// Parse response as an Array of Dictionaries
+    ///
+    /// - Returns: response as an Array of Dictionaries
     public func asJsonArray() -> [[String: Any]] {
         guard let rawData = data,data!.count > 0 else {
             return [[String: Any]]()
@@ -52,10 +76,16 @@ public struct SFRestResponse {
         return jsonData
     }
     
+    /// Return the raw data response
+    ///
+    /// - Returns: Raw Data
     public func asData() -> Data? {
        return self.data
     }
     
+    /// Parse response as String
+    ///
+    /// - Returns: String
     public func asString() -> String {
         guard let rawData = data,data!.count > 0 else {
             return ""
@@ -64,6 +94,10 @@ public struct SFRestResponse {
         return jsonData!
     }
     
+    /// Parse and unmarshall the response as a Decodable
+    ///
+    /// - Parameter type: type of Decodable
+    /// - Returns: Decodable
     public func asDecodable<T:Decodable>(type: T.Type) -> Decodable? {
         guard let rawData = data,data!.count > 0 else {
             return nil
@@ -73,12 +107,30 @@ public struct SFRestResponse {
     }
 }
 
+/** Extension for SFRestAPI. Provides api(s) wrapped in promises.
+ 
+ ```
+ let restApi  = SFRestAPI.sharedInstance()
+ restApi.Promises.query(soql: "SELECT Id,FirstName,LastName FROM User")
+ .then { request in
+    restApi.Promises.send(request: request)
+ }
+ .done { sfRestResponse in
+    restResonse = sfRestResponse.asJsonDictionary()
+    ...
+ }
+ .catch { error in
+   //handle error
+ }
+ ```
+ */
 extension SFRestAPI {
     
     public var Promises : SFRestAPIPromises {
         return SFRestAPIPromises(api: self)
     }
     
+    /// SFRestAPI promise api(s)
     public class SFRestAPIPromises {
         
         weak var api: SFRestAPI?
@@ -122,11 +174,13 @@ extension SFRestAPI {
         /**
          A factory method for describe object request.
          ```
-         restApi.Promises.describe()
+         restApi.Promises.describe(objectType:"Account")
          .then { (request) in
             restApi.send(request)
          }
          ```
+         - parameters :
+            - objectType: Type of object
          - Returns: SFRestRequest wrapped in a promise.
          */
         public func describe(objectType:String) -> Promise<SFRestRequest> {
@@ -154,11 +208,13 @@ extension SFRestAPI {
         /**
          A factory method for metadata object request.
          ```
-         restApi.Promises.metadata(objectType)
+         restApi.Promises.metadata(objectType: "Account")
          .then { (request) in
             restApi.send(request)
          }
          ```
+         - parameters:
+            - objectType: Type of object
          - Returns: SFRestRequest wrapped in a promise.
          */
         public func metadata(objectType: String) -> Promise<SFRestRequest> {
@@ -175,11 +231,30 @@ extension SFRestAPI {
              restApi.send(request)
          }
          ```
+         - parameters:
+            - objectType: Type of object
+            - objectId: Identifier of object
+            - fieldList: Varargs for field list as string
          - Returns: SFRestRequest wrapped in a promise.
          */
         public func retrieve(objectType: String,objectId: String, fieldList: String... ) -> Promise<SFRestRequest> {
             return  self.retrieve(objectType: objectType, objectId: objectId, fieldList: fieldList)
         }
+        
+        /**
+         A factory method for retrieve object request.
+         ```
+         restApi.Promises.retrieve(objectType: objectType,objectId: objectId, fieldList: ["Name","LastModifiedDate"])
+         .then { (request) in
+         restApi.send(request)
+         }
+         ```
+         - parameters:
+             - objectType: Type of object
+             - objectId: Identifier of object
+             - fieldList: Field list as a String array.
+         - Returns: SFRestRequest wrapped in a promise.
+         */
         
         public func retrieve(objectType: String,objectId: String, fieldList: [String] ) -> Promise<SFRestRequest> {
             return  Promise(.pending) {  resolver in
@@ -195,9 +270,12 @@ extension SFRestAPI {
             restApi.send(request)
          }
          ```
+         - parameters:
+             - objectType: Type of object
+             - fields: Field list as Dictionary.
          - Returns: SFRestRequest wrapped in a promise.
          */
-        public func create(objectType: String, fields: [String:String]) -> Promise<SFRestRequest> {
+        public func create(objectType: String, fields: [String:Any]) -> Promise<SFRestRequest> {
             return  Promise(.pending) {  resolver in
                 resolver.fulfill(self.api!
                     .requestForCreate(withObjectType: objectType, fields: fields))
@@ -211,11 +289,14 @@ extension SFRestAPI {
          .then { (request) in
             restApi.send(request)
          }
-         
          ```
+         - parameters:
+             - objectType: Type of object.
+             - externalIdField: Identifier for field.
+             - fields: Field list as Dictionary.
          - Returns: SFRestRequest wrapped in a promise.
          */
-        public func upsert(objectType: String,externalIdField: String, externalId: String, fieldList: Dictionary<String,String>?) -> Promise<SFRestRequest> {
+        public func upsert(objectType: String,externalIdField: String, externalId: String, fieldList: Dictionary<String,Any>?) -> Promise<SFRestRequest> {
             return  Promise(.pending) {  resolver in
                 resolver.fulfill(self.api!
                     .requestForUpsert(withObjectType: objectType, externalIdField: externalId, externalId: externalId, fields: fieldList!))
@@ -231,6 +312,11 @@ extension SFRestAPI {
          }
          
          ```
+         - parameters:
+             - objectType: Type of object.
+             - objectId: Identifier of the field.
+             - fields: Field list as Dictionary.
+             - ifUnmodifiedSince: update if unmodified since date.
          - Returns: SFRestRequest wrapped in a promise.
          */
         public func update(objectType: String,objectId: String,fieldList: [String: Any]?,ifUnmodifiedSince: Date?) -> Promise<SFRestRequest> {
@@ -247,6 +333,9 @@ extension SFRestAPI {
             ...
          }
          ```
+         - parameters:
+             - objectType: Type of object.
+             - objectId: Identifier of the field.
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func delete(objectType: String, objectId: String) -> Promise<SFRestRequest> {
@@ -263,6 +352,8 @@ extension SFRestAPI {
             ...
          }
          ```
+         - parameters:
+             - soql: Soql string.
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func query(soql: String) -> Promise<SFRestRequest> {
@@ -279,6 +370,8 @@ extension SFRestAPI {
             ...
          }
          ```
+         - parameters:
+            - soql: Soql string.
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func queryAll(soql: String) -> Promise<SFRestRequest> {
@@ -295,6 +388,8 @@ extension SFRestAPI {
             ...
          }
          ```
+         - parameters:
+            - sosl: Sosl string.
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func search(sosl: String) -> Promise<SFRestRequest> {
@@ -327,6 +422,8 @@ extension SFRestAPI {
             ...
          }
          ```
+         - parameters:
+            - objectList: Varargs of String objects.
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func searchResultLayout(objectList: String...) -> Promise<SFRestRequest> {
@@ -341,6 +438,8 @@ extension SFRestAPI {
          ...
          }
          ```
+         - parameters:
+            - objectList: String array of objects.
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func searchResultLayout(objectList: [String]) -> Promise<SFRestRequest> {
@@ -358,6 +457,9 @@ extension SFRestAPI {
          ...
          }
          ```
+         - parameters:
+            - requests: Varagrs of SFRestRequest
+            - haltOnError: Halt on error or not.
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func batch(requests: SFRestRequest..., haltOnError: Bool = false) -> Promise<SFRestRequest> {
@@ -372,6 +474,9 @@ extension SFRestAPI {
          ...
          }
          ```
+         - parameters:
+             - requests: Varargs of SFRestRequest
+             - haltOnError: Halt on error or not.
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func batch(requests: [SFRestRequest], haltOnError: Bool) -> Promise<SFRestRequest> {
@@ -389,6 +494,9 @@ extension SFRestAPI {
          ...
          }
          ```
+         - parameters:
+             - requests: Array of SFRestRequests.
+             - haltOnError: Halt on error or not.
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func composite(requests: [SFRestRequest], refIds: [String], allOrNone: Bool) -> Promise<SFRestRequest> {
@@ -406,6 +514,9 @@ extension SFRestAPI {
          ...
          }
          ```
+         - parameters:
+             - requests: Array of SFRestRequests.
+             - objectTrees: Varagrs of SFSObjectTree
          - Returns:  SFRestRequest wrapped in a promise.
          */
         func sObjectTree(objectType: String, objectTrees: SFSObjectTree...) -> Promise<SFRestRequest> {
@@ -420,6 +531,9 @@ extension SFRestAPI {
          ...
          }
          ```
+         - parameters:
+             - requests: Array of SFRestRequests.
+             - objectTrees: Array of SFSObjectTree
          - Returns:  SFRestRequest wrapped in a promise.
          */
         func sObjectTree(objectType: String, objectTrees: [SFSObjectTree]) -> Promise<SFRestRequest> {
@@ -437,6 +551,9 @@ extension SFRestAPI {
          ...
          }
          ```
+         - parameters:
+             - userId: User Identifier
+             - page: A page number for results.
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func filesOwned(userId: String?, page: UInt = 0) -> Promise<SFRestRequest> {
@@ -454,6 +571,9 @@ extension SFRestAPI {
          ...
          }
          ```
+         - parameters:
+             - userId: User Identifier
+             - page: A page number for results.
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func filesInUsersGroups(userId: String?, page: UInt = 0) -> Promise<SFRestRequest> {
@@ -471,6 +591,9 @@ extension SFRestAPI {
          ...
          }
          ```
+         - parameters:
+             - userId: User Identifier
+             - page: A page number for results.
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func filesShared(userId: String, page: UInt = 0) -> Promise<SFRestRequest> {
@@ -488,6 +611,9 @@ extension SFRestAPI {
          ...
          }
          ```
+         - parameters:
+             - sfdcFileId: File identifier.
+             - version: Version for file.
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func fileDetails(sfdcFileId: String, version: String?) -> Promise<SFRestRequest> {
@@ -505,6 +631,8 @@ extension SFRestAPI {
          ...
          }
          ```
+         - parameters:
+             - sfdcFileIds: Array of File identifiers.
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func batchDetails(sfdcFileIds: String...) -> Promise<SFRestRequest> {
@@ -519,6 +647,8 @@ extension SFRestAPI {
          ...
          }
          ```
+         - parameters:
+             - sfdcFileIds: Array of File identifiers.
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func batchDetails(sfdcFileIds: [String] ) -> Promise<SFRestRequest> {
@@ -536,6 +666,11 @@ extension SFRestAPI {
          ...
          }
          ```
+         - parameters:
+            - sfdcFileId: File identifier.
+            - version: Version
+            - renditionType: type of file.
+            - page: Page number.
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func fileRendition(sfdcFileId: String, version: String?, renditionType: String, page: UInt = 0) -> Promise<SFRestRequest> {
@@ -553,6 +688,9 @@ extension SFRestAPI {
          ...
          }
          ```
+         - parameters:
+             - sfdcId: File identifier.
+             - version: Version
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func fileContents(sfdcId: String, version: String?) -> Promise<SFRestRequest> {
@@ -570,6 +708,9 @@ extension SFRestAPI {
          ...
          }
          ```
+         - parameters:
+             - sfdcId: File identifier.
+             - page: Page number.
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func fileShares(sfdcId: String, page: UInt? = 0) -> Promise<SFRestRequest> {
@@ -587,6 +728,10 @@ extension SFRestAPI {
          ...
          }
          ```
+         - parameters:
+             - fileId: File identifier.
+             - entityId: Identifier for entity.
+             - shareType: Type of Share
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func addFileShare(fileId: String, entityId: String, shareType: String) -> Promise<SFRestRequest> {
@@ -604,6 +749,8 @@ extension SFRestAPI {
          ...
          }
          ```
+         - parameters:
+             - shareId: Identifier for the shared file.
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func deleteFileShare(shareId: String) -> Promise<SFRestRequest> {
@@ -621,6 +768,11 @@ extension SFRestAPI {
          ...
          }
          ```
+         - parameters:
+             - data: Content of file
+             - name: Name for the file.
+             - description: Upload file description.
+             - mimeType: Mime type.
          - Returns:  SFRestRequest wrapped in a promise.
          */
         
@@ -663,6 +815,8 @@ extension SFRestAPI {
          restError = error
          }
          ```
+         - parameters:
+            - request: SFRestRequest to send.
          - Returns: The instance of Promise<SFRestResponse>.
          */
         public func send(request :SFRestRequest) -> Promise<SFRestResponse> {

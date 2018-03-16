@@ -24,7 +24,11 @@
 
 #import <UIKit/UIKit.h>
 
-#import "ForceJSTestSuite.h"
+#import "SFPluginTestSuite.h"
+
+
+@interface ForceJSTestSuite : SFPluginTestSuite
+@end
 
 @implementation ForceJSTestSuite
 

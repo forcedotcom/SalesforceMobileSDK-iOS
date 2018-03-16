@@ -79,7 +79,7 @@ static char CompleteBlockKey;
     return request;
 }
 
-- (SFRestRequest *) performSOSLSearch:(NSString *)search failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestArrayResponseBlock)completeBlock {
+- (SFRestRequest *) performSOSLSearch:(NSString *)search failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestDictionaryResponseBlock)completeBlock {
     SFRestRequest *request = [self requestForSearch:search];
     [self sendRESTRequest:request
                 failBlock:failBlock
@@ -165,7 +165,7 @@ static char CompleteBlockKey;
     return request;
 }
 
-- (SFRestRequest *) performRequestForVersionsWithFailBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestDictionaryResponseBlock)completeBlock {
+- (SFRestRequest *) performRequestForVersionsWithFailBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestArrayResponseBlock)completeBlock {
     SFRestRequest *request = [self requestForVersions];
     [self sendRESTRequest:request
                 failBlock:failBlock

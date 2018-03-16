@@ -1,0 +1,19 @@
+{
+    "name": "SalesforceReact",
+    "version": "6.1.0",
+    "private": true,
+    "scripts": {
+        "start": "node node_modules/react-native/local-cli/cli.js start"
+    },
+    "dependencies": {
+        "chai": "4.1.2",
+        "react": "16.2.0",
+        "react-native": "0.53.3",
+        "react-native-cli": "^2.0.1",
+        "react-native-force": "git+https://github.com/forcedotcom/SalesforceMobileSDK-ReactNative.git#dev",
+        "whatwg-fetch": "1.1.1"
+    },
+    "devDependencies": {
+        "babel-preset-react-native": "1.9.1"
+    }
+}

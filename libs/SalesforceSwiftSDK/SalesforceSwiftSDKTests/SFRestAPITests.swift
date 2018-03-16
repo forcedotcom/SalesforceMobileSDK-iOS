@@ -28,42 +28,14 @@ import SalesforceSDKCore
 import PromiseKit
 @testable import SalesforceSwiftSDK
 
-class SFRestAPITests: XCTestCase {
-    static var testCredentials: SFOAuthCredentials?
-    static var testConfig: TestConfig?
-    static var setupComplete = false
-    
+class SFRestAPITests: SalesforceSwiftSDKBaseTest {
+  
     override class func setUp() {
         super.setUp()
-        SalesforceSwiftSDKManager.initSDK().shared().saveState()
-        
-        _ = SalesforceSwiftSDKTests.readConfigFromFile(configFile: nil)
-            .then { testJsonConfig -> Promise<SFUserAccount> in
-                SalesforceSwiftSDKTests.testConfig = testJsonConfig
-                SalesforceSwiftSDKTests.testCredentials?.accessToken = nil
-                SalesforceSwiftSDKTests.testCredentials = SFOAuthCredentials(identifier: testJsonConfig.testClientId, clientId: testJsonConfig.testClientId, encrypted: true)
-                SalesforceSwiftSDKTests.testCredentials?.refreshToken = SalesforceSwiftSDKTests.testConfig?.refreshToken
-                SalesforceSwiftSDKTests.testCredentials?.redirectUri = SalesforceSwiftSDKTests.testConfig?.testRedirectUri
-                SalesforceSwiftSDKTests.testCredentials?.domain = SalesforceSwiftSDKTests.testConfig?.testLoginDomain
-                SalesforceSwiftSDKTests.testCredentials?.identityUrl = URL(string: (SalesforceSwiftSDKTests.testConfig?.identityUrl)!)
-                SFUserAccountManager.sharedInstance().loginHost = SalesforceSwiftSDKTests.testConfig?.testLoginDomain
-                return SalesforceSwiftSDKTests.refreshCredentials(credentials:(SalesforceSwiftSDKTests.testCredentials)!)
-            }.done { userAccount in
-                SFUserAccountManager.sharedInstance().currentUser = userAccount
-                setupComplete = true
-            }.catch { error  in
-                setupComplete = true
-        }
     }
     
     override func setUp() {
         super.setUp()
-        SalesforceSwiftSDKTests.waitForCompletion(maxWaitTime: 5) { () -> Bool in
-            if (SalesforceSwiftSDKTests.setupComplete) {
-                return true
-            }
-            return false
-        }
     }
     
     override func tearDown() {
@@ -74,7 +46,6 @@ class SFRestAPITests: XCTestCase {
     
     override class func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
-        SalesforceSwiftSDKManager.shared().restoreState()
         super.tearDown()
     }
     

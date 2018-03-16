@@ -23,12 +23,33 @@
  */
 import SalesforceSDKCore
 
+/** Subclass of SalesforceSDKManager. Initialize and launch the SDK using the Builder. The Builder provides a fluent api to configure and launch the SalesforceSwiftSDKManager
+ ```
+     SalesforceSwiftSDKManager.initSDK().Builder.configure { (appconfig: SFSDKAppConfig) -> Void in
+         appconfig.oauthScopes = ["web", "api"]
+         appconfig.remoteAccessConsumerKey = "Your Apps Remote Access Consumer Key"
+         appconfig.oauthRedirectURI = "yourapp://redirect"
+     }.postInit {
+        // code to execute after init
+     }.postLaunch { (launchActionList: SFSDKLaunchAction) in
+        //some post launch code
+     }.postLogout {
+        // code to handle user logout
+     }.switchUser { (fromUser: SFUserAccount?, toUser: SFUserAccount?) -> () in
+        // code to handle user switching
+     }.launchError { (error: Error, launchActionList: SFSDKLaunchAction) in
+        // code to handle errors during launch
+     }.done()
+ ```
+*/
 public class SalesforceSwiftSDKManager: SalesforceSDKManager {
     
+    /// App type is set to native swift
     override public var appType: SFAppType {
         return SFAppType.nativeSwift;
     }
     
+    /// Initialize the SDK Manager.
     public class func initSDK() -> SalesforceSwiftSDKManager.Type {
         SalesforceSDKManager.setInstanceClass(SalesforceSwiftSDKManager.self)
         return SalesforceSwiftSDKManager.self

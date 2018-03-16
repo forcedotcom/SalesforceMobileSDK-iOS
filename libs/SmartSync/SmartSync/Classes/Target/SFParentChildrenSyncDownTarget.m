@@ -159,30 +159,37 @@
 
 - (void)cleanGhosts:(SFSmartSyncSyncManager *)syncManager
            soupName:(NSString *)soupName
+             syncId:(NSNumber *)syncId
          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
 
+    __weak typeof(self) weakSelf = self;
     // Taking care of ghost parents
     [super cleanGhosts:syncManager
               soupName:soupName
+                syncId:syncId
             errorBlock:errorBlock
          completeBlock:^(NSArray *localIdsArr) {
+             __strong typeof(weakSelf) strongSelf = weakSelf;
 
              // Taking care of ghost children
 
              // NB: ParentChildrenSyncDownTarget's getNonDirtyRecordIdsSql does a join between parent and children soups
              // We only want to look at the children soup, so using SoqlSyncDownTarget's getNonDirtyRecordIdsSql
-             NSMutableOrderedSet* localChildrenIds = [[self getIdsWithQuery:[super getNonDirtyRecordIdsSql:self.childrenInfo.soupName idField:self.childrenInfo.idFieldName] syncManager:syncManager] mutableCopy];
+             NSMutableOrderedSet *localChildrenIds = [[strongSelf getIdsWithQuery:[super getNonDirtyRecordIdsSql:strongSelf.childrenInfo.soupName
+                                                                                                   idField:strongSelf.childrenInfo.idFieldName
+                                                                                       additionalPredicate:[strongSelf buildSyncIdPredicateIfIndexed:syncManager soupName:strongSelf.childrenInfo.soupName syncId:syncId]]
+                                                                syncManager:syncManager] mutableCopy];
 
-             [self getChildrenRemoteIdsWithSoql:syncManager soqlForChildrenRemoteIds:[self getSoqlForRemoteChildrenIds] errorBlock:errorBlock completeBlock:^(NSArray *remoteChildrenIds) {
+             [strongSelf getChildrenRemoteIdsWithSoql:syncManager soqlForChildrenRemoteIds:[strongSelf getSoqlForRemoteChildrenIds] errorBlock:errorBlock completeBlock:^(NSArray *remoteChildrenIds) {
                  [localChildrenIds removeObjectsInArray:remoteChildrenIds];
 
                  // Delete extra IDs from SmartStore.
-                 [self deleteRecordsFromLocalStore:syncManager soupName:self.childrenInfo.soupName ids:[localChildrenIds array] idField:self.childrenInfo.idFieldName];
+                 [strongSelf deleteRecordsFromLocalStore:syncManager soupName:strongSelf.childrenInfo.soupName ids:[localChildrenIds array] idField:strongSelf.childrenInfo.idFieldName];
 
                  completeBlock(localIdsArr);
              }];
-    }];
+         }];
 }
 
 - (long long)getLatestModificationTimeStamp:(NSArray *)records {
@@ -201,10 +208,10 @@
     return maxTimeStamp;
 }
 
-- (void)saveRecordsToLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName records:(NSArray *)records {
+- (void)saveRecordsToLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName records:(NSArray *)records syncId:(NSNumber *)syncId {
     // NB: method is called during sync down so for this target records contain parent and children
 
-    return [SFParentChildrenSyncHelper saveRecordTreesToLocalStore:syncManager target:self parentInfo:self.parentInfo childrenInfo:self.childrenInfo recordTrees:records];
+    return [SFParentChildrenSyncHelper saveRecordTreesToLocalStore:syncManager target:self parentInfo:self.parentInfo childrenInfo:self.childrenInfo recordTrees:records syncId:syncId];
 }
 
 #pragma mark - Utility methods
@@ -253,8 +260,15 @@
     __block NSMutableSet *remoteChildrenIds = [NSMutableSet new];
     __block SFSyncDownTargetFetchCompleteBlock fetchBlockRecurse = ^(NSArray *records) {
     };
+    
+    SFSyncDownTargetFetchErrorBlock fetchErrorBlock = ^(NSError *error) {
+        fetchBlockRecurse = nil;
+        errorBlock(error);
+    };
+
     SFSyncDownTargetFetchCompleteBlock fetchBlock = ^(NSArray *records) {
         if (records == nil) {
+            fetchBlockRecurse = nil;
             completeBlock([remoteChildrenIds allObjects]);
             return;
         }
@@ -262,7 +276,7 @@
         [self continueFetch:syncManager errorBlock:errorBlock completeBlock:fetchBlockRecurse];
     };
     fetchBlockRecurse = fetchBlock;
-    [self startFetch:syncManager queryToRun:soqlForChildrenRemoteIds errorBlock:errorBlock completeBlock:fetchBlock];
+    [self startFetch:syncManager queryToRun:soqlForChildrenRemoteIds errorBlock:fetchErrorBlock completeBlock:fetchBlock];
 }
 
 - (NSSet<NSString*>*) parseChildrenIdsFromResponse:(NSArray*)records {
@@ -298,8 +312,8 @@
 }
 
 
-- (NSString*) getNonDirtyRecordIdsSql:(NSString*)soupName idField:(NSString*)idField {
-    return [SFParentChildrenSyncHelper getNonDirtyRecordIdsSql:self.parentInfo childrenInfo:self.childrenInfo parentFieldToSelect:idField];
+- (NSString *)getNonDirtyRecordIdsSql:(NSString *)soupName idField:(NSString *)idField additionalPredicate:(NSString *)additionalPredicate {
+    return [SFParentChildrenSyncHelper getNonDirtyRecordIdsSql:self.parentInfo childrenInfo:self.childrenInfo parentFieldToSelect:idField additionalPredicate:additionalPredicate];
 }
 
 

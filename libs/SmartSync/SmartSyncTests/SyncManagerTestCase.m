@@ -134,7 +134,8 @@ static NSException *authException = nil;
                             [[SFSoupIndex alloc] initWithPath:ID indexType:kSoupIndexTypeString columnName:nil],
                             [[SFSoupIndex alloc] initWithPath:NAME indexType:kSoupIndexTypeString columnName:nil],
                             [[SFSoupIndex alloc] initWithPath:DESCRIPTION indexType:kSoupIndexTypeFullText columnName:nil],
-                            [[SFSoupIndex alloc] initWithPath:kSyncTargetLocal indexType:kSoupIndexTypeString columnName:nil]
+                            [[SFSoupIndex alloc] initWithPath:kSyncTargetLocal indexType:kSoupIndexTypeString columnName:nil],
+                            [[SFSoupIndex alloc] initWithPath:kSyncTargetSyncId indexType:kSoupIndexTypeInteger columnName:nil]
                             ];
     [self.store registerSoup:ACCOUNTS_SOUP withIndexSpecs:indexSpecs error:nil];
 }
@@ -148,7 +149,8 @@ static NSException *authException = nil;
             [[SFSoupIndex alloc] initWithPath:ID indexType:kSoupIndexTypeString columnName:nil],
             [[SFSoupIndex alloc] initWithPath:LAST_NAME indexType:kSoupIndexTypeString columnName:nil],
             [[SFSoupIndex alloc] initWithPath:ACCOUNT_ID indexType:kSoupIndexTypeString columnName:nil],
-            [[SFSoupIndex alloc] initWithPath:kSyncTargetLocal indexType:kSoupIndexTypeString columnName:nil]
+            [[SFSoupIndex alloc] initWithPath:kSyncTargetLocal indexType:kSoupIndexTypeString columnName:nil],
+            [[SFSoupIndex alloc] initWithPath:kSyncTargetSyncId indexType:kSoupIndexTypeInteger columnName:nil]
     ];
     [self.store registerSoup:CONTACTS_SOUP withIndexSpecs:indexSpecs error:nil];
 }
@@ -365,6 +367,16 @@ static NSException *authException = nil;
     [self checkStatus:sync expectedType:expectedType expectedId:expectedId expectedTarget:expectedTarget expectedOptions:expectedOptions expectedStatus:expectedStatus expectedProgress:expectedProgress expectedTotalSize:TOTAL_SIZE_UNKNOWN];
 }
 
+- (void)checkDbExists:(NSString*)soupName ids:(NSArray*)ids idField:(NSString*)idField {
+    NSString* smartSql = [NSString stringWithFormat:@"SELECT {%@:_soup} FROM {%@} WHERE {%@:%@} IN %@",
+                                                    soupName, soupName, soupName, idField, [self buildInClause:ids]];
+
+    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:ids.count];
+    NSArray* rowsFromDb = [self.store queryWithQuerySpec:query pageIndex:0 error:nil];
+    XCTAssertEqual(ids.count, rowsFromDb.count, "All records should have been returned from smartstore");
+}
+
+
 - (void)checkDb:(NSDictionary*)expectedIdToFields soupName:(NSString*)soupName {
 
     // Ids clause
@@ -410,6 +422,25 @@ static NSException *authException = nil;
         NSString* id = recordFromDb[ID];
         bool hasLocalIdPrefix = [id hasPrefix:LOCAL_ID_PREFIX];
         XCTAssertEqual(expectedLocallyCreated, hasLocalIdPrefix);
+    }
+}
+
+- (void)checkDbSyncIdField:(NSArray *)ids
+                  soupName:(NSString *)soupName
+                    syncId:(NSNumber*)syncId {
+
+    // Ids clause
+    NSString* idsClause = [self buildInClause:ids];
+
+    // Query
+    NSString* smartSql = [NSString stringWithFormat:@"SELECT {%@:_soup} FROM {%@} WHERE {%@:Id} IN %@", soupName, soupName, soupName, idsClause];
+
+    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:ids.count];
+    NSArray* rows = [self.store queryWithQuerySpec:query pageIndex:0 error:nil];
+    XCTAssertEqual(ids.count, rows.count);
+    for (NSArray* row in rows) {
+        NSDictionary *recordFromDb = row[0];
+        XCTAssertEqualObjects(syncId, recordFromDb[kSyncTargetSyncId]);
     }
 }
 

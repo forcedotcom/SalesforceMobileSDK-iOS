@@ -38,6 +38,7 @@
 #import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
 #import <SalesforceSDKCore/NSString+SFAdditions.h>
 #import <SalesforceSDKCore/SFSDKWebViewStateManager.h>
+#import <SalesforceSDKCore/SFRestAPI+Blocks.h>
 #import <Cordova/NSDictionary+CordovaPreferences.h>
 #import <Cordova/CDVUserAgentUtil.h>
 #import <objc/message.h>
@@ -300,6 +301,7 @@ SFSDK_USE_DEPRECATED_BEGIN
 
 - (void)authenticateWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock
 {
+
     /*
      * Reconfigure user agent. Basically this ensures that Cordova whitelisting won't apply to the
      * WKWebView that hosts the login screen (important for SSO outside of Salesforce domains).
@@ -310,7 +312,6 @@ SFSDK_USE_DEPRECATED_BEGIN
         __strong typeof(weakSelf) strongSelf = weakSelf;
         [SFUserAccountManager sharedInstance].currentUser = userAccount;
         [strongSelf authenticationCompletion:nil authInfo:authInfo];
-        
         if (authInfo.authType == SFOAuthTypeRefresh) {
             [strongSelf loadVFPingPage];
         }
@@ -319,7 +320,6 @@ SFSDK_USE_DEPRECATED_BEGIN
             completionBlock(authInfo, authDict);
         }
     };
-
     SFOAuthFlowFailureCallbackBlock authFailureBlock = ^(SFOAuthInfo *authInfo, NSError *error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if ([strongSelf logoutOnInvalidCredentials:error]) {
@@ -333,10 +333,8 @@ SFSDK_USE_DEPRECATED_BEGIN
             failureBlock(authInfo, error);
         }
     };
-
     if (![SFUserAccountManager sharedInstance].currentUser) {
-        [self loginWithCompletion:authCompletionBlock
-                                                             failure:authFailureBlock];
+        [self loginWithCompletion:authCompletionBlock failure:authFailureBlock];
     } else {
         [self refreshCredentials:[SFUserAccountManager sharedInstance].currentUser.credentials
                                                          completion:authCompletionBlock
@@ -416,15 +414,15 @@ SFSDK_USE_DEPRECATED_BEGIN
 
 - (NSURL *)frontDoorUrlWithReturnUrl:(NSString *)returnUrlString returnUrlIsEncoded:(BOOL)isEncoded createAbsUrl:(BOOL)createAbsUrl
 {
+
     // Special case: if returnUrlString itself is a frontdoor.jsp URL, parse its parameters and rebuild.
     if ([returnUrlString containsString:@"frontdoor.jsp"]) {
         return [self parseFrontDoorReturnUrlString:returnUrlString encoded:isEncoded];
     }
-    
     SFOAuthCredentials *creds = [SFUserAccountManager sharedInstance].currentUser.credentials;
     NSURL *instUrl = creds.apiUrl;
     NSString *fullReturnUrlString = returnUrlString;
-    
+
     /*
      * We need to use the absolute URL in some cases and relative URL in some
      * other cases, because of differences between instance URL and community URL.
@@ -434,17 +432,16 @@ SFSDK_USE_DEPRECATED_BEGIN
         retUrlComponents.path = [retUrlComponents.path stringByAppendingPathComponent:returnUrlString];
         fullReturnUrlString = retUrlComponents.string;
     }
-    
+
     // Create frontDoor path based on credentials API URL.
     NSURLComponents *frontDoorUrlComponents = [NSURLComponents componentsWithURL:instUrl resolvingAgainstBaseURL:NO];
     frontDoorUrlComponents.path = [frontDoorUrlComponents.path stringByAppendingPathComponent:@"/secur/frontdoor.jsp"];
-    
+
     // NB: We're not using NSURLComponents.queryItems here, because it unsufficiently encodes query params.
     NSMutableString *frontDoorUrlString = [NSMutableString stringWithString:frontDoorUrlComponents.string];
     NSString *encodedRetUrlValue = (isEncoded ? fullReturnUrlString : [fullReturnUrlString stringByURLEncoding]);
     NSString *encodedSidValue = [creds.accessToken stringByURLEncoding];
     [frontDoorUrlString appendFormat:@"?sid=%@&retURL=%@&display=touch", encodedSidValue, encodedRetUrlValue];
-    
     return [NSURL URLWithString:frontDoorUrlString];
 }
 
@@ -490,8 +487,7 @@ SFSDK_USE_DEPRECATED_BEGIN
     if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
         return ([SFAuthenticationManager errorIsInvalidAuthCredentials:error]
                 && [[SFAuthenticationManager sharedManager].authErrorHandlerList authErrorHandlerInList:[SFAuthenticationManager sharedManager].invalidCredentialsAuthErrorHandler]);
-    }
-   else {
+    } else {
        return [SFUserAccountManager errorIsInvalidAuthCredentials:error];
    }
 }
@@ -591,6 +587,7 @@ SFSDK_USE_DEPRECATED_BEGIN
             [self refreshCredentials:[SFUserAccountManager sharedInstance].currentUser.credentials
              completion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
                  [SFUserAccountManager sharedInstance].currentUser = userAccount;
+
                  // Reset the user agent back to Cordova.
                  [weakSelf authenticationCompletion:refreshUrl authInfo:authInfo];
              } failure:^(SFOAuthInfo *authInfo, NSError *error) {
@@ -647,7 +644,7 @@ SFSDK_USE_DEPRECATED_BEGIN
 
 - (BOOL) webView:(UIWebView *) webView shouldStartLoadWithRequest:(NSURLRequest *) request navigationType:(UIWebViewNavigationType) navigationType
 {
-    [SFSDKHybridLogger d:[self class] format:@"webView:shouldStartLoadWithRequest:navigationType: Loading URL '%@'", [webView.request.URL redactedAbsoluteString:@[@"sid"]]];
+    [SFSDKHybridLogger d:[self class] format:@"webView:shouldStartLoadWithRequest:navigationType: Loading URL '%@'", [request.URL redactedAbsoluteString:@[@"sid"]]];
 
     // Hidden ping page load.
     if ([webView isEqual:self.vfPingPageHiddenUIWebView]) {
@@ -657,7 +654,7 @@ SFSDK_USE_DEPRECATED_BEGIN
 
     // Local error page load.
     if ([webView isEqual:self.errorPageUIWebView]) {
-        [SFSDKHybridLogger d:[self class] format:@"Local error page ('%@') is loading.", webView.request.URL.absoluteString];
+        [SFSDKHybridLogger d:[self class] format:@"Local error page ('%@') is loading.", request.URL.absoluteString];
         return YES;
     }
 
@@ -668,7 +665,7 @@ SFSDK_USE_DEPRECATED_BEGIN
          * If the request is attempting to refresh an invalid session, take over
          * the refresh process via the OAuth refresh flow in the container.
          */
-        NSString *refreshUrl = [self isLoginRedirectUrl:webView.request.URL];
+        NSString *refreshUrl = [self isLoginRedirectUrl:request.URL];
         if (refreshUrl != nil) {
             [SFSDKHybridLogger w:[self class] message:@"Caught login redirect from session timeout. Reauthenticating."];
             
@@ -701,7 +698,7 @@ SFSDK_USE_DEPRECATED_BEGIN
              }];
             return NO;
         }
-        NSURL* url = [request URL];
+        NSURL* url = request.URL;
 
         /*
          * Execute any commands queued with cordova.exec() on the JS side.
@@ -711,33 +708,9 @@ SFSDK_USE_DEPRECATED_BEGIN
             [self.commandQueue fetchCommandsFromJs];
             [self.commandQueue executePending];
             return NO;
-        }
-
-        /*
-         * Give plugins the chance to handle the URL.
-         */
-        BOOL anyPluginsResponded = NO;
-        BOOL shouldAllowRequest = NO;
-        for (NSString* pluginName in self.pluginObjects) {
-            CDVPlugin* plugin = [self.pluginObjects objectForKey:pluginName];
-            SEL selector = NSSelectorFromString(@"shouldOverrideLoadWithRequest:navigationType:");
-            if ([plugin respondsToSelector:selector]) {
-                anyPluginsResponded = YES;
-                shouldAllowRequest = (((BOOL (*)(id, SEL, id, int)) objc_msgSend)(plugin, selector, request, navigationType));
-                if (!shouldAllowRequest) {
-                    break;
-                }
-            }
-        }
-        if (anyPluginsResponded) {
-            return shouldAllowRequest;
-        }
-        if ([url isFileURL]) {
-            return YES;
         } else {
             [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginHandleOpenURLNotification object:url]];
         }
-        return NO;
     }
     return YES;
 }
@@ -885,13 +858,19 @@ SFSDK_USE_DEPRECATED_BEGIN
 - (void)refreshCredentials:(SFOAuthCredentials *)credentials
                  completion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
                   failure:(SFOAuthFlowFailureCallbackBlock)failureBlock {
-    if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
-        [[SFAuthenticationManager sharedManager] refreshCredentials:credentials completion:completionBlock failure:failureBlock];
-    }else {
-        [[SFUserAccountManager sharedInstance] refreshCredentials:credentials completion:completionBlock failure:failureBlock];
-    }
 
-    
+    /*
+     * Performs a cheap REST call to refresh the access token if needed
+     * instead of going through the entire OAuth dance all over again.
+     */
+    SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh];
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForResources];
+    [[SFRestAPI sharedInstance] sendRESTRequest:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+        failureBlock(authInfo, e);
+    } completeBlock:^(id response, NSURLResponse *rawResponse) {
+        SFUserAccount *currentAccount = [SFUserAccountManager sharedInstance].currentUser;
+        completionBlock(authInfo, currentAccount);
+    }];
 }
 
 - (void)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
@@ -899,9 +878,8 @@ SFSDK_USE_DEPRECATED_BEGIN
     if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
         [[SFAuthenticationManager sharedManager] loginWithCompletion:completionBlock failure:failureBlock];
     } else {
-           [[SFUserAccountManager sharedInstance] loginWithCompletion:completionBlock failure:failureBlock];
+        [[SFUserAccountManager sharedInstance] loginWithCompletion:completionBlock failure:failureBlock];
     }
-
 }
 
 - (void)logout {

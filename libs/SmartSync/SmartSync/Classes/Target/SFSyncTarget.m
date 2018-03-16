@@ -36,6 +36,7 @@ NSString * const kSyncTargetLocal = @"__local__";
 NSString * const kSyncTargetLocallyCreated = @"__locally_created__";
 NSString * const kSyncTargetLocallyUpdated = @"__locally_updated__";
 NSString * const kSyncTargetLocallyDeleted = @"__locally_deleted__";
+NSString * const kSyncTargetSyncId = @"__sync_id__";
 
 @implementation SFSyncTarget
 
@@ -75,11 +76,11 @@ NSString * const kSyncTargetLocallyDeleted = @"__locally_deleted__";
 
 - (void) cleanAndSaveInLocalStore:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName record:(NSDictionary*)record {
     [SFSDKSmartSyncLogger d:[self class] format:@"cleanAndSaveInLocalStore:%@", record];
-    [self cleanAndSaveInSmartStore:syncManager.store soupName:soupName records:@[record] idFieldName:self.idFieldName];
+    [self cleanAndSaveInSmartStore:syncManager.store soupName:soupName records:@[record] idFieldName:self.idFieldName syncId:nil /* method called from sync up - not setting syncId field then */];
 }
 
-- (void) saveRecordsToLocalStore:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName records:(NSArray*)records {
-    [self cleanAndSaveInSmartStore:syncManager.store soupName:soupName records:records idFieldName:self.idFieldName];
+- (void) saveRecordsToLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName records:(NSArray *)records syncId:(NSNumber *)syncId {
+    [self cleanAndSaveInSmartStore:syncManager.store soupName:soupName records:records idFieldName:self.idFieldName syncId:syncId];
 }
 
 - (void) deleteRecordsFromLocalStore:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName ids:(NSArray*)ids idField:(NSString*)idField {
@@ -145,13 +146,14 @@ NSString * const kSyncTargetLocallyDeleted = @"__locally_deleted__";
     return ids;
 }
 
-- (void)cleanAndSaveInSmartStore:(SFSmartStore *)smartStore soupName:(NSString *)soupName records:(NSArray *)records idFieldName:(NSString *)idFieldName {
+- (void)cleanAndSaveInSmartStore:(SFSmartStore *)smartStore soupName:(NSString *)soupName records:(NSArray *)records idFieldName:(NSString *)idFieldName syncId:(NSNumber *)syncId {
 
     NSMutableArray* recordsFromSmartStore = [NSMutableArray new];
     NSMutableArray* recordsFromServer = [NSMutableArray new];
 
     for (NSDictionary * record in records) {
         NSMutableDictionary *mutableRecord = [record mutableCopy];
+        [self addSyncId:mutableRecord syncId:syncId];
         [self cleanRecord:mutableRecord];
         if (mutableRecord[SOUP_ENTRY_ID]) {
             // Record came from smartstore
@@ -166,6 +168,12 @@ NSString * const kSyncTargetLocallyDeleted = @"__locally_deleted__";
     [smartStore upsertEntries:recordsFromSmartStore toSoup:soupName];
     [smartStore upsertEntries:recordsFromServer toSoup:soupName withExternalIdPath:idFieldName error:nil];
 
+}
+
+- (void) addSyncId:(NSMutableDictionary*)record syncId:(NSNumber*)syncId {
+    if (syncId) {
+        record[kSyncTargetSyncId] = syncId;
+    }
 }
 
 - (void) cleanRecord:(NSMutableDictionary*)record {

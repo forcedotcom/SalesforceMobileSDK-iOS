@@ -27,9 +27,12 @@
 #import <SalesforceHybridSDK/SalesforceHybridSDK.h>
 #import <SalesforceSDKCore/SFApplicationHelper.h>
 
-#import "SmartSyncTestSuite.h"
 #import "AppDelegate.h"
 #import "SFTestRunnerPlugin.h"
+#import "SFPluginTestSuite.h"
+
+@interface SmartSyncTestSuite : SFPluginTestSuite
+@end
 
 @implementation SmartSyncTestSuite
 

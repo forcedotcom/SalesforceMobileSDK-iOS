@@ -440,6 +440,34 @@
                ReferencedContainer = "container:libs/SalesforceSwiftSDK/SalesforceSwiftSDK.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4FA796932020E6D400CA9759"
+               BuildableName = "SalesforceReactTestApp.app"
+               BlueprintName = "SalesforceReactTestApp"
+               ReferencedContainer = "container:libs/SalesforceReact/SalesforceReact.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4FA796AA2020E6D500CA9759"
+               BuildableName = "SalesforceReactTests.xctest"
+               BlueprintName = "SalesforceReactTests"
+               ReferencedContainer = "container:libs/SalesforceReact/SalesforceReact.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -508,6 +536,26 @@
                BuildableName = "SalesforceAnalyticsTests.xctest"
                BlueprintName = "SalesforceAnalyticsTests"
                ReferencedContainer = "container:libs/SalesforceAnalytics/SalesforceAnalytics.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4FA796AA2020E6D500CA9759"
+               BuildableName = "SalesforceReactTests.xctest"
+               BlueprintName = "SalesforceReactTests"
+               ReferencedContainer = "container:libs/SalesforceReact/SalesforceReact.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "B7DA7AC31FCDE08F0098C1EA"
+               BuildableName = "SalesforceSwiftSDKTests.xctest"
+               BlueprintName = "SalesforceSwiftSDKTests"
+               ReferencedContainer = "container:libs/SalesforceSwiftSDK/SalesforceSwiftSDK.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>

@@ -1593,7 +1593,8 @@ NSString *const EXPLAIN_ROWS = @"rows";
     for (int i = 0; i < frs.columnCount; i++) {
         NSString* columnName = [frs columnNameForIndex:i];
         id value = valuesMap[columnName];
-        if ([columnName hasSuffix:SOUP_COL] && [value isKindOfClass:[NSString class]]) {
+        if ([value isKindOfClass:[NSString class]] &&
+            ([columnName isEqualToString:SOUP_COL] || [columnName hasPrefix:[NSString stringWithFormat:@"%@:", SOUP_COL]])) {
             id entry = [SFJsonUtils objectFromJSONString:value];
             if (entry) {
                 [result addObject:entry];

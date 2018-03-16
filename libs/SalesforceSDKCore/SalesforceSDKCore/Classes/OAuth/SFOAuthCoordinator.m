@@ -27,7 +27,7 @@
 #import "SFOAuthCredentials+Internal.h"
 #import "SFOAuthCoordinator+Internal.h"
 #import "SFOAuthInfo.h"
-#import "SFOAuthOrgAuthConfiguration.h"
+#import "SFSDKAuthConfigUtil.h"
 #import "SFSDKCryptoUtils.h"
 #import "NSData+SFSDKUtils.h"
 #import "NSString+SFAdditions.h"
@@ -55,7 +55,6 @@ static NSString * const kSFOAuthEndPointAuthorize               = @"/services/oa
 static NSString * const kSFOAuthEndPointToken                   = @"/services/oauth2/token";        // token refresh flow
 
 // Advanced auth constants
-static NSString * const kSFOAuthEndPointAuthConfiguration       = @"/.well-known/auth-configuration";
 static NSUInteger const kSFOAuthCodeVerifierByteLength          = 128;
 static NSString * const kSFOAuthCodeVerifierParamName           = @"code_verifier";
 static NSString * const kSFOAuthCodeChallengeParamName          = @"code_challenge";
@@ -188,7 +187,7 @@ static NSString * const kSFECParameter = @"ec";
         [SFSDKCoreLogger d:[self class] format:@"%@ Error: authenticate called while already authenticating. Call stopAuthenticating first.", NSStringFromSelector(_cmd)];
         return;
     }
-    [SFSDKCoreLogger i:[self class] format:@"%@ authenticating as %@ %@ refresh token on '%@://%@' ...",
+    [SFSDKCoreLogger d:[self class] format:@"%@ authenticating as %@ %@ refresh token on '%@://%@' ...",
          NSStringFromSelector(_cmd),
          self.credentials.clientId, (nil == self.credentials.refreshToken ? @"without" : @"with"),
          self.credentials.protocol, self.credentials.domain];
@@ -226,17 +225,14 @@ static NSString * const kSFECParameter = @"ec";
                 break;
             }
             case SFOAuthAdvancedAuthConfigurationAllow: {
-                // If advanced auth mode is allowed, we have to get auth configuration settings from the org, where
-                // available, and initiate advanced auth flows, if configured.
-                [self.oauthCoordinatorFlow retrieveOrgAuthConfiguration:^(SFOAuthOrgAuthConfiguration *orgAuthConfig, NSError *error) {
+
+                /*
+                 * If advanced auth mode is allowed, we have to get auth configuration settings
+                 * from the org, where available, and initiate advanced auth flows, if configured.
+                 */
+                [SFSDKAuthConfigUtil getMyDomainAuthConfig:^(SFOAuthOrgAuthConfiguration *authConfig, NSError *error) {
                     __strong typeof(weakSelf) strongSelf = weakSelf;
-                    if (error) {
-                        // That's fatal.
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            __strong typeof(weakSelf) strongSelf = weakSelf;
-                            [strongSelf notifyDelegateOfFailure:error authInfo:strongSelf.authInfo];
-                        });
-                    } else if (orgAuthConfig.useNativeBrowserForAuth) {
+                    if (authConfig.useNativeBrowserForAuth) {
                         strongSelf.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
                         [strongSelf notifyDelegateOfBeginAuthentication];
                         [strongSelf.oauthCoordinatorFlow beginNativeBrowserFlow];
@@ -246,11 +242,12 @@ static NSString * const kSFECParameter = @"ec";
                         [strongSelf notifyDelegateOfBeginAuthentication];
                         [strongSelf.oauthCoordinatorFlow beginUserAgentFlow];
                     }
-                }];
+                } oauthCredentials:self.credentials];
                 break;
             }
             case SFOAuthAdvancedAuthConfigurationRequire: {
-                // Advanced auth mode is required.  Begin the advanced browser flow.
+
+                // Advanced auth mode is required. Begin the advanced browser flow.
                 dispatch_async(dispatch_get_main_queue(), ^{
                     __strong typeof(weakSelf) strongSelf = weakSelf;
                     strongSelf.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
@@ -260,6 +257,7 @@ static NSString * const kSFECParameter = @"ec";
                 break;
             }
             default: {
+
                 // Unknown advanced auth state.
                 NSError *unknownConfigError = [[self class] errorWithType:kSFOAuthErrorTypeUnknownAdvancedAuthConfig
                                                               description:[NSString stringWithFormat:@"Unknown advanced auth config: %lu", (unsigned long)self.advancedAuthConfiguration]];
@@ -269,7 +267,6 @@ static NSString * const kSFECParameter = @"ec";
                 break;
             }
         }
-        
     }
 }
 
@@ -403,66 +400,6 @@ static NSString * const kSFECParameter = @"ec";
     if ([self.delegate respondsToSelector:@selector(oauthCoordinatorWillBeginAuthentication:authInfo:)]) {
         [self.delegate oauthCoordinatorWillBeginAuthentication:self authInfo:self.authInfo];
     }
-}
-
-- (void)retrieveOrgAuthConfiguration:(void (^)(SFOAuthOrgAuthConfiguration *, NSError *))retrievedAuthConfigBlock {
-    // NB: The second (error) parameter of retrievedAuthConfigCallback is only populated if a fatal error
-    // is detected in the process.  Otherwise, errors are considered as no org auth configuration being available.
-    
-    NSString *orgConfigUrl = [NSString stringWithFormat:@"%@://%@%@",
-                              self.credentials.protocol,
-                              self.credentials.domain,
-                              kSFOAuthEndPointAuthConfiguration
-                              ];
-    [SFSDKCoreLogger i:[self class] format:@"%@ Advanced authentication configured.  Retrieving auth configuration from %@", NSStringFromSelector(_cmd), orgConfigUrl];
-    NSMutableURLRequest *orgConfigRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:orgConfigUrl]
-                                                                    cachePolicy:NSURLRequestReloadIgnoringCacheData
-                                                                timeoutInterval:self.timeout];
-    orgConfigRequest.HTTPShouldHandleCookies = NO;
-    
-    [[self.session dataTaskWithRequest:orgConfigRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *connectionError) {
-        if (connectionError) {
-            [SFSDKCoreLogger e:[self class] format:@"%@ Error retrieving org auth config: %@", NSStringFromSelector(_cmd), [connectionError localizedDescription]];
-            if (retrievedAuthConfigBlock != NULL) {
-                retrievedAuthConfigBlock(nil, connectionError);
-                return;
-            }
-        }
-        
-        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-        if (httpResponse.statusCode != 200) {
-            // Anything other than a 200 means we didn't get data back, which means advanced
-            // auth isn't supported for any orgs on that login host.
-            [SFSDKCoreLogger i:[self class] format:@"%@ No org auth config found at %@ (Status code: %ld)", NSStringFromSelector(_cmd), orgConfigUrl, httpResponse.statusCode];
-            if (retrievedAuthConfigBlock != NULL) {
-                retrievedAuthConfigBlock(nil, nil);
-            }
-            return;
-        }
-        
-        if (data == nil) {
-            [SFSDKCoreLogger i:[self class] format:@"%@ No org auth config data returned from %@", NSStringFromSelector(_cmd), orgConfigUrl];
-            if (retrievedAuthConfigBlock != NULL) {
-                retrievedAuthConfigBlock(nil, nil);
-                return;
-            }
-        }
-        
-        NSError *jsonParseError = nil;
-        NSDictionary *configDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonParseError];
-        if (jsonParseError) {
-            [SFSDKCoreLogger i:[self class] format:@"%@ Could not parse org auth config response from %@: %@", NSStringFromSelector(_cmd), orgConfigUrl, [jsonParseError localizedDescription]];
-            if (retrievedAuthConfigBlock != NULL) {
-                retrievedAuthConfigBlock(nil, nil);
-            }
-        }
-        
-        [SFSDKCoreLogger i:[self class] format:@"%@ Successfully retrieved org auth config data from %@", NSStringFromSelector(_cmd), orgConfigUrl];
-        SFOAuthOrgAuthConfiguration *orgAuthConfig = [[SFOAuthOrgAuthConfiguration alloc] initWithConfigDict:configDict];
-        if (retrievedAuthConfigBlock != NULL) {
-            retrievedAuthConfigBlock(orgAuthConfig, nil);
-        }
-    }] resume];
 }
 
 - (void)beginNativeBrowserFlow {
@@ -671,7 +608,6 @@ static NSString * const kSFECParameter = @"ec";
         
         // If this is the advanced authentication flow, we need to add the code verifier parameter and some form
         // of a client secret as well.
-        // TODO: This does not currently work with an anonymous client secret.  WIP from the service side.  Plug in real client secret to test.
         if (self.authInfo.authType == SFOAuthTypeAdvancedBrowser ||
             self.authInfo.authType == SFOAuthTypeIDP) {
             [params appendFormat:@"&%@=%@", kSFOAuthCodeVerifierParamName, self.codeVerifier];
@@ -1035,7 +971,6 @@ static NSString * const kSFECParameter = @"ec";
     if (!self.initialRequestLoaded) {
         self.initialRequestLoaded = YES;
         [self.delegate oauthCoordinator:self didBeginAuthenticationWithView:self.view];
-        NSAssert((nil != [self.view superview]), @"No superview for oauth web view after didBeginAuthenticationWithView");
     }
 }
 

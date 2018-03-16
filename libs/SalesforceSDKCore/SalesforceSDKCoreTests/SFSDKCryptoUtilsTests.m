@@ -140,7 +140,7 @@
     XCTAssertFalse([initialPBKDFData.derivedKey isEqualToData:verifyPBKDFData.derivedKey], @"Generated keys with different derived key lengths should not be equal.");
 }
 
-- (void)testAesEncryptionDecryption
+- (void)testAes256EncryptionDecryption
 {
     NSData *origData = [@"The quick brown fox..." dataUsingEncoding:NSUTF8StringEncoding];
     NSData *keyData = [@"My encryption key" dataUsingEncoding:NSUTF8StringEncoding];
@@ -164,4 +164,111 @@
     XCTAssertFalse([badDecryptData isEqualToData:origData], @"Wrong key and initialization vector should return different data on decrypt.");
 }
 
+- (void)testAes128EncryptionDecryption
+{
+    NSData *origData = [@"The quick brown fox..." dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *keyData = [@"My encryption key" dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *ivData = [@"Here's an iv staging string" dataUsingEncoding:NSUTF8StringEncoding];
+    
+    NSData *encryptedData = [SFSDKCryptoUtils aes128EncryptData:origData withKey:keyData iv:ivData];
+    XCTAssertFalse([encryptedData isEqualToData:origData], @"Encrypted data should not be the same as original data.");
+    
+    // Clean decryption should pass.
+    NSData *decryptedData = [SFSDKCryptoUtils aes128DecryptData:encryptedData withKey:keyData iv:ivData];
+    XCTAssertTrue([decryptedData isEqualToData:origData], @"Decrypted data should match original data.");
+    
+    // Bad decryption key data should return different data.
+    NSData *badKey = [@"The wrong key" dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *badIv = [@"The wrong iv" dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *badDecryptData = [SFSDKCryptoUtils aes128DecryptData:encryptedData withKey:badKey iv:ivData];
+    XCTAssertFalse([badDecryptData isEqualToData:origData], @"Wrong encryption key should return different data on decrypt.");
+    badDecryptData = [SFSDKCryptoUtils aes128DecryptData:encryptedData withKey:keyData iv:badIv];
+    XCTAssertFalse([badDecryptData isEqualToData:origData], @"Wrong initialization vector should return different data on decrypt.");
+    badDecryptData = [SFSDKCryptoUtils aes128DecryptData:encryptedData withKey:badKey iv:badIv];
+    XCTAssertFalse([badDecryptData isEqualToData:origData], @"Wrong key and initialization vector should return different data on decrypt.");
+}
+
+- (void)testRSAKeyGeneration
+{
+    [SFSDKCryptoUtils createRSAKeyPairWithName:@"test" keyLength:2048 accessibleAttribute:kSecAttrAccessibleAlways];
+    NSData *privateKeyData = [SFSDKCryptoUtils getRSAPrivateKeyDataWithName:@"test" keyLength:2048];
+    XCTAssertNotNil(privateKeyData);
+    NSString *publicKeyString = [SFSDKCryptoUtils getRSAPublicKeyStringWithName:@"test" keyLength:2048];
+    XCTAssertNotNil(publicKeyString);
+}
+
+- (void)testRSAKeyGenerationDifferentKey
+{
+    [SFSDKCryptoUtils createRSAKeyPairWithName:@"test1" keyLength:2048 accessibleAttribute:kSecAttrAccessibleAlways];
+    [SFSDKCryptoUtils createRSAKeyPairWithName:@"test2" keyLength:2048 accessibleAttribute:kSecAttrAccessibleAlways];
+
+    NSData *privateKeyData1 = [SFSDKCryptoUtils getRSAPrivateKeyDataWithName:@"test1" keyLength:2048];
+    XCTAssertNotNil(privateKeyData1);
+
+    NSData *privateKeyData2 = [SFSDKCryptoUtils getRSAPrivateKeyDataWithName:@"test2" keyLength:2048];
+    XCTAssertNotNil(privateKeyData2);
+
+    XCTAssertFalse([privateKeyData1 isEqualToData:privateKeyData2], @"should get different private key data with different keynames");
+
+    NSString *public1KeyString = [SFSDKCryptoUtils getRSAPublicKeyStringWithName:@"test1" keyLength:2048];
+    XCTAssertFalse([public1KeyString isEqualToString:@""]);
+
+    NSString *public2KeyString = [SFSDKCryptoUtils getRSAPublicKeyStringWithName:@"test2" keyLength:2048];
+    XCTAssertFalse([public2KeyString isEqualToString:@""]);
+
+    XCTAssertFalse([public1KeyString isEqualToString:public2KeyString], @"should get different public key strings with different keynames");
+
+    [SFSDKCryptoUtils createRSAKeyPairWithName:@"test1" keyLength:1024 accessibleAttribute:kSecAttrAccessibleAlways];
+
+    NSData *privateKeyData3 = [SFSDKCryptoUtils getRSAPrivateKeyDataWithName:@"test1" keyLength:1024];
+    XCTAssertNotNil(privateKeyData3);
+
+    NSString *public3KeyString = [SFSDKCryptoUtils getRSAPublicKeyStringWithName:@"test1" keyLength:1024];
+    XCTAssertFalse([public3KeyString isEqualToString:@""]);
+
+    XCTAssertFalse([public3KeyString isEqualToString:public1KeyString], @"should get different public key strings with different sizes");
+    XCTAssertFalse([privateKeyData3 isEqualToData:privateKeyData1], @"should get different private key strings with different sizes");
+
+}
+
+- (void)testRSAEncryptionAndDecryption
+{
+    size_t keySize = 2048;
+
+    [SFSDKCryptoUtils createRSAKeyPairWithName:@"test" keyLength:keySize accessibleAttribute:kSecAttrAccessibleAlways];
+
+    SecKeyRef publicKeyRef = [SFSDKCryptoUtils getRSAPublicKeyRefWithName:@"test" keyLength:keySize];
+    SecKeyRef privateKeyRef = [SFSDKCryptoUtils getRSAPrivateKeyRefWithName:@"test" keyLength:keySize];
+    
+    // Encrypt data
+    NSString *testString = @"This is a test";
+    NSData *testData = [testString dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *encryptedData = [SFSDKCryptoUtils encryptUsingRSAforData:testData withKeyRef:publicKeyRef];
+    
+    // Decrypt data
+    NSData *decryptedData = [SFSDKCryptoUtils decryptUsingRSAforData:encryptedData withKeyRef:privateKeyRef];
+    NSString *result = [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
+    XCTAssertTrue([testString isEqualToString:result]);
+}
+
+- (void)testRSAEncryptionAndDecryptionWrongKeys
+{
+    size_t keySize = 2048;
+
+    [SFSDKCryptoUtils createRSAKeyPairWithName:@"test1" keyLength:keySize accessibleAttribute:kSecAttrAccessibleAlways];
+    [SFSDKCryptoUtils createRSAKeyPairWithName:@"test" keyLength:keySize accessibleAttribute:kSecAttrAccessibleAlways];
+
+    SecKeyRef publicKeyRef = [SFSDKCryptoUtils getRSAPublicKeyRefWithName:@"test1" keyLength:keySize];
+    SecKeyRef privateKeyRef = [SFSDKCryptoUtils getRSAPrivateKeyRefWithName:@"test" keyLength:keySize];
+    
+    // Encrypt data
+    NSString *testString = @"This is a test";
+    NSData *testData = [testString dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *encryptedData = [SFSDKCryptoUtils encryptUsingRSAforData:testData withKeyRef:publicKeyRef];
+    
+    // Decrypt data
+    NSData *decryptedData = [SFSDKCryptoUtils decryptUsingRSAforData:encryptedData withKeyRef:privateKeyRef];
+    NSString *result = [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
+    XCTAssertFalse([testString isEqualToString:result]);
+}
 @end

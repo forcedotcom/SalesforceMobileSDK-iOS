@@ -1,6 +1,5 @@
 /*
- Copyright (c) 2012-present, salesforce.com, inc. All rights reserved.
- Author: Todd Stellanova
+ Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -23,13 +22,39 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+// NB: we shouldn't have to define RCT_EXTERN here
+// It is already defined in RCTDefines.h which is imported in RCTBridge.h which is imported in RCTTestRunner.h
+// But somehow the compiler gets confused and won't build
+#if defined(__cplusplus)
+#define RCT_EXTERN extern "C" __attribute__((visibility("default")))
+#define RCT_EXTERN_C_BEGIN extern "C" {
+#define RCT_EXTERN_C_END }
+#else
+#define RCT_EXTERN extern __attribute__((visibility("default")))
+#define RCT_EXTERN_C_BEGIN
+#define RCT_EXTERN_C_END
+#endif
 
+#import <XCTest/XCTest.h>
+#import <RCTTest/RCTTestRunner.h>
 
-#import "SFPluginTestSuite.h"
+#define RCT_TEST(name)                        \
+- (void)test##name                            \
+{                                             \
+    [self.runner runTest:_cmd module:@#name]; \
+}
 
-
-@interface SmartStoreLoadTestSuite : SFPluginTestSuite {
+#define RCT_TEST_FAKE_FAILURE(name)                        \
+- (void)test##name                            \
+{                                             \
+[self.runner runTest:_cmd module:@#name initialProps:nil configurationBlock:nil expectErrorRegex:@"FAKE_FAILURE"]; \
 }
 
 
+@interface ReactTestCase : XCTestCase
+
+@property (nonatomic, strong) RCTTestRunner* runner;
+@property (nonatomic, strong) NSString *jsSuitePath;
+
 @end
+

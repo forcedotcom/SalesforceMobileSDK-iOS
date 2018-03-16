@@ -23,6 +23,7 @@
  */
 
 #import "SFSmartSyncPlugin.h"
+#import "CDVPlugin+SFAdditions.h"
 #import <SalesforceSDKCore/NSDictionary+SFAdditions.h>
 #import <SmartStore/SFSmartStore.h>
 #import <SmartSync/SFSmartSyncSyncManager.h>
@@ -40,10 +41,6 @@ NSString *const kSyncEventType = @"sync";
 NSString *const kSyncDetail = @"detail";
 NSString *const kSyncIsGlobalStoreArg = @"isGlobalStore";
 NSString *const kSyncStoreNameArg = @"storeName";
-
-@interface SFSmartSyncPlugin ()
-
-@end
 
 @implementation SFSmartSyncPlugin
 
@@ -81,17 +78,6 @@ NSString *const kSyncStoreNameArg = @"storeName";
             }
         } else {
             [SFSDKHybridLogger d:[self class] format:@"Invalid object passed to JSONDataRepresentation???"];
-        }
-    });
-}
-
-- (void) handleGhostSyncUpdate:(SFSyncStateStatus)syncStatus
-{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (syncStatus == SFSyncStateStatusDone) {
-            [SFSDKHybridLogger d:[self class] format:@"cleanResyncGhosts completed successfully"];
-        } else {
-            [SFSDKHybridLogger e:[self class] format:@"cleanResyncGhosts did not complete successfully"];
         }
     });
 }
@@ -199,15 +185,23 @@ NSString *const kSyncStoreNameArg = @"storeName";
 
 - (void) cleanResyncGhosts:(CDVInvokedUrlCommand *)command
 {
-    [self runCommand:^(NSDictionary* argsDict) {
-        NSNumber* syncId = (NSNumber*) [argsDict nonNullObjectForKey:kSyncIdArg];
-        [SFSDKHybridLogger d:[self class] format:@"cleanResyncGhosts with sync id: %@", syncId];
-        __weak typeof(self) weakSelf = self;
-        [[self getSyncManagerInst:argsDict] cleanResyncGhosts:syncId completionStatusBlock:^(SFSyncStateStatus syncStatus) {
-            [weakSelf handleGhostSyncUpdate:syncStatus];
-        }];
-        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-    } command:command];
+    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
+    NSNumber* syncId = (NSNumber*) [argsDict nonNullObjectForKey:kSyncIdArg];
+    Class selfClass = [self class];
+    id <CDVCommandDelegate> commandDelegate = self.commandDelegate;
+    NSString* callbackId = command.callbackId;
+    [SFSDKHybridLogger d:selfClass format:@"cleanResyncGhosts with sync id: %@", syncId];
+    [[self getSyncManagerInst:argsDict] cleanResyncGhosts:syncId completionStatusBlock:^(SFSyncStateStatus syncStatus) {
+        CDVPluginResult* pluginResult;
+        if (syncStatus == SFSyncStateStatusDone) {
+            [SFSDKHybridLogger d:selfClass format:@"cleanResyncGhosts completed successfully"];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        } else {
+            [SFSDKHybridLogger e:selfClass format:@"cleanResyncGhosts did not complete successfully"];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
+        }
+        [commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
+    }];
 }
 
 - (void) syncUp:(CDVInvokedUrlCommand *)command

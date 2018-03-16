@@ -27,7 +27,17 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #import "SFSDKAuthViewHandler.h"
+#import "SFLoginViewController.h"
 @implementation SFSDKAuthViewHolder
+
+- (WKWebView *)wkWebView {
+    return (WKWebView *) self.loginController.oauthView;
+}
+
+- (void)setWkWebView:(WKWebView *)webView {
+   self.loginController.oauthView = webView;
+}
+
 @end
 @implementation SFSDKAuthViewHandler
 - (id)initWithDisplayBlock:(SFSDKAuthViewDisplayBlock)authViewDisplayBlock  dismissBlock:(SFSDKAuthViewDismissBlock)dismissBlock {

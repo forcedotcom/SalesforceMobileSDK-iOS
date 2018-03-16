@@ -1,0 +1,53 @@
+codecov:
+  branch: dev
+
+coverage:
+  precision: 2
+  round: down
+  range: "25...75"
+
+ignore:
+  - "shared"
+  - "hybrid"
+  - "native"
+  - "libs/**/*Test*/*"
+  - "libs/SalesforceReact/js"
+  - "libs/SalesforceReact/node_modules"
+
+comment:
+  layout: "reach, diff"
+  behavior: default
+  require_changes: false
+
+coverage:
+  status:
+    project:
+      default: false  # disable the default status that measures entire project
+      SalesforceAnalytics:
+        target: auto
+        paths: "libs/SalesforceAnalytics/SalesforceAnalytics/"
+        flags: SalesforceAnalytics
+      SalesforceSDKCore:
+        target: auto
+        paths: "libs/SalesforceSDKCore/SalesforceSDKCore/"
+        flags: SalesforceSDKCore
+      SalesforceHybridSDK:
+        target: auto
+        paths: "libs/SalesforceHybridSDK/SalesforceHybridSDK/"
+        flags: SalesforceHybridSDK
+      SmartStore:
+        target: auto
+        paths: "libs/SmartStore/SmartStore/"
+        flags: SmartStore
+      SmartSync:
+        target: auto
+        paths: "libs/SmartSync/SmartSync/"
+        flags: SmartSync
+      SalesforceReact:
+        target: auto
+        paths: "libs/SalesforceReact/SalesforceReact/"
+        flags: SalesforceReact
+      SalesforceSwiftSDK:
+        target: auto
+        paths: "libs/SalesforceSwiftSDK/SalesforceSwiftSDK/"
+        flags: SalesforceSwiftSDK

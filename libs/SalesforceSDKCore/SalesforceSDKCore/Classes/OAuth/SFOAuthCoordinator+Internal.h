@@ -25,7 +25,6 @@
 #import "SFOAuthCoordinator.h"
 
 @class SFOAuthInfo;
-@class SFOAuthOrgAuthConfiguration;
 
 typedef NS_ENUM(NSUInteger, SFOAuthTokenEndpointFlow) {
     SFOAuthTokenEndpointFlowNone = 0,
@@ -42,7 +41,6 @@ typedef NS_ENUM(NSUInteger, SFOAuthTokenEndpointFlow) {
 - (void)beginJwtTokenExchangeFlow;
 - (void)handleTokenEndpointResponse:(NSMutableData *)data;
 - (void)beginNativeBrowserFlow;
-- (void)retrieveOrgAuthConfiguration:(void (^)(SFOAuthOrgAuthConfiguration*, NSError*))retrievedAuthConfigBlock;
 
 @end
 

@@ -75,8 +75,9 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     self.didLoginUserAccount = userAccount;
 }
 
-- (void)userAccountManager:(SFUserAccountManager *)userAccountManager error:(NSError *)error info:(SFOAuthInfo *)info {
+- (BOOL)userAccountManager:(SFUserAccountManager *)userAccountManager error:(NSError *)error info:(SFOAuthInfo *)info {
     self.error = error;
+    return NO;
 }
 
 
@@ -147,22 +148,10 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 - (void)testAccountIdentityEquality {
     NSDictionary *accountIdentityMatrix = @{
                                             @"MatchGroup1": @[
-                                                    [[SFUserAccountIdentity alloc] initWithUserId:nil orgId:nil],
-                                                    [[SFUserAccountIdentity alloc] initWithUserId:nil orgId:nil]
-                                                    ],
-                                            @"MatchGroup2": @[
-                                                    [[SFUserAccountIdentity alloc] initWithUserId:nil orgId:@"OrgID1"],
-                                                    [[SFUserAccountIdentity alloc] initWithUserId:nil orgId:@"OrgID1"]
-                                                    ],
-                                            @"MatchGroup3": @[
-                                                    [[SFUserAccountIdentity alloc] initWithUserId:@"UserID1" orgId:nil],
-                                                    [[SFUserAccountIdentity alloc] initWithUserId:@"UserID1" orgId:nil]
-                                                    ],
-                                            @"MatchGroup4": @[
                                                     [[SFUserAccountIdentity alloc] initWithUserId:@"UserID1" orgId:@"OrgID1"],
                                                     [[SFUserAccountIdentity alloc] initWithUserId:@"UserID1" orgId:@"OrgID1"]
                                                     ],
-                                            @"MatchGroup5": @[
+                                            @"MatchGroup2": @[
                                                     [[SFUserAccountIdentity alloc] initWithUserId:@"UserID2" orgId:@"OrgID2"],
                                                     [[SFUserAccountIdentity alloc] initWithUserId:@"UserID2" orgId:@"OrgID2"]
                                                     ]

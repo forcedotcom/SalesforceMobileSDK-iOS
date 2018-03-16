@@ -47,6 +47,13 @@ git submodule init
 git submodule sync
 git submodule update --init --recursive
 
+# Get react native
+pushd "libs/SalesforceReact"
+rm -rf node_modules
+npm install
+popd
+
+
 # Remove the old Xcode templates, if they still exist.
 hybrid_template_dir="${HOME}/Library/Developer/Xcode/Templates/Project Templates/Application/Hybrid Force.com App.xctemplate"
 native_template_dir="${HOME}/Library/Developer/Xcode/Templates/Project Templates/Application/Native Force.com REST App.xctemplate"

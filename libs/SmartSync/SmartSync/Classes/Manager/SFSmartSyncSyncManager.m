@@ -205,7 +205,7 @@ static NSMutableDictionary *syncMgrList = nil;
         if (totalSize>=0) sync.totalSize = totalSize;
         if (maxTimeStamp>=0) sync.maxTimeStamp = (sync.maxTimeStamp < maxTimeStamp ? maxTimeStamp : sync.maxTimeStamp);
         [sync save:strongSelf.store];
-        [SFSDKSmartSyncLogger d:[self class] format:@"Sync update:%@", sync];
+        [SFSDKSmartSyncLogger d:[strongSelf class] format:@"Sync update:%@", sync];
         NSString *eventName = nil;
         switch (sync.type) {
             case SFSyncStateSyncTypeDown:
@@ -229,7 +229,7 @@ static NSMutableDictionary *syncMgrList = nil;
                 break;
             case SFSyncStateStatusDone:
             case SFSyncStateStatusFailed:
-                [SFSDKEventBuilderHelper createAndStoreEvent:eventName userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
+                [SFSDKEventBuilderHelper createAndStoreEvent:eventName userAccount:nil className:NSStringFromClass([strongSelf class]) attributes:attributes];
                 [strongSelf.runningSyncIds removeObject:[NSNumber numberWithInteger:sync.syncId]];
                 break;
         }
@@ -239,7 +239,8 @@ static NSMutableDictionary *syncMgrList = nil;
     };
 
     SyncFailBlock failSync = ^(NSString* failureMessage, NSError* error) {
-        [SFSDKSmartSyncLogger e:[self class] format:@"runSync failed:%@ cause:%@ error%@", sync, failureMessage, error];
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        [SFSDKSmartSyncLogger e:[strongSelf class] format:@"runSync failed:%@ cause:%@ error%@", sync, failureMessage, error];
         updateSync(kSFSyncStateStatusFailed, kSyncManagerUnchanged, kSyncManagerUnchanged, kSyncManagerUnchanged);
     };
 
@@ -321,10 +322,7 @@ static NSMutableDictionary *syncMgrList = nil;
     SFSyncStateMergeMode mergeMode = sync.mergeMode;
     SFSyncDownTarget* target = (SFSyncDownTarget*) sync.target;
     long long maxTimeStamp = sync.maxTimeStamp;
-
-    SFSyncDownTargetFetchErrorBlock failBlock = ^(NSError *error) {
-        failSync(@"Server call for sync down failed", error);
-    };
+    NSNumber* syncId = [NSNumber numberWithInteger:sync.syncId];
 
     __block NSUInteger countFetched = 0;
     __block NSUInteger totalSize = 0;
@@ -335,20 +333,30 @@ static NSMutableDictionary *syncMgrList = nil;
     if (mergeMode == SFSyncStateMergeModeLeaveIfChanged) {
         idsToSkip = [target getIdsToSkip:self soupName:soupName];
     }
-
+   
+    SFSyncDownTargetFetchErrorBlock failBlock = ^(NSError *error) {
+        failSync(@"Server call for sync down failed", error);
+        continueFetchBlockRecurse = nil;
+    };
+    
     SFSyncDownTargetFetchCompleteBlock startFetchBlock = ^(NSArray* records) {
         totalSize = target.totalSize;
-        updateSync(nil, totalSize == 0 ? 100 : 0, totalSize, kSyncManagerUnchanged);
-        if (totalSize != 0) continueFetchBlockRecurse(records);
+        updateSync(nil, totalSize == 0 ? 100 : 0, target.totalSize, kSyncManagerUnchanged);
+        if (totalSize != 0)
+            continueFetchBlockRecurse(records);
+        else
+            continueFetchBlockRecurse = nil;
     };
-
+    
+    __weak typeof (self) weakSelf = self;
     SFSyncDownTargetFetchCompleteBlock continueFetchBlock = ^(NSArray* records) {
+        __strong typeof (weakSelf) strongSelf = weakSelf;
         if (records != nil) {
             // Figure out records to save
-            NSArray* recordsToSave = idsToSkip && idsToSkip.count > 0 ? [self removeWithIds:records idsToSkip:idsToSkip idField:target.idFieldName] : records;
+            NSArray* recordsToSave = idsToSkip && idsToSkip.count > 0 ? [strongSelf  removeWithIds:records idsToSkip:idsToSkip idField:target.idFieldName] : records;
 
             // Save to smartstore.
-            [target saveRecordsToLocalStore:self soupName:soupName records:recordsToSave];
+            [target saveRecordsToLocalStore:strongSelf  soupName:soupName records:recordsToSave syncId:syncId];
             countFetched += [records count];
             progress = 100*countFetched / totalSize;
 
@@ -366,6 +374,7 @@ static NSMutableDictionary *syncMgrList = nil;
             if (progress < 100) {
                 updateSync(nil, 100, -1 /*unchanged*/, -1 /*unchanged*/);
             }
+            continueFetchBlockRecurse = nil;
         }
     };
     
@@ -460,25 +469,34 @@ static NSMutableDictionary *syncMgrList = nil;
     }
     [SFSDKSmartSyncLogger d:[self class] format:@"cleanResyncGhosts:%@", sync];
     NSString* soupName = [sync soupName];
-    [(SFSyncDownTarget *)sync.target cleanGhosts:self
-                                        soupName:soupName
-                                      errorBlock:^(NSError* e) {
-                                          [SFSDKSmartSyncLogger e:[self class] format:@"Failed to get list of remote IDs, %@", [e localizedDescription]];
-                                          NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
-                                          attributes[@"syncId"] = [NSNumber numberWithInteger:sync.syncId];
-                                          attributes[@"syncTarget"] = NSStringFromClass([sync.target class]);
-                                          [SFSDKEventBuilderHelper createAndStoreEvent:@"cleanResyncGhosts" userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
-                                          completionStatusBlock(SFSyncStateStatusFailed);
-                                      }
-                                   completeBlock:^(NSArray* localIds) {
-                                       NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
-                                       attributes[@"numRecords"] = [NSNumber numberWithInteger:localIds.count];
-                                       attributes[@"syncId"] = [NSNumber numberWithInteger:sync.syncId];
-                                       attributes[@"syncTarget"] = NSStringFromClass([sync.target class]);
-                                       [SFSDKEventBuilderHelper createAndStoreEvent:@"cleanResyncGhosts" userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
-                                       completionStatusBlock(SFSyncStateStatusDone);
-                                   }];
+    Class currentClass = [self class];
+    
+    // Run on background thread
+    __weak typeof(self) weakSelf = self;
 
+    // Preparing event for SFSDKEventBuilderHelper
+    NSMutableDictionary *eventAttrs = [[NSMutableDictionary alloc] init];
+    eventAttrs[@"syncId"] = [NSNumber numberWithInteger:sync.syncId];
+    eventAttrs[@"syncTarget"] = NSStringFromClass([sync.target class]);
+    
+    dispatch_async(self.queue, ^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+
+        [(SFSyncDownTarget *) sync.target cleanGhosts:strongSelf
+                                             soupName:soupName
+                                               syncId:syncId
+                                           errorBlock:^(NSError *e) {
+                                               [SFSDKSmartSyncLogger e:currentClass format:@"Failed to get list of remote IDs, %@", [e localizedDescription]];
+                                               [SFSDKEventBuilderHelper createAndStoreEvent:@"cleanResyncGhosts" userAccount:nil className:NSStringFromClass(currentClass) attributes:eventAttrs];
+                                               completionStatusBlock(SFSyncStateStatusFailed);
+                                           }
+                                        completeBlock:^(NSArray *localIds) {
+                                            eventAttrs[@"numRecords"] = [NSNumber numberWithInteger:localIds.count];
+                                            [SFSDKEventBuilderHelper createAndStoreEvent:@"cleanResyncGhosts" userAccount:nil className:NSStringFromClass(currentClass) attributes:eventAttrs];
+
+                                            completionStatusBlock(SFSyncStateStatusDone);
+                                        }];
+    });
 }
 
 - (void)syncUpOneEntry:(SFSyncState*)sync
@@ -537,7 +555,7 @@ static NSMutableDictionary *syncMgrList = nil;
             }
             else {
                 // Server date is newer than the local date.  Skip this update.
-                [SFSDKSmartSyncLogger d:[self class] format:@"syncUpOneRecord: Record not synced since client does not have the latest from server:%@", record];
+                [SFSDKSmartSyncLogger d:[strongSelf class] format:@"syncUpOneRecord: Record not synced since client does not have the latest from server:%@", record];
                 [strongSelf syncUpOneEntry:sync
                                  recordIds:recordIds
                                      index:i+1
@@ -562,10 +580,10 @@ static NSMutableDictionary *syncMgrList = nil;
     SFSyncStateMergeMode mergeMode = sync.mergeMode;
     SFSyncUpTarget *target = (SFSyncUpTarget *)sync.target;
     NSString* soupName = sync.soupName;
-
+    __weak typeof(self) weakSelf = self;
     // Next
     void (^nextBlock)(void)=^() {
-        [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failBlock:failBlock];
+        [weakSelf syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failBlock:failBlock];
     };
 
     // Advanced sync up target take it from here
@@ -587,11 +605,10 @@ static NSMutableDictionary *syncMgrList = nil;
         nextBlock();
         return;
     }
-
     // Delete handler
     SFSyncUpTargetCompleteBlock completeBlockDelete = ^(NSDictionary *d) {
         // Remove entry on delete
-        [target deleteFromLocalStore:self soupName:soupName record:record];
+        [target deleteFromLocalStore:weakSelf soupName:soupName record:record];
 
         // Next
         nextBlock();
@@ -599,16 +616,17 @@ static NSMutableDictionary *syncMgrList = nil;
     
     // Update handler
     SFSyncUpTargetCompleteBlock completeBlockUpdate = ^(NSDictionary *d) {
-        [target cleanAndSaveInLocalStore:self soupName:soupName record:record];
+        [target cleanAndSaveInLocalStore:weakSelf soupName:soupName record:record];
 
         // Next
         nextBlock();
     };
     
     // Create handler
+    NSString *fieldName = target.idFieldName;
     SFSyncUpTargetCompleteBlock completeBlockCreate = ^(NSDictionary *d) {
         // Replace id with server id during create
-        record[target.idFieldName] = d[kCreatedId];
+        record[fieldName] = d[kCreatedId];
         completeBlockUpdate(d);
     };
     
@@ -617,7 +635,7 @@ static NSMutableDictionary *syncMgrList = nil;
         // Handling remotely deleted records
         if (err.code == 404) {
             if (mergeMode == SFSyncStateMergeModeOverwrite) {
-                [target createOnServer:self record:record fieldlist:sync.options.fieldlist completionBlock:completeBlockCreate failBlock:failBlock];
+                [target createOnServer:weakSelf record:record fieldlist:sync.options.fieldlist completionBlock:completeBlockCreate failBlock:failBlock];
             }
             else {
                 // Next

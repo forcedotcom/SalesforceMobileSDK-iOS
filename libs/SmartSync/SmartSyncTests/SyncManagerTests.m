@@ -157,6 +157,65 @@
 }
 
 /**
+ * Tests clean ghosts when soup is populated through more than one sync down
+ */
+- (void) testCleanResyncGhostsWithMultipleSyncs
+{
+    [self createAccountsSoup];
+        
+    // Creates 6 accounts on the server.
+    NSArray* accountIds = [[self createAccountsOnServer:6] allKeys];
+    NSArray* accountIdsFirstSubset = [accountIds subarrayWithRange:NSMakeRange(0, 3)];  // id0, id1, id2
+    NSArray* accountIdsSecondSubset = [accountIds subarrayWithRange:NSMakeRange(2, 4)]; //           id2, id3, id4, id5
+
+    // Runs a first SOQL sync down target (bringing down id0, id1, id2)
+    NSNumber* firstSyncId = [NSNumber numberWithInteger:[self trySyncDown:SFSyncStateMergeModeLeaveIfChanged
+                                                                   target:[SFSoqlSyncDownTarget newSyncTarget:[NSString stringWithFormat:@"SELECT Id, Name FROM Account WHERE Id IN %@", [self buildInClause:accountIdsFirstSubset]]]
+                                                                 soupName:ACCOUNTS_SOUP
+                                                                totalSize:accountIdsFirstSubset.count
+                                                            numberFetches:1]];
+    [self checkDbExists:ACCOUNTS_SOUP ids:accountIdsFirstSubset idField:@"Id"];
+    [self checkDbSyncIdField:accountIdsFirstSubset soupName:ACCOUNTS_SOUP syncId:firstSyncId];
+
+    // Runs a second SOQL sync down target (bringing down id2, id3, id4, id5)
+    NSNumber* secondSyncId = [NSNumber numberWithInteger:[self trySyncDown:SFSyncStateMergeModeLeaveIfChanged
+                                                                    target:[SFSoqlSyncDownTarget newSyncTarget:[NSString stringWithFormat:@"SELECT Id, Name FROM Account WHERE Id IN %@", [self buildInClause:accountIdsSecondSubset]]]
+                                                                  soupName:ACCOUNTS_SOUP
+                                                                 totalSize:accountIdsSecondSubset.count
+                                                             numberFetches:1]];
+    [self checkDbExists:ACCOUNTS_SOUP ids:accountIdsSecondSubset idField:@"Id"];
+    [self checkDbSyncIdField:accountIdsSecondSubset soupName:ACCOUNTS_SOUP syncId:secondSyncId];
+
+    // Deletes id0, id2, id5 on the server
+    [self deleteAccountsOnServer:@[accountIds[0], accountIds[2], accountIds[5]]];
+
+    // Cleaning ghosts of first sync (should only remove id0)
+    XCTestExpectation* firstCleanExpectation = [self expectationWithDescription:@"firstCleanGhosts"];
+    [self.syncManager cleanResyncGhosts:firstSyncId completionStatusBlock:^(SFSyncStateStatus syncStatus) {
+        if (syncStatus == SFSyncStateStatusFailed || syncStatus == SFSyncStateStatusDone) {
+            [firstCleanExpectation fulfill];
+        }
+    }];
+    [self waitForExpectationsWithTimeout:30.0 handler:nil];
+    [self checkDbExists:ACCOUNTS_SOUP ids:@[accountIds[1], accountIds[2], accountIds[3], accountIds[4], accountIds[5]] idField:@"Id"];
+    [self checkDbDeleted:ACCOUNTS_SOUP ids:@[accountIds[0]] idField:@"Id"];
+
+    // Cleaning ghosts of second sync (should remove id2 and id5)
+    XCTestExpectation* secondCleanExpectation = [self expectationWithDescription:@"secondCleanGhosts"];
+    [self.syncManager cleanResyncGhosts:secondSyncId completionStatusBlock:^(SFSyncStateStatus syncStatus) {
+        if (syncStatus == SFSyncStateStatusFailed || syncStatus == SFSyncStateStatusDone) {
+            [secondCleanExpectation fulfill];
+        }
+    }];
+    [self waitForExpectationsWithTimeout:30.0 handler:nil];
+    [self checkDbExists:ACCOUNTS_SOUP ids:@[accountIds[1], accountIds[3], accountIds[4]] idField:@"Id"];
+    [self checkDbDeleted:ACCOUNTS_SOUP ids:@[accountIds[0], accountIds[2], accountIds[5]] idField:@"Id"];
+
+    // Deletes the remaining accounts on the server.
+    [self deleteAccountsOnServer:@[accountIds[1], accountIds[3], accountIds[4]]];
+}
+
+/**
  * Tests if ghost records are cleaned locally for a MRU target.
  */
 - (void)testCleanResyncGhostsForMRUTarget
@@ -1382,15 +1441,6 @@
     NSString* soql = [@[@"SELECT Id, Name, Description, LastModifiedDate FROM Account WHERE Id IN ", idsClause] componentsJoinedByString:@""];
     SFSoqlSyncDownTarget* target = [SFSoqlSyncDownTarget newSyncTarget:soql];
     return [self trySyncDown:mergeMode target:target soupName:ACCOUNTS_SOUP totalSize:idToFields.count numberFetches:1];
-}
-
-- (void)checkDbExists:(NSString*)soupName ids:(NSArray*)ids idField:(NSString*)idField {
-    NSString* smartSql = [NSString stringWithFormat:@"SELECT {%@:_soup} FROM {%@} WHERE {%@:%@} IN %@",
-            soupName, soupName, soupName, idField, [self buildInClause:ids]];
-
-    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:ids.count];
-    NSArray* rowsFromDb = [self.store queryWithQuerySpec:query pageIndex:0 error:nil];
-    XCTAssertEqual(ids.count, rowsFromDb.count, "All records should have been returned from smartstore");
 }
 
 - (void)checkDb:(NSDictionary*)dict {
