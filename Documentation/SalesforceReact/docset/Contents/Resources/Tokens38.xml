@@ -475,6 +475,352 @@ take effect after the bridge is reloaded.</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/setAssetsLibrary:</TokenIdentifier>
+			<Abstract type="html">The shared asset library instance.</Abstract>
+			<DeclaredIn>RCTAssetsLibraryRequestHandler.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) ALAssetsLibrary *assetsLibrary</Declaration>
+			
+			
+			<Anchor>//api/name/assetsLibrary</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/assetsLibrary</TokenIdentifier>
+			<Abstract type="html">The shared asset library instance.</Abstract>
+			<DeclaredIn>RCTAssetsLibraryRequestHandler.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) ALAssetsLibrary *assetsLibrary</Declaration>
+			
+			
+			<Anchor>//api/name/assetsLibrary</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTBridge/assetsLibrary</TokenIdentifier>
+			<Abstract type="html">The shared asset library instance.</Abstract>
+			<DeclaredIn>RCTAssetsLibraryRequestHandler.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) ALAssetsLibrary *assetsLibrary</Declaration>
+			
+			
+			<Anchor>//api/name/assetsLibrary</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/webSocketModule</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWebSocketModule.h</DeclaredIn>
+			
+			<Declaration>- (RCTWebSocketModule *)webSocketModule</Declaration>
+			
+			
+			<Anchor>//api/name/webSocketModule</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/setInspectable:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, getter=isInspectable) BOOL inspectable</Declaration>
+			
+			
+			<Anchor>//api/name/inspectable</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/isInspectable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, getter=isInspectable) BOOL inspectable</Declaration>
+			
+			
+			<Anchor>//api/name/inspectable</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTBridge/inspectable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, getter=isInspectable) BOOL inspectable</Declaration>
+			
+			
+			<Anchor>//api/name/inspectable</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/setJavaScriptExecutor:</TokenIdentifier>
+			<Abstract type="html">Access the underlying JavaScript executor. You can use this in unit tests to detect
+when the executor has been invalidated, or when you want to schedule calls on the
+JS VM outside of React Native. Use with care!</Abstract>
+			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, readonly) id&lt;RCTJavaScriptExecutor&gt; javaScriptExecutor</Declaration>
+			
+			
+			<Anchor>//api/name/javaScriptExecutor</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/javaScriptExecutor</TokenIdentifier>
+			<Abstract type="html">Access the underlying JavaScript executor. You can use this in unit tests to detect
+when the executor has been invalidated, or when you want to schedule calls on the
+JS VM outside of React Native. Use with care!</Abstract>
+			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, readonly) id&lt;RCTJavaScriptExecutor&gt; javaScriptExecutor</Declaration>
+			
+			
+			<Anchor>//api/name/javaScriptExecutor</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTBridge/javaScriptExecutor</TokenIdentifier>
+			<Abstract type="html">Access the underlying JavaScript executor. You can use this in unit tests to detect
+when the executor has been invalidated, or when you want to schedule calls on the
+JS VM outside of React Native. Use with care!</Abstract>
+			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, readonly) id&lt;RCTJavaScriptExecutor&gt; javaScriptExecutor</Declaration>
+			
+			
+			<Anchor>//api/name/javaScriptExecutor</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/setParentBridge:</TokenIdentifier>
+			<Abstract type="html">Used by RCTModuleData</Abstract>
+			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, readonly) RCTBridge *parentBridge</Declaration>
+			
+			
+			<Anchor>//api/name/parentBridge</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/parentBridge</TokenIdentifier>
+			<Abstract type="html">Used by RCTModuleData</Abstract>
+			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, readonly) RCTBridge *parentBridge</Declaration>
+			
+			
+			<Anchor>//api/name/parentBridge</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTBridge/parentBridge</TokenIdentifier>
+			<Abstract type="html">Used by RCTModuleData</Abstract>
+			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, readonly) RCTBridge *parentBridge</Declaration>
+			
+			
+			<Anchor>//api/name/parentBridge</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/setModuleSetupComplete:</TokenIdentifier>
+			<Abstract type="html">Used by RCTModuleData</Abstract>
+			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) BOOL moduleSetupComplete</Declaration>
+			
+			
+			<Anchor>//api/name/moduleSetupComplete</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/moduleSetupComplete</TokenIdentifier>
+			<Abstract type="html">Used by RCTModuleData</Abstract>
+			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) BOOL moduleSetupComplete</Declaration>
+			
+			
+			<Anchor>//api/name/moduleSetupComplete</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTBridge/moduleSetupComplete</TokenIdentifier>
+			<Abstract type="html">Used by RCTModuleData</Abstract>
+			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) BOOL moduleSetupComplete</Declaration>
+			
+			
+			<Anchor>//api/name/moduleSetupComplete</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/start</TokenIdentifier>
+			<Abstract type="html">Called on the child bridge to run the executor and start loading.</Abstract>
+			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			
+			<Declaration>- (void)start</Declaration>
+			
+			
+			<Anchor>//api/name/start</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/registerModuleForFrameUpdates:withModuleData:</TokenIdentifier>
+			<Abstract type="html">Used by RCTModuleData to register the module for frame updates after it is
+lazily initialized.</Abstract>
+			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			
+			<Declaration>- (void)registerModuleForFrameUpdates:(id&lt;RCTBridgeModule&gt;)module withModuleData:(RCTModuleData *)moduleData</Declaration>
+			
+			
+			<Anchor>//api/name/registerModuleForFrameUpdates:withModuleData:</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/dispatchBlock:queue:</TokenIdentifier>
+			<Abstract type="html">Dispatch work to a module&apos;s queue - this is also suports the fake RCTJSThread
+queue. Exposed for the RCTProfiler</Abstract>
+			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			
+			<Declaration>- (void)dispatchBlock:(dispatch_block_t)block queue:(dispatch_queue_t)queue</Declaration>
+			
+			
+			<Anchor>//api/name/dispatchBlock:queue:</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/moduleDataForName:</TokenIdentifier>
+			<Abstract type="html">Get the module data for a given module name. Used by UIManager to implement
+the dispatchViewManagerCommand method.</Abstract>
+			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			
+			<Declaration>- (RCTModuleData *)moduleDataForName:(NSString *)moduleName</Declaration>
+			
+			
+			<Anchor>//api/name/moduleDataForName:</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/registerAdditionalModuleClasses:</TokenIdentifier>
+			<Abstract type="html">Registers additional classes with the ModuleRegistry.</Abstract>
+			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			
+			<Declaration>- (void)registerAdditionalModuleClasses:(NSArray&lt;Class&gt; *)newModules</Declaration>
+			
+			
+			<Anchor>//api/name/registerAdditionalModuleClasses:</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/startProfiling</TokenIdentifier>
+			<Abstract type="html">Systrace profiler toggling methods exposed for the RCTDevMenu</Abstract>
+			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			
+			<Declaration>- (void)startProfiling</Declaration>
+			
+			
+			<Anchor>//api/name/startProfiling</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/stopProfiling:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			
+			<Declaration>- (void)stopProfiling:(void ( ^ ) ( NSData *))callback</Declaration>
+			
+			
+			<Anchor>//api/name/stopProfiling:</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/handleBuffer:batchEnded:</TokenIdentifier>
+			<Abstract type="html">Exposed for the RCTJSCExecutor for sending native methods called from
+JavaScript in the middle of a batch.</Abstract>
+			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			
+			<Declaration>- (void)handleBuffer:(NSArray&lt;NSArray*&gt; *)buffer batchEnded:(BOOL)hasEnded</Declaration>
+			
+			
+			<Anchor>//api/name/handleBuffer:batchEnded:</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/callNativeModule:method:params:</TokenIdentifier>
+			<Abstract type="html">Synchronously call a specific native module&apos;s method and return the result</Abstract>
+			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			
+			<Declaration>- (id)callNativeModule:(NSUInteger)moduleID method:(NSUInteger)methodID params:(NSArray *)params</Declaration>
+			
+			
+			<Anchor>//api/name/callNativeModule:method:params:</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/configForModuleName:</TokenIdentifier>
+			<Abstract type="html">Exposed for the RCTJSCExecutor for lazily loading native modules</Abstract>
+			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			
+			<Declaration>- (NSArray *)configForModuleName:(NSString *)moduleName</Declaration>
+			
+			
+			<Anchor>//api/name/configForModuleName:</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/logMessage:level:</TokenIdentifier>
+			<Abstract type="html">Hook exposed for RCTLog to send logs to JavaScript when not running in JSC</Abstract>
+			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			
+			<Declaration>- (void)logMessage:(NSString *)message level:(NSString *)level</Declaration>
+			
+			
+			<Anchor>//api/name/logMessage:level:</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/_immediatelyCallTimer:</TokenIdentifier>
+			<Abstract type="html">Allow super fast, one time, timers to skip the queue and be directly executed</Abstract>
+			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			
+			<Declaration>- (void)_immediatelyCallTimer:(NSNumber *)timer</Declaration>
+			
+			
+			<Anchor>//api/name/_immediatelyCallTimer:</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/setJsContextRef:</TokenIdentifier>
 			<Abstract type="html">The raw JSGlobalContextRef used by the bridge.</Abstract>
 			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
@@ -511,194 +857,38 @@ take effect after the bridge is reloaded.</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/setImageLoader:</TokenIdentifier>
-			<Abstract type="html">The shared image loader instance</Abstract>
-			<DeclaredIn>RCTImageLoader.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) RCTImageLoader *imageLoader</Declaration>
-			
-			
-			<Anchor>//api/name/imageLoader</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/imageLoader</TokenIdentifier>
-			<Abstract type="html">The shared image loader instance</Abstract>
-			<DeclaredIn>RCTImageLoader.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) RCTImageLoader *imageLoader</Declaration>
-			
-			
-			<Anchor>//api/name/imageLoader</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTBridge/imageLoader</TokenIdentifier>
-			<Abstract type="html">The shared image loader instance</Abstract>
-			<DeclaredIn>RCTImageLoader.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) RCTImageLoader *imageLoader</Declaration>
-			
-			
-			<Anchor>//api/name/imageLoader</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/setDevMenu:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/setAccessibilityManager:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevMenu.h</DeclaredIn>
+			<DeclaredIn>RCTAccessibilityManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) RCTDevMenu *devMenu</Declaration>
+			<Declaration>@property (nonatomic, readonly) RCTAccessibilityManager *accessibilityManager</Declaration>
 			
 			
-			<Anchor>//api/name/devMenu</Anchor>
+			<Anchor>//api/name/accessibilityManager</Anchor>
             <NodeRef refid="38"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/devMenu</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/accessibilityManager</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevMenu.h</DeclaredIn>
+			<DeclaredIn>RCTAccessibilityManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) RCTDevMenu *devMenu</Declaration>
+			<Declaration>@property (nonatomic, readonly) RCTAccessibilityManager *accessibilityManager</Declaration>
 			
 			
-			<Anchor>//api/name/devMenu</Anchor>
+			<Anchor>//api/name/accessibilityManager</Anchor>
             <NodeRef refid="38"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTBridge/devMenu</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTBridge/accessibilityManager</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevMenu.h</DeclaredIn>
+			<DeclaredIn>RCTAccessibilityManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) RCTDevMenu *devMenu</Declaration>
-			
-			
-			<Anchor>//api/name/devMenu</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/setRedBox:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTRedBox.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) RCTRedBox *redBox</Declaration>
+			<Declaration>@property (nonatomic, readonly) RCTAccessibilityManager *accessibilityManager</Declaration>
 			
 			
-			<Anchor>//api/name/redBox</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/redBox</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTRedBox.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) RCTRedBox *redBox</Declaration>
-			
-			
-			<Anchor>//api/name/redBox</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTBridge/redBox</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTRedBox.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) RCTRedBox *redBox</Declaration>
-			
-			
-			<Anchor>//api/name/redBox</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/setImageStoreManager:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTImageStoreManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) RCTImageStoreManager *imageStoreManager</Declaration>
-			
-			
-			<Anchor>//api/name/imageStoreManager</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/imageStoreManager</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTImageStoreManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) RCTImageStoreManager *imageStoreManager</Declaration>
-			
-			
-			<Anchor>//api/name/imageStoreManager</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTBridge/imageStoreManager</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTImageStoreManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) RCTImageStoreManager *imageStoreManager</Declaration>
-			
-			
-			<Anchor>//api/name/imageStoreManager</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/setNetworking:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTNetworking.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) RCTNetworking *networking</Declaration>
-			
-			
-			<Anchor>//api/name/networking</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/networking</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTNetworking.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) RCTNetworking *networking</Declaration>
-			
-			
-			<Anchor>//api/name/networking</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTBridge/networking</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTNetworking.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) RCTNetworking *networking</Declaration>
-			
-			
-			<Anchor>//api/name/networking</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/webSocketModule</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTWebSocketModule.h</DeclaredIn>
-			
-			<Declaration>- (RCTWebSocketModule *)webSocketModule</Declaration>
-			
-			
-			<Anchor>//api/name/webSocketModule</Anchor>
+			<Anchor>//api/name/accessibilityManager</Anchor>
             <NodeRef refid="38"/>
 		</Token>
 		
@@ -990,38 +1180,86 @@ Exposed for the RCTBatchedBridge</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/setAssetsLibrary:</TokenIdentifier>
-			<Abstract type="html">The shared asset library instance.</Abstract>
-			<DeclaredIn>RCTAssetsLibraryRequestHandler.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/setImageLoader:</TokenIdentifier>
+			<Abstract type="html">The shared image loader instance</Abstract>
+			<DeclaredIn>RCTImageLoader.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) ALAssetsLibrary *assetsLibrary</Declaration>
+			<Declaration>@property (nonatomic, readonly) RCTImageLoader *imageLoader</Declaration>
 			
 			
-			<Anchor>//api/name/assetsLibrary</Anchor>
+			<Anchor>//api/name/imageLoader</Anchor>
             <NodeRef refid="38"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/assetsLibrary</TokenIdentifier>
-			<Abstract type="html">The shared asset library instance.</Abstract>
-			<DeclaredIn>RCTAssetsLibraryRequestHandler.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/imageLoader</TokenIdentifier>
+			<Abstract type="html">The shared image loader instance</Abstract>
+			<DeclaredIn>RCTImageLoader.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) ALAssetsLibrary *assetsLibrary</Declaration>
+			<Declaration>@property (nonatomic, readonly) RCTImageLoader *imageLoader</Declaration>
 			
 			
-			<Anchor>//api/name/assetsLibrary</Anchor>
+			<Anchor>//api/name/imageLoader</Anchor>
             <NodeRef refid="38"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTBridge/assetsLibrary</TokenIdentifier>
-			<Abstract type="html">The shared asset library instance.</Abstract>
-			<DeclaredIn>RCTAssetsLibraryRequestHandler.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTBridge/imageLoader</TokenIdentifier>
+			<Abstract type="html">The shared image loader instance</Abstract>
+			<DeclaredIn>RCTImageLoader.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) ALAssetsLibrary *assetsLibrary</Declaration>
+			<Declaration>@property (nonatomic, readonly) RCTImageLoader *imageLoader</Declaration>
 			
 			
-			<Anchor>//api/name/assetsLibrary</Anchor>
+			<Anchor>//api/name/imageLoader</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/setImageStoreManager:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTImageStoreManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) RCTImageStoreManager *imageStoreManager</Declaration>
+			
+			
+			<Anchor>//api/name/imageStoreManager</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/imageStoreManager</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTImageStoreManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) RCTImageStoreManager *imageStoreManager</Declaration>
+			
+			
+			<Anchor>//api/name/imageStoreManager</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTBridge/imageStoreManager</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTImageStoreManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) RCTImageStoreManager *imageStoreManager</Declaration>
+			
+			
+			<Anchor>//api/name/imageStoreManager</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/devSettings</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTDevSettings.h</DeclaredIn>
+			
+			<Declaration>- (RCTDevSettings *)devSettings</Declaration>
+			
+			
+			<Anchor>//api/name/devSettings</Anchor>
             <NodeRef refid="38"/>
 		</Token>
 		
@@ -1062,86 +1300,110 @@ Exposed for the RCTBatchedBridge</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/setInspectable:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/setNetworking:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			<DeclaredIn>RCTNetworking.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, getter=isInspectable) BOOL inspectable</Declaration>
+			<Declaration>@property (nonatomic, readonly) RCTNetworking *networking</Declaration>
 			
 			
-			<Anchor>//api/name/inspectable</Anchor>
+			<Anchor>//api/name/networking</Anchor>
             <NodeRef refid="38"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/isInspectable</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/networking</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			<DeclaredIn>RCTNetworking.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, getter=isInspectable) BOOL inspectable</Declaration>
+			<Declaration>@property (nonatomic, readonly) RCTNetworking *networking</Declaration>
 			
 			
-			<Anchor>//api/name/inspectable</Anchor>
+			<Anchor>//api/name/networking</Anchor>
             <NodeRef refid="38"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTBridge/inspectable</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTBridge/networking</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
+			<DeclaredIn>RCTNetworking.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, getter=isInspectable) BOOL inspectable</Declaration>
+			<Declaration>@property (nonatomic, readonly) RCTNetworking *networking</Declaration>
 			
 			
-			<Anchor>//api/name/inspectable</Anchor>
+			<Anchor>//api/name/networking</Anchor>
             <NodeRef refid="38"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/devSettings</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/setDevMenu:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevSettings.h</DeclaredIn>
+			<DeclaredIn>RCTDevMenu.h</DeclaredIn>
 			
-			<Declaration>- (RCTDevSettings *)devSettings</Declaration>
+			<Declaration>@property (nonatomic, readonly) RCTDevMenu *devMenu</Declaration>
 			
 			
-			<Anchor>//api/name/devSettings</Anchor>
+			<Anchor>//api/name/devMenu</Anchor>
             <NodeRef refid="38"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/setAccessibilityManager:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/devMenu</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTAccessibilityManager.h</DeclaredIn>
+			<DeclaredIn>RCTDevMenu.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) RCTAccessibilityManager *accessibilityManager</Declaration>
+			<Declaration>@property (nonatomic, readonly) RCTDevMenu *devMenu</Declaration>
 			
 			
-			<Anchor>//api/name/accessibilityManager</Anchor>
+			<Anchor>//api/name/devMenu</Anchor>
             <NodeRef refid="38"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/accessibilityManager</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTBridge/devMenu</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTAccessibilityManager.h</DeclaredIn>
+			<DeclaredIn>RCTDevMenu.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) RCTAccessibilityManager *accessibilityManager</Declaration>
+			<Declaration>@property (nonatomic, readonly) RCTDevMenu *devMenu</Declaration>
 			
 			
-			<Anchor>//api/name/accessibilityManager</Anchor>
+			<Anchor>//api/name/devMenu</Anchor>
             <NodeRef refid="38"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTBridge/accessibilityManager</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/setRedBox:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTAccessibilityManager.h</DeclaredIn>
+			<DeclaredIn>RCTRedBox.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) RCTAccessibilityManager *accessibilityManager</Declaration>
+			<Declaration>@property (nonatomic, readonly) RCTRedBox *redBox</Declaration>
 			
 			
-			<Anchor>//api/name/accessibilityManager</Anchor>
+			<Anchor>//api/name/redBox</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/redBox</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTRedBox.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) RCTRedBox *redBox</Declaration>
+			
+			
+			<Anchor>//api/name/redBox</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTBridge/redBox</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTRedBox.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) RCTRedBox *redBox</Declaration>
+			
+			
+			<Anchor>//api/name/redBox</Anchor>
             <NodeRef refid="38"/>
 		</Token>
 		
@@ -1154,268 +1416,6 @@ Exposed for the RCTBatchedBridge</Abstract>
 			
 			
 			<Anchor>//api/name/eventDispatcher</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/setJavaScriptExecutor:</TokenIdentifier>
-			<Abstract type="html">Access the underlying JavaScript executor. You can use this in unit tests to detect
-when the executor has been invalidated, or when you want to schedule calls on the
-JS VM outside of React Native. Use with care!</Abstract>
-			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak, readonly) id&lt;RCTJavaScriptExecutor&gt; javaScriptExecutor</Declaration>
-			
-			
-			<Anchor>//api/name/javaScriptExecutor</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/javaScriptExecutor</TokenIdentifier>
-			<Abstract type="html">Access the underlying JavaScript executor. You can use this in unit tests to detect
-when the executor has been invalidated, or when you want to schedule calls on the
-JS VM outside of React Native. Use with care!</Abstract>
-			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak, readonly) id&lt;RCTJavaScriptExecutor&gt; javaScriptExecutor</Declaration>
-			
-			
-			<Anchor>//api/name/javaScriptExecutor</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTBridge/javaScriptExecutor</TokenIdentifier>
-			<Abstract type="html">Access the underlying JavaScript executor. You can use this in unit tests to detect
-when the executor has been invalidated, or when you want to schedule calls on the
-JS VM outside of React Native. Use with care!</Abstract>
-			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak, readonly) id&lt;RCTJavaScriptExecutor&gt; javaScriptExecutor</Declaration>
-			
-			
-			<Anchor>//api/name/javaScriptExecutor</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/setParentBridge:</TokenIdentifier>
-			<Abstract type="html">Used by RCTModuleData</Abstract>
-			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak, readonly) RCTBridge *parentBridge</Declaration>
-			
-			
-			<Anchor>//api/name/parentBridge</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/parentBridge</TokenIdentifier>
-			<Abstract type="html">Used by RCTModuleData</Abstract>
-			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak, readonly) RCTBridge *parentBridge</Declaration>
-			
-			
-			<Anchor>//api/name/parentBridge</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTBridge/parentBridge</TokenIdentifier>
-			<Abstract type="html">Used by RCTModuleData</Abstract>
-			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak, readonly) RCTBridge *parentBridge</Declaration>
-			
-			
-			<Anchor>//api/name/parentBridge</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/setModuleSetupComplete:</TokenIdentifier>
-			<Abstract type="html">Used by RCTModuleData</Abstract>
-			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readonly) BOOL moduleSetupComplete</Declaration>
-			
-			
-			<Anchor>//api/name/moduleSetupComplete</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/moduleSetupComplete</TokenIdentifier>
-			<Abstract type="html">Used by RCTModuleData</Abstract>
-			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readonly) BOOL moduleSetupComplete</Declaration>
-			
-			
-			<Anchor>//api/name/moduleSetupComplete</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTBridge/moduleSetupComplete</TokenIdentifier>
-			<Abstract type="html">Used by RCTModuleData</Abstract>
-			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readonly) BOOL moduleSetupComplete</Declaration>
-			
-			
-			<Anchor>//api/name/moduleSetupComplete</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/start</TokenIdentifier>
-			<Abstract type="html">Called on the child bridge to run the executor and start loading.</Abstract>
-			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
-			
-			<Declaration>- (void)start</Declaration>
-			
-			
-			<Anchor>//api/name/start</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/registerModuleForFrameUpdates:withModuleData:</TokenIdentifier>
-			<Abstract type="html">Used by RCTModuleData to register the module for frame updates after it is
-lazily initialized.</Abstract>
-			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
-			
-			<Declaration>- (void)registerModuleForFrameUpdates:(id&lt;RCTBridgeModule&gt;)module withModuleData:(RCTModuleData *)moduleData</Declaration>
-			
-			
-			<Anchor>//api/name/registerModuleForFrameUpdates:withModuleData:</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/dispatchBlock:queue:</TokenIdentifier>
-			<Abstract type="html">Dispatch work to a module&apos;s queue - this is also suports the fake RCTJSThread
-queue. Exposed for the RCTProfiler</Abstract>
-			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
-			
-			<Declaration>- (void)dispatchBlock:(dispatch_block_t)block queue:(dispatch_queue_t)queue</Declaration>
-			
-			
-			<Anchor>//api/name/dispatchBlock:queue:</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/moduleDataForName:</TokenIdentifier>
-			<Abstract type="html">Get the module data for a given module name. Used by UIManager to implement
-the dispatchViewManagerCommand method.</Abstract>
-			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
-			
-			<Declaration>- (RCTModuleData *)moduleDataForName:(NSString *)moduleName</Declaration>
-			
-			
-			<Anchor>//api/name/moduleDataForName:</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/registerAdditionalModuleClasses:</TokenIdentifier>
-			<Abstract type="html">Registers additional classes with the ModuleRegistry.</Abstract>
-			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
-			
-			<Declaration>- (void)registerAdditionalModuleClasses:(NSArray&lt;Class&gt; *)newModules</Declaration>
-			
-			
-			<Anchor>//api/name/registerAdditionalModuleClasses:</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/startProfiling</TokenIdentifier>
-			<Abstract type="html">Systrace profiler toggling methods exposed for the RCTDevMenu</Abstract>
-			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
-			
-			<Declaration>- (void)startProfiling</Declaration>
-			
-			
-			<Anchor>//api/name/startProfiling</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/stopProfiling:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
-			
-			<Declaration>- (void)stopProfiling:(void ( ^ ) ( NSData *))callback</Declaration>
-			
-			
-			<Anchor>//api/name/stopProfiling:</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/handleBuffer:batchEnded:</TokenIdentifier>
-			<Abstract type="html">Exposed for the RCTJSCExecutor for sending native methods called from
-JavaScript in the middle of a batch.</Abstract>
-			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
-			
-			<Declaration>- (void)handleBuffer:(NSArray&lt;NSArray*&gt; *)buffer batchEnded:(BOOL)hasEnded</Declaration>
-			
-			
-			<Anchor>//api/name/handleBuffer:batchEnded:</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/callNativeModule:method:params:</TokenIdentifier>
-			<Abstract type="html">Synchronously call a specific native module&apos;s method and return the result</Abstract>
-			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
-			
-			<Declaration>- (id)callNativeModule:(NSUInteger)moduleID method:(NSUInteger)methodID params:(NSArray *)params</Declaration>
-			
-			
-			<Anchor>//api/name/callNativeModule:method:params:</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/configForModuleName:</TokenIdentifier>
-			<Abstract type="html">Exposed for the RCTJSCExecutor for lazily loading native modules</Abstract>
-			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
-			
-			<Declaration>- (NSArray *)configForModuleName:(NSString *)moduleName</Declaration>
-			
-			
-			<Anchor>//api/name/configForModuleName:</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/logMessage:level:</TokenIdentifier>
-			<Abstract type="html">Hook exposed for RCTLog to send logs to JavaScript when not running in JSC</Abstract>
-			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
-			
-			<Declaration>- (void)logMessage:(NSString *)message level:(NSString *)level</Declaration>
-			
-			
-			<Anchor>//api/name/logMessage:level:</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTBridge/_immediatelyCallTimer:</TokenIdentifier>
-			<Abstract type="html">Allow super fast, one time, timers to skip the queue and be directly executed</Abstract>
-			<DeclaredIn>RCTBridge+Private.h</DeclaredIn>
-			
-			<Declaration>- (void)_immediatelyCallTimer:(NSNumber *)timer</Declaration>
-			
-			
-			<Anchor>//api/name/_immediatelyCallTimer:</Anchor>
             <NodeRef refid="38"/>
 		</Token>
 		

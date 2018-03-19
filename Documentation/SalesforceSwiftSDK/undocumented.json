@@ -1,0 +1,68 @@
+{
+  "warnings": [
+    {
+      "file": "/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/libs/SalesforceSwiftSDK/SalesforceSwiftSDK/Classes/SalesforceSwiftLogger.swift",
+      "line": 35,
+      "symbol": "SalesforceSwiftLogger.kSFSDKComponentName",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/libs/SalesforceSwiftSDK/SalesforceSwiftSDK/Extensions/SFRestAPIExtensions.swift",
+      "line": 129,
+      "symbol": "SFRestAPI.Promises",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/libs/SalesforceSwiftSDK/SalesforceSwiftSDK/Extensions/SFSmartStoreExtensions.swift",
+      "line": 157,
+      "symbol": "SFQuerySpec.Builder.build()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/libs/SalesforceSwiftSDK/SalesforceSwiftSDK/Extensions/SFSmartStoreExtensions.swift",
+      "line": 166,
+      "symbol": "SFSmartStore.Promises",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/libs/SalesforceSwiftSDK/SalesforceSwiftSDK/Extensions/SFSmartSyncExtensions.swift",
+      "line": 66,
+      "symbol": "SFSmartSyncSyncManager.Promises",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/libs/SalesforceSwiftSDK/SalesforceSwiftSDK/Extensions/SFUserAccountManagerExtensions.swift",
+      "line": 44,
+      "symbol": "SFUserAccountManager.Promises",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/libs/SalesforceSwiftSDK/SalesforceSwiftSDK/Extensions/SwiftExtensions.swift",
+      "line": null,
+      "symbol": "ProtocolStoredProperty",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/libs/SalesforceSwiftSDK/SalesforceSwiftSDK/Extensions/SwiftExtensions.swift",
+      "line": 33,
+      "symbol": "Decodable.decode(data:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/libs/SalesforceSwiftSDK/SalesforceSwiftSDK/Extensions/SwiftExtensions.swift",
+      "line": 40,
+      "symbol": "Encodable.encode()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS"
+}

@@ -1,4 +1,0 @@
-Documentation set was installed to Xcode!
-
-Path: /Users/bhariharan/Library/Developer/Shared/Documentation/DocSets/com.salesforce.SalesforceSwiftSDK.docset
-Time: 2018-03-16 19:36:05 +0000

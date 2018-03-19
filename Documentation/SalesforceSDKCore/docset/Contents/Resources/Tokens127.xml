@@ -1512,95 +1512,6 @@ be handled, NO otherwise.</Abstract></ReturnValue>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/handleNativeAuthResponse:options:</TokenIdentifier>
-			<Abstract type="html">Handle an advanced authentication response from the external browser, continuing any
-in-progress adavanced authentication flow.</Abstract>
-			<DeclaredIn>SFUserAccountManager+URLHandlers.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)handleNativeAuthResponse:(NSURL *_Nonnull)url options:(NSDictionary *_Nullable)options</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>url</Name>
-					<Abstract type="html">The URL response returned to the app from the external browser.</Abstract>
-				</Parameter><Parameter>
-					<Name>options</Name>
-					<Abstract type="html">Dictionary of name-value pairs received from open URL</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if this is request is handled, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/handleNativeAuthResponse:options:</Anchor>
-            <NodeRef refid="127"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/handleIdpAuthError:</TokenIdentifier>
-			<Abstract type="html">Handle an error situation that occured in the IDP flow.</Abstract>
-			<DeclaredIn>SFUserAccountManager+URLHandlers.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)handleIdpAuthError:(SFSDKAuthErrorCommand *_Nonnull)command</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>command</Name>
-					<Abstract type="html">The Error URL request from the idp or SP App.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if this is request is handled, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/handleIdpAuthError:</Anchor>
-            <NodeRef refid="127"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/handleIdpInitiatedAuth:</TokenIdentifier>
-			<Abstract type="html">Handle an IDP initiated auth flow.</Abstract>
-			<DeclaredIn>SFUserAccountManager+URLHandlers.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)handleIdpInitiatedAuth:(SFSDKIDPInitCommand *_Nonnull)command</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>command</Name>
-					<Abstract type="html">The URL request from the IDP APP.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if this is request is handled, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/handleIdpInitiatedAuth:</Anchor>
-            <NodeRef refid="127"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/handleIdpRequest:</TokenIdentifier>
-			<Abstract type="html">Handle an IDP request initiated from an SP APP.</Abstract>
-			<DeclaredIn>SFUserAccountManager+URLHandlers.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)handleIdpRequest:(SFSDKAuthRequestCommand *_Nonnull)request</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>request</Name>
-					<Abstract type="html">The  request from the SP APP.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if this request is handled, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/handleIdpRequest:</Anchor>
-            <NodeRef refid="127"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/handleIdpResponse:</TokenIdentifier>
-			<Abstract type="html">Handle an IDP response received from an IDP APP.</Abstract>
-			<DeclaredIn>SFUserAccountManager+URLHandlers.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)handleIdpResponse:(SFSDKAuthResponseCommand *_Nonnull)response</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>response</Name>
-					<Abstract type="html">The URL response from the IDP APP.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if this is request is handled, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/handleIdpResponse:</Anchor>
-            <NodeRef refid="127"/>
-		</Token>
-		
-		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setDelegates:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
@@ -1992,6 +1903,95 @@ in-progress adavanced authentication flow.</Abstract>
 			</Parameters>
 			<ReturnValue><Abstract type="html">SFSDKOAuthClient instance</Abstract></ReturnValue>
 			<Anchor>//api/name/fetchOAuthClient:completion:failure:</Anchor>
+            <NodeRef refid="127"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/handleNativeAuthResponse:options:</TokenIdentifier>
+			<Abstract type="html">Handle an advanced authentication response from the external browser, continuing any
+in-progress adavanced authentication flow.</Abstract>
+			<DeclaredIn>SFUserAccountManager+URLHandlers.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)handleNativeAuthResponse:(NSURL *_Nonnull)url options:(NSDictionary *_Nullable)options</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>url</Name>
+					<Abstract type="html">The URL response returned to the app from the external browser.</Abstract>
+				</Parameter><Parameter>
+					<Name>options</Name>
+					<Abstract type="html">Dictionary of name-value pairs received from open URL</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if this is request is handled, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/handleNativeAuthResponse:options:</Anchor>
+            <NodeRef refid="127"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/handleIdpAuthError:</TokenIdentifier>
+			<Abstract type="html">Handle an error situation that occured in the IDP flow.</Abstract>
+			<DeclaredIn>SFUserAccountManager+URLHandlers.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)handleIdpAuthError:(SFSDKAuthErrorCommand *_Nonnull)command</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>command</Name>
+					<Abstract type="html">The Error URL request from the idp or SP App.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if this is request is handled, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/handleIdpAuthError:</Anchor>
+            <NodeRef refid="127"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/handleIdpInitiatedAuth:</TokenIdentifier>
+			<Abstract type="html">Handle an IDP initiated auth flow.</Abstract>
+			<DeclaredIn>SFUserAccountManager+URLHandlers.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)handleIdpInitiatedAuth:(SFSDKIDPInitCommand *_Nonnull)command</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>command</Name>
+					<Abstract type="html">The URL request from the IDP APP.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if this is request is handled, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/handleIdpInitiatedAuth:</Anchor>
+            <NodeRef refid="127"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/handleIdpRequest:</TokenIdentifier>
+			<Abstract type="html">Handle an IDP request initiated from an SP APP.</Abstract>
+			<DeclaredIn>SFUserAccountManager+URLHandlers.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)handleIdpRequest:(SFSDKAuthRequestCommand *_Nonnull)request</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>request</Name>
+					<Abstract type="html">The  request from the SP APP.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if this request is handled, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/handleIdpRequest:</Anchor>
+            <NodeRef refid="127"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/handleIdpResponse:</TokenIdentifier>
+			<Abstract type="html">Handle an IDP response received from an IDP APP.</Abstract>
+			<DeclaredIn>SFUserAccountManager+URLHandlers.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)handleIdpResponse:(SFSDKAuthResponseCommand *_Nonnull)response</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>response</Name>
+					<Abstract type="html">The URL response from the IDP APP.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if this is request is handled, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/handleIdpResponse:</Anchor>
             <NodeRef refid="127"/>
 		</Token>
 		
