@@ -21,7 +21,7 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import SalesforceSDKCore
+import SmartSync
 
 /** Subclass of SalesforceSDKManager. Initialize and launch the SDK using the Builder. The Builder provides a fluent api to configure and launch the SalesforceSwiftSDKManager
  ```
@@ -42,7 +42,7 @@ import SalesforceSDKCore
      }.done()
  ```
 */
-public class SalesforceSwiftSDKManager: SalesforceSDKManager {
+public class SalesforceSwiftSDKManager: SmartSyncSDKManager {
     
     /// App type is set to native swift
     override public var appType: SFAppType {
