@@ -855,38 +855,88 @@ custom RCTViewManager setter methods.</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/RCTConvert/ALAssetsGroupType:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTConvert/UIDatePickerMode:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTCameraRollManager.h</DeclaredIn>
+			<DeclaredIn>RCTDatePickerManager.h</DeclaredIn>
 			
-			<Declaration>+ (ALAssetsGroupType)ALAssetsGroupType:(id)json</Declaration>
+			<Declaration>+ (UIDatePickerMode)UIDatePickerMode:(id)json</Declaration>
 			
 			
-			<Anchor>//api/name/ALAssetsGroupType:</Anchor>
+			<Anchor>//api/name/UIDatePickerMode:</Anchor>
             <NodeRef refid="43"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/RCTConvert/ALAssetsFilter:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTConvert/UIBarButtonSystemItem:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTCameraRollManager.h</DeclaredIn>
+			<DeclaredIn>RCTNavItemManager.h</DeclaredIn>
 			
-			<Declaration>+ (ALAssetsFilter *)ALAssetsFilter:(id)json</Declaration>
+			<Declaration>+ (UIBarButtonSystemItem)UIBarButtonSystemItem:(id)json</Declaration>
 			
 			
-			<Anchor>//api/name/ALAssetsFilter:</Anchor>
+			<Anchor>//api/name/UIBarButtonSystemItem:</Anchor>
             <NodeRef refid="43"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/RCTConvert/UIScrollViewKeyboardDismissMode:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTConvert/RCTImageSource:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTScrollViewManager.h</DeclaredIn>
+			<DeclaredIn>RCTImageSource.h</DeclaredIn>
 			
-			<Declaration>+ (UIScrollViewKeyboardDismissMode)UIScrollViewKeyboardDismissMode:(id)json</Declaration>
+			<Declaration>+ (RCTImageSource *)RCTImageSource:(id)json</Declaration>
 			
 			
-			<Anchor>//api/name/UIScrollViewKeyboardDismissMode:</Anchor>
+			<Anchor>//api/name/RCTImageSource:</Anchor>
+            <NodeRef refid="43"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTConvert/RCTImageSourceArray:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTImageSource.h</DeclaredIn>
+			
+			<Declaration>+ (NSArray&lt;RCTImageSource*&gt; *)RCTImageSourceArray:(id)json</Declaration>
+			
+			
+			<Anchor>//api/name/RCTImageSourceArray:</Anchor>
+            <NodeRef refid="43"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTConvert/RCTResizeMode:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTResizeMode.h</DeclaredIn>
+			
+			<Declaration>+ (RCTResizeMode)RCTResizeMode:(id)json</Declaration>
+			
+			
+			<Anchor>//api/name/RCTResizeMode:</Anchor>
+            <NodeRef refid="43"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTConvert/UIImage:</TokenIdentifier>
+			<Abstract type="html">Synchronous image loading is generally a bad idea for performance reasons.
+If you need to pass image references, try to use RCTImageSource and then
+RCTImageLoader instead of converting directly to a UIImage.</Abstract>
+			<DeclaredIn>RCTConvert.h</DeclaredIn>
+			
+			<Declaration>+ (UIImage *)UIImage:(id)json</Declaration>
+			
+			
+			<Anchor>//api/name/UIImage:</Anchor>
+            <NodeRef refid="43"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTConvert/CGImage:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTConvert.h</DeclaredIn>
+			
+			<Declaration>+ (CGImageRef)CGImage:(id)json</Declaration>
+			
+			
+			<Anchor>//api/name/CGImage:</Anchor>
             <NodeRef refid="43"/>
 		</Token>
 		
@@ -999,86 +1049,14 @@ custom RCTViewManager setter methods.</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/RCTConvert/CATransform3D:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTConvert/UIModalPresentationStyle:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTConvert+Transform.h</DeclaredIn>
+			<DeclaredIn>RCTModalHostViewManager.h</DeclaredIn>
 			
-			<Declaration>+ (CATransform3D)CATransform3D:(id)json</Declaration>
-			
-			
-			<Anchor>//api/name/CATransform3D:</Anchor>
-            <NodeRef refid="43"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/RCTConvert/RCTResizeMode:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTResizeMode.h</DeclaredIn>
-			
-			<Declaration>+ (RCTResizeMode)RCTResizeMode:(id)json</Declaration>
+			<Declaration>+ (UIModalPresentationStyle)UIModalPresentationStyle:(id)json</Declaration>
 			
 			
-			<Anchor>//api/name/RCTResizeMode:</Anchor>
-            <NodeRef refid="43"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/RCTConvert/UITabBarSystemItem:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTabBarItem.h</DeclaredIn>
-			
-			<Declaration>+ (UITabBarSystemItem)UITabBarSystemItem:(id)json</Declaration>
-			
-			
-			<Anchor>//api/name/UITabBarSystemItem:</Anchor>
-            <NodeRef refid="43"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/RCTConvert/UIBarButtonSystemItem:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTNavItemManager.h</DeclaredIn>
-			
-			<Declaration>+ (UIBarButtonSystemItem)UIBarButtonSystemItem:(id)json</Declaration>
-			
-			
-			<Anchor>//api/name/UIBarButtonSystemItem:</Anchor>
-            <NodeRef refid="43"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/RCTConvert/UITextAutocorrectionType:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTConvert+Text.h</DeclaredIn>
-			
-			<Declaration>+ (UITextAutocorrectionType)UITextAutocorrectionType:(id)json</Declaration>
-			
-			
-			<Anchor>//api/name/UITextAutocorrectionType:</Anchor>
-            <NodeRef refid="43"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/RCTConvert/UITextSpellCheckingType:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTConvert+Text.h</DeclaredIn>
-			
-			<Declaration>+ (UITextSpellCheckingType)UITextSpellCheckingType:(id)json</Declaration>
-			
-			
-			<Anchor>//api/name/UITextSpellCheckingType:</Anchor>
-            <NodeRef refid="43"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/RCTConvert/UIActivityIndicatorViewStyle:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTActivityIndicatorViewManager.h</DeclaredIn>
-			
-			<Declaration>+ (UIActivityIndicatorViewStyle)UIActivityIndicatorViewStyle:(id)json</Declaration>
-			
-			
-			<Anchor>//api/name/UIActivityIndicatorViewStyle:</Anchor>
+			<Anchor>//api/name/UIModalPresentationStyle:</Anchor>
             <NodeRef refid="43"/>
 		</Token>
 		
@@ -1107,38 +1085,14 @@ custom RCTViewManager setter methods.</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/RCTConvert/RCTImageSource:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTConvert/UIScrollViewKeyboardDismissMode:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTImageSource.h</DeclaredIn>
+			<DeclaredIn>RCTScrollViewManager.h</DeclaredIn>
 			
-			<Declaration>+ (RCTImageSource *)RCTImageSource:(id)json</Declaration>
-			
-			
-			<Anchor>//api/name/RCTImageSource:</Anchor>
-            <NodeRef refid="43"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/RCTConvert/RCTImageSourceArray:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTImageSource.h</DeclaredIn>
-			
-			<Declaration>+ (NSArray&lt;RCTImageSource*&gt; *)RCTImageSourceArray:(id)json</Declaration>
+			<Declaration>+ (UIScrollViewKeyboardDismissMode)UIScrollViewKeyboardDismissMode:(id)json</Declaration>
 			
 			
-			<Anchor>//api/name/RCTImageSourceArray:</Anchor>
-            <NodeRef refid="43"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/RCTConvert/UIDatePickerMode:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDatePickerManager.h</DeclaredIn>
-			
-			<Declaration>+ (UIDatePickerMode)UIDatePickerMode:(id)json</Declaration>
-			
-			
-			<Anchor>//api/name/UIDatePickerMode:</Anchor>
+			<Anchor>//api/name/UIScrollViewKeyboardDismissMode:</Anchor>
             <NodeRef refid="43"/>
 		</Token>
 		
@@ -1163,6 +1117,18 @@ custom RCTViewManager setter methods.</Abstract>
 			
 			
 			<Anchor>//api/name/UIStatusBarAnimation:</Anchor>
+            <NodeRef refid="43"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTConvert/UITabBarSystemItem:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTabBarItem.h</DeclaredIn>
+			
+			<Declaration>+ (UITabBarSystemItem)UITabBarSystemItem:(id)json</Declaration>
+			
+			
+			<Anchor>//api/name/UITabBarSystemItem:</Anchor>
             <NodeRef refid="43"/>
 		</Token>
 		
@@ -1203,40 +1169,74 @@ custom RCTViewManager setter methods.</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/RCTConvert/UIImage:</TokenIdentifier>
-			<Abstract type="html">Synchronous image loading is generally a bad idea for performance reasons.
-If you need to pass image references, try to use RCTImageSource and then
-RCTImageLoader instead of converting directly to a UIImage.</Abstract>
-			<DeclaredIn>RCTConvert.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTConvert/UIActivityIndicatorViewStyle:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTActivityIndicatorViewManager.h</DeclaredIn>
 			
-			<Declaration>+ (UIImage *)UIImage:(id)json</Declaration>
+			<Declaration>+ (UIActivityIndicatorViewStyle)UIActivityIndicatorViewStyle:(id)json</Declaration>
 			
 			
-			<Anchor>//api/name/UIImage:</Anchor>
+			<Anchor>//api/name/UIActivityIndicatorViewStyle:</Anchor>
             <NodeRef refid="43"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/RCTConvert/CGImage:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTConvert/UITextAutocorrectionType:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTConvert.h</DeclaredIn>
+			<DeclaredIn>RCTConvert+Text.h</DeclaredIn>
 			
-			<Declaration>+ (CGImageRef)CGImage:(id)json</Declaration>
+			<Declaration>+ (UITextAutocorrectionType)UITextAutocorrectionType:(id)json</Declaration>
 			
 			
-			<Anchor>//api/name/CGImage:</Anchor>
+			<Anchor>//api/name/UITextAutocorrectionType:</Anchor>
             <NodeRef refid="43"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/RCTConvert/UIModalPresentationStyle:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTConvert/UITextSpellCheckingType:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalHostViewManager.h</DeclaredIn>
+			<DeclaredIn>RCTConvert+Text.h</DeclaredIn>
 			
-			<Declaration>+ (UIModalPresentationStyle)UIModalPresentationStyle:(id)json</Declaration>
+			<Declaration>+ (UITextSpellCheckingType)UITextSpellCheckingType:(id)json</Declaration>
 			
 			
-			<Anchor>//api/name/UIModalPresentationStyle:</Anchor>
+			<Anchor>//api/name/UITextSpellCheckingType:</Anchor>
+            <NodeRef refid="43"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTConvert/ALAssetsGroupType:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTCameraRollManager.h</DeclaredIn>
+			
+			<Declaration>+ (ALAssetsGroupType)ALAssetsGroupType:(id)json</Declaration>
+			
+			
+			<Anchor>//api/name/ALAssetsGroupType:</Anchor>
+            <NodeRef refid="43"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTConvert/ALAssetsFilter:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTCameraRollManager.h</DeclaredIn>
+			
+			<Declaration>+ (ALAssetsFilter *)ALAssetsFilter:(id)json</Declaration>
+			
+			
+			<Anchor>//api/name/ALAssetsFilter:</Anchor>
+            <NodeRef refid="43"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTConvert/CATransform3D:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTConvert+Transform.h</DeclaredIn>
+			
+			<Declaration>+ (CATransform3D)CATransform3D:(id)json</Declaration>
+			
+			
+			<Anchor>//api/name/CATransform3D:</Anchor>
             <NodeRef refid="43"/>
 		</Token>
 		

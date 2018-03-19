@@ -227,12 +227,6 @@
 						<h2 class="subtitle subtitle-overview">Overview</h2>
 						<p>Async batched bridge used to communicate with the JavaScript application.</p>
 
-<p>This category makes the developer menu instance available via the
-RCTBridge, which is useful for any class that needs to access the menu.</p>
-
-<p>This category makes the red box instance available via the RCTBridge, which
-is useful for any class that needs to access the red box or error log.</p>
-
 <p>Copyright &copy; 2015-present, Facebook, Inc.
 All rights reserved.</p>
 
@@ -243,6 +237,12 @@ of patent rights can be found in the PATENTS file in the same directory.</p>
 <p>This category makes the current <a href="../Classes/RCTUIManager.html">RCTUIManager</a> instance available via the
 RCTBridge, which is useful for RCTBridgeModules or RCTViewManagers that
 need to access the <a href="../Classes/RCTUIManager.html">RCTUIManager</a>.</p>
+
+<p>This category makes the developer menu instance available via the
+RCTBridge, which is useful for any class that needs to access the menu.</p>
+
+<p>This category makes the red box instance available via the RCTBridge, which
+is useful for any class that needs to access the red box or error log.</p>
 					</div>
 					
 					
@@ -631,7 +631,7 @@ potentially blocking both the calling thread and main thread for a short time.</
 			
 			<div class="method-subsection brief-description">
 				<p>Test if a module has been initialized. Use this prior to calling
-<a href="#//api/name/moduleForClass:"><code>moduleForClass:</code></a> or <a href="#//api/name/moduleForName:"><code>moduleForName:</code></a> if you do not want to cause the module
+<a href="../Classes/RCTBridge.html#//api/name/moduleForClass:"><code>moduleForClass:</code></a> or <a href="../Classes/RCTBridge.html#//api/name/moduleForName:"><code>moduleForName:</code></a> if you do not want to cause the module
 to be instantiated if it hasn&rsquo;t been already.</p>
 			</div>
 			
@@ -1043,7 +1043,7 @@ take effect after the bridge is reloaded.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Inform the bridge, and anything subscribing to it, that it should <a href="#//api/name/reload">reload</a>.</p>
+				<p>Inform the bridge, and anything subscribing to it, that it should <a href="../Classes/RCTBridge.html#//api/name/reload">reload</a>.</p>
 			</div>
 			
 		    
@@ -1117,513 +1117,6 @@ take effect after the bridge is reloaded.</p>
 						</div>
 						
 
-						<a title="JavaScriptCore Methods" name="task_JavaScriptCore Methods"></a>
-						<h2 class="task-title">JavaScriptCore Methods</h2>
-
-						<div class="task-list">
-							<div class="section-method">
-	<a name="//api/name/jsContextRef" title="jsContextRef"></a>
-	<h3 class="method-title"><code><a href="#//api/name/jsContextRef">&nbsp;&nbsp;jsContextRef</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>The raw JSGlobalContextRef used by the bridge.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, assign) JSGlobalContextRef jsContextRef</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">RCTBridge+Private.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div>
-						</div>
-						
-
-						<a title="RCTImageLoader Methods" name="task_RCTImageLoader Methods"></a>
-						<h2 class="task-title">RCTImageLoader Methods</h2>
-
-						<div class="task-list">
-							<div class="section-method">
-	<a name="//api/name/imageLoader" title="imageLoader"></a>
-	<h3 class="method-title"><code><a href="#//api/name/imageLoader">&nbsp;&nbsp;imageLoader</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>The shared image loader instance</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) RCTImageLoader *imageLoader</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">RCTImageLoader.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div>
-						</div>
-						
-
-						<a title="RCTDevMenu Methods" name="task_RCTDevMenu Methods"></a>
-						<h2 class="task-title">RCTDevMenu Methods</h2>
-
-						<div class="task-list">
-							<div class="section-method">
-	<a name="//api/name/devMenu" title="devMenu"></a>
-	<h3 class="method-title"><code><a href="#//api/name/devMenu">&nbsp;&nbsp;devMenu</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) RCTDevMenu *devMenu</code></div>
-
-		    
-		</div>
-	</div>
-</div>
-						</div>
-						
-
-						<a title="RCTRedBox Methods" name="task_RCTRedBox Methods"></a>
-						<h2 class="task-title">RCTRedBox Methods</h2>
-
-						<div class="task-list">
-							<div class="section-method">
-	<a name="//api/name/redBox" title="redBox"></a>
-	<h3 class="method-title"><code><a href="#//api/name/redBox">&nbsp;&nbsp;redBox</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) RCTRedBox *redBox</code></div>
-
-		    
-		</div>
-	</div>
-</div>
-						</div>
-						
-
-						<a title="RCTImageStoreManager Methods" name="task_RCTImageStoreManager Methods"></a>
-						<h2 class="task-title">RCTImageStoreManager Methods</h2>
-
-						<div class="task-list">
-							<div class="section-method">
-	<a name="//api/name/imageStoreManager" title="imageStoreManager"></a>
-	<h3 class="method-title"><code><a href="#//api/name/imageStoreManager">&nbsp;&nbsp;imageStoreManager</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) RCTImageStoreManager *imageStoreManager</code></div>
-
-		    
-		</div>
-	</div>
-</div>
-						</div>
-						
-
-						<a title="RCTNetworking Methods" name="task_RCTNetworking Methods"></a>
-						<h2 class="task-title">RCTNetworking Methods</h2>
-
-						<div class="task-list">
-							<div class="section-method">
-	<a name="//api/name/networking" title="networking"></a>
-	<h3 class="method-title"><code><a href="#//api/name/networking">&nbsp;&nbsp;networking</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) RCTNetworking *networking</code></div>
-
-		    
-		</div>
-	</div>
-</div>
-						</div>
-						
-
-						<a title="RCTWebSocketModule Methods" name="task_RCTWebSocketModule Methods"></a>
-						<h2 class="task-title">RCTWebSocketModule Methods</h2>
-
-						<div class="task-list">
-							<div class="section-method">
-	<a name="//api/name/webSocketModule" title="webSocketModule"></a>
-	<h3 class="method-title"><code><a href="#//api/name/webSocketModule">&ndash;&nbsp;webSocketModule</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (RCTWebSocketModule *)webSocketModule</code></div>
-
-		    
-		</div>
-	</div>
-</div>
-						</div>
-						
-
-						<a title="Extension Methods" name="task_Extension Methods"></a>
-						<h2 class="task-title">Extension Methods</h2>
-
-						<div class="task-list">
-							<div class="section-method">
-	<a name="//api/name/initWithDelegate:bundleURL:moduleProvider:launchOptions:" title="initWithDelegate:bundleURL:moduleProvider:launchOptions:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/initWithDelegate:bundleURL:moduleProvider:launchOptions:">&ndash;&nbsp;initWithDelegate:bundleURL:moduleProvider:launchOptions:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (instancetype)initWithDelegate:(id&lt;RCTBridgeDelegate&gt;)<em>delegate</em> bundleURL:(NSURL *)<em>bundleURL</em> moduleProvider:(RCTBridgeModuleListProvider)<em>block</em> launchOptions:(NSDictionary *)<em>launchOptions</em></code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/flowID" title="flowID"></a>
-	<h3 class="method-title"><code><a href="#//api/name/flowID">&nbsp;&nbsp;flowID</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) int64_t flowID</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/flowIDMap" title="flowIDMap"></a>
-	<h3 class="method-title"><code><a href="#//api/name/flowIDMap">&nbsp;&nbsp;flowIDMap</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) CFMutableDictionaryRef flowIDMap</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/flowIDMapLock" title="flowIDMapLock"></a>
-	<h3 class="method-title"><code><a href="#//api/name/flowIDMapLock">&nbsp;&nbsp;flowIDMapLock</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSLock *flowIDMapLock</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/bridgeDescription" title="bridgeDescription"></a>
-	<h3 class="method-title"><code><a href="#//api/name/bridgeDescription">&nbsp;&nbsp;bridgeDescription</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *bridgeDescription</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/currentBridge" title="currentBridge"></a>
-	<h3 class="method-title"><code><a href="#//api/name/currentBridge">+&nbsp;currentBridge</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>+ (instancetype)currentBridge</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/setCurrentBridge:" title="setCurrentBridge:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/setCurrentBridge:">+&nbsp;setCurrentBridge:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>+ (void)setCurrentBridge:(RCTBridge *)<em>bridge</em></code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/setUp" title="setUp"></a>
-	<h3 class="method-title"><code><a href="#//api/name/setUp">&ndash;&nbsp;setUp</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Bridge setup code - creates an instance of RCTBachedBridge. Exposed for
-test only</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (void)setUp</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">RCTBridge+Private.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/enqueueCallback:args:" title="enqueueCallback:args:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/enqueueCallback:args:">&ndash;&nbsp;enqueueCallback:args:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>This method is used to invoke a callback that was registered in the
-JavaScript application context. Safe to call from any thread.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (void)enqueueCallback:(NSNumber *)<em>cbID</em> args:(NSArray *)<em>args</em></code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">RCTBridge+Private.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/batchedBridge" title="batchedBridge"></a>
-	<h3 class="method-title"><code><a href="#//api/name/batchedBridge">&nbsp;&nbsp;batchedBridge</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>This property is mostly used on the main thread, but may be touched from
-a background thread if the RCTBridge happens to deallocate on a background
-thread. Therefore, we want all writes to it to be seen atomically.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (atomic, strong) RCTBridge *batchedBridge</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">RCTBridge+Private.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/moduleProvider" title="moduleProvider"></a>
-	<h3 class="method-title"><code><a href="#//api/name/moduleProvider">&nbsp;&nbsp;moduleProvider</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>The block that creates the modules' instances to be added to the bridge.
-Exposed for the <a href="../Classes/RCTBatchedBridge.html">RCTBatchedBridge</a></p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, readonly) RCTBridgeModuleListProvider moduleProvider</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">RCTBridge+Private.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div>
-						</div>
-						
-
 						<a title="RCTAssetsLibraryImageLoader Methods" name="task_RCTAssetsLibraryImageLoader Methods"></a>
 						<h2 class="task-title">RCTAssetsLibraryImageLoader Methods</h2>
 
@@ -1673,13 +1166,13 @@ Exposed for the <a href="../Classes/RCTBatchedBridge.html">RCTBatchedBridge</a><
 						</div>
 						
 
-						<a title="RCTUIManager Methods" name="task_RCTUIManager Methods"></a>
-						<h2 class="task-title">RCTUIManager Methods</h2>
+						<a title="RCTWebSocketModule Methods" name="task_RCTWebSocketModule Methods"></a>
+						<h2 class="task-title">RCTWebSocketModule Methods</h2>
 
 						<div class="task-list">
 							<div class="section-method">
-	<a name="//api/name/uiManager" title="uiManager"></a>
-	<h3 class="method-title"><code><a href="#//api/name/uiManager">&nbsp;&nbsp;uiManager</a></code>
+	<a name="//api/name/webSocketModule" title="webSocketModule"></a>
+	<h3 class="method-title"><code><a href="#//api/name/webSocketModule">&ndash;&nbsp;webSocketModule</a></code>
 </h3>
 
 	<div class="method-info">
@@ -1688,7 +1181,7 @@ Exposed for the <a href="../Classes/RCTBatchedBridge.html">RCTBatchedBridge</a><
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) RCTUIManager *uiManager</code></div>
+			<div class="method-subsection method-declaration"><code>- (RCTWebSocketModule *)webSocketModule</code></div>
 
 		    
 		</div>
@@ -1713,78 +1206,6 @@ Exposed for the <a href="../Classes/RCTBatchedBridge.html">RCTBatchedBridge</a><
 			
 
 			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, getter=isInspectable) BOOL inspectable</code></div>
-
-		    
-		</div>
-	</div>
-</div>
-						</div>
-						
-
-						<a title="RCTDevSettings Methods" name="task_RCTDevSettings Methods"></a>
-						<h2 class="task-title">RCTDevSettings Methods</h2>
-
-						<div class="task-list">
-							<div class="section-method">
-	<a name="//api/name/devSettings" title="devSettings"></a>
-	<h3 class="method-title"><code><a href="#//api/name/devSettings">&ndash;&nbsp;devSettings</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (RCTDevSettings *)devSettings</code></div>
-
-		    
-		</div>
-	</div>
-</div>
-						</div>
-						
-
-						<a title="RCTAccessibilityManager Methods" name="task_RCTAccessibilityManager Methods"></a>
-						<h2 class="task-title">RCTAccessibilityManager Methods</h2>
-
-						<div class="task-list">
-							<div class="section-method">
-	<a name="//api/name/accessibilityManager" title="accessibilityManager"></a>
-	<h3 class="method-title"><code><a href="#//api/name/accessibilityManager">&nbsp;&nbsp;accessibilityManager</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) RCTAccessibilityManager *accessibilityManager</code></div>
-
-		    
-		</div>
-	</div>
-</div>
-						</div>
-						
-
-						<a title="RCTEventDispatcher Methods" name="task_RCTEventDispatcher Methods"></a>
-						<h2 class="task-title">RCTEventDispatcher Methods</h2>
-
-						<div class="task-list">
-							<div class="section-method">
-	<a name="//api/name/eventDispatcher" title="eventDispatcher"></a>
-	<h3 class="method-title"><code><a href="#//api/name/eventDispatcher">&ndash;&nbsp;eventDispatcher</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (RCTEventDispatcher *)eventDispatcher</code></div>
 
 		    
 		</div>
@@ -1934,7 +1355,7 @@ JS VM outside of React Native. Use with care!</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Called on the child bridge to run the executor and start <a href="#//api/name/loading">loading</a>.</p>
+				<p>Called on the child bridge to run the executor and start <a href="../Classes/RCTBridge.html#//api/name/loading">loading</a>.</p>
 			</div>
 			
 		    
@@ -2282,7 +1703,7 @@ JavaScript in the middle of a batch.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Exposed for the <a href="../Classes/RCTJSCExecutor.html">RCTJSCExecutor</a> for lazily <a href="#//api/name/loading">loading</a> native modules</p>
+				<p>Exposed for the <a href="../Classes/RCTJSCExecutor.html">RCTJSCExecutor</a> for lazily <a href="../Classes/RCTBridge.html#//api/name/loading">loading</a> native modules</p>
 			</div>
 			
 		    
@@ -2396,6 +1817,585 @@ JavaScript in the middle of a batch.</p>
 </div>
 						</div>
 						
+
+						<a title="JavaScriptCore Methods" name="task_JavaScriptCore Methods"></a>
+						<h2 class="task-title">JavaScriptCore Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/jsContextRef" title="jsContextRef"></a>
+	<h3 class="method-title"><code><a href="#//api/name/jsContextRef">&nbsp;&nbsp;jsContextRef</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The raw JSGlobalContextRef used by the bridge.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, assign) JSGlobalContextRef jsContextRef</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTBridge+Private.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="RCTAccessibilityManager Methods" name="task_RCTAccessibilityManager Methods"></a>
+						<h2 class="task-title">RCTAccessibilityManager Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/accessibilityManager" title="accessibilityManager"></a>
+	<h3 class="method-title"><code><a href="#//api/name/accessibilityManager">&nbsp;&nbsp;accessibilityManager</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) RCTAccessibilityManager *accessibilityManager</code></div>
+
+		    
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="Extension Methods" name="task_Extension Methods"></a>
+						<h2 class="task-title">Extension Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/initWithDelegate:bundleURL:moduleProvider:launchOptions:" title="initWithDelegate:bundleURL:moduleProvider:launchOptions:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/initWithDelegate:bundleURL:moduleProvider:launchOptions:">&ndash;&nbsp;initWithDelegate:bundleURL:moduleProvider:launchOptions:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (instancetype)initWithDelegate:(id&lt;RCTBridgeDelegate&gt;)<em>delegate</em> bundleURL:(NSURL *)<em>bundleURL</em> moduleProvider:(RCTBridgeModuleListProvider)<em>block</em> launchOptions:(NSDictionary *)<em>launchOptions</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/flowID" title="flowID"></a>
+	<h3 class="method-title"><code><a href="#//api/name/flowID">&nbsp;&nbsp;flowID</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) int64_t flowID</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/flowIDMap" title="flowIDMap"></a>
+	<h3 class="method-title"><code><a href="#//api/name/flowIDMap">&nbsp;&nbsp;flowIDMap</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) CFMutableDictionaryRef flowIDMap</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/flowIDMapLock" title="flowIDMapLock"></a>
+	<h3 class="method-title"><code><a href="#//api/name/flowIDMapLock">&nbsp;&nbsp;flowIDMapLock</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSLock *flowIDMapLock</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/bridgeDescription" title="bridgeDescription"></a>
+	<h3 class="method-title"><code><a href="#//api/name/bridgeDescription">&nbsp;&nbsp;bridgeDescription</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *bridgeDescription</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/currentBridge" title="currentBridge"></a>
+	<h3 class="method-title"><code><a href="#//api/name/currentBridge">+&nbsp;currentBridge</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>+ (instancetype)currentBridge</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setCurrentBridge:" title="setCurrentBridge:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setCurrentBridge:">+&nbsp;setCurrentBridge:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>+ (void)setCurrentBridge:(RCTBridge *)<em>bridge</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setUp" title="setUp"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setUp">&ndash;&nbsp;setUp</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Bridge setup code - creates an instance of RCTBachedBridge. Exposed for
+test only</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)setUp</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTBridge+Private.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/enqueueCallback:args:" title="enqueueCallback:args:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/enqueueCallback:args:">&ndash;&nbsp;enqueueCallback:args:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>This method is used to invoke a callback that was registered in the
+JavaScript application context. Safe to call from any thread.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)enqueueCallback:(NSNumber *)<em>cbID</em> args:(NSArray *)<em>args</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTBridge+Private.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/batchedBridge" title="batchedBridge"></a>
+	<h3 class="method-title"><code><a href="#//api/name/batchedBridge">&nbsp;&nbsp;batchedBridge</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>This property is mostly used on the main thread, but may be touched from
+a background thread if the RCTBridge happens to deallocate on a background
+thread. Therefore, we want all writes to it to be seen atomically.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (atomic, strong) RCTBridge *batchedBridge</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTBridge+Private.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/moduleProvider" title="moduleProvider"></a>
+	<h3 class="method-title"><code><a href="#//api/name/moduleProvider">&nbsp;&nbsp;moduleProvider</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The block that creates the modules' instances to be added to the bridge.
+Exposed for the <a href="../Classes/RCTBatchedBridge.html">RCTBatchedBridge</a></p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, readonly) RCTBridgeModuleListProvider moduleProvider</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTBridge+Private.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="RCTImageLoader Methods" name="task_RCTImageLoader Methods"></a>
+						<h2 class="task-title">RCTImageLoader Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/imageLoader" title="imageLoader"></a>
+	<h3 class="method-title"><code><a href="#//api/name/imageLoader">&nbsp;&nbsp;imageLoader</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The shared image loader instance</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) RCTImageLoader *imageLoader</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTImageLoader.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="RCTImageStoreManager Methods" name="task_RCTImageStoreManager Methods"></a>
+						<h2 class="task-title">RCTImageStoreManager Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/imageStoreManager" title="imageStoreManager"></a>
+	<h3 class="method-title"><code><a href="#//api/name/imageStoreManager">&nbsp;&nbsp;imageStoreManager</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) RCTImageStoreManager *imageStoreManager</code></div>
+
+		    
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="RCTDevSettings Methods" name="task_RCTDevSettings Methods"></a>
+						<h2 class="task-title">RCTDevSettings Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/devSettings" title="devSettings"></a>
+	<h3 class="method-title"><code><a href="#//api/name/devSettings">&ndash;&nbsp;devSettings</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (RCTDevSettings *)devSettings</code></div>
+
+		    
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="RCTUIManager Methods" name="task_RCTUIManager Methods"></a>
+						<h2 class="task-title">RCTUIManager Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/uiManager" title="uiManager"></a>
+	<h3 class="method-title"><code><a href="#//api/name/uiManager">&nbsp;&nbsp;uiManager</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) RCTUIManager *uiManager</code></div>
+
+		    
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="RCTNetworking Methods" name="task_RCTNetworking Methods"></a>
+						<h2 class="task-title">RCTNetworking Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/networking" title="networking"></a>
+	<h3 class="method-title"><code><a href="#//api/name/networking">&nbsp;&nbsp;networking</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) RCTNetworking *networking</code></div>
+
+		    
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="RCTDevMenu Methods" name="task_RCTDevMenu Methods"></a>
+						<h2 class="task-title">RCTDevMenu Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/devMenu" title="devMenu"></a>
+	<h3 class="method-title"><code><a href="#//api/name/devMenu">&nbsp;&nbsp;devMenu</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) RCTDevMenu *devMenu</code></div>
+
+		    
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="RCTRedBox Methods" name="task_RCTRedBox Methods"></a>
+						<h2 class="task-title">RCTRedBox Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/redBox" title="redBox"></a>
+	<h3 class="method-title"><code><a href="#//api/name/redBox">&nbsp;&nbsp;redBox</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) RCTRedBox *redBox</code></div>
+
+		    
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="RCTEventDispatcher Methods" name="task_RCTEventDispatcher Methods"></a>
+						<h2 class="task-title">RCTEventDispatcher Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/eventDispatcher" title="eventDispatcher"></a>
+	<h3 class="method-title"><code><a href="#//api/name/eventDispatcher">&ndash;&nbsp;eventDispatcher</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (RCTEventDispatcher *)eventDispatcher</code></div>
+
+		    
+		</div>
+	</div>
+</div>
+						</div>
+						
 					</div>
 					
 					
@@ -2408,7 +2408,7 @@ JavaScript in the middle of a batch.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-03-16</p>
+						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-03-19</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

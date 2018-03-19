@@ -678,134 +678,6 @@ to return values; for example, &quot;Account,Contact&quot;.</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/sanitizeSOSLSearchTerm:</TokenIdentifier>
-			<Abstract type="html">The search term to be sanitized.</Abstract>
-			<DeclaredIn>SFRestAPI+QueryBuilder.h</DeclaredIn>
-			
-			<Declaration>+ (NSString *)sanitizeSOSLSearchTerm:(NSString *)searchTerm</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>searchTerm</Name>
-					<Abstract type="html">The search term to be sanitized.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">SOSL-safe version of search term</Abstract></ReturnValue>
-			<Anchor>//api/name/sanitizeSOSLSearchTerm:</Anchor>
-            <NodeRef refid="58"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/SOSLSearchWithSearchTerm:objectScope:</TokenIdentifier>
-			<Abstract type="html">Generate a SOSL search.</Abstract>
-			<DeclaredIn>SFRestAPI+QueryBuilder.h</DeclaredIn>
-			
-			<Declaration>+ (nullable NSString *)SOSLSearchWithSearchTerm:(NSString *)term objectScope:(nullable NSDictionary&lt;NSString*,NSString*&gt; *)objectScope</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>term</Name>
-					<Abstract type="html">- the search term. This is sanitized for proper characters</Abstract>
-				</Parameter><Parameter>
-					<Name>objectScope</Name>
-					<Abstract type="html">- nil to search all searchable objects, or a dictionary where each key is an sObject name
-and each value is a string with the fieldlist and (optional) where, order by, and limit clause for that object.
-or NSNull to not specify any fields/clauses for that object</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">query or nil if a query could not be generated</Abstract></ReturnValue>
-			<Anchor>//api/name/SOSLSearchWithSearchTerm:objectScope:</Anchor>
-            <NodeRef refid="58"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:</TokenIdentifier>
-			<Abstract type="html">Generate a SOSL search.</Abstract>
-			<DeclaredIn>SFRestAPI+QueryBuilder.h</DeclaredIn>
-			
-			<Declaration>+ (nullable NSString *)SOSLSearchWithSearchTerm:(NSString *)term fieldScope:(nullable NSString *)fieldScope objectScope:(nullable NSDictionary&lt;NSString*,NSString*&gt; *)objectScope limit:(NSInteger)limit</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>term</Name>
-					<Abstract type="html">- the search term. This is sanitized for proper characters</Abstract>
-				</Parameter><Parameter>
-					<Name>fieldScope</Name>
-					<Abstract type="html">- nil OR the SOSL scope, e.g. &quot;IN ALL FIELDS&quot;. if nil, defaults to &quot;IN NAME FIELDS&quot;</Abstract>
-				</Parameter><Parameter>
-					<Name>objectScope</Name>
-					<Abstract type="html">- nil to search all searchable objects, or a dictionary where each key is an sObject name
-and each value is a string with the fieldlist and (optional) where, order by, and limit clause for that object.
-or NSNull to not specify any fields/clauses for that object</Abstract>
-				</Parameter><Parameter>
-					<Name>limit</Name>
-					<Abstract type="html">- overall search limit (max 200)</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">query or nil if a query could not be generated</Abstract></ReturnValue>
-			<Anchor>//api/name/SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:</Anchor>
-            <NodeRef refid="58"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/SOQLQueryWithFields:sObject:whereClause:limit:</TokenIdentifier>
-			<Abstract type="html">Generate a SOQL query.</Abstract>
-			<DeclaredIn>SFRestAPI+QueryBuilder.h</DeclaredIn>
-			
-			<Declaration>+ (nullable NSString *)SOQLQueryWithFields:(NSArray&lt;NSString*&gt; *)fields sObject:(NSString *)sObject whereClause:(nullable NSString *)whereClause limit:(NSInteger)limit</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>fields</Name>
-					<Abstract type="html">- NSArray of fields to select</Abstract>
-				</Parameter><Parameter>
-					<Name>sObject</Name>
-					<Abstract type="html">- object to query</Abstract>
-				</Parameter><Parameter>
-					<Name>whereClause</Name>
-					<Abstract type="html">- nil OR where clause</Abstract>
-				</Parameter><Parameter>
-					<Name>limit</Name>
-					<Abstract type="html">- limit count, or 0 for no limit (for use with query locators)</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">query or nil if a query could not be generated</Abstract></ReturnValue>
-			<Anchor>//api/name/SOQLQueryWithFields:sObject:whereClause:limit:</Anchor>
-            <NodeRef refid="58"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/SOQLQueryWithFields:sObject:whereClause:groupBy:having:orderBy:limit:</TokenIdentifier>
-			<Abstract type="html">Generate a SOQL query.</Abstract>
-			<DeclaredIn>SFRestAPI+QueryBuilder.h</DeclaredIn>
-			
-			<Declaration>+ (nullable NSString *)SOQLQueryWithFields:(NSArray&lt;NSString*&gt; *)fields sObject:(NSString *)sObject whereClause:(nullable NSString *)whereClause groupBy:(nullable NSArray&lt;NSString*&gt; *)groupBy having:(nullable NSString *)having orderBy:(nullable NSArray&lt;NSString*&gt; *)orderBy limit:(NSInteger)limit</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>fields</Name>
-					<Abstract type="html">- NSArray of fields to select</Abstract>
-				</Parameter><Parameter>
-					<Name>sObject</Name>
-					<Abstract type="html">- object to query</Abstract>
-				</Parameter><Parameter>
-					<Name>whereClause</Name>
-					<Abstract type="html">- nil OR where clause</Abstract>
-				</Parameter><Parameter>
-					<Name>groupBy</Name>
-					<Abstract type="html">- nil OR NSArray of strings, each string is an individual group by clause</Abstract>
-				</Parameter><Parameter>
-					<Name>having</Name>
-					<Abstract type="html">- nil OR having clause</Abstract>
-				</Parameter><Parameter>
-					<Name>orderBy</Name>
-					<Abstract type="html">- nil OR NSArray of strings, each string is an individual order by clause</Abstract>
-				</Parameter><Parameter>
-					<Name>limit</Name>
-					<Abstract type="html">- limit count, or 0 for no limit (for use with query locators)</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">query or nil if a query could not be generated</Abstract></ReturnValue>
-			<Anchor>//api/name/SOQLQueryWithFields:sObject:whereClause:groupBy:having:orderBy:limit:</Anchor>
-            <NodeRef refid="58"/>
-		</Token>
-		
-		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/errorWithDescription:</TokenIdentifier>
 			<Abstract type="html">Creates an error object with the given description.</Abstract>
 			<DeclaredIn>SFRestAPI+Blocks.h</DeclaredIn>
@@ -1235,6 +1107,134 @@ to return values; for example, &quot;Account,Contact&quot;.</Abstract>
 			</Parameters>
 			<ReturnValue><Abstract type="html">the newly sent SFRestRequest</Abstract></ReturnValue>
 			<Anchor>//api/name/performRequestForSearchResultLayout:failBlock:completeBlock:</Anchor>
+            <NodeRef refid="58"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/sanitizeSOSLSearchTerm:</TokenIdentifier>
+			<Abstract type="html">The search term to be sanitized.</Abstract>
+			<DeclaredIn>SFRestAPI+QueryBuilder.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)sanitizeSOSLSearchTerm:(NSString *)searchTerm</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>searchTerm</Name>
+					<Abstract type="html">The search term to be sanitized.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">SOSL-safe version of search term</Abstract></ReturnValue>
+			<Anchor>//api/name/sanitizeSOSLSearchTerm:</Anchor>
+            <NodeRef refid="58"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/SOSLSearchWithSearchTerm:objectScope:</TokenIdentifier>
+			<Abstract type="html">Generate a SOSL search.</Abstract>
+			<DeclaredIn>SFRestAPI+QueryBuilder.h</DeclaredIn>
+			
+			<Declaration>+ (nullable NSString *)SOSLSearchWithSearchTerm:(NSString *)term objectScope:(nullable NSDictionary&lt;NSString*,NSString*&gt; *)objectScope</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>term</Name>
+					<Abstract type="html">- the search term. This is sanitized for proper characters</Abstract>
+				</Parameter><Parameter>
+					<Name>objectScope</Name>
+					<Abstract type="html">- nil to search all searchable objects, or a dictionary where each key is an sObject name
+and each value is a string with the fieldlist and (optional) where, order by, and limit clause for that object.
+or NSNull to not specify any fields/clauses for that object</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">query or nil if a query could not be generated</Abstract></ReturnValue>
+			<Anchor>//api/name/SOSLSearchWithSearchTerm:objectScope:</Anchor>
+            <NodeRef refid="58"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:</TokenIdentifier>
+			<Abstract type="html">Generate a SOSL search.</Abstract>
+			<DeclaredIn>SFRestAPI+QueryBuilder.h</DeclaredIn>
+			
+			<Declaration>+ (nullable NSString *)SOSLSearchWithSearchTerm:(NSString *)term fieldScope:(nullable NSString *)fieldScope objectScope:(nullable NSDictionary&lt;NSString*,NSString*&gt; *)objectScope limit:(NSInteger)limit</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>term</Name>
+					<Abstract type="html">- the search term. This is sanitized for proper characters</Abstract>
+				</Parameter><Parameter>
+					<Name>fieldScope</Name>
+					<Abstract type="html">- nil OR the SOSL scope, e.g. &quot;IN ALL FIELDS&quot;. if nil, defaults to &quot;IN NAME FIELDS&quot;</Abstract>
+				</Parameter><Parameter>
+					<Name>objectScope</Name>
+					<Abstract type="html">- nil to search all searchable objects, or a dictionary where each key is an sObject name
+and each value is a string with the fieldlist and (optional) where, order by, and limit clause for that object.
+or NSNull to not specify any fields/clauses for that object</Abstract>
+				</Parameter><Parameter>
+					<Name>limit</Name>
+					<Abstract type="html">- overall search limit (max 200)</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">query or nil if a query could not be generated</Abstract></ReturnValue>
+			<Anchor>//api/name/SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:</Anchor>
+            <NodeRef refid="58"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/SOQLQueryWithFields:sObject:whereClause:limit:</TokenIdentifier>
+			<Abstract type="html">Generate a SOQL query.</Abstract>
+			<DeclaredIn>SFRestAPI+QueryBuilder.h</DeclaredIn>
+			
+			<Declaration>+ (nullable NSString *)SOQLQueryWithFields:(NSArray&lt;NSString*&gt; *)fields sObject:(NSString *)sObject whereClause:(nullable NSString *)whereClause limit:(NSInteger)limit</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>fields</Name>
+					<Abstract type="html">- NSArray of fields to select</Abstract>
+				</Parameter><Parameter>
+					<Name>sObject</Name>
+					<Abstract type="html">- object to query</Abstract>
+				</Parameter><Parameter>
+					<Name>whereClause</Name>
+					<Abstract type="html">- nil OR where clause</Abstract>
+				</Parameter><Parameter>
+					<Name>limit</Name>
+					<Abstract type="html">- limit count, or 0 for no limit (for use with query locators)</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">query or nil if a query could not be generated</Abstract></ReturnValue>
+			<Anchor>//api/name/SOQLQueryWithFields:sObject:whereClause:limit:</Anchor>
+            <NodeRef refid="58"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/SOQLQueryWithFields:sObject:whereClause:groupBy:having:orderBy:limit:</TokenIdentifier>
+			<Abstract type="html">Generate a SOQL query.</Abstract>
+			<DeclaredIn>SFRestAPI+QueryBuilder.h</DeclaredIn>
+			
+			<Declaration>+ (nullable NSString *)SOQLQueryWithFields:(NSArray&lt;NSString*&gt; *)fields sObject:(NSString *)sObject whereClause:(nullable NSString *)whereClause groupBy:(nullable NSArray&lt;NSString*&gt; *)groupBy having:(nullable NSString *)having orderBy:(nullable NSArray&lt;NSString*&gt; *)orderBy limit:(NSInteger)limit</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>fields</Name>
+					<Abstract type="html">- NSArray of fields to select</Abstract>
+				</Parameter><Parameter>
+					<Name>sObject</Name>
+					<Abstract type="html">- object to query</Abstract>
+				</Parameter><Parameter>
+					<Name>whereClause</Name>
+					<Abstract type="html">- nil OR where clause</Abstract>
+				</Parameter><Parameter>
+					<Name>groupBy</Name>
+					<Abstract type="html">- nil OR NSArray of strings, each string is an individual group by clause</Abstract>
+				</Parameter><Parameter>
+					<Name>having</Name>
+					<Abstract type="html">- nil OR having clause</Abstract>
+				</Parameter><Parameter>
+					<Name>orderBy</Name>
+					<Abstract type="html">- nil OR NSArray of strings, each string is an individual order by clause</Abstract>
+				</Parameter><Parameter>
+					<Name>limit</Name>
+					<Abstract type="html">- limit count, or 0 for no limit (for use with query locators)</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">query or nil if a query could not be generated</Abstract></ReturnValue>
+			<Anchor>//api/name/SOQLQueryWithFields:sObject:whereClause:groupBy:having:orderBy:limit:</Anchor>
             <NodeRef refid="58"/>
 		</Token>
 		
