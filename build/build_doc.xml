@@ -4,7 +4,7 @@
     <property name="simulatorBuildName" value="iphonesimulator" />
     <property name="thirdPartyLibDir" location="../external/ThirdPartyDependencies" />
     
-    <target name="all" description="Cleans the doc folders and builds docs for all Salesforce-specific iOS libraries" depends="analyticsDoc, coreDoc, hybridSDKDoc, reactDoc, smartStoreDoc, smartSyncDoc, swiftDoc">
+    <target name="all" description="Cleans the doc folders and builds docs for all Salesforce-specific iOS libraries" depends="analyticsDoc, coreDoc, hybridSDKDoc, reactDoc, smartStoreDoc, smartSyncDoc">
     </target>
 
     <target name="analyticsDoc">
@@ -64,16 +64,6 @@
         <antcall target="buildDoc">
             <param name="PROJECT_DIR" value="../libs" />
             <param name="PROJECT_NAME" value="SmartSync" />
-        </antcall>
-    </target>
-    
-    <target name="swiftDoc">
-        <antcall target="clean">
-            <param name="buildConfiguration" value="SalesforceSwiftSDK" />
-        </antcall>
-        <antcall target="buildDoc">
-            <param name="PROJECT_DIR" value="../libs" />
-            <param name="PROJECT_NAME" value="SalesforceSwiftSDK" />
         </antcall>
     </target>
 
