@@ -7,7 +7,7 @@ exclude:
   - "**/*-ObjC.swift"
   - "**/*Deprecations.swift"
   - "**/SwiftExtensions.swift"
-readme: 'libs/SalesforceSwiftSDK/readme.md'
+readme: '../libs/SalesforceSwiftSDK/readme.md'
 copyright: '© Copyright 2017–current salesforce.com, inc. All rights reserved. Salesforce is a registered trademark of salesforce.com, inc.,
 as are other names and marks. Other marks appearing herein may be trademarks of their respective owners.'
 swift_version: 4.0.3
