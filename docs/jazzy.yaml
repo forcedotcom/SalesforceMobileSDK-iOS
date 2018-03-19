@@ -15,4 +15,4 @@ skip_undocumented: true
 theme: fullwidth
 clean: false
 xcodebuild_arguments: [-configuration, Release, -sdk, iphonesimulator, -scheme, SalesforceSwiftSDK, -workspace, SalesforceMobileSDK.xcworkspace]
-output: artifacts/doc/SalesforceSwiftSDK
+output: ../build/artifacts/doc/SalesforceSwiftSDK
