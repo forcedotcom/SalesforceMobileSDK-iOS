@@ -27,7 +27,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSDKSalesforceAnalyticsManager.h"
+#import "SFSDKSalesforceAnalyticsManager+Internal.h"
 #import "SFUserAccountManager.h"
 #import "SalesforceSDKManager.h"
 #import "SFDirectoryManager.h"
@@ -37,13 +37,13 @@
 #import "UIDevice+SFHardware.h"
 #import "SFIdentityData.h"
 #import "SFApplicationHelper.h"
-#import "SFAuthenticationManager.h"
 #import <SalesforceAnalytics/SFSDKAILTNTransform.h>
 #import <SalesforceAnalytics/SFSDKDeviceAppAttributes.h>
 #import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 #import "SFSDKAppFeatureMarkers.h"
 #import "SFSDKAppConfig.h"
 
+static NSString * const kAnalyticsUnauthenticatedManagerKey = @"-unauthenticated-";
 static NSString * const kEventStoresDirectory = @"event_stores";
 static NSString * const kEventStoreEncryptionKeyLabel = @"com.salesforce.eventStore.encryptionKey";
 static NSString * const kAnalyticsOnOffKey = @"ailtn_enabled";
@@ -51,33 +51,15 @@ static NSString * const kSFAppFeatureAiltnEnabled = @"AI";
 
 static NSMutableDictionary *analyticsManagerList = nil;
 
-@interface SFSDKAnalyticsTransformPublisherPair : NSObject
-
-@property (nonnull, nonatomic, readonly, strong) id<SFSDKTransform> transform;
-@property (nonnull, nonatomic, readonly, strong) id<SFSDKAnalyticsPublisher> publisher;
-
-- (instancetype)initWithTransform:(id<SFSDKTransform>)transform publisher:(id<SFSDKAnalyticsPublisher>)publisher;
-
-@end
-SFSDK_USE_DEPRECATED_BEGIN
-
-@interface SFSDKSalesforceAnalyticsManager () <SFAuthenticationManagerDelegate>
-
-SFSDK_USE_DEPRECATED_END
-@property (nonatomic, readwrite, strong) SFSDKAnalyticsManager *analyticsManager;
-@property (nonatomic, readwrite, strong) SFSDKEventStoreManager *eventStoreManager;
-@property (nonatomic, readwrite, strong) SFUserAccount *userAccount;
-@property (nonatomic, readwrite, strong) NSMutableArray<SFSDKAnalyticsTransformPublisherPair *> *remotes;
-
-@end
-
 @implementation SFSDKSalesforceAnalyticsManager
 
-+ (instancetype) sharedInstanceWithUser:(SFUserAccount *) userAccount {
-    static dispatch_once_t pred;
-    dispatch_once(&pred, ^{
++ (void)initialize {
+    if (self == [SFSDKSalesforceAnalyticsManager class] && analyticsManagerList == nil) {
         analyticsManagerList = [[NSMutableDictionary alloc] init];
-    });
+    }
+}
+
++ (instancetype) sharedInstanceWithUser:(SFUserAccount *) userAccount {
     @synchronized ([SFSDKSalesforceAnalyticsManager class]) {
         if (!userAccount) {
             userAccount = [SFUserAccountManager sharedInstance].currentUser;
@@ -91,11 +73,21 @@ SFSDK_USE_DEPRECATED_END
         }
         id analyticsMgr = analyticsManagerList[key];
         if (!analyticsMgr) {
-            analyticsMgr = [[SFSDKSalesforceAnalyticsManager alloc] initWithUser:userAccount];
+            analyticsMgr = [[self alloc] initWithUser:userAccount];
             analyticsManagerList[key] = analyticsMgr;
         }
         return analyticsMgr;
     }
+}
+
++ (instancetype)sharedUnauthenticatedInstance {
+    static dispatch_once_t pred;
+    dispatch_once(&pred, ^{
+        if (analyticsManagerList[kAnalyticsUnauthenticatedManagerKey] == nil) {
+            analyticsManagerList[kAnalyticsUnauthenticatedManagerKey] = [[self alloc] init];
+        }
+    });
+    return analyticsManagerList[kAnalyticsUnauthenticatedManagerKey];
 }
 
 + (void) removeSharedInstanceWithUser:(SFUserAccount *) userAccount {
@@ -112,18 +104,33 @@ SFSDK_USE_DEPRECATED_END
 }
 
 - (void) dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
-    SFSDK_USE_DEPRECATED_BEGIN
-    [[SFAuthenticationManager sharedManager] removeDelegate:self];
-    SFSDK_USE_DEPRECATED_END
+    // Only work with auth-based notifications for an authenticated context.
+    if (_userAccount != nil) {
+        SFSDK_USE_DEPRECATED_BEGIN
+        [[SFAuthenticationManager sharedManager] removeDelegate:self];
+        SFSDK_USE_DEPRECATED_END
+    }
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (instancetype)init {
+    return [self initWithUser:nil];
 }
 
 - (instancetype) initWithUser:(SFUserAccount *) userAccount {
     self = [super init];
     if (self) {
-        self.userAccount = userAccount;
+        _userAccount = userAccount;
         SFSDKDeviceAppAttributes *deviceAttributes = [[self class] getDeviceAppAttributes];
-        NSString *rootStoreDir = [[SFDirectoryManager sharedManager] directoryForUser:userAccount type:NSDocumentDirectory components:@[ kEventStoresDirectory ]];
+        
+        NSString *rootStoreDir;
+        if (_userAccount != nil) {
+            rootStoreDir = [[SFDirectoryManager sharedManager] directoryForUser:userAccount type:NSDocumentDirectory components:@[ kEventStoresDirectory ]];
+        } else {
+            rootStoreDir = [[SFDirectoryManager sharedManager] globalDirectoryOfType:NSDocumentDirectory components:@[ kEventStoresDirectory ]];
+        }
+        
         SFEncryptionKey *encKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kEventStoreEncryptionKeyLabel autoCreate:YES];
         DataEncryptorBlock dataEncryptorBlock = ^NSData*(NSData *data) {
             return [SFSDKCryptoUtils aes256EncryptData:data withKey:encKey.key iv:encKey.initializationVector];
@@ -131,16 +138,25 @@ SFSDK_USE_DEPRECATED_END
         DataDecryptorBlock dataDecryptorBlock = ^NSData*(NSData *data) {
             return [SFSDKCryptoUtils aes256DecryptData:data withKey:encKey.key iv:encKey.initializationVector];
         };
-        self.analyticsManager = [[SFSDKAnalyticsManager alloc] initWithStoreDirectory:rootStoreDir dataEncryptorBlock:dataEncryptorBlock dataDecryptorBlock:dataDecryptorBlock deviceAttributes:deviceAttributes];
-        self.eventStoreManager = self.analyticsManager.storeManager;
-        self.remotes = [[NSMutableArray alloc] init];
-        SFSDKAnalyticsTransformPublisherPair *tpp = [[SFSDKAnalyticsTransformPublisherPair alloc] initWithTransform:[[SFSDKAILTNTransform alloc] init] publisher:[[SFSDKAILTNPublisher alloc] init]];
-        [self.remotes addObject:tpp];
+        _analyticsManager = [[SFSDKAnalyticsManager alloc] initWithStoreDirectory:rootStoreDir dataEncryptorBlock:dataEncryptorBlock dataDecryptorBlock:dataDecryptorBlock deviceAttributes:deviceAttributes];
+        _eventStoreManager = self.analyticsManager.storeManager;
+        _remotes = [[NSMutableArray alloc] init];
+        
+        // There's no standard for unauthenticated instrumentation publishing, currently.  Consumers
+        // should explicitly specify their own.
+        if (_userAccount != nil) {
+            SFSDKAnalyticsTransformPublisherPair *tpp = [[SFSDKAnalyticsTransformPublisherPair alloc] initWithTransform:[[SFSDKAILTNTransform alloc] init] publisher:[[SFSDKAILTNPublisher alloc] init]];
+            [_remotes addObject:tpp];
+        }
+        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(publishOnAppBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
-        SFSDK_USE_DEPRECATED_BEGIN
-        [[SFAuthenticationManager sharedManager] addDelegate:self];
-        SFSDK_USE_DEPRECATED_END
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserWillLogout:)  name:kSFNotificationUserWillLogout object:nil];
+        // Only work with auth-based notifications for an authenticated context.
+        if (userAccount != nil) {
+            SFSDK_USE_DEPRECATED_BEGIN
+            [[SFAuthenticationManager sharedManager] addDelegate:self];
+            SFSDK_USE_DEPRECATED_END
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserWillLogout:)  name:kSFNotificationUserWillLogout object:nil];
+        }
     }
     return self;
 }
@@ -179,7 +195,7 @@ SFSDK_USE_DEPRECATED_END
 }
 
 - (void) publishEvents:(NSArray<SFSDKInstrumentationEvent *> *) events {
-    if (!events || events.count == 0) {
+    if (events.count == 0 || self.remotes.count == 0) {
         return;
     }
     @synchronized (self) {
@@ -208,7 +224,7 @@ SFSDK_USE_DEPRECATED_END
             }
 
             // If there are no transforms left, we're done here.
-            if (!remoteKeySet || remoteKeySet.count == 0) {
+            if (remoteKeySet.count == 0) {
                 overallCompletionStatus = YES;
             }
             if (!overallCompletionStatus) {
