@@ -160,7 +160,7 @@ class SmartStoreClientTests: SalesforceSwiftSDKBaseTest {
     
     func testCountQuerySpecBuilder() {
         let spec =  SFQuerySpec.Builder(soupName: "chickensoup")
-            .queryType(value: "range")
+            .queryType(value: .range)
             .path(value: "wings")
             .beginKey(value: "1")
             .endKey(value: "2")
@@ -171,10 +171,10 @@ class SmartStoreClientTests: SalesforceSwiftSDKBaseTest {
     
     func testSmartSqlWithSelectPathsQuerySpecBuilder() {
         let spec =  SFQuerySpec.Builder(soupName: "chickensoup")
-            .queryType(value: "range")
+            .queryType(value: .range)
             .selectedPaths(value: ["wings", "legs", "qty"])
             .orderPath(value: "qty")
-            .order(value: "ascending")
+            .order(value: .ascending)
             .pageSize(value: 1)
             .build()
         XCTAssertEqual("SELECT {chickensoup:wings}, {chickensoup:legs}, {chickensoup:qty} FROM {chickensoup} ORDER BY {chickensoup:qty} ASC", spec.smartSql.trimmingCharacters(in: .whitespacesAndNewlines))
@@ -182,9 +182,9 @@ class SmartStoreClientTests: SalesforceSwiftSDKBaseTest {
     
     func testAllQuerySmartSql() {
         let spec =  SFQuerySpec.Builder(soupName: "chickensoup")
-            .queryType(value: "range")
+            .queryType(value: .range)
             .orderPath(value: "wings")
-            .order(value: "descending")
+            .order(value: .descending)
             .pageSize(value: 1)
             .build()
         
@@ -193,10 +193,10 @@ class SmartStoreClientTests: SalesforceSwiftSDKBaseTest {
     
     func testAllQuerySmartSqlWithSelectPaths() {
         let spec =  SFQuerySpec.Builder(soupName: "chickensoup")
-            .queryType(value: "range")
+            .queryType(value: .range)
             .selectedPaths(value: ["wings", "legs", "qty"])
             .orderPath(value: "qty")
-            .order(value: "descending")
+            .order(value: .descending)
             .pageSize(value: 1)
             .build()
         
@@ -205,10 +205,10 @@ class SmartStoreClientTests: SalesforceSwiftSDKBaseTest {
     
     func testAllQueryCountSmartSql() {
         let spec =  SFQuerySpec.Builder(soupName: "chickensoup")
-            .queryType(value: "range")
+            .queryType(value: .range)
             .path(value: "qty")
             .orderPath(value: "qty")
-            .order(value: "descending")
+            .order(value: .descending)
             .pageSize(value: 1)
             .build()
         XCTAssertEqual("SELECT count(*) FROM {chickensoup}", spec.countSmartSql.trimmingCharacters(in: .whitespacesAndNewlines))
@@ -216,10 +216,10 @@ class SmartStoreClientTests: SalesforceSwiftSDKBaseTest {
     
     func testAllQueryIdsSmartSql() {
         let spec =  SFQuerySpec.Builder(soupName: "chickensoup")
-            .queryType(value: "range")
+            .queryType(value: .range)
             .path(value: "qty")
             .orderPath(value: "qty")
-            .order(value: "descending")
+            .order(value: .descending)
             .pageSize(value: 1)
             .build()
         
@@ -229,7 +229,7 @@ class SmartStoreClientTests: SalesforceSwiftSDKBaseTest {
     
     func testExactQueryIdsSmartSql() {
         let spec =  SFQuerySpec.Builder(soupName: "chickensoup")
-            .queryType(value: "exact")
+            .queryType(value: .exact)
             .path(value: "wings")
             .beginKey(value: "1")
             .endKey(value: "2")
@@ -240,10 +240,10 @@ class SmartStoreClientTests: SalesforceSwiftSDKBaseTest {
     
     func testMatchQuerySmartSql() {
         let spec =  SFQuerySpec.Builder(soupName: "chickensoup")
-            .queryType(value: "match")
+            .queryType(value: .match)
             .path(value: "wings")
             .orderPath(value: "wings")
-            .order(value: "ascending")
+            .order(value: .ascending)
             .matchKey(value: "2")
             .pageSize(value: 1)
             .build()
@@ -252,11 +252,11 @@ class SmartStoreClientTests: SalesforceSwiftSDKBaseTest {
     
     func testMatchQuerySmartSqlWithSelectPaths() {
         let spec =  SFQuerySpec.Builder(soupName: "chickensoup")
-            .queryType(value: "match")
+            .queryType(value: .match)
             .selectedPaths(value: ["wings", "legs", "qty"])
             .path(value: "wings")
             .matchKey(value: "2")
-            .order(value: "ascending")
+            .order(value: .ascending)
             .orderPath(value: "legs")
             .pageSize(value: 1)
             .build()

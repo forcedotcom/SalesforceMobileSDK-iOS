@@ -246,6 +246,14 @@ typedef NS_ENUM(NSUInteger, SFSoupQuerySortOrder) {
  */
 - (nullable NSArray*) bindsForQuerySpec;
 
+
+/** Enum to/from string helper methods
+ */
++ (SFSoupQueryType) queryTypeFromString:(NSString*)queryType;
++ (NSString*) queryTypeFromEnum:(SFSoupQueryType)queryType;
++ (SFSoupQuerySortOrder) sortOrderFromString:(NSString*)sortOrder;
++ (NSString*) sortOrderFromEnum:(SFSoupQuerySortOrder)sortOrder;
+
 @end
 
 NS_ASSUME_NONNULL_END
