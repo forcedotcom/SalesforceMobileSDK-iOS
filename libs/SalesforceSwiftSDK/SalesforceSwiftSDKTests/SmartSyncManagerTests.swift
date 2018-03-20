@@ -80,7 +80,7 @@ class SmartSyncManagerTests: SyncManagerBaseTest {
         .then { syncState -> Promise<UInt> in
             XCTAssertTrue(syncState.isDone())
             let querySpec =  SFQuerySpec.Builder(soupName: CONTACTS_SOUP)
-                                        .queryType(value: "range")
+                                        .queryType(value: .range)
                                         .build()
             return (self.store?.Promises.count(querySpec: querySpec))!
         }
@@ -144,7 +144,7 @@ class SmartSyncManagerTests: SyncManagerBaseTest {
                 XCTAssertTrue(syncState.isDone())
                 syncId = UInt(syncState.syncId)
                 let querySpec =  SFQuerySpec.Builder(soupName: CONTACTS_SOUP)
-                    .queryType(value: "range")
+                    .queryType(value: .range)
                     .build()
                 return (self.store?.Promises.count(querySpec: querySpec))!
             }
@@ -185,7 +185,7 @@ class SmartSyncManagerTests: SyncManagerBaseTest {
             XCTAssertTrue(syncState.isDone())
             syncId = UInt(syncState.syncId)
             let querySpec =  SFQuerySpec.Builder(soupName: CONTACTS_SOUP)
-                .queryType(value: "range")
+                .queryType(value: .range)
                 .build()
             return (self.store?.Promises.count(querySpec: querySpec))!
         }

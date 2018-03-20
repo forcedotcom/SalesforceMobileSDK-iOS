@@ -189,7 +189,7 @@ class SyncManagerBaseTest: SalesforceSwiftSDKBaseTest {
     func deleteAllTestContactsFromServer() -> Promise<Void> {
         
         let querySpec = SFQuerySpec.Builder(soupName: CONTACTS_SOUP)
-            .queryType(value: "range")
+            .queryType(value: .range)
             .selectedPaths(value: [ID])
             .pageSize(value: UInt.max)
             .build()
