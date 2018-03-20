@@ -342,6 +342,12 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     }
 
     [SFSDKCoreLogger d:[self class] format:@"Logging out user '%@'.", user.userName];
+    
+    //save for use with didLogout notification
+    NSString *userId = user.credentials.userId;
+    NSString *orgId = user.credentials.organizationId;
+    NSString *communityId = user.credentials.communityId;
+    
     NSDictionary *userInfo = @{ kSFNotificationUserInfoAccountKey : user };
     [[NSNotificationCenter defaultCenter]  postNotificationName:kSFNotificationUserWillLogout
                                                          object:self
@@ -361,6 +367,12 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
         [SFSecurityLockout clearPasscodeState];
     }
     [SFSDKWebViewStateManager removeSession];
+    
+    //restore these id's inorder to enable post logout cleanup of components
+    user.credentials.userId = userId;
+    user.credentials.organizationId = orgId;
+    user.credentials.communityId = communityId;
+    
     NSNotification *logoutNotification = [NSNotification notificationWithName:kSFNotificationUserDidLogout object:self userInfo:userInfo];
     [[NSNotificationCenter defaultCenter] postNotification:logoutNotification];
 

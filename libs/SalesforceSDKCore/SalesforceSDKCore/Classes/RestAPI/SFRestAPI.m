@@ -80,7 +80,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
             [SFSDKWebUtils configureUserAgent:[SFRestAPI userAgentString]];
         }
         [[SFAuthenticationManager sharedManager] addDelegate:self];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserWillLogout:)  name:kSFNotificationUserWillLogout object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserDidLogout:)  name:kSFNotificationUserDidLogout object:nil];
     }
     return self;
 }
@@ -646,7 +646,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 
 #pragma mark - SFAuthenticationManagerDelegate
 
-- (void)handleUserWillLogout:(NSNotification *)notification {
+- (void)handleUserDidLogout:(NSNotification *)notification {
     SFUserAccount *user = notification.userInfo[kSFNotificationUserInfoAccountKey];
     [self handleLogoutForUser:user];
 }
