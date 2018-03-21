@@ -35,7 +35,7 @@ import SalesforceSDKCore
     restApi.Promises.send(request: request)
  }
  .done { sfRestResponse in
-    restResonse = sfRestResponse.asJsonDictionary()
+    restResponse = sfRestResponse.asJsonDictionary()
     ...
  }
  .catch { error in
@@ -116,7 +116,7 @@ public struct SFRestResponse {
     restApi.Promises.send(request: request)
  }
  .done { sfRestResponse in
-    restResonse = sfRestResponse.asJsonDictionary()
+    restResponse = sfRestResponse.asJsonDictionary()
     ...
  }
  .catch { error in
@@ -793,7 +793,7 @@ extension SFRestAPI {
          restApi.send(request: request)
          }
          .done { sfRestResponse in
-         var restResonse = sfRestResponse.asJsonDictionary()
+         var restResponse = sfRestResponse.asJsonDictionary()
          ...
          }
          .catch { error in
@@ -808,7 +808,7 @@ extension SFRestAPI {
          restApi.send(request: request)
          }
          .done { sfRestResponse in
-         var restResonse = sfRestResponse.asDecodable(Account.Type)
+         var restResponse = sfRestResponse.asDecodable(Account.Type)
          ...
          }
          .catch { error in
