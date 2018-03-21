@@ -866,10 +866,14 @@ SFSDK_USE_DEPRECATED_BEGIN
     SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh];
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForResources];
     [[SFRestAPI sharedInstance] sendRESTRequest:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
-        failureBlock(authInfo, e);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            failureBlock(authInfo, e);
+        });
     } completeBlock:^(id response, NSURLResponse *rawResponse) {
         SFUserAccount *currentAccount = [SFUserAccountManager sharedInstance].currentUser;
-        completionBlock(authInfo, currentAccount);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completionBlock(authInfo, currentAccount);
+        });
     }];
 }
 
