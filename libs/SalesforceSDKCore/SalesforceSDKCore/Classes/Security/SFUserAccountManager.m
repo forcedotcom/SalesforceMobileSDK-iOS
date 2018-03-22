@@ -369,6 +369,9 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     [SFSDKWebViewStateManager removeSession];
     
     //restore these id's inorder to enable post logout cleanup of components
+    // TODO: Revisit the userInfo data structure of kSFNotificationUserDidLogout in 7.0.
+    // Technically, an SFUserAccount should not continue to exist after logout.  The
+    // identifying data here would be better organized into a standalone data structure.
     user.credentials.userId = userId;
     user.credentials.organizationId = orgId;
     user.credentials.communityId = communityId;
