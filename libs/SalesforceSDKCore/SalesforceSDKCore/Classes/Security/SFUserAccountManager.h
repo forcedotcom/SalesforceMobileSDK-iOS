@@ -110,6 +110,10 @@ FOUNDATION_EXTERN NSString * const kSFNotificationUserWillLogout;
  */
 FOUNDATION_EXTERN NSString * const kSFNotificationUserDidLogout;
 
+/** Notification sent when all users of org have logged off.
+ */
+FOUNDATION_EXTERN NSString * const kSFNotificationOrgDidLogout;
+
 /** Notification sent prior to display of Auth View
  */
 FOUNDATION_EXTERN NSString * const kSFNotificationUserWillShowAuthView;
@@ -161,6 +165,10 @@ FOUNDATION_EXTERN NSString * const kSFNotificationUserInfoAuthTypeKey;
 /**  Key to use to lookup dictionary of nv-pairs type associated with NSNotification userInfo
  */
 FOUNDATION_EXTERN NSString * const kSFUserInfoAddlOptionsKey;
+
+/**  Key to use to lookup SFNotificationUserInfo object in Notitications dictionary
+ */
+FOUNDATION_EXTERN NSString * const kSFNotificationUserInfoKey;
 
 @protocol SFSDKOAuthClientDelegate;
 @protocol SFSDKOAuthClientSafariViewDelegate;
@@ -247,6 +255,13 @@ FOUNDATION_EXTERN NSString * const kSFUserInfoAddlOptionsKey;
 
 @end
 
+/** User Information for post logout notifications.
+ */
+@interface SFNotificationUserInfo : NSObject
+@property (nonatomic, readonly) NSString *userId;
+@property (nonatomic, readonly) NSString *orgId;
+@property (nonatomic, readonly, nullable) NSString *communityId;
+@end
 
 /** Class used to manage the accounts functions used across the app.
  It supports multiple accounts and their associated credentials.

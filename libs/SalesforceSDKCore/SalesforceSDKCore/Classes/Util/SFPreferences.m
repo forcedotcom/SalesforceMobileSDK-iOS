@@ -43,6 +43,8 @@ static NSMutableDictionary *instances = nil;
 + (void)initialize {
     if (self == [SFPreferences class]) {
         instances = [NSMutableDictionary dictionary];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserDidLogout:) name:kSFNotificationUserDidLogout object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleOrgDidLogout:) name:kSFNotificationOrgDidLogout object:nil];
     }
 }
 
@@ -198,4 +200,35 @@ static NSMutableDictionary *instances = nil;
     }
 }
 
++ (void)handleUserDidLogout:(NSNotification *)notification {
+    SFUserAccount *user = notification.userInfo[kSFNotificationUserInfoAccountKey];
+   
+    @synchronized (self) {
+        NSString *key;
+        if (user.credentials.communityId) {
+            key = SFKeyForUserAndScope(user, SFUserAccountScopeCommunity);
+            if (key) {
+                [instances removeObjectForKey:key];
+            }
+        }
+        key = SFKeyForUserAndScope(user, SFUserAccountScopeUser);
+        if (key) {
+            [instances removeObjectForKey:key];
+        }
+    }
+    
+}
+
++ (void)handleOrgDidLogout:(NSNotification *)notification {
+    SFNotificationUserInfo *userInfo = notification.userInfo[kSFNotificationUserInfoKey];
+   
+    @synchronized (self) {
+        if (userInfo) {
+            NSString *key = SFKeyForUserIdAndScope(userInfo.userId, userInfo.orgId, userInfo.communityId, SFUserAccountScopeOrg);
+            if (key) {
+                [instances removeObjectForKey:key];
+            }
+        }
+    }
+}
 @end
