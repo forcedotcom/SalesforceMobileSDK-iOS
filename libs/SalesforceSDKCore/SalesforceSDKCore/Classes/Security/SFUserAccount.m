@@ -359,8 +359,8 @@ NSString *SFKeyForUserIdAndScope(NSString *userId,NSString *orgId, NSString *com
             break;
             
         case SFUserAccountScopeOrg:
-            if (userId != nil) {
-                key = userId;
+            if (orgId != nil) {
+                key = orgId;
             }
             break;
             
