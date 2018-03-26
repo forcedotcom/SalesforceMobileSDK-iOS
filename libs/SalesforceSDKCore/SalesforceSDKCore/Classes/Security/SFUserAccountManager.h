@@ -258,8 +258,7 @@ FOUNDATION_EXTERN NSString * const kSFNotificationUserInfoKey;
 /** User Information for post logout notifications.
  */
 @interface SFNotificationUserInfo : NSObject
-@property (nonatomic, readonly) NSString *userId;
-@property (nonatomic, readonly) NSString *orgId;
+@property (nonatomic,readonly) SFUserAccountIdentity *accountIdentity;
 @property (nonatomic, readonly, nullable) NSString *communityId;
 @end
 

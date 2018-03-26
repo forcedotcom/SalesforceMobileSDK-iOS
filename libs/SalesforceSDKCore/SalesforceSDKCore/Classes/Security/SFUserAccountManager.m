@@ -121,8 +121,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 - (instancetype) initWithUser:(SFUserAccount *)user {
     self = [super init];
     if (self) {
-        _userId = user.credentials.userId;
-        _orgId = user.credentials.organizationId;
+        _accountIdentity = user.accountIdentity;
         _communityId = user.credentials.communityId;
     }
     return self;

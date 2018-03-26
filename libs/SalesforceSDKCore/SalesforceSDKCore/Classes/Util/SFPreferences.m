@@ -224,7 +224,7 @@ static NSMutableDictionary *instances = nil;
    
     @synchronized (self) {
         if (userInfo) {
-            NSString *key = SFKeyForUserIdAndScope(userInfo.userId, userInfo.orgId, userInfo.communityId, SFUserAccountScopeOrg);
+            NSString *key = SFKeyForUserIdAndScope(userInfo.accountIdentity.userId, userInfo.accountIdentity.orgId, userInfo.communityId, SFUserAccountScopeOrg);
             if (key) {
                 [instances removeObjectForKey:key];
             }
