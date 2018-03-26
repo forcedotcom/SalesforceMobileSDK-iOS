@@ -179,6 +179,18 @@ typedef NS_ENUM(NSUInteger, SFUserAccountLoginState) {
  */
 NSString *_Nullable SFKeyForUserAndScope(SFUserAccount * _Nullable user, SFUserAccountScope scope);
 
+/** Function that returns a key that uniquely identifies this user,org & community for the
+ given scope. Note that if you use SFUserAccountScopeGlobal,
+ the same key will be returned regardless of the user account.
+ 
+ @param userId The user identifier
+ @param orgId The org identifier
+ @param communityId The community id identifier
+ @param scope The scope
+ @return a key identifying this user account for the specified scope
+ */
+NSString *_Nullable SFKeyForUserIdAndScope(NSString *userId,NSString *orgId, NSString *_Nullable communityId, SFUserAccountScope scope);
+
 @end
 
 NS_ASSUME_NONNULL_END

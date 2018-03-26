@@ -72,6 +72,7 @@ NSString * const kSFNotificationUserWillLogIn  = @"SFNotificationUserWillLogIn";
 NSString * const kSFNotificationUserDidLogIn   = @"SFNotificationUserDidLogIn";
 NSString * const kSFNotificationUserWillLogout = @"SFNotificationUserWillLogout";
 NSString * const kSFNotificationUserDidLogout  = @"SFNotificationUserDidLogout";
+NSString * const kSFNotificationOrgDidLogout   = @"SFNotificationOrgDidLogout";
 
 //Auth Display Notification
 NSString * const kSFNotificationUserWillShowAuthView = @"SFNotificationUserWillShowAuthView";
@@ -88,6 +89,7 @@ NSString * const kSFNotificationUserInfoAccountKey      = @"account";
 NSString * const kSFNotificationUserInfoCredentialsKey  = @"credentials";
 NSString * const kSFNotificationUserInfoAuthTypeKey     = @"authType";
 NSString * const kSFUserInfoAddlOptionsKey     = @"options";
+NSString * const kSFNotificationUserInfoKey    = @"sfuserInfo";
 
 NSString * const SFUserAccountManagerUserChangeKey      = @"change";
 NSString * const SFUserAccountManagerUserChangeUserKey      = @"user";
@@ -103,7 +105,6 @@ static NSString * const kAlertDismissButtonKey = @"authAlertDismissButton";
 static NSString * const kAlertConnectionErrorFormatStringKey = @"authAlertConnectionErrorFormatString";
 static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismatchError";
 
-
 static NSString *const kSFIncompatibleAuthError = @"Cannot use SFUserAccountManager Auth functions with useLegacyAuthenticationManager enabled";
 
 static NSString *const kErroredClientKey = @"SFErroredOAuthClientKey";
@@ -111,6 +112,22 @@ static NSString * const kSFSPAppFeatureIDPLogin   = @"SP";
 static NSString * const kSFIDPAppFeatureIDPLogin   = @"IP";
 static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 
+@interface SFNotificationUserInfo()
+- (instancetype) initWithUser:(SFUserAccount *)user;
+@end
+
+@implementation SFNotificationUserInfo : NSObject
+
+- (instancetype) initWithUser:(SFUserAccount *)user {
+    self = [super init];
+    if (self) {
+        _accountIdentity = user.accountIdentity;
+        _communityId = user.credentials.communityId;
+    }
+    return self;
+}
+
+@end
 
 @implementation SFUserAccountManager
 
@@ -379,6 +396,15 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     NSNotification *logoutNotification = [NSNotification notificationWithName:kSFNotificationUserDidLogout object:self userInfo:userInfo];
     [[NSNotificationCenter defaultCenter] postNotification:logoutNotification];
 
+    //post a notification if all users of the given org have logged out.
+    if (![self orgHasLoggedInUsers:orgId]) {
+        SFNotificationUserInfo *sfUserInfo = [[SFNotificationUserInfo alloc] initWithUser:user];
+        
+        NSDictionary *notificationUserInfo = @{ kSFNotificationUserInfoKey : sfUserInfo };
+        NSNotification *orgLogoutNotification = [NSNotification notificationWithName:kSFNotificationOrgDidLogout object:self userInfo:notificationUserInfo];
+        [[NSNotificationCenter defaultCenter] postNotification:orgLogoutNotification];
+    }
+    
     // NB: There's no real action that can be taken if this login state transition fails.  At any rate,
     // it's an unlikely scenario.
     [user transitionToLoginState:SFUserAccountLoginStateNotLoggedIn];
@@ -847,6 +873,11 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     }
     [_accountsLock unlock];
     return responseArray;
+}
+
+- (BOOL)orgHasLoggedInUsers:(NSString *)orgId {
+    NSArray *accounts = [self accountsForOrgId:orgId];
+    return accounts && (accounts.count > 0);
 }
 
 - (NSArray *)accountsForOrgId:(NSString *)orgId {
