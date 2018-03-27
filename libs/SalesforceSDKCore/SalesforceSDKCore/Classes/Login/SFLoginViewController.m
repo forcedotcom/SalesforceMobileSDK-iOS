@@ -84,7 +84,9 @@ SFSDK_USE_DEPRECATED_END
     self.view.backgroundColor = self.navBarColor;
     if(self.showNavbar){
         [self setupNavigationBar];
-    };
+    } else {
+        self.navigationController.navigationBarHidden  =  YES;
+    }
 }
 
 - (void)viewDidLayoutSubviews {
