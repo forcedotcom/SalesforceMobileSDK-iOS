@@ -175,6 +175,13 @@ static NSException *authException = nil;
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request should have failed");
 }
 
+// simple: just invoke requestForUserInfo
+- (void)testGetUserInfo {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForUserInfo];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
 // simple: just invoke requestForResources
 - (void)testGetResources {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForResources];

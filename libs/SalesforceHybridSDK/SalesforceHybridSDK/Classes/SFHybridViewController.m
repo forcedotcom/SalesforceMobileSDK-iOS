@@ -864,7 +864,7 @@ SFSDK_USE_DEPRECATED_BEGIN
      * instead of going through the entire OAuth dance all over again.
      */
     SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh];
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForResources];
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForUserInfo];
     [[SFRestAPI sharedInstance] sendRESTRequest:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
         dispatch_async(dispatch_get_main_queue(), ^{
             failureBlock(authInfo, e);

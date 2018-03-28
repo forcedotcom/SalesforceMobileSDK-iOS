@@ -432,6 +432,13 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 
 #pragma mark - SFRestRequest factory methods
 
+- (SFRestRequest *)requestForUserInfo {
+    NSString *path = @"/services/oauth2/userinfo";
+    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];
+    request.endpoint = @"";
+    return request;
+}
+
 - (SFRestRequest *)requestForVersions {
     NSString *path = @"/";
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];

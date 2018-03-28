@@ -190,6 +190,12 @@ extern NSString* const kSFRestIfUnmodifiedSince;
 ///---------------------------------------------------------------------------------------
 
 /**
+ * Returns an `SFRestRequest` which gets information aassociated with the current user.
+ * @see https://help.salesforce.com/articleView?id=remoteaccess_using_userinfo_endpoint.htm
+ */
+- (SFRestRequest *)requestForUserInfo;
+
+/**
  * Returns an `SFRestRequest` which lists summary information about each
  * Salesforce.com version currently available, including the version, 
  * label, and a link to each version's root.
