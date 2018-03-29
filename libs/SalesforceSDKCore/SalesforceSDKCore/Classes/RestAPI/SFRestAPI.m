@@ -423,19 +423,13 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:user className:NSStringFromClass([self class]) attributes:attributes];
 }
 
-# pragma mark - helper method for conditional requests
-
-+ (NSString *)getHttpStringFomFromDate:(NSDate *)date {
-    if (date == nil) return nil;
-    return [httpDateFormatter stringFromDate:date];
-}
-
 #pragma mark - SFRestRequest factory methods
 
 - (SFRestRequest *)requestForUserInfo {
     NSString *path = @"/services/oauth2/userinfo";
     SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];
     request.endpoint = @"";
+    request.baseURL = [[self class] loginHostBaseUrlForUser:self.user];
     return request;
 }
 
@@ -649,6 +643,20 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 
 + (BOOL) isStatusCodeNotFound:(NSUInteger) statusCode {
     return statusCode  == 404;
+}
+
+# pragma mark - Helper methods
+
++ (NSString *)getHttpStringFomFromDate:(NSDate *)date {
+    if (date == nil) return nil;
+    return [httpDateFormatter stringFromDate:date];
+}
+
++ (nullable NSString *)loginHostBaseUrlForUser:(nullable SFUserAccount *)user {
+    if (user.credentials.domain.length == 0 || user.credentials.protocol.length == 0) {
+        return nil;
+    }
+    return [NSString stringWithFormat:@"%@://%@", user.credentials.protocol, user.credentials.domain];
 }
 
 #pragma mark - SFAuthenticationManagerDelegate
