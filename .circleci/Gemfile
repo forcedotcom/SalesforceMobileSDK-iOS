@@ -1,6 +1,6 @@
 source("https://rubygems.org")
 
-gem 'fastlane', '~> 2.78'
+gem 'fastlane', '2.82'
 gem 'xcpretty'
 gem 'slather', '~> 2.4', '>= 2.4.4'
 gem 'xcov', '~> 1.3', '>= 1.3.2'

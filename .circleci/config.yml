@@ -32,7 +32,7 @@ aliases:
     name: Danger Lib
     command:  |
       chruby 2.4.2
-      DANGER_GITHUB_API_TOKEN="d6c848fa0585147fd2f1""b37d03973333e8123e5e" danger --dangerfile=.circleci/Dangerfile-Lib.rb --danger_id="${LIB}" --verbose
+      DANGER_GITHUB_API_TOKEN="5d42eadf98c58c9c4f60""7fcfc72cee4c7ef1486b" danger --dangerfile=.circleci/Dangerfile-Lib.rb --danger_id="${LIB}" --verbose
     background: true
     when: always
 
@@ -64,7 +64,7 @@ jobs:
           name: Danger PR
           command:  |
             chruby 2.4.2
-            DANGER_GITHUB_API_TOKEN="d6c848fa0585147fd2f1""b37d03973333e8123e5e" danger --dangerfile=.circleci/Dangerfile-PR.rb --danger_id=PR-Check --verbose
+            DANGER_GITHUB_API_TOKEN="5d42eadf98c58c9c4f60""7fcfc72cee4c7ef1486b" danger --dangerfile=.circleci/Dangerfile-PR.rb --danger_id=PR-Check --verbose
           background: true
       - save_cache: *save-gem-cache
       - run: *run-tests
