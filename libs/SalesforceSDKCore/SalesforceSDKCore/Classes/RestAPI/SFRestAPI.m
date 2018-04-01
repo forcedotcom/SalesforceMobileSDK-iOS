@@ -72,7 +72,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     self = [super init];
     if (self) {
         self.user = user;
-        _activeRequests = [SFSDKSafeMutableSet set];
+        _activeRequests = [SFSDKSafeMutableSet setWithCapacity:10];
         self.apiVersion = kSFRestDefaultAPIVersion;
         self.sessionRefreshInProgress = NO;
         self.pendingRequestsBeingProcessed = NO;

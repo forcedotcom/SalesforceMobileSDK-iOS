@@ -35,7 +35,16 @@
     if ((self = [super init]))
     {
         self.backingSet = [NSMutableSet set];
-        self.queue = dispatch_queue_create([NSString stringWithFormat:@"com.salesforce.mobilesdk.readWriteSetQ%u", arc4random_uniform(UINT32_MAX)].UTF8String, DISPATCH_QUEUE_CONCURRENT);
+        [self initQueue];
+    }
+    return self;
+}
+
+- (id)initWithCapacity:(NSUInteger)numItems {
+    if ((self = [super init]))
+    {
+        self.backingSet = [NSMutableSet setWithCapacity:numItems];
+        [self initQueue];
     }
     return self;
 }
@@ -159,6 +168,16 @@
 + (id)set {
     id retVal = [[self alloc] init];
     return retVal;
+}
+
++ (id)setWithCapacity:(NSUInteger)numItems {
+    id retVal = [[self alloc] initWithCapacity:numItems];
+    return retVal;
+}
+
+#pragma private methods
+- (void)initQueue {
+     self.queue = dispatch_queue_create([NSString stringWithFormat:@"com.salesforce.mobilesdk.readWriteSetQ%u", arc4random_uniform(UINT32_MAX)].UTF8String, DISPATCH_QUEUE_CONCURRENT);
 }
 
 @end

@@ -25,35 +25,81 @@
 
 @interface SFSDKSafeMutableSet : NSObject
 
-- (NSArray *)allObjects;
-
+/**
+ * Adds a given object to the set, if it is not already a member.
+ */
 - (id)anyObject;
 
+/**
+ * Returns true if the object exists in the set.
+ */
 - (BOOL)containsObject:(id)anObject;
 
-- (BOOL)isEqualToSet:(SFSDKSafeMutableSet *)otherSet;
-
+/**
+ * Adds a given object to the set, if it is not already a member.
+ */
 - (void)addObject:(id)obj;
 
+/**
+ * Adds to the set each object contained in a given array that is not already a member.
+ */
 - (void)addObjectsFromArray:(NSArray *)array;
 
+/**
+ * Removes all objects from the set.
+ */
 - (void)removeAllObjects;
 
+/**
+ * Removes a given object from the set.
+ */
 - (void)removeObject:(id)object;
 
+/**
+ * Removes each object in another given set from the receiving set, if present.
+ */
 - (void)unionSet:(NSSet *)otherSet;
 
+/**
+ * Empties the receiving set, then adds each object contained in another given set.
+ */
 - (void)minusSet:(NSSet *)set;
 
+/**
+ * Empties the receiving set, then adds each object contained in another given set.
+ */
 - (void)intersectSet:(NSSet *)otherSet;
 
+/**
+ * Empties the receiving set, then adds each object contained in another given set.
+ */
 - (void)setSet:(NSSet *)otherSet;
 
+/**
+ * Filter the set using a predicate.
+ */
 - (void)filterUsingPredicate:(NSPredicate *)predicate;
 
+/**
+ * Enumerate objects in the set safely, using a block.
+ */
 - (void)enumerateObjectsUsingBlock:(void (^)(id obj, BOOL *stop))block;
 
+/**
+ * Get a NSSet from the mutable set
+ */
 - (NSSet *)asSet;
+
+/**
+ * Return an Array of all Objects
+ */
+- (NSArray *)allObjects;
+
+/**
+ * Returns true if the sets are equal.
+ */
+- (BOOL)isEqualToSet:(SFSDKSafeMutableSet *)otherSet;
+
 /**
  * The number of elements in this set.
  */
@@ -65,5 +111,12 @@
  * @return A new SFSDKSafeMutableSet instance.
  */
 + (id)set;
+
+/**
+ * A convenience method to allocate and initialize a new instance of a SFSDKSafeMutableSetWithCapacity.
+ *
+ * @return A new SFSDKSafeMutableSet instance.
+ */
++ (id)setWithCapacity:(NSUInteger)numItems;
 
 @end
