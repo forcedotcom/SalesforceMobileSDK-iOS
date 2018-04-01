@@ -72,7 +72,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     self = [super init];
     if (self) {
         self.user = user;
-        _activeRequests = [[NSMutableSet alloc] initWithCapacity:10];
+        _activeRequests = [SFSDKSafeMutableSet set];
         self.apiVersion = kSFRestDefaultAPIVersion;
         self.sessionRefreshInProgress = NO;
         self.pendingRequestsBeingProcessed = NO;
@@ -93,16 +93,17 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 #pragma mark - Cleanup / cancel all
 
 - (void)cleanup {
-    [_activeRequests removeAllObjects];
+    [self.activeRequests removeAllObjects];
 }
 
 - (void)cancelAllRequests {
-    @synchronized(self) {
-        for (SFRestRequest *request in _activeRequests) {
-            [request cancel];
-        }
-        [_activeRequests removeAllObjects];
-    }
+    
+    [self.activeRequests enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+        SFRestRequest *request = obj;
+        [request cancel];
+    }];
+    [self.activeRequests removeAllObjects];
+    
 }
 
 #pragma mark - singleton
@@ -366,7 +367,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 
 -(void)flushPendingRequestQueue:(NSError *)error rawResponse:(NSURLResponse *)rawResponse {
     @synchronized (self) {
-        NSSet *pendingRequests = [self.activeRequests copy];
+        NSSet *pendingRequests = [self.activeRequests asSet];
         for (SFRestRequest *request in pendingRequests) {
             [self notifyDelegateOfFailure:request.delegate request:request error:error rawResponse:rawResponse];
         }
@@ -376,7 +377,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 
 - (void)sendPendingRequests {
     @synchronized (self) {
-        NSSet *pendingRequests = [self.activeRequests copy];
+        NSSet *pendingRequests = [self.activeRequests asSet];
         for (SFRestRequest *request in pendingRequests) {
             [self send:request delegate:request.delegate shouldRetry:NO];
         }

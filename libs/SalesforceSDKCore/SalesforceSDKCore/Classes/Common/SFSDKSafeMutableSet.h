@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -21,33 +21,49 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#import <Foundation/Foundation.h>
 
-#import "SFRestAPI.h"
-#import "SFUserAccountManager.h"
-#import "SFAuthenticationManager.h"
-#import "SFSDKSafeMutableSet.h"
+@interface SFSDKSafeMutableSet : NSObject
+
+- (NSArray *)allObjects;
+
+- (id)anyObject;
+
+- (BOOL)containsObject:(id)anObject;
+
+- (BOOL)isEqualToSet:(SFSDKSafeMutableSet *)otherSet;
+
+- (void)addObject:(id)obj;
+
+- (void)addObjectsFromArray:(NSArray *)array;
+
+- (void)removeAllObjects;
+
+- (void)removeObject:(id)object;
+
+- (void)unionSet:(NSSet *)otherSet;
+
+- (void)minusSet:(NSSet *)set;
+
+- (void)intersectSet:(NSSet *)otherSet;
+
+- (void)setSet:(NSSet *)otherSet;
+
+- (void)filterUsingPredicate:(NSPredicate *)predicate;
+
+- (void)enumerateObjectsUsingBlock:(void (^)(id obj, BOOL *stop))block;
+
+- (NSSet *)asSet;
 /**
- We declare here a set of interfaces that are meant to be used by code running internally
- to SFRestAPI or close "friend" classes such as unit test helpers. You SHOULD NOT access these interfaces
- from application code.  If you find yourself accessing properties or calling methods
- declared in this file from app code, you're probably doing something wrong.
+ * The number of elements in this set.
  */
-@interface SFRestAPI () <SFUserAccountManagerDelegate>
+@property (nonatomic,readonly) NSUInteger count;
 
 /**
- * Active requests property.
+ * A convenience method to allocate and initialize a new instance of a SFSDKSafeMutableSet.
+ *
+ * @return A new SFSDKSafeMutableSet instance.
  */
-@property (nonatomic, readonly, strong) SFSDKSafeMutableSet *activeRequests;
-
-- (void)removeActiveRequestObject:(SFRestRequest *)request;
-
-/**
- Force a request to timeout: for testing only!
- 
- @param req The request to force a timeout on, or nil to grab any active request and force it to timeout
- @return YES if we were able to find and timeout the request, NO if the request could not be found
- */
-- (BOOL)forceTimeoutRequest:(SFRestRequest*)req;
++ (id)set;
 
 @end
-
