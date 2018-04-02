@@ -132,7 +132,7 @@
 
 - (void)minusSet:(NSSet *)set {
     dispatch_barrier_async(self.queue, ^{
-        [self.backingSet unionSet:set];
+        [self.backingSet minusSet:set];
     });
 }
 
@@ -144,7 +144,7 @@
 
 - (void)setSet:(NSSet *)set {
     dispatch_barrier_async(self.queue, ^{
-        [self.backingSet intersectSet:set];
+        [self.backingSet setSet:set];
     });
 }
 
