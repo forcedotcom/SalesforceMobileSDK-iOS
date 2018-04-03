@@ -38,6 +38,21 @@ typedef NS_ENUM(NSInteger, SFRestMethod) {
     SFRestMethodPATCH
 };
 
+/**
+ * The type of service host to use for Rest requests.
+ */
+typedef NS_ENUM(NSUInteger, SFSDKRestServiceHostType){
+    /**
+     *  Request uses the login endpoint.
+     */
+    SFSDKRestServiceHostTypeLogin,
+    
+    /**
+     *  Request uses the instance endpoint.
+     */
+    SFSDKRestServiceHostTypeInstance
+};
+
 NS_ASSUME_NONNULL_BEGIN
 
 /**
@@ -123,6 +138,11 @@ extern NSString * const kSFDefaultRestEndpoint;
  * The HTTP method of the request. See SFRestMethod.
  */
 @property (nonatomic, assign, readwrite) SFRestMethod method;
+
+/**
+ * The type of service host for the request (e.g. login or instance).
+ */
+@property (nonatomic, assign, readwrite) SFSDKRestServiceHostType serviceHostType;
 
 /**
  * The NSURLSesssionDataTask instance associated with the request. This is set only
@@ -264,6 +284,15 @@ extern NSString * const kSFDefaultRestEndpoint;
  * @param queryParams the parameters of the request (could be nil)
  */
 + (instancetype)requestWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, id> *)queryParams;
+
+/**
+ * Creates an `SFRestRequest` object. See SFRestMethod. If you need to set body on the request, use one of the 'setCustomRequestBody...' methods to do so with the instance returned by this method.
+ * @param method the HTTP method
+ * @param hostType the type of service host for the request. 
+ * @param path the request path
+ * @param queryParams the parameters of the request (could be nil)
+ */
++ (instancetype)requestWithMethod:(SFRestMethod)method serviceHostType:(SFSDKRestServiceHostType)hostType path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, id> *)queryParams;
 
 /**
  * Creates an `SFRestRequest` object. See SFRestMethod. If you need to set body on the request, use one of the 'setCustomRequestBody...' methods to do so with the instance returned by this method.

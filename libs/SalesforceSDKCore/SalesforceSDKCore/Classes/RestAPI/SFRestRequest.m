@@ -31,10 +31,11 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 
 @implementation SFRestRequest
 
-- (id)initWithMethod:(SFRestMethod)method baseURL:(NSString *)baseURL path:(NSString *)path queryParams:(NSDictionary *)queryParams {
+- (id)initWithMethod:(SFRestMethod)method serviceHostType:(SFSDKRestServiceHostType)hostType baseURL:(NSString *)baseURL path:(NSString *)path queryParams:(NSDictionary *)queryParams {
     self = [super init];
     if (self) {
         self.method = method;
+        self.serviceHostType = hostType;
         self.baseURL = baseURL;
         self.path = path;
         self.queryParams = [queryParams mutableCopy];
@@ -47,11 +48,15 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 }
 
 + (instancetype)requestWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(NSDictionary *)queryParams {
-    return [[self alloc] initWithMethod:method baseURL:nil path:path queryParams:queryParams];
+    return [[self alloc] initWithMethod:method serviceHostType:SFSDKRestServiceHostTypeInstance baseURL:nil path:path queryParams:queryParams];
 }
 
 + (instancetype)requestWithMethod:(SFRestMethod)method baseURL:(NSString *)baseURL path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, id> *)queryParams {
-    return [[self alloc] initWithMethod:method baseURL:baseURL path:path queryParams:queryParams];
+    return [[self alloc] initWithMethod:method serviceHostType:SFSDKRestServiceHostTypeInstance baseURL:baseURL path:path queryParams:queryParams];
+}
+
++ (instancetype)requestWithMethod:(SFRestMethod)method serviceHostType:(SFSDKRestServiceHostType)hostType path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, id> *)queryParams {
+    return [[self alloc] initWithMethod:method serviceHostType:hostType baseURL:nil path:path queryParams:queryParams];
 }
 
 - (NSString *)description {
@@ -117,7 +122,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 
 - (NSURLRequest *)prepareRequestForSend:(SFUserAccount *)user {
     if (user) {
-        NSString *baseUrl = self.baseURL ?: user.credentials.apiUrl.absoluteString;
+        NSString *baseUrl = [[self class] restUrlForBaseUrl:self.baseURL serviceHostType:self.serviceHostType credentials:user.credentials];
 
         // Performs sanity checks on the path against the endpoint value.
         if (self.endpoint.length > 0 && [self.path hasPrefix:self.endpoint]) {
@@ -202,6 +207,20 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
         self.customHeaders = [[NSMutableDictionary alloc] init];
     }
     [self.customHeaders setObject:value forKey:name];
+}
+
++ (NSString *)restUrlForBaseUrl:(NSString *)baseUrl serviceHostType:(SFSDKRestServiceHostType)hostType credentials:(SFOAuthCredentials *)credentials {
+    if (baseUrl != nil) {
+        return baseUrl;
+    }
+    if (credentials.communityUrl != nil) {
+        return credentials.communityUrl.absoluteString;
+    }
+    if (hostType == SFSDKRestServiceHostTypeLogin) {
+        return [NSString stringWithFormat:@"%@://%@", credentials.protocol, credentials.domain];
+    } else {
+        return credentials.instanceUrl.absoluteString;
+    }
 }
 
 #pragma mark - Upload
