@@ -481,7 +481,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 }
 
 - (void)authClientDidFinish:(SFSDKOAuthClient *)client{
-    [self loggedIn:NO client:client];
+    [self loggedIn:NO client:client notifyDelegatesOfFailure:YES];
 }
 
 - (void)authClientContinueOfflineMode:(SFSDKOAuthClient *)client{
@@ -1178,44 +1178,44 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
          SFSDKOAuthClient *client = [options objectForKey:kErroredClientKey];
          __strong typeof (weakSelf) strongSelf = weakSelf;
         [SFSDKCoreLogger w:[strongSelf class] format:@"OAuth refresh failed due to invalid grant.  Error code: %ld", (long)error.code];
-        [strongSelf handleFailure:error client:client];
+         [strongSelf handleFailure:error client:client notifyDelegates:NO];
     };
     
     self.errorManager.networkErrorHandlerBlock = ^(NSError *error, SFOAuthInfo *authInfo,NSDictionary *options) {
-        BOOL shouldBubbleUP = NO;
         __strong typeof (weakSelf) strongSelf = weakSelf;
         SFSDKOAuthClient *client = [options objectForKey:kErroredClientKey];
-        if (authInfo.authType != SFOAuthTypeRefresh) {
-            [SFSDKCoreLogger e:[weakSelf class] format:@"Network failure for non-Refresh OAuth flow (%@) is a fatal error.", authInfo.authTypeDescription];
-            shouldBubbleUP = YES;
-        } else if ([SFUserAccountManager sharedInstance].currentUser.credentials.accessToken == nil) {
-            [SFSDKCoreLogger w:[weakSelf class] format:@"Network unreachable for access token refresh, and no access token is configured.  Cannot continue."];
-            shouldBubbleUP = YES;
-        }
-        if (shouldBubbleUP) {
-            [strongSelf handleFailure:error client:client];
-        } else {
-            [SFSDKCoreLogger i:[strongSelf class] format:@"Network failure for OAuth Refresh flow (existing credentials)  Try to continue."];
-            SFSDKOAuthClient *client = [options objectForKey:kErroredClientKey];
-            [strongSelf loggedIn:YES client:client];
-        }
-        
+         //delegates if existed should have been already called
+        [strongSelf loggedIn:YES client:client notifyDelegatesOfFailure:NO];
     };
     
     self.errorManager.hostConnectionErrorHandlerBlock  = ^(NSError *error, SFOAuthInfo *authInfo,NSDictionary *options) {
         __strong typeof (weakSelf) strongSelf = weakSelf;
         SFSDKOAuthClient *client = [options objectForKey:kErroredClientKey];
-        [strongSelf showAlertForHostConnectionError:(NSError *)error client:client];
+        NSString *alertMessage = [NSString stringWithFormat:[SFSDKResourceUtils localizedString:kAlertConnectionErrorFormatStringKey], [error localizedDescription]];
+        NSString *okButton = [SFSDKResourceUtils localizedString:kAlertOkButtonKey];
+        [strongSelf showErrorAlertWithMessage:alertMessage buttonTitle:okButton andCompletion:^() {
+            [client cancelAuthentication:YES];
+            [strongSelf disposeOAuthClient:client];
+            [weakSelf notifyUserCancelledOrDismissedAuth:client.credentials andAuthInfo:client.context.authInfo];
+            SFSDKLoginHost *host = [[SFSDKLoginHostStorage sharedInstance] loginHostAtIndex:0];
+            strongSelf.loginHost = host.host;
+            [strongSelf switchToNewUser];
+        }];
     };
     
     self.errorManager.genericErrorHandlerBlock = ^(NSError *error, SFOAuthInfo *authInfo,NSDictionary *options) {
         __strong typeof (weakSelf) strongSelf = weakSelf;
-        SFSDKOAuthClient *client = [options objectForKey:kErroredClientKey];
-        [strongSelf disposeOAuthClient:client];
-        SFOAuthCredentials *credentials = [strongSelf newClientCredentials];
-        [strongSelf dismissAuthViewControllerIfPresent];
-        SFSDKOAuthClient *newClient = [strongSelf fetchOAuthClient:credentials completion:client.config.successCallbackBlock failure:client.config.failureCallbackBlock];
-        [newClient refreshCredentials];
+
+        NSString *message =[NSString stringWithFormat:[SFSDKResourceUtils localizedString:kAlertConnectionErrorFormatStringKey], [error localizedDescription]];
+        NSString *retryButton = [SFSDKResourceUtils localizedString:kAlertOkButtonKey];
+        [strongSelf showErrorAlertWithMessage:message buttonTitle:retryButton   andCompletion:^() {
+            SFSDKOAuthClient *client = [options objectForKey:kErroredClientKey];
+            [strongSelf disposeOAuthClient:client];
+            SFOAuthCredentials *credentials = [strongSelf newClientCredentials];
+            [strongSelf dismissAuthViewControllerIfPresent];
+            SFSDKOAuthClient *newClient = [strongSelf fetchOAuthClient:credentials completion:client.config.successCallbackBlock failure:client.config.failureCallbackBlock];
+            [newClient refreshCredentials];
+        }];
     };
     
     self.errorManager.connectedAppVersionMismatchErrorHandlerBlock = ^(NSError *  error, SFOAuthInfo *authInfo,NSDictionary *options) {
@@ -1226,29 +1226,19 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     };
 }
 
-- (void)showAlertForHostConnectionError:(NSError *)error client:(SFSDKOAuthClient *)client
-{
-    NSString *alertMessage = [NSString stringWithFormat:[SFSDKResourceUtils localizedString:kAlertConnectionErrorFormatStringKey], [error localizedDescription]];
-    
+- (void)showErrorAlertWithMessage:(NSString *)alertMessage buttonTitle:(NSString *)buttonTitle andCompletion:(void(^)(void))completionBlock {
     __weak typeof (self) weakSelf = self;
     SFSDKAlertMessage *message = [SFSDKAlertMessage messageWithBlock:^(SFSDKAlertMessageBuilder *builder) {
-        __strong typeof (weakSelf) strongSelf = weakSelf;
         builder.alertTitle = [SFSDKResourceUtils localizedString:kAlertErrorTitleKey];
         builder.alertMessage = alertMessage;
-        builder.actionOneTitle = [SFSDKResourceUtils localizedString:kAlertOkButtonKey];
+        builder.actionOneTitle = buttonTitle;
         builder.actionOneCompletion = ^{
-            [client cancelAuthentication:YES];
-            [strongSelf disposeOAuthClient:client];
-            [weakSelf notifyUserCancelledOrDismissedAuth:client.credentials andAuthInfo:client.context.authInfo];
-            SFSDKLoginHost *host = [[SFSDKLoginHostStorage sharedInstance] loginHostAtIndex:0];
-            strongSelf.loginHost = host.host;
-            [strongSelf switchToNewUser];
+            completionBlock();
         };
     }];
     dispatch_async(dispatch_get_main_queue(), ^{
         weakSelf.alertDisplayBlock(message, SFSDKWindowManager.sharedManager.authWindow);
     });
-    
 }
 
 - (void)showAlertForConnectedAppVersionMismatchError:(NSError *)error client:(SFSDKOAuthClient *)client
@@ -1261,7 +1251,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
         builder.actionOneTitle = [SFSDKResourceUtils localizedString:kAlertErrorTitleKey];
         builder.actionTwoTitle = [SFSDKResourceUtils localizedString:kAlertDismissButtonKey];
         builder.actionOneCompletion = ^{
-            [strongSelf handleFailure:error client:client];
+            [strongSelf handleFailure:error client:client notifyDelegates:NO];
         };
     }];
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -1318,7 +1308,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     [[SFSDKOAuthClientCache sharedInstance] removeClient:client];
 }
 
-- (void)loggedIn:(BOOL)fromOffline client:(SFSDKOAuthClient* )client
+- (void)loggedIn:(BOOL)fromOffline client:(SFSDKOAuthClient* )client notifyDelegatesOfFailure:(BOOL)shouldNotify
 {
     if (!fromOffline) {
         __weak typeof(self) weakSelf = self;
@@ -1327,7 +1317,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
         } failure:^(SFSDKOAuthClient *client, NSError *error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [client revokeCredentials];
-            [strongSelf handleFailure:error client:client];
+            [strongSelf handleFailure:error client:client notifyDelegates:shouldNotify];
         }];
     } else {
         [self retrievedIdentityData:client];
@@ -1345,7 +1335,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
         [weakSelf finalizeAuthCompletion:client];
     }];
     [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
-        [weakSelf handleFailure:client.context.authError client:client];
+        [weakSelf handleFailure:client.context.authError client:client notifyDelegates:YES];
     }];
     // Check to see if a passcode needs to be created or updated, based on passcode policy data from the
     // identity service.
@@ -1354,21 +1344,23 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 }
 
 
-- (void)handleFailure:(NSError *)error  client:(SFSDKOAuthClient *)client{
+- (void)handleFailure:(NSError *)error  client:(SFSDKOAuthClient *)client notifyDelegates:(BOOL)notifyDelegates {
+    
     if( client.config.failureCallbackBlock ) {
         client.config.failureCallbackBlock(client.context.authInfo,error);
     }
-    __weak typeof(self) weakSelf = self;
-    
-    [self enumerateDelegates:^(id <SFUserAccountManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(userAccountManager:error:info:)]) {
-            [delegate userAccountManager:weakSelf error:error info:client.context.authInfo];
-        }
-    }];
+  
+    if (notifyDelegates) {
+         __weak typeof(self) weakSelf = self;
+        [self enumerateDelegates:^(id <SFUserAccountManagerDelegate> delegate) {
+            if ([delegate respondsToSelector:@selector(userAccountManager:error:info:)]) {
+                [delegate userAccountManager:weakSelf error:error info:client.context.authInfo];
+            }
+        }];
+    }
     
     [client cancelAuthentication:NO];
 }
-
 
 - (void)finalizeAuthCompletion:(SFSDKOAuthClient *)client
 {
@@ -1385,7 +1377,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
         NSError *error = [NSError errorWithDomain:@"SFUserAccountManager"
                                              code:1005
                                          userInfo:@{ NSLocalizedDescriptionKey : reason } ];
-        [self handleFailure:error client:client];
+        [self handleFailure:error client:client notifyDelegates:YES];
     } else {
         // Notify the session is ready
         [self willChangeValueForKey:@"haveValidSession"];
