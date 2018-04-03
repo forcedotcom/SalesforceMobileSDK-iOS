@@ -99,14 +99,21 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     self.networkFailureAuthErrorHandler = [[SFAuthErrorHandler alloc]
                                            initWithName:kSFNetworkFailureAuthErrorHandler
                                            evalOptionsBlock:^BOOL(NSError *error, SFOAuthInfo *authInfo, NSDictionary *options) {
+                                               BOOL result = NO;
                                                if ([[weakSelf class] errorIsNetworkFailure:error]) {
-
-                                                   if (self.networkErrorHandlerBlock) {
-                                                       self.networkErrorHandlerBlock(error, authInfo, options);
-                                                       return YES;
+                                                   if (authInfo.authType != SFOAuthTypeRefresh) {
+                                                       [SFSDKCoreLogger e:[weakSelf class] format:@"Network failure for non-Refresh OAuth flow (%@) is a fatal error.", authInfo.authTypeDescription];
+                                                   } else if ([SFUserAccountManager sharedInstance].currentUser.credentials.accessToken == nil) {
+                                                       [SFSDKCoreLogger w:[weakSelf class] format:@"Network unreachable for access token refresh, and no access token is configured.  Cannot continue."];
+                                                   } else {
+                                                       [SFSDKCoreLogger i:[weakSelf class]  format:@"Network failure for OAuth Refresh flow (existing credentials)  Try to continue."];
+                                                        if (self.networkErrorHandlerBlock) {
+                                                            self.networkErrorHandlerBlock(error, authInfo, options);
+                                                            result = YES;
+                                                        }
                                                    }
                                                }
-                                               return NO;
+                                               return result;
                                            }];
     [authHandlerList addAuthErrorHandler:self.networkFailureAuthErrorHandler];
     
