@@ -427,9 +427,8 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 
 - (SFRestRequest *)requestForUserInfo {
     NSString *path = @"/services/oauth2/userinfo";
-    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];
+    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodGET serviceHostType:SFSDKRestServiceHostTypeLogin path:path queryParams:nil];
     request.endpoint = @"";
-    request.baseURL = [[self class] loginHostBaseUrlForUser:self.user];
     return request;
 }
 
@@ -650,13 +649,6 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 + (NSString *)getHttpStringFomFromDate:(NSDate *)date {
     if (date == nil) return nil;
     return [httpDateFormatter stringFromDate:date];
-}
-
-+ (nullable NSString *)loginHostBaseUrlForUser:(nullable SFUserAccount *)user {
-    if (user.credentials.domain.length == 0 || user.credentials.protocol.length == 0) {
-        return nil;
-    }
-    return [NSString stringWithFormat:@"%@://%@", user.credentials.protocol, user.credentials.domain];
 }
 
 #pragma mark - SFAuthenticationManagerDelegate

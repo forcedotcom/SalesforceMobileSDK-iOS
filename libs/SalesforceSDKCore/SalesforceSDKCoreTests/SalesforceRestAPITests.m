@@ -1754,4 +1754,59 @@ static NSException *authException = nil;
     XCTAssertEqualObjects(finalRequest.URL.absoluteString, expectedURL, @"Final URL should utilize base URL that was passed in");
 }
 
+#pragma mark - miscellaneous tests
+
+- (void)testRestUrlForBaseUrl {
+    SFOAuthCredentials *creds = [self getTestCredentialsWithDomain:@"somedomain.example.com"
+                                                       instanceUrl:[NSURL URLWithString:@"https://someinstance.example.com"]
+                                                      communityUrl:[NSURL URLWithString:@"https://somecommunity.example.com/community"]];
+    NSString *baseUrl = @"https://somebaseurl.example.com";
+    NSString *restUrl = [SFRestRequest restUrlForBaseUrl:baseUrl serviceHostType:SFSDKRestServiceHostTypeInstance credentials:creds];
+    XCTAssertEqualObjects(restUrl, baseUrl, @"Base URL should take precedence");
+    
+    restUrl = [SFRestRequest restUrlForBaseUrl:baseUrl serviceHostType:SFSDKRestServiceHostTypeLogin credentials:creds];
+    XCTAssertEqualObjects(restUrl, baseUrl, @"Base URL should take precedence");
+}
+
+- (void)testRestUrlForCommunityUrl {
+    SFOAuthCredentials *creds = [self getTestCredentialsWithDomain:@"somedomain.example.com"
+                                                       instanceUrl:[NSURL URLWithString:@"https://someinstance.example.com"]
+                                                      communityUrl:[NSURL URLWithString:@"https://somecommunity.example.com/community"]];
+    NSString *restUrl = [SFRestRequest restUrlForBaseUrl:nil serviceHostType:SFSDKRestServiceHostTypeInstance credentials:creds];
+    XCTAssertEqualObjects(restUrl, creds.communityUrl.absoluteString, @"Community URL should take precedence");
+    
+    restUrl = [SFRestRequest restUrlForBaseUrl:nil serviceHostType:SFSDKRestServiceHostTypeLogin credentials:creds];
+    XCTAssertEqualObjects(restUrl, creds.communityUrl.absoluteString, @"Community URL should take precedence");
+}
+
+- (void)testRestUrlForLoginServiceHost {
+    NSString *loginDomain = @"somedomain.example.com";
+    SFOAuthCredentials *creds = [self getTestCredentialsWithDomain:loginDomain
+                                                       instanceUrl:[NSURL URLWithString:@"https://someinstance.example.com"]
+                                                      communityUrl:nil];
+    NSString *restUrl = [SFRestRequest restUrlForBaseUrl:nil serviceHostType:SFSDKRestServiceHostTypeLogin credentials:creds];
+    NSString *loginDomainUrl = [NSString stringWithFormat:@"https://%@", loginDomain];
+    XCTAssertEqualObjects(restUrl, loginDomainUrl, @"Login URL should take precedence");
+}
+
+- (void)testRestUrlForInstanceServiceHost {
+    NSURL *instanceUrl = [NSURL URLWithString:@"https://someinstance.example.com"];
+    SFOAuthCredentials *creds = [self getTestCredentialsWithDomain:@"somdomain.example.com"
+                                                       instanceUrl:instanceUrl
+                                                      communityUrl:nil];
+    NSString *restUrl = [SFRestRequest restUrlForBaseUrl:nil serviceHostType:SFSDKRestServiceHostTypeInstance credentials:creds];
+    XCTAssertEqualObjects(restUrl, instanceUrl.absoluteString, @"Instance URL should take precedence");
+}
+
+- (SFOAuthCredentials *)getTestCredentialsWithDomain:(nonnull NSString *)domain
+                                            instanceUrl:(nonnull NSURL *)instanceUrl
+                                           communityUrl:(nullable NSURL *)communityUrl {
+    NSString *credsId = [NSString stringWithFormat:@"testRestUrl_%u", arc4random()];
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:credsId clientId:@"TestClientID" encrypted:YES];
+    creds.communityUrl = communityUrl;
+    creds.domain = domain;
+    creds.instanceUrl = instanceUrl;
+    return creds;
+}
+
 @end

@@ -31,4 +31,6 @@
 @property (nullable, nonatomic, copy) NSDictionary *requestBodyAsDictionary;
 @property (nullable, nonatomic, copy) NSString *requestContentType;
 
++ (nonnull NSString *)restUrlForBaseUrl:(nullable NSString *)baseUrl serviceHostType:(SFSDKRestServiceHostType)hostType credentials:(nonnull SFOAuthCredentials *)credentials;
+
 @end
