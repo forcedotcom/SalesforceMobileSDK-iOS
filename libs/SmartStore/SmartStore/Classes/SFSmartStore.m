@@ -74,6 +74,8 @@ static NSString * const kSFSmartStoreExternalIdNilDescription   = @"For upsert w
 static NSString * const kSFSmartStoreExtIdLookupError           = @"There was an error retrieving the soup entry ID for path '%@' and value '%@': %@";
 static NSInteger  const kSFSmartStoreOtherErrorCode             = 999;
 
+NSString *const kSFSmartStoreErrorLoadExternalSoup =  @"com.salesforce.smartstore.LoadExternalSoupError";
+
 // Encryption constants
 NSString * const kSFSmartStoreEncryptionKeyLabel = @"com.salesforce.smartstore.encryption.keyLabel";
 
@@ -839,8 +841,11 @@ NSString *const EXPLAIN_ROWS = @"rows";
                                       soupTableName,
                                       filePath,
                                       error];
-            NSAssert(NO, errorMessage);
             [SFSDKSmartStoreLogger e:[self class] format:errorMessage];
+            @throw [NSException exceptionWithName:kSFSmartStoreErrorLoadExternalSoup
+                                           reason:errorMessage
+                                         userInfo:nil];
+            
         }
     }
     return result;
