@@ -765,7 +765,8 @@ NSString *const EXPLAIN_ROWS = @"rows";
     SFSmartStoreEncryptionKeyBlock keyBlock = [SFSmartStore encryptionKeyBlock];
     if (keyBlock) {
         SFEncryptStream *encryptStream = [[SFEncryptStream alloc] initToFileAtPath:filePath append:NO];
-        [encryptStream setupWithKey:keyBlock().key andInitializationVector:nil];
+        SFEncryptionKey *encKey = keyBlock();
+        [encryptStream setupWithKey:encKey.key andInitializationVector:encKey.initializationVector];
         outputStream = encryptStream;
     } else {
         outputStream = [[NSOutputStream alloc] initToFileAtPath:filePath append:NO];
@@ -792,13 +793,22 @@ NSString *const EXPLAIN_ROWS = @"rows";
 
 - (id)loadExternalSoupEntry:(NSNumber *)soupEntryId
               soupTableName:(NSString *)soupTableName {
+    SFSmartStoreEncryptionKeyBlock keyBlock = [SFSmartStore encryptionKeyBlock];
+    SFEncryptionKey *encKey = nil;
+    if (keyBlock){
+       encKey = keyBlock();
+    }
+    return [self loadExternalSoupEntry:soupEntryId soupTableName:soupTableName withKey:encKey.key andIV:encKey.initializationVector];
+}
+
+- (id)loadExternalSoupEntry:(NSNumber *)soupEntryId
+              soupTableName:(NSString *)soupTableName withKey:(NSData *)key andIV:(NSData *)initializationVector {
     NSString *filePath = [self externalStorageSoupFilePath:soupEntryId
                                              soupTableName:soupTableName];
     NSInputStream *inputStream = nil;
-    SFSmartStoreEncryptionKeyBlock keyBlock = [SFSmartStore encryptionKeyBlock];
-    if (keyBlock) {
+    if (key) {
         SFDecryptStream *decryptStream = [[SFDecryptStream alloc] initWithFileAtPath:filePath];
-        [decryptStream setupWithKey:keyBlock().key andInitializationVector:nil];
+        [decryptStream setupWithKey:key andInitializationVector:initializationVector];
         inputStream = decryptStream;
     } else {
         inputStream = [[NSInputStream alloc] initWithFileAtPath:filePath];
@@ -810,14 +820,28 @@ NSString *const EXPLAIN_ROWS = @"rows";
                                                     error:&error];
     [inputStream close];
     if (!result && error) {
-        NSString *errorMessage = [NSString stringWithFormat:@"Loading external soup from file failed! encrypted: %@, soupEntryId: %@, soupTableName: %@, filePath: '%@', error: %@.",
-                                  keyBlock ? @"YES" : @"NO",
-                                  soupEntryId,
-                                  soupTableName,
-                                  filePath,
-                                  error];
-        NSAssert(NO, errorMessage);
-        [SFSDKSmartStoreLogger e:[self class] format:errorMessage];
+        
+        // It is possible that file was previously encrypted with nill IV. For Backward
+        // compatability reasons we will attempt to load the file with a nill IV. If itmanages
+        // to load one  it will encryptthe file with anIV and store it back.
+        if (initializationVector) {
+            result = [self loadExternalSoupEntry:soupEntryId soupTableName:soupTableName withKey:key andIV:nil];
+            //lets write it back.
+            BOOL migrated = [self saveSoupEntryExternally:result soupEntryId:soupEntryId soupTableName:soupTableName];
+            if (!migrated) {
+                [SFSDKSmartStoreLogger e:[self class] format:@"Attempt to migrate an encrypted externally saved soup '%@' with a null IV  failed.", soupTableName];
+            }
+            
+        } else {
+           NSString *errorMessage = [NSString stringWithFormat:@"Loading external soup from file failed! encrypted: %@, soupEntryId: %@, soupTableName: %@, filePath: '%@', error: %@.",
+                                      key ? @"YES" : @"NO",
+                                      soupEntryId,
+                                      soupTableName,
+                                      filePath,
+                                      error];
+            NSAssert(NO, errorMessage);
+            [SFSDKSmartStoreLogger e:[self class] format:errorMessage];
+        }
     }
     return result;
 }
