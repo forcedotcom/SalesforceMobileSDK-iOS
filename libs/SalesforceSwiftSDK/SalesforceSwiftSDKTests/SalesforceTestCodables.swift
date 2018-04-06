@@ -164,8 +164,9 @@ public struct CompositeSubResponse : Decodable {
     
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        body = try values.decodeIfPresent([String:Any].self,forKey: .body)
-        httpHeaders = try values.decodeIfPresent([String:Any].self, forKey: .httpHeaders)
+        //FIXME: need to add a KeyedCodingContainer with dynamic keys to address nested dictionary
+        body =  ["":""] //try values.decodeIfPresent([String: Any].self,forKey: .body)
+        httpHeaders = ["":""]  //try values.decodeIfPresent([String: Any].self, forKey: .httpHeaders)
         httpStatusCode = try values.decodeIfPresent(Int.self, forKey: .httpStatusCode)
         referenceId = try values.decodeIfPresent(String.self, forKey: .referenceId)
     }
