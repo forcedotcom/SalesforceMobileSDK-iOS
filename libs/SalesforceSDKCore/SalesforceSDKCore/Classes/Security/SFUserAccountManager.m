@@ -520,11 +520,17 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 }
 
 #pragma mark - SFSDKOAuthClientSafariViewDelegate
-- (void)authClientWillBeginBrowserAuthentication:(SFSDKOAuthClient *)client completion:(SFOAuthBrowserFlowCallbackBlock)callbackBlock {
+- (void)authClient:(SFSDKOAuthClient *)client willBeginBrowserAuthentication:(SFOAuthBrowserFlowCallbackBlock)callbackBlock {
     NSDictionary *userInfo = @{ kSFNotificationUserInfoCredentialsKey: client.credentials,
                                 kSFNotificationUserInfoAuthTypeKey: client.context.authInfo };
-    [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserWillShowAuthView
-                                                        object:self userInfo:userInfo];
+    if (client.config.advancedAuthConfiguration == SFOAuthAdvancedAuthConfigurationAllow) {
+        //Rekey the client in cache. Need to do, since advanced auth configuration was realized
+        //from org/domain setting.
+        NSString *newKey = [SFSDKOAuthClientCache keyFromCredentials:client.credentials type:SFOAuthClientKeyTypeAdvanced];
+        [[SFSDKOAuthClientCache sharedInstance] removeClient:client];
+        [[SFSDKOAuthClientCache sharedInstance] addClient:client forKey:newKey];
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserWillShowAuthView object:self  userInfo:userInfo];
 }
 
 - (BOOL)authClientDidCancelBrowserFlow:(SFSDKOAuthClient *)client {

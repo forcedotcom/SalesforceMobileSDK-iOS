@@ -59,6 +59,10 @@ static NSString *const kSFAdvancedSuffix = @"ADVANCED";
     [self.oauthClientInstances setObject:client forKey:key];
 }
 
+- (void)addClient:(SFSDKOAuthClient *)client forKey:(NSString *)key {
+    [self.oauthClientInstances setObject:client forKey:key];
+}
+
 - (void)removeClient:(SFSDKOAuthClient *)client {
     NSString *key = [[self class] keyFromClient:client];
     [self.oauthClientInstances removeObject:key];
