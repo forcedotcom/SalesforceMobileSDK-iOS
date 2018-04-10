@@ -56,18 +56,6 @@
     return self;
 }
 
-- (void)addHandler:(id <SFSDKURLHandler>)handler {
-    if (!handler) {
-        [handlerList addObject:handler];
-    }
-}
-
-- (void)removeHandler:(id <SFSDKURLHandler>)handler {
-    if (!handler) {
-        [handlerList removeObject:handler];
-    }
-}
-
 - (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options {
 
      __block BOOL result = NO;

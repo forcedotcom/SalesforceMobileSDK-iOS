@@ -33,10 +33,6 @@
 
 @interface SFSDKURLHandlerManager : NSObject
 
-- (void)addHandler:(id<SFSDKURLHandler>)handler;
-
-- (void)removeHandler:(id<SFSDKURLHandler>)handler;
-
 - (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options;
 
 - (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options;

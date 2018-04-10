@@ -25,20 +25,35 @@
 #import "SFSDKAuthErrorManager.h"
 #import "SFOAuthInfo.h"
 #import "SFOAuthCoordinator.h"
-@interface SFSDKErrorManagerTests : XCTestCase
+#import "SFUserAccountManager+Internal.h"
+@interface SFSDKErrorManagerTests : XCTestCase {
+    SFUserAccount *_origCurrentUser;
+}
 @end
 
 @implementation SFSDKErrorManagerTests
 - (void)setUp {
     [super setUp];
+    _origCurrentUser =  [SFUserAccountManager sharedInstance].currentUser;
 }
 
 - (void)tearDown {
     [super tearDown];
+    [SFUserAccountManager sharedInstance].currentUser = _origCurrentUser;
 }
 
 - (void)testNetworkError {
     SFSDKAuthErrorManager *errorManager = [[SFSDKAuthErrorManager alloc] init];
+   
+    SFOAuthCredentials *credentials = [[SFUserAccountManager sharedInstance] newClientCredentials];
+    credentials.accessToken = @"__ACCESS_TOKEN__";
+    credentials.refreshToken = @"__REFRESH_TOKEN__";
+    credentials.userId = @"USER123";
+    credentials.organizationId = @"ORG123";
+    SFUserAccount *account = [[SFUserAccount alloc] initWithCredentials:credentials];
+    [[SFUserAccountManager sharedInstance] saveAccountForUser:account error:nil];
+    
+    [SFUserAccountManager sharedInstance].currentUser = account;
     XCTAssertNotNil(errorManager);
     XCTestExpectation *networkErrorExpectation =  [self expectationWithDescription:@"networkErrorExpectation"];
     NSDictionary *userInfo = [[NSMutableDictionary alloc] init];
@@ -47,10 +62,12 @@
     errorManager.networkErrorHandlerBlock = ^(NSError * error, SFOAuthInfo * authInfo, NSDictionary *options) {
         [networkErrorExpectation fulfill];
     };
-    SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeUserAgent];
+    
+    SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh];
     XCTAssertNotNil(errorManager.networkErrorHandlerBlock);
     BOOL handled = [errorManager processAuthError:error authInfo:authInfo options:userInfo];
     XCTAssertTrue(handled,@"Network Error Should have been handled by the ErrorManager");
+    [[SFUserAccountManager sharedInstance] deleteAccountForUser:account error:nil];
     [self waitForExpectationsWithTimeout:20.0 handler:nil];
 }
 
