@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Call this method after authenticating with Salesforce and registering with APNS.
  * @return YES for successful registration call made.
  */
-- (BOOL)SFSDK_DEPRECATED(6.1, 7.0, "Use 'registerSalesforceNotificationsWithCompletionBlock:failBlock' instead.") registerForSalesforceNotifications;
+- (BOOL)SFSDK_DEPRECATED(6.2, 7.0, "Use 'registerSalesforceNotificationsWithCompletionBlock:failBlock' instead.") registerForSalesforceNotifications;
 
 /**
  * Register for notifications with Salesforce.
