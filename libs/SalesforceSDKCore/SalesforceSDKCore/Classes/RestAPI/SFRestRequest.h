@@ -27,7 +27,7 @@
 #import "SFUserAccount.h"
 
 /**
- * HTTP methods for requests
+ * HTTP methods for requests.
  */
 typedef NS_ENUM(NSInteger, SFRestMethod) {
     SFRestMethodGET = 0,
@@ -41,7 +41,8 @@ typedef NS_ENUM(NSInteger, SFRestMethod) {
 /**
  * The type of service host to use for Rest requests.
  */
-typedef NS_ENUM(NSUInteger, SFSDKRestServiceHostType){
+typedef NS_ENUM(NSUInteger, SFSDKRestServiceHostType) {
+
     /**
      *  Request uses the login endpoint.
      */
@@ -60,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 extern NSString * const kSFDefaultRestEndpoint;
 
-//forward declaration
+// Forward declaration.
 @class SFRestRequest;
 
 /**
@@ -197,6 +198,12 @@ extern NSString * const kSFDefaultRestEndpoint;
  * the request headers before sending the request.  If NO, they will not.
  */
 @property (nonatomic, assign) BOOL requiresAuthentication;
+
+/**
+ * Used to specify if the SDK should attempt to refresh tokens on HTTP 403. If YES, the SDK will
+ * attempt to refresh on HTTP 403. If NO, refresh will not be attempted.
+ */
+@property (nonatomic, assign) BOOL shouldRefreshOn403;
 
 /**
  * Prepares the request before sending it out.
