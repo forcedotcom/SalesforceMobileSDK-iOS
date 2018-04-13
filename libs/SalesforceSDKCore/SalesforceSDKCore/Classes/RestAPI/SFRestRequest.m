@@ -42,6 +42,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
         self.endpoint = kSFDefaultRestEndpoint;
         self.requiresAuthentication = YES;
         self.parseResponse = YES;
+        self.shouldRefreshOn403 = YES;
         self.request = [[NSMutableURLRequest alloc] init];
     }
     return self;
@@ -230,7 +231,6 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     NSString *mpeSeparator = @"--";
     NSString *newline = @"\r\n";
     NSMutableData *body = [NSMutableData data];
-    
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     if (fileName) {
         params[@"title"] = fileName;
@@ -242,6 +242,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:params
                                                        options:NSJSONWritingPrettyPrinted
                                                          error:&parsingError];
+
     // PART 1
     if (jsonData) {
         [body appendData:[[NSString stringWithFormat:@"%@%@%@", mpeSeparator, mpeBoundary, newline] dataUsingEncoding:NSUTF8StringEncoding]];
@@ -249,7 +250,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     }
 
     [body appendData:[[NSString stringWithFormat:@"%@%@%@", mpeSeparator, mpeBoundary, newline] dataUsingEncoding:NSUTF8StringEncoding]];
-    
+
     //PART 2
     if (fileData) {
         if (!mimeType) {
@@ -258,7 +259,6 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
         [body appendData:[self multiPartRequestBodyForkey:paramName mimeType:mimeType fileName:fileName file:fileData]];
         [body appendData:[[NSString stringWithFormat:@"%@%@%@%@", mpeSeparator, mpeBoundary, mpeSeparator, newline] dataUsingEncoding:NSUTF8StringEncoding]];
     }
-    
     [self setCustomRequestBodyData:body contentType:[NSString stringWithFormat:@"multipart/form-data; boundary=%@", mpeBoundary]];
     [self.request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
     [self.request setHTTPShouldHandleCookies:NO];
@@ -269,19 +269,15 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 - (NSData *)multiPartRequestBodyForkey:(NSString *)key mimeType:(NSString*)mimeType fileName:(NSString*)fileName file:(NSData *)fileData {
     NSMutableData *body = [NSMutableData data];
     NSString *newline = @"\r\n";
-    NSString *bodyContentDisposition = [NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\";",key];
-    
+    NSString *bodyContentDisposition = [NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\";", key];
     if (fileName) {
-        bodyContentDisposition = [bodyContentDisposition stringByAppendingFormat:@" filename=\"%@\"%@",fileName, newline];
+        bodyContentDisposition = [bodyContentDisposition stringByAppendingFormat:@" filename=\"%@\"%@", fileName, newline];
     }
-    
     [body appendData:[bodyContentDisposition dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"Content-Type: %@; charset=UTF-8%@",mimeType, newline] dataUsingEncoding:NSUTF8StringEncoding]];
-    
     [body appendData:[newline dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:fileData];
     [body appendData:[newline dataUsingEncoding:NSUTF8StringEncoding]];
-    
     return body;
 }
 
@@ -341,4 +337,5 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     }
     return queryString;
 }
+
 @end
