@@ -169,6 +169,8 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
 }
 
 - (void)setupBrandingForNavBar {
+    [self.navigationController.navigationBar setTranslucent:false];
+    
     SFSDKLoginViewControllerConfig *config = [SFUserAccountManager sharedInstance].loginViewControllerConfig;
     if (config.navBarColor) {
         [self.navigationController.navigationBar setBarTintColor:config.navBarColor];
