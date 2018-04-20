@@ -213,9 +213,9 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
         [SFSDKCoreLogger i:[self class] format:@"No auth credentials found. Authenticating before sending request."];
         [weakSelf loginWithCompletion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
-            [strongSelf enqueueRequest:request delegate:delegate shouldRetry:shouldRetry];
             [SFUserAccountManager sharedInstance].currentUser = userAccount;
             strongSelf.user = userAccount;
+            [strongSelf enqueueRequest:request delegate:delegate shouldRetry:shouldRetry];
         } failure:^(SFOAuthInfo *authInfo, NSError *error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [SFSDKCoreLogger e:[strongSelf class] format:@"Authentication failed in SFRestAPI: %@. Logging out.", error];
