@@ -309,27 +309,32 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
    
     if ([self.snapshotWindow isEnabled])
         return;
-
-    BOOL windowFound = NO;
-    for (NSInteger i = [SFApplicationHelper sharedApplication].windows.count - 1; i >= 0; i--) {
-        UIWindow *win = ([SFApplicationHelper sharedApplication].windows)[i];
-        if (win.alpha == 0.0 || [self isKeyboard:win]) {
-            continue;
-        } else if (window!=nil && window.window!=win) {
-            continue; // in case the window is not the keywindow is not the enabled window (applies for enable only)
-        } else {
-            windowFound = YES;
-            [win makeKeyWindow];
-            break;
-        }
-    }
-    //Should not be the case but if we do find ourselves in this situation, we can make the mainWindow
-    //the key window as a fallback
-    if (!windowFound) {
-        [SFSDKCoreLogger e:[self class] format:@"SFSDKWindowManager could not make a window key: %@ will fallback to making mainWindow as Key Window", window.windowName];
-        [[self mainWindow].window makeKeyWindow];
+    
+    if (window != nil && [self isValidWindow:window]) {
+        [window.window makeKeyWindow];
+        return;
     }
     
+    UIWindow *activeWindow = [self findActiveWindow];
+    if (activeWindow != nil) {
+        [activeWindow makeKeyWindow];
+        return;
+    }
+    
+    //Should not be the case but if we do find ourselves in this situation, we can make the mainWindow
+    //the key window as a fallback
+    [SFSDKCoreLogger e:[self class] format:@"SFSDKWindowManager could not make a window key: %@ will fallback to making mainWindow as Key Window", window.windowName];
+    [[self mainWindow].window makeKeyWindow];
+    
+}
+
+- (BOOL)isValidWindow:(SFSDKWindowContainer *)container {
+    for (UIWindow *window in [SFApplicationHelper sharedApplication].windows) {
+        if (window == container.window) {
+            return YES;
+        }
+    }
+    return NO;
 }
 
 - (UIWindow *)findActiveWindow {
