@@ -342,7 +342,7 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
     UIWindow *foundWindow = nil;
     for (NSInteger i = [SFApplicationHelper sharedApplication].windows.count - 1; i >= 0; i--) {
         UIWindow *win = ([SFApplicationHelper sharedApplication].windows)[i];
-        if (win.alpha == 0.0 || [self isKeyboard:win]) {
+        if (win.alpha == 0.0 || win.hidden == YES || [self isKeyboard:win]) {
             continue;
         } else {
             foundWindow = win;
