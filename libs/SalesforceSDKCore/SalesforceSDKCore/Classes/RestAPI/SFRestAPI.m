@@ -210,7 +210,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     [self.activeRequests addObject:request];
     __weak __typeof(self) weakSelf = self;
     if (self.user.credentials.accessToken == nil && self.user.credentials.refreshToken == nil && request.requiresAuthentication) {
-        [SFSDKCoreLogger i:[self class] format:@"No auth credentials found. Authenticating before sending request."];
+        [SFSDKCoreLogger i:[self class] format:@"No auth credentials found. Authenticating before sending request: %@", request.description];
         [weakSelf loginWithCompletion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [SFUserAccountManager sharedInstance].currentUser = userAccount;
