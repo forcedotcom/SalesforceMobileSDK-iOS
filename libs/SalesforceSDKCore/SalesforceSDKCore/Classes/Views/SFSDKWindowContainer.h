@@ -47,13 +47,13 @@ typedef NS_ENUM(NSInteger, SFSDKWindowType) {
  Called when the window has to be enabled
  @param window The window
  */
-- (void)presentWindow:(SFSDKWindowContainer *)window animated:(BOOL)animated withCompletion:(void (^_Nullable)(void))completion;
+- (void)presentWindow:(SFSDKWindowContainer *)window withCompletion:(void (^_Nullable)(void))completion;
 
 /**
  Called when the window has to be disabled
  @param window The window
  */
-- (void)dismissWindow:(SFSDKWindowContainer *)window animated:(BOOL)animated withCompletion:(void (^_Nullable)(void))completion;
+- (void)dismissWindow:(SFSDKWindowContainer *)window withCompletion:(void (^_Nullable)(void))completion;
 @end
 
 @interface SFSDKWindowContainer : NSObject
@@ -93,15 +93,27 @@ typedef NS_ENUM(NSInteger, SFSDKWindowType) {
  * Make window visible, set alpha to 1.0
  */
 - (void)presentWindow;
+
 /**
  * Make window visible, set alpha to 1.0 invoke completion block
  */
-- (void)presentWindowAnimated:(BOOL)animated withCompletion:(void (^_Nullable)(void))completion;
+- (void)presentWindowWithCompletion:(void (^_Nullable)(void))completion;
 
 /**
  * Make window visible
  */
-- (void)dismissWindowAnimated:(BOOL)animated withCompletion:(void (^_Nullable)(void))completion;
+- (void)dismissWindowWithCompletion:(void (^_Nullable)(void))completion;
+
+
+/**
+ * Make window visible, set alpha to 1.0 invoke completion block
+ */
+- (void)presentWindowAnimated:(BOOL)animated withCompletion:(void (^_Nullable)(void))completion SFSDK_DEPRECATED(6.0, 7.0, "Use presentWindowWithCompletion instead.");
+
+/**
+ * Make window visible
+ */
+- (void)dismissWindowAnimated:(BOOL)animated withCompletion:(void (^_Nullable)(void))completion SFSDK_DEPRECATED(6.0, 7.0, "Use dismissWindowWithCompletion instead.");
 
 /**
  * Make window invisible
@@ -132,6 +144,11 @@ typedef NS_ENUM(NSInteger, SFSDKWindowType) {
  * Tries to return top view controller of this window
  */
 - (UIViewController*) topViewController;
+
+/**
+ * Tries to return top view controller given a root view Controller
+ */
++ (UIViewController*)topViewControllerWithRootViewController:(UIViewController*)viewController;
 @end
 
 NS_ASSUME_NONNULL_END

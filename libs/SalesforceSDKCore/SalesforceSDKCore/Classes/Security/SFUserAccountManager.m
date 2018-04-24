@@ -579,7 +579,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     NSString *key = [SFSDKOAuthClientCache keyFromClient:client];
     [options setObject:key forKey:kOptionsClientKey];
     controller.appOptions = options;
-    [client.authWindow presentWindowAnimated:YES withCompletion:^{
+    [client.authWindow presentWindowWithCompletion:^{
         [client.authWindow.viewController presentViewController:controller animated:YES completion:^{
             [[SFSDKOAuthClientCache sharedInstance] addClient:client];
         }];

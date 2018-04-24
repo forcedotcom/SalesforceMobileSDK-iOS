@@ -82,6 +82,9 @@ SFSDK_USE_DEPRECATED_END
     // as this view is not part of navigation controller stack, needs to set the proper view background so that status bar has the
     // right background color
     self.view.backgroundColor = self.navBarColor;
+    self.view.autoresizesSubviews = YES;
+    self.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    self.view.clipsToBounds = YES;
     if(self.showNavbar){
         [self setupNavigationBar];
     } else {
