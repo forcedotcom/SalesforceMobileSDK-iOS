@@ -273,7 +273,6 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
     UIWindow *window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
     window.hidden = YES;
     window.backgroundColor = [UIColor whiteColor];
-    //[window.window resignKeyWindow];
     window.rootViewController = [[SFSDKRootController alloc] init];
     return  window;
 }
