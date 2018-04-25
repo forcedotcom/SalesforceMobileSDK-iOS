@@ -108,12 +108,12 @@ typedef NS_ENUM(NSInteger, SFSDKWindowType) {
 /**
  * Make window visible, set alpha to 1.0 invoke completion block
  */
-- (void)presentWindowAnimated:(BOOL)animated withCompletion:(void (^_Nullable)(void))completion SFSDK_DEPRECATED(6.0, 7.0, "Use presentWindowWithCompletion instead.");
+- (void)presentWindowAnimated:(BOOL)animated withCompletion:(void (^_Nullable)(void))completion SFSDK_DEPRECATED(6.2, 7.0, "Use presentWindowWithCompletion instead.");
 
 /**
  * Make window visible
  */
-- (void)dismissWindowAnimated:(BOOL)animated withCompletion:(void (^_Nullable)(void))completion SFSDK_DEPRECATED(6.0, 7.0, "Use dismissWindowWithCompletion instead.");
+- (void)dismissWindowAnimated:(BOOL)animated withCompletion:(void (^_Nullable)(void))completion SFSDK_DEPRECATED(6.2, 7.0, "Use dismissWindowWithCompletion instead.");
 
 /**
  * Make window invisible

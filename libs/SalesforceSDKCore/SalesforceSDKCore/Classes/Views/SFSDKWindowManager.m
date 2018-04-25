@@ -84,7 +84,7 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
     container.windowType = SFSDKWindowTypeMain;
     container.windowDelegate = self;
     container.viewController = [[SFSDKRootController alloc] init];
-    [container.window setHidden:NO];
+    container.window.hidden = NO;
     [self.namedWindows setObject:container forKey:kSFMainWindowKey];
     [self.reverseLookupTable setObject:container forKey:container.window];
 }
@@ -290,8 +290,8 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
     }
     window.window.hidden = YES;
     //Switch back to main window, any other window should present itself if needed.
-    [[self mainWindow].window setHidden:NO];
-    [[self mainWindow].window makeKeyWindow];
+    self.mainWindow.window.hidden = NO;
+    [self.mainWindow.window makeKeyWindow];
 }
 
 - (void)showWindow:(SFSDKWindowContainer *)window {
