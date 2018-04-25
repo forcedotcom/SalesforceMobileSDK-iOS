@@ -83,7 +83,6 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
     SFSDKWindowContainer *container = [[SFSDKWindowContainer alloc] initWithWindow:window name:kSFMainWindowKey];
     container.windowType = SFSDKWindowTypeMain;
     container.windowDelegate = self;
-    container.viewController = [[SFSDKRootController alloc] init];
     container.window.hidden = NO;
     [self.namedWindows setObject:container forKey:kSFMainWindowKey];
     [self.reverseLookupTable setObject:container forKey:container.window];
