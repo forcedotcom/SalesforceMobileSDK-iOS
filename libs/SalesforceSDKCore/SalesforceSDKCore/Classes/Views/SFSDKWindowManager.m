@@ -288,31 +288,10 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
         window.window.hidden = YES;
         return;
     }
-    
-    UIWindow *windowFound = nil;
-    //find next Window to make visible
-    UIWindow *nextWindow = nil;
-    for (NSInteger i = [SFApplicationHelper sharedApplication].windows.count - 1; i >= 0; i--) {
-        UIWindow *win = ([SFApplicationHelper sharedApplication].windows)[i];
-        if (![self isManaged:win]) {
-            continue;
-        } else if (window.window == win) {
-            windowFound = win;
-        } else if (windowFound) {
-            nextWindow = win;
-            break;
-        }
-    }
     window.window.hidden = YES;
-    if (nextWindow) {
-        nextWindow.hidden = NO;
-        [nextWindow makeKeyWindow];
-    }else {
-        //Should not be the case but if we do find ourselves in this situation, we can make the mainWindow
-        //the key window as a fallback
-        [SFSDKCoreLogger e:[self class] format:@"SFSDKWindowManager could not make a window key: %@ will fallback to making mainWindow as Key Window", window.windowName];
-        [[self mainWindow].window makeKeyWindow];
-    }
+    //Switch back to main window, any other window should present itself if needed.
+    [[self mainWindow].window setHidden:NO];
+    [[self mainWindow].window makeKeyWindow];
 }
 
 - (void)showWindow:(SFSDKWindowContainer *)window {

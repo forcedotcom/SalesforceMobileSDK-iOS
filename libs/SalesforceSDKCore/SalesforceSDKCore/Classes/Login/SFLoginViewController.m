@@ -239,8 +239,17 @@ SFSDK_USE_DEPRECATED_END
     return item;
 }
 
+- (BOOL)shouldAutorotate {
+    return NO;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
+
 - (void)layoutWebView {
     if (nil != _oauthView) {
+        [_oauthView removeFromSuperview];
         [self.view addSubview:_oauthView];
     }
 }

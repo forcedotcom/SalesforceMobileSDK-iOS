@@ -353,6 +353,9 @@ static NSString * const kSFECParameter = @"ec";
         _view.navigationDelegate = self;
         _view.autoresizesSubviews = YES;
         _view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+         _view.clipsToBounds = YES;
+        _view.translatesAutoresizingMaskIntoConstraints = NO;
+        
         _view.UIDelegate = self;
     }
     return _view;
