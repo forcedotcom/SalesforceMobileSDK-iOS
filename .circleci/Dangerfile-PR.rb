@@ -1,8 +1,8 @@
 # Warn when there is a big PR
-warn('Big PR, try to keep changes smaller if you can') if git.lines_of_code > 500
+net_new = git.insertions - git.deletions
+warn('Big PR, try to keep changes smaller if you can') if git.lines_of_code > 800 or net_new > 500
 
-# Mainly to encourage writing up some reasoning about the PR, rather than
-# just leaving a title
+# Encourage writing up some reasoning about the PR, rather than just leaving a title
 if github.pr_body.length < 3
   warn 'Please provide a summary in the Pull Request description'
 end

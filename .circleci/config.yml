@@ -1,14 +1,14 @@
 aliases:
   - &save-gem-cache
-    key: v3-gems-{{ checksum ".circleci/Gemfile.lock" }}
+    key: v4-gems-{{ checksum ".circleci/Gemfile.lock" }}
     paths:
       - /Users/distiller/.gem/ruby/2.4.2
       - /Users/distiller/.rubies/ruby-2.4.2/lib/ruby/gems/2.4.0
 
   - &restore-gem-cache
     keys:
-      - v3-gems-{{ checksum ".circleci/Gemfile.lock" }}
-      - v3-gems-
+      - v4-gems-{{ checksum ".circleci/Gemfile.lock" }}
+      - v4-gems-
 
   - &install-dependecies
     name: Install Dependencies
@@ -16,7 +16,7 @@ aliases:
       npm install shelljs@0.7.0
       ./install.sh
       ./build/pre-build
-      chruby 2.4.2
+      chruby 2.5.1
       cd .circleci
       bundle check || bundle install
       bundle update
@@ -24,14 +24,14 @@ aliases:
   - &run-tests
     name: Run Tests
     command:  |
-      chruby 2.4.2
+      chruby 2.5.1
       cd .circleci
       fastlane ${FASTLANE_LANE}
 
   - &danger-lib
     name: Danger Lib
     command:  |
-      chruby 2.4.2
+      chruby 2.5.1
       DANGER_GITHUB_API_TOKEN="5d42eadf98c58c9c4f60""7fcfc72cee4c7ef1486b" danger --dangerfile=.circleci/Dangerfile-Lib.rb --danger_id="${LIB}" --verbose
     background: true
     when: always
@@ -44,7 +44,7 @@ aliases:
 defaults: &defaults
   working_directory: ~/SalesforceMobileSDK-iOS
   macos:
-    xcode: "9.2.0"
+    xcode: "9.3.0"
   shell: /bin/bash --login -eo pipefail
   environment:
     BASH_ENV: ~/.bashrc
@@ -63,7 +63,7 @@ jobs:
       - run:
           name: Danger PR
           command:  |
-            chruby 2.4.2
+            chruby 2.5.1
             DANGER_GITHUB_API_TOKEN="5d42eadf98c58c9c4f60""7fcfc72cee4c7ef1486b" danger --dangerfile=.circleci/Dangerfile-PR.rb --danger_id=PR-Check --verbose
           background: true
       - save_cache: *save-gem-cache
@@ -259,7 +259,7 @@ jobs:
   test-ios-11:
     <<: *defaults
     environment:
-      - IOS_VERSION: " (11.2)"
+      - IOS_VERSION: " (11.3)"
       - DEVICE: "iPhone X"
       - FASTLANE_LANE: "CI"
     steps:
