@@ -24,7 +24,7 @@ aliases:
   - &run-tests
     name: Run Tests
     command:  |
-      *churby
+      chruby 2.5.1
       cd .circleci
       fastlane ${FASTLANE_LANE}
 
@@ -63,7 +63,7 @@ jobs:
       - run:
           name: Danger PR
           command:  |
-            chruby 2.4.2
+            chruby 2.5.1
             DANGER_GITHUB_API_TOKEN="5d42eadf98c58c9c4f60""7fcfc72cee4c7ef1486b" danger --dangerfile=.circleci/Dangerfile-PR.rb --danger_id=PR-Check --verbose
           background: true
       - save_cache: *save-gem-cache
