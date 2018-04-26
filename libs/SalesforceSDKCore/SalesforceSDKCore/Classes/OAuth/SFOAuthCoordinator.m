@@ -351,6 +351,11 @@ static NSString * const kSFECParameter = @"ec";
         config.processPool = SFSDKWebViewStateManager.sharedProcessPool;
         _view = [[WKWebView alloc] initWithFrame:[[UIScreen mainScreen] bounds] configuration:config];
         _view.navigationDelegate = self;
+        _view.autoresizesSubviews = YES;
+        _view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+         _view.clipsToBounds = YES;
+        _view.translatesAutoresizingMaskIntoConstraints = NO;
+        
         _view.UIDelegate = self;
     }
     return _view;

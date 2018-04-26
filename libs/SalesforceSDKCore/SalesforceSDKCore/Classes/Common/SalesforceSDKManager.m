@@ -85,7 +85,9 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
 
 @end
 
-@interface SalesforceSDKManager ()
+@interface SalesforceSDKManager () {
+    SFSDKWindowContainer *lastActiveWindow;
+}
 
 @property(nonatomic, strong) UIAlertController *actionSheet;
 
@@ -381,7 +383,6 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
     }
     if (launchActions & SFSDKLaunchActionAlreadyAuthenticated) {
         [launchActionString appendFormat:@"%@%@", joinString, @"SFSDKLaunchActionAlreadyAuthenticated"];
-        joinString = @"|";
     }
     
     return launchActionString;
@@ -712,6 +713,7 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
     
     // Set up snapshot security view, if it's configured.
     @try {
+        lastActiveWindow = [SFSDKWindowManager sharedManager].activeWindow;
         [self presentSnapshot];
     }
     @catch (NSException *exception) {
@@ -814,7 +816,7 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
     
     // Presentation
     __weak typeof (self) weakSelf = self;
-    [[SFSDKWindowManager sharedManager].snapshotWindow presentWindowAnimated:NO withCompletion:^{
+    [[SFSDKWindowManager sharedManager].snapshotWindow presentWindowWithCompletion:^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (strongSelf.snapshotPresentationAction && strongSelf.snapshotDismissalAction) {
             strongSelf.snapshotPresentationAction(strongSelf->_snapshotViewController);
@@ -830,11 +832,18 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
             self.snapshotDismissalAction(_snapshotViewController);
             if ([SFSecurityLockout isPasscodeNeeded]) {
                 [SFSecurityLockout validateTimer];
+            } else{
+                [SFSecurityLockout validateTimer];
+                [lastActiveWindow presentWindow];
             }
         } else {
-            [[SFSDKWindowManager sharedManager].snapshotWindow dismissWindowAnimated:NO withCompletion:^{
+            __block SFSDKWindowContainer *activeWindow = lastActiveWindow;
+            [[SFSDKWindowManager sharedManager].snapshotWindow dismissWindowWithCompletion:^{
                 if ([SFSecurityLockout isPasscodeNeeded]) {
                     [SFSecurityLockout validateTimer];
+                } else{
+                    [SFSecurityLockout validateTimer];
+                    [activeWindow presentWindow];
                 }
             }];
         }

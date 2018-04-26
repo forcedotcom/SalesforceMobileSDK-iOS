@@ -40,7 +40,7 @@
     self = [super init];
     if (self) {
         _window = window;
-        _window.hidden = NO;
+        _window.hidden = YES;
         _windowName = windowName;
         _viewController = window.rootViewController;
     }
@@ -50,7 +50,7 @@
 - (UIWindow *)window {
     if (_window == nil) {
         _window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-         _window.hidden = NO;
+         _window.hidden = YES;
         _window.rootViewController = _viewController;
     }
     return _window;
@@ -64,26 +64,35 @@
 }
 
 - (void)presentWindow {
-    [self presentWindowAnimated:NO withCompletion:nil];
+    [self presentWindowWithCompletion:nil];
 }
 
 - (BOOL)isEnabled {
-    return self.window.alpha == 1.0;
+    return self.window.isKeyWindow;
 }
+
 - (void)presentWindowAnimated:(BOOL)animated withCompletion:(void (^ _Nullable)(void))completion {
-    if ([self.windowDelegate respondsToSelector:@selector(presentWindow:animated:withCompletion:)]) {
-        [self.windowDelegate presentWindow:self animated:animated withCompletion:completion];
+    [self presentWindowWithCompletion:completion];
+}
+
+- (void)presentWindowWithCompletion:(void (^ _Nullable)(void))completion {
+    if ([self.windowDelegate respondsToSelector:@selector(presentWindow:withCompletion:)]) {
+        [self.windowDelegate presentWindow:self withCompletion:completion];
     }
 }
 
 - (void)dismissWindow {
-    [self dismissWindowAnimated:NO withCompletion:nil];
+    [self dismissWindowWithCompletion:nil];
 }
 
 - (void)dismissWindowAnimated:(BOOL)animated withCompletion:(void (^ _Nullable)(void))completion {
+   [self dismissWindowWithCompletion:completion];
+}
+
+- (void)dismissWindowWithCompletion:(void (^ _Nullable)(void))completion {
     if ([self isEnabled]) {
-        if ([self.windowDelegate respondsToSelector:@selector(dismissWindow:animated:withCompletion:)]) {
-            [self.windowDelegate dismissWindow:self animated:animated withCompletion:completion];
+        if ([self.windowDelegate respondsToSelector:@selector(dismissWindow:withCompletion:)]) {
+            [self.windowDelegate dismissWindow:self withCompletion:completion];
         }
     }
 }
@@ -106,10 +115,10 @@
 }
 
 - (UIViewController*)topViewController {
-    return [self topViewControllerWithRootViewController:self.window.rootViewController];
+    return [SFSDKWindowContainer  topViewControllerWithRootViewController:self.window.rootViewController];
 }
 
-- (UIViewController*)topViewControllerWithRootViewController:(UIViewController*)viewController {
++ (UIViewController*)topViewControllerWithRootViewController:(UIViewController*)viewController {
     if ([viewController isKindOfClass:[UITabBarController class]]) {
         UITabBarController* tabBarController = (UITabBarController*)viewController;
         return [self topViewControllerWithRootViewController:tabBarController.selectedViewController];

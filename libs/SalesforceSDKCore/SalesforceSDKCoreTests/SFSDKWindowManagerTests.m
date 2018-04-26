@@ -74,11 +74,11 @@
 
 @implementation SFSDKWindowContainerDelegateTest
 
-- (void)presentWindow:(SFSDKWindowContainer *)window animated:(BOOL)animated withCompletion:(void (^_Nullable)(void))completion {
+- (void)presentWindow:(SFSDKWindowContainer *)window withCompletion:(void (^_Nullable)(void))completion {
     [_enabledWindow fulfill];
 }
 
-- (void)dismissWindow:(SFSDKWindowContainer *)window animated:(BOOL)animated withCompletion:(void (^_Nullable)(void))completion {
+- (void)dismissWindow:(SFSDKWindowContainer *)window withCompletion:(void (^_Nullable)(void))completion {
     [_disabledWindow fulfill];
 }
 
@@ -138,7 +138,7 @@
     [passcodeWindow presentWindow];
     XCTAssert(passcodeWindow.window!=nil);
     XCTAssertTrue([passcodeWindow.window isKeyWindow]);
-    [passcodeWindow dismissWindowAnimated:YES withCompletion:^{
+    [passcodeWindow dismissWindowWithCompletion:^{
         XCTAssertFalse(passcodeWindow.window.isKeyWindow);
     }];
     
@@ -152,7 +152,7 @@
     [passcodeWindow presentWindow];
     SFSDKWindowContainer *activeWindow = [SFSDKWindowManager sharedManager].activeWindow;
     XCTAssert(passcodeWindow==activeWindow);
-    [passcodeWindow dismissWindowAnimated:YES withCompletion:^{
+    [passcodeWindow dismissWindowWithCompletion:^{
         XCTAssertFalse(passcodeWindow.window.isKeyWindow);
         [expectation fulfill];
     }];
@@ -181,7 +181,7 @@
 - (void)testCompletionBlockForEnable {
     
     XCTestExpectation *completionBlock  = [[XCTestExpectation alloc] initWithDescription:@"CompletionBlockCalled"];
-    [[SFSDKWindowManager sharedManager].authWindow presentWindowAnimated:YES withCompletion:^{
+    [[SFSDKWindowManager sharedManager].authWindow presentWindowWithCompletion:^{
         [completionBlock fulfill];
     }];
     [self waitForExpectations:@[completionBlock] timeout:2];
@@ -192,7 +192,7 @@
     
     XCTestExpectation *completionBlock  = [[XCTestExpectation alloc] initWithDescription:@"CompletionBlockCalled"];
     [[SFSDKWindowManager sharedManager].authWindow presentWindow];
-    [[SFSDKWindowManager sharedManager].authWindow dismissWindowAnimated:YES withCompletion:^{
+    [[SFSDKWindowManager sharedManager].authWindow dismissWindowWithCompletion:^{
         [completionBlock fulfill];
     }];
     [self waitForExpectations:@[completionBlock] timeout:2];

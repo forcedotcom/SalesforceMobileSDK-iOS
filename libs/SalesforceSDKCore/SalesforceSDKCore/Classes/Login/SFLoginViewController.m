@@ -82,6 +82,9 @@ SFSDK_USE_DEPRECATED_END
     // as this view is not part of navigation controller stack, needs to set the proper view background so that status bar has the
     // right background color
     self.view.backgroundColor = self.navBarColor;
+    self.view.autoresizesSubviews = YES;
+    self.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    self.view.clipsToBounds = YES;
     if(self.showNavbar){
         [self setupNavigationBar];
     } else {
@@ -236,9 +239,21 @@ SFSDK_USE_DEPRECATED_END
     return item;
 }
 
+- (BOOL)shouldAutorotate {
+    return NO;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
+
 - (void)layoutWebView {
     if (nil != _oauthView) {
+        [_oauthView removeFromSuperview];
         [self.view addSubview:_oauthView];
+        NSDictionary *views = NSDictionaryOfVariableBindings(_oauthView);
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_oauthView]|" options:0 metrics:nil views:views]];
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_oauthView]|" options:0 metrics:nil views:views]];
     }
 }
 
