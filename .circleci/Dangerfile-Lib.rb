@@ -11,15 +11,6 @@ if File.file?(test_results)
   junit.report
 end
 
-coverage_results = 'xcov_output/index.html'
-if ENV.has_key?('JENKINS_URL') && File.file?(coverage_results)
-  xcov.report(
-      scheme: 'UnitTests',
-      workspace: '../SalesforceMobileSDK.xcworkspace',
-      exclude_targets:'CocoaLumberjack.framework,SalesforceSDKCoreTestApp.app,SmartStoreTestApp.app,SmartSyncTestApp.app,SalesforceHybridSDKTestApp.app,SalesforceAnalyticsTestApp.app,RestAPIExplorer.app,AccountEditor.app,NoteSync.app,SmartSyncExplorerHybrid.app,SmartSyncExplorer.app,SmartSyncExplorerCommon.framework,RecentContactsTodayExtension.appex,Cordova.framework,SalesforceReact.framework,PromiseKit.framework,SalesforceSwiftSDKTestApp.app,SalesforceReactTestApp.app'
-  )
-end
-
 message = "### Clang Static Analysis Issues\n\n"
 message << "File | Type | Category | Description | Line | Col |\n"
 message << " --- | ---- | -------- | ----------- | ---- | --- |\n"
