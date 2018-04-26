@@ -76,7 +76,7 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
         mainWindow = [self.namedWindows objectForKey:kSFMainWindowKey];
     }
     
-    return [self.namedWindows objectForKey:kSFMainWindowKey];
+    return mainWindow;
 }
 
 - (void)setMainUIWindow:(UIWindow *) window {

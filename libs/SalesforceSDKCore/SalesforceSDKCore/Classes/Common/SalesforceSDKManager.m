@@ -383,7 +383,6 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
     }
     if (launchActions & SFSDKLaunchActionAlreadyAuthenticated) {
         [launchActionString appendFormat:@"%@%@", joinString, @"SFSDKLaunchActionAlreadyAuthenticated"];
-        joinString = @"|";
     }
     
     return launchActionString;
