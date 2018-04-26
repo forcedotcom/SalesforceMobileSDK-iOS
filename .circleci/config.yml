@@ -1,6 +1,4 @@
 aliases:
-  - &churby
-    chruby 2.5.1
   - &save-gem-cache
     key: v4-gems-{{ checksum ".circleci/Gemfile.lock" }}
     paths:
@@ -18,7 +16,7 @@ aliases:
       npm install shelljs@0.7.0
       ./install.sh
       ./build/pre-build
-      *churby
+      chruby 2.5.1
       cd .circleci
       bundle check || bundle install
       bundle update
@@ -33,7 +31,7 @@ aliases:
   - &danger-lib
     name: Danger Lib
     command:  |
-      *churby
+      chruby 2.5.1
       DANGER_GITHUB_API_TOKEN="5d42eadf98c58c9c4f60""7fcfc72cee4c7ef1486b" danger --dangerfile=.circleci/Dangerfile-Lib.rb --danger_id="${LIB}" --verbose
     background: true
     when: always
