@@ -175,7 +175,6 @@
 {
     ContactListViewController *rootVC = [[ContactListViewController alloc] initWithStyle:UITableViewStylePlain];
     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:rootVC];
-    [self.window.rootViewController presentViewController:navVC animated:YES completion:nil];
     self.window.rootViewController = navVC;
 }
 
