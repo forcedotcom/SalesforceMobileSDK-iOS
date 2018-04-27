@@ -251,6 +251,24 @@
     XCTAssertTrue([testString isEqualToString:result]);
 }
 
+- (void)testRSAEncryptionAndDecryptionForData
+{
+    size_t keySize = 2048;
+    
+    [SFSDKCryptoUtils createRSAKeyPairWithName:@"test" keyLength:keySize accessibleAttribute:kSecAttrAccessibleAlways];
+    
+    SecKeyRef publicKeyRef = [SFSDKCryptoUtils getRSAPublicKeyRefWithName:@"test" keyLength:keySize];
+    SecKeyRef privateKeyRef = [SFSDKCryptoUtils getRSAPrivateKeyRefWithName:@"test" keyLength:keySize];
+    
+    // Encrypt data
+    NSData *bigdata = [@"This is a test!FOOBARFOOBARFOOBAR" dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *shortdata = [[NSData alloc] initWithBytesNoCopy:(void*)bigdata.bytes length:15 deallocator:nil];
+    NSData *encryptedData = [SFSDKCryptoUtils encryptUsingRSAforData:shortdata withKeyRef:publicKeyRef];
+    // Decrypt data
+    NSData *decryptedData = [SFSDKCryptoUtils decryptUsingRSAforData:encryptedData withKeyRef:privateKeyRef];
+    XCTAssertTrue([shortdata isEqualToData:decryptedData]);
+}
+
 - (void)testRSAEncryptionAndDecryptionWrongKeys
 {
     size_t keySize = 2048;
