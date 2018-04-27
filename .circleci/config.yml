@@ -111,12 +111,14 @@ jobs:
     <<: *defaults
     environment:
       - FASTLANE_LANE: "PR lib:SalesforceReact"
+      - LIB: "SalesforceReact"
     steps:
       - checkout
       - restore_cache: *restore-gem-cache
       - run: *install-dependecies
       - save_cache: *save-gem-cache
       - run: *run-tests
+      - run: *danger-lib
       - store_test_results:
           path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
       - store_artifacts:
@@ -230,11 +232,11 @@ jobs:
           destination: Code-Coverage
       - run: *codecov
 
-  test-SalesforceReact:
+  test-SalesforceSwiftSDK:
     <<: *defaults
     environment:
-      - FASTLANE_LANE: "PR lib:SalesforceReact"
-      - LIB: "SalesforceReact"
+      - FASTLANE_LANE: "PR lib:SalesforceSwiftSDK"
+      - LIB: "SalesforceSwiftSDK"
     steps:
       - checkout
       - restore_cache: *restore-gem-cache
@@ -251,10 +253,12 @@ jobs:
           path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
           destination: Static-Analysis
       - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/swiftlint.result.json
+          destination: Static-Analysis
+      - store_artifacts:
           path: /Users/distiller/SalesforceMobileSDK-iOS/slather_output/
           destination: Code-Coverage
       - run: *codecov
-
 
   test-ios-11:
     <<: *defaults
@@ -323,6 +327,7 @@ workflows:
       - test-SalesforceSDKCore
       - test-SmartStore
       - test-SmartSync
+      - test-SalesforceSwiftSDK
 
   # Cron are on a timezone 8 hours ahead of PST
   # Nightly run is set for midnight Monday - Friday
