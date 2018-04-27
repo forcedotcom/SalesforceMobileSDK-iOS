@@ -41,27 +41,6 @@ aliases:
     command: bash <(curl -s https://codecov.io/bash) -X gcov -X xcode
     when: always
 
-  - &test-steps
-    steps:
-      - checkout
-      - restore_cache: *restore-gem-cache
-      - run: *install-dependecies
-      - save_cache: *save-gem-cache
-      - run: *run-tests
-      - run: *danger-lib
-      - store_test_results:
-          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
-      - store_artifacts:
-          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
-          destination: Test-Results
-      - store_artifacts:
-          path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
-          destination: Static-Analysis
-      - store_artifacts:
-          path: /Users/distiller/SalesforceMobileSDK-iOS/slather_output/
-          destination: Code-Coverage
-      - run: *codecov
-
 defaults: &defaults
   working_directory: ~/SalesforceMobileSDK-iOS
   macos:
@@ -108,55 +87,178 @@ jobs:
     environment:
       - FASTLANE_LANE: "PR lib:SalesforceHybridSDK"
       - LIB: "SalesforceHybridSDK"
-    *test-steps
-
-  test-SalesforceReact:
-    <<: *defaults
-    environment:
-      - FASTLANE_LANE: "PR lib:SalesforceReact"
-    *test-steps
-
-  test-SalesforceSDKCore:
-    <<: *defaults
-    environment:
-      - FASTLANE_LANE: "PR lib:SalesforceSDKCore"
-      - LIB: "SalesforceSDKCore"
-    *test-steps
-
-  test-SmartStore:
-    <<: *defaults
-    environment:
-      - FASTLANE_LANE: "PR lib:SmartStore"
-      - LIB: "SmartStore"
-    *test-steps
-
-  test-SmartSync:
-    <<: *defaults
-    environment:
-      - FASTLANE_LANE: "PR lib:SmartSync"
-      - LIB: "SmartSync"
-    *test-steps
-
-  test-SmartSync:
-    <<: *defaults
-    environment:
-      - FASTLANE_LANE: "PR lib:SmartSync"
-      - LIB: "SmartSync"
-    *test-steps
+    steps:
+      - checkout
+      - restore_cache: *restore-gem-cache
+      - run: *install-dependecies
+      - save_cache: *save-gem-cache
+      - run: *run-tests
+      - run: *danger-lib
+      - store_test_results:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
+      - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
+          destination: Test-Results
+      - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
+          destination: Static-Analysis
+      - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/slather_output/
+          destination: Code-Coverage
+      - run: *codecov
 
   test-SalesforceReact:
     <<: *defaults
     environment:
       - FASTLANE_LANE: "PR lib:SalesforceReact"
       - LIB: "SalesforceReact"
-    *test-steps
+    steps:
+      - checkout
+      - restore_cache: *restore-gem-cache
+      - run: *install-dependecies
+      - save_cache: *save-gem-cache
+      - run: *run-tests
+      - run: *danger-lib
+      - store_test_results:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
+      - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
+          destination: Test-Results
+      - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
+          destination: Static-Analysis
+      - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/slather_output/
+          destination: Code-Coverage
+      - run: *codecov
+
+  test-SalesforceSDKCore:
+    <<: *defaults
+    environment:
+      - FASTLANE_LANE: "PR lib:SalesforceSDKCore"
+      - LIB: "SalesforceSDKCore"
+    steps:
+      - checkout
+      - restore_cache: *restore-gem-cache
+      - run: *install-dependecies
+      - save_cache: *save-gem-cache
+      - run: *run-tests
+      - run: *danger-lib
+      - store_test_results:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
+      - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
+          destination: Test-Results
+      - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
+          destination: Static-Analysis
+      - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/slather_output/
+          destination: Code-Coverage
+      - run: *codecov
+
+  test-SmartStore:
+    <<: *defaults
+    environment:
+      - FASTLANE_LANE: "PR lib:SmartStore"
+      - LIB: "SmartStore"
+    steps:
+      - checkout
+      - restore_cache: *restore-gem-cache
+      - run: *install-dependecies
+      - save_cache: *save-gem-cache
+      - run: *run-tests
+      - run: *danger-lib
+      - store_test_results:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
+      - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
+          destination: Test-Results
+      - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
+          destination: Static-Analysis
+      - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/slather_output/
+          destination: Code-Coverage
+      - run: *codecov
+
+  test-SmartSync:
+    <<: *defaults
+    environment:
+      - FASTLANE_LANE: "PR lib:SmartSync"
+      - LIB: "SmartSync"
+    steps:
+      - checkout
+      - restore_cache: *restore-gem-cache
+      - run: *install-dependecies
+      - save_cache: *save-gem-cache
+      - run: *run-tests
+      - run: *danger-lib
+      - store_test_results:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
+      - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
+          destination: Test-Results
+      - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
+          destination: Static-Analysis
+      - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/slather_output/
+          destination: Code-Coverage
+      - run: *codecov
+
+  test-SmartSync:
+    <<: *defaults
+    environment:
+      - FASTLANE_LANE: "PR lib:SmartSync"
+      - LIB: "SmartSync"
+    steps:
+      - checkout
+      - restore_cache: *restore-gem-cache
+      - run: *install-dependecies
+      - save_cache: *save-gem-cache
+      - run: *run-tests
+      - run: *danger-lib
+      - store_test_results:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
+      - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
+          destination: Test-Results
+      - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
+          destination: Static-Analysis
+      - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/slather_output/
+          destination: Code-Coverage
+      - run: *codecov
 
   test-SalesforceSwiftSDK:
     <<: *defaults
     environment:
       - FASTLANE_LANE: "PR lib:SalesforceSwiftSDK"
       - LIB: "SalesforceSwiftSDK"
-    *test-steps
+    steps:
+      - checkout
+      - restore_cache: *restore-gem-cache
+      - run: *install-dependecies
+      - save_cache: *save-gem-cache
+      - run: *run-tests
+      - run: *danger-lib
+      - store_test_results:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
+      - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
+          destination: Test-Results
+      - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
+          destination: Static-Analysis
+      - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/swiftlint.result.json
+          destination: Static-Analysis
+      - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/slather_output/
+          destination: Code-Coverage
+      - run: *codecov
 
   test-ios-11:
     <<: *defaults
