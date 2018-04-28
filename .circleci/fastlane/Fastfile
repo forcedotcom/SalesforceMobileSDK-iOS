@@ -39,7 +39,6 @@ lane :PR do |options|
   UI.important "Schemes to test: " + schemes.to_a().join(',')
 
   if schemes.include? lib_to_test
-    analyze_scheme(lib_to_test)
     test_scheme(lib_to_test)
   else
     UI.important "Lib #{lib_to_test} not modified by this PR, no need to test."
@@ -74,6 +73,7 @@ lane :CI do
 end
 
 def test_scheme(scheme)
+  analyze_scheme(scheme)
   begin
     scan(
         workspace: 'SalesforceMobileSDK.xcworkspace',
