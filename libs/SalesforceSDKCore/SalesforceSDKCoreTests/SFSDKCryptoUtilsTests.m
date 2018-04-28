@@ -259,14 +259,13 @@
     
     SecKeyRef publicKeyRef = [SFSDKCryptoUtils getRSAPublicKeyRefWithName:@"test" keyLength:keySize];
     SecKeyRef privateKeyRef = [SFSDKCryptoUtils getRSAPrivateKeyRefWithName:@"test" keyLength:keySize];
+
+    NSUInteger byteDataInt = 123456;
+    NSData *testData = [NSData dataWithBytes:&byteDataInt length:sizeof(NSUInteger)];
+    NSData *encryptedData = [SFSDKCryptoUtils encryptUsingRSAforData:testData withKeyRef:publicKeyRef];
     
-    // Encrypt data
-    NSData *bigdata = [@"This is a test!FOOBARFOOBARFOOBAR" dataUsingEncoding:NSUTF8StringEncoding];
-    NSData *shortdata = [[NSData alloc] initWithBytesNoCopy:(void*)bigdata.bytes length:15 deallocator:nil];
-    NSData *encryptedData = [SFSDKCryptoUtils encryptUsingRSAforData:shortdata withKeyRef:publicKeyRef];
-    // Decrypt data
     NSData *decryptedData = [SFSDKCryptoUtils decryptUsingRSAforData:encryptedData withKeyRef:privateKeyRef];
-    XCTAssertTrue([shortdata isEqualToData:decryptedData]);
+    XCTAssertEqualObjects(testData, decryptedData, @"Data objects are not the same data.");
 }
 
 - (void)testRSAEncryptionAndDecryptionWrongKeys
