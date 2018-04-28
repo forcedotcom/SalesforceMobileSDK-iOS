@@ -77,9 +77,6 @@ jobs:
       - store_artifacts:
           path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
           destination: Static-Analysis
-      - store_artifacts:
-          path: /Users/distiller/SalesforceMobileSDK-iOS/slather_output/
-          destination: Code-Coverage
       - run: *codecov
 
   test-SalesforceHybridSDK:
@@ -102,9 +99,6 @@ jobs:
       - store_artifacts:
           path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
           destination: Static-Analysis
-      - store_artifacts:
-          path: /Users/distiller/SalesforceMobileSDK-iOS/slather_output/
-          destination: Code-Coverage
       - run: *codecov
 
   test-SalesforceReact:
@@ -127,9 +121,6 @@ jobs:
       - store_artifacts:
           path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
           destination: Static-Analysis
-      - store_artifacts:
-          path: /Users/distiller/SalesforceMobileSDK-iOS/slather_output/
-          destination: Code-Coverage
       - run: *codecov
 
   test-SalesforceSDKCore:
@@ -152,9 +143,6 @@ jobs:
       - store_artifacts:
           path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
           destination: Static-Analysis
-      - store_artifacts:
-          path: /Users/distiller/SalesforceMobileSDK-iOS/slather_output/
-          destination: Code-Coverage
       - run: *codecov
 
   test-SmartStore:
@@ -177,9 +165,6 @@ jobs:
       - store_artifacts:
           path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
           destination: Static-Analysis
-      - store_artifacts:
-          path: /Users/distiller/SalesforceMobileSDK-iOS/slather_output/
-          destination: Code-Coverage
       - run: *codecov
 
   test-SmartSync:
@@ -202,9 +187,6 @@ jobs:
       - store_artifacts:
           path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
           destination: Static-Analysis
-      - store_artifacts:
-          path: /Users/distiller/SalesforceMobileSDK-iOS/slather_output/
-          destination: Code-Coverage
       - run: *codecov
 
   test-SmartSync:
@@ -227,9 +209,6 @@ jobs:
       - store_artifacts:
           path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
           destination: Static-Analysis
-      - store_artifacts:
-          path: /Users/distiller/SalesforceMobileSDK-iOS/slather_output/
-          destination: Code-Coverage
       - run: *codecov
 
   test-SalesforceSwiftSDK:
@@ -255,9 +234,6 @@ jobs:
       - store_artifacts:
           path: /Users/distiller/SalesforceMobileSDK-iOS/swiftlint.result.json
           destination: Static-Analysis
-      - store_artifacts:
-          path: /Users/distiller/SalesforceMobileSDK-iOS/slather_output/
-          destination: Code-Coverage
       - run: *codecov
 
   test-ios-11:
@@ -317,6 +293,12 @@ jobs:
       - store_artifacts:
           path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
           destination: Test-Results
+      - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
+          destination: Static-Analysis
+      - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/swiftlint.result.json
+          destination: Static-Analysis
       - run: *codecov
 
   test-ios-10:
@@ -376,6 +358,12 @@ jobs:
       - store_artifacts:
           path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
           destination: Test-Results
+      - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
+          destination: Static-Analysis
+      - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/swiftlint.result.json
+          destination: Static-Analysis
       - run: *codecov
 
 workflows:
