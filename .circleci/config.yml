@@ -265,56 +265,118 @@ jobs:
     environment:
       - IOS_VERSION: " (11.3)"
       - DEVICE: "iPhone X"
-      - FASTLANE_LANE: "CI"
     steps:
-    - checkout
-    - restore_cache: *restore-gem-cache
-    - run: *install-dependecies
-    - save_cache: *save-gem-cache
-    - run: *run-tests
-    - store_test_results:
-        path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
-    - store_artifacts:
-        path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
-        destination: Test-Results
-    - store_artifacts:
-        path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
-        destination: Static-Analysis
-    - store_artifacts:
-        path: /Users/distiller/SalesforceMobileSDK-iOS/swiftlint.result.json
-        destination: Static-Analysis
-    - store_artifacts:
-        path: /Users/distiller/SalesforceMobileSDK-iOS/slather_output/
-        destination: Code-Coverage
-    - run: *codecov
+      - checkout
+      - restore_cache: *restore-gem-cache
+      - run: *install-dependecies
+      - save_cache: *save-gem-cache
+      - run:
+          name: Test SalesforceAnalytics
+          command:  |
+            chruby 2.5.1
+            cd .circleci
+            echo SalesforceAnalytics | fastlane LCL
+      - run:
+          name: Test SalesforceHybridSDK
+          command:  |
+            chruby 2.5.1
+            cd .circleci
+            echo SalesforceHybridSDK | fastlane LCL
+      - run:
+          name: Test SalesforceReact
+          command:  |
+            chruby 2.5.1
+            cd .circleci
+            echo SalesforceReact | fastlane LCL
+      - run:
+          name: Test SalesforceSDKCore
+          command:  |
+            chruby 2.5.1
+            cd .circleci
+            echo SalesforceSDKCore | fastlane LCL
+      - run:
+          name: Test SmartStore
+          command:  |
+            chruby 2.5.1
+            cd .circleci
+            echo SmartStore | fastlane LCL
+      - run:
+          name: Test SmartSync
+          command:  |
+            chruby 2.5.1
+            cd .circleci
+            echo SmartSync | fastlane LCL
+      - run:
+          name: Test SalesforceSwiftSDK
+          command:  |
+            chruby 2.5.1
+            cd .circleci
+            echo SalesforceSwiftSDK | fastlane LCL
+      - store_test_results:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
+      - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
+          destination: Test-Results
+      - run: *codecov
 
   test-ios-10:
     <<: *defaults
     environment:
       - IOS_VERSION: " (10.3.1)"
       - DEVICE: "iPhone 6 Plus"
-      - FASTLANE_LANE: "CI"
     steps:
-    - checkout
-    - restore_cache: *restore-gem-cache
-    - run: *install-dependecies
-    - save_cache: *save-gem-cache
-    - run: *run-tests
-    - store_test_results:
-        path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
-    - store_artifacts:
-        path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
-        destination: Test-Results
-    - store_artifacts:
-        path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
-        destination: Static-Analysis
-    - store_artifacts:
-        path: /Users/distiller/SalesforceMobileSDK-iOS/swiftlint.result.json
-        destination: Static-Analysis
-    - store_artifacts:
-        path: /Users/distiller/SalesforceMobileSDK-iOS/slather_output/
-        destination: Code-Coverage
-    - run: *codecov
+      - checkout
+      - restore_cache: *restore-gem-cache
+      - run: *install-dependecies
+      - save_cache: *save-gem-cache
+      - run:
+          name: Test SalesforceAnalytics
+          command:  |
+            chruby 2.5.1
+            cd .circleci
+            echo SalesforceAnalytics | fastlane LCL
+      - run:
+          name: Test SalesforceHybridSDK
+          command:  |
+            chruby 2.5.1
+            cd .circleci
+            echo SalesforceHybridSDK | fastlane LCL
+      - run:
+          name: Test SalesforceReact
+          command:  |
+            chruby 2.5.1
+            cd .circleci
+            echo SalesforceReact | fastlane LCL
+      - run:
+          name: Test SalesforceSDKCore
+          command:  |
+            chruby 2.5.1
+            cd .circleci
+            echo SalesforceSDKCore | fastlane LCL
+      - run:
+          name: Test SmartStore
+          command:  |
+            chruby 2.5.1
+            cd .circleci
+            echo SmartStore | fastlane LCL
+      - run:
+          name: Test SmartSync
+          command:  |
+            chruby 2.5.1
+            cd .circleci
+            echo SmartSync | fastlane LCL
+      - run:
+          name: Test SalesforceSwiftSDK
+          command:  |
+            chruby 2.5.1
+            cd .circleci
+            echo SalesforceSwiftSDK | fastlane LCL
+      - store_test_results:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
+      - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
+          destination: Test-Results
+      - run: *codecov
 
 workflows:
   version: 2
