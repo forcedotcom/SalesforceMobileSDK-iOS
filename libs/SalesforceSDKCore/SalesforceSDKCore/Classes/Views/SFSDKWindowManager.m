@@ -332,6 +332,15 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
     return foundWindow;
 }
 
+- (BOOL)isSDKWindow:(UIWindow *)window {
+    SFSDKWindowContainer *container = [self.reverseLookupTable objectForKey:window];
+    return (container != nil) && (!container.isMainWindow);
+}
+
+- (SFSDKWindowContainer *)lookup:(UIWindow *)window {
+    return [self.reverseLookupTable objectForKey:window];
+}
+
 + (instancetype)sharedManager {
     static dispatch_once_t token;
     static SFSDKWindowManager *sharedInstance = nil;

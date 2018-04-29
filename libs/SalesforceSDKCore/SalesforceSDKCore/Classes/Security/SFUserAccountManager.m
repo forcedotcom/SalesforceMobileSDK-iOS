@@ -432,7 +432,16 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
         });
         return;
     }
-    [SFSDKWindowManager.sharedManager.authWindow dismissWindow];
+    UIViewController *presentedViewController = [SFSDKWindowManager sharedManager].authWindow.viewController.presentedViewController?:[SFSDKWindowManager sharedManager].authWindow.viewController;
+    
+    if (presentedViewController) {
+        [presentedViewController dismissViewControllerAnimated:NO completion:^{
+            [[SFSDKWindowManager sharedManager].authWindow dismissWindow];
+        }];
+    } else {
+        //hide the window if no controllers were found.
+        [[SFSDKWindowManager sharedManager].authWindow dismissWindow];
+    }
 }
 
 + (BOOL)errorIsInvalidAuthCredentials:(NSError *)error {
