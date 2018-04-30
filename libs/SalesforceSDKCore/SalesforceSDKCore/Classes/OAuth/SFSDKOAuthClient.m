@@ -55,26 +55,6 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 static NSString * const kSFRevokePath = @"/services/oauth2/revoke";
 
 static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
-@interface UINavigationController(SFSDKOAuth)
-@end
-
-@implementation UINavigationController(SFSDKOAuth)
-
-- (BOOL)shouldAutorotate {
-    if (self.topViewController) {
-        return self.topViewController.shouldAutorotate;
-    }
-    return NO;
-}
-
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    if (self.topViewController) {
-        return self.topViewController.supportedInterfaceOrientations;
-    }
-    return UIInterfaceOrientationMaskPortrait;
-}
-
-@end
 
 @interface SFSDKOAuthClient()<SFOAuthCoordinatorDelegate,SFIdentityCoordinatorDelegate,SFSDKLoginHostDelegate,SFLoginViewControllerDelegate>{
     NSRecursiveLock *readWriteLock;

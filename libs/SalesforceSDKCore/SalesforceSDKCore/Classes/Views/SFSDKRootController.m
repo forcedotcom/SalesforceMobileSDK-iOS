@@ -67,7 +67,7 @@
     UIViewController *topViewController = [SFSDKRootController topViewController:self];
     if (topViewController!=nil && topViewController!=self)
         return [topViewController shouldAutorotate];
-    return YES;
+    return NO;
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations
@@ -76,7 +76,7 @@
     if (topViewController!=nil && topViewController!=self)
         return [topViewController supportedInterfaceOrientations];
     
-    return UIInterfaceOrientationMaskAll;
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 #pragma mark - Helper class methods

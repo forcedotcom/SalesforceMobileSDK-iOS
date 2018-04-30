@@ -90,10 +90,8 @@
 }
 
 - (void)dismissWindowWithCompletion:(void (^ _Nullable)(void))completion {
-    if ([self isEnabled]) {
-        if ([self.windowDelegate respondsToSelector:@selector(dismissWindow:withCompletion:)]) {
-            [self.windowDelegate dismissWindow:self withCompletion:completion];
-        }
+    if ([self.windowDelegate respondsToSelector:@selector(dismissWindow:withCompletion:)]) {
+        [self.windowDelegate dismissWindow:self withCompletion:completion];
     }
 }
 

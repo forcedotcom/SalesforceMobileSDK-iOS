@@ -116,6 +116,14 @@
  */
 - (void)removeDelegate:(id<SFSDKWindowManagerDelegate>_Nonnull)delegate;
 
+/** Check if a given window is an SDK Window
+ */
+- (BOOL)isSDKWindow:(UIWindow *_Nonnull)window;
+
+/** Return the container given a UIWindow, or null if not found.
+ */
+- (SFSDKWindowContainer *_Nullable)lookup:(UIWindow *_Nonnull)window;
+
 + (instancetype _Nonnull )sharedManager;
 
 @end
