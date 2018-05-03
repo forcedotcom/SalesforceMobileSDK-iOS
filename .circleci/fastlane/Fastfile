@@ -1,7 +1,3 @@
-before_all do
-  setup_circle_ci
-end
-
 $git_pr_api = "https://api.github.com/repos/%s/SalesforceMobileSDK-iOS/pulls/%s/files"
 $schemes = ['SalesforceAnalytics', 'SalesforceHybridSDK', 'SalesforceReact', 'SalesforceSDKCore', 'SmartStore', 'SmartSync', 'SalesforceSwiftSDK']
 ENV['DEVICE'] = 'iPhone 8' unless ENV.has_key?('DEVICE')
