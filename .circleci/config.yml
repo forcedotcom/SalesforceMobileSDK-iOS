@@ -399,11 +399,11 @@ workflows:
   nightly-test-ios:
     triggers:
       - schedule:
-          cron: "00 8 * * 2,3,4,5,6"
+          cron: "15 * * * 2,3,4,5,6"
           filters:
             branches:
               only:
-                - dev
+                - dev_test
     jobs:
       - test-ios-11
       - test-ios-10
