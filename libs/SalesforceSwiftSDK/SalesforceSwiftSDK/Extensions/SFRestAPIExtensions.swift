@@ -296,10 +296,10 @@ extension SFRestAPI {
              - fields: Field list as Dictionary.
          - Returns: SFRestRequest wrapped in a promise.
          */
-        public func upsert(objectType: String,externalIdField: String, externalId: String, fieldList: Dictionary<String,Any>?) -> Promise<SFRestRequest> {
+        public func upsert(objectType: String,externalIdField: String, externalId: String, fieldList: Dictionary<String,Any>) -> Promise<SFRestRequest> {
             return  Promise(.pending) {  resolver in
                 resolver.fulfill(self.api!
-                    .requestForUpsert(withObjectType: objectType, externalIdField: externalId, externalId: externalId, fields: fieldList!))
+                    .requestForUpsert(withObjectType: objectType, externalIdField: externalIdField, externalId: externalId, fields: fieldList))
             }
         }
         
