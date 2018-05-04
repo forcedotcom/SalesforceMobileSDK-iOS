@@ -16,7 +16,7 @@ aliases:
       npm install shelljs@0.7.0
       ./install.sh
       ./build/pre-build
-      chruby 2.5.1
+      chruby ${CHRUBY_VER}
       cd .circleci
       bundle check || bundle install
       bundle update
@@ -24,14 +24,14 @@ aliases:
   - &run-tests
     name: Run Tests
     command:  |
-      chruby 2.5.1
+      chruby ${CHRUBY_VER}
       cd .circleci
       fastlane ${FASTLANE_LANE}
 
   - &danger-lib
     name: Danger Lib
     command:  |
-      chruby 2.5.1
+      chruby ${CHRUBY_VER}
       DANGER_GITHUB_API_TOKEN="5d42eadf98c58c9c4f60""7fcfc72cee4c7ef1486b" danger --dangerfile=.circleci/Dangerfile-Lib.rb --danger_id="${LIB}" --verbose
     background: true
     when: always
@@ -48,6 +48,7 @@ defaults: &defaults
   shell: /bin/bash --login -eo pipefail
   environment:
     BASH_ENV: ~/.bashrc
+    CHRUBY_VER: 2.5.1
 
 version: 2
 jobs:
@@ -63,7 +64,7 @@ jobs:
       - run:
           name: Danger PR
           command:  |
-            chruby 2.5.1
+            chruby ${CHRUBY_VER}
             DANGER_GITHUB_API_TOKEN="5d42eadf98c58c9c4f60""7fcfc72cee4c7ef1486b" danger --dangerfile=.circleci/Dangerfile-PR.rb --danger_id=PR-Check --verbose
           background: true
       - save_cache: *save-gem-cache
@@ -249,45 +250,52 @@ jobs:
       - run:
           name: Test SalesforceAnalytics
           command:  |
-            chruby 2.5.1
+            chruby ${CHRUBY_VER}
             cd .circleci
             echo SalesforceAnalytics | fastlane LCL
+          when: always
       - run:
           name: Test SalesforceHybridSDK
           command:  |
-            chruby 2.5.1
+            chruby ${CHRUBY_VER}
             cd .circleci
             echo SalesforceHybridSDK | fastlane LCL
+          when: always
       - run:
           name: Test SalesforceReact
           command:  |
-            chruby 2.5.1
+            chruby ${CHRUBY_VER}
             cd .circleci
             echo SalesforceReact | fastlane LCL
+          when: always
       - run:
           name: Test SalesforceSDKCore
           command:  |
-            chruby 2.5.1
+            chruby${CHRUBY_VER}
             cd .circleci
             echo SalesforceSDKCore | fastlane LCL
+          when: always
       - run:
           name: Test SmartStore
           command:  |
-            chruby 2.5.1
+            chruby ${CHRUBY_VER}
             cd .circleci
             echo SmartStore | fastlane LCL
+          when: always
       - run:
           name: Test SmartSync
           command:  |
-            chruby 2.5.1
+            chruby ${CHRUBY_VER}
             cd .circleci
             echo SmartSync | fastlane LCL
+          when: always
       - run:
           name: Test SalesforceSwiftSDK
           command:  |
-            chruby 2.5.1
+            chruby ${CHRUBY_VER}
             cd .circleci
             echo SalesforceSwiftSDK | fastlane LCL
+          when: always
       - store_test_results:
           path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
       - store_artifacts:
@@ -314,45 +322,52 @@ jobs:
       - run:
           name: Test SalesforceAnalytics
           command:  |
-            chruby 2.5.1
+            chruby ${CHRUBY_VER}
             cd .circleci
             echo SalesforceAnalytics | fastlane LCL
+          when: always
       - run:
           name: Test SalesforceHybridSDK
           command:  |
-            chruby 2.5.1
+            chruby ${CHRUBY_VER}
             cd .circleci
             echo SalesforceHybridSDK | fastlane LCL
+          when: always
       - run:
           name: Test SalesforceReact
           command:  |
-            chruby 2.5.1
+            chruby ${CHRUBY_VER}
             cd .circleci
             echo SalesforceReact | fastlane LCL
+          when: always
       - run:
           name: Test SalesforceSDKCore
           command:  |
-            chruby 2.5.1
+            chruby ${CHRUBY_VER}
             cd .circleci
             echo SalesforceSDKCore | fastlane LCL
+          when: always
       - run:
           name: Test SmartStore
           command:  |
-            chruby 2.5.1
+            chruby ${CHRUBY_VER}
             cd .circleci
             echo SmartStore | fastlane LCL
+          when: always
       - run:
           name: Test SmartSync
           command:  |
-            chruby 2.5.1
+            chruby ${CHRUBY_VER}
             cd .circleci
             echo SmartSync | fastlane LCL
+          when: always
       - run:
           name: Test SalesforceSwiftSDK
           command:  |
-            chruby 2.5.1
+            chruby ${CHRUBY_VER}
             cd .circleci
             echo SalesforceSwiftSDK | fastlane LCL
+          when: always
       - store_test_results:
           path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
       - store_artifacts:

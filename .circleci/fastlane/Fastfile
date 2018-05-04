@@ -1,7 +1,3 @@
-before_all do
-  setup_circle_ci
-end
-
 $git_pr_api = "https://api.github.com/repos/%s/SalesforceMobileSDK-iOS/pulls/%s/files"
 $schemes = ['SalesforceAnalytics', 'SalesforceHybridSDK', 'SalesforceReact', 'SalesforceSDKCore', 'SmartStore', 'SmartSync', 'SalesforceSwiftSDK']
 ENV['DEVICE'] = 'iPhone 8' unless ENV.has_key?('DEVICE')
@@ -81,10 +77,11 @@ def test_scheme(scheme)
         device: ENV['DEVICE'] + ENV['IOS_VERSION'],
         output_directory: 'test_output',
         code_coverage: true,
-        clean: true
+        skip_build: true
     )
   ensure
-    system('cp ../test_output/report.junit ../test_output/results.xml')
+    system("mv ../test_output/report.junit ../test_output/#{scheme}_results.xml")
+    system("mv ../test_output/report.html ../test_output/#{scheme}_results.html")
   end
 end
 
