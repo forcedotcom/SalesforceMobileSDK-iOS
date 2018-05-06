@@ -37,31 +37,37 @@
  To test multiple round trip during refresh-sync-down, we need access to countIdsPerSoql
  */
 @interface SFRefreshSyncDownTarget ()
+
 @property (nonatomic, assign, readwrite) NSUInteger countIdsPerSoql;
+
 @end
 
 /**
  To test getRemoteIds
  */
 @interface SFSyncDownTarget ()
+
 - (void) getRemoteIds:(SFSmartSyncSyncManager*)syncManager
              localIds:(NSArray *)localIds
            errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
         completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock;
-@end
 
+@end
 
 /**
  Soql sync down target that pauses for a second at the beginning of the fetch
  */
 @interface SlowSoqlSyncDownTarget : SFSoqlSyncDownTarget
+
 @end
 
 /**
  To test addFilterForReSync 
  */
 @interface SFSoqlSyncDownTarget ()
+
 + (NSString*) addFilterForReSync:(NSString*)query modDateFieldName:(NSString *)modDateFieldName maxTimeStamp:(long long)maxTimeStamp;
+
 @end
 
 @implementation SlowSoqlSyncDownTarget
@@ -82,11 +88,11 @@
 
 @end
 
-
 @interface SyncManagerTests : SyncManagerTestCase
 {
     NSMutableDictionary* idToFields; // id -> {Name: xxx, Description: yyy}
 }
+
 @end
 
 @implementation SyncManagerTests
@@ -96,10 +102,8 @@
 - (void)tearDown {
     // Deleting test data
     [self deleteTestData];
-
     [super tearDown];
 }
-
 
 #pragma mark - tests
 /**
@@ -411,10 +415,11 @@
  * Test for sync down with metadata target.
  */
 - (void)testSyncDownForMetadataTarget {
+    [self createAccountsSoup];
     [self trySyncDown:SFSyncStateMergeModeLeaveIfChanged target:[SFMetadataSyncDownTarget newSyncTarget:ACCOUNT_TYPE] soupName:ACCOUNTS_SOUP totalSize:1 numberFetches:1];
-    SFSmartStore *store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
     SFQuerySpec *querySpec = [SFQuerySpec newAllQuerySpec:ACCOUNTS_SOUP withOrderPath:kSyncTargetSyncId withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
-    NSArray *rows = [store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
+    NSArray *rows = [self.store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
+    XCTAssertEqual(rows.count, 1, @"Number of rows should be 1");
     NSDictionary *metadata = rows[0];
     XCTAssertNotNil(metadata, @"Metadata should not be nil");
     NSString *keyPrefix = metadata[@"keyPrefix"];
@@ -427,10 +432,11 @@
  * Test for sync down with layout target.
  */
 - (void)testSyncDownForLayoutTarget {
+    [self createAccountsSoup];
     [self trySyncDown:SFSyncStateMergeModeLeaveIfChanged target:[SFLayoutSyncDownTarget newSyncTarget:ACCOUNT_TYPE layoutType:@"Compact"] soupName:ACCOUNTS_SOUP totalSize:1 numberFetches:1];
-    SFSmartStore *store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
     SFQuerySpec *querySpec = [SFQuerySpec newAllQuerySpec:ACCOUNTS_SOUP withOrderPath:kSyncTargetSyncId withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
-    NSArray *rows = [store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
+    NSArray *rows = [self.store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
+    XCTAssertEqual(rows.count, 1, @"Number of rows should be 1");
     NSDictionary *layout = rows[0];
     XCTAssertNotNil(layout, @"Layout should not be nil");
     NSString *layoutType = layout[@"layoutType"];

@@ -302,6 +302,7 @@ static NSException *authException = nil;
 - (void)checkStatus:(SFSyncState *)sync expectedType:(SFSyncStateSyncType)expectedType expectedId:(NSInteger)expectedId expectedTarget:(SFSyncTarget *)expectedTarget expectedOptions:(SFSyncOptions *)expectedOptions expectedStatus:(SFSyncStateStatus)expectedStatus expectedProgress:(NSInteger)expectedProgress expectedTotalSize:(NSInteger)expectedTotalSize {
     [self checkStatus:sync expectedType:expectedType expectedId:expectedId expectedName:nil expectedTarget:expectedTarget expectedOptions:expectedOptions expectedStatus:expectedStatus expectedProgress:expectedProgress expectedTotalSize:expectedTotalSize];
 }
+
 - (void)checkStatus:(SFSyncState *)sync expectedType:(SFSyncStateSyncType)expectedType expectedId:(NSInteger)expectedId expectedName:(NSString *)expectedName expectedTarget:(SFSyncTarget *)expectedTarget expectedOptions:(SFSyncOptions *)expectedOptions expectedStatus:(SFSyncStateStatus)expectedStatus expectedProgress:(NSInteger)expectedProgress expectedTotalSize:(NSInteger)expectedTotalSize {
     XCTAssertNotNil(sync);
     if (!sync) {
@@ -330,6 +331,13 @@ static NSException *authException = nil;
                 XCTAssertTrue([sync.target isKindOfClass:[SFMruSyncDownTarget class]]);
                 XCTAssertEqualObjects(((SFMruSyncDownTarget*)expectedTarget).objectType, ((SFMruSyncDownTarget*)sync.target).objectType);
                 XCTAssertEqualObjects(((SFMruSyncDownTarget*)expectedTarget).fieldlist, ((SFMruSyncDownTarget*)sync.target).fieldlist);
+            } else if (expectedQueryType == SFSyncDownTargetQueryTypeMetadata) {
+                XCTAssertTrue([sync.target isKindOfClass:[SFMetadataSyncDownTarget class]]);
+                XCTAssertEqualObjects(((SFMetadataSyncDownTarget*)expectedTarget).objectType, ((SFMetadataSyncDownTarget*)sync.target).objectType);
+            } else if (expectedQueryType == SFSyncDownTargetQueryTypeLayout) {
+                XCTAssertTrue([sync.target isKindOfClass:[SFLayoutSyncDownTarget class]]);
+                XCTAssertEqualObjects(((SFLayoutSyncDownTarget*)expectedTarget).objectType, ((SFLayoutSyncDownTarget*)sync.target).objectType);
+                XCTAssertEqualObjects(((SFLayoutSyncDownTarget*)expectedTarget).layoutType, ((SFLayoutSyncDownTarget*)sync.target).layoutType);
             } else if (expectedQueryType == SFSyncDownTargetQueryTypeCustom) {
                 XCTAssertTrue([sync.target isKindOfClass:[SFSyncDownTarget class]]);
             }
