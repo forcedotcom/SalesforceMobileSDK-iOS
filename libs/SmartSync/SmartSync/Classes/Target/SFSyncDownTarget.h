@@ -38,7 +38,8 @@ typedef NS_ENUM(NSInteger, SFSyncDownTargetQueryType) {
   SFSyncDownTargetQueryTypeSoql,
   SFSyncDownTargetQueryTypeRefresh,
   SFSyncDownTargetQueryTypeParentChildren,
-  SFSyncDownTargetQueryTypeCustom
+  SFSyncDownTargetQueryTypeCustom,
+  SFSyncDownTargetQueryTypeMetadata
 };
 
 @interface SFSyncDownTarget : SFSyncTarget
