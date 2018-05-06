@@ -234,6 +234,20 @@ static NSException *authException = nil;
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
+// simple: just invoke requestForLayoutWithObjectType:@"Contact" without layoutType.
+- (void)testGetLayoutWithObjectTypeWithoutLayoutType {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForLayoutWithObjectType:CONTACT layoutType:nil];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
+// simple: just invoke requestForLayoutWithObjectType:@"Contact" with layoutType:@"Compact".
+- (void)testGetLayoutWithObjectTypeWithLayoutType {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForLayoutWithObjectType:CONTACT layoutType:@"Compact"];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
 // simple: just invoke requestForSearchScopeAndOrder
 - (void)testGetSearchScopeAndOrder {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSearchScopeAndOrder];

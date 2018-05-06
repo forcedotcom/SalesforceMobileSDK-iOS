@@ -235,6 +235,15 @@ extern NSString* const kSFRestIfUnmodifiedSince;
 - (SFRestRequest *)requestForDescribeWithObjectType:(NSString *)objectType;
 
 /**
+ * Returns an `SFRestRequest` which provides layout data for the specified object and layout type.
+ *
+ * @param objectType Object type. For example, "Account".
+ * @param layoutType Layout type. Could be "Full" or "Compact". Default is "Full".
+ * @see https://developer.salesforce.com/docs/atlas.en-us.uiapi.meta/uiapi/ui_api_resources_record_layout.htm
+ */
+- (SFRestRequest *)requestForLayoutWithObjectType:(nonnull NSString *)objectType layoutType:(nullable NSString *)layoutType;
+
+/**
  * Returns an `SFRestRequest` which retrieves field values for a record of the given type.
  * @param objectType object type; for example, "Account"
  * @param objectId the record's object ID
