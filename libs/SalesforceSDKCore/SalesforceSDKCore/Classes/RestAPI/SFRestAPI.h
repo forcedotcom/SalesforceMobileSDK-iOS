@@ -154,7 +154,7 @@ extern NSString* const kSFRestIfUnmodifiedSince;
 /**
  * Returns the singleton instance of `SFRestAPI` associated with the specified user.
  */
-+ (SFRestAPI *)sharedInstanceWithUser:(nonnull SFUserAccount *)user;
++ (nullable SFRestAPI *)sharedInstanceWithUser:(nonnull SFUserAccount *)user;
 
 /**
  * Specifies whether the current execution is a test run or not.
