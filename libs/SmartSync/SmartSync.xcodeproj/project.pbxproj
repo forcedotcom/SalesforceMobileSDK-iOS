@@ -479,7 +479,6 @@
 				4FCA4A971FBE4E0900F081B3 /* SFSDKSyncsConfig.m */,
 			);
 			name = Config;
-			path = "New Group";
 			sourceTree = "<group>";
 		};
 		4FDCBD3F1E8DDB65008F8FCE /* Target */ = {
