@@ -25,6 +25,8 @@
 #import "SyncManagerTestCase.h"
 #import "SFSyncUpdateCallbackQueue.h"
 #import "TestSyncUpTarget.h"
+#import "SFMetadataSyncDownTarget.h"
+#import "SFLayoutSyncDownTarget.h"
 #import <SmartStore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFSDKSoqlBuilder.h>
 #import <SalesforceSDKCore/SFSDKSoslBuilder.h>
@@ -305,7 +307,6 @@
     SFSmartSyncSyncManager *mgr3 = [SFSmartSyncSyncManager sharedInstanceForUser:self.currentUser storeName:kDefaultSmartStoreName];
     XCTAssertEqual(mgr1, mgr2, @"Sync managers should be the same.");
     XCTAssertEqual(mgr1, mgr3, @"Sync managers should be the same.");
-    
     NSString *storeName2 = @"AnotherStore";
     SFSmartSyncSyncManager *mgr4 = [SFSmartSyncSyncManager sharedInstance:self.currentUser];
     SFSmartStore *store2 = [SFSmartStore sharedStoreWithName:storeName2];
@@ -404,6 +405,36 @@
     
     // Check db
     [self checkDb:idToFields];
+}
+
+/**
+ * Test for sync down with metadata target.
+ */
+- (void)testSyncDownForMetadataTarget {
+    [self trySyncDown:SFSyncStateMergeModeLeaveIfChanged target:[SFMetadataSyncDownTarget newSyncTarget:ACCOUNT_TYPE] soupName:ACCOUNTS_SOUP totalSize:1 numberFetches:1];
+    SFSmartStore *store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
+    SFQuerySpec *querySpec = [SFQuerySpec newAllQuerySpec:ACCOUNTS_SOUP withOrderPath:kSyncTargetSyncId withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
+    NSArray *rows = [store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
+    NSDictionary *metadata = rows[0];
+    XCTAssertNotNil(metadata, @"Metadata should not be nil");
+    NSString *keyPrefix = metadata[@"keyPrefix"];
+    NSString *label = metadata[@"label"];
+    XCTAssertEqual(keyPrefix, @"001", @"Key prefix should be 001");
+    XCTAssertEqual(label, ACCOUNT_TYPE, @"Label should be Account");
+}
+
+/**
+ * Test for sync down with layout target.
+ */
+- (void)testSyncDownForLayoutTarget {
+    [self trySyncDown:SFSyncStateMergeModeLeaveIfChanged target:[SFLayoutSyncDownTarget newSyncTarget:ACCOUNT_TYPE layoutType:@"Compact"] soupName:ACCOUNTS_SOUP totalSize:1 numberFetches:1];
+    SFSmartStore *store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
+    SFQuerySpec *querySpec = [SFQuerySpec newAllQuerySpec:ACCOUNTS_SOUP withOrderPath:kSyncTargetSyncId withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
+    NSArray *rows = [store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
+    NSDictionary *layout = rows[0];
+    XCTAssertNotNil(layout, @"Layout should not be nil");
+    NSString *layoutType = layout[@"layoutType"];
+    XCTAssertEqual(layoutType, @"Compact", @"Layout type should be Compact");
 }
 
 /**
@@ -539,7 +570,6 @@
     XCTAssertTrue([self.syncManager getSyncStatus:syncId].maxTimeStamp > maxTimeStamp);
 }
 
-
 /**
  * Tests if ghost records are cleaned locally for a refresh target.
  */
@@ -600,7 +630,6 @@
     [self checkServer:idToFields];
 }
 
-
 /**
  * Sync down the test accounts, modify a few, sync up, check smartstore and server afterwards
  */
@@ -652,7 +681,6 @@
         idToFieldsExpectedOnServer[recordId] = @{NAME: idToFieldsLocallyUpdated[recordId][NAME], DESCRIPTION:idToFields[recordId][DESCRIPTION]}; // should have modified name but original description
     }
     [self checkServer:idToFieldsExpectedOnServer];
-    
 }
 
 /**
@@ -737,7 +765,6 @@
     // Adding to idToFields so that they get deleted in tearDown
     [idToFields addEntriesFromDictionary:idToFieldsCreated];
 }
-
 
 /**
  Test sync up of updated records with custom target
@@ -896,7 +923,6 @@
     XCTAssertEqual(0, rows.count);
 }
 
-
 /**
  Test custom sycn up with locally created records
  */
@@ -910,9 +936,7 @@
     [self createAccountsLocally:names];
     
     // Sync up
-    SFSyncUpTarget *customTarget = [[TestSyncUpTarget alloc] initWithRemoteModDateCompare:TestSyncUpTargetRemoteModDateSameAsLocal
-                                                                                     sendRemoteModError:NO
-                                                                                        sendSyncUpError:NO];
+    SFSyncUpTarget *customTarget = [[TestSyncUpTarget alloc] initWithRemoteModDateCompare:TestSyncUpTargetRemoteModDateSameAsLocal sendRemoteModError:NO sendSyncUpError:NO];
     [self trySyncUp:3 target:customTarget mergeMode:SFSyncStateMergeModeOverwrite];
     
     // Check that db doesn't show entries as locally created anymore and that they use returned id
@@ -1125,9 +1149,7 @@
     [self deleteAccountsLocally:idsLocallyDeleted];
     
     // Sync up
-    SFSyncUpTarget *customTarget = [[TestSyncUpTarget alloc] initWithRemoteModDateCompare:TestSyncUpTargetRemoteModDateSameAsLocal
-                                                                                     sendRemoteModError:NO
-                                                                                        sendSyncUpError:NO];
+    SFSyncUpTarget *customTarget = [[TestSyncUpTarget alloc] initWithRemoteModDateCompare:TestSyncUpTargetRemoteModDateSameAsLocal sendRemoteModError:NO sendSyncUpError:NO];
     [self trySyncUp:3 target:customTarget mergeMode:SFSyncStateMergeModeOverwrite];
     
     // Check that db doesn't doesn't contain those entries anymore
@@ -1191,9 +1213,7 @@
     [self deleteAccountsLocally:idsLocallyDeleted];
     
     // Sync up
-    SFSyncUpTarget *customTarget = [[TestSyncUpTarget alloc] initWithRemoteModDateCompare:TestSyncUpTargetRemoteModDateGreaterThanLocal
-                                                                                     sendRemoteModError:NO
-                                                                                        sendSyncUpError:NO];
+    SFSyncUpTarget *customTarget = [[TestSyncUpTarget alloc] initWithRemoteModDateCompare:TestSyncUpTargetRemoteModDateGreaterThanLocal sendRemoteModError:NO sendSyncUpError:NO];
     [self trySyncUp:3 target:customTarget mergeMode:SFSyncStateMergeModeLeaveIfChanged];
     
     // Check that db still shows entries as locally deleted
@@ -1216,9 +1236,7 @@
     NSDictionary* idsToLocallyUpdated = [self makeSomeLocalChanges];
     
     // Sync up
-    SFSyncUpTarget *customTarget = [[TestSyncUpTarget alloc] initWithRemoteModDateCompare:TestSyncUpTargetRemoteModDateGreaterThanLocal
-                                                                                     sendRemoteModError:YES
-                                                                                        sendSyncUpError:NO];
+    SFSyncUpTarget *customTarget = [[TestSyncUpTarget alloc] initWithRemoteModDateCompare:TestSyncUpTargetRemoteModDateGreaterThanLocal sendRemoteModError:YES sendSyncUpError:NO];
     [self trySyncUp:idsToLocallyUpdated.count target:customTarget mergeMode:SFSyncStateMergeModeLeaveIfChanged];
 }
 
@@ -1237,9 +1255,7 @@
     NSDictionary* idToLocallyUpdated = [self makeSomeLocalChanges];
     
     // Sync up
-    SFSyncUpTarget *customTarget = [[TestSyncUpTarget alloc] initWithRemoteModDateCompare:TestSyncUpTargetRemoteModDateSameAsLocal
-                                                                                     sendRemoteModError:NO
-                                                                                        sendSyncUpError:YES];
+    SFSyncUpTarget *customTarget = [[TestSyncUpTarget alloc] initWithRemoteModDateCompare:TestSyncUpTargetRemoteModDateSameAsLocal sendRemoteModError:NO sendSyncUpError:YES];
     SFSyncOptions* options = [SFSyncOptions newSyncOptionsForSyncUp:@[NAME, DESCRIPTION] mergeMode:SFSyncStateMergeModeOverwrite];
     [self trySyncUp:idToLocallyUpdated.count actualChanges:1 target:customTarget options:options completionStatus:SFSyncStateStatusFailed];
 }
@@ -1468,7 +1484,6 @@
     }
 }
 
-
 - (void)trySyncUp:(NSInteger)numberChanges mergeMode:(SFSyncStateMergeMode)mergeMode {
     SFSyncOptions* defaultOptions = [SFSyncOptions newSyncOptionsForSyncUp:@[NAME, DESCRIPTION] mergeMode:mergeMode];
     [self trySyncUp:numberChanges options:defaultOptions];
@@ -1496,7 +1511,6 @@
     idToFields = nil;
 }
 
-
 - (void) deleteSyncs {
     [self.store clearSoup:kSFSyncStateSyncsSoupName];
 }
@@ -1508,7 +1522,6 @@
 - (NSDictionary*) makeSomeRemoteChanges {
     return [self makeSomeRemoteChanges:idToFields objectType:ACCOUNT_TYPE];
 }
-
 
 -(void) deleteAccountsLocally:(NSArray*)ids {
     [self deleteRecordsLocally:ids soupName:ACCOUNTS_SOUP];
