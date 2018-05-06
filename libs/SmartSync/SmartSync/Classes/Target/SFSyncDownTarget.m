@@ -33,6 +33,7 @@
 #import "SFSmartSyncObjectUtils.h"
 #import "SFParentChildrenSyncDownTarget.h"
 #import "SFMetadataSyncDownTarget.h"
+#import "SFLayoutSyncDownTarget.h"
 
 // query types
 NSString * const kSFSyncTargetQueryTypeMru = @"mru";
@@ -42,6 +43,7 @@ NSString * const kSFSyncTargetQueryTypeRefresh = @"refresh";
 NSString * const kSFSyncTargetQueryTypeParentChidlren = @"parentChildren";
 NSString * const kSFSyncTargetQueryTypeCustom = @"custom";
 NSString * const kSFSyncTargetQueryTypeMetadata = @"metadata";
+NSString * const kSFSyncTargetQueryTypeLayout = @"layout";
 
 @implementation SFSyncDownTarget
 
@@ -74,6 +76,8 @@ NSString * const kSFSyncTargetQueryTypeMetadata = @"metadata";
                 return [[SFParentChildrenSyncDownTarget alloc] initWithDict:dict];
             case SFSyncDownTargetQueryTypeMetadata:
                 return [[SFMetadataSyncDownTarget alloc] initWithDict:dict];
+            case SFSyncDownTargetQueryTypeLayout:
+                return [[SFLayoutSyncDownTarget alloc] initWithDict:dict];
             case SFSyncDownTargetQueryTypeCustom:
                 [SFSDKSmartSyncLogger e:[self class] format:@"%@ Custom class name not specified.", NSStringFromSelector(_cmd)];
                 return nil;
@@ -165,6 +169,9 @@ ABSTRACT_METHOD
     if ([queryType isEqualToString:kSFSyncTargetQueryTypeMetadata]) {
         return SFSyncDownTargetQueryTypeMetadata;
     }
+    if ([queryType isEqualToString:kSFSyncTargetQueryTypeLayout]) {
+        return SFSyncDownTargetQueryTypeLayout;
+    }
 
     // Must be custom
     return SFSyncDownTargetQueryTypeCustom;
@@ -179,6 +186,7 @@ ABSTRACT_METHOD
         case SFSyncDownTargetQueryTypeParentChildren: return kSFSyncTargetQueryTypeParentChidlren;
         case SFSyncDownTargetQueryTypeCustom: return kSFSyncTargetQueryTypeCustom;
         case SFSyncDownTargetQueryTypeMetadata: return kSFSyncTargetQueryTypeMetadata;
+        case SFSyncDownTargetQueryTypeLayout: return kSFSyncTargetQueryTypeLayout;
     }
 }
 
