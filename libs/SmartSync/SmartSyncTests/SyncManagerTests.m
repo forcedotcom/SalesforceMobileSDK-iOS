@@ -28,6 +28,7 @@
 #import "SFMetadataSyncDownTarget.h"
 #import "SFLayoutSyncDownTarget.h"
 #import <SmartStore/SFQuerySpec.h>
+#import <SmartStore/SFSoupIndex.h>
 #import <SalesforceSDKCore/SFSDKSoqlBuilder.h>
 #import <SalesforceSDKCore/SFSDKSoslBuilder.h>
 
@@ -366,7 +367,6 @@
     XCTAssertTrue(sync == nil, @"Sync status should be nil");
 }
 
-
 /**
  * Sync down the test accounts, check smart store, check status during sync
  */
@@ -415,32 +415,41 @@
  * Test for sync down with metadata target.
  */
 - (void)testSyncDownForMetadataTarget {
-    [self createAccountsSoup];
-    [self trySyncDown:SFSyncStateMergeModeLeaveIfChanged target:[SFMetadataSyncDownTarget newSyncTarget:ACCOUNT_TYPE] soupName:ACCOUNTS_SOUP totalSize:1 numberFetches:1];
-    SFQuerySpec *querySpec = [SFQuerySpec newAllQuerySpec:ACCOUNTS_SOUP withOrderPath:kSyncTargetSyncId withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
+    NSArray* indexSpecs = @[
+                            [[SFSoupIndex alloc] initWithPath:@"keyPrefix" indexType:kSoupIndexTypeString columnName:nil]
+                            ];
+    [self.store registerSoup:ACCOUNTS_SOUP withIndexSpecs:indexSpecs error:nil];
+    [self trySyncDown:SFSyncStateMergeModeOverwrite target:[SFMetadataSyncDownTarget newSyncTarget:ACCOUNT_TYPE] soupName:ACCOUNTS_SOUP totalSize:1 numberFetches:1];
+    NSString* smartSql = @"SELECT {accounts:_soup} FROM {accounts}";
+    SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:1];
     NSArray *rows = [self.store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
+    rows = [self.store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
     XCTAssertEqual(rows.count, 1, @"Number of rows should be 1");
-    NSDictionary *metadata = rows[0];
+    NSDictionary *metadata = rows[0][0];
     XCTAssertNotNil(metadata, @"Metadata should not be nil");
     NSString *keyPrefix = metadata[@"keyPrefix"];
     NSString *label = metadata[@"label"];
-    XCTAssertEqual(keyPrefix, @"001", @"Key prefix should be 001");
-    XCTAssertEqual(label, ACCOUNT_TYPE, @"Label should be Account");
+    XCTAssertEqualObjects(keyPrefix, @"001", @"Key prefix should be 001");
+    XCTAssertEqualObjects(label, ACCOUNT_TYPE, @"Label should be Account");
 }
 
 /**
  * Test for sync down with layout target.
  */
 - (void)testSyncDownForLayoutTarget {
-    [self createAccountsSoup];
-    [self trySyncDown:SFSyncStateMergeModeLeaveIfChanged target:[SFLayoutSyncDownTarget newSyncTarget:ACCOUNT_TYPE layoutType:@"Compact"] soupName:ACCOUNTS_SOUP totalSize:1 numberFetches:1];
-    SFQuerySpec *querySpec = [SFQuerySpec newAllQuerySpec:ACCOUNTS_SOUP withOrderPath:kSyncTargetSyncId withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
+    NSArray* indexSpecs = @[
+                            [[SFSoupIndex alloc] initWithPath:@"id" indexType:kSoupIndexTypeString columnName:nil]
+                            ];
+    [self.store registerSoup:ACCOUNTS_SOUP withIndexSpecs:indexSpecs error:nil];
+    [self trySyncDown:SFSyncStateMergeModeOverwrite target:[SFLayoutSyncDownTarget newSyncTarget:ACCOUNT_TYPE layoutType:@"Compact"] soupName:ACCOUNTS_SOUP totalSize:1 numberFetches:1];
+    NSString* smartSql = @"SELECT {accounts:_soup} FROM {accounts}";
+    SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:1];
     NSArray *rows = [self.store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
     XCTAssertEqual(rows.count, 1, @"Number of rows should be 1");
-    NSDictionary *layout = rows[0];
+    NSDictionary *layout = rows[0][0];
     XCTAssertNotNil(layout, @"Layout should not be nil");
     NSString *layoutType = layout[@"layoutType"];
-    XCTAssertEqual(layoutType, @"Compact", @"Layout type should be Compact");
+    XCTAssertEqualObjects(layoutType, @"Compact", @"Layout type should be Compact");
 }
 
 /**

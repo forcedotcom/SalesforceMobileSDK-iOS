@@ -50,6 +50,7 @@ static NSString * const kSFSyncTargetLayoutType = @"layoutType";
         self.queryType = SFSyncDownTargetQueryTypeLayout;
         self.objectType = dict[kSFSyncTargetObjectType];
         self.layoutType = dict[kSFSyncTargetLayoutType];
+        self.idFieldName = @"id";
     }
     return self;
 }
@@ -58,6 +59,7 @@ static NSString * const kSFSyncTargetLayoutType = @"layoutType";
     self = [super init];
     if (self) {
         self.queryType = SFSyncDownTargetQueryTypeLayout;
+        self.idFieldName = @"id";
     }
     return self;
 }
@@ -67,6 +69,7 @@ static NSString * const kSFSyncTargetLayoutType = @"layoutType";
     syncTarget.queryType = SFSyncDownTargetQueryTypeLayout;
     syncTarget.objectType = objectType;
     syncTarget.layoutType = layoutType;
+    syncTarget.idFieldName = @"id";
     return syncTarget;
 }
 

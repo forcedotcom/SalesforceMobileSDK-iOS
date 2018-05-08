@@ -47,6 +47,7 @@ static NSString * const kSFSyncTargetObjectType = @"sobjectType";
     if (self) {
         self.queryType = SFSyncDownTargetQueryTypeMetadata;
         self.objectType = dict[kSFSyncTargetObjectType];
+        self.idFieldName = @"keyPrefix";
     }
     return self;
 }
@@ -55,6 +56,7 @@ static NSString * const kSFSyncTargetObjectType = @"sobjectType";
     self = [super init];
     if (self) {
         self.queryType = SFSyncDownTargetQueryTypeMetadata;
+        self.idFieldName = @"keyPrefix";
     }
     return self;
 }
@@ -63,6 +65,7 @@ static NSString * const kSFSyncTargetObjectType = @"sobjectType";
     SFMetadataSyncDownTarget *syncTarget = [[SFMetadataSyncDownTarget alloc] init];
     syncTarget.queryType = SFSyncDownTargetQueryTypeMetadata;
     syncTarget.objectType = objectType;
+    syncTarget.idFieldName = @"keyPrefix";
     return syncTarget;
 }
 
