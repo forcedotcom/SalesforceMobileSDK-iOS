@@ -459,6 +459,14 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];
 }
 
+- (SFRestRequest *)requestForLayoutWithObjectType:(NSString *)objectType layoutType:(NSString *)layoutType {
+    NSDictionary *queryParams = (layoutType ?
+                                 @{@"layoutType": layoutType}
+                                 : nil);
+    NSString *path = [NSString stringWithFormat:@"/%@/ui-api/layout/%@", self.apiVersion, objectType];
+    return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
+}
+
 - (SFRestRequest *)requestForRetrieveWithObjectType:(NSString *)objectType
                                            objectId:(NSString *)objectId
                                           fieldList:(NSString *)fieldList {
