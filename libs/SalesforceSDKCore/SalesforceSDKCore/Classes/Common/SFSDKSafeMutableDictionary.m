@@ -74,6 +74,14 @@
     return keys;
 }
 
+- (NSDictionary *)dictionary {
+    __block NSDictionary *dict;
+    dispatch_sync(self.queue, ^{
+        dict = [NSDictionary dictionaryWithDictionary:self.backingDictionary];
+    });
+    return dict;
+}
+
 #pragma Mark - Mutating Methods
 
 - (void)setObject:(id)object forKey:(id<NSCopying>)aKey {
