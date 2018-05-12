@@ -518,7 +518,6 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
     NSUInteger statusCode = [((NSNumber *) response[kHttpStatusCode]) unsignedIntegerValue];
     BOOL successStatusCode = [SFRestAPI isStatusCodeSuccess:statusCode];
     BOOL notFoundStatusCode = [SFRestAPI isStatusCodeNotFound:statusCode];
-    BOOL parentDeleted = [self isEntityDeleted:response];
 
     // Delete case
     if ([self isLocallyDeleted:record]) {
@@ -559,7 +558,7 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
         }
 
         // Handling remotely deleted parent
-        else if(parentDeleted) {
+        else if([self isEntityDeleted:response]) {
             // Parent record needs to be recreated
             if (mergeMode == SFSyncStateMergeModeOverwrite) {
                 parent[kSyncTargetLocal] = @YES;
