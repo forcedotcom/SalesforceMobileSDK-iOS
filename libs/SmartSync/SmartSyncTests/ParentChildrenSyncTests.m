@@ -828,7 +828,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
 
 /**
  * Create accounts on server, sync down
- * Create contacts locally associated the accounts with them and run sync up
+ * Create contacts locally, associates them with the accounts and run sync up
  * Check smartstore and server afterwards
  */
 - (void) testSyncUpWithLocallyCreatedChildrenRecords {
@@ -865,6 +865,61 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
 
     // Cleanup
     [self deleteRecordsOnServer:[accountIdToFieldsCreated allKeys] objectType:ACCOUNT_TYPE];
+    [self deleteRecordsOnServer:[contactIdToFieldsCreated allKeys] objectType:CONTACT_TYPE];
+}
+
+/**
+ * Create account on server, sync down
+ * Remotely delete account
+ * Create contacts locally, associates them with the account and run sync up
+ * Check smartstore and server afterwards
+ * The account should be recreated and the contacts should be associated to the new account id
+ */
+- (void) testSyncUpWithLocallyCreatedChildrenRemotelyDeletedParent {
+    
+    // Create account on server
+    NSDictionary* accountIdToName = [self createRecordsOnServer:1 objectType:ACCOUNT_TYPE];
+    NSString* accountId = [accountIdToName allKeys][0];
+    NSString* accountName = accountIdToName[accountId];
+    
+    // Sync down remote accounts
+    NSString *soql = [NSString stringWithFormat:@"SELECT Id, Name, LastModifiedDate FROM Account WHERE Id = '%@'", accountId];
+    SFSyncDownTarget* accountSyncDownTarget = [SFSoqlSyncDownTarget newSyncTarget:soql];
+    [self trySyncDown:SFSyncStateMergeModeOverwrite target:accountSyncDownTarget soupName:ACCOUNTS_SOUP totalSize:1 numberFetches:1];
+    
+    // Create a few contacts locally associated with account
+    NSDictionary *contactsForAccountsLocally = [self createContactsForAccountLocally:3 accountIds:@[accountId]];
+    NSMutableArray * contactNames = [NSMutableArray new];
+    for (NSArray * contacts in [contactsForAccountsLocally allValues]) {
+        for (NSDictionary * contact in contacts) {
+            [contactNames addObject:contact[LAST_NAME]];
+        }
+    }
+    
+    // Delete account remotely
+    [self deleteRecordsOnServer:@[accountId] objectType:ACCOUNT_TYPE];
+    
+    // Sync up
+    SFParentChildrenSyncUpTarget * target = [self getAccountContactsSyncUpTarget];
+    [self trySyncUp:1 target:target mergeMode:SFSyncStateMergeModeOverwrite];
+    
+    // Make sure account got recreated
+    NSString* newAccountId = [self checkRecordRecreated:accountId fields:@{NAME:accountName} nameField:NAME soupName:ACCOUNTS_SOUP objectType:ACCOUNT_TYPE parentId:nil parentIdField:nil];
+    
+    // Check that db doesn't show contact entries as locally updated anymore
+    NSDictionary * contactIdToFieldsCreated = [self getIdToFieldsByName:CONTACTS_SOUP fieldNames:@[LAST_NAME, ACCOUNT_ID] nameField:LAST_NAME names:contactNames];
+    [self checkDbStateFlags:[contactIdToFieldsCreated allKeys] soupName:CONTACTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:NO expectedLocallyDeleted:NO];
+
+    // Check contacts on server
+    [self checkServer:contactIdToFieldsCreated objectType:CONTACT_TYPE];
+    
+    // Check that contact use new account id in accountId field
+    for (NSString* contactId in [contactIdToFieldsCreated allKeys]) {
+        XCTAssertEqualObjects(contactIdToFieldsCreated[contactId][ACCOUNT_ID], newAccountId);
+    }
+    
+    // Cleanup
+    [self deleteRecordsOnServer:@[newAccountId] objectType:ACCOUNT_TYPE];
     [self deleteRecordsOnServer:[contactIdToFieldsCreated allKeys] objectType:CONTACT_TYPE];
 }
 
