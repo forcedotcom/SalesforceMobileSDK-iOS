@@ -29,6 +29,25 @@
 
 #import "SFLayout.h"
 
+static NSString * const kSFId = @"id";
+static NSString * const kSFLayoutType = @"layoutType";
+static NSString * const kSFMode = @"mode";
+static NSString * const kSFSections = @"sections";
+static NSString * const kSFCollapsible = @"collapsible";
+static NSString * const kSFColumns = @"columns";
+static NSString * const kSFHeading = @"heading";
+static NSString * const kSFLayoutRows = @"layoutRows";
+static NSString * const kSFRows = @"rows";
+static NSString * const kSFUseHeading = @"useHeading";
+static NSString * const kSFLayoutItems = @"layoutItems";
+static NSString * const kSFEditableForNew = @"editableForNew";
+static NSString * const kSFEditableForUpdate = @"editableForUpdate";
+static NSString * const kSFLabel = @"label";
+static NSString * const kSFLayoutComponents = @"layoutComponents";
+static NSString * const kSFLookupIdApiName = @"lookupIdApiName";
+static NSString * const kSFRequired = @"required";
+static NSString * const kSFSortable = @"sortable";
+
 @interface SFLayout ()
 
 @property (nonatomic, strong, readwrite) NSString *id;
@@ -41,21 +60,71 @@
 
 @implementation SFLayout
 
++ (instancetype)fromJSON:(NSDictionary *)data {
+    SFLayout *layout = nil;
+    if (data) {
+        layout = [[SFLayout alloc] init];
+        layout.rawData = data;
+        layout.id = data[kSFId];
+        layout.layoutType = data[kSFLayoutType];
+        layout.mode = data[kSFMode];
+        NSArray *sections = data[kSFSections];
+        NSMutableArray<SFLayoutSection *> *extractedSections = nil;
+        if (sections) {
+            extractedSections = [[NSMutableArray alloc] init];
+            for (int i = 0; i < sections.count; i++) {
+                NSDictionary *section = sections[i];
+                if (section) {
+                    [extractedSections addObject:[SFLayoutSection fromJSON:section]];
+                }
+            }
+        }
+        layout.sections = extractedSections;
+    }
+    return layout;
+}
+
 @end
 
 @interface SFLayoutSection ()
 
 @property (nonatomic, readwrite, assign) BOOL collapsible;
-@property (nonatomic, readwrite, assign) NSInteger columns;
+@property (nonatomic, strong, readwrite) NSNumber *columns;
 @property (nonatomic, strong, readwrite) NSString *heading;
 @property (nonatomic, strong, readwrite) NSString *id;
 @property (nonatomic, strong, readwrite) NSArray<SFRow *> *layoutRows;
-@property (nonatomic, readwrite, assign) NSInteger rows;
+@property (nonatomic, strong, readwrite) NSNumber *rows;
 @property (nonatomic, readwrite, assign) BOOL userHeading;
 
 @end
 
 @implementation SFLayoutSection
+
++ (instancetype)fromJSON:(NSDictionary *)data {
+    SFLayoutSection *layoutSection = nil;
+    if (data) {
+        layoutSection = [[SFLayoutSection alloc] init];
+        layoutSection.collapsible = data[kSFCollapsible];
+        layoutSection.columns = data[kSFColumns];
+        layoutSection.heading = data[kSFHeading];
+        layoutSection.id = data[kSFId];
+        NSArray *rows = data[kSFLayoutRows];
+        NSMutableArray<SFRow *> *extractedRows = nil;
+        if (rows) {
+            extractedRows = [[NSMutableArray alloc] init];
+            for (int i = 0; i < rows.count; i++) {
+                NSDictionary *row = rows[i];
+                if (row) {
+                    [extractedRows addObject:[SFRow fromJSON:row]];
+                }
+            }
+        }
+        layoutSection.layoutRows = extractedRows;
+        layoutSection.rows = data[kSFRows];
+        layoutSection.userHeading = data[kSFUseHeading];
+    }
+    return layoutSection;
+}
 
 @end
 
@@ -66,6 +135,26 @@
 @end
 
 @implementation SFRow
+
++ (instancetype)fromJSON:(NSDictionary *)data {
+    SFRow *row = nil;
+    if (data) {
+        row = [[SFRow alloc] init];
+        NSArray *items = data[kSFLayoutItems];
+        NSMutableArray<SFItem *> *extractedItems = nil;
+        if (items) {
+            extractedItems = [[NSMutableArray alloc] init];
+            for (int i = 0; i < items.count; i++) {
+                NSDictionary *item = items[i];
+                if (item) {
+                    [extractedItems addObject:[SFItem fromJSON:item]];
+                }
+            }
+        }
+        row.layoutItems = extractedItems;
+    }
+    return row;
+}
 
 @end
 
@@ -82,5 +171,20 @@
 @end
 
 @implementation SFItem
+
++ (instancetype)fromJSON:(NSDictionary *)data {
+    SFItem *item = nil;
+    if (data) {
+        item = [[SFItem alloc] init];
+        item.editableForNew = data[kSFEditableForNew];
+        item.editableForUpdate = data[kSFEditableForUpdate];
+        item.label = data[kSFLabel];
+        item.layoutComponents = data[kSFLayoutComponents];
+        item.lookupIdApiName = data[kSFLookupIdApiName];
+        item.required = data[kSFRequired];
+        item.sortable = data[kSFSortable];
+    }
+    return item;
+}
 
 @end

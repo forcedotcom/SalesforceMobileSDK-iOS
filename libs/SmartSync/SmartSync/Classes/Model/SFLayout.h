@@ -46,6 +46,14 @@
 @property (nonatomic, strong, readonly, nullable) NSArray<SFLayoutSection *> *sections;
 @property (nonatomic, strong, readonly, nullable) NSDictionary *rawData;
 
+/**
+ * Creates an instance of this class from its JSON representation.
+ *
+ * @param data JSON data.
+ * @return Instance of this class.
+ */
++ (instancetype)fromJSON:(NSDictionary *)data;
+
 @end
 
 /**
@@ -56,12 +64,20 @@
 @interface SFLayoutSection : NSObject
 
 @property (nonatomic, readonly, assign) BOOL collapsible;
-@property (nonatomic, readonly, assign) NSInteger columns;
+@property (nonatomic, strong, readonly, nullable) NSNumber *columns;
 @property (nonatomic, strong, readonly, nullable) NSString *heading;
 @property (nonatomic, strong, readonly, nullable) NSString *id;
 @property (nonatomic, strong, readonly, nullable) NSArray<SFRow *> *layoutRows;
-@property (nonatomic, readonly, assign) NSInteger rows;
+@property (nonatomic, strong, readonly, nullable) NSNumber *rows;
 @property (nonatomic, readonly, assign) BOOL userHeading;
+
+/**
+ * Creates an instance of this class from its JSON representation.
+ *
+ * @param data JSON data.
+ * @return Instance of this class.
+ */
++ (instancetype)fromJSON:(NSDictionary *)data;
 
 @end
 
@@ -73,6 +89,14 @@
 @interface SFRow : NSObject
 
 @property (nonatomic, strong, readonly, nullable) NSArray<SFItem *> *layoutItems;
+
+/**
+ * Creates an instance of this class from its JSON representation.
+ *
+ * @param data JSON data.
+ * @return Instance of this class.
+ */
++ (instancetype)fromJSON:(NSDictionary *)data;
 
 @end
 
@@ -90,5 +114,13 @@
 @property (nonatomic, strong, readonly, nullable) NSString *lookupIdApiName;
 @property (nonatomic, readonly, assign) BOOL required;
 @property (nonatomic, readonly, assign) BOOL sortable;
+
+/**
+ * Creates an instance of this class from its JSON representation.
+ *
+ * @param data JSON data.
+ * @return Instance of this class.
+ */
++ (instancetype)fromJSON:(NSDictionary *)data;
 
 @end
