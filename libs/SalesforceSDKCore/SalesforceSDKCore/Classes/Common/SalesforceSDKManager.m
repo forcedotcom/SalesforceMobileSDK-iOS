@@ -85,9 +85,7 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
 
 @end
 
-@interface SalesforceSDKManager () {
-    SFSDKWindowContainer *lastActiveWindow;
-}
+@interface SalesforceSDKManager ()
 
 @property(nonatomic, strong) UIAlertController *actionSheet;
 
@@ -713,7 +711,6 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
     
     // Set up snapshot security view, if it's configured.
     @try {
-        lastActiveWindow = [SFSDKWindowManager sharedManager].activeWindow;
         [self presentSnapshot];
     }
     @catch (NSException *exception) {
@@ -792,12 +789,7 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
     if (!self.useSnapshotView) {
         return;
     }
-    
-    // Dismiss it first if it is currently presented
-    if ([self isSnapshotPresented]) {
-        [self dismissSnapshot];
-    }
-    
+
     // Try to retrieve a custom snapshot view controller
     UIViewController* customSnapshotViewController = nil;
     if (self.snapshotViewControllerCreationAction) {
@@ -812,14 +804,15 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
     else {
         _snapshotViewController =  [[SnapshotViewController alloc] initWithNibName:nil bundle:nil];
     }
-    SFSDKWindowManager.sharedManager.snapshotWindow.viewController = _snapshotViewController;
     
     // Presentation
     __weak typeof (self) weakSelf = self;
-    [[SFSDKWindowManager sharedManager].snapshotWindow presentWindowWithCompletion:^{
+    [[SFSDKWindowManager sharedManager].snapshotWindow  presentWindowAnimated:NO withCompletion:^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (strongSelf.snapshotPresentationAction && strongSelf.snapshotDismissalAction) {
             strongSelf.snapshotPresentationAction(strongSelf->_snapshotViewController);
+        }else {
+            [SFSDKWindowManager.sharedManager.snapshotWindow.viewController presentViewController:strongSelf->_snapshotViewController animated:NO completion:nil];
         }
     }];
     
@@ -832,18 +825,11 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
             self.snapshotDismissalAction(_snapshotViewController);
             if ([SFSecurityLockout isPasscodeNeeded]) {
                 [SFSecurityLockout validateTimer];
-            } else{
-                [SFSecurityLockout validateTimer];
-                [lastActiveWindow presentWindow];
             }
         } else {
-            __block SFSDKWindowContainer *activeWindow = lastActiveWindow;
-            [[SFSDKWindowManager sharedManager].snapshotWindow dismissWindowWithCompletion:^{
+            [[SFSDKWindowManager sharedManager].snapshotWindow dismissWindowAnimated:NO  withCompletion:^{
                 if ([SFSecurityLockout isPasscodeNeeded]) {
                     [SFSecurityLockout validateTimer];
-                } else{
-                    [SFSecurityLockout validateTimer];
-                    [activeWindow presentWindow];
                 }
             }];
         }

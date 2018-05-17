@@ -47,6 +47,7 @@
 #import "SFSDKAlertMessage.h"
 #import "SFSDKAlertMessageBuilder.h"
 #import "SFSDKLoginViewControllerConfig.h"
+#import "SFSDKNavigationController.h"
 // Auth error handler name constants
 static NSString * const kSFInvalidCredentialsAuthErrorHandler = @"InvalidCredentialsErrorHandler";
 static NSString * const kSFConnectedAppVersionAuthErrorHandler = @"ConnectedAppVersionErrorHandler";
@@ -138,7 +139,7 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
 
 -(void)dismissAuthWindow {
 
-    UIViewController *presentedViewController = [SFSDKWindowManager sharedManager].authWindow.viewController.presentedViewController?:[SFSDKWindowManager sharedManager].authWindow.viewController;
+    UIViewController *presentedViewController = [SFSDKWindowManager sharedManager].authWindow.viewController.presentedViewController;
     
     if (presentedViewController) {
         [presentedViewController dismissViewControllerAnimated:NO completion:^{
@@ -380,8 +381,10 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
             if (!handledByDelegate) {
                 SFSDKLoginHostListViewController *hostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
                 hostListViewController.delegate = strongSelf;
-                strongSelf.authWindow.viewController = hostListViewController;
-                [strongSelf.authWindow presentWindow];
+               
+                [strongSelf.authWindow presentWindowAnimated:NO withCompletion:^{
+                    [strongSelf.authWindow.viewController presentViewController:hostListViewController animated:NO completion:nil];
+                }];
             }
             
         };
@@ -466,8 +469,12 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
     if (!handledByDelegate) {
         SFSDKLoginHostListViewController *hostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
         hostListViewController.delegate = self;
-        self.authWindow.viewController = hostListViewController;
-        [self.authWindow presentWindow];
+        __weak typeof (self) weakSelf = self;
+        [self.authWindow presentWindowAnimated:NO withCompletion:^{
+            __strong typeof (weakSelf) strongSelf = weakSelf;
+            [strongSelf.authWindow.viewController presentViewController:hostListViewController animated:NO completion:nil];
+        }];
+        
     }
 
 }
@@ -667,7 +674,7 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
     if (viewHandler.isAdvancedAuthFlow) {
         controllerToPresent = viewHandler.safariViewController;
     } else {
-        UINavigationController *navController = [[UINavigationController alloc]  initWithRootViewController:viewHandler.loginController];
+        SFSDKNavigationController *navController = [[SFSDKNavigationController  alloc]  initWithRootViewController:viewHandler.loginController];
         controllerToPresent = navController;
     }
     

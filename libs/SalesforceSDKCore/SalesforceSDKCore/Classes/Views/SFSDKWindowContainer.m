@@ -27,7 +27,8 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #import "SFSDKWindowContainer.h"
-
+#import "SFSDKWindowManager.h"
+#import "SFSDKRootController.h"
 @interface SFSDKWindowContainer()
 
 @end
@@ -35,12 +36,18 @@
 @implementation SFSDKWindowContainer
 @synthesize window = _window;
 
+- (instancetype)initWithName:(NSString *)windowName {
+    self = [super init];
+    if (self) {
+        _windowName = windowName;
+    }
+    return self;
+}
+
 - (instancetype)initWithWindow:(UIWindow *)window name:(NSString *) windowName {
-    
     self = [super init];
     if (self) {
         _window = window;
-        _window.hidden = YES;
         _windowName = windowName;
         _viewController = window.rootViewController;
     }
@@ -49,9 +56,14 @@
 
 - (UIWindow *)window {
     if (_window == nil) {
-        _window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-         _window.hidden = YES;
-        _window.rootViewController = _viewController;
+        _window = [[SFSDKUIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds  andName:_windowName];
+        //_window.hidden = NO;
+        _window.windowLevel = self.windowLevel;
+        UIViewController *controller = _viewController;
+        if (!controller) {
+            controller = [[SFSDKRootController alloc] init];
+        }
+        self.viewController = controller;
     }
     return _window;
 }
@@ -59,39 +71,35 @@
 - (void)setViewController:(UIViewController *) viewController {
     if (_viewController != viewController) {
         _viewController = viewController;
-        self.window.rootViewController = viewController;
+        if (_window) {
+            _window.rootViewController = viewController;
+        }
     }
 }
 
 - (void)presentWindow {
-    [self presentWindowWithCompletion:nil];
+    [self presentWindowAnimated:NO withCompletion:nil];
 }
 
 - (BOOL)isEnabled {
-    return self.window.isKeyWindow;
+    return _window && _window.isKeyWindow;
 }
 
 - (void)presentWindowAnimated:(BOOL)animated withCompletion:(void (^ _Nullable)(void))completion {
-    [self presentWindowWithCompletion:completion];
-}
-
-- (void)presentWindowWithCompletion:(void (^ _Nullable)(void))completion {
-    if ([self.windowDelegate respondsToSelector:@selector(presentWindow:withCompletion:)]) {
-        [self.windowDelegate presentWindow:self withCompletion:completion];
+    if ([self.windowDelegate respondsToSelector:@selector(presentWindow:animated:withCompletion:)]) {
+        [self.windowDelegate presentWindow:self animated:animated withCompletion:completion];
     }
 }
 
 - (void)dismissWindow {
-    [self dismissWindowWithCompletion:nil];
+    [self dismissWindowAnimated:NO withCompletion:nil];
 }
 
 - (void)dismissWindowAnimated:(BOOL)animated withCompletion:(void (^ _Nullable)(void))completion {
-   [self dismissWindowWithCompletion:completion];
-}
-
-- (void)dismissWindowWithCompletion:(void (^ _Nullable)(void))completion {
-    if ([self.windowDelegate respondsToSelector:@selector(dismissWindow:withCompletion:)]) {
-        [self.windowDelegate dismissWindow:self withCompletion:completion];
+    if ([self isEnabled]) {
+        if ([self.windowDelegate respondsToSelector:@selector(dismissWindow:animated:withCompletion:)]) {
+            [self.windowDelegate dismissWindow:self animated:animated withCompletion:completion];
+        }
     }
 }
 
@@ -113,7 +121,7 @@
 }
 
 - (UIViewController*)topViewController {
-    return [SFSDKWindowContainer  topViewControllerWithRootViewController:self.window.rootViewController];
+    return [SFSDKWindowContainer topViewControllerWithRootViewController:_window.rootViewController];
 }
 
 + (UIViewController*)topViewControllerWithRootViewController:(UIViewController*)viewController {

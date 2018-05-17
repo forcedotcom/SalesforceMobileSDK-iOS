@@ -39,6 +39,7 @@
 #import "SFApplication.h"
 #import "SFSDKEventBuilderHelper.h"
 #import "SalesforceSDKManager+Internal.h"
+#import "SFSDKNavigationController.h"
 #import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 
 // Private constants
@@ -101,17 +102,21 @@ static BOOL _showPasscode = YES;
             } else {
                 pvc = [[SFPasscodeViewController alloc] initForPasscodeVerification];
             }
-            UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:pvc];
+            SFSDKNavigationController *nc = [[SFSDKNavigationController alloc] initWithRootViewController:pvc];
             return nc;
         }];
         
         [SFSecurityLockout setPresentPasscodeViewControllerBlock:^(UIViewController *pvc) {
-                [SFSDKWindowManager sharedManager].passcodeWindow.viewController = pvc;
-            [[SFSDKWindowManager sharedManager].passcodeWindow presentWindow];
+            [[SFSDKWindowManager sharedManager].passcodeWindow presentWindowAnimated:NO withCompletion:^{
+                [[SFSDKWindowManager sharedManager].passcodeWindow.viewController  presentViewController:pvc animated:NO completion:nil];
+            }];
+
         }];
         
         [SFSecurityLockout setDismissPasscodeViewControllerBlock:^(UIViewController *pvc) {
-            [[SFSDKWindowManager sharedManager].passcodeWindow dismissWindow];
+            [[[SFSDKWindowManager sharedManager].passcodeWindow.viewController presentedViewController] dismissViewControllerAnimated:NO completion:^{
+                [[SFSDKWindowManager sharedManager].passcodeWindow dismissWindow];
+            }];
         }];
     }
 }
@@ -461,8 +466,6 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
             return;
         }
     }
-    if ([[SFSDKWindowManager sharedManager].snapshotWindow isEnabled])
-        return;
     
     SFPasscodeConfigurationData configData;
     configData.lockoutTime = [self lockoutTime];
@@ -517,6 +520,9 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         return;
     }
     
+    if ([[SFSDKWindowManager sharedManager].snapshotWindow isEnabled]) {
+        [[SFSDKWindowManager sharedManager].snapshotWindow dismissWindow];
+    }
     // Don't present the passcode screen if it's already present.
     if ([SFSecurityLockout passcodeScreenIsPresent]) {
         return;

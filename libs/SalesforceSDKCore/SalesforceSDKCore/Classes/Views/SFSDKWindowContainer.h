@@ -47,13 +47,13 @@ typedef NS_ENUM(NSInteger, SFSDKWindowType) {
  Called when the window has to be enabled
  @param window The window
  */
-- (void)presentWindow:(SFSDKWindowContainer *)window withCompletion:(void (^_Nullable)(void))completion;
+- (void)presentWindow:(SFSDKWindowContainer *)window animated:(BOOL)animated withCompletion:(void (^_Nullable)(void))completion;
 
 /**
  Called when the window has to be disabled
  @param window The window
  */
-- (void)dismissWindow:(SFSDKWindowContainer *)window withCompletion:(void (^_Nullable)(void))completion;
+- (void)dismissWindow:(SFSDKWindowContainer *)window animated:(BOOL)animated withCompletion:(void (^_Nullable)(void))completion;
 @end
 
 @interface SFSDKWindowContainer : NSObject
@@ -68,6 +68,8 @@ typedef NS_ENUM(NSInteger, SFSDKWindowType) {
 /** SFSDKWindowType windowName
  */
 @property (nonatomic, copy, readonly) NSString * windowName;
+
+@property(nonatomic) UIWindowLevel windowLevel; 
 
 /** UIViewController viewController
  */
@@ -85,6 +87,13 @@ typedef NS_ENUM(NSInteger, SFSDKWindowType) {
 - (instancetype)initWithWindow:(UIWindow *)window name:(NSString *) windowName;
 
 /**
+ Create an instance of a Window
+ @param windowName key for the UIWindow
+ @return SFSDKWindowComtainer
+ */
+- (instancetype)initWithName:(NSString *) windowName;
+
+/**
  * Returns true if window alpha is set to 1.0
  */
 - (BOOL)isEnabled;
@@ -97,23 +106,12 @@ typedef NS_ENUM(NSInteger, SFSDKWindowType) {
 /**
  * Make window visible, set alpha to 1.0 invoke completion block
  */
-- (void)presentWindowWithCompletion:(void (^_Nullable)(void))completion;
+- (void)presentWindowAnimated:(BOOL)animated withCompletion:(void (^_Nullable)(void))completion;
 
 /**
  * Make window visible
  */
-- (void)dismissWindowWithCompletion:(void (^_Nullable)(void))completion;
-
-
-/**
- * Make window visible, set alpha to 1.0 invoke completion block
- */
-- (void)presentWindowAnimated:(BOOL)animated withCompletion:(void (^_Nullable)(void))completion SFSDK_DEPRECATED(6.2, 7.0, "Use presentWindowWithCompletion instead.");
-
-/**
- * Make window visible
- */
-- (void)dismissWindowAnimated:(BOOL)animated withCompletion:(void (^_Nullable)(void))completion SFSDK_DEPRECATED(6.2, 7.0, "Use dismissWindowWithCompletion instead.");
+- (void)dismissWindowAnimated:(BOOL)animated withCompletion:(void (^_Nullable)(void))completion;
 
 /**
  * Make window invisible
@@ -146,7 +144,7 @@ typedef NS_ENUM(NSInteger, SFSDKWindowType) {
 - (UIViewController*) topViewController;
 
 /**
- * Tries to return top view controller given a root view Controller
+ * Tries to return top view controller given a rootViewcontroller
  */
 + (UIViewController*)topViewControllerWithRootViewController:(UIViewController*)viewController;
 @end

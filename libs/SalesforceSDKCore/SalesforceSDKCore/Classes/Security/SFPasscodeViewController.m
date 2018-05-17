@@ -335,12 +335,24 @@ static CGFloat      const kUseTouchIdButtonHeight           = 40.0f;
     [self layoutUseTouchIdButton];
 }
 
--(BOOL) shouldAutorotate {
-    return NO;
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    UIWindow *currentWindow = (UIWindow *) self.view.window;
+    //Refresh all views
+    for (UIView *view in currentWindow.subviews) {
+        [view removeFromSuperview];
+        view.bounds = CGRectMake(0,0,currentWindow.bounds.size.width,currentWindow.bounds.size.height);
+        view.center = CGPointMake(currentWindow.bounds.size.width/2,currentWindow.bounds.size.height/2);
+        [currentWindow addSubview:view];
+    }
 }
 
 -(UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskPortrait;
+}
+
+-(BOOL) shouldAutorotate {
+    return NO;
 }
 
 - (void)layoutPasscodeField

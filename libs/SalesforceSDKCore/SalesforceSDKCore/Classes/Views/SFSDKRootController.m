@@ -27,15 +27,25 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #import "SFSDKRootController.h"
-
+#import "SFSDKWindowManager.h"
 @interface SFSDKRootController ()
 
 @end
 
 @implementation SFSDKRootController
 
+-(BOOL)prefersStatusBarHidden {
+    UIViewController *topViewController = [SFSDKRootController topViewController:self];
+    UIStatusBarStyle statusBarStyle = UIStatusBarStyleDefault;
+    if (topViewController && topViewController!=self) {
+        statusBarStyle = [topViewController preferredStatusBarStyle];
+    }
+    return statusBarStyle;
+}
+
 -(UIStatusBarStyle)preferredStatusBarStyle
 {
+
     UIViewController *topViewController = [SFSDKRootController topViewController:self];
     UIStatusBarStyle statusBarStyle = UIStatusBarStyleDefault;
     if (topViewController && topViewController!=self) {
@@ -54,7 +64,6 @@
 }
 
 -(UIViewController *)childViewControllerForStatusBarHidden {
-    
     UIViewController *topViewController = [SFSDKRootController topViewController:self];
     if (topViewController && topViewController!=self) {
         return [topViewController childViewControllerForStatusBarHidden];
@@ -82,16 +91,7 @@
 #pragma mark - Helper class methods
 + (UIViewController *)topViewController:(SFSDKRootController *) controller
 {
-    UIViewController *topViewController = controller;
-    while (topViewController.presentedViewController != nil
-           && !topViewController.presentedViewController.isBeingDismissed) {
-        //stop if we find that an alert has been presented
-        if ([topViewController.presentedViewController isKindOfClass:[UIAlertController class]]) {
-            break;
-        }
-        topViewController = topViewController.presentedViewController;
-    }
-    return topViewController;
+    return [SFSDKWindowContainer topViewControllerWithRootViewController:controller];
 }
 
 @end

@@ -38,7 +38,7 @@
 #import "SFSDKLoginViewControllerConfig.h"
 #import "SFOAuthInfo.h"
 #import "SFSDKWindowManager.h"
-
+#import "SFSDKNavigationController.h"
 SFSDK_USE_DEPRECATED_BEGIN
 
 @interface SFLoginViewController () <SFSDKLoginHostDelegate, SFUserAccountManagerDelegate>
@@ -99,6 +99,16 @@ SFSDK_USE_DEPRECATED_END
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    UIWindow *currentWindow = (UIWindow *) self.view.window;
+    
+    //Refresh all views.
+    for (UIView *view in currentWindow.subviews) {
+        [view removeFromSuperview];
+        view.bounds = CGRectMake(0,0,currentWindow.bounds.size.width,currentWindow.bounds.size.height);
+        view.center = CGPointMake(currentWindow.bounds.size.width/2,currentWindow.bounds.size.height/2);
+        [currentWindow addSubview:view];
+    }
+    
     if (self.showNavbar) {
         [self styleNavigationBar:self.navBar];
     }
@@ -270,7 +280,9 @@ SFSDK_USE_DEPRECATED_END
 - (void)handleBackButtonAction {
    
     if (![SFUserAccountManager sharedInstance].idpEnabled) {
-        [[SFSDKWindowManager sharedManager].authWindow dismissWindow];
+        [[SFSDKWindowManager sharedManager].authWindow.viewController.presentedViewController dismissViewControllerAnimated:NO completion:^{
+            [[SFSDKWindowManager sharedManager].authWindow dismissWindow];
+        }];
     }else {
         [[SFSDKWindowManager sharedManager].authWindow.viewController dismissViewControllerAnimated:NO completion:nil];
     }
@@ -347,7 +359,7 @@ SFSDK_USE_DEPRECATED_END
 #pragma mark - Login Host
 
 - (void)showHostListView {
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.loginHostListViewController];
+    SFSDKNavigationController *navController = [[SFSDKNavigationController alloc] initWithRootViewController:self.loginHostListViewController];
     navController.modalPresentationStyle = UIModalPresentationPageSheet;
     [self presentViewController:navController animated:YES completion:nil];
 }
