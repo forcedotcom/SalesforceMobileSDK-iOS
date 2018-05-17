@@ -35,12 +35,12 @@
 @implementation SFSDKRootController
 
 -(BOOL)prefersStatusBarHidden {
+    
     UIViewController *topViewController = [SFSDKRootController topViewController:self];
-    UIStatusBarStyle statusBarStyle = UIStatusBarStyleDefault;
     if (topViewController && topViewController!=self) {
-        statusBarStyle = [topViewController preferredStatusBarStyle];
+        return [topViewController prefersStatusBarHidden];
     }
-    return statusBarStyle;
+    return NO;
 }
 
 -(UIStatusBarStyle)preferredStatusBarStyle

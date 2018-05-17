@@ -343,17 +343,6 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
         if (![activeWindow isSnapshotWindow]){
             _lastActiveWindow = activeWindow;
         }
-        
-        [window.window makeKeyAndVisible];
-        
-        [self enumerateDelegates:^(id<SFSDKWindowManagerDelegate> delegate) {
-            if ([delegate respondsToSelector:@selector(windowManager:didPresentWindow:)]){
-                [delegate windowManager:self didPresentWindow:window];
-            }
-        }];
-        if (completion)
-            completion();
-        return;
     }
     [window.window makeKeyAndVisible];
     [self enumerateDelegates:^(id<SFSDKWindowManagerDelegate> delegate) {
