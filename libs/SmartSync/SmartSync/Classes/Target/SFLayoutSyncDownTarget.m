@@ -99,8 +99,10 @@ static NSString * const kSFSyncTargetLayoutType = @"layoutType";
         errorBlock(e);
     } completeBlock:^(NSDictionary *d, NSURLResponse *rawResponse) {
         weakSelf.totalSize = 1;
+        NSMutableDictionary *record = [[NSMutableDictionary alloc] initWithDictionary:d];
+        record[kSFSyncTargetObjectType] = weakSelf.objectType;
         NSMutableArray *records = [[NSMutableArray alloc] initWithCapacity:1];
-        records[0] = d;
+        records[0] = record;
         completeBlock(records);
     }];
 }
