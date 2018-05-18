@@ -79,7 +79,7 @@ typedef NS_ENUM(NSUInteger, SFUserAccountLoginState) {
  on the server-side. This URL takes into account the
  current community if available (see `communityId`).
  */
-@property (nonatomic, copy, readonly) NSURL *apiUrl;
+@property (nonatomic, copy, readonly, nullable) NSURL *apiUrl;
 
 /** The user's email
  */
