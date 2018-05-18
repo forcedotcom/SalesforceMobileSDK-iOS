@@ -1,9 +1,9 @@
 /*
- SmartSync.h
+ SFLayoutSyncManager.m
  SmartSync
-
- Created by Bharath Hariharan on Fri May 18 15:57:19 PDT 2018.
-
+ 
+ Created by Bharath Hariharan on 5/18/18.
+ 
  Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -27,35 +27,15 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SmartSync/SFObject.h>
-#import <SmartSync/SFParentChildrenSyncDownTarget.h>
-#import <SmartSync/SFSmartSyncCacheManager.h>
-#import <SmartSync/SFRefreshSyncDownTarget.h>
-#import <SmartSync/SFObjectTypeLayout.h>
-#import <SmartSync/SFMetadataSyncDownTarget.h>
-#import <SmartSync/SFLayout.h>
-#import <SmartSync/SFSmartSyncConstants.h>
-#import <SmartSync/SFSmartSyncPersistableObject.h>
-#import <SmartSync/SFSmartSyncMetadataManager.h>
-#import <SmartSync/SFSoslSyncDownTarget.h>
-#import <SmartSync/SFChildrenInfo.h>
-#import <SmartSync/SFSyncTarget.h>
-#import <SmartSync/SFLayoutSyncManager.h>
-#import <SmartSync/SFSmartSyncNetworkUtils.h>
-#import <SmartSync/SFObjectType.h>
-#import <SmartSync/SFParentChildrenSyncHelper.h>
-#import <SmartSync/SFSmartSyncObjectUtils.h>
-#import <SmartSync/SFSyncUpTarget.h>
-#import <SmartSync/SmartSyncSDKManager.h>
-#import <SmartSync/SFSmartSyncSyncManager.h>
-#import <SmartSync/SFMruSyncDownTarget.h>
-#import <SmartSync/SFLayoutSyncDownTarget.h>
-#import <SmartSync/SFAdvancedSyncUpTarget.h>
-#import <SmartSync/SFSyncDownTarget.h>
-#import <SmartSync/SFSDKSmartSyncLogger.h>
-#import <SmartSync/SFParentChildrenSyncUpTarget.h>
-#import <SmartSync/SFParentInfo.h>
-#import <SmartSync/SFSyncState.h>
-#import <SmartSync/SFSoqlSyncDownTarget.h>
-#import <SmartSync/SFSyncOptions.h>
-#import <SmartSync/SFSDKSyncsConfig.h>
+#import "SFLayoutSyncManager.h"
+
+@interface SFLayoutSyncManager ()
+
+@end
+
+
+@implementation SFLayoutSyncManager
+
+
+@end
+
