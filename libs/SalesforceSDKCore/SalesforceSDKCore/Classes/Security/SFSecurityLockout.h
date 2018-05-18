@@ -128,7 +128,7 @@ typedef void (^SFPasscodeViewControllerPresentationBlock)(UIViewController*);
 @end
 
 @class SFOAuthCredentials;
-
+@class SFUserAccount;
 /**
  This class interacts with the inactivity timer.
  It is responsible for locking and unlocking the device by presenting the passcode modal controller when the timer expires.
@@ -174,6 +174,13 @@ typedef void (^SFPasscodeViewControllerPresentationBlock)(UIViewController*);
  be subject to that policy.
  */
 + (void)clearPasscodeState;
+
+/**
+ Resets the passcode state of the app, *if* there aren't other users with an overriding passcode
+ policy.  I.e. passcode state can only be cleared if the  user is the only user who would
+ be subject to that policy.
+ */
++ (void)clearPasscodeState:(SFUserAccount *)userLoggingOut;
 
 /** Initialize the timer
  */

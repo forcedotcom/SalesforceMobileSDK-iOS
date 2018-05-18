@@ -374,15 +374,12 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     [self deleteAccountForUser:user error:nil];
     [client cancelAuthentication:NO];
     [client revokeCredentials];
+    [SFSecurityLockout clearPasscodeState:user];
     BOOL isCurrentUser = [user isEqual:self.currentUser];
     if (isCurrentUser) {
         self.currentUser = nil;
     }
 
-    // Need to reset Passcode if no other users are around.
-    if ([[self allUserAccounts] count] < 1 ) {
-        [SFSecurityLockout clearPasscodeState];
-    }
     [SFSDKWebViewStateManager removeSession];
     
     //restore these id's inorder to enable post logout cleanup of components

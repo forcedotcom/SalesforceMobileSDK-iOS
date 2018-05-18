@@ -264,14 +264,18 @@ static BOOL _showPasscode = YES;
 + (BOOL)nonCurrentUsersHavePasscodePolicy
 {
     SFUserAccount *currentAccount = [SFUserAccountManager sharedInstance].currentUser;
+    return [self otherUsersHavePasscodePolicy:currentAccount];
+}
+
++ (BOOL)otherUsersHavePasscodePolicy:(SFUserAccount *)thisUser
+{
     for (SFUserAccount *account in [SFUserAccountManager sharedInstance].allUserAccounts) {
-        if (![account isEqual:currentAccount]) {
+        if (![account isEqual:thisUser]) {
             if (account.idData.mobileAppScreenLockTimeout > 0) {
                 return YES;
             }
         }
     }
-    
     return NO;
 }
 
@@ -281,8 +285,12 @@ static BOOL _showPasscode = YES;
     // on passcode policies across users.  So for instance, if another configured user in the app still has
     // passcode policies which apply to that account, this method will effectively do nothing.  On the other hand,
     // if the current user is the only user of the app, this will remove passcode policies for the app.
-    
-    if (![SFSecurityLockout nonCurrentUsersHavePasscodePolicy]) {
+    return [self clearPasscodeState:[SFUserAccountManager sharedInstance].currentUser];
+}
+
++ (void)clearPasscodeState:(SFUserAccount *)userLoggingOut {
+   
+    if (![SFSecurityLockout otherUsersHavePasscodePolicy:userLoggingOut]) {
         [SFSecurityLockout clearAllPasscodeState];
     }
 }
