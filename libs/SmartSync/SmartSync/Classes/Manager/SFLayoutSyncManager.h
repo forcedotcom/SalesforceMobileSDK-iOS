@@ -108,6 +108,6 @@ typedef void (^SFLayoutSyncCompletionBlock) (NSString *objectType, SFLayout *lay
  * @param mode Fetch mode. See SFSDKFetchMode for available modes.
  * @param completionBlock Layout sync completion block.
  */
-- (void)fetchLayoutForObject:(nonnull NSString *)objectType layoutType:(nullable NSString *)layoutType mode:(SFSDKFetchMode)mode completionBlock:(nonnull SFLayoutSyncCompletionBlock *)completionBlock;
+- (void)fetchLayoutForObject:(nonnull NSString *)objectType layoutType:(nullable NSString *)layoutType mode:(SFSDKFetchMode)mode completionBlock:(nonnull SFLayoutSyncCompletionBlock)completionBlock;
 
 @end

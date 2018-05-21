@@ -28,7 +28,9 @@
  */
 
 #import "SFLayoutSyncManager.h"
+#import "SFLayoutSyncDownTarget.h"
 #import <SmartStore/SFSoupIndex.h>
+#import <SmartStore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFSDKAppFeatureMarkers.h>
 
@@ -102,8 +104,18 @@ static NSArray<SFSoupIndex *> *indexSpecs = nil;
     }
 }
 
-- (void)fetchLayoutForObject:(NSString *)objectType layoutType:(NSString *)layoutType mode:(SFSDKFetchMode)mode completionBlock:(SFLayoutSyncCompletionBlock *)completionBlock {
-    
+- (void)fetchLayoutForObject:(NSString *)objectType layoutType:(NSString *)layoutType mode:(SFSDKFetchMode)mode completionBlock:(SFLayoutSyncCompletionBlock)completionBlock {
+    switch (mode) {
+        case SFSDKFetchModeCacheOnly:
+            [self fetchFromCache:objectType layoutType:layoutType completionBlock:completionBlock fallbackOnServer:NO];
+            break;
+        case SFSDKFetchModeCacheFirst:
+            [self fetchFromCache:objectType layoutType:layoutType completionBlock:completionBlock fallbackOnServer:YES];
+            break;
+        case SFSDKFetchModeServerFirst:
+            [self fetchFromServer:objectType layoutType:layoutType completionBlock:completionBlock];
+            break;
+    }
 }
 
 - (instancetype)init:(SFSmartSyncSyncManager *)syncManager {
@@ -114,6 +126,31 @@ static NSArray<SFSoupIndex *> *indexSpecs = nil;
         [self initializeSoup];
     }
     return self;
+}
+
+- (void)fetchFromServer:(NSString *)objectType layoutType:(NSString *)layoutType completionBlock:(SFLayoutSyncCompletionBlock)completionBlock {
+    SFLayoutSyncDownTarget *target = [SFLayoutSyncDownTarget newSyncTarget:objectType layoutType:layoutType];
+    __weak typeof (self) weakSelf = self;
+    [self.syncManager syncDownWithTarget:target soupName:kSoupName updateBlock:^(SFSyncState *sync) {
+        __strong typeof (weakSelf) strongSelf = weakSelf;
+        if (sync.status == SFSyncStateStatusDone) {
+            [strongSelf fetchFromCache:objectType layoutType:layoutType completionBlock:completionBlock fallbackOnServer:NO];
+        }
+    }];
+}
+
+- (void)fetchFromCache:(NSString *)objectType layoutType:(NSString *)layoutType completionBlock:(SFLayoutSyncCompletionBlock)completionBlock fallbackOnServer:(BOOL)fallbackOnServer {
+    SFQuerySpec *querySpec = [SFQuerySpec newSmartQuerySpec:[NSString stringWithFormat:kQuery, kSoupName, kSoupName, kSoupName, objectType, kSoupName, layoutType] withPageSize:1];
+    NSArray *results = [self.smartStore queryWithQuerySpec:querySpec pageIndex:0 error:nil];
+    if (results) {
+        if (fallbackOnServer) {
+            [self fetchFromServer:objectType layoutType:layoutType completionBlock:completionBlock];
+        } else {
+            completionBlock(objectType, nil);
+        }
+    } else {
+        completionBlock(objectType, [SFLayout fromJSON:results[0][0]]);
+    }
 }
 
 - (void)initializeSoup {
