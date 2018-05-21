@@ -28,14 +28,98 @@
  */
 
 #import "SFLayoutSyncManager.h"
+#import <SmartStore/SFSoupIndex.h>
+#import <SalesforceSDKCore/SFUserAccountManager.h>
+#import <SalesforceSDKCore/SFSDKAppFeatureMarkers.h>
+
+static NSString * const kSoupName = @"sfdcLayouts";
+static NSString * const kSFAppFeatureLayoutSync = @"LY";
+static NSString * const kQuery = @"SELECT {%@:_soup} FROM {%@} WHERE {%@:sobjectType} = '%@' AND {%@:layoutType} = '%@'";
 
 @interface SFLayoutSyncManager ()
 
-@end
+@property (nonatomic, strong, readwrite) SFSmartStore *smartStore;
+@property (nonatomic, strong, readwrite) SFSmartSyncSyncManager *syncManager;
 
+@end
 
 @implementation SFLayoutSyncManager
 
+static NSMutableDictionary *syncMgrList = nil;
+static NSArray<SFSoupIndex *> *indexSpecs = nil;
+
++ (instancetype)sharedInstance {
+    return [SFLayoutSyncManager sharedInstance:nil];
+}
+
++ (instancetype)sharedInstance:(SFUserAccount *)user {
+    return [SFLayoutSyncManager sharedInstance:user smartStore:nil];
+}
+
++ (instancetype)sharedInstance:(SFUserAccount *)user smartStore:(NSString *)smartStore {
+    if (!user) {
+        user = [SFUserAccountManager sharedInstance].currentUser;
+    }
+    SFSmartSyncSyncManager *syncManager = [SFSmartSyncSyncManager sharedInstanceForUser:user storeName:smartStore];
+    @synchronized ([SFLayoutSyncManager class]) {
+        NSString *keyPrefix = user == nil ? SFKeyForUserAndScope(nil, SFUserAccountScopeGlobal) : SFKeyForUserAndScope(user, SFUserAccountScopeCommunity);
+        NSString *key = [NSString stringWithFormat:@"%@-%@", keyPrefix, syncManager.store.storeName];
+        id syncMgr = [syncMgrList objectForKey:key];
+        if (syncMgr == nil) {
+            syncMgr = [[self alloc] init:syncManager];
+            syncMgrList[key] = syncMgr;
+        }
+        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureLayoutSync];
+        return syncMgr;
+    }
+}
+
++ (void)reset {
+    @synchronized (([SFLayoutSyncManager class])) {
+        [syncMgrList removeAllObjects];
+    }
+}
+
++ (void)reset:(SFUserAccount *)user {
+    @synchronized([SFLayoutSyncManager class]) {
+        if (user) {
+            NSString *matchingKey = SFKeyForUserAndScope(user, SFUserAccountScopeCommunity);
+            NSArray<NSString *> *keys = syncMgrList.allKeys;
+            for (NSString *key in keys) {
+                if ([key hasPrefix:matchingKey]) {
+                    [syncMgrList removeObjectForKey:key];
+                }
+            }
+        }
+    }
+}
+
++ (void)initialize {
+    if (self == [SFLayoutSyncManager class]) {
+        syncMgrList = [NSMutableDictionary new];
+        indexSpecs = [NSArray arrayWithObjects:[[SFSoupIndex alloc] initWithPath:@"sobjectType" indexType:kSoupIndexTypeJSON1 columnName:@"sobjectType"],
+                       [[SFSoupIndex alloc] initWithPath:@"layoutType" indexType:kSoupIndexTypeJSON1 columnName:@"layoutType"], nil];
+    }
+}
+
+- (void)fetchLayoutForObject:(NSString *)objectType layoutType:(NSString *)layoutType mode:(SFSDKFetchMode)mode completionBlock:(SFLayoutSyncCompletionBlock *)completionBlock {
+    
+}
+
+- (instancetype)init:(SFSmartSyncSyncManager *)syncManager {
+    self = [super init];
+    if (self) {
+        self.syncManager = syncManager;
+        self.smartStore = syncManager.store;
+        [self initializeSoup];
+    }
+    return self;
+}
+
+- (void)initializeSoup {
+    if (![self.smartStore soupExists:kSoupName]) {
+        [self.smartStore registerSoup:kSoupName withIndexSpecs:indexSpecs error:nil];
+    }
+}
 
 @end
-

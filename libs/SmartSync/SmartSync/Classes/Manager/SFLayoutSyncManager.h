@@ -27,16 +27,87 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+#import <SmartStore/SFSmartStore.h>
+#import "SFSmartSyncSyncManager.h"
+#import "SFLayout.h"
 
 /**
- * Provides an easy way to fetch layout data using LayoutSyncDownTarget.
+ * Enum for available data fetch modes.
+ *
+ * SFSDKFetchModeCacheOnly - Fetches data from the cache and returns null if no data is available.
+ * SFSDKFetchModeCacheFirst - Fetches data from the cache and falls back on the server if no data is available.
+ * SFSDKFetchModeServerFirst - Fetches data from the server and falls back on the cache if the server doesn't
+ * return data. The data fetched from the server is automatically cached.
+ */
+typedef NS_ENUM(NSInteger, SFSDKFetchMode) {
+    SFSDKFetchModeCacheOnly = 0,
+    SFSDKFetchModeCacheFirst,
+    SFSDKFetchModeServerFirst
+};
+
+/**
+ * Completion block triggered when layout sync completes.
+ *
+ * @param objectType Object type.
+ * @param layout Layout.
+ */
+typedef void (^SFLayoutSyncCompletionBlock) (NSString *objectType, SFLayout *layout);
+
+/**
+ * Provides an easy way to fetch layout data using SFLayoutSyncDownTarget.
  * This class handles creating a soup, storing synched data and reading it into
  * a meaningful data structure, i.e. Layout.
  */
 @interface SFLayoutSyncManager : NSObject
 
+@property (nonatomic, strong, readonly, nonnull) SFSmartStore *smartStore;
+@property (nonatomic, strong, readonly, nonnull) SFSmartSyncSyncManager *syncManager;
 
+/**
+ * Returns the instance of this class associated with current user.
+ *
+ * @return Instance of this class.
+ */
++ (nonnull instancetype)sharedInstance;
 
+/**
+ * Returns the instance of this class associated with this user account.
+ *
+ * @param user User account.
+ * @return Instance of this class.
+ */
++ (nonnull instancetype)sharedInstance:(nullable SFUserAccount *)user;
+
+/**
+ * Returns the instance of this class associated with this user and SmartStore.
+ *
+ * @param user User account. Pass null to use current user.
+ * @param smartStore SmartStore name. Pass nil to use current user default SmartStore.
+ * @return Instance of this class.
+ */
++ (nonnull instancetype)sharedInstance:(nullable SFUserAccount *)user smartStore:(nullable NSString *)smartStore;
+
+/**
+ * Resets all the layout sync managers.
+ */
++ (void)reset;
+
+/**
+ * Resets the layout sync manager for this user account.
+ *
+ * @param user User account.
+ */
++ (void)reset:(nullable SFUserAccount *)user;
+
+/**
+ * Fetches layout data for the specified object type and layout type using the specified
+ * mode and triggers the supplied completion block once complete.
+ *
+ * @param objectType Object type.
+ * @param layoutType Layout type. Defaults to "Full" if nil is passed in.
+ * @param mode Fetch mode. See SFSDKFetchMode for available modes.
+ * @param completionBlock Layout sync completion block.
+ */
+- (void)fetchLayoutForObject:(nonnull NSString *)objectType layoutType:(nullable NSString *)layoutType mode:(SFSDKFetchMode)mode completionBlock:(nonnull SFLayoutSyncCompletionBlock *)completionBlock;
 
 @end
