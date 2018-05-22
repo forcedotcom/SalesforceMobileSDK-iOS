@@ -648,15 +648,15 @@
 			children = (
 				828E0E511AB3987C004E0AF2 /* Targets */,
 				4F9079821A82EE5100E32659 /* SFSyncUpdateCallbackQueue.h */,
-				CECDF84319ABE009007A29E5 /* MetadataManagerTests.m */,
-				CEAAAE5F195911E600CBBFE9 /* Supporting Files */,
-				4F9732D51A816C2D006E2A86 /* SyncManagerTests.m */,
 				4F9079801A82EDF600E32659 /* SFSyncUpdateCallbackQueue.m */,
-				4F307E3E1EC273780040CFC4 /* SyncManagerTestCase.m */,
+				CECDF84319ABE009007A29E5 /* MetadataManagerTests.m */,
+				4F9732D51A816C2D006E2A86 /* SyncManagerTests.m */,
 				4F307E401EC273AB0040CFC4 /* SyncManagerTestCase.h */,
+				4F307E3E1EC273780040CFC4 /* SyncManagerTestCase.m */,
 				4F307E411EC2750C0040CFC4 /* ParentChildrenSyncTests.m */,
 				4FCA4AE71FBE7D4E00F081B3 /* SFSDKSyncsConfigTests.h */,
 				4FCA4AE81FBE7D6200F081B3 /* SFSDKSyncsConfigTests.m */,
+				CEAAAE5F195911E600CBBFE9 /* Supporting Files */,
 			);
 			path = SmartSyncTests;
 			sourceTree = "<group>";
