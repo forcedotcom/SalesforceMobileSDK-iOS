@@ -27,6 +27,7 @@
 #import "SFSmartSyncNetworkUtils.h"
 #import "SFSmartSyncSyncManager.h"
 #import "SFSmartSyncObjectUtils.h"
+#import "SFSyncTarget+Internal.h"
 #import <SalesforceSDKCore/SFJsonUtils.h>
 #import <SmartStore/SFSmartStore.h>
 
@@ -53,6 +54,7 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
 @interface  SFSyncUpTarget ()
 @property (nonatomic, strong) NSArray*  createFieldlist;
 @property (nonatomic, strong) NSArray*  updateFieldlist;
+@property (nonatomic, strong) NSString* lastError;
 @end
 
 @implementation SFSyncUpTarget
@@ -292,6 +294,31 @@ if ((localModDate.timestamp != nil && remoteModDate.timestamp != nil
         return true;
     }
     return false;
+}
+
+- (void) saveRecordToLocalStoreWithLastError:(SFSmartSyncSyncManager*)syncManager
+                                    soupName:(NSString*) soupName
+                                      record:(NSDictionary*) record {
+    [self saveRecordToLocalStoreWithLastError:syncManager
+                                     soupName:soupName
+                                       record:record
+                                    lastError:self.lastError];
+    self.lastError = nil;
+}
+
+- (void) saveRecordToLocalStoreWithLastError:(SFSmartSyncSyncManager*)syncManager
+                                    soupName:(NSString*) soupName
+                                      record:(NSDictionary*) record
+                                   lastError:(NSString*) lastError {
+    if (lastError) {
+        [self saveInLocalStore:syncManager
+                      soupName:soupName
+                       records:@[record]
+                   idFieldName:self.idFieldName
+                        syncId:nil
+                     lastError:lastError
+                    cleanFirst:NO];
+    }
 }
 
 @end

@@ -283,7 +283,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
 
     // Now calling saveRecordsToLocalStore
     SFParentChildrenSyncDownTarget * target = [self getAccountContactsSyncDownTarget];
-    [target saveRecordsToLocalStore:self.syncManager soupName:ACCOUNTS_SOUP records:records syncId:syncId];
+    [target cleanAndSaveRecordsToLocalStore:self.syncManager soupName:ACCOUNTS_SOUP records:records syncId:syncId];
 
     // Checking accounts and contacts soup
     // Making sure local fields are populated

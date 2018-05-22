@@ -108,10 +108,10 @@ NSString * const kSFParentChildrenRelationshipLookup = @"LOOKUP";
     }
 
     // Saving parents
-    [target cleanAndSaveInSmartStore:syncManager.store soupName:parentInfo.soupName records:parentRecords idFieldName:parentInfo.idFieldName syncId:syncId];
-
+    [target saveInLocalStore:syncManager soupName:parentInfo.soupName records:parentRecords idFieldName:parentInfo.idFieldName syncId:syncId lastError:nil cleanFirst:YES];
+    
     // Saving children
-    [target cleanAndSaveInSmartStore:syncManager.store soupName:childrenInfo.soupName records:childrenRecords idFieldName:childrenInfo.idFieldName syncId:syncId];
+    [target saveInLocalStore:syncManager soupName:childrenInfo.soupName records:childrenRecords idFieldName:childrenInfo.idFieldName syncId:syncId lastError:nil cleanFirst:YES];
 }
 
 + (NSArray<NSMutableDictionary*> *)getMutableChildrenFromLocalStore:(SFSmartStore *)store parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo parent:(NSDictionary *)parent {

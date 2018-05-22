@@ -356,7 +356,7 @@ static NSMutableDictionary *syncMgrList = nil;
             NSArray* recordsToSave = idsToSkip && idsToSkip.count > 0 ? [strongSelf  removeWithIds:records idsToSkip:idsToSkip idField:target.idFieldName] : records;
 
             // Save to smartstore.
-            [target saveRecordsToLocalStore:strongSelf  soupName:soupName records:recordsToSave syncId:syncId];
+            [target cleanAndSaveRecordsToLocalStore:strongSelf soupName:soupName records:recordsToSave syncId:syncId];
             countFetched += [records count];
             progress = 100*countFetched / totalSize;
 
