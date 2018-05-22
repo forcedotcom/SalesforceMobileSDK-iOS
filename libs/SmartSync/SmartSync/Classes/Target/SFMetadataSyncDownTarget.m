@@ -91,7 +91,7 @@ static NSString * const kSFSyncTargetObjectType = @"sobjectType";
     } completeBlock:^(NSDictionary *d, NSURLResponse *rawResponse) {
         weakSelf.totalSize = 1;
         NSMutableDictionary *record = [[NSMutableDictionary alloc] initWithDictionary:d];
-        record[kId] = [NSString stringWithFormat:kIDFieldValue, weakSelf.objectType];
+        record[kId] = weakSelf.objectType;
         NSMutableArray *records = [[NSMutableArray alloc] initWithCapacity:1];
         records[0] = record;
         completeBlock(records);
