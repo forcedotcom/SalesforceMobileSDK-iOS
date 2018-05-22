@@ -54,6 +54,9 @@ static NSString * const kAccount = @"Account";
     [super tearDown];
 }
 
+/**
+ * Test for fetching layout in SFSDKFetchModeCacheOnly mode.
+ */
 - (void)testFetchLayoutInCacheOnlyMode {
     XCTestExpectation *fetchLayoutServerFirst = [self expectationWithDescription:@"fetchLayoutServerFirst"];
     [self.layoutSyncManager fetchLayoutForObject:kAccount layoutType:kCompact mode:SFSDKFetchModeServerFirst completionBlock:^(NSString *objectType, SFLayout *layout) {
@@ -72,6 +75,9 @@ static NSString * const kAccount = @"Account";
     [self validateResult:objType layout:layoutData];
 }
 
+/**
+ * Test for fetching layout in SFSDKFetchModeCacheFirst mode with a hydrated cache.
+ */
 - (void)testFetchLayoutInCacheFirstModeWithCacheData {
     XCTestExpectation *fetchLayoutServerFirst = [self expectationWithDescription:@"fetchLayoutServerFirst"];
     [self.layoutSyncManager fetchLayoutForObject:kAccount layoutType:kCompact mode:SFSDKFetchModeServerFirst completionBlock:^(NSString *objectType, SFLayout *layout) {
@@ -90,6 +96,9 @@ static NSString * const kAccount = @"Account";
     [self validateResult:objType layout:layoutData];
 }
 
+/**
+ * Test for fetching layout in SFSDKFetchModeCacheFirst mode with an empty cache.
+ */
 - (void)testFetchLayoutInCacheFirstModeWithoutCacheData {
     __block NSString *objType = nil;
     __block SFLayout *layoutData = nil;
@@ -103,6 +112,9 @@ static NSString * const kAccount = @"Account";
     [self validateResult:objType layout:layoutData];
 }
 
+/**
+ * Test for fetching layout in SFSDKFetchModeServerFirst mode.
+ */
 - (void)testFetchLayoutInServerFirstMode {
     __block NSString *objType = nil;
     __block SFLayout *layoutData = nil;
