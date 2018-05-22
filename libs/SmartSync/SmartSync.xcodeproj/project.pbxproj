@@ -201,6 +201,7 @@
 		CEAAAE58195911E600CBBFE9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
 		CEAAAE63195911E600CBBFE9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEAAAE61195911E600CBBFE9 /* InfoPlist.strings */; };
 		CECDF84419ABE009007A29E5 /* MetadataManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CECDF84319ABE009007A29E5 /* MetadataManagerTests.m */; };
+		CEFB4B3020B4951100D70F2B /* SFLayoutSyncManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFB4B2F20B4951000D70F2B /* SFLayoutSyncManagerTests.m */; };
 		FDCEC0C25636E0D2262599C8 /* SmartSyncSDKManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FDCECA332FB12607AF78D737 /* SmartSyncSDKManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FDCEC3CBF6FA262ACF305285 /* SmartSyncSDKManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCEC1FBF745182967AD6BA9 /* SmartSyncSDKManager.m */; };
 		FDCEC5B586778F6C6CD11059 /* SmartSyncSDKManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCEC1FBF745182967AD6BA9 /* SmartSyncSDKManager.m */; };
@@ -411,6 +412,7 @@
 		CEF50A81196B3EB60076264C /* SFObjectTypeLayout+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFObjectTypeLayout+Internal.h"; sourceTree = "<group>"; };
 		CEF50A82196B3EB60076264C /* SFObjectTypeLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFObjectTypeLayout.h; sourceTree = "<group>"; };
 		CEF50A83196B3EB60076264C /* SFObjectTypeLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFObjectTypeLayout.m; sourceTree = "<group>"; };
+		CEFB4B2F20B4951000D70F2B /* SFLayoutSyncManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFLayoutSyncManagerTests.m; sourceTree = "<group>"; };
 		FDCEC1FBF745182967AD6BA9 /* SmartSyncSDKManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SmartSyncSDKManager.m; path = Manager/SmartSyncSDKManager.m; sourceTree = "<group>"; };
 		FDCECA332FB12607AF78D737 /* SmartSyncSDKManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SmartSyncSDKManager.h; path = Manager/SmartSyncSDKManager.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -649,6 +651,7 @@
 				828E0E511AB3987C004E0AF2 /* Targets */,
 				4F9079821A82EE5100E32659 /* SFSyncUpdateCallbackQueue.h */,
 				4F9079801A82EDF600E32659 /* SFSyncUpdateCallbackQueue.m */,
+				CEFB4B2F20B4951000D70F2B /* SFLayoutSyncManagerTests.m */,
 				CECDF84319ABE009007A29E5 /* MetadataManagerTests.m */,
 				4F9732D51A816C2D006E2A86 /* SyncManagerTests.m */,
 				4F307E401EC273AB0040CFC4 /* SyncManagerTestCase.h */,
@@ -1169,6 +1172,7 @@
 			files = (
 				828E0E541AB398AA004E0AF2 /* TestSyncUpTarget.m in Sources */,
 				4F9732D61A816C2D006E2A86 /* SyncManagerTests.m in Sources */,
+				CEFB4B3020B4951100D70F2B /* SFLayoutSyncManagerTests.m in Sources */,
 				CECDF84419ABE009007A29E5 /* MetadataManagerTests.m in Sources */,
 				4F307E421EC2750C0040CFC4 /* ParentChildrenSyncTests.m in Sources */,
 				4F307E3F1EC273780040CFC4 /* SyncManagerTestCase.m in Sources */,
