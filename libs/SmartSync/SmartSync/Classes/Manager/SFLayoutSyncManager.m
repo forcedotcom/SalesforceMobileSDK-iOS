@@ -99,7 +99,7 @@ static NSArray<SFSoupIndex *> *indexSpecs = nil;
 + (void)initialize {
     if (self == [SFLayoutSyncManager class]) {
         syncMgrList = [NSMutableDictionary new];
-        indexSpecs = [NSArray arrayWithObjects:[[SFSoupIndex alloc] initWithPath:@"Id"], nil];
+        indexSpecs = [NSArray arrayWithObjects:[[SFSoupIndex alloc] initWithPath:@"Id" indexType:kSoupIndexTypeJSON1 columnName:@"Id"], nil];
     }
 }
 
