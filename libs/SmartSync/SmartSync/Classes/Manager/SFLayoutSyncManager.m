@@ -141,7 +141,7 @@ static NSArray<SFSoupIndex *> *indexSpecs = nil;
 - (void)fetchFromCache:(NSString *)objectType layoutType:(NSString *)layoutType completionBlock:(SFLayoutSyncCompletionBlock)completionBlock fallbackOnServer:(BOOL)fallbackOnServer {
     SFQuerySpec *querySpec = [SFQuerySpec newSmartQuerySpec:[NSString stringWithFormat:kQuery, kSoupName, kSoupName, kSoupName, objectType, layoutType] withPageSize:1];
     NSArray *results = [self.smartStore queryWithQuerySpec:querySpec pageIndex:0 error:nil];
-    if (results) {
+    if (!results) {
         if (fallbackOnServer) {
             [self fetchFromServer:objectType layoutType:layoutType completionBlock:completionBlock];
         } else {
