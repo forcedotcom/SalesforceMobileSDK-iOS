@@ -411,6 +411,8 @@ static NSException *authException = nil;
    expectedLocallyUpdated:(bool)expectedLocallyUpdated
    expectedLocallyDeleted:(bool)expectedLocallyDeleted {
 
+    BOOL expectedDirty = expectedLocallyCreated||expectedLocallyUpdated||expectedLocallyDeleted;
+
     // Ids clause
     NSString* idsClause = [self buildInClause:ids];
 
@@ -422,13 +424,18 @@ static NSException *authException = nil;
     XCTAssertEqual(ids.count, rows.count);
     for (NSArray* row in rows) {
         NSDictionary *recordFromDb = row[0];
-        XCTAssertEqualObjects(@(expectedLocallyCreated||expectedLocallyUpdated||expectedLocallyDeleted), recordFromDb[kSyncTargetLocal]);
+        XCTAssertEqualObjects(@(expectedDirty), recordFromDb[kSyncTargetLocal]);
         XCTAssertEqualObjects(@(expectedLocallyCreated), recordFromDb[kSyncTargetLocallyCreated]);
         XCTAssertEqualObjects(@(expectedLocallyUpdated), recordFromDb[kSyncTargetLocallyUpdated]);
         XCTAssertEqualObjects(@(expectedLocallyDeleted), recordFromDb[kSyncTargetLocallyDeleted]);
         NSString* id = recordFromDb[ID];
         bool hasLocalIdPrefix = [id hasPrefix:LOCAL_ID_PREFIX];
         XCTAssertEqual(expectedLocallyCreated, hasLocalIdPrefix);
+
+        // Last error field should be empty for a clean record
+        if (!expectedDirty) {
+            XCTAssertTrue([recordFromDb[kSyncTargetLastError] length] == 0, "Last error should be empty");
+        }
     }
 }
 
