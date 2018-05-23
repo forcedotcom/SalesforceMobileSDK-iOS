@@ -36,7 +36,7 @@
 
 static NSString * const kSoupName = @"sfdcLayouts";
 static NSString * const kSFAppFeatureLayoutSync = @"LY";
-static NSString * const kQuery = @"SELECT {%@:_soup} FROM {%@} WHERE {%@:sobjectType} = '%@' AND {%@:layoutType} = '%@'";
+static NSString * const kQuery = @"SELECT {%@:_soup} FROM {%@} WHERE {%@:Id} = '%@-%@'";
 
 @interface SFLayoutSyncManager ()
 
@@ -99,8 +99,7 @@ static NSArray<SFSoupIndex *> *indexSpecs = nil;
 + (void)initialize {
     if (self == [SFLayoutSyncManager class]) {
         syncMgrList = [NSMutableDictionary new];
-        indexSpecs = [NSArray arrayWithObjects:[[SFSoupIndex alloc] initWithPath:@"sobjectType" indexType:kSoupIndexTypeJSON1 columnName:@"sobjectType"],
-                       [[SFSoupIndex alloc] initWithPath:@"layoutType" indexType:kSoupIndexTypeJSON1 columnName:@"layoutType"], nil];
+        indexSpecs = [NSArray arrayWithObjects:[[SFSoupIndex alloc] initWithPath:@"Id"], nil];
     }
 }
 
@@ -140,7 +139,7 @@ static NSArray<SFSoupIndex *> *indexSpecs = nil;
 }
 
 - (void)fetchFromCache:(NSString *)objectType layoutType:(NSString *)layoutType completionBlock:(SFLayoutSyncCompletionBlock)completionBlock fallbackOnServer:(BOOL)fallbackOnServer {
-    SFQuerySpec *querySpec = [SFQuerySpec newSmartQuerySpec:[NSString stringWithFormat:kQuery, kSoupName, kSoupName, kSoupName, objectType, kSoupName, layoutType] withPageSize:1];
+    SFQuerySpec *querySpec = [SFQuerySpec newSmartQuerySpec:[NSString stringWithFormat:kQuery, kSoupName, kSoupName, kSoupName, objectType, layoutType] withPageSize:1];
     NSArray *results = [self.smartStore queryWithQuerySpec:querySpec pageIndex:0 error:nil];
     if (results) {
         if (fallbackOnServer) {
