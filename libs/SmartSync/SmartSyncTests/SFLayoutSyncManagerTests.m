@@ -160,14 +160,14 @@ static NSString * const kQuery = @"SELECT {%@:_soup} FROM {%@} WHERE {%@:Id} = '
 
 - (void)validateResult:(NSString *)objectType layout:(SFLayout *)layout {
     XCTAssertEqual(objectType, kAccount, @"Object types should match");
-    XCTAssertNotNil(layout, @"Layout data should not be nil");
-    XCTAssertEqual(layout.layoutType, kCompact, @"Layout types should match");
-    XCTAssertNotNil(layout.rawData, @"Layout raw data should not be nil");
-    XCTAssertNotNil(layout.sections, @"Layout sections should not be nil");
+    XCTAssertNotEqualObjects(layout, nil, @"Layout data should not be nil");
+    XCTAssertEqualObjects(layout.layoutType, kCompact, @"Layout types should match");
+    XCTAssertNotEqualObjects(layout.rawData, nil, @"Layout raw data should not be nil");
+    XCTAssertNotEqualObjects(layout.sections, nil, @"Layout sections should not be nil");
     XCTAssertTrue(layout.sections.count > 0, @"Number of layout sections should be 1 or more");
-    XCTAssertNotNil(layout.sections[0].layoutRows, @"Layout rows for a section should not be nil");
+    XCTAssertNotEqualObjects(layout.sections[0].layoutRows, nil, @"Layout rows for a section should not be nil");
     XCTAssertTrue(layout.sections[0].layoutRows.count > 0, @"Number of layout rows for a section should be 1 or more");
-    XCTAssertNotNil(layout.sections[0].layoutRows[0].layoutItems, @"Layout items for a row should not be nil");
+    XCTAssertNotEqualObjects(layout.sections[0].layoutRows[0].layoutItems, nil, @"Layout items for a row should not be nil");
     XCTAssertTrue(layout.sections[0].layoutRows[0].layoutItems.count > 0, @"Number of layout items for a row should be 1 or more");
 }
 
