@@ -226,6 +226,7 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
 {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCreateWithObjectType:objectType fields:fields];
     [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+        self.lastError = e.description;
         failBlock(e);
     } completeBlock:^(NSDictionary* d, NSURLResponse *rawResponse) {
         completionBlock(d);
@@ -240,6 +241,7 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
 {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForUpdateWithObjectType:objectType objectId:objectId fields:fields];
     [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+        self.lastError = e.description;
         failBlock(e);
     } completeBlock:^(NSDictionary* d, NSURLResponse *rawResponse) {
         completionBlock(d);
@@ -253,6 +255,7 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
 {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:objectType objectId:objectId];
     [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+        self.lastError = e.description;
         failBlock(e);
     } completeBlock:^(NSDictionary* d, NSURLResponse *rawResponse) {
         completionBlock(d);

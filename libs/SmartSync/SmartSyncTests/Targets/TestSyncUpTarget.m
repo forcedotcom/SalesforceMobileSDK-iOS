@@ -146,7 +146,7 @@ static NSString * const kTestSyncUpSendSyncUpErrorKey = @"sendSyncUpErrorKey";
         if (self.sendSyncUpError) {
             if (failBlock != NULL) {
                 NSError *syncUpError = [NSError errorWithDomain:kTestSyncUpTargetErrorDomain
-                                                           code:556
+                                                           code:kCFURLErrorCannotConnectToHost // only network error cause the sync to fail
                                                        userInfo:@{ NSLocalizedDescriptionKey: @"RemoteSyncUpError" }];
                 failBlock(syncUpError);
             }

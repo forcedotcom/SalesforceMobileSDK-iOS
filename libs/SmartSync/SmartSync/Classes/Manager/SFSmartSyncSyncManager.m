@@ -29,6 +29,7 @@
 #import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
 #import "SFAdvancedSyncUpTarget.h"
 #import "SFSmartSyncConstants.h"
+#import "SFSyncUpTarget+Internal.h"
 
 // Unchanged
 NSInteger const kSyncManagerUnchanged = -1;
@@ -629,21 +630,40 @@ static NSMutableDictionary *syncMgrList = nil;
         record[fieldName] = d[kCreatedId];
         completeBlockUpdate(d);
     };
+
+    // Create failure handler
+    SFSyncUpTargetErrorBlock failBlockCreate = ^ (NSError* err){
+        if ([SFRestRequest isNetworkError:err]) {
+            failBlock(err);
+        }
+        else {
+            [target saveRecordToLocalStoreWithLastError:self soupName:soupName record:record];
+
+            // Next
+            nextBlock();
+        }
+    };
     
     // Update failure handler
     SFSyncUpTargetErrorBlock failBlockUpdate = ^ (NSError* err){
         // Handling remotely deleted records
         if (err.code == 404) {
             if (mergeMode == SFSyncStateMergeModeOverwrite) {
-                [target createOnServer:weakSelf record:record fieldlist:sync.options.fieldlist completionBlock:completeBlockCreate failBlock:failBlock];
+                [target createOnServer:weakSelf record:record fieldlist:sync.options.fieldlist completionBlock:completeBlockCreate failBlock:failBlockCreate];
             }
             else {
                 // Next
                 nextBlock();
             }
         }
-        else {
+        else if ([SFRestRequest isNetworkError:err]) {
             failBlock(err);
+        }
+        else {
+            [target saveRecordToLocalStoreWithLastError:self soupName:soupName record:record];
+
+            // Next
+            nextBlock();
         }
     };
     
@@ -653,14 +673,20 @@ static NSMutableDictionary *syncMgrList = nil;
         if (err.code == 404) {
             completeBlockDelete(nil);
         }
-        else {
+        else if ([SFRestRequest isNetworkError:err]) {
             failBlock(err);
+        }
+        else {
+            [target saveRecordToLocalStoreWithLastError:self soupName:soupName record:record];
+
+            // Next
+            nextBlock();
         }
     };
     
     switch(action) {
         case SFSyncUpTargetActionCreate:
-            [target createOnServer:self record:record fieldlist:sync.options.fieldlist completionBlock:completeBlockCreate failBlock:failBlock];
+            [target createOnServer:self record:record fieldlist:sync.options.fieldlist completionBlock:completeBlockCreate failBlock:failBlockCreate];
             break;
         case SFSyncUpTargetActionUpdate:
             [target updateOnServer:self record:record fieldlist:sync.options.fieldlist completionBlock:completeBlockUpdate failBlock:failBlockUpdate];
