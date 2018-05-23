@@ -30,9 +30,12 @@
 #import "SyncManagerTestCase.h"
 #import "SFLayoutSyncManager.h"
 #import "SFSmartSyncSyncManager.h"
+#import <SmartStore/SFQuerySpec.h>
 
 static NSString * const kCompact = @"Compact";
 static NSString * const kAccount = @"Account";
+static NSString * const kSoupName = @"sfdcLayouts";
+static NSString * const kQuery = @"SELECT {%@:_soup} FROM {%@} WHERE {%@:Id} = '%@-%@'";
 
 @interface SFLayoutSyncManagerTests : SyncManagerTestCase
 
@@ -126,6 +129,33 @@ static NSString * const kAccount = @"Account";
     }];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
     [self validateResult:objType layout:layoutData];
+}
+
+/**
+ * Test for fetching layout multiple times and ensuring only 1 row is created.
+ */
+- (void)testFetchLayoutMultipleTimes {
+    __block NSString *objType = nil;
+    __block SFLayout *layoutData = nil;
+    XCTestExpectation *fetchLayoutOne = [self expectationWithDescription:@"fetchLayoutOne"];
+    [self.layoutSyncManager fetchLayoutForObject:kAccount layoutType:kCompact mode:SFSDKFetchModeServerFirst completionBlock:^(NSString *objectType, SFLayout *layout) {
+        objType = objectType;
+        layoutData = layout;
+        [fetchLayoutOne fulfill];
+    }];
+    [self waitForExpectationsWithTimeout:30.0 handler:nil];
+    [self validateResult:objType layout:layoutData];
+    XCTestExpectation *fetchLayoutTwo = [self expectationWithDescription:@"fetchLayoutTwo"];
+    [self.layoutSyncManager fetchLayoutForObject:kAccount layoutType:kCompact mode:SFSDKFetchModeServerFirst completionBlock:^(NSString *objectType, SFLayout *layout) {
+        objType = objectType;
+        layoutData = layout;
+        [fetchLayoutTwo fulfill];
+    }];
+    [self waitForExpectationsWithTimeout:30.0 handler:nil];
+    [self validateResult:objType layout:layoutData];
+    SFQuerySpec *querySpec = [SFQuerySpec newSmartQuerySpec:[NSString stringWithFormat:kQuery, kSoupName, kSoupName, kSoupName, kAccount, kCompact] withPageSize:1];
+    long numRows = [self.layoutSyncManager.smartStore countWithQuerySpec:querySpec error:nil];
+    XCTAssertEqual(numRows, 1, "Number of rows should be 1");
 }
 
 - (void)validateResult:(NSString *)objectType layout:(SFLayout *)layout {
