@@ -32,7 +32,6 @@
 #import "SFSmartSyncSyncManager.h"
 #import <SmartStore/SFQuerySpec.h>
 
-static NSString * const kAccount = @"Account";
 static NSString * const kAccountKeyPrefix = @"001";
 static NSString * const kSoupName = @"sfdcMetadata";
 static NSString * const kQuery = @"SELECT {%@:_soup} FROM {%@} WHERE {%@:Id} = '%@'";
