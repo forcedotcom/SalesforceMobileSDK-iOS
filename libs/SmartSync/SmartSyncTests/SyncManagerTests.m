@@ -623,7 +623,7 @@
 }
 
 /**
- Test that error are captured on record during sync up
+ Test that errors are captured on record during sync up
  Create a few records - some with bad names (too long or empty)
  Sync up
  Make sure the records with bad names are still marked as locally created and have the last error field populated
