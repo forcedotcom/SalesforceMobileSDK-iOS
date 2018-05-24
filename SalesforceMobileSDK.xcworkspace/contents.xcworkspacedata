@@ -55,9 +55,6 @@
       location = "container:"
       name = "NativeSamples">
       <FileRef
-         location = "group:native/SampleApps/RestAPIExplorer/RestAPIExplorer.xcodeproj">
-      </FileRef>
-      <FileRef
          location = "group:native/SampleApps/SmartSyncExplorer/SmartSyncExplorer.xcodeproj">
       </FileRef>
    </Group>
