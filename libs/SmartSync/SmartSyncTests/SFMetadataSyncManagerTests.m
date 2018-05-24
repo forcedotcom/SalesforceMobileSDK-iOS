@@ -148,7 +148,7 @@ static NSString * const kQuery = @"SELECT {%@:_soup} FROM {%@} WHERE {%@:Id} = '
 
 - (void)validateResult:(SFMetadata *)metadata {
     XCTAssertNotEqualObjects(metadata, nil, @"Metadata should not be nil");
-    XCTAssertEqual(metadata.name, kAccount, @"Object types should match");
+    XCTAssertEqualObjects(metadata.name, kAccount, @"Object types should match");
     XCTAssertNotEqualObjects(metadata.rawData, nil, @"Metadata raw data should not be nil");
     XCTAssertTrue(metadata.compactLayoutable, @"Object should be compact layoutable");
     XCTAssertTrue(metadata.createable, @"Object should be createable");
@@ -156,8 +156,8 @@ static NSString * const kQuery = @"SELECT {%@:_soup} FROM {%@} WHERE {%@:Id} = '
     XCTAssertNotEqualObjects(metadata.fields, nil, @"Fields should not be nil");
     XCTAssertNotEqualObjects(metadata.urls, nil, @"URLs should not be nil");
     XCTAssertTrue(metadata.searchable, @"Object should be searchable");
-    XCTAssertEqual(metadata.keyPrefix, kAccountKeyPrefix, @"Object key prefixes should match");
-    XCTAssertEqual(metadata.label, kAccount, @"Object labels should match");
+    XCTAssertEqualObjects(metadata.keyPrefix, kAccountKeyPrefix, @"Object key prefixes should match");
+    XCTAssertEqualObjects(metadata.label, kAccount, @"Object labels should match");
 }
 
 @end
