@@ -107,6 +107,7 @@
 		CE01BB1A20B761C2008E91B6 /* SFMetadata.h in Headers */ = {isa = PBXBuildFile; fileRef = CE01BB1720B761C1008E91B6 /* SFMetadata.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE01BB1B20B761C2008E91B6 /* SFMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = CE01BB1820B761C1008E91B6 /* SFMetadata.m */; };
 		CE01BB1C20B761C2008E91B6 /* SFMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = CE01BB1820B761C1008E91B6 /* SFMetadata.m */; };
+		CE01BB1E20B769DE008E91B6 /* SFMetadataSyncManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CE01BB1D20B769DE008E91B6 /* SFMetadataSyncManagerTests.m */; };
 		CE0AB07D1C10D3FE00BFAEED /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB07C1C10D3FE00BFAEED /* libxml2.tbd */; };
 		CE0AB0861C10D43300BFAEED /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2291C0FD45F00319E68 /* libz.tbd */; };
 		CE0AB0871C10D43A00BFAEED /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB07C1C10D3FE00BFAEED /* libxml2.tbd */; };
@@ -362,6 +363,7 @@
 		CE01BB1420B75A07008E91B6 /* SFMetadataSyncManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFMetadataSyncManager.h; path = Manager/SFMetadataSyncManager.h; sourceTree = "<group>"; };
 		CE01BB1720B761C1008E91B6 /* SFMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFMetadata.h; sourceTree = "<group>"; };
 		CE01BB1820B761C1008E91B6 /* SFMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFMetadata.m; sourceTree = "<group>"; };
+		CE01BB1D20B769DE008E91B6 /* SFMetadataSyncManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFMetadataSyncManagerTests.m; sourceTree = "<group>"; };
 		CE0AB07C1C10D3FE00BFAEED /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		CE0AB0811C10D41D00BFAEED /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceSDKCore.framework; path = "../SalesforceSDKCore/build/Debug-iphoneos/SalesforceSDKCore.framework"; sourceTree = "<group>"; };
 		CE1BD1BF20AE23B500409FE1 /* SFLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFLayout.m; sourceTree = "<group>"; };
@@ -664,6 +666,7 @@
 				4F9079821A82EE5100E32659 /* SFSyncUpdateCallbackQueue.h */,
 				4F9079801A82EDF600E32659 /* SFSyncUpdateCallbackQueue.m */,
 				CEFB4B2F20B4951000D70F2B /* SFLayoutSyncManagerTests.m */,
+				CE01BB1D20B769DE008E91B6 /* SFMetadataSyncManagerTests.m */,
 				CECDF84319ABE009007A29E5 /* MetadataManagerTests.m */,
 				4F9732D51A816C2D006E2A86 /* SyncManagerTests.m */,
 				4F307E401EC273AB0040CFC4 /* SyncManagerTestCase.h */,
@@ -1201,6 +1204,7 @@
 				4F307E421EC2750C0040CFC4 /* ParentChildrenSyncTests.m in Sources */,
 				4F307E3F1EC273780040CFC4 /* SyncManagerTestCase.m in Sources */,
 				4F9079811A82EDF600E32659 /* SFSyncUpdateCallbackQueue.m in Sources */,
+				CE01BB1E20B769DE008E91B6 /* SFMetadataSyncManagerTests.m in Sources */,
 				4FCA4AE91FBE7D6200F081B3 /* SFSDKSyncsConfigTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
