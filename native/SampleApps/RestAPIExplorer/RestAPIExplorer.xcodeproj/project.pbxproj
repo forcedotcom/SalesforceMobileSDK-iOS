@@ -27,6 +27,7 @@
 		B7CEA72D20B71389007D0564 /* SalesforceSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7CEA72520B71389007D0564 /* SalesforceSans-Regular.ttf */; };
 		B7CEA72E20B71389007D0564 /* SalesforceSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7CEA72620B71389007D0564 /* SalesforceSans-Light.ttf */; };
 		B7CEA72F20B71389007D0564 /* SalesforceSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7CEA72720B71389007D0564 /* SalesforceSans-Italic.ttf */; };
+		B7CEA73220B71C9E007D0564 /* SalesforceSwiftSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7CEA73120B71C9E007D0564 /* SalesforceSwiftSDK.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 		B7CEA72520B71389007D0564 /* SalesforceSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SalesforceSans-Regular.ttf"; path = "../../../../shared/resources/Fonts/SalesforceSans-Regular.ttf"; sourceTree = "<group>"; };
 		B7CEA72620B71389007D0564 /* SalesforceSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SalesforceSans-Light.ttf"; path = "../../../../shared/resources/Fonts/SalesforceSans-Light.ttf"; sourceTree = "<group>"; };
 		B7CEA72720B71389007D0564 /* SalesforceSans-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SalesforceSans-Italic.ttf"; path = "../../../../shared/resources/Fonts/SalesforceSans-Italic.ttf"; sourceTree = "<group>"; };
+		B7CEA73120B71C9E007D0564 /* SalesforceSwiftSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SalesforceSwiftSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7CEA73220B71C9E007D0564 /* SalesforceSwiftSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,6 +73,7 @@
 			children = (
 				B7CEA6F120B7105E007D0564 /* RestAPIExplorer */,
 				B7CEA6F020B7105E007D0564 /* Products */,
+				B7CEA73020B71C9E007D0564 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -147,6 +151,14 @@
 				B7CEA71420B71202007D0564 /* UIColors+helper.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		B7CEA73020B71C9E007D0564 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B7CEA73120B71C9E007D0564 /* SalesforceSwiftSDK.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -300,6 +312,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -353,6 +366,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 4.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

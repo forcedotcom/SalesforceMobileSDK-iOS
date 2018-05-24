@@ -33,9 +33,6 @@ import SalesforceSwiftSDK
 import MobileCoreServices
 
 // Fill these in when creating a new Connected Application on Force.com
-//let RemoteAccessConsumerKey = "3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa"
-//let OAuthRedirectURI        = "testsfdc:///mobilesdk/detect/oauth/done"
-
 let RemoteAccessConsumerKey = "3MVG9g9rbsTkKnAWkkUnzOrokwEMnYtP.O0E2c_5E7Xe9QAaTHg3R.pzB7Y_itz_KnTzUSym9hKA9dA2yfg7X"
 let OAuthRedirectURI        = "com.salesforce.mobilesdk.sample.restapiexplorer://oauth2/success"
 
