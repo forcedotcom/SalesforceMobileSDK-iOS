@@ -103,6 +103,10 @@
 		CE01BB1320B759EA008E91B6 /* SFMetadataSyncManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CE01BB0B20B759D2008E91B6 /* SFMetadataSyncManager.m */; };
 		CE01BB1520B75A07008E91B6 /* SFMetadataSyncManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CE01BB1420B75A07008E91B6 /* SFMetadataSyncManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE01BB1620B75A07008E91B6 /* SFMetadataSyncManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CE01BB1420B75A07008E91B6 /* SFMetadataSyncManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE01BB1920B761C2008E91B6 /* SFMetadata.h in Headers */ = {isa = PBXBuildFile; fileRef = CE01BB1720B761C1008E91B6 /* SFMetadata.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE01BB1A20B761C2008E91B6 /* SFMetadata.h in Headers */ = {isa = PBXBuildFile; fileRef = CE01BB1720B761C1008E91B6 /* SFMetadata.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE01BB1B20B761C2008E91B6 /* SFMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = CE01BB1820B761C1008E91B6 /* SFMetadata.m */; };
+		CE01BB1C20B761C2008E91B6 /* SFMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = CE01BB1820B761C1008E91B6 /* SFMetadata.m */; };
 		CE0AB07D1C10D3FE00BFAEED /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB07C1C10D3FE00BFAEED /* libxml2.tbd */; };
 		CE0AB0861C10D43300BFAEED /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2291C0FD45F00319E68 /* libz.tbd */; };
 		CE0AB0871C10D43A00BFAEED /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB07C1C10D3FE00BFAEED /* libxml2.tbd */; };
@@ -356,6 +360,8 @@
 		B7282F481D8C715400475F79 /* SmartSyncTestApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartSyncTestApp.entitlements; sourceTree = "<group>"; };
 		CE01BB0B20B759D2008E91B6 /* SFMetadataSyncManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFMetadataSyncManager.m; path = Manager/SFMetadataSyncManager.m; sourceTree = "<group>"; };
 		CE01BB1420B75A07008E91B6 /* SFMetadataSyncManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFMetadataSyncManager.h; path = Manager/SFMetadataSyncManager.h; sourceTree = "<group>"; };
+		CE01BB1720B761C1008E91B6 /* SFMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFMetadata.h; sourceTree = "<group>"; };
+		CE01BB1820B761C1008E91B6 /* SFMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFMetadata.m; sourceTree = "<group>"; };
 		CE0AB07C1C10D3FE00BFAEED /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		CE0AB0811C10D41D00BFAEED /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceSDKCore.framework; path = "../SalesforceSDKCore/build/Debug-iphoneos/SalesforceSDKCore.framework"; sourceTree = "<group>"; };
 		CE1BD1BF20AE23B500409FE1 /* SFLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFLayout.m; sourceTree = "<group>"; };
@@ -714,6 +720,8 @@
 		CEF50A7A196B3EB60076264C /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				CE01BB1720B761C1008E91B6 /* SFMetadata.h */,
+				CE01BB1820B761C1008E91B6 /* SFMetadata.m */,
 				CE1BD1C320AE23B500409FE1 /* SFLayout.h */,
 				CE1BD1BF20AE23B500409FE1 /* SFLayout.m */,
 				CEF50A7C196B3EB60076264C /* SFObject.h */,
@@ -776,6 +784,7 @@
 				CE1BD1C620AE23B500409FE1 /* SFLayout.h in Headers */,
 				4F307E2D1EBA92540040CFC4 /* SFParentInfo.h in Headers */,
 				4FDCBD601E8DDC5C008F8FCE /* SFMruSyncDownTarget.h in Headers */,
+				CE01BB1920B761C2008E91B6 /* SFMetadata.h in Headers */,
 				4F3DF86C1ECCF44900D1D9AF /* SFSoqlSyncDownTarget+Internal.h in Headers */,
 				CE4CE43A1C0E5A75009F6029 /* SFSmartSyncObjectUtils.h in Headers */,
 				CE682C771F01A866003C43C0 /* SFSDKSmartSyncLogger.h in Headers */,
@@ -825,6 +834,7 @@
 				CE1BD1C720AE23B500409FE1 /* SFLayout.h in Headers */,
 				CEA884291C191719008D871B /* SFSmartSyncObjectUtils.h in Headers */,
 				CEA884271C191719008D871B /* SFSmartSyncNetworkUtils.h in Headers */,
+				CE01BB1A20B761C2008E91B6 /* SFMetadata.h in Headers */,
 				4F307E2E1EBA92550040CFC4 /* SFParentInfo.h in Headers */,
 				4F3DF86F1ECCF46A00D1D9AF /* SFSoqlSyncDownTarget+Internal.h in Headers */,
 				CE682C7C1F01A8D2003C43C0 /* SFSDKSmartSyncLogger.h in Headers */,
@@ -1127,6 +1137,7 @@
 				CE682C781F01A866003C43C0 /* SFSDKSmartSyncLogger.m in Sources */,
 				4FDCBD5F1E8DDC5C008F8FCE /* SFMruSyncDownTarget.m in Sources */,
 				4FDCBD521E8DDC5C008F8FCE /* SFSyncUpTarget.m in Sources */,
+				CE01BB1B20B761C2008E91B6 /* SFMetadata.m in Sources */,
 				CE98A67E209F5C5700507927 /* SFMetadataSyncDownTarget.m in Sources */,
 				CE4CE4331C0E5A49009F6029 /* SFSmartSyncPersistableObject.m in Sources */,
 				CE4CE44B1C0E5A75009F6029 /* SFSyncState.m in Sources */,
@@ -1166,6 +1177,7 @@
 				CE682C7D1F01A8DA003C43C0 /* SFSDKSmartSyncLogger.m in Sources */,
 				4F307E301EBA926D0040CFC4 /* SFChildrenInfo.m in Sources */,
 				4FDCBD671E8DDC73008F8FCE /* SFMruSyncDownTarget.m in Sources */,
+				CE01BB1C20B761C2008E91B6 /* SFMetadata.m in Sources */,
 				CE98A67F209F5C5700507927 /* SFMetadataSyncDownTarget.m in Sources */,
 				4FDCBD611E8DDC60008F8FCE /* SFSyncUpTarget.m in Sources */,
 				CEA884221C1916FA008D871B /* SFSmartSyncPersistableObject.m in Sources */,
