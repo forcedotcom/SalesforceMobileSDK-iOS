@@ -30,20 +30,7 @@
 #import <SmartStore/SFSmartStore.h>
 #import "SFSmartSyncSyncManager.h"
 #import "SFLayout.h"
-
-/**
- * Enum for available data fetch modes.
- *
- * SFSDKFetchModeCacheOnly - Fetches data from the cache and returns null if no data is available.
- * SFSDKFetchModeCacheFirst - Fetches data from the cache and falls back on the server if no data is available.
- * SFSDKFetchModeServerFirst - Fetches data from the server and falls back on the cache if the server doesn't
- * return data. The data fetched from the server is automatically cached.
- */
-typedef NS_ENUM(NSInteger, SFSDKFetchMode) {
-    SFSDKFetchModeCacheOnly = 0,
-    SFSDKFetchModeCacheFirst,
-    SFSDKFetchModeServerFirst
-};
+#import "SFSmartSyncConstants.h"
 
 /**
  * Completion block triggered when layout sync completes.
