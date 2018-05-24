@@ -465,6 +465,10 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
 
             [self deleteFromLocalStore:syncManager soupName:soupName record:record];
         }
+        // Failure
+        else {
+            [self saveRecordToLocalStoreWithLastError:syncManager soupName:soupName record:record lastError:response.description];
+        }
     }
 
     // Create / update case
@@ -494,6 +498,11 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
                 needReRun = YES;
             }
         }
+        // Failure
+        else {
+            [self saveRecordToLocalStoreWithLastError:syncManager soupName:soupName record:record lastError:response.description];
+        }
+
     }
 
     return needReRun;
@@ -526,6 +535,10 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
                 || notFoundStatusCode) // or the record was already deleted on the server
         {
             [self deleteFromLocalStore:syncManager soupName:soupName record:record];
+        }
+        // Failure
+        else {
+            [self saveRecordToLocalStoreWithLastError:syncManager soupName:soupName record:record lastError:response.description];
         }
     }
 
@@ -567,6 +580,11 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
                 // We need a re-run
                 needReRun = YES;
             }
+        }
+
+        // Failure
+        else {
+            [self saveRecordToLocalStoreWithLastError:syncManager soupName:soupName record:record lastError:response.description];
         }
 
     }

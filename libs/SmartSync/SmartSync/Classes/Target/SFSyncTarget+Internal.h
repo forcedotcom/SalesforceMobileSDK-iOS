@@ -32,7 +32,6 @@
 - (NSOrderedSet *)getIdsWithQuery:idsSql syncManager:(SFSmartSyncSyncManager *)syncManager;
 - (NSString*) getDirtyRecordIdsSql:(NSString*)soupName idField:(NSString*)idField;
 - (void) deleteRecordsFromLocalStore:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName ids:(NSArray*)ids idField:(NSString*)idField;
-
-- (void)cleanAndSaveInSmartStore:(SFSmartStore *)smartStore soupName:(NSString *)soupName records:(NSArray *)record idFieldName:(NSString *)idFieldName syncId:(NSNumber *)syncId;
+- (void)saveInLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName records:(NSArray *)records idFieldName:(NSString *)idFieldName syncId:(NSNumber *)syncId lastError:(NSString *)lastError cleanFirst:(BOOL)cleanFirst;
 
 @end
