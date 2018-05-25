@@ -99,3 +99,17 @@ extern NSString * const kSFSyncTargetTypeKey;
 extern NSString * const kSFSyncTargetiOSImplKey;
 extern NSString * const kSFSyncTargetIdFieldNameKey;
 extern NSString * const kSFSyncTargetModificationDateFieldNameKey;
+
+/**
+ * Enum for available SmartSync data fetch modes.
+ *
+ * SFSDKFetchModeCacheOnly - Fetches data from the cache and returns null if no data is available.
+ * SFSDKFetchModeCacheFirst - Fetches data from the cache and falls back on the server if no data is available.
+ * SFSDKFetchModeServerFirst - Fetches data from the server and falls back on the cache if the server doesn't
+ * return data. The data fetched from the server is automatically cached.
+ */
+typedef NS_ENUM(NSInteger, SFSDKFetchMode) {
+    SFSDKFetchModeCacheOnly = 0,
+    SFSDKFetchModeCacheFirst,
+    SFSDKFetchModeServerFirst
+};

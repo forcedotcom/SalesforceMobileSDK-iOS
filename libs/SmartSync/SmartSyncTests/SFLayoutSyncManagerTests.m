@@ -33,7 +33,6 @@
 #import <SmartStore/SFQuerySpec.h>
 
 static NSString * const kCompact = @"Compact";
-static NSString * const kAccount = @"Account";
 static NSString * const kSoupName = @"sfdcLayouts";
 static NSString * const kQuery = @"SELECT {%@:_soup} FROM {%@} WHERE {%@:Id} = '%@-%@'";
 

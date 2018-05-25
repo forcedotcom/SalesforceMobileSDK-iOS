@@ -1,8 +1,8 @@
 /*
- SFLayoutSyncManager.h
+ SFMetadataSyncManager.h
  SmartSync
  
- Created by Bharath Hariharan on 5/18/18.
+ Created by Bharath Hariharan on 5/24/18.
  
  Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
@@ -29,23 +29,22 @@
 
 #import <SmartStore/SFSmartStore.h>
 #import "SFSmartSyncSyncManager.h"
-#import "SFLayout.h"
+#import "SFMetadata.h"
 #import "SFSmartSyncConstants.h"
 
 /**
- * Completion block triggered when layout sync completes.
+ * Completion block triggered when metadata sync completes.
  *
- * @param objectType Object type.
- * @param layout Layout.
+ * @param metadata Metadata.
  */
-typedef void (^SFLayoutSyncCompletionBlock) (NSString *objectType, SFLayout *layout);
+typedef void (^SFMetadataSyncCompletionBlock) (SFMetadata *metadata);
 
 /**
- * Provides an easy way to fetch layout data using SFLayoutSyncDownTarget.
+ * Provides an easy way to fetch metadata using SFMetadataSyncDownTarget.
  * This class handles creating a soup, storing synched data and reading it into
- * a meaningful data structure, i.e. SFLayout.
+ * a meaningful data structure, i.e. SFMetadata.
  */
-@interface SFLayoutSyncManager : NSObject
+@interface SFMetadataSyncManager : NSObject
 
 @property (nonatomic, strong, readonly, nonnull) SFSmartStore *smartStore;
 @property (nonatomic, strong, readonly, nonnull) SFSmartSyncSyncManager *syncManager;
@@ -75,26 +74,25 @@ typedef void (^SFLayoutSyncCompletionBlock) (NSString *objectType, SFLayout *lay
 + (nonnull instancetype)sharedInstance:(nullable SFUserAccount *)user smartStore:(nullable NSString *)smartStore;
 
 /**
- * Resets all the layout sync managers.
+ * Resets all the metadata sync managers.
  */
 + (void)reset;
 
 /**
- * Resets the layout sync manager for this user account.
+ * Resets the metadata sync manager for this user account.
  *
  * @param user User account.
  */
 + (void)reset:(nullable SFUserAccount *)user;
 
 /**
- * Fetches layout data for the specified object type and layout type using the specified
+ * Fetches metadata for the specified object type using the specified
  * mode and triggers the supplied completion block once complete.
  *
  * @param objectType Object type.
- * @param layoutType Layout type. Defaults to "Full" if nil is passed in.
  * @param mode Fetch mode. See SFSDKFetchMode for available modes.
- * @param completionBlock Layout sync completion block.
+ * @param completionBlock Metadata sync completion block.
  */
-- (void)fetchLayoutForObject:(nonnull NSString *)objectType layoutType:(nullable NSString *)layoutType mode:(SFSDKFetchMode)mode completionBlock:(nonnull SFLayoutSyncCompletionBlock)completionBlock;
+- (void)fetchMetadataForObject:(nonnull NSString *)objectType mode:(SFSDKFetchMode)mode completionBlock:(nonnull SFMetadataSyncCompletionBlock)completionBlock;
 
 @end
