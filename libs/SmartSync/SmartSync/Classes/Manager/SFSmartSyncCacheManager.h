@@ -24,7 +24,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef  enum {
+typedef enum {
     SFDataCachePolicyIgnoreCacheData = 0, // ignore cache and always load from server
     SFDataCachePolicyReloadAndReturnCacheOnFailure, // Always reload and return cache on failure
     SFDataCachePolicyReturnCacheDataDontReload, // Use cache and don't reload cache if cache exists
@@ -43,27 +43,27 @@ typedef  enum {
 /** Singleton method for accessing cache manager instance.
  @param user A user that will scope this manager instance data
  */
-+ (id)sharedInstance:(SFUserAccount *)user;
++ (id)sharedInstance:(SFUserAccount *)user SFSDK_DEPRECATED(6.2, 7.0, "Use SFSmartSyncSyncManager instead for synching data.");
 
 /** Removes the shared instance associated with the specified user
  @param user The user
  */
-+ (void)removeSharedInstance:(SFUserAccount*)user;
++ (void)removeSharedInstance:(SFUserAccount*)user SFSDK_DEPRECATED(6.2, 7.0, "Use SFSmartSyncSyncManager instead for synching data.");
 
 /** Enable in memory cache. Default value is YES
  @enableInMemoryCache YES to enable in memory cache
  */
-- (void)setEnableInMemoryCache:(BOOL)enableInMemoryCache;
+- (void)setEnableInMemoryCache:(BOOL)enableInMemoryCache SFSDK_DEPRECATED(6.2, 7.0, "Use SFSmartSyncSyncManager instead for synching data.");
 
 /** Clean cache
  */
-- (void)cleanCache;
+- (void)cleanCache SFSDK_DEPRECATED(6.2, 7.0, "Use SFSmartSyncSyncManager instead for synching data.");
 
 /** Remove data from cache
  @param cacheType Cache type
  @param cacheKey Key to use to retrieve cached data
  */
-- (void)removeCache:(NSString *)cacheType cacheKey:(NSString *)cacheKey;
+- (void)removeCache:(NSString *)cacheType cacheKey:(NSString *)cacheKey SFSDK_DEPRECATED(6.2, 7.0, "Use SFSmartSyncSyncManager instead for synching data.");
 
 /** Reurn YES if need to reload cache.
  Before calling this method, user should use `[SFSmartSyncCacheManager readDataWithCacheType:cacheKey:cachePolicy:encrypted:cachedTime]` to find out whether cache exists or not and what is the last time cache is updated
@@ -72,7 +72,7 @@ typedef  enum {
  @param cacheTime Last time cache is updated
  @param refreshIfOlderThan Number of secconds that has to pass in order to refresh cache. Pass any value that is <=0 if you don't want cache to be refrefreshed. This value is used together with `cachePolicy` to determine if cache needs reload or not
  */
-- (BOOL)needToReloadCache:(BOOL)cacheExists cachePolicy:(SFDataCachePolicy)cachePolicy lastCachedTime:(NSDate *)cacheTime refreshIfOlderThan:(NSTimeInterval)refreshIfOlderThan;
+- (BOOL)needToReloadCache:(BOOL)cacheExists cachePolicy:(SFDataCachePolicy)cachePolicy lastCachedTime:(NSDate *)cacheTime refreshIfOlderThan:(NSTimeInterval)refreshIfOlderThan SFSDK_DEPRECATED(6.2, 7.0, "Use SFSmartSyncSyncManager instead for synching data.");
 
 /** Read data from cache.
  @param cacheType Cache type
@@ -85,14 +85,14 @@ typedef  enum {
                           cacheKey:(NSString *)cacheKey
                        cachePolicy:(SFDataCachePolicy)cachePolicy
                         objectClass:(Class)objectClass
-                        cachedTime:(out NSDate *_Nullable*_Nullable)lastCachedTime;
+                        cachedTime:(out NSDate *_Nullable*_Nullable)lastCachedTime SFSDK_DEPRECATED(6.2, 7.0, "Use SFSmartSyncSyncManager instead for synching data.");
 
 /** Write data to cache.
  @param data Data to cache
  @param cacheType Cache type
  @param cacheKey Key to save cached data
  */
-- (void)writeDataToCache:(id)data cacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey;
+- (void)writeDataToCache:(id)data cacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey SFSDK_DEPRECATED(6.2, 7.0, "Use SFSmartSyncSyncManager instead for synching data.");
 
 @end
 

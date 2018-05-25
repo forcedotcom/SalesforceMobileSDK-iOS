@@ -30,28 +30,28 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SFObjectType : SFSmartSyncPersistableObject <NSCoding>
 
 /** Object type key prefix */
-@property (nonatomic, strong, readonly) NSString *keyPrefix;
+@property (nonatomic, strong, readonly) NSString *keyPrefix SFSDK_DEPRECATED(6.2, 7.0, "Will be removed in Mobile SDK 7.0.");
 
 /** Object name */
-@property (nonatomic, strong, readonly) NSString *name;
+@property (nonatomic, strong, readonly) NSString *name SFSDK_DEPRECATED(6.2, 7.0, "Will be removed in Mobile SDK 7.0.");
 
 /** Object label */
-@property (nonatomic, strong, readonly) NSString *label;
+@property (nonatomic, strong, readonly) NSString *label SFSDK_DEPRECATED(6.2, 7.0, "Will be removed in Mobile SDK 7.0.");
 
 /** Object plural label */
-@property (nonatomic, strong, readonly) NSString *labelPlural;
+@property (nonatomic, strong, readonly) NSString *labelPlural SFSDK_DEPRECATED(6.2, 7.0, "Will be removed in Mobile SDK 7.0.");
 
 /** Object name field */
-@property (nonatomic, strong, readonly, nullable) NSString *nameField;
+@property (nonatomic, strong, readonly, nullable) NSString *nameField SFSDK_DEPRECATED(6.2, 7.0, "Will be removed in Mobile SDK 7.0.");
 
 /** Fields, array of NSDictionary objects */
-@property (nonatomic, strong, readonly) NSArray *fields;
+@property (nonatomic, strong, readonly) NSArray *fields SFSDK_DEPRECATED(6.2, 7.0, "Will be removed in Mobile SDK 7.0.");
 
 /** Searchable */
-- (BOOL)isSearchable;
+- (BOOL)isSearchable SFSDK_DEPRECATED(6.2, 7.0, "Will be removed in Mobile SDK 7.0.");
 
 /** Layoutable */
-- (BOOL)isLayoutable;
+- (BOOL)isLayoutable SFSDK_DEPRECATED(6.2, 7.0, "Will be removed in Mobile SDK 7.0.");
 
 @end
 

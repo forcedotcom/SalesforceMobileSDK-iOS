@@ -50,27 +50,27 @@ extern NSString * const kSFAllObjectsCacheKey;
  This property is used internally to scope all the search
  queries toward the server.
  */
-@property (nullable, nonatomic, copy) NSString *communityId;
+@property (nullable, nonatomic, copy) NSString *communityId SFSDK_DEPRECATED(6.2, 7.0, "Use SFMetadataSyncManager instead to fetch object metadata, SFLayoutSyncManager instead to fetch object layout data, and SFMruSyncDownTarget instead to fetch object MRU data.");
 
 /** API version being used.
  */
-@property (nonatomic, copy) NSString *apiVersion;
+@property (nonatomic, copy) NSString *apiVersion SFSDK_DEPRECATED(6.2, 7.0, "Use SFMetadataSyncManager instead to fetch object metadata, SFLayoutSyncManager instead to fetch object layout data, and SFMruSyncDownTarget instead to fetch object MRU data.");
 
 /** Cache manager being used.
  */
-@property (nonatomic, strong) SFSmartSyncCacheManager *cacheManager;
+@property (nonatomic, strong) SFSmartSyncCacheManager *cacheManager SFSDK_DEPRECATED(6.2, 7.0, "Use SFMetadataSyncManager instead to fetch object metadata, SFLayoutSyncManager instead to fetch object layout data, and SFMruSyncDownTarget instead to fetch object MRU data.");
 
 /** Singleton method for accessing metadata manager instance.
  @param user A user that will scope this manager instance data
  */
-+ (id)sharedInstance:(SFUserAccount *)user;
++ (id)sharedInstance:(SFUserAccount *)user SFSDK_DEPRECATED(6.2, 7.0, "Use SFMetadataSyncManager instead to fetch object metadata, SFLayoutSyncManager instead to fetch object layout data, and SFMruSyncDownTarget instead to fetch object MRU data.");
 
 /** Removes the shared instance associated with the specified user
  @param user The user
  */
-+ (void)removeSharedInstance:(SFUserAccount*)user;
++ (void)removeSharedInstance:(SFUserAccount*)user SFSDK_DEPRECATED(6.2, 7.0, "Use SFMetadataSyncManager instead to fetch object metadata, SFLayoutSyncManager instead to fetch object layout data, and SFMruSyncDownTarget instead to fetch object MRU data.");
 
-+ (NSString *)globalMruCacheKey;
++ (NSString *)globalMruCacheKey SFSDK_DEPRECATED(6.2, 7.0, "Use SFMetadataSyncManager instead to fetch object metadata, SFLayoutSyncManager instead to fetch object layout data, and SFMruSyncDownTarget instead to fetch object MRU data.");
 
 /** Get a list of smart scope object types
  
@@ -81,7 +81,7 @@ extern NSString * const kSFAllObjectsCacheKey;
  
  */
 - (void)loadSmartScopeObjectTypes:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
-                  completionBlock:(void(^)(NSArray *results, BOOL isDataFromCache))completionBlock error:(void(^)(NSError *error))errorBlock;
+                  completionBlock:(void(^)(NSArray *results, BOOL isDataFromCache))completionBlock error:(void(^)(NSError *error))errorBlock SFSDK_DEPRECATED(6.2, 7.0, "Use SFMetadataSyncManager instead to fetch object metadata, SFLayoutSyncManager instead to fetch object layout data, and SFMruSyncDownTarget instead to fetch object MRU data.");
 
 /** Get a list of recently accessed objects by object type
  
@@ -98,7 +98,7 @@ extern NSString * const kSFAllObjectsCacheKey;
 - (void)loadMRUObjects:(nullable NSString *)objectTypeName limit:(NSInteger)limit cachePolicy:(SFDataCachePolicy)cachePolicy
             refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan networkFieldName:(nullable NSString *)networkFieldName
                 inRetry:(BOOL)inRetry completion:(void(^)(NSArray *results, BOOL isDataFromCache, BOOL needToReloadCache))completionBlock
-                    error:(void(^)(NSError *error))errorBlock;
+                    error:(void(^)(NSError *error))errorBlock SFSDK_DEPRECATED(6.2, 7.0, "Use SFMetadataSyncManager instead to fetch object metadata, SFLayoutSyncManager instead to fetch object layout data, and SFMruSyncDownTarget instead to fetch object MRU data.");
 
 /** Load all object types
  
@@ -110,7 +110,7 @@ extern NSString * const kSFAllObjectsCacheKey;
  */
 - (void)loadAllObjectTypes:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
                 completion:(void(^)(NSArray * results, BOOL isDataFromCache))completionBlock
-                     error:(void(^)(NSError *error))errorBlock;
+                     error:(void(^)(NSError *error))errorBlock SFSDK_DEPRECATED(6.2, 7.0, "Use SFMetadataSyncManager instead to fetch object metadata, SFLayoutSyncManager instead to fetch object layout data, and SFMruSyncDownTarget instead to fetch object MRU data.");
 
 /** Load a specific object type information
  
@@ -123,7 +123,7 @@ extern NSString * const kSFAllObjectsCacheKey;
  
  */
 - (void)loadObjectType:(NSString *)objectTypeName cachePolicy:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
-            completion:(void(^)(SFObjectType *result, BOOL isDataFromCache))completionBlock error:(void(^)(NSError *error))errorBlock;
+            completion:(void(^)(SFObjectType *result, BOOL isDataFromCache))completionBlock error:(void(^)(NSError *error))errorBlock SFSDK_DEPRECATED(6.2, 7.0, "Use SFMetadataSyncManager instead to fetch object metadata, SFLayoutSyncManager instead to fetch object layout data, and SFMruSyncDownTarget instead to fetch object MRU data.");
 
 /** Load object layout information
  
@@ -135,19 +135,19 @@ extern NSString * const kSFAllObjectsCacheKey;
  
  */
 - (void)loadObjectTypesLayout:(NSArray *)objectTypesToLoad cachePolicy:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
-                   completion:(void(^)(NSArray *result, BOOL isDataFromCache))completionBlock error:(void(^)(NSError *error))errorBlock;
+                   completion:(void(^)(NSArray *result, BOOL isDataFromCache))completionBlock error:(void(^)(NSError *error))errorBlock SFSDK_DEPRECATED(6.2, 7.0, "Use SFMetadataSyncManager instead to fetch object metadata, SFLayoutSyncManager instead to fetch object layout data, and SFMruSyncDownTarget instead to fetch object MRU data.");
 
 /** Color for the specific object type
  
  @param objectTypeName Object type name
  */
-- (UIColor *)colorForObjectType:(NSString *)objectTypeName;
+- (UIColor *)colorForObjectType:(NSString *)objectTypeName SFSDK_DEPRECATED(6.2, 7.0, "Use SFMetadataSyncManager instead to fetch object metadata, SFLayoutSyncManager instead to fetch object layout data, and SFMruSyncDownTarget instead to fetch object MRU data.");
 
 /** Return YES if object type is searchable
  
  @param objectType Object type
  */
-- (BOOL)isObjectTypeSearchable:(SFObjectType *)objectType;
+- (BOOL)isObjectTypeSearchable:(SFObjectType *)objectType SFSDK_DEPRECATED(6.2, 7.0, "Use SFMetadataSyncManager instead to fetch object metadata, SFLayoutSyncManager instead to fetch object layout data, and SFMruSyncDownTarget instead to fetch object MRU data.");
 
 /** Mark an object as viewed
  
@@ -159,7 +159,7 @@ extern NSString * const kSFAllObjectsCacheKey;
  
  */
 - (void)markObjectAsViewed:(NSString *)objectId objectType:(NSString *)objectType networkFieldName:(nullable NSString *)networkFieldName
-           completionBlock:(void(^)(void))completionBlock error:(void(^)(NSError *error))errorBlock;
+           completionBlock:(void(^)(void))completionBlock error:(void(^)(NSError *error))errorBlock SFSDK_DEPRECATED(6.2, 7.0, "Use SFMetadataSyncManager instead to fetch object metadata, SFLayoutSyncManager instead to fetch object layout data, and SFMruSyncDownTarget instead to fetch object MRU data.");
 
 @end
 

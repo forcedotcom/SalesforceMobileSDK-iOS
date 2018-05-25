@@ -29,17 +29,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SFObjectTypeLayout : SFSmartSyncPersistableObject <NSCoding>
 
-@property (nonatomic, strong, readonly) NSNumber *limit;
-@property (nonatomic, strong, readonly) NSArray *columns;
+@property (nonatomic, strong, readonly) NSNumber *limit SFSDK_DEPRECATED(6.2, 7.0, "Will be removed in Mobile SDK 7.0.");
+@property (nonatomic, strong, readonly) NSArray *columns SFSDK_DEPRECATED(6.2, 7.0, "Will be removed in Mobile SDK 7.0.");
 
-+ (NSString *)parseColumnName:(NSString *)columnName;
++ (NSString *)parseColumnName:(NSString *)columnName SFSDK_DEPRECATED(6.2, 7.0, "Will be removed in Mobile SDK 7.0.");
 
 /** Return YES if columns matches including # of columns and column name and order
  
  @columns sourceColumnNames NSArray of column names of NSString type
  @columns targetColumnNames NSArray of column names of NSString type
  */
-+ (BOOL)isMatchColumns:(NSArray *)sourceColumnNames target:(NSArray *)targetColumnNames;
++ (BOOL)isMatchColumns:(NSArray *)sourceColumnNames target:(NSArray *)targetColumnNames SFSDK_DEPRECATED(6.2, 7.0, "Will be removed in Mobile SDK 7.0.");
 
 @end
 
