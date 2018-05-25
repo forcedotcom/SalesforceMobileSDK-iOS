@@ -4,7 +4,7 @@
  
  Created by Nicholas McDonald on 1/3/18.
  
- Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -77,7 +77,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
                 // instead of a webview. You must implement application:openURL:options  to handle the callback.
             }
             .postLaunch {  [unowned self] (launchActionList: SFSDKLaunchAction) in
-                let launchActionString = SalesforceSDKManager.launchActionsStringRepresentation(launchActionList)
+                let launchActionString = SalesforceSwiftSDKManager.launchActionsStringRepresentation(launchActionList)
                 SalesforceSwiftLogger.log(type(of:self), level:.info, message:"Post-launch: launch actions taken: \(launchActionString)")
                 self.setupRootViewController()
                 
@@ -88,7 +88,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
             }.launchError {  [unowned self] (error: Error, launchActionList: SFSDKLaunchAction) in
                 SFSDKLogger.log(type(of:self), level:.error, message:"Error during SDK launch: \(error.localizedDescription)")
                 self.initializeAppViewState()
-                SalesforceSDKManager.shared().launch()
+                SalesforceSwiftSDKManager.shared().launch()
             }
             .done()
         
@@ -216,7 +216,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
                 if (numberOfAccounts == 1) {
                     SFUserAccountManager.sharedInstance().currentUser = allAccounts![0]
                 }
-                SalesforceSDKManager.shared().launch()
+                SalesforceSwiftSDKManager.shared().launch()
             }
         }
     }
@@ -228,7 +228,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         SFSDKLogger.log(type(of:self), level:.debug, message:"SFUserAccountManager changed from user \(String(describing: fromUserName)) to \(String(describing: toUserName)).  Resetting app.")
         self.resetViewState { () -> () in
             self.initializeAppViewState()
-            SalesforceSDKManager.shared().launch()
+            SalesforceSwiftSDKManager.shared().launch()
         }
     }
     
