@@ -130,7 +130,7 @@ class RootViewController: UIViewController {
         guard let font = UIFont.appRegularFont(20) else {
             return
         }
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: font]
+       self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: font]
         self.title = "RestAPI Explorer"
         
         guard let leftImage = UIImage(named: "list")?.withRenderingMode(.alwaysOriginal), let rightImage = UIImage(named: "search")?.withRenderingMode(.alwaysOriginal) else {
@@ -157,10 +157,24 @@ class RootViewController: UIViewController {
         self.view.addSubview(querybar)
         self.view.addSubview(responseContent)
         
-        let safe = self.view.safeAreaLayoutGuide
-        paramContent.topAnchor.constraint(equalTo: safe.topAnchor).isActive = true
-        paramContent.leftAnchor.constraint(equalTo: safe.leftAnchor).isActive = true
-        paramContent.rightAnchor.constraint(equalTo: safe.rightAnchor).isActive = true
+        
+        var topAnchor = self.view.topAnchor
+        var bottomAnchor = self.view.bottomAnchor
+        var centerXAnchor = self.view.centerXAnchor
+        var rightAnchor = self.view.rightAnchor
+        var leftAnchor = self.view.leftAnchor
+        if #available(iOS 11.0, *) {
+            topAnchor = self.view.safeAreaLayoutGuide.topAnchor
+            bottomAnchor = self.view.safeAreaLayoutGuide.bottomAnchor
+            centerXAnchor = self.view.safeAreaLayoutGuide.centerXAnchor
+            rightAnchor = self.view.safeAreaLayoutGuide.rightAnchor
+            leftAnchor = self.view.safeAreaLayoutGuide.leftAnchor
+        }
+        
+       // let safe = self.view.safeAreaLayoutGuide
+        paramContent.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        paramContent.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        paramContent.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         
         parambar.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         parambar.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
@@ -168,8 +182,8 @@ class RootViewController: UIViewController {
         parambar.heightAnchor.constraint(equalToConstant: 1.0).isActive = true
         
         queryContent.topAnchor.constraint(equalTo: parambar.bottomAnchor).isActive = true
-        queryContent.leftAnchor.constraint(equalTo: safe.leftAnchor).isActive = true
-        queryContent.rightAnchor.constraint(equalTo: safe.rightAnchor).isActive = true
+        queryContent.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        queryContent.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         
         querybar.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         querybar.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
@@ -177,11 +191,11 @@ class RootViewController: UIViewController {
         querybar.heightAnchor.constraint(equalToConstant: 1.0).isActive = true
         
         self.responseContractedTopConstraint = responseContent.topAnchor.constraint(equalTo: querybar.bottomAnchor)
-        self.responseExpandedTopConstraint = responseContent.topAnchor.constraint(equalTo: safe.topAnchor)
+        self.responseExpandedTopConstraint = responseContent.topAnchor.constraint(equalTo: topAnchor)
         self.responseContractedTopConstraint.isActive = true
-        responseContent.leftAnchor.constraint(equalTo: safe.leftAnchor).isActive = true
-        responseContent.rightAnchor.constraint(equalTo: safe.rightAnchor).isActive = true
-        responseContent.bottomAnchor.constraint(equalTo: safe.bottomAnchor).isActive = true
+        responseContent.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        responseContent.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        responseContent.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         
         self.view.layoutIfNeeded()
     }
@@ -524,7 +538,17 @@ class RootViewController: UIViewController {
         }
         
         let request = SFRestRequest(method: method, path: path, queryParams: queryParams)
-        self.perform(request)
+        SFRestAPI.sharedInstance().Promises
+            .send(request: request)
+            .done { [weak self] response in
+                DispatchQueue.main.async {
+                    self?.updateUI(request, response: response, error: nil)
+                }
+            }.catch {  [weak self]  error in
+                DispatchQueue.main.async {
+                    self?.updateUI(request, response: nil, error: error)
+                }
+            }
     }
     
     @objc func userDidTapExpandButton(_ sender:UIButton) {
@@ -578,7 +602,7 @@ class RootViewController: UIViewController {
     }
     
     @objc func clearPopoversForPasscode() {
-        SFSDKLogger.log(type(of: self), level: .debug, message: "Passcode screen loading. Clearing popovers")
+        SFSDKLogger.log(RootViewController.self, level: .debug, message: "Passcode screen loading. Clearing popovers")
         
         if let alert = self.logoutAlert {
             alert.dismiss(animated: true, completion: nil)
@@ -599,19 +623,7 @@ class RootViewController: UIViewController {
         }
     }
 
-    func perform(_ request:SFRestRequest) {
-        SFRestAPI.sharedInstance().send(request, fail: { (error, response) in
-            DispatchQueue.main.async {
-                self.updateUI(request, response: response, responseObject: nil, error: error)
-            }
-        }, complete: { (responseObject, response) in
-            DispatchQueue.main.async {
-                self.updateUI(request, response: response, responseObject: responseObject, error: nil)
-            }
-        })
-    }
-    
-    func updateUI(_ forRequest:SFRestRequest, response:URLResponse?, responseObject:Any?, error:Error?) {
+    func updateUI(_ forRequest:SFRestRequest, response: SFRestResponse?, error:Error?) {
         self.manualQueryTextField.text = forRequest.path
         self.paramsTextView.text = SFJsonUtils.jsonRepresentation(forRequest.queryParams as Any)
         self.methodControl.selectedSegmentIndex = forRequest.method.rawValue
@@ -629,8 +641,11 @@ class RootViewController: UIViewController {
         attributedString.append(descriptionString)
         self.responseSection.attributedTitle = attributedString
         
-        if let obj = responseObject {
-            if let jsonData = try? JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted), let jsonString = String(data: jsonData, encoding: .utf8) {
+        if let obj = response?.asData() {
+            let json = try? JSONSerialization.jsonObject(with: obj, options: [])
+            let jsonData = try? JSONSerialization.data(withJSONObject: json, options: .prettyPrinted)
+            if let jsonObj = jsonData {
+                let jsonString = String(data: jsonObj, encoding: .utf8)
                 self.responseForTextView.setContentOffset(CGPoint.zero, animated: false)
                 self.responseForTextView.text = jsonString
             }
@@ -638,6 +653,7 @@ class RootViewController: UIViewController {
         if let e = error {
             self.responseForTextView.text = e.localizedDescription
         }
+            
     }
 }
 
@@ -650,7 +666,7 @@ extension RootViewController: ActionTableViewDelegate {
     
     func handleAction(_ action: Action) {
         let objectTypes = action.objectTypes
-        var request:SFRestRequest?
+        var request: Promise<SFRestRequest>?
         
         let objectType = self.objectTypeTextField.text
         let objectId = self.objectIdTextField.text
@@ -667,149 +683,164 @@ extension RootViewController: ActionTableViewDelegate {
         let objectIdList = self.objectIdListTextField.text?.components(separatedBy: ",")
         let entityId = self.entityIdTextField.text
         let shareType = self.shareTypeTextField.text
+        let restApi = SFRestAPI.sharedInstance()
+        let restApiPromises = restApi.Promises
         
         switch action.type {
-        case .versions:
-            request = SFRestAPI.sharedInstance().requestForVersions()
-        case .resources:
-            request = SFRestAPI.sharedInstance().requestForResources()
-        case .describeGlobal:
-            request = SFRestAPI.sharedInstance().requestForDescribeGlobal()
-        case .metadataWithObjectType:
-            guard let objType = objectType else {
-                self.showMissingFieldError(objectTypes)
-                return
-            }
-            request = SFRestAPI.sharedInstance().requestForMetadata(withObjectType: objType)
-        case .describeWithObjectType:
-            guard let objType = objectType else {
-                self.showMissingFieldError(objectTypes)
-                return
-            }
-            request = SFRestAPI.sharedInstance().requestForDescribe(withObjectType: objType)
-        case .retrieveWithObjectType:
-            guard let objType = objectType , let objId = objectId, let fList = fieldList else {
-                self.showMissingFieldError(objectTypes)
-                return
-            }
-            request = SFRestAPI.sharedInstance().requestForRetrieve(withObjectType: objType, objectId: objId, fieldList: fList)
-        case .createWithObjectType:
-            guard let objType = objectType, let f = fields else {
-                self.showMissingFieldError(objectTypes)
-                return
-            }
-            request = SFRestAPI.sharedInstance().requestForCreate(withObjectType: objType, fields: f)
-        case .upsertWithObjectType:
-            guard let objType = objectType, let extFId = externalFieldId, let extId = externalId, let f = fields else {
-                self.showMissingFieldError(objectTypes)
-                return
-            }
-            request = SFRestAPI.sharedInstance().requestForUpsert(withObjectType: objType, externalIdField: extFId, externalId: extId, fields: f)
-        case .updateWithObjectType:
-            guard let objType = objectType, let objId = objectId, let f = fields else {
-                self.showMissingFieldError(objectTypes)
-                return
-            }
-            request = SFRestAPI.sharedInstance().requestForUpdate(withObjectType: objType, objectId: objId, fields: f)
-        case .deleteWithObjectType:
-            guard let objType = objectType, let objId = objectId else {
-                self.showMissingFieldError(objectTypes)
-                return
-            }
-            request = SFRestAPI.sharedInstance().requestForDelete(withObjectType: objType, objectId: objId)
-        case .query:
-            guard let q = query else {
-                self.showMissingFieldError(objectTypes)
-                return
-            }
-            request = SFRestAPI.sharedInstance().request(forQuery: q)
-        case .search:
-            guard let s = search else {
-                self.showMissingFieldError(objectTypes)
-                return
-            }
-            request = SFRestAPI.sharedInstance().request(forSearch: s)
-        case .searchScopeAndOrder:
-            request = SFRestAPI.sharedInstance().requestForSearchScopeAndOrder()
-        case .searchResultLayout:
-            guard let objList = objectList else {
-                self.showMissingFieldError(objectTypes)
-                return
-            }
-            request = SFRestAPI.sharedInstance().request(forSearchResultLayout: objList)
-        case .ownedFilesList:
-            guard let uId = userId, let p = page else {
-                self.showMissingFieldError(objectTypes)
-                return
-            }
-            request = SFRestAPI.sharedInstance().request(forOwnedFilesList: uId, page: p)
-        case .filesInUserGroups:
-            guard let uId = userId, let p = page else {
-                self.showMissingFieldError(objectTypes)
-                return
-            }
-            request = SFRestAPI.sharedInstance().requestForFiles(inUsersGroups: uId, page: p)
-        case .filesSharedWithUser:
-            guard let uId = userId, let p = page else {
-                self.showMissingFieldError(objectTypes)
-                return
-            }
-            request = SFRestAPI.sharedInstance().requestForFilesShared(withUser: uId, page: p)
-        case .fileDetails:
-            guard let objId = objectId, let v = version else {
-                self.showMissingFieldError(objectTypes)
-                return
-            }
-            request = SFRestAPI.sharedInstance().request(forFileDetails: objId, forVersion: v)
-        case .batchFileDetails:
-            guard let objIdList = objectIdList else {
-                self.showMissingFieldError(objectTypes)
-                return
-            }
-            request = SFRestAPI.sharedInstance().request(forBatchFileDetails: objIdList)
-        case .fileShares:
-            guard let objId = objectId, let p = page else {
-                self.showMissingFieldError(objectTypes)
-                return
-            }
-            request = SFRestAPI.sharedInstance().request(forFileShares: objId, page: p)
-        case .addFileShare:
-            guard let objId = objectId, let eId = entityId, let sType = shareType else {
-                self.showMissingFieldError(objectTypes)
-                return
-            }
-            request = SFRestAPI.sharedInstance().request(forAddFileShare: objId, entityId: eId, shareType: sType)
-        case .deleteFileShare:
-            guard let objId = objectId else {
-                self.showMissingFieldError(objectTypes)
-                return
-            }
-            request = SFRestAPI.sharedInstance().request(forDeleteFileShare: objId)
-        case .currentUserInfo:
-            guard let currentAccount = SFUserAccountManager.sharedInstance().currentUser else {return}
-            var userInfoString = "Name: " + currentAccount.fullName
-            userInfoString = userInfoString + "\nID: " + currentAccount.userName
-            if let e = currentAccount.email {
-                userInfoString = userInfoString + "\nEmail: " + e
-            }
-            self.showAlert("User Info", message:userInfoString)
-        case .logout:
-            self.presentedViewController?.dismiss(animated: true, completion: nil)
-            self.createLogoutActionSheet()
-            return
-        case .switchUser:
-            let umvc = SFDefaultUserManagementViewController.init(completionBlock: { (action) in
-                self.dismiss(animated: true, completion: nil)
-            })
-            self.present(umvc, animated: true, completion: nil)
-            return
-        case .exportCredentials:
-            self.exportTestingCredentials()
+                    case .versions:
+                        request = restApiPromises.versions()
+                    case .resources:
+                        request = restApiPromises.resources()
+                    case .describeGlobal:
+                        request = restApiPromises.describeGlobal()
+                    case .metadataWithObjectType:
+                        guard let objType = objectType else {
+                            self.showMissingFieldError(objectTypes)
+                            return
+                        }
+                        request = restApiPromises.metadata(objectType: objType)
+                    case .describeWithObjectType:
+                        guard let objType = objectType else {
+                            self.showMissingFieldError(objectTypes)
+                            return
+                        }
+                        request = restApiPromises.describe(objectType: objType)
+                    case .retrieveWithObjectType:
+                        guard let objType = objectType , let objId = objectId, let fList = fieldList else {
+                            self.showMissingFieldError(objectTypes)
+                            return
+                        }
+                        request = restApiPromises.retrieve(objectType: objType, objectId: objId, fieldList: fList)
+                    case .createWithObjectType:
+                        guard let objType = objectType, let f = fields else {
+                            self.showMissingFieldError(objectTypes)
+                            return
+                        }
+                        request = restApiPromises.create(objectType: objType, fields: f)
+                    case .upsertWithObjectType:
+                        guard let objType = objectType, let extFId = externalFieldId, let extId = externalId, let f = fields else {
+                            self.showMissingFieldError(objectTypes)
+                            return
+                        }
+                        request = restApiPromises.upsert(objectType: objType, externalIdField: extFId, externalId: extId, fieldList: f)
+                    case .updateWithObjectType:
+                        guard let objType = objectType, let objId = objectId, let f = fields else {
+                            self.showMissingFieldError(objectTypes)
+                            return
+                        }
+                        request = restApiPromises.update(objectType: objType, objectId: objId, fieldList: f)
+                    case .deleteWithObjectType:
+                        guard let objType = objectType, let objId = objectId else {
+                            self.showMissingFieldError(objectTypes)
+                            return
+                        }
+                        request = restApiPromises.delete(objectType: objType, objectId: objId)
+                    case .query:
+                        guard let q = query else {
+                            self.showMissingFieldError(objectTypes)
+                            return
+                        }
+                        request = restApiPromises.query(soql: q)
+                    case .search:
+                        guard let s = search else {
+                            self.showMissingFieldError(objectTypes)
+                            return
+                        }
+                        request = restApiPromises.search(sosl: s)
+                    case .searchScopeAndOrder:
+                        request = restApiPromises.searchScopeAndOrder()
+                    case .searchResultLayout:
+                        guard let objList = objectList else {
+                            self.showMissingFieldError(objectTypes)
+                            return
+                        }
+                        request = restApiPromises.searchResultLayout(objectList: objList)
+                    case .ownedFilesList:
+                        guard let uId = userId, let p = page else {
+                            self.showMissingFieldError(objectTypes)
+                            return
+                        }
+                        request = restApiPromises.filesOwned(userId: uId, page: p)
+                    case .filesInUserGroups:
+                        guard let uId = userId, let p = page else {
+                            self.showMissingFieldError(objectTypes)
+                            return
+                        }
+                        request = restApiPromises.filesInUsersGroups(userId: uId, page: p)
+                    case .filesSharedWithUser:
+                        guard let uId = userId, let p = page else {
+                            self.showMissingFieldError(objectTypes)
+                            return
+                        }
+                        request = restApiPromises.filesShared(userId: uId, page: p)
+                    case .fileDetails:
+                        guard let objId = objectId, let v = version else {
+                            self.showMissingFieldError(objectTypes)
+                            return
+                        }
+                        request = restApiPromises.fileDetails(sfdcFileId: objId, version: v)
+                    case .batchFileDetails:
+                        guard let objIdList = objectIdList else {
+                            self.showMissingFieldError(objectTypes)
+                            return
+                        }
+                        request = restApiPromises.batchDetails(sfdcFileIds: objIdList)
+                    case .fileShares:
+                        guard let objId = objectId, let p = page else {
+                            self.showMissingFieldError(objectTypes)
+                            return
+                        }
+                        request = restApiPromises.fileShares(sfdcId: objId, page: p)
+                    case .addFileShare:
+                        guard let objId = objectId, let eId = entityId, let sType = shareType else {
+                            self.showMissingFieldError(objectTypes)
+                            return
+                        }
+                        request = restApiPromises.addFileShare(fileId: objId, entityId: eId, shareType: sType)
+                    case .deleteFileShare:
+                        guard let objId = objectId else {
+                        self.showMissingFieldError(objectTypes)
+                            return
+                        }
+                        request = restApiPromises.deleteFileShare(shareId: objId)
+                    case .currentUserInfo:
+                        guard let currentAccount = SFUserAccountManager.sharedInstance().currentUser else {return}
+                        var userInfoString = "Name: " + currentAccount.fullName
+                        userInfoString = userInfoString + "\nID: " + currentAccount.userName
+                        if let e = currentAccount.email {
+                            userInfoString = userInfoString + "\nEmail: " + e
+                        }
+                        self.showAlert("User Info", message:userInfoString)
+                    case .logout:
+                        self.presentedViewController?.dismiss(animated: true, completion: nil)
+                        self.createLogoutActionSheet()
+                        return
+                    case .switchUser:
+                        let umvc = SFDefaultUserManagementViewController.init(completionBlock: { (action) in
+                            self.dismiss(animated: true, completion: nil)
+                        })
+                        self.present(umvc, animated: true, completion: nil)
+                        return
+                    case .exportCredentials:
+                        self.exportTestingCredentials()
+                }
+        
+        guard let req = request, let requestVal = request?.value else {
+          return
         }
         
-        if let r = request {
-            self.perform(r)
+        req.then { request ->Promise<SFRestResponse> in
+                return restApiPromises.send(request: request)
+        }.done { [weak self] response in
+                DispatchQueue.main.async {
+                    self?.updateUI(requestVal, response: response, error: nil)
+                }
+         }.catch {  [weak self]  error in
+                DispatchQueue.main.async {
+                    self?.updateUI(requestVal, response: nil,error: error)
+            }
         }
+
     }
 }
 
