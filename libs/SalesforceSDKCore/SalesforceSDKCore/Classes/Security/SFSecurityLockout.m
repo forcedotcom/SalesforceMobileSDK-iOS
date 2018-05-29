@@ -470,7 +470,9 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     SFPasscodeConfigurationData configData;
     configData.lockoutTime = [self lockoutTime];
     configData.passcodeLength = [self passcodeLength];
-    [SFSecurityLockout presentPasscodeController:SFPasscodeControllerModeVerify passcodeConfig:configData];
+    if (![[SFSDKWindowManager sharedManager].snapshotWindow isEnabled]) {
+        [SFSecurityLockout presentPasscodeController:SFPasscodeControllerModeVerify passcodeConfig:configData];
+    }
     [SFSDKCoreLogger i:[self class] format:@"Device locked."];
     sForcePasscodeDisplay = NO;
 }
@@ -664,7 +666,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 
 + (BOOL)passcodeScreenIsPresent
 {
-    if ([SFSecurityLockout passcodeViewController] != nil) {
+    if ([SFSecurityLockout passcodeViewController] != nil && [[SFSecurityLockout  passcodeViewController] presentedViewController]!= nil) {
         [SFSDKCoreLogger i:[self class] format:kPasscodeScreenAlreadyPresentMessage];
         return YES;
     } else {

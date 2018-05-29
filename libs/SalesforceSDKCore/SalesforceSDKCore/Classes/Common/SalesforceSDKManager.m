@@ -827,11 +827,14 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
                 [SFSecurityLockout validateTimer];
             }
         } else {
-            [[SFSDKWindowManager sharedManager].snapshotWindow dismissWindowAnimated:NO  withCompletion:^{
-                if ([SFSecurityLockout isPasscodeNeeded]) {
-                    [SFSecurityLockout validateTimer];
-                }
+            [[SFSDKWindowManager sharedManager].snapshotWindow.viewController dismissViewControllerAnimated:NO completion:^{
+                [[SFSDKWindowManager sharedManager].snapshotWindow dismissWindowAnimated:NO  withCompletion:^{
+                    if ([SFSecurityLockout isPasscodeNeeded]) {
+                        [SFSecurityLockout validateTimer];
+                    }
+                }];
             }];
+            
         }
     }
     

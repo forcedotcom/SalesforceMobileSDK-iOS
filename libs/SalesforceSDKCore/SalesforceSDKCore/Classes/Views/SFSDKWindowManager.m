@@ -286,6 +286,7 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
         });
         return;
     }
+    if (!window.isEnabled) return;
     
     [self enumerateDelegates:^(id<SFSDKWindowManagerDelegate> delegate) {
         if ([delegate respondsToSelector:@selector(windowManager:willDismissWindow:)]){
@@ -337,6 +338,8 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
 }
 
 - (void)makeOpaqueWithCompletion:(SFSDKWindowContainer *)window completion:(void (^)(void))completion {
+    if ([window isEnabled]) return;
+    
     if (window.isSnapshotWindow) {
         SFSDKWindowContainer *activeWindow = [self activeWindow];
        
