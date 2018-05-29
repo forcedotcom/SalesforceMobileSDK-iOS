@@ -26,6 +26,7 @@
 #import "SFSmartSyncCacheManager.h"
 #import "SFSmartSyncObjectUtils.h"
 #import "SFObjectType.h"
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
