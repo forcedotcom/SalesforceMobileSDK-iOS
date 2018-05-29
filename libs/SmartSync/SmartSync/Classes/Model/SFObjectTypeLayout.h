@@ -24,6 +24,7 @@
 
 #import <Foundation/Foundation.h>
 #import "SFSmartSyncPersistableObject.h"
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
