@@ -218,6 +218,9 @@ jobs:
       - FASTLANE_LANE: "PR lib:SalesforceSwiftSDK"
       - LIB: "SalesforceSwiftSDK"
     steps:
+      - run:
+          name: Swift Version
+          command: xcrun swift -version
       - checkout
       - restore_cache: *restore-gem-cache
       - run: *install-dependecies
@@ -292,6 +295,7 @@ jobs:
       - run:
           name: Test SalesforceSwiftSDK
           command:  |
+            xcrun swift -version
             chruby ${CHRUBY_VER}
             cd .circleci
             echo SalesforceSwiftSDK | fastlane LCL
@@ -364,6 +368,7 @@ jobs:
       - run:
           name: Test SalesforceSwiftSDK
           command:  |
+            xcrun swift -version
             chruby ${CHRUBY_VER}
             cd .circleci
             echo SalesforceSwiftSDK | fastlane LCL
