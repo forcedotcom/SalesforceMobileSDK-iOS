@@ -76,11 +76,11 @@ def test_scheme(scheme)
         scheme: scheme,
         device: ENV['DEVICE'] + ENV['IOS_VERSION'],
         output_directory: 'test_output',
+        output_types: 'html',
         code_coverage: true,
         skip_build: true
     )
   ensure
-    system("mv ../test_output/report.junit ../test_output/#{scheme}_results.xml")
     system("mv ../test_output/report.html ../test_output/#{scheme}_results.html")
   end
 end
