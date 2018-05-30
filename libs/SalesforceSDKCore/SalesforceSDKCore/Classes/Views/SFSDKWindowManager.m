@@ -89,7 +89,7 @@
 }
 
 - (void)resignKeyWindow{
-    if ([SFApplicationHelper sharedApplication].applicationState == UIApplicationStateActive){
+    if ([self isSnapshotWindow] || [SFApplicationHelper sharedApplication].applicationState == UIApplicationStateActive){
         if (self.windowLevel>0)
             self.windowLevel = self.windowLevel * -1;
         self.alpha = 0.0;
@@ -97,6 +97,10 @@
         [self stashRootViewController];
     }
 }
+- (BOOL)isSnapshotWindow {
+    return [self.windowName isEqualToString:[SFSDKWindowManager sharedManager].snapshotWindow.windowName];
+}
+
 @end
 
 @interface SFSDKWindowManager()<SFSDKWindowContainerDelegate>
