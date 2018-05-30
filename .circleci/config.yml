@@ -18,8 +18,8 @@ aliases:
       ./build/pre-build
       chruby ${CHRUBY_VER}
       cd .circleci
-      bundle check || bundle install
-      bundle update
+      bundle check || sudo bundle install
+      sudo bundle update
 
   - &run-tests
     name: Run Tests
