@@ -31,18 +31,19 @@
 - (void) setupGlobalSyncsFromDefaultConfig {
     NSString *configPath = [self pathForGlobalSyncsConfig];
     [SFSDKSmartSyncLogger d:[self class] format:@"Setting up global syncs using config found in %@", configPath];
-    [self setupSyncsFromConfig:configPath store:[SFSmartStore sharedGlobalStoreWithName:kDefaultSmartStoreName]];
+    SFSDKSyncsConfig* syncsConfig = [[SFSDKSyncsConfig alloc] initWithResourceAtPath:configPath];
+    if ([syncsConfig hasSyncs]) {
+        [syncsConfig createSyncs:[SFSmartStore sharedGlobalStoreWithName:kDefaultSmartStoreName]];
+    }
 }
 
 - (void) setupUserSyncsFromDefaultConfig {
     NSString *configPath = [self pathForUserSyncsConfig];
     [SFSDKSmartSyncLogger d:[self class] format:@"Setting up user syncs using config found in %@", configPath];
-    [self setupSyncsFromConfig:configPath store:[SFSmartStore sharedStoreWithName:kDefaultSmartStoreName]];
-}
-
-- (void) setupSyncsFromConfig:(NSString*)path store:(SFSmartStore *)store {
-    SFSDKSyncsConfig* syncsConfig = [[SFSDKSyncsConfig alloc] initWithResourceAtPath:path];
-    [syncsConfig createSyncs:store];
+    SFSDKSyncsConfig* syncsConfig = [[SFSDKSyncsConfig alloc] initWithResourceAtPath:configPath];
+    if ([syncsConfig hasSyncs]) {
+        [syncsConfig createSyncs:[SFSmartStore sharedStoreWithName:kDefaultSmartStoreName]];
+    }
 }
 
 - (NSString*) pathForGlobalSyncsConfig {

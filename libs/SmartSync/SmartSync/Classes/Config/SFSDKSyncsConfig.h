@@ -62,6 +62,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void) createSyncs:(SFSmartStore*) store;
 
+/**
+ * Return YES if syncs are defined in config
+ * @return
+ */
+- (BOOL)hasSyncs;
+
 @end
 
 NS_ASSUME_NONNULL_END
