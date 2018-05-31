@@ -537,7 +537,7 @@ class SFRestAPITests: SalesforceSwiftSDKBaseTest {
         let restApi  = SFRestAPI.sharedInstance()
         var restError : Error?
         let exp = expectation(description: "restApi")
-        restApi.Promises.filesShared(userId: "me", page: 0)
+        restApi.Promises.filesShared(userId: nil, page: 0)
             .then { request in
                 restApi.Promises.send(request: request)
             }
