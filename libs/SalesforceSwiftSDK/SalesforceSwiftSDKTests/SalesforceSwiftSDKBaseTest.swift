@@ -37,7 +37,7 @@ class SalesforceSwiftSDKBaseTest: XCTestCase {
     override class func setUp() {
         super.setUp()
         SalesforceSwiftSDKManager.initSDK().shared().saveState()
-        
+        setupComplete = false
         _ = SalesforceSwiftSDKTests.readConfigFromFile(configFile: nil)
             .then { testJsonConfig -> Promise<SFUserAccount> in
                 SalesforceSwiftSDKTests.testConfig = testJsonConfig
@@ -76,13 +76,11 @@ class SalesforceSwiftSDKBaseTest: XCTestCase {
     }
     
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
     
     
     override class func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
         SalesforceSwiftSDKManager.shared().restoreState()
         super.tearDown()
     }
