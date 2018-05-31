@@ -470,7 +470,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     SFPasscodeConfigurationData configData;
     configData.lockoutTime = [self lockoutTime];
     configData.passcodeLength = [self passcodeLength];
-    if (![[SFSDKWindowManager sharedManager].snapshotWindow isEnabled]) {
+    if ([SFApplicationHelper sharedApplication].applicationState == UIApplicationStateActive) {
         [SFSecurityLockout presentPasscodeController:SFPasscodeControllerModeVerify passcodeConfig:configData];
     }
     [SFSDKCoreLogger i:[self class] format:@"Device locked."];

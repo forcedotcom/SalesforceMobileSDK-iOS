@@ -73,6 +73,8 @@
 @interface SFSDKUIWindow : UIWindow
 - (instancetype _Nonnull)initWithFrame:(CGRect)frame;
 - (instancetype _Nonnull)initWithFrame:(CGRect)frame andName:(NSString *_Nonnull)windowName;
+@property (nonatomic,strong) UIViewController * _Nullable stashedController;
+@property (nonatomic,readonly) NSString * _Nullable windowName;
 @end
 
 @interface SFSDKWindowManager : NSObject

@@ -38,8 +38,6 @@
 - (void)stashRootViewController;
 - (void)unstashRootViewController;
 
-@property (nonatomic,strong) UIViewController * _Nullable stashedController;
-@property (nonatomic,readonly) NSString * _Nullable windowName;
 @end
 
 @implementation SFSDKUIWindow
