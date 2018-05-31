@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B7C5120A20C084B100B39DAA /* bootconfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = B7C5120920C084B100B39DAA /* bootconfig.plist */; };
 		B7CEA6F320B7105E007D0564 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CEA6F220B7105E007D0564 /* AppDelegate.swift */; };
 		B7CEA70720B71139007D0564 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B7CEA70620B71139007D0564 /* Images.xcassets */; };
 		B7CEA71520B71202007D0564 /* ActionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CEA70920B71202007D0564 /* ActionTableViewCell.swift */; };
@@ -19,18 +20,11 @@
 		B7CEA71C20B71202007D0564 /* UIFont+helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CEA71320B71202007D0564 /* UIFont+helper.swift */; };
 		B7CEA71D20B71202007D0564 /* UIColors+helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CEA71420B71202007D0564 /* UIColors+helper.swift */; };
 		B7CEA71F20B712B1007D0564 /* RestAPI.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B7CEA71E20B712B1007D0564 /* RestAPI.xcassets */; };
-		B7CEA72820B71389007D0564 /* SalesforceSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7CEA72020B71389007D0564 /* SalesforceSans-Bold.ttf */; };
-		B7CEA72920B71389007D0564 /* SalesforceSans-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7CEA72120B71389007D0564 /* SalesforceSans-Thin.ttf */; };
-		B7CEA72A20B71389007D0564 /* SalesforceSans-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7CEA72220B71389007D0564 /* SalesforceSans-ThinItalic.ttf */; };
-		B7CEA72B20B71389007D0564 /* SalesforceSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7CEA72320B71389007D0564 /* SalesforceSans-BoldItalic.ttf */; };
-		B7CEA72C20B71389007D0564 /* SalesforceSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7CEA72420B71389007D0564 /* SalesforceSans-LightItalic.ttf */; };
-		B7CEA72D20B71389007D0564 /* SalesforceSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7CEA72520B71389007D0564 /* SalesforceSans-Regular.ttf */; };
-		B7CEA72E20B71389007D0564 /* SalesforceSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7CEA72620B71389007D0564 /* SalesforceSans-Light.ttf */; };
-		B7CEA72F20B71389007D0564 /* SalesforceSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7CEA72720B71389007D0564 /* SalesforceSans-Italic.ttf */; };
 		B7CEA73220B71C9E007D0564 /* SalesforceSwiftSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7CEA73120B71C9E007D0564 /* SalesforceSwiftSDK.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B7C5120920C084B100B39DAA /* bootconfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = bootconfig.plist; sourceTree = "<group>"; };
 		B7CEA6EF20B7105E007D0564 /* RestAPIExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RestAPIExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7CEA6F220B7105E007D0564 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B7CEA6FE20B71060007D0564 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -45,14 +39,6 @@
 		B7CEA71320B71202007D0564 /* UIFont+helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+helper.swift"; sourceTree = "<group>"; };
 		B7CEA71420B71202007D0564 /* UIColors+helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColors+helper.swift"; sourceTree = "<group>"; };
 		B7CEA71E20B712B1007D0564 /* RestAPI.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = RestAPI.xcassets; sourceTree = "<group>"; };
-		B7CEA72020B71389007D0564 /* SalesforceSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SalesforceSans-Bold.ttf"; path = "../../../../shared/resources/Fonts/SalesforceSans-Bold.ttf"; sourceTree = "<group>"; };
-		B7CEA72120B71389007D0564 /* SalesforceSans-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SalesforceSans-Thin.ttf"; path = "../../../../shared/resources/Fonts/SalesforceSans-Thin.ttf"; sourceTree = "<group>"; };
-		B7CEA72220B71389007D0564 /* SalesforceSans-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SalesforceSans-ThinItalic.ttf"; path = "../../../../shared/resources/Fonts/SalesforceSans-ThinItalic.ttf"; sourceTree = "<group>"; };
-		B7CEA72320B71389007D0564 /* SalesforceSans-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SalesforceSans-BoldItalic.ttf"; path = "../../../../shared/resources/Fonts/SalesforceSans-BoldItalic.ttf"; sourceTree = "<group>"; };
-		B7CEA72420B71389007D0564 /* SalesforceSans-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SalesforceSans-LightItalic.ttf"; path = "../../../../shared/resources/Fonts/SalesforceSans-LightItalic.ttf"; sourceTree = "<group>"; };
-		B7CEA72520B71389007D0564 /* SalesforceSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SalesforceSans-Regular.ttf"; path = "../../../../shared/resources/Fonts/SalesforceSans-Regular.ttf"; sourceTree = "<group>"; };
-		B7CEA72620B71389007D0564 /* SalesforceSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SalesforceSans-Light.ttf"; path = "../../../../shared/resources/Fonts/SalesforceSans-Light.ttf"; sourceTree = "<group>"; };
-		B7CEA72720B71389007D0564 /* SalesforceSans-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SalesforceSans-Italic.ttf"; path = "../../../../shared/resources/Fonts/SalesforceSans-Italic.ttf"; sourceTree = "<group>"; };
 		B7CEA73120B71C9E007D0564 /* SalesforceSwiftSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SalesforceSwiftSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -95,6 +81,7 @@
 				B7CEA70520B710F6007D0564 /* Resources */,
 				B7CEA6F220B7105E007D0564 /* AppDelegate.swift */,
 				B7CEA6FE20B71060007D0564 /* Info.plist */,
+				B7C5120920C084B100B39DAA /* bootconfig.plist */,
 			);
 			path = RestAPIExplorer;
 			sourceTree = "<group>";
@@ -102,14 +89,6 @@
 		B7CEA70520B710F6007D0564 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				B7CEA72020B71389007D0564 /* SalesforceSans-Bold.ttf */,
-				B7CEA72320B71389007D0564 /* SalesforceSans-BoldItalic.ttf */,
-				B7CEA72720B71389007D0564 /* SalesforceSans-Italic.ttf */,
-				B7CEA72620B71389007D0564 /* SalesforceSans-Light.ttf */,
-				B7CEA72420B71389007D0564 /* SalesforceSans-LightItalic.ttf */,
-				B7CEA72520B71389007D0564 /* SalesforceSans-Regular.ttf */,
-				B7CEA72120B71389007D0564 /* SalesforceSans-Thin.ttf */,
-				B7CEA72220B71389007D0564 /* SalesforceSans-ThinItalic.ttf */,
 				B7CEA70620B71139007D0564 /* Images.xcassets */,
 				B7CEA71E20B712B1007D0564 /* RestAPI.xcassets */,
 			);
@@ -219,16 +198,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B7CEA72A20B71389007D0564 /* SalesforceSans-ThinItalic.ttf in Resources */,
-				B7CEA72D20B71389007D0564 /* SalesforceSans-Regular.ttf in Resources */,
-				B7CEA72E20B71389007D0564 /* SalesforceSans-Light.ttf in Resources */,
-				B7CEA72B20B71389007D0564 /* SalesforceSans-BoldItalic.ttf in Resources */,
-				B7CEA72F20B71389007D0564 /* SalesforceSans-Italic.ttf in Resources */,
+				B7C5120A20C084B100B39DAA /* bootconfig.plist in Resources */,
 				B7CEA71F20B712B1007D0564 /* RestAPI.xcassets in Resources */,
-				B7CEA72820B71389007D0564 /* SalesforceSans-Bold.ttf in Resources */,
 				B7CEA70720B71139007D0564 /* Images.xcassets in Resources */,
-				B7CEA72920B71389007D0564 /* SalesforceSans-Thin.ttf in Resources */,
-				B7CEA72C20B71389007D0564 /* SalesforceSans-LightItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,7 +278,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -361,7 +333,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;

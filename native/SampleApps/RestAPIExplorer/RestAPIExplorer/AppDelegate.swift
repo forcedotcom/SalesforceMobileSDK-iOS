@@ -32,11 +32,6 @@ import SalesforceSDKCore
 import SalesforceSwiftSDK
 import MobileCoreServices
 
-// Fill these in when creating a new Connected Application on Force.com
-let RemoteAccessConsumerKey = "3MVG9g9rbsTkKnAWkkUnzOrokwEMnYtP.O0E2c_5E7Xe9QAaTHg3R.pzB7Y_itz_KnTzUSym9hKA9dA2yfg7X"
-let OAuthRedirectURI        = "com.salesforce.mobilesdk.sample.restapiexplorer://oauth2/success"
-
-
 @UIApplicationMain
 class AppDelegate : UIResponder, UIApplicationDelegate
 {
@@ -47,25 +42,9 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     {
         super.init()
         
-        /*
-         // scheme of idpApp
-         SFUserAccountManager.sharedInstance().advancedAuthConfiguration = .none
-         SalesforceSwiftSDKManager.shared().idpAppURIScheme = "sampleidpapp"
-         // user friendly display name
-         SalesforceSwiftSDKManager.shared().appDisplayName = "RestAPIExplorerSwift"
-         
-         // Use the following code to replace the login flow selection dialog
-         SalesforceSwiftSDKManager.shared().idpLoginFlowSelectionBlock = {
-         let controller = IDPLoginNavViewController()
-         return controller as UIViewController & SFSDKLoginFlowSelectionView
-         }
-         */
-        
         SalesforceSwiftSDKManager.initSDK()
             .Builder.configure { (appconfig: SFSDKAppConfig) -> Void in
-                appconfig.oauthScopes = ["web", "api"]
-                appconfig.remoteAccessConsumerKey = RemoteAccessConsumerKey
-                appconfig.oauthRedirectURI = OAuthRedirectURI
+                //set custom config if needed. By default this object should read from the bootconfig.plist
             }.postInit {
                 //Uncomment the following line inorder to enable/force the use of advanced authentication flow.
                 SFUserAccountManager.sharedInstance().advancedAuthConfiguration = SFOAuthAdvancedAuthConfiguration.require;
@@ -75,6 +54,22 @@ class AppDelegate : UIResponder, UIApplicationDelegate
                 
                 // NOTE: If advanced authentication is configured or forced,  it will launch Safari to handle authentication
                 // instead of a webview. You must implement application:openURL:options  to handle the callback.
+                
+                //Uncomment following block to enable IDP Login flow.
+                /*
+                 // scheme of idpApp
+                 SFUserAccountManager.sharedInstance().advancedAuthConfiguration = .none
+                 SalesforceSwiftSDKManager.shared().idpAppURIScheme = "sampleidpapp"
+                 // user friendly display name
+                 SalesforceSwiftSDKManager.shared().appDisplayName = "RestAPIExplorerSwift"
+                 
+                 // Use the following code to replace the login flow selection dialog
+                 SalesforceSwiftSDKManager.shared().idpLoginFlowSelectionBlock = {
+                 let controller = IDPLoginNavViewController()
+                 return controller as UIViewController & SFSDKLoginFlowSelectionView
+                 }
+                 */
+                
             }
             .postLaunch {  [unowned self] (launchActionList: SFSDKLaunchAction) in
                 let launchActionString = SalesforceSwiftSDKManager.launchActionsStringRepresentation(launchActionList)
@@ -86,7 +81,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
             }.switchUser{ [unowned self] (fromUser: SFUserAccount?, toUser: SFUserAccount?) -> () in
                 self.handleUserSwitch(fromUser, toUser: toUser)
             }.launchError {  [unowned self] (error: Error, launchActionList: SFSDKLaunchAction) in
-                SFSDKLogger.log(type(of:self), level:.error, message:"Error during SDK launch: \(error.localizedDescription)")
+                SalesforceSwiftLogger.log(type(of:self), level:.error, message:"Error during SDK launch: \(error.localizedDescription)")
                 self.initializeAppViewState()
                 SalesforceSwiftSDKManager.shared().launch()
             }
@@ -187,7 +182,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     
     func handleSdkManagerLogout()
     {
-        SFSDKLogger.log(type(of:self), level:.debug, message: "SFUserAccountManager logged out.  Resetting app.")
+        SalesforceSwiftLogger.log(type(of:self), level:.debug, message: "SFUserAccountManager logged out.  Resetting app.")
         self.resetViewState { () -> () in
             self.initializeAppViewState()
             
@@ -225,7 +220,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     {
         let fromUserName = (fromUser != nil) ? fromUser?.userName : "<none>"
         let toUserName = (toUser != nil) ? toUser?.userName : "<none>"
-        SFSDKLogger.log(type(of:self), level:.debug, message:"SFUserAccountManager changed from user \(String(describing: fromUserName)) to \(String(describing: toUserName)).  Resetting app.")
+        SalesforceSwiftLogger.log(type(of:self), level:.debug, message:"SFUserAccountManager changed from user \(String(describing: fromUserName)) to \(String(describing: toUserName)).  Resetting app.")
         self.resetViewState { () -> () in
             self.initializeAppViewState()
             SalesforceSwiftSDKManager.shared().launch()
@@ -240,9 +235,9 @@ class AppDelegate : UIResponder, UIApplicationDelegate
                 return
         }
         
-        var config = ["test_client_id": RemoteAccessConsumerKey,
+        var config = ["test_client_id": SalesforceSwiftSDKManager.shared().appConfig?.remoteAccessConsumerKey,
                       "test_login_domain": SFUserAccountManager.sharedInstance().loginHost,
-                      "test_redirect_uri": OAuthRedirectURI,
+                      "test_redirect_uri": SalesforceSwiftSDKManager.shared().appConfig?.oauthRedirectURI,
                       "refresh_token": creds.refreshToken,
                       "instance_url": instance.absoluteString,
                       "identity_url": identity.absoluteString,

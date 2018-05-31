@@ -2,17 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIAppFonts</key>
-	<array>
-		<string>SalesforceSans-Bold.ttf</string>
-		<string>SalesforceSans-BoldItalic.ttf</string>
-		<string>SalesforceSans-Italic.ttf</string>
-		<string>SalesforceSans-Light.ttf</string>
-		<string>SalesforceSans-LightItalic.ttf</string>
-		<string>SalesforceSans-Regular.ttf</string>
-		<string>SalesforceSans-Thin.ttf</string>
-		<string>SalesforceSans-ThinItalic.ttf</string>
-	</array>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

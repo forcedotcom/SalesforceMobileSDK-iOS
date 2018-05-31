@@ -31,14 +31,14 @@ import UIKit
 
 extension UIFont {
     class func appRegularFont(_ size:CGFloat) -> UIFont? {
-        return UIFont(name: "SalesforceSans-Regular", size: size)
+        return UIFont.systemFont(ofSize: size, weight: .regular)
     }
     
     class func appBoldFont(_ size:CGFloat) -> UIFont? {
-        return UIFont(name: "SalesforceSans-Bold", size: size)
+        return UIFont.boldSystemFont(ofSize: size)
     }
     
     class func appLightFont(_ size:CGFloat) -> UIFont? {
-        return UIFont(name: "SalesforceSans-Light", size: size)
+        return UIFont.systemFont(ofSize: size, weight: .light)
     }
 }

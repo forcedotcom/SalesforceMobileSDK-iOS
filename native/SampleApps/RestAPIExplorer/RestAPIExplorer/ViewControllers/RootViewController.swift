@@ -160,13 +160,11 @@ class RootViewController: UIViewController {
         
         var topAnchor = self.view.topAnchor
         var bottomAnchor = self.view.bottomAnchor
-        var centerXAnchor = self.view.centerXAnchor
         var rightAnchor = self.view.rightAnchor
         var leftAnchor = self.view.leftAnchor
         if #available(iOS 11.0, *) {
             topAnchor = self.view.safeAreaLayoutGuide.topAnchor
             bottomAnchor = self.view.safeAreaLayoutGuide.bottomAnchor
-            centerXAnchor = self.view.safeAreaLayoutGuide.centerXAnchor
             rightAnchor = self.view.safeAreaLayoutGuide.rightAnchor
             leftAnchor = self.view.safeAreaLayoutGuide.leftAnchor
         }
@@ -643,7 +641,7 @@ class RootViewController: UIViewController {
         
         if let obj = response?.asData() {
             let json = try? JSONSerialization.jsonObject(with: obj, options: [])
-            let jsonData = try? JSONSerialization.data(withJSONObject: json, options: .prettyPrinted)
+            let jsonData = try? JSONSerialization.data(withJSONObject: json as Any, options: .prettyPrinted)
             if let jsonObj = jsonData {
                 let jsonString = String(data: jsonObj, encoding: .utf8)
                 self.responseForTextView.setContentOffset(CGPoint.zero, animated: false)
@@ -843,9 +841,6 @@ extension RootViewController: ActionTableViewDelegate {
 
     }
 }
-
-
-
 
 
 
