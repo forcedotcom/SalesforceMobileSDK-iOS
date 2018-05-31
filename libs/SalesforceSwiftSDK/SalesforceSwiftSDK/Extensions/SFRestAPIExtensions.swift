@@ -596,7 +596,7 @@ extension SFRestAPI {
              - page: A page number for results.
          - Returns:  SFRestRequest wrapped in a promise.
          */
-        public func filesShared(userId: String, page: UInt = 0) -> Promise<SFRestRequest> {
+        public func filesShared(userId: String?, page: UInt = 0) -> Promise<SFRestRequest> {
             return  Promise(.pending) {  resolver in
                 resolver.fulfill(
                     self.api!.requestForFilesShared(withUser: userId, page: page))
