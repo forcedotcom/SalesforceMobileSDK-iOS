@@ -1,5 +1,10 @@
 /*
- Copyright (c) 2013-present, salesforce.com, inc. All rights reserved.
+ IDPLoginNavViewController.swift
+ RestAPIExplorerSwift
+
+ Created by Nicholas McDonald on 1/15/18.
+
+ Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,8 +27,31 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
+import UIKit
+import SalesforceSDKCore.SFSDKLoginFlowSelectionView
 
-@interface InitialViewController : UIViewController
+class IDPLoginNavViewController: UINavigationController, SFSDKLoginFlowSelectionView {
+    weak var selectionFlowDelegate:SFSDKLoginFlowSelectionViewDelegate?
+    var appOptions:[AnyHashable: Any]!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let controller = IDPLoginViewController(nibName: nil, bundle: nil)
+        controller.loginSelectionDelegate = self
+        self.pushViewController(controller, animated: true)
+    }
+}
 
-@end
+extension IDPLoginNavViewController: IDPLoginViewControllerDelegate {
+    func loginUsingIDP() {
+        if let d = self.selectionFlowDelegate {
+            d.loginFlowSelectionIDPSelected(self, options: self.appOptions)
+        }
+    }
+    
+    func loginUsingApp() {
+        if let d = self.selectionFlowDelegate {
+            d.loginFlowSelectionLocalLoginSelected(self, options: self.appOptions)
+        }
+    }
+}

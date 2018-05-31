@@ -1,5 +1,10 @@
 /*
- Copyright (c) 2011-present, salesforce.com, inc. All rights reserved.
+ ViewController.swift
+ RestAPIExplorerSwift
+
+ Created by Nicholas McDonald on 1/3/18.
+ 
+ Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,12 +27,33 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@interface AppDelegate : NSObject <UIApplicationDelegate>
-{
-    
+import UIKit
+
+class InitialViewController: UIViewController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.view.backgroundColor = UIColor.white
+        
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        guard let info = Bundle.main.infoDictionary, let name = info[kCFBundleNameKey as String] else { return }
+        label.font = UIFont.systemFont(ofSize: 29)
+        label.textColor = UIColor.black
+        label.text = name as? String
+        
+        self.view.addSubview(label)
+        label.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        label.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+        // Do any additional setup after loading the view, typically from a nib.
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+
+
 }
-
-- (void)exportTestingCredentials;
-
-@end
 

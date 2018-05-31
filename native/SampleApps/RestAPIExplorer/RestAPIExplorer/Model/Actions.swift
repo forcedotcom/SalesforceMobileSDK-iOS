@@ -1,5 +1,10 @@
 /*
- Copyright (c) 2013-present, salesforce.com, inc. All rights reserved.
+ Actions.swift
+ RestAPIExplorerSwift
+
+ Created by Nicholas McDonald on 1/10/18.
+ 
+ Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,33 +27,39 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "InitialViewController.h"
+import Foundation
 
-@interface InitialViewController ()
-
-@end
-
-@implementation InitialViewController
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
+enum ActionType {
+    case versions
+    case resources
+    case describeGlobal
+    case metadataWithObjectType
+    case describeWithObjectType
+    case retrieveWithObjectType
+    case createWithObjectType
+    case upsertWithObjectType
+    case updateWithObjectType
+    case deleteWithObjectType
+    case query
+    case search
+    case searchScopeAndOrder
+    case searchResultLayout
+    case ownedFilesList
+    case filesInUserGroups
+    case filesSharedWithUser
+    case fileDetails
+    case batchFileDetails
+    case fileShares
+    case addFileShare
+    case deleteFileShare
+    case currentUserInfo
+    case logout
+    case switchUser
+    case exportCredentials
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+struct Action {
+    let type:ActionType
+    let method:String
+    let objectTypes:String?
 }
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-@end
