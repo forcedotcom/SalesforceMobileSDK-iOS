@@ -130,6 +130,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    // The Mobile SDK uses multiple UIWindow's inorder to present views. Having
+    // Multiple windows with different controllers varying rotational behaviors
+    // lead to weird UIWindow behaviors. To avoid such rotation and other issues
+    // between visible and hidden windows use the SFSDKUIWindow instead of  
+    // UIWindow.
     self.window = [[SFSDKUIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     [self initializeAppViewState];
     [[SalesforceSDKManager sharedManager] launch];

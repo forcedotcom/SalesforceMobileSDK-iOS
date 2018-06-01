@@ -57,7 +57,6 @@
 - (UIWindow *)window {
     if (_window == nil) {
         _window = [[SFSDKUIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds  andName:_windowName];
-        //_window.hidden = NO;
         _window.windowLevel = self.windowLevel;
         UIViewController *controller = _viewController;
         if (!controller) {

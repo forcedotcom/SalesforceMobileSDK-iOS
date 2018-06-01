@@ -31,7 +31,22 @@
 #import "SFSDKRootController.h"
 #import "SFApplicationHelper.h"
 #import "SFSecurityLockout.h"
-
+/*
+Attempt to resolve issues related to  the multi-windowing implementation in the SDK. Multiple visible UI windows tend to have some really bad side effects with rotations (keyboard and views) and status bar. We previously resorted to using the hidden property, unfortunately using hidden property on the UIWindow leads to really bad flicker issues ( black screen ). Reverted back to using alpha with a slightly different strategy.
+ 
+ A debugging of UIKIT revealed the following facts.
+ 
+ All UIWindows are rotated when rotation occurs.
+ 
+ All preference calls are delegated to the window's rootviewcontroller if present.
+ 
+ Multiple windows with different behaviors will lead to weird UI experience. For instance a visible window may be locked to portrait mode, but during rotation the status bar will still continue to rotate because another window may allow rotations. It will also lead to keyboard window being in the wrong orientation.
+ 
+ Strategy used.
+ 
+ Stash(nullify) the rootviewcontroller when the window is presented and unstash(restore) when dismissed. Extended UIWindow (SFSDKUIWindow) to handle the stash and unstash.
+ Windows are created lazily and the references are removed when the windows are dismissed.
+ */
 @interface SFSDKUIWindow ()
 - (instancetype)initWithFrame:(CGRect)frame;
 - (instancetype)initWithFrame:(CGRect)frame andName:(NSString *)windowName;
