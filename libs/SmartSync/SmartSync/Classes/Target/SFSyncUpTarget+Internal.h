@@ -37,4 +37,9 @@
 - (BOOL)isNewerThanServer:(SFRecordModDate*)localModDate
             remoteModDate:(SFRecordModDate*)remoteModDate;
 
+- (void) saveRecordToLocalStoreWithLastError:(SFSmartSyncSyncManager*)syncManager
+                                    soupName:(NSString*) soupName
+                                      record:(NSDictionary*) record
+                                   lastError:(NSString*) lastError;
+
 @end

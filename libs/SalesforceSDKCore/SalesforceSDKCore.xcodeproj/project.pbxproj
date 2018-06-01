@@ -2535,6 +2535,7 @@
 						TestTargetID = 82D4642319C7C8170006BDFE;
 					};
 					82D4642319C7C8170006BDFE = {
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.Keychain = {
 								enabled = 1;
@@ -3402,6 +3403,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CODE_SIGN_ENTITLEMENTS = SalesforceSDKCoreTestApp/SalesforceSDKCoreTestApp.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
@@ -3423,6 +3426,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.salesforce.mobilesdk.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -3444,6 +3448,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CODE_SIGN_ENTITLEMENTS = SalesforceSDKCoreTestApp/SalesforceSDKCoreTestApp.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3462,6 +3468,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.salesforce.mobilesdk.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};

@@ -1264,9 +1264,8 @@ static Class InstanceClass = nil;
 
         // Logging events for add user and number of servers.
         NSArray *accounts = [SFUserAccountManager sharedInstance].allUserAccounts;
-        NSMutableDictionary *userAttributes = [[NSMutableDictionary alloc] init];
-        userAttributes[@"numUsers"] = [NSNumber numberWithInteger:(accounts ? accounts.count : 0)];
-        [SFSDKEventBuilderHelper createAndStoreEvent:@"addUser" userAccount:userAccount  className:NSStringFromClass([self class]) attributes:userAttributes];
+        NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
+        attributes[@"numUsers"] = [NSNumber numberWithInteger:(accounts ? accounts.count : 0)];
         NSInteger numHosts = [SFSDKLoginHostStorage sharedInstance].numberOfLoginHosts;
         NSMutableArray<NSString *> *hosts = [[NSMutableArray alloc] init];
         for (int i = 0; i < numHosts; i++) {
@@ -1275,10 +1274,9 @@ static Class InstanceClass = nil;
                 [hosts addObject:host.host];
             }
         }
-        NSMutableDictionary *serverAttributes = [[NSMutableDictionary alloc] init];
-        serverAttributes[@"numLoginServers"] = [NSNumber numberWithInteger:numHosts];
-        serverAttributes[@"loginServers"] = hosts;
-        [SFSDKEventBuilderHelper createAndStoreEvent:@"addUser" userAccount:nil className:NSStringFromClass([self class]) attributes:serverAttributes];
+        attributes[@"numLoginServers"] = [NSNumber numberWithInteger:numHosts];
+        attributes[@"loginServers"] = hosts;
+        [SFSDKEventBuilderHelper createAndStoreEvent:@"addUser" userAccount:userAccount  className:NSStringFromClass([self class]) attributes:attributes];
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{

@@ -34,6 +34,7 @@
 
 static NSString * const kSFSyncTargetObjectType = @"sobjectType";
 static NSString * const kSFSyncTargetLayoutType = @"layoutType";
+static NSString * const kIDFieldValue = @"%@-%@";
 
 @interface SFLayoutSyncDownTarget ()
 
@@ -50,7 +51,6 @@ static NSString * const kSFSyncTargetLayoutType = @"layoutType";
         self.queryType = SFSyncDownTargetQueryTypeLayout;
         self.objectType = dict[kSFSyncTargetObjectType];
         self.layoutType = dict[kSFSyncTargetLayoutType];
-        self.idFieldName = @"id";
     }
     return self;
 }
@@ -59,7 +59,6 @@ static NSString * const kSFSyncTargetLayoutType = @"layoutType";
     self = [super init];
     if (self) {
         self.queryType = SFSyncDownTargetQueryTypeLayout;
-        self.idFieldName = @"id";
     }
     return self;
 }
@@ -69,7 +68,6 @@ static NSString * const kSFSyncTargetLayoutType = @"layoutType";
     syncTarget.queryType = SFSyncDownTargetQueryTypeLayout;
     syncTarget.objectType = objectType;
     syncTarget.layoutType = layoutType;
-    syncTarget.idFieldName = @"id";
     return syncTarget;
 }
 
@@ -99,8 +97,10 @@ static NSString * const kSFSyncTargetLayoutType = @"layoutType";
         errorBlock(e);
     } completeBlock:^(NSDictionary *d, NSURLResponse *rawResponse) {
         weakSelf.totalSize = 1;
+        NSMutableDictionary *record = [[NSMutableDictionary alloc] initWithDictionary:d];
+        record[kId] = [NSString stringWithFormat:kIDFieldValue, weakSelf.objectType, weakSelf.layoutType];
         NSMutableArray *records = [[NSMutableArray alloc] initWithCapacity:1];
-        records[0] = d;
+        records[0] = record;
         completeBlock(records);
     }];
 }

@@ -468,6 +468,20 @@
                ReferencedContainer = "container:libs/SalesforceReact/SalesforceReact.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "B7CEA6EE20B7105E007D0564"
+               BuildableName = "RestAPIExplorer.app"
+               BlueprintName = "RestAPIExplorer"
+               ReferencedContainer = "container:native/SampleApps/RestAPIExplorer/RestAPIExplorer.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction

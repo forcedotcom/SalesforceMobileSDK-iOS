@@ -411,6 +411,8 @@ static NSException *authException = nil;
    expectedLocallyUpdated:(bool)expectedLocallyUpdated
    expectedLocallyDeleted:(bool)expectedLocallyDeleted {
 
+    BOOL expectedDirty = expectedLocallyCreated||expectedLocallyUpdated||expectedLocallyDeleted;
+
     // Ids clause
     NSString* idsClause = [self buildInClause:ids];
 
@@ -422,13 +424,18 @@ static NSException *authException = nil;
     XCTAssertEqual(ids.count, rows.count);
     for (NSArray* row in rows) {
         NSDictionary *recordFromDb = row[0];
-        XCTAssertEqualObjects(@(expectedLocallyCreated||expectedLocallyUpdated||expectedLocallyDeleted), recordFromDb[kSyncTargetLocal]);
+        XCTAssertEqualObjects(@(expectedDirty), recordFromDb[kSyncTargetLocal]);
         XCTAssertEqualObjects(@(expectedLocallyCreated), recordFromDb[kSyncTargetLocallyCreated]);
         XCTAssertEqualObjects(@(expectedLocallyUpdated), recordFromDb[kSyncTargetLocallyUpdated]);
         XCTAssertEqualObjects(@(expectedLocallyDeleted), recordFromDb[kSyncTargetLocallyDeleted]);
         NSString* id = recordFromDb[ID];
         bool hasLocalIdPrefix = [id hasPrefix:LOCAL_ID_PREFIX];
         XCTAssertEqual(expectedLocallyCreated, hasLocalIdPrefix);
+
+        // Last error field should be empty for a clean record
+        if (!expectedDirty) {
+            XCTAssertTrue([recordFromDb[kSyncTargetLastError] length] == 0, "Last error should be empty");
+        }
     }
 }
 
@@ -448,6 +455,26 @@ static NSException *authException = nil;
     for (NSArray* row in rows) {
         NSDictionary *recordFromDb = row[0];
         XCTAssertEqualObjects(syncId, recordFromDb[kSyncTargetSyncId]);
+    }
+}
+
+- (void)checkDbLastErrorField:(NSArray *)ids
+                  soupName:(NSString *)soupName
+        lastErrorSubString:(NSString*)lastErrorSubString {
+
+    // Ids clause
+    NSString* idsClause = [self buildInClause:ids];
+
+    // Query
+    NSString* smartSql = [NSString stringWithFormat:@"SELECT {%@:_soup} FROM {%@} WHERE {%@:Id} IN %@", soupName, soupName, soupName, idsClause];
+
+    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:ids.count];
+    NSArray* rows = [self.store queryWithQuerySpec:query pageIndex:0 error:nil];
+    XCTAssertEqual(ids.count, rows.count);
+    for (NSArray* row in rows) {
+        NSDictionary *recordFromDb = row[0];
+        NSString* lastErrorInDb = recordFromDb[kSyncTargetLastError];
+        XCTAssertTrue([lastErrorInDb containsString:lastErrorSubString]);
     }
 }
 
@@ -624,8 +651,12 @@ static NSException *authException = nil;
 }
 
 - (NSDictionary *)updateRecordLocally:(NSDictionary *)fields idToUpdate:(NSString *)idToUpdate soupName:(NSString*)soupName {
+    return [self updateRecordLocally:fields idToUpdate:idToUpdate soupName:soupName suffix:LOCALLY_UPDATED];
+}
+
+- (NSDictionary *)updateRecordLocally:(NSDictionary *)fields idToUpdate:(NSString *)idToUpdate soupName:(NSString*)soupName suffix:(NSString*)suffix {
     NSMutableDictionary * idToFieldsLocallyUpdated = [NSMutableDictionary new];
-    NSDictionary* updatedFields = [self updateFields:fields suffix:LOCALLY_UPDATED];
+    NSDictionary* updatedFields = [self updateFields:fields suffix:suffix];
     idToFieldsLocallyUpdated[idToUpdate] = updatedFields;
     [self updateRecordsLocally:idToFieldsLocallyUpdated soupName:soupName];
     return idToFieldsLocallyUpdated;

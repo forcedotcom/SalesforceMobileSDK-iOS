@@ -89,6 +89,8 @@
 
 - (void)checkDbSyncIdField:(NSArray *)ids soupName:(NSString *)soupName syncId:(NSNumber*)syncId;
 
+- (void)checkDbLastErrorField:(NSArray *)ids soupName:(NSString *)soupName lastErrorSubString:(NSString*)lastErrorSubString;
+
 - (NSDictionary *)makeSomeLocalChanges:(NSDictionary *)idToFields soupName:(NSString *)soupName;
 - (NSDictionary *)makeSomeLocalChanges:(NSDictionary *)idToFields soupName:(NSString *)soupName idsToUpdate:(NSArray *)idsToUpdate;
 - (NSDictionary *)prepareSomeChanges:(NSDictionary *)idToFields idsToUpdate:(NSArray *)idsToUpdate suffix:(NSString *)suffix;
@@ -111,6 +113,8 @@
 - (NSDictionary *)updateRecordOnServer:(NSDictionary *)fields idToUpdate:(NSString *)idToUpdate objectType:(NSString *)objectType;
 
 - (NSDictionary *)updateRecordLocally:(NSDictionary *)fields idToUpdate:(NSString *)idToUpdate soupName:(NSString *)soupName;
+
+- (NSDictionary *)updateRecordLocally:(NSDictionary *)fields idToUpdate:(NSString *)idToUpdate soupName:(NSString*)soupName suffix:(NSString*)suffix;
 
 - (void)deleteRecordsLocally:(NSArray *)ids soupName:(NSString *)soupName;
 

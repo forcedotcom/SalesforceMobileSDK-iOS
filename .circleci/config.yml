@@ -18,8 +18,8 @@ aliases:
       ./build/pre-build
       chruby ${CHRUBY_VER}
       cd .circleci
-      bundle check || bundle install
-      bundle update
+      bundle check || sudo bundle install
+      sudo bundle update
 
   - &run-tests
     name: Run Tests
@@ -44,7 +44,7 @@ aliases:
 defaults: &defaults
   working_directory: ~/SalesforceMobileSDK-iOS
   macos:
-    xcode: "9.3.0"
+    xcode: "9.3.1"
   shell: /bin/bash --login -eo pipefail
   environment:
     BASH_ENV: ~/.bashrc
@@ -218,6 +218,9 @@ jobs:
       - FASTLANE_LANE: "PR lib:SalesforceSwiftSDK"
       - LIB: "SalesforceSwiftSDK"
     steps:
+      - run:
+          name: Swift Version
+          command: xcrun swift -version
       - checkout
       - restore_cache: *restore-gem-cache
       - run: *install-dependecies
@@ -292,6 +295,7 @@ jobs:
       - run:
           name: Test SalesforceSwiftSDK
           command:  |
+            xcrun swift -version
             chruby ${CHRUBY_VER}
             cd .circleci
             echo SalesforceSwiftSDK | fastlane LCL
@@ -364,6 +368,7 @@ jobs:
       - run:
           name: Test SalesforceSwiftSDK
           command:  |
+            xcrun swift -version
             chruby ${CHRUBY_VER}
             cd .circleci
             echo SalesforceSwiftSDK | fastlane LCL

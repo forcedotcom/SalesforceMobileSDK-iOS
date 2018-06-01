@@ -69,7 +69,7 @@ class SmartSyncManagerTests: SyncManagerBaseTest {
         let numberOfRecords: UInt = 1
         var contactIds:[String] = []
         firstly {
-            super.createContactsOnServer(noOfRecords: numberOfRecords)
+            try super.createContactsOnServer(noOfRecords: numberOfRecords)
         }
         .then { ids -> Promise<SFSyncState> in
             contactIds = ids
@@ -86,7 +86,7 @@ class SmartSyncManagerTests: SyncManagerBaseTest {
         }
         .then { count -> Promise<Void>  in
             XCTAssertTrue(count==numberOfRecords)
-            return super.deleteContactsFromServer(contactIds: contactIds)
+            return try super.deleteContactsFromServer(contactIds: contactIds)
         }
         .done {
             expectation.fulfill()
@@ -114,7 +114,7 @@ class SmartSyncManagerTests: SyncManagerBaseTest {
         }
         .then { syncState -> Promise<Void> in
              XCTAssertTrue(syncState.isDone())
-             return super.deleteAllTestContactsFromServer()
+             return try super.deleteAllTestContactsFromServer()
         }
         .done { _ in
             expectation.fulfill()
@@ -132,7 +132,7 @@ class SmartSyncManagerTests: SyncManagerBaseTest {
         var contactIds:[String] = []
         var syncId: UInt = 0
         firstly {
-            super.createContactsOnServer(noOfRecords: numberOfRecords)
+            try super.createContactsOnServer(noOfRecords: numberOfRecords)
             }
             .then { ids -> Promise<SFSyncState> in
                 contactIds = ids
@@ -150,7 +150,7 @@ class SmartSyncManagerTests: SyncManagerBaseTest {
             }
             .then { count -> Promise<Void>  in
                 XCTAssertTrue(count==numberOfRecords)
-                return super.deleteContactsFromServer(contactIds: contactIds)
+                return try super.deleteContactsFromServer(contactIds: contactIds)
             }
             .then { _ -> Promise<SFSyncStateStatus> in
                 XCTAssertTrue(syncId > 0)
@@ -173,7 +173,7 @@ class SmartSyncManagerTests: SyncManagerBaseTest {
         var contactIds:[String] = []
         var syncId: UInt = 0
         firstly {
-            super.createContactsOnServer(noOfRecords: numberOfRecords)
+            try super.createContactsOnServer(noOfRecords: numberOfRecords)
         }
         .then { ids -> Promise<SFSyncState> in
             contactIds = ids
@@ -191,7 +191,7 @@ class SmartSyncManagerTests: SyncManagerBaseTest {
         }
         .then { count -> Promise<Void>  in
             XCTAssertTrue(count==numberOfRecords)
-            return super.deleteContactsFromServer(contactIds: contactIds)
+            return try super.deleteContactsFromServer(contactIds: contactIds)
         }
         .then { _ -> Promise<SFSyncState> in
             XCTAssertTrue(syncId > 0)

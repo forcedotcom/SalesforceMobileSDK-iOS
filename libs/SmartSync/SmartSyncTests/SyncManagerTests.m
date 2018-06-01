@@ -416,7 +416,7 @@
  */
 - (void)testSyncDownForMetadataTarget {
     NSArray* indexSpecs = @[
-                            [[SFSoupIndex alloc] initWithPath:@"keyPrefix" indexType:kSoupIndexTypeString columnName:nil]
+                            [[SFSoupIndex alloc] initWithPath:@"Id" indexType:kSoupIndexTypeString columnName:nil]
                             ];
     [self.store registerSoup:ACCOUNTS_SOUP withIndexSpecs:indexSpecs error:nil];
     [self trySyncDown:SFSyncStateMergeModeOverwrite target:[SFMetadataSyncDownTarget newSyncTarget:ACCOUNT_TYPE] soupName:ACCOUNTS_SOUP totalSize:1 numberFetches:1];
@@ -438,7 +438,7 @@
  */
 - (void)testSyncDownForLayoutTarget {
     NSArray* indexSpecs = @[
-                            [[SFSoupIndex alloc] initWithPath:@"id" indexType:kSoupIndexTypeString columnName:nil]
+                            [[SFSoupIndex alloc] initWithPath:@"Id" indexType:kSoupIndexTypeString columnName:nil]
                             ];
     [self.store registerSoup:ACCOUNTS_SOUP withIndexSpecs:indexSpecs error:nil];
     [self trySyncDown:SFSyncStateMergeModeOverwrite target:[SFLayoutSyncDownTarget newSyncTarget:ACCOUNT_TYPE layoutType:@"Compact"] soupName:ACCOUNTS_SOUP totalSize:1 numberFetches:1];
@@ -620,6 +620,61 @@
     // Make sure the soup doesn't contain the record deleted on the server anymore
     [self checkDb:idToFieldsLeft];
     [self checkDbDeleted:ACCOUNTS_SOUP ids:@[idDeleted] idField:@"Id"];
+}
+
+/**
+ Test that errors are captured on record during sync up
+ Create a few records - some with bad names (too long or empty)
+ Sync up
+ Make sure the records with bad names are still marked as locally created and have the last error field populated
+ */
+-(void) testSyncUpWithErrors
+{
+    // Setup soup
+    [self createAccountsSoup];
+    idToFields = [NSMutableDictionary new];
+
+    // Build name too long
+    NSMutableString* nameTooLong = [NSMutableString new];
+    for (int i = 0; i < 256; i++) [nameTooLong appendString:@"x"];
+
+    // Create a few entries locally
+    NSArray* goodNames = @[ [self createAccountName], [self createAccountName], [self createAccountName]];
+    NSArray* badNames = @[ nameTooLong, @"" ];
+
+    [self createAccountsLocally:goodNames];
+    [self createAccountsLocally:badNames];
+
+    // Sync up
+    [self trySyncUp:5 mergeMode:SFSyncStateMergeModeOverwrite];
+
+    // Check db for records with good names
+    NSDictionary* idToFieldsGoodNames = [self getIdToFieldsByName:ACCOUNTS_SOUP fieldNames:@[NAME, DESCRIPTION] nameField:NAME names:goodNames];
+    [self checkDbStateFlags:[idToFieldsGoodNames allKeys] soupName:ACCOUNTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:NO expectedLocallyDeleted:NO];
+
+    // Check db for records with bad names
+    NSDictionary* idToFieldsBadNames = [self getIdToFieldsByName:ACCOUNTS_SOUP fieldNames:@[NAME, DESCRIPTION, kSyncTargetLastError] nameField:NAME names:badNames];
+    [self checkDbStateFlags:[idToFieldsBadNames allKeys] soupName:ACCOUNTS_SOUP expectedLocallyCreated:YES expectedLocallyUpdated:NO expectedLocallyDeleted:NO];
+
+    for (NSDictionary * fields in [idToFieldsBadNames allValues]) {
+        NSString* name = fields[NAME];
+        NSString* lastError = fields[kSyncTargetLastError];
+        if ([name isEqualToString:nameTooLong]) {
+            XCTAssertTrue([lastError containsString:@"Account Name: data value too large"], @"Name too large error expected");
+        }
+        else if ([name isEqualToString:@""]) {
+            XCTAssertTrue([lastError containsString:@"Required fields are missing: [Name]"], @"Missing name error expected");
+        }
+        else {
+            XCTFail(@"Unexpected record found: %@", name);
+        }
+    }
+
+    // Check server for records with good names
+    [self checkServer:idToFieldsGoodNames];
+
+    // Adding to idToFields so that they get deleted in tearDown
+    [idToFields addEntriesFromDictionary:idToFieldsGoodNames];
 }
 
 /**
