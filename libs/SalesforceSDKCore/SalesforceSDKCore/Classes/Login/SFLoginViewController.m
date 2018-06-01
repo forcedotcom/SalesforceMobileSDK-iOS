@@ -99,20 +99,14 @@ SFSDK_USE_DEPRECATED_END
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    UIWindow *currentWindow = (UIWindow *) self.view.window;
-    
-    //Refresh all views.
-    for (UIView *view in currentWindow.subviews) {
-        [view removeFromSuperview];
-        view.bounds = CGRectMake(0,0,currentWindow.bounds.size.width,currentWindow.bounds.size.height);
-        view.center = CGPointMake(currentWindow.bounds.size.width/2,currentWindow.bounds.size.height/2);
-        [currentWindow addSubview:view];
-    }
-    
     if (self.showNavbar) {
         [self styleNavigationBar:self.navBar];
     }
     [self setupBackButton];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
 }
 
 - (BOOL)prefersStatusBarHidden {

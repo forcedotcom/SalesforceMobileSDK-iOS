@@ -2,7 +2,7 @@
  SalesforceSDKCore.h
  SalesforceSDKCore
 
- Created by Raj Rao on Thu May 10 09:50:19 PDT 2018.
+ Created by Raj Rao on Fri Jun  1 07:07:17 PDT 2018.
 
  Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
@@ -122,6 +122,7 @@
 #import <SalesforceSDKCore/SFCommunityData.h>
 #import <SalesforceSDKCore/SFPasscodeViewController.h>
 #import <SalesforceSDKCore/SFPushNotificationManager.h>
+#import <SalesforceSDKCore/SFSDKViewController.h>
 #import <SalesforceSDKCore/NSObject+SFBlocks.h>
 #import <SalesforceSDKCore/SFNetwork.h>
 #import <SalesforceSDKCore/SFAbstractPasscodeViewController.h>
