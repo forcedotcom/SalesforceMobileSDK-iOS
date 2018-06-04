@@ -24,7 +24,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-
+#import "SFSDKViewController.h"
 #import "SFSecurityLockout.h"
 #import "SFPasscodeViewControllerTypes.h"
 
@@ -43,7 +43,7 @@ extern const NSUInteger kMaxNumberofAttempts;
 /**
  * Base class for passcode screen view controllers.
  */
-@interface SFAbstractPasscodeViewController : UIViewController
+@interface SFAbstractPasscodeViewController : SFSDKViewController
 
 /**
  * The configuration data used to create or update the passcode.

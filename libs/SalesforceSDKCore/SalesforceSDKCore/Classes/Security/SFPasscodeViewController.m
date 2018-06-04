@@ -335,12 +335,16 @@ static CGFloat      const kUseTouchIdButtonHeight           = 40.0f;
     [self layoutUseTouchIdButton];
 }
 
--(BOOL) shouldAutorotate {
-    return NO;
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
 }
 
 -(UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskPortrait;
+}
+
+-(BOOL) shouldAutorotate {
+    return NO;
 }
 
 - (void)layoutPasscodeField

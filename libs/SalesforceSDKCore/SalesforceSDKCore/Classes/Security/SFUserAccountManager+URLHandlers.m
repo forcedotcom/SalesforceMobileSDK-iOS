@@ -140,7 +140,9 @@
         controller.spAppOptions = request.allParams;
         controller.userSelectionDelegate = self;
         authClient.authWindow.viewController = controller;
-        [authClient.authWindow presentWindow];
+        [authClient.authWindow presentWindowAnimated:NO withCompletion:^{
+            [authClient.authWindow.viewController presentViewController:controller animated:NO  completion:nil];
+        }];
     } else {
         [authClient setCallingAppOptionsInContext:request.allParams];
         [authClient beginIDPFlow:request]; 

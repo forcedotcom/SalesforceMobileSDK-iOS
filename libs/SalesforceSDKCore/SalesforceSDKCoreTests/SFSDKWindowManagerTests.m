@@ -133,7 +133,7 @@
     [passcodeWindow presentWindow];
     XCTAssert(passcodeWindow.window!=nil);
     XCTAssertTrue([passcodeWindow.window isKeyWindow]);
-    [passcodeWindow dismissWindowWithCompletion:^{
+    [passcodeWindow dismissWindowAnimated:NO  withCompletion:^{
         XCTAssertFalse(passcodeWindow.window.isKeyWindow);
     }];
     
@@ -142,11 +142,11 @@
 - (void)testActive {
     XCTestExpectation *expectation = [self expectationWithDescription:@"ActiveWindow"];
     
-   SFSDKWindowContainer *passcodeWindow = [SFSDKWindowManager sharedManager].passcodeWindow;
+    SFSDKWindowContainer *passcodeWindow = [SFSDKWindowManager sharedManager].passcodeWindow;
     [passcodeWindow presentWindow];
     SFSDKWindowContainer *activeWindow = [SFSDKWindowManager sharedManager].activeWindow;
     XCTAssert(passcodeWindow==activeWindow);
-    [passcodeWindow dismissWindowWithCompletion:^{
+    [passcodeWindow dismissWindowAnimated:NO withCompletion:^{
         XCTAssertFalse(passcodeWindow.window.isKeyWindow);
         [expectation fulfill];
     }];
@@ -175,7 +175,7 @@
 - (void)testCompletionBlockForEnable {
     
     XCTestExpectation *completionBlock  = [[XCTestExpectation alloc] initWithDescription:@"CompletionBlockCalled"];
-    [[SFSDKWindowManager sharedManager].authWindow presentWindowWithCompletion:^{
+    [[SFSDKWindowManager sharedManager].authWindow presentWindowAnimated:NO withCompletion:^{
         [completionBlock fulfill];
     }];
     [self waitForExpectations:@[completionBlock] timeout:2];
@@ -186,7 +186,7 @@
     
     XCTestExpectation *completionBlock  = [[XCTestExpectation alloc] initWithDescription:@"CompletionBlockCalled"];
     [[SFSDKWindowManager sharedManager].authWindow presentWindow];
-    [[SFSDKWindowManager sharedManager].authWindow dismissWindowWithCompletion:^{
+    [[SFSDKWindowManager sharedManager].authWindow dismissWindowAnimated:NO withCompletion:^{
         [completionBlock fulfill];
     }];
     [self waitForExpectations:@[completionBlock] timeout:2];
@@ -206,7 +206,7 @@
     
     delegate.before = [[XCTestExpectation alloc] initWithDescription:@"BeforeDisablement"];
     delegate.after = [[XCTestExpectation alloc] initWithDescription:@"AfterDisablement"];
-
+    
     [[SFSDKWindowManager sharedManager].authWindow dismissWindow];
     [self waitForExpectations:@[delegate.before,delegate.after] timeout:2];
     

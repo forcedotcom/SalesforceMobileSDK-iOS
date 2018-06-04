@@ -141,6 +141,10 @@ static  NSString * cachedPasscode;
     [[NSUserDefaults msdkUserDefaults] synchronize];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+}
+
 #pragma mark - Private methods
 
 - (void)setupPasscode:(NSString *)passcode
