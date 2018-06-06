@@ -159,6 +159,16 @@ typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *_Nullable, NSDictiona
  */
 - (void)configureRemoteStartPage;
 
+/**
+ Initiates a web state cleanup strategy prior to staging the web-based auth context from an
+ OAuth authentication or refresh.
+ 
+ Default behavior is to remove all of the web view cookies from .salesforce.com and .force.com
+ domains.  Override this method if you wish to establish a different web state prior to the
+ web-based auth context setup.
+ */
+- (void)webStateCleanupStrategy;
+
 @end
 
 NS_ASSUME_NONNULL_END
