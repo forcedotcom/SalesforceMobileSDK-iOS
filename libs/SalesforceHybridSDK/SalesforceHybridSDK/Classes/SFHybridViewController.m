@@ -262,7 +262,8 @@ SFSDK_USE_DEPRECATED_BEGIN
 
     // Remote app. Device is online.
     if ([self userIsAuthenticated]) {
-        [SFSDKWebViewStateManager resetSessionCookie];
+        [SFSDKHybridLogger i:[self class] format:@"[%@ %@]: Initiating web state cleanup strategy before loading start page.", NSStringFromClass([self class]), NSStringFromSelector(_cmd)];
+        [self webStateCleanupStrategy];
     }
     [self configureRemoteStartPage];
     [super viewDidLoad];
@@ -543,6 +544,12 @@ SFSDK_USE_DEPRECATED_BEGIN
     startPageConfigured = YES;
 }
 
+- (void)webStateCleanupStrategy
+{
+    [SFSDKHybridLogger i:[self class] format:@"[%@ %@]: resetting session cookies.", NSStringFromClass([self class]), NSStringFromSelector(_cmd)];
+    [SFSDKWebViewStateManager resetSessionCookie];
+}
+
 - (BOOL)userIsAuthenticated
 {
     return ([SFUserAccountManager sharedInstance].currentUser.credentials.accessToken.length > 0);
@@ -813,7 +820,7 @@ SFSDK_USE_DEPRECATED_BEGIN
 - (void)authenticationCompletion:(NSString *)originalUrl authInfo:(SFOAuthInfo *)authInfo
 {
     [SFSDKHybridLogger d:[self class] message:@"authenticationCompletion:authInfo: - Initiating post-auth configuration."];
-    [SFSDKWebViewStateManager resetSessionCookie];
+    [self webStateCleanupStrategy];
 
     // If there's an original URL, load it through frontdoor.
     if (originalUrl != nil) {
