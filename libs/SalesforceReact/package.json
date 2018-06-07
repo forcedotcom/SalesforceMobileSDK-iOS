@@ -7,8 +7,9 @@
     },
     "dependencies": {
         "chai": "4.1.2",
-        "react": "16.2.0",
-        "react-native": "0.53.3",
+        "eslint": "^4.0.0",
+        "react": "16.3.1",
+        "react-native": "0.55.4",
         "react-native-cli": "^2.0.1",
         "react-native-force": "git+https://github.com/forcedotcom/SalesforceMobileSDK-ReactNative.git#dev",
         "whatwg-fetch": "1.1.1"
