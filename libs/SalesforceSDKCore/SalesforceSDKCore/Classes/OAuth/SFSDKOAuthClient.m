@@ -345,7 +345,7 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
         [self.config.safariViewDelegate authClient:self willBeginBrowserAuthentication:callbackBlock];
     }
     
-    NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];;
+    NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"]?:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
     NSString *alertMessage = [NSString stringWithFormat:[SFSDKResourceUtils localizedString:@"authAlertBrowserFlowMessage"], coordinator.credentials.domain, appName];
     
      __weak typeof(self) weakSelf = self;
