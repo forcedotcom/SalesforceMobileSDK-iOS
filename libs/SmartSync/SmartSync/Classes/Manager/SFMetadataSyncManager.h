@@ -37,7 +37,7 @@
  *
  * @param metadata Metadata.
  */
-typedef void (^SFMetadataSyncCompletionBlock) (SFMetadata *metadata);
+typedef void (^SFMetadataSyncCompletionBlock) (SFMetadata  * _Nullable metadata);
 
 /**
  * Provides an easy way to fetch metadata using SFMetadataSyncDownTarget.
