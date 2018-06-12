@@ -28,12 +28,28 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SalesforceSDKConstants.h"
 
 @interface SFNetwork : NSObject
 
 typedef void (^SFDataResponseBlock) (NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error);
 
-@property (nonatomic, readwrite, assign) BOOL useBackground;
+@property (nonatomic, readonly, assign) BOOL useBackground;
+@property (nonatomic, readonly, strong, nonnull) NSURLSession *activeSession;
+
+/**
+ * Initializes this class with an ephemeral session configuration.
+ *
+ * @return Instance of this class.
+ */
+- (nonnull instancetype)initWithEphemeralSession;
+
+/**
+ * Initializes this class with a background session configuration.
+ *
+ * @return Instance of this class.
+ */
+- (nonnull instancetype)initWithBackgroundSession;
 
 /**
  * Sends a REST request and calls the appropriate completion block.
@@ -45,18 +61,18 @@ typedef void (^SFDataResponseBlock) (NSData * _Nullable data, NSURLResponse * _N
 - (nonnull NSURLSessionDataTask *)sendRequest:(nonnull NSURLRequest *)urlRequest dataResponseBlock:(nullable SFDataResponseBlock)dataResponseBlock;
 
 /**
- * Returns the current NSURLSession instance being used.
- *
- * @return NSURLSession instance.
- */
-- (nonnull NSURLSession *)activeSession;
-
-/**
  * Sets a session configuration to be used for network requests in the Mobile SDK.
  *
  * @param sessionConfig Session configuration to be used.
  * @param isBackgroundSession YES - if it is a background session configuration, NO - otherwise.
  */
-+ (void)setSessionConfiguration:(nonnull NSURLSessionConfiguration *)sessionConfig isBackgroundSession:(BOOL)isBackgroundSession;
++ (void)setSessionConfiguration:(nonnull NSURLSessionConfiguration *)sessionConfig isBackgroundSession:(BOOL)isBackgroundSession SFSDK_DEPRECATED(6.2, 7.0, "Use 'setSessionConfiguration:' instead.");
+
+/**
+ * Sets a session configuration to be used for network requests in the Mobile SDK.
+ *
+ * @param sessionConfig Session configuration to be used.
+ */
++ (void)setSessionConfiguration:(nonnull NSURLSessionConfiguration *)sessionConfig;
 
 @end

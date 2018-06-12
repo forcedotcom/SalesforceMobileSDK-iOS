@@ -37,7 +37,7 @@ static NSString * const kSFOAuthEndPointAuthConfiguration = @"/.well-known/auth-
     NSString *orgConfigUrl = [NSString stringWithFormat:@"%@://%@%@", oauthCredentials.protocol, oauthCredentials.domain, kSFOAuthEndPointAuthConfiguration];
     [SFSDKCoreLogger d:[self class] format:@"%@ Advanced authentication configured. Retrieving auth configuration from %@", NSStringFromSelector(_cmd), orgConfigUrl];
     NSMutableURLRequest *orgConfigRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:orgConfigUrl]];
-    SFNetwork *network = [[SFNetwork alloc] init];
+    SFNetwork *network = [[SFNetwork alloc] initWithEphemeralSession];
     __weak __typeof(self) weakSelf = self;
     [network sendRequest:orgConfigRequest dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
