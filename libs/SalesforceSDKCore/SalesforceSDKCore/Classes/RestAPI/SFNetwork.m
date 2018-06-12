@@ -31,6 +31,7 @@
 
 @interface SFNetwork()
 
+@property (nonatomic, readwrite, assign) BOOL useBackground;
 @property (nonatomic, readwrite, strong) NSURLSession *activeSession;
 
 @end
@@ -49,6 +50,7 @@ static NSURLSessionConfiguration *kSFSessionConfig;
         self.activeSession = [NSURLSession sessionWithConfiguration:ephemeralSessionConfig];
         self.useBackground = NO;
     }
+    return self;
 }
 
 - (instancetype)initWithBackgroundSession {
@@ -59,9 +61,10 @@ static NSURLSessionConfiguration *kSFSessionConfig;
         if (kSFSessionConfig) {
             backgroundSessionConfig = kSFSessionConfig;
         }
-        self.backgroundSession = [NSURLSession sessionWithConfiguration:backgroundSessionConfig];
+        self.activeSession = [NSURLSession sessionWithConfiguration:backgroundSessionConfig];
         self.useBackground = YES;
     }
+    return self;
 }
 
 - (NSURLSessionDataTask *)sendRequest:(NSURLRequest *)urlRequest dataResponseBlock:(SFDataResponseBlock)dataResponseBlock {
