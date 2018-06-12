@@ -41,21 +41,35 @@
 static NSURLSessionConfiguration *kSFEphemeralSessionConfig;
 static NSURLSessionConfiguration *kSFBackgroundSessionConfig;
 
-- (instancetype)init {
-    self = [super init];
-    if (self) {
+#pragma mark - Property setters
+- (NSURLSession *)ephemeralSession
+{
+    if (!_ephemeralSession) {
         NSURLSessionConfiguration *ephemeralSessionConfig = [NSURLSessionConfiguration ephemeralSessionConfiguration];
         if (kSFEphemeralSessionConfig) {
             ephemeralSessionConfig = kSFEphemeralSessionConfig;
         }
-        self.ephemeralSession = [NSURLSession sessionWithConfiguration:ephemeralSessionConfig];
-        
-        NSString *identifier = [NSString stringWithFormat:@"com.salesforce.network.%lu", (unsigned long)self.hash];
+        _ephemeralSession = [NSURLSession sessionWithConfiguration:ephemeralSessionConfig];
+    }
+    return _ephemeralSession;
+}
+
+- (NSURLSession *)backgroundSession
+{
+    if (!_backgroundSession) {
+        NSString *identifier = [NSString stringWithFormat:@"com.salesforce.network"];
         NSURLSessionConfiguration *backgroundSessionConfig = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:identifier];
         if (kSFBackgroundSessionConfig) {
             backgroundSessionConfig = kSFBackgroundSessionConfig;
         }
-        self.backgroundSession = [NSURLSession sessionWithConfiguration:backgroundSessionConfig];
+        _backgroundSession = [NSURLSession sessionWithConfiguration:backgroundSessionConfig];
+    }
+    return _backgroundSession;
+}
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
         self.useBackground = NO;
     }
     return self;
