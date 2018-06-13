@@ -63,4 +63,5 @@
 - (void) testSmartQueryReturningSoupStringAndInteger;
 - (void) testSmartQueryWithPaging;
 - (void) testSmartQueryWithSpecialFields;
+- (void) testSmartQueryMatchingNullField;
 @end
