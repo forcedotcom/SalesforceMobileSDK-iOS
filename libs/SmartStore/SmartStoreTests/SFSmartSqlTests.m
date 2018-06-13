@@ -54,7 +54,8 @@
                                 [self createStringIndexSpec:kEmployeeId],  // should be TABLE_1_3
                                 [self createStringIndexSpec:kManagerId],   // should be TABLE_1_4
                                 [self createFloatingIndexSpec:kSalary],    // should be TABLE_1_5
-                                [self createJSON1IndexSpec:kEducation]     // should be json_extract(soup, '$.education')
+                                [self createJSON1IndexSpec:kEducation],    // should be json_extract(soup, '$.education')
+                                [self createJSON1IndexSpec:kIsManager]     // should be json_extract(soup, '$.isManager')
                                 ]]
                        error:nil];
 
@@ -316,26 +317,53 @@
     [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[\"003\"]]"] actual:result message:@"Wrong result"];
 }
 
+- (void) testSmartQueryMachingBooleanInJSON1Field
+{
+    NSDictionary* createdEmployee;
+    
+    // Storing booleans in a json1 field
+    // NB: SQLite does not have a separate Boolean storage class. Instead, Boolean values are stored as integers 0 (false) and 1 (true).
+
+    [self loadData];
+    
+    // Creating another employee from a json string with isManager true
+    createdEmployee = [self createEmployeeWithJsonString:@"{\"employeeId\":\"101\",\"isManager\":true}"];
+    XCTAssertEqual(createdEmployee[kIsManager], @YES);
+
+    // Creating another employee from a json string with isManager false
+    createdEmployee = [self createEmployeeWithJsonString:@"{\"employeeId\":\"102\",\"isManager\":false}"];
+    XCTAssertEqual(createdEmployee[kIsManager], @NO);
+    
+    // Smart sql looking for isManager true
+    SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:employeeId} from {employees} where {employees:isManager} = 1 order by {employees:employeeId}" withPageSize:10];
+    NSArray* result = [self.store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
+    [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[\"00010\"],[\"00040\"],[\"00050\"],[\"101\"]]"] actual:result message:@"Wrong result"];
+    // Smart sql looking for isManager = false
+    querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:employeeId} from {employees} where {employees:isManager} = 0 order by {employees:employeeId}" withPageSize:10];
+    result = [self.store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
+    [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[\"00020\"],[\"00060\"],[\"00070\"],[\"00310\"],[\"102\"]]"] actual:result message:@"Wrong result"];
+}
+
 #pragma mark - helper methods
 - (void) loadData
 {
     // Employees
-    [self createEmployeeWithFirstName:@"Christine" withLastName:@"Haas" withDeptCode:@"A00" withEmployeeId:@"00010" withManagerId:@"" withSalary:200000.10];
-    [self createEmployeeWithFirstName:@"Michael" withLastName:@"Thompson" withDeptCode:@"A00" withEmployeeId:@"00020" withManagerId:@"00010" withSalary:120000.10];
-    [self createEmployeeWithFirstName:@"Sally" withLastName:@"Kwan" withDeptCode:@"A00" withEmployeeId:@"00310" withManagerId:@"00010" withSalary:100000.10];
-    [self createEmployeeWithFirstName:@"John" withLastName:@"Geyer" withDeptCode:@"B00" withEmployeeId:@"00040" withManagerId:@"" withSalary:102000.10];
-    [self createEmployeeWithFirstName:@"Irving" withLastName:@"Stern" withDeptCode:@"B00" withEmployeeId:@"00050" withManagerId:@"00040" withSalary:100000.10];
-    [self createEmployeeWithFirstName:@"Eva" withLastName:@"Pulaski" withDeptCode:@"B00" withEmployeeId:@"00060" withManagerId:@"00050" withSalary:80000.10];
-    [self createEmployeeWithFirstName:@"Eileen" withLastName:@"Henderson" withDeptCode:@"B00" withEmployeeId:@"00070" withManagerId:@"00050" withSalary:70000.10];
+    [self createEmployeeWithFirstName:@"Christine" withLastName:@"Haas" withDeptCode:@"A00" withEmployeeId:@"00010" withManagerId:@"" withSalary:200000.10 withIsManager:YES];
+    [self createEmployeeWithFirstName:@"Michael" withLastName:@"Thompson" withDeptCode:@"A00" withEmployeeId:@"00020" withManagerId:@"00010" withSalary:120000.10 withIsManager:NO];
+    [self createEmployeeWithFirstName:@"Sally" withLastName:@"Kwan" withDeptCode:@"A00" withEmployeeId:@"00310" withManagerId:@"00010" withSalary:100000.10 withIsManager:NO];
+    [self createEmployeeWithFirstName:@"John" withLastName:@"Geyer" withDeptCode:@"B00" withEmployeeId:@"00040" withManagerId:@"" withSalary:102000.10 withIsManager:YES];
+    [self createEmployeeWithFirstName:@"Irving" withLastName:@"Stern" withDeptCode:@"B00" withEmployeeId:@"00050" withManagerId:@"00040" withSalary:100000.10 withIsManager:YES];
+    [self createEmployeeWithFirstName:@"Eva" withLastName:@"Pulaski" withDeptCode:@"B00" withEmployeeId:@"00060" withManagerId:@"00050" withSalary:80000.10 withIsManager:NO];
+    [self createEmployeeWithFirstName:@"Eileen" withLastName:@"Henderson" withDeptCode:@"B00" withEmployeeId:@"00070" withManagerId:@"00050" withSalary:70000.10 withIsManager:NO];
 		
     // Departments
     [self createDepartmentWithCode:@"A00" withName:@"Sales" withBudget:1000000];
     [self createDepartmentWithCode:@"B00" withName:@"R&D" withBudget:2000000];
 }
 
-- (void) createEmployeeWithFirstName:(NSString*)firstName withLastName:(NSString*)lastName withDeptCode:(NSString*)deptCode withEmployeeId:(NSString*)employeeId withManagerId:(NSString*)managerId withSalary:(double)salary
+- (void) createEmployeeWithFirstName:(NSString*)firstName withLastName:(NSString*)lastName withDeptCode:(NSString*)deptCode withEmployeeId:(NSString*)employeeId withManagerId:(NSString*)managerId withSalary:(double)salary withIsManager:(BOOL)isManager
 {
-    NSDictionary* employee = @{kFirstName: firstName, kLastName: lastName, kDeptCode: deptCode, kEmployeeId: employeeId, kManagerId: managerId, kSalary: @(salary)};
+    NSDictionary* employee = @{kFirstName: firstName, kLastName: lastName, kDeptCode: deptCode, kEmployeeId: employeeId, kManagerId: managerId, kSalary: @(salary), kIsManager: @(isManager)};
     [self.store upsertEntries:@[employee] toSoup:kEmployeesSoup];
 }
 
