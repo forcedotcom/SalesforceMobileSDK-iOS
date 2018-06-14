@@ -161,15 +161,11 @@
     [SFSDKWindowManager sharedManager].snapshotWindow.window.windowLevel = 1;
     [SFSDKWindowManager sharedManager].passcodeWindow.window.windowLevel = 4;
     [SFSDKWindowManager sharedManager].authWindow.window.windowLevel = 3;
-    
     XCTAssertTrue(
-                  [SFSDKWindowManager sharedManager].snapshotWindow.window.windowLevel >
-                  [SFSDKWindowManager sharedManager].authWindow.window.windowLevel );
-    XCTAssertTrue([SFSDKWindowManager sharedManager].authWindow.window.windowLevel >
-                  [SFSDKWindowManager sharedManager].passcodeWindow.window.windowLevel);
-    XCTAssertTrue([SFSDKWindowManager sharedManager].passcodeWindow.window.windowLevel >
-                  [SFSDKWindowManager sharedManager].mainWindow.window.windowLevel);
-    
+                  [SFSDKWindowManager sharedManager].snapshotWindow.windowLevel !=1  );
+    XCTAssertTrue([SFSDKWindowManager sharedManager].passcodeWindow.windowLevel != 4);
+    XCTAssertTrue([SFSDKWindowManager sharedManager].authWindow.windowLevel != 3);
+   
 }
 
 - (void)testCompletionBlockForEnable {
@@ -210,7 +206,7 @@
     [[SFSDKWindowManager sharedManager].authWindow dismissWindow];
     [self waitForExpectations:@[delegate.before,delegate.after] timeout:2];
     
-    XCTAssertTrue([SFSDKWindowManager sharedManager].authWindow == delegate.notificationWindow);
+    XCTAssertTrue(delegate.notificationWindow.isAuthWindow);
     
 }
 @end
