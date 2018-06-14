@@ -293,7 +293,7 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
     // Registering with Salesforce after login
     if (self.deviceToken) {
         [SFSDKCoreLogger i:[self class] format:@"Registering for Salesforce notification because user just logged in"];
-        [self registerForSalesforceNotifications];
+        [self registerSalesforceNotificationsWithCompletionBlock:nil failBlock:nil];
     }
 }
 
@@ -302,7 +302,7 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
     // Re-registering with Salesforce if we have a device token unless we are logging out
     if (![SFUserAccountManager sharedInstance].logoutSettingEnabled && self.deviceToken) {
         [SFSDKCoreLogger i:[self class] format:@"Re-registering for Salesforce notification because application is being foregrounded"];
-        [self registerForSalesforceNotifications];
+        [self registerSalesforceNotificationsWithCompletionBlock:nil failBlock:nil];
     }
 }
 
