@@ -27,6 +27,10 @@
 #import "FMResultSet.h"
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 
+@interface SFUserAccount(SmartStoreTest)
+- (BOOL)transitionToLoginState:(SFUserAccountLoginState)newLoginState;
+@end
+
 @interface SFSmartStoreTestCase : XCTestCase
 
 - (void) assertSameJSONWithExpected:(id)expected actual:(id) actual message:(NSString*) message;

@@ -130,6 +130,10 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
         }
         id sfRestApi = [sfRestApiList objectForKey:key];
         if (!sfRestApi) {
+            if (user.loginState != SFUserAccountLoginStateLoggedIn) {
+                [SFSDKCoreLogger w:[self class] format:@"%@ A user account must be in the  SFUserAccountLoginStateLoggedIn state inorder to create a SFRestAPI instance for a user.", NSStringFromSelector(_cmd)];
+                return nil;
+            }
             sfRestApi = [[SFRestAPI alloc] initWithUser:user];
             [sfRestApiList setObject:sfRestApi forKey:key];
         }

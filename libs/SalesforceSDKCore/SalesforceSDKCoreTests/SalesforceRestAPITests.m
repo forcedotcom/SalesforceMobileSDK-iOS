@@ -27,6 +27,7 @@
 #import "SFRestAPI+Internal.h"
 #import "SFRestRequest+Internal.h"
 #import "SFNativeRestRequestListener.h"
+#import "SFUserAccount+Internal.h"
  
  // Constants only used in the tests below
 #define ENTITY_PREFIX_NAME @"RestClientTestsiOS"
@@ -1243,6 +1244,7 @@ static NSException *authException = nil;
         origCreds.accessToken = origAccessToken;
         origCreds.refreshToken = origRefreshToken;
         _currentUser.credentials = origCreds;
+        [_currentUser transitionToLoginState:SFUserAccountLoginStateLoggedIn];
         [[SFUserAccountManager sharedInstance] saveAccountForUser:_currentUser error:nil];
         [SFUserAccountManager sharedInstance].currentUser = _currentUser;
     }
@@ -1365,6 +1367,7 @@ static NSException *authException = nil;
         origCreds.accessToken = origAccessToken;
         origCreds.refreshToken = origRefreshToken;
         _currentUser.credentials = origCreds;
+        [_currentUser transitionToLoginState:SFUserAccountLoginStateLoggedIn];
         [[SFUserAccountManager sharedInstance] saveAccountForUser:_currentUser error:nil];
         [SFUserAccountManager sharedInstance].currentUser = _currentUser;
     }
