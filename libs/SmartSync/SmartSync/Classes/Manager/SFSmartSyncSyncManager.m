@@ -86,7 +86,7 @@ static NSMutableDictionary *syncMgrList = nil;
         id syncMgr = [syncMgrList objectForKey:key];
         if (syncMgr == nil) {
             if (store.user && store.user.loginState != SFUserAccountLoginStateLoggedIn) {
-                [SFSDKSmartSyncLogger w:[self class] format:@"%@ A user account must be in the  SFUserAccountLoginStateLoggedIn state inorder to create a sync for a user store.", NSStringFromSelector(_cmd), store.storeName, NSStringFromClass(self)];
+                [SFSDKSmartSyncLogger w:[self class] format:@"%@ A user account must be in the  SFUserAccountLoginStateLoggedIn state in order to create a sync for a user store.", NSStringFromSelector(_cmd), store.storeName, NSStringFromClass(self)];
                 return nil;
             }
             syncMgr = [[self alloc] initWithStore:store];

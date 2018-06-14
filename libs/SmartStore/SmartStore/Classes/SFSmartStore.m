@@ -323,7 +323,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
         SFSmartStore *store = _allSharedStores[userKey][storeName];
         if (nil == store) {
             if (user.loginState != SFUserAccountLoginStateLoggedIn) {
-                [SFSDKSmartStoreLogger w:[self class] format:@"%@ A user account must be in the  SFUserAccountLoginStateLoggedIn state inorder to create a store.", NSStringFromSelector(_cmd), storeName, NSStringFromClass(self)];
+                [SFSDKSmartStoreLogger w:[self class] format:@"%@ A user account must be in the  SFUserAccountLoginStateLoggedIn state in order to create a store.", NSStringFromSelector(_cmd), storeName, NSStringFromClass(self)];
                 return nil;
             }
             store = [[self alloc] initWithName:storeName user:user];

@@ -74,7 +74,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
         id analyticsMgr = analyticsManagerList[key];
         if (!analyticsMgr) {
             if (userAccount.loginState != SFUserAccountLoginStateLoggedIn) {
-                [SFSDKCoreLogger w:[self class] format:@"%@ A user account must be in the  SFUserAccountLoginStateLoggedIn state inorder to create a SFSDKSalesforceAnalyticsManager instance for a user.", NSStringFromSelector(_cmd)];
+                [SFSDKCoreLogger w:[self class] format:@"%@ A user account must be in the  SFUserAccountLoginStateLoggedIn state in order to create a SFSDKSalesforceAnalyticsManager instance for a user.", NSStringFromSelector(_cmd)];
                 return nil;
             }
             analyticsMgr = [[self alloc] initWithUser:userAccount];
