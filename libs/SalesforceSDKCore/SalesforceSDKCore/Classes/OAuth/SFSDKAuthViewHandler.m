@@ -35,7 +35,7 @@
 }
 
 - (void)setWkWebView:(WKWebView *)webView {
-   self.loginController.oauthView = webView;
+   self.loginController.oauthView = (UIView*) webView;
 }
 
 @end
