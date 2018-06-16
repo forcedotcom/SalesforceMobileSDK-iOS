@@ -85,6 +85,10 @@ static NSMutableDictionary *syncMgrList = nil;
         NSString *key = [SFSmartSyncSyncManager keyForStore:store];
         id syncMgr = [syncMgrList objectForKey:key];
         if (syncMgr == nil) {
+            if (store.user && store.user.loginState != SFUserAccountLoginStateLoggedIn) {
+                [SFSDKSmartSyncLogger w:[self class] format:@"%@ A user account must be in the  SFUserAccountLoginStateLoggedIn state in order to create a sync for a user store.", NSStringFromSelector(_cmd), store.storeName, NSStringFromClass(self)];
+                return nil;
+            }
             syncMgr = [[self alloc] initWithStore:store];
             syncMgrList[key] = syncMgr;
         }
@@ -94,7 +98,12 @@ static NSMutableDictionary *syncMgrList = nil;
 }
 
 + (void)removeSharedInstance:(SFUserAccount*)user {
-    [self removeSharedInstanceForUser:user storeName:nil];
+     for (NSString *key in [syncMgrList allKeys]) {
+         // remove all user related sync managers
+         if ([self isUserRelatedSync:key user:user]) {
+             [self removeSharedInstanceForKey:key];
+         }
+     }
 }
 
 + (void)removeSharedInstanceForUser:(SFUserAccount *)user storeName:(NSString *)storeName {
@@ -131,7 +140,10 @@ static NSMutableDictionary *syncMgrList = nil;
     return [NSString  stringWithFormat:@"%@-%@", keyPrefix, storeName];
 }
 
-
++ (BOOL)isUserRelatedSync:(NSString*)key user:(SFUserAccount*)user {
+    NSString* userPrefix = SFKeyForUserAndScope(user, SFUserAccountScopeCommunity);
+    return ([key rangeOfString:userPrefix].location != NSNotFound );
+}
 
 #pragma mark - init / dealloc
 

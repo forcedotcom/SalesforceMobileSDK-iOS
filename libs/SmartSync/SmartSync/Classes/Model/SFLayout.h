@@ -52,7 +52,7 @@
  * @param data JSON data.
  * @return Instance of this class.
  */
-+ (instancetype)fromJSON:(NSDictionary *)data;
++ (nonnull instancetype)fromJSON:(nonnull NSDictionary *)data;
 
 @end
 
@@ -77,7 +77,7 @@
  * @param data JSON data.
  * @return Instance of this class.
  */
-+ (instancetype)fromJSON:(NSDictionary *)data;
++ (nonnull instancetype)fromJSON:(nonnull NSDictionary *)data;
 
 @end
 
@@ -96,7 +96,7 @@
  * @param data JSON data.
  * @return Instance of this class.
  */
-+ (instancetype)fromJSON:(NSDictionary *)data;
++ (nonnull instancetype)fromJSON:(nonnull NSDictionary *)data;
 
 @end
 
@@ -121,6 +121,6 @@
  * @param data JSON data.
  * @return Instance of this class.
  */
-+ (instancetype)fromJSON:(NSDictionary *)data;
++ (nonnull instancetype)fromJSON:(nonnull NSDictionary *)data;
 
 @end

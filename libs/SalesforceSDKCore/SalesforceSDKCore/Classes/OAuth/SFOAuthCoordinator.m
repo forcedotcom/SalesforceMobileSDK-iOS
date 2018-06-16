@@ -931,7 +931,7 @@ static NSString * const kSFECParameter = @"ec";
 
 - (NSURLSession*)session {
     if (_session == nil) {
-        SFNetwork *network = [[SFNetwork alloc] init];
+        SFNetwork *network = [[SFNetwork alloc] initWithEphemeralSession];
         _session = network.activeSession;
     }
     return _session;

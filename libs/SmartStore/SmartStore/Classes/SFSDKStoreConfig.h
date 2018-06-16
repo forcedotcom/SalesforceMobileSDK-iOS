@@ -64,8 +64,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void) registerSoups:(SFSmartStore*) store;
 
 /**
- * Return YES if soups are defined in config
- * @return
+ * Check for soups in store
+ * @return YES if soups are defined in config
  */
 - (BOOL)hasSoups;
 
