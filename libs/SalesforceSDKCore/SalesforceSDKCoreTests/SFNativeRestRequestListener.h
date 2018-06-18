@@ -29,6 +29,7 @@
 @interface SFNativeRestRequestListener : SFSDKTestRequestListener <SFRestDelegate>
 
 @property (nonatomic, strong) SFRestRequest *request;
+@property (nonatomic, assign) NSTimeInterval sleepDuringLoad;
 
 - (id)initWithRequest:(SFRestRequest *)request;
 
