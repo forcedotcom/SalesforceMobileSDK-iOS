@@ -213,10 +213,12 @@ static inline BOOL IsValidEntityId(NSString *string) {
 }
 
 - (BOOL)isEqualToEntityId:(NSString*)entityId {
-    if ([self caseInsensitiveCompare:entityId] == NSOrderedSame) return YES; // for entityId like `me`
-    
-    if (![entityId length]) return NO;
-    if (!IsValidEntityId(self) || !IsValidEntityId(entityId)) return NO;
+    if (!IsValidEntityId(self) || !IsValidEntityId(entityId)) {
+        if ([self caseInsensitiveCompare:entityId] == NSOrderedSame)
+            return YES; // for entityId like `me`
+        else
+            return NO;
+    }
     
     NSString *id18self = ([self length] == SFEntityIdLength18) ? self : [self entityId18];
     NSString *id18other = ([entityId length] == SFEntityIdLength18) ? entityId : [entityId entityId18];
