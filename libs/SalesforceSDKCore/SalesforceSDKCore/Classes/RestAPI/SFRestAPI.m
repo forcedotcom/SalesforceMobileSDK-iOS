@@ -440,7 +440,9 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 
 - (SFRestRequest *)requestForVersions {
     NSString *path = @"/";
-    return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];
+    SFRestRequest* request = [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];
+    request.requiresAuthentication = NO;
+    return request;
 }
 
 - (SFRestRequest *)requestForResources {
