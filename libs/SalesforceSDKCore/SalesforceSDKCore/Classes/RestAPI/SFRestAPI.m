@@ -301,7 +301,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
                         @synchronized (strongSelf) {
                             if (!strongSelf.pendingRequestsBeingProcessed) {
                                 strongSelf.pendingRequestsBeingProcessed = YES;
-                                [strongSelf sendPendingRequests];
+                                [strongSelf resendActiveRequestsRequiringAuthentication];
                             }
                         }
                     } error:^(NSError *refreshError) {
@@ -380,11 +380,13 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     }
 }
 
-- (void)sendPendingRequests {
+- (void)resendActiveRequestsRequiringAuthentication {
     @synchronized (self) {
         NSSet *pendingRequests = [self.activeRequests asSet];
         for (SFRestRequest *request in pendingRequests) {
-            [self send:request delegate:request.delegate shouldRetry:NO];
+            if (request.requiresAuthentication) {
+                [self send:request delegate:request.delegate shouldRetry:NO];
+            }
         }
         self.pendingRequestsBeingProcessed = NO;
     }
