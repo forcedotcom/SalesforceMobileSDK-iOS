@@ -62,6 +62,10 @@ int class_uid = 0;
 #pragma mark - SFRestDelegate
 
 - (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse {
+    if (self.sleepDuringLoad > 0) {
+        [NSThread sleepForTimeInterval:self.sleepDuringLoad];
+    }
+     
     self.dataResponse = dataResponse;
     self.returnStatus = kTestRequestStatusDidLoad;
 }

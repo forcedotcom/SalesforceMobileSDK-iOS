@@ -1299,6 +1299,62 @@ static NSException *authException = nil;
     XCTAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"access token wasn't refreshed");
 }
 
+// - set an invalid access token (simulate expired)
+// - make multiple simultaneous requests (some not requiring authentication)
+// - requests not requiring authentication should succeed and only be sent once
+// - other requests will fail in some arbitrary order
+// - ensure that a new access token is retrieved using refresh token
+// - ensure that all requests eventually succeed
+//
+-(void)testInvalidAccessToken_UnAuthAndAuthRequests {
+    
+    // save invalid token
+    NSString *invalidAccessToken = @"xyz";
+    [self changeOauthTokens:invalidAccessToken refreshToken:nil];
+
+    // create requests (some that require authentications and some that don't)
+    SFRestRequest* unauthenticatedRequest1 = [[SFRestAPI sharedInstance] requestForVersions];
+    SFRestRequest* unauthenticatedRequest2 = [[SFRestAPI sharedInstance] requestForVersions];
+    SFRestRequest* authenticatedRequest1 = [[SFRestAPI sharedInstance] requestForUserInfo];
+    SFRestRequest* authenticatedRequest2 = [[SFRestAPI sharedInstance] requestForUserInfo];
+
+    SFNativeRestRequestListener* unauthenticatedListener1 = [[SFNativeRestRequestListener alloc] initWithRequest:unauthenticatedRequest1];
+    unauthenticatedListener1.sleepDuringLoad = 0.5;
+    SFNativeRestRequestListener* unauthenticatedListener2 = [[SFNativeRestRequestListener alloc] initWithRequest:unauthenticatedRequest2];
+    unauthenticatedListener2.sleepDuringLoad = 0.5;
+    SFNativeRestRequestListener* authenticatedListener1 = [[SFNativeRestRequestListener alloc] initWithRequest:authenticatedRequest1];
+    SFNativeRestRequestListener* authenticatedListener2 = [[SFNativeRestRequestListener alloc] initWithRequest:authenticatedRequest2];
+    
+    NSArray<SFNativeRestRequestListener*>* listeners = @[unauthenticatedListener1, authenticatedListener1, unauthenticatedListener2, authenticatedListener2];
+    
+    // send requests
+    for (SFNativeRestRequestListener* listener in listeners) {
+        [[SFRestAPI sharedInstance] send:listener.request delegate:listener];
+    }
+    
+    // wait for requests to complete
+    for (SFNativeRestRequestListener* listener in listeners) {
+        [listener waitForCompletion];
+    }
+    
+    // make sure they all succeeded
+    for (SFNativeRestRequestListener* listener in listeners) {
+        XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"a request failed");
+    }
+
+    // make sure unauthenticated requests don't complete a second time
+    for (SFNativeRestRequestListener* listener in @[unauthenticatedListener1, unauthenticatedListener2]) {
+        // reset listener return status and lower max wait time
+        listener.returnStatus = kTestRequestStatusWaiting;
+        listener.maxWaitTime = 2.0;
+        XCTAssertEqualObjects([listener waitForCompletion], kTestRequestStatusDidTimeout, @"Unauthenticated user should not have completed a second time");
+    }
+
+    // let's make sure we have a new access token
+    NSString *newAccessToken = _currentUser.credentials.accessToken;
+    XCTAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"access token wasn't refreshed");
+}
+
 // - sets an invalid accessToken
 // - sets an invalid refreshToken
 // - issue multiple valid requests
