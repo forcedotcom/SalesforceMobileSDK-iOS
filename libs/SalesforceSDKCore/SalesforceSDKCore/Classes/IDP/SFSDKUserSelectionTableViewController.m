@@ -34,6 +34,7 @@
 #import "SFSDKUITableViewCell.h"
 #import "SFUserAccountManager.h"
 #import "SFIdentityData.h"
+#import "SFSDKResourceUtils.h"
 static CGFloat kVerticalSpace = 16;
 static CGFloat kHorizontalSpace = 12;
 
@@ -79,7 +80,7 @@ static CGFloat kHorizontalSpace = 12;
     self.backgroundColor = [UIColor backgroundcolor];
     self.descriptionLabel = [[UILabel alloc] init];
     self.appNameLabel = [[UILabel alloc] init];
-    self.descriptionLabel.text = @"Select your Account to log into ";
+    self.descriptionLabel.text = [SFSDKResourceUtils localizedString:@"idpSelectUserLabel"];
     self.appNameLabel.text = self.appName;
     self.descriptionLabel.font = [UIFont textRegular:16.0];
     self.descriptionLabel.textColor = [UIColor altTextColor];
@@ -111,7 +112,7 @@ static CGFloat kHorizontalSpace = 12;
     self.backgroundColor = [UIColor backgroundcolor];
     self.addButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
     self.descriptionLabel = [[UILabel alloc] init];
-    self.descriptionLabel.text = @"Add new account";
+    self.descriptionLabel.text = [SFSDKResourceUtils localizedString:@"idpAddNewAccountLabel"];
     self.descriptionLabel.font = [UIFont textRegular:16];
     self.descriptionLabel.textColor = [UIColor defaultTextColor];
     self.addButton.translatesAutoresizingMaskIntoConstraints = NO;
@@ -140,7 +141,7 @@ static CGFloat kHorizontalSpace = 12;
    
     self.tableView = [self createTableView];
     self.view.backgroundColor = [UIColor backgroundcolor];
-    self.title = @"Select User";
+    self.title = [SFSDKResourceUtils localizedString:@"idpSelectUserTitleLabel"];
     UIView *headerView = [self createHeaderView];
     UIView *footerView = [self createFooterView];
     self.tableView = [self createTableView];
@@ -162,7 +163,11 @@ static CGFloat kHorizontalSpace = 12;
     [stack addArrangedSubview:self.tableView];
     [self.view addSubview:stack];
     
-    [stack.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor].active = YES;
+    if (@available(iOS 11, *)) {
+         [stack.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor].active = YES;
+    } else {
+        [stack.topAnchor constraintEqualToAnchor:self.view.topAnchor].active = YES;
+    }
     [stack.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor].active = YES;
     
 }
