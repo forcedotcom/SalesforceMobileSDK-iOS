@@ -1,8 +1,7 @@
 /*
- SFSDKUserSelectionNavViewController.h
  SalesforceSDKCore
  
- Created by Raj Rao on 8/28/17.
+ Created by Raj Rao on 6/05/18.
  
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
@@ -26,15 +25,45 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#import <UIKit/UIKit.h>
-#import "SFSDKUserSelectionView.h"
 
-@class SFSDKIDPAuthClient;
-@class SFUserAccount;
-@class SFSDKUserSelectionTableViewController;
+#import "UIColor+SFSDKIDP.h"
 
-@interface SFSDKUserSelectionNavViewController : UINavigationController<SFSDKUserSelectionView>
-@property (nonatomic,weak) id<SFSDKUserSelectionViewDelegate> userSelectionDelegate;
-@property (nonatomic,strong) NSDictionary *spAppOptions;
-- (SFSDKUserSelectionTableViewController *)createUserSelectionController;
+@implementation UIColor (SFSDKIDP)
+
++ (UIColor *)backgroundcolor {
+    return [UIColor colorWithRed:241.0/255.0 green:244.0/255.0 blue:247.0/255.0 alpha:1.0];
+}
+
++ (UIColor *)backgroundRowSelectedColor {
+    return [UIColor colorWithRed:240.0/255.0 green:248.0/255.0 blue:252.0/255.0 alpha:1.0];
+}
+
++ (UIColor *)borderColor {
+    return [UIColor colorWithRed:216.0/255.0 green:221.0/255.0 blue:230.0/255.0 alpha: 1.0];
+}
+
++ (UIColor *)weakTextColor {
+    return [UIColor colorWithRed: 84.0/255.0 green:105.0/255.0 blue: 141.0/255.0 alpha: 1.0];
+}
+
++ (UIColor *)defaultTextColor{
+    return [UIColor colorWithRed: 22.0/255.0 green:50.0/255.0 blue: 92.0/255.0 alpha: 1.0];
+}
+
++ (UIColor *)altTextColor{
+    return [UIColor colorWithRed: 24.0/255.0 green:52.0/255.0 blue: 95.0/255.0 alpha: 1.0];
+}
+
++ (UIColor *)alt2BackgroundColor{
+    return [UIColor colorWithRed: 224.0/255.0 green:229.0/255.0 blue: 238.0/255.0 alpha: 1.0];
+}
+
++ (UIColor *)altBackgroundColor{
+    return [UIColor whiteColor];
+}
+
++ (UIColor *)tableCellBackgroundColor{
+    return [UIColor colorWithRed: 245.0/255.0 green:246.0/255.0 blue: 250.0/255.0 alpha: 1.0];
+}
+
 @end

@@ -39,8 +39,14 @@
 
 @end
 
-@interface SFSDKUserSelectionTableViewController : UIViewController
+@interface SFSDKUserSelectionTableViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic,strong) SFUserAccount *selectedAccount;
 @property (nonatomic,weak) id<SFSDKUserSelectionTableViewControllerDelegate> listViewDelegate;
-@property (nonatomic,strong) NSDictionary *options;
+@property (nonatomic,strong) NSDictionary *spAppOptions;
+@property (nonatomic,strong) UINavigationBar *navigationBar;
+@property (nonatomic,strong) UITableView *tableView;
+- (UIView *)createFooterView;
+- (UIView *)createHeaderView;
+- (UIView *)createTableCellView:(SFUserAccount *)userAccount;
+
 @end
