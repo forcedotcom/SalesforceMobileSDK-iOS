@@ -139,7 +139,6 @@
         UIViewController<SFSDKUserSelectionView> *controller  = authClient.idpUserSelectionBlock();
         controller.spAppOptions = request.allParams;
         controller.userSelectionDelegate = self;
-        authClient.authWindow.viewController = controller;
         [authClient.authWindow presentWindowAnimated:NO withCompletion:^{
             [authClient.authWindow.viewController presentViewController:controller animated:NO  completion:nil];
         }];

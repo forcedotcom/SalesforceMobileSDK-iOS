@@ -38,8 +38,8 @@ NSString * const     kSFIdentityErrorDomain                  = @"com.salesforce.
 
 // Private constants
 
-static NSString * const kHttpHeaderAuthorization             = @"Authorization";
-static NSString * const kHttpAuthHeaderFormatString          = @"Bearer %@";
+NSString * const kHttpHeaderAuthorization             = @"Authorization";
+NSString * const kHttpAuthHeaderFormatString          = @"Bearer %@";
 
 static NSString * const kSFIdentityError                      = @"error";
 static NSString * const kSFIdentityErrorDescription           = @"error_description";
