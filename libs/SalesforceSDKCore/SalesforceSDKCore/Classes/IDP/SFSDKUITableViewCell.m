@@ -30,6 +30,7 @@
 #import "SFSDKUserSelectionTableViewController.h"
 #import "UIColor+SFSDKIDP.m"
 #import "UIFont+SFSDKIDP.h"
+#import "SFSDKResourceUtils.h"
 static CGFloat kHorizontalSpace = 12;
 static CGFloat kImageWidth = 60;
 static CGFloat kImageHeight = 60;
@@ -45,8 +46,8 @@ static CGFloat kImageHeight = 60;
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     self.contentView.backgroundColor = [UIColor tableCellBackgroundColor];
-    
-    UIImage *image = [SFSDKUITableViewCell resizeImage:[UIImage imageNamed:@"placeholder.png"] size:CGSizeMake(kImageWidth, kImageHeight)];
+    UIImage *pimage = [SFSDKResourceUtils imageNamed:@"profile-placeholder"];
+    UIImage *image = [SFSDKUITableViewCell resizeImage:pimage  size:CGSizeMake(kImageWidth, kImageHeight)];
     
     self.layer.borderWidth = kHorizontalSpace/2;
     self.layer.borderColor = [UIColor backgroundcolor].CGColor;

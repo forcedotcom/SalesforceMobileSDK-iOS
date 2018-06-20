@@ -73,7 +73,8 @@ static CGFloat kHorizontalSpace = 12;
 
 - (void)layoutSubviews
 {
-    UIImage *logotmp = [UIImage imageNamed:@"salesforcelogo"];
+    UIImage *logotmp = [[SFSDKResourceUtils imageNamed:@"salesforce-logo"]  imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    
     UIImage *logo  = [SFSDKUserSelectionTableViewController  resizeImage:logotmp resizeSize:CGSizeMake(150,120)];
     self.logoView = [[UIImageView alloc]initWithImage:logo];
     self.logoView.contentMode = UIViewContentModeScaleToFill;
@@ -110,7 +111,10 @@ static CGFloat kHorizontalSpace = 12;
 {
     [super layoutSubviews];
     self.backgroundColor = [UIColor backgroundcolor];
-    self.addButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
+    UIImage *addAccountImageTmp = [[SFSDKResourceUtils imageNamed:@"account-add"]  imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIImage *addAccountImage  = [SFSDKUserSelectionTableViewController  resizeImage:addAccountImageTmp resizeSize:CGSizeMake(18,18)];
+    self.addButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.addButton setBackgroundImage:addAccountImage forState:UIControlStateNormal];
     self.descriptionLabel = [[UILabel alloc] init];
     self.descriptionLabel.text = [SFSDKResourceUtils localizedString:@"idpAddNewAccountLabel"];
     self.descriptionLabel.font = [UIFont textRegular:16];
@@ -162,12 +166,7 @@ static CGFloat kHorizontalSpace = 12;
     [stack addArrangedSubview:headerView];
     [stack addArrangedSubview:self.tableView];
     [self.view addSubview:stack];
-    
-    if (@available(iOS 11, *)) {
-         [stack.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor].active = YES;
-    } else {
-        [stack.topAnchor constraintEqualToAnchor:self.view.topAnchor].active = YES;
-    }
+    [stack.topAnchor constraintEqualToAnchor:self.view.topAnchor].active = YES;
     [stack.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor].active = YES;
     
 }
@@ -221,9 +220,8 @@ static CGFloat kHorizontalSpace = 12;
     
     NSURL *url = userAccount.idData.profileUrl;
     cell.imageURL = url;
-    cell.profileImage = userAccount.photo;
-    if (!userAccount.photo) {
-        cell.profileImage = [UIImage imageNamed:@"placeholderprofile"];
+    if (userAccount.photo) {
+        cell.profileImage = userAccount.photo;
     }
     return cell;
 }
