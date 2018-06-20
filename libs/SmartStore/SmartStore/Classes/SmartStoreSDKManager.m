@@ -97,7 +97,7 @@ SFSDK_USE_DEPRECATED_BEGIN
 
 - (NSArray*) getDevSupportInfos
 {
-    SFSmartStore *store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
+    SFSmartStore *store = [SFSmartStore sharedGlobalStoreWithName:kDefaultSmartStoreName];
     NSMutableArray * devInfos = [NSMutableArray arrayWithArray:[super getDevSupportInfos]];
     [devInfos addObjectsFromArray:@[
             @"SQLCipher version", [store getSQLCipherVersion],
