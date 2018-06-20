@@ -109,5 +109,5 @@
 //IDP User Selection Screen
 "idpSelectUserLabel" = "Select your account to log into";
 "idpAddNewAccountLabel" = "Add new account";
-"idpSelectUserLabel" = "Select user";
+"idpSelectUserTitleLabel" = "Select user";
 
