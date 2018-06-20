@@ -232,7 +232,7 @@ SFSDK_USE_DEPRECATED_END
 - (UIView *)createTitleItem {
     NSString *title = [SFSDKResourceUtils localizedString:@"TITLE_LOGIN"];
     // Setup top item.
-    UILabel *item = [[UILabel alloc] init];
+    UILabel *item = [[UILabel alloc] initWithFrame:CGRectZero];
     if (self.config.navBarTitleColor) {
         item.textColor = self.config.navBarTextColor;
     }
@@ -240,6 +240,7 @@ SFSDK_USE_DEPRECATED_END
         item.font = self.config.navBarFont;
     }
     item.text = title;
+    [item sizeToFit];
     return item;
 }
 
