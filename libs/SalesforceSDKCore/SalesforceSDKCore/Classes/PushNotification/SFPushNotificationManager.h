@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, strong) NSString* deviceSalesforceId;
 
-/** Custom push notification HTTP POST body.
+/** Custom push notification for additional HTTP POST body.
  */
 @property (nullable, nonatomic, strong) NSDictionary* customPushRegistrationBody;
 
