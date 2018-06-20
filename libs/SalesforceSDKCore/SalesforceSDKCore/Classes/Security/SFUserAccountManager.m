@@ -1400,8 +1400,10 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
         
         [self handleAnalyticsAddUserEvent:client account:userAccount];
     }
+    //async call, ignore if theres a failure. If success save the user photo locally.
+    [self retrieveUserPhotoIfNeeded:userAccount];
     
-   if (self.authPreferences.isIdentityProvider &&
+    if (self.authPreferences.isIdentityProvider &&
        ([client.context.callingAppOptions count] >0)) {
         SFSDKIDPAuthClient *idpClient = (SFSDKIDPAuthClient *)client;
         
@@ -1422,6 +1424,23 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
                                                               userInfo:userInfo];
         }
        [self disposeOAuthClient:client];
+    }
+}
+
+- (void)retrieveUserPhotoIfNeeded:(SFUserAccount *)account{
+    if (account.idData.pictureUrl) {
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:account.idData.pictureUrl];
+        [request setHTTPMethod:@"GET"];
+        [request setValue:[NSString stringWithFormat:kHttpAuthHeaderFormatString, account.credentials.accessToken] forHTTPHeaderField:kHttpHeaderAuthorization];
+        SFNetwork *network = [[SFNetwork alloc] initWithEphemeralSession];
+        [network sendRequest:request  dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error){
+            if (error) {
+                [SFSDKCoreLogger w:[self class] format:@"Error while trying to retrieve user photo: %@ %@", (long) error.code, error.localizedDescription];
+                return;
+            } else {
+                account.photo = [UIImage imageWithData:data];
+            }
+        }];
     }
 }
 

@@ -41,6 +41,16 @@ extern const NSTimeInterval kSFIdentityRequestDefaultTimeoutSeconds;
 extern NSString * const kSFIdentityErrorDomain;
 
 /**
+ * The Authorization header value.
+ */
+extern NSString * const kHttpHeaderAuthorization;
+
+/**
+ * The Bearer value string for Authorization.
+ */
+extern NSString *const kHttpAuthHeaderFormatString;
+
+/**
  * @enum Enumeration of error codes associated with any errors in the identity retrieval process.
  */
 enum {

@@ -183,9 +183,8 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
     SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
     NSString *bundleId = [NSBundle mainBundle].bundleIdentifier;
     
-    NSMutableDictionary *bodyDict = [NSMutableDictionary new];
-    [bodyDict setDictionary: @{@"ConnectionToken":_deviceToken, @"ServiceType":@"Apple", @"ApplicationBundle":bundleId}];
-    
+    NSMutableDictionary* bodyDict = [NSMutableDictionary dictionaryWithDictionary:@{@"ConnectionToken":_deviceToken, @"ServiceType":@"Apple", @"ApplicationBundle":bundleId}];
+
     if (_customPushRegistrationBody != nil) {
         [bodyDict addEntriesFromDictionary: _customPushRegistrationBody];
     }

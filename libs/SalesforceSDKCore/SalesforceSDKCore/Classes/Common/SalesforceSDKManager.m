@@ -403,9 +403,9 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
 
 - (void)showDevSupportDialog
 {
-    SFSDKWindowContainer * mainWindow = [SFSDKWindowManager sharedManager].mainWindow;
-    if ([self isDevSupportEnabled] && mainWindow.isEnabled) {
-        UIViewController * topViewController = mainWindow.topViewController;
+    SFSDKWindowContainer * activeWindow = [SFSDKWindowManager sharedManager].activeWindow;
+    if ([self isDevSupportEnabled] && activeWindow.isEnabled) {
+        UIViewController * topViewController = activeWindow.topViewController;
         if (topViewController) {
             [self showDevSupportDialog:topViewController];
         }
@@ -465,15 +465,16 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
 
 - (NSArray*) getDevSupportInfos
 {
+    SFUserAccountManager* userAccountManager = [SFUserAccountManager sharedInstance];
     NSMutableArray * devInfos = [NSMutableArray arrayWithArray:@[
             @"SDK Version", SALESFORCE_SDK_VERSION,
             @"App Type", [self getAppTypeAsString],
             @"User Agent", self.userAgentString(@""),
-            @"Browser Login Enabled", [SFUserAccountManager sharedInstance].advancedAuthConfiguration != SFOAuthAdvancedAuthConfigurationNone ? @"YES" : @"NO",
+            @"Browser Login Enabled", userAccountManager.advancedAuthConfiguration != SFOAuthAdvancedAuthConfigurationNone ? @"YES" : @"NO",
             @"IDP Enabled", [self idpEnabled] ? @"YES" : @"NO",
             @"Identity Provider", [self isIdentityProvider] ? @"YES" : @"NO",
-            @"Current User", [self usersToString:@[[SFUserAccountManager sharedInstance].currentUser]],
-            @"Authenticated Users", [self usersToString:[SFUserAccountManager sharedInstance].allUserAccounts]
+            @"Current User", [self userToString:userAccountManager.currentUser],
+            @"Authenticated Users", [self usersToString:userAccountManager.allUserAccounts]
     ]];
 
     [devInfos addObjectsFromArray:[self dictToDevInfos:self.appConfig.configDict keyPrefix:@"BootConfig"]];
@@ -487,10 +488,14 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
     return devInfos;
 }
 
-- (NSString*) usersToString:(NSArray*)userAccounts {
+- (NSString*) userToString:(SFUserAccount*)user {
+    return user ? user.email : @"";
+}
+
+- (NSString*) usersToString:(NSArray<SFUserAccount*>*)userAccounts {
     NSMutableArray* usernames = [NSMutableArray new];
     for (SFUserAccount *userAccount in userAccounts) {
-        [usernames addObject:userAccount.email];
+        [usernames addObject:[self userToString:userAccount]];
     }
     return [usernames componentsJoinedByString:@", "];
 }
