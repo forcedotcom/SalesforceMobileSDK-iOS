@@ -182,7 +182,14 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
     NSString *path = [NSString stringWithFormat:@"/%@/%@", [SFRestAPI sharedInstance].apiVersion, kSFPushNotificationEndPoint];
     SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
     NSString *bundleId = [NSBundle mainBundle].bundleIdentifier;
-    NSDictionary* bodyDict = _customPushRegistrationBody != nil ? _customPushRegistrationBody : @{@"ConnectionToken":_deviceToken, @"ServiceType":@"Apple", @"ApplicationBundle":bundleId};
+    
+    NSMutableDictionary *bodyDict = [NSMutableDictionary new];
+    [bodyDict setDictionary: @{@"ConnectionToken":_deviceToken, @"ServiceType":@"Apple", @"ApplicationBundle":bundleId}];
+    
+    if (_customPushRegistrationBody != nil) {
+        [bodyDict addEntriesFromDictionary: _customPushRegistrationBody];
+    }
+    
     [request setCustomRequestBodyDictionary:bodyDict contentType:@"application/json"];
     __weak typeof(self) weakSelf = self;
     [[SFRestAPI sharedInstance] sendRESTRequest:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
