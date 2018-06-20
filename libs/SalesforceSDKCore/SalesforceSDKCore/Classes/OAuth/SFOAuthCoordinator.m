@@ -355,7 +355,7 @@ static NSString * const kSFECParameter = @"ec";
         _view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
          _view.clipsToBounds = YES;
         _view.translatesAutoresizingMaskIntoConstraints = NO;
-        
+        _view.customUserAgent = [SalesforceSDKManager sharedManager].userAgentString(@"");
         _view.UIDelegate = self;
     }
     return _view;
@@ -368,9 +368,6 @@ static NSString * const kSFECParameter = @"ec";
 {
     self.authenticating = NO;
     self.advancedAuthState = SFOAuthAdvancedAuthStateNotStarted;
-    if (info.authType == SFOAuthTypeUserAgent) {
-        [self resetWebUserAgent];
-    }
     if ([self.delegate respondsToSelector:@selector(oauthCoordinator:didFailWithError:authInfo:)]) {
         [self.delegate oauthCoordinator:self didFailWithError:error authInfo:info];
     } else if ([self.delegate respondsToSelector:@selector(oauthCoordinator:didFailWithError:)]) {
@@ -386,9 +383,6 @@ static NSString * const kSFECParameter = @"ec";
 {
     self.authenticating = NO;
     self.advancedAuthState = SFOAuthAdvancedAuthStateNotStarted;
-    if (authInfo.authType == SFOAuthTypeUserAgent) {
-        [self resetWebUserAgent];
-    }
     if ([self.delegate respondsToSelector:@selector(oauthCoordinatorDidAuthenticate:authInfo:)]) {
         [self.delegate oauthCoordinatorDidAuthenticate:self authInfo:authInfo];
     } else if ([self.delegate respondsToSelector:@selector(oauthCoordinatorDidAuthenticate:)]) {
@@ -472,8 +466,6 @@ static NSString * const kSFECParameter = @"ec";
         return;
     }
     
-    [self configureWebUserAgent];
-
     self.initialRequestLoaded = NO;
     
     // notify delegate will be begin authentication in our (web) vew
@@ -885,32 +877,6 @@ static NSString * const kSFECParameter = @"ec";
         self.credentials.additionalOAuthFields = parsedValues;
     }
 
-}
-
-- (void)configureWebUserAgent
-{
-    if (self.userAgentForAuth != nil) {
-        NSString *origWebUserAgent = [[NSUserDefaults msdkUserDefaults] objectForKey:kOAuthUserAgentUserDefaultsKey];
-        if (origWebUserAgent != nil) {
-            self.origWebUserAgent = origWebUserAgent;
-        }
-        
-        NSDictionary *userAgentDict = @{ kOAuthUserAgentUserDefaultsKey: self.userAgentForAuth };
-        [[NSUserDefaults msdkUserDefaults] registerDefaults:userAgentDict];
-    }
-}
-
-- (void)resetWebUserAgent
-{
-    if (self.userAgentForAuth != nil) {
-        // If the current web user agent has not changed from the one we set, reset it.  Otherwise, assume it's
-        // already been altered out of band, and we shouldn't touch it.
-        NSString *currentWebUserAgent = [[NSUserDefaults msdkUserDefaults] objectForKey:kOAuthUserAgentUserDefaultsKey];
-        if ([currentWebUserAgent isEqualToString:self.userAgentForAuth] && self.origWebUserAgent != nil) {
-            NSDictionary *userAgentDict = @{ kOAuthUserAgentUserDefaultsKey: self.origWebUserAgent };
-            [[NSUserDefaults msdkUserDefaults] registerDefaults:userAgentDict];
-        }
-    }
 }
 
 + (NSString *)advancedAuthStateDesc:(SFOAuthAdvancedAuthState)authState
