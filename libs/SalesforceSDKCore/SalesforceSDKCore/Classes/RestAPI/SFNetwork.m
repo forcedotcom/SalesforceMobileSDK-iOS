@@ -28,6 +28,7 @@
  */
 
 #import "SFNetwork.h"
+#import "SalesforceSDKManager.h"
 
 @interface SFNetwork()
 
@@ -67,7 +68,12 @@ static NSURLSessionConfiguration *kSFSessionConfig;
     return self;
 }
 
-- (NSURLSessionDataTask *)sendRequest:(NSURLRequest *)urlRequest dataResponseBlock:(SFDataResponseBlock)dataResponseBlock {
+- (NSURLSessionDataTask *)sendRequest:(NSMutableURLRequest *)urlRequest dataResponseBlock:(SFDataResponseBlock)dataResponseBlock {
+    // Sets Mobile SDK user agent if it hasn't been set already elsewhere.
+    if (![urlRequest.allHTTPHeaderFields.allKeys containsObject:@"User-Agent"]) {
+        [urlRequest setValue:[SalesforceSDKManager sharedManager].userAgentString(@"") forHTTPHeaderField:@"User-Agent"];
+    }
+
     NSURLSessionDataTask *dataTask = [self.activeSession dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (dataResponseBlock) {
             dataResponseBlock(data, response, error);

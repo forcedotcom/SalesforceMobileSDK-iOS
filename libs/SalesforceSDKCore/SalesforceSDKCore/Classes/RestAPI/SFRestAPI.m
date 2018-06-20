@@ -76,9 +76,6 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
         self.apiVersion = kSFRestDefaultAPIVersion;
         self.sessionRefreshInProgress = NO;
         self.pendingRequestsBeingProcessed = NO;
-        if (!kIsTestRun) {
-            [SFSDKWebUtils configureUserAgent:[SFRestAPI userAgentString]];
-        }
         [[SFAuthenticationManager sharedManager] addDelegate:self];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserDidLogout:)  name:kSFNotificationUserDidLogout object:nil];
     }
@@ -192,11 +189,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 }
 
 + (NSString *)userAgentString:(NSString*)qualifier {
-    NSString *returnString = @"";
-    if ([SalesforceSDKManager sharedManager].userAgentString != NULL) {
-        returnString = [SalesforceSDKManager sharedManager].userAgentString(qualifier);
-    }
-    return returnString;
+    return [SalesforceSDKManager sharedManager].userAgentString(qualifier);
 }
 
 #pragma mark - send method
