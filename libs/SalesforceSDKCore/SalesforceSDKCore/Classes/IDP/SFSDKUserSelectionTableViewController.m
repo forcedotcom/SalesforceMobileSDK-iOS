@@ -221,7 +221,6 @@ static CGFloat kHorizontalSpace = 12;
     
     NSURL *url = userAccount.idData.profileUrl;
     cell.imageURL = url;
-    //cell.profileImage = nil;
     cell.profileImage = userAccount.photo;
     if (!userAccount.photo) {
         cell.profileImage = [UIImage imageNamed:@"placeholderprofile"];

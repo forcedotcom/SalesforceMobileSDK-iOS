@@ -47,6 +47,4 @@
 @property (nonatomic,strong) UITableView *tableView;
 - (UIView *)createFooterView;
 - (UIView *)createHeaderView;
-- (UIView *)createTableCellView:(SFUserAccount *)userAccount;
-
 @end

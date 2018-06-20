@@ -3,7 +3,7 @@
  
  Created by Raj Rao on 6/05/18.
  
- Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -29,10 +29,10 @@
 
 @implementation UIFont (SFSDKIDP)
 +(UIFont *)textRegular:(CGFloat)size {
-    return [UIFont fontWithName:@"SanFranciscoText-Regular" size:size];
+    return [UIFont systemFontOfSize:size weight:UIFontWeightRegular];
 }
 
 +(UIFont *)textBold:(CGFloat)size {
-    return [UIFont fontWithName:@"SanFranciscoText-Bold" size:size];
+    return [UIFont systemFontOfSize:size weight:UIFontWeightBold];
 }
 @end
