@@ -35,25 +35,21 @@ If you have problems building any of the projects, take a look at the online [FA
 Introduction
 ==
 
-### What's New in 6.1
+### What's New in 6.2
 
 **Library Upgrades**
-- We've updated React Native to version 0.53.3.
+- We've updated React Native to version 0.55.4.
 
-**Login Enhancements**
-- Starting with Mobile SDK 6.1, fingerprint authentication can be used instead of the app passcode on devices that support this feature.
-- Developers can now customize `SFLoginViewController` in many ways that weren't possible before, such as adding a back button for navigation.
+**Tool Version Upgrades**
+- Cordova CLI 8.0.0 is now supported.
 
-**SmartSync Enhancements**
-- We have addressed an issue in Mobile SDK 6.1 where `cleanResyncGhosts` was operating incorrectly.
-
-**SalesforceSwiftSDK Enhancements**
-- We have added new promise APIs based on `PromiseKit` for existing `SmartStore` and `SmartSync` APIs.
-
-**Test Framework Enhancements**
-- We have added an entire suite of tests for `SalesforceReact` in Mobile SDK 6.1.
+**SmartSync Data Framework Enhancements**
+- Starting with Mobile SDK 6.2, the `SmartSync` data framework now returns detailed information about the error, if an error occurs during a sync operation.
+- We have added a new utility called `SFMetadataSyncManager` that allows apps to sync metadata using the power of the existing `SmartSync` data framework.
+- We have added a new utility called `SFLayoutSyncManager` that allows apps to sync layout data using the power of the existing `SmartSync` data framework.
 
 **Other Technical Improvements**
+- The user account switcher screen has been updated to comply with the latest UX standards.
 - Improvements to sample apps.
 - Various bug fixes.
 

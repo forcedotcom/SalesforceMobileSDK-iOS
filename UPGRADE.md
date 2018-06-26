@@ -1,4 +1,4 @@
-## Upgrade steps from v. 6.0.x to v. 6.1 for native/hybrid/React Native apps
+## Upgrade steps from v. 6.1.x to v. 6.2 for native/hybrid/React Native apps
 
 - To upgrade native apps, we strongly recommend creating a new app from the app templates in [the forceios npm package](https://npmjs.org/package/forceios), then migrating the artifacts specific to your app into the new template.
 - To upgrade hybrid apps, we strongly recommend creating a new app from the app templates in [the forcehybrid npm package](https://npmjs.org/package/forcehybrid), then migrating the artifacts specific to your app into the new template.
