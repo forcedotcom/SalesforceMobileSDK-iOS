@@ -49,7 +49,8 @@ Introduction
 - We have added a new utility called `SFLayoutSyncManager` that allows apps to sync layout data using the power of the existing `SmartSync` data framework.
 
 **Other Technical Improvements**
-- Our native sample apps, `RestAPIExplorer` and `SmartSyncExplorer` have been rewritten in `Swift`.
+- Our native sample app, `RestAPIExplorer` has been rewritten in `Swift`.
+- A `Swift` version of our native sample app, `SmartSyncExplorer`, is now available as a template in our templates repository.
 - The user account switcher screen has been updated to comply with the latest UX standards.
 - Improvements to sample apps.
 - Various bug fixes.
