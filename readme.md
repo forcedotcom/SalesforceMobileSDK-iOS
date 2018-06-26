@@ -44,7 +44,7 @@ Introduction
 - The minimum required version of Cordova CLI has been bumped up to 8.0.0.
 
 **SmartSync Data Framework Enhancements**
-- Starting with Mobile SDK 6.2, the `SmartSync` data framework now returns detailed information about the error, if an error occurs during a sync operation.
+- Starting with Mobile SDK 6.2, the SmartSync data framework saves the error returned by the server on records that fail to sync up.
 - We have added a new utility called `SFMetadataSyncManager` that allows apps to sync metadata using the power of the existing `SmartSync` data framework.
 - We have added a new utility called `SFLayoutSyncManager` that allows apps to sync layout data using the power of the existing `SmartSync` data framework.
 
