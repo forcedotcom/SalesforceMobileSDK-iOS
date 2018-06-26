@@ -35,25 +35,24 @@ If you have problems building any of the projects, take a look at the online [FA
 Introduction
 ==
 
-### What's New in 6.1
+### What's New in 6.2
 
 **Library Upgrades**
-- We've updated React Native to version 0.53.3.
+- We've updated React Native to version 0.55.4.
 
-**Login Enhancements**
-- Starting with Mobile SDK 6.1, fingerprint authentication can be used instead of the app passcode on devices that support this feature.
-- Developers can now customize `SFLoginViewController` in many ways that weren't possible before, such as adding a back button for navigation.
+**Tool Version Upgrades**
+- We now require Cordova CLI 8.0.0.
 
-**SmartSync Enhancements**
-- We have addressed an issue in Mobile SDK 6.1 where `cleanResyncGhosts` was operating incorrectly.
-
-**SalesforceSwiftSDK Enhancements**
-- We have added new promise APIs based on `PromiseKit` for existing `SmartStore` and `SmartSync` APIs.
-
-**Test Framework Enhancements**
-- We have added an entire suite of tests for `SalesforceReact` in Mobile SDK 6.1.
+**SmartSync Data Framework Enhancements**
+- The SmartSync Data Framework now saves the error returned when records fail to sync up.
+- A new utility, `SFMetadataSyncManager`, harnesses the power of SmartSync Data Framework to query Salesforce object metadata.
+- Another new utility, `SFLayoutSyncManager`, harnesses the power of SmartSync Data Framework to query Salesforce object layouts.
 
 **Other Technical Improvements**
+- A Swift version of our `RestAPIExplorer` native sample app is now available.
+- A Swift version of our native sample app, `SmartSyncExplorer`, is now available as a template in our templates repository.
+- We’ve given the Switch User screen a face lift.
+- We've consolidated our templates under a [single repository](https://github.com/forcedotcom/SalesforceMobileSDK-Templates).
 - Improvements to sample apps.
 - Various bug fixes.
 
