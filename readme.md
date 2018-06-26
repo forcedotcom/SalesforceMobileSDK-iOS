@@ -41,7 +41,7 @@ Introduction
 - We've updated React Native to version 0.55.4.
 
 **Tool Version Upgrades**
-- Cordova CLI 8.0.0 is now supported.
+- The minimum required version of Cordova CLI has been bumped up to 8.0.0.
 
 **SmartSync Data Framework Enhancements**
 - Starting with Mobile SDK 6.2, the `SmartSync` data framework now returns detailed information about the error, if an error occurs during a sync operation.
