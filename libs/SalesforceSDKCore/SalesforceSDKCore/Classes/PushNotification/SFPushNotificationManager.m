@@ -202,9 +202,13 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
         [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeaturePushNotifications];
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) rawResponse;
         NSInteger statusCode = httpResponse.statusCode;
+
         if (statusCode < 200 || statusCode >= 300) {
             [SFSDKCoreLogger e:[strongSelf class] format:@"Registration for notifications with Salesforce failed with status %ld", statusCode];
             [SFSDKCoreLogger e:[strongSelf class] format:@"Response:%@", response];
+            [strongSelf postPushNotificationRegistration:failBlock];
+        } else if (![response isKindOfClass:[NSDictionary class]]) {
+            [SFSDKCoreLogger e:[strongSelf class] format:@"Registration for notifications with Salesforce failed due to unexpected response: %@", response];
             [strongSelf postPushNotificationRegistration:failBlock];
         } else {
             [SFSDKCoreLogger i:[strongSelf class] format:@"Registration for notifications with Salesforce succeeded"];
