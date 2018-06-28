@@ -56,6 +56,12 @@ Introduction
 - Improvements to sample apps.
 - Various bug fixes.
 
+**Deprecations**
+- `SFSmartSyncMetadataManager` is now deprecated and will be removed in Mobile SDK 7.0. Instead, use `SFMetadataSyncManager` and `SFLayoutSyncManager`.
+- `SFSmartSyncCacheManager` is now deprecated and will be removed in Mobile SDK 7.0. Offline caching is now automatically handled by the SmartSync Data Framework.
+- `SFObjectType` is now deprecated and will be removed in Mobile SDK 7.0. Instead, use `SFMetadata`.
+- `SFObjectTypeLayout` is now deprecated and will be removed in Mobile SDK 7.0. Instead, use `SFLayout`.
+
 Check http://developer.force.com/mobilesdk for additional articles and tutorials.
 
 ### Native Applications
